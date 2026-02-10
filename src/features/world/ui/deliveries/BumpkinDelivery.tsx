@@ -181,7 +181,7 @@ export const OrderCard: React.FC<{
                 </Label>
                 {!!tickets && (
                   <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                    {`${getChapterTaskPoints({ task: "delivery", points: tickets })}`}
+                    {`${getChapterTaskPoints({ task: "delivery", tickets: tickets })}`}
                   </Label>
                 )}
               </div>

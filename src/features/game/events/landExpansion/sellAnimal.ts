@@ -120,11 +120,11 @@ export function sellAnimal({
         const chapter = getCurrentChapter(createdAt);
         const pointsAwarded = getChapterTaskPoints({
           task: "bounty",
-          points: amount ?? 0,
+          tickets: amount ?? 0,
         });
         handleChapterAnalytics({
           task: "bounty",
-          points: amount ?? 0,
+          tickets: amount ?? 0,
           farmActivity: game.farmActivity,
           createdAt,
         });

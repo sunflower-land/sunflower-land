@@ -9,17 +9,17 @@ import { gameAnalytics } from "lib/gameAnalytics";
 
 export function handleChapterAnalytics({
   task,
-  points,
+  tickets,
   farmActivity,
   createdAt,
 }: {
   task: ChapterTask;
-  points: number;
+  tickets: number;
   farmActivity: Record<string, number>;
   createdAt: number;
 }) {
   const chapter = getCurrentChapter(createdAt);
-  const pointsAwarded = getChapterTaskPoints({ task, points });
+  const pointsAwarded = getChapterTaskPoints({ task, tickets: tickets });
 
   if (pointsAwarded <= 0) {
     return;

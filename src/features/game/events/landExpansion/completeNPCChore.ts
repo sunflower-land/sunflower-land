@@ -185,11 +185,11 @@ export function completeNPCChore({
       const chapter = getCurrentChapter(createdAt);
       const pointsAwarded = getChapterTaskPoints({
         task: "chore",
-        points: amount,
+        tickets: amount,
       });
       handleChapterAnalytics({
         task: "chore",
-        points: amount,
+        tickets: amount,
         farmActivity: draft.farmActivity,
         createdAt,
       });

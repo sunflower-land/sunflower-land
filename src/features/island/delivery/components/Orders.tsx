@@ -680,7 +680,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               <img src={chapterPoints} className="h-4 mr-2" />
               <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: "delivery", points: tickets })} ${chapter} points`}
+                {`+${getChapterTaskPoints({ task: "delivery", tickets: tickets })} ${chapter} points`}
               </p>
             </div>
           )}

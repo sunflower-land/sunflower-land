@@ -484,11 +484,11 @@ export function deliverOrder({
       const chapter = getCurrentChapter(createdAt);
       const pointsAwarded = getChapterTaskPoints({
         task: "delivery",
-        points: tickets,
+        tickets: tickets,
       });
       handleChapterAnalytics({
         task: "delivery",
-        points: tickets,
+        tickets: tickets,
         farmActivity: game.farmActivity,
         createdAt,
       });

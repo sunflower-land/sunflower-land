@@ -18,12 +18,12 @@ const CHAPTER_TASK_POINTS: Record<ChapterTask, number> = {
 
 export function getChapterTaskPoints({
   task,
-  points,
+  tickets,
 }: {
   task: ChapterTask;
-  points: number;
+  tickets: number;
 }) {
-  return CHAPTER_TASK_POINTS[task] * points;
+  return CHAPTER_TASK_POINTS[task] * tickets;
 }
 
 export function getTrackMilestonesCrossed({
