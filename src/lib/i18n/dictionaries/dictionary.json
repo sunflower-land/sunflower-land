@@ -4062,7 +4062,7 @@
   "marketplace.yourOffer": "Your offer",
   "marketplace.totalItems": "Total items",
   "marketplace.totalListings": "Total listings",
-  "marketplace.maxBulk": "You can only use bulk listings up to {{max}} items at a time.",
+  "marketplace.maxBulk": "You can only the bulk feature up to {{max}} listings per resource at a one time.",
   "marketplace.limit": "Limit: {{maxLimit}}",
   "marketplace.offerRemoved": "Your offer has been removed",
   "marketplace.sentToFarm": "This item has been sent to your farm",
