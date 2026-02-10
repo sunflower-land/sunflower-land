@@ -201,7 +201,29 @@ export const AnimalDeal: React.FC<{
     bounty: deal,
   });
 
+  const tickets = deal.items?.[chapterTicket] ?? 0;
   const chapter = getCurrentChapter(now);
+
+  let pointsAwarded = 0;
+
+  if (tickets > 0) {
+    let points = 0;
+
+    points = generateBountyTicket({
+      game: state,
+      bounty: deal,
+      now,
+    });
+
+    if (animal.state === "sick") {
+      points = getSickAnimalRewardAmount(points);
+    }
+
+    pointsAwarded = getChapterTaskPoints({
+      task: "bounty",
+      tickets: points,
+    });
+  }
 
   return (
     <>
@@ -247,12 +269,7 @@ export const AnimalDeal: React.FC<{
 
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {`+${getChapterTaskPoints({
-                    task: "bounty",
-                    points: getSickAnimalRewardAmount(
-                      deal.items?.[chapterTicket],
-                    ),
-                  })} ${chapter} points.`}
+                  {`+${pointsAwarded} ${chapter} points.`}
                 </Label>
               )}
             </div>
@@ -297,14 +314,7 @@ export const AnimalDeal: React.FC<{
 
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {`+${getChapterTaskPoints({
-                    task: "bounty",
-                    points: generateBountyTicket({
-                      game: state,
-                      bounty: deal,
-                      now,
-                    }),
-                  })} ${chapter} points.`}
+                  {`+${pointsAwarded} ${chapter} points.`}
                 </Label>
               )}
             </div>
