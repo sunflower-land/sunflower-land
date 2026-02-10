@@ -71,8 +71,8 @@ export const TradeableSummary: React.FC<{
   tax: Decimal;
   quantity: number;
   estTradePoints?: number;
-  multiple: number;
-}> = ({ display, sfl, tax, quantity, estTradePoints, multiple }) => {
+  multiple?: number;
+}> = ({ display, sfl, tax, quantity, estTradePoints, multiple = 1 }) => {
   const { t } = useAppTranslation();
 
   const isResource = display.name in TRADE_LIMITS;
