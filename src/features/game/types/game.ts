@@ -1646,10 +1646,16 @@ export type BoostName =
   | SpecialBoostName;
 
 export type SpecialBoostName =
-  | "Sunshower"
+  | `${SeasonalEventName}`
   | "Power hour"
   | "VIP Access"
-  | "Faction Pet";
+  | "Faction Pet"
+  | "Native"
+  | "Volcano Bonus"
+  | "Tier 2 Bonus"
+  | "Tier 3 Bonus"
+  | "Streak Bonus"
+  | "Bee Swarm Bonus";
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 

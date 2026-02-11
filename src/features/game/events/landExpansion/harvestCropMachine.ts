@@ -34,9 +34,9 @@ export function getPackYieldAmount({
   pack: CropMachineQueueItem;
   createdAt: number;
   prngArgs: { farmId: number; initialCounter: number };
-}): { amount: number; boostsUsed: BoostName[] } {
+}): { amount: number; boostsUsed: { name: BoostName; value: string }[] } {
   let totalYield = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const { seeds, crop } = pack;
 

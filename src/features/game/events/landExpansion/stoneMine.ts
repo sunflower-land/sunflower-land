@@ -63,14 +63,14 @@ function getBoostedTime({
   game,
 }: Pick<GetMinedAtArgs, "skills" | "game">): {
   boostedTime: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let totalSeconds = STONE_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (skills["Speed Miner"]) {
     totalSeconds = totalSeconds * 0.8;
-    boostsUsed.push("Speed Miner");
+    boostsUsed.push({ name: "Speed Miner", value: "x0.8" });
   }
 
   const superTotem = isTemporaryCollectibleActive({
@@ -84,18 +84,19 @@ function getBoostedTime({
 
   if (superTotem || timeWarpTotem) {
     totalSeconds = totalSeconds * 0.5;
-    if (superTotem) boostsUsed.push("Super Totem");
-    else if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
+    if (superTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
+    else if (timeWarpTotem)
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push("Ore Hourglass");
+    boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Badger Shrine");
+    boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
   const buff = STONE_RECOVERY_TIME - totalSeconds;
@@ -108,7 +109,7 @@ function getBoostedTime({
  */
 export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const { boostedTime, boostsUsed } = getBoostedTime({
     skills,
@@ -145,7 +146,7 @@ export function getStoneDropAmount({
 }: GetStoneDropAmountArgs): {
   amount: Decimal;
   aoe: AOE;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const {
     inventory,
@@ -156,7 +157,7 @@ export function getStoneDropAmount({
   const updatedAoe = cloneDeep(aoe);
   const multiplier = game.stones[id]?.multiplier ?? 1;
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const getPrngChance = (chance: number, criticalHitName: CriticalHitName) =>
     prngChance({
@@ -172,42 +173,43 @@ export function getStoneDropAmount({
     getPrngChance(10, "Rock Golem")
   ) {
     amount += 2; // 200%
-    boostsUsed.push("Rock Golem");
+    boostsUsed.push({ name: "Rock Golem", value: "+2" });
   }
 
   if (inventory.Prospector) {
     amount += 0.2; // 20%
-    boostsUsed.push("Prospector");
+    boostsUsed.push({ name: "Prospector", value: "+0.2" });
   }
 
   if (isCollectibleBuilt({ name: "Tunnel Mole", game })) {
     amount += 0.25;
-    boostsUsed.push("Tunnel Mole");
+    boostsUsed.push({ name: "Tunnel Mole", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Stone Beetle", game })) {
     amount += 0.1;
-    boostsUsed.push("Stone Beetle");
+    boostsUsed.push({ name: "Stone Beetle", value: "+0.1" });
   }
 
   if (skills["Rock'N'Roll"]) {
     amount += 0.1;
-    boostsUsed.push("Rock'N'Roll");
+    boostsUsed.push({ name: "Rock'N'Roll", value: "+0.1" });
   }
 
   if (skills["Rocky Favor"]) {
     amount += 1;
-    boostsUsed.push("Rocky Favor");
+    boostsUsed.push({ name: "Rocky Favor", value: "+1" });
   }
 
   if (skills["Ferrous Favor"]) {
     amount -= 0.5;
-    boostsUsed.push("Ferrous Favor");
+    boostsUsed.push({ name: "Ferrous Favor", value: "-0.5" });
   }
 
   // Add native critical hit before the AoE boosts
   if (getPrngChance(20, "Native")) {
     amount += 1;
+    boostsUsed.push({ name: "Native", value: "+1" });
   }
 
   // If within Emerald Turtle AOE: +0.5
@@ -252,7 +254,7 @@ export function getStoneDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
-      boostsUsed.push("Emerald Turtle");
+      boostsUsed.push({ name: "Emerald Turtle", value: "+0.5" });
     }
   }
 
@@ -289,7 +291,7 @@ export function getStoneDropAmount({
         setAOELastUsed(updatedAoe, "Tin Turtle", { dx, dy }, createdAt);
         amount += 0.1;
       }
-      boostsUsed.push("Tin Turtle");
+      boostsUsed.push({ name: "Tin Turtle", value: "+0.1" });
     }
   }
 
@@ -303,17 +305,21 @@ export function getStoneDropAmount({
     })
   ) {
     amount += 0.25;
-    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
+    boostsUsed.push({
+      name: FACTION_ITEMS[factionName].secondaryTool,
+      value: "+0.25",
+    });
   }
 
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     amount += 1;
-    boostsUsed.push("Legendary Shrine");
+    boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Stone");
   amount += yieldBoost;
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (game.island.type === "volcano") {
     amount += 0.1;
@@ -338,9 +344,9 @@ export function getStoneDropAmount({
 }
 
 export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
-    boostsUsed.push("Quarry");
+    boostsUsed.push({ name: "Quarry", value: "0" });
     return { amount: new Decimal(0), boostsUsed };
   }
 

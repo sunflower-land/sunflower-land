@@ -1,8 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BuffLabel } from ".";
 import { BumpkinItem } from "./bumpkin";
-import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
@@ -17,6 +15,7 @@ import { isCollectible } from "../events/landExpansion/garbageSold";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { BuffLabel } from ".";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
   Halo: [
@@ -43,7 +42,7 @@ export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
 };
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
-  Record<BumpkinItem, AdditionalBoostInfoBuffLabel[]>
+  Record<BumpkinItem, BuffLabel[]>
 > = {
   "Deep Sea Helm": [
     {
@@ -58,9 +57,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Banana.image,
-      boostType: "time",
-      boostValue: "x0.8",
-      boostOn: "fruits",
     },
   ],
   "Chef Apron": [
@@ -104,9 +100,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.golden.spatula.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "xp",
-      boostValue: "+10%",
-      boostOn: "food",
     },
   ],
   "Mushroom Hat": [
@@ -147,9 +140,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
-      boostType: "time",
-      boostValue: "x0.8",
-      boostOn: "crops",
     },
   ],
   "Beetroot Amulet": [
@@ -173,9 +163,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
-      boostType: "time",
-      boostValue: "x0.5",
-      boostOn: "food",
     },
   ],
   "Infernal Pitchfork": [
@@ -239,9 +226,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
-      boostType: "xp",
-      boostValue: "+50%",
-      boostOn: "food",
     },
   ],
   "Angler Waders": [
@@ -322,9 +306,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
-      boostType: "time",
-      boostValue: "x0.5",
-      boostOn: "flowers",
     },
   ],
   "Beekeeper Hat": [
@@ -371,9 +352,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.pan.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "xp",
-      boostValue: "+25%",
-      boostOn: "food",
     },
   ],
   "Olive Royalty Shirt": [
@@ -757,9 +735,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
-      boostType: "time",
-      boostValue: "x0.75",
-      boostOn: "food",
     },
   ],
   "Goblin Medallion": [
@@ -768,9 +743,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
-      boostType: "time",
-      boostValue: "x0.75",
-      boostOn: "food",
     },
   ],
   "Nightshade Medallion": [
@@ -779,9 +751,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
-      boostType: "time",
-      boostValue: "x0.75",
-      boostOn: "food",
     },
   ],
   "Sunflorian Medallion": [
@@ -790,9 +759,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
-      boostType: "time",
-      boostValue: "x0.75",
-      boostOn: "food",
     },
   ],
   "Milk Apron": [
@@ -905,9 +871,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SEASON_ICONS["summer"],
-      boostType: "time",
-      boostValue: "x0.5",
-      boostOn: "crops",
     },
   ],
   "Autumn's Embrace": [
@@ -916,9 +879,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SEASON_ICONS["autumn"],
-      boostType: "time",
-      boostValue: "x0.5",
-      boostOn: "crops",
     },
   ],
   "Frozen Heart": [
@@ -941,8 +901,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.obsidianNecklace.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "x0.5",
     },
   ],
   "Medic Apron": [
@@ -957,9 +915,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.broccoliHat.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "x0.5",
-      boostOn: "crops",
     },
   ],
   "Red Pepper Onesie": [
@@ -967,9 +922,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.redPepperOnesie.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "x0.75",
-      boostOn: "crops",
     },
   ],
   "Turd Topper": [
@@ -1045,9 +997,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.cleaverKnife.boost.1"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "x0.85",
-      boostOn: "food",
     },
     {
       shortDescription: translate("description.cleaverKnife.boost.2"),

@@ -141,39 +141,39 @@ export type ResourceDropAmountArgs = {
 
 function getEggYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Chicken Coop", game })) {
     boost += 1;
-    boostsUsed.push("Chicken Coop");
+    boostsUsed.push({ name: "Chicken Coop", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Rich Chicken", game })) {
     boost += 0.1;
-    boostsUsed.push("Rich Chicken");
+    boostsUsed.push({ name: "Rich Chicken", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Undead Rooster", game })) {
     boost += 0.1;
-    boostsUsed.push("Undead Rooster");
+    boostsUsed.push({ name: "Undead Rooster", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Ayam Cemani", game })) {
     boost += 0.2;
-    boostsUsed.push("Ayam Cemani");
+    boostsUsed.push({ name: "Ayam Cemani", value: "+0.2" });
   }
 
   if (isCollectibleBuilt({ name: "Squid Chicken", game })) {
     boost += 0.1;
-    boostsUsed.push("Squid Chicken");
+    boostsUsed.push({ name: "Squid Chicken", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
-    boostsUsed.push("Abundant Harvest");
+    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
   }
 
   return { amount: boost, boostsUsed };
@@ -181,39 +181,39 @@ function getEggYieldBoosts(game: GameState): {
 
 function getFeatherYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Chicken Suit", game })) {
     boost += 1;
-    boostsUsed.push("Chicken Suit");
+    boostsUsed.push({ name: "Chicken Suit", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Alien Chicken", game })) {
     boost += 0.1;
-    boostsUsed.push("Alien Chicken");
+    boostsUsed.push({ name: "Alien Chicken", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
-    boostsUsed.push("Fine Fibers");
+    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
     boost -= 0.35;
-    boostsUsed.push("Leathercraft Mastery");
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.35" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
     boost += 0.25;
-    boostsUsed.push("Featherweight");
+    boostsUsed.push({ name: "Featherweight", value: "+0.25" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
     boost -= 0.35;
-    boostsUsed.push("Merino Whisperer");
+    boostsUsed.push({ name: "Merino Whisperer", value: "-0.35" });
   }
 
   return { amount: boost, boostsUsed };
@@ -221,29 +221,29 @@ function getFeatherYieldBoosts(game: GameState): {
 
 function getWoolYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Black Sheep Onesie", game })) {
     boost += 2;
-    boostsUsed.push("Black Sheep Onesie");
+    boostsUsed.push({ name: "Black Sheep Onesie", value: "+2" });
   }
   // White Sheep Onesie - +.25 wool
   if (isWearableActive({ name: "White Sheep Onesie", game })) {
     boost += 0.25;
-    boostsUsed.push("White Sheep Onesie");
+    boostsUsed.push({ name: "White Sheep Onesie", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Astronaut Sheep", game })) {
     boost += 0.1;
-    boostsUsed.push("Astronaut Sheep");
+    boostsUsed.push({ name: "Astronaut Sheep", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
-    boostsUsed.push("Abundant Harvest");
+    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
   }
 
   return { amount: boost, boostsUsed };
@@ -251,68 +251,68 @@ function getWoolYieldBoosts(game: GameState): {
 
 function getMerinoWoolYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Merino Jumper", game })) {
     boost += 1;
-    boostsUsed.push("Merino Jumper");
+    boostsUsed.push({ name: "Merino Jumper", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
     boost += 0.1;
-    boostsUsed.push("Toxic Tuft");
+    boostsUsed.push({ name: "Toxic Tuft", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
-    boostsUsed.push("Fine Fibers");
+    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
     boost -= 0.35;
-    boostsUsed.push("Leathercraft Mastery");
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.35" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
     boost -= 0.35;
-    boostsUsed.push("Featherweight");
+    boostsUsed.push({ name: "Featherweight", value: "-0.35" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
     boost += 0.25;
-    boostsUsed.push("Merino Whisperer");
+    boostsUsed.push({ name: "Merino Whisperer", value: "+0.25" });
   }
 
   return { amount: boost, boostsUsed };
 }
 function getMilkYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
     boost += 0.2;
-    boostsUsed.push("Longhorn Cowfish");
+    boostsUsed.push({ name: "Longhorn Cowfish", value: "+0.2" });
   }
 
   if (isWearableActive({ name: "Milk Apron", game })) {
     boost += 0.5;
-    boostsUsed.push("Milk Apron");
+    boostsUsed.push({ name: "Milk Apron", value: "+0.5" });
   }
 
   if (isWearableActive({ name: "Cowbell Necklace", game })) {
     boost += 2;
-    boostsUsed.push("Cowbell Necklace");
+    boostsUsed.push({ name: "Cowbell Necklace", value: "+2" });
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
-    boostsUsed.push("Abundant Harvest");
+    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
   }
 
   return { amount: boost, boostsUsed };
@@ -320,44 +320,44 @@ function getMilkYieldBoosts(game: GameState): {
 
 function getLeatherYieldBoosts(game: GameState): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let boost = 0;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Moo-ver", game })) {
     boost += 0.25;
-    boostsUsed.push("Moo-ver");
+    boostsUsed.push({ name: "Moo-ver", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Mootant", game })) {
     boost += 0.1;
-    boostsUsed.push("Mootant");
+    boostsUsed.push({ name: "Mootant", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
-    boostsUsed.push("Fine Fibers");
+    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
     boost += 0.25;
-    boostsUsed.push("Leathercraft Mastery");
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "+0.25" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
     boost -= 0.35;
-    boostsUsed.push("Featherweight");
+    boostsUsed.push({ name: "Featherweight", value: "-0.35" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
     boost -= 0.35;
-    boostsUsed.push("Merino Whisperer");
+    boostsUsed.push({ name: "Merino Whisperer", value: "-0.35" });
   }
 
   if (isWearableActive({ name: "Training Whistle", game })) {
     boost += 1;
-    boostsUsed.push("Training Whistle");
+    boostsUsed.push({ name: "Training Whistle", value: "+1" });
   }
 
   return { amount: boost, boostsUsed };
@@ -371,10 +371,10 @@ export function getResourceDropAmount({
   multiplier,
 }: ResourceDropAmountArgs): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let amount = baseAmount;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const { bumpkin, buds = {} } = game;
 
@@ -437,7 +437,7 @@ export function getResourceDropAmount({
     if (isChicken && resource === "Egg") {
       if (bumpkin.skills["Double Bale"]) {
         amount += baleBoost * 2;
-        boostsUsed.push("Double Bale");
+        boostsUsed.push({ name: "Double Bale", value: "+0.2" });
       } else {
         amount += baleBoost;
       }
@@ -450,29 +450,31 @@ export function getResourceDropAmount({
     ) {
       if (bumpkin.skills["Double Bale"]) {
         amount += baleBoost * 2;
-        boostsUsed.push("Double Bale");
+        boostsUsed.push({ name: "Double Bale", value: "+0.2" });
       } else {
         amount += baleBoost;
       }
-      boostsUsed.push("Bale Economy");
+      boostsUsed.push({ name: "Bale Economy", value: "+0.1" });
     }
-    boostsUsed.push("Bale");
+    boostsUsed.push({ name: "Bale", value: "+0.1" });
   }
 
   // Cattlegrim boosts all produce
   if (isWearableActive({ name: "Cattlegrim", game })) {
     amount += 0.25;
-    boostsUsed.push("Cattlegrim");
+    boostsUsed.push({ name: "Cattlegrim", value: "+0.25" });
   }
 
   // Barn Manager boosts all produce
   if (game.inventory["Barn Manager"]?.gt(0)) {
     amount += 0.1;
+    boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
   amount += yieldBoost;
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (multiplier) amount *= multiplier;
 
@@ -489,21 +491,21 @@ export function getBoostedFoodQuantity({
   game: GameState;
 }): {
   foodQuantity: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let baseFoodQuantity = cloneDeep(foodQuantity);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Fat Chicken", game })
   ) {
     baseFoodQuantity *= 0.9;
-    boostsUsed.push("Fat Chicken");
+    boostsUsed.push({ name: "Fat Chicken", value: "x0.9" });
   }
 
   if (animalType === "Cow" && isCollectibleBuilt({ name: "Dr Cow", game })) {
     baseFoodQuantity *= 0.95;
-    boostsUsed.push("Dr Cow");
+    boostsUsed.push({ name: "Dr Cow", value: "x0.95" });
   }
 
   if (
@@ -511,7 +513,7 @@ export function getBoostedFoodQuantity({
     isCollectibleBuilt({ name: "Mermaid Sheep", game })
   ) {
     baseFoodQuantity *= 0.95;
-    boostsUsed.push("Mermaid Sheep");
+    boostsUsed.push({ name: "Mermaid Sheep", value: "x0.95" });
   }
 
   if (
@@ -519,7 +521,7 @@ export function getBoostedFoodQuantity({
     isCollectibleBuilt({ name: "Cluckulator", game })
   ) {
     baseFoodQuantity *= 0.75;
-    boostsUsed.push("Cluckulator");
+    boostsUsed.push({ name: "Cluckulator", value: "x0.75" });
   }
 
   if (
@@ -527,44 +529,47 @@ export function getBoostedFoodQuantity({
     isWearableActive({ name: "Infernal Bullwhip", game })
   ) {
     baseFoodQuantity *= 0.5;
-    boostsUsed.push("Infernal Bullwhip");
+    boostsUsed.push({ name: "Infernal Bullwhip", value: "x0.5" });
   }
 
   if (game.bumpkin.skills["Efficient Feeding"]) {
     baseFoodQuantity *= 0.95;
-    boostsUsed.push("Efficient Feeding");
+    boostsUsed.push({ name: "Efficient Feeding", value: "x0.95" });
   }
 
   if (game.bumpkin.skills["Clucky Grazing"]) {
     if (animalType === "Chicken") {
       baseFoodQuantity *= 0.75;
+      boostsUsed.push({ name: "Clucky Grazing", value: "x0.75" });
     } else {
       baseFoodQuantity *= 1.5;
+      boostsUsed.push({ name: "Clucky Grazing", value: "x1.5" });
     }
-    boostsUsed.push("Clucky Grazing");
   }
 
   if (game.bumpkin.skills["Sheepwise Diet"]) {
     if (animalType === "Sheep") {
       baseFoodQuantity *= 0.75;
+      boostsUsed.push({ name: "Sheepwise Diet", value: "x0.75" });
     } else {
       baseFoodQuantity *= 1.5;
+      boostsUsed.push({ name: "Sheepwise Diet", value: "x1.5" });
     }
-    boostsUsed.push("Sheepwise Diet");
   }
 
   if (game.bumpkin.skills["Cow-Smart Nutrition"]) {
     if (animalType === "Cow") {
       baseFoodQuantity *= 0.75;
+      boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x0.75" });
     } else {
       baseFoodQuantity *= 1.5;
+      boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x1.5" });
     }
-    boostsUsed.push("Cow-Smart Nutrition");
   }
 
   if (game.bumpkin.skills["Chonky Feed"]) {
     baseFoodQuantity *= 1.5;
-    boostsUsed.push("Chonky Feed");
+    boostsUsed.push({ name: "Chonky Feed", value: "x1.5" });
   }
 
   if (
@@ -572,7 +577,7 @@ export function getBoostedFoodQuantity({
     isTemporaryCollectibleActive({ name: "Collie Shrine", game })
   ) {
     baseFoodQuantity *= 0.95;
-    boostsUsed.push("Collie Shrine");
+    boostsUsed.push({ name: "Collie Shrine", value: "x0.95" });
   }
 
   if (
@@ -580,7 +585,7 @@ export function getBoostedFoodQuantity({
     isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
   ) {
     baseFoodQuantity *= 0.95;
-    boostsUsed.push("Bantam Shrine");
+    boostsUsed.push({ name: "Bantam Shrine", value: "x0.95" });
   }
 
   return { foodQuantity: baseFoodQuantity, boostsUsed };
@@ -596,7 +601,7 @@ export function getBoostedAwakeAt({
   game: GameState;
 }): {
   awakeAt: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
   const { bumpkin } = game;
@@ -604,7 +609,7 @@ export function getBoostedAwakeAt({
 
   // Start with the base duration
   let totalDuration = sleepDuration;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const isChicken = animalType === "Chicken";
   const isSheep = animalType === "Sheep";
@@ -614,47 +619,47 @@ export function getBoostedAwakeAt({
   if (isChicken) {
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
       totalDuration -= twoHoursInMs;
-      boostsUsed.push("El Pollo Veloz");
+      boostsUsed.push({ name: "El Pollo Veloz", value: "-2 hours" });
     }
 
     if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
       totalDuration *= 0.9;
-      boostsUsed.push("Speed Chicken");
+      boostsUsed.push({ name: "Speed Chicken", value: "x0.9" });
     }
 
     if (isCollectibleBuilt({ name: "Janitor Chicken", game })) {
       totalDuration *= 0.95;
-      boostsUsed.push("Janitor Chicken");
+      boostsUsed.push({ name: "Janitor Chicken", value: "x0.95" });
     }
   }
 
   if (isSheep) {
     if (isWearableActive({ name: "Dream Scarf", game })) {
       totalDuration *= 0.8;
-      boostsUsed.push("Dream Scarf");
+      boostsUsed.push({ name: "Dream Scarf", value: "x0.8" });
     }
 
     if (isCollectibleBuilt({ name: "Farm Dog", game })) {
       totalDuration *= 0.75;
-      boostsUsed.push("Farm Dog");
+      boostsUsed.push({ name: "Farm Dog", value: "x0.75" });
     }
   }
 
   if (isCow) {
     if (isCollectibleBuilt({ name: "Mammoth", game })) {
       totalDuration *= 0.75;
-      boostsUsed.push("Mammoth");
+      boostsUsed.push({ name: "Mammoth", value: "x0.75" });
     }
   }
 
   if (game.inventory["Wrangler"]?.gt(0)) {
     totalDuration *= 0.9;
-    boostsUsed.push("Wrangler");
+    boostsUsed.push({ name: "Wrangler", value: "x0.9" });
   }
 
   if (bumpkin.skills["Restless Animals"]) {
     totalDuration *= 0.9;
-    boostsUsed.push("Restless Animals");
+    boostsUsed.push({ name: "Restless Animals", value: "x0.9" });
   }
 
   if (
@@ -662,7 +667,7 @@ export function getBoostedAwakeAt({
     isTemporaryCollectibleActive({ name: "Collie Shrine", game })
   ) {
     totalDuration *= 0.75;
-    boostsUsed.push("Collie Shrine");
+    boostsUsed.push({ name: "Collie Shrine", value: "x0.75" });
   }
 
   if (
@@ -670,7 +675,7 @@ export function getBoostedAwakeAt({
     isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
   ) {
     totalDuration *= 0.75;
-    boostsUsed.push("Bantam Shrine");
+    boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });
   }
 
   // Add the boosted duration to the created time

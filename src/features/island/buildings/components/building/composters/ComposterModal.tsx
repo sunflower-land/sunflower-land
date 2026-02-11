@@ -563,7 +563,6 @@ const ComposterModalContent: React.FC<{
                   show={showBoosts}
                   state={state}
                   onClick={() => setShowBoosts(!showBoosts)}
-                  searchBoostInfo={{ boostType: "time" }}
                 />
               </div>
             </div>

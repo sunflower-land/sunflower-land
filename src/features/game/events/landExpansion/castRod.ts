@@ -100,7 +100,7 @@ export function castRod({
 
     const { limit: fishingLimit, boostsUsed: fishingBoostsUsed } =
       getDailyFishingLimit(game, createdAt);
-    const boostsUsed: BoostName[] = [];
+    const boostsUsed: { name: BoostName; value: string }[] = [];
     boostsUsed.push(...fishingBoostsUsed);
 
     const multiplier = Math.max(1, Math.floor(action.multiplier ?? 1));
@@ -217,7 +217,7 @@ export function castRod({
     } else {
       game.boostsUsedAt = updateBoostUsed({
         game,
-        boostNames: ["Ancient Rod"],
+        boostNames: [{ name: "Ancient Rod", value: "Free" }],
         createdAt,
       });
     }

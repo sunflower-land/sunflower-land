@@ -28,19 +28,19 @@ type Options = {
 export const getSellPrice = (
   item: SellableTreasure,
   game: GameState,
-): { price: number; boostsUsed: BoostName[] } => {
+): { price: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const sellPrice = item.sellPrice;
   let price = sellPrice;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Treasure Map", game })) {
     price += sellPrice * 0.2;
-    boostsUsed.push("Treasure Map");
+    boostsUsed.push({ name: "Treasure Map", value: "+20%" });
   }
 
   if (isCollectibleBuilt({ name: "Camel", game })) {
     price += sellPrice * 0.3;
-    boostsUsed.push("Camel");
+    boostsUsed.push({ name: "Camel", value: "+30%" });
   }
 
   return { price, boostsUsed };

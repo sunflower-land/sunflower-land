@@ -23,7 +23,7 @@ interface ItemDetailsProps {
 interface PropertiesProps {
   xp?: Decimal;
   baseXp?: number;
-  boostsUsed?: BoostName[];
+  boostsUsed?: { name: BoostName; value: string }[];
   showBoosts?: boolean;
   setShowBoosts?: (show: boolean) => void;
   gameState?: GameState;
@@ -114,7 +114,6 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
               show={properties.showBoosts ?? false}
               state={properties.gameState}
               onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
-              searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
             />
           )}
       </div>

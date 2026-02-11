@@ -56,7 +56,7 @@ export function bulkHarvest({
       throw new Error("No crops ready to harvest");
     }
 
-    const allBoostsUsed: BoostName[] = [];
+    const allBoostsUsed: { name: BoostName; value: string }[] = [];
     const cropAmounts: Partial<Record<CropName, number>> = {};
 
     // Harvest all ready crops

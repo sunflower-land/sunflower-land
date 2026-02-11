@@ -66,7 +66,7 @@ export function getPlantedAt(
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
   createdAt: number,
-): { plantedAt: number; boostsUsed: BoostName[] } {
+): { plantedAt: number; boostsUsed: { name: BoostName; value: string }[] } {
   if (!patchFruitSeedName) return { plantedAt: createdAt, boostsUsed: [] };
 
   const fruitTime = PATCH_FRUIT_SEEDS[patchFruitSeedName].plantSeconds;
@@ -93,10 +93,10 @@ export const isAdvancedFruitSeed = (
  */
 export function getFruitTime({ game }: { game: GameState }): {
   multiplier: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let seconds = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
@@ -108,8 +108,9 @@ export function getFruitTime({ game }: { game: GameState }): {
   });
   if (hasSuperTotem || hasTimeWarpTotem) {
     seconds = seconds * 0.5;
-    if (hasSuperTotem) boostsUsed.push("Super Totem");
-    if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
+    if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
+    if (hasTimeWarpTotem)
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   return { multiplier: seconds, boostsUsed };
@@ -121,7 +122,7 @@ export function getFruitTime({ game }: { game: GameState }): {
 export const getFruitPatchTime = (
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
-): { seconds: number; boostsUsed: BoostName[] } => {
+): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
   let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
 
@@ -134,7 +135,7 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Squirrel Monkey", game })
   ) {
     seconds = seconds * 0.5;
-    boostsUsed.push("Squirrel Monkey");
+    boostsUsed.push({ name: "Squirrel Monkey", value: "x0.5" });
   }
 
   // Nana: 10% reduction
@@ -143,7 +144,7 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Nana", game })
   ) {
     seconds = seconds * 0.9;
-    boostsUsed.push("Nana");
+    boostsUsed.push({ name: "Nana", value: "x0.9" });
   }
 
   // Banana Onesie: 20% reduction
@@ -152,13 +153,13 @@ export const getFruitPatchTime = (
     isWearableActive({ name: "Banana Onesie", game })
   ) {
     seconds = seconds * 0.8;
-    boostsUsed.push("Banana Onesie");
+    boostsUsed.push({ name: "Banana Onesie", value: "x0.8" });
   }
 
   // Fruit Tune Box: 20% reduction
   if (isCollectibleBuilt({ name: "Fruit Tune Box", game })) {
     seconds = seconds * 0.8;
-    boostsUsed.push("Fruit Tune Box");
+    boostsUsed.push({ name: "Fruit Tune Box", value: "x0.8" });
   }
 
   // Lemon Tea Bath: 50% reduction
@@ -167,7 +168,7 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Lemon Tea Bath", game })
   ) {
     seconds = seconds * 0.5;
-    boostsUsed.push("Lemon Tea Bath");
+    boostsUsed.push({ name: "Lemon Tea Bath", value: "x0.5" });
   }
 
   // Lemon Frog: 25% reduction
@@ -176,7 +177,7 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Lemon Frog", game })
   ) {
     seconds = seconds * 0.75;
-    boostsUsed.push("Lemon Frog");
+    boostsUsed.push({ name: "Lemon Frog", value: "x0.75" });
   }
 
   // Tomato Clown: 50% reduction
@@ -185,7 +186,7 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Tomato Clown", game })
   ) {
     seconds = seconds * 0.5;
-    boostsUsed.push("Tomato Clown");
+    boostsUsed.push({ name: "Tomato Clown", value: "x0.5" });
   }
 
   // Cannon
@@ -194,42 +195,44 @@ export const getFruitPatchTime = (
     isCollectibleBuilt({ name: "Cannonball", game })
   ) {
     seconds = seconds * 0.75;
-    boostsUsed.push("Cannonball");
+    boostsUsed.push({ name: "Cannonball", value: "x0.75" });
   }
 
   // Catchup Skill: 10% reduction
   if (bumpkin.skills["Catchup"]) {
     seconds = seconds * 0.9;
-    boostsUsed.push("Catchup");
+    boostsUsed.push({ name: "Catchup", value: "x0.9" });
   }
 
   // Long Pickings - -50% growth in Apple and Banana, but 2x in the rest
   if (bumpkin.skills["Long Pickings"]) {
     if (isAdvancedFruitSeed(patchFruitSeedName)) {
       seconds = seconds * 0.5;
+      boostsUsed.push({ name: "Long Pickings", value: "x0.5" });
     } else {
       seconds = seconds * 2;
+      boostsUsed.push({ name: "Long Pickings", value: "x2" });
     }
-    boostsUsed.push("Long Pickings");
   }
 
   if (bumpkin.skills["Short Pickings"]) {
     if (isBasicFruitSeed(patchFruitSeedName)) {
       seconds = seconds * 0.5;
+      boostsUsed.push({ name: "Short Pickings", value: "x0.5" });
     } else {
       seconds = seconds * 2;
+      boostsUsed.push({ name: "Short Pickings", value: "x2" });
     }
-    boostsUsed.push("Short Pickings");
   }
 
   if (isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Orchard Hourglass");
+    boostsUsed.push({ name: "Orchard Hourglass", value: "x0.75" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Toucan Shrine", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Toucan Shrine");
+    boostsUsed.push({ name: "Toucan Shrine", value: "x0.75" });
   }
 
   return { seconds, boostsUsed };

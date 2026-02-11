@@ -688,51 +688,51 @@ export function getDailyFishingLimit(
   createdAt: number,
 ): {
   limit: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let limit = 20;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // +10 daily limit if player has Angler Waders
   if (isWearableActive({ name: "Angler Waders", game })) {
     limit += 10;
-    boostsUsed.push("Angler Waders");
+    boostsUsed.push({ name: "Angler Waders", value: "+10" });
   }
 
   // +5 Daily Limit if the player has Reelmaster's Chair
   if (isCollectibleBuilt({ name: "Reelmaster's Chair", game })) {
     limit += 5;
-    boostsUsed.push("Reelmaster's Chair");
+    boostsUsed.push({ name: "Reelmaster's Chair", value: "+5" });
   }
 
   // +5 daily limit if player has Nautilus
   if (isCollectibleBuilt({ name: "Nautilus", game })) {
     limit += 5;
-    boostsUsed.push("Nautilus");
+    boostsUsed.push({ name: "Nautilus", value: "+5" });
   }
 
   // +5 daily limit if player had Fisherman's 5 Fold skill
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
-    boostsUsed.push("Fisherman's 5 Fold");
+    boostsUsed.push({ name: "Fisherman's 5 Fold", value: "+5" });
   }
 
   // +10 daily limit if player had Fisherman's 10 Fold skill
   if (game.bumpkin?.skills["Fisherman's 10 Fold"]) {
     limit += 10;
-    boostsUsed.push("Fisherman's 10 Fold");
+    boostsUsed.push({ name: "Fisherman's 10 Fold", value: "+10" });
   }
 
   // +10 daily limit if player has the More With Less skill
   if (game.bumpkin?.skills["More With Less"]) {
     limit += 15;
-    boostsUsed.push("More With Less");
+    boostsUsed.push({ name: "More With Less", value: "+15" });
   }
 
   // +5 daily limit if player has Saw Fish
   if (isWearableActive({ name: "Saw Fish", game })) {
     limit += 5;
-    boostsUsed.push("Saw Fish");
+    boostsUsed.push({ name: "Saw Fish", value: "+5" });
   }
 
   if (
@@ -740,6 +740,7 @@ export function getDailyFishingLimit(
     getCurrentChapter(createdAt) === "Crabs and Traps"
   ) {
     limit += 5;
+    boostsUsed.push({ name: "VIP Access", value: "+5" });
   }
 
   return { limit, boostsUsed };

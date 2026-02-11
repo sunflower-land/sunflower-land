@@ -112,30 +112,30 @@ export function calculateCropTime(
     amount: number;
   },
   state: GameState,
-): { milliSeconds: number; boostUsed: BoostName[] } {
-  const boostUsed: BoostName[] = [];
+): { milliSeconds: number; boostUsed: { name: BoostName; value: string }[] } {
+  const boostUsed: { name: BoostName; value: string }[] = [];
   const cropName = seeds.type.split(" ")[0] as CropName;
 
   let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
   if (state.bumpkin.skills?.["Crop Processor Unit"]) {
     milliSeconds = milliSeconds * 0.95;
-    boostUsed.push("Crop Processor Unit");
+    boostUsed.push({ name: "Crop Processor Unit", value: "x0.95" });
   }
 
   if (state.bumpkin.skills?.["Rapid Rig"]) {
     milliSeconds = milliSeconds * 0.8;
-    boostUsed.push("Rapid Rig");
+    boostUsed.push({ name: "Rapid Rig", value: "x0.8" });
   }
 
   if (isCollectibleBuilt({ game: state, name: "Groovy Gramophone" })) {
     milliSeconds = milliSeconds * 0.5;
-    boostUsed.push("Groovy Gramophone");
+    boostUsed.push({ name: "Groovy Gramophone", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state })) {
     milliSeconds = milliSeconds * 0.9;
-    boostUsed.push("Tortoise Shrine");
+    boostUsed.push({ name: "Tortoise Shrine", value: "x0.9" });
   }
 
   return {

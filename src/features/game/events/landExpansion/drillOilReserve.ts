@@ -26,45 +26,45 @@ export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60;
 
 export function getOilDropAmount(game: GameState, reserve: OilReserve) {
   let amount = new Decimal(BASE_OIL_DROP_AMOUNT);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if ((reserve.drilled + 1) % 3 === 0) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
 
     if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
       amount = amount.add(15);
-      boostsUsed.push("Stag Shrine");
+      boostsUsed.push({ name: "Stag Shrine", value: "+15" });
     }
   }
 
   if (isCollectibleBuilt({ name: "Battle Fish", game })) {
     amount = amount.add(0.05);
-    boostsUsed.push("Battle Fish");
+    boostsUsed.push({ name: "Battle Fish", value: "+0.05" });
   }
 
   if (isCollectibleBuilt({ name: "Knight Chicken", game })) {
     amount = amount.add(0.1);
-    boostsUsed.push("Knight Chicken");
+    boostsUsed.push({ name: "Knight Chicken", value: "+0.1" });
   }
 
   if (isWearableActive({ name: "Oil Can", game })) {
     amount = amount.add(2);
-    boostsUsed.push("Oil Can");
+    boostsUsed.push({ name: "Oil Can", value: "+2" });
   }
 
   if (isWearableActive({ game, name: "Oil Overalls" })) {
     amount = amount.add(10);
-    boostsUsed.push("Oil Overalls");
+    boostsUsed.push({ name: "Oil Overalls", value: "+10" });
   }
 
   if (game.bumpkin.skills["Oil Extraction"]) {
     amount = amount.add(1);
-    boostsUsed.push("Oil Extraction");
+    boostsUsed.push({ name: "Oil Extraction", value: "+1" });
   }
 
   if (isWearableActive({ game, name: "Oil Gallon" })) {
     amount = amount.add(5);
-    boostsUsed.push("Oil Gallon");
+    boostsUsed.push({ name: "Oil Gallon", value: "+5" });
   }
 
   return { amount: amount.toDecimalPlaces(4).toNumber(), boostsUsed };
@@ -79,13 +79,13 @@ export function canDrillOilReserve(
 
 export function getRequiredOilDrillAmount(gameState: GameState): {
   amount: Decimal;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let amount = new Decimal(1);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (isWearableActive({ name: "Infernal Drill", game: gameState })) {
     amount = new Decimal(0);
-    boostsUsed.push("Infernal Drill");
+    boostsUsed.push({ name: "Infernal Drill", value: "Free" });
 
     // Early return
     return { amount, boostsUsed };
@@ -100,23 +100,23 @@ type getDrilledAtArgs = {
 
 export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ game, name: "Dev Wrench" })) {
     totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push("Dev Wrench");
+    boostsUsed.push({ name: "Dev Wrench", value: "x0.5" });
   }
   if (game.bumpkin.skills["Oil Be Back"]) {
     totalSeconds = totalSeconds * 0.8;
-    boostsUsed.push("Oil Be Back");
+    boostsUsed.push({ name: "Oil Be Back", value: "x0.8" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Stag Shrine");
+    boostsUsed.push({ name: "Stag Shrine", value: "x0.75" });
   }
 
   const buff = OIL_RESERVE_RECOVERY_TIME - totalSeconds;

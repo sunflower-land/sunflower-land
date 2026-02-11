@@ -38,7 +38,7 @@ export const getBaseAnimalCapacity = (level: number): number => {
 export const getBoostedAnimalCapacity = (
   buildingKey: keyof GameState,
   game: GameState,
-): { capacity: number; boostsUsed: BoostName[] } => {
+): { capacity: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const COOP_BONUS_CAPACITY = 5;
 
   const BARN_BLUEPRINT_BONUS_CAPACITY = 5;
@@ -46,7 +46,7 @@ export const getBoostedAnimalCapacity = (
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
   const baseCapacity = getBaseAnimalCapacity(level);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (buildingKey === "henHouse") {
     const coopActive = isCollectibleBuilt({
@@ -57,7 +57,7 @@ export const getBoostedAnimalCapacity = (
     const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
     if (coopActive) {
-      boostsUsed.push("Chicken Coop");
+      boostsUsed.push({ name: "Chicken Coop", value: "+5" });
     }
     return { capacity: baseCapacity + coopBonus, boostsUsed };
   }
@@ -72,7 +72,7 @@ export const getBoostedAnimalCapacity = (
       : 0;
 
     if (bprintActive) {
-      boostsUsed.push("Barn Blueprint");
+      boostsUsed.push({ name: "Barn Blueprint", value: "+5" });
     }
     return { capacity: baseCapacity + capacityBonus, boostsUsed };
   }

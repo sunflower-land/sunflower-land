@@ -27,22 +27,22 @@ type Options = {
 };
 
 export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   let requiredAxeAmount = 1;
 
   if (inventory.Logger?.gte(1)) {
     requiredAxeAmount = 0.5;
-    boostsUsed.push("Logger");
+    boostsUsed.push({ name: "Logger", value: "x0.5" });
   }
 
   if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
     requiredAxeAmount = 0;
-    boostsUsed.push("Foreman Beaver");
+    boostsUsed.push({ name: "Foreman Beaver", value: "Free" });
   }
 
   if (game.bumpkin.skills["No Axe No Worries"]) {
     requiredAxeAmount = 0;
-    boostsUsed.push("No Axe No Worries");
+    boostsUsed.push({ name: "No Axe No Worries", value: "Free" });
   }
 
   return { amount: requiredAxeAmount, boostsUsed };

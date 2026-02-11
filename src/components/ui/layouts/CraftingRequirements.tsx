@@ -108,11 +108,11 @@ interface RequirementsProps {
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
-  xpBoostsUsed?: BoostName[];
+  xpBoostsUsed?: { name: BoostName; value: string }[];
   baseXp?: number;
   timeSeconds?: number;
   baseTimeSeconds?: number;
-  timeBoostsUsed?: BoostName[];
+  timeBoostsUsed?: { name: BoostName; value: string }[];
   timeBoostOil?: { label: string; percent: number };
   level?: number;
 }
@@ -478,7 +478,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                       show={showBoosts}
                       state={gameState}
                       onClick={() => setShowBoosts(!showBoosts)}
-                      searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
                     />
                   </div>
                 );
@@ -529,7 +528,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                         show={showTimeBoosts}
                         state={gameState}
                         onClick={() => setShowTimeBoosts((prev) => !prev)}
-                        searchBoostInfo={{ boostType: "time" }}
                         leadingRow={
                           timeBoostOil
                             ? { label: timeBoostOil.label }

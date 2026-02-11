@@ -62,7 +62,7 @@ interface PropertiesProps {
   timeSeconds?: number;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
-  xpBoostsUsed?: BoostName[];
+  xpBoostsUsed?: { name: BoostName; value: string }[];
   baseXp?: number;
   showBoosts?: boolean;
   setShowBoosts?: (show: boolean) => void;
@@ -222,7 +222,6 @@ export const InventoryItemDetails: React.FC<Props> = ({
               show={properties.showBoosts}
               state={game}
               onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
-              searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
             />
           </div>
         );

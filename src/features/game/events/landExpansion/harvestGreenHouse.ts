@@ -58,9 +58,9 @@ export function getGreenhouseCropYieldAmount({
   game: GameState;
   createdAt: number;
   prngArgs: { farmId: number; counter: number };
-}): { amount: number; boostsUsed: BoostName[] } {
+}): { amount: number; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isGreenhouseCrop(crop)) {
     const { amount: cropAmount, boostsUsed: cropBoostsUsed } =
@@ -78,23 +78,23 @@ export function getGreenhouseCropYieldAmount({
       isWearableActive({ game, name: "Olive Royalty Shirt" })
     ) {
       amount += 0.25;
-      boostsUsed.push("Olive Royalty Shirt");
+      boostsUsed.push({ name: "Olive Royalty Shirt", value: "+0.25" });
     }
 
     if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
       amount += 1;
-      boostsUsed.push("Olive Shield");
+      boostsUsed.push({ name: "Olive Shield", value: "+1" });
     }
 
     // Rice
     if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
       amount += 1;
-      boostsUsed.push("Non La Hat");
+      boostsUsed.push({ name: "Non La Hat", value: "+1" });
     }
 
     if (crop === "Rice" && isCollectibleBuilt({ name: "Rice Panda", game })) {
       amount += 0.25;
-      boostsUsed.push("Rice Panda");
+      boostsUsed.push({ name: "Rice Panda", value: "+0.25" });
     }
   } else {
     const { amount: fruitAmount, boostsUsed: fruitBoostsUsed } = getFruitYield({
@@ -116,27 +116,27 @@ export function getGreenhouseCropYieldAmount({
 
   if (skills["Greenhouse Gamble"] && criticalDrop("Greenhouse Gamble", 25)) {
     amount += 1;
-    boostsUsed.push("Greenhouse Gamble");
+    boostsUsed.push({ name: "Greenhouse Gamble", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Pharaoh Gnome", game })) {
     amount += 2;
-    boostsUsed.push("Pharaoh Gnome");
+    boostsUsed.push({ name: "Pharaoh Gnome", value: "+2" });
   }
 
   if (skills["Glass Room"]) {
     amount += 0.1;
-    boostsUsed.push("Glass Room");
+    boostsUsed.push({ name: "Glass Room", value: "+0.1" });
   }
 
   if (skills["Seeded Bounty"]) {
     amount += 0.5;
-    boostsUsed.push("Seeded Bounty");
+    boostsUsed.push({ name: "Seeded Bounty", value: "+0.5" });
   }
 
   if (skills["Greasy Plants"]) {
     amount += 1;
-    boostsUsed.push("Greasy Plants");
+    boostsUsed.push({ name: "Greasy Plants", value: "+1" });
   }
 
   return { amount, boostsUsed };

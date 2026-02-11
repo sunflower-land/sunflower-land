@@ -70,8 +70,8 @@ export const getSellPrice = ({
   item: SellableItem;
   game: GameState;
   now?: Date;
-}): { price: number; boostsUsed: BoostName[] } => {
-  const boostUsed: BoostName[] = [];
+}): { price: number; boostsUsed: { name: BoostName; value: string }[] } => {
+  const boostUsed: { name: BoostName; value: string }[] = [];
   const price = item.sellPrice;
 
   const { inventory, bumpkin } = game;
@@ -83,7 +83,7 @@ export const getSellPrice = ({
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     multiplier += 0.05;
-    boostUsed.push("Green Thumb");
+    boostUsed.push({ name: "Green Thumb", value: "x1.05" });
   }
 
   // Crop Shortage during initial gameplay
@@ -109,7 +109,7 @@ export const getSellPrice = ({
 
   if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
     multiplier += 0.1;
-    boostUsed.push("Coin Swindler");
+    boostUsed.push({ name: "Coin Swindler", value: "+0.1" });
   }
 
   return { price: price * multiplier, boostsUsed: boostUsed };
@@ -166,33 +166,36 @@ export const getCookingTime = ({
   item: CookableName;
   game: GameState;
   cookStartAt?: number;
-}): { reducedSecs: number; boostsUsed: BoostName[] } => {
+}): {
+  reducedSecs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} => {
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
   let reducedSecs = new Decimal(seconds);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
-    boostsUsed.push("Luna's Hat");
+    boostsUsed.push({ name: "Luna's Hat", value: "x0.5" });
   }
 
   if (isWearableActive({ name: "Master Chef's Cleaver", game })) {
     reducedSecs = reducedSecs.mul(0.85);
-    boostsUsed.push("Master Chef's Cleaver");
+    boostsUsed.push({ name: "Master Chef's Cleaver", value: "x0.85" });
   }
 
   // Legendary Shrine - 50% reduction
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     reducedSecs = reducedSecs.mul(0.5);
-    boostsUsed.push("Legendary Shrine");
+    boostsUsed.push({ name: "Legendary Shrine", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Boar Shrine", game })) {
     reducedSecs = reducedSecs.mul(0.8);
-    boostsUsed.push("Boar Shrine");
+    boostsUsed.push({ name: "Boar Shrine", value: "x0.8" });
   }
 
   //Faction Medallion -25% reduction
@@ -205,7 +208,10 @@ export const getCookingTime = ({
     })
   ) {
     reducedSecs = reducedSecs.mul(0.75);
-    boostsUsed.push(FACTION_ITEMS[factionName].necklace);
+    boostsUsed.push({
+      name: FACTION_ITEMS[factionName].necklace,
+      value: "x0.75",
+    });
   }
 
   // Totems do not stack - apply either Super Totem or Time Warp Totem boost
@@ -235,9 +241,9 @@ export const getCookingTime = ({
       boostValue: 0.5,
     });
     if (hasSuperTotem) {
-      boostsUsed.push("Super Totem");
+      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     } else if (hasTimeWarpTotem) {
-      boostsUsed.push("Time Warp Totem");
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
     }
   }
 
@@ -249,30 +255,30 @@ export const getCookingTime = ({
       game,
       boostValue: 0.5,
     });
-    boostsUsed.push("Gourmet Hourglass");
+    boostsUsed.push({ name: "Gourmet Hourglass", value: "x0.5" });
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
     reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push("Desert Gnome");
+    boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
   // 10% reduction on Fire Pit with Fast Feasts skill
   if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push("Fast Feasts");
+    boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Kitchen with Fast Feasts skill
   if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push("Fast Feasts");
+    boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Cakes with Frosted Cakes skill
   if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
     reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push("Frosted Cakes");
+    boostsUsed.push({ name: "Frosted Cakes", value: "x0.9" });
   }
 
   return { reducedSecs: reducedSecs.toNumber(), boostsUsed };
@@ -294,20 +300,23 @@ export const getFoodExpBoost = ({
   food: Consumable;
   game: GameState;
   createdAt: number;
-}): { boostedExp: Decimal; boostsUsed: BoostName[] } => {
+}): {
+  boostedExp: Decimal;
+  boostsUsed: { name: BoostName; value: string }[];
+} => {
   let boostedExp = new Decimal(food.experience);
   const skills = game.bumpkin.skills ?? {};
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   //Bumpkin Wearable Boost Golden Spatula
   if (isWearableActive({ name: "Golden Spatula", game })) {
     boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push("Golden Spatula");
+    boostsUsed.push({ name: "Golden Spatula", value: "x1.1" });
   }
 
   if (isCollectibleBuilt({ name: "Blossombeard", game })) {
     boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push("Blossombeard");
+    boostsUsed.push({ name: "Blossombeard", value: "x1.1" });
   }
 
   if (
@@ -316,19 +325,19 @@ export const getFoodExpBoost = ({
   ) {
     // 50% boost
     boostedExp = boostedExp.mul(1.5);
-    boostsUsed.push("Luminous Anglerfish Topper");
+    boostsUsed.push({ name: "Luminous Anglerfish Topper", value: "x1.5" });
   }
 
   if (isWearableActive({ name: "Pan", game })) {
     // 25% boost
     boostedExp = boostedExp.mul(1.25);
-    boostsUsed.push("Pan");
+    boostsUsed.push({ name: "Pan", value: "x1.25" });
   }
 
   //Observatory is placed
   if (isCollectibleBuilt({ name: "Observatory", game })) {
     boostedExp = boostedExp.mul(1.05);
-    boostsUsed.push("Observatory");
+    boostsUsed.push({ name: "Observatory", value: "x1.05" });
   }
 
   if (
@@ -336,7 +345,7 @@ export const getFoodExpBoost = ({
     isCollectibleBuilt({ name: "Grain Grinder", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
-    boostsUsed.push("Grain Grinder");
+    boostsUsed.push({ name: "Grain Grinder", value: "x1.2" });
   }
 
   if (
@@ -344,17 +353,17 @@ export const getFoodExpBoost = ({
     isCollectibleBuilt({ name: "Skill Shrimpy", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
-    boostsUsed.push("Skill Shrimpy");
+    boostsUsed.push({ name: "Skill Shrimpy", value: "x1.2" });
   }
 
   if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
     boostedExp = boostedExp.mul(1.2);
-    boostsUsed.push("Fishy Feast");
+    boostsUsed.push({ name: "Fishy Feast", value: "x1.2" });
   }
 
   if (hasVipAccess({ game, now: createdAt })) {
     boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push("VIP Access");
+    boostsUsed.push({ name: "VIP Access", value: "x1.1" });
   }
 
   if (
@@ -362,13 +371,13 @@ export const getFoodExpBoost = ({
     food.name === "Fermented Carrots"
   ) {
     boostedExp = boostedExp.mul(2);
-    boostsUsed.push("Hungry Hare");
+    boostsUsed.push({ name: "Hungry Hare", value: "x2" });
   }
 
   // Munching Mastery - 5% exp boost
   if (skills["Munching Mastery"]) {
     boostedExp = boostedExp.mul(1.05);
-    boostsUsed.push("Munching Mastery");
+    boostsUsed.push({ name: "Munching Mastery", value: "x1.05" });
   }
 
   // Juicy Boost - 10% exp boost on juice
@@ -378,7 +387,7 @@ export const getFoodExpBoost = ({
     skills["Juicy Boost"]
   ) {
     boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push("Juicy Boost");
+    boostsUsed.push({ name: "Juicy Boost", value: "x1.1" });
   }
 
   // Drive-Through Deli - 15% exp boost on Deli
@@ -388,13 +397,13 @@ export const getFoodExpBoost = ({
     skills["Drive-Through Deli"]
   ) {
     boostedExp = boostedExp.mul(1.15);
-    boostsUsed.push("Drive-Through Deli");
+    boostsUsed.push({ name: "Drive-Through Deli", value: "x1.15" });
   }
 
   // Buzzworthy Treats - 10% exp boost on honey foods
   if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
     boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push("Buzzworthy Treats");
+    boostsUsed.push({ name: "Buzzworthy Treats", value: "x1.1" });
   }
 
   // Swiss Whiskers - +500 exp on cheese recipes
@@ -403,7 +412,7 @@ export const getFoodExpBoost = ({
     isCollectibleBuilt({ name: "Swiss Whiskers", game })
   ) {
     boostedExp = boostedExp.plus(500);
-    boostsUsed.push("Swiss Whiskers");
+    boostsUsed.push({ name: "Swiss Whiskers", value: "+500" });
   }
 
   const { exp: budExp, budUsed } = getBudExperienceBoosts(
@@ -411,12 +420,12 @@ export const getFoodExpBoost = ({
     food,
   );
   boostedExp = boostedExp.mul(budExp);
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed) boostsUsed.push({ name: budUsed, value: `x${budExp}` });
 
   const factionPetMultiplier = getFactionPetBoostMultiplier(game);
   boostedExp = boostedExp.mul(factionPetMultiplier);
   if (factionPetMultiplier > 1) {
-    boostsUsed.push("Faction Pet");
+    boostsUsed.push({ name: "Faction Pet", value: `x${factionPetMultiplier}` });
   }
 
   return { boostedExp: setPrecision(boostedExp), boostsUsed };

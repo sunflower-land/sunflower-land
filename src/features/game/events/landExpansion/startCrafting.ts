@@ -40,10 +40,9 @@ export function getBoostedCraftingTime({
   counter: number;
 }) {
   let seconds = time;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
-    boostsUsed.push("Fox Shrine");
     if (
       prngChance({
         farmId,
@@ -54,21 +53,23 @@ export function getBoostedCraftingTime({
       })
     ) {
       seconds *= 0;
+      boostsUsed.push({ name: "Fox Shrine", value: "x0" });
       return { seconds, boostsUsed };
     } else {
       seconds *= 0.75;
+      boostsUsed.push({ name: "Fox Shrine", value: "x0.75" });
     }
   }
 
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
     seconds *= 0.5;
-    boostsUsed.push("Sol & Luna");
+    boostsUsed.push({ name: "Sol & Luna", value: "x0.5" });
   }
 
   if (isWearableActive({ name: "Architect Ruler", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Architect Ruler");
+    boostsUsed.push({ name: "Architect Ruler", value: "x0.75" });
   }
 
   if (
@@ -77,9 +78,9 @@ export function getBoostedCraftingTime({
   ) {
     seconds *= 0.5;
     if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game })) {
-      boostsUsed.push("Time Warp Totem");
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
     } else if (isTemporaryCollectibleActive({ name: "Super Totem", game })) {
-      boostsUsed.push("Super Totem");
+      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     }
   }
 

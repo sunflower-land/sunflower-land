@@ -261,7 +261,10 @@ export const SeasonalSeeds: React.FC = () => {
     return CROP_SEEDS[selectedName as CropSeedName].plantSeconds;
   };
 
-  const getPlantSeconds = (): { seconds: number; boostsUsed: BoostName[] } => {
+  const getPlantSeconds = (): {
+    seconds: number;
+    boostsUsed: { name: BoostName; value: string }[];
+  } => {
     if (selectedName in FLOWER_SEEDS) {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }

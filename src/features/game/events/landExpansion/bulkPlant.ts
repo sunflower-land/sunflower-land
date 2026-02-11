@@ -67,7 +67,7 @@ export function bulkPlant({
     }
 
     const cropName = action.seed.split(" ")[0] as CropName;
-    const allBoostsUsed: BoostName[] = [];
+    const allBoostsUsed: { name: BoostName; value: string }[] = [];
 
     for (let i = 0; i < seedsToPlant; i++) {
       const [plotId] = availablePlots[i];
