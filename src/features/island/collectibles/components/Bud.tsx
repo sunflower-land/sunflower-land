@@ -75,10 +75,7 @@ const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
   return (
     <div className="flex flex-col gap-3">
       {buffs.map(
-        (
-          { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
-          index,
-        ) => (
+        ({ boostTypeIcon, boostedItemIcon, shortDescription }, index) => (
           <Label
             key={index}
             type="transparent"

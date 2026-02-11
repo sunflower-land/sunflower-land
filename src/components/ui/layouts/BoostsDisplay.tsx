@@ -107,7 +107,7 @@ export const BoostsDisplay: React.FC<{
       onBackdropClick={onClick}
       className="flex flex-col gap-1 max-h-5"
     >
-      <div className="overflow-y-auto scrollable max-h-[200px]">
+      <div className="overflow-y-auto scrollable min-w-36 max-h-52 py-1 px-0.5">
         <div className="flex space-x-1 mb-1">
           <img src={SUNNYSIDE.icons.lightning} alt="Boost" className="w-3" />
           <span className="text-xs whitespace-nowrap">

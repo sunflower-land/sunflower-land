@@ -2,7 +2,6 @@ import mainnetBuds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
 import { BuffLabel } from ".";
-import type { Bud } from "./buds";
 import { translate } from "lib/i18n/translate";
 
 import powerup from "assets/icons/level_up.png";
@@ -296,8 +295,8 @@ const getTypeBoost = (type: string) => {
  * Uses budFromState when provided (player's actual traits) so aura percentage
  * is correct; otherwise falls back to mainnet bud data.
  */
-export const getBudBuffs = (budId: number, budFromState?: Bud): BuffLabel[] => {
-  const bud = budFromState ?? buds[budId];
+export const getBudBuffs = (budId: number): BuffLabel[] => {
+  const bud = buds[budId];
   if (!bud) {
     return [];
   }
