@@ -80,16 +80,17 @@ export const WaterTrapModal: React.FC<Props> = ({
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
 
-  const catchForSelectedChum = selectedChum
-    ? getKeys(caughtCrustacean(selectedTrap, selectedChum))[0]
-    : undefined;
+  const catchForSelectedChum = getKeys(
+    caughtCrustacean(selectedTrap, selectedChum),
+  )[0];
 
-  const showResultingCatch =
-    selectedChum &&
-    catchForSelectedChum &&
-    (state.farmActivity[
-      `${catchForSelectedChum} Caught with ${selectedChum}`
-    ] ?? 0) > 0;
+  const showResultingCatch = selectedChum
+    ? catchForSelectedChum &&
+      (state.farmActivity[
+        `${catchForSelectedChum} Caught with ${selectedChum}`
+      ] ?? 0) > 0
+    : catchForSelectedChum &&
+      (state.farmActivity[`${catchForSelectedChum} Caught`] ?? 0) > 0;
 
   const handleTrapChange = (trap: WaterTrapName) => {
     setSelectedTrap(trap);
@@ -239,9 +240,13 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[selectedChum].image}
                     >
-                      {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
+                      {`${t("required")}: ${
+                        CRUSTACEAN_CHUM_AMOUNTS[selectedChum]
+                      } ${selectedChum}${
                         items[selectedChum]?.gt(0)
-                          ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
+                          ? ` (${t("count.available", {
+                              count: items[selectedChum]?.toFixed(2) ?? "0",
+                            })})`
                           : ""
                       }`}
                     </Label>
