@@ -37,47 +37,47 @@ type Options = {
 export const getFlowerTime = (
   seed: FlowerSeedName,
   game: GameState,
-): { seconds: number; boostsUsed: BoostName[] } => {
+): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
 
   let seconds = FLOWER_SEEDS[seed].plantSeconds;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // If wearing Flower Crown 2x speed
   if (isWearableActive({ name: "Flower Crown", game })) {
     seconds *= 0.5;
-    boostsUsed.push("Flower Crown");
+    boostsUsed.push({ name: "Flower Crown", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Moth Shrine", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Moth Shrine");
+    boostsUsed.push({ name: "Moth Shrine", value: "x0.75" });
   }
 
   // If Flower Fox is built gives 10% speed boost
   if (isCollectibleBuilt({ name: "Flower Fox", game })) {
     seconds *= 0.9;
-    boostsUsed.push("Flower Fox");
+    boostsUsed.push({ name: "Flower Fox", value: "x0.9" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Blossom Hourglass");
+    boostsUsed.push({ name: "Blossom Hourglass", value: "x0.75" });
   }
 
   if (bumpkin.skills["Blooming Boost"]) {
     seconds *= 0.9;
-    boostsUsed.push("Blooming Boost");
+    boostsUsed.push({ name: "Blooming Boost", value: "x0.9" });
   }
 
   if (bumpkin.skills["Flower Power"]) {
     seconds *= 0.8;
-    boostsUsed.push("Flower Power");
+    boostsUsed.push({ name: "Flower Power", value: "x0.8" });
   }
 
   if (bumpkin.skills["Flowery Abode"]) {
     seconds *= 1.5;
-    boostsUsed.push("Flowery Abode");
+    boostsUsed.push({ name: "Flowery Abode", value: "x1.5" });
   }
 
   return { seconds, boostsUsed };

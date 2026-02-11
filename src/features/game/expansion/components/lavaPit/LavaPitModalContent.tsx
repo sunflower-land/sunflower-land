@@ -188,7 +188,6 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
                 show={showBoosts}
                 state={gameState}
                 onClick={() => setShowBoosts(!showBoosts)}
-                searchBoostInfo={{ boostType: "time" }}
               />
             </div>
           )}

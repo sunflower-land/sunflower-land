@@ -38,7 +38,7 @@ export function retryFish({
       game.fishing.wharf.freePuzzleAttemptUsed = true;
       game.boostsUsedAt = updateBoostUsed({
         game,
-        boostNames: ["Anemone Flower"],
+        boostNames: [{ name: "Anemone Flower", value: "Free" }],
         createdAt,
       });
     }

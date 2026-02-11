@@ -2,8 +2,6 @@ import mainnetBuds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
 import { BuffLabel } from ".";
-import type { Bud } from "./buds";
-import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 import { translate } from "lib/i18n/translate";
 
 import powerup from "assets/icons/level_up.png";
@@ -21,16 +19,13 @@ export const getBudTraits = (budId: number) => {
 };
 
 const getStemBoost = (stem: string) => {
-  const buffs: AdditionalBoostInfoBuffLabel[] = [];
+  const buffs: BuffLabel[] = [];
 
   if (stem === "3 Leaf Clover") {
     buffs.push({
       shortDescription: translate("budBuff.stem.3leafClover.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.5",
-      boostOn: "crops",
     });
   }
 
@@ -40,7 +35,6 @@ const getStemBoost = (stem: string) => {
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.fish,
-      boostType: "other",
     });
   }
 
@@ -49,8 +43,6 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.diamondGem.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -60,8 +52,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Gold.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -71,8 +61,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Iron.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -82,9 +70,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Carrot.image,
-      boostType: "yield",
-      boostValue: "+0.3",
-      boostOn: "crops",
     });
   }
 
@@ -94,9 +79,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Sunflower.image,
-      boostType: "yield",
-      boostValue: "+0.5",
-      boostOn: "crops",
     });
   }
 
@@ -105,9 +87,6 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.basicLeafHat.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
-      boostOn: "crops",
     });
   }
 
@@ -117,8 +96,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -128,8 +105,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.wild_mushroom,
-      boostType: "yield",
-      boostValue: "+0.3",
     });
   }
 
@@ -139,8 +114,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.magic_mushroom,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -150,8 +123,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Wood.image,
-      boostType: "yield",
-      boostValue: "+0.1",
     });
   }
 
@@ -160,9 +131,6 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.banana.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
-      boostOn: "fruits",
     });
   }
 
@@ -172,8 +140,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Wood.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -183,8 +149,6 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Egg.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -193,66 +157,20 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.appleHead.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
-      boostOn: "fruits",
     });
   }
 
   return buffs;
 };
 
-/** Numeric multiplier used in game logic (getBudYieldBoosts). Used to show effective % in modal. */
-const getAuraMultiplier = (aura: string): number => {
-  if (aura === "Basic") return 1.05;
-  if (aura === "Green") return 1.2;
-  if (aura === "Rare") return 2;
-  if (aura === "Mythical") return 5;
-  return 1;
-};
-
-/**
- * Apply aura multiplier to a boostValue string so the modal shows effective boost.
- * - x0.9-style time multipliers use: 1 - (1 - mult) * aura (e.g. x0.9 with aura 1.2 → x0.88).
- * - Other formats (+/-, %, plain decimals) are scaled by the aura multiplier unchanged.
- */
-const applyAuraToBoostValue = (
-  boostValue: string,
-  auraMultiplier: number,
-): string => {
-  if (auraMultiplier === 1) return boostValue;
-
-  const xMatch = boostValue.match(/^x(\d+(?:\.\d+)?)$/);
-  if (xMatch) {
-    const multiplier = Number(xMatch[1]);
-    const effective = 1 - (1 - multiplier) * auraMultiplier;
-    const clamped = Math.max(0.01, Math.min(1, effective));
-    return `x${clamped.toFixed(2)}`;
-  }
-
-  const match = boostValue.match(/^([+-]?)(\d+(?:\.\d+)?)(%?)$/);
-  if (!match) return boostValue;
-  const [, _sign, numStr, pct] = match;
-  const num = Number(numStr);
-  const isPercent = pct === "%";
-  const decimal = isPercent ? num / 100 : num;
-  const effective = decimal * auraMultiplier;
-  const signChar = effective >= 0 ? "+" : "";
-  return isPercent
-    ? `${signChar}${(effective * 100).toFixed(1)}%`
-    : `${signChar}${effective.toFixed(2)}`;
-};
-
 const getAuraBoost = (aura: string) => {
-  const buffs: AdditionalBoostInfoBuffLabel[] = [];
+  const buffs: BuffLabel[] = [];
 
   if (aura === "Basic") {
     buffs.push({
       shortDescription: translate("budBuff.aura.basic.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "other",
-      boostValue: "+5%",
     });
   }
 
@@ -261,8 +179,6 @@ const getAuraBoost = (aura: string) => {
       shortDescription: translate("budBuff.aura.green.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "other",
-      boostValue: "+20%",
     });
   }
 
@@ -271,8 +187,6 @@ const getAuraBoost = (aura: string) => {
       shortDescription: translate("budBuff.aura.rare.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "other",
-      boostValue: "+100%",
     });
   }
 
@@ -281,8 +195,6 @@ const getAuraBoost = (aura: string) => {
       shortDescription: translate("budBuff.aura.mythical.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "other",
-      boostValue: "+400%",
     });
   }
 
@@ -290,16 +202,13 @@ const getAuraBoost = (aura: string) => {
 };
 
 const getTypeBoost = (type: string) => {
-  const buffs: AdditionalBoostInfoBuffLabel[] = [];
+  const buffs: BuffLabel[] = [];
 
   if (type === "Plaza") {
     buffs.push({
       shortDescription: translate("budBuff.type.plaza.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.3",
-      boostOn: "crops",
     });
   }
 
@@ -309,8 +218,6 @@ const getTypeBoost = (type: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Wood.image,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -319,8 +226,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.cave.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -330,7 +235,6 @@ const getTypeBoost = (type: string) => {
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.fish,
-      boostType: "other",
     });
   }
 
@@ -339,9 +243,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.castle.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.3",
-      boostOn: "crops",
     });
   }
 
@@ -351,9 +252,6 @@ const getTypeBoost = (type: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
-      boostType: "xp",
-      boostValue: "+10%",
-      boostOn: "food",
     });
   }
 
@@ -362,8 +260,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.retreat.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
     });
   }
 
@@ -372,9 +268,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.saphiro.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "x0.9",
-      boostOn: "crops",
     });
   }
 
@@ -383,9 +276,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.snow.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.3",
-      boostOn: "crops",
     });
   }
 
@@ -394,9 +284,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.beach.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostType: "yield",
-      boostValue: "+0.2",
-      boostOn: "fruits",
     });
   }
 
@@ -408,8 +295,8 @@ const getTypeBoost = (type: string) => {
  * Uses budFromState when provided (player's actual traits) so aura percentage
  * is correct; otherwise falls back to mainnet bud data.
  */
-export const getBudBuffs = (budId: number, budFromState?: Bud): BuffLabel[] => {
-  const bud = budFromState ?? buds[budId];
+export const getBudBuffs = (budId: number): BuffLabel[] => {
+  const bud = buds[budId];
   if (!bud) {
     return [];
   }
@@ -420,16 +307,5 @@ export const getBudBuffs = (budId: number, budFromState?: Bud): BuffLabel[] => {
   const stemBuffs = getStemBoost(stem);
   const auraBuffs = getAuraBoost(aura);
 
-  const auraMultiplier = getAuraMultiplier(aura);
-  const applyAura = (buffs: AdditionalBoostInfoBuffLabel[]) =>
-    buffs.map((buff) =>
-      buff.boostValue
-        ? {
-            ...buff,
-            boostValue: applyAuraToBoostValue(buff.boostValue, auraMultiplier),
-          }
-        : buff,
-    );
-
-  return [...applyAura(typeBuffs), ...applyAura(stemBuffs), ...auraBuffs];
+  return [...typeBuffs, ...stemBuffs, ...auraBuffs];
 };

@@ -52,10 +52,10 @@ const getBoostedTime = ({
   counter: number;
 }): {
   boostedTime: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } => {
   let totalSeconds = GOLD_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isWearableActive({ name: "Pickaxe Shark", game }) &&
@@ -69,7 +69,7 @@ const getBoostedTime = ({
   ) {
     return {
       boostedTime: GOLD_RECOVERY_TIME * 1000,
-      boostsUsed: ["Pickaxe Shark"],
+      boostsUsed: [{ name: "Pickaxe Shark", value: "Instant" }],
     };
   }
 
@@ -84,33 +84,35 @@ const getBoostedTime = ({
 
   if (superTotemActive || timeWarpTotemActive) {
     totalSeconds = totalSeconds * 0.5;
-    if (superTotemActive) boostsUsed.push("Super Totem");
-    else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
+    if (superTotemActive)
+      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
+    else if (timeWarpTotemActive)
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push("Ore Hourglass");
+    boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isWearableActive({ name: "Pickaxe Shark", game })) {
     totalSeconds = totalSeconds * 0.85;
-    boostsUsed.push("Pickaxe Shark");
+    boostsUsed.push({ name: "Pickaxe Shark", value: "x0.85" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Mole Shrine");
+    boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
   if (game.bumpkin.skills["Midas Sprint"]) {
     totalSeconds = totalSeconds * 0.9;
-    boostsUsed.push("Midas Sprint");
+    boostsUsed.push({ name: "Midas Sprint", value: "x0.9" });
   }
 
   if (game.bumpkin.skills["Midas Rush"]) {
     totalSeconds = totalSeconds * 0.8;
-    boostsUsed.push("Midas Rush");
+    boostsUsed.push({ name: "Midas Rush", value: "x0.8" });
   }
 
   const buff = GOLD_RECOVERY_TIME - totalSeconds;
@@ -129,7 +131,7 @@ export function getMinedAt({
   counter,
 }: GetMinedAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const { boostedTime, boostsUsed } = getBoostedTime({
     game,
@@ -165,7 +167,11 @@ export function getGoldDropAmount({
   farmId: number;
   itemId: number;
   counter: number;
-}): { amount: Decimal; boostsUsed: BoostName[]; aoe: AOE } {
+}): {
+  amount: Decimal;
+  boostsUsed: { name: BoostName; value: string }[];
+  aoe: AOE;
+} {
   const {
     inventory,
     bumpkin: { skills },
@@ -175,15 +181,15 @@ export function getGoldDropAmount({
   const updatedAoe = cloneDeep(aoe);
 
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (inventory["Gold Rush"]) {
     amount += 0.5;
-    boostsUsed.push("Gold Rush");
+    boostsUsed.push({ name: "Gold Rush", value: "+0.5" });
   }
 
   if (skills["Golden Touch"]) {
     amount += 0.5;
-    boostsUsed.push("Golden Touch");
+    boostsUsed.push({ name: "Golden Touch", value: "+0.5" });
   }
 
   if (
@@ -196,21 +202,22 @@ export function getGoldDropAmount({
     })
   ) {
     amount += 1;
+    boostsUsed.push({ name: "Native", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Nugget", game })) {
     amount += 0.25;
-    boostsUsed.push("Nugget");
+    boostsUsed.push({ name: "Nugget", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Gilded Swordfish", game })) {
     amount += 0.1;
-    boostsUsed.push("Gilded Swordfish");
+    boostsUsed.push({ name: "Gilded Swordfish", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Gold Beetle", game })) {
     amount += 0.1;
-    boostsUsed.push("Gold Beetle");
+    boostsUsed.push({ name: "Gold Beetle", value: "+0.1" });
   }
 
   if (
@@ -254,7 +261,7 @@ export function getGoldDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
-      boostsUsed.push("Emerald Turtle");
+      boostsUsed.push({ name: "Emerald Turtle", value: "+0.5" });
     }
   }
 
@@ -268,24 +275,31 @@ export function getGoldDropAmount({
     })
   ) {
     amount += 0.25;
-    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
+    boostsUsed.push({
+      name: FACTION_ITEMS[factionName].secondaryTool,
+      value: "+0.25",
+    });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Gold");
   amount += yieldBoost;
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (game.island.type === "volcano") {
     amount += 0.1;
+    boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
   const multiplier = rock.multiplier ?? 1;
   amount *= multiplier;
   if (rock.tier === 2) {
     amount += 0.5;
+    boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
   if (rock.tier === 3) {
     amount += 2.5;
+    boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
 
   return {

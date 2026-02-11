@@ -108,12 +108,11 @@ interface RequirementsProps {
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
-  xpBoostsUsed?: BoostName[];
+  xpBoostsUsed?: { name: BoostName; value: string }[];
   baseXp?: number;
   timeSeconds?: number;
   baseTimeSeconds?: number;
-  timeBoostsUsed?: BoostName[];
-  timeBoostOil?: { label: string; percent: number };
+  timeBoostsUsed?: { name: BoostName; value: string }[];
   level?: number;
 }
 
@@ -478,7 +477,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                       show={showBoosts}
                       state={gameState}
                       onClick={() => setShowBoosts(!showBoosts)}
-                      searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
                     />
                   </div>
                 );
@@ -497,11 +495,10 @@ export const CraftingRequirements: React.FC<Props> = ({
             (() => {
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
-              const timeBoostOil = requirements.timeBoostOil;
               const isTimeBoosted =
                 baseTimeSeconds != null &&
                 requirements.timeSeconds < baseTimeSeconds &&
-                (!!(timeBoostsUsed?.length ?? 0) || !!timeBoostOil);
+                !!(timeBoostsUsed?.length ?? 0);
 
               if (
                 isTimeBoosted &&
@@ -529,12 +526,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                         show={showTimeBoosts}
                         state={gameState}
                         onClick={() => setShowTimeBoosts((prev) => !prev)}
-                        searchBoostInfo={{ boostType: "time" }}
-                        leadingRow={
-                          timeBoostOil
-                            ? { label: timeBoostOil.label }
-                            : undefined
-                        }
                       />
                     )}
                   </div>

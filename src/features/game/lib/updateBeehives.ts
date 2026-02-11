@@ -28,34 +28,34 @@ import { updateBoostUsed } from "../types/updateBoostUsed";
 
 const getHoneyProductionRate = (
   game: GameState,
-): { rate: number; boostsUsed: BoostName[] } => {
+): { rate: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
   let rate = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
     rate += 1;
-    boostsUsed.push("Queen Bee");
+    boostsUsed.push({ name: "Queen Bee", value: "+1" });
   }
 
   if (isWearableActive({ name: "Beekeeper Hat", game })) {
     rate += 0.2;
-    boostsUsed.push("Beekeeper Hat");
+    boostsUsed.push({ name: "Beekeeper Hat", value: "+0.2" });
   }
 
   if (bumpkin.skills["Hyper Bees"]) {
     rate += 0.1;
-    boostsUsed.push("Hyper Bees");
+    boostsUsed.push({ name: "Hyper Bees", value: "+0.1" });
   }
 
   if (bumpkin.skills["Flowery Abode"]) {
     rate += 0.5;
-    boostsUsed.push("Flowery Abode");
+    boostsUsed.push({ name: "Flowery Abode", value: "+0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
     rate += 0.5;
-    boostsUsed.push("Bear Shrine");
+    boostsUsed.push({ name: "Bear Shrine", value: "+0.5" });
   }
 
   return { rate, boostsUsed };
@@ -326,7 +326,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     return beehives;
   }
 
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   let flowerDetails = calculateFlowerDetails({
     beehives: activeBeehives,

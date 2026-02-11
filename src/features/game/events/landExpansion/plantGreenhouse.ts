@@ -86,7 +86,7 @@ type GetPlantedAtArgs = {
 
 function getPlantedAt({ crop, game, createdAt, prngArgs }: GetPlantedAtArgs): {
   plantedAt: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   if (!crop) return { plantedAt: 0, boostsUsed: [] };
 
@@ -111,9 +111,9 @@ export const getGreenhouseCropTime = ({
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   prngArgs?: { farmId: number; counter: number };
-}): { seconds: number; boostsUsed: BoostName[] } => {
+}): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (isGreenhouseCrop(crop)) {
     const { multiplier: baseMultiplier, boostsUsed: cropBoostsUsed } =
       getCropTime({
@@ -132,35 +132,35 @@ export const getGreenhouseCropTime = ({
 
   if (isCollectibleBuilt({ name: "Turbo Sprout", game })) {
     seconds *= 0.5;
-    boostsUsed.push("Turbo Sprout");
+    boostsUsed.push({ name: "Turbo Sprout", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })) {
     seconds *= 2 / 3; // -33% growth time
-    boostsUsed.push("Tortoise Shrine");
+    boostsUsed.push({ name: "Tortoise Shrine", value: "x0.67" });
   }
 
   if (game.bumpkin.skills["Rice and Shine"]) {
     seconds *= 0.95;
-    boostsUsed.push("Rice and Shine");
+    boostsUsed.push({ name: "Rice and Shine", value: "x0.95" });
   }
 
   // Olive Express: 10% reduction
   if (crop === "Olive" && game.bumpkin.skills["Olive Express"]) {
     seconds *= 0.9;
-    boostsUsed.push("Olive Express");
+    boostsUsed.push({ name: "Olive Express", value: "x0.9" });
   }
 
   // Rice Rocket: 10% reduction
   if (crop === "Rice" && game.bumpkin.skills["Rice Rocket"]) {
     seconds *= 0.9;
-    boostsUsed.push("Rice Rocket");
+    boostsUsed.push({ name: "Rice Rocket", value: "x0.9" });
   }
 
   // Vine Velocity: 10% reduction
   if (crop === "Grape" && game.bumpkin.skills["Vine Velocity"]) {
     seconds *= 0.9;
-    boostsUsed.push("Vine Velocity");
+    boostsUsed.push({ name: "Vine Velocity", value: "x0.9" });
   }
 
   return { seconds, boostsUsed };
@@ -172,18 +172,18 @@ export function getOilUsage({
 }: {
   seed: GreenhouseSeed;
   game: GameState;
-}): { usage: number; boostsUsed: BoostName[] } {
+}): { usage: number; boostsUsed: { name: BoostName; value: string }[] } {
   let usage = OIL_USAGE[seed];
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (game.bumpkin.skills["Greasy Plants"]) {
     usage *= 2;
-    boostsUsed.push("Greasy Plants");
+    boostsUsed.push({ name: "Greasy Plants", value: "x2" });
   }
 
   if (game.bumpkin.skills["Slick Saver"]) {
     usage -= 1;
-    boostsUsed.push("Slick Saver");
+    boostsUsed.push({ name: "Slick Saver", value: "-1" });
   }
 
   return { usage, boostsUsed };
@@ -191,14 +191,14 @@ export function getOilUsage({
 
 function getGreenhouseSeedUsage({ game }: { game: GameState }): {
   seedCost: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   let seed = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (game.bumpkin.skills["Seeded Bounty"]) {
     seed += 1;
-    boostsUsed.push("Seeded Bounty");
+    boostsUsed.push({ name: "Seeded Bounty", value: "+1" });
   }
 
   return { seedCost: seed, boostsUsed };

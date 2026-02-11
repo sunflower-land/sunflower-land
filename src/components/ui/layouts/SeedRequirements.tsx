@@ -19,15 +19,7 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import {
-  isCropSeed,
-  isFlowerSeed,
-  isGreenhouseSeed,
-  isPatchFruitSeed,
-  Seed,
-  SeedName,
-  SEEDS,
-} from "features/game/types/seeds";
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 import {
   CropName,
   CropSeedName,
@@ -40,7 +32,6 @@ import {
   calculateCropTime,
   CROP_MACHINE_PLOTS,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { AdditionalBoostInfo } from "features/game/types/collectibleItemBuffs";
 
 /**
  * The props for the details for items.
@@ -88,7 +79,7 @@ interface RequirementsProps {
   coins?: number;
   showCoinsIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
-  time?: { seconds: number; boostsUsed: BoostName[] };
+  time?: { seconds: number; boostsUsed: { name: BoostName; value: string }[] };
   baseTimeSeconds?: number;
   level?: number;
   restriction?: {
@@ -205,11 +196,6 @@ export const SeedRequirements: React.FC<Props> = ({
   const isSeedCropMachine = (seed: SeedName): seed is CropSeedName =>
     !!details.cropMachineSeeds?.includes(seed);
 
-  const isSeedGreenhouse = isGreenhouseSeed(details.item);
-  const isSeedFlower = isFlowerSeed(details.item);
-  const isSeedPatchFruit = isPatchFruitSeed(details.item);
-  const isSeedCrop = isCropSeed(details.item);
-
   const isCropMachineSeed = isSeedCropMachine(details.item);
 
   const getItemDetail = () => {
@@ -308,19 +294,10 @@ export const SeedRequirements: React.FC<Props> = ({
               show={showBoosts}
               state={gameState}
               onClick={() => setShowBoosts(!showBoosts)}
-              searchBoostInfo={{ boostType: "time", boostOn: ["crop machine"] }}
             />
           </div>
         );
       }
-      const getBoostOn = (): AdditionalBoostInfo["boostOn"][] => {
-        if (isSeedCrop) return ["crops"];
-        if (isSeedFlower) return ["flowers"];
-        if (isSeedPatchFruit) return ["fruits"];
-        if (isSeedGreenhouse) return ["crops", "greenhouse"];
-        return [];
-      };
-      const boostOn = getBoostOn();
 
       return (
         <div
@@ -342,7 +319,6 @@ export const SeedRequirements: React.FC<Props> = ({
             show={showBoosts}
             state={gameState}
             onClick={() => setShowBoosts(!showBoosts)}
-            searchBoostInfo={{ boostType: "time", boostOn }}
           />
         </div>
       );

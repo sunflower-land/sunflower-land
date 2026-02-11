@@ -76,7 +76,7 @@ export const getLavaPitRequirements = (
   createdAt: number,
 ): {
   requirements: Inventory;
-  boostUsed: BoostName[];
+  boostUsed: { name: BoostName; value: string }[];
 } => {
   const season = game.season.season;
 
@@ -89,11 +89,11 @@ export const getLavaPitRequirements = (
   const baseRequirements: Inventory = requirementsMap[season];
 
   let requirementsMultiplier = 1;
-  const boostUsed: BoostName[] = [];
+  const boostUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ game, name: "Lava Swimwear" })) {
     requirementsMultiplier *= 0.5;
-    boostUsed.push("Lava Swimwear");
+    boostUsed.push({ name: "Lava Swimwear", value: "x0.5" });
   }
 
   const requirements = getObjectEntries(baseRequirements).reduce(
@@ -116,16 +116,16 @@ export const LAVA_PIT_TIME = 72 * 60 * 60 * 1000;
 
 export function getLavaPitTime({ game }: { game: GameState }) {
   let time = LAVA_PIT_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Obsidian Necklace", game })) {
     time = time * 0.5;
-    boostsUsed.push("Obsidian Necklace");
+    boostsUsed.push({ name: "Obsidian Necklace", value: "x0.5" });
   }
 
   if (isCollectibleBuilt({ name: "Magma Stone", game })) {
     time = time * 0.85;
-    boostsUsed.push("Magma Stone");
+    boostsUsed.push({ name: "Magma Stone", value: "x0.85" });
   }
 
   return { time, boostsUsed };

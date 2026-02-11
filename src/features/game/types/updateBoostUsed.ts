@@ -6,7 +6,7 @@ export function updateBoostUsed({
   createdAt = Date.now(),
 }: {
   game: GameState;
-  boostNames: BoostName[];
+  boostNames: { name: BoostName; value: string }[];
   createdAt: number;
 }): BoostUsedAt {
   const { boostsUsedAt = {} } = game;
@@ -15,7 +15,8 @@ export function updateBoostUsed({
 
   return boostNames.reduce<BoostUsedAt>(
     (acc, boostName) => {
-      acc[boostName] = createdAt;
+      const { name } = boostName;
+      acc[name] = createdAt;
       return acc;
     },
     { ...boostsUsedAt },

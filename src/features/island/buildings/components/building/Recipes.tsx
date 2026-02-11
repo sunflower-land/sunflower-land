@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -19,19 +13,13 @@ import {
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
-import {
-  getCookingTime,
-  getFoodExpBoost,
-} from "features/game/expansion/lib/boosts";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  BUILDING_OIL_BOOSTS,
-  getCookingOilBoost,
   getCookingRequirements,
-  getOilConsumption,
-  isCookingBuilding,
+  getReadyAt,
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import { CookingBuildingName } from "features/game/types/buildings";
@@ -47,7 +35,6 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
-import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   selected: Cookable;
@@ -125,53 +112,17 @@ export const Recipes: React.FC<Props> = ({
     return lastRecipeInQueueReadyAt;
   };
 
-  const oilBoostResult = getCookingOilBoost(selected.name, state, buildingId);
-  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } =
-    getCookingTime({
-      seconds: oilBoostResult.timeToCook,
-      item: selected.name,
-      game: state,
-      cookStartAt: getNewRecipeStartAt(),
-    });
+  const recipeStartAt = getNewRecipeStartAt() ?? now;
+  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } = getReadyAt({
+    buildingId: buildingId ?? "",
+    item: selected.name,
+    createdAt: recipeStartAt,
+    game: state,
+  });
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
-  const buildingOil =
-    state.buildings?.[buildingName]?.find((b) => b.id === buildingId)?.oil ?? 0;
-  const oilBoostValue = isCookingBuilding(buildingName)
-    ? (BUILDING_OIL_BOOSTS(state.bumpkin?.skills ?? {})[buildingName] ?? 0)
-    : 0;
-
-  const timeBoostOil = useMemo(() => {
-    if (!isCookingBuilding(buildingName) || !buildingId) return undefined;
-    const oilRemaining = buildingOil;
-    if (oilRemaining <= 0) return undefined;
-    const itemOilConsumption = getOilConsumption(buildingName, selected.name);
-    const boostValue = oilBoostValue;
-    if (oilRemaining >= itemOilConsumption) {
-      return {
-        label: t("boost.buildingOil", {
-          percent: setPrecision(1 - boostValue, 2),
-        }),
-        percent: boostValue * 100,
-      };
-    }
-    const effectiveBoostValue =
-      (oilRemaining / itemOilConsumption) * boostValue;
-    return {
-      label: t("boost.buildingOil", {
-        percent: setPrecision(1 - effectiveBoostValue, 2),
-      }),
-      percent: effectiveBoostValue * 100,
-    };
-  }, [buildingName, buildingId, buildingOil, selected.name, oilBoostValue, t]);
-
-  const cook = () => {
-    onCook(selected.name);
-    if (buildingName === "Fire Pit" || cookingTime < 60) {
-      gameService.send("SAVE");
-    }
-  };
+  const cook = () => onCook(selected.name);
 
   const collect = () => {
     gameService.send("recipes.collected", {
@@ -231,7 +182,6 @@ export const Recipes: React.FC<Props> = ({
                 timeSeconds: cookingTime,
                 baseTimeSeconds,
                 timeBoostsUsed,
-                ...(timeBoostOil && { timeBoostOil }),
               }}
               showBoosts={showBoosts}
               setShowBoosts={setShowBoosts}

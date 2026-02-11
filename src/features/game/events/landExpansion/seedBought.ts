@@ -31,20 +31,20 @@ export function getBuyPrice(
   name: SeedName,
   seed: { price: number },
   game: GameState,
-): { price: number; boostsUsed: BoostName[] } {
-  const boostsUsed: BoostName[] = [];
+): { price: number; boostsUsed: { name: BoostName; value: string }[] } {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const { inventory, bumpkin } = game;
 
   if (isCollectibleBuilt({ name: "Kuebiko", game })) {
-    boostsUsed.push("Kuebiko");
+    boostsUsed.push({ name: "Kuebiko", value: "Free" });
     return { price: 0, boostsUsed };
   }
   if (
     name in FLOWER_SEEDS &&
     isCollectibleBuilt({ name: "Hungry Caterpillar", game })
   ) {
-    boostsUsed.push("Hungry Caterpillar");
+    boostsUsed.push({ name: "Hungry Caterpillar", value: "Free" });
     return { price: 0, boostsUsed };
   }
 
@@ -52,7 +52,7 @@ export function getBuyPrice(
     isWearableActive({ name: "Sunflower Shield", game }) &&
     name === "Sunflower Seed"
   ) {
-    boostsUsed.push("Sunflower Shield");
+    boostsUsed.push({ name: "Sunflower Shield", value: "Free" });
     return { price: 0, boostsUsed };
   }
 
@@ -63,24 +63,24 @@ export function getBuyPrice(
     name === "Onion Seed" &&
     isWearableActive({ name: "Ladybug Suit", game })
   ) {
-    boostsUsed.push("Ladybug Suit");
+    boostsUsed.push({ name: "Ladybug Suit", value: "x0.75" });
     price = price * 0.75;
   }
 
   //LEGACY SKILL Contributor Artist Skill
 
   if (price && inventory.Artist?.gte(1)) {
-    boostsUsed.push("Artist");
+    boostsUsed.push({ name: "Artist", value: "x0.9" });
     price = price * 0.9;
   }
 
   if (name in FLOWER_SEEDS && bumpkin.skills["Flower Sale"]) {
-    boostsUsed.push("Flower Sale");
+    boostsUsed.push({ name: "Flower Sale", value: "x0.8" });
     price = price * 0.8;
   }
 
   if (isPatchFruitSeed(name) && bumpkin.skills["Fruity Heaven"]) {
-    boostsUsed.push("Fruity Heaven");
+    boostsUsed.push({ name: "Fruity Heaven", value: "x0.9" });
     price = price * 0.9;
   }
 
@@ -88,7 +88,7 @@ export function getBuyPrice(
     name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS } &&
     bumpkin.skills["Seedy Business"]
   ) {
-    boostsUsed.push("Seedy Business");
+    boostsUsed.push({ name: "Seedy Business", value: "x0.85" });
     price = price * 0.85;
   }
 

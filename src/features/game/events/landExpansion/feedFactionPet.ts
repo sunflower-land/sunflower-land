@@ -25,7 +25,11 @@ const isPawShieldActive = (game: GameState) =>
 export const getKingdomPetBoost = (
   game: GameState,
   marks: number,
-): [number, Partial<Record<BoostType, BoostValue>>, BoostName[]] => {
+): [
+  number,
+  Partial<Record<BoostType, BoostValue>>,
+  { name: BoostName; value: string }[],
+] => {
   const [wearablesBoost, wearablesLabels] = getFactionWearableBoostAmount(
     game,
     marks,
@@ -38,11 +42,11 @@ export const getKingdomPetBoost = (
   };
 
   let pawShieldBoost = 0;
-  const boostUsed: BoostName[] = [];
+  const boostUsed: { name: BoostName; value: string }[] = [];
   if (isPawShieldActive(game)) {
     pawShieldBoost = marks * 0.25;
     boosts["Paw Shield"] = `+${0.25 * 100}%`;
-    boostUsed.push("Paw Shield");
+    boostUsed.push({ name: "Paw Shield", value: "+25%" });
   }
 
   return [wearablesBoost + rankBoost + pawShieldBoost, boosts, boostUsed];

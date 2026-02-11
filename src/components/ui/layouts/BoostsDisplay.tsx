@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { KNOWN_IDS, BuffLabel } from "features/game/types";
+import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
   BumpkinRevampSkillName,
@@ -8,50 +8,27 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { BoostName, InventoryItemName } from "features/game/types/game";
 import { GameState } from "features/game/types/game";
-import { getItemBuffs } from "features/game/types/getItemBuffs";
-import { LEGACY_BADGE_TREE, LegacyBadgeName } from "features/game/types/skills";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { Label } from "../Label";
-import { translate } from "lib/i18n/translate";
 import {
   CALENDAR_EVENT_ICONS,
-  getActiveGuardian,
+  SeasonalEventName,
 } from "features/game/types/calendar";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
-import { AdditionalBoostInfoBuffLabel } from "features/game/types/collectibleItemBuffs";
-import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
+import { startCase } from "lodash";
+import { BudNFTName } from "features/game/types/marketplace";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export const BoostsDisplay: React.FC<{
-  boosts: BoostName[];
+  boosts: { name: BoostName; value: string }[];
   show: boolean;
   state: GameState;
   onClick: () => void;
-  searchBoostInfo: {
-    boostType: "time" | "yield" | "other" | "xp";
-    boostOn?: (
-      | "crops"
-      | "flowers"
-      | "fruits"
-      | "greenhouse"
-      | "crop machine"
-      | "food"
-      | undefined
-    )[];
-  };
-  /** Optional row rendered inside the panel before the boost list (e.g. building oil) */
-  leadingRow?: { label: string };
-}> = ({
-  boosts,
-  show,
-  state,
-  onClick,
-  searchBoostInfo: { boostType, boostOn },
-  leadingRow,
-}) => {
+}> = ({ boosts, show, state, onClick }) => {
   const { t } = useAppTranslation();
   const isBumpkinSkill = (
     boost: BoostName,
@@ -65,138 +42,29 @@ export const BoostsDisplay: React.FC<{
   const isWearable = (boost: BoostName): boost is BumpkinItem => {
     return boost in ITEM_IDS;
   };
+  const isBud = (boost: BoostName): boost is BudNFTName => {
+    return boost.startsWith("Bud #");
+  };
+  const isCalendarEvent = (boost: BoostName): boost is SeasonalEventName => {
+    return boost in CALENDAR_EVENT_ICONS;
+  };
 
-  const buffs: (AdditionalBoostInfoBuffLabel & { boost: BoostName })[] =
-    boosts.flatMap(
-      (boost): (AdditionalBoostInfoBuffLabel & { boost: BoostName })[] => {
-        if (boost === "Power hour") {
-          return [
-            {
-              shortDescription: translate("description.powerHour.boost"),
-              labelType: "info",
-              boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-              boost,
-              boostType: "time",
-              boostValue: "-50%",
-              boostOn: "crops",
-            },
-          ];
-        }
-
-        if (boost === "Sunshower") {
-          const { activeGuardian } = getActiveGuardian({
-            game: state,
-          });
-
-          if (activeGuardian && boosts.includes(activeGuardian)) {
-            return [
-              {
-                shortDescription: translate(
-                  "description.sunshower.guardianBoost",
-                  {
-                    guardian: activeGuardian,
-                  },
-                ),
-                labelType: "success",
-                boostTypeIcon: SUNNYSIDE.icons.lightning,
-                boost,
-                boostType: "time",
-                boostValue: "-75%",
-                boostOn: "crops",
-              },
-            ];
-          }
-
-          return [
-            {
-              shortDescription: translate("description.sunshower.boost"),
-              labelType: "success",
-              boostTypeIcon: SUNNYSIDE.icons.lightning,
-              boost,
-              boostType: "time",
-              boostValue: "-50%",
-              boostOn: "crops",
-            },
-          ];
-        }
-
-        if (boost === "VIP Access") {
-          return [
-            {
-              shortDescription: translate("description.vipAccess.foodXpBoost"),
-              labelType: "success",
-              boostTypeIcon: SUNNYSIDE.icons.lightning,
-              boost,
-              boostType: "xp",
-              boostValue: "+10%",
-              boostOn: "food",
-            },
-          ];
-        }
-
-        if (boost === "Faction Pet") {
-          const multiplier = getFactionPetBoostMultiplier(state);
-          const percent = Math.round((multiplier - 1) * 100);
-          return [
-            {
-              shortDescription: translate("description.factionPet.foodXpBoost"),
-              labelType: "success",
-              boostTypeIcon: SUNNYSIDE.icons.lightning,
-              boost,
-              boostType: "xp",
-              boostValue: `+${percent}%`,
-              boostOn: "food",
-            },
-          ];
-        }
-
-        if (isBumpkinSkill(boost)) {
-          return [
-            {
-              ...BUMPKIN_REVAMP_SKILL_TREE[boost].boosts.buff,
-              boost,
-            },
-          ];
-        }
-
-        if (boost in LEGACY_BADGE_TREE) {
-          return (
-            (LEGACY_BADGE_TREE[boost as LegacyBadgeName].buff ??
-              []) as BuffLabel[]
-          ).map((buff) => ({
-            ...buff,
-            boost,
-          }));
-        }
-
-        const collection = isCollectible(boost)
-          ? "collectibles"
-          : isWearable(boost)
-            ? "wearables"
-            : "buds";
-
-        return getItemBuffs({
-          state,
-          item: boost,
-          collection,
-        }).map((buff) => ({
-          ...buff,
-          boost,
-        }));
-      },
-    );
+  const getBoostLabel = (name: BoostName): string => {
+    if (isCalendarEvent(name)) {
+      const key: TranslationKeys = `calendar.events.${name}.title`;
+      const translated = t(key);
+      return translated !== key ? translated : startCase(name);
+    }
+    return startCase(name);
+  };
 
   const getBoostIcon = (boost: BoostName) => {
-    if (boost === "Power hour") {
-      return SUNNYSIDE.icons.lightning;
+    if (boost === "Building Oil") {
+      return SUNNYSIDE.icons.stopwatch;
     }
 
-    if (boost === "Sunshower") {
-      return CALENDAR_EVENT_ICONS.sunshower;
-    }
-
-    if (boost === "VIP Access" || boost === "Faction Pet") {
-      return SUNNYSIDE.icons.lightning;
+    if (isCalendarEvent(boost)) {
+      return CALENDAR_EVENT_ICONS[boost];
     }
 
     if (isBumpkinSkill(boost)) {
@@ -227,10 +95,12 @@ export const BoostsDisplay: React.FC<{
       }).image;
     }
 
-    const budId = Number(boost.split("#")[1]);
-    if (isNaN(budId)) return undefined;
+    if (isBud(boost)) {
+      const budId = Number(boost.split("#")[1]);
+      return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
+    }
 
-    return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
+    return SUNNYSIDE.icons.lightning;
   };
 
   return (
@@ -248,34 +118,16 @@ export const BoostsDisplay: React.FC<{
           </span>
         </div>
         <div className="flex flex-col gap-3">
-          {leadingRow && (
+          {boosts.map((buff, index) => (
             <Label
+              key={`${buff.name}-${buff.value}-${index}`}
               type="transparent"
-              icon={SUNNYSIDE.icons.stopwatch}
+              icon={getBoostIcon(buff.name)}
               className="ml-3"
             >
-              {leadingRow.label}
+              {`${buff.value} ${getBoostLabel(buff.name)}`}
             </Label>
-          )}
-          {buffs
-            .filter((buff) => {
-              const matchesBoostOn = boostOn
-                ? boostOn.includes(buff.boostOn)
-                : true;
-              return buff.boostType === boostType && matchesBoostOn;
-            })
-            .map((buff) => (
-              <Label
-                key={`${buff.boost}-${buff.shortDescription}`}
-                type="transparent"
-                icon={getBoostIcon(buff.boost)}
-                className="ml-3"
-              >
-                {buff.boostValue
-                  ? `${buff.boostValue} ${buff.boost}`
-                  : buff.shortDescription}
-              </Label>
-            ))}
+          ))}
         </div>
       </div>
     </AnimatedPanel>

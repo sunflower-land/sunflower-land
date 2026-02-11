@@ -60,14 +60,14 @@ export function getFetchYield({
   state: GameState;
 }) {
   let yieldAmount = 1;
-  const boostUsed: BoostName[] = [];
+  const boostUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isWearableActive({ game: state, name: "Squirrel Onesie" }) &&
     fetchResource === "Acorn"
   ) {
     yieldAmount += 1;
-    boostUsed.push("Squirrel Onesie");
+    boostUsed.push({ name: "Squirrel Onesie", value: "+1" });
   }
 
   if (
@@ -82,7 +82,7 @@ export function getFetchYield({
     })
   ) {
     yieldAmount += 1;
-    boostUsed.push("Oaken");
+    boostUsed.push({ name: "Oaken", value: "+1" });
   }
 
   const fetchPercentage = getFetchPercentage({
@@ -101,6 +101,7 @@ export function getFetchYield({
     })
   ) {
     yieldAmount += 1;
+    boostUsed.push({ name: "Native", value: "+1" });
   }
 
   if (petLevel >= 18 && fetchResource === "Acorn") {

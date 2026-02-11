@@ -278,8 +278,11 @@ export function getRewardsForStreak({
   streak: number;
   currentDate: string;
   now: number;
-}): { rewards: DailyRewardDefinition[]; boosts: BoostName[] } {
-  const boosts: BoostName[] = [];
+}): {
+  rewards: DailyRewardDefinition[];
+  boosts: { name: BoostName; value: string }[];
+} {
+  const boosts: { name: BoostName; value: string }[] = [];
   const defaultReward: DailyRewardDefinition = {
     id: "default-reward",
     label: "Default Reward",
@@ -301,7 +304,7 @@ export function getRewardsForStreak({
       ...defaultReward.items,
       Cheer: (defaultReward.items?.Cheer ?? 0) + 2,
     };
-    boosts.push("Giant Gold Bone");
+    boosts.push({ name: "Giant Gold Bone", value: "+2" });
   }
 
   const currentChapter = getCurrentChapter(now);

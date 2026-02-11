@@ -71,12 +71,12 @@ export function getWoodDropAmount({
   itemId: number;
   counter: number;
   tree: Tree | undefined;
-}): { amount: Decimal; boostsUsed: BoostName[] } {
+}): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   const { bumpkin, inventory } = game;
 
   const multiplier = tree?.multiplier ?? 1;
   let amount = new Decimal(1);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const getPrngChance = (chance: number, criticalHitName: CriticalHitName) =>
     prngChance({
@@ -105,45 +105,48 @@ export function getWoodDropAmount({
 
   if (hasBeaverReady) {
     amount = amount.mul(1.2);
-    if (hasForemanBeaver) boostsUsed.push("Foreman Beaver");
-    else if (hasApprenticeBeaver) boostsUsed.push("Apprentice Beaver");
-    else if (hasWoodyTheBeaver) boostsUsed.push("Woody the Beaver");
+    if (hasForemanBeaver)
+      boostsUsed.push({ name: "Foreman Beaver", value: "x1.2" });
+    else if (hasApprenticeBeaver)
+      boostsUsed.push({ name: "Apprentice Beaver", value: "x1.2" });
+    else if (hasWoodyTheBeaver)
+      boostsUsed.push({ name: "Woody the Beaver", value: "x1.2" });
   }
 
   if (inventory["Discord Mod"]) {
     amount = amount.mul(1.35);
-    boostsUsed.push("Discord Mod");
+    boostsUsed.push({ name: "Discord Mod", value: "x1.35" });
   }
 
   if (inventory.Lumberjack) {
     amount = amount.mul(1.1);
-    boostsUsed.push("Lumberjack");
+    boostsUsed.push({ name: "Lumberjack", value: "x1.1" });
   }
 
   if (bumpkin.skills["Tough Tree"] && getPrngChance(10, "Tough Tree")) {
     amount = amount.mul(3);
-    boostsUsed.push("Tough Tree");
+    boostsUsed.push({ name: "Tough Tree", value: "x3" });
   }
 
   if (bumpkin.skills["Lumberjack's Extra"]) {
     amount = amount.add(0.1);
-    boostsUsed.push("Lumberjack's Extra");
+    boostsUsed.push({ name: "Lumberjack's Extra", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Wood Nymph Wendy", game })) {
     amount = amount.add(0.2);
-    boostsUsed.push("Wood Nymph Wendy");
+    boostsUsed.push({ name: "Wood Nymph Wendy", value: "+0.2" });
   }
 
   //If Tiki Totem: bonus 0.1
   if (isCollectibleBuilt({ name: "Tiki Totem", game })) {
     amount = amount.add(0.1);
-    boostsUsed.push("Tiki Totem");
+    boostsUsed.push({ name: "Tiki Totem", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Squirrel", game })) {
     amount = amount.add(0.1);
-    boostsUsed.push("Squirrel");
+    boostsUsed.push({ name: "Squirrel", value: "+0.1" });
   }
 
   // Apply the faction shield boost if in the right faction
@@ -156,31 +159,38 @@ export function getWoodDropAmount({
     })
   ) {
     amount = amount.add(0.25);
-    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
+    boostsUsed.push({
+      name: FACTION_ITEMS[factionName].secondaryTool,
+      value: "+0.25",
+    });
   }
 
   // Native 1 in 5 chance of getting 1 extra wood
   if (getPrngChance(20, "Native")) {
     amount = amount.add(1);
+    boostsUsed.push({ name: "Native", value: "+1" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     amount = amount.add(1);
-    boostsUsed.push("Legendary Shrine");
+    boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Wood");
   amount = amount.add(yieldBoost);
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   amount = amount.mul(multiplier);
 
   if (tree?.tier === 2) {
     amount = amount.add(0.5);
+    boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
 
   if (tree?.tier === 3) {
     amount = amount.add(2.5);
+    boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
 
   return { amount: amount.toDecimalPlaces(4), boostsUsed };
@@ -197,11 +207,11 @@ export function getChoppedAt({
   counter,
 }: GetChoppedAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const { bumpkin } = game;
   let totalSeconds = TREE_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // If Tree Turnaround skill and instant growth
   if (
@@ -214,7 +224,7 @@ export function getChoppedAt({
       criticalHitName: "Tree Turnaround",
     })
   ) {
-    boostsUsed.push("Tree Turnaround");
+    boostsUsed.push({ name: "Tree Turnaround", value: "Instant" });
     return {
       time: createdAt - TREE_RECOVERY_TIME * 1000,
       boostsUsed,
@@ -234,12 +244,14 @@ export function getChoppedAt({
 
   if (hasBeaverReady) {
     totalSeconds = totalSeconds * 0.5;
-    if (hasForemanBeaver) boostsUsed.push("Foreman Beaver");
-    else if (hasApprenticeBeaver) boostsUsed.push("Apprentice Beaver");
+    if (hasForemanBeaver)
+      boostsUsed.push({ name: "Foreman Beaver", value: "x0.5" });
+    else if (hasApprenticeBeaver)
+      boostsUsed.push({ name: "Apprentice Beaver", value: "x0.5" });
   }
 
   if (bumpkin.skills["Tree Charge"]) {
-    boostsUsed.push("Tree Charge");
+    boostsUsed.push({ name: "Tree Charge", value: "x0.9" });
     totalSeconds = totalSeconds * 0.9;
   }
 
@@ -256,18 +268,19 @@ export function getChoppedAt({
 
   if (hasSuperTotemOrTimeWarpTotem) {
     totalSeconds = totalSeconds * 0.5;
-    if (hasSuperTotem) boostsUsed.push("Super Totem");
-    else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
+    if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
+    else if (hasTimeWarpTotem)
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Timber Hourglass", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Timber Hourglass");
+    boostsUsed.push({ name: "Timber Hourglass", value: "x0.75" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Badger Shrine");
+    boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
   const buff = TREE_RECOVERY_TIME - totalSeconds;
@@ -288,7 +301,10 @@ export function getReward({
   farmId: number;
   itemId: number;
   counter: number;
-}): { reward: Reward | undefined; boostsUsed: BoostName[] } {
+}): {
+  reward: Reward | undefined;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   if (
     skills["Money Tree"] &&
     prngChance({
@@ -299,7 +315,10 @@ export function getReward({
       criticalHitName: "Money Tree",
     })
   ) {
-    return { reward: { coins: 200 }, boostsUsed: ["Money Tree"] };
+    return {
+      reward: { coins: 200 },
+      boostsUsed: [{ name: "Money Tree", value: "200" }],
+    };
   }
 
   return { reward: undefined, boostsUsed: [] };
@@ -313,16 +332,16 @@ export function getRequiredAxeAmount(
   gameState: GameState,
   id: string,
 ) {
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (isCollectibleBuilt({ name: "Foreman Beaver", game: gameState })) {
-    boostsUsed.push("Foreman Beaver");
+    boostsUsed.push({ name: "Foreman Beaver", value: "Free" });
     return { amount: new Decimal(0), boostsUsed };
   }
 
   const multiplier = gameState.trees[id]?.multiplier ?? 1;
 
   if (inventory.Logger?.gte(1)) {
-    boostsUsed.push("Logger");
+    boostsUsed.push({ name: "Logger", value: "x0.5" });
     return { amount: new Decimal(0.5).mul(multiplier), boostsUsed };
   }
 
