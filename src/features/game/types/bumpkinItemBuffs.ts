@@ -104,6 +104,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.golden.spatula.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostType: "xp",
+      boostValue: "+10%",
+      boostOn: "food",
     },
   ],
   "Mushroom Hat": [
@@ -233,6 +236,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
+      boostType: "xp",
+      boostValue: "+50%",
+      boostOn: "food",
     },
   ],
   "Angler Waders": [
@@ -362,6 +368,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.pan.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostType: "xp",
+      boostValue: "+25%",
+      boostOn: "food",
     },
   ],
   "Olive Royalty Shirt": [

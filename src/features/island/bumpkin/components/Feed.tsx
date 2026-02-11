@@ -19,6 +19,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   food: Consumable[];
@@ -30,8 +31,9 @@ const _game = (state: MachineState) => state.context.state;
 
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
+  const [showBoosts, setShowBoosts] = useState(false);
   const { gameService } = useContext(Context);
-
+  const now = useNow({ live: true });
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
@@ -103,6 +105,12 @@ export const Feed: React.FC<Props> = ({ food }) => {
     }
   };
 
+  const { boostedExp, boostsUsed } = getFoodExpBoost({
+    food: activeSelected,
+    game,
+    createdAt: now,
+  });
+
   return (
     <SplitScreenView
       panel={
@@ -111,10 +119,12 @@ export const Feed: React.FC<Props> = ({ food }) => {
             item: activeSelected.name,
           }}
           properties={{
-            xp: getFoodExpBoost({
-              food: activeSelected,
-              game,
-            }).boostedExp,
+            xp: boostedExp,
+            baseXp: activeSelected.experience,
+            boostsUsed,
+            showBoosts,
+            setShowBoosts,
+            gameState: game,
           }}
           actionView={
             <>
@@ -142,7 +152,10 @@ export const Feed: React.FC<Props> = ({ food }) => {
             <Box
               isSelected={activeSelected?.name === item.name}
               key={item.name}
-              onClick={() => setSelected(item)}
+              onClick={() => {
+                setSelected(item);
+                setShowBoosts(false);
+              }}
               image={ITEM_DETAILS[item.name].image}
               count={inventory[item.name]}
             />

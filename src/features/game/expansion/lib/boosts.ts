@@ -289,11 +289,11 @@ export const getCookingTime = ({
 export const getFoodExpBoost = ({
   food,
   game,
-  createdAt = Date.now(),
+  createdAt,
 }: {
   food: Consumable;
   game: GameState;
-  createdAt?: number;
+  createdAt: number;
 }): { boostedExp: Decimal; boostsUsed: BoostName[] } => {
   let boostedExp = new Decimal(food.experience);
   const skills = game.bumpkin.skills ?? {};
@@ -354,6 +354,7 @@ export const getFoodExpBoost = ({
 
   if (hasVipAccess({ game, now: createdAt })) {
     boostedExp = boostedExp.mul(1.1);
+    boostsUsed.push("VIP Access");
   }
 
   if (
@@ -412,7 +413,11 @@ export const getFoodExpBoost = ({
   boostedExp = boostedExp.mul(budExp);
   if (budUsed) boostsUsed.push(budUsed);
 
-  boostedExp = boostedExp.mul(getFactionPetBoostMultiplier(game));
+  const factionPetMultiplier = getFactionPetBoostMultiplier(game);
+  boostedExp = boostedExp.mul(factionPetMultiplier);
+  if (factionPetMultiplier > 1) {
+    boostsUsed.push("Faction Pet");
+  }
 
   return { boostedExp: setPrecision(boostedExp), boostsUsed };
 };

@@ -3,6 +3,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import {
+  BoostName,
   GameState,
   InventoryItemName,
   Rock,
@@ -10,6 +11,7 @@ import {
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState, type JSX } from "react";
+import { BoostsDisplay } from "./BoostsDisplay";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -106,6 +108,8 @@ interface RequirementsProps {
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
+  xpBoostsUsed?: BoostName[];
+  baseXp?: number;
   timeSeconds?: number;
   level?: number;
 }
@@ -133,6 +137,8 @@ interface Props {
   hideDescription?: boolean;
   label?: JSX.Element;
   showSeason?: boolean;
+  showBoosts?: boolean;
+  setShowBoosts?: (show: boolean) => void;
 }
 
 function getDetails(
@@ -193,6 +199,8 @@ export const CraftingRequirements: React.FC<Props> = ({
   hideDescription,
   showSeason = false,
   label,
+  showBoosts,
+  setShowBoosts,
 }: Props) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
@@ -432,9 +440,44 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
 
           {/* XP display */}
-          {!!requirements.xp && (
-            <RequirementLabel type="xp" xp={requirements.xp} />
-          )}
+          {!!requirements.xp &&
+            (() => {
+              const isXpBoosted =
+                requirements.xpBoostsUsed &&
+                requirements.xpBoostsUsed.length > 0 &&
+                requirements.baseXp !== undefined &&
+                requirements.xp.greaterThan(requirements.baseXp);
+
+              if (
+                isXpBoosted &&
+                requirements.xpBoostsUsed &&
+                setShowBoosts &&
+                showBoosts !== undefined
+              ) {
+                return (
+                  <div
+                    className="flex flex-col items-center cursor-pointer"
+                    onClick={() => setShowBoosts(!showBoosts)}
+                  >
+                    <RequirementLabel type="xp" xp={requirements.xp} boosted />
+                    <RequirementLabel
+                      type="xp"
+                      xp={new Decimal(requirements.baseXp ?? 0)}
+                      strikethrough
+                    />
+                    <BoostsDisplay
+                      boosts={requirements.xpBoostsUsed}
+                      show={showBoosts}
+                      state={gameState}
+                      onClick={() => setShowBoosts(!showBoosts)}
+                      searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
+                    />
+                  </div>
+                );
+              }
+
+              return <RequirementLabel type="xp" xp={requirements.xp} />;
+            })()}
 
           {/* Instant ready display */}
           {requirements.timeSeconds === 0 && (

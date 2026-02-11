@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -84,7 +84,8 @@ interface Prop {
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
-  const now = useNow();
+  const now = useNow({ live: true });
+  const [showBoosts, setShowBoosts] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -120,7 +121,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     selected in FLOWER_SEEDS ||
     selected in GREENHOUSE_SEEDS ||
     selected in GREENHOUSE_FRUIT_SEEDS;
-  const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
+  const isFood = (selected: InventoryItemName): selected is ConsumableName =>
+    selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
@@ -149,7 +151,16 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const harvestCounts = getFruitHarvests(gameState, selectedItem as SeedName);
 
+  const foodExpBoost = isFood(selectedItem)
+    ? getFoodExpBoost({
+        food: CONSUMABLES[selectedItem],
+        game: gameState,
+        createdAt: now,
+      })
+    : null;
+
   const handleItemClick = (item: InventoryItemName) => {
+    setShowBoosts(false);
     onSelect(item);
   };
 
@@ -273,12 +284,15 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     maxHarvest: harvestCounts[1],
                   }
                 : undefined,
-              xp: isFood(selectedItem)
-                ? getFoodExpBoost({
-                    food: CONSUMABLES[selectedItem as ConsumableName],
-                    game: gameState,
-                  }).boostedExp
+              xp: foodExpBoost?.boostedExp,
+              xpBoostsUsed: foodExpBoost?.boostsUsed,
+              baseXp: foodExpBoost
+                ? CONSUMABLES[selectedItem as ConsumableName].experience
                 : undefined,
+              ...(foodExpBoost && {
+                showBoosts,
+                setShowBoosts,
+              }),
               timeSeconds: isSeed(selectedItem)
                 ? getHarvestTime(selectedItem)
                 : undefined,

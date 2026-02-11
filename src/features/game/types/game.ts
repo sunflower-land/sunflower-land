@@ -1645,7 +1645,11 @@ export type BoostName =
   | BudNFTName
   | SpecialBoostName;
 
-export type SpecialBoostName = "Sunshower" | "Power hour";
+export type SpecialBoostName =
+  | "Sunshower"
+  | "Power hour"
+  | "VIP Access"
+  | "Faction Pet";
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
