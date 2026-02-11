@@ -2135,6 +2135,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Weed.image,
     },
+    {
+      shortDescription: translate("megastore.monument.helpsNeeded", {
+        count: 2000,
+      }),
+      labelType: "info",
+      boostTypeIcon: helpIcon,
+    },
   ],
   "Crimstone Clam": () => [
     {
@@ -2186,6 +2193,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.cornucopia.buff"),
       labelType: "success",
       boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("megastore.monument.helpsNeeded", {
+        count: 1000,
+      }),
+      labelType: "info",
+      boostTypeIcon: helpIcon,
     },
   ],
   Nautilus: () => [
