@@ -102,12 +102,12 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         return acc;
       }
 
-      const chumsUsed = chumsForCrustacean.filter((chum) => {
-        return (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0;
-      });
-
+      const chumsUsed = chumsForCrustacean.filter(
+        (chum) => (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0,
+      );
+      const chumsToShow = chumsUsed.length > 0 ? chumsUsed : chumsForCrustacean;
       acc[name] = {
-        chums: chumsUsed,
+        chums: chumsToShow,
         waterTrap,
       };
 
