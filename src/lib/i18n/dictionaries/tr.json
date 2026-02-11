@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "Arkadaş seçilmedi",
   "guide.crustacean.availableChums": "Mevcut Arkadaşlar",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin DP'si",
-  "description.factionPet.foodXpBoost": "Fraksiyon pet serisinden Bumpkin XP"
+  "description.factionPet.foodXpBoost": "Fraksiyon pet serisinden Bumpkin XP",
+  "boost.buildingOil": "Yapı yağı: x {{percent}}"
 }

@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "未选择任何密友",
   "guide.crustacean.availableChums": "可用密友",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
-  "description.factionPet.foodXpBoost": "来自派系宠物连胜的 Bumpkin XP"
+  "description.factionPet.foodXpBoost": "来自派系宠物连胜的 Bumpkin XP",
+  "boost.buildingOil": "建筑用油：x {{percent}}"
 }

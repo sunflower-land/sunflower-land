@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "Tidak ada teman yang dipilih",
   "guide.crustacean.availableChums": "Teman yang Tersedia",
   "description.vipAccess.foodXpBoost": "+10% XP Bumpkin",
-  "description.factionPet.foodXpBoost": "Bumpkin XP dari faksi pet streak"
+  "description.factionPet.foodXpBoost": "Bumpkin XP dari faksi pet streak",
+  "boost.buildingOil": "Minyak bangunan: x {{percent}}"
 }

@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "Kein Kumpel ausgewählt",
   "guide.crustacean.availableChums": "Verfügbare Kumpel",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin-EP",
-  "description.factionPet.foodXpBoost": "Bumpkin-EP aus einer Fraktionsserie"
+  "description.factionPet.foodXpBoost": "Bumpkin-EP aus einer Fraktionsserie",
+  "boost.buildingOil": "Bauöl: x {{percent}}"
 }

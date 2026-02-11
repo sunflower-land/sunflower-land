@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "Nenhum amigo selecionado",
   "guide.crustacean.availableChums": "Camaradas disponíveis",
   "description.vipAccess.foodXpBoost": "+10% de EXP Bumpkin",
-  "description.factionPet.foodXpBoost": "Bumpkin XP da sequência de mascotes de cada facção"
+  "description.factionPet.foodXpBoost": "Bumpkin XP da sequência de mascotes de cada facção",
+  "boost.buildingOil": "Óleo de construção: x {{percent}}"
 }

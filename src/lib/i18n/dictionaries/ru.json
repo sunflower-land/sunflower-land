@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "No chum selected",
   "guide.crustacean.availableChums": "Available Chums",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
-  "description.factionPet.foodXpBoost": "Bumpkin XP from faction pet streak"
+  "description.factionPet.foodXpBoost": "Bumpkin XP from faction pet streak",
+  "boost.buildingOil": "Building oil: x{{percent}}"
 }

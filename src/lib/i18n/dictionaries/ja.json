@@ -8062,5 +8062,6 @@
   "waterTrap.noChumSelected": "チャムが選択されていません",
   "guide.crustacean.availableChums": "利用可能なチャム",
   "description.vipAccess.foodXpBoost": "+10% バンプキン経験値",
-  "description.factionPet.foodXpBoost": "ファクションペット連勝によるバンプキンXP"
+  "description.factionPet.foodXpBoost": "ファクションペット連勝によるバンプキンXP",
+  "boost.buildingOil": "ビルオイル:x {{percent}}"
 }
