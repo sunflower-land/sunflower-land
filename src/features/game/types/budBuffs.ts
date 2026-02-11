@@ -212,13 +212,24 @@ const getAuraMultiplier = (aura: string): number => {
 };
 
 /**
- * Apply aura multiplier to a boostValue string so the modal shows effective boost (e.g. 10% × 1.05 = 10.5%).
+ * Apply aura multiplier to a boostValue string so the modal shows effective boost.
+ * - x0.9-style time multipliers use: 1 - (1 - mult) * aura (e.g. x0.9 with aura 1.2 → x0.88).
+ * - Other formats (+/-, %, plain decimals) are scaled by the aura multiplier unchanged.
  */
 const applyAuraToBoostValue = (
   boostValue: string,
   auraMultiplier: number,
 ): string => {
   if (auraMultiplier === 1) return boostValue;
+
+  const xMatch = boostValue.match(/^x(\d+(?:\.\d+)?)$/);
+  if (xMatch) {
+    const multiplier = Number(xMatch[1]);
+    const effective = 1 - (1 - multiplier) * auraMultiplier;
+    const clamped = Math.max(0.01, Math.min(1, effective));
+    return `x${clamped.toFixed(2)}`;
+  }
+
   const match = boostValue.match(/^([+-]?)(\d+(?:\.\d+)?)(%?)$/);
   if (!match) return boostValue;
   const [, _sign, numStr, pct] = match;
@@ -362,7 +373,7 @@ const getTypeBoost = (type: string) => {
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostType: "time",
-      boostValue: "-10%",
+      boostValue: "x0.9",
       boostOn: "crops",
     });
   }
