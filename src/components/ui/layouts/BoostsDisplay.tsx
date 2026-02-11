@@ -42,12 +42,15 @@ export const BoostsDisplay: React.FC<{
       | undefined
     )[];
   };
+  /** Optional row rendered inside the panel before the boost list (e.g. building oil) */
+  leadingRow?: { label: string };
 }> = ({
   boosts,
   show,
   state,
   onClick,
   searchBoostInfo: { boostType, boostOn },
+  leadingRow,
 }) => {
   const { t } = useAppTranslation();
   const isBumpkinSkill = (
@@ -245,6 +248,15 @@ export const BoostsDisplay: React.FC<{
           </span>
         </div>
         <div className="flex flex-col gap-3">
+          {leadingRow && (
+            <Label
+              type="transparent"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="ml-3"
+            >
+              {leadingRow.label}
+            </Label>
+          )}
           {buffs
             .filter((buff) => {
               const matchesBoostOn = boostOn

@@ -995,6 +995,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "vibrant",
       shortDescription: translate("description.desertgnome.boost"),
       boostTypeIcon: lightning,
+      boostType: "time",
+      boostValue: "-10%",
+      boostOn: "food",
     },
   ],
   "Christmas Tree": () => [
@@ -1024,6 +1027,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.time.warp.totem.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "food",
     },
     {
       shortDescription: translate(
@@ -1082,6 +1088,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.gourmet.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "food",
     },
     {
       shortDescription: translate(
@@ -1789,6 +1798,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-20%",
+      boostOn: "food",
     },
   ],
   "Hound Shrine": () => [
@@ -1908,6 +1920,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "food",
     },
   ],
   "Obsidian Shrine": () => [

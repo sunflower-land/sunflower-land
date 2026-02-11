@@ -173,6 +173,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "food",
     },
   ],
   "Infernal Pitchfork": [
@@ -754,6 +757,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-25%",
+      boostOn: "food",
     },
   ],
   "Goblin Medallion": [
@@ -762,6 +768,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-25%",
+      boostOn: "food",
     },
   ],
   "Nightshade Medallion": [
@@ -770,6 +779,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-25%",
+      boostOn: "food",
     },
   ],
   "Sunflorian Medallion": [
@@ -778,6 +790,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
+      boostType: "time",
+      boostValue: "-25%",
+      boostOn: "food",
     },
   ],
   "Milk Apron": [
@@ -1028,6 +1043,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.cleaverKnife.boost.1"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostType: "time",
+      boostValue: "-15%",
+      boostOn: "food",
     },
     {
       shortDescription: translate("description.cleaverKnife.boost.2"),
