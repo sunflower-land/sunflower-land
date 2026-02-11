@@ -137,7 +137,7 @@
     "lint-staged": ">=10",
     "page-lifecycle": "^0.1.2",
     "postcss": "^8.4.17",
-    "prettier": "^3.3.2",
+    "prettier": "^3.8.1",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",
     "ts-jest": "^27.1.3",
