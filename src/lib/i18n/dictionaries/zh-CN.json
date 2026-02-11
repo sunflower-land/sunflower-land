@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "放置 {{crustacean}} 陷阱",
   "waterTrap.noChumsAvailable": "没有可用的密友",
   "waterTrap.noChumSelected": "未选择任何密友",
-  "guide.crustacean.availableChums": "可用密友"
+  "guide.crustacean.availableChums": "可用密友",
+  "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
+  "description.factionPet.foodXpBoost": "来自派系宠物连胜的 Bumpkin XP"
 }

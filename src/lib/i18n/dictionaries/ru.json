@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "Place {{crustacean}} trap",
   "waterTrap.noChumsAvailable": "No chums available",
   "waterTrap.noChumSelected": "No chum selected",
-  "guide.crustacean.availableChums": "Available Chums"
+  "guide.crustacean.availableChums": "Available Chums",
+  "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
+  "description.factionPet.foodXpBoost": "Bumpkin XP from faction pet streak"
 }

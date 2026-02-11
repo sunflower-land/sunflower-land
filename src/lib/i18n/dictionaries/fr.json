@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "Placer le piège {{crustacean}}",
   "waterTrap.noChumsAvailable": "Aucun copain disponible",
   "waterTrap.noChumSelected": "Aucun ami sélectionné",
-  "guide.crustacean.availableChums": "Chums disponibles"
+  "guide.crustacean.availableChums": "Chums disponibles",
+  "description.vipAccess.foodXpBoost": "+10 % d'expérience sur Bumpkin",
+  "description.factionPet.foodXpBoost": "Bumpkin XP par faction par série"
 }

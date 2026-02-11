@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "Coloca la trampa {{crustacean}}",
   "waterTrap.noChumsAvailable": "No hay amigos disponibles",
   "waterTrap.noChumSelected": "No se ha seleccionado ningún amigo",
-  "guide.crustacean.availableChums": "Acompaneros disponibles"
+  "guide.crustacean.availableChums": "Acompaneros disponibles",
+  "description.vipAccess.foodXpBoost": "+10% de EXP para Bumpkin",
+  "description.factionPet.foodXpBoost": "Bumpkin XP por racha de mascotas de facción"
 }

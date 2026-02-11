@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "Tempatkan perangkap {{crustacean}}",
   "waterTrap.noChumsAvailable": "Tidak ada teman yang tersedia",
   "waterTrap.noChumSelected": "Tidak ada teman yang dipilih",
-  "guide.crustacean.availableChums": "Teman yang Tersedia"
+  "guide.crustacean.availableChums": "Teman yang Tersedia",
+  "description.vipAccess.foodXpBoost": "+10% XP Bumpkin",
+  "description.factionPet.foodXpBoost": "Bumpkin XP dari faksi pet streak"
 }

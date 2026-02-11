@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "{{crustacean}} tuzağı yerleştirin",
   "waterTrap.noChumsAvailable": "Mevcut arkadaş yok",
   "waterTrap.noChumSelected": "Arkadaş seçilmedi",
-  "guide.crustacean.availableChums": "Mevcut Arkadaşlar"
+  "guide.crustacean.availableChums": "Mevcut Arkadaşlar",
+  "description.vipAccess.foodXpBoost": "+10% Bumpkin DP'si",
+  "description.factionPet.foodXpBoost": "Fraksiyon pet serisinden Bumpkin XP"
 }

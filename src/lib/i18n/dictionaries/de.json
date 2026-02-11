@@ -8060,5 +8060,7 @@
   "waterTrap.placeTrap": "Platziere {{crustacean}} Falle",
   "waterTrap.noChumsAvailable": "Keine Kumpel verfügbar",
   "waterTrap.noChumSelected": "Kein Kumpel ausgewählt",
-  "guide.crustacean.availableChums": "Verfügbare Kumpel"
+  "guide.crustacean.availableChums": "Verfügbare Kumpel",
+  "description.vipAccess.foodXpBoost": "+10% Bumpkin-EP",
+  "description.factionPet.foodXpBoost": "Bumpkin-EP aus einer Fraktionsserie"
 }
