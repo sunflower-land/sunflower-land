@@ -167,7 +167,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
               className="flex flex-row items-end cursor-pointer"
               onClick={
                 isLavaPitTimeBoosted
-                  ? () => setShowBoosts((prev) => !prev)
+                  ? () => setShowBoosts(!showBoosts)
                   : undefined
               }
             >

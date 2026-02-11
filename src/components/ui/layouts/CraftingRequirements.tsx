@@ -401,17 +401,18 @@ export const CraftingRequirements: React.FC<Props> = ({
                 }
 
                 return (
-                  <RequirementLabel
-                    key={index}
-                    type="item"
-                    item={ingredientName}
-                    balance={balance}
-                    requirement={
-                      new Decimal(
-                        (requirements.resources ?? {})[ingredientName] ?? 0,
-                      )
-                    }
-                  />
+                  <div key={index}>
+                    <RequirementLabel
+                      type="item"
+                      item={ingredientName}
+                      balance={balance}
+                      requirement={
+                        new Decimal(
+                          (requirements.resources ?? {})[ingredientName] ?? 0,
+                        )
+                      }
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -510,7 +511,7 @@ export const CraftingRequirements: React.FC<Props> = ({
                 return (
                   <div
                     className="flex flex-col items-center cursor-pointer"
-                    onClick={() => setShowTimeBoosts((prev) => !prev)}
+                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
                   >
                     <RequirementLabel
                       type="time"

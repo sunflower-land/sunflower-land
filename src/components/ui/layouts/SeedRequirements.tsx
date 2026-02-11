@@ -321,9 +321,6 @@ export const SeedRequirements: React.FC<Props> = ({
         return [];
       };
       const boostOn = getBoostOn();
-      // Temporary allow this console log for testing
-      // eslint-disable-next-line no-console
-      console.log({ time });
 
       return (
         <div

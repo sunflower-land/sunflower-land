@@ -542,7 +542,7 @@ const ComposterModalContent: React.FC<{
                 className="flex flex-row items-end cursor-pointer"
                 onClick={
                   isCompostTimeBoosted
-                    ? () => setShowBoosts((prev) => !prev)
+                    ? () => setShowBoosts(!showBoosts)
                     : undefined
                 }
               >
