@@ -8063,5 +8063,5 @@
   "description.victoriasApron.boost": "33% chance to refresh pet requests",
   "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
-  "boost.buildingOil": "Building oil: -{{percent}}%"
+  "boost.buildingOil": "Building oil: x{{percent}}"
 }

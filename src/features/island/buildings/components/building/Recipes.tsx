@@ -47,6 +47,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   selected: Cookable;
@@ -150,7 +151,7 @@ export const Recipes: React.FC<Props> = ({
     if (oilRemaining >= itemOilConsumption) {
       return {
         label: t("boost.buildingOil", {
-          percent: Math.round(boostValue * 100),
+          percent: setPrecision(1 - boostValue, 2),
         }),
         percent: boostValue * 100,
       };
@@ -159,7 +160,7 @@ export const Recipes: React.FC<Props> = ({
       (oilRemaining / itemOilConsumption) * boostValue;
     return {
       label: t("boost.buildingOil", {
-        percent: Math.round(effectiveBoostValue * 100),
+        percent: setPrecision(1 - effectiveBoostValue, 2),
       }),
       percent: effectiveBoostValue * 100,
     };
