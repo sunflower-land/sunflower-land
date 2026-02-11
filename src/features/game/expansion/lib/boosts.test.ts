@@ -107,7 +107,7 @@ describe("boosts", () => {
       }),
     ).toEqual({
       price: CROPS.Sunflower.sellPrice * 1.05,
-      boostsUsed: ["Green Thumb"],
+      boostsUsed: [{ name: "Green Thumb", value: "x1.05" }],
     });
   });
 
@@ -153,7 +153,7 @@ describe("boosts", () => {
       }),
     ).toEqual({
       price: CROPS.Sunflower.sellPrice * 1.1,
-      boostsUsed: ["Coin Swindler"],
+      boostsUsed: [{ name: "Coin Swindler", value: "+0.1" }],
     });
   });
 
@@ -208,7 +208,10 @@ describe("boosts", () => {
       }),
     ).toEqual({
       price: CROPS.Sunflower.sellPrice * 2.15,
-      boostsUsed: ["Green Thumb", "Coin Swindler"],
+      boostsUsed: [
+        { name: "Green Thumb", value: "x1.05" },
+        { name: "Coin Swindler", value: "+0.1" },
+      ],
     });
   });
 });

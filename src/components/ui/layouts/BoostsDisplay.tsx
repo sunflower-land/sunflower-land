@@ -115,9 +115,9 @@ export const BoostsDisplay: React.FC<{
               {leadingRow.label}
             </Label>
           )}
-          {boosts.map((buff) => (
+          {boosts.map((buff, index) => (
             <Label
-              key={`${buff.name}-${buff.value}`}
+              key={`${buff.name}-${buff.value}-${index}`}
               type="transparent"
               icon={getBoostIcon(buff.name)}
               className="ml-3"

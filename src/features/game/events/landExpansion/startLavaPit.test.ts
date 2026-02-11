@@ -7,8 +7,6 @@ import {
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
-import * as config from "lib/config";
-
 const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
@@ -98,7 +96,9 @@ describe("getLavaPitRequirements", () => {
       Zucchini: new Decimal(500),
       Crimstone: new Decimal(2),
     });
-    expect(swimwearRequirements.boostUsed).toEqual(["Lava Swimwear"]);
+    expect(swimwearRequirements.boostUsed).toEqual([
+      { name: "Lava Swimwear", value: "x0.5" },
+    ]);
 
     const defaultRequirements = getLavaPitRequirements(
       withoutSwimwear,
@@ -116,8 +116,6 @@ describe("getLavaPitRequirements", () => {
 });
 
 describe("startLavaPit", () => {
-  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
