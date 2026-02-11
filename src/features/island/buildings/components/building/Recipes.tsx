@@ -122,12 +122,7 @@ export const Recipes: React.FC<Props> = ({
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
-  const cook = () => {
-    onCook(selected.name);
-    if (buildingName === "Fire Pit" || cookingTime < 60) {
-      gameService.send("SAVE");
-    }
-  };
+  const cook = () => onCook(selected.name);
 
   const collect = () => {
     gameService.send("recipes.collected", {
