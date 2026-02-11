@@ -13,9 +13,14 @@ import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { Label } from "../Label";
-import { CALENDAR_EVENT_ICONS } from "features/game/types/calendar";
+import {
+  CALENDAR_EVENT_ICONS,
+  SeasonalEventName,
+} from "features/game/types/calendar";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
+import { startCase } from "lodash";
+import { BudNFTName } from "features/game/types/marketplace";
 
 export const BoostsDisplay: React.FC<{
   boosts: { name: BoostName; value: string }[];
@@ -37,18 +42,16 @@ export const BoostsDisplay: React.FC<{
   const isWearable = (boost: BoostName): boost is BumpkinItem => {
     return boost in ITEM_IDS;
   };
+  const isBud = (boost: BoostName): boost is BudNFTName => {
+    return boost.startsWith("Bud #");
+  };
+  const isCalendarEvent = (boost: BoostName): boost is SeasonalEventName => {
+    return boost in CALENDAR_EVENT_ICONS;
+  };
 
   const getBoostIcon = (boost: BoostName) => {
-    if (boost === "Power hour") {
-      return SUNNYSIDE.icons.lightning;
-    }
-
-    if (boost === "sunshower") {
+    if (isCalendarEvent(boost)) {
       return CALENDAR_EVENT_ICONS.sunshower;
-    }
-
-    if (boost === "VIP Access" || boost === "Faction Pet") {
-      return SUNNYSIDE.icons.lightning;
     }
 
     if (isBumpkinSkill(boost)) {
@@ -79,10 +82,13 @@ export const BoostsDisplay: React.FC<{
       }).image;
     }
 
-    const budId = Number(boost.split("#")[1]);
-    if (isNaN(budId)) return undefined;
+    if (isBud(boost)) {
+      const budId = Number(boost.split("#")[1]);
+      if (isNaN(budId)) return undefined;
+      return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
+    }
 
-    return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
+    return SUNNYSIDE.icons.lightning;
   };
 
   return (
@@ -116,7 +122,7 @@ export const BoostsDisplay: React.FC<{
               icon={getBoostIcon(buff.name)}
               className="ml-3"
             >
-              {`${buff.value} ${buff.name}`}
+              {`${buff.value} ${startCase(buff.name)}`}
             </Label>
           ))}
         </div>
