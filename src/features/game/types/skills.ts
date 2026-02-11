@@ -93,7 +93,7 @@ export const LEGACY_BADGE_TREE: Record<
         shortDescription: "-10% Crop growth time",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostType: "time",
-        boostValue: "-10%",
+        boostValue: "x0.9",
         boostOn: "crops",
       },
       {

@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -6,7 +12,11 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Cookable, CookableName } from "features/game/types/consumables";
+import {
+  COOKABLES,
+  Cookable,
+  CookableName,
+} from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
 import {
@@ -17,11 +27,14 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
+  BUILDING_OIL_BOOSTS,
   getCookingOilBoost,
   getCookingRequirements,
+  getOilConsumption,
+  isCookingBuilding,
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
-import { BuildingName } from "features/game/types/buildings";
+import { CookingBuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
@@ -34,6 +47,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   selected: Cookable;
@@ -41,7 +55,7 @@ interface Props {
   recipes: Cookable[];
   queue: BuildingProduct[];
   cooking?: BuildingProduct;
-  buildingName: BuildingName;
+  buildingName: CookingBuildingName;
   buildingId?: string;
   readyRecipes: BuildingProduct[];
   onClose: () => void;
@@ -77,6 +91,7 @@ export const Recipes: React.FC<Props> = ({
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
   const now = useNow({ live: true });
@@ -110,12 +125,46 @@ export const Recipes: React.FC<Props> = ({
     return lastRecipeInQueueReadyAt;
   };
 
-  const { reducedSecs: cookingTime } = getCookingTime({
-    seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
-    item: selected.name,
-    game: state,
-    cookStartAt: getNewRecipeStartAt(),
-  });
+  const oilBoostResult = getCookingOilBoost(selected.name, state, buildingId);
+  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } =
+    getCookingTime({
+      seconds: oilBoostResult.timeToCook,
+      item: selected.name,
+      game: state,
+      cookStartAt: getNewRecipeStartAt(),
+    });
+
+  const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
+
+  const buildingOil =
+    state.buildings?.[buildingName]?.find((b) => b.id === buildingId)?.oil ?? 0;
+  const oilBoostValue = isCookingBuilding(buildingName)
+    ? (BUILDING_OIL_BOOSTS(state.bumpkin?.skills ?? {})[buildingName] ?? 0)
+    : 0;
+
+  const timeBoostOil = useMemo(() => {
+    if (!isCookingBuilding(buildingName) || !buildingId) return undefined;
+    const oilRemaining = buildingOil;
+    if (oilRemaining <= 0) return undefined;
+    const itemOilConsumption = getOilConsumption(buildingName, selected.name);
+    const boostValue = oilBoostValue;
+    if (oilRemaining >= itemOilConsumption) {
+      return {
+        label: t("boost.buildingOil", {
+          percent: setPrecision(1 - boostValue, 2),
+        }),
+        percent: boostValue * 100,
+      };
+    }
+    const effectiveBoostValue =
+      (oilRemaining / itemOilConsumption) * boostValue;
+    return {
+      label: t("boost.buildingOil", {
+        percent: setPrecision(1 - effectiveBoostValue, 2),
+      }),
+      percent: effectiveBoostValue * 100,
+    };
+  }, [buildingName, buildingId, buildingOil, selected.name, oilBoostValue, t]);
 
   const cook = () => {
     onCook(selected.name);
@@ -180,9 +229,14 @@ export const Recipes: React.FC<Props> = ({
                 baseXp: selected.experience,
                 xpBoostsUsed: boostsUsed,
                 timeSeconds: cookingTime,
+                baseTimeSeconds,
+                timeBoostsUsed,
+                ...(timeBoostOil && { timeBoostOil }),
               }}
               showBoosts={showBoosts}
               setShowBoosts={setShowBoosts}
+              showTimeBoosts={showTimeBoosts}
+              setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
                   {hasDoubleNom && (
@@ -263,6 +317,7 @@ export const Recipes: React.FC<Props> = ({
                   onClick={() => {
                     setSelected(item);
                     setShowBoosts(false);
+                    setShowTimeBoosts(false);
                   }}
                   image={ITEM_DETAILS[item.name].image}
                   count={inventory[item.name]}

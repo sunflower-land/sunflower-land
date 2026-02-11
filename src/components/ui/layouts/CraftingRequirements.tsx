@@ -10,7 +10,7 @@ import {
   Tree,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState, type JSX } from "react";
+import React, { Dispatch, SetStateAction, useState, type JSX } from "react";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -111,6 +111,9 @@ interface RequirementsProps {
   xpBoostsUsed?: BoostName[];
   baseXp?: number;
   timeSeconds?: number;
+  baseTimeSeconds?: number;
+  timeBoostsUsed?: BoostName[];
+  timeBoostOil?: { label: string; percent: number };
   level?: number;
 }
 
@@ -139,6 +142,8 @@ interface Props {
   showSeason?: boolean;
   showBoosts?: boolean;
   setShowBoosts?: (show: boolean) => void;
+  showTimeBoosts?: boolean;
+  setShowTimeBoosts?: Dispatch<SetStateAction<boolean>>;
 }
 
 function getDetails(
@@ -201,6 +206,8 @@ export const CraftingRequirements: React.FC<Props> = ({
   label,
   showBoosts,
   setShowBoosts,
+  showTimeBoosts,
+  setShowTimeBoosts,
 }: Props) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
@@ -394,17 +401,18 @@ export const CraftingRequirements: React.FC<Props> = ({
                 }
 
                 return (
-                  <RequirementLabel
-                    key={index}
-                    type="item"
-                    item={ingredientName}
-                    balance={balance}
-                    requirement={
-                      new Decimal(
-                        (requirements.resources ?? {})[ingredientName] ?? 0,
-                      )
-                    }
-                  />
+                  <div key={index}>
+                    <RequirementLabel
+                      type="item"
+                      item={ingredientName}
+                      balance={balance}
+                      requirement={
+                        new Decimal(
+                          (requirements.resources ?? {})[ingredientName] ?? 0,
+                        )
+                      }
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -485,12 +493,61 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
 
           {/* Time requirement display */}
-          {!!requirements.timeSeconds && (
-            <RequirementLabel
-              type="time"
-              waitSeconds={requirements.timeSeconds}
-            />
-          )}
+          {!!requirements.timeSeconds &&
+            (() => {
+              const baseTimeSeconds = requirements.baseTimeSeconds;
+              const timeBoostsUsed = requirements.timeBoostsUsed;
+              const timeBoostOil = requirements.timeBoostOil;
+              const isTimeBoosted =
+                baseTimeSeconds != null &&
+                requirements.timeSeconds < baseTimeSeconds &&
+                (!!(timeBoostsUsed?.length ?? 0) || !!timeBoostOil);
+
+              if (
+                isTimeBoosted &&
+                setShowTimeBoosts &&
+                showTimeBoosts !== undefined
+              ) {
+                return (
+                  <div
+                    className="flex flex-col items-center cursor-pointer"
+                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+                  >
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={requirements.timeSeconds}
+                      boosted
+                    />
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={baseTimeSeconds ?? 0}
+                      strikethrough
+                    />
+                    {showTimeBoosts && (
+                      <BoostsDisplay
+                        boosts={timeBoostsUsed ?? []}
+                        show={showTimeBoosts}
+                        state={gameState}
+                        onClick={() => setShowTimeBoosts((prev) => !prev)}
+                        searchBoostInfo={{ boostType: "time" }}
+                        leadingRow={
+                          timeBoostOil
+                            ? { label: timeBoostOil.label }
+                            : undefined
+                        }
+                      />
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={requirements.timeSeconds}
+                />
+              );
+            })()}
 
           {/* Level requirement */}
           {!!requirements.level && (

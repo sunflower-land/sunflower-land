@@ -46,6 +46,7 @@ import { secondsTillWeekReset } from "features/game/lib/factions";
 import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertiliseFruitPatch";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -223,6 +224,7 @@ const ComposterModalContent: React.FC<{
 }> = ({ composterName, startComposter, readyAt, onCollect, onBoost }) => {
   const { gameService } = useContext(Context);
   const [showRequirements, setShowRequirements] = useState(false);
+  const [showBoosts, setShowBoosts] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -248,10 +250,13 @@ const ComposterModalContent: React.FC<{
   });
 
   const { min, max } = getWormOutput({ state, building: composterName });
-  const { timeToFinishMilliseconds } = getReadyAt({
+  const { timeToFinishMilliseconds, boostsUsed } = getReadyAt({
     gameState: state,
     composter: composterName,
   });
+  const baseTimeToFinishMilliseconds =
+    composterDetails[composterName].timeToFinishMilliseconds;
+  const isCompostTimeBoosted = boostsUsed.length > 0;
 
   const produces = buildings[composterName]?.[0].producing?.items ?? {};
 
@@ -518,10 +523,7 @@ const ComposterModalContent: React.FC<{
               </div>
             </div>
           </div>
-          <div
-            className="border-t border-white w-full my-2 pt-2 flex-col"
-            onClick={() => setShowRequirements(!showRequirements)}
-          >
+          <div className="border-t border-white w-full my-2 pt-2 flex-col">
             <div className="relative w-[140px] h-0">
               <RecipeInfoPanel
                 show={showRequirements}
@@ -534,16 +536,41 @@ const ComposterModalContent: React.FC<{
                 }}
               />
             </div>
-
             <div className="flex justify-between">
               <Label type="default">{t("requirements")}</Label>
-              <RequirementLabel
-                type="time"
-                waitSeconds={timeToFinishMilliseconds / 1000}
-              />
+              <div
+                className="flex flex-row items-end cursor-pointer"
+                onClick={
+                  isCompostTimeBoosted
+                    ? () => setShowBoosts(!showBoosts)
+                    : undefined
+                }
+              >
+                {isCompostTimeBoosted && (
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={timeToFinishMilliseconds / 1000}
+                    boosted
+                  />
+                )}
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={baseTimeToFinishMilliseconds / 1000}
+                  strikethrough={isCompostTimeBoosted}
+                />
+                <BoostsDisplay
+                  boosts={boostsUsed}
+                  show={showBoosts}
+                  state={state}
+                  onClick={() => setShowBoosts(!showBoosts)}
+                  searchBoostInfo={{ boostType: "time" }}
+                />
+              </div>
             </div>
-
-            <div className="flex justify-between gap-x-3 gap-y-2 flex-wrap mt-2">
+            <div
+              className="flex justify-between gap-x-3 gap-y-2 flex-wrap mt-2"
+              onClick={() => setShowRequirements((prev) => !prev)}
+            >
               {/* Item ingredients requirements */}
               {getKeys(requires).map((ingredientName, index) => (
                 <RequirementLabel

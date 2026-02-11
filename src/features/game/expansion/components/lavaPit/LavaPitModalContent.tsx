@@ -23,15 +23,18 @@ import { SEASON_ICONS } from "features/island/buildings/components/building/mark
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { useNow } from "lib/utils/hooks/useNow";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { LAVA_PIT_TIME } from "features/game/events/landExpansion/startLavaPit";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
 const _season = (state: MachineState) => state.context.state.season;
-const _lavaPitTime = (state: MachineState) =>
-  getLavaPitTime({ game: state.context.state }).time;
+const _lavaPitTimeAndBoosts = (state: MachineState) =>
+  getLavaPitTime({ game: state.context.state });
 const _obsidianYield = (state: MachineState) =>
   getObsidianYield({ game: state.context.state }).amount;
+const _gameState = (state: MachineState) => state.context.state;
 
 interface Props {
   onClose: () => void;
@@ -44,11 +47,17 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
   const lavaPit = useSelector(gameService, _lavaPit(id));
-  const lavaPitTime = useSelector(gameService, _lavaPitTime);
+  const { time: lavaPitTime, boostsUsed } = useSelector(
+    gameService,
+    _lavaPitTimeAndBoosts,
+  );
   const obsidianYield = useSelector(gameService, _obsidianYield);
   const season = useSelector(gameService, _season);
+  const gameState = useSelector(gameService, _gameState);
   const [showIngredients, setShowIngredients] = useState(false);
+  const [showBoosts, setShowBoosts] = useState(false);
   const now = useNow({ live: true });
+  const isLavaPitTimeBoosted = boostsUsed.length > 0;
 
   const throwResourcesIntoPit = () => {
     gameService.send("lavaPit.started", { id });
@@ -132,13 +141,15 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
             </Label>
           )}
           {!lavaPitInProgress && (
-            <Label
-              type="warning"
-              icon={ITEM_DETAILS["Lava Pit"].image}
-              className="ml-2"
-            >
-              {t("reward")}
-            </Label>
+            <div>
+              <Label
+                type="warning"
+                icon={ITEM_DETAILS["Lava Pit"].image}
+                className="ml-2"
+              >
+                {t("reward")}
+              </Label>
+            </div>
           )}
 
           {lavaPitInProgress && canCollect && (
@@ -152,9 +163,34 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
             </Label>
           )}
           {!lavaPitInProgress && (
-            <Label icon={SUNNYSIDE.icons.stopwatch} type="transparent">
-              {secondsToString(lavaPitTime / 1000, { length: "medium" })}
-            </Label>
+            <div
+              className="flex flex-row items-end cursor-pointer"
+              onClick={
+                isLavaPitTimeBoosted
+                  ? () => setShowBoosts(!showBoosts)
+                  : undefined
+              }
+            >
+              {isLavaPitTimeBoosted && (
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={lavaPitTime / 1000}
+                  boosted
+                />
+              )}
+              <RequirementLabel
+                type="time"
+                waitSeconds={LAVA_PIT_TIME / 1000}
+                strikethrough={isLavaPitTimeBoosted}
+              />
+              <BoostsDisplay
+                boosts={boostsUsed}
+                show={showBoosts}
+                state={gameState}
+                onClick={() => setShowBoosts(!showBoosts)}
+                searchBoostInfo={{ boostType: "time" }}
+              />
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-2 p-2">
