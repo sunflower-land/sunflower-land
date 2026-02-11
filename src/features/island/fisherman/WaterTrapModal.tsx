@@ -80,16 +80,17 @@ export const WaterTrapModal: React.FC<Props> = ({
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
 
-  const catchForSelectedChum = selectedChum
-    ? getKeys(caughtCrustacean(selectedTrap, selectedChum))[0]
-    : undefined;
+  const catchForSelectedChum = getKeys(
+    caughtCrustacean(selectedTrap, selectedChum),
+  )[0];
 
-  const showResultingCatch =
-    selectedChum &&
-    catchForSelectedChum &&
-    (state.farmActivity[
-      `${catchForSelectedChum} Caught with ${selectedChum}`
-    ] ?? 0) > 0;
+  const showResultingCatch = selectedChum
+    ? catchForSelectedChum &&
+      (state.farmActivity[
+        `${catchForSelectedChum} Caught with ${selectedChum}`
+      ] ?? 0) > 0
+    : catchForSelectedChum &&
+      (state.farmActivity[`${catchForSelectedChum} Caught`] ?? 0) > 0;
 
   const handleTrapChange = (trap: WaterTrapName) => {
     setSelectedTrap(trap);
