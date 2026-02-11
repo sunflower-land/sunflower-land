@@ -21,6 +21,7 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { startCase } from "lodash";
 import { BudNFTName } from "features/game/types/marketplace";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export const BoostsDisplay: React.FC<{
   boosts: { name: BoostName; value: string }[];
@@ -50,7 +51,7 @@ export const BoostsDisplay: React.FC<{
 
   const getBoostLabel = (name: BoostName): string => {
     if (isCalendarEvent(name)) {
-      const key = `calendar.events.${name}.title` as const;
+      const key: TranslationKeys = `calendar.events.${name}.title`;
       const translated = t(key);
       return translated !== key ? translated : startCase(name);
     }
