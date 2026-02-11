@@ -93,7 +93,6 @@ export const BoostsDisplay: React.FC<{
 
     if (isBud(boost)) {
       const budId = Number(boost.split("#")[1]);
-      if (isNaN(budId)) return undefined;
       return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
     }
 
