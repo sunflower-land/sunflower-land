@@ -49,9 +49,18 @@ export const BoostsDisplay: React.FC<{
     return boost in CALENDAR_EVENT_ICONS;
   };
 
+  const getBoostLabel = (name: BoostName): string => {
+    if (isCalendarEvent(name)) {
+      const key = `calendar.events.${name}.title` as const;
+      const translated = t(key);
+      return translated !== key ? translated : startCase(name);
+    }
+    return startCase(name);
+  };
+
   const getBoostIcon = (boost: BoostName) => {
     if (isCalendarEvent(boost)) {
-      return CALENDAR_EVENT_ICONS.sunshower;
+      return CALENDAR_EVENT_ICONS[boost];
     }
 
     if (isBumpkinSkill(boost)) {
@@ -122,7 +131,7 @@ export const BoostsDisplay: React.FC<{
               icon={getBoostIcon(buff.name)}
               className="ml-3"
             >
-              {`${buff.value} ${startCase(buff.name)}`}
+              {`${buff.value} ${getBoostLabel(buff.name)}`}
             </Label>
           ))}
         </div>
