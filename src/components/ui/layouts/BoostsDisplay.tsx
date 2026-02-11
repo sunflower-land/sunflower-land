@@ -27,8 +27,7 @@ export const BoostsDisplay: React.FC<{
   show: boolean;
   state: GameState;
   onClick: () => void;
-  leadingRow?: { label: string };
-}> = ({ boosts, show, state, onClick, leadingRow }) => {
+}> = ({ boosts, show, state, onClick }) => {
   const { t } = useAppTranslation();
   const isBumpkinSkill = (
     boost: BoostName,
@@ -59,6 +58,10 @@ export const BoostsDisplay: React.FC<{
   };
 
   const getBoostIcon = (boost: BoostName) => {
+    if (boost === "Building Oil") {
+      return SUNNYSIDE.icons.stopwatch;
+    }
+
     if (isCalendarEvent(boost)) {
       return CALENDAR_EVENT_ICONS[boost];
     }
@@ -114,15 +117,6 @@ export const BoostsDisplay: React.FC<{
           </span>
         </div>
         <div className="flex flex-col gap-3">
-          {leadingRow && (
-            <Label
-              type="transparent"
-              icon={SUNNYSIDE.icons.stopwatch}
-              className="ml-3"
-            >
-              {leadingRow.label}
-            </Label>
-          )}
           {boosts.map((buff, index) => (
             <Label
               key={`${buff.name}-${buff.value}-${index}`}

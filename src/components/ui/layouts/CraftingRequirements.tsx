@@ -113,7 +113,6 @@ interface RequirementsProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
-  timeBoostOil?: { label: string; percent: number };
   level?: number;
 }
 
@@ -496,11 +495,10 @@ export const CraftingRequirements: React.FC<Props> = ({
             (() => {
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
-              const timeBoostOil = requirements.timeBoostOil;
               const isTimeBoosted =
                 baseTimeSeconds != null &&
                 requirements.timeSeconds < baseTimeSeconds &&
-                (!!(timeBoostsUsed?.length ?? 0) || !!timeBoostOil);
+                !!(timeBoostsUsed?.length ?? 0);
 
               if (
                 isTimeBoosted &&
@@ -528,11 +526,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                         show={showTimeBoosts}
                         state={gameState}
                         onClick={() => setShowTimeBoosts((prev) => !prev)}
-                        leadingRow={
-                          timeBoostOil
-                            ? { label: timeBoostOil.label }
-                            : undefined
-                        }
                       />
                     )}
                   </div>

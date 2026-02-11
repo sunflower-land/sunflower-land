@@ -1655,7 +1655,8 @@ export type SpecialBoostName =
   | "Tier 2 Bonus"
   | "Tier 3 Bonus"
   | "Streak Bonus"
-  | "Bee Swarm Bonus";
+  | "Bee Swarm Bonus"
+  | "Building Oil";
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
