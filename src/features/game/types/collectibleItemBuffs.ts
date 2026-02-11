@@ -2120,7 +2120,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       shortDescription: translate(
-        "description.poseidonsThrone.boost.effectRequirement",
+        "description.poseidonsThrone.buff.effectRequirement",
       ),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
