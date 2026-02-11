@@ -271,9 +271,11 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
-        farmId: FARM_ID,
-        itemId: KNOWN_IDS["Crimstone Rock"],
-        counter: 0,
+        prngArgs: {
+          farmId: FARM_ID,
+          itemId: KNOWN_IDS["Crimstone Rock"],
+          counter: 0,
+        },
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.2 * 1000);
@@ -292,9 +294,11 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
-        farmId: FARM_ID,
-        itemId: KNOWN_IDS["Crimstone Rock"],
-        counter: 0,
+        prngArgs: {
+          farmId: FARM_ID,
+          itemId: KNOWN_IDS["Crimstone Rock"],
+          counter: 0,
+        },
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.15 * 1000);
@@ -328,9 +332,11 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
-        farmId: FARM_ID,
-        itemId: KNOWN_IDS["Crimstone Rock"],
-        counter: 0,
+        prngArgs: {
+          farmId: FARM_ID,
+          itemId: KNOWN_IDS["Crimstone Rock"],
+          counter: 0,
+        },
       });
 
       const expectedCooldownTime =
@@ -357,9 +363,11 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
-        farmId: FARM_ID,
-        itemId: KNOWN_IDS["Crimstone Rock"],
-        counter: 0,
+        prngArgs: {
+          farmId: FARM_ID,
+          itemId: KNOWN_IDS["Crimstone Rock"],
+          counter: 0,
+        },
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.1 * 1000);
@@ -404,9 +412,11 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
-        farmId: FARM_ID,
-        itemId: KNOWN_IDS["Crimstone Rock"],
-        counter,
+        prngArgs: {
+          farmId: FARM_ID,
+          itemId: KNOWN_IDS["Crimstone Rock"],
+          counter,
+        },
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 1000);
