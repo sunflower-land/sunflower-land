@@ -2119,11 +2119,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Weed.image,
     },
     {
-      shortDescription: translate(
-        "description.poseidonsThrone.buff.effectRequirement",
-      ),
-      labelType: "danger",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      shortDescription: translate("megastore.monument.helpsNeeded", {
+        count: 2000,
+      }),
+      labelType: "info",
+      boostTypeIcon: helpIcon,
     },
   ],
   "Crimstone Clam": () => [
@@ -2174,11 +2174,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
     {
-      shortDescription: translate(
-        "description.cornucopia.buff.effectRequirement",
-      ),
-      labelType: "danger",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      shortDescription: translate("megastore.monument.helpsNeeded", {
+        count: 1000,
+      }),
+      labelType: "info",
+      boostTypeIcon: helpIcon,
     },
   ],
   Nautilus: () => [
