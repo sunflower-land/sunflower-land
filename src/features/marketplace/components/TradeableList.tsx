@@ -71,6 +71,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  /** Number of identical listings to create (1–20). Only for resources */
+  const [multiple, setMultiple] = useState(1);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
@@ -143,6 +145,15 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
+  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  const currentListingCount = isResource
+    ? Object.values(state.trades.listings ?? {}).filter(
+        (listing) => (listing.items[display.name] ?? 0) > 0,
+      ).length
+    : 0;
+  const maxMultiple =
+    currentListingCount >= 20 ? 1 : Math.min(20, 20 - currentListingCount);
+
   // Otherwise show the list item UI
   const submitListing = () => {
     if (available === 0) {
@@ -162,6 +173,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         sfl: price,
         signature,
         quantity: Math.max(1, quantity),
+        multiple,
       },
       authToken,
     });
@@ -224,6 +236,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               tax={new Decimal(price).mul(MARKETPLACE_TAX)}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
+              multiple={multiple}
             />
             <div className="flex items-start mt-2">
               <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
@@ -264,6 +277,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             display={display}
             sfl={price}
             tax={tax}
+            multiple={multiple}
             quantity={Math.max(1, quantity)}
             estTradePoints={estTradePoints}
           />
@@ -298,6 +312,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         quantity={quantity}
         setPrice={setPrice}
         setQuantity={setQuantity}
+        multiple={multiple}
+        setMultiple={setMultiple}
+        maxMultiple={maxMultiple}
       />
     );
   }
