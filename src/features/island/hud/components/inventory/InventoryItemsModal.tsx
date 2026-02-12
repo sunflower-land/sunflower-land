@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import Decimal from "decimal.js-light";
@@ -62,15 +62,11 @@ export const InventoryItemsModal: React.FC<Props> = ({
   defaultToChest,
 }) => {
   const { t } = useAppTranslation();
+  const initialTab: "Basket" | "Chest" | "Biomes" =
+    defaultToChest || location === "petHouse" ? "Chest" : "Basket";
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
-    location === "petHouse" ? "Chest" : "Basket",
+    initialTab,
   );
-
-  useEffect(() => {
-    if (show && defaultToChest) {
-      setCurrentTab("Chest");
-    }
-  }, [show, defaultToChest]);
 
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
@@ -106,7 +102,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={tabs}
+        tabs={tabs as PanelTabs<"Basket" | "Chest">[]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
