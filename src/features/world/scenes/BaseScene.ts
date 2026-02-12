@@ -376,6 +376,12 @@ export abstract class BaseScene extends Phaser.Scene {
 
       this.initialiseCamera();
 
+      // When game state updates (e.g. after completing a delivery), refresh NPC delivery icons
+      this.game.events.on("gameStateUpdated", this.refreshDeliveryIcons, this);
+      this.events.once("shutdown", () => {
+        this.game.events.off("gameStateUpdated", this.refreshDeliveryIcons);
+      });
+
       // handles player modal
       // get all player under the pointer click
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
@@ -2351,6 +2357,14 @@ export abstract class BaseScene extends Phaser.Scene {
       this.npcs[bumpkin.npc] = container;
     });
   }
+
+  private refreshDeliveryIcons = () => {
+    for (const [npcName, container] of Object.entries(this.npcs)) {
+      if (npcName && container) {
+        container.updateDeliveryIconVisibility(npcName as NPCName);
+      }
+    }
+  };
 
   teleportModerator(x: number, y: number, sceneId: SceneId) {
     if (sceneId === this.sceneId) {

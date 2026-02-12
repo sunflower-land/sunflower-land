@@ -2,6 +2,8 @@ const ICON_WIDTH = 11;
 const ICON_GAP = -1;
 
 export class Label extends Phaser.GameObjects.Container {
+  private iconSprite: Phaser.GameObjects.Sprite | undefined;
+
   constructor(
     scene: Phaser.Scene,
     text: string,
@@ -52,9 +54,16 @@ export class Label extends Phaser.GameObjects.Container {
         .sprite(iconX, 3.5, iconKey!)
         .setSize(ICON_WIDTH, ICON_WIDTH)
         .setOrigin(0.5, 0.5);
+      this.iconSprite = icon;
       this.add(icon);
     }
 
     this.setDepth(1);
+  }
+
+  setIconVisible(visible: boolean) {
+    if (this.iconSprite) {
+      this.iconSprite.setVisible(visible);
+    }
   }
 }
