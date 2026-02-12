@@ -7939,6 +7939,7 @@
   "waterTrap.inProgress": "In Progress",
   "waterTrap.timeRemaining": "Time remaining",
   "waterTrap.selectChum": "Select chum:",
+  "waterTrap.selectTrap": "Select a trap",
   "waterTrap.place": "Place trap",
   "waterTrap.placeTrap": "Place {{crustacean}} trap",
   "waterTrap.placeDescription": "Place a water trap to catch marine creatures",
