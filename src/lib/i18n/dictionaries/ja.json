@@ -5360,7 +5360,6 @@
   "bumpkinItemBuff.sunflorian.crown.boost": "+25% 花とコインの配達",
   "description.michelin.stars": "高品質の料理、さらに5％の花を獲得",
   "bumpkinTrade.sell": "あなたの資源を他のプレイヤーに売って、FLOWERを手に入れましょう。",
-  "bumpkinTrade.floorPrice": "フロアプライス:{{price}} フラワー",
   "bumpkinTrade.sellConfirmation": "{{quantity}} {{resource}} を {{price}} で売る？",
   "description.classy.bear": "何をしたらいいかわからないほどたくさんの花！",
   "description.chef.apron": "フラワーセールケーキが 20% 増えます",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "利用可能なチャム",
   "description.vipAccess.foodXpBoost": "+10% バンプキン経験値",
   "description.factionPet.foodXpBoost": "ファクションペット連勝によるバンプキンXP",
-  "boost.buildingOil": "ビルオイル:x {{percent}}"
+  "boost.buildingOil": "ビルオイル:x {{percent}}",
+  "bumpkinTrade.floorPrice": "フロア:{{price}} フラワー",
+  "marketplace.listingsCount": "リスト",
+  "marketplace.creatingListings": "{{count}} 個の同一の出品情報を作成しています。",
+  "marketplace.totalItems": "アイテム総数",
+  "marketplace.totalListings": "リスト総数",
+  "marketplace.maxBulk": "一括機能は、一度のリソースあたりのリスティングの最大数 {{max}} に達するまで使用できます"
 }

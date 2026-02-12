@@ -609,7 +609,6 @@
   "bumpkinTrade.min": "Минимум: {{min}}",
   "bumpkinTrade.minimumFloor": "Минимальная цена: {{min}}",
   "bumpkinTrade.maximumFloor": "Максимальная цена: {{max}}",
-  "bumpkinTrade.floorPrice": "Минимальная цена: {{price}} FLOWER",
   "bumpkinTrade.sellConfirmation": "Продаешь {{quantity}} {{resource}} за {{price}} FLOWER?",
   "bumpkinTrade.cant.sell.all": "Нельзя продать все",
   "bumpkinTrade.price/unit": "{{price}}/шт",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "Available Chums",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
   "description.factionPet.foodXpBoost": "Bumpkin XP from faction pet streak",
-  "boost.buildingOil": "Building oil: x{{percent}}"
+  "boost.buildingOil": "Building oil: x{{percent}}",
+  "bumpkinTrade.floorPrice": "Floor: {{price}} FLOWER",
+  "marketplace.listingsCount": "Listings",
+  "marketplace.creatingListings": "Creating {{count}} identical listings.",
+  "marketplace.totalItems": "Total items",
+  "marketplace.totalListings": "Total listings",
+  "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time"
 }

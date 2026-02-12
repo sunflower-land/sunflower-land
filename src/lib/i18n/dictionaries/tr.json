@@ -5360,7 +5360,6 @@
   "bumpkinItemBuff.sunflorian.crown.boost": "%+25 ÇIÇEK ve Madeni Para Teslimatları",
   "description.michelin.stars": "Yüksek kaliteli yiyecekler, ek %5 ÇIÇEK kazanın",
   "bumpkinTrade.sell": "Kaynaklarınızı FLOWER için diğer oyunculara sat.",
-  "bumpkinTrade.floorPrice": "Kat Fiyatı: {{price}} ÇIÇEK",
   "bumpkinTrade.sellConfirmation": "{{price}} FLOWER için {{quantity}} {{resource}} mi satıyorsunuz?",
   "description.classy.bear": "Onunla ne yapacağını bildiğinizden daha fazla ÇIÇEK!",
   "description.chef.apron": "%20 ekstra ÇIÇEK satış kekleri verir",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "Mevcut Arkadaşlar",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin DP'si",
   "description.factionPet.foodXpBoost": "Fraksiyon pet serisinden Bumpkin XP",
-  "boost.buildingOil": "Yapı yağı: x {{percent}}"
+  "boost.buildingOil": "Yapı yağı: x {{percent}}",
+  "bumpkinTrade.floorPrice": "Kat: {{price}} ÇIÇEK",
+  "marketplace.listingsCount": "Listeler",
+  "marketplace.creatingListings": "{{count}} özdeş listeleri oluşturma.",
+  "marketplace.totalItems": "Toplam öğeler",
+  "marketplace.totalListings": "Toplam listeler",
+  "marketplace.maxBulk": "Bir seferde kaynak başına maksimum {{max}} listesine ulaşana kadar toplu özelliğini kullanabilirsiniz"
 }

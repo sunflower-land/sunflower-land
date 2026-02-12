@@ -5360,7 +5360,6 @@
   "bumpkinItemBuff.sunflorian.crown.boost": "+25% di consegne di fiori e monete",
   "description.michelin.stars": "Cibo di alta qualità, guadagna il 5% aggiuntivo di FIORI",
   "bumpkinTrade.sell": "Vendi le tue risorse ad altri giocatori per FLOWER.",
-  "bumpkinTrade.floorPrice": "Prezzo minimo: {{price}} FIORE",
   "bumpkinTrade.sellConfirmation": "Vuoi vendere {{quantity}} {{resource}} per {{price}} FIORE?",
   "description.classy.bear": "Più FIORE di quanto tu sappia cosa farne!",
   "description.chef.apron": "Dona il 20% in più di FIORI vendendo torte",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "Chums disponibili",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
   "description.factionPet.foodXpBoost": "Bumpkin XP dalla serie di battute di fazione",
-  "boost.buildingOil": "Olio da costruzione: x {{percent}}"
+  "boost.buildingOil": "Olio da costruzione: x {{percent}}",
+  "bumpkinTrade.floorPrice": "Pavimento: {{price}} FIORE",
+  "marketplace.listingsCount": "Annunci",
+  "marketplace.creatingListings": "Creare {{count}} inserzioni identiche.",
+  "marketplace.totalItems": "Totale articoli",
+  "marketplace.totalListings": "Inserzioni totali",
+  "marketplace.maxBulk": "Puoi utilizzare la funzionalità in blocco fino a raggiungere il numero massimo di {{max}} inserzioni per risorsa alla volta"
 }

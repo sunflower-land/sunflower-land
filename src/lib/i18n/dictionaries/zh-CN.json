@@ -5360,7 +5360,6 @@
   "bumpkinItemBuff.sunflorian.crown.boost": "+25% FLOWER 和金币送货奖励",
   "description.michelin.stars": "高品质的食物，额外赚取 5% 的 FLOWER",
   "bumpkinTrade.sell": "向其他玩家出售你的资源以换取 FLOWER。",
-  "bumpkinTrade.floorPrice": "底价：{{price}} FLOWER",
   "bumpkinTrade.sellConfirmation": "以 {{price}} FLOWER 出售 {{quantity}} {{resource}}？",
   "description.classy.bear": "FLOWER 比你知道该怎么处理还要多！",
   "description.chef.apron": "额外赠送 20% 的 FLOWER 销售蛋糕",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "可用密友",
   "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
   "description.factionPet.foodXpBoost": "来自派系宠物连胜的 Bumpkin XP",
-  "boost.buildingOil": "建筑用油：x {{percent}}"
+  "boost.buildingOil": "建筑用油：x {{percent}}",
+  "bumpkinTrade.floorPrice": "楼层：{{price}} FLOWER",
+  "marketplace.listingsCount": "商品信息",
+  "marketplace.creatingListings": "创建 {{count}} 相同的清单。",
+  "marketplace.totalItems": "物品总数",
+  "marketplace.totalListings": "房源总数",
+  "marketplace.maxBulk": "你可以使用批量功能，直到每次达到每个资源 {{max}} 个列表的最大值"
 }

@@ -5360,7 +5360,6 @@
   "bumpkinItemBuff.sunflorian.crown.boost": "+25% Pengiriman BUNGA & Koin",
   "description.michelin.stars": "Makanan berkualitas tinggi, dapatkan tambahan 5% BUNGA",
   "bumpkinTrade.sell": "Jual sumber daya Anda ke pemain lain untuk FLOWER.",
-  "bumpkinTrade.floorPrice": "Harga LanTAI: {{price}} FLOWER",
   "bumpkinTrade.sellConfirmation": "Jual {{quantity}} {{resource}} untuk {{price}} FLOWER?",
   "description.classy.bear": "Lebih banyak BUNGA daripada yang Anda tahu apa yang harus dilakukan dengannya!",
   "description.chef.apron": "Memberikan 20% tambahan bunga menjual kue",
@@ -8063,5 +8062,11 @@
   "guide.crustacean.availableChums": "Teman yang Tersedia",
   "description.vipAccess.foodXpBoost": "+10% XP Bumpkin",
   "description.factionPet.foodXpBoost": "Bumpkin XP dari faksi pet streak",
-  "boost.buildingOil": "Minyak bangunan: x {{percent}}"
+  "boost.buildingOil": "Minyak bangunan: x {{percent}}",
+  "bumpkinTrade.floorPrice": "LanTAI: {{price}} BUNGA",
+  "marketplace.listingsCount": "Daftar",
+  "marketplace.creatingListings": "Membuat {{count}} daftar identik.",
+  "marketplace.totalItems": "Jumlah item",
+  "marketplace.totalListings": "Total daftar",
+  "marketplace.maxBulk": "Anda dapat menggunakan fitur massal hingga mencapai maksimum daftar {{max}} per sumber daya pada satu waktu"
 }
