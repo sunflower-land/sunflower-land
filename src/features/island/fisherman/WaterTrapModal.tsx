@@ -1,4 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, {
+  useContext,
+  useRef,
+  useSyncExternalStore,
+  useState,
+} from "react";
 import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -34,12 +39,36 @@ const _state = (state: MachineState) => state.context.state;
 const LAST_TRAP_KEY = "lastSelectedWaterTrap";
 const LAST_CHUM_KEY = "lastSelectedWaterTrapChum";
 
+const safeLocalStorage = {
+  get<T>(key: string): T | null {
+    try {
+      return typeof window !== "undefined"
+        ? (localStorage.getItem(key) as T)
+        : null;
+    } catch {
+      return null;
+    }
+  },
+  set(key: string, value: string): void {
+    try {
+      if (typeof window !== "undefined") localStorage.setItem(key, value);
+    } catch {
+      // Safari private mode, quota exceeded, etc.
+    }
+  },
+  remove(key: string): void {
+    try {
+      if (typeof window !== "undefined") localStorage.removeItem(key);
+    } catch {
+      // Safari private mode, etc.
+    }
+  },
+};
+
 const getStoredTrap = (
   canUseMarinerPot: boolean,
 ): WaterTrapName | undefined => {
-  if (typeof window === "undefined") return undefined;
-
-  const stored = localStorage.getItem(LAST_TRAP_KEY) as WaterTrapName | null;
+  const stored = safeLocalStorage.get<WaterTrapName>(LAST_TRAP_KEY);
   if (!stored || !(stored in WATER_TRAP)) return undefined;
   if (stored === "Mariner Pot" && !canUseMarinerPot) return undefined;
 
@@ -50,10 +79,9 @@ const getStoredChum = (
   trap: WaterTrapName | undefined,
   state: GameState,
 ): CrustaceanChum | undefined => {
-  if (typeof window === "undefined") return undefined;
   if (!trap) return undefined;
 
-  const stored = localStorage.getItem(LAST_CHUM_KEY) as CrustaceanChum | null;
+  const stored = safeLocalStorage.get<CrustaceanChum>(LAST_CHUM_KEY);
   if (!stored) return undefined;
 
   const items = {
@@ -89,25 +117,47 @@ export const WaterTrapModal: React.FC<Props> = ({
   const marinerRequiredLevel = WATER_TRAP["Mariner Pot"].requiredBumpkinLevel;
   const canUseMarinerPot = bumpkinLevel >= marinerRequiredLevel;
 
-  const [selectedTrap, setSelectedTrap] = useState<WaterTrapName | undefined>(
-    () =>
-      getStoredTrap(
-        getBumpkinLevel(state?.bumpkin?.experience ?? 0) >=
-          WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
-      ),
-  );
-  const [selectedChum, setSelectedChum] = useState<CrustaceanChum | undefined>(
+  const [userSelection, setUserSelection] = useState<{
+    trap?: WaterTrapName;
+    chum?: CrustaceanChum;
+  }>();
+
+  const snapshotRef = useRef<{
+    trap: WaterTrapName | undefined;
+    chum: CrustaceanChum | undefined;
+  }>(undefined);
+
+  const persisted = useSyncExternalStore(
+    () => () => {},
     () => {
-      const canUseMarinerPot =
-        getBumpkinLevel(state?.bumpkin?.experience ?? 0) >=
-        WATER_TRAP["Mariner Pot"].requiredBumpkinLevel;
-      const trap = getStoredTrap(canUseMarinerPot);
-      const storedChum = getStoredChum(trap, state);
-      return waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
-        ? (waterTrap.chum as CrustaceanChum)
-        : storedChum;
+      try {
+        const trap = getStoredTrap(canUseMarinerPot);
+        const chum =
+          waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
+            ? waterTrap.chum
+            : getStoredChum(trap, state);
+        const next = { trap, chum };
+        if (
+          snapshotRef.current?.trap === next.trap &&
+          snapshotRef.current?.chum === next.chum
+        ) {
+          return snapshotRef.current;
+        }
+        snapshotRef.current = next;
+        return next;
+      } catch {
+        const fallback = { trap: undefined, chum: undefined };
+        return snapshotRef.current ?? fallback;
+      }
     },
+    () => ({ trap: undefined, chum: undefined }),
   );
+
+  const selectedTrap = userSelection?.trap ?? persisted?.trap;
+  const selectedChum =
+    waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
+      ? waterTrap.chum
+      : (userSelection?.chum ?? persisted?.chum);
 
   const items = {
     ...getBasketItems(state.inventory),
@@ -144,27 +194,22 @@ export const WaterTrapModal: React.FC<Props> = ({
       : (state.farmActivity[`${catchForSelectedChum} Caught`] ?? 0) > 0);
 
   const handleTrapChange = (trap: WaterTrapName) => {
-    setSelectedTrap(trap);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(LAST_TRAP_KEY, trap);
-    }
-    // Clear chum if it's not valid for the new trap
-    if (selectedChum && !WATER_TRAP[trap].chums.includes(selectedChum)) {
-      setSelectedChum(undefined);
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(LAST_CHUM_KEY);
-      }
-    }
+    const clearChum =
+      selectedChum && !WATER_TRAP[trap].chums.includes(selectedChum);
+    setUserSelection((prev) => ({
+      trap,
+      chum: clearChum ? undefined : prev?.chum,
+    }));
+    safeLocalStorage.set(LAST_TRAP_KEY, trap);
+    if (clearChum) safeLocalStorage.remove(LAST_CHUM_KEY);
   };
 
   const handleChumChange = (chum: CrustaceanChum | undefined) => {
-    setSelectedChum(chum);
-    if (typeof window !== "undefined") {
-      if (chum) {
-        localStorage.setItem(LAST_CHUM_KEY, chum);
-      } else {
-        localStorage.removeItem(LAST_CHUM_KEY);
-      }
+    setUserSelection((prev) => ({ ...prev, chum }));
+    if (chum) {
+      safeLocalStorage.set(LAST_CHUM_KEY, chum);
+    } else {
+      safeLocalStorage.remove(LAST_CHUM_KEY);
     }
   };
 
@@ -223,10 +268,12 @@ export const WaterTrapModal: React.FC<Props> = ({
             <DropdownPanel
               options={[
                 {
-                  value: "Crab Pot" as WaterTrapName,
+                  value: "Crab Pot",
                   label: (
                     <div className="flex flex-col gap-1">
-                      <p className="text-xs">{`Crab Pot (${state.inventory["Crab Pot"]?.toString() ?? 0})`}</p>
+                      <p className="text-xs">{`Crab Pot (${
+                        state.inventory["Crab Pot"]?.toString() ?? 0
+                      })`}</p>
                       <p className="text-xxs">
                         {ITEM_DETAILS["Crab Pot"].description}
                       </p>
@@ -237,10 +284,12 @@ export const WaterTrapModal: React.FC<Props> = ({
                 ...(canUseMarinerPot
                   ? [
                       {
-                        value: "Mariner Pot" as WaterTrapName,
+                        value: "Mariner Pot",
                         label: (
                           <div className="flex flex-col gap-1">
-                            <p className="text-xs">{`Mariner Pot (${state.inventory["Mariner Pot"]?.toString() ?? 0})`}</p>
+                            <p className="text-xs">{`Mariner Pot (${
+                              state.inventory["Mariner Pot"]?.toString() ?? 0
+                            })`}</p>
                             <p className="text-xxs">
                               {ITEM_DETAILS["Mariner Pot"].description}
                             </p>
@@ -279,10 +328,9 @@ export const WaterTrapModal: React.FC<Props> = ({
                       {t("waterTrap.selectChum")}
                     </p>
                     <div className="flex flex-wrap">
-                      {chums.map((name) => {
-                        if (!items[name]?.gte(1)) return null;
+                      {chums.map((chum) => {
+                        if (!items[chum]?.gte(1)) return null;
 
-                        const chum = name as CrustaceanChum;
                         const currentAmount = items[chum] ?? new Decimal(0);
                         return (
                           <Box
