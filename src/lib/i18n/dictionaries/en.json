@@ -7122,7 +7122,7 @@
   "withdraw.duplicate.tip1": "1. Use a mobile Hotspot",
   "withdraw.duplicate.tip2": "2. Use an alternate IP address that others in your household are not using.",
   "withdraw.duplicate.tip3": "3. Avoid VPNs",
-  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse (1 week).",
+  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage.",
   "withdraw.duplicate.note": "This safeguard applies automatically and isn't a strike or warning.",
   "select.network": "Select Network",
   "switching.network": "Switching Network...",

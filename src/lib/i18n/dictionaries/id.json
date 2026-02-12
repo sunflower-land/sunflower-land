@@ -7763,7 +7763,6 @@
   "withdraw.duplicate.tip1": "1. Gunakan Hotspot seluler",
   "withdraw.duplicate.tip2": "2. Gunakan alamat IP alternatif yang tidak digunakan orang lain di rumah Anda.",
   "withdraw.duplicate.tip3": "3. Hindari VPN",
-  "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena terlalu sering digunakan (1 minggu).",
   "withdraw.duplicate.note": "Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan.",
   "processedResources": "Sumber Daya yang Diproses",
   "instantProcessedResources.recipes": "Resep Instan",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "Total daftar",
   "marketplace.maxBulk": "Anda dapat menggunakan fitur massal hingga mencapai maksimum daftar {{max}} per sumber daya pada satu waktu",
   "pete.levelthree.three": "Lihat pengiriman Anda di kiri atas layar. Setelah Anda mengumpulkan sumber daya, Anda dapat melakukan perjalanan dan mengirimkan barang ke Bumpkins.",
-  "chest.placeFirst": "Tempat"
+  "chest.placeFirst": "Tempat",
+  "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan."
 }

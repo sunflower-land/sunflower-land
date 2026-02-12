@@ -7763,7 +7763,6 @@
   "withdraw.duplicate.tip1": "1. Mobil Erişim Noktası kullanın",
   "withdraw.duplicate.tip2": "2. Evinizdeki diğer kişilerin kullanmadığı alternatif bir IP adresi kullanın.",
   "withdraw.duplicate.tip3": "3. VPN'lerden Kaçının",
-  "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir (1 hafta).",
   "withdraw.duplicate.note": "Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir.",
   "processedResources": "İşlenmiş Kaynaklar",
   "instantProcessedResources.recipes": "Anında Tarifler",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "Toplam listeler",
   "marketplace.maxBulk": "Bir seferde kaynak başına maksimum {{max}} listesine ulaşana kadar toplu özelliğini kullanabilirsiniz",
   "pete.levelthree.three": "Teslimatlarınızı ekranın sol üst köşesinde görüntüleyin. Kaynakları topladıktan sonra, seyahat edebilir ve eşyaları Bumpkins'e teslim edebilirsiniz.",
-  "chest.placeFirst": "Yer"
+  "chest.placeFirst": "Yer",
+  "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir."
 }

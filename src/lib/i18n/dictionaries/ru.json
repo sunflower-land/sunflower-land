@@ -7775,7 +7775,6 @@
   "withdraw.duplicate.tip1": "1. Используй мобильный интернет",
   "withdraw.duplicate.tip2": "2. Используй альтернативный IP-адрес, который не используют другие в твоём доме.",
   "withdraw.duplicate.tip3": "3. Избегай VPN",
-  "withdraw.duplicate.tip4": "4. Публичные или общие сети могут требовать небольшого ожидания из-за перегрузки (1 неделя).",
   "withdraw.duplicate.note": "Эта защита применяется автоматически и не является предупреждением или нарушением.",
   "processedResources": "Переработанные ресурсы",
   "instantProcessedResources.recipes": "Мгновенные рецепты",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "Total listings",
   "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time",
   "pete.levelthree.three": "View your deliveries in the top left of the screen. Once you've gathered the resources, you can travel and deliver the items to the Bumpkins.",
-  "chest.placeFirst": "Place"
+  "chest.placeFirst": "Place",
+  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage."
 }

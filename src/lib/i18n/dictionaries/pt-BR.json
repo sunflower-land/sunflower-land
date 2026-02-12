@@ -7763,7 +7763,6 @@
   "withdraw.duplicate.tip1": "1. Use um ponto de acesso móvel",
   "withdraw.duplicate.tip2": "2. Use um endereço IP alternativo que outras pessoas em sua casa não estejam usando.",
   "withdraw.duplicate.tip3": "3. Evite VPNs",
-  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo (1 semana).",
   "withdraw.duplicate.note": "Essa proteção se aplica automaticamente e não é um aviso ou aviso.",
   "processedResources": "Recursos processados",
   "instantProcessedResources.recipes": "Receitas instantâneas",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "Total de anúncios",
   "marketplace.maxBulk": "Você pode usar o recurso em massa até atingir o máximo de {{max}} anúncios por recurso por vez",
   "pete.levelthree.three": "Veja suas entregas no canto superior esquerdo da tela. Depois de reunir os recursos, você pode viajar e entregar os itens aos Bumpkins.",
-  "chest.placeFirst": "Lugar"
+  "chest.placeFirst": "Lugar",
+  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso."
 }

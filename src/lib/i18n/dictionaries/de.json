@@ -7763,7 +7763,6 @@
   "withdraw.duplicate.tip1": "1. Verwenden Sie einen mobilen Hotspot",
   "withdraw.duplicate.tip2": "2. Verwenden Sie eine alternative IP-Adresse, die andere in Ihrem Haushalt nicht verwenden.",
   "withdraw.duplicate.tip3": "3. Vermeiden Sie VPNs",
-  "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern (1 Woche).",
   "withdraw.duplicate.note": "Diese Schutzmaßnahme gilt automatisch und ist kein Streik oder eine Warnung.",
   "processedResources": "Verarbeitete Ressourcen",
   "instantProcessedResources.recipes": "Sofortige Rezepte",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "Angebote insgesamt",
   "marketplace.maxBulk": "Sie können die Sammelfunktion verwenden, bis Sie das Maximum an {{max}} Angeboten pro Ressource gleichzeitig erreicht haben",
   "pete.levelthree.three": "Sehen Sie sich Ihre Lieferungen oben links auf dem Bildschirm an. Sobald du die Ressourcen gesammelt hast, kannst du reisen und die Gegenstände zu den Bumpkins bringen.",
-  "chest.placeFirst": "Ort"
+  "chest.placeFirst": "Ort",
+  "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern."
 }

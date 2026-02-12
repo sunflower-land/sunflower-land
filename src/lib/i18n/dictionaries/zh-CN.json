@@ -7763,7 +7763,6 @@
   "withdraw.duplicate.tip1": "1. 使用手机热点",
   "withdraw.duplicate.tip2": "2. 使用家庭成员未在使用的其他 IP 地址。",
   "withdraw.duplicate.tip3": "3. 避免使用 VPN 或代理服务器进行提现。",
-  "withdraw.duplicate.tip4": "4. 公共或共享网络因使用频繁，可能需要等待一段时间（1 周）。",
   "withdraw.duplicate.note": "此为自动触发的保护机制，并非对账号的违规记录或警告。",
   "processedResources": "加工资源",
   "instantProcessedResources.recipes": "速食配方",
@@ -8069,5 +8068,6 @@
   "marketplace.totalListings": "房源总数",
   "marketplace.maxBulk": "你可以使用批量功能，直到每次达到每个资源 {{max}} 个列表的最大值",
   "pete.levelthree.three": "在屏幕的左上角查看您的配送。收集资源后，你可以旅行并将物品交给 Bumpkins。",
-  "chest.placeFirst": "地点"
+  "chest.placeFirst": "地点",
+  "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。"
 }
