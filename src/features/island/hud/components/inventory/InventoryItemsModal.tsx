@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import Decimal from "decimal.js-light";
@@ -36,6 +36,8 @@ interface Props {
   isFarming: boolean;
   isFullUser: boolean;
   location?: PlaceableLocation;
+  /** When true, open with Chest tab selected (e.g. first-time place flow). */
+  defaultToChest?: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -57,11 +59,19 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isFarming,
   isFullUser,
   location,
+  defaultToChest,
 }) => {
   const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
     location === "petHouse" ? "Chest" : "Basket",
   );
+
+  useEffect(() => {
+    if (show && defaultToChest) {
+      setCurrentTab("Chest");
+    }
+  }, [show, defaultToChest]);
+
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
   );

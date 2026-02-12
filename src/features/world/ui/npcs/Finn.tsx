@@ -1,4 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
+import deliveryIcon from "assets/icons/delivery.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
@@ -70,7 +71,7 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       container={OuterPanel}
       tabs={[
         {
-          icon: SUNNYSIDE.icons.expression_chat,
+          icon: deliveryIcon,
           name: t("delivery"),
           id: "delivery",
         },

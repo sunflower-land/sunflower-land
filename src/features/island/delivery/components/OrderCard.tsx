@@ -22,6 +22,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 
 import token from "assets/icons/flower_token.webp";
+import deliveryIcon from "assets/icons/delivery_ready.webp";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
 const makeRewardAmountForLabel = ({
@@ -70,7 +71,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
       >
         {hasOrderRequirements({ order, state }) && !order.completedAt && (
           <img
-            src={SUNNYSIDE.icons.heart}
+            src={deliveryIcon}
             className="absolute top-0.5 right-0.5 w-3 sm:w-4"
           />
         )}

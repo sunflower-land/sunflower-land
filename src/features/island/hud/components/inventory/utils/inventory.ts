@@ -203,6 +203,25 @@ export const getChestItems = (state: GameState): Inventory => {
   return availableItems;
 };
 
+/**
+ * True when the player has at least one placeable chest item and has not
+ * placed any collectibles yet (used to show "place your first item" helper).
+ */
+export const hasChestItemAndNoCollectiblesPlaced = (
+  state: GameState,
+): boolean => {
+  const chestItems = getChestItems(state);
+  const hasChestItem = getKeys(chestItems).some(
+    (name) => (chestItems[name] ?? new Decimal(0)).gt(0),
+  );
+  if (!hasChestItem) return false;
+  const hasPlacedCollectible = getObjectEntries(state.collectibles ?? {}).some(
+    ([, items]) =>
+      (items ?? []).some((item) => item.coordinates !== undefined),
+  );
+  return !hasPlacedCollectible;
+};
+
 export function getCountAndType(
   state: GameState,
   name: InventoryItemName | BumpkinItem,

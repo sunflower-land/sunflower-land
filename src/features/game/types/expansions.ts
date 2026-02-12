@@ -2563,7 +2563,7 @@ const LAND_6_REQUIREMENTS: Requirements = {
   resources: {
     Stone: 1,
   },
-  coins: 60,
+  coins: 0,
   seconds: 60,
   bumpkinLevel: 2,
 };

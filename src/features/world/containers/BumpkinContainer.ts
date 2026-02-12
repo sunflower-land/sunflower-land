@@ -23,13 +23,7 @@ const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
   "hammerin harry": "auctions",
 };
-export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
-  "pumpkin' pete": true,
-  hank: true,
-  santa: true,
-  chase: true,
-  "rocket man": true,
-};
+export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {};
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -99,6 +93,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     isVip,
     createdAt,
     islandType,
+    showDeliveryIcon,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -117,6 +112,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     isVip?: boolean;
     createdAt?: number;
     islandType?: IslandType;
+    showDeliveryIcon?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -152,9 +148,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
       const labelType = name === "hammerin harry" ? "gold" : "grey";
-      const label = new Label(this.scene, text.toUpperCase(), labelType);
+      const labelIconKey =
+        showDeliveryIcon && this.scene.textures.exists("delivery_icon")
+          ? "delivery_icon"
+          : undefined;
+      const label = new Label(
+        this.scene,
+        text.toUpperCase(),
+        labelType,
+        labelIconKey,
+      );
       this.add(label);
-      label.setPosition(label.width / 2, -16);
+
+      const width = label.width;
+      label.setPosition(width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
         !acknowledgedNPCs()[name as NPCName] &&

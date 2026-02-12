@@ -663,8 +663,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const today = new Date(now).toISOString().split("T")[0];
   const isHoliday = holiday === today;
+  console.log({ higher: gameState.value });
 
   const deliver = () => {
+    console.log({ deliverState: gameState.value });
     gameService.send("order.delivered", {
       id: delivery?.id,
       friendship: true,

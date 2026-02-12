@@ -1,16 +1,22 @@
+const ICON_WIDTH = 11;
+const ICON_GAP = -1;
+
 export class Label extends Phaser.GameObjects.Container {
   constructor(
     scene: Phaser.Scene,
     text: string,
     type: "brown" | "grey" | "gold" | "vibrant" = "grey",
+    iconKey?: string,
   ) {
     super(scene, 0, 0);
     this.scene = scene;
 
-    const width = text.length * 4 - 1;
+    const textWidth = text.length * 4 - 1;
+    const patchWidth = textWidth + 6;
+    const hasIcon = !!iconKey && scene.textures.exists(iconKey);
 
     const name = scene.add.bitmapText(
-      -width / 2,
+      -textWidth / 2,
       1,
       "Teeny Tiny Pixls",
       text,
@@ -29,7 +35,7 @@ export class Label extends Phaser.GameObjects.Container {
     const label = (this.scene.add as any).rexNinePatch2({
       x: 0,
       y: 3.5,
-      width: width + 6,
+      width: patchWidth,
       height: 11,
       key: key,
       columns: [3, 3, 3],
@@ -40,14 +46,15 @@ export class Label extends Phaser.GameObjects.Container {
 
     this.add(label);
     this.add(name);
+    if (hasIcon) {
+      const iconX = -patchWidth / 2 - ICON_GAP - ICON_WIDTH / 2;
+      const icon = scene.add
+        .sprite(iconX, 3.5, iconKey!)
+        .setSize(ICON_WIDTH, ICON_WIDTH)
+        .setOrigin(0.5, 0.5);
+      this.add(icon);
+    }
 
     this.setDepth(1);
-
-    // if (icon) {
-    // const sprite = scene.add.sprite(0, 0, "hammer");
-    // sprite.setPosition(-2, -2);
-
-    // this.add(sprite);
-    // }
   }
 }

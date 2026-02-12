@@ -43,6 +43,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ChapterBounties } from "./pages/ChapterBounties";
+import deliveryIcon from "assets/icons/delivery.webp";
 
 interface Props {
   show: boolean;
@@ -145,7 +146,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const categories: CodexCategory[] = [
     {
       name: "Deliveries",
-      icon: SUNNYSIDE.icons.player,
+      icon: deliveryIcon,
       count: incompleteDeliveries,
     },
     {
