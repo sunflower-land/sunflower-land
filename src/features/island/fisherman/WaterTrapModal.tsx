@@ -240,15 +240,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[selectedChum].image}
                     >
-                      {`${t("required")}: ${
-                        CRUSTACEAN_CHUM_AMOUNTS[selectedChum]
-                      } ${selectedChum}${
-                        items[selectedChum]?.gt(0)
-                          ? ` (${t("count.available", {
-                              count: items[selectedChum]?.toFixed(2) ?? "0",
-                            })})`
-                          : ""
-                      }`}
+                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${t("required")}`}
                     </Label>
                   )}
                   {showResultingCatch && (
