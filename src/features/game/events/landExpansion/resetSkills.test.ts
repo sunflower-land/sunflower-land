@@ -143,70 +143,70 @@ describe("resetSkills", () => {
   });
 
   describe("validation checks", () => {
-    it("prevents reset with crops in additional slots", () => {
-      expect(() => {
-        resetSkills({
-          state: {
-            ...INITIAL_FARM,
-            bumpkin: {
-              ...TEST_BUMPKIN,
-              skills: {
-                "Green Thumb": 1,
-                "Field Expansion Module": 1,
-              },
-            },
-            buildings: {
-              "Crop Machine": [
-                {
-                  id: "123",
-                  coordinates: { x: 0, y: 0 },
-                  readyAt: 0,
-                  createdAt: 0,
-                  queue: new Array(6).fill({}), // 6 crops (more than 5)
-                },
-              ],
-            },
-            inventory: {
-              Gem: new Decimal(300),
+    it("succeeds reset with crops in additional slots (post-split no restriction)", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 1,
+              "Field Expansion Module": 1,
             },
           },
-          action: { type: "skills.reset", paymentType: "gems" },
-          createdAt: dateNow,
-        });
-      }).toThrow("You can't reset skills with crops in the additional slots");
+          buildings: {
+            "Crop Machine": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+                createdAt: 0,
+                queue: new Array(6).fill({}), // 6 crops (more than 5)
+              },
+            ],
+          },
+          inventory: {
+            Gem: new Decimal(300),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
     });
 
-    it("prevents reset with excess oil in tank", () => {
-      expect(() => {
-        resetSkills({
-          state: {
-            ...INITIAL_FARM,
-            bumpkin: {
-              ...TEST_BUMPKIN,
-              skills: {
-                "Green Thumb": 1,
-                "Leak-Proof Tank": 1,
-              },
-            },
-            buildings: {
-              "Crop Machine": [
-                {
-                  unallocatedOilTime: 49 * 60 * 60 * 1000, // 49 hours (more than 48)
-                  id: "123",
-                  coordinates: { x: 0, y: 0 },
-                  readyAt: 0,
-                  createdAt: 0,
-                },
-              ],
-            },
-            inventory: {
-              Gem: new Decimal(300),
+    it("succeeds reset with excess oil in tank (post-split no restriction)", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 1,
+              "Leak-Proof Tank": 1,
             },
           },
-          action: { type: "skills.reset", paymentType: "gems" },
-          createdAt: dateNow,
-        });
-      }).toThrow("Oil tank would exceed capacity after reset");
+          buildings: {
+            "Crop Machine": [
+              {
+                unallocatedOilTime: 49 * 60 * 60 * 1000, // 49 hours (more than 48)
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+                createdAt: 0,
+              },
+            ],
+          },
+          inventory: {
+            Gem: new Decimal(300),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
     });
   });
 });

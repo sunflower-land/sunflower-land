@@ -1,7 +1,6 @@
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getTotalOilMillisInMachine } from "./supplyCropMachine";
 
 export type PaymentType = "gems" | "free";
 
@@ -66,28 +65,6 @@ export function resetSkills({
     // Check if bumpkin has any skills
     if (getKeys(skills).length === 0) {
       throw new Error("You do not have any skills to reset");
-    }
-
-    const cropMachine = buildings["Crop Machine"];
-    const { queue = [], unallocatedOilTime = 0 } = cropMachine?.[0] ?? {};
-    // If player has Crop Expansion Module, they can't reset skills if they have any crops in the additional slots
-    if (skills["Field Expansion Module"]) {
-      if (queue.length > 5) {
-        throw new Error(
-          "You can't reset skills with crops in the additional slots",
-        );
-      }
-    }
-
-    // If player has more oil in Crop Machine than regular tank limit, they can't reset skills
-    if (skills["Leak-Proof Tank"]) {
-      const oilMillisInMachine = getTotalOilMillisInMachine(
-        queue,
-        unallocatedOilTime,
-      );
-      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
-        throw new Error("Oil tank would exceed capacity after reset");
-      }
     }
 
     if (action.paymentType === "free") {

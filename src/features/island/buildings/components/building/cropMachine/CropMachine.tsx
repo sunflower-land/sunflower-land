@@ -118,7 +118,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const handleAddOil = (oil: number) => {
     const updated = gameService.send({
-      type: "cropMachine.supplied",
+      type: "cropMachine.oilSupplied",
       oil,
     });
 
@@ -133,7 +133,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     cropMachineService.send({
       type: "SUPPLY_MACHINE",
       updatedQueue: updatedMachine.queue ?? [],
-      updatedUnallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
+      updatedUnallocatedOilTime: updatedMachine.unallocatedOilTime ?? 0,
     });
   };
 

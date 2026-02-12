@@ -34,7 +34,10 @@ export const OilTank: React.FC<OilTankProps> = ({
   useUiRefresher({ active: !stopped });
 
   const totalOilMillis = getTotalOilMillisInMachine(queue, unallocatedOilTime);
-  const oilInTank = (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS(state)) * 100;
+  const oilInTank = Math.min(
+    100,
+    (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS(state)) * 100,
+  );
   const runtime = totalOilMillis / 1000;
 
   return (
