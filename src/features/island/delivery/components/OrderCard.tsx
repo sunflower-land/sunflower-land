@@ -22,7 +22,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 
 import token from "assets/icons/flower_token.webp";
-import deliveryIcon from "assets/icons/delivery_ready.webp";
+import deliveryIcon from "assets/icons/delivery_heart.webp";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
 const makeRewardAmountForLabel = ({
