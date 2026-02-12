@@ -10,9 +10,12 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import {
   FactionName,
+  GameState,
   InventoryItemName,
   IslandType,
+  Order,
 } from "features/game/types/game";
+import { hasOrderRequirements } from "features/island/delivery/components/Orders";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -224,6 +227,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public teleport(x: number, y: number) {
     this.setPosition(x, y);
+  }
+
+  /**
+   * Update delivery icon visibility based on current game state.
+   * Call when game state changes (e.g. after completing a delivery) so the icon is removed.
+   */
+  public updateDeliveryIconVisibility(npcName: NPCName): void {
+    const gameState = this.scene.registry.get("gameState") as
+      | GameState
+      | undefined;
+    if (!gameState?.delivery?.orders || !this.label) return;
+    const now = Date.now();
+    const order = gameState.delivery.orders.find(
+      (o: Order) => o.from === npcName && now >= o.readyAt && !o.completedAt,
+    );
+    const showDeliveryIcon =
+      !!order && hasOrderRequirements({ order, state: gameState });
+    this.label.setIconVisible(showDeliveryIcon);
   }
 
   get directionFacing() {

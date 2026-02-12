@@ -367,6 +367,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
+  username: "hero",
   waterWell: {
     level: 1,
   },
