@@ -340,7 +340,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap items-start sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {showSeason && (
           <Label
             type="default"
@@ -352,7 +352,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         )}
         <div
           className={classNames(
-            "w-full mb-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1",
+            "relative w-full mb-2 flex justify-start gap-x-3 gap-y-2 flex-wrap items-start sm:flex-col sm:justify-between sm:items-center sm:flex-nowrap my-1",
             {
               "pt-2": showSeason,
             },
