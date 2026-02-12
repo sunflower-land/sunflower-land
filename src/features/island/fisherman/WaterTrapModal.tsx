@@ -60,12 +60,10 @@ const safeLocalStorage = {
   },
 };
 
-const getStoredTrap = (
-  canUseMarinerPot: boolean,
-): WaterTrapName | undefined => {
+const getStoredTrap = (canUseMarinerPot: boolean): WaterTrapName => {
   const stored = safeLocalStorage.get<WaterTrapName>(LAST_TRAP_KEY);
-  if (!stored || !(stored in WATER_TRAP)) return undefined;
-  if (stored === "Mariner Pot" && !canUseMarinerPot) return undefined;
+  if (!stored || !(stored in WATER_TRAP)) return "Crab Pot";
+  if (stored === "Mariner Pot" && !canUseMarinerPot) return "Crab Pot";
 
   return stored;
 };
@@ -113,14 +111,20 @@ export const WaterTrapModal: React.FC<Props> = ({
   const canUseMarinerPot = bumpkinLevel >= marinerRequiredLevel;
 
   const [userSelection, setUserSelection] = useState<{
-    trap?: WaterTrapName;
-    chum?: CrustaceanChum;
-  }>();
+    trap: WaterTrapName;
+    chum: CrustaceanChum | undefined;
+  }>({
+    trap: "Crab Pot",
+    chum: undefined,
+  });
 
   const [persisted, setPersisted] = useState<{
-    trap?: WaterTrapName;
-    chum?: CrustaceanChum;
-  }>({});
+    trap: WaterTrapName;
+    chum: CrustaceanChum | undefined;
+  }>({
+    trap: "Crab Pot",
+    chum: undefined,
+  });
 
   useEffect(() => {
     queueMicrotask(() => {
@@ -129,18 +133,21 @@ export const WaterTrapModal: React.FC<Props> = ({
         const chum = getStoredChum(trap, state);
         setPersisted({ trap, chum });
       } catch {
-        setPersisted({});
+        setPersisted({
+          trap: "Crab Pot",
+          chum: undefined,
+        });
       }
     });
   }, [canUseMarinerPot, state]);
 
   const initialChum =
     waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
-      ? (waterTrap.chum as CrustaceanChum)
+      ? waterTrap.chum
       : undefined;
 
-  const selectedTrap = userSelection?.trap ?? persisted?.trap;
-  const selectedChum = userSelection?.chum ?? persisted?.chum ?? initialChum;
+  const selectedTrap = userSelection.trap ?? persisted.trap;
+  const selectedChum = userSelection.chum ?? persisted.chum ?? initialChum;
 
   const items = {
     ...getBasketItems(state.inventory),
@@ -149,26 +156,23 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   const hasAccessToWaterTraps = bumpkinLevel >= 18;
 
-  const chums = selectedTrap
-    ? WATER_TRAP[selectedTrap].chums.filter((chum) => items[chum]?.gte(1))
-    : [];
+  const chums = WATER_TRAP[selectedTrap].chums.filter((chum) =>
+    items[chum]?.gte(1),
+  );
 
   const isValidChumForTrap = selectedChum ? chums.includes(selectedChum) : true;
 
-  const hasTrap = selectedTrap
-    ? (state.inventory[selectedTrap]?.gte(1) ?? false)
-    : false;
+  const hasTrap = state.inventory[selectedTrap]?.gte(1) ?? false;
 
   const hasEnoughChum = selectedChum
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
 
-  const catchForSelectedChum = selectedTrap
-    ? getKeys(caughtCrustacean(selectedTrap, selectedChum))[0]
-    : undefined;
+  const catchForSelectedChum = getKeys(
+    caughtCrustacean(selectedTrap, selectedChum),
+  )[0];
 
   const showResultingCatch =
-    selectedTrap &&
     catchForSelectedChum &&
     (selectedChum
       ? (state.farmActivity[
@@ -200,7 +204,7 @@ export const WaterTrapModal: React.FC<Props> = ({
   };
 
   const handlePlace = () => {
-    if (!selectedTrap || !hasTrap) return;
+    if (!hasTrap) return;
 
     const chumAmount = selectedChum ? CRUSTACEAN_CHUM_AMOUNTS[selectedChum] : 0;
     const hasChum = selectedChum
@@ -290,117 +294,103 @@ export const WaterTrapModal: React.FC<Props> = ({
               onChange={(trap) => handleTrapChange(trap)}
             />
 
-            {!selectedTrap && (
-              <Label className="ml-1" type="default">
-                {t("waterTrap.selectTrap")}
+            {!state.inventory[selectedTrap]?.gte(1) && (
+              <Label className="ml-1" type="danger">
+                {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
               </Label>
             )}
 
-            {selectedTrap && (
-              <>
-                {!state.inventory[selectedTrap]?.gte(1) && (
-                  <Label className="ml-1" type="danger">
-                    {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
-                  </Label>
-                )}
+            {chums.length === 0 ? (
+              <Label className="ml-1" type="danger">
+                {t("waterTrap.noChumsAvailable")}
+              </Label>
+            ) : (
+              <InnerPanel>
+                <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
+                <div className="flex flex-wrap">
+                  {chums.map((chum) => {
+                    if (!items[chum]?.gte(1)) return null;
 
-                {chums.length === 0 ? (
-                  <Label className="ml-1" type="danger">
-                    {t("waterTrap.noChumsAvailable")}
+                    const currentAmount = items[chum] ?? new Decimal(0);
+                    return (
+                      <Box
+                        key={chum}
+                        image={ITEM_DETAILS[chum].image}
+                        count={currentAmount}
+                        onClick={() =>
+                          handleChumChange(
+                            selectedChum === chum ? undefined : chum,
+                          )
+                        }
+                        isSelected={selectedChum === chum}
+                      />
+                    );
+                  })}
+                </div>
+              </InnerPanel>
+            )}
+            {selectedChum ? (
+              <InnerPanel className="p-2">
+                <div className="flex justify-between">
+                  {hasEnoughChum ? (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[selectedChum].image}
+                    >
+                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="warning"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[selectedChum].image}
+                    >
+                      {`${t("required")}: ${
+                        CRUSTACEAN_CHUM_AMOUNTS[selectedChum]
+                      } ${selectedChum}${
+                        items[selectedChum]?.gt(0)
+                          ? ` (${t("count.available", {
+                              count: items[selectedChum]?.toFixed(2) ?? "0",
+                            })})`
+                          : ""
+                      }`}
+                    </Label>
+                  )}
+                  {showResultingCatch && catchForSelectedChum && (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[catchForSelectedChum].image}
+                    >
+                      {catchForSelectedChum}
+                    </Label>
+                  )}
+                </div>
+                <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
+              </InnerPanel>
+            ) : (
+              <InnerPanel className="p-2">
+                <div className="flex justify-between">
+                  <Label type="default" className="mb-1 ml-1">
+                    {t("waterTrap.noChumSelected")}
                   </Label>
-                ) : (
-                  <InnerPanel>
-                    <p className="mb-1 p-1 text-xs">
-                      {t("waterTrap.selectChum")}
-                    </p>
-                    <div className="flex flex-wrap">
-                      {chums.map((chum) => {
-                        if (!items[chum]?.gte(1)) return null;
-
-                        const currentAmount = items[chum] ?? new Decimal(0);
-                        return (
-                          <Box
-                            key={chum}
-                            image={ITEM_DETAILS[chum].image}
-                            count={currentAmount}
-                            onClick={() =>
-                              handleChumChange(
-                                selectedChum === chum ? undefined : chum,
-                              )
-                            }
-                            isSelected={selectedChum === chum}
-                          />
-                        );
-                      })}
-                    </div>
-                  </InnerPanel>
-                )}
-                {selectedChum ? (
-                  <InnerPanel className="p-2">
-                    <div className="flex justify-between">
-                      {hasEnoughChum ? (
-                        <Label
-                          type="default"
-                          className="mb-1 ml-1"
-                          icon={ITEM_DETAILS[selectedChum].image}
-                        >
-                          {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
-                        </Label>
-                      ) : (
-                        <Label
-                          type="warning"
-                          className="mb-1 ml-1"
-                          icon={ITEM_DETAILS[selectedChum].image}
-                        >
-                          {`${t("required")}: ${
-                            CRUSTACEAN_CHUM_AMOUNTS[selectedChum]
-                          } ${selectedChum}${
-                            items[selectedChum]?.gt(0)
-                              ? ` (${t("count.available", {
-                                  count: items[selectedChum]?.toFixed(2) ?? "0",
-                                })})`
-                              : ""
-                          }`}
-                        </Label>
-                      )}
-                      {showResultingCatch && catchForSelectedChum && (
-                        <Label
-                          type="default"
-                          className="mb-1 ml-1"
-                          icon={ITEM_DETAILS[catchForSelectedChum].image}
-                        >
-                          {catchForSelectedChum}
-                        </Label>
-                      )}
-                    </div>
-                    <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
-                  </InnerPanel>
-                ) : (
-                  <InnerPanel className="p-2">
-                    <div className="flex justify-between">
-                      <Label type="default" className="mb-1 ml-1">
-                        {t("waterTrap.noChumSelected")}
-                      </Label>
-                      {showResultingCatch && catchForSelectedChum && (
-                        <Label
-                          type="default"
-                          className="mb-1 ml-1"
-                          icon={ITEM_DETAILS[catchForSelectedChum].image}
-                        >
-                          {catchForSelectedChum}
-                        </Label>
-                      )}
-                    </div>
-                  </InnerPanel>
-                )}
-              </>
+                  {showResultingCatch && catchForSelectedChum && (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[catchForSelectedChum].image}
+                    >
+                      {catchForSelectedChum}
+                    </Label>
+                  )}
+                </div>
+              </InnerPanel>
             )}
           </div>
           <Button
             onClick={handlePlace}
-            disabled={
-              !selectedTrap || !hasTrap || !isValidChumForTrap || !hasEnoughChum
-            }
+            disabled={!hasTrap || !isValidChumForTrap || !hasEnoughChum}
             className="w-full"
           >
             {catchForSelectedChum && showResultingCatch
