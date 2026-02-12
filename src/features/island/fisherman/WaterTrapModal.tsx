@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useRef,
-  useSyncExternalStore,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -122,42 +117,30 @@ export const WaterTrapModal: React.FC<Props> = ({
     chum?: CrustaceanChum;
   }>();
 
-  const snapshotRef = useRef<{
-    trap: WaterTrapName | undefined;
-    chum: CrustaceanChum | undefined;
-  }>(undefined);
+  const [persisted, setPersisted] = useState<{
+    trap?: WaterTrapName;
+    chum?: CrustaceanChum;
+  }>({});
 
-  const persisted = useSyncExternalStore(
-    () => () => {},
-    () => {
+  useEffect(() => {
+    queueMicrotask(() => {
       try {
         const trap = getStoredTrap(canUseMarinerPot);
-        const chum =
-          waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
-            ? waterTrap.chum
-            : getStoredChum(trap, state);
-        const next = { trap, chum };
-        if (
-          snapshotRef.current?.trap === next.trap &&
-          snapshotRef.current?.chum === next.chum
-        ) {
-          return snapshotRef.current;
-        }
-        snapshotRef.current = next;
-        return next;
+        const chum = getStoredChum(trap, state);
+        setPersisted({ trap, chum });
       } catch {
-        const fallback = { trap: undefined, chum: undefined };
-        return snapshotRef.current ?? fallback;
+        setPersisted({});
       }
-    },
-    () => ({ trap: undefined, chum: undefined }),
-  );
+    });
+  }, [canUseMarinerPot, state]);
+
+  const initialChum =
+    waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
+      ? (waterTrap.chum as CrustaceanChum)
+      : undefined;
 
   const selectedTrap = userSelection?.trap ?? persisted?.trap;
-  const selectedChum =
-    waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
-      ? waterTrap.chum
-      : (userSelection?.chum ?? persisted?.chum);
+  const selectedChum = userSelection?.chum ?? persisted?.chum ?? initialChum;
 
   const items = {
     ...getBasketItems(state.inventory),
@@ -196,16 +179,19 @@ export const WaterTrapModal: React.FC<Props> = ({
   const handleTrapChange = (trap: WaterTrapName) => {
     const clearChum =
       selectedChum && !WATER_TRAP[trap].chums.includes(selectedChum);
-    setUserSelection((prev) => ({
+    setUserSelection({
       trap,
-      chum: clearChum ? undefined : prev?.chum,
-    }));
+      chum: clearChum ? undefined : selectedChum,
+    });
     safeLocalStorage.set(LAST_TRAP_KEY, trap);
     if (clearChum) safeLocalStorage.remove(LAST_CHUM_KEY);
   };
 
   const handleChumChange = (chum: CrustaceanChum | undefined) => {
-    setUserSelection((prev) => ({ ...prev, chum }));
+    setUserSelection((prev) => ({
+      trap: prev?.trap ?? selectedTrap,
+      chum,
+    }));
     if (chum) {
       safeLocalStorage.set(LAST_CHUM_KEY, chum);
     } else {
