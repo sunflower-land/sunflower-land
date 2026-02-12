@@ -21,7 +21,13 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { MicroInteraction, Player, PlazaRoomState } from "../types/Room";
-import { FactionName, GameState, IslandType } from "features/game/types/game";
+import {
+  FactionName,
+  GameState,
+  IslandType,
+  Order,
+} from "features/game/types/game";
+import { hasOrderRequirements } from "features/island/delivery/components/Orders";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
 
@@ -2294,7 +2300,17 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
+    const now = Date.now();
+    const gameState = this.gameState;
+    const orders = gameState.delivery?.orders ?? [];
     npcs.forEach((bumpkin) => {
+      const order = orders.find(
+        (o: Order) =>
+          o.from === bumpkin.npc && now >= o.readyAt && !o.completedAt,
+      );
+      const showDeliveryIcon =
+        !!order && hasOrderRequirements({ order, state: gameState });
+
       const defaultClick = () => {
         const distance = Phaser.Math.Distance.BetweenPoints(
           container,
@@ -2319,6 +2335,7 @@ export abstract class BaseScene extends Phaser.Scene {
         onClick: bumpkin.onClick ?? defaultClick,
         name: bumpkin.hideLabel ? undefined : bumpkin.npc,
         direction: bumpkin.direction ?? "right",
+        showDeliveryIcon,
       });
 
       container.setDepth(bumpkin.y);

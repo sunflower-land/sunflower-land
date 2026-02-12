@@ -36,6 +36,8 @@ interface Props {
   isFarming: boolean;
   isFullUser: boolean;
   location?: PlaceableLocation;
+  /** When true, open with Chest tab selected (e.g. first-time place flow). */
+  defaultToChest?: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -57,11 +59,15 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isFarming,
   isFullUser,
   location,
+  defaultToChest,
 }) => {
   const { t } = useAppTranslation();
+  const initialTab: "Basket" | "Chest" | "Biomes" =
+    defaultToChest || location === "petHouse" ? "Chest" : "Basket";
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
-    location === "petHouse" ? "Chest" : "Basket",
+    initialTab,
   );
+
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
   );
@@ -96,7 +102,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={tabs}
+        tabs={tabs as PanelTabs<"Basket" | "Chest">[]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}

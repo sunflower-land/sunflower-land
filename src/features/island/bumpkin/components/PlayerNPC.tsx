@@ -20,9 +20,9 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Discovery } from "features/social/Discovery";
 
 const _showHelper = (state: MachineState) =>
-  // First Mashed Potato
+  // First Rhubarb Tart
   (state.context.state.bumpkin?.experience === 0 &&
-    state.context.state.inventory["Mashed Potato"]?.gte(1)) ||
+    state.context.state.inventory["Rhubarb Tart"]?.gte(1)) ||
   // First Pumpkin Soup
   (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));

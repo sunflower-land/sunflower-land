@@ -41,10 +41,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Giant Isopod": new Decimal(1),
     Nautilus: new Decimal(1),
     Dollocaris: new Decimal(1),
+    "Time Warp Totem": new Decimal(1),
     // "Lifetime Farmer Banner": new Decimal(1),
     Barkley: new Decimal(1),
     Meowchi: new Decimal(1),
     "Pet House": new Decimal(1),
+    Rhubarb: new Decimal(50),
+    "Pumpkin Soup": new Decimal(50),
+    Sunflower: new Decimal(50),
   },
   previousInventory: {},
   wardrobe: {
@@ -254,7 +258,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Workbench: [
+    "Fire Pit": [
       {
         id: "123",
         readyAt: 0,

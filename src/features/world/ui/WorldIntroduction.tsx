@@ -108,12 +108,18 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     if (usernameAssignmentSuccess) {
       setTab(3);
       setState("success");
+
+      // Move out of that state
+      gameService.send("CONTINUE");
     }
   }, [usernameAssignmentSuccess]);
 
   useEffect(() => {
     if (usernameAssignmentFailed) {
       setState("error");
+
+      // Move out of that state
+      gameService.send("CONTINUE");
     }
   }, [usernameAssignmentFailed]);
 

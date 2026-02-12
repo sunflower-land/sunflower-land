@@ -16,6 +16,9 @@ import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { Context } from "features/game/GameProvider";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { ChestButton } from "./ChestButton";
+import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   state: GameState;
@@ -45,7 +48,10 @@ export const Inventory: React.FC<Props> = ({
   location,
 }) => {
   const { shortcuts } = useContext(Context);
+  const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const showPlaceFirstHelper =
+    location !== "petHouse" && hasChestItemAndNoCollectiblesPlaced(state);
 
   useEffect(() => {
     const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
@@ -82,8 +88,16 @@ export const Inventory: React.FC<Props> = ({
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
         }}
       >
+        {showPlaceFirstHelper && (
+          <Label type="vibrant" className="absolute top-[90px] right-[70px]">
+            {t("chest.placeFirst")}
+          </Label>
+        )}
         {location !== "petHouse" ? (
-          <BasketButton onClick={() => setIsOpen(true)} />
+          <BasketButton
+            pulse={showPlaceFirstHelper}
+            onClick={() => setIsOpen(true)}
+          />
         ) : (
           <ChestButton onClick={() => setIsOpen(true)} />
         )}
@@ -112,6 +126,7 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <InventoryItemsModal
+        key={isOpen ? `open-${!!showPlaceFirstHelper}` : "closed"}
         show={isOpen}
         onHide={() => {
           setIsOpen(false);
@@ -128,6 +143,7 @@ export const Inventory: React.FC<Props> = ({
         isFarming={isFarming}
         isFullUser={isFullUser}
         location={location}
+        defaultToChest={showPlaceFirstHelper}
       />
     </>
   );
