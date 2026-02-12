@@ -753,7 +753,6 @@
   "pete.craftScarecrow.three": "Направляйся к верстаку и создай пугало, чтобы увеличить скорость роста подсолнухов.",
   "pete.levelthree.one": "Поздравляю, твои садоводческие навыки действительно хороши!",
   "pete.levelthree.two": "Похоже у тебя есть невыполненные доставки на Плазе.",
-  "pete.levelthree.three": "Посмотри свои доставки слева внизу экрана, как только ты соберешь необходимые ресурсы, ты сможешь их выполнить.",
   "pete.levelthree.four": "Ты можешь путешествовать, нажав на значок мира в левом нижнем углу.",
   "pete.help.zero": "Посещай очаг, готовь и ешь еду, чтобы поднимать свой уровень.",
   "pete.pumpkinPlaza.one": "По мере повышения уровня, ты будешь открывать новые места для исследования. Первое - это Плаза....мой дом!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "Creating {{count}} identical listings.",
   "marketplace.totalItems": "Total items",
   "marketplace.totalListings": "Total listings",
-  "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time"
+  "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time",
+  "pete.levelthree.three": "View your deliveries in the top left of the screen. Once you've gathered the resources, you can travel and deliver the items to the Bumpkins.",
+  "chest.placeFirst": "Place"
 }

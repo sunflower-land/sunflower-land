@@ -354,7 +354,6 @@
   "pete.craftScarecrow.three": "Vá até o banco de trabalho e fabrique um espantalho para acelerar esses Girassóis.",
   "pete.levelthree.one": "Parabéns, seu dedo verde está realmente brilhando!",
   "pete.levelthree.two": "Já passou da hora de irmos para a Praça, onde sua habilidade agrícola pode brilhar ainda mais.",
-  "pete.levelthree.three": "Na praça você pode entregar seus recursos por recompensas, fabricar itens mágicos e negociar com outros jogadores.",
   "pete.levelthree.four": "Você pode viajar clicando no ícone do mundo no canto inferior esquerdo.",
   "pete.help.zero": "Visite a fogueira, cozinhe comida e coma para subir de nível.",
   "pete.pumpkinPlaza.one": "À medida que você sobe de nível, desbloqueará novas áreas para explorar. Primeiro é a Pumpkin Plaza.... minha casa!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "Criação de {{count}} anúncios idênticos.",
   "marketplace.totalItems": "Total de itens",
   "marketplace.totalListings": "Total de anúncios",
-  "marketplace.maxBulk": "Você pode usar o recurso em massa até atingir o máximo de {{max}} anúncios por recurso por vez"
+  "marketplace.maxBulk": "Você pode usar o recurso em massa até atingir o máximo de {{max}} anúncios por recurso por vez",
+  "pete.levelthree.three": "Veja suas entregas no canto superior esquerdo da tela. Depois de reunir os recursos, você pode viajar e entregar os itens aos Bumpkins.",
+  "chest.placeFirst": "Lugar"
 }

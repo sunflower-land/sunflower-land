@@ -547,7 +547,6 @@
   "pete.craftScarecrow.three": "Gehe zur Werkbank und stelle eine Vogelscheuche her, um die Sonnenblumen zu beschleunigen.",
   "pete.levelthree.one": "Herzlichen Glückwunsch, dein grüner Daumen leuchtet wirklich!",
   "pete.levelthree.two": "Es sieht so aus, als ob du ein paar Lieferungen auf der Plaza erledigen musst.",
-  "pete.levelthree.three": "Sehen Sie sich Ihre Lieferungen unten links auf dem Bildschirm an. Sobald du die Ressourcen gesammelt hast, kannst du reisen und die Gegenstände zu den Bumpkins bringen.",
   "pete.levelthree.four": "Du kannst reisen, indem du auf das Weltsymbol unten links klickst.",
   "pete.help.zero": "Besuche die Feuerstelle, koche Essen und iss, um aufzusteigen.",
   "pete.pumpkinPlaza.one": "Wenn du aufsteigst, schaltest du neue Gebiete frei, die es zu erkunden gilt. An erster Stelle steht das Pumpkin Plaza... mein Zuhause!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "{{count}} identische Angebote werden erstellt.",
   "marketplace.totalItems": "Artikel insgesamt",
   "marketplace.totalListings": "Angebote insgesamt",
-  "marketplace.maxBulk": "Sie können die Sammelfunktion verwenden, bis Sie das Maximum an {{max}} Angeboten pro Ressource gleichzeitig erreicht haben"
+  "marketplace.maxBulk": "Sie können die Sammelfunktion verwenden, bis Sie das Maximum an {{max}} Angeboten pro Ressource gleichzeitig erreicht haben",
+  "pete.levelthree.three": "Sehen Sie sich Ihre Lieferungen oben links auf dem Bildschirm an. Sobald du die Ressourcen gesammelt hast, kannst du reisen und die Gegenstände zu den Bumpkins bringen.",
+  "chest.placeFirst": "Ort"
 }

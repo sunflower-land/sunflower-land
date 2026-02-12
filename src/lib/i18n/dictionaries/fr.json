@@ -376,7 +376,6 @@
   "pete.craftScarecrow.three": "Dirige-toi vers l'établi et fabrique un épouvantail pour accélérer la croissance de ces Sunflowers.",
   "pete.levelthree.one": "Félicitations, ton pouce vert brille vraiment!",
   "pete.levelthree.two": "Il est grand temps de se rendre à la Plaza, où ton talent en agriculture peut briller encore plus.",
-  "pete.levelthree.three": "À la Plaza, tu peux livrer tes ressources contre des récompenses, fabriquer des objets magiques et échanger avec d'autres joueurs.",
   "pete.levelthree.four": "Tu peux voyager en cliquant sur l'icône du monde en bas à gauche.",
   "pete.help.zero": "Rends visite au foyer, cuisines de la nourriture et manges pour monter de niveau.",
   "pete.pumpkinPlaza.one": "À mesure que tu montes de niveau, tu débloqueras de nouvelles zones à explorer. En premier lieu, il y a la Pumpkin Plaza... ma maison!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "Création d'annonces identiques {{count}}.",
   "marketplace.totalItems": "Nombre total d'articles",
   "marketplace.totalListings": "Nombre total d'annonces",
-  "marketplace.maxBulk": "Vous pouvez utiliser la fonctionnalité groupée jusqu'à atteindre le maximum de {{max}} listings par ressource à la fois"
+  "marketplace.maxBulk": "Vous pouvez utiliser la fonctionnalité groupée jusqu'à atteindre le maximum de {{max}} listings par ressource à la fois",
+  "pete.levelthree.three": "Consultez vos livraisons en haut à gauche de l'écran. Une fois que vous avez rassemblé les ressources, vous pouvez voyager et livrer les objets aux Bumpkins.",
+  "chest.placeFirst": "Lieu"
 }

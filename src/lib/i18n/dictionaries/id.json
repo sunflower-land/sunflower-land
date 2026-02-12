@@ -547,7 +547,6 @@
   "pete.craftScarecrow.three": "Pergilah ke bangku kerja dan buat orang-orangan mata untuk mempercepat Bunga Matahari itu.",
   "pete.levelthree.one": "Selamat, ibu jari hijau Anda benar-benar bersinar!",
   "pete.levelthree.two": "Sepertinya kau punya beberapa pengiriman di Plaza yang harus diselesaikan.",
-  "pete.levelthree.three": "Lihat pengiriman Anda di kiri bawah layar. Setelah Anda mengumpulkan sumber daya, Anda dapat melakukan perjalanan dan mengirimkan barang ke Bumpkins.",
   "pete.levelthree.four": "Anda dapat melakukan perjalanan dengan mengklik ikon dunia di kiri bawah.",
   "pete.help.zero": "Kunjungi lubang api, masak makanan dan makan untuk naik level.",
   "pete.pumpkinPlaza.one": "Saat Anda naik level, Anda akan membuka area baru untuk dijelajahi. Yang pertama adalah Pumpkin Plaza... rumah saya!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "Membuat {{count}} daftar identik.",
   "marketplace.totalItems": "Jumlah item",
   "marketplace.totalListings": "Total daftar",
-  "marketplace.maxBulk": "Anda dapat menggunakan fitur massal hingga mencapai maksimum daftar {{max}} per sumber daya pada satu waktu"
+  "marketplace.maxBulk": "Anda dapat menggunakan fitur massal hingga mencapai maksimum daftar {{max}} per sumber daya pada satu waktu",
+  "pete.levelthree.three": "Lihat pengiriman Anda di kiri atas layar. Setelah Anda mengumpulkan sumber daya, Anda dapat melakukan perjalanan dan mengirimkan barang ke Bumpkins.",
+  "chest.placeFirst": "Tempat"
 }

@@ -544,7 +544,6 @@
   "pete.craftScarecrow.three": "Dirígete a la mesa de trabajo y crea un espantapájaros para acelerar esos girasoles.",
   "pete.levelthree.one": "Enhorabuena, tu talento para la jardinería está brillando de verdad!",
   "pete.levelthree.two": "Parece que tienes que hacer algunas entregas en la Plaza.",
-  "pete.levelthree.three": "Consulta tus envíos en la parte inferior izquierda de la pantalla. Una vez que hayas reunido los recursos, puedes viajar y entregar los artículos a los Bumpkins.",
   "pete.levelthree.four": "Puedes viajar haciendo clic en el icono del mundo en la parte inferior izquierda.",
   "pete.help.zero": "Visita la hoguera, cocina y come para subir de nivel.",
   "pete.pumpkinPlaza.one": "A medida que subas de nivel, desbloquearás nuevas áreas para explorar. La primera parada es la Plaza Pumpkin... mi hogar!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "Crear anuncios idénticos a {{count}}.",
   "marketplace.totalItems": "Total de artículos",
   "marketplace.totalListings": "Total de anuncios",
-  "marketplace.maxBulk": "Puedes usar la función masiva hasta que alcances el máximo de {{max}} listados por recurso a la vez"
+  "marketplace.maxBulk": "Puedes usar la función masiva hasta que alcances el máximo de {{max}} listados por recurso a la vez",
+  "pete.levelthree.three": "Consulta tus envíos en la parte superior izquierda de la pantalla. Una vez que hayas reunido los recursos, puedes viajar y entregar los artículos a los Bumpkins.",
+  "chest.placeFirst": "Lugar"
 }

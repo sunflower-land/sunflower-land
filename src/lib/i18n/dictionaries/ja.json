@@ -547,7 +547,6 @@
   "pete.craftScarecrow.three": "作業台に向かい、かかしを作ってひまわりのスピードを上げましょう。",
   "pete.levelthree.one": "おめでとうございます、あなたの緑の親指は本当に輝いています！",
   "pete.levelthree.two": "プラザに配達物があるようだね。",
-  "pete.levelthree.three": "画面の左下に配送状況が表示されます。資源を集めたら、移動してアイテムをバンプキンズに届けることができます。",
   "pete.levelthree.four": "左下のワールドアイコンをクリックすると移動できます。",
   "pete.help.zero": "ファイヤーピットを訪れ、料理を作り、食べてレベルアップしましょう。",
   "pete.pumpkinPlaza.one": "レベルアップすると、探索する新しいエリアのロックが解除されます。まずは、パンプキンプラザ... 私の家です！",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "{{count}} 個の同一の出品情報を作成しています。",
   "marketplace.totalItems": "アイテム総数",
   "marketplace.totalListings": "リスト総数",
-  "marketplace.maxBulk": "一括機能は、一度のリソースあたりのリスティングの最大数 {{max}} に達するまで使用できます"
+  "marketplace.maxBulk": "一括機能は、一度のリソースあたりのリスティングの最大数 {{max}} に達するまで使用できます",
+  "pete.levelthree.three": "画面の左上に配送状況が表示されます。資源を集めたら、移動してアイテムをバンプキンズに届けることができます。",
+  "chest.placeFirst": "場所"
 }

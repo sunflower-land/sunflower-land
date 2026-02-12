@@ -381,7 +381,6 @@
   "pete.craftScarecrow.three": "Çalışma tezgahına gidin ve Ayçiçeklerini hızlandırmak için bir korkuluk yapın.",
   "pete.levelthree.one": "Tebrikler, yeşil baş parmağınız gerçekten parlıyor!",
   "pete.levelthree.two": "Çiftçilik yeteneğinizin daha da parlayabileceği Plaza'ya gitmemizin tam zamanı.",
-  "pete.levelthree.three": "Plazada kaynaklarınızı ödüller karşılığında teslim edebilir, büyülü eşyalar üretebilir ve diğer oyuncularla ticaret yapabilirsiniz.",
   "pete.levelthree.four": "Sol alttaki dünya simgesine tıklayarak seyahat edebilirsiniz.",
   "pete.help.zero": "Ateş çukurunu ziyaret edin, yemek pişirin ve seviye atlamak için yiyin.",
   "pete.pumpkinPlaza.one": "Seviye atladıkça keşfedilecek yeni alanların kilidini açacaksınız. İlk önce Balkabağı Plaza... benim evim!",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "{{count}} özdeş listeleri oluşturma.",
   "marketplace.totalItems": "Toplam öğeler",
   "marketplace.totalListings": "Toplam listeler",
-  "marketplace.maxBulk": "Bir seferde kaynak başına maksimum {{max}} listesine ulaşana kadar toplu özelliğini kullanabilirsiniz"
+  "marketplace.maxBulk": "Bir seferde kaynak başına maksimum {{max}} listesine ulaşana kadar toplu özelliğini kullanabilirsiniz",
+  "pete.levelthree.three": "Teslimatlarınızı ekranın sol üst köşesinde görüntüleyin. Kaynakları topladıktan sonra, seyahat edebilir ve eşyaları Bumpkins'e teslim edebilirsiniz.",
+  "chest.placeFirst": "Yer"
 }

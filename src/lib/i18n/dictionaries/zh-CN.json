@@ -523,7 +523,6 @@
   "pete.craftScarecrow.three": "跑去 Work Bench 并锻造一个 Scarecrow 好助长那些向日葵吧。",
   "pete.levelthree.one": "恭喜，你那绿指头是真的闪亮！",
   "pete.levelthree.two": "我们是时候跑去广场了，在那里你的农艺天赋可以甚至更上一层、更加闪耀！",
-  "pete.levelthree.three": "在广场，你可以带你的资源去送货换奖励、锻造魔法物品和与其他玩家做买卖。",
   "pete.levelthree.four": "点击左下角的地球图标，你就可以开始旅行啦。",
   "pete.help.zero": "光顾 Fire Pit、烹饪食物并食用以升级。",
   "pete.pumpkinPlaza.one": "当你升级时，你将解锁新的领域以供探索。首先是南瓜广场……我的家！",
@@ -8068,5 +8067,7 @@
   "marketplace.creatingListings": "创建 {{count}} 相同的清单。",
   "marketplace.totalItems": "物品总数",
   "marketplace.totalListings": "房源总数",
-  "marketplace.maxBulk": "你可以使用批量功能，直到每次达到每个资源 {{max}} 个列表的最大值"
+  "marketplace.maxBulk": "你可以使用批量功能，直到每次达到每个资源 {{max}} 个列表的最大值",
+  "pete.levelthree.three": "在屏幕的左上角查看您的配送。收集资源后，你可以旅行并将物品交给 Bumpkins。",
+  "chest.placeFirst": "地点"
 }
