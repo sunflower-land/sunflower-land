@@ -4,9 +4,16 @@ import {
   getOilTimeInMillis,
   OIL_PER_HOUR_CONSUMPTION,
 } from "./supplyCropMachine";
-import { supplyCropMachineOil } from "./supplyCropMachineOil";
+import {
+  getTotalOilMillisInMachine,
+  supplyCropMachineOil,
+} from "./supplyCropMachineOil";
 import Decimal from "decimal.js-light";
-import { CropMachineQueueItem, GameState } from "features/game/types/game";
+import {
+  CropMachineBuilding,
+  CropMachineQueueItem,
+  GameState,
+} from "features/game/types/game";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -228,5 +235,242 @@ describe("supplyCropMachineOil", () => {
       getOilTimeInMillis(1, GAME_STATE),
     );
     expect(result.inventory["Oil"]?.toNumber()).toBe(1);
+  });
+
+  describe("getTotalOilMillisInMachine", () => {
+    it("returns all the unallocated oil if there are no packs in the queue", () => {
+      const oneHour = 60 * 60 * 1000;
+      const now = Date.now();
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              unallocatedOilTime: oneHour,
+              id: "0",
+              queue: [],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(oneHour);
+    });
+
+    it("returns the allocated oil for one pack in the queue starts now when there is no unallocated oil", () => {
+      const now = Date.now();
+      const sunflowerPackGrowTime =
+        (60 * 100 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              readyAt: now + sunflowerPackGrowTime,
+              unallocatedOilTime: 0,
+              id: "0",
+              queue: [
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: sunflowerPackGrowTime,
+                  growTimeRemaining: 0,
+                  startTime: now,
+                  readyAt: now + sunflowerPackGrowTime,
+                  seeds: 100,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(sunflowerPackGrowTime);
+    });
+
+    it("does not return the allocated oil for a pack that has reached its readyAt time", () => {
+      const now = Date.now();
+      const sunflowerPackGrowTime =
+        (60 * 100 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              readyAt: now + sunflowerPackGrowTime,
+              unallocatedOilTime: 0,
+              id: "0",
+              queue: [
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: sunflowerPackGrowTime,
+                  growTimeRemaining: 0,
+                  startTime: now - sunflowerPackGrowTime,
+                  readyAt: now,
+                  seeds: 100,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(0);
+    });
+
+    it("does not return the allocated oil for a pack that has reached its readyAt time", () => {
+      const now = Date.now();
+      const sunflowerPackGrowTime =
+        (60 * 100 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              readyAt: now + sunflowerPackGrowTime,
+              unallocatedOilTime: 0,
+              id: "0",
+              queue: [
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: sunflowerPackGrowTime,
+                  growTimeRemaining: 0,
+                  startTime: now - sunflowerPackGrowTime,
+                  readyAt: now,
+                  seeds: 100,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(0);
+    });
+
+    it("does not return the allocated oil for a pack that has passed its grownUntil time", () => {
+      const now = Date.now();
+      const packGrowTime = 60 * 60 * 1000; // 1 hour
+      const oneHourAgo = now - 60 * 60 * 1000;
+      const packGrowsUntil = packGrowTime / 2;
+
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              unallocatedOilTime: 0,
+              id: "0",
+              queue: [
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: packGrowTime,
+                  growTimeRemaining: packGrowTime / 2,
+                  startTime: oneHourAgo,
+                  growsUntil: packGrowsUntil,
+                  seeds: 100,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(0);
+    });
+
+    it("returns the unallocated oil and the allocated oil for a pack that is still growing", () => {
+      const now = Date.now();
+      const packGrowTime = 60 * 60 * 1000; // 1 hour
+      const oneHourAgo = now - 60 * 60 * 1000;
+
+      const state: GameState = {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              unallocatedOilTime: 1000,
+              id: "0",
+              queue: [
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: packGrowTime,
+                  growTimeRemaining: 0,
+                  startTime: oneHourAgo,
+                  readyAt: oneHourAgo + packGrowTime,
+                  seeds: 100,
+                },
+                {
+                  crop: "Sunflower",
+                  totalGrowTime: packGrowTime,
+                  growTimeRemaining: 0,
+                  startTime: now,
+                  readyAt: now + packGrowTime,
+                  seeds: 100,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const machine = state.buildings[
+        "Crop Machine"
+      ]?.[0] as CropMachineBuilding;
+      const queue = machine.queue as CropMachineQueueItem[];
+      const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
+
+      const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
+      expect(result).toBe(packGrowTime + 1000);
+    });
   });
 });

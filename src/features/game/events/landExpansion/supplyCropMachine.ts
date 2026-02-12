@@ -66,45 +66,6 @@ export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) =>
 export const MAX_OIL_CAPACITY_IN_MILLIS = (state: GameState) =>
   MAX_OIL_CAPACITY_IN_HOURS(state) * 60 * 60 * 1000;
 
-export function getTotalOilMillisInMachine(
-  queue: CropMachineQueueItem[],
-  unallocatedOilTime: number,
-  now: number = Date.now(),
-) {
-  const oil = queue.reduce((totalOil, item) => {
-    // There is no oil to allocated to this pack
-    if (!item.startTime) return totalOil;
-
-    // Completely allocated pack has started growing but has not reached the readyAt time
-    // therefore it is currently using its allocation of oil
-    // add the unused oil to the total oil
-    if (item.readyAt && item.startTime <= now && item.readyAt > now) {
-      return totalOil + item.readyAt - now;
-    }
-
-    // Completely allocated pack hasn't started growing yet. Add the entire allocation to the total oil
-    if (item.readyAt && item.startTime > now) {
-      return totalOil + item.readyAt - item.startTime;
-    }
-
-    // Partially allocated pack hasn't started growing yet. Add the entire allocation to the total oil.
-    if (item.growsUntil && item.startTime > now) {
-      return totalOil + item.growsUntil - item.startTime;
-    }
-
-    // Partially allocated pack has started growing and is currently growing but has not reached the growsUntil time
-    // therefore it is currently using its oil allocation
-    // add the unused oil to the total oil
-    if (item.growsUntil && item.startTime <= now && item.growsUntil > now) {
-      return totalOil + item.growsUntil - now;
-    }
-
-    return totalOil;
-  }, unallocatedOilTime ?? 0);
-
-  return Math.max(oil, 0);
-}
-
 export function calculateCropTime(
   seeds: {
     type: CropSeedName;

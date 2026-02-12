@@ -30,8 +30,8 @@ import {
   OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
-  getTotalOilMillisInMachine,
 } from "features/game/events/landExpansion/supplyCropMachine";
+import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachineOil";
 import add from "assets/icons/plus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
@@ -48,7 +48,6 @@ import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
-import { isMobile } from "mobile-device-detect";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -137,6 +136,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
     const projectedTotalOilTime = getTotalOilMillisInMachine(
       queue,
       unallocatedOilTime + projectedOilTime,
+      now,
     );
 
     return projectedTotalOilTime;
@@ -462,9 +462,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
                           onClick={() =>
                             decrementSeeds(CROP_MACHINE_PLOTS(state))
                           }
-                          className={isMobile ? "" : "px-2"}
+                          className="sm:px-2"
                         >
-                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                          <span className="text-xs sm:text-sm">
                             {`-${CROP_MACHINE_PLOTS(state)}`}
                           </span>
                         </Button>
@@ -473,9 +473,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
                             incrementSeeds(CROP_MACHINE_PLOTS(state))
                           }
                           disabled={!canIncrementSeeds()}
-                          className={isMobile ? "" : "px-2"}
+                          className="sm:px-2"
                         >
-                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                          <span className="text-xs sm:text-sm">
                             {`+${CROP_MACHINE_PLOTS(state)}`}
                           </span>
                         </Button>
@@ -487,11 +487,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
                             )
                           }
                           disabled={!canIncrementSeeds()}
-                          className={`px-2 ${
-                            isMobile ? "" : "px-2"
-                          } w-auto min-w-min`}
+                          className={`px-2 ${"sm:px-2"} w-auto min-w-min`}
                         >
-                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                          <span className="text-xs sm:text-sm">
                             {t("cropMachine.all")}
                           </span>
                         </Button>
