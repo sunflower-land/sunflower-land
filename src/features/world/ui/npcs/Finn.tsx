@@ -1,4 +1,3 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import deliveryIcon from "assets/icons/delivery.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";

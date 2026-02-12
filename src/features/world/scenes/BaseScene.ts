@@ -2306,9 +2306,7 @@ export abstract class BaseScene extends Phaser.Scene {
     npcs.forEach((bumpkin) => {
       const order = orders.find(
         (o: Order) =>
-          o.from === bumpkin.npc &&
-          now >= o.readyAt &&
-          !o.completedAt,
+          o.from === bumpkin.npc && now >= o.readyAt && !o.completedAt,
       );
       const showDeliveryIcon =
         !!order && hasOrderRequirements({ order, state: gameState });

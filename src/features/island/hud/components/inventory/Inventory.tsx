@@ -18,8 +18,6 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { ChestButton } from "./ChestButton";
 import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SUNNYSIDE } from "assets/sunnyside";
-import chest from "assets/icons/chest.png";
 import { Label } from "components/ui/Label";
 
 interface Props {

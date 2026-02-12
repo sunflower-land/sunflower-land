@@ -211,13 +211,12 @@ export const hasChestItemAndNoCollectiblesPlaced = (
   state: GameState,
 ): boolean => {
   const chestItems = getChestItems(state);
-  const hasChestItem = getKeys(chestItems).some(
-    (name) => (chestItems[name] ?? new Decimal(0)).gt(0),
+  const hasChestItem = getKeys(chestItems).some((name) =>
+    (chestItems[name] ?? new Decimal(0)).gt(0),
   );
   if (!hasChestItem) return false;
   const hasPlacedCollectible = getObjectEntries(state.collectibles ?? {}).some(
-    ([, items]) =>
-      (items ?? []).some((item) => item.coordinates !== undefined),
+    ([, items]) => (items ?? []).some((item) => item.coordinates !== undefined),
   );
   return !hasPlacedCollectible;
 };
