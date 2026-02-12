@@ -108,7 +108,7 @@ export const BoostsDisplay: React.FC<{
       show={show}
       onClick={onClick}
       onBackdropClick={onClick}
-      className="flex flex-col gap-1 max-h-5"
+      className="flex flex-col gap-1 max-h-5 left-1"
     >
       <div className="overflow-y-auto scrollable min-w-36 max-h-52 py-1 px-0.5">
         <div className="flex space-x-1 mb-1">
