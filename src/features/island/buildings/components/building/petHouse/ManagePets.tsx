@@ -28,6 +28,7 @@ import { isFoodAlreadyFed } from "./PetCard";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PetInfo } from "./PetInfo";
 import { PetCard } from "./PetCard";
+import { isWearableActive } from "features/game/lib/wearables";
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -56,12 +57,22 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
   const handleConfirmFeed = () => {
     // Event to handle Bulk Feed
-    gameService.send("pets.bulkFeed", {
+    const state = gameService.send("pets.bulkFeed", {
       pets: selectedFeed,
     });
+
+    const hasVictoriaApron = isWearableActive({
+      game: state.context.state,
+      name: "Victoria's Apron",
+    });
+
+    if (hasVictoriaApron) {
+      gameService.send("SAVE");
+    }
     setSelectedFeed([]);
     setIsBulkFeed(false);
   };
+
   const handleBulkFeed = () => {
     if (!isBulkFeed) {
       setIsBulkFeed(true);
@@ -220,10 +231,28 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   })();
 
   const handleFeed = (petId: PetName | number, food: CookableName) => {
-    gameService.send("pet.fed", {
-      petId,
-      food,
+    const state = gameService.send("pet.fed", { petId, food });
+
+    const hasVictoriaApron = isWearableActive({
+      game: state.context.state,
+      name: "Victoria's Apron",
     });
+    if (hasVictoriaApron) {
+      const petData =
+        typeof petId === "number"
+          ? state.context.state.pets?.nfts?.[petId]
+          : state.context.state.pets?.common?.[petId];
+      if (petData) {
+        const requests = getPetFoodRequests(
+          petData,
+          getPetLevel(petData.experience).level,
+        );
+        const fedRequests = petData.requests.foodFed;
+        if (requests.every((request) => fedRequests?.includes(request))) {
+          gameService.send("SAVE");
+        }
+      }
+    }
   };
 
   const handleFetch = (petId: PetName | number, fetch: PetResourceName) => {

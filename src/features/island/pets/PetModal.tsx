@@ -40,6 +40,8 @@ import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { capitalize } from "lib/utils/capitalize";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isWearableActive } from "features/game/lib/wearables";
+import { getPetFoodRequests } from "features/game/events/pets/feedPet";
 
 interface Props {
   show: boolean;
@@ -92,10 +94,28 @@ export const PetModal: React.FC<Props> = ({
   const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
-    gameService.send("pet.fed", {
-      petId,
-      food,
+    const state = gameService.send("pet.fed", { petId, food });
+
+    const hasVictoriaApron = isWearableActive({
+      game: state.context.state,
+      name: "Victoria's Apron",
     });
+    if (hasVictoriaApron) {
+      const petData =
+        typeof petId === "number"
+          ? state.context.state.pets?.nfts?.[petId]
+          : state.context.state.pets?.common?.[petId];
+      if (petData) {
+        const requests = getPetFoodRequests(
+          petData,
+          getPetLevel(petData.experience).level,
+        );
+        const fedRequests = petData.requests.foodFed;
+        if (requests.every((request) => fedRequests?.includes(request))) {
+          gameService.send("SAVE");
+        }
+      }
+    }
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
