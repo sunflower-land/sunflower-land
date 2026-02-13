@@ -152,7 +152,13 @@ export const WaterTrapModal: React.FC<Props> = ({
       : undefined;
 
   const selectedTrap = userSelection.trap ?? persisted.trap;
-  const resolvedChum = userSelection.chum ?? persisted.chum ?? initialChum;
+  // If userSelection.chum is undefined, respect that as an explicit "no chum" selection.
+  // Only fall back to persisted/initial if userSelection matches persisted state exactly
+  const resolvedChum =
+    userSelection.trap !== persisted.trap ||
+    userSelection.chum !== persisted.chum
+      ? userSelection.chum
+      : (persisted.chum ?? initialChum);
   const selectedChum =
     resolvedChum && WATER_TRAP[selectedTrap].chums.includes(resolvedChum)
       ? resolvedChum
