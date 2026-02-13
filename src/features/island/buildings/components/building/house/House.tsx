@@ -3,21 +3,28 @@ import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { useVisiting } from "lib/utils/visitUtils";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getHelpRequired } from "features/game/types/monuments";
+
+const _game = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const { isVisiting } = useVisiting();
+  const game = useSelector(gameService, _game);
+  const farmId = useSelector(gameService, _farmId);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -26,7 +33,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const handleClick = () => {
     if (isBuilt) {
       if (isVisiting) {
-        navigate(`/visit/${gameState.context.farmId}/home`);
+        navigate(`/visit/${farmId}/home`);
       } else {
         navigate("/home");
       }
@@ -51,7 +58,8 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
     };
   }, []);
 
-  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+  const helpRequired = getHelpRequired({ game });
+  const homeHelpRequired = helpRequired.tasks.home.count;
 
   return (
     <div className="absolute h-full w-full">
@@ -66,6 +74,30 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
             left: `${PIXEL_SCALE * 1}px`,
           }}
         />
+        {isVisiting && homeHelpRequired > 0 && (
+          <div className="pointer-events-auto cursor-pointer">
+            <div
+              className="relative mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 20}px`,
+                top: `${PIXEL_SCALE * -8}px`,
+                right: 0,
+              }}
+            >
+              <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              <img
+                className="absolute"
+                src={SUNNYSIDE.icons.drag}
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  right: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                  zIndex: 1000,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </BuildingImageWrapper>
 
       <div
@@ -76,7 +108,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
+        {bumpkin && <HomeBumpkins game={game} />}
       </div>
 
       <div
