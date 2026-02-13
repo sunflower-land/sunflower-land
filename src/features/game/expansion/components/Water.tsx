@@ -7,7 +7,6 @@ import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
@@ -264,7 +263,6 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
       {!isVisiting && (
         <>
           {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
-          <SeasonTeaser offset={offset} />
           <TravelTeaser />
           <IslandUpgrader offset={offset} />
           <RestockBoat />
