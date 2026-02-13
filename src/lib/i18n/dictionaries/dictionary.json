@@ -6170,6 +6170,7 @@
   "streams.discord": "Discord",
   "streams.twitch": "Twitch",
   "streams.tuesday.ongoing": "Discord Stream Ongoing",
+  "streams.thursday.ongoing": "Discord Stream Ongoing",
   "streams.friday.ongoing": "Twitch Stream Ongoing",
   "streams.message.streamer": "You have found a streamer! Claim a Basic Love Box every 5 minutes (up to 10 times).",
   "streams.message.streamer.claimed": "You have successfully claimed a Basic Love Box!",
