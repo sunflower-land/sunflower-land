@@ -116,6 +116,25 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const handleRemovePack = (packIndex: number) => {
+    const updatedState = gameService.send({
+      type: "cropMachine.packRemoved",
+      packIndex,
+    });
+
+    const machines = updatedState.context.state.buildings["Crop Machine"];
+
+    const updatedMachine = machines?.find((machine) => machine.id === id);
+
+    if (!updatedMachine) return;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: updatedMachine.queue ?? [],
+      updatedUnallocatedOilTime: updatedMachine.unallocatedOilTime ?? 0,
+    });
+  };
+
   const handleAddOil = (oil: number) => {
     const updated = gameService.send({
       type: "cropMachine.oilSupplied",
@@ -224,6 +243,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
         onHarvestPack={handleHarvestPack}
+        onRemovePack={handleRemovePack}
         onAddOil={handleAddOil}
       />
     </>

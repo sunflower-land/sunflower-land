@@ -50,6 +50,7 @@ import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -60,6 +61,7 @@ interface Props {
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvestPack: (packIndex: number) => void;
+  onRemovePack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
 
@@ -96,6 +98,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onRemovePack,
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
@@ -539,6 +542,16 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </span>
                   </div>
                 </div>
+                {hasFeatureAccess(state, "CROP_MACHINE_PACK_REMOVAL") &&
+                  (selectedPack.startTime === undefined ||
+                    selectedPack.startTime > now) && (
+                    <Button
+                      className="mt-2"
+                      onClick={() => onRemovePack(selectedPackIndex)}
+                    >
+                      {t("cropMachine.removePack")}
+                    </Button>
+                  )}
               </div>
             )}
         </OuterPanel>
@@ -703,6 +716,7 @@ export const CropMachineModal: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onRemovePack,
   onAddOil,
 }) => (
   <Modal show={show} onHide={onClose}>
@@ -714,6 +728,7 @@ export const CropMachineModal: React.FC<Props> = ({
       onClose={onClose}
       onAddSeeds={onAddSeeds}
       onHarvestPack={onHarvestPack}
+      onRemovePack={onRemovePack}
       onAddOil={onAddOil}
     />
   </Modal>

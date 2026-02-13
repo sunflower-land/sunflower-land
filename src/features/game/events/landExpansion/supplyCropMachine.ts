@@ -134,7 +134,8 @@ export function updateCropMachine({
       return;
     }
 
-    const previousQueueItemReadyAt = queue[index - 1]?.readyAt ?? now;
+    const previousQueueItemReadyAt =
+      queue[index - 1]?.readyAt ?? queue[index - 1]?.growsUntil ?? now;
 
     // Allocate oil to the pack and update its state
     if (cropMachine.unallocatedOilTime >= pack.growTimeRemaining) {
