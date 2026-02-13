@@ -274,14 +274,19 @@ export function supplyCropMachine({
   }
 
   return produce(state, (stateCopy) => {
-    if (
-      !stateCopy.buildings["Crop Machine"]?.some(
-        (building) => !!building.coordinates,
-      )
-    ) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
 
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (machine) => machine.id === action.machineId,
+    );
+
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
+    }
+
+    const { queue = [] } = cropMachine;
     const seedName = seedsAdded.type;
 
     // Check if seed is allowed based on basic seeds or skills
@@ -303,22 +308,12 @@ export function supplyCropMachine({
       throw new Error("You can't supply these seeds");
     }
 
-    const cropMachine = stateCopy.buildings["Crop Machine"].find(
-      (machine) => machine.id === action.machineId,
-    );
-
-    if (!cropMachine) {
-      throw new Error("Crop Machine not found");
-    }
-
     const previousSeedsInInventory =
       stateCopy.inventory[seedName] ?? new Decimal(0);
 
     if (previousSeedsInInventory.lt(seedsAdded.amount)) {
       throw new Error("Missing requirements");
     }
-
-    const queue = cropMachine.queue ?? [];
 
     if (queue.length + 1 > MAX_QUEUE_SIZE(state)) {
       throw new Error("Queue is full");

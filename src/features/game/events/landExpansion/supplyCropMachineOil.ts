@@ -70,11 +70,7 @@ export function supplyCropMachineOil({
   }
 
   return produce(state, (stateCopy) => {
-    if (
-      !stateCopy.buildings["Crop Machine"]?.some(
-        (building) => !!building.coordinates,
-      )
-    ) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
 
@@ -82,9 +78,10 @@ export function supplyCropMachineOil({
       (m) => m.id === action.machineId,
     );
 
-    if (!cropMachine) {
+    if (!cropMachine || !cropMachine.coordinates) {
       throw new Error("Crop Machine not found");
     }
+
     const { queue = [], unallocatedOilTime = 0 } = cropMachine;
 
     const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);

@@ -55,7 +55,7 @@ describe("supplyCropMachine", () => {
           machineId: "1",
         },
       }),
-    ).toThrow("Crop Machine does not exist");
+    ).toThrow("Crop Machine not found");
   });
 
   it("throws an error if the user does not have the requirements", () => {

@@ -27,19 +27,15 @@ export function removeCropMachinePack({
   }
 
   return produce(state, (stateCopy) => {
-    if (
-      !stateCopy.buildings["Crop Machine"]?.some(
-        (building) => !!building.coordinates,
-      )
-    ) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
-    const cropMachine = stateCopy.buildings["Crop Machine"]?.find(
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
       (m) => m.id === action.machineId,
     );
 
-    if (!cropMachine) {
-      throw new Error("Crop Machine does not exist");
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
     }
 
     if (!cropMachine.queue || cropMachine.queue.length === 0) {
@@ -78,20 +74,20 @@ export function removeCropMachinePack({
     // based on the removed pack's schedule and must be recalculated.
     const newQueue = cropMachine.queue;
     for (let i = action.packIndex; i < newQueue.length; i++) {
-      const p = newQueue[i];
-      if (p.startTime === undefined) continue;
+      const pack = newQueue[i];
+      if (pack.startTime === undefined) continue;
 
       const prev = newQueue[i - 1];
       const previousReadyAt = prev?.readyAt ?? prev?.growsUntil ?? createdAt;
       const newStart = Math.max(previousReadyAt, createdAt);
 
-      p.startTime = newStart;
-      if (p.readyAt !== undefined) {
-        p.readyAt = newStart + p.totalGrowTime;
+      pack.startTime = newStart;
+      if (pack.readyAt !== undefined) {
+        pack.readyAt = newStart + pack.totalGrowTime;
       }
-      if (p.growsUntil !== undefined) {
-        const allocatedOil = p.totalGrowTime - p.growTimeRemaining;
-        p.growsUntil = newStart + allocatedOil;
+      if (pack.growsUntil !== undefined) {
+        const allocatedOil = pack.totalGrowTime - pack.growTimeRemaining;
+        pack.growsUntil = newStart + allocatedOil;
       }
     }
 

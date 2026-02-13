@@ -55,7 +55,7 @@ describe("supplyCropMachineOil", () => {
           machineId: "1",
         },
       }),
-    ).toThrow("Crop Machine does not exist");
+    ).toThrow("Crop Machine not found");
   });
 
   it("throws an error if oil amount is zero or negative", () => {

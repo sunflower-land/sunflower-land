@@ -74,7 +74,7 @@ describe("removeCropMachinePack", () => {
         },
         createdAt: now,
       }),
-    ).toThrow("Crop Machine does not exist");
+    ).toThrow("Crop Machine not found");
   });
 
   it("throws an error if queue is empty", () => {
