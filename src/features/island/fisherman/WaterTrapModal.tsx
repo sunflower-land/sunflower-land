@@ -67,7 +67,6 @@ const getStoredTrap = (canUseMarinerPot: boolean): WaterTrapName => {
 
   return stored;
 };
-
 const getStoredChum = (
   trap: WaterTrapName | undefined,
   state: GameState,
@@ -132,11 +131,17 @@ export const WaterTrapModal: React.FC<Props> = ({
         const trap = getStoredTrap(canUseMarinerPot);
         const chum = getStoredChum(trap, state);
         setPersisted({ trap, chum });
+        setUserSelection({ trap, chum });
       } catch {
-        setPersisted({
+        const fallback: {
+          trap: WaterTrapName;
+          chum: CrustaceanChum | undefined;
+        } = {
           trap: "Crab Pot",
           chum: undefined,
-        });
+        };
+        setPersisted(fallback);
+        setUserSelection(fallback);
       }
     });
   }, [canUseMarinerPot, state]);
@@ -147,7 +152,11 @@ export const WaterTrapModal: React.FC<Props> = ({
       : undefined;
 
   const selectedTrap = userSelection.trap ?? persisted.trap;
-  const selectedChum = userSelection.chum ?? persisted.chum ?? initialChum;
+  const resolvedChum = userSelection.chum ?? persisted.chum ?? initialChum;
+  const selectedChum =
+    resolvedChum && WATER_TRAP[selectedTrap].chums.includes(resolvedChum)
+      ? resolvedChum
+      : undefined;
 
   const items = {
     ...getBasketItems(state.inventory),
