@@ -15,6 +15,7 @@ import {
   hasReadyCrops,
   CropMachineState,
   isCropPackReady,
+  useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Planting } from "./components/Planting";
 import { Sprouting } from "./components/Sprouting";
@@ -24,7 +25,6 @@ import { CropMachineBuilding } from "features/game/types/game";
 
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useNow } from "lib/utils/hooks/useNow";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -55,10 +55,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 
-  const now = useNow({
-    live: queue.length > 0,
-    autoEndAt: queue[queue.length - 1]?.readyAt,
-  });
+  const now = useCropMachineLiveNow(queue);
 
   const cropMachineContext: CropMachineContext = {
     growingCropPackIndex: findGrowingCropPackIndex(queue, now),

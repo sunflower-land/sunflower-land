@@ -11,6 +11,7 @@ import {
   CropMachineState,
   MachineInterpreter,
   isCropPackReady,
+  useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -49,7 +50,6 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
-import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
@@ -103,10 +103,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({
-    live: show && queue.length > 0,
-    autoEndAt: queue[queue.length - 1]?.readyAt,
-  });
+  const now = useCropMachineLiveNow(queue, { enabled: show });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -752,7 +749,7 @@ const PackBox: React.FC<{
   selectedPackIndex,
   setSelectedPackIndex,
 }) => {
-  const now = useNow({ live: true, autoEndAt: item?.readyAt });
+  const now = useCropMachineLiveNow(item ? [item] : []);
   const getQueueItemCountLabelType = (
     packIndex: number,
     itemReady: boolean,
