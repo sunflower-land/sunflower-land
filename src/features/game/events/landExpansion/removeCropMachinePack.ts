@@ -8,13 +8,13 @@ import { updateCropMachine } from "./supplyCropMachine";
 export type RemoveCropMachinePackAction = {
   type: "cropMachine.packRemoved";
   packIndex: number;
+  machineId: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
   action: RemoveCropMachinePackAction;
   createdAt?: number;
-  farmId: number;
 };
 
 export function removeCropMachinePack({
@@ -34,7 +34,9 @@ export function removeCropMachinePack({
     ) {
       throw new Error("Crop Machine does not exist");
     }
-    const machine = stateCopy.buildings["Crop Machine"]?.[0];
+    const machine = stateCopy.buildings["Crop Machine"]?.find(
+      (m) => m.id === action.machineId,
+    );
 
     if (!machine) {
       throw new Error("Crop Machine does not exist");
@@ -93,9 +95,13 @@ export function removeCropMachinePack({
       }
     }
 
-    stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
+    const machineIndex = stateCopy.buildings["Crop Machine"].findIndex(
+      (m) => m.id === action.machineId,
+    );
+    stateCopy.buildings["Crop Machine"][machineIndex] = updateCropMachine({
       now: createdAt,
       state: stateCopy,
+      machineId: action.machineId,
     });
   });
 }

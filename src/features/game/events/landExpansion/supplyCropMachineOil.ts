@@ -49,6 +49,7 @@ export function getTotalOilMillisInMachine(
 export type SupplyCropMachineOilAction = {
   type: "cropMachine.oilSupplied";
   oil: number;
+  machineId: string;
 };
 
 type SupplyCropMachineOilOptions = {
@@ -77,7 +78,13 @@ export function supplyCropMachineOil({
       throw new Error("Crop Machine does not exist");
     }
 
-    const cropMachine = stateCopy.buildings["Crop Machine"][0];
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (m) => m.id === action.machineId,
+    );
+
+    if (!cropMachine) {
+      throw new Error("Crop Machine not found");
+    }
     const { queue = [], unallocatedOilTime = 0 } = cropMachine;
 
     const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
@@ -105,9 +112,13 @@ export function supplyCropMachineOil({
       (cropMachine.unallocatedOilTime ?? 0) +
       getOilTimeInMillis(oilAdded, state);
 
-    stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
+    const machineIndex = stateCopy.buildings["Crop Machine"].findIndex(
+      (m) => m.id === action.machineId,
+    );
+    stateCopy.buildings["Crop Machine"][machineIndex] = updateCropMachine({
       now: createdAt,
       state: stateCopy,
+      machineId: cropMachine.id,
     });
 
     return stateCopy;

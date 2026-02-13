@@ -12,6 +12,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
   packIndex: number;
+  machineId: string;
 };
 
 type Options = {
@@ -65,7 +66,9 @@ export function harvestCropMachine({
   farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const machine = stateCopy.buildings["Crop Machine"]?.[0];
+    const machine = stateCopy.buildings["Crop Machine"]?.find(
+      (m) => m.id === action.machineId,
+    );
     const { bumpkin } = stateCopy;
 
     if (!bumpkin) {

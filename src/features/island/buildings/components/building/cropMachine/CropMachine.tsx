@@ -78,7 +78,11 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const handleClick = () => setShowModal(true);
   const handleAddSeeds = (seeds: AddSeedsInput) => {
-    const updated = gameService.send({ type: "cropMachine.supplied", seeds });
+    const updated = gameService.send({
+      type: "cropMachine.supplied",
+      seeds,
+      machineId: id,
+    });
 
     const machines = updated.context.state.buildings[
       "Crop Machine"
@@ -99,6 +103,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     const updated = gameService.send({
       type: "cropMachine.harvested",
       packIndex,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[
@@ -120,6 +125,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     const updatedState = gameService.send({
       type: "cropMachine.packRemoved",
       packIndex,
+      machineId: id,
     });
 
     const machines = updatedState.context.state.buildings["Crop Machine"];
@@ -139,6 +145,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     const updated = gameService.send({
       type: "cropMachine.oilSupplied",
       oil,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[

@@ -8,7 +8,14 @@ import {
   CropMachineQueueItem,
 } from "features/game/types/game";
 
-const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  bumpkin: INITIAL_BUMPKIN,
+  inventory: {
+    ...TEST_FARM.inventory,
+    "Beta Pass": new Decimal(1),
+  },
+};
 const now = Date.now();
 
 const createCropMachineWithQueue = (
@@ -24,16 +31,14 @@ const createCropMachineWithQueue = (
 });
 
 describe("removeCropMachinePack", () => {
-  const farmId = 1;
-
   it("throws an error if Crop Machine does not exist", () => {
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: GAME_STATE,
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 0,
+          machineId: "1",
         },
         createdAt: now,
       }),
@@ -43,7 +48,6 @@ describe("removeCropMachinePack", () => {
   it("throws an error if Crop Machine is not placed (coordinates undefined)", () => {
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           inventory: { "Beta Pass": new Decimal(1) },
@@ -63,7 +67,11 @@ describe("removeCropMachinePack", () => {
             ],
           },
         },
-        action: { type: "cropMachine.packRemoved", packIndex: 0 },
+        action: {
+          type: "cropMachine.packRemoved",
+          packIndex: 0,
+          machineId: "1",
+        },
         createdAt: now,
       }),
     ).toThrow("Crop Machine does not exist");
@@ -72,7 +80,6 @@ describe("removeCropMachinePack", () => {
   it("throws an error if queue is empty", () => {
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -82,6 +89,7 @@ describe("removeCropMachinePack", () => {
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 0,
+          machineId: "1",
         },
         createdAt: now,
       }),
@@ -92,7 +100,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -111,6 +118,7 @@ describe("removeCropMachinePack", () => {
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 1,
+          machineId: "1",
         },
         createdAt: now,
       }),
@@ -121,7 +129,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -142,6 +149,7 @@ describe("removeCropMachinePack", () => {
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 0,
+          machineId: "1",
         },
         createdAt: now,
       }),
@@ -152,7 +160,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -173,6 +180,7 @@ describe("removeCropMachinePack", () => {
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 0,
+          machineId: "1",
         },
         createdAt: now,
       }),
@@ -183,7 +191,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     const initialUnallocatedOilTime = 1000;
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -208,6 +215,7 @@ describe("removeCropMachinePack", () => {
       action: {
         type: "cropMachine.packRemoved",
         packIndex: 0,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -222,7 +230,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     const initialUnallocatedOilTime = 0;
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -249,6 +256,7 @@ describe("removeCropMachinePack", () => {
       action: {
         type: "cropMachine.packRemoved",
         packIndex: 0,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -265,7 +273,6 @@ describe("removeCropMachinePack", () => {
     const growTimeRemaining = totalGrowTime - allocatedOil;
     const initialUnallocatedOilTime = 0;
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -292,6 +299,7 @@ describe("removeCropMachinePack", () => {
       action: {
         type: "cropMachine.packRemoved",
         packIndex: 0,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -309,7 +317,6 @@ describe("removeCropMachinePack", () => {
     const t2 = t1 + growTime;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -347,7 +354,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -364,7 +375,6 @@ describe("removeCropMachinePack", () => {
     const t0 = now + 5000;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -402,7 +412,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -419,7 +433,6 @@ describe("removeCropMachinePack", () => {
     const t1 = t0 + growTime;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -457,7 +470,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 0 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 0,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -475,7 +492,6 @@ describe("removeCropMachinePack", () => {
     const t1 = t0 + growTime;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -513,7 +529,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 2 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 2,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -531,7 +551,6 @@ describe("removeCropMachinePack", () => {
     const t2 = t1 + growTime;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -578,7 +597,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -597,7 +620,6 @@ describe("removeCropMachinePack", () => {
     const p2NeedsMore = growTime * 0.5;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -634,7 +656,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -649,7 +675,6 @@ describe("removeCropMachinePack", () => {
     const t0 = now + 5000;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -685,7 +710,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -701,7 +730,6 @@ describe("removeCropMachinePack", () => {
     const p0GrowsUntil = t0 + growTime * 0.5;
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -739,7 +767,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 1 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 1,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -753,7 +785,6 @@ describe("removeCropMachinePack", () => {
     const growTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
 
     const result = removeCropMachinePack({
-      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -782,7 +813,11 @@ describe("removeCropMachinePack", () => {
           ],
         },
       },
-      action: { type: "cropMachine.packRemoved", packIndex: 0 },
+      action: {
+        type: "cropMachine.packRemoved",
+        packIndex: 0,
+        machineId: "1",
+      },
       createdAt: now,
     });
 
@@ -796,7 +831,6 @@ describe("removeCropMachinePack", () => {
     const totalGrowTime = (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE);
     expect(() =>
       removeCropMachinePack({
-        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -814,7 +848,11 @@ describe("removeCropMachinePack", () => {
             ],
           },
         },
-        action: { type: "cropMachine.packRemoved", packIndex: 0 },
+        action: {
+          type: "cropMachine.packRemoved",
+          packIndex: 0,
+          machineId: "1",
+        },
         createdAt: now,
       }),
     ).toThrow("Pack has already started");
