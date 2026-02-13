@@ -18,6 +18,10 @@ type StreamConfig = {
   startMinute: number;
   durationMinutes: number;
   notifyMinutesBefore: number;
+  /** If set, stream only runs every N weeks (e.g. 2 = bi-weekly). */
+  intervalWeeks?: number;
+  /** YYYY-MM-DD: first stream date (used with intervalWeeks to determine "on" weeks). */
+  anchorDate?: string;
 };
 
 const NO_STREAM_DATES = [
@@ -26,29 +30,73 @@ const NO_STREAM_DATES = [
 ];
 
 export const STREAMS_CONFIG = {
-  tuesday: {
-    day: 2,
+  /** Discord stream: every second Thursday, same time. Starting next week. */
+  thursday: {
+    day: 4,
     startHour: 15,
     startMinute: 30,
     durationMinutes: 60,
     notifyMinutesBefore: 10,
+    intervalWeeks: 2,
+    anchorDate: "2026-02-19",
   } as StreamConfig,
+  /** Twitch stream: every second Friday. Starting today. */
   friday: {
     day: 5,
     startHour: 11,
     startMinute: 0,
     durationMinutes: 60,
     notifyMinutesBefore: 15,
+    intervalWeeks: 2,
+    anchorDate: "2026-02-13",
   } as StreamConfig,
+};
+
+const SYDNEY = "Australia/Sydney";
+
+/** Get YYYY-MM-DD for a timestamp in Sydney. */
+function getSydneyDateString(ms: number): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: SYDNEY,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date(ms));
+  const y = parts.find((p) => p.type === "year")?.value ?? "";
+  const m = parts.find((p) => p.type === "month")?.value ?? "";
+  const d = parts.find((p) => p.type === "day")?.value ?? "";
+  return `${y}-${m}-${d}`;
+}
+
+/** True if this stream date (YYYY-MM-DD) falls on an "on" week for bi-weekly. */
+function isOnIntervalWeek(
+  streamDateStr: string,
+  anchorDate: string,
+  intervalWeeks: number,
+): boolean {
+  const [ay, am, ad] = anchorDate.split("-").map(Number);
+  const [sy, sm, sd] = streamDateStr.split("-").map(Number);
+  const anchorDays = Date.UTC(ay, am - 1, ad) / (24 * 60 * 60 * 1000);
+  const streamDays = Date.UTC(sy, sm - 1, sd) / (24 * 60 * 60 * 1000);
+  const weeksSince = Math.floor((streamDays - anchorDays) / 7);
+  return weeksSince >= 0 && weeksSince % intervalWeeks === 0;
+}
+
+type GetNextStreamTimeOptions = {
+  intervalWeeks?: number;
+  anchorDate?: string;
 };
 
 export const getNextStreamTime = (
   schedule: StreamSchedule,
+  options?: GetNextStreamTimeOptions,
 ): { startTime: number; isOngoing: boolean } => {
+  const { intervalWeeks = 1, anchorDate } = options ?? {};
+
   // Create a date object in Sydney timezone
   const sydneyTime = new Date();
   const sydneyDate = new Date(
-    sydneyTime.toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
+    sydneyTime.toLocaleString("en-US", { timeZone: SYDNEY }),
   );
 
   // Get current day, hour and minute in Sydney
@@ -56,57 +104,79 @@ export const getNextStreamTime = (
   const currentHour = sydneyDate.getHours();
   const currentMinute = sydneyDate.getMinutes();
 
-  // Calculate minutes until next stream
+  // Calculate minutes until next stream (next occurrence of this day/time)
   let minutesUntilStream = 0;
   let isOngoing = false;
 
-  // Check if we're in the middle of a stream
-  if (
+  const onRightDay =
     currentDay === schedule.day &&
     (currentHour > schedule.hour ||
-      (currentHour === schedule.hour && currentMinute >= schedule.minute))
-  ) {
-    // We're past the start time today, check if we're still within stream duration
+      (currentHour === schedule.hour && currentMinute >= schedule.minute));
+
+  if (onRightDay) {
     const minutesSinceStart =
       (currentHour - schedule.hour) * 60 + (currentMinute - schedule.minute);
     if (minutesSinceStart < 60) {
-      // Assuming 60 minute stream duration
-      isOngoing = true;
-      minutesUntilStream = -minutesSinceStart;
+      const todayStr = getSydneyDateString(sydneyTime.getTime());
+      const onWeek =
+        !anchorDate ||
+        intervalWeeks === 1 ||
+        isOnIntervalWeek(todayStr, anchorDate, intervalWeeks);
+      if (onWeek) {
+        isOngoing = true;
+        minutesUntilStream = -minutesSinceStart;
+      } else {
+        minutesUntilStream =
+          7 * 24 * 60 -
+          (currentHour * 60 + currentMinute) +
+          (schedule.hour * 60 + schedule.minute);
+      }
     } else {
-      // Stream has ended, calculate for next week
       minutesUntilStream =
-        7 * 24 * 60 - // Full week in minutes
-        (currentHour * 60 + currentMinute) + // Minutes passed today
-        (schedule.hour * 60 + schedule.minute); // Stream time
+        7 * 24 * 60 -
+        (currentHour * 60 + currentMinute) +
+        (schedule.hour * 60 + schedule.minute);
     }
   } else {
-    // Calculate days until next stream
     const daysUntilStream = (schedule.day - currentDay + 7) % 7;
-
-    // Calculate total minutes until stream
     minutesUntilStream =
-      daysUntilStream * 24 * 60 + // Days in minutes
-      (schedule.hour * 60 + schedule.minute) - // Stream time
-      (currentHour * 60 + currentMinute); // Current time
+      daysUntilStream * 24 * 60 +
+      (schedule.hour * 60 + schedule.minute) -
+      (currentHour * 60 + currentMinute);
   }
 
-  const nextStreamDate = new Date(
-    sydneyTime.getTime() + minutesUntilStream * 60000,
-  )
-    .toISOString()
-    .split("T")[0];
-
-  if (NO_STREAM_DATES.includes(nextStreamDate)) {
-    minutesUntilStream += 7 * 24 * 60;
-  }
-
-  // Create the next stream time by adding minutes to current time
-  const nextStreamTime = new Date(
+  let nextStreamTime = new Date(
     sydneyTime.getTime() + minutesUntilStream * 60000,
   );
 
-  // Set seconds to 00 by rounding down to the nearest minute
+  // Skip NO_STREAM_DATES
+  let nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
+  while (NO_STREAM_DATES.includes(nextStreamDate)) {
+    minutesUntilStream += 7 * 24 * 60;
+    nextStreamTime = new Date(
+      sydneyTime.getTime() + minutesUntilStream * 60000,
+    );
+    nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
+  }
+
+  // Bi-weekly: advance by 7 days until we hit an "on" week (and not a NO_STREAM date)
+  if (anchorDate && intervalWeeks > 1) {
+    for (;;) {
+      nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
+      const onWeek = isOnIntervalWeek(
+        nextStreamDate,
+        anchorDate,
+        intervalWeeks,
+      );
+      const skipped = NO_STREAM_DATES.includes(nextStreamDate);
+      if (onWeek && !skipped) break;
+      minutesUntilStream += 7 * 24 * 60;
+      nextStreamTime = new Date(
+        sydneyTime.getTime() + minutesUntilStream * 60000,
+      );
+    }
+  }
+
   nextStreamTime.setSeconds(0);
   nextStreamTime.setMilliseconds(0);
 
@@ -128,11 +198,17 @@ export function getStream(): StreamNotification | null {
   let ongoingStream: StreamNotification | null = null;
 
   for (const stream of Object.values(STREAMS_CONFIG)) {
-    const { startTime, isOngoing } = getNextStreamTime({
-      day: stream.day,
-      hour: stream.startHour,
-      minute: stream.startMinute,
-    });
+    const { startTime, isOngoing } = getNextStreamTime(
+      {
+        day: stream.day,
+        hour: stream.startHour,
+        minute: stream.startMinute,
+      },
+      {
+        intervalWeeks: stream.intervalWeeks,
+        anchorDate: stream.anchorDate,
+      },
+    );
 
     if (isOngoing) {
       ongoingStream = {
@@ -158,18 +234,30 @@ export function getStream(): StreamNotification | null {
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const { startTime: tuesdayStream, isOngoing: tuesdayOngoing } =
-    getNextStreamTime({
-      day: STREAMS_CONFIG.tuesday.day,
-      hour: STREAMS_CONFIG.tuesday.startHour,
-      minute: STREAMS_CONFIG.tuesday.startMinute,
-    }); // Tuesday 3:30 PM
+  const { startTime: thursdayStream, isOngoing: thursdayOngoing } =
+    getNextStreamTime(
+      {
+        day: STREAMS_CONFIG.thursday.day,
+        hour: STREAMS_CONFIG.thursday.startHour,
+        minute: STREAMS_CONFIG.thursday.startMinute,
+      },
+      {
+        intervalWeeks: STREAMS_CONFIG.thursday.intervalWeeks,
+        anchorDate: STREAMS_CONFIG.thursday.anchorDate,
+      },
+    );
   const { startTime: fridayStream, isOngoing: fridayOngoing } =
-    getNextStreamTime({
-      day: STREAMS_CONFIG.friday.day,
-      hour: STREAMS_CONFIG.friday.startHour,
-      minute: STREAMS_CONFIG.friday.startMinute,
-    }); // Friday 11:00 AM
+    getNextStreamTime(
+      {
+        day: STREAMS_CONFIG.friday.day,
+        hour: STREAMS_CONFIG.friday.startHour,
+        minute: STREAMS_CONFIG.friday.startMinute,
+      },
+      {
+        intervalWeeks: STREAMS_CONFIG.friday.intervalWeeks,
+        anchorDate: STREAMS_CONFIG.friday.anchorDate,
+      },
+    );
   const timeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
@@ -197,13 +285,13 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               timeZone,
             })}
           </Label>
-          {(tuesdayOngoing || fridayOngoing) && (
+          {(thursdayOngoing || fridayOngoing) && (
             <Label
               type="success"
               icon={SUNNYSIDE.icons.stopwatch}
               className="mb-1"
             >
-              {t(`streams.${tuesdayOngoing ? "tuesday" : "friday"}.ongoing`)}
+              {t(`streams.${thursdayOngoing ? "thursday" : "friday"}.ongoing`)}
             </Label>
           )}
           <Label
@@ -212,7 +300,7 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             className="mb-2 ml-2"
           >
             {`${t("streams.discord")} - ${new Date(
-              tuesdayStream,
+              thursdayStream,
             ).toLocaleString("en-AU", timeOptions)}`}
           </Label>
           <Label
