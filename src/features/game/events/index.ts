@@ -280,6 +280,10 @@ import {
   SupplyCropMachineAction,
 } from "./landExpansion/supplyCropMachine";
 import {
+  supplyCropMachineOil,
+  SupplyCropMachineOilAction,
+} from "./landExpansion/supplyCropMachineOil";
+import {
   harvestCropMachine,
   HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
@@ -672,6 +676,7 @@ export type PlayingEvent =
   | SubmitMinigameScoreAction
   | SkillUseAction
   | SupplyCropMachineAction
+  | SupplyCropMachineOilAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
   | JoinFactionAction
@@ -929,6 +934,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "sfl.exchanged": exchangeSFLtoCoins,
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,
+  "cropMachine.oilSupplied": supplyCropMachineOil,
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
   "cookingOil.supplied": supplyCookingOil,

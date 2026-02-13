@@ -21,11 +21,10 @@ export type AddSeedsInput = {
 
 export type SupplyCropMachineAction = {
   type: "cropMachine.supplied";
-  seeds?: AddSeedsInput;
-  oil?: number;
+  seeds: AddSeedsInput;
 };
 
-type Options = {
+type SupplyCropMachineOptions = {
   state: Readonly<GameState>;
   action: SupplyCropMachineAction;
   createdAt?: number;
@@ -66,45 +65,6 @@ export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) =>
 
 export const MAX_OIL_CAPACITY_IN_MILLIS = (state: GameState) =>
   MAX_OIL_CAPACITY_IN_HOURS(state) * 60 * 60 * 1000;
-
-export function getTotalOilMillisInMachine(
-  queue: CropMachineQueueItem[],
-  unallocatedOilTime: number,
-  now: number = Date.now(),
-) {
-  const oil = queue.reduce((totalOil, item) => {
-    // There is no oil to allocated to this pack
-    if (!item.startTime) return totalOil;
-
-    // Completely allocated pack has started growing but has not reached the readyAt time
-    // therefore it is currently using its allocation of oil
-    // add the unused oil to the total oil
-    if (item.readyAt && item.startTime <= now && item.readyAt > now) {
-      return totalOil + item.readyAt - now;
-    }
-
-    // Completely allocated pack hasn't started growing yet. Add the entire allocation to the total oil
-    if (item.readyAt && item.startTime > now) {
-      return totalOil + item.readyAt - item.startTime;
-    }
-
-    // Partially allocated pack hasn't started growing yet. Add the entire allocation to the total oil.
-    if (item.growsUntil && item.startTime > now) {
-      return totalOil + item.growsUntil - item.startTime;
-    }
-
-    // Partially allocated pack has started growing and is currently growing but has not reached the growsUntil time
-    // therefore it is currently using its oil allocation
-    // add the unused oil to the total oil
-    if (item.growsUntil && item.startTime <= now && item.growsUntil > now) {
-      return totalOil + item.growsUntil - now;
-    }
-
-    return totalOil;
-  }, unallocatedOilTime ?? 0);
-
-  return Math.max(oil, 0);
-}
 
 export function calculateCropTime(
   seeds: {
@@ -315,22 +275,14 @@ export function supplyCropMachine({
   state,
   action,
   createdAt = Date.now(),
-}: Options): GameState {
+}: SupplyCropMachineOptions): GameState {
+  const seedsAdded = action.seeds;
+
+  if (seedsAdded.amount < 1) {
+    throw new Error("Invalid amount supplied");
+  }
+
   return produce(state, (stateCopy) => {
-    const oilAdded = action.oil ?? 0;
-    const seedsAdded = action.seeds ?? {
-      type: "Sunflower Seed",
-      amount: 0,
-    };
-
-    if (seedsAdded.amount < 0 || oilAdded < 0) {
-      throw new Error("Invalid amount supplied");
-    }
-
-    if (!stateCopy.bumpkin) {
-      throw new Error("You do not have a Bumpkin");
-    }
-
     if (
       !stateCopy.buildings["Crop Machine"]?.some(
         (building) => !!building.coordinates,
@@ -371,54 +323,25 @@ export function supplyCropMachine({
 
     const queue = cropMachine.queue ?? [];
 
-    if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE(state)) {
+    if (queue.length + 1 > MAX_QUEUE_SIZE(state)) {
       throw new Error("Queue is full");
     }
 
-    // removes seeds from the player's inventory
     stateCopy.inventory[seedName] = previousSeedsInInventory.minus(
       seedsAdded.amount,
     );
-
-    const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
-
-    if (previousOilInInventory.lt(oilAdded)) {
-      throw new Error("Missing requirements");
-    }
-
-    stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
-
-    const oilMillisInMachine = getTotalOilMillisInMachine(
-      queue,
-      cropMachine.unallocatedOilTime ?? 0,
-    );
-
-    if (
-      oilMillisInMachine + getOilTimeInMillis(oilAdded, state) >
-      MAX_OIL_CAPACITY_IN_MILLIS(state)
-    ) {
-      throw new Error("Oil capacity exceeded");
-    }
-
-    if (oilAdded > 0) {
-      cropMachine.unallocatedOilTime =
-        (cropMachine.unallocatedOilTime ?? 0) +
-        getOilTimeInMillis(oilAdded, state);
-    }
 
     const crop = seedName.split(" ")[0] as CropName;
 
     const { milliSeconds, boostUsed } = calculateCropTime(seedsAdded, state);
 
-    if (seedsAdded.amount > 0) {
-      queue.push({
-        seeds: seedsAdded.amount,
-        crop,
-        growTimeRemaining: milliSeconds,
-        totalGrowTime: milliSeconds,
-      });
-      stateCopy.buildings["Crop Machine"][0].queue = queue;
-    }
+    queue.push({
+      seeds: seedsAdded.amount,
+      crop,
+      growTimeRemaining: milliSeconds,
+      totalGrowTime: milliSeconds,
+    });
+    stateCopy.buildings["Crop Machine"][0].queue = queue;
 
     stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
       now: createdAt,
