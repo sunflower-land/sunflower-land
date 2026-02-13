@@ -487,7 +487,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                             )
                           }
                           disabled={!canIncrementSeeds()}
-                          className={`px-2 ${"sm:px-2"} w-auto min-w-min`}
+                          className={`px-2 w-auto min-w-min`}
                         >
                           <span className="text-xs sm:text-sm">
                             {t("cropMachine.all")}
