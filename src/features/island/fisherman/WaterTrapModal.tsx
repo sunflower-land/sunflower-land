@@ -123,7 +123,8 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   const [stored, setStored] = useLocalStorage<WaterTrapSelection>(
     WATER_TRAP_SELECTION_KEY,
-    migrateWaterTrapSelection,
+    { trap: "Crab Pot", chum: undefined },
+    { migrate: migrateWaterTrapSelection },
   );
 
   const initialChum =
@@ -175,7 +176,7 @@ export const WaterTrapModal: React.FC<Props> = ({
       selectedChum && !WATER_TRAP[trap].chums.includes(selectedChum);
     setStored((prev) => ({
       trap,
-      chum: clearChum ? undefined : prev.chum,
+      chum: clearChum ? undefined : (selectedChum ?? prev.chum),
     }));
   };
 

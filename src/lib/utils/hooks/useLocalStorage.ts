@@ -1,8 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export interface UseLocalStorageOptions<T> {
   parse?: (raw: string) => T;
   serialize?: (value: T) => string;
+  /** Runs in effect; may read/write localStorage. When present, used instead of readFromStorage for initial sync. */
+  migrate?: () => T;
 }
 
 function defaultParse<T>(raw: string): T {
@@ -52,8 +54,8 @@ function writeToStorage<T>(
  * SSR-safe; falls back to in-memory state when localStorage is unavailable (e.g. Safari private mode).
  *
  * @param key - localStorage key
- * @param defaultValue - initial value when key is missing or parse fails (or lazy function returning it)
- * @param options - optional custom parse/serialize (default: JSON)
+ * @param defaultValue - pure initial value when key is missing or parse fails (or lazy function returning it). Must not have side effects.
+ * @param options - optional custom parse/serialize (default: JSON), or migrate for one-time migration logic
  */
 export function useLocalStorage<T>(
   key: string,
@@ -63,9 +65,14 @@ export function useLocalStorage<T>(
   const parse = options?.parse ?? defaultParse;
   const serialize = options?.serialize ?? defaultSerialize;
 
-  const [state, setState] = useState<T>(() =>
-    readFromStorage(key, defaultValue, parse),
-  );
+  const [state, setState] = useState<T>(() => resolveDefault(defaultValue));
+
+  useEffect(() => {
+    const value = options?.migrate
+      ? options.migrate()
+      : readFromStorage(key, defaultValue, parse);
+    queueMicrotask(() => setState(value));
+  }, [defaultValue, key, options, parse]);
 
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
