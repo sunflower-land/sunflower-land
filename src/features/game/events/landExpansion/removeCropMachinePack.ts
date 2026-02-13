@@ -34,23 +34,23 @@ export function removeCropMachinePack({
     ) {
       throw new Error("Crop Machine does not exist");
     }
-    const machine = stateCopy.buildings["Crop Machine"]?.find(
+    const cropMachine = stateCopy.buildings["Crop Machine"]?.find(
       (m) => m.id === action.machineId,
     );
 
-    if (!machine) {
+    if (!cropMachine) {
       throw new Error("Crop Machine does not exist");
     }
 
-    if (!machine.queue || machine.queue.length === 0) {
+    if (!cropMachine.queue || cropMachine.queue.length === 0) {
       throw new Error("Nothing in the queue");
     }
 
-    if (!machine.queue[action.packIndex]) {
+    if (!cropMachine.queue[action.packIndex]) {
       throw new Error("Pack does not exist");
     }
 
-    const pack = machine.queue[action.packIndex];
+    const pack = cropMachine.queue[action.packIndex];
 
     if (pack.startTime !== undefined && pack.startTime <= createdAt) {
       throw new Error("Pack has already started");
@@ -65,18 +65,18 @@ export function removeCropMachinePack({
     let allocatedOil = 0;
     if (pack.startTime !== undefined && pack.startTime > createdAt) {
       allocatedOil = pack.totalGrowTime - pack.growTimeRemaining;
-      machine.unallocatedOilTime =
-        (machine.unallocatedOilTime ?? 0) + allocatedOil;
+      cropMachine.unallocatedOilTime =
+        (cropMachine.unallocatedOilTime ?? 0) + allocatedOil;
     }
 
     // Remove pack from queue
-    machine.queue = machine.queue.filter(
+    cropMachine.queue = cropMachine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
 
     // Reschedule downstream packs: their startTime/readyAt/growsUntil were
     // based on the removed pack's schedule and must be recalculated.
-    const newQueue = machine.queue;
+    const newQueue = cropMachine.queue;
     for (let i = action.packIndex; i < newQueue.length; i++) {
       const p = newQueue[i];
       if (p.startTime === undefined) continue;
@@ -95,13 +95,17 @@ export function removeCropMachinePack({
       }
     }
 
-    const machineIndex = stateCopy.buildings["Crop Machine"].findIndex(
-      (m) => m.id === action.machineId,
-    );
-    stateCopy.buildings["Crop Machine"][machineIndex] = updateCropMachine({
+    const updatedCropMachine = updateCropMachine({
       now: createdAt,
-      state: stateCopy,
-      machineId: action.machineId,
+      cropMachine,
     });
+
+    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
+      "Crop Machine"
+    ].map((machine) =>
+      machine.id === cropMachine.id ? updatedCropMachine : machine,
+    );
+
+    return stateCopy;
   });
 }

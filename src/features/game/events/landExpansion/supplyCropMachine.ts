@@ -6,7 +6,6 @@ import {
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
@@ -111,28 +110,12 @@ export function getOilTimeInMillis(oil: number, state: GameState) {
 }
 
 export function updateCropMachine({
-  state,
-  machineId,
+  cropMachine,
   now,
 }: {
-  state: GameState;
   now: number;
-  machineId: string;
+  cropMachine: CropMachineBuilding;
 }) {
-  const stateCopy = cloneDeep<GameState>(state);
-
-  // Ensure the crop machine exists
-  if (!stateCopy.buildings["Crop Machine"]) {
-    throw new Error("Crop Machine does not exist");
-  }
-
-  const cropMachine = stateCopy.buildings["Crop Machine"].find(
-    (machine) => machine.id === machineId,
-  ) as CropMachineBuilding;
-
-  if (!cropMachine) {
-    throw new Error("Crop Machine not found");
-  }
   const queue = cropMachine.queue ?? [];
 
   queue.forEach((pack, index) => {
@@ -359,8 +342,7 @@ export function supplyCropMachine({
 
     const updatedCropMachine = updateCropMachine({
       now: createdAt,
-      state: stateCopy,
-      machineId: cropMachine.id,
+      cropMachine,
     });
 
     stateCopy.buildings["Crop Machine"] = stateCopy.buildings[

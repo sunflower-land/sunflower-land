@@ -112,14 +112,16 @@ export function supplyCropMachineOil({
       (cropMachine.unallocatedOilTime ?? 0) +
       getOilTimeInMillis(oilAdded, state);
 
-    const machineIndex = stateCopy.buildings["Crop Machine"].findIndex(
-      (m) => m.id === action.machineId,
-    );
-    stateCopy.buildings["Crop Machine"][machineIndex] = updateCropMachine({
+    const updatedCropMachine = updateCropMachine({
       now: createdAt,
-      state: stateCopy,
-      machineId: cropMachine.id,
+      cropMachine,
     });
+
+    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
+      "Crop Machine"
+    ].map((machine) =>
+      machine.id === cropMachine.id ? updatedCropMachine : machine,
+    );
 
     return stateCopy;
   });
