@@ -29,7 +29,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
 
-  if (!machines) return null;
+  if (!machines) return undefined;
 
   return machines.find((machine) => machine.id === id);
 };
@@ -49,19 +49,22 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const now = useNow({ live: true });
-
   const cropMachine = useSelector(
     gameService,
     _cropMachine(id),
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 
+  const now = useNow({
+    live: queue.length > 0,
+    autoEndAt: queue[queue.length - 1]?.readyAt,
+  });
+
   const cropMachineContext: CropMachineContext = {
-    growingCropPackIndex: findGrowingCropPackIndex(queue),
+    growingCropPackIndex: findGrowingCropPackIndex(queue, now),
     queue,
     unallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
-    canHarvest: hasReadyCrops(queue),
+    canHarvest: hasReadyCrops(queue, now),
   };
 
   const cropMachineService = useInterpret(cropStateMachine, {

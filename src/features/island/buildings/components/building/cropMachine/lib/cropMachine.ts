@@ -42,9 +42,8 @@ type GrowingQueueItem = CropMachineQueueItem & { startTime: number };
 
 function getGrowingCropPackStage(
   item: CropMachineQueueItem & { startTime: number },
+  now: number,
 ): CropMachineGrowingStage {
-  const now = Date.now();
-
   const stageDuration = item.totalGrowTime / 3;
 
   const stage1Threshold = item.startTime + stageDuration;
@@ -58,7 +57,7 @@ function getGrowingCropPackStage(
   return "harvesting"; // Last 5 seconds
 }
 
-function isCropInProgress(item: CropMachineQueueItem, now = Date.now()) {
+function isCropInProgress(item: CropMachineQueueItem, now: number) {
   const hasStarted = item.startTime && item.startTime <= now;
 
   if (!hasStarted) {
@@ -76,10 +75,11 @@ function isCropInProgress(item: CropMachineQueueItem, now = Date.now()) {
   return false;
 }
 
-export function findGrowingCropPackIndex(queue: CropMachineQueueItem[]) {
+export function findGrowingCropPackIndex(
+  queue: CropMachineQueueItem[],
+  now: number,
+) {
   const index = queue.findIndex((item) => {
-    const now = Date.now();
-
     const inProgress = isCropInProgress(item, now);
 
     return inProgress;
@@ -88,11 +88,11 @@ export function findGrowingCropPackIndex(queue: CropMachineQueueItem[]) {
   return index >= 0 ? index : undefined;
 }
 
-export function hasReadyCrops(queue: CropMachineQueueItem[], now = Date.now()) {
+export function hasReadyCrops(queue: CropMachineQueueItem[], now: number) {
   return queue.some((item) => item.readyAt && item.readyAt <= now);
 }
 
-export function isCropPackReady(item: CropMachineQueueItem, now = Date.now()) {
+export function isCropPackReady(item: CropMachineQueueItem, now: number) {
   if (!item.readyAt) return false;
 
   return item.readyAt <= now;
@@ -101,8 +101,9 @@ export function isCropPackReady(item: CropMachineQueueItem, now = Date.now()) {
 function updateQueueAndUnallocatedOil(
   updatedQueue: CropMachineQueueItem[],
   updatedOilRemaining: number,
+  now: number,
 ) {
-  const cropPackIndex = findGrowingCropPackIndex(updatedQueue);
+  const cropPackIndex = findGrowingCropPackIndex(updatedQueue, now);
   const cropPack =
     cropPackIndex !== undefined ? updatedQueue[cropPackIndex] : undefined;
 
@@ -111,9 +112,9 @@ function updateQueueAndUnallocatedOil(
     unallocatedOilTime: updatedOilRemaining,
     growingCropPackIndex: cropPackIndex,
     growingCropPackStage: cropPack
-      ? getGrowingCropPackStage(cropPack as GrowingQueueItem)
+      ? getGrowingCropPackStage(cropPack as GrowingQueueItem, now)
       : undefined,
-    canHarvest: hasReadyCrops(updatedQueue),
+    canHarvest: hasReadyCrops(updatedQueue, now),
   };
 }
 
@@ -206,7 +207,8 @@ export const cropStateMachine = createMachine<Context, Event, State>(
     },
     actions: {
       updateMachine: assign((context) => {
-        const cropPackIndex = findGrowingCropPackIndex(context.queue);
+        const now = Date.now();
+        const cropPackIndex = findGrowingCropPackIndex(context.queue, now);
         const cropPack =
           cropPackIndex !== undefined
             ? context.queue[cropPackIndex]
@@ -216,36 +218,48 @@ export const cropStateMachine = createMachine<Context, Event, State>(
           ...context,
           growingCropPackIndex: cropPackIndex,
           growingCropPackStage: cropPack
-            ? getGrowingCropPackStage(cropPack as GrowingQueueItem)
+            ? getGrowingCropPackStage(cropPack as GrowingQueueItem, now)
             : undefined,
-          canHarvest: hasReadyCrops(context.queue),
+          canHarvest: hasReadyCrops(context.queue, now),
         };
       }),
       supplyMachine: assign((_, event) => {
+        const now = Date.now();
         const { updatedQueue, updatedUnallocatedOilTime: updatedOilRemaining } =
           event as SupplyMachineEvent;
 
-        return updateQueueAndUnallocatedOil(updatedQueue, updatedOilRemaining);
+        return updateQueueAndUnallocatedOil(
+          updatedQueue,
+          updatedOilRemaining,
+          now,
+        );
       }),
       harvestMachine: assign((_, event) => {
+        const now = Date.now();
         const { updatedQueue, updatedUnallocatedOilTime: updatedOilRemaining } =
           event as HarvestCropsEvent;
 
-        return updateQueueAndUnallocatedOil(updatedQueue, updatedOilRemaining);
+        return updateQueueAndUnallocatedOil(
+          updatedQueue,
+          updatedOilRemaining,
+          now,
+        );
       }),
     },
     guards: {
       noPacksGrowing: (context) => {
         if (context.growingCropPackIndex === undefined) return true;
+        const now = Date.now();
 
-        const cropPackIndex = findGrowingCropPackIndex(context.queue);
+        const cropPackIndex = findGrowingCropPackIndex(context.queue, now);
 
         return cropPackIndex === undefined;
       },
       areCropsGrowing: (context) => {
         if (context.growingCropPackIndex === undefined) return false;
+        const now = Date.now();
 
-        const cropPackIndex = findGrowingCropPackIndex(context.queue);
+        const cropPackIndex = findGrowingCropPackIndex(context.queue, now);
 
         return cropPackIndex !== undefined;
       },

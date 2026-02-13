@@ -103,7 +103,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: show });
+  const now = useNow({
+    live: show && queue.length > 0,
+    autoEndAt: queue[queue.length - 1]?.readyAt,
+  });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -340,7 +343,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
             </div>
           )}
           {/* Harvest */}
-          {selectedPack && isCropPackReady(selectedPack) && (
+          {selectedPack && isCropPackReady(selectedPack, now) && (
             <div className="flex flex-col w-full">
               <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
                 <Label type="success" icon={SUNNYSIDE.icons.confirm}>
@@ -509,7 +512,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
           {/* Not started */}
           {!!selectedPack &&
             selectedPackIndex !== growingCropPackIndex &&
-            !isCropPackReady(selectedPack) && (
+            !isCropPackReady(selectedPack, now) && (
               <div className="flex flex-col">
                 <Label type="warning" className="my-1 ml-0.5">
                   {t("cropMachine.notStartedYet")}
