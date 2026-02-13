@@ -521,7 +521,7 @@ export const CraftingRequirements: React.FC<Props> = ({
               const content = (
                 <>
                   {entry.resourceLabel && (
-                    <span className="text-xs w-full text-center mb-0.5">
+                    <span className="text-xxs w-full text-center mb-0.5">
                       {entry.resourceLabel}
                     </span>
                   )}

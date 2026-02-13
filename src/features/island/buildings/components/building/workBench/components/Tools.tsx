@@ -41,6 +41,7 @@ import { getGoldRecoveryTimeForDisplay } from "features/game/events/landExpansio
 import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineCrimstone";
 import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
 import { getOilRecoveryTimeForDisplay } from "features/game/events/landExpansion/drillOilReserve";
+import { translate } from "lib/i18n/translate";
 
 type RecoveryEntry = {
   resourceLabel?: string;
@@ -59,36 +60,41 @@ const TOOL_RECOVERY_ENTRIES: Partial<
 > = {
   Axe: [
     {
+      resourceLabel: translate("resource.treeRecoveryTime"),
       getRecovery: (game) => getTreeRecoveryTimeForDisplay({ game }),
     },
   ],
   Pickaxe: [
     {
+      resourceLabel: translate("resource.stoneRecoveryTime"),
       getRecovery: (game) => getStoneRecoveryTimeForDisplay({ game }),
     },
   ],
   "Stone Pickaxe": [
     {
+      resourceLabel: translate("resource.ironRecoveryTime"),
       getRecovery: (game) => getIronRecoveryTimeForDisplay({ game }),
     },
   ],
   "Iron Pickaxe": [
     {
+      resourceLabel: translate("resource.goldRecoveryTime"),
       getRecovery: (game) => getGoldRecoveryTimeForDisplay({ game }),
     },
   ],
   "Gold Pickaxe": [
     {
-      resourceLabel: "Crimstone",
+      resourceLabel: translate("resource.crimstoneRecoveryTime"),
       getRecovery: (game) => getCrimstoneRecoveryTimeForDisplay({ game }),
     },
     {
-      resourceLabel: "Sunstone",
+      resourceLabel: translate("resource.sunstoneRecoveryTime"),
       getRecovery: (game) => getSunstoneRecoveryTimeForDisplay(game),
     },
   ],
   "Oil Drill": [
     {
+      resourceLabel: translate("resource.oilRecoveryTime"),
       getRecovery: (game) => getOilRecoveryTimeForDisplay({ game }),
     },
   ],
