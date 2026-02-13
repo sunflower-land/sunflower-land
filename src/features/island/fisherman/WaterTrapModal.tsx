@@ -35,6 +35,10 @@ const _state = (state: MachineState) => state.context.state;
 const WATER_TRAP_SELECTION_KEY = "waterTrapSelection";
 const LAST_TRAP_KEY_LEGACY = "lastSelectedWaterTrap";
 const LAST_CHUM_KEY_LEGACY = "lastSelectedWaterTrapChum";
+const DEFAULT_WATER_TRAP_SELECTION: WaterTrapSelection = {
+  trap: "Crab Pot",
+  chum: undefined,
+};
 
 type WaterTrapSelection = { trap: WaterTrapName; chum?: CrustaceanChum };
 
@@ -123,7 +127,7 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   const [stored, setStored] = useLocalStorage<WaterTrapSelection>(
     WATER_TRAP_SELECTION_KEY,
-    { trap: "Crab Pot", chum: undefined },
+    DEFAULT_WATER_TRAP_SELECTION,
     { migrate: migrateWaterTrapSelection },
   );
 

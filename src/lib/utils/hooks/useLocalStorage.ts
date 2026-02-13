@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 export interface UseLocalStorageOptions<T> {
   parse?: (raw: string) => T;
@@ -65,14 +65,13 @@ export function useLocalStorage<T>(
   const parse = options?.parse ?? defaultParse;
   const serialize = options?.serialize ?? defaultSerialize;
 
-  const [state, setState] = useState<T>(() => resolveDefault(defaultValue));
-
-  useEffect(() => {
+  const [state, setState] = useState<T>(() => {
     const value = options?.migrate
       ? options.migrate()
       : readFromStorage(key, defaultValue, parse);
-    queueMicrotask(() => setState(value));
-  }, [defaultValue, key, options, parse]);
+
+    return value;
+  });
 
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
