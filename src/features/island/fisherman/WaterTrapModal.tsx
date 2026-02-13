@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -28,63 +28,75 @@ import {
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CrustaceanGuide } from "./CrustaceanGuide";
 import { getKeys } from "features/game/types/decorations";
+import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
 const _state = (state: MachineState) => state.context.state;
 
-const LAST_TRAP_KEY = "lastSelectedWaterTrap";
-const LAST_CHUM_KEY = "lastSelectedWaterTrapChum";
+const WATER_TRAP_SELECTION_KEY = "waterTrapSelection";
+const LAST_TRAP_KEY_LEGACY = "lastSelectedWaterTrap";
+const LAST_CHUM_KEY_LEGACY = "lastSelectedWaterTrapChum";
 
-const safeLocalStorage = {
-  get<T>(key: string): T | null {
-    try {
-      return typeof window !== "undefined"
-        ? (localStorage.getItem(key) as T)
-        : null;
-    } catch {
-      return null;
-    }
-  },
-  set(key: string, value: string): void {
-    try {
-      if (typeof window !== "undefined") localStorage.setItem(key, value);
-    } catch {
-      // Safari private mode, quota exceeded, etc.
-    }
-  },
-  remove(key: string): void {
-    try {
-      if (typeof window !== "undefined") localStorage.removeItem(key);
-    } catch {
-      // Safari private mode, etc.
-    }
-  },
-};
+type WaterTrapSelection = { trap: WaterTrapName; chum?: CrustaceanChum };
 
-const getStoredTrap = (canUseMarinerPot: boolean): WaterTrapName => {
-  const stored = safeLocalStorage.get<WaterTrapName>(LAST_TRAP_KEY);
-  if (!stored || !(stored in WATER_TRAP)) return "Crab Pot";
-  if (stored === "Mariner Pot" && !canUseMarinerPot) return "Crab Pot";
+function migrateWaterTrapSelection(): WaterTrapSelection {
+  if (typeof window === "undefined") {
+    return { trap: "Crab Pot", chum: undefined };
+  }
+  try {
+    const existing = localStorage.getItem(WATER_TRAP_SELECTION_KEY);
+    if (existing !== null) {
+      const parsed = JSON.parse(existing) as WaterTrapSelection;
+      if (
+        parsed &&
+        typeof parsed.trap === "string" &&
+        parsed.trap in WATER_TRAP
+      ) {
+        return { trap: parsed.trap, chum: parsed.chum };
+      }
+    }
+    const legacyTrap = localStorage.getItem(
+      LAST_TRAP_KEY_LEGACY,
+    ) as WaterTrapName | null;
+    const legacyChum = localStorage.getItem(
+      LAST_CHUM_KEY_LEGACY,
+    ) as CrustaceanChum | null;
+    const trap =
+      legacyTrap && legacyTrap in WATER_TRAP ? legacyTrap : "Crab Pot";
+    const chum = legacyChum ?? undefined;
+    const value: WaterTrapSelection = { trap, chum };
+    localStorage.removeItem(LAST_TRAP_KEY_LEGACY);
+    localStorage.removeItem(LAST_CHUM_KEY_LEGACY);
+    localStorage.setItem(WATER_TRAP_SELECTION_KEY, JSON.stringify(value));
+    return value;
+  } catch {
+    return { trap: "Crab Pot", chum: undefined };
+  }
+}
 
-  return stored;
-};
-const getStoredChum = (
-  trap: WaterTrapName | undefined,
+function sanitizeTrap(
+  raw: WaterTrapName | undefined,
+  canUseMarinerPot: boolean,
+): WaterTrapName {
+  if (!raw || !(raw in WATER_TRAP)) return "Crab Pot";
+  if (raw === "Mariner Pot" && !canUseMarinerPot) return "Crab Pot";
+  return raw;
+}
+
+function sanitizeChum(
+  trap: WaterTrapName,
+  rawChum: CrustaceanChum | undefined,
   state: GameState,
-): CrustaceanChum | undefined => {
-  if (!trap) return undefined;
-
-  const stored = safeLocalStorage.get<CrustaceanChum>(LAST_CHUM_KEY);
-  if (!stored) return undefined;
-
+): CrustaceanChum | undefined {
+  if (!rawChum) return undefined;
   const items = {
     ...getBasketItems(state.inventory),
     ...getChestItems(state),
   };
   const isValid =
-    WATER_TRAP[trap].chums.includes(stored) && (items[stored]?.gte(1) ?? false);
-
-  return isValid ? stored : undefined;
-};
+    WATER_TRAP[trap].chums.includes(rawChum) &&
+    (items[rawChum]?.gte(1) ?? false);
+  return isValid ? rawChum : undefined;
+}
 
 interface Props {
   waterTrap?: WaterTrap;
@@ -109,50 +121,19 @@ export const WaterTrapModal: React.FC<Props> = ({
   const marinerRequiredLevel = WATER_TRAP["Mariner Pot"].requiredBumpkinLevel;
   const canUseMarinerPot = bumpkinLevel >= marinerRequiredLevel;
 
-  const [userSelection, setUserSelection] = useState<{
-    trap: WaterTrapName;
-    chum: CrustaceanChum | undefined;
-  }>({
-    trap: "Crab Pot",
-    chum: undefined,
-  });
-
-  const [persisted, setPersisted] = useState<{
-    trap: WaterTrapName;
-    chum: CrustaceanChum | undefined;
-  }>({
-    trap: "Crab Pot",
-    chum: undefined,
-  });
-
-  useEffect(() => {
-    queueMicrotask(() => {
-      try {
-        const trap = getStoredTrap(canUseMarinerPot);
-        const chum = getStoredChum(trap, state);
-        setPersisted({ trap, chum });
-        setUserSelection({ trap, chum });
-      } catch {
-        const fallback: {
-          trap: WaterTrapName;
-          chum: CrustaceanChum | undefined;
-        } = {
-          trap: "Crab Pot",
-          chum: undefined,
-        };
-        setPersisted(fallback);
-        setUserSelection(fallback);
-      }
-    });
-  }, [canUseMarinerPot, state]);
+  const [stored, setStored] = useLocalStorage<WaterTrapSelection>(
+    WATER_TRAP_SELECTION_KEY,
+    migrateWaterTrapSelection,
+  );
 
   const initialChum =
     waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
       ? waterTrap.chum
       : undefined;
 
-  const selectedTrap = userSelection.trap ?? persisted.trap;
-  const resolvedChum = userSelection.chum ?? persisted.chum ?? initialChum;
+  const selectedTrap = sanitizeTrap(stored.trap, canUseMarinerPot);
+  const resolvedChum =
+    sanitizeChum(selectedTrap, stored.chum, state) ?? initialChum;
   const selectedChum =
     resolvedChum && WATER_TRAP[selectedTrap].chums.includes(resolvedChum)
       ? resolvedChum
@@ -192,24 +173,14 @@ export const WaterTrapModal: React.FC<Props> = ({
   const handleTrapChange = (trap: WaterTrapName) => {
     const clearChum =
       selectedChum && !WATER_TRAP[trap].chums.includes(selectedChum);
-    setUserSelection({
+    setStored((prev) => ({
       trap,
-      chum: clearChum ? undefined : selectedChum,
-    });
-    safeLocalStorage.set(LAST_TRAP_KEY, trap);
-    if (clearChum) safeLocalStorage.remove(LAST_CHUM_KEY);
+      chum: clearChum ? undefined : prev.chum,
+    }));
   };
 
   const handleChumChange = (chum: CrustaceanChum | undefined) => {
-    setUserSelection((prev) => ({
-      trap: prev?.trap ?? selectedTrap,
-      chum,
-    }));
-    if (chum) {
-      safeLocalStorage.set(LAST_CHUM_KEY, chum);
-    } else {
-      safeLocalStorage.remove(LAST_CHUM_KEY);
-    }
+    setStored((prev) => ({ ...prev, chum: chum ?? undefined }));
   };
 
   const handlePlace = () => {
