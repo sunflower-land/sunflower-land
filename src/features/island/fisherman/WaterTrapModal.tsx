@@ -44,7 +44,7 @@ type WaterTrapSelection = { trap: WaterTrapName; chum?: CrustaceanChum };
 
 function migrateWaterTrapSelection(): WaterTrapSelection {
   if (typeof window === "undefined") {
-    return { trap: "Crab Pot", chum: undefined };
+    return DEFAULT_WATER_TRAP_SELECTION;
   }
   try {
     const existing = localStorage.getItem(WATER_TRAP_SELECTION_KEY);
@@ -65,7 +65,9 @@ function migrateWaterTrapSelection(): WaterTrapSelection {
       LAST_CHUM_KEY_LEGACY,
     ) as CrustaceanChum | null;
     const trap =
-      legacyTrap && legacyTrap in WATER_TRAP ? legacyTrap : "Crab Pot";
+      legacyTrap && legacyTrap in WATER_TRAP
+        ? legacyTrap
+        : DEFAULT_WATER_TRAP_SELECTION.trap;
     const chum = legacyChum ?? undefined;
     const value: WaterTrapSelection = { trap, chum };
     localStorage.removeItem(LAST_TRAP_KEY_LEGACY);
@@ -73,7 +75,7 @@ function migrateWaterTrapSelection(): WaterTrapSelection {
     localStorage.setItem(WATER_TRAP_SELECTION_KEY, JSON.stringify(value));
     return value;
   } catch {
-    return { trap: "Crab Pot", chum: undefined };
+    return DEFAULT_WATER_TRAP_SELECTION;
   }
 }
 
@@ -81,8 +83,9 @@ function sanitizeTrap(
   raw: WaterTrapName | undefined,
   canUseMarinerPot: boolean,
 ): WaterTrapName {
-  if (!raw || !(raw in WATER_TRAP)) return "Crab Pot";
-  if (raw === "Mariner Pot" && !canUseMarinerPot) return "Crab Pot";
+  if (!raw || !(raw in WATER_TRAP)) return DEFAULT_WATER_TRAP_SELECTION.trap;
+  if (raw === "Mariner Pot" && !canUseMarinerPot)
+    return DEFAULT_WATER_TRAP_SELECTION.trap;
   return raw;
 }
 
