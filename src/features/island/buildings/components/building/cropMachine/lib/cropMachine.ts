@@ -1,5 +1,6 @@
 import { CropMachineQueueItem } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useMemo } from "react";
 import { Interpreter, State as IState, createMachine, assign } from "xstate";
 
 export interface Context {
@@ -123,15 +124,16 @@ export function useCropMachineLiveNow(
   queue: CropMachineQueueItem[],
   options?: { enabled?: boolean },
 ): number {
-  const times = queue.flatMap((p) =>
-    [p.readyAt, p.growsUntil].filter((t): t is number => t != null),
-  );
-  const hasAnyGrowing = times.length > 0;
-  const autoEndAt = hasAnyGrowing ? Math.max(...times) : undefined;
+  const autoEndAt = useMemo(() => {
+    const times = queue.flatMap((p) =>
+      [p.readyAt, p.growsUntil].filter((t): t is number => t != null),
+    );
+    return times.length > 0 ? Math.max(...times) : undefined;
+  }, [queue]);
+  const hasAnyGrowing = autoEndAt !== undefined;
   const live = (options?.enabled ?? true) && hasAnyGrowing;
-  const now = useNow({ live, autoEndAt });
 
-  return now;
+  return useNow({ live, autoEndAt });
 }
 
 export const cropStateMachine = createMachine<Context, Event, State>(
