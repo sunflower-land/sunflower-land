@@ -984,9 +984,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId: 0,
-        counter: 0,
+        prngArgs: { farmId, itemId: 0, counter: 0 },
       });
 
       const boostedRecoveryTime =
@@ -1013,9 +1011,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId: 0,
-        counter: 0,
+        prngArgs: { farmId, itemId: 0, counter: 0 },
       });
 
       expect(createdAt).toEqual(now);
@@ -1031,9 +1027,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId: 0,
-        counter: 0,
+        prngArgs: { farmId, itemId: 0, counter: 0 },
       });
 
       const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.1;
@@ -1073,9 +1067,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId,
-        counter,
+        prngArgs: { farmId, itemId, counter },
       });
 
       expect(time).toEqual(now - TREE_RECOVERY_TIME * 1000);
@@ -1097,9 +1089,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId: 0,
-        counter: 0,
+        prngArgs: { farmId, itemId: 0, counter: 0 },
       });
 
       expect(time).toEqual(now - TREE_RECOVERY_TIME * 0.25 * 1000);
@@ -1121,9 +1111,7 @@ describe("chop", () => {
           },
         },
         createdAt: now,
-        farmId,
-        itemId: 0,
-        counter: 0,
+        prngArgs: { farmId, itemId: 0, counter: 0 },
       });
 
       expect(time).toEqual(now);
@@ -1212,9 +1200,7 @@ describe("chop", () => {
         },
       },
       createdAt: now,
-      farmId,
-      itemId: 0,
-      counter: 0,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
@@ -1236,9 +1222,7 @@ describe("chop", () => {
         },
       },
       createdAt: now,
-      farmId,
-      itemId: 0,
-      counter: 0,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
@@ -1268,9 +1252,7 @@ describe("chop", () => {
         },
       },
       createdAt: now,
-      farmId,
-      itemId: 0,
-      counter: 0,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
     const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5;
@@ -1302,9 +1284,7 @@ describe("chop", () => {
         },
       },
       createdAt: now,
-      farmId,
-      itemId: 0,
-      counter: 0,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
     const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5;

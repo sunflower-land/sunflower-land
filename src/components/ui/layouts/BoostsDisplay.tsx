@@ -55,6 +55,10 @@ export const BoostsDisplay: React.FC<{
       const translated = t(key);
       return translated !== key ? translated : startCase(name);
     }
+    // startCase strips/alters punctuation (e.g. "Luna's Hat" → "Lunas Hat", "Dr." → "Dr"), so preserve names that have it
+    if (/[^a-zA-Z0-9 ]/.test(name)) {
+      return name;
+    }
     return startCase(name);
   };
 
@@ -108,7 +112,7 @@ export const BoostsDisplay: React.FC<{
       show={show}
       onClick={onClick}
       onBackdropClick={onClick}
-      className="flex flex-col gap-1 max-h-5"
+      className="flex flex-col gap-1 max-h-5 left-1"
     >
       <div className="overflow-y-auto scrollable min-w-36 max-h-52 py-1 px-0.5">
         <div className="flex space-x-1 mb-1">

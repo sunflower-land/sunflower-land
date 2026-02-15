@@ -99,7 +99,15 @@ interface HarvestsRequirementProps {
  * @param xp The XP gained for consuming the item.
  * @param timeSeconds The wait time in seconds for crafting the item.
  * @param level The level requirements.
+ * @param timeRequirements Multiple time entries (e.g. tool recovery per resource). When set, shown as pills in the same row; each can have resourceLabel, optional base/boosts.
  */
+export type TimeRequirementEntry = {
+  resourceLabel?: string;
+  timeSeconds: number;
+  baseTimeSeconds?: number;
+  timeBoostsUsed?: { name: BoostName; value: string }[];
+};
+
 interface RequirementsProps {
   resources?: Partial<Record<InventoryItemName, Decimal>>;
   sfl?: Decimal;
@@ -113,6 +121,7 @@ interface RequirementsProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
+  timeRequirements?: TimeRequirementEntry[];
   level?: number;
 }
 
@@ -141,8 +150,10 @@ interface Props {
   showSeason?: boolean;
   showBoosts?: boolean;
   setShowBoosts?: (show: boolean) => void;
-  showTimeBoosts?: boolean;
-  setShowTimeBoosts?: Dispatch<SetStateAction<boolean>>;
+  showTimeBoosts?: boolean | string | null;
+  setShowTimeBoosts?: Dispatch<SetStateAction<boolean | string | null>>;
+  /** When set, fallback key for time rows without resourceLabel becomes `{key}-{index}` instead of `time-{index}` (avoids expand state sticking across contexts). */
+  timeRequirementsContextKey?: string;
 }
 
 function getDetails(
@@ -207,6 +218,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   setShowBoosts,
   showTimeBoosts,
   setShowTimeBoosts,
+  timeRequirementsContextKey,
 }: Props) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
@@ -328,7 +340,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap items-start sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {showSeason && (
           <Label
             type="default"
@@ -340,7 +352,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         )}
         <div
           className={classNames(
-            "w-full mb-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1",
+            "relative w-full mb-2 flex justify-start gap-x-3 gap-y-2 flex-wrap items-start sm:flex-col sm:justify-between sm:items-center sm:flex-nowrap my-1",
             {
               "pt-2": showSeason,
             },
@@ -485,13 +497,94 @@ export const CraftingRequirements: React.FC<Props> = ({
               return <RequirementLabel type="xp" xp={requirements.xp} />;
             })()}
 
-          {/* Instant ready display */}
-          {requirements.timeSeconds === 0 && (
-            <RequirementLabel type="instantReady" />
-          )}
+          {/* Multiple time requirements (e.g. tool recovery per resource) */}
+          {requirements.timeRequirements &&
+            requirements.timeRequirements.length > 0 &&
+            requirements.timeRequirements.map((entry, index) => {
+              const key =
+                entry.resourceLabel ??
+                (timeRequirementsContextKey
+                  ? `${timeRequirementsContextKey}-${index}`
+                  : `time-${index}`);
+              const baseTimeSeconds = entry.baseTimeSeconds;
+              const timeBoostsUsed = entry.timeBoostsUsed;
+              const isTimeBoosted =
+                baseTimeSeconds != null &&
+                entry.timeSeconds < baseTimeSeconds &&
+                !!(timeBoostsUsed?.length ?? 0);
+              const isExpanded =
+                setShowTimeBoosts &&
+                showTimeBoosts !== undefined &&
+                showTimeBoosts !== false &&
+                showTimeBoosts === key;
 
-          {/* Time requirement display */}
-          {!!requirements.timeSeconds &&
+              const content = (
+                <>
+                  {entry.resourceLabel && (
+                    <span className="text-xxs w-full text-center mb-0.5">
+                      {entry.resourceLabel}
+                    </span>
+                  )}
+                  {entry.timeSeconds === 0 ? (
+                    <RequirementLabel type="instantReady" />
+                  ) : (
+                    <>
+                      <RequirementLabel
+                        type="time"
+                        waitSeconds={entry.timeSeconds}
+                        boosted={isTimeBoosted}
+                      />
+                      {isTimeBoosted &&
+                        baseTimeSeconds != null &&
+                        baseTimeSeconds > 0 && (
+                          <RequirementLabel
+                            type="time"
+                            waitSeconds={baseTimeSeconds}
+                            strikethrough
+                          />
+                        )}
+                    </>
+                  )}
+                  {isTimeBoosted && (
+                    <BoostsDisplay
+                      boosts={timeBoostsUsed ?? []}
+                      show={!!isExpanded}
+                      state={gameState}
+                      onClick={() =>
+                        setShowTimeBoosts?.(isExpanded ? null : key)
+                      }
+                    />
+                  )}
+                </>
+              );
+
+              return (
+                <div
+                  key={key}
+                  className={
+                    isTimeBoosted && setShowTimeBoosts
+                      ? "flex flex-col items-center cursor-pointer"
+                      : "flex flex-col items-center"
+                  }
+                  onClick={() =>
+                    isTimeBoosted &&
+                    setShowTimeBoosts &&
+                    setShowTimeBoosts(isExpanded ? null : key)
+                  }
+                >
+                  {content}
+                </div>
+              );
+            })}
+
+          {/* Single time / instant (when timeRequirements not used) */}
+          {!requirements.timeRequirements?.length &&
+            requirements.timeSeconds === 0 && (
+              <RequirementLabel type="instantReady" />
+            )}
+
+          {!requirements.timeRequirements?.length &&
+            !!requirements.timeSeconds &&
             (() => {
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
@@ -508,7 +601,13 @@ export const CraftingRequirements: React.FC<Props> = ({
                 return (
                   <div
                     className="flex flex-col items-center cursor-pointer"
-                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+                    onClick={() =>
+                      setShowTimeBoosts(
+                        typeof showTimeBoosts === "boolean"
+                          ? !showTimeBoosts
+                          : true,
+                      )
+                    }
                   >
                     <RequirementLabel
                       type="time"
@@ -520,12 +619,16 @@ export const CraftingRequirements: React.FC<Props> = ({
                       waitSeconds={baseTimeSeconds ?? 0}
                       strikethrough
                     />
-                    {showTimeBoosts && (
+                    {showTimeBoosts === true && (
                       <BoostsDisplay
                         boosts={timeBoostsUsed ?? []}
-                        show={showTimeBoosts}
+                        show
                         state={gameState}
-                        onClick={() => setShowTimeBoosts((prev) => !prev)}
+                        onClick={() =>
+                          setShowTimeBoosts((prev: boolean | string | null) =>
+                            typeof prev === "boolean" ? !prev : false,
+                          )
+                        }
                       />
                     )}
                   </div>

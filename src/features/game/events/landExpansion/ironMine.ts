@@ -55,14 +55,15 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-const getBoostedTime = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  boostedTime: number;
+/**
+ * Single source of truth for iron recovery boosts. Used by both getMinedAt (game) and UI.
+ */
+export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
-} => {
+} {
+  const baseTimeMs = IRON_RECOVERY_TIME * 1000;
   let totalSeconds = IRON_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -97,21 +98,24 @@ const getBoostedTime = ({
     boostsUsed.push({ name: "Iron Hustle", value: "x0.7" });
   }
 
-  const buff = IRON_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
-};
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
+}
 
 /**
- * Set a mined in the past to make it replenish faster
+ * Set a mined in the past to make it replenish faster. Uses getIronRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   time: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({ game });
-
-  return { time: createdAt - boostedTime, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getIronRecoveryTimeForDisplay({ game });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 /**
@@ -348,9 +352,12 @@ export function mineIron({
       game: stateCopy,
     });
 
-    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
-      game: stateCopy,
-    });
+    const {
+      baseTimeMs,
+      recoveryTimeMs,
+      boostsUsed: boostedTimeBoostsUsed,
+    } = getIronRecoveryTimeForDisplay({ game: stateCopy });
+    const boostedTime = baseTimeMs - recoveryTimeMs;
 
     ironRock.stone = {
       minedAt: time,

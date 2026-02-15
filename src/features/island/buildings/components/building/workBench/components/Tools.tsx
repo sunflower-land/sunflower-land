@@ -24,11 +24,81 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
-import { IslandType, LoveAnimalItem } from "features/game/types/game";
+import {
+  BoostName,
+  GameState,
+  IslandType,
+  LoveAnimalItem,
+} from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getTreeRecoveryTimeForDisplay } from "features/game/events/landExpansion/chop";
+import { getStoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/stoneMine";
+import { getIronRecoveryTimeForDisplay } from "features/game/events/landExpansion/ironMine";
+import { getGoldRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineGold";
+import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineCrimstone";
+import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
+import { getOilRecoveryTimeForDisplay } from "features/game/events/landExpansion/drillOilReserve";
+import { translate } from "lib/i18n/translate";
+
+type RecoveryEntry = {
+  resourceLabel?: string;
+  getRecovery: (game: GameState) => {
+    baseTimeMs: number;
+    recoveryTimeMs: number;
+    boostsUsed: {
+      name: BoostName;
+      value: string;
+    }[];
+  };
+};
+
+const TOOL_RECOVERY_ENTRIES: Partial<
+  Record<WorkbenchToolName, RecoveryEntry[]>
+> = {
+  Axe: [
+    {
+      resourceLabel: translate("resource.treeRecoveryTime"),
+      getRecovery: (game) => getTreeRecoveryTimeForDisplay({ game }),
+    },
+  ],
+  Pickaxe: [
+    {
+      resourceLabel: translate("resource.stoneRecoveryTime"),
+      getRecovery: (game) => getStoneRecoveryTimeForDisplay({ game }),
+    },
+  ],
+  "Stone Pickaxe": [
+    {
+      resourceLabel: translate("resource.ironRecoveryTime"),
+      getRecovery: (game) => getIronRecoveryTimeForDisplay({ game }),
+    },
+  ],
+  "Iron Pickaxe": [
+    {
+      resourceLabel: translate("resource.goldRecoveryTime"),
+      getRecovery: (game) => getGoldRecoveryTimeForDisplay({ game }),
+    },
+  ],
+  "Gold Pickaxe": [
+    {
+      resourceLabel: translate("resource.crimstoneRecoveryTime"),
+      getRecovery: (game) => getCrimstoneRecoveryTimeForDisplay({ game }),
+    },
+    {
+      resourceLabel: translate("resource.sunstoneRecoveryTime"),
+      getRecovery: (game) => getSunstoneRecoveryTimeForDisplay(game),
+    },
+  ],
+  "Oil Drill": [
+    {
+      resourceLabel: translate("resource.oilRecoveryTime"),
+      getRecovery: (game) => getOilRecoveryTimeForDisplay({ game }),
+    },
+  ],
+};
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -40,6 +110,9 @@ export const Tools: React.FC = () => {
   const [selectedName, setSelectedName] = useState<
     WorkbenchToolName | LoveAnimalItem
   >("Axe");
+  const [showTimeBoosts, setShowTimeBoosts] = useState<string | boolean | null>(
+    null,
+  );
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
@@ -192,22 +265,49 @@ export const Tools: React.FC = () => {
 
   const ANIMAL_TOOLS = getKeys(LOVE_ANIMAL_TOOLS);
 
+  const recoveryEntries =
+    !isLoveAnimalTool(selectedName) && selectedName in TOOL_RECOVERY_ENTRIES
+      ? TOOL_RECOVERY_ENTRIES[
+          selectedName as keyof typeof TOOL_RECOVERY_ENTRIES
+        ]
+      : undefined;
+
   return (
     <SplitScreenView
       panel={
-        <CraftingRequirements
-          gameState={state}
-          stock={isLoveAnimalTool(selectedName) ? undefined : stock}
-          details={{
-            item: selectedName,
-          }}
-          limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
-          requirements={{
-            coins: price,
-            resources: selectedIngredients,
-          }}
-          actionView={getAction()}
-        />
+        <div className="flex flex-col">
+          <CraftingRequirements
+            gameState={state}
+            stock={isLoveAnimalTool(selectedName) ? undefined : stock}
+            details={{
+              item: selectedName,
+            }}
+            limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
+            requirements={{
+              coins: price,
+              resources: selectedIngredients,
+              ...(recoveryEntries &&
+                recoveryEntries.length > 0 && {
+                  timeRequirements: recoveryEntries.map(
+                    ({ resourceLabel, getRecovery }) => {
+                      const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+                        getRecovery(state);
+                      return {
+                        resourceLabel,
+                        timeSeconds: recoveryTimeMs / 1000,
+                        baseTimeSeconds: baseTimeMs / 1000,
+                        timeBoostsUsed: boostsUsed,
+                      };
+                    },
+                  ),
+                }),
+            }}
+            showTimeBoosts={showTimeBoosts}
+            setShowTimeBoosts={setShowTimeBoosts}
+            timeRequirementsContextKey={selectedName}
+            actionView={getAction()}
+          />
+        </div>
       }
       content={
         <div className="flex flex-col">

@@ -78,7 +78,9 @@ export const Recipes: React.FC<Props> = ({
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
-  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState<boolean | string | null>(
+    false,
+  );
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
   const now = useNow({ live: true });
