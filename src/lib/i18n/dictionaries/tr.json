@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "Besleme",
   "petGuide.feed.description": "Ortak evcil hayvanlar 2 istekle başlar ve 10. seviyede 3'üncünün kilidini açar. NFT evcil hayvanları 3 ile başlar, ardından 30. seviyede 4. ve 200. seviyede 5'inin kilidini açar.",
   "petGuide.feed.description2": "Kolay, orta ve sert yemekler 20, 100 ve 300 XP ve Enerji verir. Daha fazla enerji için getirmeden önce daha sert öğünler kullanın.",
-  "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 40 Mücevher'e mal olur ve her seferinde 1.5 kat yükselir ve her gün 00:00 UTC'de sıfırlanır.",
   "petGuide.feed.description4": "Günlük istekler 00:00 UTC'de sıfırlanır. Evcil hayvanlarınızı sıfırlandıklarında beslemek için zamanında pişirmeyi bitirin.",
   "petGuide.fetch.title": "Getir",
   "petGuide.fetch.description": "Evcil hayvanları kaynak çalıştırmalarına göndermek için enerji harcayın. Her kilit açma evcil hayvanınızın kategorileri ve seviyeleriyle eşleşir.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Yer",
   "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir.",
   "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100",
-  "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir."
+  "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir.",
+  "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 50 Mücevher'e mal olur ve her seferinde 2 kat artar ve her gün 00:00 UTC'de sıfırlanır."
 }

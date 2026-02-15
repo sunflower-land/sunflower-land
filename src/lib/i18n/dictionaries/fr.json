@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "Nourrir",
   "petGuide.feed.description": "Les animaux de compagnie courants commencent par 2 demandes et en débloquent une troisième au niveau 10. Les mascottes NFT commencent par 3, puis en débloquent un 4e au niveau 30 et un 5e au niveau 200.",
   "petGuide.feed.description2": "Les repas faciles, moyens et durs donnent 20, 100 et 300 XP et de l'énergie. Prenez des repas plus durs avant d'aller chercher de l'énergie.",
-  "petGuide.feed.description3": "Gem Reroll permet de mélanger le menu. Il coûte 40 gemmes et augmente de 1,5 fois à chaque fois. Il est réinitialisé tous les jours à 00h00 UTC.",
   "petGuide.feed.description4": "Les demandes quotidiennes sont réinitialisées à 00h00 UTC. Terminez la cuisson à temps pour nourrir vos animaux de compagnie lorsqu'ils se remettent à zéro.",
   "petGuide.fetch.title": "Va chercher",
   "petGuide.fetch.description": "Dépensez de l'énergie pour envoyer vos animaux de compagnie faire des courses de ressources. Chaque déblocage correspond aux catégories et aux niveaux de votre animal de compagnie.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Lieu",
   "withdraw.duplicate.tip4": "4. Les réseaux publics ou partagés peuvent nécessiter une courte attente en raison d'une utilisation excessive. Les réseaux très fréquentés peuvent nécessiter jusqu'à 2 semaines selon l'utilisation.",
   "bumpkinItemBuff.deep.sea.helm": "+100 % de chances de trouver des pièces de la carte Marvel",
-  "description.victoriasApron.boost": "33 % de chances que la prochaine réinitialisation soit gratuite une fois l'animal complètement nourri."
+  "description.victoriasApron.boost": "33 % de chances que la prochaine réinitialisation soit gratuite une fois l'animal complètement nourri.",
+  "petGuide.feed.description3": "Gem Reroll permet de mélanger le menu. Il coûte 50 gemmes et augmente de 2 fois à chaque fois. Il est réinitialisé tous les jours à 00h00 UTC."
 }

@@ -7793,7 +7793,6 @@
   "petGuide.feed.title": "Кормление",
   "petGuide.feed.description": "Обычные питомцы начинают с 2 запросов и открывают 3й на 10 уровне. NFT-питомцы начинают с 3, затем открывают 4й на 30 уровне и 5й на 200 уровне.",
   "petGuide.feed.description2": "Лёгкая, средняя и сложная еда дают 20, 100 и 300 XP и энергии. Используй сложные блюда перед добычей, чтобы получить больше энергии.",
-  "petGuide.feed.description3": "Сброс запросов обновляет меню. Стоит 40 гемов и дорожает в 1.5 раза каждый раз, сбрасываясь ежедневно в 00:00 UTC.",
   "petGuide.feed.description4": "Ежедневные запросы сбрасываются в 00:00 UTC. Успей приготовить еду, чтобы покормить питомцев после сброса.",
   "petGuide.fetch.title": "Добыча",
   "petGuide.fetch.description": "Трать энергию, отправляя питомцев за ресурсами. Доступные ресурсы зависят от категорий и уровня питомца.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Place",
   "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage.",
   "bumpkinItemBuff.deep.sea.helm": "+100% chance to find Marvel Map Pieces",
-  "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully."
+  "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
+  "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 50 Gems and rises by 2x each time, resetting daily at 00:00 UTC."
 }

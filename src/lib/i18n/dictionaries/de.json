@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "Füttern",
   "petGuide.feed.description": "Gewöhnliche Haustiere beginnen mit 2 Anfragen und schalten auf Stufe 10 eine dritte frei. NFT-Haustiere beginnen mit 3 und schalten dann ein viertes auf Stufe 30 und ein fünftes auf Stufe 200 frei.",
   "petGuide.feed.description2": "Einfache, mittlere und harte Mahlzeiten geben 20, 100 und 300 XP und Energie. Nimm vor dem Abholen härtere Mahlzeiten ein, um mehr Energie zu bekommen.",
-  "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 40 Edelsteine und steigt jedes Mal um das 1,5-Fache. Es wird täglich um 00:00 UTC zurückgesetzt.",
   "petGuide.feed.description4": "Tägliche Anfragen werden um 00:00 UTC zurückgesetzt. Beenden Sie das Kochen rechtzeitig, um Ihre Haustiere beim Zurücksetzen zu füttern.",
   "petGuide.fetch.title": "Abrufen",
   "petGuide.fetch.description": "Gib Energie aus, um Haustiere auf Ressourcenrennen zu schicken. Jede Freischaltung entspricht den Kategorien und Stufen deines Haustiers.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Ort",
   "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern.",
   "bumpkinItemBuff.deep.sea.helm": "+100% Chance, Teile der Marvel-Karte zu finden",
-  "description.victoriasApron.boost": "33% Chance, dass der nächste Reset kostenlos ist, nachdem das Haustier vollständig gefüttert wurde."
+  "description.victoriasApron.boost": "33% Chance, dass der nächste Reset kostenlos ist, nachdem das Haustier vollständig gefüttert wurde.",
+  "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 50 Edelsteine und steigt jedes Mal um das Doppelte. Es wird täglich um 00:00 UTC zurückgesetzt."
 }

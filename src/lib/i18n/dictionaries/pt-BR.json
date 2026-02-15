@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "Alimentação",
   "petGuide.feed.description": "Animais de estimação comuns começam com 2 solicitações e desbloqueiam uma terceira no nível 10. Os animais de estimação NFT começam com 3, depois desbloqueiam um 4º no nível 30 e um 5º no nível 200.",
   "petGuide.feed.description2": "Refeições fáceis, médias e duras fornecem 20, 100 e 300 XP e energia. Use refeições mais pesadas antes de sair correndo para obter mais energia.",
-  "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 40 gemas e aumenta 1,5 vezes a cada vez, sendo reinicializado diariamente às 00:00 UTC.",
   "petGuide.feed.description4": "As solicitações diárias são reiniciadas às 00:00 UTC. Termine de cozinhar a tempo de alimentar seus animais de estimação quando eles reiniciarem.",
   "petGuide.fetch.title": "Buscar",
   "petGuide.fetch.description": "Gaste energia para enviar animais de estimação para corridas de recursos. Cada desbloqueio corresponde às categorias e níveis do seu animal de estimação.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Lugar",
   "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso.",
   "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel",
-  "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação."
+  "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação.",
+  "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 50 gemas e aumenta em 2x a cada vez, sendo reinicializado diariamente às 00:00 UTC."
 }

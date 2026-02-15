@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "喂食",
   "petGuide.feed.description": "普通宠物初始有 2 个需求，10 级时解锁第 3 个。NFT 宠物初始有 3 个，随后在 30 级解锁第 4 个，200 级解锁第 5 个。",
   "petGuide.feed.description2": "简单、中等和困难餐点分别提供 20、100 和 300 点宠物 XP 与能量。在进行拾取前喂食更高级的餐点，可获得更多能量。",
-  "petGuide.feed.description3": "使用钻石可刷新食物请求。花费 40 钻石，每次费用增加 1.5 倍，每日 00:00 UTC 重置。",
   "petGuide.feed.description4": "每日食物请求于 00:00 UTC 重置。请及时完成烹饪，以便在重置时喂养你的宠物。",
   "petGuide.fetch.title": "拾取",
   "petGuide.fetch.description": "消耗能量派遣宠物进行资源拾取。解锁内容取决于你宠物的类别和等级。",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "地点",
   "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。",
   "bumpkinItemBuff.deep.sea.helm": "找到漫威地图碎片的几率 +100%",
-  "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。"
+  "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。",
+  "petGuide.feed.description3": "宝石重启会对菜单进行洗牌。它消耗 50 颗宝石，每次增加 2 倍，每天 00:00 UTC 重置。"
 }

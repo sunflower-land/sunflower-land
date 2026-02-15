@@ -7781,7 +7781,6 @@
   "petGuide.feed.title": "Pakan",
   "petGuide.feed.description": "Hewan peliharaan umum dimulai dengan 2 permintaan dan membuka yang ke-3 di level 10. Hewan peliharaan NFT mulai dengan 3, lalu buka kunci yang ke-4 di level 30 dan yang ke-5 di level 200.",
   "petGuide.feed.description2": "Makanan yang mudah, sedang, dan keras memberikan 20, 100, dan 300 XP dan Energi. Gunakan makanan yang lebih keras sebelum mengambil untuk mendapatkan lebih banyak energi.",
-  "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 40 Permata dan naik 1,5x setiap kali, diatur ulang setiap hari pada 00:00 UTC.",
   "petGuide.feed.description4": "Permintaan harian diatur ulang pada 00:00 UTC. Selesaikan memasak tepat waktu untuk memberi makan hewan peliharaan Anda saat mereka mengatur ulang.",
   "petGuide.fetch.title": "Ambil",
   "petGuide.fetch.description": "Habiskan energi untuk mengirim hewan peliharaan untuk menjalankan sumber daya. Setiap buka kunci cocok dengan kategori dan level hewan peliharaan Anda.",
@@ -8071,5 +8070,6 @@
   "chest.placeFirst": "Tempat",
   "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan.",
   "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel",
-  "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya."
+  "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya.",
+  "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 50 Permata dan naik 2x setiap kali, diatur ulang setiap hari pada 00:00 UTC."
 }
