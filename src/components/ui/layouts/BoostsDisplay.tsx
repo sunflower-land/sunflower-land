@@ -55,6 +55,10 @@ export const BoostsDisplay: React.FC<{
       const translated = t(key);
       return translated !== key ? translated : startCase(name);
     }
+    // startCase strips/alters punctuation (e.g. "Luna's Hat" → "Lunas Hat", "Dr." → "Dr"), so preserve names that have it
+    if (/[^a-zA-Z0-9 ]/.test(name)) {
+      return name;
+    }
     return startCase(name);
   };
 
