@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 günlük balıkçılık makarası",
   "description.crimstoneSpikesHair.boost": "Bedava kızıl taşı madeni",
   "description.pawAura.boost": "Evcil hayvanları ücretsiz besleyin",
-  "description.victoriasApron.boost": "%33 evcil hayvan isteklerini yenileme şansı",
   "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)",
   "landTools": "Arazi Araçları",
   "waterTools": "Su Araçları",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "Teslimatlarınızı ekranın sol üst köşesinde görüntüleyin. Kaynakları topladıktan sonra, seyahat edebilir ve eşyaları Bumpkins'e teslim edebilirsiniz.",
   "chest.placeFirst": "Yer",
   "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir.",
-  "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100"
+  "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100",
+  "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir."
 }

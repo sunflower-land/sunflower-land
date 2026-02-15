@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 每日钓鱼次数",
   "description.crimstoneSpikesHair.boost": "无需金稿即可开采猩红石脉",
   "description.pawAura.boost": "无需食物即可喂食宠物",
-  "description.victoriasApron.boost": "33% 的几率刷新宠物请求",
   "description.beastShoes.boost": "宠物经验值 +100/+250（中等食物/高等食物）",
   "landTools": "陆地工具",
   "waterTools": "水域工具",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "在屏幕的左上角查看您的配送。收集资源后，你可以旅行并将物品交给 Bumpkins。",
   "chest.placeFirst": "地点",
   "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。",
-  "bumpkinItemBuff.deep.sea.helm": "找到漫威地图碎片的几率 +100%"
+  "bumpkinItemBuff.deep.sea.helm": "找到漫威地图碎片的几率 +100%",
+  "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。"
 }

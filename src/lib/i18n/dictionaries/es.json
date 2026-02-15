@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 carretes de pesca diarios",
   "description.crimstoneSpikesHair.boost": "Extrae crimstone gratis",
   "description.pawAura.boost": "Alimenta a tus mascotas gratis",
-  "description.victoriasApron.boost": "33% de probabilidad de actualizar las solicitudes de mascotas",
   "description.beastShoes.boost": "XP de mascota +100/+250 (media/dura)",
   "landTools": "Herramientas terrestres",
   "waterTools": "Herramientas acuáticas",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "Consulta tus envíos en la parte superior izquierda de la pantalla. Una vez que hayas reunido los recursos, puedes viajar y entregar los artículos a los Bumpkins.",
   "chest.placeFirst": "Lugar",
   "withdraw.duplicate.tip4": "4. Las redes públicas o compartidas pueden requerir una breve espera debido al uso excesivo. Las redes muy ocupadas pueden tardar hasta 2 semanas en función del uso.",
-  "bumpkinItemBuff.deep.sea.helm": "+100% de probabilidad de encontrar piezas del mapa de Marvel"
+  "bumpkinItemBuff.deep.sea.helm": "+100% de probabilidad de encontrar piezas del mapa de Marvel",
+  "description.victoriasApron.boost": "33% de probabilidad de que el próximo reinicio sea gratuito después de alimentar completamente a la mascota."
 }

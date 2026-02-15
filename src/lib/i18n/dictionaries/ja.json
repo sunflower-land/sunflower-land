@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 デイリーフィッシングリール",
   "description.crimstoneSpikesHair.boost": "クリムストーンを無料で採掘",
   "description.pawAura.boost": "ペットに無料で餌をやる",
-  "description.victoriasApron.boost": "33% の確率でペットリクエストを更新できる",
   "description.beastShoes.boost": "ペット経験値 +100/+250 (中型/ハード)",
   "landTools": "ランドツール",
   "waterTools": "ウォーターツール",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "画面の左上に配送状況が表示されます。資源を集めたら、移動してアイテムをバンプキンズに届けることができます。",
   "chest.placeFirst": "場所",
   "withdraw.duplicate.tip4": "4。パブリックネットワークまたは共有ネットワークは、使いすぎにより少し待つ必要がある場合があります。非常に負荷の高いネットワークは、使用状況によっては最長で 2 週間かかる場合があります。",
-  "bumpkinItemBuff.deep.sea.helm": "+100% 確率でマーベル・マップ・ピースが見つかる"
+  "bumpkinItemBuff.deep.sea.helm": "+100% 確率でマーベル・マップ・ピースが見つかる",
+  "description.victoriasApron.boost": "ペットに完全に餌を与えると、33% の確率で次のリセットが無料になります。"
 }

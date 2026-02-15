@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 gulungan memancing harian",
   "description.crimstoneSpikesHair.boost": "Mine crimstone gratis",
   "description.pawAura.boost": "Beri makan hewan peliharaan secara gratis",
-  "description.victoriasApron.boost": "33% kesempatan untuk menyegarkan permintaan hewan peliharaan",
   "description.beastShoes.boost": "Hewan Peliharaan XP +100/+250 (Sedang/Keras)",
   "landTools": "Alat Tanah",
   "waterTools": "Alat Air",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "Lihat pengiriman Anda di kiri atas layar. Setelah Anda mengumpulkan sumber daya, Anda dapat melakukan perjalanan dan mengirimkan barang ke Bumpkins.",
   "chest.placeFirst": "Tempat",
   "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan.",
-  "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel"
+  "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel",
+  "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya."
 }

@@ -7925,7 +7925,6 @@
   "description.nautilus.boost": "+5 bobinas de pesca diárias",
   "description.crimstoneSpikesHair.boost": "Minere crimstone gratuitamente",
   "description.pawAura.boost": "Alimente animais de estimação gratuitamente",
-  "description.victoriasApron.boost": "33% de chance de atualizar solicitações de animais de estimação",
   "description.beastShoes.boost": "XP para animais de estimação +100/+250 (Médio/Difícil)",
   "landTools": "Ferramentas terrestres",
   "waterTools": "Ferramentas de água",
@@ -8071,5 +8070,6 @@
   "pete.levelthree.three": "Veja suas entregas no canto superior esquerdo da tela. Depois de reunir os recursos, você pode viajar e entregar os itens aos Bumpkins.",
   "chest.placeFirst": "Lugar",
   "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso.",
-  "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel"
+  "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel",
+  "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação."
 }
