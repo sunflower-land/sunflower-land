@@ -50,6 +50,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { HelpInfoPopover } from "./HelpInfoPopover";
 import { CopySvg } from "components/ui/CopyField";
+import { TEAM_IDS } from "lib/flags";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -214,6 +215,14 @@ export const PlayerDetails: React.FC<Props> = ({
   });
   const isAtMaxFollowing = !iAmFollowing && player?.following?.length >= 5000;
 
+  const isTeamMember = Object.values(TEAM_IDS)
+    .flat()
+    .some((id) => id === (player?.id ?? 0));
+
+  const teamRole = Object.entries(TEAM_IDS).find(([_, ids]) =>
+    ids.includes(player?.id ?? 0),
+  )?.[0];
+
   return (
     <div className="flex gap-1 w-full max-h-[400px]">
       <div className="flex flex-col flex-1 gap-1">
@@ -286,7 +295,7 @@ export const PlayerDetails: React.FC<Props> = ({
                 )}
                 <div className="flex items-center mr-2 mb-1">
                   <Label type="default" className="relative">
-                    {player?.username}
+                    {`${player?.username} ${isTeamMember ? `(${teamRole ?? "Team Member"})` : ""}`}
                     <div className="absolute -top-2 -right-2 z-10">
                       {player?.id && (
                         <OnlineStatus

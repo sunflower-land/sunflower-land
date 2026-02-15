@@ -75,6 +75,24 @@ export const ADMIN_IDS = [1, 3, 39488, 128727];
  */
 export const MANAGER_IDS = [...ADMIN_IDS, 29, 130170, 7841];
 
+/**
+ * IDs of the team members
+ * @Engineer 1 (Adam), 3 (Spencer), 11 (Raphael), 39488 (Craig), 128727 (Elias)
+ * @CommunityManager 29 (Aeon), 130170 (Dcol)
+ * @CommunitySupport 7841 (Labochi), 2489871284279175 (Jiko)
+ * @Artist 73795 (LittleEins), 56 (Gabi/Birb), 21303 (Oniel)
+ * @GameDesigner 4567997430819434 (Bryn)
+ * @LeadAmbassador 2253 (Celinhotv)
+ */
+export const TEAM_IDS = {
+  Engineer: [1, 3, 11, 39488, 128727],
+  "Community Manager": [29, 130170],
+  "Community Support": [7841, 2489871284279175],
+  Artist: [73795, 56, 21303],
+  "Game Designer": [4567997430819434],
+  "Lead Ambassador": [2253],
+};
+
 export type FeatureFlag = (game: GameState) => boolean;
 export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 
