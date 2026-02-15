@@ -8069,7 +8069,7 @@
   "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle.",
   "description.crimstoneSpikesHair.boost": "Mine crimstone for free",
   "description.pawAura.boost": "Feed pets for free",
-  "description.victoriasApron.boost": "33% chance to refresh pet requests",
+  "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
   "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
   "boost.buildingOil": "Building oil: x{{percent}}"
