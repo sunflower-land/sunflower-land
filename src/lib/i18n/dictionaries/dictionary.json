@@ -7999,7 +7999,7 @@
   "petGuide.feed.title": "Feed",
   "petGuide.feed.description": "Common pets begin with 2 requests and unlock a 3rd at level 10. NFT pets start with 3, then unlock a 4th at level 30 and a 5th at level 200.",
   "petGuide.feed.description2": "Easy, medium, and hard meals give 20, 100, and 300 XP and Energy. Use harder meals before fetch runs for more energy.",
-  "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 40 Gems and rises by 1.5x each time, resetting daily at 00:00 UTC.",
+  "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 50 Gems and rises by 2x each time, resetting daily at 00:00 UTC.",
   "petGuide.feed.description4": "Daily requests reset at 00:00 UTC. Finish cooking in time to feed your pets when they reset.",
   "petGuide.fetch.title": "Fetch",
   "petGuide.fetch.description": "Spend energy to send pets on resource runs. Each unlock matches your pet's categories and levels.",
