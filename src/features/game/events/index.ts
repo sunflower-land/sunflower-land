@@ -287,6 +287,10 @@ import {
   harvestCropMachine,
   HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
+import {
+  removeCropMachinePack,
+  RemoveCropMachinePackAction,
+} from "./landExpansion/removeCropMachinePack";
 import { joinFaction, JoinFactionAction } from "./landExpansion/joinFaction";
 import {
   completeKingdomChore,
@@ -678,6 +682,7 @@ export type PlayingEvent =
   | SupplyCropMachineAction
   | SupplyCropMachineOilAction
   | HarvestCropMachineAction
+  | RemoveCropMachinePackAction
   | SupplyCookingOilAction
   | JoinFactionAction
   | CompleteKingdomChoreAction
@@ -935,6 +940,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,
   "cropMachine.oilSupplied": supplyCropMachineOil,
+  "cropMachine.packRemoved": removeCropMachinePack,
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
   "cookingOil.supplied": supplyCookingOil,

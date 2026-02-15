@@ -26,6 +26,7 @@ describe("supplyCropMachine", () => {
         action: {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
+          machineId: "0",
         },
       }),
     ).toThrow("Crop Machine does not exist");
@@ -51,9 +52,10 @@ describe("supplyCropMachine", () => {
         action: {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
+          machineId: "1",
         },
       }),
-    ).toThrow("Crop Machine does not exist");
+    ).toThrow("Crop Machine not found");
   });
 
   it("throws an error if the user does not have the requirements", () => {
@@ -79,6 +81,7 @@ describe("supplyCropMachine", () => {
         action: {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
+          machineId: "1",
         },
       }),
     ).toThrow("Missing requirements");
@@ -107,6 +110,7 @@ describe("supplyCropMachine", () => {
         action: {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: -10 },
+          machineId: "1",
         },
       }),
     ).toThrow("Invalid amount supplied");
@@ -135,6 +139,7 @@ describe("supplyCropMachine", () => {
         action: {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 0 },
+          machineId: "1",
         },
       }),
     ).toThrow("Invalid amount supplied");
@@ -162,6 +167,7 @@ describe("supplyCropMachine", () => {
         },
         action: {
           type: "cropMachine.supplied",
+          machineId: "0",
           seeds: { type: "Radish Seed", amount: 10 },
         },
       }),
@@ -196,6 +202,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: Date.now(),
@@ -228,6 +235,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Sunflower Seed", amount: 5 },
       },
     });
@@ -260,6 +268,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Sunflower Seed", amount: 5 },
       },
       createdAt: now,
@@ -303,6 +312,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Sunflower Seed", amount: 5 },
       },
       createdAt: now,
@@ -312,6 +322,7 @@ describe("supplyCropMachine", () => {
       state: newState,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Potato Seed", amount: 5 },
       },
       createdAt: now + 1000,
@@ -397,6 +408,7 @@ describe("supplyCropMachine", () => {
         state,
         action: {
           type: "cropMachine.supplied",
+          machineId: "0",
           seeds: { type: "Sunflower Seed", amount: 10 },
         },
       }),
@@ -441,6 +453,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 10,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -507,6 +520,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -574,6 +588,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -637,6 +652,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: oilToAdd,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -716,6 +732,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -772,6 +789,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Sunflower Seed", amount: 5 },
       },
       createdAt: now,
@@ -825,6 +843,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -879,6 +898,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "1",
         seeds: {
           type: "Sunflower Seed",
           amount: 100,
@@ -955,6 +975,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -1015,6 +1036,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -1084,6 +1106,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -1141,6 +1164,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -1229,6 +1253,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "1",
       },
       createdAt: now,
     });
@@ -1266,6 +1291,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: now,
@@ -1276,6 +1302,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1312,6 +1339,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: 1,
@@ -1321,6 +1349,7 @@ describe("supplyCropMachine", () => {
       state: newState,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: now,
@@ -1358,6 +1387,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: 1,
@@ -1367,6 +1397,7 @@ describe("supplyCropMachine", () => {
       state: firstState,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: firstState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt,
@@ -1382,6 +1413,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1418,6 +1450,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 1000 },
       },
       createdAt: now,
@@ -1428,6 +1461,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 10,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1437,6 +1471,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1485,6 +1520,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 1000 },
       },
       createdAt: now,
@@ -1495,6 +1531,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 10,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1504,6 +1541,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 1,
+        machineId: "0",
       },
       createdAt: now,
     });
@@ -1543,6 +1581,7 @@ describe("supplyCropMachine", () => {
       state,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: 1,
@@ -1552,6 +1591,7 @@ describe("supplyCropMachine", () => {
       state: newState,
       action: {
         type: "cropMachine.supplied",
+        machineId: "0",
         seeds: { type: "Pumpkin Seed", amount: 20 },
       },
       createdAt: now,
@@ -1689,6 +1729,7 @@ describe("supplyCropMachine", () => {
         },
         action: {
           type: "cropMachine.supplied",
+          machineId: "0",
           seeds: { type: "Rhubarb Seed", amount: 20 },
         },
         createdAt: Date.now(),
@@ -1716,6 +1757,7 @@ describe("supplyCropMachine", () => {
         },
         action: {
           type: "cropMachine.supplied",
+          machineId: "0",
           seeds: { type: "Cabbage Seed", amount: 20 },
         },
         createdAt: Date.now(),
@@ -1743,6 +1785,7 @@ describe("supplyCropMachine", () => {
         },
         action: {
           type: "cropMachine.supplied",
+          machineId: "0",
           seeds: { type: "Yam Seed", amount: 20 },
         },
         createdAt: Date.now(),
