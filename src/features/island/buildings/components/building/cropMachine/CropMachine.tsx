@@ -15,6 +15,7 @@ import {
   hasReadyCrops,
   CropMachineState,
   isCropPackReady,
+  useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Planting } from "./components/Planting";
 import { Sprouting } from "./components/Sprouting";
@@ -24,12 +25,11 @@ import { CropMachineBuilding } from "features/game/types/game";
 
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useNow } from "lib/utils/hooks/useNow";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
 
-  if (!machines) return null;
+  if (!machines) return undefined;
 
   return machines.find((machine) => machine.id === id);
 };
@@ -49,19 +49,19 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const now = useNow({ live: true });
-
   const cropMachine = useSelector(
     gameService,
     _cropMachine(id),
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 
+  const now = useCropMachineLiveNow(queue);
+
   const cropMachineContext: CropMachineContext = {
-    growingCropPackIndex: findGrowingCropPackIndex(queue),
+    growingCropPackIndex: findGrowingCropPackIndex(queue, now),
     queue,
     unallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
-    canHarvest: hasReadyCrops(queue),
+    canHarvest: hasReadyCrops(queue, now),
   };
 
   const cropMachineService = useInterpret(cropStateMachine, {
@@ -78,7 +78,11 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const handleClick = () => setShowModal(true);
   const handleAddSeeds = (seeds: AddSeedsInput) => {
-    const updated = gameService.send({ type: "cropMachine.supplied", seeds });
+    const updated = gameService.send({
+      type: "cropMachine.supplied",
+      seeds,
+      machineId: id,
+    });
 
     const machines = updated.context.state.buildings[
       "Crop Machine"
@@ -99,6 +103,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     const updated = gameService.send({
       type: "cropMachine.harvested",
       packIndex,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[
@@ -116,10 +121,31 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const handleRemovePack = (packIndex: number) => {
+    const updatedState = gameService.send({
+      type: "cropMachine.packRemoved",
+      packIndex,
+      machineId: id,
+    });
+
+    const machines = updatedState.context.state.buildings["Crop Machine"];
+
+    const updatedMachine = machines?.find((machine) => machine.id === id);
+
+    if (!updatedMachine) return;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: updatedMachine.queue ?? [],
+      updatedUnallocatedOilTime: updatedMachine.unallocatedOilTime ?? 0,
+    });
+  };
+
   const handleAddOil = (oil: number) => {
     const updated = gameService.send({
       type: "cropMachine.oilSupplied",
       oil,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[
@@ -224,6 +250,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
         onHarvestPack={handleHarvestPack}
+        onRemovePack={handleRemovePack}
         onAddOil={handleAddOil}
       />
     </>

@@ -1002,6 +1002,7 @@
   "cropMachine.all": "All",
   "cropMachine.addSeedPack": "Add seed pack",
   "cropMachine.notStartedYet": "Not started yet",
+  "cropMachine.removePack": "Remove pack",
   "cropMachine.seedPacks": "Seed packs",
   "cropMachine.readyCropPacks": "Ready crop packs",
   "cropMachine.readyCropPacks.description": "You currently have {{totalReady}} crop packs to harvest! Click on the pack you want to harvest.",

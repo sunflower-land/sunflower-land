@@ -25,6 +25,7 @@ describe("supplyCropMachineOil", () => {
         action: {
           type: "cropMachine.oilSupplied",
           oil: 1,
+          machineId: "0",
         },
       }),
     ).toThrow("Crop Machine does not exist");
@@ -51,9 +52,10 @@ describe("supplyCropMachineOil", () => {
         action: {
           type: "cropMachine.oilSupplied",
           oil: 1,
+          machineId: "1",
         },
       }),
-    ).toThrow("Crop Machine does not exist");
+    ).toThrow("Crop Machine not found");
   });
 
   it("throws an error if oil amount is zero or negative", () => {
@@ -77,6 +79,7 @@ describe("supplyCropMachineOil", () => {
         action: {
           type: "cropMachine.oilSupplied",
           oil: 0,
+          machineId: "1",
         },
       }),
     ).toThrow("Invalid amount supplied");
@@ -103,6 +106,7 @@ describe("supplyCropMachineOil", () => {
         action: {
           type: "cropMachine.oilSupplied",
           oil: 1,
+          machineId: "1",
         },
       }),
     ).toThrow("Missing requirements");
@@ -133,6 +137,7 @@ describe("supplyCropMachineOil", () => {
         action: {
           type: "cropMachine.oilSupplied",
           oil: oilNeeded,
+          machineId: "1",
         },
       }),
     ).toThrow("Oil capacity exceeded");
@@ -156,7 +161,11 @@ describe("supplyCropMachineOil", () => {
     };
     const result = supplyCropMachineOil({
       state,
-      action: { type: "cropMachine.oilSupplied", oil: 3 },
+      action: {
+        type: "cropMachine.oilSupplied",
+        oil: 3,
+        machineId: "1",
+      },
     });
     expect(result.inventory["Oil"]?.toNumber()).toBe(2);
   });
@@ -186,6 +195,7 @@ describe("supplyCropMachineOil", () => {
       action: {
         type: "cropMachine.oilSupplied",
         oil: 10,
+        machineId: "0",
       },
     });
 
@@ -228,7 +238,11 @@ describe("supplyCropMachineOil", () => {
 
     const result = supplyCropMachineOil({
       state,
-      action: { type: "cropMachine.oilSupplied", oil: 1 },
+      action: {
+        type: "cropMachine.oilSupplied",
+        oil: 1,
+        machineId: "1",
+      },
     });
 
     expect(result.buildings["Crop Machine"]?.[0]?.unallocatedOilTime).toBe(

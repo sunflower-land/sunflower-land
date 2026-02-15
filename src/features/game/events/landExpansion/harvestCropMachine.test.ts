@@ -15,6 +15,7 @@ describe("harvestCropMachine", () => {
         action: {
           type: "cropMachine.harvested",
           packIndex: 0,
+          machineId: "1",
         },
         farmId: 1,
       }),
@@ -42,6 +43,7 @@ describe("harvestCropMachine", () => {
         action: {
           type: "cropMachine.harvested",
           packIndex: 0,
+          machineId: "1",
         },
         farmId: 1,
       }),
@@ -77,6 +79,7 @@ describe("harvestCropMachine", () => {
         action: {
           type: "cropMachine.harvested",
           packIndex: 1,
+          machineId: "1",
         },
         farmId: 1,
       }),
@@ -112,6 +115,7 @@ describe("harvestCropMachine", () => {
         action: {
           type: "cropMachine.harvested",
           packIndex: 0,
+          machineId: "1",
         },
         farmId: 1,
       }),
@@ -150,6 +154,7 @@ describe("harvestCropMachine", () => {
       action: {
         type: "cropMachine.harvested",
         packIndex: 0,
+        machineId: "1",
       },
       farmId: 1,
     });
@@ -192,6 +197,7 @@ describe("harvestCropMachine", () => {
       action: {
         type: "cropMachine.harvested",
         packIndex,
+        machineId: "1",
       },
       farmId: 1,
     });
@@ -241,6 +247,7 @@ describe("harvestCropMachine", () => {
       action: {
         type: "cropMachine.harvested",
         packIndex: 0,
+        machineId: "1",
       },
       farmId: 1,
     });

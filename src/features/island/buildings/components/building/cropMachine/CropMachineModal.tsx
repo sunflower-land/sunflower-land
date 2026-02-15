@@ -11,6 +11,7 @@ import {
   CropMachineState,
   MachineInterpreter,
   isCropPackReady,
+  useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -49,7 +50,7 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
-import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -60,6 +61,7 @@ interface Props {
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvestPack: (packIndex: number) => void;
+  onRemovePack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
 
@@ -96,11 +98,12 @@ export const CropMachineModalContent: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onRemovePack,
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: show });
+  const now = useCropMachineLiveNow(queue, { enabled: show });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -337,7 +340,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
             </div>
           )}
           {/* Harvest */}
-          {selectedPack && isCropPackReady(selectedPack) && (
+          {selectedPack && isCropPackReady(selectedPack, now) && (
             <div className="flex flex-col w-full">
               <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
                 <Label type="success" icon={SUNNYSIDE.icons.confirm}>
@@ -506,7 +509,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
           {/* Not started */}
           {!!selectedPack &&
             selectedPackIndex !== growingCropPackIndex &&
-            !isCropPackReady(selectedPack) && (
+            !isCropPackReady(selectedPack, now) && (
               <div className="flex flex-col">
                 <Label type="warning" className="my-1 ml-0.5">
                   {t("cropMachine.notStartedYet")}
@@ -539,6 +542,16 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </span>
                   </div>
                 </div>
+                {hasFeatureAccess(state, "CROP_MACHINE_PACK_REMOVAL") &&
+                  (selectedPack.startTime === undefined ||
+                    selectedPack.startTime > now) && (
+                    <Button
+                      className="mt-2"
+                      onClick={() => onRemovePack(selectedPackIndex)}
+                    >
+                      {t("cropMachine.removePack")}
+                    </Button>
+                  )}
               </div>
             )}
         </OuterPanel>
@@ -703,6 +716,7 @@ export const CropMachineModal: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onRemovePack,
   onAddOil,
 }) => (
   <Modal show={show} onHide={onClose}>
@@ -714,6 +728,7 @@ export const CropMachineModal: React.FC<Props> = ({
       onClose={onClose}
       onAddSeeds={onAddSeeds}
       onHarvestPack={onHarvestPack}
+      onRemovePack={onRemovePack}
       onAddOil={onAddOil}
     />
   </Modal>
@@ -734,7 +749,7 @@ const PackBox: React.FC<{
   selectedPackIndex,
   setSelectedPackIndex,
 }) => {
-  const now = useNow({ live: true, autoEndAt: item?.readyAt });
+  const now = useCropMachineLiveNow(item ? [item] : []);
   const getQueueItemCountLabelType = (
     packIndex: number,
     itemReady: boolean,
