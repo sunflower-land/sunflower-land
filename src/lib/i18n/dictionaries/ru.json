@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage.",
   "bumpkinItemBuff.deep.sea.helm": "+100% chance to find Marvel Map Pieces",
   "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
-  "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 50 Gems and rises by 2x each time, resetting daily at 00:00 UTC."
+  "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 50 Gems and rises by 2x each time, resetting daily at 00:00 UTC.",
+  "cropMachine.removePack": "Remove pack"
 }

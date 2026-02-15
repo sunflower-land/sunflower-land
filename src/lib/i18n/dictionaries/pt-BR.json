@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso.",
   "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel",
   "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação.",
-  "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 50 gemas e aumenta em 2x a cada vez, sendo reinicializado diariamente às 00:00 UTC."
+  "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 50 gemas e aumenta em 2x a cada vez, sendo reinicializado diariamente às 00:00 UTC.",
+  "cropMachine.removePack": "Remover pacote"
 }

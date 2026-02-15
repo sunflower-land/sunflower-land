@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan.",
   "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel",
   "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya.",
-  "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 50 Permata dan naik 2x setiap kali, diatur ulang setiap hari pada 00:00 UTC."
+  "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 50 Permata dan naik 2x setiap kali, diatur ulang setiap hari pada 00:00 UTC.",
+  "cropMachine.removePack": "Hapus paket"
 }

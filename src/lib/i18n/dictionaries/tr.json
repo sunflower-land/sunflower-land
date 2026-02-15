@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir.",
   "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100",
   "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir.",
-  "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 50 Mücevher'e mal olur ve her seferinde 2 kat artar ve her gün 00:00 UTC'de sıfırlanır."
+  "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 50 Mücevher'e mal olur ve her seferinde 2 kat artar ve her gün 00:00 UTC'de sıfırlanır.",
+  "cropMachine.removePack": "Paketi kaldır"
 }

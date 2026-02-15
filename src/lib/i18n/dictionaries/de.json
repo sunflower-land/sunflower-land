@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern.",
   "bumpkinItemBuff.deep.sea.helm": "+100% Chance, Teile der Marvel-Karte zu finden",
   "description.victoriasApron.boost": "33% Chance, dass der nächste Reset kostenlos ist, nachdem das Haustier vollständig gefüttert wurde.",
-  "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 50 Edelsteine und steigt jedes Mal um das Doppelte. Es wird täglich um 00:00 UTC zurückgesetzt."
+  "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 50 Edelsteine und steigt jedes Mal um das Doppelte. Es wird täglich um 00:00 UTC zurückgesetzt.",
+  "cropMachine.removePack": "Packung entfernen"
 }

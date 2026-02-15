@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Le reti pubbliche o condivise possono richiedere una breve attesa a causa di un uso eccessivo. Le reti molto occupate possono richiedere fino a 2 settimane a seconda dell'utilizzo.",
   "bumpkinItemBuff.deep.sea.helm": "+100% di possibilità di trovare pezzi della mappa Marvel",
   "description.victoriasApron.boost": "Il 33% di possibilità che il successivo ripristino sia gratuito dopo aver dato da mangiare completamente all'animale.",
-  "petGuide.feed.description3": "Gem reroll mescola il menu. Costa 50 gemme e aumenta di 2 volte ogni volta, azzerandosi ogni giorno alle 00:00 UTC."
+  "petGuide.feed.description3": "Gem reroll mescola il menu. Costa 50 gemme e aumenta di 2 volte ogni volta, azzerandosi ogni giorno alle 00:00 UTC.",
+  "cropMachine.removePack": "Rimuovi pacchetto"
 }

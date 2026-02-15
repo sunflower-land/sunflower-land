@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4. Las redes públicas o compartidas pueden requerir una breve espera debido al uso excesivo. Las redes muy ocupadas pueden tardar hasta 2 semanas en función del uso.",
   "bumpkinItemBuff.deep.sea.helm": "+100% de probabilidad de encontrar piezas del mapa de Marvel",
   "description.victoriasApron.boost": "33% de probabilidad de que el próximo reinicio sea gratuito después de alimentar completamente a la mascota.",
-  "petGuide.feed.description3": "La retirada de gemas mezcla el menú. Cuesta 50 gemas y aumenta 2 veces cada vez, y se restablece todos los días a las 00:00 UTC."
+  "petGuide.feed.description3": "La retirada de gemas mezcla el menú. Cuesta 50 gemas y aumenta 2 veces cada vez, y se restablece todos los días a las 00:00 UTC.",
+  "cropMachine.removePack": "Eliminar paquete"
 }

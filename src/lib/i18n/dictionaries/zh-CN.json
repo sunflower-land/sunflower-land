@@ -8071,5 +8071,6 @@
   "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。",
   "bumpkinItemBuff.deep.sea.helm": "找到漫威地图碎片的几率 +100%",
   "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。",
-  "petGuide.feed.description3": "宝石重启会对菜单进行洗牌。它消耗 50 颗宝石，每次增加 2 倍，每天 00:00 UTC 重置。"
+  "petGuide.feed.description3": "宝石重启会对菜单进行洗牌。它消耗 50 颗宝石，每次增加 2 倍，每天 00:00 UTC 重置。",
+  "cropMachine.removePack": "移除包裹"
 }
