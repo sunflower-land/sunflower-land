@@ -7935,7 +7935,6 @@
   "waterTrap.newCrustacean": "Anda menemukan krustasea baru!",
   "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli gulungan {{reels}} untuk {{gemPrice}}?",
   "megaStore.msg1": "Selamat datang di toko chapter saya. Kumpulkan sumber daya & tukarkan dengan barang-barang langka sebelum waktu habis!",
-  "bumpkinItemBuff.deep.sea.helm": "+1 kesempatan Potongan Peta Marvel",
   "fishermanModal.fullMoon": "Wow, lihat bulan purnama itu! Saya telah mendengar desas-desus bahwa selama ini Anda memiliki kesempatan untuk menangkap Marvel Map Pieces.",
   "milestone.deepSeaDiver": "Selamat, Anda baru saja mencapai tonggak sejarah Deep Sea Diver! Anda telah mendapatkan Deep Sea Helm - Mahkota misterius yang menarik potongan-potongan peta Marine Marvel ke kait Anda.",
   "fishing.multiCastVip": "Jadilah anggota VIP dan buka kemampuan untuk melakukan casting hingga 25 kali sekaligus! Tingkatkan sekarang untuk meningkatkan daya memancing Anda.",
@@ -8071,5 +8070,6 @@
   "marketplace.maxBulk": "Anda dapat menggunakan fitur massal hingga mencapai maksimum daftar {{max}} per sumber daya pada satu waktu",
   "pete.levelthree.three": "Lihat pengiriman Anda di kiri atas layar. Setelah Anda mengumpulkan sumber daya, Anda dapat melakukan perjalanan dan mengirimkan barang ke Bumpkins.",
   "chest.placeFirst": "Tempat",
-  "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan."
+  "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan.",
+  "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel"
 }

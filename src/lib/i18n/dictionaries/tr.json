@@ -7935,7 +7935,6 @@
   "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!",
   "fishing.buyReels.confirmation": "{{gemPrice}} için {{reels}} makaraları satın almak istediğinizden emin misiniz?",
   "megaStore.msg1": "Bölüm mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!",
-  "bumpkinItemBuff.deep.sea.helm": "+1 şans Marvel Harita Parçaları",
   "fishermanModal.fullMoon": "Vay canına, şu dolunaya bak! Bu süre zarfında Marvel Harita Parçalarını yakalama şansınız olduğuna dair söylentiler duydum.",
   "milestone.deepSeaDiver": "Tebrikler, Deep Sea Diver dönüm noktasına yeni ulaştınız! Deniz Marvel harita parçalarını kancanıza çeken gizemli bir Taç olan Deep Sea Miğferi kazandınız.",
   "fishing.multiCastVip": "VIP üye olun ve aynı anda 25 defaya kadar oyuncu yapma yeteneğinin kilidini açın! Balıkçılığınızı güçlendirmek için şimdi yükseltin.",
@@ -8071,5 +8070,6 @@
   "marketplace.maxBulk": "Bir seferde kaynak başına maksimum {{max}} listesine ulaşana kadar toplu özelliğini kullanabilirsiniz",
   "pete.levelthree.three": "Teslimatlarınızı ekranın sol üst köşesinde görüntüleyin. Kaynakları topladıktan sonra, seyahat edebilir ve eşyaları Bumpkins'e teslim edebilirsiniz.",
   "chest.placeFirst": "Yer",
-  "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir."
+  "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir.",
+  "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100"
 }

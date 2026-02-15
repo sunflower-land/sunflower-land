@@ -7935,7 +7935,6 @@
   "waterTrap.newCrustacean": "Du hast ein neues Krebstier entdeckt!",
   "fishing.buyReels.confirmation": "Bist du sicher, dass du {{reels}} Rollen für {{gemPrice}} kaufen willst?",
   "megaStore.msg1": "Willkommen in meinem Chapter Store. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!",
-  "bumpkinItemBuff.deep.sea.helm": "+1-Chance: Teile der Marvel-Karte",
   "fishermanModal.fullMoon": "Wow, sieh dir den Vollmond an! Ich habe Gerüchte gehört, dass ihr in dieser Zeit die Chance habt, Marvel Map Pieces zu fangen.",
   "milestone.deepSeaDiver": "Herzlichen Glückwunsch, du hast gerade den Tiefseetauch-Meilenstein erreicht! Du hast dir den Tiefseehelm verdient — eine geheimnisvolle Krone, die Teile der Marine Marvel-Karte an deinen Haken zieht.",
   "fishing.multiCastVip": "Werde VIP-Mitglied und schalte die Fähigkeit frei, bis zu 25 Mal gleichzeitig zu casten! Mache jetzt ein Upgrade, um dein Angeln zu verbessern.",
@@ -8071,5 +8070,6 @@
   "marketplace.maxBulk": "Sie können die Sammelfunktion verwenden, bis Sie das Maximum an {{max}} Angeboten pro Ressource gleichzeitig erreicht haben",
   "pete.levelthree.three": "Sehen Sie sich Ihre Lieferungen oben links auf dem Bildschirm an. Sobald du die Ressourcen gesammelt hast, kannst du reisen und die Gegenstände zu den Bumpkins bringen.",
   "chest.placeFirst": "Ort",
-  "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern."
+  "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern.",
+  "bumpkinItemBuff.deep.sea.helm": "+100% Chance, Teile der Marvel-Karte zu finden"
 }

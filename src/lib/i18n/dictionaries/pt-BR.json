@@ -7935,7 +7935,6 @@
   "waterTrap.newCrustacean": "Você descobriu um novo crustáceo!",
   "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar bobinas {{reels}} por {{gemPrice}}?",
   "megaStore.msg1": "Bem-vindo à minha loja de capítulos. Reúna recursos e troque-os por itens raros antes que o tempo acabe!",
-  "bumpkinItemBuff.deep.sea.helm": "+1 chance de peças do mapa da Marvel",
   "fishermanModal.fullMoon": "Nossa, olha aquela lua cheia! Ouvi rumores de que durante esse período você terá a chance de pegar peças do mapa da Marvel.",
   "milestone.deepSeaDiver": "Parabéns, você acabou de atingir o marco do Deep Sea Diver! Você ganhou o Deep Sea Helm - uma coroa misteriosa que atrai peças do mapa Marine Marvel para você.",
   "fishing.multiCastVip": "Torne-se um membro VIP e desbloqueie a habilidade de lançar até 25 vezes ao mesmo tempo! Atualize agora para turbinar sua pesca.",
@@ -8071,5 +8070,6 @@
   "marketplace.maxBulk": "Você pode usar o recurso em massa até atingir o máximo de {{max}} anúncios por recurso por vez",
   "pete.levelthree.three": "Veja suas entregas no canto superior esquerdo da tela. Depois de reunir os recursos, você pode viajar e entregar os itens aos Bumpkins.",
   "chest.placeFirst": "Lugar",
-  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso."
+  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso.",
+  "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel"
 }

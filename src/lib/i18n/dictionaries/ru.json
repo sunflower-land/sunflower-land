@@ -485,7 +485,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Ловля без удочки",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 банан",
   "bumpkinItemBuff.banana.boost": "-20% времени роста банана",
-  "bumpkinItemBuff.deep.sea.helm": "+1 шанс получить фрагмент карты морских чудес",
   "bumpkinItemBuff.bee.suit": "+0.1 мёд за полный улей",
   "bumpkinItemBuff.crimstone.hammer": "+2 к кримстоуну на 5-ой добыче",
   "bumpkinItemBuff.crimstone.amulet": "-20% времени восстановления кримстоуна",
@@ -8071,5 +8070,6 @@
   "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time",
   "pete.levelthree.three": "View your deliveries in the top left of the screen. Once you've gathered the resources, you can travel and deliver the items to the Bumpkins.",
   "chest.placeFirst": "Place",
-  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage."
+  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage.",
+  "bumpkinItemBuff.deep.sea.helm": "+100% chance to find Marvel Map Pieces"
 }
