@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { useLocation, useNavigate } from "react-router";
 
@@ -27,6 +27,38 @@ const formatNumber = (value?: number) => {
   if (value === undefined || value === null) return "-";
   return value.toLocaleString();
 };
+
+const formatDecimal = (value?: number, decimals = 1) => {
+  if (value === undefined || value === null) return "-";
+  return value.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimals,
+  });
+};
+
+const formatPct = (num?: number, denom?: number) => {
+  if (num === undefined || denom === undefined || denom === 0) return "-";
+  return `${((num / denom) * 100).toFixed(1)}%`;
+};
+
+const formatAvg = (total?: number, signups?: number, decimals = 1) => {
+  if (total === undefined || signups === undefined || signups === 0) return "-";
+  return formatDecimal(total / signups, decimals);
+};
+
+type CohortKey = "all" | "referred" | "paid";
+
+const FUNNEL_ACTIVITY_ORDER = [
+  "Expanded",
+  "Tree Chopped",
+  "Coins Earned",
+  "Gem USD Fee",
+  "Marketplace FLOWER Fee",
+  "Gem FLOWER Fee",
+  "Daily Reward Collected",
+  "Rhubarb Tart Cooked",
+  "Coins Order Delivered",
+] as const;
 
 type ParsedRetentionEntry = RetentionEntry & { parsedDate: Date };
 
@@ -58,6 +90,8 @@ export const RetentionDashboard: React.FC = () => {
     };
   }, [handleClose]);
 
+  const [cohort, setCohort] = useState<CohortKey>("all");
+
   const { data, error, isLoading, isValidating, mutate } =
     useSWR<RetentionDataResponse>(
       token ? ["retention-dashboard", token] : null,
@@ -71,17 +105,21 @@ export const RetentionDashboard: React.FC = () => {
       },
     );
 
-  const entries = data?.entries;
+  const cohortEntries = useMemo(() => {
+    if (cohort === "referred") return data?.referred ?? [];
+    if (cohort === "paid") return data?.paid ?? [];
+    return data?.entries ?? [];
+  }, [cohort, data?.entries, data?.referred, data?.paid]);
 
   const filteredEntries = useMemo(() => {
-    if (!entries?.length) return [];
+    if (!cohortEntries.length) return [];
 
     const now = new Date();
     now.setUTCHours(0, 0, 0, 0);
     const cutoff = new Date(now);
     cutoff.setUTCDate(now.getUTCDate() - 59);
 
-    return entries
+    return cohortEntries
       .map((entry) => {
         const parsedDate = parseDate(entry.date);
         if (!parsedDate) return null;
@@ -92,7 +130,40 @@ export const RetentionDashboard: React.FC = () => {
       .sort((a, b) => (a.parsedDate > b.parsedDate ? -1 : 1))
       .slice(0, 60)
       .map(({ parsedDate: _unused, ...rest }) => rest);
-  }, [entries]);
+  }, [cohortEntries]);
+
+  const funnelRows = useMemo(() => {
+    const funnels = data?.funnels;
+    const entries = data?.entries ?? [];
+    if (!funnels || !Object.keys(funnels).length) return [];
+
+    const signupsByDate = Object.fromEntries(
+      entries.map((e) => [e.date, e.signups ?? 0]),
+    );
+
+    const now = new Date();
+    now.setUTCHours(0, 0, 0, 0);
+    const cutoff = new Date(now);
+    cutoff.setUTCDate(now.getUTCDate() - 59);
+
+    return Object.entries(funnels)
+      .map(([date, counts]) => {
+        const parsed = parseDate(date);
+        if (!parsed || parsed < cutoff) return null;
+        return { date, signups: signupsByDate[date] ?? 0, counts };
+      })
+      .filter(
+        (
+          r,
+        ): r is {
+          date: string;
+          signups: number;
+          counts: Record<string, number>;
+        } => r !== null,
+      )
+      .sort((a, b) => (a.date > b.date ? -1 : 1))
+      .slice(0, 60);
+  }, [data?.funnels, data?.entries]);
 
   const handleRetry = () => {
     mutate();
@@ -219,9 +290,33 @@ export const RetentionDashboard: React.FC = () => {
               </InnerPanel>
 
               <InnerPanel className="flex flex-col gap-2">
-                <Label type="default">
-                  {t("retentionDashboard.tableTitle")}
-                </Label>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Label type="default">
+                    {t("retentionDashboard.tableTitle")}
+                  </Label>
+                  <div className="flex gap-1">
+                    {(["all", "referred", "paid"] as const).map((key) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className={`text-xs px-2 py-1 rounded ${
+                          cohort === key
+                            ? "bg-[#b96f50] text-white"
+                            : "bg-[#2a2a2a] text-white"
+                        }`}
+                        onClick={() => setCohort(key)}
+                      >
+                        {t(
+                          key === "all"
+                            ? "retentionDashboard.cohortAll"
+                            : key === "referred"
+                              ? "retentionDashboard.cohortReferred"
+                              : "retentionDashboard.cohortPaid",
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {!filteredEntries.length && (
                   <p className="text-xs text-white">
@@ -246,38 +341,147 @@ export const RetentionDashboard: React.FC = () => {
                           <th className="py-1 pr-2">
                             {t("retentionDashboard.d7")}
                           </th>
-                          <th className="py-1">
+                          <th className="py-1 pr-2">
                             {t("retentionDashboard.d30")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.avgDays")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.totalFlower")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.avgFlower")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.totalUsd")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.avgUsd")}
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredEntries.map((entry) => (
-                          <tr
-                            key={entry.date}
-                            className="border-b border-[#b96f50] last:border-b-0"
-                          >
-                            <td className="py-1 pr-2 whitespace-nowrap">
-                              {entry.date ||
-                                t("retentionDashboard.unknownDate")}
-                            </td>
-                            <td className="py-1 pr-2">
-                              {formatNumber(entry.signups)}
-                            </td>
-                            <td className="py-1 pr-2">
-                              {formatNumber(entry.d1)}
-                            </td>
-                            <td className="py-1 pr-2">
-                              {formatNumber(entry.d7)}
-                            </td>
-                            <td className="py-1">{formatNumber(entry.d30)}</td>
-                          </tr>
-                        ))}
+                        {filteredEntries.map((entry) => {
+                          const signups = entry.signups ?? 0;
+                          const totalFlower =
+                            (entry.marketplaceFlower ?? 0) +
+                            (entry.gemFlower ?? 0);
+                          return (
+                            <tr
+                              key={entry.date}
+                              className="border-b border-[#b96f50] last:border-b-0"
+                            >
+                              <td className="py-1 pr-2 whitespace-nowrap">
+                                {entry.date ||
+                                  t("retentionDashboard.unknownDate")}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatNumber(entry.signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatPct(entry.d1, signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatPct(entry.d7, signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatPct(entry.d30, signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatAvg(entry.totalDays, signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatDecimal(totalFlower)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatAvg(totalFlower, signups)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatDecimal(entry.usd)}
+                              </td>
+                              <td className="py-1 pr-2">
+                                {formatAvg(entry.usd, signups)}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
                 )}
               </InnerPanel>
+
+              {funnelRows.length > 0 && (
+                <InnerPanel className="flex flex-col gap-2">
+                  <Label type="default">
+                    {t("retentionDashboard.funnelsTitle")}
+                  </Label>
+                  <p className="text-xs text-white opacity-90">
+                    {t("retentionDashboard.funnelsDescriptionUsers")}
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="text-left border-b border-[#b96f50]">
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.date")}
+                          </th>
+                          <th className="py-1 pr-2">
+                            {t("retentionDashboard.signups")}
+                          </th>
+                          {FUNNEL_ACTIVITY_ORDER.map((activity) => (
+                            <th
+                              key={activity}
+                              className="py-1 pr-2 whitespace-nowrap"
+                              title={activity}
+                            >
+                              <span className="block truncate max-w-[80px]">
+                                {activity}
+                              </span>
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {funnelRows.map((row) => (
+                          <tr
+                            key={row.date}
+                            className="border-b border-[#b96f50] last:border-b-0"
+                          >
+                            <td className="py-1 pr-2 whitespace-nowrap">
+                              {row.date}
+                            </td>
+                            <td className="py-1 pr-2">
+                              {formatNumber(row.signups)}
+                            </td>
+                            {FUNNEL_ACTIVITY_ORDER.map((activity) => {
+                              const count = row.counts[activity] ?? 0;
+                              const pct =
+                                row.signups > 0
+                                  ? Math.min(
+                                      100,
+                                      Math.round((count / row.signups) * 100),
+                                    )
+                                  : 0;
+                              return (
+                                <td
+                                  key={activity}
+                                  className="py-1 pr-2 whitespace-nowrap"
+                                >
+                                  {formatNumber(count)}
+                                  {` `}
+                                  <span className="opacity-80">{`(${pct}%)`}</span>
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </InnerPanel>
+              )}
             </>
           )}
         </div>
