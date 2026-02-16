@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação.",
   "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 50 gemas e aumenta em 2x a cada vez, sendo reinicializado diariamente às 00:00 UTC.",
   "cropMachine.removePack": "Remover pacote",
-  "season.codex.seasonalDrops": "Capítulos lançados"
+  "season.codex.seasonalDrops": "Capítulos lançados",
+  "retentionDashboard.marketplaceFlower": "Mkt FLOWER",
+  "retentionDashboard.usd": "USD",
+  "retentionDashboard.gemFlower": "Flor de gema",
+  "retentionDashboard.totalDays": "Total de dias",
+  "retentionDashboard.avgDays": "Média de dias",
+  "retentionDashboard.totalFlower": "FLOR total",
+  "retentionDashboard.avgFlower": "Flor média",
+  "retentionDashboard.totalUsd": "Total em USD",
+  "retentionDashboard.avgUsd": "Média de USD",
+  "retentionDashboard.cohortAll": "Todos",
+  "retentionDashboard.cohortReferred": "Referido",
+  "retentionDashboard.cohortPaid": "Pago",
+  "retentionDashboard.funnelsTitle": "Funis",
+  "retentionDashboard.funnelsDescription": "Contagens de eventos por data de inscrição. Porcentagem = eventos por inscrição (parcela de inscrições que fizeram pelo menos uma).",
+  "retentionDashboard.funnelsDescriptionUsers": "Usuários que fizeram cada evento pelo menos uma vez (contagem) e% de inscrições.",
+  "retentionDashboard.funnelEvents": "Eventos",
+  "retentionDashboard.funnelPct": "% fez"
 }

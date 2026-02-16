@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "33% de probabilidad de que el próximo reinicio sea gratuito después de alimentar completamente a la mascota.",
   "petGuide.feed.description3": "La retirada de gemas mezcla el menú. Cuesta 50 gemas y aumenta 2 veces cada vez, y se restablece todos los días a las 00:00 UTC.",
   "cropMachine.removePack": "Eliminar paquete",
-  "season.codex.seasonalDrops": "Capitulo cae"
+  "season.codex.seasonalDrops": "Capitulo cae",
+  "retentionDashboard.marketplaceFlower": "Con FLOWER",
+  "retentionDashboard.usd": "DÓLAR ESTADOUNIDENSE",
+  "retentionDashboard.gemFlower": "Gema FLOWER",
+  "retentionDashboard.totalDays": "Total de días",
+  "retentionDashboard.avgDays": "Promedio de días",
+  "retentionDashboard.totalFlower": "FLOR total",
+  "retentionDashboard.avgFlower": "FLOWER promedio",
+  "retentionDashboard.totalUsd": "Total USD",
+  "retentionDashboard.avgUsd": "USD promedio",
+  "retentionDashboard.cohortAll": "Todas",
+  "retentionDashboard.cohortReferred": "Referido",
+  "retentionDashboard.cohortPaid": "Pagado",
+  "retentionDashboard.funnelsTitle": "Embudos",
+  "retentionDashboard.funnelsDescription": "Los eventos cuentan por fecha de registro. Porcentaje = eventos por registro (porcentaje de registros en los que se realizó al menos una).",
+  "retentionDashboard.funnelsDescriptionUsers": "Usuarios que realizaron cada evento al menos una vez (recuento) y% de suscripciones.",
+  "retentionDashboard.funnelEvents": "Eventos",
+  "retentionDashboard.funnelPct": "% lo hizo"
 }

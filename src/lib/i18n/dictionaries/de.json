@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "33% Chance, dass der nächste Reset kostenlos ist, nachdem das Haustier vollständig gefüttert wurde.",
   "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 50 Edelsteine und steigt jedes Mal um das Doppelte. Es wird täglich um 00:00 UTC zurückgesetzt.",
   "cropMachine.removePack": "Packung entfernen",
-  "season.codex.seasonalDrops": "Kapitel Drops"
+  "season.codex.seasonalDrops": "Kapitel Drops",
+  "retentionDashboard.marketplaceFlower": "Mit FLOWER",
+  "retentionDashboard.usd": "USD",
+  "retentionDashboard.gemFlower": "Edelstein FLOWER",
+  "retentionDashboard.totalDays": "Gesamtzahl der Tage",
+  "retentionDashboard.avgDays": "Durchschnittl. Tage",
+  "retentionDashboard.totalFlower": "FLOWER insgesamt",
+  "retentionDashboard.avgFlower": "Avg FLOWER",
+  "retentionDashboard.totalUsd": "Insgesamt USD",
+  "retentionDashboard.avgUsd": "Durchschnittlich USD",
+  "retentionDashboard.cohortAll": "Alle",
+  "retentionDashboard.cohortReferred": "Verwiesen",
+  "retentionDashboard.cohortPaid": "Bezahlt",
+  "retentionDashboard.funnelsTitle": "Trichter",
+  "retentionDashboard.funnelsDescription": "Die Veranstaltung zählt nach dem Anmeldedatum. Prozentsatz = Ereignisse pro Anmeldung (Anteil der Anmeldungen, bei denen mindestens eine Anmeldung erfolgt ist).",
+  "retentionDashboard.funnelsDescriptionUsers": "Nutzer, die an jeder Veranstaltung mindestens einmal teilgenommen haben (Anzahl) und% der Anmeldungen.",
+  "retentionDashboard.funnelEvents": "Ereignisse",
+  "retentionDashboard.funnelPct": "% hat"
 }

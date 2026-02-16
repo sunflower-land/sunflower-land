@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。",
   "petGuide.feed.description3": "宝石重启会对菜单进行洗牌。它消耗 50 颗宝石，每次增加 2 倍，每天 00:00 UTC 重置。",
   "cropMachine.removePack": "移除包裹",
-  "season.codex.seasonalDrops": "章节掉落"
+  "season.codex.seasonalDrops": "章节掉落",
+  "retentionDashboard.marketplaceFlower": "市场花",
+  "retentionDashboard.usd": "美元",
+  "retentionDashboard.gemFlower": "宝石花",
+  "retentionDashboard.totalDays": "总天数",
+  "retentionDashboard.avgDays": "平均天数",
+  "retentionDashboard.totalFlower": "花朵总数",
+  "retentionDashboard.avgFlower": "平均花量",
+  "retentionDashboard.totalUsd": "总计（美元）",
+  "retentionDashboard.avgUsd": "平均美元",
+  "retentionDashboard.cohortAll": "全部",
+  "retentionDashboard.cohortReferred": "已提交",
+  "retentionDashboard.cohortPaid": "已付费",
+  "retentionDashboard.funnelsTitle": "漏斗",
+  "retentionDashboard.funnelsDescription": "活动按注册日期计算。百分比 = 每次注册的事件（至少注册一次的注册份额）。",
+  "retentionDashboard.funnelsDescriptionUsers": "每项活动至少参加一次的用户（计数）和注册百分比。",
+  "retentionDashboard.funnelEvents": "活动",
+  "retentionDashboard.funnelPct": "% 做到了"
 }

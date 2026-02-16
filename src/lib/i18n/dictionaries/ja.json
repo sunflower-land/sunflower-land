@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "ペットに完全に餌を与えると、33% の確率で次のリセットが無料になります。",
   "petGuide.feed.description3": "ジェムリロールはメニューをシャッフルします。消費するジェムは50個で、そのたびに2倍ずつ上昇し、毎日 00:00 UTC にリセットされます。",
   "cropMachine.removePack": "パックを削除",
-  "season.codex.seasonalDrops": "チャプター・ドロップ"
+  "season.codex.seasonalDrops": "チャプター・ドロップ",
+  "retentionDashboard.marketplaceFlower": "ミットフラワー",
+  "retentionDashboard.usd": "USD",
+  "retentionDashboard.gemFlower": "ジェムフラワー",
+  "retentionDashboard.totalDays": "合計日数",
+  "retentionDashboard.avgDays": "平均日数",
+  "retentionDashboard.totalFlower": "トータルフラワー",
+  "retentionDashboard.avgFlower": "アヴィグ・フラワー",
+  "retentionDashboard.totalUsd": "合計米ドル",
+  "retentionDashboard.avgUsd": "平均米ドル",
+  "retentionDashboard.cohortAll": "[すべて]",
+  "retentionDashboard.cohortReferred": "紹介された",
+  "retentionDashboard.cohortPaid": "支払い済み",
+  "retentionDashboard.funnelsTitle": "ファネル",
+  "retentionDashboard.funnelsDescription": "イベント数は登録日ごとにカウントされます。パーセンテージ = 登録あたりのイベント数 (1 回以上登録した登録者の割合)。",
+  "retentionDashboard.funnelsDescriptionUsers": "各イベントを少なくとも1回実行したユーザー（カウント）とサインアップの割合。",
+  "retentionDashboard.funnelEvents": "[イベント]",
+  "retentionDashboard.funnelPct": "% やった"
 }

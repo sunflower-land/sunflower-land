@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir.",
   "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 50 Mücevher'e mal olur ve her seferinde 2 kat artar ve her gün 00:00 UTC'de sıfırlanır.",
   "cropMachine.removePack": "Paketi kaldır",
-  "season.codex.seasonalDrops": "Bölüm Damlaları"
+  "season.codex.seasonalDrops": "Bölüm Damlaları",
+  "retentionDashboard.marketplaceFlower": "Mkt ÇİÇEK",
+  "retentionDashboard.usd": "AMERİKAN DOLARI",
+  "retentionDashboard.gemFlower": "Mücevher ÇİÇEK",
+  "retentionDashboard.totalDays": "Toplam gün",
+  "retentionDashboard.avgDays": "Ortalama günler",
+  "retentionDashboard.totalFlower": "Toplam ÇIÇEK",
+  "retentionDashboard.avgFlower": "Ort. ÇIÇEK",
+  "retentionDashboard.totalUsd": "Toplam USD",
+  "retentionDashboard.avgUsd": "Ortalama USD",
+  "retentionDashboard.cohortAll": "Hepsi",
+  "retentionDashboard.cohortReferred": "Tavsiye Edilen",
+  "retentionDashboard.cohortPaid": "Ücretli",
+  "retentionDashboard.funnelsTitle": "Huniler",
+  "retentionDashboard.funnelsDescription": "Kayıt tarihine göre etkinlik sayılır. Yüzde = kayıt başına etkinlik (en az bir kayıt gerçekleştiren kayıtların payı).",
+  "retentionDashboard.funnelsDescriptionUsers": "Her etkinliği en az bir kez yapan kullanıcılar (sayı) ve kayıtların yüzdesi.",
+  "retentionDashboard.funnelEvents": "Olaylar",
+  "retentionDashboard.funnelPct": "%yaptı"
 }

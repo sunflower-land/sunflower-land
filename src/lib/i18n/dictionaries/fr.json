@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "33 % de chances que la prochaine réinitialisation soit gratuite une fois l'animal complètement nourri.",
   "petGuide.feed.description3": "Gem Reroll permet de mélanger le menu. Il coûte 50 gemmes et augmente de 2 fois à chaque fois. Il est réinitialisé tous les jours à 00h00 UTC.",
   "cropMachine.removePack": "Supprimer le pack",
-  "season.codex.seasonalDrops": "Chapitre Drops"
+  "season.codex.seasonalDrops": "Chapitre Drops",
+  "retentionDashboard.marketplaceFlower": "Motif FLOWER",
+  "retentionDashboard.usd": "DOLLAR AMÉRICAIN",
+  "retentionDashboard.gemFlower": "FLEUR PRÉCIEUSE",
+  "retentionDashboard.totalDays": "Nombre total de jours",
+  "retentionDashboard.avgDays": "Jours en moyenne",
+  "retentionDashboard.totalFlower": "Nombre total de fleurs",
+  "retentionDashboard.avgFlower": "Fleurs moyennes",
+  "retentionDashboard.totalUsd": "Total en dollars américains",
+  "retentionDashboard.avgUsd": "USD moyen",
+  "retentionDashboard.cohortAll": "Tous",
+  "retentionDashboard.cohortReferred": "Référé",
+  "retentionDashboard.cohortPaid": "Payé",
+  "retentionDashboard.funnelsTitle": "Entonnoirs",
+  "retentionDashboard.funnelsDescription": "L'événement compte par date d'inscription. Pourcentage = événements par inscription (part des inscriptions qui ont donné lieu à au moins une inscription).",
+  "retentionDashboard.funnelsDescriptionUsers": "Utilisateurs ayant participé à chaque événement au moins une fois (nombre) et % des inscriptions.",
+  "retentionDashboard.funnelEvents": "Évènements",
+  "retentionDashboard.funnelPct": "% ont fait"
 }

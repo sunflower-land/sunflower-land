@@ -8072,5 +8072,22 @@
   "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya.",
   "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 50 Permata dan naik 2x setiap kali, diatur ulang setiap hari pada 00:00 UTC.",
   "cropMachine.removePack": "Hapus paket",
-  "season.codex.seasonalDrops": "Tetes Bab"
+  "season.codex.seasonalDrops": "Tetes Bab",
+  "retentionDashboard.marketplaceFlower": "BUNGA MKT",
+  "retentionDashboard.usd": "USD",
+  "retentionDashboard.gemFlower": "BUNGA permata",
+  "retentionDashboard.totalDays": "Jumlah hari",
+  "retentionDashboard.avgDays": "Rata-rata hari",
+  "retentionDashboard.totalFlower": "Total BUNGA",
+  "retentionDashboard.avgFlower": "Rata-rata BUNGA",
+  "retentionDashboard.totalUsd": "Total USD",
+  "retentionDashboard.avgUsd": "Rata-rata USD",
+  "retentionDashboard.cohortAll": "Semua",
+  "retentionDashboard.cohortReferred": "Direferensikan",
+  "retentionDashboard.cohortPaid": "Dibayar",
+  "retentionDashboard.funnelsTitle": "Corong",
+  "retentionDashboard.funnelsDescription": "Acara dihitung berdasarkan tanggal pendaftaran. Persentase = acara per pendaftaran (bagian pendaftaran yang melakukan setidaknya satu).",
+  "retentionDashboard.funnelsDescriptionUsers": "Pengguna yang melakukan setiap acara setidaknya sekali (hitung) dan% pendaftaran.",
+  "retentionDashboard.funnelEvents": "Kegiatan",
+  "retentionDashboard.funnelPct": "% melakukan"
 }
