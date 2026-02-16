@@ -19,11 +19,12 @@ export const Sign: React.FC<CollectibleProps> = ({ index }) => {
   const nftId = useSelector(gameService, _nftId);
   const farmId = useSelector(gameService, _farmId);
 
-  const displayName = (index: number) => {
+  const getDisplayName = (index: number) => {
     if (index === 0 && username) return username;
     if ((index === 0 || index === 1) && nftId) return `#${nftId}`;
     return `#${farmId}`;
   };
+  const displayName = getDisplayName(index);
 
   return (
     <SFTDetailPopover name="Town Sign">
@@ -46,7 +47,7 @@ export const Sign: React.FC<CollectibleProps> = ({ index }) => {
             textShadow: "1px 1px #723e39",
           }}
         >
-          <p className="text-xxs mt-2 font-pixel">{displayName(index)}</p>
+          <p className="text-xxs mt-2 font-pixel">{displayName}</p>
         </div>
       </div>
     </SFTDetailPopover>
