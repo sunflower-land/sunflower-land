@@ -21,7 +21,6 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   canResetForFree,
@@ -118,46 +117,7 @@ export const SkillCategoryList: React.FC<{
       return false;
     if (resetType === "gems" && !hasEnoughGems) return false;
 
-    // Check Crop Machine conditions
-    const cropMachine = state.buildings["Crop Machine"]?.[0];
-    const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
-
-    // Check Field Expansion Module condition
-    if (skills["Field Expansion Module"] && queue.length > 5) {
-      return false;
-    }
-
-    // Check Leak-Proof Tank condition
-    if (skills["Leak-Proof Tank"]) {
-      const oilMillisInMachine = getTotalOilMillisInMachine(
-        queue,
-        unallocatedOilTime,
-      );
-      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
-        return false;
-      }
-    }
-
     return true;
-  };
-
-  const getCropMachineResetWarning = (): string | undefined => {
-    const cropMachine = state.buildings["Crop Machine"]?.[0];
-    const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
-
-    if (skills["Field Expansion Module"] && queue.length > 5) {
-      return t("skillReset.removeCrops");
-    }
-
-    if (skills["Leak-Proof Tank"]) {
-      const oilMillisInMachine = getTotalOilMillisInMachine(
-        queue,
-        unallocatedOilTime,
-      );
-      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
-        return t("skillReset.reduceOilInTank");
-      }
-    }
   };
 
   return (
@@ -264,7 +224,6 @@ export const SkillCategoryList: React.FC<{
           gemCost={gemCost}
           gemBalance={gemBalance}
           getNextResetDateAndTime={getNextResetDateAndTime}
-          getCropMachineResetWarning={getCropMachineResetWarning}
           hasSkills={hasSkills}
           canResetSkills={canResetSkills}
           handleSkillsReset={handleSkillsReset}

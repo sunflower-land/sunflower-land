@@ -397,6 +397,59 @@ export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {
   "Prime Gold Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
 };
 
+export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
+  Record<ResourceName, UpgradeableResource[]>
+> = {
+  Tree: ["Tree", "Ancient Tree", "Sacred Tree"],
+  "Stone Rock": ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
+  "Iron Rock": ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
+  "Gold Rock": ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+};
+
+export function getTotalBaseResourceEquivalents(
+  game: GameState,
+  baseResource: ResourceName,
+) {
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[baseResource];
+
+  if (!family) {
+    return game.inventory[baseResource]?.toNumber() ?? 0;
+  }
+
+  return family.reduce((total, resource) => {
+    return (
+      total +
+      (game.inventory[resource]?.toNumber() ?? 0) *
+        RESOURCE_MULTIPLIER[resource]
+    );
+  }, 0);
+}
+
+export function topUpResourceToMinimum({
+  game,
+  name,
+  amount,
+  totalEquivalents,
+}: {
+  game: GameState;
+  name: ResourceName;
+  amount: number;
+  totalEquivalents: number;
+}) {
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[name];
+
+  if (!family) {
+    game.inventory[name] = new Decimal(amount);
+    return;
+  }
+
+  const baseResource = family[0];
+  const currentBase = game.inventory[baseResource]?.toNumber() ?? 0;
+  const needed = amount - totalEquivalents;
+
+  game.inventory[baseResource] = new Decimal(currentBase + needed);
+}
+
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   "Crop Plot": {
     width: 1,
