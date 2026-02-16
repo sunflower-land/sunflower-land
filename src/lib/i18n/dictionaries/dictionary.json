@@ -3613,7 +3613,7 @@
   "season.codex.auction.totalSupply": "Total Supply: {{totalSupply}}",
   "season.codex.auction.chapterSupply": "Chapter Supply: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Some supplies may be reserved for future events or chapters.",
-  "season.codex.seasonalDrops": "Seasonal Drops",
+  "season.codex.seasonalDrops": "Chapter Drops",
   "season.codex.seasonalDrops.description": "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
   "season.codex.soldOut": "Sold out",
   "season.codex.mutants": "Mutants",
