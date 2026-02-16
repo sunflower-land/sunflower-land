@@ -345,6 +345,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
               }}
             >
               <Collectible
+                index={0}
                 buildingId={"123"}
                 buildingIndex={0}
                 createdAt={0}
