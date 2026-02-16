@@ -91,19 +91,7 @@ function getChapterAuctions({
     return acc;
   }, {} as AuctionItems);
 
-  // Use chapter-only supply totals
-  const filteredTotalSupply = getKeys(details).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: details[name].auctions.reduce(
-        (total, auction) => total + auction.supply,
-        0,
-      ),
-    }),
-    {} as Record<string, number>,
-  );
-
-  return { details, filteredTotalSupply };
+  return { details };
 }
 
 const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
@@ -456,12 +444,11 @@ export const ChapterAuctions: React.FC<Props> = ({
     return <Loading />;
   }
 
-  const { details: auctionItems, filteredTotalSupply: totalItems } =
-    getChapterAuctions({
-      auctions: auctioneerState.context.auctions,
-      totalSupply: auctioneerState.context.totalSupply,
-      chapter,
-    });
+  const { details: auctionItems } = getChapterAuctions({
+    auctions: auctioneerState.context.auctions,
+    totalSupply: auctioneerState.context.totalSupply,
+    chapter,
+  });
 
   return (
     <>
@@ -477,7 +464,7 @@ export const ChapterAuctions: React.FC<Props> = ({
             <Drops
               name={selected}
               detail={auctionItems[selected]}
-              maxSupply={totalItems[selected]}
+              maxSupply={auctioneerState.context.totalSupply[selected]}
               game={gameState}
             />
           )}
