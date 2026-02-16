@@ -56,11 +56,9 @@ type AuctionItems = Record<
  */
 function getChapterAuctions({
   auctions,
-  totalSupply,
   chapter,
 }: {
   auctions: Auction[];
-  totalSupply: Record<string, number>;
   chapter: ChapterName;
 }) {
   const { startDate, endDate } = CHAPTERS[chapter];
@@ -464,7 +462,7 @@ export const ChapterAuctions: React.FC<Props> = ({
             <Drops
               name={selected}
               detail={auctionItems[selected]}
-              maxSupply={auctioneerState.context.totalSupply[selected]}
+              maxSupply={auctioneerState.context.totalSupply[selected] ?? 0}
               game={gameState}
             />
           )}
