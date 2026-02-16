@@ -444,7 +444,6 @@ export const ChapterAuctions: React.FC<Props> = ({
 
   const { details: auctionItems } = getChapterAuctions({
     auctions: auctioneerState.context.auctions,
-    totalSupply: auctioneerState.context.totalSupply,
     chapter,
   });
 
