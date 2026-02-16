@@ -31,6 +31,7 @@ import {
   OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
+  getPackSeedLimit,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachineOil";
 import add from "assets/icons/plus.png";
@@ -199,8 +200,14 @@ export const CropMachineModalContent: React.FC<Props> = ({
     if (!selectedSeed) return false;
 
     const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
+    const packSeedLimit = getPackSeedLimit({ state, seedName: selectedSeed });
 
-    return totalSeeds + CROP_MACHINE_PLOTS(state) <= seedBalance.toNumber();
+    const maxSupplyable = Math.min(
+      seedBalance.toNumber(),
+      packSeedLimit.toNumber(),
+    );
+
+    return totalSeeds + CROP_MACHINE_PLOTS(state) <= maxSupplyable;
   };
 
   const canIncrementOil = () => {
@@ -427,8 +434,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
                       >
                         {t("cropMachine.availableInventory", {
                           amount:
-                            (inventory[selectedSeed]?.toNumber() ?? 0) -
-                            totalSeeds,
+                            Math.min(
+                              inventory[selectedSeed]?.toNumber() ?? 0,
+                              getPackSeedLimit({
+                                state,
+                                seedName: selectedSeed,
+                              }).toNumber(),
+                            ) - totalSeeds,
                         })}
                       </Label>
                     </div>
@@ -483,12 +495,19 @@ export const CropMachineModalContent: React.FC<Props> = ({
                           </span>
                         </Button>
                         <Button
-                          onClick={() =>
-                            incrementSeeds(
-                              (inventory[selectedSeed]?.toNumber() ?? 0) -
-                                totalSeeds,
-                            )
-                          }
+                          onClick={() => {
+                            const seedBalance =
+                              inventory[selectedSeed]?.toNumber() ?? 0;
+                            const packSeedLimit = getPackSeedLimit({
+                              state,
+                              seedName: selectedSeed,
+                            }).toNumber();
+                            const maxSupplyable = Math.min(
+                              seedBalance,
+                              packSeedLimit,
+                            );
+                            incrementSeeds(maxSupplyable - totalSeeds);
+                          }}
                           disabled={!canIncrementSeeds()}
                           className={`px-2 w-auto min-w-min`}
                         >

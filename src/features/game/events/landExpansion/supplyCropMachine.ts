@@ -12,6 +12,7 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 
 export type AddSeedsInput = {
   type: CropSeedName;
@@ -107,6 +108,18 @@ export function calculateCropTime(
 export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds
   return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
+}
+
+export function getPackSeedLimit({
+  state,
+  seedName,
+}: {
+  state: GameState;
+  seedName: CropSeedName;
+}) {
+  const inventoryLimit = INVENTORY_LIMIT(state)[seedName] ?? new Decimal(0);
+
+  return inventoryLimit;
 }
 
 export function updateCropMachine({
@@ -306,6 +319,12 @@ export function supplyCropMachine({
       )
     ) {
       throw new Error("You can't supply these seeds");
+    }
+
+    const inventoryLimit = getPackSeedLimit({ state, seedName });
+
+    if (inventoryLimit.lt(seedsAdded.amount)) {
+      throw new Error("Can't supply more seeds than the inventory limit");
     }
 
     const previousSeedsInInventory =
