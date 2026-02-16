@@ -2741,7 +2741,6 @@
   "season.codex.howToEarn": "{{ticket}} sを稼ぐにはどうすればいいですか？",
   "season.codex.howToEarn.one": "広場を訪れ、バンプキンズに資源を届けてください。",
   "season.codex.nextDrop": "ネクストドロップ",
-  "season.codex.seasonalDrops": "シーズンドロップ",
   "season.codex.seasonalDrops.description": "他の人と競い合って、最も希少なアイテムを手に入れましょう！詳細については、広場の競売人を訪ねてください。",
   "season.codex.soldOut": "売り切れ",
   "season.codex.mutants": "ミュータント",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "+100% 確率でマーベル・マップ・ピースが見つかる",
   "description.victoriasApron.boost": "ペットに完全に餌を与えると、33% の確率で次のリセットが無料になります。",
   "petGuide.feed.description3": "ジェムリロールはメニューをシャッフルします。消費するジェムは50個で、そのたびに2倍ずつ上昇し、毎日 00:00 UTC にリセットされます。",
-  "cropMachine.removePack": "パックを削除"
+  "cropMachine.removePack": "パックを削除",
+  "season.codex.seasonalDrops": "チャプター・ドロップ"
 }

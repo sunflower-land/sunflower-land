@@ -3424,7 +3424,6 @@
   "season.codex.auction.totalSupply": "Общее количество: {{totalSupply}}",
   "season.codex.auction.chapterSupply": "Количество для главы: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Некоторое количество может быть зарезервировано для будущих мероприятий или глав.",
-  "season.codex.seasonalDrops": "Сезонные аукционы",
   "season.codex.seasonalDrops.description": "Соревнуйся с другими игроками за самые редкие предметы! За подробностями обращайся к Auctioneer на Плазе.",
   "season.codex.soldOut": "Закончилось",
   "season.codex.mutants": "Мутанты",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "+100% chance to find Marvel Map Pieces",
   "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
   "petGuide.feed.description3": "Gem reroll shuffles the menu. It costs 50 Gems and rises by 2x each time, resetting daily at 00:00 UTC.",
-  "cropMachine.removePack": "Remove pack"
+  "cropMachine.removePack": "Remove pack",
+  "season.codex.seasonalDrops": "Chapter Drops"
 }

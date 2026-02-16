@@ -2971,7 +2971,6 @@
   "season.codex.howToEarn": "{{ticket}} s nasıl kazanılır?",
   "season.codex.howToEarn.one": "Plazayı ziyaret edin ve kaynakları Bumpkins'e teslim edin.",
   "season.codex.nextDrop": "Sonraki damla",
-  "season.codex.seasonalDrops": "Mevsimsel Düşüşler",
   "season.codex.seasonalDrops.description": "En nadir öğeler için başkalarıyla rekabet edin! Daha fazla ayrıntı için plazadaki Müzayedeci\"yi ziyaret edin.",
   "season.codex.soldOut": "Satıldı",
   "season.codex.mutants": "Mutantlar",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "Marvel Harita Parçalarını bulma şansı +%100",
   "description.victoriasApron.boost": "Evcil hayvanı tamamen besledikten sonra bir sonraki sıfırlama şansı %33 ücretsizdir.",
   "petGuide.feed.description3": "Gem reroll menüyü karıştırır. 50 Mücevher'e mal olur ve her seferinde 2 kat artar ve her gün 00:00 UTC'de sıfırlanır.",
-  "cropMachine.removePack": "Paketi kaldır"
+  "cropMachine.removePack": "Paketi kaldır",
+  "season.codex.seasonalDrops": "Bölüm Damlaları"
 }

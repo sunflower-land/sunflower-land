@@ -2705,7 +2705,6 @@
   "season.codex.howToEarn": "Come guadagnare {{ticket}} s?",
   "season.codex.howToEarn.one": "Visita la piazza e consegna risorse a Bumpkins.",
   "season.codex.nextDrop": "Prossima goccia",
-  "season.codex.seasonalDrops": "Gocce stagionali",
   "season.codex.seasonalDrops.description": "Competi con gli altri per gli oggetti più rari! Visita il banditore in piazza per maggiori dettagli.",
   "season.codex.soldOut": "Esaurito",
   "season.codex.mutants": "Mutanti",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "+100% di possibilità di trovare pezzi della mappa Marvel",
   "description.victoriasApron.boost": "Il 33% di possibilità che il successivo ripristino sia gratuito dopo aver dato da mangiare completamente all'animale.",
   "petGuide.feed.description3": "Gem reroll mescola il menu. Costa 50 gemme e aumenta di 2 volte ogni volta, azzerandosi ogni giorno alle 00:00 UTC.",
-  "cropMachine.removePack": "Rimuovi pacchetto"
+  "cropMachine.removePack": "Rimuovi pacchetto",
+  "season.codex.seasonalDrops": "Capitolo Drops"
 }

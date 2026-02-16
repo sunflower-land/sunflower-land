@@ -2741,7 +2741,6 @@
   "season.codex.howToEarn": "Bagaimana cara mendapatkan {{ticket}} s?",
   "season.codex.howToEarn.one": "Kunjungi plaza & kirimkan sumber daya ke Bumpkins.",
   "season.codex.nextDrop": "Jatuh Berikutnya",
-  "season.codex.seasonalDrops": "Penurunan Musiman",
   "season.codex.seasonalDrops.description": "Bersaing dengan orang lain untuk item paling langka! Kunjungi Lelang di plaza untuk lebih jelasnya.",
   "season.codex.soldOut": "Habis terjual",
   "season.codex.mutants": "Mutan",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "Peluang +100% untuk menemukan Potongan Peta Marvel",
   "description.victoriasApron.boost": "33% peluang reset berikutnya gratis setelah memberi makan hewan peliharaan sepenuhnya.",
   "petGuide.feed.description3": "Gem reroll mengacak menu. Harganya 50 Permata dan naik 2x setiap kali, diatur ulang setiap hari pada 00:00 UTC.",
-  "cropMachine.removePack": "Hapus paket"
+  "cropMachine.removePack": "Hapus paket",
+  "season.codex.seasonalDrops": "Tetes Bab"
 }

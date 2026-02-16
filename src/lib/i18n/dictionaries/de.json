@@ -2736,7 +2736,6 @@
   "season.codex.howToEarn": "Wie verdiene ich {{ticket}} s?",
   "season.codex.howToEarn.one": "Besucht den Platz und liefert Ressourcen an Bumpkins.",
   "season.codex.nextDrop": "Nächster Drop",
-  "season.codex.seasonalDrops": "Saisonale Drops",
   "season.codex.seasonalDrops.description": "Konkurrieren Sie mit anderen um die seltensten Gegenstände! Besuchen Sie den Auktionator auf dem Platz für weitere Informationen.",
   "season.codex.soldOut": "Ausverkauft",
   "season.codex.mutants": "Mutanten",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "+100% Chance, Teile der Marvel-Karte zu finden",
   "description.victoriasApron.boost": "33% Chance, dass der nächste Reset kostenlos ist, nachdem das Haustier vollständig gefüttert wurde.",
   "petGuide.feed.description3": "Gem Reroll mischt das Menü. Es kostet 50 Edelsteine und steigt jedes Mal um das Doppelte. Es wird täglich um 00:00 UTC zurückgesetzt.",
-  "cropMachine.removePack": "Packung entfernen"
+  "cropMachine.removePack": "Packung entfernen",
+  "season.codex.seasonalDrops": "Kapitel Drops"
 }

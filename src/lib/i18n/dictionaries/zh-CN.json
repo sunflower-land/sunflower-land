@@ -2839,7 +2839,6 @@
   "season.codex.howToEarn": "如何赚取 {{ticket}} ？",
   "season.codex.howToEarn.one": "光顾广场，向乡包佬运送资源。",
   "season.codex.nextDrop": "下一次空投",
-  "season.codex.seasonalDrops": "时季空投",
   "season.codex.seasonalDrops.description": "与其他玩家竞争最稀有的物品！前往广场的拍卖行处了解更多详情。",
   "season.codex.soldOut": "已售罄",
   "season.codex.mutants": "变异体",
@@ -8072,5 +8071,6 @@
   "bumpkinItemBuff.deep.sea.helm": "找到漫威地图碎片的几率 +100%",
   "description.victoriasApron.boost": "在完全喂养宠物后，下次重置的几率为 33%。",
   "petGuide.feed.description3": "宝石重启会对菜单进行洗牌。它消耗 50 颗宝石，每次增加 2 倍，每天 00:00 UTC 重置。",
-  "cropMachine.removePack": "移除包裹"
+  "cropMachine.removePack": "移除包裹",
+  "season.codex.seasonalDrops": "章节掉落"
 }
