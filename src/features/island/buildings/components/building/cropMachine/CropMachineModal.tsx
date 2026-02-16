@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -125,6 +125,21 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   const { t } = useAppTranslation();
 
+  const packSeedLimit = useMemo(
+    () =>
+      selectedSeed
+        ? getPackSeedLimit({ state, seedName: selectedSeed })
+        : new Decimal(0),
+    [state, selectedSeed],
+  );
+  const seedBalance = selectedSeed
+    ? (inventory[selectedSeed] ?? new Decimal(0))
+    : new Decimal(0);
+  const maxSupplyable = Math.min(
+    seedBalance.toNumber(),
+    packSeedLimit.toNumber(),
+  );
+
   useLayoutEffect(() => {
     if (show) {
       // We intentionally reset modal UI state when it opens / active pack changes.
@@ -198,14 +213,6 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   const canIncrementSeeds = () => {
     if (!selectedSeed) return false;
-
-    const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
-    const packSeedLimit = getPackSeedLimit({ state, seedName: selectedSeed });
-
-    const maxSupplyable = Math.min(
-      seedBalance.toNumber(),
-      packSeedLimit.toNumber(),
-    );
 
     return totalSeeds + CROP_MACHINE_PLOTS(state) <= maxSupplyable;
   };
@@ -433,14 +440,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                         }
                       >
                         {t("cropMachine.availableInventory", {
-                          amount:
-                            Math.min(
-                              inventory[selectedSeed]?.toNumber() ?? 0,
-                              getPackSeedLimit({
-                                state,
-                                seedName: selectedSeed,
-                              }).toNumber(),
-                            ) - totalSeeds,
+                          amount: maxSupplyable - totalSeeds,
                         })}
                       </Label>
                     </div>
@@ -502,19 +502,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
                           </span>
                         </Button>
                         <Button
-                          onClick={() => {
-                            const seedBalance =
-                              inventory[selectedSeed]?.toNumber() ?? 0;
-                            const packSeedLimit = getPackSeedLimit({
-                              state,
-                              seedName: selectedSeed,
-                            }).toNumber();
-                            const maxSupplyable = Math.min(
-                              seedBalance,
-                              packSeedLimit,
-                            );
-                            incrementSeeds(maxSupplyable - totalSeeds);
-                          }}
+                          onClick={() =>
+                            incrementSeeds(maxSupplyable - totalSeeds)
+                          }
                           disabled={!canIncrementSeeds()}
                           className={`px-2 w-auto min-w-min`}
                         >
