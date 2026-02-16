@@ -360,7 +360,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                 )}
               </div>
               <div className="flex w-full">
-                <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
+                <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                 <div className="flex flex-col justify-center space-y-1">
                   <span className="text-xs">
                     {t("cropMachine.totalSeeds", {
@@ -446,7 +446,14 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </div>
                   </div>
                   <div className="flex w-full">
-                    <Box image={ITEM_DETAILS[selectedSeed].image} />
+                    <Box
+                      image={ITEM_DETAILS[selectedSeed].image}
+                      secondaryImage={
+                        CROP_SEEDS[selectedSeed].yield
+                          ? ITEM_DETAILS[CROP_SEEDS[selectedSeed].yield].image
+                          : undefined
+                      }
+                    />
                     <div className="flex w-full justify-between">
                       <div className="flex flex-col justify-center space-y-1 text-xs">
                         <span>
@@ -536,6 +543,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                 <div className="flex">
                   <Box
                     image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
+                    secondaryImage={ITEM_DETAILS[selectedPack.crop].image}
                   />
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
@@ -801,6 +809,7 @@ const PackBox: React.FC<{
       key={`${item.startTime}-${index}`}
       isSelected={index === selectedPackIndex}
       image={ITEM_DETAILS[`${item.crop} Seed`].image}
+      secondaryImage={ITEM_DETAILS[item.crop].image}
       count={!isReady ? new Decimal(item.seeds) : undefined}
       countLabelType={getQueueItemCountLabelType(index, !!isReady)}
       overlayIcon={
