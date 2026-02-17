@@ -53,6 +53,7 @@ import {
   ChapterTicket,
   ChapterName,
   ChapterRaffleTicket,
+  ChapterShedItem,
 } from "./chapters";
 import { Bud } from "./buds";
 import {
@@ -645,7 +646,8 @@ export type InventoryItemName =
   | PetResourceName
   | PetShopItemName
   | CrustaceanName
-  | ChapterRaffleTicket;
+  | ChapterRaffleTicket
+  | ChapterShedItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

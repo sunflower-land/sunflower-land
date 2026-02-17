@@ -111,6 +111,24 @@ export type ChapterRaffleTicket =
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
+export type CollectionChapterName = Exclude<
+  ChapterName,
+  | "Solar Flare"
+  | "Dawn Breaker"
+  | "Witches' Eve"
+  | "Catch the Kraken"
+  | "Spring Blossom"
+  | "Clash of Factions"
+  | "Pharaoh's Treasure"
+  | "Bull Run"
+  | "Winds of Change"
+  | "Great Bloom"
+  | "Better Together"
+  | "Paw Prints"
+>;
+
+export type ChapterShedItem = `${CollectionChapterName} Collection Shed`;
+
 export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
