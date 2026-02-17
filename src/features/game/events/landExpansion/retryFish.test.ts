@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import { retryFish } from "./retryFish";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
@@ -16,29 +15,24 @@ describe("retryFish", () => {
     },
   };
 
-  it("uses the free retry when Anemone Flower is placed", () => {
+  it("requires coins to retry", () => {
+    expect(() =>
+      retryFish({
+        state: BASE_STATE,
+        action: { type: "fish.retried" },
+      }),
+    ).toThrow("Insufficient coins");
+  });
+
+  it("tracks fish retried", () => {
     const state = retryFish({
       state: {
         ...BASE_STATE,
-        coins: 0,
-        inventory: {
-          "Anemone Flower": new Decimal(1),
-        },
-        collectibles: {
-          "Anemone Flower": [
-            {
-              id: "anemone",
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
-              readyAt: now,
-            },
-          ],
-        },
+        coins: 1000,
       },
       action: { type: "fish.retried" },
     });
-
+    expect(state.farmActivity["Fish Retried"]).toEqual(1);
     expect(state.coins).toEqual(0);
-    expect(state.fishing.wharf.freePuzzleAttemptUsed).toEqual(true);
   });
 });
