@@ -12,6 +12,7 @@ import deepBg from "assets/fish/minigame/deep_sea_bg.png";
 import crabRock from "assets/fish/minigame/crab_rock.webp";
 import blueCheck from "assets/fish/minigame/blue_up.png";
 import mapIcon from "assets/icons/map.webp";
+import lightning from "assets/icons/lightning.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   FishName,
@@ -26,6 +27,8 @@ import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/lib/crafting";
 import { useGame } from "features/game/GameProvider";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { BoostName, GameState } from "features/game/types/game";
 
 const wrong = SUNNYSIDE.icons.cancel;
 const PUZZLE_STARTED_KEY = "fishing-puzzle-started";
@@ -121,14 +124,14 @@ export const FishermanPuzzle: React.FC<{
   const mapPieces = getKeys(maps);
   const difficulty = MAP_PUZZLE_DIFFICULTY[mapPieces[0]] ?? 3;
   const coins = gameState.context.state.coins;
-  const freeAttemptAvailable =
-    isCollectibleBuilt({
-      name: "Anemone Flower",
-      game: gameState.context.state,
-    }) && !gameState.context.state.fishing.wharf.freePuzzleAttemptUsed;
+  const anemoneFlowerBuilt = isCollectibleBuilt({
+    name: "Anemone Flower",
+    game: gameState.context.state,
+  });
 
   const { attempts, rows } = DIFFICULTY[difficulty] ?? { attempts: 3, rows: 5 };
-  const [attemptLimit, setAttemptLimit] = useState(attempts);
+  const attemptsWithBonus = anemoneFlowerBuilt ? attempts + 1 : attempts;
+  const [attemptLimit, setAttemptLimit] = useState(attemptsWithBonus);
   const wharfCastedAt = gameState.context.state.fishing.wharf.castedAt;
   const hasAutoMissedRef = useRef(false);
 
@@ -184,6 +187,12 @@ export const FishermanPuzzle: React.FC<{
         onMiss={() => setShowRetry(true)}
         difficultCatch={mapPieces}
         onPuzzleStarted={handlePuzzleStarted}
+        boosts={
+          anemoneFlowerBuilt
+            ? [{ name: "Anemone Flower", value: "+1 Attempt" }]
+            : []
+        }
+        gameState={gameState.context.state}
       />
 
       <Modal show={showRetry}>
@@ -191,9 +200,7 @@ export const FishermanPuzzle: React.FC<{
           <div className="text-sm text-brown-500 flex flex-col p-1">
             <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
             <p className="p-1 mb-1.5">
-              {freeAttemptAvailable
-                ? t("fishingPuzzle.freeAttemptAvailable")
-                : t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
+              {t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
             </p>
           </div>
           <div className="flex w-full">
@@ -209,10 +216,7 @@ export const FishermanPuzzle: React.FC<{
             >
               {t("no")}
             </Button>
-            <Button
-              disabled={!freeAttemptAvailable && coins < FISH_RETRY_COST}
-              onClick={retry}
-            >
+            <Button disabled={coins < FISH_RETRY_COST} onClick={retry}>
               {t("retry")}
             </Button>
           </div>
@@ -260,9 +264,12 @@ interface FishingMinigameProps {
     attemptsUsed: number;
   }) => void;
   difficultCatch: (FishName | MarineMarvelName)[];
+  boosts: { name: BoostName; value: string }[];
+  gameState: GameState;
 }
 
 const FishingPuzzle: React.FC<FishingMinigameProps> = ({
+  gameState,
   rows = 6,
   cols = 4,
   maxAttempts = 4,
@@ -271,6 +278,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   resetKey = 0,
   difficultCatch,
   onPuzzleStarted,
+  boosts,
 }) => {
   const [dimensions, setDimensions] = useState({
     rows: clampValue(rows, MIN_ROWS, MAX_ROWS),
@@ -279,6 +287,8 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   const [path, setPath] = useState(() =>
     generateSafePath(dimensions.rows, dimensions.cols),
   );
+  const [showBoostPopover, setShowBoostPopover] = useState(false);
+
   const { t } = useAppTranslation();
 
   const [revealedTiles, setRevealedTiles] = useState<Set<string>>(
@@ -478,12 +488,28 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
               ? "danger"
               : "default"
         }
+        secondaryIcon={boosts.length ? lightning : undefined}
+        onClick={
+          boosts.length
+            ? () => {
+                setShowBoostPopover(true);
+              }
+            : undefined
+        }
       >
         {t("fishingPuzzle.attemptsLeft", {
           attemptsLeft: maxAttempts - attempts,
           attemptLimit: maxAttempts,
         })}
       </Label>
+      <BoostsDisplay
+        boosts={bonusAttempts}
+        show={showBoostPopover}
+        state={gameState}
+        onClick={() => {
+          setShowBoostPopover(false);
+        }}
+      />
 
       <div className="flex  items-center justify-center my-2">
         <img src={blueCheck} className="w-8" />
