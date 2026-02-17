@@ -503,7 +503,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         })}
       </Label>
       <BoostsDisplay
-        boosts={bonusAttempts}
+        boosts={boosts}
         show={showBoostPopover}
         state={gameState}
         onClick={() => {
