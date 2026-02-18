@@ -4,6 +4,8 @@ import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { getKeys } from "features/game/lib/crafting";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ReelRodAction = {
   type: "rod.reeled";
@@ -16,7 +18,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function reelRod({ state }: Options): GameState {
+export function reelRod({ state, createdAt = Date.now() }: Options): GameState {
   return produce(state, (game) => {
     if (!game.fishing.wharf.castedAt) {
       throw new Error("Nothing has been casted");
@@ -47,6 +49,14 @@ export function reelRod({ state }: Options): GameState {
           new Decimal(maps[map] ?? 0),
         );
       });
+
+      if (isCollectibleBuilt({ game, name: "Anemone Flower" })) {
+        game.boostsUsedAt = updateBoostUsed({
+          game,
+          boostNames: [{ name: "Anemone Flower", value: "+1 Attempt" }],
+          createdAt,
+        });
+      }
     }
 
     delete game.fishing.wharf.castedAt;
