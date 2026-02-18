@@ -113,7 +113,6 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   PET_HOUSE: defaultFeatureFlag,
-  CROP_MACHINE_PACK_REMOVAL: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 const TIME_BASED_FEATURE_FLAGS = {

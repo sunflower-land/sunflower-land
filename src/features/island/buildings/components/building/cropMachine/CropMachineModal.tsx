@@ -51,7 +51,6 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -559,16 +558,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </span>
                   </div>
                 </div>
-                {hasFeatureAccess(state, "CROP_MACHINE_PACK_REMOVAL") &&
-                  (selectedPack.startTime === undefined ||
-                    selectedPack.startTime > now) && (
-                    <Button
-                      className="mt-2"
-                      onClick={() => onRemovePack(selectedPackIndex)}
-                    >
-                      {t("cropMachine.removePack")}
-                    </Button>
-                  )}
+                {(selectedPack.startTime === undefined ||
+                  selectedPack.startTime > now) && (
+                  <Button
+                    className="mt-2"
+                    onClick={() => onRemovePack(selectedPackIndex)}
+                  >
+                    {t("cropMachine.removePack")}
+                  </Button>
+                )}
               </div>
             )}
         </OuterPanel>

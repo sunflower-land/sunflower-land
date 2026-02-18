@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { CropSeedName } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import { updateCropMachine } from "./supplyCropMachine";
 
 export type RemoveCropMachinePackAction = {
@@ -22,10 +21,6 @@ export function removeCropMachinePack({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "CROP_MACHINE_PACK_REMOVAL")) {
-    throw new Error("Crop Machine Pack Removal is not available");
-  }
-
   return produce(state, (stateCopy) => {
     if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
