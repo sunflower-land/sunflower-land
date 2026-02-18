@@ -32,7 +32,10 @@ import {
 } from "features/game/actions/tradeLimits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
@@ -75,6 +78,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [multiple, setMultiple] = useState(1);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
 
   const { state } = gameState.context;
 
@@ -165,6 +171,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   };
 
   const confirm = async ({ signature }: { signature?: string }) => {
+    if (accountTradedRecently) return;
     gameService.send("marketplace.listed", {
       effect: {
         type: "marketplace.listed",
@@ -248,7 +255,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <Button onClick={() => setShowConfirmation(false)} className="mr-1">
               {t("cancel")}
             </Button>
-            <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+            <Button
+              disabled={isLessThanOffer || accountTradedRecently}
+              onClick={() => confirm({})}
+            >
               {t("confirm")}
             </Button>
           </div>
@@ -291,7 +301,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Button onClick={() => setShowConfirmation(false)} className="mr-1">
             {t("cancel")}
           </Button>
-          <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+          <Button
+            disabled={isLessThanOffer || accountTradedRecently}
+            onClick={() => confirm({})}
+          >
             {t("confirm")}
           </Button>
         </div>
@@ -442,7 +455,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button
-              disabled={!price}
+              disabled={!price || accountTradedRecently}
               onClick={submitListing}
               className="relative"
             >

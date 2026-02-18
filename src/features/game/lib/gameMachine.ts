@@ -191,6 +191,27 @@ export interface Context {
   totalHelpedToday?: number;
   apiKey?: string;
   method?: "google" | "wallet" | "wechat" | "fsl";
+  accountTradedAt?: string;
+}
+
+const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
+
+export function isAccountTradedWithin90Days(context: Context): boolean {
+  const tradedAt = context.accountTradedAt;
+  if (!tradedAt) return false;
+  const tradedAtMs = new Date(tradedAt).getTime();
+  return Date.now() - tradedAtMs < NINETY_DAYS_MS;
+}
+
+export function getAccountTradedRestrictionSecondsLeft(
+  context: Context,
+): number {
+  const tradedAt = context.accountTradedAt;
+  if (!tradedAt) return 0;
+  const tradedAtMs = new Date(tradedAt).getTime();
+  const endMs = tradedAtMs + NINETY_DAYS_MS;
+  const leftMs = endMs - Date.now();
+  return Math.max(0, leftMs / 1000);
 }
 
 export type Moderation = {
@@ -920,6 +941,7 @@ export function startGame(authContext: AuthContext) {
         purchases: [],
         oauthNonce: "",
         data: {},
+        accountTradedAt: "2026-02-15T12:00:00Z",
       },
       states: {
         ...EFFECT_STATES,
@@ -985,6 +1007,7 @@ export function startGame(authContext: AuthContext) {
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
                 apiKey: response.apiKey,
+                accountTradedAt: response.accountTradedAt,
               };
             },
             onDone: [
@@ -2609,6 +2632,7 @@ export function startGame(authContext: AuthContext) {
           prices: (_, event) => event.data.prices,
           apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
+          accountTradedAt: (_, event) => event.data.accountTradedAt,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

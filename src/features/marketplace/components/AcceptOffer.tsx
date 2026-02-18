@@ -19,6 +19,7 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import {
   BlockchainEvent,
   Context as ContextType,
+  isAccountTradedWithin90Days,
   MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
@@ -53,6 +54,9 @@ const AcceptOfferContent: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const hasReputation = useSelector(gameService, _hasReputation);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -69,6 +73,7 @@ const AcceptOfferContent: React.FC<{
   );
 
   const confirm = async () => {
+    if (accountTradedRecently) return;
     gameService.send("marketplace.offerAccepted", {
       effect: {
         type: "marketplace.offerAccepted",
@@ -167,7 +172,7 @@ const AcceptOfferContent: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!hasReputation || !hasItem}
+          disabled={!hasReputation || !hasItem || accountTradedRecently}
           onClick={() => confirm()}
           className="relative"
         >
