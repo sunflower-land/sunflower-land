@@ -604,12 +604,12 @@ export const ChapterTracksPreview: React.FC = () => {
   if (!track) {
     return null;
   }
-  const rewards = track.milestones[progress.milestone.number];
+  const rewards = track.milestones[progress.milestone.number - 1];
   if (!rewards) {
     return null;
   }
 
-  const { items, wearables, coins, flower } = rewards.free;
+  let { items, wearables, coins, flower } = rewards.free;
   const freeImages: string[] = [];
   const freeText: string[] = [];
 
@@ -647,6 +647,7 @@ export const ChapterTracksPreview: React.FC = () => {
 
   const premiumImages: string[] = [];
   const premiumText: string[] = [];
+  ({ items, wearables, coins, flower } = rewards.premium);
 
   if (items) {
     premiumImages.push(
@@ -756,7 +757,7 @@ export const ChapterTracksPreview: React.FC = () => {
                 </div>
               </div>
             ))}
-            {freeText.map((text, index) => (
+            {premiumText.map((text, index) => (
               <div
                 className="flex items-center w-full min-w-0 overflow-hidden"
                 key={`${text}-vip-${index}`}
