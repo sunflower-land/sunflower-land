@@ -370,7 +370,7 @@ const ToolRow: React.FC<ToolRowProps> = ({
                 return (
                   <div
                     key={cooldown.nodeLabel}
-                    className="flex flex-row justify-between items-start cursor-pointer mr-2 gap-1"
+                    className="flex flex-row justify-between items-start cursor-pointer mr-2 gap-1 relative"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowBoostsKey(
