@@ -62,7 +62,7 @@ import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 import { isTicketNPC } from "features/island/delivery/lib/delivery";
 
-export const OrderCard: React.FC<{
+const OrderCard: React.FC<{
   order: Order;
   game: GameState;
   onDeliver: () => void;
@@ -98,6 +98,13 @@ export const OrderCard: React.FC<{
     order,
   });
   const tickets = isHoliday && !isTicketNPC(order.from) ? 0 : baseTickets;
+  // Hide ticket count on frozen quest orders (holiday) to avoid mixed messaging
+  const ticketDisplay =
+    isHoliday && isTicketNPC(order.from) && baseTickets > 0 ? 0 : tickets;
+  const isFrozenQuestOrder =
+    isHoliday && isTicketNPC(order.from) && baseTickets > 0;
+  const hasRewardAmount =
+    order.reward.coins !== undefined || order.reward.sfl !== undefined;
 
   return (
     <>
@@ -152,46 +159,56 @@ export const OrderCard: React.FC<{
               </div>
               <div className="flex items-center flex-wrap">
                 <Label type="warning" style={{ height: "25px" }}>
-                  {order.reward.sfl !== undefined && (
+                  {isFrozenQuestOrder && !hasRewardAmount ? (
                     <div className="flex items-center mr-1">
-                      <span className="text-xs">
-                        {makeRewardAmountForLabel(order)}
-                      </span>
-                      <img src={token} className="h-4 w-auto ml-1" />
+                      <span className="text-xs">{t("deliveries.closed")}</span>
                     </div>
+                  ) : (
+                    <>
+                      {order.reward.sfl !== undefined && (
+                        <div className="flex items-center mr-1">
+                          <span className="text-xs">
+                            {makeRewardAmountForLabel(order)}
+                          </span>
+                          <img src={token} className="h-4 w-auto ml-1" />
+                        </div>
+                      )}
+                      {order.reward.coins !== undefined && (
+                        <div className="flex items-center mr-1">
+                          <span className="text-xs">
+                            {makeRewardAmountForLabel(order)}
+                          </span>
+                          <img src={coinsImg} className="h-4 w-auto ml-1" />
+                        </div>
+                      )}
+                      {!!ticketDisplay && (
+                        <div className="flex items-center space-x-3 mr-1">
+                          <div className="flex items-center">
+                            <span className="text-xs mx-1">
+                              {ticketDisplay}
+                            </span>
+                            <img
+                              src={ITEM_DETAILS[getChapterTicket(now)].image}
+                              className="h-4 w-auto"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {getKeys(order.reward.items ?? {}).map((item) => (
+                        <div className="flex items-center" key={item}>
+                          <span className="text-xs">{item}</span>
+                          <img
+                            src={ITEM_DETAILS[item].image}
+                            className="h-4 w-auto ml-1"
+                          />
+                        </div>
+                      ))}
+                    </>
                   )}
-                  {order.reward.coins !== undefined && (
-                    <div className="flex items-center mr-1">
-                      <span className="text-xs">
-                        {makeRewardAmountForLabel(order)}
-                      </span>
-                      <img src={coinsImg} className="h-4 w-auto ml-1" />
-                    </div>
-                  )}
-                  {!!tickets && (
-                    <div className="flex items-center space-x-3 mr-1">
-                      <div className="flex items-center">
-                        <span className="text-xs mx-1">{tickets}</span>
-                        <img
-                          src={ITEM_DETAILS[getChapterTicket(now)].image}
-                          className="h-4 w-auto"
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {getKeys(order.reward.items ?? {}).map((item) => (
-                    <div className="flex items-center" key={item}>
-                      <span className="text-xs">{item}</span>
-                      <img
-                        src={ITEM_DETAILS[item].image}
-                        className="h-4 w-auto ml-1"
-                      />
-                    </div>
-                  ))}
                 </Label>
-                {!!tickets && (
+                {!!ticketDisplay && (
                   <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                    {`${getChapterTaskPoints({ task: "delivery", tickets: tickets })}`}
+                    {`${getChapterTaskPoints({ task: "delivery", tickets: ticketDisplay })}`}
                   </Label>
                 )}
               </div>
@@ -334,6 +351,8 @@ export const Gifts: React.FC<{
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
 
+  const now = useNow({ live: true });
+
   const flowers = getKeys(game.inventory)
     .filter(
       (item): item is FlowerName =>
@@ -368,7 +387,7 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
   // GiftedAt is the same UTC day as right now

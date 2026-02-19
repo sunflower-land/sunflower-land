@@ -149,13 +149,14 @@ export const DeliveryOrders: React.FC<Props> = ({
   }
   const completedAt = npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   const hasClaimedBonus =
     !!completedAt &&
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
   const canSkip =
-    getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
+    getDayOfYear(new Date(now)) !==
+    getDayOfYear(new Date(previewOrder.createdAt));
 
   const skip = () => {
     setShowSkipDialog(false);
@@ -216,7 +217,8 @@ export const DeliveryOrders: React.FC<Props> = ({
   const { holiday } = getBumpkinHoliday({ now });
 
   // Check if matches UTC date
-  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
+  const isHoliday = holiday === todayDate;
 
   const nextHolidayInSecs = (new Date(holiday ?? 0).getTime() - now) / 1000;
 
@@ -259,6 +261,8 @@ export const DeliveryOrders: React.FC<Props> = ({
     isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0
       ? 0
       : tickets;
+  const isFrozenQuestOrder =
+    isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0;
   const hasRewardAmount =
     previewOrder.reward.coins !== undefined ||
     previewOrder.reward.sfl !== undefined;
@@ -589,17 +593,46 @@ export const DeliveryOrders: React.FC<Props> = ({
                       />
                       <span className="text-xs ml-1">{t("reward")}</span>
                     </div>
-                    <Label type="warning" className="whitespace-nowrap">
-                      <span className={!isMobile ? "text-xxs" : ""}>
-                        {`${rewardDisplayValue} ${
-                          previewOrder.reward.coins
-                            ? t("coins")
-                            : previewOrder.reward.sfl
-                              ? "FLOWER"
-                              : chapterTicket
-                        }`}
-                      </span>
-                    </Label>
+                    <div className="flex flex-col items-end gap-1">
+                      {isFrozenQuestOrder && !hasRewardAmount ? (
+                        <Label
+                          type="danger"
+                          className="whitespace-nowrap"
+                          icon={SUNNYSIDE.icons.stopwatch}
+                        >
+                          <span className={!isMobile ? "text-xxs" : ""}>
+                            {t("deliveries.closed")}
+                          </span>
+                        </Label>
+                      ) : (
+                        <>
+                          {hasRewardAmount && (
+                            <Label type="warning" className="whitespace-nowrap">
+                              <span className={!isMobile ? "text-xxs" : ""}>
+                                {`${rewardDisplayValue} ${
+                                  previewOrder.reward.coins
+                                    ? t("coins")
+                                    : previewOrder.reward.sfl
+                                      ? "FLOWER"
+                                      : chapterTicket
+                                }`}
+                              </span>
+                            </Label>
+                          )}
+                          {!!ticketDisplay && (
+                            <Label
+                              type="warning"
+                              className="whitespace-nowrap"
+                              icon={ITEM_DETAILS[chapterTicket].image}
+                            >
+                              <span className={!isMobile ? "text-xxs" : ""}>
+                                {`${ticketDisplay} ${chapterTicket}`}
+                              </span>
+                            </Label>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                   {getKeys(previewOrder.reward.items ?? {}).length > 0 && (
                     <div className="flex flex-wrap gap-1 items-center">

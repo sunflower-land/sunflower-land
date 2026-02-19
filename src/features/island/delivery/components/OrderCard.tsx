@@ -61,7 +61,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const now = useNow();
   const npcName = order.from;
   const { holiday } = getBumpkinHoliday({ now });
-  const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
+  const isHoliday = holiday === todayDate;
 
   const baseTickets = generateDeliveryTickets({
     game: state,
@@ -74,6 +75,9 @@ export const OrderCard: React.FC<OrderCardProps> = ({
     isHoliday && isTicketNPC(npcName) && baseTickets > 0 ? 0 : tickets;
   const hasRewardAmount =
     order.reward.coins !== undefined || order.reward.sfl !== undefined;
+  const showTickets = !order.completedAt && !!ticketDisplay;
+  const showCoinsOrSFL = !order.completedAt && hasRewardAmount;
+  const hasAnyReward = showCoinsOrSFL || showTickets;
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -82,7 +86,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         className={classNames("w-full !py-2 relative", {
           "sm:!bg-brown-200": order.id === selected?.id,
         })}
-        style={{ paddingBottom: "20px" }}
+        style={{ paddingBottom: hasAnyReward ? "28px" : "20px" }}
       >
         {hasOrderRequirements({ order, state }) && !order.completedAt && (
           <img
@@ -129,54 +133,76 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             <img src={SUNNYSIDE.icons.confirm} className="h-4" />
           </Label>
         )}
-        {!order.completedAt && order.reward.sfl !== undefined && (
-          <Label
-            type="warning"
-            iconWidth={8}
-            icon={token}
-            className={"absolute -bottom-2 text-center p-1 "}
+        {!order.completedAt && hasAnyReward && (
+          <div
+            className="absolute -bottom-2 left-0 right-0 flex justify-center"
             style={{
               left: `${PIXEL_SCALE * -3}px`,
               right: `${PIXEL_SCALE * -3}px`,
               width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
             }}
           >
-            {`${`${makeRewardAmountForLabel({ order, state })}`}`}
-          </Label>
-        )}
-        {!order.completedAt && order.reward.coins !== undefined && (
-          <Label
-            type="warning"
-            icon={SUNNYSIDE.ui.coinsImg}
-            className={"absolute -bottom-2 text-center p-1 "}
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
-          >
-            {`${makeRewardAmountForLabel({ order, state })}`}
-          </Label>
-        )}
-        {!order.completedAt && !hasRewardAmount && !!ticketDisplay && (
-          <Label
-            icon={ITEM_DETAILS[getChapterTicket(now)].image}
-            type="warning"
-            className={"absolute -bottom-2 text-center p-1 "}
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
-          >
-            {ticketDisplay}
-          </Label>
+            <Label type="warning" className="text-center flex gap-x-1 w-full">
+              {order.reward.sfl !== undefined && (
+                <div className="flex items-center">
+                  <span className="text-xs">
+                    {makeRewardAmountForLabel({ order, state })}
+                  </span>
+                  <img src={token} className="h-4 w-auto ml-1" />
+                </div>
+              )}
+              {order.reward.coins !== undefined && (
+                <div className="flex items-center">
+                  <span className="text-xs">
+                    {makeRewardAmountForLabel({ order, state })}
+                  </span>
+                  <img
+                    src={SUNNYSIDE.ui.coinsImg}
+                    className="h-4 w-auto ml-1"
+                  />
+                </div>
+              )}
+              {showTickets && (
+                <div className="flex items-center">
+                  <span className="text-xs mx-1">{ticketDisplay}</span>
+                  <img
+                    src={ITEM_DETAILS[getChapterTicket(now)].image}
+                    className="h-4 w-auto"
+                  />
+                </div>
+              )}
+              {getKeys(order.reward.items ?? {}).map((item) => (
+                <div className="flex items-center" key={item}>
+                  <span className="text-xs">{item}</span>
+                  <img
+                    src={ITEM_DETAILS[item].image}
+                    className="h-4 w-auto ml-1"
+                  />
+                </div>
+              ))}
+            </Label>
+          </div>
         )}
         {order.id === selected?.id && (
           <div id="select-box" className="hidden md:block">
+            <img
+              className="absolute pointer-events-none"
+              src={SUNNYSIDE.ui.selectBoxTL}
+              style={{
+                top: `${PIXEL_SCALE * -3}px`,
+                left: `${PIXEL_SCALE * -3}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+            <img
+              className="absolute pointer-events-none"
+              src={SUNNYSIDE.ui.selectBoxTR}
+              style={{
+                top: `${PIXEL_SCALE * -3}px`,
+                right: `${PIXEL_SCALE * -3}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
             <img
               className="absolute pointer-events-none"
               src={SUNNYSIDE.ui.selectBoxBR}
@@ -188,10 +214,10 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxTR}
+              src={SUNNYSIDE.ui.selectBoxBL}
               style={{
-                top: `${PIXEL_SCALE * -3}px`,
-                right: `${PIXEL_SCALE * -3}px`,
+                bottom: `${PIXEL_SCALE * -3}px`,
+                left: `${PIXEL_SCALE * -3}px`,
                 width: `${PIXEL_SCALE * 8}px`,
               }}
             />
