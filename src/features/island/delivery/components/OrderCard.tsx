@@ -78,6 +78,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const showTickets = !order.completedAt && !!ticketDisplay;
   const showCoinsOrSFL = !order.completedAt && hasRewardAmount;
   const hasAnyReward = showCoinsOrSFL || showTickets;
+  const chapterTicket = getChapterTicket(now);
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -166,20 +167,22 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 <div className="flex items-center">
                   <span className="text-xs mx-1">{ticketDisplay}</span>
                   <img
-                    src={ITEM_DETAILS[getChapterTicket(now)].image}
+                    src={ITEM_DETAILS[chapterTicket].image}
                     className="h-4 w-auto"
                   />
                 </div>
               )}
-              {getKeys(order.reward.items ?? {}).map((item) => (
-                <div className="flex items-center" key={item}>
-                  <span className="text-xs">{item}</span>
-                  <img
-                    src={ITEM_DETAILS[item].image}
-                    className="h-4 w-auto ml-1"
-                  />
-                </div>
-              ))}
+              {getKeys(order.reward.items ?? {})
+                .filter((item) => item !== chapterTicket)
+                .map((item) => (
+                  <div className="flex items-center" key={item}>
+                    <span className="text-xs">{item}</span>
+                    <img
+                      src={ITEM_DETAILS[item].image}
+                      className="h-4 w-auto ml-1"
+                    />
+                  </div>
+                ))}
             </Label>
           </div>
         )}
