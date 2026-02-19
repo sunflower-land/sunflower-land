@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created.
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   codex:
