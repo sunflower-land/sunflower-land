@@ -83,6 +83,13 @@ export function isTicketNPC(value: string): value is QuestNPCName {
   return !!TICKET_REWARDS[value as QuestNPCName];
 }
 
+export function getCoinDeliveryTickets(coins: number): number {
+  if (coins > 0 && coins < 1000) return 1;
+  if (coins >= 1000 && coins < 5000) return 2;
+  if (coins >= 5000) return 3;
+  return 0;
+}
+
 const NPC_MESSAGES: Record<DeliveryNpcName, string[]> = {
   betty: [
     translate("npcMessages.betty.msg1"),

@@ -28,6 +28,11 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
+import {
+  getCoinDeliveryTickets,
+  isCoinNPC,
+  isTicketNPC,
+} from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -61,39 +66,39 @@ export function generateDeliveryTickets({
   now: number;
   order?: Pick<Order, "reward">;
 }) {
-  const questAmount = TICKET_REWARDS[npc as QuestNPCName];
+  let amount = 0;
 
-  // Coin NPC deliveries can also award tickets based on the coin reward amount.
-  // This intentionally does not apply VIP/boost/doubleDelivery modifiers (quest logic stays unchanged).
-  if (!questAmount) {
-    const coinsReward = order?.reward?.coins ?? 0;
+  if (isTicketNPC(npc)) {
+    amount = TICKET_REWARDS[npc];
 
-    if (coinsReward <= 0) return 0;
-    if (coinsReward < 1000) return 1;
-    if (coinsReward < 5000) return 2;
-    return 3;
-  }
-
-  let amount = questAmount;
-
-  if (hasVipAccess({ game, now })) {
-    amount += 2;
-  }
-
-  const chapter = getCurrentChapter(now);
-  const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
-
-  Object.values(chapterBoost).forEach((item) => {
-    if (isCollectible(item)) {
-      if (isCollectibleBuilt({ game, name: item })) {
-        amount += 1;
-      }
-    } else {
-      if (isWearableActive({ game, name: item })) {
-        amount += 1;
-      }
+    if (hasVipAccess({ game, now })) {
+      amount += 2;
     }
-  });
+
+    const chapter = getCurrentChapter(now);
+    const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+
+    Object.values(chapterBoost).forEach((item) => {
+      if (isCollectible(item)) {
+        if (isCollectibleBuilt({ game, name: item })) {
+          amount += 1;
+        }
+      } else {
+        if (isWearableActive({ game, name: item })) {
+          amount += 1;
+        }
+      }
+    });
+  }
+
+  if (isCoinNPC(npc)) {
+    const coins = order?.reward?.coins ?? 0;
+    amount = getCoinDeliveryTickets(coins);
+  }
+
+  if (!amount) {
+    return 0;
+  }
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
