@@ -259,6 +259,12 @@ export const DeliveryOrders: React.FC<Props> = ({
     isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0
       ? 0
       : tickets;
+  const hasRewardAmount =
+    previewOrder.reward.coins !== undefined ||
+    previewOrder.reward.sfl !== undefined;
+  const rewardDisplayValue = hasRewardAmount
+    ? makeRewardAmountForLabel(previewOrder)
+    : ticketDisplay;
 
   const chapter = getCurrentChapter(now);
 
@@ -585,8 +591,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                     </div>
                     <Label type="warning" className="whitespace-nowrap">
                       <span className={!isMobile ? "text-xxs" : ""}>
-                        {`${ticketDisplay ||
-                          makeRewardAmountForLabel(previewOrder)} ${
+                        {`${rewardDisplayValue} ${
                           previewOrder.reward.coins
                             ? t("coins")
                             : previewOrder.reward.sfl
@@ -596,6 +601,22 @@ export const DeliveryOrders: React.FC<Props> = ({
                       </span>
                     </Label>
                   </div>
+                  {getKeys(previewOrder.reward.items ?? {}).length > 0 && (
+                    <div className="flex flex-wrap gap-1 items-center">
+                      {getKeys(previewOrder.reward.items ?? {}).map((item) => (
+                        <Label
+                          key={item}
+                          type="warning"
+                          className="whitespace-nowrap"
+                        >
+                          <span className={!isMobile ? "text-xxs" : ""}>
+                            {`${previewOrder.reward.items?.[item]} ${item}`}
+                          </span>
+                        </Label>
+                      ))}
+                    </div>
+                  )}
+                  {/* Points are displayed below in the purple badge. */}
                 </div>
                 <div className="mb-1">
                   {getActiveCalendarEvent({ calendar: state.calendar }) ===

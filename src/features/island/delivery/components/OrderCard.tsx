@@ -72,6 +72,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const tickets = isHoliday && !isTicketNPC(npcName) ? 0 : baseTickets;
   const ticketDisplay =
     isHoliday && isTicketNPC(npcName) && baseTickets > 0 ? 0 : tickets;
+  const hasRewardAmount =
+    order.reward.coins !== undefined || order.reward.sfl !== undefined;
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -158,7 +160,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             {`${makeRewardAmountForLabel({ order, state })}`}
           </Label>
         )}
-        {!order.completedAt && !!ticketDisplay && (
+        {!order.completedAt && !hasRewardAmount && !!ticketDisplay && (
           <Label
             icon={ITEM_DETAILS[getChapterTicket(now)].image}
             type="warning"
