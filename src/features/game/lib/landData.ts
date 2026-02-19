@@ -1,4 +1,4 @@
 import { GameState } from "../types/game";
-import { STATIC_OFFLINE_FARM } from "./landDataStatic";
+import { INITIAL_FARM } from "./constants";
 
-export const OFFLINE_FARM: GameState = STATIC_OFFLINE_FARM;
+export const OFFLINE_FARM: GameState = INITIAL_FARM;
