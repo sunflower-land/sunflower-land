@@ -23,6 +23,7 @@ import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { FISH } from "features/game/types/fishing";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -91,7 +92,10 @@ export function generateDeliveryTickets({
     });
   }
 
-  if (isCoinNPC(npc)) {
+  if (
+    isCoinNPC(npc) &&
+    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now)
+  ) {
     const coins = order?.reward?.coins ?? 0;
     amount = getCoinDeliveryTickets(coins);
   }

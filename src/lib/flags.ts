@@ -118,6 +118,7 @@ const FEATURE_FLAGS = {
 
 const TIME_BASED_FEATURE_FLAGS = {
   PET_CHAPTER_COMPLETE: timeBasedFeatureFlag(new Date("2026-02-02T00:00:00Z")),
+  TICKETS_FROM_COIN_NPC: timeBasedFeatureFlag(new Date("2026-02-20T00:00:00Z")),
 } satisfies Record<string, TimeBasedFeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

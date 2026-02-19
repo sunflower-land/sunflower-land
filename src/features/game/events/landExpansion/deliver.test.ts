@@ -1897,7 +1897,7 @@ describe("deliver", () => {
   });
 
   it("returns base ticket count for coin NPC without double delivery", () => {
-    const now = new Date().getTime();
+    const now = new Date("2026-02-20T00:00:01Z").getTime();
     const game = {
       ...INITIAL_FARM,
       npcs: {},
@@ -1932,8 +1932,31 @@ describe("deliver", () => {
     ).toEqual(3);
   });
 
+  it("returns 0 tickets for coin NPC when TICKETS_FROM_COIN_NPC flag is inactive", () => {
+    const now = new Date("2026-02-19T23:59:59Z").getTime();
+    const game = {
+      ...INITIAL_FARM,
+      npcs: {},
+      calendar: { dates: [] },
+    };
+
+    const spy = jest.spyOn(require("lib/flags"), "hasTimeBasedFeatureAccess");
+    spy.mockReturnValue(false);
+
+    expect(
+      generateDeliveryTickets({
+        game,
+        npc: "betty",
+        now,
+        order: { reward: { coins: 3000 } },
+      }),
+    ).toEqual(0);
+
+    spy.mockRestore();
+  });
+
   it("doubles coin NPC ticket count when double delivery is active and bonus not claimed", () => {
-    const now = Date.now();
+    const now = new Date("2026-02-20T00:00:01Z").getTime();
     const game: GameState = {
       ...INITIAL_FARM,
       npcs: {},
