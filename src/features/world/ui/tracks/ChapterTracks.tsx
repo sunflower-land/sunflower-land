@@ -604,7 +604,7 @@ export const ChapterTracksPreview: React.FC = () => {
   if (!track) {
     return null;
   }
-  const rewards = track.milestones[progress.milestone.number];
+  const rewards = track.milestones[progress.milestone.number - 1];
   if (!rewards) {
     return null;
   }
@@ -647,38 +647,49 @@ export const ChapterTracksPreview: React.FC = () => {
 
   const premiumImages: string[] = [];
   const premiumText: string[] = [];
+  const {
+    items: premiumItems,
+    wearables: premiumWearables,
+    coins: premiumCoins,
+    flower: premiumFlower,
+  } = rewards.premium;
 
-  if (items) {
+  if (premiumItems) {
     premiumImages.push(
-      ...getKeys(items).map((item) => ITEM_DETAILS[item].image),
+      ...getKeys(premiumItems).map((item) => ITEM_DETAILS[item].image),
     );
-    amount += Object.values(items).reduce((acc, curr) => acc + curr, 0);
+    amount += Object.values(premiumItems).reduce((acc, curr) => acc + curr, 0);
     premiumText.push(
-      ...getKeys(items).map((item) => `${items[item]} x ${item}`),
+      ...getKeys(premiumItems).map((item) => `${premiumItems[item]} x ${item}`),
     );
   }
 
-  if (wearables) {
+  if (premiumWearables) {
     premiumImages.push(
-      ...getKeys(wearables).map((wearable) => getImageUrl(ITEM_IDS[wearable])),
+      ...getKeys(premiumWearables).map((wearable) =>
+        getImageUrl(ITEM_IDS[wearable]),
+      ),
     );
-    amount += Object.values(wearables).reduce((acc, curr) => acc + curr, 0);
+    amount += Object.values(premiumWearables).reduce(
+      (acc, curr) => acc + curr,
+      0,
+    );
     premiumText.push(
-      ...getKeys(wearables).map(
-        (wearable) => `${wearables[wearable]} x ${wearable}`,
+      ...getKeys(premiumWearables).map(
+        (wearable) => `${premiumWearables[wearable]} x ${wearable}`,
       ),
     );
   }
 
-  if (coins) {
+  if (premiumCoins) {
     premiumImages.push(coinsIcon);
-    amount += coins;
+    amount += premiumCoins;
     premiumText.push(`${coins} coins`);
   }
 
-  if (flower) {
+  if (premiumFlower) {
     premiumImages.push(flowerIcon);
-    amount += flower;
+    amount += premiumFlower;
     premiumText.push(`${flower} FLOWER`);
   }
 
@@ -756,7 +767,7 @@ export const ChapterTracksPreview: React.FC = () => {
                 </div>
               </div>
             ))}
-            {freeText.map((text, index) => (
+            {premiumText.map((text, index) => (
               <div
                 className="flex items-center w-full min-w-0 overflow-hidden"
                 key={`${text}-vip-${index}`}
