@@ -1,4 +1,8 @@
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INVENTORY_LIMIT,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import {
   CROP_MACHINE_PLOTS,
   MAX_OIL_CAPACITY_IN_MILLIS,
@@ -172,6 +176,39 @@ describe("supplyCropMachine", () => {
         },
       }),
     ).toThrow("You can't supply these seeds");
+  });
+
+  it("throws an error when supplying more seeds than the inventory limit", () => {
+    const sunflowerLimit =
+      INVENTORY_LIMIT(GAME_STATE)["Sunflower Seed"] ?? new Decimal(0);
+    const amountExceedingLimit = sunflowerLimit.toNumber() + 1;
+
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Sunflower Seed": new Decimal(amountExceedingLimit),
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Sunflower Seed", amount: amountExceedingLimit },
+          machineId: "1",
+        },
+      }),
+    ).toThrow("Can't supply more seeds than the inventory limit");
   });
 
   it("adds packs successfully when oil in machine exceeds 48h (post-reset over capacity)", () => {
@@ -1451,7 +1488,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.supplied",
         machineId: "0",
-        seeds: { type: "Pumpkin Seed", amount: 1000 },
+        seeds: { type: "Pumpkin Seed", amount: 750 },
       },
       createdAt: now,
     });
@@ -1521,7 +1558,7 @@ describe("supplyCropMachine", () => {
       action: {
         type: "cropMachine.supplied",
         machineId: "0",
-        seeds: { type: "Pumpkin Seed", amount: 1000 },
+        seeds: { type: "Pumpkin Seed", amount: 750 },
       },
       createdAt: now,
     });

@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -31,6 +31,7 @@ import {
   OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
+  getPackSeedLimit,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachineOil";
 import add from "assets/icons/plus.png";
@@ -50,7 +51,6 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -123,6 +123,21 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const [tab, setTab] = useState<Tab>("cropMachine");
 
   const { t } = useAppTranslation();
+
+  const packSeedLimit = useMemo(
+    () =>
+      selectedSeed
+        ? getPackSeedLimit({ state, seedName: selectedSeed })
+        : new Decimal(0),
+    [state, selectedSeed],
+  );
+  const seedBalance = selectedSeed
+    ? (inventory[selectedSeed] ?? new Decimal(0))
+    : new Decimal(0);
+  const maxSupplyable = Math.min(
+    seedBalance.toNumber(),
+    packSeedLimit.toNumber(),
+  );
 
   useLayoutEffect(() => {
     if (show) {
@@ -198,9 +213,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const canIncrementSeeds = () => {
     if (!selectedSeed) return false;
 
-    const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
-
-    return totalSeeds + CROP_MACHINE_PLOTS(state) <= seedBalance.toNumber();
+    return totalSeeds + CROP_MACHINE_PLOTS(state) <= maxSupplyable;
   };
 
   const canIncrementOil = () => {
@@ -353,7 +366,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                 )}
               </div>
               <div className="flex w-full">
-                <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
+                <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                 <div className="flex flex-col justify-center space-y-1">
                   <span className="text-xs">
                     {t("cropMachine.totalSeeds", {
@@ -426,15 +439,20 @@ export const CropMachineModalContent: React.FC<Props> = ({
                         }
                       >
                         {t("cropMachine.availableInventory", {
-                          amount:
-                            (inventory[selectedSeed]?.toNumber() ?? 0) -
-                            totalSeeds,
+                          amount: maxSupplyable - totalSeeds,
                         })}
                       </Label>
                     </div>
                   </div>
                   <div className="flex w-full">
-                    <Box image={ITEM_DETAILS[selectedSeed].image} />
+                    <Box
+                      image={ITEM_DETAILS[selectedSeed].image}
+                      secondaryImage={
+                        CROP_SEEDS[selectedSeed].yield
+                          ? ITEM_DETAILS[CROP_SEEDS[selectedSeed].yield].image
+                          : undefined
+                      }
+                    />
                     <div className="flex w-full justify-between">
                       <div className="flex flex-col justify-center space-y-1 text-xs">
                         <span>
@@ -484,10 +502,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                         </Button>
                         <Button
                           onClick={() =>
-                            incrementSeeds(
-                              (inventory[selectedSeed]?.toNumber() ?? 0) -
-                                totalSeeds,
-                            )
+                            incrementSeeds(maxSupplyable - totalSeeds)
                           }
                           disabled={!canIncrementSeeds()}
                           className={`px-2 w-auto min-w-min`}
@@ -517,6 +532,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                 <div className="flex">
                   <Box
                     image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
+                    secondaryImage={ITEM_DETAILS[selectedPack.crop].image}
                   />
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
@@ -542,16 +558,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </span>
                   </div>
                 </div>
-                {hasFeatureAccess(state, "CROP_MACHINE_PACK_REMOVAL") &&
-                  (selectedPack.startTime === undefined ||
-                    selectedPack.startTime > now) && (
-                    <Button
-                      className="mt-2"
-                      onClick={() => onRemovePack(selectedPackIndex)}
-                    >
-                      {t("cropMachine.removePack")}
-                    </Button>
-                  )}
+                {(selectedPack.startTime === undefined ||
+                  selectedPack.startTime > now) && (
+                  <Button
+                    className="mt-2"
+                    onClick={() => onRemovePack(selectedPackIndex)}
+                  >
+                    {t("cropMachine.removePack")}
+                  </Button>
+                )}
               </div>
             )}
         </OuterPanel>
@@ -782,6 +797,7 @@ const PackBox: React.FC<{
       key={`${item.startTime}-${index}`}
       isSelected={index === selectedPackIndex}
       image={ITEM_DETAILS[`${item.crop} Seed`].image}
+      secondaryImage={ITEM_DETAILS[item.crop].image}
       count={!isReady ? new Decimal(item.seeds) : undefined}
       countLabelType={getQueueItemCountLabelType(index, !!isReady)}
       overlayIcon={
