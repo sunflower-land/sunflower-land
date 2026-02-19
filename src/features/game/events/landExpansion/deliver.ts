@@ -23,11 +23,17 @@ import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { FISH } from "features/game/types/fishing";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
+import {
+  getCoinDeliveryTickets,
+  isCoinNPC,
+  isTicketNPC,
+} from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -54,35 +60,49 @@ export function generateDeliveryTickets({
   game,
   npc,
   now,
+  order,
 }: {
   game: GameState;
   npc: NPCName;
   now: number;
+  order?: Pick<Order, "reward">;
 }) {
-  let amount = TICKET_REWARDS[npc as QuestNPCName];
+  let amount = 0;
+
+  if (isTicketNPC(npc)) {
+    amount = TICKET_REWARDS[npc];
+
+    if (hasVipAccess({ game, now })) {
+      amount += 2;
+    }
+
+    const chapter = getCurrentChapter(now);
+    const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+
+    Object.values(chapterBoost).forEach((item) => {
+      if (isCollectible(item)) {
+        if (isCollectibleBuilt({ game, name: item })) {
+          amount += 1;
+        }
+      } else {
+        if (isWearableActive({ game, name: item })) {
+          amount += 1;
+        }
+      }
+    });
+  }
+
+  if (
+    isCoinNPC(npc) &&
+    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now)
+  ) {
+    const coins = order?.reward?.coins ?? 0;
+    amount = getCoinDeliveryTickets(coins);
+  }
 
   if (!amount) {
     return 0;
   }
-
-  if (hasVipAccess({ game, now })) {
-    amount += 2;
-  }
-
-  const chapter = getCurrentChapter(now);
-  const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
-
-  Object.values(chapterBoost).forEach((item) => {
-    if (isCollectible(item)) {
-      if (isCollectibleBuilt({ game, name: item })) {
-        amount += 1;
-      }
-    } else {
-      if (isWearableActive({ game, name: item })) {
-        amount += 1;
-      }
-    }
-  });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
@@ -387,16 +407,24 @@ export function deliverOrder({
     const ticketTasksAreFrozen =
       holiday === new Date(createdAt).toISOString().split("T")[0];
 
+    const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];
+
     const tickets = generateDeliveryTickets({
       game,
       npc: order.from,
       now: createdAt,
+      order,
     });
     const isTicketOrder = tickets > 0;
 
-    if (isTicketOrder && ticketTasksAreFrozen) {
+    // Quest ticket deliveries are blocked during freeze.
+    // Coin deliveries can still be completed but award 0 tickets during freeze.
+    if (isQuestTicketOrder && isTicketOrder && ticketTasksAreFrozen) {
       throw new Error("Ticket tasks are frozen");
     }
+
+    const ticketsToAward =
+      !isQuestTicketOrder && ticketTasksAreFrozen ? 0 : tickets;
 
     getKeys(order.items).forEach((name) => {
       if (name === "coins") {
@@ -482,22 +510,23 @@ export function deliverOrder({
       );
     }
 
-    if (tickets > 0) {
+    if (ticketsToAward > 0) {
       const chapterTicket = getChapterTicket(createdAt);
       const chapter = getCurrentChapter(createdAt);
+      const deliveryTask = isCoinNPC(order.from) ? "coinDelivery" : "delivery";
       const pointsAwarded = getChapterTaskPoints({
-        task: "delivery",
-        tickets: tickets,
+        task: deliveryTask,
+        tickets: ticketsToAward,
       });
       handleChapterAnalytics({
-        task: "delivery",
-        tickets: tickets,
+        task: deliveryTask,
+        tickets: ticketsToAward,
         farmActivity: game.farmActivity,
         createdAt,
       });
 
       const count = game.inventory[chapterTicket] || new Decimal(0);
-      const amount = tickets || new Decimal(0);
+      const amount = ticketsToAward || new Decimal(0);
 
       game.inventory[chapterTicket] = count.add(amount);
       game.farmActivity = trackFarmActivity(

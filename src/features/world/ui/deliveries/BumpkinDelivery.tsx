@@ -33,6 +33,8 @@ import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
+  isCoinNPC,
+  isTicketNPC,
 } from "features/island/delivery/lib/delivery";
 import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -61,7 +63,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
-export const OrderCard: React.FC<{
+const OrderCard: React.FC<{
   order: Order;
   game: GameState;
   onDeliver: () => void;
@@ -87,7 +89,23 @@ export const OrderCard: React.FC<{
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
 
-  const tickets = generateDeliveryTickets({ game, npc: order.from, now });
+  const { holiday } = getBumpkinHoliday({ now });
+  const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+
+  const baseTickets = generateDeliveryTickets({
+    game,
+    npc: order.from,
+    now,
+    order,
+  });
+  const tickets = isHoliday && !isTicketNPC(order.from) ? 0 : baseTickets;
+  // Hide ticket count on frozen quest orders (holiday) to avoid mixed messaging
+  const ticketDisplay =
+    isHoliday && isTicketNPC(order.from) && baseTickets > 0 ? 0 : tickets;
+  const isFrozenQuestOrder =
+    isHoliday && isTicketNPC(order.from) && baseTickets > 0;
+  const hasRewardAmount =
+    order.reward.coins !== undefined || order.reward.sfl !== undefined;
 
   return (
     <>
@@ -142,46 +160,56 @@ export const OrderCard: React.FC<{
               </div>
               <div className="flex items-center flex-wrap">
                 <Label type="warning" style={{ height: "25px" }}>
-                  {order.reward.sfl !== undefined && (
+                  {isFrozenQuestOrder && !hasRewardAmount ? (
                     <div className="flex items-center mr-1">
-                      <span className="text-xs">
-                        {makeRewardAmountForLabel(order)}
-                      </span>
-                      <img src={token} className="h-4 w-auto ml-1" />
+                      <span className="text-xs">{t("deliveries.closed")}</span>
                     </div>
+                  ) : (
+                    <>
+                      {order.reward.sfl !== undefined && (
+                        <div className="flex items-center mr-1">
+                          <span className="text-xs">
+                            {makeRewardAmountForLabel(order)}
+                          </span>
+                          <img src={token} className="h-4 w-auto ml-1" />
+                        </div>
+                      )}
+                      {order.reward.coins !== undefined && (
+                        <div className="flex items-center mr-1">
+                          <span className="text-xs">
+                            {makeRewardAmountForLabel(order)}
+                          </span>
+                          <img src={coinsImg} className="h-4 w-auto ml-1" />
+                        </div>
+                      )}
+                      {!!ticketDisplay && (
+                        <div className="flex items-center space-x-3 mr-1">
+                          <div className="flex items-center">
+                            <span className="text-xs mx-1">
+                              {ticketDisplay}
+                            </span>
+                            <img
+                              src={ITEM_DETAILS[getChapterTicket(now)].image}
+                              className="h-4 w-auto"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {getKeys(order.reward.items ?? {}).map((item) => (
+                        <div className="flex items-center" key={item}>
+                          <span className="text-xs">{item}</span>
+                          <img
+                            src={ITEM_DETAILS[item].image}
+                            className="h-4 w-auto ml-1"
+                          />
+                        </div>
+                      ))}
+                    </>
                   )}
-                  {order.reward.coins !== undefined && (
-                    <div className="flex items-center mr-1">
-                      <span className="text-xs">
-                        {makeRewardAmountForLabel(order)}
-                      </span>
-                      <img src={coinsImg} className="h-4 w-auto ml-1" />
-                    </div>
-                  )}
-                  {!!tickets && (
-                    <div className="flex items-center space-x-3 mr-1">
-                      <div className="flex items-center">
-                        <span className="text-xs mx-1">{tickets}</span>
-                        <img
-                          src={ITEM_DETAILS[getChapterTicket(now)].image}
-                          className="h-4 w-auto"
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {getKeys(order.reward.items ?? {}).map((item) => (
-                    <div className="flex items-center" key={item}>
-                      <span className="text-xs">{item}</span>
-                      <img
-                        src={ITEM_DETAILS[item].image}
-                        className="h-4 w-auto ml-1"
-                      />
-                    </div>
-                  ))}
                 </Label>
-                {!!tickets && (
+                {!!ticketDisplay && (
                   <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                    {`${getChapterTaskPoints({ task: "delivery", tickets: tickets })}`}
+                    {`${getChapterTaskPoints({ task: isCoinNPC(order.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })}`}
                   </Label>
                 )}
               </div>
@@ -324,6 +352,8 @@ export const Gifts: React.FC<{
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
 
+  const now = useNow({ live: true });
+
   const flowers = getKeys(game.inventory)
     .filter(
       (item): item is FlowerName =>
@@ -358,7 +388,7 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
   // GiftedAt is the same UTC day as right now
@@ -673,7 +703,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "coins") {
-      return game.coins > (delivery?.items.coins ?? 0);
+      return game.coins >= (delivery?.items.coins ?? 0);
     }
 
     if (name === "sfl") {
@@ -709,7 +739,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({ game, npc, now });
+  const baseTickets = generateDeliveryTickets({
+    game,
+    npc,
+    now,
+    order: delivery as Order | undefined,
+  });
 
   const dateKey = new Date(now).toISOString().substring(0, 10);
 
@@ -723,7 +758,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("bumpkin.delivery.waiting");
   }
 
-  if (!delivery || (!!tickets && isHoliday)) {
+  if (!delivery || (isHoliday && isTicketNPC(npc) && baseTickets > 0)) {
     message = noOrder;
   }
   const missingRequiredReputation =
@@ -737,8 +772,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
   const isLocked = missingLevels >= 1;
-  const isTicketOrder = tickets > 0;
-  const deliveryFrozen = isHoliday && isTicketOrder;
+  const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -867,7 +901,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   />
                 </>
               )}
-              {isTicketOrder && isHoliday && (
+              {deliveryFrozen && (
                 <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
                   {t("orderhelp.ticket.deliveries.closed")}
                 </Label>
@@ -891,7 +925,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !!delivery?.completedAt ||
                 isLocked ||
                 missingRequiredReputation ||
-                (isTicketOrder && isHoliday)
+                deliveryFrozen
               }
               onClick={deliver}
             >
