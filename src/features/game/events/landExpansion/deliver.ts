@@ -513,12 +513,13 @@ export function deliverOrder({
     if (ticketsToAward > 0) {
       const chapterTicket = getChapterTicket(createdAt);
       const chapter = getCurrentChapter(createdAt);
+      const deliveryTask = isCoinNPC(order.from) ? "coinDelivery" : "delivery";
       const pointsAwarded = getChapterTaskPoints({
-        task: "delivery",
+        task: deliveryTask,
         tickets: ticketsToAward,
       });
       handleChapterAnalytics({
-        task: "delivery",
+        task: deliveryTask,
         tickets: ticketsToAward,
         farmActivity: game.farmActivity,
         createdAt,

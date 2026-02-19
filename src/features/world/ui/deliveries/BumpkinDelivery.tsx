@@ -33,6 +33,8 @@ import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
+  isCoinNPC,
+  isTicketNPC,
 } from "features/island/delivery/lib/delivery";
 import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -60,7 +62,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPoints from "assets/icons/red_medal_short.webp";
-import { isTicketNPC } from "features/island/delivery/lib/delivery";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -208,7 +209,7 @@ const OrderCard: React.FC<{
                 </Label>
                 {!!ticketDisplay && (
                   <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                    {`${getChapterTaskPoints({ task: "delivery", tickets: ticketDisplay })}`}
+                    {`${getChapterTaskPoints({ task: isCoinNPC(order.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })}`}
                   </Label>
                 )}
               </div>

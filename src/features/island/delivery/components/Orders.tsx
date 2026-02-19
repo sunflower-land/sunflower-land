@@ -741,7 +741,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               <img src={chapterPoints} className="h-4 mr-2" />
               <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: "delivery", tickets: ticketDisplay })} ${chapter} points`}
+                {`+${getChapterTaskPoints({ task: isCoinNPC(previewOrder.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })} ${chapter} points`}
               </p>
             </div>
           )}
