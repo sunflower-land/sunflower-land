@@ -686,14 +686,14 @@ export const DeliveryOrders: React.FC<Props> = ({
               </div>
             )}
             {isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0 && (
-                <Label
-                  type="danger"
-                  className="mb-1"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                >
-                  {t("deliveries.closed")}
-                </Label>
-              )}
+              <Label
+                type="danger"
+                className="mb-1"
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {t("deliveries.closed")}
+              </Label>
+            )}
           </InnerPanel>
           {!!ticketDisplay && (
             <div
