@@ -13,6 +13,7 @@ import {
 } from "features/game/lib/constants";
 import { getChapterTicket } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import * as flags from "lib/flags";
 import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
 import { GameState } from "features/game/types/game";
 
@@ -1940,7 +1941,7 @@ describe("deliver", () => {
       calendar: { dates: [] },
     };
 
-    const spy = jest.spyOn(require("lib/flags"), "hasTimeBasedFeatureAccess");
+    const spy = jest.spyOn(flags, "hasTimeBasedFeatureAccess");
     spy.mockReturnValue(false);
 
     expect(
