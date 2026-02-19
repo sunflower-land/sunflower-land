@@ -120,9 +120,7 @@ const FEATURE_FLAGS = {
 } satisfies Record<string, FeatureFlag>;
 
 const TIME_BASED_FEATURE_FLAGS = {
-  TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag(
-    new Date("2026-02-20T00:00:00Z"),
-  ),
+  TICKETS_FROM_COIN_NPC: (_now) => false,
 } satisfies Record<string, TimeBasedFeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
