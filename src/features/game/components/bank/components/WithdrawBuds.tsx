@@ -27,11 +27,15 @@ const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
+  withdrawDisabled?: boolean;
 }
 
 const _state = (state: MachineState) => state.context.state;
 
-export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawBuds: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -218,7 +222,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
 
       <Button
         onClick={() => onWithdraw(selected)}
-        disabled={selected.length <= 0}
+        disabled={selected.length <= 0 || withdrawDisabled}
       >
         {t("withdraw")}
       </Button>

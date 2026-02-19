@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
+import { useNow } from "lib/utils/hooks/useNow";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -19,6 +20,7 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import {
   BlockchainEvent,
   Context as ContextType,
+  isAccountTradedWithin90Days,
   MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
@@ -39,6 +41,7 @@ const _hasReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
+const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -53,6 +56,12 @@ const AcceptOfferContent: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const hasReputation = useSelector(gameService, _hasReputation);
+  const accountTradedAt = useSelector(gameService, _accountTradedAt);
+  const now = useNow({ live: true });
+  const accountTradedRecently = useMemo(
+    () => isAccountTradedWithin90Days(accountTradedAt, now),
+    [accountTradedAt, now],
+  );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -69,6 +78,7 @@ const AcceptOfferContent: React.FC<{
   );
 
   const confirm = async () => {
+    if (accountTradedRecently) return;
     gameService.send("marketplace.offerAccepted", {
       effect: {
         type: "marketplace.offerAccepted",
@@ -167,7 +177,7 @@ const AcceptOfferContent: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!hasReputation || !hasItem}
+          disabled={!hasReputation || !hasItem || accountTradedRecently}
           onClick={() => confirm()}
           className="relative"
         >

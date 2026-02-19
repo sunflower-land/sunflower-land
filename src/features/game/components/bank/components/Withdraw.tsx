@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 
 import { Button } from "components/ui/Button";
 import { WithdrawFlower } from "./WithdrawFlower";
@@ -13,7 +14,12 @@ import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
+import {
+  getAccountTradedRestrictionSecondsLeft,
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
@@ -162,14 +168,26 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+  const accountTradedAt = useSelector(gameService, _accountTradedAt);
+  const now = useNow({ live: true, intervalMs: 1000 });
+  const accountTradedRecently = useMemo(
+    () => isAccountTradedWithin90Days(accountTradedAt, now),
+    [accountTradedAt, now],
+  );
+  const restrictionSecondsLeft = useMemo(
+    () => getAccountTradedRestrictionSecondsLeft(accountTradedAt, now),
+    [accountTradedAt, now],
+  );
 
   const [page, setPage] = useState<Page>("main");
 
   const onWithdrawTokens = async (sfl: string, chainId: number) => {
+    if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
       transaction: "transaction.flowerWithdrawn",
       request: {
@@ -181,6 +199,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const onWithdrawItems = async (ids: number[], amounts: string[]) => {
+    if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: { farmId, effect: { type: "withdraw.items", amounts, ids } },
@@ -192,6 +211,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     wearableIds: number[],
     wearableAmounts: number[],
   ) => {
+    if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
@@ -206,6 +226,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const onWithdrawBuds = async (ids: number[]) => {
+    if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
       request: { effect: { type: "withdraw.buds", budIds: ids } },
@@ -214,6 +235,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const onWithdrawPets = async (ids: number[]) => {
+    if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
       transaction: "transaction.petWithdrawn",
       request: { effect: { type: "withdraw.pets", petIds: ids } },
@@ -232,35 +254,60 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
         <GameWallet action="withdrawFlower">
-          <WithdrawFlower onWithdraw={onWithdrawTokens} />
+          <WithdrawFlower
+            onWithdraw={onWithdrawTokens}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "items" && (
         <GameWallet action="withdrawItems">
-          <WithdrawItems onWithdraw={onWithdrawItems} />
+          <WithdrawItems
+            onWithdraw={onWithdrawItems}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "resources" && (
         <GameWallet action="withdrawItems">
-          <WithdrawResources onWithdraw={onClose} />
+          <WithdrawResources
+            onWithdraw={onClose}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "wearables" && (
         <GameWallet action="withdrawItems">
-          <WithdrawWearables onWithdraw={onWithdrawWearables} />
+          <WithdrawWearables
+            onWithdraw={onWithdrawWearables}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "buds" && (
         <GameWallet action="withdrawItems">
-          <WithdrawBuds onWithdraw={onWithdrawBuds} />
+          <WithdrawBuds
+            onWithdraw={onWithdrawBuds}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "pets" && (
         <GameWallet action="withdrawItems">
-          <WithdrawPets onWithdraw={onWithdrawPets} />
+          <WithdrawPets
+            onWithdraw={onWithdrawPets}
+            withdrawDisabled={accountTradedRecently}
+          />
         </GameWallet>
       )}
       {page === "verify" && <FaceRecognition />}
+      {accountTradedRecently && (
+        <div className="mt-2">
+          <TradeCooldownWidget
+            restrictionSecondsLeft={restrictionSecondsLeft}
+          />
+        </div>
+      )}
     </>
   );
 };

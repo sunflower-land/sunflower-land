@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useNow } from "lib/utils/hooks/useNow";
 import { InnerPanel } from "components/ui/Panel";
 import filterIcon from "assets/icons/filter_icon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -20,7 +21,12 @@ import { useActor, useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  getAccountTradedRestrictionSecondsLeft,
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
   getRemainingTrades,
@@ -38,6 +44,7 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
+const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
@@ -85,6 +92,16 @@ export const MarketplaceNavigation: React.FC = () => {
   const { farmId } = gameService.getSnapshot().context;
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const accountTradedAt = useSelector(gameService, _accountTradedAt);
+  const now = useNow({ live: true, intervalMs: 1000 });
+  const accountTradedRecently = useMemo(
+    () => isAccountTradedWithin90Days(accountTradedAt, now),
+    [accountTradedAt, now],
+  );
+  const restrictionSecondsLeft = useMemo(
+    () => getAccountTradedRestrictionSecondsLeft(accountTradedAt, now),
+    [accountTradedAt, now],
+  );
 
   const listingsLeft = getRemainingTrades({
     game: gameService.getSnapshot().context.state,
@@ -167,6 +184,12 @@ export const MarketplaceNavigation: React.FC = () => {
               <span className="mt-0.5">{t("flowerDashboard.title")}</span>
             </div>
           </Button>
+
+          {accountTradedRecently && (
+            <TradeCooldownWidget
+              restrictionSecondsLeft={restrictionSecondsLeft}
+            />
+          )}
 
           {!hasTradeReputation && (
             <InnerPanel
