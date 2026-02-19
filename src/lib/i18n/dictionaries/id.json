@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "Acara dihitung berdasarkan tanggal pendaftaran. Persentase = acara per pendaftaran (bagian pendaftaran yang melakukan setidaknya satu).",
   "retentionDashboard.funnelsDescriptionUsers": "Pengguna yang melakukan setiap acara setidaknya sekali (hitung) dan% pendaftaran.",
   "retentionDashboard.funnelEvents": "Kegiatan",
-  "retentionDashboard.funnelPct": "% melakukan"
+  "retentionDashboard.funnelPct": "% melakukan",
+  "accountRecentlyTraded.title": "Akun yang baru-baru ini diperdagangkan",
+  "accountRecentlyTraded.description": "Akun ini diperdagangkan dalam 90 hari terakhir. Penarikan, menjual barang, dan menerima penawaran dinonaktifkan sementara. Anda masih dapat membeli barang dan membuat penawaran.",
+  "accountRecentlyTraded.timeLeft": "{{time}} tersisa",
+  "tradeCooldown.title": "Cooldown perdagangan"
 }

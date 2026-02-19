@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "Die Veranstaltung zählt nach dem Anmeldedatum. Prozentsatz = Ereignisse pro Anmeldung (Anteil der Anmeldungen, bei denen mindestens eine Anmeldung erfolgt ist).",
   "retentionDashboard.funnelsDescriptionUsers": "Nutzer, die an jeder Veranstaltung mindestens einmal teilgenommen haben (Anzahl) und% der Anmeldungen.",
   "retentionDashboard.funnelEvents": "Ereignisse",
-  "retentionDashboard.funnelPct": "% hat"
+  "retentionDashboard.funnelPct": "% hat",
+  "accountRecentlyTraded.title": "Kürzlich gehandeltes Konto",
+  "accountRecentlyTraded.description": "Dieses Konto wurde innerhalb der letzten 90 Tage gehandelt. Auszahlungen, der Verkauf von Artikeln und die Annahme von Angeboten sind vorübergehend deaktiviert. Sie können weiterhin Artikel kaufen und Angebote machen.",
+  "accountRecentlyTraded.timeLeft": "{{time}} übrig",
+  "tradeCooldown.title": "Abklingzeit des Handelns"
 }

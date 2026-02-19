@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "L'événement compte par date d'inscription. Pourcentage = événements par inscription (part des inscriptions qui ont donné lieu à au moins une inscription).",
   "retentionDashboard.funnelsDescriptionUsers": "Utilisateurs ayant participé à chaque événement au moins une fois (nombre) et % des inscriptions.",
   "retentionDashboard.funnelEvents": "Évènements",
-  "retentionDashboard.funnelPct": "% ont fait"
+  "retentionDashboard.funnelPct": "% ont fait",
+  "accountRecentlyTraded.title": "Compte récemment négocié",
+  "accountRecentlyTraded.description": "Ce compte a été négocié au cours des 90 derniers jours. Les retraits, la vente d'articles et l'acceptation d'offres sont temporairement désactivés. Vous pouvez toujours acheter des articles et faire des offres.",
+  "accountRecentlyTraded.timeLeft": "{{time}} gauche",
+  "tradeCooldown.title": "Refroidissement des échanges"
 }

@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "イベント数は登録日ごとにカウントされます。パーセンテージ = 登録あたりのイベント数 (1 回以上登録した登録者の割合)。",
   "retentionDashboard.funnelsDescriptionUsers": "各イベントを少なくとも1回実行したユーザー（カウント）とサインアップの割合。",
   "retentionDashboard.funnelEvents": "[イベント]",
-  "retentionDashboard.funnelPct": "% やった"
+  "retentionDashboard.funnelPct": "% やった",
+  "accountRecentlyTraded.title": "最近取引された口座",
+  "accountRecentlyTraded.description": "この口座は過去90日以内に取引されました。出金、商品の販売、オファーの受け付けは一時的に無効になっています。商品の購入やオファーは引き続き可能です。",
+  "accountRecentlyTraded.timeLeft": "{{time}} 左",
+  "tradeCooldown.title": "トレードクールダウン"
 }

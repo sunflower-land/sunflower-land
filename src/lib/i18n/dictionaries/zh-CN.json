@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "活动按注册日期计算。百分比 = 每次注册的事件（至少注册一次的注册份额）。",
   "retentionDashboard.funnelsDescriptionUsers": "每项活动至少参加一次的用户（计数）和注册百分比。",
   "retentionDashboard.funnelEvents": "活动",
-  "retentionDashboard.funnelPct": "% 做到了"
+  "retentionDashboard.funnelPct": "% 做到了",
+  "accountRecentlyTraded.title": "最近交易的账户",
+  "accountRecentlyTraded.description": "该账户在过去 90 天内进行了交易。暂时禁止提款、出售物品和接受报价。您仍然可以购买物品并提供报价。",
+  "accountRecentlyTraded.timeLeft": "{{time}} 向左",
+  "tradeCooldown.title": "交易冷却时间"
 }

@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "Event counts by signup date. Percentage = events per signup (share of signups that did at least one).",
   "retentionDashboard.funnelsDescriptionUsers": "Users who did each event at least once (count) and % of signups.",
   "retentionDashboard.funnelEvents": "Events",
-  "retentionDashboard.funnelPct": "% did"
+  "retentionDashboard.funnelPct": "% did",
+  "accountRecentlyTraded.title": "Account recently traded",
+  "accountRecentlyTraded.description": "This account was traded within the last 90 days. Withdrawals, selling items and accepting offers are temporarily disabled. You can still buy items and make offers.",
+  "accountRecentlyTraded.timeLeft": "{{time}} left",
+  "tradeCooldown.title": "Trade cooldown"
 }

@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "Kayıt tarihine göre etkinlik sayılır. Yüzde = kayıt başına etkinlik (en az bir kayıt gerçekleştiren kayıtların payı).",
   "retentionDashboard.funnelsDescriptionUsers": "Her etkinliği en az bir kez yapan kullanıcılar (sayı) ve kayıtların yüzdesi.",
   "retentionDashboard.funnelEvents": "Olaylar",
-  "retentionDashboard.funnelPct": "%yaptı"
+  "retentionDashboard.funnelPct": "%yaptı",
+  "accountRecentlyTraded.title": "Son işlem gören hesap",
+  "accountRecentlyTraded.description": "Bu hesap son 90 gün içinde işlem gördü. Para çekme, ürün satma ve teklifleri kabul etme geçici olarak devre dışı bırakılır. Yine de ürün satın alabilir ve teklifler yapabilirsiniz.",
+  "accountRecentlyTraded.timeLeft": "{{time}} kaldı",
+  "tradeCooldown.title": "İşlem bekleme süresi"
 }

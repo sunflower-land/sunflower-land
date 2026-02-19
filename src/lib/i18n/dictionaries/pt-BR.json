@@ -8089,5 +8089,9 @@
   "retentionDashboard.funnelsDescription": "Contagens de eventos por data de inscrição. Porcentagem = eventos por inscrição (parcela de inscrições que fizeram pelo menos uma).",
   "retentionDashboard.funnelsDescriptionUsers": "Usuários que fizeram cada evento pelo menos uma vez (contagem) e% de inscrições.",
   "retentionDashboard.funnelEvents": "Eventos",
-  "retentionDashboard.funnelPct": "% fez"
+  "retentionDashboard.funnelPct": "% fez",
+  "accountRecentlyTraded.title": "Conta negociada recentemente",
+  "accountRecentlyTraded.description": "Essa conta foi negociada nos últimos 90 dias. As retiradas, a venda de itens e a aceitação de ofertas estão temporariamente desativadas. Você ainda pode comprar itens e fazer ofertas.",
+  "accountRecentlyTraded.timeLeft": "{{time}} à esquerda",
+  "tradeCooldown.title": "Tempo de espera de negociação"
 }
