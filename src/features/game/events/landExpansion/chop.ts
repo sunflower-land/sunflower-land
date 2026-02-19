@@ -31,12 +31,16 @@ export enum CHOP_ERRORS {
   STILL_GROWING = "Tree is still growing",
 }
 
-type GetChoppedAtArgs = {
-  game: GameState;
-  createdAt: number;
+export type PrngArgs = {
   farmId: number;
   itemId: number;
   counter: number;
+};
+
+type GetChoppedAtArgs = {
+  game: GameState;
+  createdAt: number;
+  prngArgs?: PrngArgs;
 };
 
 export type LandExpansionChopAction = {
@@ -197,38 +201,36 @@ export function getWoodDropAmount({
 }
 
 /**
- * Set a chopped in the past to make it replenish faster
+ * Single source of truth for tree recovery boosts. Returns boosted recovery time and boosts used.
+ * Used by both getChoppedAt (game) and UI. When prngArgs is omitted, PRNG-dependent branches (e.g. Tree Turnaround instant) are skipped.
  */
-export function getChoppedAt({
+export function getTreeRecoveryTimeForDisplay({
   game,
-  createdAt,
-  farmId,
-  itemId,
-  counter,
-}: GetChoppedAtArgs): {
-  time: number;
+  prngArgs,
+}: {
+  game: GameState;
+  prngArgs?: PrngArgs;
+}): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
+  const baseTimeMs = TREE_RECOVERY_TIME * 1000;
   const { bumpkin } = game;
   let totalSeconds = TREE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // If Tree Turnaround skill and instant growth
   if (
     bumpkin.skills["Tree Turnaround"] &&
+    prngArgs &&
     prngChance({
-      farmId,
-      itemId,
-      counter,
+      ...prngArgs,
       chance: 15,
       criticalHitName: "Tree Turnaround",
     })
   ) {
     boostsUsed.push({ name: "Tree Turnaround", value: "Instant" });
-    return {
-      time: createdAt - TREE_RECOVERY_TIME * 1000,
-      boostsUsed,
-    };
+    return { baseTimeMs, recoveryTimeMs: 0, boostsUsed };
   }
 
   const hasApprenticeBeaver = isCollectibleBuilt({
@@ -283,9 +285,24 @@ export function getChoppedAt({
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
-  const buff = TREE_RECOVERY_TIME - totalSeconds;
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
+}
 
-  return { time: createdAt - buff * 1000, boostsUsed };
+/**
+ * Set a chopped in the past to make it replenish faster. Uses getTreeRecoveryTimeForDisplay for boost logic.
+ */
+export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
+  time: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getTreeRecoveryTimeForDisplay({ game, prngArgs });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 /**
@@ -406,7 +423,7 @@ export function chop({
     const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
       createdAt,
       game: stateCopy,
-      ...prngObject,
+      prngArgs: prngObject,
     });
 
     tree.wood.choppedAt = time;

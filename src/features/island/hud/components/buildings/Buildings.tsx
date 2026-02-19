@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -23,6 +23,8 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   onClose: () => void;
@@ -58,15 +60,27 @@ const getValidBuildings = (): BuildingName[] => {
   return VALID_BUILDINGS;
 };
 
+const _state = (state: MachineState) => state.context.state;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _landscapingMachine = (state: MachineState) =>
+  state.children.landscaping as MachineInterpreter;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _coinBalance = (state: MachineState) => state.context.state.coins;
+const _island = (state: MachineState) => state.context.state.island;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _season = (state: MachineState) => state.context.state.season.season;
+
 export const Buildings: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<BuildingName>("Water Well");
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const { inventory } = state;
+  const state = useSelector(gameService, _state);
+  const inventory = useSelector(gameService, _inventory);
+  const landscapingMachine = useSelector(gameService, _landscapingMachine);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const coinBalance = useSelector(gameService, _coinBalance);
+  const island = useSelector(gameService, _island);
+  const collectibles = useSelector(gameService, _collectibles);
+  const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
   const buildingBlueprints = BUILDINGS[selectedName];
   const buildingUnlockLevels = buildingBlueprints.map(
@@ -78,10 +92,10 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     ? buildingsInInventory.toNumber()
     : 0;
   const numOfBuildingAllowed = buildingUnlockLevels.filter(
-    (level) => getBumpkinLevel(state.bumpkin?.experience ?? 0) >= level,
+    (level) => getBumpkinLevel(bumpkin.experience ?? 0) >= level,
   ).length;
   const nextLockedLevel = buildingUnlockLevels.find(
-    (level) => getBumpkinLevel(state.bumpkin?.experience ?? 0) < level,
+    (level) => getBumpkinLevel(bumpkin.experience ?? 0) < level,
   );
 
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(
@@ -104,7 +118,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     );
 
   const craft = () => {
-    gameService.send("LANDSCAPE", {
+    landscapingMachine.send("SELECT", {
       action: "building.constructed",
       placeable: { name: selectedName },
       requirements: {
@@ -119,7 +133,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const getAction = () => {
     if (
       !hasRequiredIslandExpansion(
-        state.island.type,
+        island.type,
         buildingBlueprints[nextBlueprintIndex].requiredIsland,
       )
     ) {
@@ -164,7 +178,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
 
     return (
       <Button
-        disabled={lessIngredients() || state.coins < coins}
+        disabled={lessIngredients() || coinBalance < coins}
         onClick={craft}
       >
         {t("build")}
@@ -181,8 +195,8 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           boost={COLLECTIBLE_BUFF_LABELS[selectedName]?.({
-            skills: state.bumpkin.skills,
-            collectibles: state.collectibles,
+            skills: bumpkin.skills,
+            collectibles,
           })}
           requirements={{
             coins,
@@ -208,7 +222,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               ? inventoryCount.toNumber()
               : 0;
             const isLocked =
-              getBumpkinLevel(state.bumpkin?.experience ?? 0) <
+              getBumpkinLevel(bumpkin.experience ?? 0) <
               BUILDINGS[name][nextIndex].unlocksAtLevel;
 
             let secondaryIcon = undefined;
@@ -225,11 +239,8 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               : undefined;
 
             const image =
-              ITEM_ICONS(
-                state.season.season,
-                getCurrentBiome(state.island),
-                hasLevel,
-              )[name] ?? ITEM_DETAILS[name].image;
+              ITEM_ICONS(season, getCurrentBiome(island), hasLevel)[name] ??
+              ITEM_DETAILS[name].image;
 
             return (
               <Box

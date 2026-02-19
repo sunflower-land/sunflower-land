@@ -8099,5 +8099,12 @@
   "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
   "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
-  "boost.buildingOil": "Building oil: x{{percent}}"
+  "boost.buildingOil": "Building oil: x{{percent}}",
+  "resource.treeRecoveryTime": "Tree recovery time",
+  "resource.stoneRecoveryTime": "Stone recovery time",
+  "resource.ironRecoveryTime": "Iron recovery time",
+  "resource.goldRecoveryTime": "Gold recovery time",
+  "resource.crimstoneRecoveryTime": "Crimstone recovery time",
+  "resource.oilRecoveryTime": "Oil recovery time",
+  "resource.sunstoneRecoveryTime": "Sunstone recovery time"
 }
