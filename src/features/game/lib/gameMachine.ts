@@ -196,43 +196,21 @@ export interface Context {
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
 
-/**
- * Pure check: was account traded within the last 90 days?
- * Accepts nowMs so callers (e.g. React render) can pass a stable time and stay deterministic.
- */
-export function isAccountTradedWithin90Days(
-  contextOrAccountTradedAt: Context | string | undefined,
-  nowMs?: number,
-): boolean {
-  const tradedAt =
-    typeof contextOrAccountTradedAt === "string" ||
-    contextOrAccountTradedAt === undefined
-      ? contextOrAccountTradedAt
-      : contextOrAccountTradedAt.accountTradedAt;
+export function isAccountTradedWithin90Days(context: Context): boolean {
+  const tradedAt = context?.accountTradedAt;
   if (!tradedAt) return false;
   const tradedAtMs = new Date(tradedAt).getTime();
-  const now = nowMs ?? Date.now();
-  return now - tradedAtMs < NINETY_DAYS_MS;
+  return Date.now() - tradedAtMs < NINETY_DAYS_MS;
 }
 
-/**
- * Pure: seconds left until 90-day trade restriction ends.
- * Accepts nowMs so callers can pass a stable time (e.g. from useNow()).
- */
 export function getAccountTradedRestrictionSecondsLeft(
-  contextOrAccountTradedAt: Context | string | undefined,
-  nowMs?: number,
+  context: Context,
 ): number {
-  const tradedAt =
-    typeof contextOrAccountTradedAt === "string" ||
-    contextOrAccountTradedAt === undefined
-      ? contextOrAccountTradedAt
-      : contextOrAccountTradedAt.accountTradedAt;
+  const tradedAt = context.accountTradedAt;
   if (!tradedAt) return 0;
   const tradedAtMs = new Date(tradedAt).getTime();
   const endMs = tradedAtMs + NINETY_DAYS_MS;
-  const now = nowMs ?? Date.now();
-  const leftMs = endMs - now;
+  const leftMs = endMs - Date.now();
   return Math.max(0, leftMs / 1000);
 }
 

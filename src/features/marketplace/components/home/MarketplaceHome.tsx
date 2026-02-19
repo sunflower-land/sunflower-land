@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useNow } from "lib/utils/hooks/useNow";
+import React, { useContext, useEffect, useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import filterIcon from "assets/icons/filter_icon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -44,8 +43,6 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
-
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
@@ -92,15 +89,11 @@ export const MarketplaceNavigation: React.FC = () => {
   const { farmId } = gameService.getSnapshot().context;
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
-  const accountTradedAt = useSelector(gameService, _accountTradedAt);
-  const now = useNow({ live: true, intervalMs: 1000 });
-  const accountTradedRecently = useMemo(
-    () => isAccountTradedWithin90Days(accountTradedAt, now),
-    [accountTradedAt, now],
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
   );
-  const restrictionSecondsLeft = useMemo(
-    () => getAccountTradedRestrictionSecondsLeft(accountTradedAt, now),
-    [accountTradedAt, now],
+  const restrictionSecondsLeft = useSelector(gameService, (s) =>
+    getAccountTradedRestrictionSecondsLeft(s.context),
   );
 
   const listingsLeft = getRemainingTrades({

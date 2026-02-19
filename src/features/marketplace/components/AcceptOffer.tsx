@@ -1,5 +1,4 @@
-import React, { useContext, useMemo } from "react";
-import { useNow } from "lib/utils/hooks/useNow";
+import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -41,7 +40,6 @@ const _hasReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -56,11 +54,8 @@ const AcceptOfferContent: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const hasReputation = useSelector(gameService, _hasReputation);
-  const accountTradedAt = useSelector(gameService, _accountTradedAt);
-  const now = useNow({ live: true });
-  const accountTradedRecently = useMemo(
-    () => isAccountTradedWithin90Days(accountTradedAt, now),
-    [accountTradedAt, now],
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(

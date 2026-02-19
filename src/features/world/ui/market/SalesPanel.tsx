@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { useNow } from "lib/utils/hooks/useNow";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -75,7 +74,6 @@ const getPriceMovement = (current: number, yesterday: number) => {
 };
 
 const _state = (state: MachineState) => state.context.state;
-const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 export const SalesPanel: React.FC<{
   marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
@@ -89,11 +87,8 @@ export const SalesPanel: React.FC<{
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
   const state = useSelector(gameService, _state);
-  const accountTradedAt = useSelector(gameService, _accountTradedAt);
-  const now = useNow({ live: true });
-  const accountTradedRecently = useMemo(
-    () => isAccountTradedWithin90Days(accountTradedAt, now),
-    [accountTradedAt, now],
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
   );
 
   const onSell = (item: TradeableName) => {

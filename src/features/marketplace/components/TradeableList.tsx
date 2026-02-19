@@ -1,6 +1,5 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
-import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
@@ -49,8 +48,6 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
-
 type TradeableListItemProps = {
   authToken: string;
   display: TradeableDisplay;
@@ -80,11 +77,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [multiple, setMultiple] = useState(1);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
-  const accountTradedAt = useSelector(gameService, _accountTradedAt);
-  const now = useNow({ live: true });
-  const accountTradedRecently = useMemo(
-    () => isAccountTradedWithin90Days(accountTradedAt, now),
-    [accountTradedAt, now],
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
   );
 
   const { state } = gameState.context;

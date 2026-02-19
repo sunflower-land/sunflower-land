@@ -1,6 +1,5 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { useNow } from "lib/utils/hooks/useNow";
 
 import { Button } from "components/ui/Button";
 import { WithdrawFlower } from "./WithdrawFlower";
@@ -168,20 +167,15 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
-const _accountTradedAt = (state: MachineState) => state.context.accountTradedAt;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
-  const accountTradedAt = useSelector(gameService, _accountTradedAt);
-  const now = useNow({ live: true, intervalMs: 1000 });
-  const accountTradedRecently = useMemo(
-    () => isAccountTradedWithin90Days(accountTradedAt, now),
-    [accountTradedAt, now],
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
   );
-  const restrictionSecondsLeft = useMemo(
-    () => getAccountTradedRestrictionSecondsLeft(accountTradedAt, now),
-    [accountTradedAt, now],
+  const restrictionSecondsLeft = useSelector(gameService, (s) =>
+    getAccountTradedRestrictionSecondsLeft(s.context),
   );
 
   const [page, setPage] = useState<Page>("main");
