@@ -25,6 +25,8 @@ const needsHelp = (state: MachineState) => {
   return false;
 };
 
+const _islandType = (state: MachineState) => state.context.state.island.type;
+
 interface Props {
   show: boolean;
   onHide: () => void;
@@ -34,6 +36,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const { gameService } = useContext(Context);
   type Tab = "landscaping" | "biomes" | "craft" | "build";
   const showCrafting = useSelector(gameService, needsHelp);
+  const islandType = useSelector(gameService, _islandType);
 
   const [tab, setTab] = useState<Tab>(showCrafting ? "craft" : "landscaping");
 
@@ -58,11 +61,15 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
             icon: SUNNYSIDE.icons.hammer,
             name: "Build",
           },
-          {
-            id: "biomes",
-            icon: ITEM_DETAILS["Basic Biome"].image,
-            name: "Biomes",
-          },
+          ...(islandType !== "basic"
+            ? [
+                {
+                  id: "biomes" as Tab,
+                  icon: ITEM_DETAILS["Basic Biome"].image,
+                  name: "Biomes",
+                },
+              ]
+            : []),
         ]}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
