@@ -20,6 +20,8 @@ import { Label } from "components/ui/Label";
 import { Decimal } from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { isTicketNPC } from "features/island/delivery/lib/delivery";
 
 import token from "assets/icons/flower_token.webp";
 import deliveryIcon from "assets/icons/delivery_heart.webp";
@@ -58,7 +60,18 @@ export const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   const now = useNow();
   const npcName = order.from;
-  const tickets = generateDeliveryTickets({ game: state, npc: npcName, now });
+  const { holiday } = getBumpkinHoliday({ now });
+  const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+
+  const baseTickets = generateDeliveryTickets({
+    game: state,
+    npc: npcName,
+    now,
+    order,
+  });
+  const tickets = isHoliday && !isTicketNPC(npcName) ? 0 : baseTickets;
+  const ticketDisplay =
+    isHoliday && isTicketNPC(npcName) && baseTickets > 0 ? 0 : tickets;
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -145,7 +158,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             {`${makeRewardAmountForLabel({ order, state })}`}
           </Label>
         )}
-        {!order.completedAt && !!tickets && (
+        {!order.completedAt && !!ticketDisplay && (
           <Label
             icon={ITEM_DETAILS[getChapterTicket(now)].image}
             type="warning"
@@ -157,7 +170,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
               height: "25px",
             }}
           >
-            {tickets}
+            {ticketDisplay}
           </Label>
         )}
         {order.id === selected?.id && (

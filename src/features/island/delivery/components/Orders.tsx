@@ -243,11 +243,22 @@ export const DeliveryOrders: React.FC<Props> = ({
     .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
     .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
-  const tickets = generateDeliveryTickets({
+  const baseTickets = generateDeliveryTickets({
     game: state,
     npc: previewOrder.from,
     now,
+    order: previewOrder,
   });
+
+  // During ticket freeze (holiday), quest ticket deliveries are blocked.
+  // Coin deliveries can still be completed but award 0 tickets.
+  // Hide ticket counts on frozen quest orders to avoid mixed messaging.
+  const tickets =
+    isHoliday && !isTicketNPC(previewOrder.from) ? 0 : baseTickets;
+  const ticketDisplay =
+    isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0
+      ? 0
+      : tickets;
 
   const chapter = getCurrentChapter(now);
 
@@ -574,7 +585,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                     </div>
                     <Label type="warning" className="whitespace-nowrap">
                       <span className={!isMobile ? "text-xxs" : ""}>
-                        {`${tickets || makeRewardAmountForLabel(previewOrder)} ${
+                        {`${ticketDisplay ||
+                          makeRewardAmountForLabel(previewOrder)} ${
                           previewOrder.reward.coins
                             ? t("coins")
                             : previewOrder.reward.sfl
@@ -652,12 +664,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 )}
               </div>
             )}
-            {isHoliday &&
-              !!generateDeliveryTickets({
-                game: state,
-                npc: previewOrder.from,
-                now,
-              }) && (
+            {isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0 && (
                 <Label
                   type="danger"
                   className="mb-1"
@@ -667,7 +674,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               )}
           </InnerPanel>
-          {!!tickets && (
+          {!!ticketDisplay && (
             <div
               className={classNames(
                 `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
@@ -680,7 +687,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               <img src={chapterPoints} className="h-4 mr-2" />
               <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: "delivery", tickets: tickets })} ${chapter} points`}
+                {`+${getChapterTaskPoints({ task: "delivery", tickets: ticketDisplay })} ${chapter} points`}
               </p>
             </div>
           )}

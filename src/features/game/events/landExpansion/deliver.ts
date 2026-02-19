@@ -54,16 +54,27 @@ export function generateDeliveryTickets({
   game,
   npc,
   now,
+  order,
 }: {
   game: GameState;
   npc: NPCName;
   now: number;
+  order?: Pick<Order, "reward">;
 }) {
-  let amount = TICKET_REWARDS[npc as QuestNPCName];
+  const questAmount = TICKET_REWARDS[npc as QuestNPCName];
 
-  if (!amount) {
-    return 0;
+  // Coin NPC deliveries can also award tickets based on the coin reward amount.
+  // This intentionally does not apply VIP/boost/doubleDelivery modifiers (quest logic stays unchanged).
+  if (!questAmount) {
+    const coinsReward = order?.reward?.coins ?? 0;
+
+    if (coinsReward <= 0) return 0;
+    if (coinsReward < 1000) return 1;
+    if (coinsReward < 5000) return 2;
+    return 3;
   }
+
+  let amount = questAmount;
 
   if (hasVipAccess({ game, now })) {
     amount += 2;
@@ -387,16 +398,24 @@ export function deliverOrder({
     const ticketTasksAreFrozen =
       holiday === new Date(createdAt).toISOString().split("T")[0];
 
+    const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];
+
     const tickets = generateDeliveryTickets({
       game,
       npc: order.from,
       now: createdAt,
+      order,
     });
     const isTicketOrder = tickets > 0;
 
-    if (isTicketOrder && ticketTasksAreFrozen) {
+    // Quest ticket deliveries are blocked during freeze.
+    // Coin deliveries can still be completed but award 0 tickets during freeze.
+    if (isQuestTicketOrder && isTicketOrder && ticketTasksAreFrozen) {
       throw new Error("Ticket tasks are frozen");
     }
+
+    const ticketsToAward =
+      !isQuestTicketOrder && ticketTasksAreFrozen ? 0 : tickets;
 
     getKeys(order.items).forEach((name) => {
       if (name === "coins") {
@@ -482,22 +501,22 @@ export function deliverOrder({
       );
     }
 
-    if (tickets > 0) {
+    if (ticketsToAward > 0) {
       const chapterTicket = getChapterTicket(createdAt);
       const chapter = getCurrentChapter(createdAt);
       const pointsAwarded = getChapterTaskPoints({
         task: "delivery",
-        tickets: tickets,
+        tickets: ticketsToAward,
       });
       handleChapterAnalytics({
         task: "delivery",
-        tickets: tickets,
+        tickets: ticketsToAward,
         farmActivity: game.farmActivity,
         createdAt,
       });
 
       const count = game.inventory[chapterTicket] || new Decimal(0);
-      const amount = tickets || new Decimal(0);
+      const amount = ticketsToAward || new Decimal(0);
 
       game.inventory[chapterTicket] = count.add(amount);
       game.farmActivity = trackFarmActivity(

@@ -60,6 +60,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPoints from "assets/icons/red_medal_short.webp";
+import { isTicketNPC } from "features/island/delivery/lib/delivery";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -87,7 +88,16 @@ export const OrderCard: React.FC<{
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
 
-  const tickets = generateDeliveryTickets({ game, npc: order.from, now });
+  const { holiday } = getBumpkinHoliday({ now });
+  const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+
+  const baseTickets = generateDeliveryTickets({
+    game,
+    npc: order.from,
+    now,
+    order,
+  });
+  const tickets = isHoliday && !isTicketNPC(order.from) ? 0 : baseTickets;
 
   return (
     <>
@@ -673,7 +683,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "coins") {
-      return game.coins > (delivery?.items.coins ?? 0);
+      return game.coins >= (delivery?.items.coins ?? 0);
     }
 
     if (name === "sfl") {
@@ -709,7 +719,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({ game, npc, now });
+  const baseTickets = generateDeliveryTickets({
+    game,
+    npc,
+    now,
+    order: delivery as Order | undefined,
+  });
 
   const dateKey = new Date(now).toISOString().substring(0, 10);
 
@@ -723,7 +738,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("bumpkin.delivery.waiting");
   }
 
-  if (!delivery || (!!tickets && isHoliday)) {
+  if (!delivery || (isHoliday && isTicketNPC(npc) && baseTickets > 0)) {
     message = noOrder;
   }
   const missingRequiredReputation =
@@ -737,8 +752,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
   const isLocked = missingLevels >= 1;
-  const isTicketOrder = tickets > 0;
-  const deliveryFrozen = isHoliday && isTicketOrder;
+  const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -867,7 +881,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   />
                 </>
               )}
-              {isTicketOrder && isHoliday && (
+              {deliveryFrozen && (
                 <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
                   {t("orderhelp.ticket.deliveries.closed")}
                 </Label>
@@ -891,7 +905,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !!delivery?.completedAt ||
                 isLocked ||
                 missingRequiredReputation ||
-                (isTicketOrder && isHoliday)
+                deliveryFrozen
               }
               onClick={deliver}
             >
