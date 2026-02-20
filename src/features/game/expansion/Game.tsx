@@ -168,6 +168,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   completingProjectSuccess: false,
   unlockingFarmhand: false,
   unlockingFarmhandSuccess: false,
+  resettingPetRequests: false,
+  resettingPetRequestsSuccess: false,
 
   // Every new state should be added below here
   gems: true,
