@@ -20,9 +20,32 @@ export const Sign: React.FC<CollectibleProps> = ({ index }) => {
   const farmId = useSelector(gameService, _farmId);
 
   const getDisplayName = (index: number) => {
-    if (index === 0 && username) return username;
-    if ((index === 0 || index === 1) && nftId) return `#${nftId}`;
-    return `#${farmId}`;
+    if (username && nftId) {
+      switch (index) {
+        case 0:
+          return username;
+        case 1:
+          return `#${nftId}`;
+        default:
+          return `#${farmId}`;
+      }
+    }
+    if (username) {
+      switch (index) {
+        case 0:
+          return username;
+        default:
+          return `#${farmId}`;
+      }
+    }
+    if (nftId) {
+      switch (index) {
+        case 0:
+          return `#${nftId}`;
+        default:
+          return `#${farmId}`;
+      }
+    }
   };
   const displayName = getDisplayName(index);
 
