@@ -7,6 +7,8 @@ import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -27,6 +29,8 @@ import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisio
 import { PetNFT } from "features/island/pets/PetNFT";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { PetHouseModal } from "features/island/buildings/components/building/petHouse/PetHouseModal";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
 
 import followIcon from "assets/icons/follow.webp";
 
@@ -46,11 +50,27 @@ const _petHousePets = (state: MachineState) =>
   state.context.state.petHouse?.pets ?? {};
 const _biome = (state: MachineState) =>
   getCurrentBiome(state.context.state.island);
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _visitorState = (state: MachineState) => state.context.visitorState;
+const _state = (state: MachineState) => state.context.state;
 
 export const PetHouseInside: React.FC = () => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
   const { t } = useAppTranslation();
+
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const visitorState = useSelector(gameService, _visitorState);
+  const state = useSelector(gameService, _state);
+  const hasAirdropAccess = hasFeatureAccess(
+    visitorState ?? state,
+    "AIRDROP_PLAYER",
+  );
+  const token = useSelector(authService, _token);
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
 
@@ -282,6 +302,11 @@ export const PetHouseInside: React.FC = () => {
       {!landscaping && !isVisiting && <Hud isFarming location="petHouse" />}
       {landscaping && <LandscapingHud location="petHouse" />}
       {isVisiting && <VisitingHud />}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
