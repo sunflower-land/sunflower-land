@@ -82,7 +82,6 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
-import { ExperimentName } from "lib/flags";
 import {
   BudNFTName,
   CollectionName,
@@ -1925,7 +1924,7 @@ export interface GameState {
     isSocialVerified?: boolean;
   };
 
-  experiments: ExperimentName[];
+  experiments?: any[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
