@@ -86,7 +86,7 @@ export async function buyBlockBucksXsolla(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+    throw new Error(ERRORS.BUY_GEMS_SERVER_ERROR);
   }
 
   return await response.json();

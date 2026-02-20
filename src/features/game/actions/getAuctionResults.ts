@@ -37,7 +37,7 @@ export async function getAuctionResults(request: Request): Promise<{
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+    throw new Error(ERRORS.AUCTION_RESULTS_SERVER_ERROR);
   }
 
   const { status, leaderboard, supply, participantCount, endAt } =
