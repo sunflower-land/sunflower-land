@@ -28,7 +28,7 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
-import { isTicketNPC } from "features/island/delivery/lib/delivery";
+import { isCoinNPC, isTicketNPC } from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -495,7 +495,17 @@ export function deliverOrder({
         game.farmActivity,
       );
 
-      if (hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", createdAt)) {
+      if (
+        isCoinNPC(order.from) &&
+        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", createdAt) &&
+        !ticketTasksAreFrozen
+      ) {
+        handleChapterAnalytics({
+          task: "coinDelivery",
+          points: 10,
+          farmActivity: game.farmActivity,
+          createdAt,
+        });
         game.farmActivity = trackFarmActivity(
           `${chapter} Points Earned`,
           game.farmActivity,

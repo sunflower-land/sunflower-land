@@ -17,7 +17,9 @@ import {
 } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
+import * as flagsModule from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { getChapterTaskPoints } from "features/game/types/tracks";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -2022,6 +2024,96 @@ describe("deliver", () => {
     });
 
     expect(state.farmActivity[`${chapter} Points Earned`]).toEqual(10);
+  });
+
+  it("does not award coinDelivery chapter points for ticket NPC order even when reward.coins and flag are set", () => {
+    const now = new Date("2026-02-24T00:00:01Z").getTime();
+    const chapter = getCurrentChapter(now);
+    const cornwellTickets = TICKET_REWARDS.cornwell;
+    const expectedDeliveryPointsOnly = getChapterTaskPoints({
+      task: "delivery",
+      points: cornwellTickets,
+    });
+
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Corn: new Decimal(200),
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: now,
+              from: "cornwell",
+              items: {
+                Corn: 160,
+              },
+              reward: { coins: 1000 },
+            },
+          ],
+        },
+        bumpkin: TEST_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: now + 5000,
+    });
+
+    expect(state.farmActivity[`${chapter} Points Earned`]).toEqual(
+      expectedDeliveryPointsOnly,
+    );
+  });
+
+  it("does not award coinDelivery chapter points during holiday freeze even when flag is active", () => {
+    // Use real holiday 2026-02-02; mock flag as if live on that date (no prod HOLIDAYS change)
+    const flagSpy = jest
+      .spyOn(flagsModule, "hasTimeBasedFeatureAccess")
+      .mockReturnValue(true);
+    const now = new Date("2026-02-02T00:00:00.000Z").getTime();
+    const chapter = getCurrentChapter(now);
+
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: now,
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 1000 },
+            },
+          ],
+        },
+        bumpkin: TEST_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: now + 5000,
+    });
+
+    expect(state.farmActivity[`${chapter} Points Earned`]).toBeUndefined();
+    flagSpy.mockRestore();
   });
 
   it("can deliver items from the wardrobe", () => {
