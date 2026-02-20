@@ -216,76 +216,101 @@ export const ToolsGuide = () => {
           ]}
         />
       </div>
-      <Label type="default" className="mb-2">
-        {t("landTools")}
-      </Label>
-      {LAND_TOOLS.map(([toolName, tool], index) => {
-        const price = getToolPrice(tool, 1, state);
-        const ingredients = tool.ingredients(state.bumpkin?.skills);
-        const isLocked =
-          !hasRequiredIslandExpansion(state.island.type, tool.requiredIsland) ||
-          !hasRequiredLevel(tool, state);
-        return (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            price={price}
-            ingredients={ingredients}
-            isLocked={isLocked}
-            state={state}
-            alternateBg={index % 2 === 0}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
-        );
-      })}
-      <Label type="default" className="my-2">
-        {t("waterTools")}
-      </Label>
-      {WATER_TOOLS.map(([toolName, tool], index) => {
-        const price = getToolPrice(tool, 1, state);
-        const ingredients = tool.ingredients(state.bumpkin?.skills);
-        const isLocked =
-          !hasRequiredIslandExpansion(state.island.type, tool.requiredIsland) ||
-          !hasRequiredLevel(tool, state);
-        return (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            price={price}
-            ingredients={ingredients}
-            isLocked={isLocked}
-            state={state}
-            alternateBg={index % 2 === 0}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
-        );
-      })}
-      <Label type="default" className="my-2">
-        {t("animalTools")}
-      </Label>
-      {ANIMAL_TOOLS.map(([toolName, tool], index) => {
-        const price = getToolPrice(tool, 1, state);
-        const ingredients = tool.ingredients(state.bumpkin?.skills);
-        return (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            price={price}
-            ingredients={ingredients}
-            isLocked={false}
-            state={state}
-            alternateBg={index % 2 === 0}
-            isAnimalTool
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
-        );
-      })}
+      <table className="w-full border-collapse table-fixed">
+        <colgroup>
+          <col style={{ width: "35%" }} />
+          <col style={{ width: "40%" }} />
+          <col style={{ width: "25%" }} />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td colSpan={3} className="py-1">
+              <Label type="default" className="mb-1">
+                {t("landTools")}
+              </Label>
+            </td>
+          </tr>
+          {LAND_TOOLS.map(([toolName, tool], index) => {
+            const price = getToolPrice(tool, 1, state);
+            const ingredients = tool.ingredients(state.bumpkin?.skills);
+            const isLocked =
+              !hasRequiredIslandExpansion(
+                state.island.type,
+                tool.requiredIsland,
+              ) || !hasRequiredLevel(tool, state);
+            return (
+              <ToolRow
+                key={toolName}
+                toolName={toolName}
+                tool={tool}
+                price={price}
+                ingredients={ingredients}
+                isLocked={isLocked}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            );
+          })}
+          <tr>
+            <td colSpan={3} className="py-1">
+              <Label type="default" className="my-1">
+                {t("waterTools")}
+              </Label>
+            </td>
+          </tr>
+          {WATER_TOOLS.map(([toolName, tool], index) => {
+            const price = getToolPrice(tool, 1, state);
+            const ingredients = tool.ingredients(state.bumpkin?.skills);
+            const isLocked =
+              !hasRequiredIslandExpansion(
+                state.island.type,
+                tool.requiredIsland,
+              ) || !hasRequiredLevel(tool, state);
+            return (
+              <ToolRow
+                key={toolName}
+                toolName={toolName}
+                tool={tool}
+                price={price}
+                ingredients={ingredients}
+                isLocked={isLocked}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            );
+          })}
+          <tr>
+            <td colSpan={3} className="py-1">
+              <Label type="default" className="my-1">
+                {t("animalTools")}
+              </Label>
+            </td>
+          </tr>
+          {ANIMAL_TOOLS.map(([toolName, tool], index) => {
+            const price = getToolPrice(tool, 1, state);
+            const ingredients = tool.ingredients(state.bumpkin?.skills);
+            return (
+              <ToolRow
+                key={toolName}
+                toolName={toolName}
+                tool={tool}
+                price={price}
+                ingredients={ingredients}
+                isLocked={false}
+                state={state}
+                alternateBg={index % 2 === 0}
+                isAnimalTool
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            );
+          })}
+        </tbody>
+      </table>
     </InnerPanel>
   );
 };
@@ -329,27 +354,20 @@ const ToolRow: React.FC<ToolRowProps> = ({
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
 
   return (
-    <div
-      className={`flex justify-between items-center p-1 ${
-        alternateBg ? "bg-[#ead4aa] rounded-md" : ""
-      }`}
-    >
-      <div className="flex items-center flex-1 min-w-0">
-        <div className="flex items-center w-28 mr-2 flex-shrink-0">
+    <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""}`}>
+      <td className="py-0.5 pr-2 align-top w-1/4">
+        <div className="flex items-center min-w-0">
           <img
             src={
               ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""
             }
-            className="w-6 h-auto mr-2"
+            className="w-6 h-auto mr-2 flex-shrink-0"
             alt={tool.name}
           />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs">{tool.name}</p>
-            <p className="text-xxs text-ellipsis overflow-hidden">
-              {tool.description}
-            </p>
-          </div>
+          <p className="text-xs truncate">{tool.name}</p>
         </div>
+      </td>
+      <td className="py-0.5 pr-2 align-top w-1/2">
         <div className="flex flex-col flex-wrap gap-x-1">
           {cooldowns.length > 0 &&
             cooldowns.map((cooldown) => {
@@ -370,7 +388,7 @@ const ToolRow: React.FC<ToolRowProps> = ({
                 return (
                   <div
                     key={cooldown.nodeLabel}
-                    className="flex flex-row justify-between items-start cursor-pointer mr-2 gap-1 relative"
+                    className="flex flex-row items-start cursor-pointer gap-1 relative"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowBoostsKey(
@@ -420,7 +438,7 @@ const ToolRow: React.FC<ToolRowProps> = ({
               return (
                 <div
                   key={cooldown.nodeLabel}
-                  className="flex items-center mr-2"
+                  className="flex items-center"
                   title={t("toolGuide.nodeCooldown", {
                     node: cooldown.nodeLabel,
                     time: recoveryTimeStr,
@@ -440,22 +458,22 @@ const ToolRow: React.FC<ToolRowProps> = ({
                 </div>
               );
             })}
-          <div className="flex flex-row flex-wrap gap-x-1">
-            {price > 0 && (
-              <div className="flex items-center mr-2">
-                <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" alt="" />
-                <p className="text-xxs">{Math.round(price).toLocaleString()}</p>
-              </div>
-            )}
-            {ingredientsStr && (
-              <p className="text-xxs max-w-[120px]" title={ingredientsStr}>
-                {ingredientsStr}
-              </p>
-            )}
-          </div>
         </div>
-      </div>
-      <div className="flex items-center flex-shrink-0 ml-1">
+      </td>
+      <td className="py-0.5 pr-2 align-top w-1/4">
+        <div className="flex flex-row flex-wrap gap-x-1 items-center">
+          {price > 0 && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" alt="" />
+              <p className="text-xxs">{Math.round(price).toLocaleString()}</p>
+            </div>
+          )}
+          {ingredientsStr && (
+            <p className="text-xxs max-w-[120px]" title={ingredientsStr}>
+              {ingredientsStr}
+            </p>
+          )}
+        </div>
         {isLocked && (
           <img
             src={SUNNYSIDE.icons.lock}
@@ -481,7 +499,7 @@ const ToolRow: React.FC<ToolRowProps> = ({
             }
           />
         )}
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
