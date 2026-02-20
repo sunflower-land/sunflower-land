@@ -12,7 +12,7 @@ import { Button } from "components/ui/Button";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BEDS } from "features/game/types/beds";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
@@ -40,20 +40,22 @@ export const InteriorBumpkins: React.FC = () => {
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
 
   const count = getKeys(farmHands).length + 1;
-  const max = Object.keys(BEDS).length;
+  const max = Object.keys(BED_FARMHAND_COUNT).length;
 
   const uniqueBedCollectibles = getKeys(collectibles).filter(
-    (collectible) => collectible in BEDS,
+    (collectible) => collectible in BED_FARMHAND_COUNT,
   );
   const uniqueHomeBedCollectibles = getKeys(homeCollectibles).filter(
-    (collectible) => collectible in BEDS,
+    (collectible) => collectible in BED_FARMHAND_COUNT,
   );
   const uniqueBeds = new Set([
     ...uniqueBedCollectibles,
     ...uniqueHomeBedCollectibles,
   ]);
 
-  const beds = getKeys(BEDS).filter((bedName) => uniqueBeds.has(bedName));
+  const beds = getKeys(BED_FARMHAND_COUNT)
+    .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])
+    .filter((bedName) => uniqueBeds.has(bedName));
 
   return (
     <>
@@ -158,7 +160,7 @@ export const InteriorBumpkins: React.FC = () => {
                   />
                 );
               })}
-              {getKeys(BEDS)
+              {getKeys(BED_FARMHAND_COUNT)
                 .filter((bed) => !beds.includes(bed))
                 .map((bed, i) => {
                   const equipments = [bumpkin, ...Object.values(farmHands)]

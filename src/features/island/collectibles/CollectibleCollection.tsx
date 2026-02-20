@@ -384,6 +384,8 @@ import { PetNFT } from "./components/petNFT/PetNFT";
 import { Isopod } from "./components/Isopod";
 import { Nautilus } from "./components/Nautilus";
 import { Dollocaris } from "./components/Dollocaris";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import { BedName } from "features/game/types/game";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "PetNFT",
@@ -774,7 +776,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   ),
   Oaken: () => <TemplateCollectible name="Oaken" />,
   Meerkat: () => <TemplateCollectible name="Meerkat" />,
-  "Pearl Bed": () => <TemplateCollectible name="Pearl Bed" />,
   "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
   "Poseidon's Throne": (props: CollectibleProps) => (
     <Monument
@@ -1423,29 +1424,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Scarab Beetle"
     />
   ),
-  "Basic Bed": (props: CollectibleProps) => <Bed {...props} name="Basic Bed" />,
-  "Fisher Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Fisher Bed" />
-  ),
-  "Floral Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Floral Bed" />
-  ),
-  "Sturdy Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Sturdy Bed" />
-  ),
-  "Desert Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Desert Bed" />
-  ),
-  "Cow Bed": (props: CollectibleProps) => <Bed {...props} name="Cow Bed" />,
-  "Pirate Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Pirate Bed" />
-  ),
-  "Royal Bed": (props: CollectibleProps) => <Bed {...props} name="Royal Bed" />,
-  "Double Bed": (props: CollectibleProps) => (
-    <Bed {...props} name="Double Bed" />
-  ),
-
-  "Messy Bed": (props: CollectibleProps) => <Bed {...props} name="Messy Bed" />,
 
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
@@ -3717,6 +3695,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
       image={ITEM_DETAILS["Squeaky Chicken"].image}
       alt="Squeaky Chicken"
     />
+  ),
+  ...getKeys(BED_FARMHAND_COUNT).reduce(
+    (acc, bedName) => {
+      acc[bedName] = (props: CollectibleProps) => (
+        <Bed {...props} name={bedName} />
+      );
+      return acc;
+    },
+    {} as Record<BedName, React.FC<CollectibleProps>>,
   ),
 };
 // Need readonly versions for some troublesome components while in design mode
