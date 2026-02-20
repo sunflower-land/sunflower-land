@@ -389,10 +389,6 @@ import {
 } from "./landExpansion/buyChapterItem";
 
 import {
-  unlockFarmhand,
-  UnlockFarmhandAction,
-} from "./landExpansion/unlockFarmhand";
-import {
   sacrificeBear,
   SacrificeBearAction,
 } from "./landExpansion/sacrificeBear";
@@ -707,7 +703,6 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuyChapterItemAction
-  | UnlockFarmhandAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
   | DailyResetAction
@@ -965,7 +960,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "chapterItem.bought": buyChapterItem,
-  "farmHand.unlocked": unlockFarmhand,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
   "daily.reset": dailyReset,
