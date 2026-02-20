@@ -68,7 +68,6 @@ export const OrderCard: React.FC<OrderCardProps> = ({
     game: state,
     npc: npcName,
     now,
-    order,
   });
   const tickets = isHoliday && !isTicketNPC(npcName) ? 0 : baseTickets;
   const ticketDisplay =

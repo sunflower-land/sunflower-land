@@ -23,22 +23,18 @@ import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { FISH } from "features/game/types/fishing";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
-import {
-  getCoinDeliveryTickets,
-  isCoinNPC,
-  isTicketNPC,
-} from "features/island/delivery/lib/delivery";
+import { isTicketNPC } from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -60,12 +56,10 @@ export function generateDeliveryTickets({
   game,
   npc,
   now,
-  order,
 }: {
   game: GameState;
   npc: NPCName;
   now: number;
-  order?: Pick<Order, "reward">;
 }) {
   let amount = 0;
 
@@ -90,14 +84,6 @@ export function generateDeliveryTickets({
         }
       }
     });
-  }
-
-  if (
-    isCoinNPC(npc) &&
-    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now)
-  ) {
-    const coins = order?.reward?.coins ?? 0;
-    amount = getCoinDeliveryTickets(coins);
   }
 
   if (!amount) {
@@ -413,7 +399,6 @@ export function deliverOrder({
       game,
       npc: order.from,
       now: createdAt,
-      order,
     });
     const isTicketOrder = tickets > 0;
 
@@ -489,6 +474,7 @@ export function deliverOrder({
         game.farmActivity,
       );
     }
+    const chapter = getCurrentChapter(createdAt);
 
     if (order.reward.coins) {
       const { reward: coinsReward } = getOrderSellPrice<number>(
@@ -508,19 +494,31 @@ export function deliverOrder({
         "Coins Order Delivered",
         game.farmActivity,
       );
+
+      if (hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", createdAt)) {
+        game.farmActivity = trackFarmActivity(
+          `${chapter} Points Earned`,
+          game.farmActivity,
+          new Decimal(
+            getChapterTaskPoints({
+              task: "coinDelivery",
+              points: 10, // flat 10 points for coin deliveries
+            }),
+          ),
+        );
+      }
     }
 
     if (ticketsToAward > 0) {
       const chapterTicket = getChapterTicket(createdAt);
-      const chapter = getCurrentChapter(createdAt);
-      const deliveryTask = isCoinNPC(order.from) ? "coinDelivery" : "delivery";
+      const deliveryTask = "delivery";
       const pointsAwarded = getChapterTaskPoints({
         task: deliveryTask,
-        tickets: ticketsToAward,
+        points: ticketsToAward,
       });
       handleChapterAnalytics({
         task: deliveryTask,
-        tickets: ticketsToAward,
+        points: ticketsToAward,
         farmActivity: game.farmActivity,
         createdAt,
       });

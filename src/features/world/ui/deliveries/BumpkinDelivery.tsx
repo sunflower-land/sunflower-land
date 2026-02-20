@@ -36,7 +36,10 @@ import {
   isCoinNPC,
   isTicketNPC,
 } from "features/island/delivery/lib/delivery";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -61,7 +64,8 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
-import chapterPoints from "assets/icons/red_medal_short.webp";
+import chapterPointsIcon from "assets/icons/red_medal_short.webp";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -88,7 +92,7 @@ const OrderCard: React.FC<{
 
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
-
+  const chapter = getCurrentChapter(now);
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
 
@@ -96,7 +100,6 @@ const OrderCard: React.FC<{
     game,
     npc: order.from,
     now,
-    order,
   });
   const tickets = isHoliday && !isTicketNPC(order.from) ? 0 : baseTickets;
   // Hide ticket count on frozen quest orders (holiday) to avoid mixed messaging
@@ -106,7 +109,17 @@ const OrderCard: React.FC<{
     isHoliday && isTicketNPC(order.from) && baseTickets > 0;
   const hasRewardAmount =
     order.reward.coins !== undefined || order.reward.sfl !== undefined;
-
+  const chapterPoints =
+    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now) &&
+    isCoinNPC(order.from)
+      ? getChapterTaskPoints({
+          task: "coinDelivery",
+          points: 10,
+        })
+      : getChapterTaskPoints({
+          task: "delivery",
+          points: ticketDisplay,
+        });
   return (
     <>
       <div className="">
@@ -207,9 +220,13 @@ const OrderCard: React.FC<{
                     </>
                   )}
                 </Label>
-                {!!ticketDisplay && (
-                  <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                    {`${getChapterTaskPoints({ task: isCoinNPC(order.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })}`}
+                {!!chapterPoints && (
+                  <Label
+                    type={"vibrant"}
+                    icon={chapterPointsIcon}
+                    className="ml-2"
+                  >
+                    {`+${chapterPoints} ${chapter} points`}
                   </Label>
                 )}
               </div>
@@ -743,7 +760,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     game,
     npc,
     now,
-    order: delivery as Order | undefined,
   });
 
   const dateKey = new Date(now).toISOString().substring(0, 10);

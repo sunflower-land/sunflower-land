@@ -28,10 +28,7 @@ import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import {
-  getCurrentChapter,
-  getChapterTicket,
-} from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
@@ -63,7 +60,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const state = useSelector(gameService, _state);
   const token = useSelector(authService, _token);
   const now = useNow();
-  const chapter = getCurrentChapter(now);
   const chapterTicket = getChapterTicket(now);
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
