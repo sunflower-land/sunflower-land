@@ -172,18 +172,6 @@ function getToolNodeCooldownDisplays(
   }
 }
 
-function formatIngredients(
-  ingredients: ReturnType<Tool["ingredients"]>,
-): string {
-  const entries = getObjectEntries(ingredients).filter(
-    ([, amount]) => amount && amount.gt(0),
-  );
-  if (entries.length === 0) return "";
-  return entries
-    .map(([name, amount]) => `${amount?.toNumber() ?? 0} ${name}`)
-    .join(", ");
-}
-
 function hasRequiredLevel(tool: Tool, state: GameState): boolean {
   if (tool.requiredLevel === undefined) return true;
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
@@ -341,7 +329,6 @@ const ToolRow: React.FC<ToolRowProps> = ({
   setShowBoostsKey,
 }) => {
   const { t } = useAppTranslation();
-  const ingredientsStr = formatIngredients(ingredients);
   const hasIslandReq =
     !isAnimalTool &&
     tool.requiredIsland &&
@@ -373,15 +360,13 @@ const ToolRow: React.FC<ToolRowProps> = ({
             cooldowns.map((cooldown) => {
               const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
               const hasBoosts = cooldown.boostsUsed.length > 0;
-              const showMediumTime = cooldown.recoverySeconds > 24 * 60 * 60;
+
               const recoveryTimeStr = secondsToString(
                 cooldown.recoverySeconds,
-                {
-                  length: showMediumTime ? "medium" : "short",
-                },
+                { length: "medium" },
               );
               const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-                length: showMediumTime ? "medium" : "short",
+                length: "medium",
               });
 
               if (hasBoosts) {
@@ -397,30 +382,32 @@ const ToolRow: React.FC<ToolRowProps> = ({
                     }}
                   >
                     <span className="text-xxs">{cooldown.nodeLabel}</span>
-                    <div className="flex items-center">
-                      <img
-                        src={SUNNYSIDE.icons.lightning}
-                        className="w-3 h-3 mr-1 flex-shrink-0"
-                        alt=""
-                      />
-                      <span className="text-xxs">
-                        {cooldown.recoverySeconds > 0
-                          ? recoveryTimeStr
-                          : t("instant")}
-                      </span>
-                    </div>
-                    {cooldown.baseSeconds > 0 && (
+                    <div className="flex flex-col gap-1">
                       <div className="flex items-center">
                         <img
-                          src={SUNNYSIDE.icons.stopwatch}
+                          src={SUNNYSIDE.icons.lightning}
                           className="w-3 h-3 mr-1 flex-shrink-0"
                           alt=""
                         />
-                        <span className="text-xxs line-through">
-                          {baseTimeStr}
+                        <span className="text-xxs">
+                          {cooldown.recoverySeconds > 0
+                            ? recoveryTimeStr
+                            : t("instant")}
                         </span>
                       </div>
-                    )}
+                      {cooldown.baseSeconds > 0 && (
+                        <div className="flex items-center">
+                          <img
+                            src={SUNNYSIDE.icons.stopwatch}
+                            className="w-3 h-3 mr-1 flex-shrink-0"
+                            alt=""
+                          />
+                          <span className="text-xxs line-through">
+                            {baseTimeStr}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                     <BoostsDisplay
                       boosts={cooldown.boostsUsed}
                       show={showBoostsKey === boostsKey}
@@ -438,23 +425,17 @@ const ToolRow: React.FC<ToolRowProps> = ({
               return (
                 <div
                   key={cooldown.nodeLabel}
-                  className="flex items-center"
-                  title={t("toolGuide.nodeCooldown", {
-                    node: cooldown.nodeLabel,
-                    time: recoveryTimeStr,
-                  })}
+                  className="flex items-start gap-1"
                 >
-                  <img
-                    src={SUNNYSIDE.icons.stopwatch}
-                    className="w-3 mr-1 flex-shrink-0"
-                    alt=""
-                  />
-                  <p className="text-xxs">
-                    {t("toolGuide.nodeCooldown", {
-                      node: cooldown.nodeLabel,
-                      time: recoveryTimeStr,
-                    })}
-                  </p>
+                  <span className="text-xxs">{cooldown.nodeLabel}</span>
+                  <div className="flex items-center">
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      className="w-3 h-3 mr-1 flex-shrink-0"
+                      alt=""
+                    />
+                    <span className="text-xxs">{recoveryTimeStr}</span>
+                  </div>
                 </div>
               );
             })}
@@ -468,11 +449,19 @@ const ToolRow: React.FC<ToolRowProps> = ({
               <p className="text-xxs">{Math.round(price).toLocaleString()}</p>
             </div>
           )}
-          {ingredientsStr && (
-            <p className="text-xxs max-w-[120px]" title={ingredientsStr}>
-              {ingredientsStr}
-            </p>
-          )}
+          {getObjectEntries(ingredients).map(([ingredient, amount]) => {
+            if (!amount || amount.lte(0)) return null;
+            return (
+              <div className="flex items-center" key={ingredient}>
+                <img
+                  src={ITEM_DETAILS[ingredient].image}
+                  className="w-3 mr-1"
+                  alt=""
+                />
+                <p className="text-xxs">{amount.toNumber()}</p>
+              </div>
+            );
+          })}
         </div>
         {isLocked && (
           <img
