@@ -95,7 +95,7 @@ export const PetHouseInside: React.FC = () => {
         const items = pets[name]!;
         return items
           .filter((pet) => pet.coordinates)
-          .map((pet) => {
+          .map((pet, index) => {
             const { readyAt, createdAt, coordinates, id } = pet;
             const { x, y } = coordinates!;
             const dimensions = COLLECTIBLES_DIMENSIONS[name];
@@ -110,6 +110,7 @@ export const PetHouseInside: React.FC = () => {
                 z={1}
               >
                 <Collectible
+                  index={index}
                   location="petHouse"
                   name={name}
                   id={id}

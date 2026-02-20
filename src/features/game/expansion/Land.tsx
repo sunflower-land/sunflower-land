@@ -427,7 +427,7 @@ export const LandComponent: React.FC = () => {
         const items = collectibles[name]!;
         return items
           .filter((collectible) => collectible.coordinates)
-          .map((collectible) => {
+          .map((collectible, index) => {
             const { readyAt, createdAt, coordinates, id } = collectible;
             const { x, y } = coordinates!;
             const { width, height } = COLLECTIBLES_DIMENSIONS[name];
@@ -453,6 +453,7 @@ export const LandComponent: React.FC = () => {
                   y={coordinates!.y}
                   grid={gameGrid}
                   flipped={collectible.flipped}
+                  index={index}
                 />
               </MapPlacement>
             );
