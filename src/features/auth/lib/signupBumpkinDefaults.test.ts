@@ -1,4 +1,7 @@
-import { ALLOWED_BUMPKIN_ITEMS } from "features/game/types/bumpkin";
+import {
+  ALLOWED_BUMPKIN_ITEMS,
+  BUMPKIN_ITEM_PART,
+} from "features/game/types/bumpkin";
 import {
   getSignupWardrobe,
   DEFAULT_SIGNUP_EQUIPMENT,
@@ -13,6 +16,15 @@ describe("signupBumpkinDefaults", () => {
       );
       expect(Object.keys(wardrobe).length).toBe(ALLOWED_BUMPKIN_ITEMS.length);
     });
+
+    it("contains no dress items (signup requires shirt and pants only)", () => {
+      const wardrobe = getSignupWardrobe();
+      const signupItemNames = Object.keys(wardrobe);
+      const dressItems = signupItemNames.filter(
+        (name) => BUMPKIN_ITEM_PART[name] === "dress",
+      );
+      expect(dressItems).toHaveLength(0);
+    });
   });
 
   describe("DEFAULT_SIGNUP_EQUIPMENT", () => {
@@ -26,14 +38,14 @@ describe("signupBumpkinDefaults", () => {
       "tool",
     ] as const;
 
-    it("has all required slots", () => {
+    it("has all required slots (shirt and pants required; no default dress)", () => {
       for (const slot of requiredSlots) {
         expect(DEFAULT_SIGNUP_EQUIPMENT[slot]).toBeDefined();
         expect(typeof DEFAULT_SIGNUP_EQUIPMENT[slot]).toBe("string");
       }
     });
 
-    it("has shirt and pants and no dress (no dress+shirt conflict)", () => {
+    it("uses shirt and pants only (no dress, since there is no dress in signup allowed set)", () => {
       expect(DEFAULT_SIGNUP_EQUIPMENT.shirt).toBeDefined();
       expect(DEFAULT_SIGNUP_EQUIPMENT.pants).toBeDefined();
       expect(DEFAULT_SIGNUP_EQUIPMENT.dress).toBeUndefined();
