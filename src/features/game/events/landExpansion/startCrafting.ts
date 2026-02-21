@@ -220,6 +220,10 @@ export function findMatchingRecipe(
   ingredients: (RecipeIngredient | null)[],
   recipes: Partial<Recipes>,
 ): Recipe | undefined {
+  // Empty grid should not match any recipe (avoids showing Cushion etc. when nothing is placed)
+  const hasAnyIngredient = ingredients.some((i) => i != null);
+  if (!hasAnyIngredient) return undefined;
+
   for (const recipe of Object.values(recipes)) {
     // Check if every ingredient matches
     const ingredientsMatch = recipe.ingredients.every(
