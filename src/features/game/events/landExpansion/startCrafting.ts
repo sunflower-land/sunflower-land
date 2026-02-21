@@ -1,10 +1,17 @@
 import Decimal from "decimal.js-light";
-import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
+import {
+  Recipe,
+  RecipeCollectibleName,
+  RecipeIngredient,
+  Recipes,
+} from "features/game/lib/crafting";
 import {
   BoostName,
+  CraftingQueueItem,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { produce } from "immer";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -103,12 +110,11 @@ export function startCrafting({
       throw new Error("You do not have a Crafting Box");
     }
 
-    // Check if there's an ongoing crafting
-    if (
-      copy.craftingBox.status === "pending" ||
-      copy.craftingBox.status === "crafting"
-    ) {
-      throw new Error("There's already an ongoing crafting");
+    const queue = copy.craftingBox.queue ?? [];
+    const availableSlots = hasVipAccess({ game: copy }) ? 4 : 1;
+
+    if (queue.length >= availableSlots) {
+      throw new Error("No available slots");
     }
 
     // Find matching recipe
@@ -157,6 +163,9 @@ export function startCrafting({
       }
     });
 
+    const recipeStartAt =
+      queue.length > 0 ? queue[queue.length - 1].readyAt : createdAt;
+
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
@@ -170,14 +179,27 @@ export function startCrafting({
       },
     });
 
+    const readyAt = recipeStartAt + recipeTime;
+
+    const newQueueItem: CraftingQueueItem = {
+      name: recipe.name,
+      readyAt,
+      startedAt: recipeStartAt,
+      type: recipe.type,
+    };
+
+    const updatedQueue = [...queue, newQueueItem];
+    const currentItem = updatedQueue[0];
+
     copy.craftingBox = {
       status: "crafting",
-      startedAt: createdAt,
-      readyAt: createdAt + recipeTime,
+      queue: updatedQueue,
+      startedAt: currentItem.startedAt,
+      readyAt: currentItem.readyAt,
       item:
-        recipe.type === "collectible"
-          ? { collectible: recipe.name }
-          : { wearable: recipe.name },
+        currentItem.type === "collectible"
+          ? { collectible: currentItem.name as RecipeCollectibleName }
+          : { wearable: currentItem.name as BumpkinItem },
       recipes: {
         ...copy.craftingBox.recipes,
         [recipe.name]: { ...recipe },

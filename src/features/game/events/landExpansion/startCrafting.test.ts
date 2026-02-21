@@ -150,11 +150,20 @@ describe("startCrafting", () => {
     );
   });
 
-  it("throws an error if there's already an ongoing crafting", () => {
+  it("throws an error if there's no available slots (queue full)", () => {
+    const now = Date.now();
     gameState.craftingBox = {
-      status: "pending",
-      startedAt: Date.now(),
-      readyAt: Date.now() + 60000,
+      status: "crafting",
+      queue: [
+        {
+          name: "Timber",
+          readyAt: now + 60000,
+          startedAt: now,
+          type: "collectible",
+        },
+      ],
+      startedAt: now,
+      readyAt: now + 60000,
       recipes: {},
     };
 
@@ -163,18 +172,18 @@ describe("startCrafting", () => {
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
-        { collectible: "Stone" },
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
       ],
     };
 
     expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
-      "There's already an ongoing crafting",
+      "No available slots",
     );
   });
 
@@ -350,6 +359,78 @@ describe("startCrafting", () => {
     expect(() =>
       startCrafting({ farmId, state: { ...gameState }, action }),
     ).toThrow("You do not have the ingredients to craft this item");
+  });
+
+  it("allows adding to queue when VIP and one item is crafting", () => {
+    const now = Date.now();
+    gameState.vip = {
+      bundles: [],
+      expiresAt: now + 86400000,
+    };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          name: "Timber",
+          readyAt: now + 60000,
+          startedAt: now,
+          type: "collectible",
+        },
+      ],
+      startedAt: now,
+      readyAt: now + 60000,
+      recipes: {
+        Timber: {
+          name: "Timber",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+          ],
+          time: 0,
+        },
+      },
+    };
+    gameState.inventory = {
+      Wood: new Decimal(18),
+      Stone: new Decimal(10),
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+      ],
+    };
+
+    const newState = startCrafting({
+      farmId,
+      state: gameState,
+      action,
+      createdAt: now,
+    });
+
+    expect(newState.craftingBox.queue).toHaveLength(2);
+    expect(newState.craftingBox.queue?.[0].name).toBe("Timber");
+    expect(newState.craftingBox.queue?.[1].name).toBe("Timber");
+    expect(newState.craftingBox.queue?.[1].readyAt).toBeGreaterThanOrEqual(
+      newState.craftingBox.queue![0].readyAt,
+    );
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
