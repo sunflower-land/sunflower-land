@@ -31,6 +31,7 @@ export async function loadGameStateForVisit(
   isBanned: boolean;
   visitorId: number;
   visitedFarmState: GameState;
+  visitedFarmNftId?: number;
   hasHelpedPlayerToday: boolean;
   totalHelpedToday: number;
 }> {
@@ -46,11 +47,12 @@ export async function loadGameStateForVisit(
 
   const data = await response.json();
 
-  const { visitorFarmState, visitedFarmState } = data;
+  const { visitorFarmState, visitedFarmState, visitedFarmNftId } = data;
 
   return {
     ...data,
     visitorFarmState: makeGame(visitorFarmState),
     visitedFarmState: makeGame(visitedFarmState),
+    visitedFarmNftId,
   };
 }

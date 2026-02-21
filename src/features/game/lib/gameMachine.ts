@@ -187,6 +187,7 @@ export interface Context {
   rawToken?: string;
   visitorId?: number;
   visitorState?: GameState;
+  visitorNftId?: number;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
   apiKey?: string;
@@ -1102,6 +1103,7 @@ export function startGame(authContext: AuthContext) {
                 hasHelpedPlayerToday,
                 totalHelpedToday,
                 visitorId,
+                visitedFarmNftId,
               } = await loadGameStateForVisit(
                 Number(farmId),
                 authContext.user.rawToken as string,
@@ -1114,6 +1116,7 @@ export function startGame(authContext: AuthContext) {
                 totalHelpedToday,
                 visitorId,
                 visitorState: visitorFarmState,
+                visitedFarmNftId,
               };
             },
             onDone: {
@@ -1123,10 +1126,12 @@ export function startGame(authContext: AuthContext) {
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
                 visitorState: (_, event) => event.data.visitorState,
+                nftId: (_, event) => event.data.visitedFarmNftId,
+                visitorNftId: (context) => context.nftId,
                 hasHelpedPlayerToday: (_, event) =>
                   event.data.hasHelpedPlayerToday,
                 totalHelpedToday: (_, event) => event.data.totalHelpedToday,
-                actions: (_, event) => [],
+                actions: () => [],
               }),
             },
             onError: {
@@ -1159,10 +1164,12 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context) => ({
                 visitorId: undefined,
                 visitorState: undefined,
+                visitorNftId: undefined,
                 hasHelpedPlayerToday: undefined,
                 totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
+                nftId: context.visitorNftId,
                 actions: [],
               })),
             },

@@ -1,5 +1,9 @@
-export const shortAddress = (address: string): string => {
+export const shortAddress = (
+  address: string,
+  startLength: number = 5,
+  endLength: number = 4,
+): string => {
   if (!address) return "";
 
-  return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  return `${address.slice(0, startLength)}...${address.slice(-endLength)}`;
 };

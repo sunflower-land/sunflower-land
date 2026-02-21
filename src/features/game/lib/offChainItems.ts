@@ -53,6 +53,7 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   ),
   ...getKeys(CONSUMABLES),
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
+  "Town Sign",
 ]);
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] =
