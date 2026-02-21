@@ -460,11 +460,11 @@ export const CraftTab: React.FC<Props> = ({
 
     gameService.send("crafting.started", { ingredients: selectedItems });
     if (!currentRecipe) gameService.send("SAVE");
-    setSelectedQueueSlot(null);
   };
 
   const handleCollect = () => {
     gameService.send("crafting.collected");
+    setSelectedItems(getCurrentCraftingRecipeIngredients());
   };
 
   const handleClearIngredients = () => {

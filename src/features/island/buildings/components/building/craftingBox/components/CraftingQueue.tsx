@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useTranslation } from "react-i18next";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { Context } from "features/game/GameProvider";
@@ -10,6 +9,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { CraftingQueueItem } from "features/game/types/game";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { CraftingQueueSlot } from "./CraftingQueueSlot";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   product?: CraftingQueueItem;
@@ -39,7 +39,7 @@ export const CraftingQueue: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const sortedQueue = [...queue].sort((a, b) => a.readyAt - b.readyAt);
   const displayItems = [...sortedQueue, ...readyProducts];
 
