@@ -17,7 +17,12 @@ type Props = {
   queue: CraftingQueueItem[];
   onClose: () => void;
   selectedQueueSlot?: number | null;
-  onSlotSelect?: (slotIndex: number, isEmpty: boolean) => void;
+  selectedQueuedItemSlot?: number | null;
+  onSlotSelect?: (
+    slotIndex: number,
+    isEmpty: boolean,
+    item?: CraftingQueueItem,
+  ) => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -28,6 +33,7 @@ export const CraftingQueue: React.FC<Props> = ({
   readyProducts,
   onClose,
   selectedQueueSlot = null,
+  selectedQueuedItemSlot = null,
   onSlotSelect,
 }) => {
   const { gameService } = useContext(Context);
@@ -56,18 +62,23 @@ export const CraftingQueue: React.FC<Props> = ({
         />
       </div>
 
-      <div className="flex flex-wrap h-fit">
+      <div className="flex flex-wrap h-fit items-start">
         {Array(product ? 3 : 4)
           .fill(null)
           .map((_, index) => (
-            <CraftingQueueSlot
-              key={`slot-${index}`}
-              item={displayItems[index]}
-              readyProducts={readyProducts}
-              slotIndex={index}
-              isSelected={selectedQueueSlot === index}
-              onSelect={onSlotSelect}
-            />
+            <div key={`slot-wrapper-${index}`} className="flex">
+              <CraftingQueueSlot
+                key={`slot-${index}`}
+                item={displayItems[index]}
+                readyProducts={readyProducts}
+                slotIndex={index}
+                isSelected={
+                  selectedQueueSlot === index ||
+                  selectedQueuedItemSlot === index
+                }
+                onSelect={onSlotSelect}
+              />
+            </div>
           ))}
       </div>
     </div>
