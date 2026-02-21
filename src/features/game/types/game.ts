@@ -92,6 +92,13 @@ import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
+
+export type CraftingQueueItem = {
+  name: RecipeCollectibleName | BumpkinItem;
+  readyAt: number;
+  startedAt: number;
+  type: "collectible" | "wearable";
+};
 import { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -1933,6 +1940,7 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
+    queue?: CraftingQueueItem[];
     item?:
       | {
           collectible: RecipeCollectibleName;
