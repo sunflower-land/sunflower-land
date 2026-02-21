@@ -139,6 +139,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           gameService={gameService}
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
+          onClose={onClose}
         />
       )}
       {currentTab === "recipes" && (
