@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Kürzlich gehandeltes Konto",
   "accountRecentlyTraded.description": "Dieses Konto wurde innerhalb der letzten 90 Tage gehandelt. Auszahlungen, der Verkauf von Artikeln und die Annahme von Angeboten sind vorübergehend deaktiviert. Sie können weiterhin Artikel kaufen und Angebote machen.",
   "accountRecentlyTraded.timeLeft": "{{time}} übrig",
-  "tradeCooldown.title": "Abklingzeit des Handelns"
+  "tradeCooldown.title": "Abklingzeit des Handelns",
+  "unlock.farmhandRevealing": "Farmhand freischalten...",
+  "unlock.farmhandSuccess": "Farmhand freigeschaltet! Ihr neuer Helfer ist bereit zu arbeiten."
 }

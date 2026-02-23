@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Cuenta negociada recientemente",
   "accountRecentlyTraded.description": "Esta cuenta se negoció en los últimos 90 días. Las retiradas, la venta de artículos y la aceptación de ofertas están inhabilitadas temporalmente. Aún puedes comprar artículos y hacer ofertas.",
   "accountRecentlyTraded.timeLeft": "{{time}} izquierda",
-  "tradeCooldown.title": "Tiempo de reutilización de las operaciones"
+  "tradeCooldown.title": "Tiempo de reutilización de las operaciones",
+  "unlock.farmhandRevealing": "Desbloqueando Farmhand...",
+  "unlock.farmhandSuccess": "¡Farmhand desbloqueado! Tu nuevo ayudante está listo para trabajar."
 }
