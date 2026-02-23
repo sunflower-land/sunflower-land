@@ -120,7 +120,7 @@ const FEATURE_FLAGS = {
 
 const TIME_BASED_FEATURE_FLAGS = {
   TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag(
-    new Date("2026-02-24T00:00:00Z"),
+    new Date("2026-02-23T00:00:00Z"),
   ),
 } satisfies Record<string, TimeBasedFeatureFlag>;
 

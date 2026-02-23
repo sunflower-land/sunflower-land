@@ -349,6 +349,11 @@ export const GOBLINS_REQUIRING_REPUTATION: NPCName[] = [
   "gambit",
 ];
 
+export const areBumpkinsOnHoliday = (timestamp: number) => {
+  const { holiday } = getBumpkinHoliday({ now: timestamp });
+  return holiday === new Date(timestamp).toISOString().split("T")[0];
+};
+
 export function deliverOrder({
   state,
   action,
@@ -388,10 +393,7 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const { holiday } = getBumpkinHoliday({ now: createdAt });
-
-    const ticketTasksAreFrozen =
-      holiday === new Date(createdAt).toISOString().split("T")[0];
+    const ticketTasksAreFrozen = areBumpkinsOnHoliday(createdAt);
 
     const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];
 
@@ -495,10 +497,13 @@ export function deliverOrder({
         game.farmActivity,
       );
 
+      // Take the timestamp of the order
+      const isCoinTasksFrozen = areBumpkinsOnHoliday(order.createdAt);
+
       if (
         isCoinNPC(order.from) &&
-        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", createdAt) &&
-        !ticketTasksAreFrozen
+        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", order.createdAt) &&
+        !isCoinTasksFrozen
       ) {
         handleChapterAnalytics({
           task: "coinDelivery",

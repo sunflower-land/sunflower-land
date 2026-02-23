@@ -44,6 +44,7 @@ import {
   DEFAULT_FLOWER_POINTS,
 } from "features/game/types/gifts";
 import {
+  areBumpkinsOnHoliday,
   generateDeliveryTickets,
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
@@ -105,17 +106,29 @@ const OrderCard: React.FC<{
     isHoliday && isTicketNPC(order.from) && baseTickets > 0;
   const hasRewardAmount =
     order.reward.coins !== undefined || order.reward.sfl !== undefined;
-  const chapterPoints =
-    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now) &&
-    isCoinNPC(order.from)
-      ? getChapterTaskPoints({
+
+  const getChapterPoints = () => {
+    if (
+      isCoinNPC(order.from) &&
+      hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", order.createdAt)
+    ) {
+      if (areBumpkinsOnHoliday(order.createdAt)) {
+        return 0;
+      } else {
+        return getChapterTaskPoints({
           task: "coinDelivery",
           points: 10,
-        })
-      : getChapterTaskPoints({
-          task: "delivery",
-          points: ticketDisplay,
         });
+      }
+    }
+    return getChapterTaskPoints({
+      task: "delivery",
+      points: ticketDisplay,
+    });
+  };
+
+  const chapterPoints = getChapterPoints();
+
   return (
     <>
       <div className="">
