@@ -29,7 +29,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "features/game/types";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
@@ -64,7 +63,6 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   >(null);
 
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
   const remainingInventory = useSelector(gameService, _remainingInventory);
   const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
 
@@ -151,12 +149,6 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
               getBoostedCraftingTime({
                 game: state,
                 time: recipe.time,
-                farmId,
-                itemId:
-                  recipe.type === "collectible"
-                    ? KNOWN_IDS[recipe.name as InventoryItemName]
-                    : ITEM_IDS[recipe.name as BumpkinItem],
-                counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
               });
 
             return (
