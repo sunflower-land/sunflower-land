@@ -569,8 +569,17 @@ export const CraftTab: React.FC<Props> = ({
     });
   };
 
+  const isViewingInProgressRecipe =
+    cooking != null && selectedQueueSlot == null && selectedQueuedItem == null;
+
+  const isViewingQueuedRecipe = selectedQueuedItem != null;
+
   const isDisabled =
-    isPending || (isCrafting && !canAddToQueue) || isCraftingBoxEmpty;
+    isPending ||
+    (isCrafting && !canAddToQueue) ||
+    isCraftingBoxEmpty ||
+    isViewingInProgressRecipe ||
+    isViewingQueuedRecipe;
 
   const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
 
@@ -679,6 +688,9 @@ export const CraftTab: React.FC<Props> = ({
                 isQueueFull={isQueueFull}
                 isPreparingQueueSlot={
                   selectedQueueSlot != null || selectedQueuedItem != null
+                }
+                isPreparingEmptyQueueSlot={
+                  selectedQueueSlot != null && selectedQueuedItem == null
                 }
               />
             )}
@@ -1048,6 +1060,7 @@ const CraftButton: React.FC<{
   canAddToQueue?: boolean;
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
+  isPreparingEmptyQueueSlot?: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -1063,6 +1076,7 @@ const CraftButton: React.FC<{
   canAddToQueue = false,
   isQueueFull = false,
   isPreparingQueueSlot = false,
+  isPreparingEmptyQueueSlot = false,
 }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -1090,17 +1104,16 @@ const CraftButton: React.FC<{
   }
 
   if (isCrafting || isPending) {
-    const canShowAddToQueue = canAddToQueue && hasRequiredIngredients;
-    const disabled =
+    const addToQueueDisabled =
       isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
 
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2 flex-wrap">
-        {canAddToQueue ? (
+        {isPreparingEmptyQueueSlot && canAddToQueue ? (
           <Button
             className="whitespace-nowrap relative"
             onClick={handleCraft}
-            disabled={disabled}
+            disabled={addToQueueDisabled}
           >
             <img
               src={vipIcon}
@@ -1109,9 +1122,7 @@ const CraftButton: React.FC<{
             />
             {t("recipes.addToQueue")}
           </Button>
-        ) : (
-          <Button disabled={true}>{t("crafting")}</Button>
-        )}
+        ) : null}
         {!isPreparingQueueSlot && (
           <Button
             disabled={!inventory.Gem?.gte(gems) || isPending}

@@ -45,7 +45,7 @@ export const CraftingQueue: React.FC<Props> = ({
 
   return (
     <div className="mb-2">
-      <div className="w-full flex justify-between">
+      <div className="w-full flex">
         <Label
           className="mr-3 ml-2 mb-1"
           icon={SUNNYSIDE.icons.arrow_right}
