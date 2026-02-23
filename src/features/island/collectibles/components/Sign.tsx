@@ -7,6 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 import { CollectibleProps } from "../Collectible";
+import { shortAddress } from "lib/utils/shortAddress";
 
 const _username = (state: MachineState) => state.context.state.username;
 const _nftId = (state: MachineState) => state.context.nftId;
@@ -46,6 +47,7 @@ export const Sign: React.FC<CollectibleProps> = ({ index }) => {
           return `#${farmId}`;
       }
     }
+    return `#${farmId}`;
   };
   const displayName = getDisplayName(index);
 
@@ -70,7 +72,11 @@ export const Sign: React.FC<CollectibleProps> = ({ index }) => {
             textShadow: "1px 1px #723e39",
           }}
         >
-          <p className="text-xxs mt-2 font-pixel">{displayName}</p>
+          <p className="text-xxs mt-2 font-pixel">
+            {displayName === `#${farmId}` && farmId.toString().length > 6
+              ? shortAddress(displayName, 4, 3)
+              : displayName}
+          </p>
         </div>
       </div>
     </SFTDetailPopover>
