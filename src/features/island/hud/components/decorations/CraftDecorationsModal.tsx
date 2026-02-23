@@ -41,7 +41,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const [tab, setTab] = useState<Tab>(showCrafting ? "craft" : "landscaping");
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} size="lg">
       <CloseButtonPanel
         currentTab={tab}
         setCurrentTab={setTab}
