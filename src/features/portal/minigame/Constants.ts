@@ -89,3 +89,39 @@ export const ENEMIES_TABLE: {
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
+
+// Animation
+export const createAnimation: any = (
+  scene: Phaser.Scene,
+  sprite: Phaser.GameObjects.Sprite,
+  spriteName: string,
+  animType: string,
+  start: number,
+  end: number,
+  frameRate: number,
+  repeat: number,
+) => {
+  const animationKey = `${spriteName}_${animType}_anim`;
+
+  if (!scene.anims.exists(animationKey)) {
+    scene.anims.create({
+      key: animationKey,
+      frames: scene.anims.generateFrameNumbers(spriteName, {
+        start,
+        end,
+      }),
+      frameRate,
+      repeat,
+    });
+  }
+  sprite.play(animationKey, true);
+}
+
+export const addSoundEffect = (
+  scene: Phaser.Scene,
+  key: string,
+  loop = false,
+  volume = 0.2,
+): Phaser.Sound.BaseSound => {
+  return scene.sound.add(key, { loop, volume });
+}

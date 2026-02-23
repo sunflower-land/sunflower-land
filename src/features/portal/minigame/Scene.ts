@@ -7,6 +7,8 @@ import { EventObject } from "xstate";
 import { isTouchDevice } from "features/world/lib/device";
 import { PORTAL_NAME, WALKING_SPEED } from "./Constants";
 import { EventBus } from "./lib/EventBus";
+import { Giant_Skeleton } from "./containers/Giant_Skeleton";
+import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -48,6 +50,31 @@ export class Scene extends BaseScene {
     super.preload();
 
     // Minigame assets
+    this.load.spritesheet("giant_skeleton_idle", "public/world/minigame/skeleton_hurt.webp", {
+      frameWidth: 23,
+      frameHeight: 26
+    })
+    this.load.spritesheet("sniper_skeleton_idle", "public/world/minigame/skeleton_attack.webp", {
+      frameWidth: 23,
+      frameHeight: 24
+    })
+    this.load.spritesheet("sniper_skeleton_carrot_splat", "public/world/minigame/carrot_splat.webp", {
+      frameWidth: 18,
+      frameHeight: 16
+    })
+    this.load.spritesheet("sniper_skeleton_tomato_splat", "public/world/minigame/tomato_splat.webp", {
+      frameWidth: 18,
+      frameHeight: 16
+    })
+    this.load.spritesheet("sniper_skeleton_cabbage_splat", "public/world/minigame/cabbage_splat.webp", {
+      frameWidth: 18,
+      frameHeight: 15
+    })
+    this.load.image("giant_skeleton_barrel", "public/world/minigame/Wooden_Barrel.webp")
+    this.load.image("sniper_skeleton_carrot", "public/world/minigame/carrot.png")
+    this.load.image("sniper_skeleton_tomato", "public/world/minigame/tomato.webp")
+    this.load.image("sniper_skeleton_cabbage", "public/world/minigame/cabbage.png")
+
     // Music
     // Background
     this.load.audio(
@@ -61,6 +88,10 @@ export class Scene extends BaseScene {
       key: PORTAL_NAME,
     });
     super.create();
+
+    // Enemies
+    this.createGiantSkeleton();
+    this.createSniperSkeleton();
 
     // Reset listeners
     EventBus.removeAllListeners();
@@ -220,4 +251,25 @@ export class Scene extends BaseScene {
 
     this.currentPlayer[animation]?.();
   }
-}
+
+  private createGiantSkeleton() {
+    const {x, y} = {x: 230, y: 240}
+    const giantCardboard = new Giant_Skeleton({
+      x,
+      y,
+      scene: this,
+      player: this.currentPlayer
+    });
+  }
+
+  private createSniperSkeleton() {
+    const {x, y} = {x: 250, y: 260}
+    const sniperSkeleton = new Sniper_Skeleton({
+      x,
+      y,
+      scene: this,
+      player: this.currentPlayer
+    });
+  }
+
+ }
