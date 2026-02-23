@@ -6,6 +6,7 @@ import {
   getSignupWardrobe,
   DEFAULT_SIGNUP_EQUIPMENT,
 } from "./signupBumpkinDefaults";
+import { getKeys } from "features/game/lib/crafting";
 
 describe("signupBumpkinDefaults", () => {
   describe("getSignupWardrobe", () => {
@@ -19,7 +20,7 @@ describe("signupBumpkinDefaults", () => {
 
     it("contains no dress items (signup requires shirt and pants only)", () => {
       const wardrobe = getSignupWardrobe();
-      const signupItemNames = Object.keys(wardrobe);
+      const signupItemNames = getKeys(wardrobe);
       const dressItems = signupItemNames.filter(
         (name) => BUMPKIN_ITEM_PART[name] === "dress",
       );

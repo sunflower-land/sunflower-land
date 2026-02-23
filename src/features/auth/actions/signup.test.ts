@@ -1,3 +1,4 @@
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { signUp } from "./signup";
 
 describe("signUp", () => {
@@ -17,7 +18,7 @@ describe("signUp", () => {
       json: async () => ({ token: "jwt", farm: { id: 1 } }),
     });
 
-    const equipment = {
+    const equipment: BumpkinParts = {
       background: "Farm Background",
       body: "Beige Farmer Potion",
       hair: "Rancher Hair",
