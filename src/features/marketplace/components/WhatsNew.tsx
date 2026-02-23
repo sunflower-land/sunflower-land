@@ -19,12 +19,14 @@ import Decimal from "decimal.js-light";
 import { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const now = useNow();
 
   const token = authState.context.user.rawToken as string;
   const {
@@ -45,8 +47,9 @@ export const WhatsNew: React.FC = () => {
   const sortedCollectibles = sortItems(
     collectibles?.items ?? [],
     "collectibles",
+    now,
   );
-  const sortedWearables = sortItems(wearables?.items ?? [], "wearables");
+  const sortedWearables = sortItems(wearables?.items ?? [], "wearables", now);
 
   return (
     <div className="flex flex-wrap">
@@ -122,8 +125,12 @@ const ItemsList: React.FC<{
   );
 };
 
-const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
-  const oneMonthAgo = new Date();
+const sortItems = (
+  items: Tradeable[],
+  type: "collectibles" | "wearables",
+  now: number,
+) => {
+  const oneMonthAgo = new Date(now);
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const filteredItems: (Tradeable & { tradeAt: number })[] = [];

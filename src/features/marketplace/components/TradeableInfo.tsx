@@ -200,8 +200,8 @@ export const TradeableDescription: React.FC<{
       INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
   }
 
-  const canTrade = !!tradeAt && tradeAt <= new Date();
-  const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+  const canTrade = !!tradeAt && tradeAt <= new Date(now);
+  const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
 
   const isWearable = display.type === "wearables";
   const isCollectible = display.type === "collectibles";

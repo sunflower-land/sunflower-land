@@ -22,6 +22,7 @@ import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type CollectionItem = {
   id: number;
@@ -40,6 +41,8 @@ export const MyCollection: React.FC = () => {
   const [search, setSearch] = useState("");
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
+  const now = useNow();
+
   let items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState);
@@ -56,7 +59,7 @@ export const MyCollection: React.FC = () => {
   const wardrobe = availableWardrobe(gameState);
   getKeys(wardrobe).forEach((name) => {
     const withdrawAt = WEARABLE_RELEASES[name]?.withdrawAt;
-    const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+    const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
     if (canWithdraw) {
       items.push({
         id: ITEM_IDS[name],
