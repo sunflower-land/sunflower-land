@@ -20,7 +20,12 @@ import { useActor, useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  getAccountTradedRestrictionSecondsLeft,
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
   getRemainingTrades,
@@ -38,7 +43,6 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
@@ -85,6 +89,12 @@ export const MarketplaceNavigation: React.FC = () => {
   const { farmId } = gameService.getSnapshot().context;
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
+  const restrictionSecondsLeft = useSelector(gameService, (s) =>
+    getAccountTradedRestrictionSecondsLeft(s.context),
+  );
 
   const listingsLeft = getRemainingTrades({
     game: gameService.getSnapshot().context.state,
@@ -167,6 +177,12 @@ export const MarketplaceNavigation: React.FC = () => {
               <span className="mt-0.5">{t("flowerDashboard.title")}</span>
             </div>
           </Button>
+
+          {accountTradedRecently && (
+            <TradeCooldownWidget
+              restrictionSecondsLeft={restrictionSecondsLeft}
+            />
+          )}
 
           {!hasTradeReputation && (
             <InnerPanel

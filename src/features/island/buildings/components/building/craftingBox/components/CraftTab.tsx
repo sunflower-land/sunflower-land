@@ -42,7 +42,7 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { CROPS } from "features/game/types/crops";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
-import { BEDS } from "features/game/types/beds";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURES } from "features/game/types/treasure";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
@@ -130,7 +130,7 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
     if (item in CROPS) crops.push(item);
     else if (item in { ...COMMODITIES, ...ANIMAL_RESOURCES })
       resources.push(item);
-    else if (item in BEDS) beds.push(item);
+    else if (item in BED_FARMHAND_COUNT) beds.push(item);
     else if (item in FLOWERS) flowers.push(item);
     else if (item in SELLABLE_TREASURES) treasures.push(item);
     else if (item in RECIPE_CRAFTABLES) craftingBox.push(item);

@@ -30,6 +30,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 interface Props {
   onWithdraw: () => void;
   allowLongpressWithdrawal?: boolean;
+  withdrawDisabled?: boolean;
 }
 
 const DELIVERY_FEE_PERCENTAGE = 30;
@@ -44,7 +45,10 @@ const _inventory = (state: MachineState): Inventory => {
   );
 };
 
-export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawResources: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -68,6 +72,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const withdraw = () => {
+    if (withdrawDisabled) return;
     const itemsForWithdraw = Object.entries(selected) as [
       InventoryItemName,
       Decimal,
@@ -232,7 +237,10 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
         </p>
       </div>
 
-      <Button onClick={withdraw} disabled={hasWrongInputs()}>
+      <Button
+        onClick={withdraw}
+        disabled={hasWrongInputs() || withdrawDisabled}
+      >
         {t("deliveryitem.deliver")}
       </Button>
     </>

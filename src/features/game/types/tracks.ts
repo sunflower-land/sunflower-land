@@ -8,12 +8,13 @@ export type MilestoneRewards = {
   flower?: number;
 };
 
-export type ChapterTask = "delivery" | "chore" | "bounty";
+export type ChapterTask = "delivery" | "chore" | "bounty" | "coinDelivery";
 
 const CHAPTER_TASK_POINTS: Record<ChapterTask, number> = {
   delivery: 5,
   bounty: 3,
   chore: 1,
+  coinDelivery: 1,
 };
 
 export function getChapterTaskPoints({

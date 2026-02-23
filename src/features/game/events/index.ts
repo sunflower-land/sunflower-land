@@ -160,7 +160,6 @@ import {
   claimMilestone,
   ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
-import { missFish, MissFishAction } from "./landExpansion/missFish";
 import { missMap, MissMapAction } from "./landExpansion/missMap";
 import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
 import {
@@ -287,6 +286,10 @@ import {
   harvestCropMachine,
   HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
+import {
+  removeCropMachinePack,
+  RemoveCropMachinePackAction,
+} from "./landExpansion/removeCropMachinePack";
 import { joinFaction, JoinFactionAction } from "./landExpansion/joinFaction";
 import {
   completeKingdomChore,
@@ -650,7 +653,6 @@ export type PlayingEvent =
   | ReelRodAction
   | CatchMarvelAction
   | ClaimMilestoneAction
-  | MissFishAction
   | MissMapAction
   | RevealLandAction
   | BurnCollectibleAction
@@ -678,6 +680,7 @@ export type PlayingEvent =
   | SupplyCropMachineAction
   | SupplyCropMachineOilAction
   | HarvestCropMachineAction
+  | RemoveCropMachinePackAction
   | SupplyCookingOilAction
   | JoinFactionAction
   | CompleteKingdomChoreAction
@@ -913,7 +916,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rod.reeled": reelRod,
   "marvel.caught": catchMarvel,
   "milestone.claimed": claimMilestone,
-  "fish.missed": missFish,
   "map.missed": missMap,
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
@@ -935,6 +937,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,
   "cropMachine.oilSupplied": supplyCropMachineOil,
+  "cropMachine.packRemoved": removeCropMachinePack,
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
   "cookingOil.supplied": supplyCookingOil,

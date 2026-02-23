@@ -4,6 +4,7 @@ import {
   QuestNPCName,
   TICKET_REWARDS,
   deliverOrder,
+  generateDeliveryTickets,
 } from "./deliver";
 import {
   INITIAL_BUMPKIN,
@@ -12,7 +13,9 @@ import {
 } from "features/game/lib/constants";
 import { getChapterTicket } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import * as flags from "lib/flags";
 import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
+import { GameState } from "features/game/types/game";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -1892,6 +1895,94 @@ describe("deliver", () => {
     });
 
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(10));
+  });
+
+  it("returns base ticket count for coin NPC without double delivery", () => {
+    const now = new Date("2026-02-20T00:00:01Z").getTime();
+    const game = {
+      ...INITIAL_FARM,
+      npcs: {},
+      calendar: { dates: [] },
+    };
+
+    expect(
+      generateDeliveryTickets({
+        game,
+        npc: "betty",
+        now,
+        order: { reward: { coins: 500 } },
+      }),
+    ).toEqual(1);
+
+    expect(
+      generateDeliveryTickets({
+        game,
+        npc: "betty",
+        now,
+        order: { reward: { coins: 3000 } },
+      }),
+    ).toEqual(2);
+
+    expect(
+      generateDeliveryTickets({
+        game,
+        npc: "betty",
+        now,
+        order: { reward: { coins: 6000 } },
+      }),
+    ).toEqual(3);
+  });
+
+  it("returns 0 tickets for coin NPC when TICKETS_FROM_COIN_NPC flag is inactive", () => {
+    const now = new Date("2026-02-19T23:59:59Z").getTime();
+    const game = {
+      ...INITIAL_FARM,
+      npcs: {},
+      calendar: { dates: [] },
+    };
+
+    const spy = jest.spyOn(flags, "hasTimeBasedFeatureAccess");
+    spy.mockReturnValue(false);
+
+    expect(
+      generateDeliveryTickets({
+        game,
+        npc: "betty",
+        now,
+        order: { reward: { coins: 3000 } },
+      }),
+    ).toEqual(0);
+
+    spy.mockRestore();
+  });
+
+  it("doubles coin NPC ticket count when double delivery is active and bonus not claimed", () => {
+    const now = new Date("2026-02-20T00:00:01Z").getTime();
+    const game: GameState = {
+      ...INITIAL_FARM,
+      npcs: {},
+      calendar: {
+        dates: [
+          {
+            name: "doubleDelivery",
+            date: new Date(now).toISOString().substring(0, 10),
+          },
+        ],
+        doubleDelivery: {
+          triggeredAt: now,
+          startedAt: now,
+        },
+      },
+    };
+
+    const tickets = generateDeliveryTickets({
+      game,
+      npc: "betty",
+      now,
+      order: { reward: { coins: 3000 } },
+    });
+
+    expect(tickets).toEqual(4);
   });
 
   it("can deliver items from the wardrobe", () => {

@@ -120,10 +120,6 @@ export const SkillCategoryList: React.FC<{
     return true;
   };
 
-  const getCropMachineResetWarning = (): string | undefined => {
-    return undefined;
-  };
-
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
@@ -228,7 +224,6 @@ export const SkillCategoryList: React.FC<{
           gemCost={gemCost}
           gemBalance={gemBalance}
           getNextResetDateAndTime={getNextResetDateAndTime}
-          getCropMachineResetWarning={getCropMachineResetWarning}
           hasSkills={hasSkills}
           canResetSkills={canResetSkills}
           handleSkillsReset={handleSkillsReset}

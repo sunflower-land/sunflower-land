@@ -6,23 +6,48 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { CollectibleProps } from "../Collectible";
 
 const _username = (state: MachineState) => state.context.state.username;
 const _nftId = (state: MachineState) => state.context.nftId;
 const _farmId = (state: MachineState) => state.context.farmId;
 
-export const Sign: React.FC = () => {
+export const Sign: React.FC<CollectibleProps> = ({ index }) => {
   const { gameService } = useContext(Context);
 
   const username = useSelector(gameService, _username);
   const nftId = useSelector(gameService, _nftId);
   const farmId = useSelector(gameService, _farmId);
 
-  const displayName = () => {
-    if (username) return username;
-    if (nftId) return `#${nftId}`;
-    return `#${farmId}`;
+  const getDisplayName = (index: number) => {
+    if (username && nftId) {
+      switch (index) {
+        case 0:
+          return username;
+        case 1:
+          return `#${nftId}`;
+        default:
+          return `#${farmId}`;
+      }
+    }
+    if (username) {
+      switch (index) {
+        case 0:
+          return username;
+        default:
+          return `#${farmId}`;
+      }
+    }
+    if (nftId) {
+      switch (index) {
+        case 0:
+          return `#${nftId}`;
+        default:
+          return `#${farmId}`;
+      }
+    }
   };
+  const displayName = getDisplayName(index);
 
   return (
     <SFTDetailPopover name="Town Sign">
@@ -45,7 +70,7 @@ export const Sign: React.FC = () => {
             textShadow: "1px 1px #723e39",
           }}
         >
-          <p className="text-xxs mt-2 font-pixel">{displayName()}</p>
+          <p className="text-xxs mt-2 font-pixel">{displayName}</p>
         </div>
       </div>
     </SFTDetailPopover>

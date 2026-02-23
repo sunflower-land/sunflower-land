@@ -12,6 +12,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
   packIndex: number;
+  machineId: string;
 };
 
 type Options = {
@@ -65,26 +66,27 @@ export function harvestCropMachine({
   farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const machine = stateCopy.buildings["Crop Machine"]?.[0];
-    const { bumpkin } = stateCopy;
-
-    if (!bumpkin) {
-      throw new Error("Bumpkin does not exist");
-    }
-
-    if (!machine) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
 
-    if (!machine.queue || machine.queue?.length === 0) {
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (m) => m.id === action.machineId,
+    );
+
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
+    }
+
+    if (!cropMachine.queue || cropMachine.queue?.length === 0) {
       throw new Error("Nothing in the queue");
     }
 
-    if (!machine.queue[action.packIndex]) {
+    if (!cropMachine.queue[action.packIndex]) {
       throw new Error("Pack does not exist");
     }
 
-    const pack = machine.queue[action.packIndex];
+    const pack = cropMachine.queue[action.packIndex];
 
     if (!pack.readyAt || (pack.readyAt && pack.readyAt > createdAt)) {
       throw new Error("The pack is not ready yet");
@@ -112,7 +114,7 @@ export function harvestCropMachine({
     );
 
     // Filter out the harvested crops and add them to the player's inventory
-    machine.queue = machine.queue.filter(
+    cropMachine.queue = cropMachine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
 

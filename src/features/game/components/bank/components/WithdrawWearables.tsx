@@ -32,11 +32,15 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
+  withdrawDisabled?: boolean;
 }
 
 const _state = (state: MachineState) => state.context.state;
 
-export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawWearables: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -327,7 +331,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </p>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0 || withdrawDisabled}
+      >
         {t("withdraw")}
       </Button>
     </>

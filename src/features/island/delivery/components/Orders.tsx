@@ -149,13 +149,14 @@ export const DeliveryOrders: React.FC<Props> = ({
   }
   const completedAt = npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   const hasClaimedBonus =
     !!completedAt &&
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
   const canSkip =
-    getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
+    getDayOfYear(new Date(now)) !==
+    getDayOfYear(new Date(previewOrder.createdAt));
 
   const skip = () => {
     setShowSkipDialog(false);
@@ -216,7 +217,8 @@ export const DeliveryOrders: React.FC<Props> = ({
   const { holiday } = getBumpkinHoliday({ now });
 
   // Check if matches UTC date
-  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
+  const isHoliday = holiday === todayDate;
 
   const nextHolidayInSecs = (new Date(holiday ?? 0).getTime() - now) / 1000;
 
@@ -243,11 +245,30 @@ export const DeliveryOrders: React.FC<Props> = ({
     .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
     .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
-  const tickets = generateDeliveryTickets({
+  const baseTickets = generateDeliveryTickets({
     game: state,
     npc: previewOrder.from,
     now,
+    order: previewOrder,
   });
+
+  // During ticket freeze (holiday), quest ticket deliveries are blocked.
+  // Coin deliveries can still be completed but award 0 tickets.
+  // Hide ticket counts on frozen quest orders to avoid mixed messaging.
+  const tickets =
+    isHoliday && !isTicketNPC(previewOrder.from) ? 0 : baseTickets;
+  const ticketDisplay =
+    isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0
+      ? 0
+      : tickets;
+  const isFrozenQuestOrder =
+    isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0;
+  const hasRewardAmount =
+    previewOrder.reward.coins !== undefined ||
+    previewOrder.reward.sfl !== undefined;
+  const rewardDisplayValue = hasRewardAmount
+    ? makeRewardAmountForLabel(previewOrder)
+    : ticketDisplay;
 
   const chapter = getCurrentChapter(now);
 
@@ -572,18 +593,63 @@ export const DeliveryOrders: React.FC<Props> = ({
                       />
                       <span className="text-xs ml-1">{t("reward")}</span>
                     </div>
-                    <Label type="warning" className="whitespace-nowrap">
-                      <span className={!isMobile ? "text-xxs" : ""}>
-                        {`${tickets || makeRewardAmountForLabel(previewOrder)} ${
-                          previewOrder.reward.coins
-                            ? t("coins")
-                            : previewOrder.reward.sfl
-                              ? "FLOWER"
-                              : chapterTicket
-                        }`}
-                      </span>
-                    </Label>
+                    <div className="flex flex-col items-end gap-1">
+                      {isFrozenQuestOrder && !hasRewardAmount ? (
+                        <Label
+                          type="danger"
+                          className="whitespace-nowrap"
+                          icon={SUNNYSIDE.icons.stopwatch}
+                        >
+                          <span className={!isMobile ? "text-xxs" : ""}>
+                            {t("deliveries.closed")}
+                          </span>
+                        </Label>
+                      ) : (
+                        <>
+                          {hasRewardAmount && (
+                            <Label type="warning" className="whitespace-nowrap">
+                              <span className={!isMobile ? "text-xxs" : ""}>
+                                {`${rewardDisplayValue} ${
+                                  previewOrder.reward.coins
+                                    ? t("coins")
+                                    : previewOrder.reward.sfl
+                                      ? "FLOWER"
+                                      : chapterTicket
+                                }`}
+                              </span>
+                            </Label>
+                          )}
+                          {!!ticketDisplay && (
+                            <Label
+                              type="warning"
+                              className="whitespace-nowrap"
+                              icon={ITEM_DETAILS[chapterTicket].image}
+                            >
+                              <span className={!isMobile ? "text-xxs" : ""}>
+                                {`${ticketDisplay} ${chapterTicket}`}
+                              </span>
+                            </Label>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
+                  {getKeys(previewOrder.reward.items ?? {}).length > 0 && (
+                    <div className="flex flex-wrap gap-1 items-center">
+                      {getKeys(previewOrder.reward.items ?? {}).map((item) => (
+                        <Label
+                          key={item}
+                          type="warning"
+                          className="whitespace-nowrap"
+                        >
+                          <span className={!isMobile ? "text-xxs" : ""}>
+                            {`${previewOrder.reward.items?.[item]} ${item}`}
+                          </span>
+                        </Label>
+                      ))}
+                    </div>
+                  )}
+                  {/* Points are displayed below in the purple badge. */}
                 </div>
                 <div className="mb-1">
                   {getActiveCalendarEvent({ calendar: state.calendar }) ===
@@ -652,22 +718,17 @@ export const DeliveryOrders: React.FC<Props> = ({
                 )}
               </div>
             )}
-            {isHoliday &&
-              !!generateDeliveryTickets({
-                game: state,
-                npc: previewOrder.from,
-                now,
-              }) && (
-                <Label
-                  type="danger"
-                  className="mb-1"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                >
-                  {t("deliveries.closed")}
-                </Label>
-              )}
+            {isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0 && (
+              <Label
+                type="danger"
+                className="mb-1"
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {t("deliveries.closed")}
+              </Label>
+            )}
           </InnerPanel>
-          {!!tickets && (
+          {!!ticketDisplay && (
             <div
               className={classNames(
                 `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
@@ -680,7 +741,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               <img src={chapterPoints} className="h-4 mr-2" />
               <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: "delivery", tickets: tickets })} ${chapter} points`}
+                {`+${getChapterTaskPoints({ task: isCoinNPC(previewOrder.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })} ${chapter} points`}
               </p>
             </div>
           )}

@@ -17,7 +17,6 @@ interface SkillResetProps {
     date: string;
     time: string;
   };
-  getCropMachineResetWarning: () => string | undefined;
   hasSkills: boolean;
   canResetSkills: () => boolean;
   handleSkillsReset: () => void;
@@ -30,7 +29,6 @@ export const SkillReset: React.FC<SkillResetProps> = ({
   gemCost,
   gemBalance,
   getNextResetDateAndTime,
-  getCropMachineResetWarning,
   hasSkills,
   canResetSkills,
   handleSkillsReset,
@@ -79,10 +77,6 @@ export const SkillReset: React.FC<SkillResetProps> = ({
 
           {!hasSkills && (
             <Label type="danger">{t("skillReset.noSkills")}</Label>
-          )}
-
-          {getCropMachineResetWarning() && (
-            <Label type="danger">{getCropMachineResetWarning()}</Label>
           )}
 
           {!showSkillsResetConfirmation ? (

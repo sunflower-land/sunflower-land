@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
 
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INVENTORY_LIMIT,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 
@@ -96,6 +100,31 @@ describe("seedBought", () => {
         },
       }),
     ).toThrow("Insufficient tokens");
+  });
+
+  it("throws an error when buying would exceed inventory limit", () => {
+    const sunflowerLimit =
+      INVENTORY_LIMIT(GAME_STATE)["Sunflower Seed"] ?? new Decimal(0);
+
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Sunflower Seed": sunflowerLimit,
+          },
+          stock: {
+            "Sunflower Seed": new Decimal(1),
+          },
+          coins: 100,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Can't buy more seeds than the inventory limit");
   });
 
   it("subtracts the coins on purchase", () => {

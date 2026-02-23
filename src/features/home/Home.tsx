@@ -175,6 +175,7 @@ export const Home: React.FC = () => {
                   y={coordinates!.y}
                   grid={gameGrid}
                   flipped={collectible.flipped}
+                  index={itemIndex}
                 />
               </MapPlacement>
             );

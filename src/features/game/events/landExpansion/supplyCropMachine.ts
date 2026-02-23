@@ -6,13 +6,13 @@ import {
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 
 export type AddSeedsInput = {
   type: CropSeedName;
@@ -22,6 +22,7 @@ export type AddSeedsInput = {
 export type SupplyCropMachineAction = {
   type: "cropMachine.supplied";
   seeds: AddSeedsInput;
+  machineId: string;
 };
 
 type SupplyCropMachineOptions = {
@@ -109,23 +110,25 @@ export function getOilTimeInMillis(oil: number, state: GameState) {
   return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
 }
 
-export function updateCropMachine({
+export function getPackSeedLimit({
   state,
-  now,
+  seedName,
 }: {
   state: GameState;
-  now: number;
+  seedName: CropSeedName;
 }) {
-  const stateCopy = cloneDeep<GameState>(state);
+  const inventoryLimit = INVENTORY_LIMIT(state)[seedName] ?? new Decimal(0);
 
-  // Ensure the crop machine exists
-  if (!stateCopy.buildings["Crop Machine"]) {
-    throw new Error("Crop Machine does not exist");
-  }
+  return inventoryLimit;
+}
 
-  const cropMachine = stateCopy.buildings[
-    "Crop Machine"
-  ][0] as CropMachineBuilding;
+export function updateCropMachine({
+  cropMachine,
+  now,
+}: {
+  now: number;
+  cropMachine: CropMachineBuilding;
+}) {
   const queue = cropMachine.queue ?? [];
 
   queue.forEach((pack, index) => {
@@ -134,7 +137,8 @@ export function updateCropMachine({
       return;
     }
 
-    const previousQueueItemReadyAt = queue[index - 1]?.readyAt ?? now;
+    const previousQueueItemReadyAt =
+      queue[index - 1]?.readyAt ?? queue[index - 1]?.growsUntil ?? now;
 
     // Allocate oil to the pack and update its state
     if (cropMachine.unallocatedOilTime >= pack.growTimeRemaining) {
@@ -283,14 +287,19 @@ export function supplyCropMachine({
   }
 
   return produce(state, (stateCopy) => {
-    if (
-      !stateCopy.buildings["Crop Machine"]?.some(
-        (building) => !!building.coordinates,
-      )
-    ) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
 
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (machine) => machine.id === action.machineId,
+    );
+
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
+    }
+
+    const { queue = [] } = cropMachine;
     const seedName = seedsAdded.type;
 
     // Check if seed is allowed based on basic seeds or skills
@@ -312,7 +321,11 @@ export function supplyCropMachine({
       throw new Error("You can't supply these seeds");
     }
 
-    const cropMachine = stateCopy.buildings["Crop Machine"][0];
+    const inventoryLimit = getPackSeedLimit({ state, seedName });
+
+    if (inventoryLimit.lt(seedsAdded.amount)) {
+      throw new Error("Can't supply more seeds than the inventory limit");
+    }
 
     const previousSeedsInInventory =
       stateCopy.inventory[seedName] ?? new Decimal(0);
@@ -320,8 +333,6 @@ export function supplyCropMachine({
     if (previousSeedsInInventory.lt(seedsAdded.amount)) {
       throw new Error("Missing requirements");
     }
-
-    const queue = cropMachine.queue ?? [];
 
     if (queue.length + 1 > MAX_QUEUE_SIZE(state)) {
       throw new Error("Queue is full");
@@ -341,12 +352,18 @@ export function supplyCropMachine({
       growTimeRemaining: milliSeconds,
       totalGrowTime: milliSeconds,
     });
-    stateCopy.buildings["Crop Machine"][0].queue = queue;
+    cropMachine.queue = queue;
 
-    stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
+    const updatedCropMachine = updateCropMachine({
       now: createdAt,
-      state: stateCopy,
+      cropMachine,
     });
+
+    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
+      "Crop Machine"
+    ].map((machine) =>
+      machine.id === cropMachine.id ? updatedCropMachine : machine,
+    );
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

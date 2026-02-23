@@ -9,12 +9,38 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { PET_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getHelpRequired } from "features/game/types/monuments";
+import { isPetNapping, PetName } from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
+import { GameState } from "features/game/types/game";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _petHouseLevel = (state: MachineState) =>
   state.context.state.petHouse.level ?? 1;
 
 const _game = (state: MachineState) => state.context.state;
+
+function useNappingPetInPetHouse(game: GameState): boolean {
+  const now = useNow({ live: true });
+  const petHousePets = game.petHouse?.pets ?? {};
+  const commonPets = game.pets?.common ?? {};
+  const nftPets = game.pets?.nfts ?? {};
+
+  // Check common pets placed in pet house
+  for (const [name, items] of Object.entries(petHousePets)) {
+    const hasPlaced = items?.some((item) => item.coordinates);
+    if (hasPlaced) {
+      const pet = commonPets[name as PetName];
+      if (pet && isPetNapping(pet, now)) return true;
+    }
+  }
+
+  // Check NFT pets in pet house
+  for (const pet of Object.values(nftPets)) {
+    if (pet.location === "petHouse" && isPetNapping(pet, now)) return true;
+  }
+
+  return false;
+}
 
 export const PetHouse: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +49,8 @@ export const PetHouse: React.FC = () => {
   const farmId = useSelector(gameService, _farmId);
   const { isVisiting: visiting } = useVisiting();
   const level = useSelector(gameService, _petHouseLevel);
+
+  const hasNappingPet = useNappingPetInPetHouse(game);
 
   const handlePetHouseClick = () => {
     if (visiting) {
@@ -69,6 +97,22 @@ export const PetHouse: React.FC = () => {
                 }}
               />
             </div>
+          </div>
+        )}
+        {hasNappingPet && !visiting && (
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              top: `${PIXEL_SCALE * -8}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+            }}
+          >
+            <img
+              className="w-full animate-pulsate"
+              src={SUNNYSIDE.icons.sleeping}
+              alt="sleeping"
+            />
           </div>
         )}
       </BuildingImageWrapper>

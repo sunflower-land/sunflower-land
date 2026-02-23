@@ -20,6 +20,7 @@ import {
 } from "features/game/types/crops";
 import { isFullMoon } from "features/game/types/calendar";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -178,6 +179,11 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     }
 
     const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
+
+    const inventoryLimit = INVENTORY_LIMIT(state)[item] ?? new Decimal(0);
+    if (oldAmount.add(amount).gt(inventoryLimit)) {
+      throw new Error("Can't buy more seeds than the inventory limit");
+    }
 
     stateCopy.farmActivity = trackFarmActivity(
       `${item} Bought`,

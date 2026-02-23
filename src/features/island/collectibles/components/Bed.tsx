@@ -11,7 +11,7 @@ import { getKeys } from "features/game/types/decorations";
 import { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BED_FARMHAND_COUNT, BEDS } from "features/game/types/beds";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 
 interface BedProps {
   name: BedName;
@@ -63,7 +63,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
 
-  // The main bumpkin + the farmhands that are already on the bed
+  // Limit: main bumpkin + farmhands must not exceed bed count (e.g. 11 beds = 1 main + 10 farmhands max)
   const bumpkinCount = getKeys(farmhands).length + 1;
   const uniqueBedCollectibles = getKeys(collectibles).filter(
     (collectible) => collectible in BED_FARMHAND_COUNT,
@@ -76,12 +76,18 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
     ...uniqueHomeBedCollectibles,
   ]);
 
-  const beds = getKeys(BEDS)
+  // Sort best bed first (highest BED_FARMHAND_COUNT = Pearl Bed) so the next unlock targets it
+  const beds = getKeys(BED_FARMHAND_COUNT)
     .filter((bedName) => uniqueBeds.has(bedName))
-    .reverse();
+    .sort((a, b) => {
+      const countA = BED_FARMHAND_COUNT[a] ?? 0;
+      const countB = BED_FARMHAND_COUNT[b] ?? 0;
+      return countB - countA; // descending: best (e.g. Pearl 11) first
+    });
   const availableBeds = beds.length - bumpkinCount;
 
   const canSleepHere = beds.indexOf(name) < availableBeds;
+  const isTwoWidthBed = ["Double Bed", "Pearl Bed"].includes(name);
 
   return (
     <>
@@ -127,10 +133,9 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
           alt={name}
           style={{
             width: `${PIXEL_SCALE * BED_WIDTH[name]}px`,
-            left:
-              name === "Double Bed"
-                ? `${PIXEL_SCALE * 4}px`
-                : `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
+            left: isTwoWidthBed
+              ? `${PIXEL_SCALE * 4}px`
+              : `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
             top: `-${(BED_HEIGHT[name] * PIXEL_SCALE) / 2}px`,
           }}
         />
@@ -141,8 +146,10 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
             className="z-10 absolute animate-pulsate hover:img-highlight"
             onClick={() => setShowModal(true)}
             style={{
-              left: `${8 * PIXEL_SCALE}px`,
-              bottom: `${16 * PIXEL_SCALE}px`,
+              left: isTwoWidthBed
+                ? `${16 * PIXEL_SCALE}px`
+                : `${8 * PIXEL_SCALE}px`,
+              bottom: `${0 * PIXEL_SCALE}px`,
               width: `${PIXEL_SCALE * 14}px`,
             }}
           />

@@ -49,6 +49,7 @@ export function getTotalOilMillisInMachine(
 export type SupplyCropMachineOilAction = {
   type: "cropMachine.oilSupplied";
   oil: number;
+  machineId: string;
 };
 
 type SupplyCropMachineOilOptions = {
@@ -69,15 +70,18 @@ export function supplyCropMachineOil({
   }
 
   return produce(state, (stateCopy) => {
-    if (
-      !stateCopy.buildings["Crop Machine"]?.some(
-        (building) => !!building.coordinates,
-      )
-    ) {
+    if (!stateCopy.buildings["Crop Machine"]) {
       throw new Error("Crop Machine does not exist");
     }
 
-    const cropMachine = stateCopy.buildings["Crop Machine"][0];
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (m) => m.id === action.machineId,
+    );
+
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
+    }
+
     const { queue = [], unallocatedOilTime = 0 } = cropMachine;
 
     const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
@@ -105,10 +109,16 @@ export function supplyCropMachineOil({
       (cropMachine.unallocatedOilTime ?? 0) +
       getOilTimeInMillis(oilAdded, state);
 
-    stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
+    const updatedCropMachine = updateCropMachine({
       now: createdAt,
-      state: stateCopy,
+      cropMachine,
     });
+
+    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
+      "Crop Machine"
+    ].map((machine) =>
+      machine.id === cropMachine.id ? updatedCropMachine : machine,
+    );
 
     return stateCopy;
   });

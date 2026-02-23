@@ -39,7 +39,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { BEDS } from "features/game/types/beds";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import {
   isBuildingUpgradable,
@@ -400,7 +400,7 @@ export const Chest: React.FC<Props> = ({
   );
 
   const banners = collectibleNames.filter((name) => name in BANNERS);
-  const beds = collectibleNames.filter((name) => name in BEDS);
+  const beds = collectibleNames.filter((name) => name in BED_FARMHAND_COUNT);
   const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );

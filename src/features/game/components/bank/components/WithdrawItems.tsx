@@ -40,6 +40,7 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
   allowLongpressWithdrawal?: boolean;
+  withdrawDisabled?: boolean;
 }
 
 export function transferInventoryItem(
@@ -77,6 +78,7 @@ const _state = (state: MachineState) => state.context.state;
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
+  withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
 
@@ -351,7 +353,10 @@ export const WithdrawItems: React.FC<Props> = ({
         </p>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0 || withdrawDisabled}
+      >
         {t("withdraw")}
       </Button>
     </>

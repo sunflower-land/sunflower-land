@@ -22,7 +22,10 @@ import { Box } from "components/ui/Box";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
@@ -84,6 +87,9 @@ export const SalesPanel: React.FC<{
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
   const state = useSelector(gameService, _state);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
 
   const onSell = (item: TradeableName) => {
     // Open Confirmation modal
@@ -93,7 +99,7 @@ export const SalesPanel: React.FC<{
 
   const confirmSell = (pricePerUnit: number) => {
     setConfirm(false);
-
+    if (accountTradedRecently) return;
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,
@@ -192,9 +198,10 @@ export const SalesPanel: React.FC<{
           <Button
             onClick={() =>
               hasPrices &&
+              !accountTradedRecently &&
               confirmSell(marketPrices.prices.currentPrices[selected])
             }
-            disabled={!canSell}
+            disabled={!canSell || accountTradedRecently}
           >
             {t("sell")}
           </Button>
@@ -246,12 +253,21 @@ export const SalesPanel: React.FC<{
                     <ListingCategoryCard
                       itemName={name}
                       pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
-                      disabled={!hasPrices || !hasExchangeReputation}
+                      disabled={
+                        !hasPrices ||
+                        !hasExchangeReputation ||
+                        accountTradedRecently
+                      }
                       marketBundle={MARKET_BUNDLES[name]}
                       showPulse={!!loadingNewPrices}
                       priceMovement={priceMovement}
                       onClick={() => {
-                        if (!hasPrices || !hasExchangeReputation) return;
+                        if (
+                          !hasPrices ||
+                          !hasExchangeReputation ||
+                          accountTradedRecently
+                        )
+                          return;
                         onSell(name);
                       }}
                     />
