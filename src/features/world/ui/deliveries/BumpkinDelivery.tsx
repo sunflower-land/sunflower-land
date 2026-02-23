@@ -36,10 +36,7 @@ import {
   isCoinNPC,
   isTicketNPC,
 } from "features/island/delivery/lib/delivery";
-import {
-  getChapterTicket,
-  getCurrentChapter,
-} from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -92,7 +89,6 @@ const OrderCard: React.FC<{
 
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
-  const chapter = getCurrentChapter(now);
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
 
@@ -226,7 +222,7 @@ const OrderCard: React.FC<{
                     icon={chapterPointsIcon}
                     className="ml-2"
                   >
-                    {`+${chapterPoints} ${chapter} points`}
+                    {`${chapterPoints}`}
                   </Label>
                 )}
               </div>
