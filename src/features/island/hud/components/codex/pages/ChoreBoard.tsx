@@ -271,7 +271,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             >
               <img src={chapterPoints} className="h-4 mr-2" />
               <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: "chore", tickets: tickets })} ${chapter} points`}
+                {`+${getChapterTaskPoints({ task: "chore", points: tickets })} ${chapter} points`}
               </p>
             </div>
           )}

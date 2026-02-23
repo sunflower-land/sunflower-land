@@ -215,11 +215,11 @@ export function sellBounty({
       const chapter = getCurrentChapter(createdAt);
       const pointsAwarded = getChapterTaskPoints({
         task: "bounty",
-        tickets: tickets,
+        points: tickets,
       });
       handleChapterAnalytics({
         task: "bounty",
-        tickets: tickets,
+        points: tickets,
         farmActivity: draft.farmActivity,
         createdAt,
       });
