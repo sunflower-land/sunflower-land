@@ -166,6 +166,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   airdroppingRewardFailed: false,
   completingProject: false,
   completingProjectSuccess: false,
+  unlockingFarmhand: false,
+  unlockingFarmhandSuccess: false,
 
   // Every new state should be added below here
   gems: true,
