@@ -19,7 +19,7 @@ import { ListViewCard } from "../ListViewCard";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
-import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 
@@ -55,7 +55,7 @@ export const MyCollection: React.FC = () => {
 
   const wardrobe = availableWardrobe(gameState);
   getKeys(wardrobe).forEach((name) => {
-    const withdrawAt = BUMPKIN_RELEASES[name]?.withdrawAt;
+    const withdrawAt = WEARABLE_RELEASES[name]?.withdrawAt;
     const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
     if (canWithdraw) {
       items.push({

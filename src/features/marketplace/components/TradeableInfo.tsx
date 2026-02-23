@@ -22,7 +22,7 @@ import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
+  WEARABLE_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
@@ -190,8 +190,8 @@ export const TradeableDescription: React.FC<{
   let tradeAt = undefined;
   let withdrawAt = undefined;
   if (tradeable?.collection === "wearables") {
-    tradeAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.tradeAt;
-    withdrawAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.withdrawAt;
+    tradeAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.tradeAt;
+    withdrawAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.withdrawAt;
   }
 
   if (tradeable?.collection === "collectibles") {

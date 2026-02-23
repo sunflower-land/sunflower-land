@@ -20,7 +20,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import {
-  BUMPKIN_RELEASES,
+  WEARABLE_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 
@@ -79,7 +79,7 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
 
   const isTradable =
     type === "wearable"
-      ? !!BUMPKIN_RELEASES[itemName as BumpkinItem]
+      ? !!WEARABLE_RELEASES[itemName as BumpkinItem]
       : !!INVENTORY_RELEASES[itemName as InventoryItemName];
 
   const marketplaceId =

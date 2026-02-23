@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import {
-  BUMPKIN_RELEASES,
+  WEARABLE_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 import { KNOWN_ITEMS } from "features/game/types";
@@ -131,7 +131,7 @@ const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
   items.forEach((item) => {
     let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
     if (type === "wearables") {
-      tradeAt = BUMPKIN_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
+      tradeAt = WEARABLE_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
     }
 
     if (tradeAt && tradeAt >= oneMonthAgo) {

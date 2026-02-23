@@ -10,7 +10,6 @@ import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { Context } from "features/game/GameProvider";
-import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -38,8 +37,6 @@ const getPageIcon = (page: Page) => {
       return SUNNYSIDE.icons.plant;
     case "pets":
       return petNFTEgg;
-    case "resources":
-      return SUNNYSIDE.resource.wood;
     case "verify":
       return SUNNYSIDE.icons.search;
 
@@ -60,8 +57,6 @@ const getPageText = (page: Page) => {
       return translate("buds");
     case "pets":
       return translate("pets");
-    case "resources":
-      return translate("resources");
     case "verify":
       return translate("verify");
     default:
@@ -75,7 +70,6 @@ type Page =
   | "items"
   | "wearables"
   | "buds"
-  | "resources"
   | "verify"
   | "pets";
 
@@ -89,12 +83,6 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
-          </div>
-        </Button>
-        <Button onClick={() => setPage("resources")}>
-          <div className="flex items-center">
-            <img src={getPageIcon("resources")} className="h-4 mr-1" />
-            {getPageText("resources")}
           </div>
         </Button>
       </div>
@@ -258,14 +246,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <GameWallet action="withdrawItems">
           <WithdrawItems
             onWithdraw={onWithdrawItems}
-            withdrawDisabled={accountTradedRecently}
-          />
-        </GameWallet>
-      )}
-      {page === "resources" && (
-        <GameWallet action="withdrawItems">
-          <WithdrawResources
-            onWithdraw={onClose}
             withdrawDisabled={accountTradedRecently}
           />
         </GameWallet>

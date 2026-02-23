@@ -18,8 +18,9 @@ import { SELLABLE_TREASURES } from "../types/treasure";
 import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
+import { TRADE_LIMITS } from "../actions/tradeLimits";
 
-export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
+const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
@@ -55,6 +56,7 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   ...getKeys(CONSUMABLES),
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
+  ...getKeys(TRADE_LIMITS),
 ]);
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] =

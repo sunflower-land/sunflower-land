@@ -13,7 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -181,7 +181,7 @@ export const WithdrawWearables: React.FC<Props> = ({
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter((itemName) => {
-      const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
+      const withdrawAt = WEARABLE_RELEASES[itemName]?.withdrawAt;
       const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
       return canWithdraw;
     })
