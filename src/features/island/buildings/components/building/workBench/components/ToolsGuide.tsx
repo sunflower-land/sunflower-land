@@ -16,13 +16,7 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import {
-  GameState,
-  IslandType,
-  LoveAnimalItem,
-  BoostName,
-} from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
+import { GameState, LoveAnimalItem, BoostName } from "features/game/types/game";
 import { WATER_TRAP } from "features/game/types/crustaceans";
 import { secondsToString } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
@@ -343,15 +337,20 @@ const ToolRow: React.FC<ToolRowProps> = ({
   return (
     <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""}`}>
       <td className="py-0.5 pr-2 align-top w-1/4">
-        <div className="flex items-center min-w-0">
-          <img
-            src={
-              ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""
-            }
-            className="w-6 h-auto mr-2 flex-shrink-0"
-            alt={tool.name}
-          />
-          <p className="text-xs truncate">{tool.name}</p>
+        <div className="flex items-center min-w-0 justify-between">
+          <div className="flex items-center">
+            <img
+              src={
+                ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""
+              }
+              className="w-6 h-auto mr-2 flex-shrink-0"
+              alt={tool.name}
+            />
+            <p className="text-xs truncate">{tool.name}</p>
+          </div>
+          {isLocked && (
+            <img src={SUNNYSIDE.icons.lock} className="w-5 h-5" alt="locked" />
+          )}
         </div>
       </td>
       <td className="py-0.5 pr-2 align-top w-1/2">
@@ -463,31 +462,6 @@ const ToolRow: React.FC<ToolRowProps> = ({
             );
           })}
         </div>
-        {isLocked && (
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-5 h-5"
-            alt=""
-            title={
-              hasIslandReq
-                ? t("islandupgrade.requiredIsland", {
-                    islandType:
-                      tool.requiredIsland === "spring"
-                        ? "Petal Paradise"
-                        : t("islandupgrade.otherIsland", {
-                            island: capitalize(
-                              tool.requiredIsland as IslandType,
-                            ),
-                          }),
-                  })
-                : hasLevelReq
-                  ? t("warning.level.required", {
-                      lvl: tool.requiredLevel ?? 0,
-                    })
-                  : undefined
-            }
-          />
-        )}
       </td>
     </tr>
   );
