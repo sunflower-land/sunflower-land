@@ -55,8 +55,10 @@ const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _revealing = (state: MachineState) => state.matches("revealing");
-const _revealed = (state: MachineState) => state.matches("revealed");
+const _unlockingFarmhand = (state: MachineState) =>
+  state.matches("unlockingFarmhand");
+const _unlockingFarmhandSuccess = (state: MachineState) =>
+  state.matches("unlockingFarmhandSuccess");
 const _latestFarmhand = (state: MachineState): Equipped | undefined => {
   const farmHands = Object.values(state.context.state.farmHands.bumpkins);
   const latestFarmhand = farmHands[farmHands.length - 1];
@@ -68,14 +70,16 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   const { t } = useAppTranslation();
 
   const [showModal, setShowModal] = useState(false);
-  const [isUnlockingFarmhand, setIsUnlockingFarmhand] = useState(false);
 
   const farmhands = useSelector(gameService, _farmhands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
-  const revealing = useSelector(gameService, _revealing);
-  const revealed = useSelector(gameService, _revealed);
+  const unlockingFarmhand = useSelector(gameService, _unlockingFarmhand);
+  const unlockingFarmhandSuccess = useSelector(
+    gameService,
+    _unlockingFarmhandSuccess,
+  );
   const latestFarmhand = useSelector(gameService, _latestFarmhand);
 
   // Limit: main bumpkin + farmhands must not exceed bed count (e.g. 11 beds = 1 main + 10 farmhands max)
@@ -105,42 +109,38 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   const isTwoWidthBed = ["Double Bed", "Pearl Bed"].includes(name);
 
   const handleClose = () => {
-    if (!isUnlockingFarmhand) setShowModal(false);
+    if (!isFarmhandUnlocking) setShowModal(false);
   };
 
   const handleContinue = () => {
     gameService.send("CONTINUE");
-    setIsUnlockingFarmhand(false);
     setShowModal(false);
   };
 
   const unlockFarmhand = () => {
-    setIsUnlockingFarmhand(true);
-    gameService.send("REVEAL", {
-      event: {
-        type: "farmHand.unlocked",
-        createdAt: new Date(),
-      },
+    gameService.send("farmHand.unlocked", {
+      effect: { type: "farmHand.unlocked" },
     });
   };
+
+  const isFarmhandUnlocking = unlockingFarmhand || unlockingFarmhandSuccess;
 
   return (
     <>
       <Modal
         show={showModal}
         onHide={handleClose}
-        backdrop={isUnlockingFarmhand ? "static" : true}
+        backdrop={isFarmhandUnlocking ? "static" : true}
       >
         <CloseButtonPanel
-          onClose={isUnlockingFarmhand ? undefined : handleClose}
-          title={isUnlockingFarmhand ? undefined : t("unlock.farmhand")}
+          onClose={isFarmhandUnlocking ? undefined : handleClose}
+          title={isFarmhandUnlocking ? undefined : t("unlock.farmhand")}
         >
           <BedContent
             name={name}
             handleContinue={handleContinue}
-            isUnlockingFarmhand={isUnlockingFarmhand}
-            revealing={revealing}
-            revealed={revealed}
+            unlockingFarmhand={unlockingFarmhand}
+            unlockingFarmhandSuccess={unlockingFarmhandSuccess}
             unlockFarmhand={unlockFarmhand}
             latestFarmhand={latestFarmhand}
           />
@@ -187,9 +187,8 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
 type BedContentProps = {
   name: BedName;
   handleContinue: () => void;
-  isUnlockingFarmhand: boolean;
-  revealing: boolean;
-  revealed: boolean;
+  unlockingFarmhand: boolean;
+  unlockingFarmhandSuccess: boolean;
   unlockFarmhand: () => void;
   latestFarmhand: Equipped | undefined;
 };
@@ -197,18 +196,17 @@ type BedContentProps = {
 const BedContent: React.FC<BedContentProps> = ({
   name,
   handleContinue,
-  isUnlockingFarmhand,
-  revealing,
-  revealed,
+  unlockingFarmhand,
+  unlockingFarmhandSuccess,
   unlockFarmhand,
   latestFarmhand,
 }) => {
   const { t } = useAppTranslation();
 
-  if (isUnlockingFarmhand && revealing) {
+  if (unlockingFarmhand) {
     return <Loading text={t("unlock.farmhandRevealing")} />;
   }
-  if (isUnlockingFarmhand && revealed) {
+  if (unlockingFarmhandSuccess) {
     return (
       <>
         <div className="flex flex-col items-center p-1 mb-1">
