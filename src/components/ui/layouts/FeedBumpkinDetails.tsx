@@ -85,7 +85,7 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
 
     const xpDisplay = !!properties.xp && (
       <div
-        className="flex flex-col items-center cursor-pointer"
+        className="flex flex-row sm:flex-col items-center cursor-pointer"
         onClick={
           isXpBoosted && properties.setShowBoosts
             ? () => properties.setShowBoosts?.(!properties.showBoosts)
