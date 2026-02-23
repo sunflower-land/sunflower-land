@@ -498,27 +498,28 @@ export function deliverOrder({
       );
 
       // Take the timestamp of the order
-      const isCoinTasksFrozen = areBumpkinsOnHoliday(order.createdAt);
+      const coinCreatedAt = order.createdAt;
+      const isCoinTasksFrozen = areBumpkinsOnHoliday(coinCreatedAt);
 
       if (
         isCoinNPC(order.from) &&
-        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", order.createdAt) &&
+        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", coinCreatedAt) &&
         !isCoinTasksFrozen
       ) {
+        const coinChapter = getCurrentChapter(coinCreatedAt);
+
         handleChapterAnalytics({
           task: "coinDelivery",
           points: 10,
           farmActivity: game.farmActivity,
-          createdAt,
+          createdAt: coinCreatedAt,
         });
+
         game.farmActivity = trackFarmActivity(
-          `${chapter} Points Earned`,
+          `${coinChapter} Points Earned`,
           game.farmActivity,
           new Decimal(
-            getChapterTaskPoints({
-              task: "coinDelivery",
-              points: 10, // flat 10 points for coin deliveries
-            }),
+            getChapterTaskPoints({ task: "coinDelivery", points: 10 }),
           ),
         );
       }
