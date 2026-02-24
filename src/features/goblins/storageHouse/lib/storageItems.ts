@@ -13,9 +13,15 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { getInventoryReleases } from "features/game/types/withdrawables";
 
-export function getDeliverableItems({ state }: { state: GameState }) {
+export function getDeliverableItems({
+  state,
+  now,
+}: {
+  state: GameState;
+  now: number;
+}) {
   const { previousInventory } = state;
-  const inventoryReleases = getInventoryReleases();
+  const inventoryReleases = getInventoryReleases(now);
 
   const inventory = getBasketItems(state.inventory);
 

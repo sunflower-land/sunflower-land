@@ -1659,12 +1659,9 @@ const INVENTORY_RELEASES_WITH_RESOURCE_TRADE: InventoryReleases = {
 };
 
 export const getInventoryReleases = (
-  now?: number,
+  now: number,
 ): Partial<Record<InventoryItemName, Releases>> => {
-  const offchainEnabled = hasTimeBasedFeatureAccess(
-    "OFFCHAIN_RESOURCES",
-    now ?? Date.now(),
-  );
+  const offchainEnabled = hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now);
   return offchainEnabled
     ? INVENTORY_RELEASES_WITH_RESOURCE_TRADE
     : INVENTORY_RELEASES_WITH_RESOURCES;
