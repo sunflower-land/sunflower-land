@@ -28,30 +28,20 @@ import { GameWallet } from "features/wallet/Wallet";
 import { WithdrawPets } from "./WithdrawPets";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
-type Page =
-  | "main"
-  | "tokens"
-  | "items"
-  | "resources"
-  | "wearables"
-  | "buds"
-  | "verify"
-  | "pets";
-
 const getPageIcon = (page: Page) => {
   switch (page) {
     case "tokens":
       return flowerIcon;
     case "items":
       return chest;
-    case "resources":
-      return SUNNYSIDE.resource.wood;
     case "wearables":
       return SUNNYSIDE.icons.wardrobe;
     case "buds":
       return SUNNYSIDE.icons.plant;
     case "pets":
       return petNFTEgg;
+    case "resources":
+      return SUNNYSIDE.resource.wood;
     case "verify":
       return SUNNYSIDE.icons.search;
 
@@ -66,20 +56,30 @@ const getPageText = (page: Page) => {
       return "FLOWER";
     case "items":
       return translate("collectibles");
-    case "resources":
-      return translate("resources");
     case "wearables":
       return translate("wearables");
     case "buds":
       return translate("buds");
     case "pets":
       return translate("pets");
+    case "resources":
+      return translate("resources");
     case "verify":
       return translate("verify");
     default:
       return "";
   }
 };
+
+type Page =
+  | "main"
+  | "tokens"
+  | "items"
+  | "wearables"
+  | "buds"
+  | "resources"
+  | "verify"
+  | "pets";
 
 const MainMenu: React.FC<{
   setPage: (page: Page) => void;
