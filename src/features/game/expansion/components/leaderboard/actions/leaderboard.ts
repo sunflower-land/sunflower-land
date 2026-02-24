@@ -12,6 +12,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { MinigameName } from "features/game/types/minigames";
 import { LeagueId, LeagueName } from "features/leagues/leagues";
 import { NPC_WEARABLES } from "lib/npcs";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 const API_URL = CONFIG.API_URL;
 
@@ -26,6 +27,8 @@ export type RankData = {
   count: number;
   rank?: number;
   bumpkin: BumpkinParts;
+  experience?: number;
+  farmId?: number;
 };
 
 export type MazeAttemptStat = Pick<MazeAttempt, "time" | "health"> & {
@@ -94,51 +97,58 @@ export async function getLeaderboard<T>({
           id: "Chun Long",
           count: 1000,
           bumpkin: NPC_WEARABLES["Chun Long"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 1,
         },
         {
           id: "pumpkin' pete",
           count: 900,
           bumpkin: NPC_WEARABLES["pumpkin' pete"],
+          experience: LEVEL_EXPERIENCE[12],
+          farmId: 2,
         },
         {
           id: "gordy",
           count: 800,
           bumpkin: NPC_WEARABLES["gordy"],
+          experience: LEVEL_EXPERIENCE[1],
+          farmId: 3,
         },
         {
           id: "bert",
           count: 700,
           bumpkin: NPC_WEARABLES["bert"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 4,
         },
         {
           id: "craig",
           count: 600,
           bumpkin: NPC_WEARABLES["craig"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 5,
         },
         {
           id: "raven",
           count: 500,
           bumpkin: NPC_WEARABLES["raven"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 6,
         },
-        {
-          id: "birdie",
-          count: 400,
-          bumpkin: NPC_WEARABLES["birdie"],
-        },
-        {
-          id: "old salty",
-          count: 300,
-          bumpkin: NPC_WEARABLES["old salty"],
-        },
+
         {
           id: "cornwell",
           count: 200,
           bumpkin: NPC_WEARABLES["cornwell"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 8,
         },
         {
           id: "wanderleaf",
           count: 100,
           bumpkin: NPC_WEARABLES["wanderleaf"],
+          experience: LEVEL_EXPERIENCE[51],
+          farmId: 9,
         },
       ],
       lastUpdated: 0,
