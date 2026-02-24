@@ -16,7 +16,7 @@ import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 import { CHAPTER_TICKET_NAME } from "../types/chapters";
-import { OFFCHAIN_ITEMS } from "./offChainItems";
+import { getOffChainItems } from "./offChainItems";
 import { PET_RESOURCES } from "../types/pets";
 import { COOKABLES } from "features/game/types/consumables";
 
@@ -632,7 +632,7 @@ export function checkProgress({
   // Check inventory amounts
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
+    .filter((name) => !getOffChainItems(createdAt).includes(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
@@ -684,15 +684,17 @@ export function hasMaxItems({
   oldInventory,
   currentWardrobe,
   oldWardrobe,
+  now,
 }: {
   currentInventory: Inventory;
   oldInventory: Inventory;
   currentWardrobe: Wardrobe;
   oldWardrobe: Wardrobe;
+  now: number;
 }) {
   // Check inventory amounts
   const validInventoryProgress = getKeys(currentInventory)
-    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
+    .filter((name) => !getOffChainItems(now).includes(name))
     .every((name) => {
       const oldAmount = oldInventory[name] || new Decimal(0);
       const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);

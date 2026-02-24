@@ -1,6 +1,9 @@
 import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
+import { getKeys } from "./craftables";
+import { TRADE_LIMITS } from "../actions/tradeLimits";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 type Releases = {
   tradeAt: Date;
@@ -684,6 +687,10 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
 };
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
+
+const RESOURCE_RELEASES: InventoryReleases = Object.fromEntries(
+  getKeys(TRADE_LIMITS).map((name) => [name, CAN_WITHDRAW_AND_TRADE]),
+) as InventoryReleases;
 
 export const INVENTORY_RELEASES: InventoryReleases = {
   // Collectibles
@@ -1631,4 +1638,17 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-02-01"),
     withdrawAt: new Date("2026-02-01"),
   },
+};
+
+export const getInventoryReleases = (
+  now?: number,
+): Partial<Record<InventoryItemName, Releases>> => {
+  const offchainEnabled = hasTimeBasedFeatureAccess(
+    "OFFCHAIN_RESOURCES",
+    now ?? Date.now(),
+  );
+  if (offchainEnabled) {
+    return INVENTORY_RELEASES;
+  }
+  return { ...INVENTORY_RELEASES, ...RESOURCE_RELEASES };
 };

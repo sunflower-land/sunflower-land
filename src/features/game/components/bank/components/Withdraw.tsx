@@ -4,12 +4,15 @@ import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { WithdrawFlower } from "./WithdrawFlower";
 import { WithdrawItems } from "./WithdrawItems";
+import { WithdrawResources } from "./WithdrawResources";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { Context } from "features/game/GameProvider";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -25,12 +28,24 @@ import { GameWallet } from "features/wallet/Wallet";
 import { WithdrawPets } from "./WithdrawPets";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
+type Page =
+  | "main"
+  | "tokens"
+  | "items"
+  | "resources"
+  | "wearables"
+  | "buds"
+  | "verify"
+  | "pets";
+
 const getPageIcon = (page: Page) => {
   switch (page) {
     case "tokens":
       return flowerIcon;
     case "items":
       return chest;
+    case "resources":
+      return SUNNYSIDE.resource.wood;
     case "wearables":
       return SUNNYSIDE.icons.wardrobe;
     case "buds":
@@ -51,6 +66,8 @@ const getPageText = (page: Page) => {
       return "FLOWER";
     case "items":
       return translate("collectibles");
+    case "resources":
+      return translate("resources");
     case "wearables":
       return translate("wearables");
     case "buds":
@@ -64,16 +81,10 @@ const getPageText = (page: Page) => {
   }
 };
 
-type Page =
-  | "main"
-  | "tokens"
-  | "items"
-  | "wearables"
-  | "buds"
-  | "verify"
-  | "pets";
-
-const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+const MainMenu: React.FC<{
+  setPage: (page: Page) => void;
+  showResources: boolean;
+}> = ({ setPage, showResources }) => {
   return (
     <div className="flex flex-col justify-center space-y-1">
       <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
@@ -85,6 +96,14 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
             {getPageText("tokens")}
           </div>
         </Button>
+        {showResources && (
+          <Button onClick={() => setPage("resources")}>
+            <div className="flex items-center">
+              <img src={getPageIcon("resources")} className="h-4 mr-1" />
+              {getPageText("resources")}
+            </div>
+          </Button>
+        )}
       </div>
       <div className="flex space-x-1">
         <Button onClick={() => setPage("items")}>
@@ -159,6 +178,8 @@ const _farmId = (state: MachineState) => state.context.farmId;
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+  const now = useNow();
+  const showResources = !hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now);
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -232,7 +253,9 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      {page === "main" && <MainMenu setPage={setPage} />}
+      {page === "main" && (
+        <MainMenu setPage={setPage} showResources={showResources} />
+      )}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
         <GameWallet action="withdrawFlower">
@@ -246,6 +269,14 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <GameWallet action="withdrawItems">
           <WithdrawItems
             onWithdraw={onWithdrawItems}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
+      )}
+      {page === "resources" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawResources
+            onWithdraw={onClose}
             withdrawDisabled={accountTradedRecently}
           />
         </GameWallet>

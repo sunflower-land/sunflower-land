@@ -14,6 +14,7 @@ import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -68,11 +69,14 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     };
   }
 
+  const now = useNow();
+
   const hasMax = hasMaxItems({
     currentInventory: updatedInventory,
     oldInventory: previousInventory,
     currentWardrobe: wardrobe,
     oldWardrobe: previousWardrobe,
+    now,
   });
 
   const confirm = async () => {

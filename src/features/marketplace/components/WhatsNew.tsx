@@ -7,7 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import {
   WEARABLE_RELEASES,
-  INVENTORY_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
@@ -134,9 +134,10 @@ const sortItems = (
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const filteredItems: (Tradeable & { tradeAt: number })[] = [];
+  const inventoryReleases = getInventoryReleases(now);
 
   items.forEach((item) => {
-    let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
+    let tradeAt = inventoryReleases[KNOWN_ITEMS[item.id]]?.tradeAt;
     if (type === "wearables") {
       tradeAt = WEARABLE_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
     }

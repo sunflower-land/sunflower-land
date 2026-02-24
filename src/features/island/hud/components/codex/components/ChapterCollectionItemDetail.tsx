@@ -21,7 +21,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import {
   WEARABLE_RELEASES,
-  INVENTORY_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
@@ -77,10 +77,11 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   const howToObtainKey =
     source === "unknown" ? null : HOW_TO_OBTAIN_I18N_KEY[source];
 
+  const inventoryReleases = getInventoryReleases(now);
   const isTradable =
     type === "wearable"
       ? !!WEARABLE_RELEASES[itemName as BumpkinItem]
-      : !!INVENTORY_RELEASES[itemName as InventoryItemName];
+      : !!inventoryReleases[itemName as InventoryItemName];
 
   const marketplaceId =
     type === "collectible"
