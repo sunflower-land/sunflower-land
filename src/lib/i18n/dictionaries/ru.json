@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Account recently traded",
   "accountRecentlyTraded.description": "This account was traded within the last 90 days. Withdrawals, selling items and accepting offers are temporarily disabled. You can still buy items and make offers.",
   "accountRecentlyTraded.timeLeft": "{{time}} left",
-  "tradeCooldown.title": "Trade cooldown"
+  "tradeCooldown.title": "Trade cooldown",
+  "unlock.farmhandRevealing": "Unlocking farmhand...",
+  "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work."
 }

@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Conto negoziato di recente",
   "accountRecentlyTraded.description": "Questo conto è stato negoziato negli ultimi 90 giorni. I prelievi, la vendita di articoli e l'accettazione di offerte sono temporaneamente disattivati. Puoi comunque acquistare articoli e fare offerte.",
   "accountRecentlyTraded.timeLeft": "{{time}} a sinistra",
-  "tradeCooldown.title": "Tempo di recupero degli scambi"
+  "tradeCooldown.title": "Tempo di recupero degli scambi",
+  "unlock.farmhandRevealing": "Sbloccare un bracciante agricolo...",
+  "unlock.farmhandSuccess": "Farmhand sbloccato! Il tuo nuovo aiutante è pronto a lavorare."
 }

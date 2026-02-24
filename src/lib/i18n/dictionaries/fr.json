@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Compte récemment négocié",
   "accountRecentlyTraded.description": "Ce compte a été négocié au cours des 90 derniers jours. Les retraits, la vente d'articles et l'acceptation d'offres sont temporairement désactivés. Vous pouvez toujours acheter des articles et faire des offres.",
   "accountRecentlyTraded.timeLeft": "{{time}} gauche",
-  "tradeCooldown.title": "Refroidissement des échanges"
+  "tradeCooldown.title": "Refroidissement des échanges",
+  "unlock.farmhandRevealing": "Débloquer Farmhand...",
+  "unlock.farmhandSuccess": "Farmhand débloqué ! Votre nouvel assistant est prêt à travailler."
 }

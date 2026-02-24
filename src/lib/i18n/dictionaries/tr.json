@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Son işlem gören hesap",
   "accountRecentlyTraded.description": "Bu hesap son 90 gün içinde işlem gördü. Para çekme, ürün satma ve teklifleri kabul etme geçici olarak devre dışı bırakılır. Yine de ürün satın alabilir ve teklifler yapabilirsiniz.",
   "accountRecentlyTraded.timeLeft": "{{time}} kaldı",
-  "tradeCooldown.title": "İşlem bekleme süresi"
+  "tradeCooldown.title": "İşlem bekleme süresi",
+  "unlock.farmhandRevealing": "Çiftlik işçisinin kilidini açmak...",
+  "unlock.farmhandSuccess": "Çiftlik elinin kilidi açıldı! Yeni yardımcınız çalışmaya hazır."
 }

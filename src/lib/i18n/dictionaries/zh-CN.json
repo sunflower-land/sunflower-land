@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "最近交易的账户",
   "accountRecentlyTraded.description": "该账户在过去 90 天内进行了交易。暂时禁止提款、出售物品和接受报价。您仍然可以购买物品并提供报价。",
   "accountRecentlyTraded.timeLeft": "{{time}} 向左",
-  "tradeCooldown.title": "交易冷却时间"
+  "tradeCooldown.title": "交易冷却时间",
+  "unlock.farmhandRevealing": "解锁农场之手...",
+  "unlock.farmhandSuccess": "Farmhand 已解锁！您的新助手已准备就绪，可以开始工作了。"
 }

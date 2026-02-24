@@ -8093,5 +8093,7 @@
   "accountRecentlyTraded.title": "Akun yang baru-baru ini diperdagangkan",
   "accountRecentlyTraded.description": "Akun ini diperdagangkan dalam 90 hari terakhir. Penarikan, menjual barang, dan menerima penawaran dinonaktifkan sementara. Anda masih dapat membeli barang dan membuat penawaran.",
   "accountRecentlyTraded.timeLeft": "{{time}} tersisa",
-  "tradeCooldown.title": "Cooldown perdagangan"
+  "tradeCooldown.title": "Cooldown perdagangan",
+  "unlock.farmhandRevealing": "Membuka kunci tangan pertanian...",
+  "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja."
 }

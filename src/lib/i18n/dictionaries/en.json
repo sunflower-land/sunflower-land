@@ -5057,6 +5057,8 @@
   "description.horseshoe": "A valuable horseshoe - exchange for rewards!",
   "unlock.farmhand": "Unlock Farmhand",
   "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm.",
+  "unlock.farmhandRevealing": "Unlocking farmhand...",
+  "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work.",
   "bedsMigration.bedsNeeded": "Beds Needed!",
   "bedsMigration.bedsNeededDescription": "Farm hands need beds in order to work on the farm.",
   "bedsMigration.bedsNeededDescription2": "Each unique bed can sleep one farm hand.",
