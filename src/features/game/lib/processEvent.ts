@@ -629,10 +629,10 @@ export function checkProgress({
   const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  // Check inventory amounts
+  const offChainItems = new Set(getOffChainItems(createdAt));
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .filter((name) => !getOffChainItems(createdAt).includes(name))
+    .filter((name) => !offChainItems.has(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
@@ -692,9 +692,9 @@ export function hasMaxItems({
   oldWardrobe: Wardrobe;
   now: number;
 }) {
-  // Check inventory amounts
+  const offChainItems = new Set(getOffChainItems(now));
   const validInventoryProgress = getKeys(currentInventory)
-    .filter((name) => !getOffChainItems(now).includes(name))
+    .filter((name) => !offChainItems.has(name))
     .every((name) => {
       const oldAmount = oldInventory[name] || new Decimal(0);
       const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);

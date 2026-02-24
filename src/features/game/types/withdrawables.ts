@@ -692,6 +692,14 @@ const RESOURCE_RELEASES: InventoryReleases = Object.fromEntries(
   getKeys(TRADE_LIMITS).map((name) => [name, CAN_WITHDRAW_AND_TRADE]),
 ) as InventoryReleases;
 
+/** Resources tradable but not withdrawable when OFFCHAIN_RESOURCES is active */
+const RESOURCE_TRADE_ONLY: InventoryReleases = Object.fromEntries(
+  getKeys(TRADE_LIMITS).map((name) => [
+    name,
+    { tradeAt: CAN_WITHDRAW_AND_TRADE.tradeAt },
+  ]),
+) as InventoryReleases;
+
 export const INVENTORY_RELEASES: InventoryReleases = {
   // Collectibles
   Observatory: CAN_WITHDRAW_AND_TRADE,
@@ -1640,6 +1648,16 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   },
 };
 
+const INVENTORY_RELEASES_WITH_RESOURCES: InventoryReleases = {
+  ...INVENTORY_RELEASES,
+  ...RESOURCE_RELEASES,
+};
+
+const INVENTORY_RELEASES_WITH_RESOURCE_TRADE: InventoryReleases = {
+  ...INVENTORY_RELEASES,
+  ...RESOURCE_TRADE_ONLY,
+};
+
 export const getInventoryReleases = (
   now?: number,
 ): Partial<Record<InventoryItemName, Releases>> => {
@@ -1647,8 +1665,7 @@ export const getInventoryReleases = (
     "OFFCHAIN_RESOURCES",
     now ?? Date.now(),
   );
-  if (offchainEnabled) {
-    return INVENTORY_RELEASES;
-  }
-  return { ...INVENTORY_RELEASES, ...RESOURCE_RELEASES };
+  return offchainEnabled
+    ? INVENTORY_RELEASES_WITH_RESOURCE_TRADE
+    : INVENTORY_RELEASES_WITH_RESOURCES;
 };

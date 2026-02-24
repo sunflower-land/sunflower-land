@@ -83,6 +83,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       ).map(Number);
 
       const inventoryLimits: string[] = [];
+      const offChainItems = new Set(getOffChainItems(now));
 
       getKeys(current).forEach((key) => {
         const diff = Number(current[key] ?? "0") - Number(previous[key] ?? "0");
@@ -93,7 +94,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
-          if (getOffChainItems(now).includes(key)) return;
+          if (offChainItems.has(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);
