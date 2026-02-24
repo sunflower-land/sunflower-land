@@ -8,10 +8,29 @@ jobs:
     environment: develop
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # needed to push merge when branch is out of date
     outputs:
       final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Merge base branch if out of date
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$BASE_REF"
+          if ! git merge-base --is-ancestor origin/"$BASE_REF" HEAD 2>/dev/null; then
+            git merge origin/"$BASE_REF" -m "chore: merge $BASE_REF into $HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
+
       - uses: actions/checkout@v5
         with:
           # Explicitly check out the PR's merge commit.
