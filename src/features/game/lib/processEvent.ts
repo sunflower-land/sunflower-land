@@ -270,7 +270,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Whale Bear": new Decimal(50),
 
   // Potion House
-  "Potion Ticket": new Decimal(7500),
   "Giant Cabbage": new Decimal(50),
   "Giant Potato": new Decimal(50),
   "Giant Pumpkin": new Decimal(50),
