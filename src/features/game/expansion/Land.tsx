@@ -906,7 +906,7 @@ export const LandComponent: React.FC = () => {
     if (!farmHands || Object.keys(farmHands).length === 0) return [];
 
     return Object.entries(farmHands).flatMap(([id, fh]) => {
-      if (!fh.coordinates) return [];
+      if (!fh.coordinates || fh.location === "home") return [];
 
       const { x, y } = fh.coordinates;
 

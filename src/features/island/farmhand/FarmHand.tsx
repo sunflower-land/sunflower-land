@@ -9,12 +9,16 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 const _farmHands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const FarmHand: React.FC<{ id: string }> = ({ id }) => {
+export const FarmHand: React.FC<{
+  id: string;
+  location?: PlaceableLocation;
+}> = ({ id, location = "farm" }) => {
   const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
@@ -30,11 +34,36 @@ export const FarmHand: React.FC<{ id: string }> = ({ id }) => {
 
   if (!isLandscaping) {
     return (
-      <NPCPlaceable
-        parts={fh.equipped}
-        onClick={() => setShowModal(true)}
-        isFarmHand={true}
-      />
+      <>
+        <NPCPlaceable
+          parts={fh.equipped}
+          onClick={() => setShowModal(true)}
+          isFarmHand={true}
+        />
+        <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
+          <CloseButtonPanel
+            bumpkinParts={fh?.equipped}
+            onClose={() => setShowModal(false)}
+            tabs={[
+              {
+                id: "equip",
+                icon: SUNNYSIDE.icons.wardrobe,
+                name: t("equip"),
+              },
+            ]}
+          >
+            <BumpkinEquip
+              equipment={fh.equipped}
+              onEquip={(equipment) => {
+                gameService.send("farmHand.equipped", {
+                  id,
+                  equipment,
+                });
+              }}
+            />
+          </CloseButtonPanel>
+        </Modal>
+      </>
     );
   }
 
@@ -45,31 +74,9 @@ export const FarmHand: React.FC<{ id: string }> = ({ id }) => {
       index={0}
       x={fh.coordinates.x}
       y={fh.coordinates.y}
-      location="farm"
+      location={location}
     >
-      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
-        <CloseButtonPanel
-          bumpkinParts={fh?.equipped}
-          onClose={() => setShowModal(false)}
-          tabs={[
-            {
-              id: "equip",
-              icon: SUNNYSIDE.icons.wardrobe,
-              name: t("equip"),
-            },
-          ]}
-        >
-          <BumpkinEquip
-            equipment={fh.equipped}
-            onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
-                id,
-                equipment,
-              });
-            }}
-          />
-        </CloseButtonPanel>
-      </Modal>
+      <NPCPlaceable parts={fh.equipped} isFarmHand={true} />
     </MoveableComponent>
   );
 };

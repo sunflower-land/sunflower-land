@@ -20,8 +20,7 @@ export function removeFarmHand({ state, action }: Options): GameState {
       throw new Error("Farm hand does not exist");
     }
 
-    // When coordinates/location are cleared the farm hand falls back
-    // to the default strip outside the house.
-    // TODO
+    delete farmHand.coordinates;
+    delete farmHand.location;
   });
 }

@@ -99,7 +99,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
       </BuildingImageWrapper>
 
       <div
-        className="relative w-full pointer-events-auto"
+        className="absolute w-full pointer-events-auto"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,

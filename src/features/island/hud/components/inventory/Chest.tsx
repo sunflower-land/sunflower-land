@@ -7,7 +7,12 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { getChestBuds, getChestItems, getChestPets } from "./utils/inventory";
+import {
+  getChestBuds,
+  getChestFarmHands,
+  getChestItems,
+  getChestPets,
+} from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 
@@ -16,6 +21,7 @@ import lightning from "assets/icons/lightning.png";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
+import { isEmpty } from "lodash";
 
 import { Bud } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
@@ -61,7 +67,6 @@ import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { useNow } from "lib/utils/hooks/useNow";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { hasFeatureAccess } from "lib/flags";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 
@@ -330,11 +335,7 @@ export const Chest: React.FC<Props> = ({
   // For petHouse, only show buds and petNFTs (no regular buds for petHouse)
   const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
-  const hasFarmHandPlacement = hasFeatureAccess(state, "PLACE_FARM_HAND");
-  const farmHandIds =
-    hasFarmHandPlacement && onPlaceFarmHand
-      ? getKeys(state.farmHands.bumpkins)
-      : [];
+  const farmHands = getChestFarmHands(state.farmHands);
 
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
@@ -355,7 +356,7 @@ export const Chest: React.FC<Props> = ({
     const firstBudId = getKeys(buds)[0];
     const firstPetId = getKeys(petsNFTs)[0];
     const firstCollectible = getKeys(collectibles)[0];
-    const firstFarmHandId = getKeys(farmHandIds)[0];
+    const firstFarmHandId = getKeys(farmHands)[0];
 
     const firstBud =
       firstBudId !== undefined
@@ -384,7 +385,7 @@ export const Chest: React.FC<Props> = ({
       return firstPet ?? fallback;
     }
     if (selected?.name === "FarmHand") {
-      if (farmHandIds.includes(selected.id)) return selected;
+      if (farmHands[selected.id]) return selected;
       return firstFarmHand ?? fallback;
     }
     if (selected?.name && collectibles[selected.name as CollectibleName]) {
@@ -403,7 +404,7 @@ export const Chest: React.FC<Props> = ({
     getKeys(collectibles).length === 0 &&
     Object.values(buds).length === 0 &&
     Object.values(petsNFTs).length === 0 &&
-    farmHandIds.length === 0;
+    Object.values(farmHands).length === 0;
 
   if (chestIsEmpty) {
     return (
@@ -620,7 +621,7 @@ export const Chest: React.FC<Props> = ({
               </div>
             </div>
           )}
-          {!!Object.values(petsNFTs).length && (
+          {!isEmpty(petsNFTs) && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Buds">
               <Label
                 type="default"
@@ -649,40 +650,34 @@ export const Chest: React.FC<Props> = ({
               </div>
             </div>
           )}
-          {farmHandIds.length > 0 && onPlaceFarmHand && (
+          {!isEmpty(farmHands) && onPlaceFarmHand && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="FarmHands">
               <Label
                 type="default"
                 className="my-1"
                 icon={SUNNYSIDE.achievement.farmHand}
               >
-                {t("farmHand")}
+                {`Farm Hands`}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {farmHandIds.map((id) => {
-                  const bumpkin = state.farmHands.bumpkins[id];
-                  const equipped = bumpkin?.equipped;
-                  return (
-                    <Box
-                      key={`FarmHand-${id}`}
-                      isSelected={
-                        selectedChestItem?.name === "FarmHand" &&
-                        selectedChestItem?.id === id
-                      }
-                      onClick={() => {
-                        handleItemClick({ name: "FarmHand", id });
-                      }}
-                      image={SUNNYSIDE.achievement.farmHand}
-                    >
-                      {equipped && (
-                        <NPCPlaceable
-                          parts={equipped}
-                          width={PIXEL_SCALE * 12}
-                        />
-                      )}
-                    </Box>
-                  );
-                })}
+                {Object.keys(farmHands).map((id) => (
+                  <Box
+                    key={`FarmHand-${id}`}
+                    isSelected={
+                      selectedChestItem?.name === "FarmHand" &&
+                      selectedChestItem?.id === id
+                    }
+                    onClick={() => {
+                      handleItemClick({ name: "FarmHand", id });
+                    }}
+                    image={SUNNYSIDE.achievement.farmHand}
+                  >
+                    <NPCPlaceable
+                      parts={farmHands[id].equipped}
+                      width={PIXEL_SCALE * 12}
+                    />
+                  </Box>
+                ))}
               </div>
             </div>
           )}

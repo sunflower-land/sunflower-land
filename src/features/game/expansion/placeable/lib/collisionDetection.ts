@@ -456,10 +456,22 @@ function detectHomeCollision({
       width: PET_NFT_DIMENSIONS.width,
     }));
 
+  const farmHandBoundingBox = Object.values(state.farmHands.bumpkins ?? {})
+    .filter(
+      (farmHand) => !!farmHand.coordinates && farmHand.location === "home",
+    )
+    .map((farmHand) => ({
+      x: farmHand.coordinates!.x,
+      y: farmHand.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
   const boundingBoxes = [
     ...placeableBounds,
     ...budsBoundingBox,
     ...petNFTBoundingBox,
+    ...farmHandBoundingBox,
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
