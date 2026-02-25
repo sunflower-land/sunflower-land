@@ -23,8 +23,8 @@ import {
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { TextInput } from "components/ui/TextInput";
 import debounce from "lodash.debounce";
-import { SignupBumpkinModal } from "features/bumpkins/components/SignupBumpkinModal";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -155,6 +155,10 @@ export const NoAccount: React.FC = () => {
     );
   }
 
+  if (showBumpkinModal) {
+    return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
+  }
+
   return (
     <>
       <div className="px-2">
@@ -206,11 +210,6 @@ export const NoAccount: React.FC = () => {
           setShowBumpkinModal(true);
         }}
         confirmButtonLabel={"Yes I'm sure"}
-      />
-      <SignupBumpkinModal
-        show={showBumpkinModal}
-        onClose={() => setShowBumpkinModal(false)}
-        onSave={handleBumpkinSave}
       />
     </>
   );
