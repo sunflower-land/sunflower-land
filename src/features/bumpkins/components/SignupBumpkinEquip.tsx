@@ -15,7 +15,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getWearableImage } from "features/game/lib/getWearableImage";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   DEFAULT_SIGNUP_EQUIPMENT,
@@ -81,7 +80,6 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
     ...FIXED_PARTS,
   });
   const [hairGender, setHairGender] = useState<Gender>("male");
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -112,10 +110,8 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
     }
   };
 
-  const finish = () => {
-    setShowConfirmationModal(false);
-    onSave(equipped);
-  };
+  const finish = () => onSave(equipped);
+
   const GENDERS: Record<Gender, { hair: BumpkinHair[]; icon: string }> = {
     male: { hair: MALE_HAIRSTYLES, icon: "♂" },
     female: { hair: FEMALE_HAIRSTYLES, icon: "♀" },
@@ -227,21 +223,9 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
         </div>
       </div>
 
-      <Button onClick={() => setShowConfirmationModal(true)} className="mt-2">
-        {t("save")}
+      <Button onClick={finish} className="mt-2">
+        {t("start")}
       </Button>
-
-      <ConfirmationModal
-        show={showConfirmationModal}
-        onHide={() => setShowConfirmationModal(false)}
-        onConfirm={finish}
-        confirmButtonLabel={t("noaccount.createFarm")}
-        messages={[
-          t("signup.createBumpkinConfirmation"),
-          t("signup.createBumpkinConfirmation.two"),
-        ]}
-        onCancel={() => setShowConfirmationModal(false)}
-      />
     </div>
   );
 };
