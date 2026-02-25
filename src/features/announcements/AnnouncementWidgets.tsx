@@ -32,6 +32,16 @@ export const BuyGemsWidget: React.FC = () => {
       <img src={ITEM_DETAILS.Gem.image} className="w-8 mr-2" />
       <div>
         <p className="text-xs flex-1">{t("announcement.flowerGemsDiscount")}</p>
+        <a
+          href={
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20"
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2 text-white"
+        >
+          {t("read.more")}
+        </a>
       </div>
       <img
         src={SUNNYSIDE.icons.close}
