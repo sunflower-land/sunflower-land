@@ -963,6 +963,8 @@ export type FlowerShop = {
 
 export type FarmHand = {
   equipped: BumpkinParts;
+  coordinates?: Coordinates;
+  location?: "farm" | "home";
 };
 
 export type Mushroom = {

@@ -138,6 +138,7 @@ function detectPlaceableCollision(
     beehives,
     flowers: { flowerBeds },
     oilReserves,
+    farmHands,
   } = state;
 
   const placed = {
@@ -229,11 +230,25 @@ function detectPlaceableCollision(
       width: PET_NFT_DIMENSIONS.width,
     }));
 
+  const farmHandBoundingBox = Object.values(farmHands.bumpkins ?? {})
+    .filter(
+      (farmHand) =>
+        !!farmHand.coordinates &&
+        (!farmHand.location || farmHand.location === "farm"),
+    )
+    .map((farmHand) => ({
+      x: farmHand.coordinates!.x,
+      y: farmHand.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
   const boundingBoxes = [
     ...placeableBounds,
     ...resourceBoundingBoxes,
     ...budsBoundingBox,
     ...petNFTBoundingBox,
+    ...farmHandBoundingBox,
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>

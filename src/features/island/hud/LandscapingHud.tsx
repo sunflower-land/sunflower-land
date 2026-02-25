@@ -44,6 +44,7 @@ import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
+import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -97,6 +98,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
+  const gameState = useSelector(gameService, (state) => state.context.state);
+  const hasFarmHandPlacement = hasFeatureAccess(gameState, "PLACE_FARM_HAND");
+  const farmHandIds = hasFarmHandPlacement
+    ? getKeys(gameState.farmHands.bumpkins)
+    : [];
+
   const isShrine =
     selectedItem?.name &&
     (selectedItem.name in PET_SHRINES ||
@@ -262,7 +269,48 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     location,
                   });
                 }}
+                onPlaceFarmHand={
+                  farmHandIds.length > 0
+                    ? (id) => {
+                        button.play();
+                        child.send("SELECT", {
+                          placeable: { name: "FarmHand", id },
+                          action: "farmHand.placed",
+                          requirements: { coins: 0, ingredients: {} },
+                        });
+                      }
+                    : undefined
+                }
               />
+
+              {/* {farmHandIds.length > 0 && (
+                <>
+                  {farmHandIds.map((id) => (
+                    <RoundButton
+                      key={id}
+                      className="mb-3.5"
+                      onClick={() => {
+                        button.play();
+                        child.send("SELECT", {
+                          placeable: { name: "FarmHand", id },
+                          action: "farmHand.placed",
+                          requirements: { coins: 0, ingredients: {} },
+                        });
+                      }}
+                    >
+                      <img
+                        src={SUNNYSIDE.achievement.farmHand}
+                        className="absolute group-active:translate-y-[2px]"
+                        style={{
+                          top: `${PIXEL_SCALE * 3}px`,
+                          left: `${PIXEL_SCALE * 3}px`,
+                          width: `${PIXEL_SCALE * 16}px`,
+                        }}
+                      />
+                    </RoundButton>
+                  ))}
+                </>
+              )} */}
             </div>
           </>
         )}
@@ -390,7 +438,8 @@ const Chest: React.FC<{
   location: PlaceableLocation;
   onPlaceChestItem: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
-}> = ({ location, onPlaceChestItem, onPlaceNFT }) => {
+  onPlaceFarmHand?: (id: string) => void;
+}> = ({ location, onPlaceChestItem, onPlaceNFT, onPlaceFarmHand }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -426,6 +475,7 @@ const Chest: React.FC<{
         show={showChest}
         onPlace={onPlaceChestItem}
         onPlaceNFT={onPlaceNFT}
+        onPlaceFarmHand={onPlaceFarmHand}
         location={location}
       />
     </>

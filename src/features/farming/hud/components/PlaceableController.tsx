@@ -207,7 +207,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const isWrongLocation = placeable?.name
     ? (location === "home" &&
         ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
-          placeable.name !== "Bud") ||
+          placeable.name !== "Bud" &&
+          placeable.name !== "FarmHand") ||
           placeable.name in LANDSCAPING_DECORATIONS ||
           placeable.name === "Magic Bean")) ||
       (location === "petHouse" && !isPetCollectible && !isPetNFT)
@@ -217,7 +218,6 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     placeable?.name === "Fox Shrine" &&
     now < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
 
-  // Combined check for whether placement is blocked
   const isPlacementBlocked =
     collisionDetected ||
     isWrongLocation ||
@@ -235,6 +235,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         ...RESOURCE_DIMENSIONS,
         Bud: { width: 1, height: 1 },
         Pet: { width: 2, height: 2 },
+        FarmHand: { width: 1, height: 1 },
       }[placeable.name];
     }
     return { width: 0, height: 0 };
@@ -253,7 +254,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     const items = getChestItems(state);
 
     const available =
-      placeable?.name === "Bud" || placeable?.name === "Pet"
+      placeable?.name === "Bud" ||
+      placeable?.name === "Pet" ||
+      placeable?.name === "FarmHand"
         ? new Decimal(1)
         : (items[placeable.name] ?? new Decimal(0));
 
@@ -281,7 +284,11 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       placeMore = false;
     }
 
-    if (placeable?.name === "Bud" || placeable?.name === "Pet") {
+    if (
+      placeable?.name === "Bud" ||
+      placeable?.name === "Pet" ||
+      placeable?.name === "FarmHand"
+    ) {
       placeMore = false;
     } else {
       const previous = state.inventory[placeable.name] ?? new Decimal(0);
@@ -390,7 +397,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     season: TemperateSeasonName,
     level?: number,
   ) => {
-    if (placeable && (placeable === "Bud" || placeable === "Pet")) {
+    if (
+      placeable &&
+      (placeable === "Bud" || placeable === "Pet" || placeable === "FarmHand")
+    ) {
       return "";
     }
     if (!placeable) return "";
@@ -404,7 +414,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const items = getChestItems(state);
   const available =
-    placeable?.name === "Bud" || placeable?.name === "Pet"
+    placeable?.name === "Bud" ||
+    placeable?.name === "Pet" ||
+    placeable?.name === "FarmHand"
       ? new Decimal(1)
       : (items[placeable.name] ?? new Decimal(0));
 

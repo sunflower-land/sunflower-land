@@ -26,6 +26,7 @@ interface Props {
   state: GameState;
   onPlace: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   location: PlaceableLocation;
 }
 
@@ -35,6 +36,7 @@ export const LandscapingChest: React.FC<Props> = ({
   state,
   onPlace,
   onPlaceNFT,
+  onPlaceFarmHand,
   location,
 }) => {
   const { t } = useAppTranslation();
@@ -80,6 +82,7 @@ export const LandscapingChest: React.FC<Props> = ({
             closeModal={onHide}
             onPlace={onPlace}
             onPlaceNFT={onPlaceNFT}
+            onPlaceFarmHand={onPlaceFarmHand}
             location={location}
           />
         )}

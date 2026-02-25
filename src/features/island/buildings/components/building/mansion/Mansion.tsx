@@ -9,11 +9,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { useVisiting } from "lib/utils/visitUtils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
+import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -102,13 +102,13 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
       </BuildingImageWrapper>
 
       <div
-        className="absolute w-fit"
+        className="relative w-fit pointer-events-auto"
         style={{
           bottom: `${PIXEL_SCALE * 28}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={game} />}
+        {bumpkin && <PlayerNPC parts={bumpkin.equipped} />}
       </div>
 
       <div

@@ -7,11 +7,11 @@ import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
-import { HomeBumpkins } from "../house/HomeBumpkins";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getHelpRequired } from "features/game/types/monuments";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -99,14 +99,14 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
       </BuildingImageWrapper>
 
       <div
-        className="absolute w-full"
+        className="relative w-full pointer-events-auto"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={game} />}
+        {bumpkin && <PlayerNPC parts={bumpkin.equipped} />}
       </div>
 
       <div
