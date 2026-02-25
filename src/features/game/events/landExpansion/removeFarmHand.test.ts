@@ -31,6 +31,7 @@ describe("removeFarmHand", () => {
         action: {
           type: "farmHand.removed",
           id: "nonexistent",
+          location: "farm",
         },
       }),
     ).toThrow("Farm hand does not exist");
@@ -42,6 +43,7 @@ describe("removeFarmHand", () => {
       action: {
         type: "farmHand.removed",
         id: "fh-1",
+        location: "farm",
       },
     });
 
@@ -69,6 +71,7 @@ describe("removeFarmHand", () => {
       action: {
         type: "farmHand.removed",
         id: "fh-1",
+        location: "home",
       },
     });
 

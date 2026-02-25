@@ -13,17 +13,14 @@ import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { useVisiting } from "lib/utils/visitUtils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
-import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
 export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const game = useSelector(gameService, _game);
   const farmId = useSelector(gameService, _farmId);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const { isVisiting: visiting } = useVisiting();
 
   const navigate = useNavigate();
@@ -108,7 +105,7 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
       >
-        {bumpkin && <PlayerNPC parts={bumpkin.equipped} />}
+        <HomeBumpkins game={game} />
       </div>
 
       <div

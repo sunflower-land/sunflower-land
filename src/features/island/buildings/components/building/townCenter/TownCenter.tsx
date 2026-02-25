@@ -11,18 +11,15 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { getHelpRequired } from "features/game/types/monuments";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const game = useSelector(gameService, _game);
   const farmId = useSelector(gameService, _farmId);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
@@ -106,7 +103,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <PlayerNPC parts={bumpkin.equipped} />}
+        <HomeBumpkins game={game} />
       </div>
 
       <div
