@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "きしむチキン",
   "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新して有効期間を延長できます。",
-  "referral.flower": "お友達がジェムを購入した$FLOWERの 10%",
   "welcome.action.grow": "成長",
   "welcome.action.build": "ビルド",
   "welcome.action.fish": "魚",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} 左",
   "tradeCooldown.title": "トレードクールダウン",
   "unlock.farmhandRevealing": "ファームハンドのロックを解除中...",
-  "unlock.farmhandSuccess": "ファームハンドのロックが解除されました！新しいヘルパーの作業準備が整いました。"
+  "unlock.farmhandSuccess": "ファームハンドのロックが解除されました！新しいヘルパーの作業準備が整いました。",
+  "referral.flower": "最初の6か月以内に友達がジェムを購入した$FLOWERの 10%"
 }

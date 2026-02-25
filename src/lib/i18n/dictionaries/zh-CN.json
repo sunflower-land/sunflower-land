@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "一只尖叫鸡",
   "instantCook.confirmationMessage": "你确定要立即完成该物品的制作吗？",
   "renew.expired.message": "{{name}} 已过期。你可以续期以延长其持续时间。",
-  "referral.flower": "你的好友购买钻石所消耗 $FLOWER 的 10%",
   "welcome.action.grow": "种植",
   "welcome.action.build": "建造",
   "welcome.action.fish": "钓鱼",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} 向左",
   "tradeCooldown.title": "交易冷却时间",
   "unlock.farmhandRevealing": "解锁农场之手...",
-  "unlock.farmhandSuccess": "Farmhand 已解锁！您的新助手已准备就绪，可以开始工作了。"
+  "unlock.farmhandSuccess": "Farmhand 已解锁！您的新助手已准备就绪，可以开始工作了。",
+  "referral.flower": "在前 6 个月内，朋友在宝石上花费 $FLOWER 可获得 10%"
 }

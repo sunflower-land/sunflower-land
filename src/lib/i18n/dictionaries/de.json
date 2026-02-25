@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "Ein quietschendes Huhn",
   "instantCook.confirmationMessage": "Bist du sicher, dass du diesen Artikel jetzt fertigstellen möchtest?",
   "renew.expired.message": "{{name}} ist abgelaufen. Sie können es erneuern, um seine Laufzeit zu verlängern.",
-  "referral.flower": "10% der FLOWER-$, die dein Freund für Edelsteine ausgegeben hat",
   "welcome.action.grow": "Wachsen",
   "welcome.action.build": "Bauen",
   "welcome.action.fish": "Fische",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} übrig",
   "tradeCooldown.title": "Abklingzeit des Handelns",
   "unlock.farmhandRevealing": "Farmhand freischalten...",
-  "unlock.farmhandSuccess": "Farmhand freigeschaltet! Ihr neuer Helfer ist bereit zu arbeiten."
+  "unlock.farmhandSuccess": "Farmhand freigeschaltet! Ihr neuer Helfer ist bereit zu arbeiten.",
+  "referral.flower": "10% der FLOWER-$, die dein Freund innerhalb der ersten 6 Monate für Edelsteine ausgegeben hat"
 }

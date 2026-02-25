@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "Un poulet qui couine",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?",
   "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée.",
-  "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami",
   "welcome.action.grow": "Grandir",
   "welcome.action.build": "Construisez",
   "welcome.action.fish": "Poisson",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} gauche",
   "tradeCooldown.title": "Refroidissement des échanges",
   "unlock.farmhandRevealing": "Débloquer Farmhand...",
-  "unlock.farmhandSuccess": "Farmhand débloqué ! Votre nouvel assistant est prêt à travailler."
+  "unlock.farmhandSuccess": "Farmhand débloqué ! Votre nouvel assistant est prêt à travailler.",
+  "referral.flower": "10 % des $ de FLOWER dépensés en gemmes par votre ami au cours des 6 premiers mois"
 }

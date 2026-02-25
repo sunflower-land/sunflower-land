@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "Un pollo chirriante",
   "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?",
   "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración.",
-  "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo",
   "welcome.action.grow": "Crecer",
   "welcome.action.build": "Construir",
   "welcome.action.fish": "Pescado",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} izquierda",
   "tradeCooldown.title": "Tiempo de reutilización de las operaciones",
   "unlock.farmhandRevealing": "Desbloqueando Farmhand...",
-  "unlock.farmhandSuccess": "¡Farmhand desbloqueado! Tu nuevo ayudante está listo para trabajar."
+  "unlock.farmhandSuccess": "¡Farmhand desbloqueado! Tu nuevo ayudante está listo para trabajar.",
+  "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo en los primeros 6 meses"
 }

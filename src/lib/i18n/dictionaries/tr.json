@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "Gıcırtılı bir tavuk",
   "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?",
   "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz.",
-  "referral.flower": "Arkadaşınız tarafından mücevherlere harcanan $FLOWER'ın %10'u",
   "welcome.action.grow": "Büyümek",
   "welcome.action.build": "İnşa",
   "welcome.action.fish": "Balık",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} kaldı",
   "tradeCooldown.title": "İşlem bekleme süresi",
   "unlock.farmhandRevealing": "Çiftlik işçisinin kilidini açmak...",
-  "unlock.farmhandSuccess": "Çiftlik elinin kilidi açıldı! Yeni yardımcınız çalışmaya hazır."
+  "unlock.farmhandSuccess": "Çiftlik elinin kilidi açıldı! Yeni yardımcınız çalışmaya hazır.",
+  "referral.flower": "İlk 6 ay içinde arkadaşınız tarafından mücevherlere harcadığı $FLOWER'ın %10'u"
 }

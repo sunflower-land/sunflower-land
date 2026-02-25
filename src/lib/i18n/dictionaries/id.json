@@ -7645,7 +7645,6 @@
   "description.squeakyChicken": "Ayam berderit",
   "instantCook.confirmationMessage": "Apakah Anda yakin ingin menyelesaikan item ini sekarang?",
   "renew.expired.message": "{{name}} telah kedaluwarsa. Anda dapat memperbaruinya untuk memperpanjang durasinya.",
-  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda",
   "welcome.action.grow": "Tumbuh",
   "welcome.action.build": "Membangun",
   "welcome.action.fish": "Ikan",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} tersisa",
   "tradeCooldown.title": "Cooldown perdagangan",
   "unlock.farmhandRevealing": "Membuka kunci tangan pertanian...",
-  "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja."
+  "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja.",
+  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda dalam 6 bulan pertama"
 }

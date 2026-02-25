@@ -5804,7 +5804,6 @@
   "claimReferralRewards.description": "Поздравляю! {{totalUnclaimedReferrals}} новых игроков присоединились и купили VIP по твоей реферальной ссылке. Вот твоя награда!",
   "referral.vip": "25 Love Charms, когда твой друг покупает VIP",
   "referral.friend": "25 Love Charms - распространяется только на первого реферала",
-  "referral.flower": "10% от FLOWER, потраченных твоим другом на гемы",
   "referral.description": "Когда твой друг зарегистрируется по твоей реферальной ссылке, ты получишь следующие награды:",
   "taskBoard.tasks": "Задачи",
   "taskBoard.loveCharmCount": "Инвентарь: {{loveCharmCount}} Love Charm",
@@ -8093,5 +8092,6 @@
   "accountRecentlyTraded.timeLeft": "{{time}} left",
   "tradeCooldown.title": "Trade cooldown",
   "unlock.farmhandRevealing": "Unlocking farmhand...",
-  "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work."
+  "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work.",
+  "referral.flower": "10% of $FLOWER spent on gems by your friend within the first 6 months"
 }
