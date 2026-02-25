@@ -172,14 +172,14 @@ function hasRequiredLevel(tool: Tool, state: GameState): boolean {
   return bumpkinLevel >= (tool.requiredLevel ?? 0);
 }
 
-export const ToolsGuide = () => {
+export const ToolsGuide: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
 
   return (
-    <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll">
+    <InnerPanel className="scrollable max-h-[450px] overflow-y-scroll">
       <div className="p-1">
         <NoticeboardItems
           items={[
@@ -285,7 +285,6 @@ export const ToolsGuide = () => {
                 isLocked={false}
                 state={state}
                 alternateBg={index % 2 === 0}
-                isAnimalTool
                 showBoostsKey={showBoostsKey}
                 setShowBoostsKey={setShowBoostsKey}
               />
@@ -305,7 +304,6 @@ interface ToolRowProps {
   isLocked: boolean;
   state: GameState;
   alternateBg?: boolean;
-  isAnimalTool?: boolean;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
 }
@@ -318,19 +316,10 @@ const ToolRow: React.FC<ToolRowProps> = ({
   isLocked,
   state,
   alternateBg,
-  isAnimalTool,
   showBoostsKey,
   setShowBoostsKey,
 }) => {
   const { t } = useAppTranslation();
-  const hasIslandReq =
-    !isAnimalTool &&
-    tool.requiredIsland &&
-    !hasRequiredIslandExpansion(state.island.type, tool.requiredIsland);
-  const hasLevelReq =
-    !isAnimalTool &&
-    tool.requiredLevel !== undefined &&
-    getBumpkinLevel(state.bumpkin?.experience ?? 0) < tool.requiredLevel;
 
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
 
