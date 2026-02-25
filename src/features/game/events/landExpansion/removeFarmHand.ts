@@ -1,8 +1,10 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 export type RemoveFarmHandAction = {
   type: "farmHand.removed";
+  location: PlaceableLocation;
   id: string;
 };
 
