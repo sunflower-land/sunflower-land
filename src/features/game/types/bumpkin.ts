@@ -1739,7 +1739,7 @@ const ALLOWED_BUMPKIN_SHIRTS: BumpkinShirt[] = [
   "Yellow Farmer Shirt",
 ];
 
-const ALLOWED_BUMPKIN_BODIES: BumpkinBody[] = [
+export const ALLOWED_BUMPKIN_BODIES: BumpkinBody[] = [
   "Beige Farmer Potion",
   "Light Brown Farmer Potion",
   "Dark Brown Farmer Potion",

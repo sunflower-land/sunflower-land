@@ -18,9 +18,11 @@ export function getSignupWardrobe(): Wardrobe {
 export const DEFAULT_SIGNUP_EQUIPMENT: BumpkinParts = {
   background: "Farm Background",
   body: "Beige Farmer Potion",
-  hair: "Rancher Hair",
+  hair: "Basic Hair",
   shirt: "Red Farmer Shirt",
   pants: "Farmer Pants",
   shoes: "Black Farmer Boots",
   tool: "Farmer Pitchfork",
 };
+
+export type Gender = "male" | "female";

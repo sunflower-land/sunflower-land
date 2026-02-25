@@ -1,314 +1,293 @@
 import {
-  BUMPKIN_ITEM_PART,
-  BumpkinItem,
-  BumpkinPart,
+  ALLOWED_BUMPKIN_BODIES,
+  BumpkinBody,
+  BumpkinHair,
+  BumpkinPant,
+  BumpkinShirt,
+  BumpkinShoe,
 } from "features/game/types/bumpkin";
 import React, { useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { OuterPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { BumpkinPartGroup } from "./BumpkinPartGroup";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/types/craftables";
-
-import lightning from "assets/icons/lightning.png";
-
-import { Label } from "components/ui/Label";
 import classNames from "classnames";
-import {
-  BUMPKIN_ITEM_BUFF_LABELS,
-  SPECIAL_ITEM_LABELS,
-} from "features/game/types/bumpkinItemBuffs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  pixelBlueBorderStyle,
-  pixelGrayBorderStyle,
-  pixelVibrantBorderStyle,
-} from "features/game/lib/style";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { getWearableImage } from "features/game/lib/getWearableImage";
-import { Wardrobe } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import {
+  DEFAULT_SIGNUP_EQUIPMENT,
+  Gender,
+} from "features/auth/lib/signupBumpkinDefaults";
+import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouettes";
 
-const REQUIRED: BumpkinPart[] = [
-  "background",
-  "body",
-  "hair",
-  "shoes",
-  "tool",
-  "shirt",
-  "pants",
+const MALE_HAIRSTYLES: BumpkinHair[] = [
+  "Basic Hair",
+  "Explorer Hair",
+  "Buzz Cut",
 ];
 
+const FEMALE_HAIRSTYLES: BumpkinHair[] = [
+  "Rancher Hair",
+  "Blondie",
+  "Brown Long Hair",
+];
+
+interface OutfitPreset {
+  shirt: BumpkinShirt;
+  pants: BumpkinPant;
+  shoes: BumpkinShoe;
+}
+
+const OUTFIT_PRESETS: OutfitPreset[] = [
+  {
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+  },
+  {
+    shirt: "Blue Farmer Shirt",
+    pants: "Blue Suspenders",
+    shoes: "Yellow Boots",
+  },
+  {
+    shirt: "Yellow Farmer Shirt",
+    pants: "Farmer Overalls",
+    shoes: "Brown Boots",
+  },
+];
+
+const FIXED_PARTS: Pick<BumpkinParts, "background" | "tool"> = {
+  background: "Farm Background",
+  tool: "Farmer Pitchfork",
+};
+
 interface Props {
-  wardrobe: Wardrobe;
-  initialEquipment: BumpkinParts;
+  initialEquipment?: BumpkinParts;
   onSave: (equipment: BumpkinParts) => void;
 }
 
+function SelectionCorners() {
+  return (
+    <div className="block">
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxTL}
+        style={{
+          top: `${PIXEL_SCALE * -3}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+          width: `${PIXEL_SCALE * 8}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxTR}
+        style={{
+          top: `${PIXEL_SCALE * -3}px`,
+          right: `${PIXEL_SCALE * -3}px`,
+          width: `${PIXEL_SCALE * 8}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxBL}
+        style={{
+          bottom: `${PIXEL_SCALE * -3}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+          width: `${PIXEL_SCALE * 8}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxBR}
+        style={{
+          bottom: `${PIXEL_SCALE * -3}px`,
+          right: `${PIXEL_SCALE * -3}px`,
+          width: `${PIXEL_SCALE * 8}px`,
+        }}
+      />
+    </div>
+  );
+}
+
 export const SignupBumpkinEquip: React.FC<Props> = ({
-  wardrobe,
-  initialEquipment,
+  initialEquipment = DEFAULT_SIGNUP_EQUIPMENT,
   onSave,
 }) => {
-  const [equipped, setEquipped] = useState(initialEquipment);
-  const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
+  const [equipped, setEquipped] = useState<BumpkinParts>({
+    ...initialEquipment,
+    ...FIXED_PARTS,
+  });
+  const [hairGender, setHairGender] = useState<Gender>("male");
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const equipPart = (name: BumpkinItem) => {
-    const part = BUMPKIN_ITEM_PART[name];
-    const outfit = {
-      ...equipped,
-      [part]: name,
-    };
+  const { t } = useAppTranslation();
 
-    if (part === "dress") {
-      delete outfit.shirt;
-      delete outfit.pants;
-    }
-
-    if (part === "shirt") {
-      delete outfit.dress;
-    }
-
-    if (part === "pants") {
-      delete outfit.dress;
-    }
-
-    setEquipped(outfit);
+  const selectBody = (body: BumpkinBody) => {
+    setEquipped((prev) => ({ ...prev, body }));
   };
 
-  const unequipPart = (name: BumpkinItem) => {
-    if (REQUIRED.includes(BUMPKIN_ITEM_PART[name])) {
-      return;
+  const selectHair = (hair: BumpkinHair) => {
+    setEquipped((prev) => ({ ...prev, hair }));
+  };
+
+  const selectOutfitPreset = (preset: OutfitPreset) => {
+    setEquipped((prev) => ({
+      ...prev,
+      shirt: preset.shirt,
+      pants: preset.pants,
+      shoes: preset.shoes,
+    }));
+  };
+
+  const switchHairGender = (gender: Gender) => {
+    if (gender === hairGender) return;
+    setHairGender(gender);
+
+    const currentList = gender === "male" ? MALE_HAIRSTYLES : FEMALE_HAIRSTYLES;
+    if (!equipped.hair || !currentList.includes(equipped.hair)) {
+      selectHair(currentList[0]);
     }
-    const part = BUMPKIN_ITEM_PART[name];
-    const outfit = { ...equipped };
-
-    delete outfit[part];
-
-    setEquipped(outfit);
   };
 
   const finish = () => {
     setShowConfirmationModal(false);
     onSave(equipped);
   };
+  const GENDERS: Record<Gender, { hair: BumpkinHair[]; icon: string }> = {
+    male: { hair: MALE_HAIRSTYLES, icon: "♂" },
+    female: { hair: FEMALE_HAIRSTYLES, icon: "♀" },
+  };
 
-  const hasAllRequired = REQUIRED.every((part) => equipped[part]);
-  const canSave = hasAllRequired;
-
-  const equippedItems = Object.values(equipped);
-
-  const { t } = useAppTranslation();
-
-  const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
-    a.localeCompare(b),
+  const selectedPresetIndex = OUTFIT_PRESETS.findIndex(
+    (p) =>
+      p.shirt === equipped.shirt &&
+      p.pants === equipped.pants &&
+      p.shoes === equipped.shoes,
   );
-  const wardrobeSortedByBuff = sortedWardrobeNames
-    .filter((name) => BUMPKIN_ITEM_BUFF_LABELS[name])
-    .concat(
-      sortedWardrobeNames.filter((name) => !BUMPKIN_ITEM_BUFF_LABELS[name]),
-    );
-
-  const filteredWardrobeNames = wardrobeSortedByBuff.filter(
-    (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
-  );
-
-  const selectedBumpkinItem = equipped[selectedBumpkinPart];
 
   return (
     <div className="p-2">
-      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2">
-        <div className="w-full sm:w-1/3 flex flex-col justify-center">
-          <div className="w-full relative rounded-xl overflow-hidden mr-2 mb-1">
+      <div className="flex flex-col sm:flex-row gap-2">
+        {/* Left column: preview + save */}
+        <div className="w-full sm:w-2/5 flex flex-col justify-center">
+          <div className="w-full relative rounded-xl overflow-hidden mb-1">
             <DynamicNFT
               showBackground
               bumpkinParts={equipped}
               key={JSON.stringify(equipped)}
             />
-            <div className="absolute w-8 h-8 bottom-10 right-4">
-              <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
+            <div className="absolute w-8 h-8 bottom-10 right-10">
+              <NPCIcon
+                parts={equipped}
+                width={PIXEL_SCALE * 20}
+                key={JSON.stringify(equipped)}
+              />
             </div>
           </div>
-          <Button
-            disabled={!canSave}
-            onClick={() => setShowConfirmationModal(true)}
-          >
-            <div className="flex">{t("save")}</div>
-          </Button>
-        </div>
-        <div className="w-full sm:w-1/3 flex flex-col gap-2">
-          <Label type="default">{t("required")}</Label>
-          <BumpkinPartGroup
-            bumpkinParts={REQUIRED}
-            equipped={equipped}
-            selected={selectedBumpkinPart}
-            onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
-          />
         </div>
 
-        <div className="flex-1 flex max-h-[300px] sm:max-h-[306px]">
-          <OuterPanel className="w-full flex flex-col !pt-1 !pb-0 !px-1 min-h-[106px]">
-            <div className="w-full pb-1">
-              <Label type="default">{`${t(
-                `equip.${selectedBumpkinPart}`,
-              )}`}</Label>
+        {/* Right column: Body / Hair / Outfit */}
+        <div className="flex-1 flex flex-col gap-2">
+          {/* Body */}
+          <div className="grid grid-cols-4 gap-2">
+            <div className="w-full relative aspect-square !p-0 flex items-center justify-center">
+              <img src={SUNNYSIDE.icons.player} className="h-2/3" />
             </div>
-            <div className="flex-col flex-1 overflow-y-auto scrollable justify-center items-center">
-              {filteredWardrobeNames.length === 0 ? (
-                <div className="flex h-full justify-center items-center text-xs">
-                  <p>{t("empty")}</p>
-                </div>
-              ) : (
-                <div className="w-full grid grid-cols-5 sm:grid-cols-3 md:grid-cols-4 py-1 px-1 gap-2">
-                  {filteredWardrobeNames.map((name) => {
-                    const boostLabel =
-                      BUMPKIN_ITEM_BUFF_LABELS[name] &&
-                      !SPECIAL_ITEM_LABELS[name];
+            {ALLOWED_BUMPKIN_BODIES.map((body) => (
+              <OuterPanel
+                key={body}
+                className={classNames(
+                  "w-full cursor-pointer relative aspect-square !p-0 flex items-center justify-center hover:img-highlight",
+                  { "img-highlight": equipped.body === body },
+                )}
+                onClick={() => selectBody(body)}
+              >
+                <img
+                  src={getWearableImage(body)}
+                  className="h-2/3"
+                  style={{ imageRendering: "pixelated" }}
+                />
+                {equipped.body === body && <SelectionCorners />}
+              </OuterPanel>
+            ))}
+          </div>
 
-                    const specialItem = SPECIAL_ITEM_LABELS[name];
-
-                    const buffLabel = boostLabel || specialItem;
-                    const amountEquipped = wardrobe[name] ?? 0;
-
-                    const unavailable =
-                      !wardrobe[name] && !equippedItems.includes(name);
-
+          {/* Hair */}
+          <div>
+            <div className="grid grid-cols-4 gap-2">
+              <div className="w-full relative aspect-square !p-0 flex flex-col items-center justify-center">
+                <img src={BUMPKIN_PART_SILHOUETTE.hair} className="h-2/3" />
+                <div className="flex gap-1 justify-items-end">
+                  {getObjectEntries(GENDERS).map(([gender, { icon }]) => {
+                    const isSelected = hairGender === gender;
+                    const Container = isSelected ? InnerPanel : OuterPanel;
                     return (
-                      <Popover key={name}>
-                        <PopoverButton
-                          as="div"
-                          className="cursor-pointer"
-                          disabled={unavailable}
-                        >
-                          <OuterPanel
-                            className={classNames(
-                              "w-full relative  !p-0 flex items-center justify-center",
-                              {
-                                "hover:img-highlight": !unavailable,
-                                "img-highlight":
-                                  selectedBumpkinItem === name && !unavailable,
-                                "cursor-pointer":
-                                  (!equippedItems.includes(name) ||
-                                    !REQUIRED.includes(
-                                      BUMPKIN_ITEM_PART[name],
-                                    )) &&
-                                  !unavailable,
-                                "opacity-50": unavailable,
-                              },
-                            )}
-                            onClick={() => {
-                              if (unavailable) {
-                                return;
-                              }
-                              if (equippedItems.includes(name)) {
-                                unequipPart(name);
-                              } else {
-                                equipPart(name);
-                              }
-                            }}
-                          >
-                            {equippedItems.includes(name) && (
-                              <img
-                                className="absolute h-4 -left-2 -top-2"
-                                src={SUNNYSIDE.icons.confirm}
-                              />
-                            )}
-                            {amountEquipped > 0 && (
-                              <div
-                                className="absolute -right-2 -bottom-2 bg-[#c0cbdc] text-[#181425] text-xs"
-                                style={pixelGrayBorderStyle}
-                              >
-                                {amountEquipped}
-                              </div>
-                            )}
-                            {!!buffLabel && (
-                              <div
-                                className={classNames(
-                                  "absolute -right-2 -top-2",
-                                  {
-                                    "bg-[#b65389]": specialItem,
-                                    "bg-[#1e6dd5]": boostLabel,
-                                  },
-                                )}
-                                style={
-                                  specialItem
-                                    ? pixelVibrantBorderStyle
-                                    : pixelBlueBorderStyle
-                                }
-                              >
-                                <SquareIcon icon={lightning} width={4} />
-                              </div>
-                            )}
-                            <img
-                              src={getWearableImage(name)}
-                              className="h-10"
-                            />
-                          </OuterPanel>
-                        </PopoverButton>
-                        <PopoverPanel
-                          anchor={{ to: "right end" }}
-                          className="flex pointer-events-none"
-                        >
-                          <InnerPanel>
-                            <p className="text-xxs">
-                              {t("marketplace.itemInUse")}
-                            </p>
-                          </InnerPanel>
-                        </PopoverPanel>
-                      </Popover>
+                      <Container
+                        key={gender}
+                        className="cursor-pointer !p-1 flex items-center justify-center hover:img-highlight"
+                        onClick={() => switchHairGender(gender)}
+                      >
+                        <span className="text-xs leading-none">{icon}</span>
+                      </Container>
                     );
                   })}
                 </div>
-              )}
+              </div>
+              {GENDERS[hairGender].hair.map((hair) => (
+                <OuterPanel
+                  key={hair}
+                  className={classNames(
+                    "w-full cursor-pointer relative aspect-square !p-0 flex items-center justify-center hover:img-highlight",
+                    { "img-highlight": equipped.hair === hair },
+                  )}
+                  onClick={() => selectHair(hair)}
+                >
+                  <img
+                    src={getWearableImage(hair)}
+                    className="h-2/3"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                  {equipped.hair === hair && <SelectionCorners />}
+                </OuterPanel>
+              ))}
             </div>
-            {(() => {
-              const buffLabel = selectedBumpkinItem
-                ? (BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? "")
-                : "";
+          </div>
 
-              return (
-                selectedBumpkinItem && (
-                  <InnerPanel
-                    className="relative bottom-[-5px] left-[-9px] !px-2 !pb-1 z-10"
-                    style={{ width: "calc(100% + 18px)" }}
-                  >
-                    <p className="text-xs flex-1">{selectedBumpkinItem}</p>
-                    {buffLabel && (
-                      <div className="flex flex-col gap-1 mt-1">
-                        {buffLabel.map(
-                          (
-                            {
-                              labelType,
-                              boostTypeIcon,
-                              boostedItemIcon,
-                              shortDescription,
-                            },
-                            index,
-                          ) => (
-                            <Label
-                              key={index}
-                              type={labelType}
-                              icon={boostTypeIcon}
-                              secondaryIcon={boostedItemIcon}
-                            >
-                              {shortDescription}
-                            </Label>
-                          ),
-                        )}
-                      </div>
-                    )}
-                  </InnerPanel>
-                )
-              );
-            })()}
-          </OuterPanel>
+          {/* Outfit */}
+          <div className="grid grid-cols-4 gap-2">
+            <div className="w-full relative aspect-square !p-0 flex items-center justify-center">
+              <img src={BUMPKIN_PART_SILHOUETTE.suit} className="h-2/3" />
+            </div>
+            {OUTFIT_PRESETS.map((preset, index) => (
+              <OuterPanel
+                key={index}
+                className={classNames(
+                  "w-full cursor-pointer relative aspect-square !p-0 flex items-center justify-center hover:img-highlight",
+                  { "img-highlight": selectedPresetIndex === index },
+                )}
+                onClick={() => selectOutfitPreset(preset)}
+              >
+                <img
+                  src={getWearableImage(preset.shirt)}
+                  className="h-2/3"
+                  style={{ imageRendering: "pixelated" }}
+                />
+                {selectedPresetIndex === index && <SelectionCorners />}
+              </OuterPanel>
+            ))}
+          </div>
         </div>
       </div>
+
+      <Button onClick={() => setShowConfirmationModal(true)} className="mt-2">
+        {t("save")}
+      </Button>
+
       <ConfirmationModal
         show={showConfirmationModal}
         onHide={() => setShowConfirmationModal(false)}
