@@ -6078,7 +6078,7 @@
   "claimReferralRewards.description": "Congratulations! {{totalUnclaimedReferrals}} new players have joined and bought VIP using your referral link. Here are your rewards!",
   "referral.vip": "25 Love Charms when your friend buys VIP",
   "referral.friend": "25 Love Charms - Only applies to the first referral",
-  "referral.flower": "10% of $FLOWER spent on gems by your friend",
+  "referral.flower": "10% of $FLOWER spent on gems by your friend within the first 6 months",
   "referral.description": "You will receive the following rewards when your friend signs up using your referral link:",
   "taskBoard.tasks": "Tasks",
   "taskBoard.loveCharmCount": "Inventory: {{loveCharmCount}} Love Charm",
