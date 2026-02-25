@@ -23,6 +23,7 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
+  "Potion Ticket",
   ...getKeys(CLUTTER),
   ...getKeys(SELLABLE_TREASURES),
   ...getKeys(SEEDS),
