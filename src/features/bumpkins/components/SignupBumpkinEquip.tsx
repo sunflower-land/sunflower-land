@@ -125,107 +125,108 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
   );
 
   return (
-    <div className="p-2">
-      <div className="flex gap-2 justify-between mb-1">
-        <div>
-          <Label type="default">{t("signup.createBumpkin")}</Label>
+    <>
+      <div className="p-2">
+        <div className="flex gap-2 justify-between mb-1">
+          <div>
+            <Label type="default">{t("signup.createBumpkin")}</Label>
+          </div>
+          <div className="flex gap-1">
+            {getObjectEntries(GENDERS).map(([gender, { icon }]) => {
+              const isSelected = hairGender === gender;
+              const Container = isSelected ? InnerPanel : OuterPanel;
+              return (
+                <Container
+                  key={gender}
+                  className="cursor-pointer !p-1 flex items-center justify-center hover:img-highlight"
+                  onClick={() => switchHairGender(gender)}
+                >
+                  <span className="text-xs leading-none">{icon}</span>
+                </Container>
+              );
+            })}
+          </div>
         </div>
-        <div className="flex gap-1">
-          {getObjectEntries(GENDERS).map(([gender, { icon }]) => {
-            const isSelected = hairGender === gender;
-            const Container = isSelected ? InnerPanel : OuterPanel;
-            return (
-              <Container
-                key={gender}
-                className="cursor-pointer !p-1 flex items-center justify-center hover:img-highlight"
-                onClick={() => switchHairGender(gender)}
-              >
-                <span className="text-xs leading-none">{icon}</span>
-              </Container>
-            );
-          })}
-        </div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-2">
-        {/* Left column: preview + save */}
-        <div className="w-full sm:w-2/5 flex flex-col justify-between">
-          <div className="w-full relative rounded-xl overflow-hidden mb-1">
-            <DynamicNFT
-              showBackground
-              bumpkinParts={equipped}
-              key={JSON.stringify(equipped)}
-            />
-            <div className="absolute w-8 h-8 bottom-6 right-6">
-              <NPCIcon
-                parts={equipped}
-                width={PIXEL_SCALE * 18}
+        <div className="flex flex-col sm:flex-row gap-2">
+          {/* Left column: preview + save */}
+          <div className="w-full sm:w-2/5 flex flex-col justify-between">
+            <div className="w-full relative rounded-xl overflow-hidden mb-1">
+              <DynamicNFT
+                showBackground
+                bumpkinParts={equipped}
                 key={JSON.stringify(equipped)}
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Right column: Body / Hair / Outfit */}
-        <div className="flex-1 flex flex-col gap-2">
-          {/* Body */}
-          <div className="flex">
-            <div className="!p-0 flex items-center justify-center w-1/4">
-              <img src={SUNNYSIDE.icons.player} className="h-10" />
-            </div>
-            <div className="flex">
-              {ALLOWED_BUMPKIN_BODIES.map((body) => (
-                <Box
-                  key={body}
-                  image={getWearableImage(body)}
-                  isSelected={equipped.body === body}
-                  onClick={() => selectBody(body)}
-                  hideCount
+              <div className="absolute w-8 h-8 bottom-6 right-6">
+                <NPCIcon
+                  parts={equipped}
+                  width={PIXEL_SCALE * 18}
+                  key={JSON.stringify(equipped)}
                 />
-              ))}
+              </div>
             </div>
           </div>
 
-          {/* Hair */}
-          <div className="flex">
-            <div className="!p-0 flex flex-col items-center justify-center w-1/4">
-              <img src={BUMPKIN_PART_SILHOUETTE.hair} className="h-10" />
-            </div>
+          {/* Right column: Body / Hair / Outfit */}
+          <div className="flex-1 flex flex-col gap-2">
+            {/* Body */}
             <div className="flex">
-              {GENDERS[hairGender].hair.map((hair) => (
-                <Box
-                  key={hair}
-                  image={getWearableImage(hair)}
-                  isSelected={equipped.hair === hair}
-                  onClick={() => selectHair(hair)}
-                  hideCount
-                />
-              ))}
+              <div className="!p-0 flex items-center justify-center w-1/4">
+                <img src={SUNNYSIDE.icons.player} className="h-10" />
+              </div>
+              <div className="flex">
+                {ALLOWED_BUMPKIN_BODIES.map((body) => (
+                  <Box
+                    key={body}
+                    image={getWearableImage(body)}
+                    isSelected={equipped.body === body}
+                    onClick={() => selectBody(body)}
+                    hideCount
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Outfit */}
-          <div className="flex">
-            <div className="!p-0 flex items-center justify-center w-1/4">
-              <img src={BUMPKIN_PART_SILHOUETTE.suit} className="h-10" />
-            </div>
+            {/* Hair */}
             <div className="flex">
-              {OUTFIT_PRESETS.map((preset, index) => (
-                <Box
-                  key={index}
-                  image={getWearableImage(preset.shirt)}
-                  isSelected={selectedPresetIndex === index}
-                  onClick={() => selectOutfitPreset(preset)}
-                  hideCount
-                />
-              ))}
+              <div className="!p-0 flex flex-col items-center justify-center w-1/4">
+                <img src={BUMPKIN_PART_SILHOUETTE.hair} className="h-10" />
+              </div>
+              <div className="flex">
+                {GENDERS[hairGender].hair.map((hair) => (
+                  <Box
+                    key={hair}
+                    image={getWearableImage(hair)}
+                    isSelected={equipped.hair === hair}
+                    onClick={() => selectHair(hair)}
+                    hideCount
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Outfit */}
+            <div className="flex">
+              <div className="!p-0 flex items-center justify-center w-1/4">
+                <img src={BUMPKIN_PART_SILHOUETTE.suit} className="h-10" />
+              </div>
+              <div className="flex">
+                {OUTFIT_PRESETS.map((preset, index) => (
+                  <Box
+                    key={index}
+                    image={getWearableImage(preset.shirt)}
+                    isSelected={selectedPresetIndex === index}
+                    onClick={() => selectOutfitPreset(preset)}
+                    hideCount
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <Button onClick={finish} className="mt-2">
         {t("start")}
       </Button>
-    </div>
+    </>
   );
 };
