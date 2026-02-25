@@ -1,8 +1,6 @@
 import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
-import { getKeys } from "./craftables";
-import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 type Releases = {
@@ -688,17 +686,31 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
 
-const RESOURCE_RELEASES: InventoryReleases = Object.fromEntries(
-  getKeys(TRADE_LIMITS).map((name) => [name, CAN_WITHDRAW_AND_TRADE]),
-) as InventoryReleases;
-
-/** Resources tradable but not withdrawable when OFFCHAIN_RESOURCES is active */
-const RESOURCE_TRADE_ONLY: InventoryReleases = Object.fromEntries(
-  getKeys(TRADE_LIMITS).map((name) => [
-    name,
-    { tradeAt: CAN_WITHDRAW_AND_TRADE.tradeAt },
-  ]),
-) as InventoryReleases;
+const RESOURCE_RELEASES: InventoryReleases = {
+  Beetroot: CAN_WITHDRAW_AND_TRADE,
+  Cabbage: CAN_WITHDRAW_AND_TRADE,
+  Carrot: CAN_WITHDRAW_AND_TRADE,
+  Cauliflower: CAN_WITHDRAW_AND_TRADE,
+  Kale: CAN_WITHDRAW_AND_TRADE,
+  Potato: CAN_WITHDRAW_AND_TRADE,
+  Pumpkin: CAN_WITHDRAW_AND_TRADE,
+  Sunflower: CAN_WITHDRAW_AND_TRADE,
+  Parsnip: CAN_WITHDRAW_AND_TRADE,
+  Eggplant: CAN_WITHDRAW_AND_TRADE,
+  Corn: CAN_WITHDRAW_AND_TRADE,
+  Radish: CAN_WITHDRAW_AND_TRADE,
+  Wheat: CAN_WITHDRAW_AND_TRADE,
+  Soybean: CAN_WITHDRAW_AND_TRADE,
+  Apple: CAN_WITHDRAW_AND_TRADE,
+  Blueberry: CAN_WITHDRAW_AND_TRADE,
+  Orange: CAN_WITHDRAW_AND_TRADE,
+  Banana: CAN_WITHDRAW_AND_TRADE,
+  Egg: CAN_WITHDRAW_AND_TRADE,
+  Wood: CAN_WITHDRAW_AND_TRADE,
+  Stone: CAN_WITHDRAW_AND_TRADE,
+  Iron: CAN_WITHDRAW_AND_TRADE,
+  Gold: CAN_WITHDRAW_AND_TRADE,
+};
 
 export const INVENTORY_RELEASES: InventoryReleases = {
   // Collectibles
@@ -1653,16 +1665,11 @@ const INVENTORY_RELEASES_WITH_RESOURCES: InventoryReleases = {
   ...RESOURCE_RELEASES,
 };
 
-const INVENTORY_RELEASES_WITH_RESOURCE_TRADE: InventoryReleases = {
-  ...INVENTORY_RELEASES,
-  ...RESOURCE_TRADE_ONLY,
-};
-
 export const getInventoryReleases = (
   now: number,
 ): Partial<Record<InventoryItemName, Releases>> => {
   const offchainEnabled = hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now);
   return offchainEnabled
-    ? INVENTORY_RELEASES_WITH_RESOURCE_TRADE
+    ? INVENTORY_RELEASES
     : INVENTORY_RELEASES_WITH_RESOURCES;
 };
