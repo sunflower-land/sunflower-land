@@ -7,14 +7,21 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { COMMODITIES } from "features/game/types/resources";
-import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
+import { getInventoryReleases } from "features/game/types/withdrawables";
 
-export function getDeliverableItems({ state }: { state: GameState }) {
+export function getDeliverableItems({
+  state,
+  now,
+}: {
+  state: GameState;
+  now: number;
+}) {
   const { previousInventory } = state;
+  const inventoryReleases = getInventoryReleases(now);
 
   const inventory = getBasketItems(state.inventory);
 
@@ -28,7 +35,7 @@ export function getDeliverableItems({ state }: { state: GameState }) {
           itemName !== "Crimstone" &&
           itemName !== "Sunstone");
 
-      const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
+      const withdrawAt = inventoryReleases[itemName]?.withdrawAt;
       const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
       if (isDeliverable && canWithdraw) {
         const previousAmount = previousInventory[itemName] ?? new Decimal(0);

@@ -13,7 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -29,6 +29,7 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -67,6 +68,8 @@ export const WithdrawWearables: React.FC<Props> = ({
   const [selected, setSelected] = useState<Wardrobe>({});
 
   const [showInfo, setShowInfo] = useState("");
+
+  const now = useNow();
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => ITEM_IDS[item]);
@@ -181,8 +184,8 @@ export const WithdrawWearables: React.FC<Props> = ({
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter((itemName) => {
-      const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
-      const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+      const withdrawAt = WEARABLE_RELEASES[itemName]?.withdrawAt;
+      const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
       return canWithdraw;
     })
     .filter(
