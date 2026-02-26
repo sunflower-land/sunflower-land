@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "トレードクールダウン",
   "unlock.farmhandRevealing": "ファームハンドのロックを解除中...",
   "unlock.farmhandSuccess": "ファームハンドのロックが解除されました！新しいヘルパーの作業準備が整いました。",
-  "referral.flower": "最初の6か月以内に友達がジェムを購入した$FLOWERの 10%"
+  "referral.flower": "最初の6か月以内に友達がジェムを購入した$FLOWERの 10%",
+  "signup.createBumpkin": "バンプキンを作ろう",
+  "signup.createBumpkinConfirmation": "本当にこのバンプキンと一緒に行きたいの？",
+  "signup.createBumpkinConfirmation.two": "これはカスタマイズできる唯一の無料チャンスです。見た目を変えたい場合は、ワードローブまたはマーケットプレイスからウェアラブルを購入する必要があります。",
+  "equip.outfit": "衣装"
 }

@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "Trade cooldown",
   "unlock.farmhandRevealing": "Unlocking farmhand...",
   "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work.",
-  "referral.flower": "10% of $FLOWER spent on gems by your friend within the first 6 months"
+  "referral.flower": "10% of $FLOWER spent on gems by your friend within the first 6 months",
+  "signup.createBumpkin": "Create your Bumpkin",
+  "signup.createBumpkinConfirmation": "Are you sure you want to go with this Bumpkin?",
+  "signup.createBumpkinConfirmation.two": "This is your only free chance to customise. You will need to buy wearables from wardrobe or marketplace if you want to change your look.",
+  "equip.outfit": "Outfit"
 }

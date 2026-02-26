@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "Tempo de espera de negociação",
   "unlock.farmhandRevealing": "Desbloqueando o fazendeiro...",
   "unlock.farmhandSuccess": "Farmhand desbloqueado! Seu novo ajudante está pronto para trabalhar.",
-  "referral.flower": "10% de $ FLOWER gastos em gemas por seu amigo nos primeiros 6 meses"
+  "referral.flower": "10% de $ FLOWER gastos em gemas por seu amigo nos primeiros 6 meses",
+  "signup.createBumpkin": "Crie seu Bumpkin",
+  "signup.createBumpkinConfirmation": "Tem certeza de que quer ir com esse caipira?",
+  "signup.createBumpkinConfirmation.two": "Esta é sua única chance gratuita de personalizar. Você precisará comprar dispositivos vestíveis no guarda-roupa ou no mercado se quiser mudar sua aparência.",
+  "equip.outfit": "Roupa"
 }

@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "İşlem bekleme süresi",
   "unlock.farmhandRevealing": "Çiftlik işçisinin kilidini açmak...",
   "unlock.farmhandSuccess": "Çiftlik elinin kilidi açıldı! Yeni yardımcınız çalışmaya hazır.",
-  "referral.flower": "İlk 6 ay içinde arkadaşınız tarafından mücevherlere harcadığı $FLOWER'ın %10'u"
+  "referral.flower": "İlk 6 ay içinde arkadaşınız tarafından mücevherlere harcadığı $FLOWER'ın %10'u",
+  "signup.createBumpkin": "Bumpkin'inizi oluşturun",
+  "signup.createBumpkinConfirmation": "Bu Bumpkin ile gitmek istediğinden emin misin?",
+  "signup.createBumpkinConfirmation.two": "Bu, özelleştirmek için tek ücretsiz şansınız. Görünümünüzü değiştirmek istiyorsanız gardıroptan veya pazardan giyilebilir ürünler satın almanız gerekecek.",
+  "equip.outfit": "Kıyafet"
 }

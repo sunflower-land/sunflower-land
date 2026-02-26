@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "Tempo di recupero degli scambi",
   "unlock.farmhandRevealing": "Sbloccare un bracciante agricolo...",
   "unlock.farmhandSuccess": "Farmhand sbloccato! Il tuo nuovo aiutante è pronto a lavorare.",
-  "referral.flower": "10% di $FLOWER spesi in gemme dal tuo amico entro i primi 6 mesi"
+  "referral.flower": "10% di $FLOWER spesi in gemme dal tuo amico entro i primi 6 mesi",
+  "signup.createBumpkin": "Crea il tuo Bumpkin",
+  "signup.createBumpkinConfirmation": "Sei sicuro di voler scegliere questo Bumpkin?",
+  "signup.createBumpkinConfirmation.two": "Questa è la tua unica possibilità gratuita di personalizzazione. Dovrai acquistare i dispositivi indossabili dal guardaroba o dal mercato se vuoi cambiare look.",
+  "equip.outfit": "Vestito"
 }

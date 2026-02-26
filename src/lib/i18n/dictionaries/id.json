@@ -8093,5 +8093,9 @@
   "tradeCooldown.title": "Cooldown perdagangan",
   "unlock.farmhandRevealing": "Membuka kunci tangan pertanian...",
   "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja.",
-  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda dalam 6 bulan pertama"
+  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda dalam 6 bulan pertama",
+  "signup.createBumpkin": "Buat Bumpkin Anda",
+  "signup.createBumpkinConfirmation": "Apakah Anda yakin ingin pergi dengan Bumpkin ini?",
+  "signup.createBumpkinConfirmation.two": "Ini adalah satu-satunya kesempatan gratis Anda untuk menyesuaikan. Anda perlu membeli barang yang dapat dikenakan dari lemari pakaian atau pasar jika Anda ingin mengubah penampilan Anda.",
+  "equip.outfit": "Pakaian"
 }
