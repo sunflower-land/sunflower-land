@@ -172,7 +172,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
             }
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              marginLeft: `${PIXEL_SCALE * 8}px`
+              marginLeft: `${PIXEL_SCALE * 8}px`,
             }}
           />
         )}
@@ -185,7 +185,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
             }
             style={{
               width: `${PIXEL_SCALE * 7}px`,
-              marginLeft: `${PIXEL_SCALE * -7}px`
+              marginLeft: `${PIXEL_SCALE * -7}px`,
             }}
           />
         )}

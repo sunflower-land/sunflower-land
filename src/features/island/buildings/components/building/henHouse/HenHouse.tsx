@@ -77,7 +77,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
             }
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              marginLeft: `${PIXEL_SCALE * 8}px`
+              marginLeft: `${PIXEL_SCALE * 8}px`,
             }}
           />
         )}
@@ -90,7 +90,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
             }
             style={{
               width: `${PIXEL_SCALE * 7}px`,
-              marginLeft: `${PIXEL_SCALE * -7}px`
+              marginLeft: `${PIXEL_SCALE * -7}px`,
             }}
           />
         )}
