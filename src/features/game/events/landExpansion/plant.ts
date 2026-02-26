@@ -116,7 +116,7 @@ export const getSupportedPlots = ({
 }) => {
   let plots = INITIAL_SUPPORTED_PLOTS(island);
   const hasPlacedWell =
-    buildings["Water Well"]?.some((w) => w.coordinates != null) ?? false;
+    buildings["Water Well"]?.some((w) => !!w.coordinates) ?? false;
   let effectiveWellLevel = wellLevel;
 
   if (upgradeReadyAt && upgradeReadyAt > createdAt) {
