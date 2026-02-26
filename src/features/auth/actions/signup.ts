@@ -1,6 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type UTM = {
   source?: string;
@@ -19,6 +20,7 @@ type Request = {
   transactionId: string;
   referrerId: string | null;
   utm?: UTM;
+  equipment?: BumpkinParts;
 };
 
 export async function signUp({
@@ -26,6 +28,7 @@ export async function signUp({
   transactionId,
   referrerId,
   utm = {},
+  equipment,
 }: Request) {
   const { fbp, fbc } = getMetaBrowserIdentifiers();
 
@@ -43,6 +46,7 @@ export async function signUp({
         fbp: fbp,
         fbc: fbc,
       },
+      equipped: equipment ?? undefined,
     }),
   });
 
