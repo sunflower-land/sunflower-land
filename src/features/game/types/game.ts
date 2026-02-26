@@ -1924,7 +1924,6 @@ export interface GameState {
     isSocialVerified?: boolean;
   };
 
-  experiments?: any[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;

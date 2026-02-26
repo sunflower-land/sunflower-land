@@ -25,6 +25,7 @@ import { TextInput } from "components/ui/TextInput";
 import debounce from "lodash.debounce";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
+import { CreateFarmEvent } from "../lib/authMachine";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -51,7 +52,7 @@ export const NoAccount: React.FC = () => {
     authService.send({
       type: "CREATE_FARM",
       equipment,
-    } as { type: "CREATE_FARM"; equipment: BumpkinParts });
+    } as CreateFarmEvent);
   };
 
   const validationStateStrings: Record<ValidationState, string> = {

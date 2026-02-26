@@ -107,12 +107,12 @@ type PWAInstallPromptShown = {
   type: "PWA_INSTALL_PROMPT_SHOWN";
 };
 
-type CreateFarmEvent = {
+export type CreateFarmEvent = {
   type: "CREATE_FARM";
   donation?: number;
   captcha?: string;
   hasEnoughMatic?: boolean;
-  equipment?: BumpkinParts;
+  equipment: BumpkinParts;
 };
 
 type LoadFarmEvent = {
