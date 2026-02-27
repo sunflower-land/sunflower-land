@@ -54,11 +54,13 @@ export const BulkBuyInterface: React.FC<Props> = ({
               />
             </div>
           </div>
-          <div className="pl-2 text-[20px] -mt-1.5">
-            {t("marketplace.limit", {
-              maxLimit: formatNumber(maxLimit, { decimalPlaces: 0 }),
-            })}
-          </div>
+          {maxLimit !== Infinity && (
+            <div className="pl-2 text-[20px] -mt-1.5">
+              {t("marketplace.limit", {
+                maxLimit: formatNumber(maxLimit, { decimalPlaces: 0 }),
+              })}
+            </div>
+          )}
         </div>
         <div className="flex flex-grow-1 flex-col w-1/2 justify-evenly p-1 gap-1 text-xs sm:text-sm">
           <div className="flex justify-between">
