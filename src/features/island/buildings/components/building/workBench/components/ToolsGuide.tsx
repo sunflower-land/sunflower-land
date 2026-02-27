@@ -309,6 +309,7 @@ export const ToolsGuide: React.FC = () => {
                 alternateBg={index % 2 === 0}
                 showBoostsKey={showBoostsKey}
                 setShowBoostsKey={setShowBoostsKey}
+                isLandTool
               />
             </div>
             <div className="hidden sm:block">
@@ -395,6 +396,7 @@ interface ToolRowProps {
   alternateBg?: boolean;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
+  isLandTool?: boolean;
 }
 
 const CooldownCell: React.FC<{
@@ -516,6 +518,7 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
   alternateBg,
   showBoostsKey,
   setShowBoostsKey,
+  isLandTool,
 }) => {
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
   const toolInfo = getToolInfo(toolName);
@@ -542,6 +545,49 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
 
       {"description" in toolInfo ? (
         <span className="text-xxs">{toolInfo.description}</span>
+      ) : isLandTool && Array.isArray(toolInfo) && toolInfo.length > 0 ? (
+        <div className="flex flex-col gap-1">
+          {toolInfo.map((info, i) => (
+            <div key={info.resource} className="flex w-full gap-2">
+              <div className="flex flex-1 min-w-0 flex-col gap-0.5">
+                {info.nodeName && info.nodeName.length > 0 ? (
+                  info.nodeName.length > 1 ? (
+                    <InlineItems
+                      items={info.nodeName.map((nodeName) => ({
+                        icon: ITEM_DETAILS[nodeName].image,
+                        text: nodeName,
+                      }))}
+                    />
+                  ) : (
+                    <LineItem
+                      icon={
+                        ITEM_DETAILS[
+                          info.nodeName[0] as keyof typeof ITEM_DETAILS
+                        ].image
+                      }
+                      text={info.nodeName[0]}
+                    />
+                  )
+                ) : null}
+                <LineItem
+                  icon={ITEM_DETAILS[info.resource].image}
+                  text={info.resource}
+                />
+              </div>
+              <div className="flex flex-1 min-w-0 items-start">
+                {cooldowns[i] && (
+                  <CooldownCell
+                    cooldown={cooldowns[i]}
+                    toolName={toolName}
+                    showBoostsKey={showBoostsKey}
+                    setShowBoostsKey={setShowBoostsKey}
+                    state={state}
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       ) : isCrabPotStyle ? (
         <>
           <InlineItems
