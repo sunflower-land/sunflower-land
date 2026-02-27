@@ -18,6 +18,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/lib/crafting";
 import { useNow } from "lib/utils/hooks/useNow";
+import { makeGame } from "features/game/lib/transforms";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
 const _state = (state: MachineState) => state.context.state;
@@ -85,7 +86,9 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       ).map(Number);
 
       const inventoryLimits: string[] = [];
-      const offChainItems = new Set(getOffChainItems(now, state));
+      const offChainItems = new Set(
+        getOffChainItems(now, makeGame(json.farms[farmId])),
+      );
 
       getKeys(current).forEach((key) => {
         const diff = Number(current[key] ?? "0") - Number(previous[key] ?? "0");
