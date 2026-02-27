@@ -23,7 +23,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose, show }) => {
     <Modal
       show={show}
       onHide={onClose}
-      dialogClassName={`${tab === "Guide" ? "sm:max-w-2xl" : ""}`}
+      dialogClassName={`${tab === "Guide" ? "sm:max-w-xl" : ""}`}
     >
       <CloseButtonPanel
         onClose={onClose}
