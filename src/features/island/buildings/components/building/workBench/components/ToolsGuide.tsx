@@ -262,13 +262,8 @@ export const ToolsGuide: React.FC = () => {
         />
       </div>
       <table className="w-full border-collapse table-fixed">
-        <colgroup>
-          <col style={{ width: "35%" }} />
-          <col style={{ width: "35%" }} />
-          <col style={{ width: "30%" }} />
-        </colgroup>
-        <tbody>
-          <tr>
+        <tbody className="w-full">
+          <tr className="w-full">
             <td colSpan={3} className="py-1">
               <Label type="default" className="mb-1">
                 {t("landTools")}
@@ -357,8 +352,8 @@ const ToolRow: React.FC<ToolRowProps> = ({
   const toolInfo = getToolInfo(toolName);
 
   return (
-    <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""}`}>
-      <td className="py-0.5 pr-2 align-top">
+    <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""} w-full`}>
+      <td className="py-0.5 pr-2 align-top w-[35%]">
         <div className="flex items-center min-w-0 justify-between">
           <div className="flex items-center">
             <img
@@ -372,28 +367,48 @@ const ToolRow: React.FC<ToolRowProps> = ({
           </div>
         </div>
       </td>
-      <td
-        className="py-0.5 pr-2 align-top"
-        {...(cooldowns.length > 0 ? {} : { colSpan: 2 })}
-      >
-        {Array.isArray(toolInfo) ? (
-          toolInfo.length > 0 &&
-          toolInfo.map((info) => {
-            return (
-              <div key={info.resource} className="flex items-center">
-                <img
-                  src={ITEM_DETAILS[info.resource].image}
-                  className="w-3 h-3 mr-1 flex-shrink-0"
-                  alt={info.resource}
-                />
-                <span className="text-xxs">{info.resource}</span>
-              </div>
-            );
-          })
-        ) : (
+      {Array.isArray(toolInfo) ? (
+        toolInfo.length > 0 && (
+          <>
+            <td className="py-0.5 pr-2 align-top">
+              {toolInfo.map((info) => {
+                return (
+                  <div key={info.resource} className="flex items-center">
+                    <img
+                      src={ITEM_DETAILS[info.resource].image}
+                      className="w-3 h-3 mr-1 flex-shrink-0"
+                      alt={info.resource}
+                    />
+                    <span className="text-xxs">{info.resource}</span>
+                  </div>
+                );
+              })}
+            </td>
+            {toolInfo.filter((info) => info.nodeName).length > 0 && (
+              <td className="py-0.5 pr-2 align-top">
+                {toolInfo.map((info) => {
+                  if (!info.nodeName) return null;
+                  return (
+                    <div key={info.resource} className="flex flex-col gap-1">
+                      {info.nodeName.map((nodeName) => {
+                        return (
+                          <span key={nodeName} className="text-xxs">
+                            {nodeName}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </td>
+            )}
+          </>
+        )
+      ) : (
+        <td className="py-0.5 pr-2 align-top">
           <span className="text-xxs">{toolInfo.description}</span>
-        )}
-      </td>
+        </td>
+      )}
       {cooldowns.length > 0 && (
         <td className="py-0.5 pr-2 align-top">
           <div className="flex flex-col flex-wrap gap-x-1">
