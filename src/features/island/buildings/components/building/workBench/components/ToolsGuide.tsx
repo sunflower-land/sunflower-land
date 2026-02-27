@@ -12,12 +12,13 @@ import {
 } from "features/game/types/tools";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getToolPrice } from "features/game/events/landExpansion/craftTool";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { GameState, LoveAnimalItem, BoostName } from "features/game/types/game";
-import { WATER_TRAP } from "features/game/types/crustaceans";
+import {
+  CrustaceanName,
+  CRUSTACEANS_LOOKUP,
+  WATER_TRAP,
+} from "features/game/types/crustaceans";
 import { secondsToString } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { getOilRecoveryTimeForDisplay } from "features/game/events/landExpansion/drillOilReserve";
@@ -29,6 +30,7 @@ import { getGoldRecoveryTimeForDisplay } from "features/game/events/landExpansio
 import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineCrimstone";
 import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
 import { useSelector } from "@xstate/react";
+import { CommodityName, ResourceName } from "features/game/types/resources";
 
 const LAND_TOOLS = getObjectEntries(WORKBENCH_TOOLS).filter(
   ([, tool]) => !tool.disabled && tool.type === "land",
@@ -45,7 +47,65 @@ type CooldownDisplay = {
   baseSeconds: number;
   recoverySeconds: number;
   boostsUsed: { name: BoostName; value: string }[];
+  image?: string;
 };
+
+function getToolInfo(toolName: WorkbenchToolName | LoveAnimalItem):
+  | {
+      resource: CommodityName | CrustaceanName;
+      nodeName?: ResourceName[];
+    }[]
+  | { description?: string } {
+  switch (toolName) {
+    case "Axe":
+      return [
+        { resource: "Wood", nodeName: ["Tree", "Ancient Tree", "Sacred Tree"] },
+      ];
+    case "Pickaxe":
+      return [
+        {
+          resource: "Stone",
+          nodeName: ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
+        },
+      ];
+    case "Stone Pickaxe":
+      return [
+        {
+          resource: "Iron",
+          nodeName: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
+        },
+      ];
+    case "Iron Pickaxe":
+      return [
+        {
+          resource: "Gold",
+          nodeName: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+        },
+      ];
+    case "Gold Pickaxe":
+      return [
+        { resource: "Crimstone", nodeName: ["Crimstone Rock"] },
+        { resource: "Sunstone", nodeName: ["Sunstone Rock"] },
+      ];
+    case "Oil Drill":
+      return [{ resource: "Oil", nodeName: ["Oil Reserve"] }];
+    case "Crab Pot":
+      return [
+        ...Array.from(
+          new Set(Object.values(CRUSTACEANS_LOOKUP["Crab Pot"])),
+        ).map((resource) => ({ resource })),
+      ];
+    case "Mariner Pot":
+      return [
+        ...Array.from(
+          new Set(Object.values(CRUSTACEANS_LOOKUP["Mariner Pot"])),
+        ).map((resource) => ({ resource })),
+      ];
+
+    default:
+      return { description: ITEM_DETAILS[toolName].description };
+  }
+}
 
 /** Node cooldown(s) with boost data. Tools like Gold Pickaxe have multiple nodes. */
 function getToolNodeCooldownDisplays(
@@ -57,11 +117,13 @@ function getToolNodeCooldownDisplays(
     baseTimeMs: number,
     recoveryTimeMs: number,
     boostsUsed: { name: BoostName; value: string }[],
+    image?: string,
   ): CooldownDisplay => ({
     nodeLabel,
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: recoveryTimeMs / 1000,
     boostsUsed,
+    image,
   });
 
   switch (toolName) {
@@ -74,6 +136,7 @@ function getToolNodeCooldownDisplays(
           baseTimeMs,
           recoveryTimeMs,
           boostsUsed,
+          ITEM_DETAILS.Wood.image,
         ),
       ];
     }
@@ -86,6 +149,7 @@ function getToolNodeCooldownDisplays(
           baseTimeMs,
           recoveryTimeMs,
           boostsUsed,
+          ITEM_DETAILS.Stone.image,
         ),
       ];
     }
@@ -98,6 +162,7 @@ function getToolNodeCooldownDisplays(
           baseTimeMs,
           recoveryTimeMs,
           boostsUsed,
+          ITEM_DETAILS.Iron.image,
         ),
       ];
     }
@@ -110,6 +175,7 @@ function getToolNodeCooldownDisplays(
           gold.baseTimeMs,
           gold.recoveryTimeMs,
           gold.boostsUsed,
+          ITEM_DETAILS.Gold.image,
         ),
       ];
     }
@@ -122,12 +188,14 @@ function getToolNodeCooldownDisplays(
           crimstone.baseTimeMs,
           crimstone.recoveryTimeMs,
           crimstone.boostsUsed,
+          ITEM_DETAILS.Crimstone.image,
         ),
         toDisplay(
           translate("resource.sunstoneRecoveryTime"),
           sunstone.baseTimeMs,
           sunstone.recoveryTimeMs,
           sunstone.boostsUsed,
+          ITEM_DETAILS.Sunstone.image,
         ),
       ];
     }
@@ -140,6 +208,7 @@ function getToolNodeCooldownDisplays(
           baseTimeMs,
           recoveryTimeMs,
           boostsUsed,
+          ITEM_DETAILS.Oil.image,
         ),
       ];
     }
@@ -164,12 +233,6 @@ function getToolNodeCooldownDisplays(
     default:
       return [];
   }
-}
-
-function hasRequiredLevel(tool: Tool, state: GameState): boolean {
-  if (tool.requiredLevel === undefined) return true;
-  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
-  return bumpkinLevel >= (tool.requiredLevel ?? 0);
 }
 
 export const ToolsGuide: React.FC = () => {
@@ -201,8 +264,8 @@ export const ToolsGuide: React.FC = () => {
       <table className="w-full border-collapse table-fixed">
         <colgroup>
           <col style={{ width: "35%" }} />
-          <col style={{ width: "40%" }} />
-          <col style={{ width: "25%" }} />
+          <col style={{ width: "35%" }} />
+          <col style={{ width: "30%" }} />
         </colgroup>
         <tbody>
           <tr>
@@ -213,21 +276,11 @@ export const ToolsGuide: React.FC = () => {
             </td>
           </tr>
           {LAND_TOOLS.map(([toolName, tool], index) => {
-            const price = getToolPrice(tool, 1, state);
-            const ingredients = tool.ingredients(state.bumpkin?.skills);
-            const isLocked =
-              !hasRequiredIslandExpansion(
-                state.island.type,
-                tool.requiredIsland,
-              ) || !hasRequiredLevel(tool, state);
             return (
               <ToolRow
                 key={toolName}
                 toolName={toolName}
                 tool={tool}
-                price={price}
-                ingredients={ingredients}
-                isLocked={isLocked}
                 state={state}
                 alternateBg={index % 2 === 0}
                 showBoostsKey={showBoostsKey}
@@ -243,21 +296,11 @@ export const ToolsGuide: React.FC = () => {
             </td>
           </tr>
           {WATER_TOOLS.map(([toolName, tool], index) => {
-            const price = getToolPrice(tool, 1, state);
-            const ingredients = tool.ingredients(state.bumpkin?.skills);
-            const isLocked =
-              !hasRequiredIslandExpansion(
-                state.island.type,
-                tool.requiredIsland,
-              ) || !hasRequiredLevel(tool, state);
             return (
               <ToolRow
                 key={toolName}
                 toolName={toolName}
                 tool={tool}
-                price={price}
-                ingredients={ingredients}
-                isLocked={isLocked}
                 state={state}
                 alternateBg={index % 2 === 0}
                 showBoostsKey={showBoostsKey}
@@ -273,16 +316,11 @@ export const ToolsGuide: React.FC = () => {
             </td>
           </tr>
           {ANIMAL_TOOLS.map(([toolName, tool], index) => {
-            const price = getToolPrice(tool, 1, state);
-            const ingredients = tool.ingredients(state.bumpkin?.skills);
             return (
               <ToolRow
                 key={toolName}
                 toolName={toolName}
                 tool={tool}
-                price={price}
-                ingredients={ingredients}
-                isLocked={false}
                 state={state}
                 alternateBg={index % 2 === 0}
                 showBoostsKey={showBoostsKey}
@@ -299,9 +337,6 @@ export const ToolsGuide: React.FC = () => {
 interface ToolRowProps {
   toolName: WorkbenchToolName | LoveAnimalItem;
   tool: Tool;
-  price: number;
-  ingredients: ReturnType<Tool["ingredients"]>;
-  isLocked: boolean;
   state: GameState;
   alternateBg?: boolean;
   showBoostsKey: string | null;
@@ -311,9 +346,6 @@ interface ToolRowProps {
 const ToolRow: React.FC<ToolRowProps> = ({
   toolName,
   tool,
-  price,
-  ingredients,
-  isLocked,
   state,
   alternateBg,
   showBoostsKey,
@@ -322,10 +354,11 @@ const ToolRow: React.FC<ToolRowProps> = ({
   const { t } = useAppTranslation();
 
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
+  const toolInfo = getToolInfo(toolName);
 
   return (
     <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""}`}>
-      <td className="py-0.5 pr-2 align-top w-1/4">
+      <td className="py-0.5 pr-2 align-top">
         <div className="flex items-center min-w-0 justify-between">
           <div className="flex items-center">
             <img
@@ -337,24 +370,43 @@ const ToolRow: React.FC<ToolRowProps> = ({
             />
             <p className="text-xs truncate">{tool.name}</p>
           </div>
-          {isLocked && (
-            <img src={SUNNYSIDE.icons.lock} className="w-5 h-5" alt="locked" />
-          )}
         </div>
       </td>
-      <td className="py-0.5 pr-2 align-top w-1/2">
-        <div className="flex flex-col flex-wrap gap-x-1">
-          {cooldowns.length > 0 &&
-            cooldowns.map((cooldown) => {
+      <td
+        className="py-0.5 pr-2 align-top"
+        {...(cooldowns.length > 0 ? {} : { colSpan: 2 })}
+      >
+        {Array.isArray(toolInfo) ? (
+          toolInfo.length > 0 &&
+          toolInfo.map((info) => {
+            return (
+              <div key={info.resource} className="flex items-center">
+                <img
+                  src={ITEM_DETAILS[info.resource].image}
+                  className="w-3 h-3 mr-1 flex-shrink-0"
+                  alt={info.resource}
+                />
+                <span className="text-xxs">{info.resource}</span>
+              </div>
+            );
+          })
+        ) : (
+          <span className="text-xxs">{toolInfo.description}</span>
+        )}
+      </td>
+      {cooldowns.length > 0 && (
+        <td className="py-0.5 pr-2 align-top">
+          <div className="flex flex-col flex-wrap gap-x-1">
+            {cooldowns.map((cooldown) => {
               const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
               const hasBoosts = cooldown.boostsUsed.length > 0;
 
               const recoveryTimeStr = secondsToString(
                 cooldown.recoverySeconds,
-                { length: "medium" },
+                { length: hasBoosts ? "medium" : "short" },
               );
               const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-                length: "medium",
+                length: hasBoosts ? "medium" : "short",
               });
 
               if (hasBoosts) {
@@ -369,7 +421,6 @@ const ToolRow: React.FC<ToolRowProps> = ({
                       );
                     }}
                   >
-                    <span className="text-xxs">{cooldown.nodeLabel}</span>
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center">
                         <img
@@ -415,7 +466,6 @@ const ToolRow: React.FC<ToolRowProps> = ({
                   key={cooldown.nodeLabel}
                   className="flex items-start gap-1"
                 >
-                  <span className="text-xxs">{cooldown.nodeLabel}</span>
                   <div className="flex items-center">
                     <img
                       src={SUNNYSIDE.icons.stopwatch}
@@ -427,31 +477,9 @@ const ToolRow: React.FC<ToolRowProps> = ({
                 </div>
               );
             })}
-        </div>
-      </td>
-      <td className="py-0.5 pr-2 align-top w-1/4">
-        <div className="flex flex-row flex-wrap gap-x-1 items-center">
-          {price > 0 && (
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" alt="" />
-              <p className="text-xxs">{Math.round(price).toLocaleString()}</p>
-            </div>
-          )}
-          {getObjectEntries(ingredients).map(([ingredient, amount]) => {
-            if (!amount || amount.lte(0)) return null;
-            return (
-              <div className="flex items-center" key={ingredient}>
-                <img
-                  src={ITEM_DETAILS[ingredient].image}
-                  className="w-3 mr-1"
-                  alt=""
-                />
-                <p className="text-xxs">{amount.toNumber()}</p>
-              </div>
-            );
-          })}
-        </div>
-      </td>
+          </div>
+        </td>
+      )}
     </tr>
   );
 };
