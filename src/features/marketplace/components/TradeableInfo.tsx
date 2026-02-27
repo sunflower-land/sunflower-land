@@ -22,8 +22,8 @@ import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
-  INVENTORY_RELEASES,
+  WEARABLE_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -190,18 +190,19 @@ export const TradeableDescription: React.FC<{
   let tradeAt = undefined;
   let withdrawAt = undefined;
   if (tradeable?.collection === "wearables") {
-    tradeAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.tradeAt;
-    withdrawAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.withdrawAt;
+    tradeAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.tradeAt;
+    withdrawAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.withdrawAt;
   }
 
+  const inventoryReleases = getInventoryReleases(now);
   if (tradeable?.collection === "collectibles") {
-    tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
+    tradeAt = inventoryReleases[display.name as InventoryItemName]?.tradeAt;
     withdrawAt =
-      INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
+      inventoryReleases[display.name as InventoryItemName]?.withdrawAt;
   }
 
-  const canTrade = !!tradeAt && tradeAt <= new Date();
-  const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+  const canTrade = !!tradeAt && tradeAt <= new Date(now);
+  const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
 
   const isWearable = display.type === "wearables";
   const isCollectible = display.type === "collectibles";

@@ -1901,10 +1901,8 @@
   "statements.beta.two": "Fique ligado para atualizações. Estaremos entrando ao vivo em breve!",
   "statements.better.luck": "Boa sorte na próxima vez!",
   "statements.blacklist.one": "O sistema de detecção de bots e contas múltiplas detectou comportamento estranho. As ações foram restritas.",
-  "statements.blacklist.two": "Envie um ticket com detalhes e entraremos em contato com você.",
   "statements.clickBottle": "Clique em uma garrafa para adicionar ao seu palpite",
   "statements.clock.one": "Ops, parece que seu relógio não está sincronizado com o jogo. Configure data e hora para automático para evitar interrupções",
-  "statements.clock.two": "Precisa de ajuda para sincronizar seu relógio? Dê uma olhada em nosso guia!",
   "statements.conversation.one": "Eu tenho algo para você!",
   "statements.cooldown": "Para proteger a comunidade, exigimos um período de espera de 2 semanas antes que esta fazenda possa ser acessada.",
   "statements.docs": "Ir para docs",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Uma galinha estridente",
   "instantCook.confirmationMessage": "Tem certeza de que deseja terminar este item agora?",
   "renew.expired.message": "{{name}} expirou. Você pode renová-lo para prolongar sua duração.",
-  "referral.flower": "10% de $ FLOWER gastos em gemas pelo seu amigo",
   "welcome.action.grow": "Cresça",
   "welcome.action.build": "Construir",
   "welcome.action.fish": "Peixe",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} à esquerda",
   "tradeCooldown.title": "Tempo de espera de negociação",
   "unlock.farmhandRevealing": "Desbloqueando o fazendeiro...",
-  "unlock.farmhandSuccess": "Farmhand desbloqueado! Seu novo ajudante está pronto para trabalhar."
+  "unlock.farmhandSuccess": "Farmhand desbloqueado! Seu novo ajudante está pronto para trabalhar.",
+  "referral.flower": "10% de $ FLOWER gastos em gemas por seu amigo nos primeiros 6 meses",
+  "signup.createBumpkin": "Crie seu Bumpkin",
+  "signup.createBumpkinConfirmation": "Tem certeza de que quer ir com esse caipira?",
+  "signup.createBumpkinConfirmation.two": "Esta é sua única chance gratuita de personalizar. Você precisará comprar dispositivos vestíveis no guarda-roupa ou no mercado se quiser mudar sua aparência.",
+  "equip.outfit": "Roupa"
 }

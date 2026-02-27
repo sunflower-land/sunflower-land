@@ -26,6 +26,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: () => void;
@@ -37,24 +38,30 @@ const DELIVERY_FEE_PERCENTAGE = 30;
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _inventory = (state: MachineState): Inventory => {
-  const deliverables = getDeliverableItems({ state: state.context.state });
+const _inventory =
+  (now: number) =>
+  (state: MachineState): Inventory => {
+    const deliverables = getDeliverableItems({
+      state: state.context.state,
+      now,
+    });
 
-  return Object.fromEntries(
-    Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
-  );
-};
+    return Object.fromEntries(
+      Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
+    );
+  };
 
 export const WithdrawResources: React.FC<Props> = ({
   onWithdraw,
   withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const farmId = useSelector(gameService, _farmId);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useSelector(gameService, _inventory(now));
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);

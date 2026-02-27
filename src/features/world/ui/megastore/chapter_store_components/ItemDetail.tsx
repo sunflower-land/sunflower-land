@@ -40,8 +40,8 @@ import {
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
-  INVENTORY_RELEASES,
+  WEARABLE_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 
 import lockIcon from "assets/icons/lock.png";
@@ -307,9 +307,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
+  const inventoryReleases = getInventoryReleases(now);
   const isTradeable = isWearable
-    ? !!BUMPKIN_RELEASES[(item as ChapterStoreWearable)?.wearable]
-    : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
+    ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
+    : !!inventoryReleases[(item as ChapterStoreCollectible)?.collectible];
 
   return (
     <InnerPanel className="shadow">

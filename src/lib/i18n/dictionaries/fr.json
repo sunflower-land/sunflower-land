@@ -1955,10 +1955,8 @@
   "statements.beta.two": "Restez à l'écoute pour les mises à jour. Nous serons bientôt en direct!",
   "statements.better.luck": "Meilleure chance la prochaine fois!",
   "statements.blacklist.one": "Le système de détection anti-bot et multi-comptes a repéré un comportement étrange. Les actions ont été restreintes.",
-  "statements.blacklist.two": "Veuillez soumettre un ticket avec des détails et nous vous répondrons.",
   "statements.clickBottle": "Cliquez sur une bouteille pour l'ajouter à votre supposition",
   "statements.clock.one": "Oh oh, il semble que votre horloge ne soit pas synchronisée avec le jeu. Réglez la date et l'heure sur automatique pour éviter les interruptions",
-  "statements.clock.two": "Besoin d'aide pour synchroniser votre horloge ? Consultez notre guide!",
   "statements.conversation.one": "J'ai quelque chose pour vous!",
   "statements.cooldown": "Pour protéger la communauté, nous exigeons une période d'attente de 2 semaines avant que cette ferme ne puisse être accessible.",
   "statements.docs": "Allez dans la documentation",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Un poulet qui couine",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?",
   "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée.",
-  "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami",
   "welcome.action.grow": "Grandir",
   "welcome.action.build": "Construisez",
   "welcome.action.fish": "Poisson",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} gauche",
   "tradeCooldown.title": "Refroidissement des échanges",
   "unlock.farmhandRevealing": "Débloquer Farmhand...",
-  "unlock.farmhandSuccess": "Farmhand débloqué ! Votre nouvel assistant est prêt à travailler."
+  "unlock.farmhandSuccess": "Farmhand débloqué ! Votre nouvel assistant est prêt à travailler.",
+  "referral.flower": "10 % des $ de FLOWER dépensés en gemmes par votre ami au cours des 6 premiers mois",
+  "signup.createBumpkin": "Créez votre Bumpkin",
+  "signup.createBumpkinConfirmation": "Tu es sûre de vouloir choisir ce Bumpkin ?",
+  "signup.createBumpkinConfirmation.two": "C'est votre seule chance gratuite de personnaliser. Vous devrez acheter des appareils portables dans votre garde-robe ou sur le marché si vous souhaitez changer de look.",
+  "equip.outfit": "Tenue"
 }

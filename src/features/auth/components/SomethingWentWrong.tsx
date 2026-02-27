@@ -10,6 +10,7 @@ import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { useNow } from "lib/utils/hooks/useNow";
 
 function getFirstTsFileName(stackTrace: string) {
   try {
@@ -58,7 +59,8 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   stack,
 }) => {
   const [showGetHelp, setShowGetHelp] = useState(false);
-  const [date] = useState(new Date().toISOString());
+  const now = useNow();
+  const [date] = useState(new Date(now).toISOString());
   const { t } = useAppTranslation();
 
   useEffect(() => {

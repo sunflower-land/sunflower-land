@@ -20,8 +20,9 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
+import { getInventoryReleases } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
@@ -81,6 +82,7 @@ export const WithdrawItems: React.FC<Props> = ({
   withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -197,10 +199,11 @@ export const WithdrawItems: React.FC<Props> = ({
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
+  const inventoryReleases = getInventoryReleases(now);
   const withdrawableItems = getKeys(inventory)
     .filter((itemName) => {
-      const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
-      return !!withdrawAt && withdrawAt <= new Date();
+      const withdrawAt = inventoryReleases[itemName]?.withdrawAt;
+      return !!withdrawAt && withdrawAt <= new Date(now);
     })
     .filter(
       (itemName) =>

@@ -2791,10 +2791,8 @@
   "statements.beta.two": "Nantikan pembaruan. Kami akan segera live!",
   "statements.better.luck": "Semoga beruntung lain kali!",
   "statements.blacklist.one": "Sistem deteksi anti-bot dan multi-akun telah menangkap perilaku aneh. Tindakan telah dibatasi.",
-  "statements.blacklist.two": "Silakan kirimkan tiket dengan rincian dan kami akan menghubungi Anda kembali.",
   "statements.clickBottle": "Klik pada botol untuk menambah tebakan Anda",
   "statements.clock.one": "Uh oh, sepertinya jam Anda tidak sinkron dengan permainan. Tetapkan tanggal dan waktu ke otomatis untuk menghindari gangguan",
-  "statements.clock.two": "Butuh bantuan untuk menyinkronkan jam Anda? Lihatlah panduan kami!",
   "statements.conversation.one": "Aku punya sesuatu untukmu!",
   "statements.cooldown": "Untuk melindungi masyarakat, kami memerlukan masa tunggu 2 minggu sebelum peternakan ini dapat diakses.",
   "statements.docs": "Pergi ke dokumen",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Ayam berderit",
   "instantCook.confirmationMessage": "Apakah Anda yakin ingin menyelesaikan item ini sekarang?",
   "renew.expired.message": "{{name}} telah kedaluwarsa. Anda dapat memperbaruinya untuk memperpanjang durasinya.",
-  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda",
   "welcome.action.grow": "Tumbuh",
   "welcome.action.build": "Membangun",
   "welcome.action.fish": "Ikan",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} tersisa",
   "tradeCooldown.title": "Cooldown perdagangan",
   "unlock.farmhandRevealing": "Membuka kunci tangan pertanian...",
-  "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja."
+  "unlock.farmhandSuccess": "Farmhand tidak terkunci! Pembantu baru Anda siap bekerja.",
+  "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda dalam 6 bulan pertama",
+  "signup.createBumpkin": "Buat Bumpkin Anda",
+  "signup.createBumpkinConfirmation": "Apakah Anda yakin ingin pergi dengan Bumpkin ini?",
+  "signup.createBumpkinConfirmation.two": "Ini adalah satu-satunya kesempatan gratis Anda untuk menyesuaikan. Anda perlu membeli barang yang dapat dikenakan dari lemari pakaian atau pasar jika Anda ingin mengubah penampilan Anda.",
+  "equip.outfit": "Pakaian"
 }

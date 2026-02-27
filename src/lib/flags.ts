@@ -79,7 +79,6 @@ export const ADMIN_IDS = [1, 3, 39488, 128727];
 export const MANAGER_IDS = [...ADMIN_IDS, 29, 130170, 7841];
 
 export type FeatureFlag = (game: GameState) => boolean;
-export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 
 /*
  * How to Use:
@@ -123,6 +122,9 @@ const FEATURE_FLAGS = {
 const TIME_BASED_FEATURE_FLAGS = {
   TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag(
     new Date("2026-02-24T00:00:00Z"),
+  ),
+  OFFCHAIN_RESOURCES: timeBasedTestnetFeatureFlag(
+    new Date("2026-03-02T00:00:00Z"),
   ),
 } satisfies Record<string, TimeBasedFeatureFlag>;
 

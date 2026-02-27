@@ -2757,10 +2757,8 @@
   "statements.beta.two": "Estén atentos a las actualizaciones. Estaremos disponibles pronto!",
   "statements.better.luck": "Mejor suerte la próxima vez!",
   "statements.blacklist.one": "El sistema de detección antibot y multicuenta ha detectado un comportamiento extraño. Se han restringido tus acciones.",
-  "statements.blacklist.two": "Envíe un ticket con los detalles y nos pondremos en contacto con usted.",
   "statements.clickBottle": "Haz clic en una botella para agregar algo a tu conjetura",
   "statements.clock.one": "Oh, oh, parece que tu reloj no está sincronizado con el juego. Establezca la fecha y la hora en automático para evitar interrupciones",
-  "statements.clock.two": "¿Necesitas ayuda para sincronizar tu reloj? Eche un vistazo a nuestra guía!",
   "statements.conversation.one": "Tengo algo para ti!",
   "statements.cooldown": "Para proteger a la comunidad, necesitamos un período de espera de 2 semanas antes de poder acceder a esta granja.",
   "statements.docs": "Ir a la documentación",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Un pollo chirriante",
   "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?",
   "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración.",
-  "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo",
   "welcome.action.grow": "Crecer",
   "welcome.action.build": "Construir",
   "welcome.action.fish": "Pescado",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} izquierda",
   "tradeCooldown.title": "Tiempo de reutilización de las operaciones",
   "unlock.farmhandRevealing": "Desbloqueando Farmhand...",
-  "unlock.farmhandSuccess": "¡Farmhand desbloqueado! Tu nuevo ayudante está listo para trabajar."
+  "unlock.farmhandSuccess": "¡Farmhand desbloqueado! Tu nuevo ayudante está listo para trabajar.",
+  "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo en los primeros 6 meses",
+  "signup.createBumpkin": "Crea tu Bumpkin",
+  "signup.createBumpkinConfirmation": "¿Estás seguro de que quieres ir con este Bumpkin?",
+  "signup.createBumpkinConfirmation.two": "Esta es tu única oportunidad gratuita de personalizarlo. Tendrás que comprar prendas vestibles en tu armario o en la tienda si quieres cambiar tu look.",
+  "equip.outfit": "Atuendo"
 }

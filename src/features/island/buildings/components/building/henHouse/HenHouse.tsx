@@ -58,9 +58,29 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   return (
     <>
       <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-        {(hasHungryChickens || chickensNeedLove || hasSickChickens) && (
+        {hasHungryChickens && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
+            className={
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
+              (showAnimations ? " ready" : "")
+            }
+            style={{ width: `${PIXEL_SCALE * 4}px` }}
+          />
+        )}
+        {chickensNeedLove && (
+          <img
+            src={SUNNYSIDE.icons.expression_chat}
+            className={
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
+              (showAnimations ? " ready" : "")
+            }
+            style={{ width: `${PIXEL_SCALE * 4}px` }}
+          />
+        )}
+        {hasSickChickens && (
+          <img
+            src={SUNNYSIDE.icons.expression_stress}
             className={
               "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
               (showAnimations ? " ready" : "")

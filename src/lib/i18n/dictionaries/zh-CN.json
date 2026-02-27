@@ -2880,10 +2880,8 @@
   "statements.beta.two": "请继续关注更新。我们很快就要上线了！",
   "statements.better.luck": "祝你下次好运！",
   "statements.blacklist.one": "反脚本和多账户检测系统发现了异常行为。行动已受到限制。",
-  "statements.blacklist.two": "请提交包含详细信息的工单，我们会尽快回复您。",
   "statements.clickBottle": "点击一个瓶子来提交您的猜测",
   "statements.clock.one": "呃哦，看来你的时钟与游戏不同步。将日期和时间设置为自动以避免扰乱",
-  "statements.clock.two": "同步您的时钟需要帮助吗？看看我们的指南！",
   "statements.conversation.one": "我有东西要给你！",
   "statements.cooldown": "为了保护社区，该农场需要渡过 2 周等待期才能访问。",
   "statements.docs": "转到文档",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "一只尖叫鸡",
   "instantCook.confirmationMessage": "你确定要立即完成该物品的制作吗？",
   "renew.expired.message": "{{name}} 已过期。你可以续期以延长其持续时间。",
-  "referral.flower": "你的好友购买钻石所消耗 $FLOWER 的 10%",
   "welcome.action.grow": "种植",
   "welcome.action.build": "建造",
   "welcome.action.fish": "钓鱼",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} 向左",
   "tradeCooldown.title": "交易冷却时间",
   "unlock.farmhandRevealing": "解锁农场之手...",
-  "unlock.farmhandSuccess": "Farmhand 已解锁！您的新助手已准备就绪，可以开始工作了。"
+  "unlock.farmhandSuccess": "Farmhand 已解锁！您的新助手已准备就绪，可以开始工作了。",
+  "referral.flower": "在前 6 个月内，朋友在宝石上花费 $FLOWER 可获得 10%",
+  "signup.createBumpkin": "创建你的 Bumpkin",
+  "signup.createBumpkinConfirmation": "你确定要用这个 Bumpkin 吗？",
+  "signup.createBumpkinConfirmation.two": "这是你唯一的免费定制机会。如果您想改变外观，则需要从衣柜或市场购买可穿戴设备。",
+  "equip.outfit": "装备"
 }

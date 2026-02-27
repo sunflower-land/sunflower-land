@@ -2786,10 +2786,8 @@
   "statements.beta.two": "Seien Sie gespannt auf Updates. Wir werden bald live gehen!",
   "statements.better.luck": "Viel Glück beim nächsten Mal!",
   "statements.blacklist.one": "Das Anti-Bot- und Multi-Account-Erkennungssystem hat ein seltsames Verhalten festgestellt. Die Aktionen wurden eingeschränkt.",
-  "statements.blacklist.two": "Bitte reichen Sie ein Ticket mit Details ein und wir werden uns bei Ihnen melden.",
   "statements.clickBottle": "Klicken Sie auf eine Flasche, um Ihre Schätzung zu ergänzen",
   "statements.clock.one": "Oh oh, es sieht so aus, als ob deine Uhr nicht mit dem Spiel synchronisiert ist. Stellen Sie Datum und Uhrzeit auf automatisch ein, um Störungen zu vermeiden",
-  "statements.clock.two": "Benötigen Sie Hilfe beim Synchronisieren Ihrer Uhr? Schauen Sie sich unseren Leitfaden an!",
   "statements.conversation.one": "Ich hab was für dich!",
   "statements.cooldown": "Um die Community zu schützen, benötigen wir eine Wartezeit von 2 Wochen, bevor auf diese Farm zugegriffen werden kann.",
   "statements.docs": "Gehe zu den Dokumenten",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Ein quietschendes Huhn",
   "instantCook.confirmationMessage": "Bist du sicher, dass du diesen Artikel jetzt fertigstellen möchtest?",
   "renew.expired.message": "{{name}} ist abgelaufen. Sie können es erneuern, um seine Laufzeit zu verlängern.",
-  "referral.flower": "10% der FLOWER-$, die dein Freund für Edelsteine ausgegeben hat",
   "welcome.action.grow": "Wachsen",
   "welcome.action.build": "Bauen",
   "welcome.action.fish": "Fische",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} übrig",
   "tradeCooldown.title": "Abklingzeit des Handelns",
   "unlock.farmhandRevealing": "Farmhand freischalten...",
-  "unlock.farmhandSuccess": "Farmhand freigeschaltet! Ihr neuer Helfer ist bereit zu arbeiten."
+  "unlock.farmhandSuccess": "Farmhand freigeschaltet! Ihr neuer Helfer ist bereit zu arbeiten.",
+  "referral.flower": "10% der FLOWER-$, die dein Freund innerhalb der ersten 6 Monate für Edelsteine ausgegeben hat",
+  "signup.createBumpkin": "Erstelle deinen Bumpkin",
+  "signup.createBumpkinConfirmation": "Bist du sicher, dass du diesen Bumpkin nehmen willst?",
+  "signup.createBumpkinConfirmation.two": "Dies ist Ihre einzige kostenlose Möglichkeit zur Anpassung. Du musst Wearables im Kleiderschrank oder auf dem Marktplatz kaufen, wenn du deinen Look ändern möchtest.",
+  "equip.outfit": "Outfit"
 }

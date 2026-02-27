@@ -1987,7 +1987,7 @@ describe("deliver", () => {
   });
 
   it("awards flat 10 chapter points for coin deliveries when TICKETS_FROM_COIN_NPC flag is active", () => {
-    // Use a date after TICKETS_FROM_COIN_NPC flag (2026-02-23) so points are tracked
+    // Use a date after TICKETS_FROM_COIN_NPC flag (2026-02-24) so points are tracked
     const now = new Date("2026-02-24T00:00:01Z").getTime();
     const chapter = getCurrentChapter(now);
 
@@ -2004,7 +2004,7 @@ describe("deliver", () => {
           orders: [
             {
               id: "123",
-              createdAt: 0,
+              createdAt: now,
               readyAt: now,
               from: "betty",
               items: {
@@ -2073,7 +2073,7 @@ describe("deliver", () => {
   });
 
   it("does not award coinDelivery chapter points during holiday freeze even when flag is active", () => {
-    // Use real holiday 2026-02-02; mock flag as if live on that date (no prod HOLIDAYS change)
+    // Use real holiday 2026-02-02; order created on holiday so no points (uses order.createdAt)
     const flagSpy = jest
       .spyOn(flagsModule, "hasTimeBasedFeatureAccess")
       .mockReturnValue(true);
@@ -2093,7 +2093,7 @@ describe("deliver", () => {
           orders: [
             {
               id: "123",
-              createdAt: 0,
+              createdAt: now,
               readyAt: now,
               from: "betty",
               items: {
@@ -2114,6 +2114,48 @@ describe("deliver", () => {
 
     expect(state.farmActivity[`${chapter} Points Earned`]).toBeUndefined();
     flagSpy.mockRestore();
+  });
+
+  it("does not award coinDelivery chapter points when order was created on holiday but delivered on non-holiday", () => {
+    // Order created 2026-02-02 (holiday); delivered 2026-02-24 (non-holiday, flag active)
+    // Uses order.createdAt for holiday check, so order created on holiday = no points
+    const orderCreatedAt = new Date("2026-02-02T12:00:00.000Z").getTime();
+    const deliveryCreatedAt = new Date("2026-02-24T12:00:00.000Z").getTime();
+    const chapter = getCurrentChapter(deliveryCreatedAt);
+
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: orderCreatedAt,
+              readyAt: orderCreatedAt,
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 1000 },
+            },
+          ],
+        },
+        bumpkin: TEST_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: deliveryCreatedAt,
+    });
+
+    expect(state.farmActivity[`${chapter} Points Earned`]).toBeUndefined();
   });
 
   it("can deliver items from the wardrobe", () => {

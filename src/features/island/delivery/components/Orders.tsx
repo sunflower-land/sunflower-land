@@ -13,6 +13,7 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import {
   QuestNPCName,
   TICKET_REWARDS,
+  areBumpkinsOnHoliday,
   generateDeliveryTickets,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
@@ -262,17 +263,27 @@ export const DeliveryOrders: React.FC<Props> = ({
       ? 0
       : tickets;
 
-  const chapterPoints =
-    hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", now) &&
-    isCoinNPC(previewOrder.from)
-      ? getChapterTaskPoints({
+  const getChapterPoints = () => {
+    if (
+      isCoinNPC(previewOrder.from) &&
+      hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", previewOrder.createdAt)
+    ) {
+      if (areBumpkinsOnHoliday(previewOrder.createdAt)) {
+        return 0;
+      } else {
+        return getChapterTaskPoints({
           task: "coinDelivery",
           points: 10,
-        })
-      : getChapterTaskPoints({
-          task: "delivery",
-          points: ticketDisplay,
         });
+      }
+    }
+    return getChapterTaskPoints({
+      task: "delivery",
+      points: ticketDisplay,
+    });
+  };
+
+  const chapterPoints = getChapterPoints();
 
   const isFrozenQuestOrder =
     isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0;

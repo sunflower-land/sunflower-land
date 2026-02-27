@@ -18,11 +18,14 @@ import { SELLABLE_TREASURES } from "../types/treasure";
 import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
+import { TRADE_LIMITS } from "../actions/tradeLimits";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
-export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
+const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
+  "Potion Ticket",
   ...getKeys(CLUTTER),
   ...getKeys(SELLABLE_TREASURES),
   ...getKeys(SEEDS),
@@ -56,5 +59,10 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   "Town Sign",
 ]);
 
-export const OFFCHAIN_ITEMS: InventoryItemName[] =
-  Array.from(OFFCHAIN_ITEMS_SET);
+export const getOffChainItems = (now: number): InventoryItemName[] => {
+  const items = new Set(BASE_OFFCHAIN_ITEMS);
+  if (hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now)) {
+    getKeys(TRADE_LIMITS).forEach((item) => items.add(item));
+  }
+  return Array.from(items);
+};

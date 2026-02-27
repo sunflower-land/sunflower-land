@@ -2755,10 +2755,8 @@
   "statements.beta.two": "Restate sintonizzati per gli aggiornamenti. Presto saremo in diretta!",
   "statements.better.luck": "Più fortuna la prossima volta!",
   "statements.blacklist.one": "Il sistema di rilevamento anti-bot e multi-account ha rilevato un comportamento strano. Le azioni sono state limitate.",
-  "statements.blacklist.two": "Invia un ticket con i dettagli e ti risponderemo.",
   "statements.clickBottle": "Fai clic su una bottiglia per aggiungere la tua ipotesi",
   "statements.clock.one": "Uh oh, sembra che il tuo orologio non sia sincronizzato con il gioco. Imposta data e ora in modo automatico per evitare interruzioni",
-  "statements.clock.two": "Hai bisogno di aiuto per sincronizzare l'orologio? Dai un'occhiata alla nostra guida!",
   "statements.conversation.one": "Ho qualcosa per te!",
   "statements.cooldown": "Per proteggere la comunità, è necessario un periodo di attesa di 2 settimane prima di poter accedere a questa fattoria.",
   "statements.docs": "Vai ai documenti",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "Un pollo che scricchiola",
   "instantCook.confirmationMessage": "Sei sicuro di voler finire questo articolo adesso?",
   "renew.expired.message": "{{name}} è scaduto. Puoi rinnovarlo per prolungarne la durata.",
-  "referral.flower": "10% dei $FLOWER spesi in gemme dal tuo amico",
   "welcome.action.grow": "Crescere",
   "welcome.action.build": "Costruisci",
   "welcome.action.fish": "Pesce",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} a sinistra",
   "tradeCooldown.title": "Tempo di recupero degli scambi",
   "unlock.farmhandRevealing": "Sbloccare un bracciante agricolo...",
-  "unlock.farmhandSuccess": "Farmhand sbloccato! Il tuo nuovo aiutante è pronto a lavorare."
+  "unlock.farmhandSuccess": "Farmhand sbloccato! Il tuo nuovo aiutante è pronto a lavorare.",
+  "referral.flower": "10% di $FLOWER spesi in gemme dal tuo amico entro i primi 6 mesi",
+  "signup.createBumpkin": "Crea il tuo Bumpkin",
+  "signup.createBumpkinConfirmation": "Sei sicuro di voler scegliere questo Bumpkin?",
+  "signup.createBumpkinConfirmation.two": "Questa è la tua unica possibilità gratuita di personalizzazione. Dovrai acquistare i dispositivi indossabili dal guardaroba o dal mercato se vuoi cambiare look.",
+  "equip.outfit": "Vestito"
 }

@@ -2791,10 +2791,8 @@
   "statements.beta.two": "最新情報にご期待ください。間もなく公開されます！",
   "statements.better.luck": "次回は頑張ってください！",
   "statements.blacklist.one": "アンチボットおよびマルチアカウント検出システムにおかしな動作が発生しました。アクションは制限されています。",
-  "statements.blacklist.two": "詳細を記載したチケットを送信してください。折り返しご連絡いたします。",
   "statements.clickBottle": "ボトルをクリックして推測に追加します",
   "statements.clock.one": "ああ、時計がゲームと同期していないようです。混乱を避けるため、日付と時刻を自動に設定してください。",
-  "statements.clock.two": "時計の同期についてサポートが必要ですか？当社のガイドをご覧ください。",
   "statements.conversation.one": "君に何か持って来た！",
   "statements.cooldown": "コミュニティを保護するため、このファームにアクセスできるようになるまでに2週間の待機期間が必要です。",
   "statements.docs": "ドキュメントに移動",
@@ -7647,7 +7645,6 @@
   "description.squeakyChicken": "きしむチキン",
   "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新して有効期間を延長できます。",
-  "referral.flower": "お友達がジェムを購入した$FLOWERの 10%",
   "welcome.action.grow": "成長",
   "welcome.action.build": "ビルド",
   "welcome.action.fish": "魚",
@@ -8095,5 +8092,10 @@
   "accountRecentlyTraded.timeLeft": "{{time}} 左",
   "tradeCooldown.title": "トレードクールダウン",
   "unlock.farmhandRevealing": "ファームハンドのロックを解除中...",
-  "unlock.farmhandSuccess": "ファームハンドのロックが解除されました！新しいヘルパーの作業準備が整いました。"
+  "unlock.farmhandSuccess": "ファームハンドのロックが解除されました！新しいヘルパーの作業準備が整いました。",
+  "referral.flower": "最初の6か月以内に友達がジェムを購入した$FLOWERの 10%",
+  "signup.createBumpkin": "バンプキンを作ろう",
+  "signup.createBumpkinConfirmation": "本当にこのバンプキンと一緒に行きたいの？",
+  "signup.createBumpkinConfirmation.two": "これはカスタマイズできる唯一の無料チャンスです。見た目を変えたい場合は、ワードローブまたはマーケットプレイスからウェアラブルを購入する必要があります。",
+  "equip.outfit": "衣装"
 }
