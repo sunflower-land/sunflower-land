@@ -1,6 +1,6 @@
 import { SeasonWeek } from "features/game/types/game";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
-import { ADMIN_IDS } from "lib/flags";
+import { ADMIN_IDS } from "lib/access";
 
 /**
  * Helper function to get the week number of the season

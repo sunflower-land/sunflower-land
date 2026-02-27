@@ -77,6 +77,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     currentWardrobe: wardrobe,
     oldWardrobe: previousWardrobe,
     now,
+    state,
   });
 
   const confirm = async () => {

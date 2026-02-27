@@ -20,7 +20,7 @@ import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MANAGER_IDS } from "lib/flags";
+import { MANAGER_IDS } from "lib/access";
 import { CONFIG } from "lib/config";
 import { getKeys } from "features/game/types/decorations";
 import { signTypedData } from "@wagmi/core";

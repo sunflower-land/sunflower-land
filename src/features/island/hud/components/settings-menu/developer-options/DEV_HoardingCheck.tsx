@@ -20,6 +20,7 @@ import { getKeys } from "features/game/lib/crafting";
 import { useNow } from "lib/utils/hooks/useNow";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
+const _state = (state: MachineState) => state.context.state;
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -30,6 +31,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
   const [wardrobeLimits, setWardrobeLimits] = useState<string[]>([]);
   const now = useNow();
+  const state = useSelector(gameService, _state);
   async function search() {
     setLoading(true);
     setInventoryLimits([]);
@@ -83,7 +85,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       ).map(Number);
 
       const inventoryLimits: string[] = [];
-      const offChainItems = new Set(getOffChainItems(now));
+      const offChainItems = new Set(getOffChainItems(now, state));
 
       getKeys(current).forEach((key) => {
         const diff = Number(current[key] ?? "0") - Number(previous[key] ?? "0");

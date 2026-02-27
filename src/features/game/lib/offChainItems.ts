@@ -1,6 +1,6 @@
 import { CLUTTER } from "../types/clutter";
 import { getKeys, TOOLS } from "../types/craftables";
-import { InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
   CHAPTER_TICKET_NAME,
@@ -59,9 +59,14 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Town Sign",
 ]);
 
-export const getOffChainItems = (now: number): InventoryItemName[] => {
+export const getOffChainItems = (
+  now: number,
+  game: GameState,
+): InventoryItemName[] => {
   const items = new Set(BASE_OFFCHAIN_ITEMS);
-  if (hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now)) {
+  if (
+    hasTimeBasedFeatureAccess({ featureName: "OFFCHAIN_RESOURCES", now, game })
+  ) {
     getKeys(TRADE_LIMITS).forEach((item) => items.add(item));
   }
   return Array.from(items);

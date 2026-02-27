@@ -174,12 +174,25 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _game = (state: MachineState) => state.context.state;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
-  const now = useNow();
-  const showResources = !hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now);
+  const game = useSelector(gameService, _game);
+
+  // For testing purposes, delete after feature flag is released
+  const now = useNow({
+    live: true,
+    autoEndAt: new Date("2026-03-02T00:00:00Z").getTime(),
+  });
+
+  const showResources = !hasTimeBasedFeatureAccess({
+    featureName: "OFFCHAIN_RESOURCES",
+    now,
+    game,
+  });
+
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
