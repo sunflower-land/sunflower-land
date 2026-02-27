@@ -21,7 +21,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { makeGame } from "features/game/lib/transforms";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
-const _state = (state: MachineState) => state.context.state;
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -32,7 +31,6 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
   const [wardrobeLimits, setWardrobeLimits] = useState<string[]>([]);
   const now = useNow();
-  const state = useSelector(gameService, _state);
   async function search() {
     setLoading(true);
     setInventoryLimits([]);
