@@ -4,7 +4,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
@@ -60,9 +59,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           }}
         />
       </BuildingImageWrapper>
-      <Modal show={isOpen} onHide={handleClose}>
-        <WorkbenchModal onClose={handleClose} />
-      </Modal>
+      <WorkbenchModal onClose={handleClose} show={isOpen} />
     </>
   );
 };

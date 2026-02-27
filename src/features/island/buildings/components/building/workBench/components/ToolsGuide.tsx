@@ -300,15 +300,28 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {LAND_TOOLS.map(([toolName, tool], index) => (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            state={state}
-            alternateBg={index % 2 === 0}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
+          <React.Fragment key={toolName}>
+            <div className="block sm:hidden">
+              <ToolRowMobile
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <ToolRow
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+          </React.Fragment>
         ))}
         <div className="w-full py-1">
           <Label type="default" className="my-1">
@@ -316,15 +329,28 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {WATER_TOOLS.map(([toolName, tool], index) => (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            state={state}
-            alternateBg={index % 2 === 0}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
+          <React.Fragment key={toolName}>
+            <div className="block sm:hidden">
+              <ToolRowMobile
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <ToolRow
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+          </React.Fragment>
         ))}
         <div className="w-full py-1">
           <Label type="default" className="my-1">
@@ -332,15 +358,28 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {ANIMAL_TOOLS.map(([toolName, tool], index) => (
-          <ToolRow
-            key={toolName}
-            toolName={toolName}
-            tool={tool}
-            state={state}
-            alternateBg={index % 2 === 0}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-          />
+          <React.Fragment key={toolName}>
+            <div className="block sm:hidden">
+              <ToolRowMobile
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <ToolRow
+                toolName={toolName}
+                tool={tool}
+                state={state}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            </div>
+          </React.Fragment>
         ))}
       </div>
     </InnerPanel>
@@ -449,6 +488,160 @@ const toolNameCell = (
     </div>
   </div>
 );
+
+const LineItem: React.FC<{
+  icon: string;
+  text: string;
+}> = ({ icon, text }) => (
+  <div className="flex items-center gap-1">
+    <img src={icon} className="w-3 h-3 flex-shrink-0" alt="" />
+    <span className="text-xxs">{text}</span>
+  </div>
+);
+
+const InlineItems: React.FC<{
+  items: { icon: string; text: string }[];
+}> = ({ items }) => (
+  <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5">
+    {items.map(({ icon, text }) => (
+      <LineItem key={text} icon={icon} text={text} />
+    ))}
+  </div>
+);
+
+const ToolRowMobile: React.FC<ToolRowProps> = ({
+  toolName,
+  tool,
+  state,
+  alternateBg,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => {
+  const cooldowns = getToolNodeCooldownDisplays(toolName, state);
+  const toolInfo = getToolInfo(toolName);
+
+  const isCrabPotStyle =
+    Array.isArray(toolInfo) && toolInfo.length > 1 && cooldowns.length === 1;
+  const isMultiResource =
+    Array.isArray(toolInfo) &&
+    toolInfo.length > 1 &&
+    toolInfo.length === cooldowns.length;
+  const isSingleResourceMultiNode =
+    Array.isArray(toolInfo) &&
+    toolInfo.length === 1 &&
+    cooldowns.length === 1 &&
+    (toolInfo[0].nodeName?.length ?? 0) > 0;
+
+  return (
+    <div
+      className={classNames("flex flex-col gap-1 py-1 pl-1", {
+        "bg-brown-100": alternateBg,
+      })}
+    >
+      {toolNameCell(toolName, tool)}
+
+      {"description" in toolInfo ? (
+        <span className="text-xxs">{toolInfo.description}</span>
+      ) : isCrabPotStyle ? (
+        <>
+          <InlineItems
+            items={toolInfo.map((info) => ({
+              icon: ITEM_DETAILS[info.resource].image,
+              text: info.resource,
+            }))}
+          />
+          <CooldownCell
+            cooldown={cooldowns[0]}
+            toolName={toolName}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+            state={state}
+          />
+        </>
+      ) : isMultiResource ? (
+        <>
+          {toolInfo.map((info, i) => (
+            <React.Fragment key={info.resource}>
+              {info.nodeName?.[0] && (
+                <LineItem
+                  icon={
+                    ITEM_DETAILS[info.nodeName[0] as keyof typeof ITEM_DETAILS]
+                      .image
+                  }
+                  text={info.nodeName[0]}
+                />
+              )}
+              <LineItem
+                icon={ITEM_DETAILS[info.resource].image}
+                text={info.resource}
+              />
+              {cooldowns[i] && (
+                <CooldownCell
+                  cooldown={cooldowns[i]}
+                  toolName={toolName}
+                  showBoostsKey={showBoostsKey}
+                  setShowBoostsKey={setShowBoostsKey}
+                  state={state}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </>
+      ) : isSingleResourceMultiNode ? (
+        <>
+          <InlineItems
+            items={(toolInfo[0].nodeName ?? []).map((nodeName) => ({
+              icon: ITEM_DETAILS[nodeName].image,
+              text: nodeName,
+            }))}
+          />
+          <LineItem
+            icon={ITEM_DETAILS[toolInfo[0].resource].image}
+            text={toolInfo[0].resource}
+          />
+          {cooldowns[0] && (
+            <CooldownCell
+              cooldown={cooldowns[0]}
+              toolName={toolName}
+              showBoostsKey={showBoostsKey}
+              setShowBoostsKey={setShowBoostsKey}
+              state={state}
+            />
+          )}
+        </>
+      ) : Array.isArray(toolInfo) && toolInfo.length > 0 ? (
+        <>
+          {toolInfo.map((info, i) => (
+            <React.Fragment key={info.resource}>
+              {info.nodeName?.[0] && (
+                <LineItem
+                  icon={
+                    ITEM_DETAILS[info.nodeName[0] as keyof typeof ITEM_DETAILS]
+                      .image
+                  }
+                  text={info.nodeName[0]}
+                />
+              )}
+              <LineItem
+                icon={ITEM_DETAILS[info.resource].image}
+                text={info.resource}
+              />
+              {cooldowns[i] && (
+                <CooldownCell
+                  cooldown={cooldowns[i]}
+                  toolName={toolName}
+                  showBoostsKey={showBoostsKey}
+                  setShowBoostsKey={setShowBoostsKey}
+                  state={state}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </>
+      ) : null}
+    </div>
+  );
+};
 
 const ToolRow: React.FC<ToolRowProps> = ({
   toolName,
