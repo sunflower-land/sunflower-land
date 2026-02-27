@@ -51,99 +51,24 @@ type CooldownDisplay = {
   image?: string;
 };
 
-type ToolSubRow = {
-  showToolName: boolean;
-  nodeName: string | null;
-  resource: string;
-  cooldown: CooldownDisplay;
+type ToolDisplayItem = {
+  resource: CommodityName | CrustaceanName;
+  nodeName?: ResourceName[];
+  cooldown: CooldownDisplay | null;
 };
 
-function buildToolSubRows(
-  toolInfo: {
-    resource: CommodityName | CrustaceanName;
-    nodeName?: ResourceName[];
-  }[],
-  cooldowns: CooldownDisplay[],
-): ToolSubRow[] {
-  const subRows: ToolSubRow[] = [];
-  for (let i = 0; i < toolInfo.length; i++) {
-    const info = toolInfo[i];
-    const cooldown = cooldowns[i];
-    const nodeName = info.nodeName?.[0] ?? null;
-    const resource = info.resource;
-
-    subRows.push({
-      showToolName: i === 0,
-      nodeName,
-      resource,
-      cooldown,
-    });
-  }
-  return subRows;
-}
-
-function getToolInfo(toolName: WorkbenchToolName | LoveAnimalItem):
+type ToolDisplayData =
+  | { type: "description"; description: string }
   | {
-      resource: CommodityName | CrustaceanName;
-      nodeName?: ResourceName[];
-    }[]
-  | { description?: string } {
-  switch (toolName) {
-    case "Axe":
-      return [
-        { resource: "Wood", nodeName: ["Tree", "Ancient Tree", "Sacred Tree"] },
-      ];
-    case "Pickaxe":
-      return [
-        {
-          resource: "Stone",
-          nodeName: ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
-        },
-      ];
-    case "Stone Pickaxe":
-      return [
-        {
-          resource: "Iron",
-          nodeName: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
-        },
-      ];
-    case "Iron Pickaxe":
-      return [
-        {
-          resource: "Gold",
-          nodeName: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
-        },
-      ];
-    case "Gold Pickaxe":
-      return [
-        { resource: "Crimstone", nodeName: ["Crimstone Rock"] },
-        { resource: "Sunstone", nodeName: ["Sunstone Rock"] },
-      ];
-    case "Oil Drill":
-      return [{ resource: "Oil", nodeName: ["Oil Reserve"] }];
-    case "Crab Pot":
-      return [
-        ...Array.from(
-          new Set(Object.values(CRUSTACEANS_LOOKUP["Crab Pot"])),
-        ).map((resource) => ({ resource })),
-      ];
-    case "Mariner Pot":
-      return [
-        ...Array.from(
-          new Set(Object.values(CRUSTACEANS_LOOKUP["Mariner Pot"])),
-        ).map((resource) => ({ resource })),
-      ];
+      type: "items";
+      items: ToolDisplayItem[];
+      sharedCooldown?: CooldownDisplay;
+    };
 
-    default:
-      return { description: ITEM_DETAILS[toolName].description };
-  }
-}
-
-/** Node cooldown(s) with boost data. Tools like Gold Pickaxe have multiple nodes. */
-function getToolNodeCooldownDisplays(
+function getToolDisplayData(
   toolName: WorkbenchToolName | LoveAnimalItem,
   state: GameState,
-): CooldownDisplay[] {
+): ToolDisplayData {
   const toDisplay = (
     nodeLabel: string,
     baseTimeMs: number,
@@ -162,108 +87,172 @@ function getToolNodeCooldownDisplays(
     case "Axe": {
       const { baseTimeMs, recoveryTimeMs, boostsUsed } =
         getTreeRecoveryTimeForDisplay({ game: state });
-      return [
-        toDisplay(
-          translate("resource.treeRecoveryTime"),
-          baseTimeMs,
-          recoveryTimeMs,
-          boostsUsed,
-          ITEM_DETAILS.Wood.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Wood",
+            nodeName: ["Tree", "Ancient Tree", "Sacred Tree"],
+            cooldown: toDisplay(
+              translate("resource.treeRecoveryTime"),
+              baseTimeMs,
+              recoveryTimeMs,
+              boostsUsed,
+              ITEM_DETAILS.Wood.image,
+            ),
+          },
+        ],
+      };
     }
     case "Pickaxe": {
       const { baseTimeMs, recoveryTimeMs, boostsUsed } =
         getStoneRecoveryTimeForDisplay({ game: state });
-      return [
-        toDisplay(
-          translate("resource.stoneRecoveryTime"),
-          baseTimeMs,
-          recoveryTimeMs,
-          boostsUsed,
-          ITEM_DETAILS.Stone.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Stone",
+            nodeName: [
+              "Stone Rock",
+              "Fused Stone Rock",
+              "Reinforced Stone Rock",
+            ],
+            cooldown: toDisplay(
+              translate("resource.stoneRecoveryTime"),
+              baseTimeMs,
+              recoveryTimeMs,
+              boostsUsed,
+              ITEM_DETAILS.Stone.image,
+            ),
+          },
+        ],
+      };
     }
     case "Stone Pickaxe": {
       const { baseTimeMs, recoveryTimeMs, boostsUsed } =
         getIronRecoveryTimeForDisplay({ game: state });
-      return [
-        toDisplay(
-          translate("resource.ironRecoveryTime"),
-          baseTimeMs,
-          recoveryTimeMs,
-          boostsUsed,
-          ITEM_DETAILS.Iron.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Iron",
+            nodeName: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
+            cooldown: toDisplay(
+              translate("resource.ironRecoveryTime"),
+              baseTimeMs,
+              recoveryTimeMs,
+              boostsUsed,
+              ITEM_DETAILS.Iron.image,
+            ),
+          },
+        ],
+      };
     }
-
     case "Iron Pickaxe": {
       const gold = getGoldRecoveryTimeForDisplay({ game: state });
-      return [
-        toDisplay(
-          translate("resource.goldRecoveryTime"),
-          gold.baseTimeMs,
-          gold.recoveryTimeMs,
-          gold.boostsUsed,
-          ITEM_DETAILS.Gold.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Gold",
+            nodeName: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+            cooldown: toDisplay(
+              translate("resource.goldRecoveryTime"),
+              gold.baseTimeMs,
+              gold.recoveryTimeMs,
+              gold.boostsUsed,
+              ITEM_DETAILS.Gold.image,
+            ),
+          },
+        ],
+      };
     }
     case "Gold Pickaxe": {
       const crimstone = getCrimstoneRecoveryTimeForDisplay({ game: state });
       const sunstone = getSunstoneRecoveryTimeForDisplay(state);
-      return [
-        toDisplay(
-          translate("resource.crimstoneRecoveryTime"),
-          crimstone.baseTimeMs,
-          crimstone.recoveryTimeMs,
-          crimstone.boostsUsed,
-          ITEM_DETAILS.Crimstone.image,
-        ),
-        toDisplay(
-          translate("resource.sunstoneRecoveryTime"),
-          sunstone.baseTimeMs,
-          sunstone.recoveryTimeMs,
-          sunstone.boostsUsed,
-          ITEM_DETAILS.Sunstone.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Crimstone",
+            nodeName: ["Crimstone Rock"],
+            cooldown: toDisplay(
+              translate("resource.crimstoneRecoveryTime"),
+              crimstone.baseTimeMs,
+              crimstone.recoveryTimeMs,
+              crimstone.boostsUsed,
+              ITEM_DETAILS.Crimstone.image,
+            ),
+          },
+          {
+            resource: "Sunstone",
+            nodeName: ["Sunstone Rock"],
+            cooldown: toDisplay(
+              translate("resource.sunstoneRecoveryTime"),
+              sunstone.baseTimeMs,
+              sunstone.recoveryTimeMs,
+              sunstone.boostsUsed,
+              ITEM_DETAILS.Sunstone.image,
+            ),
+          },
+        ],
+      };
     }
     case "Oil Drill": {
       const { baseTimeMs, recoveryTimeMs, boostsUsed } =
         getOilRecoveryTimeForDisplay({ game: state });
-      return [
-        toDisplay(
-          translate("resource.oilRecoveryTime"),
-          baseTimeMs,
-          recoveryTimeMs,
-          boostsUsed,
-          ITEM_DETAILS.Oil.image,
-        ),
-      ];
+      return {
+        type: "items",
+        items: [
+          {
+            resource: "Oil",
+            nodeName: ["Oil Reserve"],
+            cooldown: toDisplay(
+              translate("resource.oilRecoveryTime"),
+              baseTimeMs,
+              recoveryTimeMs,
+              boostsUsed,
+              ITEM_DETAILS.Oil.image,
+            ),
+          },
+        ],
+      };
     }
-    case "Crab Pot":
-      return [
-        {
-          nodeLabel: translate("toolGuide.trapReady"),
-          baseSeconds: WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60,
-          recoverySeconds: WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60,
-          boostsUsed: [],
-        },
-      ];
-    case "Mariner Pot":
-      return [
-        {
-          nodeLabel: translate("toolGuide.trapReady"),
-          baseSeconds: WATER_TRAP["Mariner Pot"].readyTimeHours * 60 * 60,
-          recoverySeconds: WATER_TRAP["Mariner Pot"].readyTimeHours * 60 * 60,
-          boostsUsed: [],
-        },
-      ];
+    case "Crab Pot": {
+      const sharedCooldown: CooldownDisplay = {
+        nodeLabel: translate("toolGuide.trapReady"),
+        baseSeconds: WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60,
+        recoverySeconds: WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60,
+        boostsUsed: [],
+      };
+      return {
+        type: "items",
+        items: Array.from(
+          new Set(Object.values(CRUSTACEANS_LOOKUP["Crab Pot"])),
+        ).map((resource) => ({ resource, cooldown: null })),
+        sharedCooldown,
+      };
+    }
+    case "Mariner Pot": {
+      const sharedCooldown: CooldownDisplay = {
+        nodeLabel: translate("toolGuide.trapReady"),
+        baseSeconds: WATER_TRAP["Mariner Pot"].readyTimeHours * 60 * 60,
+        recoverySeconds: WATER_TRAP["Mariner Pot"].readyTimeHours * 60 * 60,
+        boostsUsed: [],
+      };
+      return {
+        type: "items",
+        items: Array.from(
+          new Set(Object.values(CRUSTACEANS_LOOKUP["Mariner Pot"])),
+        ).map((resource) => ({ resource, cooldown: null })),
+        sharedCooldown,
+      };
+    }
     default:
-      return [];
+      return {
+        type: "description",
+        description: ITEM_DETAILS[toolName].description ?? "",
+      };
   }
 }
 
@@ -520,20 +509,12 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
   setShowBoostsKey,
   isLandTool,
 }) => {
-  const cooldowns = getToolNodeCooldownDisplays(toolName, state);
-  const toolInfo = getToolInfo(toolName);
+  const data = getToolDisplayData(toolName, state);
 
   const isCrabPotStyle =
-    Array.isArray(toolInfo) && toolInfo.length > 1 && cooldowns.length === 1;
-  const isMultiResource =
-    Array.isArray(toolInfo) &&
-    toolInfo.length > 1 &&
-    toolInfo.length === cooldowns.length;
-  const isSingleResourceMultiNode =
-    Array.isArray(toolInfo) &&
-    toolInfo.length === 1 &&
-    cooldowns.length === 1 &&
-    (toolInfo[0].nodeName?.length ?? 0) > 0;
+    data.type === "items" &&
+    data.items.length > 1 &&
+    data.sharedCooldown != null;
 
   return (
     <div
@@ -543,15 +524,15 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
     >
       {toolNameCell(toolName, tool)}
 
-      {"description" in toolInfo ? (
-        <span className="text-xxs">{toolInfo.description}</span>
-      ) : isLandTool && Array.isArray(toolInfo) && toolInfo.length > 0 ? (
+      {data.type === "description" ? (
+        <span className="text-xxs">{data.description}</span>
+      ) : data.type === "items" && isLandTool && data.items.length > 0 ? (
         <div className="flex flex-col gap-1">
-          {toolInfo.map((info, i) => (
-            <div key={info.resource} className="flex w-full gap-2">
+          {data.items.map((item) => (
+            <div key={item.resource} className="flex w-full gap-2">
               <div className="flex flex-1 min-w-0 flex-col gap-0.5">
-                {info.nodeName && info.nodeName.length > 0
-                  ? info.nodeName.map((nodeName) => (
+                {item.nodeName && item.nodeName.length > 0
+                  ? item.nodeName.map((nodeName) => (
                       <LineItem
                         key={nodeName}
                         icon={ITEM_DETAILS[nodeName].image}
@@ -560,14 +541,14 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
                     ))
                   : null}
                 <LineItem
-                  icon={ITEM_DETAILS[info.resource].image}
-                  text={info.resource}
+                  icon={ITEM_DETAILS[item.resource].image}
+                  text={item.resource}
                 />
               </div>
               <div className="flex flex-1 min-w-0 items-start">
-                {cooldowns[i] && (
+                {item.cooldown && (
                   <CooldownCell
-                    cooldown={cooldowns[i]}
+                    cooldown={item.cooldown}
                     toolName={toolName}
                     showBoostsKey={showBoostsKey}
                     setShowBoostsKey={setShowBoostsKey}
@@ -578,93 +559,52 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
             </div>
           ))}
         </div>
-      ) : isCrabPotStyle ? (
+      ) : isCrabPotStyle && data.type === "items" && data.sharedCooldown ? (
         <>
           <InlineItems
-            items={toolInfo.map((info) => ({
-              icon: ITEM_DETAILS[info.resource].image,
-              text: info.resource,
+            items={data.items.map((item) => ({
+              icon: ITEM_DETAILS[item.resource].image,
+              text: item.resource,
             }))}
           />
           <CooldownCell
-            cooldown={cooldowns[0]}
+            cooldown={data.sharedCooldown}
             toolName={toolName}
             showBoostsKey={showBoostsKey}
             setShowBoostsKey={setShowBoostsKey}
             state={state}
           />
         </>
-      ) : isMultiResource ? (
+      ) : data.type === "items" && data.items.length > 0 ? (
         <>
-          {toolInfo.map((info, i) => (
-            <React.Fragment key={info.resource}>
-              {info.nodeName?.[0] && (
-                <LineItem
-                  icon={
-                    ITEM_DETAILS[info.nodeName[0] as keyof typeof ITEM_DETAILS]
-                      .image
-                  }
-                  text={info.nodeName[0]}
-                />
-              )}
+          {data.items.map((item) => (
+            <React.Fragment key={item.resource}>
+              {item.nodeName && item.nodeName.length > 0 ? (
+                item.nodeName.length > 1 ? (
+                  <InlineItems
+                    items={item.nodeName.map((nodeName) => ({
+                      icon: ITEM_DETAILS[nodeName].image,
+                      text: nodeName,
+                    }))}
+                  />
+                ) : (
+                  <LineItem
+                    icon={
+                      ITEM_DETAILS[
+                        item.nodeName[0] as keyof typeof ITEM_DETAILS
+                      ].image
+                    }
+                    text={item.nodeName[0]}
+                  />
+                )
+              ) : null}
               <LineItem
-                icon={ITEM_DETAILS[info.resource].image}
-                text={info.resource}
+                icon={ITEM_DETAILS[item.resource].image}
+                text={item.resource}
               />
-              {cooldowns[i] && (
+              {item.cooldown && (
                 <CooldownCell
-                  cooldown={cooldowns[i]}
-                  toolName={toolName}
-                  showBoostsKey={showBoostsKey}
-                  setShowBoostsKey={setShowBoostsKey}
-                  state={state}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </>
-      ) : isSingleResourceMultiNode ? (
-        <>
-          <InlineItems
-            items={(toolInfo[0].nodeName ?? []).map((nodeName) => ({
-              icon: ITEM_DETAILS[nodeName].image,
-              text: nodeName,
-            }))}
-          />
-          <LineItem
-            icon={ITEM_DETAILS[toolInfo[0].resource].image}
-            text={toolInfo[0].resource}
-          />
-          {cooldowns[0] && (
-            <CooldownCell
-              cooldown={cooldowns[0]}
-              toolName={toolName}
-              showBoostsKey={showBoostsKey}
-              setShowBoostsKey={setShowBoostsKey}
-              state={state}
-            />
-          )}
-        </>
-      ) : Array.isArray(toolInfo) && toolInfo.length > 0 ? (
-        <>
-          {toolInfo.map((info, i) => (
-            <React.Fragment key={info.resource}>
-              {info.nodeName?.[0] && (
-                <LineItem
-                  icon={
-                    ITEM_DETAILS[info.nodeName[0] as keyof typeof ITEM_DETAILS]
-                      .image
-                  }
-                  text={info.nodeName[0]}
-                />
-              )}
-              <LineItem
-                icon={ITEM_DETAILS[info.resource].image}
-                text={info.resource}
-              />
-              {cooldowns[i] && (
-                <CooldownCell
-                  cooldown={cooldowns[i]}
+                  cooldown={item.cooldown}
                   toolName={toolName}
                   showBoostsKey={showBoostsKey}
                   setShowBoostsKey={setShowBoostsKey}
@@ -687,66 +627,121 @@ const ToolRow: React.FC<ToolRowProps> = ({
   showBoostsKey,
   setShowBoostsKey,
 }) => {
-  const cooldowns = getToolNodeCooldownDisplays(toolName, state);
-  const toolInfo = getToolInfo(toolName);
+  const data = getToolDisplayData(toolName, state);
 
-  const useSubRowLayout =
-    Array.isArray(toolInfo) &&
-    toolInfo.length > 0 &&
-    toolInfo.length === cooldowns.length &&
-    toolInfo.length > 1;
+  if (data.type === "description") {
+    return (
+      <div
+        className={classNames("flex w-full min-w-full", {
+          "bg-brown-100": alternateBg,
+        })}
+      >
+        <div
+          className={classNames(CELL_CLASS, "w-[30%] flex-shrink-0 min-w-0")}
+        >
+          {toolNameCell(toolName, tool)}
+        </div>
+        <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+          <span className="text-xxs">{data.description}</span>
+        </div>
+      </div>
+    );
+  }
 
-  if (useSubRowLayout) {
-    const subRows = buildToolSubRows(toolInfo, cooldowns);
+  if (
+    data.type === "items" &&
+    data.items.length > 1 &&
+    data.sharedCooldown != null
+  ) {
+    return (
+      <div
+        className={classNames("flex w-full min-w-full", {
+          "bg-brown-100": alternateBg,
+        })}
+      >
+        <div
+          className={classNames(CELL_CLASS, "w-[30%] flex-shrink-0 min-w-0")}
+        >
+          {toolNameCell(toolName, tool)}
+        </div>
+        <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+          <div className="flex flex-col gap-1">
+            {data.items.map((item) => (
+              <div key={item.resource} className="flex items-center">
+                <img
+                  src={ITEM_DETAILS[item.resource].image}
+                  className="w-3 h-3 mr-1 flex-shrink-0"
+                  alt={item.resource}
+                />
+                <span className="text-xxs">{item.resource}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+          <CooldownCell
+            cooldown={data.sharedCooldown}
+            toolName={toolName}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+            state={state}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (data.type === "items" && data.items.length > 0) {
+    const itemsWithCooldown = data.items.filter(
+      (item) => item.cooldown != null,
+    );
+    if (itemsWithCooldown.length === 0) return null;
+
     return (
       <div
         className={classNames("flex flex-col w-full min-w-full gap-1", {
           "bg-brown-100": alternateBg,
         })}
       >
-        {subRows.map((subRow, idx) => (
-          <div key={idx} className="flex w-full gap-2">
+        {itemsWithCooldown.map((item, i) => (
+          <div key={item.resource} className="flex w-full gap-2">
             <div
               className={classNames(
                 CELL_CLASS,
                 "w-[30%] flex-shrink-0 min-w-0",
               )}
             >
-              {subRow.showToolName ? toolNameCell(toolName, tool) : null}
+              {i === 0 ? toolNameCell(toolName, tool) : null}
             </div>
             <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
-              {subRow.nodeName ? (
-                <div className="flex items-center">
-                  <img
-                    src={
-                      ITEM_DETAILS[subRow.nodeName as keyof typeof ITEM_DETAILS]
-                        .image
-                    }
-                    className="w-3 h-3 mr-1 flex-shrink-0"
-                    alt={subRow.nodeName}
-                  />
-                  <span className="text-xxs">{subRow.nodeName}</span>
+              {item.nodeName && item.nodeName.length > 0 ? (
+                <div className="flex flex-col gap-1">
+                  {item.nodeName.map((nodeName) => (
+                    <div key={nodeName} className="flex items-center">
+                      <img
+                        src={ITEM_DETAILS[nodeName].image}
+                        className="w-3 h-3 mr-1 flex-shrink-0"
+                        alt={nodeName}
+                      />
+                      <span className="text-xxs">{nodeName}</span>
+                    </div>
+                  ))}
                 </div>
               ) : null}
             </div>
             <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
-              {subRow.resource ? (
-                <div className="flex items-center">
-                  <img
-                    src={
-                      ITEM_DETAILS[subRow.resource as keyof typeof ITEM_DETAILS]
-                        .image
-                    }
-                    className="w-3 h-3 mr-1 flex-shrink-0"
-                    alt={subRow.resource}
-                  />
-                  <span className="text-xxs">{subRow.resource}</span>
-                </div>
-              ) : null}
+              <div className="flex items-center">
+                <img
+                  src={ITEM_DETAILS[item.resource].image}
+                  className="w-3 h-3 mr-1 flex-shrink-0"
+                  alt={item.resource}
+                />
+                <span className="text-xxs">{item.resource}</span>
+              </div>
             </div>
             <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
               <CooldownCell
-                cooldown={subRow.cooldown}
+                cooldown={item.cooldown!}
                 toolName={toolName}
                 showBoostsKey={showBoostsKey}
                 setShowBoostsKey={setShowBoostsKey}
@@ -759,89 +754,5 @@ const ToolRow: React.FC<ToolRowProps> = ({
     );
   }
 
-  const cells: React.ReactNode[] = [];
-
-  cells.push(toolNameCell(toolName, tool));
-
-  if (Array.isArray(toolInfo)) {
-    if (toolInfo.length > 0) {
-      if (toolInfo.filter((info) => info.nodeName).length > 0) {
-        cells.push(
-          <div key="nodes">
-            {toolInfo.map((info) => {
-              if (!info.nodeName) return null;
-              return (
-                <div key={info.resource} className="flex flex-col gap-1">
-                  {info.nodeName.map((nodeName) => (
-                    <div key={nodeName} className="flex items-center">
-                      <img
-                        src={ITEM_DETAILS[nodeName].image}
-                        className="w-3 h-3 mr-1 flex-shrink-0"
-                        alt={nodeName}
-                      />
-                      <span className="text-xxs">{nodeName}</span>
-                    </div>
-                  ))}
-                </div>
-              );
-            })}
-          </div>,
-        );
-      }
-      cells.push(
-        <div key="resources" className="flex flex-col justify-between">
-          {toolInfo.map((info) => (
-            <div key={info.resource} className="flex items-center">
-              <img
-                src={ITEM_DETAILS[info.resource].image}
-                className="w-3 h-3 mr-1 flex-shrink-0"
-                alt={info.resource}
-              />
-              <span className="text-xxs">{info.resource}</span>
-            </div>
-          ))}
-        </div>,
-      );
-    }
-  } else if ("description" in toolInfo) {
-    cells.push(
-      <span key="description" className="text-xxs">
-        {toolInfo.description}
-      </span>,
-    );
-  }
-
-  if (cooldowns.length > 0) {
-    cells.push(
-      <div key="cooldowns" className="flex flex-col flex-wrap gap-y-1">
-        {cooldowns.map((cooldown) => (
-          <CooldownCell
-            key={cooldown.nodeLabel}
-            cooldown={cooldown}
-            toolName={toolName}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-            state={state}
-          />
-        ))}
-      </div>,
-    );
-  }
-
-  return (
-    <div
-      className={classNames("flex w-full min-w-full", {
-        "bg-brown-100": alternateBg,
-      })}
-    >
-      <div className={classNames(CELL_CLASS, "w-[30%] flex-shrink-0 min-w-0")}>
-        {cells[0]}
-      </div>
-      {cells.slice(1).map((cell, index) => (
-        <div key={index} className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
-          {cell}
-        </div>
-      ))}
-    </div>
-  );
+  return null;
 };
