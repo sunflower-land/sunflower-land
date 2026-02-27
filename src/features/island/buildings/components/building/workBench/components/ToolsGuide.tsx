@@ -51,6 +51,37 @@ type CooldownDisplay = {
   image?: string;
 };
 
+type ToolSubRow = {
+  showToolName: boolean;
+  nodeName: string | null;
+  resource: string;
+  cooldown: CooldownDisplay;
+};
+
+function buildToolSubRows(
+  toolInfo: {
+    resource: CommodityName | CrustaceanName;
+    nodeName?: ResourceName[];
+  }[],
+  cooldowns: CooldownDisplay[],
+): ToolSubRow[] {
+  const subRows: ToolSubRow[] = [];
+  for (let i = 0; i < toolInfo.length; i++) {
+    const info = toolInfo[i];
+    const cooldown = cooldowns[i];
+    const nodeName = info.nodeName?.[0] ?? null;
+    const resource = info.resource;
+
+    subRows.push({
+      showToolName: i === 0,
+      nodeName,
+      resource,
+      cooldown,
+    });
+  }
+  return subRows;
+}
+
 function getToolInfo(toolName: WorkbenchToolName | LoveAnimalItem):
   | {
       resource: CommodityName | CrustaceanName;
@@ -327,6 +358,98 @@ interface ToolRowProps {
   setShowBoostsKey: (key: string | null) => void;
 }
 
+const CooldownCell: React.FC<{
+  cooldown: CooldownDisplay;
+  toolName: WorkbenchToolName | LoveAnimalItem;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+  state: GameState;
+}> = ({ cooldown, toolName, showBoostsKey, setShowBoostsKey, state }) => {
+  const { t } = useAppTranslation();
+  const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
+  const hasBoosts = cooldown.boostsUsed.length > 0;
+
+  const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
+    length: hasBoosts ? "medium" : "short",
+  });
+  const baseTimeStr = secondsToString(cooldown.baseSeconds, {
+    length: hasBoosts ? "medium" : "short",
+  });
+
+  if (hasBoosts) {
+    return (
+      <div
+        className="flex items-start cursor-pointer gap-1 relative"
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
+        }}
+      >
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center">
+            <img
+              src={SUNNYSIDE.icons.lightning}
+              className="w-3 h-3 mr-1 flex-shrink-0"
+              alt=""
+            />
+            <span className="text-xxs">
+              {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
+            </span>
+          </div>
+          {cooldown.baseSeconds > 0 && (
+            <div className="flex items-center">
+              <img
+                src={SUNNYSIDE.icons.stopwatch}
+                className="w-3 h-3 mr-1 flex-shrink-0"
+                alt=""
+              />
+              <span className="text-xxs line-through">{baseTimeStr}</span>
+            </div>
+          )}
+        </div>
+        <BoostsDisplay
+          boosts={cooldown.boostsUsed}
+          show={showBoostsKey === boostsKey}
+          state={state}
+          onClick={() =>
+            setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+          }
+          className="right-0 left-auto"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-start gap-1">
+      <div className="flex items-center">
+        <img
+          src={SUNNYSIDE.icons.stopwatch}
+          className="w-3 h-3 mr-1 flex-shrink-0"
+          alt=""
+        />
+        <span className="text-xxs">{recoveryTimeStr}</span>
+      </div>
+    </div>
+  );
+};
+
+const toolNameCell = (
+  toolName: WorkbenchToolName | LoveAnimalItem,
+  tool: Tool,
+) => (
+  <div className="flex items-center min-w-0 justify-between">
+    <div className="flex items-center">
+      <img
+        src={ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""}
+        className="w-6 h-auto mr-2 flex-shrink-0"
+        alt={tool.name}
+      />
+      <p className="text-xs truncate">{tool.name}</p>
+    </div>
+  </div>
+);
+
 const ToolRow: React.FC<ToolRowProps> = ({
   toolName,
   tool,
@@ -340,20 +463,78 @@ const ToolRow: React.FC<ToolRowProps> = ({
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
   const toolInfo = getToolInfo(toolName);
 
+  const useSubRowLayout =
+    Array.isArray(toolInfo) &&
+    toolInfo.length > 0 &&
+    toolInfo.length === cooldowns.length &&
+    toolInfo.length > 1;
+
+  if (useSubRowLayout) {
+    const subRows = buildToolSubRows(toolInfo, cooldowns);
+    return (
+      <div
+        className={classNames("flex flex-col w-full min-w-full gap-1", {
+          "bg-brown-100": alternateBg,
+        })}
+      >
+        {subRows.map((subRow, idx) => (
+          <div key={idx} className="flex w-full gap-2">
+            <div
+              className={classNames(
+                CELL_CLASS,
+                "w-[30%] flex-shrink-0 min-w-0",
+              )}
+            >
+              {subRow.showToolName ? toolNameCell(toolName, tool) : null}
+            </div>
+            <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+              {subRow.nodeName ? (
+                <div className="flex items-center">
+                  <img
+                    src={
+                      ITEM_DETAILS[subRow.nodeName as keyof typeof ITEM_DETAILS]
+                        .image
+                    }
+                    className="w-3 h-3 mr-1 flex-shrink-0"
+                    alt={subRow.nodeName}
+                  />
+                  <span className="text-xxs">{subRow.nodeName}</span>
+                </div>
+              ) : null}
+            </div>
+            <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+              {subRow.resource ? (
+                <div className="flex items-center">
+                  <img
+                    src={
+                      ITEM_DETAILS[subRow.resource as keyof typeof ITEM_DETAILS]
+                        .image
+                    }
+                    className="w-3 h-3 mr-1 flex-shrink-0"
+                    alt={subRow.resource}
+                  />
+                  <span className="text-xxs">{subRow.resource}</span>
+                </div>
+              ) : null}
+            </div>
+            <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+              <CooldownCell
+                cooldown={subRow.cooldown}
+                toolName={toolName}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+                state={state}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const cells: React.ReactNode[] = [];
 
-  cells.push(
-    <div key="name" className="flex items-center min-w-0 justify-between">
-      <div className="flex items-center">
-        <img
-          src={ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""}
-          className="w-6 h-auto mr-2 flex-shrink-0"
-          alt={tool.name}
-        />
-        <p className="text-xs truncate">{tool.name}</p>
-      </div>
-    </div>,
-  );
+  cells.push(toolNameCell(toolName, tool));
 
   if (Array.isArray(toolInfo)) {
     if (toolInfo.length > 0) {
@@ -381,7 +562,7 @@ const ToolRow: React.FC<ToolRowProps> = ({
         );
       }
       cells.push(
-        <div key="resources">
+        <div key="resources" className="flex flex-col justify-between">
           {toolInfo.map((info) => (
             <div key={info.resource} className="flex items-center">
               <img
@@ -406,82 +587,16 @@ const ToolRow: React.FC<ToolRowProps> = ({
   if (cooldowns.length > 0) {
     cells.push(
       <div key="cooldowns" className="flex flex-col flex-wrap gap-y-1">
-        {cooldowns.map((cooldown) => {
-          const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
-          const hasBoosts = cooldown.boostsUsed.length > 0;
-
-          const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
-            length: hasBoosts ? "medium" : "short",
-          });
-          const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-            length: hasBoosts ? "medium" : "short",
-          });
-
-          if (hasBoosts) {
-            return (
-              <div
-                key={cooldown.nodeLabel}
-                className="flex items-start cursor-pointer gap-1 relative"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowBoostsKey(
-                    showBoostsKey === boostsKey ? null : boostsKey,
-                  );
-                }}
-              >
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center">
-                    <img
-                      src={SUNNYSIDE.icons.lightning}
-                      className="w-3 h-3 mr-1 flex-shrink-0"
-                      alt=""
-                    />
-                    <span className="text-xxs">
-                      {cooldown.recoverySeconds > 0
-                        ? recoveryTimeStr
-                        : t("instant")}
-                    </span>
-                  </div>
-                  {cooldown.baseSeconds > 0 && (
-                    <div className="flex items-center">
-                      <img
-                        src={SUNNYSIDE.icons.stopwatch}
-                        className="w-3 h-3 mr-1 flex-shrink-0"
-                        alt=""
-                      />
-                      <span className="text-xxs line-through">
-                        {baseTimeStr}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <BoostsDisplay
-                  boosts={cooldown.boostsUsed}
-                  show={showBoostsKey === boostsKey}
-                  state={state}
-                  onClick={() =>
-                    setShowBoostsKey(
-                      showBoostsKey === boostsKey ? null : boostsKey,
-                    )
-                  }
-                />
-              </div>
-            );
-          }
-
-          return (
-            <div key={cooldown.nodeLabel} className="flex items-start gap-1">
-              <div className="flex items-center">
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  className="w-3 h-3 mr-1 flex-shrink-0"
-                  alt=""
-                />
-                <span className="text-xxs">{recoveryTimeStr}</span>
-              </div>
-            </div>
-          );
-        })}
+        {cooldowns.map((cooldown) => (
+          <CooldownCell
+            key={cooldown.nodeLabel}
+            cooldown={cooldown}
+            toolName={toolName}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+            state={state}
+          />
+        ))}
       </div>,
     );
   }
