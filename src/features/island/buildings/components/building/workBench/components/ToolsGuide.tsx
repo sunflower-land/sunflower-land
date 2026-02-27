@@ -550,25 +550,15 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
           {toolInfo.map((info, i) => (
             <div key={info.resource} className="flex w-full gap-2">
               <div className="flex flex-1 min-w-0 flex-col gap-0.5">
-                {info.nodeName && info.nodeName.length > 0 ? (
-                  info.nodeName.length > 1 ? (
-                    <InlineItems
-                      items={info.nodeName.map((nodeName) => ({
-                        icon: ITEM_DETAILS[nodeName].image,
-                        text: nodeName,
-                      }))}
-                    />
-                  ) : (
-                    <LineItem
-                      icon={
-                        ITEM_DETAILS[
-                          info.nodeName[0] as keyof typeof ITEM_DETAILS
-                        ].image
-                      }
-                      text={info.nodeName[0]}
-                    />
-                  )
-                ) : null}
+                {info.nodeName && info.nodeName.length > 0
+                  ? info.nodeName.map((nodeName) => (
+                      <LineItem
+                        key={nodeName}
+                        icon={ITEM_DETAILS[nodeName].image}
+                        text={nodeName}
+                      />
+                    ))
+                  : null}
                 <LineItem
                   icon={ITEM_DETAILS[info.resource].image}
                   text={info.resource}
@@ -697,8 +687,6 @@ const ToolRow: React.FC<ToolRowProps> = ({
   showBoostsKey,
   setShowBoostsKey,
 }) => {
-  const { t } = useAppTranslation();
-
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
   const toolInfo = getToolInfo(toolName);
 
