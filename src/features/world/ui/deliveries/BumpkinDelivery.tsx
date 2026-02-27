@@ -110,7 +110,11 @@ const OrderCard: React.FC<{
   const getChapterPoints = () => {
     if (
       isCoinNPC(order.from) &&
-      hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", order.createdAt)
+      hasTimeBasedFeatureAccess({
+        featureName: "TICKETS_FROM_COIN_NPC",
+        now: order.createdAt,
+        game,
+      })
     ) {
       if (areBumpkinsOnHoliday(order.createdAt)) {
         return 0;

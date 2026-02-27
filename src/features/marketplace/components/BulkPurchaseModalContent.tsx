@@ -69,6 +69,7 @@ export const BulkPurchaseModalContent: React.FC<
     currentWardrobe: wardrobe,
     oldWardrobe: previousWardrobe,
     now,
+    state,
   });
 
   const confirm = async () => {

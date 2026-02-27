@@ -503,7 +503,11 @@ export function deliverOrder({
 
       if (
         isCoinNPC(order.from) &&
-        hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", coinCreatedAt) &&
+        hasTimeBasedFeatureAccess({
+          featureName: "TICKETS_FROM_COIN_NPC",
+          now: coinCreatedAt,
+          game,
+        }) &&
         !isCoinTasksFrozen
       ) {
         const coinChapter = getCurrentChapter(coinCreatedAt);

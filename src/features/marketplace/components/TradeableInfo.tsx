@@ -16,7 +16,7 @@ import lockIcon from "assets/icons/lock.png";
 import crownIcon from "assets/icons/vip.webp";
 import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
@@ -183,7 +183,8 @@ export const TradeableDescription: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   const { t } = useAppTranslation();
   const now = useNow();
 
@@ -194,7 +195,7 @@ export const TradeableDescription: React.FC<{
     withdrawAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.withdrawAt;
   }
 
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
   if (tradeable?.collection === "collectibles") {
     tradeAt = inventoryReleases[display.name as InventoryItemName]?.tradeAt;
     withdrawAt =
@@ -349,7 +350,8 @@ export const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   return (
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
@@ -357,6 +359,7 @@ export const TradeableInfo: React.FC<{
         display={display}
         tradeable={tradeable}
         hideLimited={hideLimited}
+        state={state}
       />
       {display.type === "collectibles" &&
         isTradeResource(display.name as InventoryItemName) && <ResourceTaxes />}
@@ -368,7 +371,8 @@ export const TradeableMobileInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
@@ -383,6 +387,7 @@ export const TradeableMobileInfo: React.FC<{
         display={display}
         tradeable={tradeable}
         hideLimited={hideLimited}
+        state={state}
       />
     </>
   );
