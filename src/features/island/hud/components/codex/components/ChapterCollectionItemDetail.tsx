@@ -77,7 +77,7 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   const howToObtainKey =
     source === "unknown" ? null : HOW_TO_OBTAIN_I18N_KEY[source];
 
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
   const isTradable =
     type === "wearable"
       ? !!WEARABLE_RELEASES[itemName as BumpkinItem]

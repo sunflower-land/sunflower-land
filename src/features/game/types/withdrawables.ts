@@ -1,4 +1,4 @@
-import { InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
@@ -1667,8 +1667,13 @@ const INVENTORY_RELEASES_WITH_RESOURCES: InventoryReleases = {
 
 export const getInventoryReleases = (
   now: number,
+  game: GameState,
 ): Partial<Record<InventoryItemName, Releases>> => {
-  const offchainEnabled = hasTimeBasedFeatureAccess("OFFCHAIN_RESOURCES", now);
+  const offchainEnabled = hasTimeBasedFeatureAccess({
+    featureName: "OFFCHAIN_RESOURCES",
+    now,
+    game,
+  });
   return offchainEnabled
     ? INVENTORY_RELEASES
     : INVENTORY_RELEASES_WITH_RESOURCES;

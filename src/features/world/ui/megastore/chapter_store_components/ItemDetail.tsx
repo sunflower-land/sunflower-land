@@ -307,7 +307,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
   const isTradeable = isWearable
     ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
     : !!inventoryReleases[(item as ChapterStoreCollectible)?.collectible];

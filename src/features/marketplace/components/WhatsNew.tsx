@@ -20,11 +20,14 @@ import { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { GameState } from "features/game/types/game";
 
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const [authState] = useActor(authService);
   const now = useNow();
 
@@ -48,8 +51,14 @@ export const WhatsNew: React.FC = () => {
     collectibles?.items ?? [],
     "collectibles",
     now,
+    state,
   );
-  const sortedWearables = sortItems(wearables?.items ?? [], "wearables", now);
+  const sortedWearables = sortItems(
+    wearables?.items ?? [],
+    "wearables",
+    now,
+    state,
+  );
 
   return (
     <div className="flex flex-wrap">
@@ -129,12 +138,13 @@ const sortItems = (
   items: Tradeable[],
   type: "collectibles" | "wearables",
   now: number,
+  state: GameState,
 ) => {
   const oneMonthAgo = new Date(now);
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const filteredItems: (Tradeable & { tradeAt: number })[] = [];
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
 
   items.forEach((item) => {
     let tradeAt = inventoryReleases[KNOWN_ITEMS[item.id]]?.tradeAt;

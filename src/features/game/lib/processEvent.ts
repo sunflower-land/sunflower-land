@@ -629,7 +629,7 @@ export function checkProgress({
   const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const offChainItems = new Set(getOffChainItems(createdAt));
+  const offChainItems = new Set(getOffChainItems(createdAt, state));
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
     .filter((name) => !offChainItems.has(name))
@@ -685,14 +685,16 @@ export function hasMaxItems({
   currentWardrobe,
   oldWardrobe,
   now,
+  state,
 }: {
   currentInventory: Inventory;
   oldInventory: Inventory;
   currentWardrobe: Wardrobe;
   oldWardrobe: Wardrobe;
   now: number;
+  state: GameState;
 }) {
-  const offChainItems = new Set(getOffChainItems(now));
+  const offChainItems = new Set(getOffChainItems(now, state));
   const validInventoryProgress = getKeys(currentInventory)
     .filter((name) => !offChainItems.has(name))
     .every((name) => {

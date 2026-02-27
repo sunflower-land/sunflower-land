@@ -12,7 +12,7 @@ import { loadGameStateForAdmin } from "features/game/actions/adminSearch";
 import { useGame } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
-import { MANAGER_IDS } from "lib/flags";
+import { MANAGER_IDS } from "lib/access";
 
 export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();

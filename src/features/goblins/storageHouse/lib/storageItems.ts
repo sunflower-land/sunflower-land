@@ -21,7 +21,7 @@ export function getDeliverableItems({
   now: number;
 }) {
   const { previousInventory } = state;
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
 
   const inventory = getBasketItems(state.inventory);
 

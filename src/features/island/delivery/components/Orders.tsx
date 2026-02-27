@@ -266,7 +266,11 @@ export const DeliveryOrders: React.FC<Props> = ({
   const getChapterPoints = () => {
     if (
       isCoinNPC(previewOrder.from) &&
-      hasTimeBasedFeatureAccess("TICKETS_FROM_COIN_NPC", previewOrder.createdAt)
+      hasTimeBasedFeatureAccess({
+        featureName: "TICKETS_FROM_COIN_NPC",
+        now: previewOrder.createdAt,
+        game: state,
+      })
     ) {
       if (areBumpkinsOnHoliday(previewOrder.createdAt)) {
         return 0;

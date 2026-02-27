@@ -199,7 +199,7 @@ export const WithdrawItems: React.FC<Props> = ({
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
-  const inventoryReleases = getInventoryReleases(now);
+  const inventoryReleases = getInventoryReleases(now, state);
   const withdrawableItems = getKeys(inventory)
     .filter((itemName) => {
       const withdrawAt = inventoryReleases[itemName]?.withdrawAt;
