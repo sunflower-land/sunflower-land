@@ -30,6 +30,7 @@ import { getGoldRecoveryTimeForDisplay } from "features/game/events/landExpansio
 import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineCrimstone";
 import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
 import { useSelector } from "@xstate/react";
+import classNames from "classnames";
 import { CommodityName, ResourceName } from "features/game/types/resources";
 
 const LAND_TOOLS = getObjectEntries(WORKBENCH_TOOLS).filter(
@@ -242,7 +243,7 @@ export const ToolsGuide: React.FC = () => {
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
 
   return (
-    <InnerPanel className="scrollable max-h-[450px] overflow-y-scroll">
+    <InnerPanel className="scrollable max-h-[450px] overflow-y-scroll w-full min-w-full">
       <div className="p-1">
         <NoticeboardItems
           items={[
@@ -261,73 +262,61 @@ export const ToolsGuide: React.FC = () => {
           ]}
         />
       </div>
-      <table className="w-full border-collapse table-fixed">
-        <tbody className="w-full">
-          <tr className="w-full">
-            <td colSpan={3} className="py-1">
-              <Label type="default" className="mb-1">
-                {t("landTools")}
-              </Label>
-            </td>
-          </tr>
-          {LAND_TOOLS.map(([toolName, tool], index) => {
-            return (
-              <ToolRow
-                key={toolName}
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            );
-          })}
-          <tr>
-            <td colSpan={3} className="py-1">
-              <Label type="default" className="my-1">
-                {t("waterTools")}
-              </Label>
-            </td>
-          </tr>
-          {WATER_TOOLS.map(([toolName, tool], index) => {
-            return (
-              <ToolRow
-                key={toolName}
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            );
-          })}
-          <tr>
-            <td colSpan={3} className="py-1">
-              <Label type="default" className="my-1">
-                {t("animalTools")}
-              </Label>
-            </td>
-          </tr>
-          {ANIMAL_TOOLS.map(([toolName, tool], index) => {
-            return (
-              <ToolRow
-                key={toolName}
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="w-full min-w-full">
+        <div className="w-full py-1">
+          <Label type="default" className="mb-1">
+            {t("landTools")}
+          </Label>
+        </div>
+        {LAND_TOOLS.map(([toolName, tool], index) => (
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
+        ))}
+        <div className="w-full py-1">
+          <Label type="default" className="my-1">
+            {t("waterTools")}
+          </Label>
+        </div>
+        {WATER_TOOLS.map(([toolName, tool], index) => (
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
+        ))}
+        <div className="w-full py-1">
+          <Label type="default" className="my-1">
+            {t("animalTools")}
+          </Label>
+        </div>
+        {ANIMAL_TOOLS.map(([toolName, tool], index) => (
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
+        ))}
+      </div>
     </InnerPanel>
   );
 };
+
+const CELL_CLASS = "py-0.5 pr-2 align-top";
 
 interface ToolRowProps {
   toolName: WorkbenchToolName | LoveAnimalItem;
@@ -351,150 +340,166 @@ const ToolRow: React.FC<ToolRowProps> = ({
   const cooldowns = getToolNodeCooldownDisplays(toolName, state);
   const toolInfo = getToolInfo(toolName);
 
-  return (
-    <tr className={`${alternateBg ? "bg-[#ead4aa]" : ""} w-full`}>
-      <td className="py-0.5 pr-2 align-top w-[35%]">
-        <div className="flex items-center min-w-0 justify-between">
-          <div className="flex items-center">
-            <img
-              src={
-                ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""
-              }
-              className="w-6 h-auto mr-2 flex-shrink-0"
-              alt={tool.name}
-            />
-            <p className="text-xs truncate">{tool.name}</p>
-          </div>
-        </div>
-      </td>
-      {Array.isArray(toolInfo) ? (
-        toolInfo.length > 0 && (
-          <>
-            <td className="py-0.5 pr-2 align-top">
-              {toolInfo.map((info) => {
-                return (
-                  <div key={info.resource} className="flex items-center">
-                    <img
-                      src={ITEM_DETAILS[info.resource].image}
-                      className="w-3 h-3 mr-1 flex-shrink-0"
-                      alt={info.resource}
-                    />
-                    <span className="text-xxs">{info.resource}</span>
-                  </div>
-                );
-              })}
-            </td>
-            {toolInfo.filter((info) => info.nodeName).length > 0 && (
-              <td className="py-0.5 pr-2 align-top">
-                {toolInfo.map((info) => {
-                  if (!info.nodeName) return null;
-                  return (
-                    <div key={info.resource} className="flex flex-col gap-1">
-                      {info.nodeName.map((nodeName) => {
-                        return (
-                          <span key={nodeName} className="text-xxs">
-                            {nodeName}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </td>
-            )}
-          </>
-        )
-      ) : (
-        <td className="py-0.5 pr-2 align-top">
-          <span className="text-xxs">{toolInfo.description}</span>
-        </td>
-      )}
-      {cooldowns.length > 0 && (
-        <td className="py-0.5 pr-2 align-top">
-          <div className="flex flex-col flex-wrap gap-x-1">
-            {cooldowns.map((cooldown) => {
-              const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
-              const hasBoosts = cooldown.boostsUsed.length > 0;
+  const cells: React.ReactNode[] = [];
 
-              const recoveryTimeStr = secondsToString(
-                cooldown.recoverySeconds,
-                { length: hasBoosts ? "medium" : "short" },
-              );
-              const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-                length: hasBoosts ? "medium" : "short",
-              });
+  cells.push(
+    <div key="name" className="flex items-center min-w-0 justify-between">
+      <div className="flex items-center">
+        <img
+          src={ITEM_DETAILS[toolName as keyof typeof ITEM_DETAILS]?.image ?? ""}
+          className="w-6 h-auto mr-2 flex-shrink-0"
+          alt={tool.name}
+        />
+        <p className="text-xs truncate">{tool.name}</p>
+      </div>
+    </div>,
+  );
 
-              if (hasBoosts) {
-                return (
-                  <div
-                    key={cooldown.nodeLabel}
-                    className="flex flex-row items-start cursor-pointer gap-1 relative"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowBoostsKey(
-                        showBoostsKey === boostsKey ? null : boostsKey,
-                      );
-                    }}
-                  >
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center">
-                        <img
-                          src={SUNNYSIDE.icons.lightning}
-                          className="w-3 h-3 mr-1 flex-shrink-0"
-                          alt=""
-                        />
-                        <span className="text-xxs">
-                          {cooldown.recoverySeconds > 0
-                            ? recoveryTimeStr
-                            : t("instant")}
-                        </span>
-                      </div>
-                      {cooldown.baseSeconds > 0 && (
-                        <div className="flex items-center">
-                          <img
-                            src={SUNNYSIDE.icons.stopwatch}
-                            className="w-3 h-3 mr-1 flex-shrink-0"
-                            alt=""
-                          />
-                          <span className="text-xxs line-through">
-                            {baseTimeStr}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <BoostsDisplay
-                      boosts={cooldown.boostsUsed}
-                      show={showBoostsKey === boostsKey}
-                      state={state}
-                      onClick={() =>
-                        setShowBoostsKey(
-                          showBoostsKey === boostsKey ? null : boostsKey,
-                        )
-                      }
-                    />
-                  </div>
-                );
-              }
-
+  if (Array.isArray(toolInfo)) {
+    if (toolInfo.length > 0) {
+      if (toolInfo.filter((info) => info.nodeName).length > 0) {
+        cells.push(
+          <div key="nodes">
+            {toolInfo.map((info) => {
+              if (!info.nodeName) return null;
               return (
-                <div
-                  key={cooldown.nodeLabel}
-                  className="flex items-start gap-1"
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      className="w-3 h-3 mr-1 flex-shrink-0"
-                      alt=""
-                    />
-                    <span className="text-xxs">{recoveryTimeStr}</span>
-                  </div>
+                <div key={info.resource} className="flex flex-col gap-1">
+                  {info.nodeName.map((nodeName) => (
+                    <div key={nodeName} className="flex items-center">
+                      <img
+                        src={ITEM_DETAILS[nodeName].image}
+                        className="w-3 h-3 mr-1 flex-shrink-0"
+                        alt={nodeName}
+                      />
+                      <span className="text-xxs">{nodeName}</span>
+                    </div>
+                  ))}
                 </div>
               );
             })}
-          </div>
-        </td>
-      )}
-    </tr>
+          </div>,
+        );
+      }
+      cells.push(
+        <div key="resources">
+          {toolInfo.map((info) => (
+            <div key={info.resource} className="flex items-center">
+              <img
+                src={ITEM_DETAILS[info.resource].image}
+                className="w-3 h-3 mr-1 flex-shrink-0"
+                alt={info.resource}
+              />
+              <span className="text-xxs">{info.resource}</span>
+            </div>
+          ))}
+        </div>,
+      );
+    }
+  } else if ("description" in toolInfo) {
+    cells.push(
+      <span key="description" className="text-xxs">
+        {toolInfo.description}
+      </span>,
+    );
+  }
+
+  if (cooldowns.length > 0) {
+    cells.push(
+      <div key="cooldowns" className="flex flex-col flex-wrap gap-y-1">
+        {cooldowns.map((cooldown) => {
+          const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
+          const hasBoosts = cooldown.boostsUsed.length > 0;
+
+          const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
+            length: hasBoosts ? "medium" : "short",
+          });
+          const baseTimeStr = secondsToString(cooldown.baseSeconds, {
+            length: hasBoosts ? "medium" : "short",
+          });
+
+          if (hasBoosts) {
+            return (
+              <div
+                key={cooldown.nodeLabel}
+                className="flex items-start cursor-pointer gap-1 relative"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowBoostsKey(
+                    showBoostsKey === boostsKey ? null : boostsKey,
+                  );
+                }}
+              >
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center">
+                    <img
+                      src={SUNNYSIDE.icons.lightning}
+                      className="w-3 h-3 mr-1 flex-shrink-0"
+                      alt=""
+                    />
+                    <span className="text-xxs">
+                      {cooldown.recoverySeconds > 0
+                        ? recoveryTimeStr
+                        : t("instant")}
+                    </span>
+                  </div>
+                  {cooldown.baseSeconds > 0 && (
+                    <div className="flex items-center">
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        className="w-3 h-3 mr-1 flex-shrink-0"
+                        alt=""
+                      />
+                      <span className="text-xxs line-through">
+                        {baseTimeStr}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <BoostsDisplay
+                  boosts={cooldown.boostsUsed}
+                  show={showBoostsKey === boostsKey}
+                  state={state}
+                  onClick={() =>
+                    setShowBoostsKey(
+                      showBoostsKey === boostsKey ? null : boostsKey,
+                    )
+                  }
+                />
+              </div>
+            );
+          }
+
+          return (
+            <div key={cooldown.nodeLabel} className="flex items-start gap-1">
+              <div className="flex items-center">
+                <img
+                  src={SUNNYSIDE.icons.stopwatch}
+                  className="w-3 h-3 mr-1 flex-shrink-0"
+                  alt=""
+                />
+                <span className="text-xxs">{recoveryTimeStr}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>,
+    );
+  }
+
+  return (
+    <div
+      className={classNames("flex w-full min-w-full", {
+        "bg-brown-100": alternateBg,
+      })}
+    >
+      <div className={classNames(CELL_CLASS, "w-[30%] flex-shrink-0 min-w-0")}>
+        {cells[0]}
+      </div>
+      {cells.slice(1).map((cell, index) => (
+        <div key={index} className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
+          {cell}
+        </div>
+      ))}
+    </div>
   );
 };
