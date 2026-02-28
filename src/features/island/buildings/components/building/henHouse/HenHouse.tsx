@@ -75,10 +75,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
               "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
               (showAnimations ? " ready" : "")
             }
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-              marginLeft: `${PIXEL_SCALE * 8}px`,
-            }}
+            style={{ width: `${PIXEL_SCALE * 8}px`, }}
           />
         )}
         {hasSickChickens && (
@@ -88,10 +85,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
               "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
               (showAnimations ? " ready" : "")
             }
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              marginLeft: `${PIXEL_SCALE * -7}px`,
-            }}
+            style={{ width: `${PIXEL_SCALE * 7}px` }}
           />
         )}
         <img

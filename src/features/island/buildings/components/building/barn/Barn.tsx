@@ -170,10 +170,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
               "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
               (showAnimations ? " ready" : "")
             }
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-              marginLeft: `${PIXEL_SCALE * 8}px`,
-            }}
+            style={{ width: `${PIXEL_SCALE * 8}px` }}
           />
         )}
         {hasSickAnimals && (
@@ -183,10 +180,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
               "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
               (showAnimations ? " ready" : "")
             }
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              marginLeft: `${PIXEL_SCALE * -7}px`,
-            }}
+            style={{ width: `${PIXEL_SCALE * 7}px` }}
           />
         )}
         <img
