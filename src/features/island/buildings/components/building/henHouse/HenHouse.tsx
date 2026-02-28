@@ -10,6 +10,7 @@ import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
+import classNames from "classnames";
 
 const _hasHungryChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
@@ -58,36 +59,34 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   return (
     <>
       <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-        {hasHungryChickens && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
-              (showAnimations ? " ready" : "")
-            }
-            style={{ width: `${PIXEL_SCALE * 4}px` }}
-          />
-        )}
-        {chickensNeedLove && (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className={
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
-              (showAnimations ? " ready" : "")
-            }
-            style={{ width: `${PIXEL_SCALE * 4}px` }}
-          />
-        )}
-        {hasSickChickens && (
+        {hasSickChickens ? (
           <img
             src={SUNNYSIDE.icons.expression_stress}
-            className={
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
-              (showAnimations ? " ready" : "")
-            }
+            className={classNames(
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
+              { ready: showAnimations },
+            )}
+            style={{ width: `${PIXEL_SCALE * 7}px` }}
+          />
+        ) : hasHungryChickens ? (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={classNames(
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
+              { ready: showAnimations },
+            )}
             style={{ width: `${PIXEL_SCALE * 4}px` }}
           />
-        )}
+        ) : chickensNeedLove ? (
+          <img
+            src={SUNNYSIDE.icons.expression_chat}
+            className={classNames(
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
+              { ready: showAnimations },
+            )}
+            style={{ width: `${PIXEL_SCALE * 8}px` }}
+          />
+        ) : null}
         <img
           src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
