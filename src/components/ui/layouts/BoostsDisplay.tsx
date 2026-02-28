@@ -22,6 +22,7 @@ import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDeta
 import { startCase } from "lodash";
 import { BudNFTName } from "features/game/types/marketplace";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import classNames from "classnames";
 
 export const BoostsDisplay: React.FC<{
   boosts: { name: BoostName; value: string }[];
@@ -113,7 +114,7 @@ export const BoostsDisplay: React.FC<{
       show={show}
       onClick={onClick}
       onBackdropClick={onClick}
-      className={`flex flex-col gap-1 max-h-5 ${className}`}
+      className={classNames("flex flex-col gap-1 max-h-5", className)}
     >
       <div className="overflow-y-auto scrollable min-w-36 max-h-52 py-1 px-0.5">
         <div className="flex space-x-1 mb-1">
