@@ -11,7 +11,7 @@ export const GAME_SECONDS = 300;
 export const GAME_LIVES = 5;
 
 // Player
-export const WALKING_SPEED = 50;
+export const WALKING_SPEED = 70;
 
 // Attempts
 export const INITIAL_DATE = "2025-10-28"; // YYYY-MM-DD
@@ -39,53 +39,53 @@ export const INSTRUCTIONS: {
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource2`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource3`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource2`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource3`),
+    },
+  ];
 
 export const RESOURCES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource2`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource3`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource2`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource3`),
+    },
+  ];
 
 export const ENEMIES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.enemy1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.enemy2`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.enemy1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.enemy2`),
+    },
+  ];
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];

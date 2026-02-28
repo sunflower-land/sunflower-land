@@ -124,15 +124,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
   cursorKeys:
     | {
-        up: Phaser.Input.Keyboard.Key;
-        down: Phaser.Input.Keyboard.Key;
-        left: Phaser.Input.Keyboard.Key;
-        right: Phaser.Input.Keyboard.Key;
-        w?: Phaser.Input.Keyboard.Key;
-        s?: Phaser.Input.Keyboard.Key;
-        a?: Phaser.Input.Keyboard.Key;
-        d?: Phaser.Input.Keyboard.Key;
-      }
+      up: Phaser.Input.Keyboard.Key;
+      down: Phaser.Input.Keyboard.Key;
+      left: Phaser.Input.Keyboard.Key;
+      right: Phaser.Input.Keyboard.Key;
+      w?: Phaser.Input.Keyboard.Key;
+      s?: Phaser.Input.Keyboard.Key;
+      a?: Phaser.Input.Keyboard.Key;
+      d?: Phaser.Input.Keyboard.Key;
+    }
     | undefined;
 
   // Advanced server timing - not used
@@ -292,6 +292,16 @@ export abstract class BaseScene extends Phaser.Scene {
 
     try {
       this.initialiseMap();
+
+
+      const mapWidthPx = this.map.width * SQUARE_WIDTH;
+      const mapHeightPx = this.map.height * SQUARE_WIDTH;
+      const zoomX = window.innerWidth / mapWidthPx;
+      const zoomY = window.innerHeight / mapHeightPx;
+      this.zoom = Math.min(zoomX, zoomY);
+
+      this.createMapBorders();
+
       this.initialiseSounds();
 
       this.initializeShaders();
@@ -584,23 +594,123 @@ export abstract class BaseScene extends Phaser.Scene {
     );
   }
 
+  public createMapBorders() {
+    const mapWidthPx = this.map.width * SQUARE_WIDTH;
+    const extraWidthPx = (window.innerWidth - mapWidthPx * this.zoom) / 2;
+    if (extraWidthPx <= 0) return;
+
+    const extraCols = Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH);
+
+    const borderMapLeft = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
+    const borderMapRight = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
+
+    const tilesetKey = this.options.map?.tilesetUrl ?? "Sunnyside V3";
+    const imageKey = this.options.map?.imageKey ?? "tileset";
+    const tilesetLeft = borderMapLeft.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
+    const tilesetRight = borderMapRight.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
+
+    const TOP_LAYERS = [
+      "Decorations Layer 1",
+      "Decorations Foreground",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Decorations Layer 4",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+      "Building Decorations 2",
+    ];
+
+    this.map.layers.forEach((layerData) => {
+      if (layerData.name === "Ground") return;
+
+      const leftLayer = borderMapLeft.createBlankLayer(layerData.name, tilesetLeft, -extraCols * SQUARE_WIDTH, 0) as Phaser.Tilemaps.TilemapLayer;
+      const rightLayer = borderMapRight.createBlankLayer(layerData.name, tilesetRight, mapWidthPx, 0) as Phaser.Tilemaps.TilemapLayer;
+
+      for (let y = 0; y < this.map.height; y++) {
+        let startLeft = -1;
+        for (let x = 0; x < this.map.width; x++) {
+          const tile = this.map.getTileAt(x, y, true, layerData.name);
+          if (tile && tile.index !== -1) {
+            startLeft = x;
+            break;
+          }
+        }
+        if (startLeft !== -1) {
+          const availableLeft = this.map.width - startLeft;
+          const blockSizeLeft = Math.min(4, availableLeft);
+          const blockLeft = [];
+          for (let i = 0; i < blockSizeLeft; i++) {
+            blockLeft.push(this.map.getTileAt(startLeft + i, y, true, layerData.name));
+          }
+          for (let x = 0; x < extraCols; x++) {
+            const cx = x - extraCols;
+            const relative_x = cx - startLeft;
+            const blockIndex = (relative_x % blockSizeLeft + blockSizeLeft) % blockSizeLeft;
+            const tile = blockLeft[blockIndex];
+            if (tile && tile.index !== -1) {
+              leftLayer.putTileAt(tile.index - 1, x, y);
+            }
+          }
+        }
+
+        let startRight = -1;
+        for (let x = this.map.width - 1; x >= 0; x--) {
+          const tile = this.map.getTileAt(x, y, true, layerData.name);
+          if (tile && tile.index !== -1) {
+            startRight = x;
+            break;
+          }
+        }
+        if (startRight !== -1) {
+          const blockSizeRight = Math.min(4, startRight + 1);
+          const blockRight = [];
+          const startIdx = startRight - blockSizeRight + 1;
+          for (let i = 0; i < blockSizeRight; i++) {
+            blockRight.push(this.map.getTileAt(startIdx + i, y, true, layerData.name));
+          }
+          for (let x = 0; x < extraCols; x++) {
+            const cx = x + this.map.width;
+            const relative_x = cx - startIdx;
+            const blockIndex = relative_x % blockSizeRight;
+            const tile = blockRight[blockIndex];
+            if (tile && tile.index !== -1) {
+              rightLayer.putTileAt(tile.index - 1, x, y);
+            }
+          }
+        }
+      }
+
+      if (TOP_LAYERS.includes(layerData.name)) {
+        leftLayer.setDepth(1000000);
+        rightLayer.setDepth(1000000);
+      }
+    });
+  }
+
   public initialiseCamera() {
     const camera = this.cameras.main;
 
+    const mapWidthPx = this.map.width * SQUARE_WIDTH;
+    const mapHeightPx = this.map.height * SQUARE_WIDTH;
+
+    const extraWidthPx = (window.innerWidth - mapWidthPx * this.zoom) / 2;
+    const extraCols = extraWidthPx > 0 ? Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH) : 0;
+    const expandedWidthPx = extraCols * SQUARE_WIDTH;
+
     camera.setBounds(
+      -expandedWidthPx,
       0,
-      0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH,
+      mapWidthPx + expandedWidthPx * 2,
+      mapHeightPx,
     );
 
     camera.setZoom(this.zoom);
 
-    // Center it on canvas
-    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
-    const offsetY =
-      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
-    camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+    const offsetY = (window.innerHeight - mapHeightPx * this.zoom) / 2;
+    camera.setPosition(0, Math.max(offsetY, 0));
+    camera.centerOnX(mapWidthPx / 2);
 
     camera.fadeIn(500);
 
