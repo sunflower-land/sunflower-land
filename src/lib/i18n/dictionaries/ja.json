@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "バンプキンを作ろう",
   "signup.createBumpkinConfirmation": "本当にこのバンプキンと一緒に行きたいの？",
   "signup.createBumpkinConfirmation.two": "これはカスタマイズできる唯一の無料チャンスです。見た目を変えたい場合は、ワードローブまたはマーケットプレイスからウェアラブルを購入する必要があります。",
-  "equip.outfit": "衣装"
+  "equip.outfit": "衣装",
+  "leaderboard.loadMore": "さらに読み込む"
 }

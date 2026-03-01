@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "Create your Bumpkin",
   "signup.createBumpkinConfirmation": "Are you sure you want to go with this Bumpkin?",
   "signup.createBumpkinConfirmation.two": "This is your only free chance to customise. You will need to buy wearables from wardrobe or marketplace if you want to change your look.",
-  "equip.outfit": "Outfit"
+  "equip.outfit": "Outfit",
+  "leaderboard.loadMore": "load more"
 }

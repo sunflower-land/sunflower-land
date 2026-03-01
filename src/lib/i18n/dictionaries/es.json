@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "Crea tu Bumpkin",
   "signup.createBumpkinConfirmation": "¿Estás seguro de que quieres ir con este Bumpkin?",
   "signup.createBumpkinConfirmation.two": "Esta es tu única oportunidad gratuita de personalizarlo. Tendrás que comprar prendas vestibles en tu armario o en la tienda si quieres cambiar tu look.",
-  "equip.outfit": "Atuendo"
+  "equip.outfit": "Atuendo",
+  "leaderboard.loadMore": "cargar más"
 }

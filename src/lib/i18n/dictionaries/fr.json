@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "Créez votre Bumpkin",
   "signup.createBumpkinConfirmation": "Tu es sûre de vouloir choisir ce Bumpkin ?",
   "signup.createBumpkinConfirmation.two": "C'est votre seule chance gratuite de personnaliser. Vous devrez acheter des appareils portables dans votre garde-robe ou sur le marché si vous souhaitez changer de look.",
-  "equip.outfit": "Tenue"
+  "equip.outfit": "Tenue",
+  "leaderboard.loadMore": "charger plus"
 }

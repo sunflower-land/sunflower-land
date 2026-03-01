@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "Crie seu Bumpkin",
   "signup.createBumpkinConfirmation": "Tem certeza de que quer ir com esse caipira?",
   "signup.createBumpkinConfirmation.two": "Esta é sua única chance gratuita de personalizar. Você precisará comprar dispositivos vestíveis no guarda-roupa ou no mercado se quiser mudar sua aparência.",
-  "equip.outfit": "Roupa"
+  "equip.outfit": "Roupa",
+  "leaderboard.loadMore": "carregar mais"
 }

@@ -8097,5 +8097,6 @@
   "signup.createBumpkin": "创建你的 Bumpkin",
   "signup.createBumpkinConfirmation": "你确定要用这个 Bumpkin 吗？",
   "signup.createBumpkinConfirmation.two": "这是你唯一的免费定制机会。如果您想改变外观，则需要从衣柜或市场购买可穿戴设备。",
-  "equip.outfit": "装备"
+  "equip.outfit": "装备",
+  "leaderboard.loadMore": "加载更多"
 }
