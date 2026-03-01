@@ -66,11 +66,12 @@ export type LandscapingPlaceable =
   | BuildingName
   | CollectibleName
   | ResourceName
-  | NFTName;
+  | NFTName
+  | "FarmHand";
 
 export type LandscapingPlaceableType =
   | {
-      name: NFTName;
+      name: NFTName | "FarmHand";
       id: string;
     }
   | {
@@ -322,21 +323,24 @@ export const landscapingMachine = createMachine<
             REMOVE: {
               target: "idle",
               actions: [
-                sendParent(
-                  (_context, event: RemoveEvent) =>
-                    ({
-                      type: event.event,
-                      ...(event.name in RESOURCE_MOVE_EVENTS
-                        ? {}
-                        : event.name === "Bud" || event.name === "Pet"
-                          ? { nft: event.name }
-                          : { name: event.name }),
-                      id: event.id,
-                      ...(event.name in RESOURCES_REMOVE_ACTIONS
-                        ? {}
-                        : { location: event.location }),
-                    }) as PlacementEvent,
-                ),
+                sendParent((_context, event: RemoveEvent) => {
+                  const isResource = event.name in RESOURCE_MOVE_EVENTS;
+                  const isNFT = event.name === "Bud" || event.name === "Pet";
+                  const isFarmHand = event.name === "FarmHand";
+                  const hasLocation = !(event.name in RESOURCES_REMOVE_ACTIONS);
+
+                  let nameField = {};
+                  if (isNFT) nameField = { nft: event.name };
+                  else if (!isResource && !isFarmHand)
+                    nameField = { name: event.name };
+
+                  return {
+                    type: event.event,
+                    id: event.id,
+                    ...nameField,
+                    ...(hasLocation ? { location: event.location } : {}),
+                  };
+                }),
                 assign({ moving: (_) => undefined }),
               ],
             },
@@ -427,6 +431,14 @@ export const landscapingMachine = createMachine<
                           coordinates: { x, y },
                           id: placeable?.id,
                           nft: placeable?.name,
+                          location,
+                        } as PlacementEvent;
+                      }
+                      if (placeable?.name === "FarmHand" && placeable?.id) {
+                        return {
+                          type: action,
+                          coordinates: { x, y },
+                          id: placeable.id,
                           location,
                         } as PlacementEvent;
                       }

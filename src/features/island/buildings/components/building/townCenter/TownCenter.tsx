@@ -7,22 +7,19 @@ import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
-import { HomeBumpkins } from "../house/HomeBumpkins";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getHelpRequired } from "features/game/types/monuments";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const game = useSelector(gameService, _game);
   const farmId = useSelector(gameService, _farmId);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
@@ -99,14 +96,14 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
       </BuildingImageWrapper>
 
       <div
-        className="absolute w-full"
+        className="absolute w-full pointer-events-auto"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={game} />}
+        <HomeBumpkins game={game} />
       </div>
 
       <div

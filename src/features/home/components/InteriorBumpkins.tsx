@@ -18,6 +18,8 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>
@@ -25,6 +27,8 @@ const _farmHands = (state: MachineState) =>
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
+const _isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _gameState = (state: MachineState) => state.context.state;
 
 export const InteriorBumpkins: React.FC = () => {
   const { t } = useAppTranslation();
@@ -38,6 +42,15 @@ export const InteriorBumpkins: React.FC = () => {
   const farmHands = useSelector(gameService, _farmHands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const isLandscaping = useSelector(gameService, _isLandscaping);
+  const gameState = useSelector(gameService, _gameState);
+
+  const hasFarmHandPlacement =
+    isLandscaping && hasFeatureAccess(gameState, "PLACE_FARM_HAND");
+
+  const unplacedFarmHandIds = getKeys(farmHands).filter(
+    (id) => !farmHands[id].coordinates,
+  );
 
   const count = getKeys(farmHands).length + 1;
   const max = Object.keys(BED_FARMHAND_COUNT).length;
@@ -57,40 +70,58 @@ export const InteriorBumpkins: React.FC = () => {
     .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])
     .filter((bedName) => uniqueBeds.has(bedName));
 
+  const handlePlaceFarmHand = (id: string) => {
+    const landscaping = gameService.getSnapshot().children
+      .landscaping as MachineInterpreter;
+    landscaping.send("SELECT", {
+      placeable: { name: "FarmHand", id },
+      action: "farmHand.placed",
+      requirements: { coins: 0, ingredients: {} },
+    });
+  };
+
   return (
     <>
       <div className="flex justify-between items-end">
         <div className="flex">
-          <div
-            className="mr-2 cursor-pointer"
-            onClick={() => setShowBumpkinModal(true)}
-          >
+          {!isLandscaping && (
             <div
-              className="absolute"
-              style={{
-                top: `${-12 * PIXEL_SCALE}px`,
-              }}
+              className="mr-2 cursor-pointer"
+              onClick={() => setShowBumpkinModal(true)}
             >
-              <NPCPlaceable
-                key={JSON.stringify(bumpkin.equipped)}
-                parts={bumpkin.equipped}
+              <div
+                className="absolute"
+                style={{
+                  top: `${-12 * PIXEL_SCALE}px`,
+                }}
+              >
+                <NPCPlaceable
+                  key={JSON.stringify(bumpkin.equipped)}
+                  parts={bumpkin.equipped}
+                />
+              </div>
+
+              <img
+                src={SUNNYSIDE.icons.disc}
+                style={{
+                  width: `${18 * PIXEL_SCALE}px`,
+                  bottom: 0,
+                }}
               />
             </div>
+          )}
 
-            <img
-              src={SUNNYSIDE.icons.disc}
-              style={{
-                width: `${18 * PIXEL_SCALE}px`,
-                bottom: 0,
-              }}
-            />
-          </div>
-
-          {getKeys(farmHands).map((id) => (
+          {unplacedFarmHandIds.map((id) => (
             <div
               key={id}
-              className="mr-2 cursor-pointer"
-              onClick={() => setSelectedFarmHandId(id)}
+              className="mr-2 cursor-pointer relative"
+              onClick={() => {
+                if (hasFarmHandPlacement) {
+                  handlePlaceFarmHand(id);
+                } else if (!isLandscaping) {
+                  setSelectedFarmHandId(id);
+                }
+              }}
             >
               <div
                 className="absolute"
@@ -111,14 +142,31 @@ export const InteriorBumpkins: React.FC = () => {
                   bottom: 0,
                 }}
               />
+
+              {hasFarmHandPlacement && (
+                <img
+                  src={SUNNYSIDE.icons.click_icon}
+                  className="absolute z-10 animate-float"
+                  style={{
+                    width: `${10 * PIXEL_SCALE}px`,
+                    top: `${-13 * PIXEL_SCALE}px`,
+                    left: `${4 * PIXEL_SCALE}px`,
+                  }}
+                />
+              )}
             </div>
           ))}
         </div>
-        <div>
-          <Button onClick={() => setShowBuyFarmHandModal(true)} className="h-8">
-            <span>{`${t("add")} ${t("farmHand")}`}</span>
-          </Button>
-        </div>
+        {!isLandscaping && (
+          <div>
+            <Button
+              onClick={() => setShowBuyFarmHandModal(true)}
+              className="h-8"
+            >
+              <span>{`${t("add")} ${t("farmHand")}`}</span>
+            </Button>
+          </div>
+        )}
       </div>
 
       <Modal

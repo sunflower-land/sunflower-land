@@ -9,21 +9,18 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { useVisiting } from "lib/utils/visitUtils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
 export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const game = useSelector(gameService, _game);
   const farmId = useSelector(gameService, _farmId);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const { isVisiting } = useVisiting();
 
   const navigate = useNavigate();
@@ -101,14 +98,14 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
       </BuildingImageWrapper>
 
       <div
-        className="absolute w-full"
+        className="relative w-full pointer-events-auto"
         style={{
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={game} />}
+        <HomeBumpkins game={game} />
       </div>
 
       <div

@@ -27,6 +27,7 @@ const _showHelper = (state: MachineState) =>
   (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
@@ -35,7 +36,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
   const showHelper = useSelector(gameService, _showHelper);
   const token = useSelector(authService, _token);
-
+  const isLandscaping = useSelector(gameService, _isLandscaping);
   const { isVisiting } = useVisiting();
   const context = gameService.getSnapshot().context;
   const loggedInFarmId = context.visitorId ?? context.farmId;
@@ -46,6 +47,8 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   );
 
   const handleClick = () => {
+    if (isLandscaping) return;
+
     if (isVisiting) {
       const playerData: PlayerModalPlayer = {
         farmId: context.farmId,

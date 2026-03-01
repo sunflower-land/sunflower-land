@@ -1,4 +1,4 @@
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin, GameState, IslandType } from "features/game/types/game";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext, useState } from "react";
@@ -12,55 +12,101 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { useVisiting } from "lib/utils/visitUtils";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   game: GameState;
 }
 
-const FARM_HANDS_PER_BUILDING: Record<IslandType, number> = {
-  basic: 1,
+const BACKYARD_CAPACITY: Record<IslandType, number> = {
+  basic: 2,
   spring: 2,
   desert: 3,
   volcano: 4,
 };
 
+const _isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _gameState = (state: MachineState) => state.context.state;
+
 export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
+  const { isVisiting } = useVisiting();
+  const { t } = useAppTranslation();
 
   const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
-  const { isVisiting } = useVisiting();
+
+  const isLandscaping = useSelector(gameService, _isLandscaping);
+  const gameState = useSelector(gameService, _gameState);
+
+  const hasFarmHandPlacement =
+    isLandscaping && hasFeatureAccess(gameState, "PLACE_FARM_HAND");
 
   const bumpkin = game.bumpkin as Bumpkin;
-
   const farmHands = game.farmHands.bumpkins;
 
-  const { t } = useAppTranslation();
+  const unplacedFarmHandIds = getKeys(farmHands)
+    .filter((id) => !farmHands[id].coordinates)
+    .slice(0, BACKYARD_CAPACITY[game.island.type]);
+
+  const handlePlaceFarmHand = (id: string) => {
+    const landscaping = gameService.getSnapshot().children
+      .landscaping as MachineInterpreter;
+    landscaping.send("SELECT", {
+      placeable: { name: "FarmHand", id },
+      action: "farmHand.placed",
+      requirements: { coins: 0, ingredients: {} },
+    });
+  };
 
   return (
     <>
       <div className="flex w-full">
-        <div className="mr-1 relative" style={{ width: `${GRID_WIDTH_PX}px` }}>
+        <div
+          className={classNames("mr-1 relative", {
+            "pointer-events-none": isLandscaping,
+          })}
+          style={{ width: `${GRID_WIDTH_PX}px` }}
+        >
           <PlayerNPC parts={bumpkin.equipped} />
         </div>
 
-        {getKeys(farmHands)
-          .slice(0, FARM_HANDS_PER_BUILDING[game.island.type])
-          .map((id) => (
-            <div
-              key={id}
-              className={classNames("mr-1 cursor-pointer relative", {
-                "pointer-events-none": isVisiting,
-                "hover:img-highlight": !isVisiting,
-              })}
-              onClick={() => setSelectedFarmHandId(id)}
-              style={{ width: `${GRID_WIDTH_PX}px` }}
-            >
-              <NPCPlaceable
-                key={JSON.stringify(farmHands[id].equipped)}
-                parts={farmHands[id].equipped}
+        {unplacedFarmHandIds.map((id) => (
+          <div
+            key={id}
+            className={classNames("mr-1 cursor-pointer relative", {
+              "pointer-events-none": isVisiting,
+              "hover:img-highlight": !isVisiting && !isLandscaping,
+            })}
+            onClick={() => {
+              if (hasFarmHandPlacement) {
+                handlePlaceFarmHand(id);
+              } else if (!isLandscaping) {
+                setSelectedFarmHandId(id);
+              }
+            }}
+            style={{ width: `${GRID_WIDTH_PX}px` }}
+          >
+            <NPCPlaceable
+              key={JSON.stringify(farmHands[id].equipped)}
+              parts={farmHands[id].equipped}
+            />
+
+            {hasFarmHandPlacement && (
+              <img
+                src={SUNNYSIDE.icons.click_icon}
+                className="absolute z-10 animate-float"
+                style={{
+                  width: `${10 * PIXEL_SCALE}px`,
+                  top: `${-6 * PIXEL_SCALE}px`,
+                  left: `${4 * PIXEL_SCALE}px`,
+                }}
               />
-            </div>
-          ))}
+            )}
+          </div>
+        ))}
       </div>
 
       <Modal
