@@ -41,7 +41,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
 
   const showLoadMore =
     data.topTen &&
-    data.topTen.length > 0 &&
+    data.topTen.length >= 50 &&
     onLoadMore &&
     !hasExtended &&
     !isLoadingMore;
