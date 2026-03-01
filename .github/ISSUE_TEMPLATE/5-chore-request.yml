@@ -1,0 +1,24 @@
+name: Chore request
+description: Report some chore that needs to happen, like cleaning up code, moving files, etc.
+title: "[CHORE] "
+labels: ["chore"]
+assignees: []
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Please provide a brief summary of what chore needs to be completed.
+      placeholder: Describe the chore...
+    validations:
+      required: true
+  - type: textarea
+    id: todo-list
+    attributes:
+      label: TODO
+      description: Please provide a list of TODOs, which will therefore complete this chore.
+      placeholder: |
+        1. TODO
+        2. TODO
+    validations:
+      required: true
