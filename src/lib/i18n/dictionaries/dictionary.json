@@ -2654,6 +2654,7 @@
   "leaderboard.error": "Error loading leaderboard. Please try again later.",
   "leaderboard.initialising": "Calculating your rank. Please try again later.",
   "leaderboard.topTen": "Top ten",
+  "leaderboard.loadMore": "load more",
   "leaderboard.yourPosition": "Your position",
   "leaderboard.factionMembers": "Faction Members",
   "leaderboard.champions": "Champions",
