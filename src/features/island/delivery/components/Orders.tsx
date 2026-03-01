@@ -7,12 +7,13 @@ import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
 import lightning from "assets/icons/lightning.png";
-import chapterPoints from "assets/icons/red_medal_short.webp";
+import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import {
   QuestNPCName,
   TICKET_REWARDS,
+  areBumpkinsOnHoliday,
   generateDeliveryTickets,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
@@ -65,6 +66,7 @@ import { OrderCard } from "./OrderCard";
 import { LockedOrderCard } from "./LockedOrderCard";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -249,7 +251,6 @@ export const DeliveryOrders: React.FC<Props> = ({
     game: state,
     npc: previewOrder.from,
     now,
-    order: previewOrder,
   });
 
   // During ticket freeze (holiday), quest ticket deliveries are blocked.
@@ -261,6 +262,33 @@ export const DeliveryOrders: React.FC<Props> = ({
     isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0
       ? 0
       : tickets;
+
+  const getChapterPoints = () => {
+    if (
+      isCoinNPC(previewOrder.from) &&
+      hasTimeBasedFeatureAccess({
+        featureName: "TICKETS_FROM_COIN_NPC",
+        now: previewOrder.createdAt,
+        game: state,
+      })
+    ) {
+      if (areBumpkinsOnHoliday(previewOrder.createdAt)) {
+        return 0;
+      } else {
+        return getChapterTaskPoints({
+          task: "coinDelivery",
+          points: 10,
+        });
+      }
+    }
+    return getChapterTaskPoints({
+      task: "delivery",
+      points: ticketDisplay,
+    });
+  };
+
+  const chapterPoints = getChapterPoints();
+
   const isFrozenQuestOrder =
     isHoliday && isTicketNPC(previewOrder.from) && baseTickets > 0;
   const hasRewardAmount =
@@ -325,7 +353,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               >
                 {chapterTicket}
               </Label>
-              <img src={chapterPoints} className="h-5 mb-2 ml-0.5" />
+              <img src={chapterPointsIcon} className="h-5 mb-2 ml-0.5" />
             </div>
             {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -728,7 +756,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               </Label>
             )}
           </InnerPanel>
-          {!!ticketDisplay && (
+          {!!chapterPoints && (
             <div
               className={classNames(
                 `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
@@ -739,10 +767,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                 ...pixelVibrantBorderStyle,
               }}
             >
-              <img src={chapterPoints} className="h-4 mr-2" />
-              <p className="text-xs">
-                {`+${getChapterTaskPoints({ task: isCoinNPC(previewOrder.from) ? "coinDelivery" : "delivery", tickets: ticketDisplay })} ${chapter} points`}
-              </p>
+              <img src={chapterPointsIcon} className="h-4 mr-2" />
+              <p className="text-xs">{`+${chapterPoints} ${chapter} points`}</p>
             </div>
           )}
         </div>

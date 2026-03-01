@@ -40,6 +40,8 @@ import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import debounce from "lodash.debounce";
 import { BulkPurchaseModalContent } from "./BulkPurchaseModalContent";
 import { useDeepEffect } from "lib/utils/hooks/useDeepEffect";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -63,14 +65,23 @@ type BulkOrder = {
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
 const _balance = (state: MachineState) => state.context.state.balance;
-const _maxLimit = (item: InventoryItemName) => (state: MachineState) => {
-  const max = MAX_INVENTORY_ITEMS[item] || new Decimal(0);
-  const current = state.context.state.inventory[item] ?? new Decimal(0);
-  const old = state.context.state.previousInventory[item] ?? new Decimal(0);
-  const diff = current.minus(old);
+const _maxLimit =
+  (item: InventoryItemName, now: number) => (state: MachineState) => {
+    const hasOffchainResourceAccess = hasTimeBasedFeatureAccess({
+      featureName: "OFFCHAIN_RESOURCES",
+      now,
+      game: state.context.state,
+    });
 
-  return max.minus(diff).toNumber();
-};
+    if (hasOffchainResourceAccess) return Infinity;
+
+    const max = MAX_INVENTORY_ITEMS[item] || new Decimal(0);
+    const current = state.context.state.inventory[item] ?? new Decimal(0);
+    const old = state.context.state.previousInventory[item] ?? new Decimal(0);
+    const diff = current.minus(old);
+
+    return max.minus(diff).toNumber();
+  };
 
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
@@ -87,12 +98,16 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const params = useParams();
+  const now = useNow({
+    live: true,
+    autoEndAt: new Date("2026-03-02T00:00:00Z").getTime(),
+  });
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
   const maxLimit = useSelector(
     gameService,
-    _maxLimit(display.name as InventoryItemName),
+    _maxLimit(display.name as InventoryItemName, now),
   );
 
   const [selectedListing, setSelectedListing] = useState<Listing>();

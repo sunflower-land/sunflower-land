@@ -9,6 +9,7 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
+import { PlayerModal } from "features/social/PlayerModal";
 
 type Props = {
   farmId: number;
@@ -43,10 +44,17 @@ export const LeaderboardSection: React.FC<Props> = ({ farmId, token }) => {
   }
 
   return (
-    <InnerPanel className="mb-2">
-      <div className="p-1 space-y-2">
-        <TicketsLeaderboard isLoading={isLoading} data={data ?? null} />
-      </div>
-    </InnerPanel>
+    <>
+      <PlayerModal
+        loggedInFarmId={farmId}
+        token={token}
+        hasAirdropAccess={false}
+      />
+      <InnerPanel className="mb-2">
+        <div className="p-1 space-y-2">
+          <TicketsLeaderboard isLoading={isLoading} data={data ?? null} />
+        </div>
+      </InnerPanel>
+    </>
   );
 };

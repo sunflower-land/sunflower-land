@@ -23,6 +23,9 @@ import {
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { TextInput } from "components/ui/TextInput";
 import debounce from "lodash.debounce";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
+import { CreateFarmEvent } from "../lib/authMachine";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -34,14 +37,22 @@ export const NoAccount: React.FC = () => {
   const [showReferralId, setShowReferralId] = useState(false);
   const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
   const [showEmptyReferralModal, setShowEmptyReferralModal] = useState(false);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
   const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
   const handleCreateFarm = () => {
     if (!referralId) {
       setShowEmptyReferralModal(true);
     } else {
-      authService.send("CREATE_FARM");
+      setShowBumpkinModal(true);
     }
+  };
+  const handleBumpkinSave = (equipment: BumpkinParts) => {
+    setShowBumpkinModal(false);
+    authService.send({
+      type: "CREATE_FARM",
+      equipment,
+    } as CreateFarmEvent);
   };
 
   const validationStateStrings: Record<ValidationState, string> = {
@@ -145,6 +156,10 @@ export const NoAccount: React.FC = () => {
     );
   }
 
+  if (showBumpkinModal) {
+    return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
+  }
+
   return (
     <>
       <div className="px-2">
@@ -192,8 +207,8 @@ export const NoAccount: React.FC = () => {
         ]}
         onCancel={() => setShowEmptyReferralModal(false)}
         onConfirm={() => {
-          authService.send("CREATE_FARM");
           setShowEmptyReferralModal(false);
+          setShowBumpkinModal(true);
         }}
         confirmButtonLabel={"Yes I'm sure"}
       />

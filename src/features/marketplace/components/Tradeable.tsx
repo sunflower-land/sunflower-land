@@ -33,6 +33,12 @@ import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 
 const _trades = (state: MachineState) => state.context.state.trades;
+const _farmId = (state: MachineState) => state.context.farmId;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _state = (state: MachineState) => state.context.state;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _buds = (state: MachineState) => state.context.state.buds;
+const _pets = (state: MachineState) => state.context.state.pets;
 export const MAX_LIMITED_SALES = 1;
 export const getMaxPurchases = (
   item: MarketplaceTradeableName,
@@ -45,12 +51,15 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const location = useLocation();
 
-  const farmId = gameState.context.farmId;
+  const farmId = useSelector(gameService, _farmId);
   const authToken = authState.context.user.rawToken as string;
-  const inventory = gameState.context.state.inventory;
+  const inventory = useSelector(gameService, _inventory);
+  const state = useSelector(gameService, _state);
+  const wardrobe = useSelector(gameService, _wardrobe);
+  const buds = useSelector(gameService, _buds);
+  const pets = useSelector(gameService, _pets);
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -63,17 +72,16 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const display = getTradeableDisplay({
     id: Number(id),
     type: collection as CollectionName,
-    state: gameState.context.state,
+    state,
   });
 
   let count = 0;
 
-  const game = gameState.context.state;
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[Number(id)];
 
     if (name in COLLECTIBLES_DIMENSIONS) {
-      count = game.inventory[name]?.toNumber() ?? 0;
+      count = inventory[name]?.toNumber() ?? 0;
     } else {
       count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
     }
@@ -81,15 +89,15 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   if (display.type === "wearables") {
     const name = ITEM_NAMES[Number(id)];
-    count = game.wardrobe[name] ?? 0;
+    count = wardrobe[name] ?? 0;
   }
 
   if (display.type === "buds") {
-    count = game.buds?.[Number(id)] ? 1 : 0;
+    count = buds?.[Number(id)] ? 1 : 0;
   }
 
   if (display.type === "pets") {
-    count = game.pets?.nfts?.[Number(id)] ? 1 : 0;
+    count = pets?.nfts?.[Number(id)] ? 1 : 0;
   }
 
   const {
@@ -185,12 +193,14 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
             hideLimited={hideLimited}
             display={display}
             tradeable={tradeable}
+            state={state}
           />
         ) : (
           <TradeableInfo
             display={display}
             tradeable={tradeable}
             hideLimited={hideLimited}
+            state={state}
           />
         )}
       </div>

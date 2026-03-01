@@ -219,10 +219,7 @@ export const AnimalDeal: React.FC<{
       points = getSickAnimalRewardAmount(points);
     }
 
-    pointsAwarded = getChapterTaskPoints({
-      task: "bounty",
-      tickets: points,
-    });
+    pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
   }
 
   return (

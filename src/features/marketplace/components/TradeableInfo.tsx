@@ -16,14 +16,14 @@ import lockIcon from "assets/icons/lock.png";
 import crownIcon from "assets/icons/vip.webp";
 import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
-  INVENTORY_RELEASES,
+  WEARABLE_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -183,25 +183,27 @@ export const TradeableDescription: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   const { t } = useAppTranslation();
   const now = useNow();
 
   let tradeAt = undefined;
   let withdrawAt = undefined;
   if (tradeable?.collection === "wearables") {
-    tradeAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.tradeAt;
-    withdrawAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.withdrawAt;
+    tradeAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.tradeAt;
+    withdrawAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.withdrawAt;
   }
 
+  const inventoryReleases = getInventoryReleases(now, state);
   if (tradeable?.collection === "collectibles") {
-    tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
+    tradeAt = inventoryReleases[display.name as InventoryItemName]?.tradeAt;
     withdrawAt =
-      INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
+      inventoryReleases[display.name as InventoryItemName]?.withdrawAt;
   }
 
-  const canTrade = !!tradeAt && tradeAt <= new Date();
-  const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+  const canTrade = !!tradeAt && tradeAt <= new Date(now);
+  const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
 
   const isWearable = display.type === "wearables";
   const isCollectible = display.type === "collectibles";
@@ -348,7 +350,8 @@ export const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   return (
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
@@ -356,6 +359,7 @@ export const TradeableInfo: React.FC<{
         display={display}
         tradeable={tradeable}
         hideLimited={hideLimited}
+        state={state}
       />
       {display.type === "collectibles" &&
         isTradeResource(display.name as InventoryItemName) && <ResourceTaxes />}
@@ -367,7 +371,8 @@ export const TradeableMobileInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  state: GameState;
+}> = ({ display, tradeable, hideLimited, state }) => {
   const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
@@ -382,6 +387,7 @@ export const TradeableMobileInfo: React.FC<{
         display={display}
         tradeable={tradeable}
         hideLimited={hideLimited}
+        state={state}
       />
     </>
   );

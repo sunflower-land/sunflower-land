@@ -34,7 +34,7 @@ export const BuyGemsWidget: React.FC = () => {
         <p className="text-xs flex-1">{t("announcement.flowerGemsDiscount")}</p>
         <a
           href={
-            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/schedule#usdflower-x-gems"
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20"
           }
           target="_blank"
           rel="noopener noreferrer"

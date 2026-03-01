@@ -195,8 +195,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  experiments: ["GEM_BOOSTS"],
-
   ...INITIAL_RESOURCES,
 
   conversations: ["hank-intro"],

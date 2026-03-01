@@ -37,16 +37,6 @@ Read the official docs/ litepaper here: [docs.sunflower-land.com](https://docs.s
 
 Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-start)
 
-### ❓ Need Help ?
-
-First Read the FAQ's here: [FAQ's](https://sunflowerland.freshdesk.com/support/solutions/101000195014)
-
-Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
-
-### ‼️ Have a suggestion/proposal/cool idea ?
-
-Please add a new idea for the community to vote on, here: [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
-
 # 🎨 Sunnyside Assets
 
 Sunflower Land uses crops, icons and tiles from Daniel Diggle's SunnySide Asset Pack.

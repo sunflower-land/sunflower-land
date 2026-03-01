@@ -6,8 +6,8 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import {
-  BUMPKIN_RELEASES,
-  INVENTORY_RELEASES,
+  WEARABLE_RELEASES,
+  getInventoryReleases,
 } from "features/game/types/withdrawables";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
@@ -19,12 +19,17 @@ import Decimal from "decimal.js-light";
 import { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
+import { GameState } from "features/game/types/game";
 
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const [authState] = useActor(authService);
+  const now = useNow();
 
   const token = authState.context.user.rawToken as string;
   const {
@@ -45,8 +50,15 @@ export const WhatsNew: React.FC = () => {
   const sortedCollectibles = sortItems(
     collectibles?.items ?? [],
     "collectibles",
+    now,
+    state,
   );
-  const sortedWearables = sortItems(wearables?.items ?? [], "wearables");
+  const sortedWearables = sortItems(
+    wearables?.items ?? [],
+    "wearables",
+    now,
+    state,
+  );
 
   return (
     <div className="flex flex-wrap">
@@ -122,16 +134,22 @@ const ItemsList: React.FC<{
   );
 };
 
-const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
-  const oneMonthAgo = new Date();
+const sortItems = (
+  items: Tradeable[],
+  type: "collectibles" | "wearables",
+  now: number,
+  state: GameState,
+) => {
+  const oneMonthAgo = new Date(now);
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const filteredItems: (Tradeable & { tradeAt: number })[] = [];
+  const inventoryReleases = getInventoryReleases(now, state);
 
   items.forEach((item) => {
-    let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
+    let tradeAt = inventoryReleases[KNOWN_ITEMS[item.id]]?.tradeAt;
     if (type === "wearables") {
-      tradeAt = BUMPKIN_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
+      tradeAt = WEARABLE_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
     }
 
     if (tradeAt && tradeAt >= oneMonthAgo) {

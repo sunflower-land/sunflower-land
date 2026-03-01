@@ -57,7 +57,8 @@ type EffectName =
   | "marketplace.buyBulkResources"
   | "leagues.updated"
   | "liquidity.registered"
-  | "appInstall.generate";
+  | "appInstall.generate"
+  | "farmHand.unlocked";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -110,6 +111,7 @@ export type StateMachineStateName =
   | "cheeringFarm"
   | "followingFarm"
   | "completingProject"
+  | "unlockingFarmhand"
   | "helpingFarm"
   | "claimingAuction"
   | "wakingPet"
@@ -169,6 +171,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",
+  "farmHand.unlocked": "unlockingFarmhand",
   "farm.helped": "helpingFarm",
   "auction.claimed": "claimingAuction",
   "pet.wakeUp": "wakingPet",
