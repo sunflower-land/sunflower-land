@@ -14,7 +14,6 @@ import {
   Bumpkin,
   Collectibles,
   CropPlot,
-  CriticalHitName,
   GameState,
   Inventory,
   InventoryItemName,
@@ -57,8 +56,6 @@ import {
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
-import { prngChance } from "lib/prng";
-import { KNOWN_IDS } from "features/game/types";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -71,7 +68,6 @@ type Options = {
   state: Readonly<GameState>;
   action: LandExpansionPlantAction;
   createdAt?: number;
-  farmId: number;
 };
 
 type IsPlotFertile = {
@@ -198,46 +194,14 @@ export function getAffectedWeather({
 export function getCropTime({
   game,
   crop,
-  prngArgs,
 }: {
   game: GameState;
   crop: CropName | GreenHouseCropName;
-  prngArgs?: { farmId: number; counter: number };
 }): { multiplier: number; boostsUsed: { name: BoostName; value: string }[] } {
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
   const skills = bumpkin?.skills ?? {};
-
-  // Only check PRNG-based boosts if prngArgs are provided
-  if (prngArgs) {
-    const itemId = KNOWN_IDS[crop];
-    const prngFn = (criticalHitName: CriticalHitName, chance: number) =>
-      prngChance({
-        ...prngArgs,
-        itemId,
-        chance,
-        criticalHitName,
-      });
-
-    // Insta crops on wings
-    const hasAngelWing = isWearableActive({ name: "Angel Wings", game });
-    const hasDevilWing = isWearableActive({ name: "Devil Wings", game });
-
-    if (hasAngelWing && prngFn("Angel Wings", 30)) {
-      return {
-        multiplier: 0,
-        boostsUsed: [{ name: "Angel Wings", value: "Instant" }],
-      };
-    }
-
-    if (hasDevilWing && prngFn("Devil Wings", 30)) {
-      return {
-        multiplier: 0,
-        boostsUsed: [{ name: "Devil Wings", value: "Instant" }],
-      };
-    }
-  }
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     multiplier = multiplier * 0.9;
@@ -301,7 +265,6 @@ interface GetCropPlotTimeArgs {
   game: GameState;
   plot?: CropPlot;
   createdAt: number;
-  prngArgs?: { farmId: number; counter: number };
 }
 /**
  * Based on boosts, how long a crop will take
@@ -311,7 +274,6 @@ export const getCropPlotTime = ({
   game,
   plot,
   createdAt,
-  prngArgs,
 }: GetCropPlotTimeArgs): {
   time: number;
   aoe: AOE;
@@ -330,7 +292,6 @@ export const getCropPlotTime = ({
     getCropTime({
       game,
       crop,
-      prngArgs,
     });
   seconds *= baseMultiplier;
   boostsUsed.push(...baseBoostsUsed);
@@ -560,7 +521,6 @@ export function plantCropOnPlot({
   game,
   createdAt,
   seedItem,
-  farmId,
 }: {
   plotId: string;
   cropName: CropName;
@@ -568,7 +528,6 @@ export function plantCropOnPlot({
   game: GameState;
   createdAt: number;
   seedItem: InventoryItemName;
-  farmId: number;
 }): {
   updatedPlot: CropPlot;
   boostedTime: number;
@@ -627,10 +586,6 @@ export function plantCropOnPlot({
     game,
     plot,
     createdAt,
-    prngArgs: {
-      farmId,
-      counter: game.farmActivity[`${cropName} Planted`] ?? 0,
-    },
   });
 
   const activityName: FarmActivityName = `${cropName} Planted`;
@@ -667,7 +622,6 @@ export function plant({
   state,
   action,
   createdAt = Date.now(),
-  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crops: plots } = stateCopy;
@@ -696,7 +650,6 @@ export function plant({
       game: stateCopy,
       createdAt,
       seedItem: action.item,
-      farmId,
     });
 
     stateCopy.aoe = aoe;
