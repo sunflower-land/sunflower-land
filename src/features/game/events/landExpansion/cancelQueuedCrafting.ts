@@ -68,12 +68,14 @@ export function recalculateCraftingQueue({
       const { seconds: recipeTime } = getBoostedCraftingTime({
         game,
         time: recipe.time,
-        farmId,
-        itemId:
-          recipe.type === "collectible"
-            ? KNOWN_IDS[recipe.name as InventoryItemName]
-            : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        prngArgs: {
+          farmId,
+          itemId:
+            recipe.type === "collectible"
+              ? KNOWN_IDS[recipe.name as InventoryItemName]
+              : ITEM_IDS[recipe.name as BumpkinItem],
+          counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        },
       });
       readyAt = startAt + recipeTime;
     }
