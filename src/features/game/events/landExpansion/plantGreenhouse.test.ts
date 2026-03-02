@@ -10,11 +10,9 @@ const farm: GameState = {
 };
 
 describe("plantGreenhouse", () => {
-  const farmId = 1;
   it("requires greenhouse exists", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 1,
@@ -28,7 +26,6 @@ describe("plantGreenhouse", () => {
   it("requires greenhouse to be placed", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 1,
@@ -54,7 +51,6 @@ describe("plantGreenhouse", () => {
   it("requires player has seed", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 1,
@@ -80,7 +76,6 @@ describe("plantGreenhouse", () => {
   it("requires player has oil", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 1,
@@ -109,7 +104,6 @@ describe("plantGreenhouse", () => {
   it("requires pot exists", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 12,
@@ -142,7 +136,6 @@ describe("plantGreenhouse", () => {
   it("requires plant does not already exist", () => {
     expect(() =>
       plantGreenhouse({
-        farmId,
         action: {
           type: "greenhouse.planted",
           id: 1,
@@ -182,7 +175,6 @@ describe("plantGreenhouse", () => {
   it("plants", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -224,7 +216,6 @@ describe("plantGreenhouse", () => {
   it("subtracts seed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -261,7 +252,6 @@ describe("plantGreenhouse", () => {
   it("tracks analytics", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -298,7 +288,6 @@ describe("plantGreenhouse", () => {
   it("boosts +1 rice yield when Non La Hat is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -347,7 +336,6 @@ describe("plantGreenhouse", () => {
   it("boosts +2 Greenhouse Crop yield when Pharaoh Gnome is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -402,7 +390,6 @@ describe("plantGreenhouse", () => {
   it("boosts +0.2 grape yield when Grape Pants is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -451,7 +438,6 @@ describe("plantGreenhouse", () => {
   it("boosts +0.25 grape yield when Faction Shield is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -506,7 +492,6 @@ describe("plantGreenhouse", () => {
   it("boosts of Faction Shield wont apply when pledged in different faction", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -561,7 +546,6 @@ describe("plantGreenhouse", () => {
   it("boosts of Faction Shield wont apply when not pledged in a faction", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -610,7 +594,6 @@ describe("plantGreenhouse", () => {
   it("boosts +0.25 Olive yield when Faction Quiver is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -665,7 +648,6 @@ describe("plantGreenhouse", () => {
   it("boosts in Olive of Faction Quiver wont apply when pledged in different faction", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -720,7 +702,6 @@ describe("plantGreenhouse", () => {
   it("boosts in Olive of Faction Quiver wont apply when not pledged in a faction", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -769,7 +750,6 @@ describe("plantGreenhouse", () => {
   it("gives a 50% time boost when Turbo Sprout is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -817,7 +797,6 @@ describe("plantGreenhouse", () => {
   it("boosts +2 Greenhouse Fruit yield when Pharaoh Gnome is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -869,7 +848,6 @@ describe("plantGreenhouse", () => {
   it("boosts +0.25 grape yield when Vinny is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -916,7 +894,6 @@ describe("plantGreenhouse", () => {
   it("boosts +1 grape yield when Grape Granny is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -963,7 +940,6 @@ describe("plantGreenhouse", () => {
   it("doesn't boost Grape by when Camel Onesie is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1012,7 +988,6 @@ describe("plantGreenhouse", () => {
   it("boosts +1 Olive yield when Olive Shield is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1061,7 +1036,6 @@ describe("plantGreenhouse", () => {
   it("boosts +0.25 rice yield when Rice Panda is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1108,7 +1082,6 @@ describe("plantGreenhouse", () => {
   it("uses oil", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1150,7 +1123,6 @@ describe("plantGreenhouse", () => {
   it("applies normal crop yield boosts", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1197,7 +1169,6 @@ describe("plantGreenhouse", () => {
   it("does not apply Castle bud crop yield boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1253,7 +1224,6 @@ describe("plantGreenhouse", () => {
   it("applies normal fruit yield boosts", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1305,7 +1275,6 @@ describe("plantGreenhouse", () => {
   it("applies time warp totem speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1357,7 +1326,6 @@ describe("plantGreenhouse", () => {
   it("applies Super Totem speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1409,7 +1377,6 @@ describe("plantGreenhouse", () => {
   it("doesn't stack Super Totem and Time Warp totem", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1469,7 +1436,6 @@ describe("plantGreenhouse", () => {
   it("applies Saphiro bud speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1524,7 +1490,6 @@ describe("plantGreenhouse", () => {
   it("applies normal fruit speed boosts", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1576,7 +1541,6 @@ describe("plantGreenhouse", () => {
   it("applies Super Totem normal fruit speed boosts", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1628,7 +1592,6 @@ describe("plantGreenhouse", () => {
   it("boosts Olive growth speed by 10% with Olive Express skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         seed: "Olive Seed",
@@ -1676,7 +1639,6 @@ describe("plantGreenhouse", () => {
   it("boosts Rice growth speed by 10% with Rice Rocket skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         seed: "Rice Seed",
@@ -1724,7 +1686,6 @@ describe("plantGreenhouse", () => {
   it("boosts Grape growth speed by 10% with Vine Velocity skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         seed: "Grape Seed",
@@ -1772,7 +1733,6 @@ describe("plantGreenhouse", () => {
   it("requires 1 less oil with Slick Saver skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         seed: "Rice Seed",
@@ -1815,7 +1775,6 @@ describe("plantGreenhouse", () => {
   it("requires 1 more seed with Seeded Bounty skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         seed: "Rice Seed",
@@ -1858,7 +1817,6 @@ describe("plantGreenhouse", () => {
   it("does not give 50% time boost when Solflare Aegis is worn in summer season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1912,7 +1870,6 @@ describe("plantGreenhouse", () => {
   it("does not give 50% time boost when Autumn's Embrace is worn in summer season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -1966,7 +1923,6 @@ describe("plantGreenhouse", () => {
   it("does not give a 50% time boost to FRUITS when Autumn's Embrace is worn in summer season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -2020,7 +1976,6 @@ describe("plantGreenhouse", () => {
   it("does not boost +1 Greenhouse Crop yield when wearing Blossom Ward at Spring Season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -2074,7 +2029,6 @@ describe("plantGreenhouse", () => {
   it("does not boost +1 Greenhouse Crop yield when wearing Frozen Heart at Winter Season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -2128,7 +2082,6 @@ describe("plantGreenhouse", () => {
   it("does not give yield boosts to FRUITS wearing Blossom Ward at Spring Season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,
@@ -2181,7 +2134,6 @@ describe("plantGreenhouse", () => {
   it("does not give 5% time boost to Greenhouse Crops when wearing Green Thumb skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
-      farmId,
       action: {
         type: "greenhouse.planted",
         id: 1,

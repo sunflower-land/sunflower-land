@@ -65,7 +65,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed: "Sunflower Seed",
       },
-      farmId: 1,
     });
 
     // Should plant on 3 empty plots (plots 1, 2, 4)
@@ -95,7 +94,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed: "Sunflower Seed",
       },
-      farmId: 1,
     });
 
     // Should only plant 2 seeds (limited by inventory)
@@ -124,7 +122,6 @@ describe("bulkPlant", () => {
           type: "seeds.bulkPlanted",
           seed: "Sunflower Seed",
         },
-        farmId: 1,
       }),
     ).toThrow("Not enough seeds to plant");
   });
@@ -165,7 +162,6 @@ describe("bulkPlant", () => {
           type: "seeds.bulkPlanted",
           seed: "Sunflower Seed",
         },
-        farmId: 1,
       }),
     ).toThrow("Not enough seeds to plant");
   });
@@ -179,7 +175,6 @@ describe("bulkPlant", () => {
           type: "seeds.bulkPlanted",
           seed: "" as any,
         },
-        farmId: 1,
       }),
     ).toThrow("No seed selected");
   });
@@ -193,7 +188,6 @@ describe("bulkPlant", () => {
           type: "seeds.bulkPlanted",
           seed: "Invalid Seed" as any,
         },
-        farmId: 1,
       }),
     ).toThrow("Not a seed");
   });
@@ -223,7 +217,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed: "Sunflower Seed",
       },
-      farmId: 1,
     });
 
     expect(newState.aoe).toBeDefined();
@@ -245,7 +238,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed: "Sunflower Seed",
       },
-      farmId: 1,
     });
 
     const plantedCrops = Object.values(newState.crops)
@@ -272,7 +264,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed,
       },
-      farmId: 1,
     });
 
     expect(newState.farmActivity["Rhubarb Planted"]).toBe(2);
@@ -297,7 +288,6 @@ describe("bulkPlant", () => {
         type: "seeds.bulkPlanted",
         seed: "Potato Seed",
       },
-      farmId: 1,
     });
 
     const plantedCrops = Object.values(newState.crops).filter(
