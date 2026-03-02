@@ -6,7 +6,8 @@ import {
   MachineState,
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
-import { CraftingQueueItem } from "features/game/types/game";
+import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
+import { KNOWN_IDS } from "features/game/types";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,9 +15,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { RecipeIngredient, RECIPES } from "features/game/lib/crafting";
-import { findMatchingRecipe } from "features/game/events/landExpansion/startCrafting";
+import {
+  findMatchingRecipe,
+  getBoostedCraftingTime,
+} from "features/game/events/landExpansion/startCrafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ButtonPanel } from "components/ui/Panel";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
@@ -309,13 +313,69 @@ export const CraftTab: React.FC<Props> = ({
   const handleCraft = () => {
     if (craftingStatus === "pending") return;
 
+    const wasAddingToQueue = queueSelection.slot > 0;
+
     gameService.send("crafting.started", { ingredients: selectedItems });
     if (!currentRecipe) gameService.send("SAVE");
+
+    if (wasAddingToQueue && currentRecipe) {
+      const recipeStartAt =
+        queue.length > 0
+          ? queue[queue.length - 1].readyAt
+          : (cooking?.readyAt ?? Date.now());
+
+      const { seconds: recipeTime } = getBoostedCraftingTime({
+        game: state,
+        time: currentRecipe.time,
+        prngArgs: {
+          farmId,
+          itemId:
+            currentRecipe.type === "collectible"
+              ? KNOWN_IDS[currentRecipe.name as InventoryItemName]
+              : ITEM_IDS[currentRecipe.name as BumpkinItem],
+          counter: state.farmActivity[`${currentRecipe.name} Crafted`] ?? 0,
+        },
+      });
+
+      const newItem: CraftingQueueItem = {
+        name: currentRecipe.name,
+        type: currentRecipe.type,
+        startedAt: recipeStartAt,
+        readyAt: recipeStartAt + recipeTime,
+      };
+
+      const addedSlotIndex = queueSelection.slot;
+      setQueueSelection({
+        slot: 0,
+        item: newItem,
+        viewedSlotIndex: addedSlotIndex,
+      });
+      setSelectedItems(getRecipeIngredients(newItem.name));
+      setSelectedIngredient(null);
+    } else if (wasAddingToQueue) {
+      setQueueSelection({
+        slot: 0,
+        item: cooking ?? defaultQueueItem,
+        viewedSlotIndex: 0,
+      });
+      setSelectedItems(getCurrentCraftingRecipeIngredients());
+      setSelectedIngredient(null);
+    }
   };
 
   const handleCollect = () => {
+    const nextCooking = queue[0] ?? cooking;
     gameService.send("crafting.collected");
-    setSelectedItems(getCurrentCraftingRecipeIngredients());
+    setQueueSelection({
+      slot: 0,
+      item: nextCooking ?? defaultQueueItem,
+      viewedSlotIndex: 0,
+    });
+    setSelectedItems(
+      nextCooking
+        ? getRecipeIngredients(nextCooking.name)
+        : Array(9).fill(null),
+    );
   };
 
   const handleClearIngredients = () => {
@@ -416,10 +476,7 @@ export const CraftTab: React.FC<Props> = ({
   const isViewingInProgressRecipe = isViewingMode;
 
   const isViewingInProgressItem =
-    isViewingMode &&
-    queueSelection.item.name === cooking.name &&
-    queueSelection.item.readyAt === cooking.readyAt &&
-    queueSelection.item.type === cooking.type;
+    isViewingMode && queueSelection.viewedSlotIndex === 0;
 
   const isViewingQueuedRecipe =
     queueSelection.slot === 0 && !isViewingInProgressItem;
