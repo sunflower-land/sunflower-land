@@ -29,6 +29,11 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { PetInfo } from "./PetInfo";
 import { PetCard } from "./PetCard";
 import { isWearableActive } from "features/game/lib/wearables";
+import * as Auth from "features/auth/lib/Provider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -39,6 +44,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const now = useNow({ live: true });
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
+  const authToken = useSelector(authService, _authToken);
   const [selectedFeed, setSelectedFeed] = useState<
     {
       petId: PetName | number;
@@ -268,12 +275,9 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   };
 
   const handleResetRequests = (petId: PetName | number) => {
-    gameService.send("REVEAL", {
-      event: {
-        type: "reset.petRequests",
-        petId,
-        createdAt: new Date(now),
-      },
+    gameService.send("reset.petRequests", {
+      effect: { type: "reset.petRequests", petId },
+      authToken,
     });
   };
   return (

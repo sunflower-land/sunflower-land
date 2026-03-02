@@ -48,8 +48,10 @@ export function useTimeUntilUTCReset() {
   return getTimeUntil(tomorrowUTC);
 }
 
-const _revealing = (state: MachineState) => state.matches("revealing");
-const _revealed = (state: MachineState) => state.matches("revealed");
+const _resettingPetRequests = (state: MachineState) =>
+  state.matches("resettingPetRequests");
+const _resettingPetRequestsSuccess = (state: MachineState) =>
+  state.matches("resettingPetRequestsSuccess");
 
 export const ResetFoodRequests: React.FC<Props> = ({
   petData,
@@ -64,15 +66,21 @@ export const ResetFoodRequests: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const isRevealingState = useSelector(gameService, _revealing);
-  const isRevealedState = useSelector(gameService, _revealed);
+  const isResettingPetRequestsState = useSelector(
+    gameService,
+    _resettingPetRequests,
+  );
+  const isResettingPetRequestsSuccessState = useSelector(
+    gameService,
+    _resettingPetRequestsSuccess,
+  );
 
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
 
   const timeUntilUTCReset = useTimeUntilUTCReset();
 
-  if (isRevealingState) {
+  if (isResettingPetRequestsState) {
     return (
       <PanelWrapper>
         <Loading text={t("pets.loadingFoodRequests")} />
@@ -80,7 +88,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
     );
   }
 
-  if (isRevealedState) {
+  if (isResettingPetRequestsSuccessState) {
     return (
       <PanelWrapper>
         <Label type="success">{t("pets.requestsReset")}</Label>
