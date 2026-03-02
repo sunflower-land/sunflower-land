@@ -5,19 +5,19 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const CraftStatus: React.FC<{
   isPending: boolean;
   isCrafting: boolean;
-  isReady: boolean;
+  isViewingReadyItem: boolean;
   isViewingQueuedRecipe: boolean;
   isPreparingQueueSlot?: boolean;
 }> = ({
   isPending,
   isCrafting,
-  isReady,
+  isViewingReadyItem,
   isViewingQueuedRecipe,
   isPreparingQueueSlot = false,
 }) => {
   const { t } = useAppTranslation();
 
-  if (isReady) {
+  if (isViewingReadyItem) {
     return (
       <Label type="success" className="mb-1">
         {t("crafting.readyToCollect")}

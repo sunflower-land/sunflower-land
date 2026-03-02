@@ -34,7 +34,9 @@ export function speedUpCrafting({
       throw new Error("Crafting box is not crafting");
     }
 
-    const currentReadyAt = queue.length > 0 ? queue[0].readyAt : readyAt;
+    const firstInProgress = queue.find((q) => q.readyAt > createdAt);
+    const currentReadyAt =
+      queue.length > 0 ? (firstInProgress?.readyAt ?? readyAt) : readyAt;
     if (currentReadyAt <= createdAt) {
       throw new Error("Crafting box is not ready to be sped up");
     }
@@ -56,16 +58,21 @@ export function speedUpCrafting({
     game = makeGemHistory({ game, amount: gems });
 
     if (queue.length > 0) {
-      game.craftingBox.queue = recalculateCraftingQueue({
-        queue,
+      const readyItems = queue.filter((q) => q.readyAt <= createdAt);
+      const inProgressItems = queue.filter((q) => q.readyAt > createdAt);
+
+      const recalculated = recalculateCraftingQueue({
+        queue: inProgressItems,
         game,
         farmId,
         firstItemReadyAt: createdAt,
       });
-      const current = game.craftingBox.queue?.[0];
-      if (current) {
-        game.craftingBox.readyAt = current.readyAt;
-        game.craftingBox.startedAt = current.startedAt;
+
+      game.craftingBox.queue = [...readyItems, ...recalculated];
+      const firstActive = game.craftingBox.queue?.[0];
+      if (firstActive) {
+        game.craftingBox.readyAt = firstActive.readyAt;
+        game.craftingBox.startedAt = firstActive.startedAt;
       }
     } else {
       craftingBox.readyAt = createdAt;

@@ -85,8 +85,10 @@ export const CraftTab: React.FC<Props> = ({
         ]
       : []);
 
-  /** readyAt for the currently crafting item (queue format or legacy) */
-  const effectiveReadyAt = craftingQueue[0]?.readyAt ?? craftingReadyAt;
+  const effectiveReadyAt =
+    craftingQueue.length > 0
+      ? Math.max(...craftingQueue.map((i) => i.readyAt))
+      : craftingReadyAt;
 
   const needsLiveTime =
     craftingStatus === "crafting" &&
@@ -174,22 +176,24 @@ export const CraftTab: React.FC<Props> = ({
     }
   }, []);
 
+  const liveDisplayItems = [cooking, ...queue, ...readyProducts].filter(
+    Boolean,
+  );
+  const viewedItem =
+    liveDisplayItems[queueSelection.viewedSlotIndex] ?? queueSelection.item;
+
+  const viewedReadyAt = viewedItem.readyAt || effectiveReadyAt;
   const remainingTime = useMemo(() => {
     if (
       craftingStatus !== "crafting" ||
-      effectiveReadyAt == null ||
-      typeof effectiveReadyAt !== "number" ||
-      !Number.isFinite(effectiveReadyAt)
+      viewedReadyAt == null ||
+      typeof viewedReadyAt !== "number" ||
+      !Number.isFinite(viewedReadyAt)
     ) {
       return null;
     }
-    return Math.max(0, effectiveReadyAt - now);
-  }, [craftingStatus, effectiveReadyAt, now]);
-
-  const isReady =
-    craftingStatus === "crafting" &&
-    remainingTime !== null &&
-    remainingTime <= 0;
+    return Math.max(0, viewedReadyAt - now);
+  }, [craftingStatus, viewedReadyAt, now]);
 
   const button = useSound("button");
 
@@ -521,6 +525,19 @@ export const CraftTab: React.FC<Props> = ({
       item: "Instant Craft",
       type: "Fee",
     });
+
+    const nextCooking = queue[0];
+    setQueueSelection({
+      slot: 0,
+      item: nextCooking ?? defaultQueueItem,
+      viewedSlotIndex: 0,
+    });
+    setSelectedItems(
+      nextCooking
+        ? getRecipeIngredients(nextCooking.name)
+        : getCurrentCraftingRecipeIngredients(),
+    );
+    setSelectedIngredient(null);
   };
 
   const canEditGrid = cooking == null || queueSelection.slot > 0;
@@ -536,7 +553,7 @@ export const CraftTab: React.FC<Props> = ({
     queueSelection.viewedSlotIndex > 0;
 
   const isViewingReadyItem =
-    queueSelection.item.readyAt > 0 && queueSelection.item.readyAt <= now;
+    viewedItem.readyAt > 0 && viewedItem.readyAt <= now;
 
   const isDisabled =
     isPending ||
@@ -545,7 +562,10 @@ export const CraftTab: React.FC<Props> = ({
     isViewingInProgressRecipe ||
     isViewingQueuedRecipe;
 
-  const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
+  const gems = getInstantGems({
+    readyAt: cooking?.readyAt ?? craftingReadyAt,
+    game: state,
+  });
 
   return (
     <>
@@ -554,7 +574,7 @@ export const CraftTab: React.FC<Props> = ({
           <CraftStatus
             isPending={isPending}
             isCrafting={isCrafting}
-            isReady={isReady}
+            isViewingReadyItem={isViewingReadyItem}
             isViewingQueuedRecipe={isViewingQueuedRecipe}
             isPreparingQueueSlot={queueSelection.slot > 0}
           />
@@ -621,15 +641,14 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             remainingTime={remainingTime}
             isIdle={isIdle}
-            showRecipeContext={!isViewingInProgressItem}
+            showRecipeContext={!isViewingInProgressItem && !isViewingReadyItem}
             key={`${currentRecipe?.name}-${queueSelection.slot}-${queueSelection.item?.name ?? ""}`}
             farmId={farmId}
           />
           <CraftButton
             isCrafting={isCrafting}
             isPending={isPending}
-            isReady={isReady}
-            hasReadyProducts={readyProducts.length > 0}
+            isViewingReadyItem={isViewingReadyItem}
             handleCollect={handleCollect}
             handleCraft={handleCraft}
             handleCancelQueuedItem={

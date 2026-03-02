@@ -12,8 +12,7 @@ import vipIcon from "assets/icons/vip.webp";
 export const CraftButton: React.FC<{
   isCrafting: boolean;
   isPending: boolean;
-  isReady: boolean;
-  hasReadyProducts: boolean;
+  isViewingReadyItem: boolean;
   handleCollect: () => void;
   handleCraft: () => void;
   handleCancelQueuedItem?: () => void;
@@ -30,8 +29,7 @@ export const CraftButton: React.FC<{
 }> = ({
   isCrafting,
   isPending,
-  isReady,
-  hasReadyProducts,
+  isViewingReadyItem,
   handleCollect,
   handleCraft,
   handleCancelQueuedItem,
@@ -66,24 +64,9 @@ export const CraftButton: React.FC<{
   const addToQueueDisabled =
     isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
 
-  if (isCrafting && isReady) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        <Button className="mt-2 whitespace-nowrap" onClick={handleCollect}>
-          {t("collect")}
-        </Button>
-      </div>
-    );
-  }
-
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        {hasReadyProducts && (
-          <Button className="whitespace-nowrap" onClick={handleCollect}>
-            {t("collect")}
-          </Button>
-        )}
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
@@ -98,7 +81,7 @@ export const CraftButton: React.FC<{
             {t("recipes.addToQueue")}
           </Button>
         )}
-        <Button onClick={handleCancelQueuedItem}>{t("cancel")}</Button>
+        <Button onClick={handleCancelQueuedItem}>{t("remove")}</Button>
       </div>
     );
   }
@@ -106,7 +89,7 @@ export const CraftButton: React.FC<{
   if (isCrafting || isPending) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        {hasReadyProducts && (
+        {isViewingReadyItem && (
           <Button className="whitespace-nowrap" onClick={handleCollect}>
             {t("collect")}
           </Button>
@@ -125,7 +108,7 @@ export const CraftButton: React.FC<{
             {t("recipes.addToQueue")}
           </Button>
         )}
-        {!isPreparingQueueSlot && !hasReadyProducts && (
+        {!isPreparingQueueSlot && !isViewingReadyItem && (
           <Button
             disabled={!inventory.Gem?.gte(gems) || isPending}
             onClick={() => setShowConfirmation(true)}

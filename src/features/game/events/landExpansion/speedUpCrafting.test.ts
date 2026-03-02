@@ -218,6 +218,178 @@ describe("speedUpCrafting", () => {
     expect(newState.craftingBox.queue?.[1].readyAt).toBeGreaterThan(createdAt);
   });
 
+  it("speeds up first in-progress item when queue has ready items at the front", () => {
+    const now = Date.now();
+    const readyItemReadyAt = now - 5000;
+    const inProgressReadyAt = now + 2 * 60 * 60 * 1000;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(100) },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: readyItemReadyAt,
+            startedAt: readyItemReadyAt - 10000,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: inProgressReadyAt,
+            startedAt: now,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: readyItemReadyAt - 10000,
+        readyAt: readyItemReadyAt,
+        recipes: {},
+      },
+    };
+
+    const newState = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(newState.craftingBox.queue).toHaveLength(2);
+    expect(newState.craftingBox.queue?.[0].readyAt).toEqual(readyItemReadyAt);
+    expect(newState.craftingBox.queue?.[1].readyAt).toEqual(now);
+  });
+
+  it("charges gems based on in-progress item, not the ready item", () => {
+    const now = Date.now();
+    const readyItemReadyAt = now - 5000;
+    const inProgressReadyAt = now + 2 * 60 * 60 * 1000;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(100) },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: readyItemReadyAt,
+            startedAt: readyItemReadyAt - 10000,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: inProgressReadyAt,
+            startedAt: now,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: readyItemReadyAt - 10000,
+        readyAt: readyItemReadyAt,
+        recipes: {},
+      },
+    };
+
+    const expectedGems = getInstantGems({
+      readyAt: inProgressReadyAt,
+      now,
+      game: state,
+    });
+
+    const newState = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(newState.inventory.Gem).toEqual(new Decimal(100 - expectedGems));
+  });
+
+  it("throws when all queue items are already ready", () => {
+    const now = Date.now();
+
+    expect(() =>
+      speedUpCrafting({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { Gem: new Decimal(100) },
+          craftingBox: {
+            status: "crafting",
+            queue: [
+              {
+                name: "Doll",
+                readyAt: now - 5000,
+                startedAt: now - 15000,
+                type: "collectible",
+              },
+            ],
+            item: { collectible: "Doll" },
+            startedAt: now - 15000,
+            readyAt: now - 5000,
+            recipes: {},
+          },
+        },
+        action: { type: "crafting.spedUp" },
+        createdAt: now,
+        farmId: 1,
+      }),
+    ).toThrow("Crafting box is not ready to be sped up");
+  });
+
+  it("preserves ready items and recalculates only in-progress items", () => {
+    const now = Date.now();
+    const readyAt1 = now - 10000;
+    const readyAt2 = now - 5000;
+    const inProgressReadyAt = now + 60000;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(100) },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: readyAt1,
+            startedAt: readyAt1 - 10000,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: readyAt2,
+            startedAt: readyAt2 - 10000,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: inProgressReadyAt,
+            startedAt: now,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: readyAt1 - 10000,
+        readyAt: readyAt1,
+        recipes: {},
+      },
+    };
+
+    const newState = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(newState.craftingBox.queue).toHaveLength(3);
+    expect(newState.craftingBox.queue?.[0].readyAt).toEqual(readyAt1);
+    expect(newState.craftingBox.queue?.[1].readyAt).toEqual(readyAt2);
+    expect(newState.craftingBox.queue?.[2].readyAt).toEqual(now);
+  });
+
   it("updates gem history", () => {
     const currentDateString = new Date(createdAt)
       .toISOString()
