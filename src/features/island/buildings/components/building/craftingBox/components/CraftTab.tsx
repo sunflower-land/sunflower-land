@@ -224,13 +224,11 @@ export const CraftTab: React.FC<Props> = ({
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [selectedQueueSlot, setSelectedQueueSlot] = useState<number | null>(
-    null,
-  );
+  const [selectedQueueSlot, setSelectedQueueSlot] = useState<number>(0);
   const [selectedQueuedItem, setSelectedQueuedItem] = useState<{
     slotIndex: number;
     item: CraftingQueueItem;
-  } | null>(null);
+  }>({ slotIndex: 0, item: cooking ?? null });
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
@@ -355,7 +353,7 @@ export const CraftTab: React.FC<Props> = ({
     sourceIndex?: number,
   ) => {
     if (
-      selectedQueuedItem != null ||
+      (cooking != null && selectedQueueSlot === 0) ||
       isPending ||
       (isCrafting && !canAddToQueue)
     ) {
@@ -469,14 +467,17 @@ export const CraftTab: React.FC<Props> = ({
 
   const handleClearIngredients = () => {
     button.play();
-    setSelectedQueuedItem(null);
-    if (selectedQueueSlot != null && canAddToQueue) {
+    const defaultItem = cooking ?? craftingQueue[0];
+    if (defaultItem) {
+      setSelectedQueuedItem({ slotIndex: 0, item: defaultItem });
+    }
+    if (selectedQueueSlot > 0 && canAddToQueue) {
       setSelectedItems(getCurrentCraftingRecipeIngredients());
     } else {
       setSelectedItems(Array(9).fill(null));
     }
     setSelectedIngredient(null);
-    setSelectedQueueSlot(null);
+    setSelectedQueueSlot(0);
   };
 
   const getCurrentCraftingRecipeIngredients =
@@ -509,52 +510,49 @@ export const CraftTab: React.FC<Props> = ({
     isEmpty: boolean,
     item?: CraftingQueueItem,
   ) => {
+    // If clicking the same slot that's already selected, do nothing
+    const isSameSlotSelected =
+      (isEmpty && selectedQueueSlot === slotIndex) ||
+      (!isEmpty &&
+        item &&
+        selectedQueuedItem.slotIndex === slotIndex &&
+        selectedQueuedItem.item.name === item.name &&
+        selectedQueuedItem.item.readyAt === item.readyAt &&
+        selectedQueuedItem.item.type === item.type);
+    if (isSameSlotSelected) return;
+
     if (isEmpty) {
       if (!canAddToQueue) return;
-      if (selectedQueueSlot === slotIndex) {
-        setSelectedQueueSlot(null);
-        setSelectedQueuedItem(null);
-        setSelectedItems(getCurrentCraftingRecipeIngredients());
-        setSelectedIngredient(null);
-      } else {
-        setSelectedQueueSlot(slotIndex);
-        setSelectedQueuedItem(null);
-        setSelectedItems(Array(9).fill(null));
-        setSelectedIngredient(null);
+      setSelectedQueueSlot(slotIndex);
+      if (cooking) {
+        setSelectedQueuedItem({ slotIndex: 0, item: cooking });
       }
+      setSelectedItems(Array(9).fill(null));
+      setSelectedIngredient(null);
     } else if (item) {
-      // Clicked on a queued item - show recipe and allow cancel
-      if (
-        selectedQueuedItem?.slotIndex === slotIndex &&
-        selectedQueuedItem?.item.name === item.name &&
-        selectedQueuedItem?.item.readyAt === item.readyAt
-      ) {
-        // Deselect if clicking same item
-        setSelectedQueuedItem(null);
-        setSelectedQueueSlot(null);
-        setSelectedItems(getCurrentCraftingRecipeIngredients());
-        setSelectedIngredient(null);
-      } else {
-        setSelectedQueuedItem({ slotIndex, item });
-        setSelectedQueueSlot(null);
-        setSelectedItems(getRecipeIngredientsForItem(item));
-        setSelectedIngredient(null);
-      }
+      // Clicked on an item - show recipe; allow cancel only for queued (not in-progress)
+      setSelectedQueuedItem({ slotIndex, item });
+      setSelectedQueueSlot(0);
+      setSelectedItems(getRecipeIngredientsForItem(item));
+      setSelectedIngredient(null);
     } else {
-      setSelectedQueueSlot(null);
-      setSelectedQueuedItem(null);
+      setSelectedQueueSlot(0);
+      if (cooking) {
+        setSelectedQueuedItem({ slotIndex: 0, item: cooking });
+      }
       setSelectedItems(getCurrentCraftingRecipeIngredients());
       setSelectedIngredient(null);
     }
   };
 
   const handleCancelQueuedItem = () => {
-    if (!selectedQueuedItem) return;
     button.play();
     gameService.send("crafting.cancelled", {
       queueItem: selectedQueuedItem.item,
     });
-    setSelectedQueuedItem(null);
+    if (cooking) {
+      setSelectedQueuedItem({ slotIndex: 0, item: cooking });
+    }
     setSelectedItems(getCurrentCraftingRecipeIngredients());
     setSelectedIngredient(null);
   };
@@ -569,10 +567,17 @@ export const CraftTab: React.FC<Props> = ({
     });
   };
 
-  const isViewingInProgressRecipe =
-    cooking != null && selectedQueueSlot == null && selectedQueuedItem == null;
+  const isViewingInProgressRecipe = cooking != null && selectedQueueSlot === 0;
 
-  const isViewingQueuedRecipe = selectedQueuedItem != null;
+  const isViewingInProgressItem =
+    cooking != null &&
+    selectedQueueSlot === 0 &&
+    selectedQueuedItem.item.name === cooking.name &&
+    selectedQueuedItem.item.readyAt === cooking.readyAt &&
+    selectedQueuedItem.item.type === cooking.type;
+
+  const isViewingQueuedRecipe =
+    selectedQueueSlot === 0 && !isViewingInProgressItem;
 
   const isDisabled =
     isPending ||
@@ -607,7 +612,11 @@ export const CraftTab: React.FC<Props> = ({
             <div
               className="flex "
               key={`${index}-${item}`}
-              draggable={!selectedQueuedItem && !isPending && !!item}
+              draggable={
+                (cooking == null || selectedQueueSlot > 0) &&
+                !isPending &&
+                !!item
+              }
               onDragStart={(e) =>
                 handleDragStart(e, item as RecipeIngredient, index)
               }
@@ -624,7 +633,7 @@ export const CraftTab: React.FC<Props> = ({
                 }
                 onClick={() => handleBoxSelect(index)}
                 disabled={
-                  selectedQueuedItem != null ||
+                  (cooking != null && selectedQueueSlot === 0) ||
                   isPending ||
                   (isCrafting && !canAddToQueue)
                 }
@@ -657,14 +666,12 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             remainingTime={remainingTime}
             isIdle={isIdle}
-            showRecipeContext={
-              selectedQueueSlot != null || selectedQueuedItem != null
-            }
-            key={`${currentRecipe?.name}-${selectedQueueSlot}-${selectedQueuedItem?.item.name}`}
+            showRecipeContext={!isViewingInProgressItem}
+            key={`${currentRecipe?.name}-${selectedQueueSlot}-${selectedQueuedItem.item?.name ?? ""}`}
             farmId={farmId}
           />
           <div>
-            {selectedQueuedItem ? (
+            {isViewingQueuedRecipe ? (
               <Button
                 className="mt-2 whitespace-nowrap"
                 onClick={handleCancelQueuedItem}
@@ -687,11 +694,9 @@ export const CraftTab: React.FC<Props> = ({
                 canAddToQueue={canAddToQueue}
                 isQueueFull={isQueueFull}
                 isPreparingQueueSlot={
-                  selectedQueueSlot != null || selectedQueuedItem != null
+                  selectedQueueSlot > 0 && !isViewingInProgressItem
                 }
-                isPreparingEmptyQueueSlot={
-                  selectedQueueSlot != null && selectedQueuedItem == null
-                }
+                isPreparingEmptyQueueSlot={selectedQueueSlot > 0}
               />
             )}
           </div>
@@ -705,7 +710,9 @@ export const CraftTab: React.FC<Props> = ({
           readyProducts={readyProducts}
           onClose={onClose}
           selectedQueueSlot={selectedQueueSlot}
-          selectedQueuedItemSlot={selectedQueuedItem?.slotIndex ?? null}
+          selectedQueuedItemSlot={
+            selectedQueueSlot > 0 ? -1 : selectedQueuedItem.slotIndex
+          }
           onSlotSelect={handleQueueSlotSelect}
         />
       )}
@@ -740,7 +747,9 @@ export const CraftTab: React.FC<Props> = ({
                 <div
                   key={itemName}
                   draggable={
-                    !selectedQueuedItem && !isPending && amount.greaterThan(0)
+                    (cooking == null || selectedQueueSlot > 0) &&
+                    !isPending &&
+                    amount.greaterThan(0)
                   }
                   onDragStart={(e) =>
                     handleDragStart(e, { collectible: itemName })
@@ -755,7 +764,7 @@ export const CraftTab: React.FC<Props> = ({
                       handleIngredientSelect({ collectible: itemName })
                     }
                     disabled={
-                      selectedQueuedItem != null ||
+                      (cooking != null && selectedQueueSlot === 0) ||
                       isPending ||
                       (isCrafting && !canAddToQueue)
                     }
@@ -819,7 +828,7 @@ export const CraftTab: React.FC<Props> = ({
                 recipe={currentRecipe}
                 remainingTime={remainingTime}
                 isIdle={isIdle}
-                showRecipeContext={selectedQueueSlot != null}
+                showRecipeContext={selectedQueueSlot > 0}
                 key={`${currentRecipe?.name}-${selectedQueueSlot}`}
                 farmId={farmId}
               />
