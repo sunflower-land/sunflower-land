@@ -289,29 +289,15 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {LAND_TOOLS.map(([toolName, tool], index) => (
-          <React.Fragment key={toolName}>
-            <div className="block sm:hidden">
-              <ToolRowMobile
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-                isLandTool
-              />
-            </div>
-            <div className="hidden sm:block">
-              <ToolRow
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            </div>
-          </React.Fragment>
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
         ))}
         <div className="w-full py-1">
           <Label type="default" className="my-1">
@@ -319,28 +305,15 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {WATER_TOOLS.map(([toolName, tool], index) => (
-          <React.Fragment key={toolName}>
-            <div className="block sm:hidden">
-              <ToolRowMobile
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            </div>
-            <div className="hidden sm:block">
-              <ToolRow
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            </div>
-          </React.Fragment>
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
         ))}
         <div className="w-full py-1">
           <Label type="default" className="my-1">
@@ -348,28 +321,15 @@ export const ToolsGuide: React.FC = () => {
           </Label>
         </div>
         {ANIMAL_TOOLS.map(([toolName, tool], index) => (
-          <React.Fragment key={toolName}>
-            <div className="block sm:hidden">
-              <ToolRowMobile
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            </div>
-            <div className="hidden sm:block">
-              <ToolRow
-                toolName={toolName}
-                tool={tool}
-                state={state}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            </div>
-          </React.Fragment>
+          <ToolRow
+            key={toolName}
+            toolName={toolName}
+            tool={tool}
+            state={state}
+            alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
         ))}
       </div>
     </InnerPanel>
@@ -385,7 +345,6 @@ interface ToolRowProps {
   alternateBg?: boolean;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
-  isLandTool?: boolean;
 }
 
 const CooldownCell: React.FC<{
@@ -507,7 +466,6 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
   alternateBg,
   showBoostsKey,
   setShowBoostsKey,
-  isLandTool,
 }) => {
   const data = getToolDisplayData(toolName, state);
 
@@ -526,7 +484,29 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
 
       {data.type === "description" ? (
         <span className="text-xxs">{data.description}</span>
-      ) : data.type === "items" && isLandTool && data.items.length > 0 ? (
+      ) : data.type === "items" &&
+        data.items.length > 0 &&
+        data.sharedCooldown ? (
+        <div className="flex w-full gap-2">
+          <div className="flex flex-1 min-w-0 flex-col gap-0.5">
+            <InlineItems
+              items={data.items.map((item) => ({
+                icon: ITEM_DETAILS[item.resource].image,
+                text: item.resource,
+              }))}
+            />
+          </div>
+          <div className="flex flex-1 min-w-0 items-start">
+            <CooldownCell
+              cooldown={data.sharedCooldown}
+              toolName={toolName}
+              showBoostsKey={showBoostsKey}
+              setShowBoostsKey={setShowBoostsKey}
+              state={state}
+            />
+          </div>
+        </div>
+      ) : data.type === "items" && data.items.length > 0 ? (
         <div className="flex flex-col gap-1">
           {data.items.map((item) => (
             <div key={item.resource} className="flex w-full gap-2">
@@ -540,6 +520,8 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
                       />
                     ))
                   : null}
+              </div>
+              <div className="flex flex-1 min-w-0 flex-col gap-0.5 items-start">
                 <LineItem
                   icon={ITEM_DETAILS[item.resource].image}
                   text={item.resource}
@@ -559,67 +541,12 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
             </div>
           ))}
         </div>
-      ) : isCrabPotStyle && data.type === "items" && data.sharedCooldown ? (
-        <>
-          <InlineItems
-            items={data.items.map((item) => ({
-              icon: ITEM_DETAILS[item.resource].image,
-              text: item.resource,
-            }))}
-          />
-          <CooldownCell
-            cooldown={data.sharedCooldown}
-            toolName={toolName}
-            showBoostsKey={showBoostsKey}
-            setShowBoostsKey={setShowBoostsKey}
-            state={state}
-          />
-        </>
-      ) : data.type === "items" && data.items.length > 0 ? (
-        <>
-          {data.items.map((item) => (
-            <React.Fragment key={item.resource}>
-              {item.nodeName && item.nodeName.length > 0 ? (
-                item.nodeName.length > 1 ? (
-                  <InlineItems
-                    items={item.nodeName.map((nodeName) => ({
-                      icon: ITEM_DETAILS[nodeName].image,
-                      text: nodeName,
-                    }))}
-                  />
-                ) : (
-                  <LineItem
-                    icon={
-                      ITEM_DETAILS[
-                        item.nodeName[0] as keyof typeof ITEM_DETAILS
-                      ].image
-                    }
-                    text={item.nodeName[0]}
-                  />
-                )
-              ) : null}
-              <LineItem
-                icon={ITEM_DETAILS[item.resource].image}
-                text={item.resource}
-              />
-              {item.cooldown && (
-                <CooldownCell
-                  cooldown={item.cooldown}
-                  toolName={toolName}
-                  showBoostsKey={showBoostsKey}
-                  setShowBoostsKey={setShowBoostsKey}
-                  state={state}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </>
       ) : null}
     </div>
   );
 };
 
-const ToolRow: React.FC<ToolRowProps> = ({
+const ToolRowDesktop: React.FC<ToolRowProps> = ({
   toolName,
   tool,
   state,
@@ -756,3 +683,35 @@ const ToolRow: React.FC<ToolRowProps> = ({
 
   return null;
 };
+
+const ToolRow: React.FC<ToolRowProps> = ({
+  toolName,
+  tool,
+  state,
+  alternateBg,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => (
+  <>
+    <div className="block sm:hidden">
+      <ToolRowMobile
+        toolName={toolName}
+        tool={tool}
+        state={state}
+        alternateBg={alternateBg}
+        showBoostsKey={showBoostsKey}
+        setShowBoostsKey={setShowBoostsKey}
+      />
+    </div>
+    <div className="hidden sm:block">
+      <ToolRowDesktop
+        toolName={toolName}
+        tool={tool}
+        state={state}
+        alternateBg={alternateBg}
+        showBoostsKey={showBoostsKey}
+        setShowBoostsKey={setShowBoostsKey}
+      />
+    </div>
+  </>
+);
