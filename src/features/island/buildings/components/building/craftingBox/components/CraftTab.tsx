@@ -450,6 +450,7 @@ export const CraftTab: React.FC<Props> = ({
             isCrafting={isCrafting}
             isReady={isReady}
             isViewingQueuedRecipe={isViewingQueuedRecipe}
+            isPreparingQueueSlot={queueSelection.slot > 0}
           />
           <ButtonPanel
             disabled={isDisabled}

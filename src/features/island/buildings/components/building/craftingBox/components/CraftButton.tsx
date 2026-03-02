@@ -49,17 +49,6 @@ export const CraftButton: React.FC<{
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  if (isViewingQueuedRecipe && handleCancelQueuedItem) {
-    return (
-      <Button
-        className="mt-2 whitespace-nowrap"
-        onClick={handleCancelQueuedItem}
-      >
-        {t("cancel")}
-      </Button>
-    );
-  }
-
   const hasRequiredIngredients = useMemo(() => {
     return selectedItems.every((ingredient) => {
       if (!ingredient) return true;
@@ -73,6 +62,17 @@ export const CraftButton: React.FC<{
       return true;
     });
   }, [selectedItems, inventory, wardrobe]);
+
+  if (isViewingQueuedRecipe && handleCancelQueuedItem) {
+    return (
+      <Button
+        className="mt-2 whitespace-nowrap"
+        onClick={handleCancelQueuedItem}
+      >
+        {t("cancel")}
+      </Button>
+    );
+  }
 
   if (isCrafting && isReady) {
     return (

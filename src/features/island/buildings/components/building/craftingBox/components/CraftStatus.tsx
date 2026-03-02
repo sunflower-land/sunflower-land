@@ -7,7 +7,14 @@ export const CraftStatus: React.FC<{
   isCrafting: boolean;
   isReady: boolean;
   isViewingQueuedRecipe: boolean;
-}> = ({ isPending, isCrafting, isReady, isViewingQueuedRecipe }) => {
+  isPreparingQueueSlot?: boolean;
+}> = ({
+  isPending,
+  isCrafting,
+  isReady,
+  isViewingQueuedRecipe,
+  isPreparingQueueSlot = false,
+}) => {
   const { t } = useAppTranslation();
 
   if (isReady) {
@@ -26,7 +33,7 @@ export const CraftStatus: React.FC<{
     );
   }
 
-  if (isPending || isCrafting) {
+  if (!isPreparingQueueSlot && (isPending || isCrafting)) {
     return (
       <Label type="warning" className="mb-1">
         {t("crafting.inProgress")}
