@@ -44,7 +44,6 @@ import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
@@ -110,10 +109,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
   const gameState = useSelector(gameService, (state) => state.context.state);
-  const hasFarmHandPlacement = hasFeatureAccess(gameState, "PLACE_FARM_HAND");
-  const farmHandIds = hasFarmHandPlacement
-    ? getKeys(gameState.farmHands.bumpkins)
-    : [];
+  const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
   const isShrine =
     selectedItem?.name &&

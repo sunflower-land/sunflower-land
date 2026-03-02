@@ -18,7 +18,6 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -28,7 +27,6 @@ const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _gameState = (state: MachineState) => state.context.state;
 
 export const InteriorBumpkins: React.FC = () => {
   const { t } = useAppTranslation();
@@ -43,10 +41,6 @@ export const InteriorBumpkins: React.FC = () => {
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
-  const gameState = useSelector(gameService, _gameState);
-
-  const hasFarmHandPlacement =
-    isLandscaping && hasFeatureAccess(gameState, "PLACE_FARM_HAND");
 
   const unplacedFarmHandIds = getKeys(farmHands).filter(
     (id) => !farmHands[id].coordinates,
@@ -116,7 +110,7 @@ export const InteriorBumpkins: React.FC = () => {
               key={id}
               className="mr-2 cursor-pointer relative"
               onClick={() => {
-                if (hasFarmHandPlacement) {
+                if (isLandscaping) {
                   handlePlaceFarmHand(id);
                 } else if (!isLandscaping) {
                   setSelectedFarmHandId(id);
@@ -143,7 +137,7 @@ export const InteriorBumpkins: React.FC = () => {
                 }}
               />
 
-              {hasFarmHandPlacement && (
+              {isLandscaping && (
                 <img
                   src={SUNNYSIDE.icons.click_icon}
                   className="absolute z-10 animate-float"
