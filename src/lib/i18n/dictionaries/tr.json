@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Bu Bumpkin ile gitmek istediğinden emin misin?",
   "signup.createBumpkinConfirmation.two": "Bu, özelleştirmek için tek ücretsiz şansınız. Görünümünüzü değiştirmek istiyorsanız gardıroptan veya pazardan giyilebilir ürünler satın almanız gerekecek.",
   "equip.outfit": "Kıyafet",
-  "leaderboard.loadMore": "daha fazla yükle"
+  "leaderboard.loadMore": "daha fazla yükle",
+  "toolGuide.landToolsTip": "Arazi aletleri ağaçları keser ve taş çıkarır.",
+  "toolGuide.waterToolsTip": "Su aletleri balıkları yakalar ve tuzaklar yerleştirir.",
+  "toolGuide.levelUpTip": "Daha fazla aracın kilidini açmak için Bumpkin\"inizin seviyesini yükseltin.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Tuzak hazır",
+  "resource.treeRecoveryTime": "Ağaç",
+  "resource.stoneRecoveryTime": "Taş",
+  "resource.ironRecoveryTime": "Demir",
+  "resource.goldRecoveryTime": "Altın",
+  "resource.crimstoneRecoveryTime": "Kızıl Taş",
+  "resource.oilRecoveryTime": "Yağ",
+  "resource.sunstoneRecoveryTime": "Güneş taşı"
 }

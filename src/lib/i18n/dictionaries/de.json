@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Bist du sicher, dass du diesen Bumpkin nehmen willst?",
   "signup.createBumpkinConfirmation.two": "Dies ist Ihre einzige kostenlose Möglichkeit zur Anpassung. Du musst Wearables im Kleiderschrank oder auf dem Marktplatz kaufen, wenn du deinen Look ändern möchtest.",
   "equip.outfit": "Outfit",
-  "leaderboard.loadMore": "mehr laden"
+  "leaderboard.loadMore": "mehr laden",
+  "toolGuide.landToolsTip": "Landwerkzeuge fällen Bäume und bauen Steine ab.",
+  "toolGuide.waterToolsTip": "Wasserwerkzeuge fangen Fische und stellen Fallen auf.",
+  "toolGuide.levelUpTip": "Verbessere deinen Bumpkin, um mehr Tools freizuschalten.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Falle bereit",
+  "resource.treeRecoveryTime": "Baum",
+  "resource.stoneRecoveryTime": "Stein",
+  "resource.ironRecoveryTime": "Eisen",
+  "resource.goldRecoveryTime": "Gold",
+  "resource.crimstoneRecoveryTime": "Purpur",
+  "resource.oilRecoveryTime": "Öl",
+  "resource.sunstoneRecoveryTime": "Sonnenstein"
 }

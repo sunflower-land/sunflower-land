@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "¿Estás seguro de que quieres ir con este Bumpkin?",
   "signup.createBumpkinConfirmation.two": "Esta es tu única oportunidad gratuita de personalizarlo. Tendrás que comprar prendas vestibles en tu armario o en la tienda si quieres cambiar tu look.",
   "equip.outfit": "Atuendo",
-  "leaderboard.loadMore": "cargar más"
+  "leaderboard.loadMore": "cargar más",
+  "toolGuide.landToolsTip": "Las herramientas terrestres cortan árboles y extraen piedras.",
+  "toolGuide.waterToolsTip": "Las herramientas acuáticas capturan peces y colocan trampas.",
+  "toolGuide.levelUpTip": "Sube de nivel a tu Bumpkin para desbloquear más herramientas.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Listo para la trampa",
+  "resource.treeRecoveryTime": "Árbol",
+  "resource.stoneRecoveryTime": "Piedra",
+  "resource.ironRecoveryTime": "Hierro",
+  "resource.goldRecoveryTime": "Oro",
+  "resource.crimstoneRecoveryTime": "Crimstone",
+  "resource.oilRecoveryTime": "Petróleo",
+  "resource.sunstoneRecoveryTime": "Piedra solar"
 }

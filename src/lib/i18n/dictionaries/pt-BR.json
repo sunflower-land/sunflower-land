@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Tem certeza de que quer ir com esse caipira?",
   "signup.createBumpkinConfirmation.two": "Esta é sua única chance gratuita de personalizar. Você precisará comprar dispositivos vestíveis no guarda-roupa ou no mercado se quiser mudar sua aparência.",
   "equip.outfit": "Roupa",
-  "leaderboard.loadMore": "carregar mais"
+  "leaderboard.loadMore": "carregar mais",
+  "toolGuide.landToolsTip": "Ferramentas terrestres cortam árvores e extraem pedras.",
+  "toolGuide.waterToolsTip": "Ferramentas aquáticas pegam peixes e colocam armadilhas.",
+  "toolGuide.levelUpTip": "Aumente o nível do seu Bumpkin para desbloquear mais ferramentas.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Armadilha pronta",
+  "resource.treeRecoveryTime": "Árvore",
+  "resource.stoneRecoveryTime": "Pedra",
+  "resource.ironRecoveryTime": "Ferro",
+  "resource.goldRecoveryTime": "Dourado",
+  "resource.crimstoneRecoveryTime": "Crimstone",
+  "resource.oilRecoveryTime": "Óleo",
+  "resource.sunstoneRecoveryTime": "Pedra do sol"
 }

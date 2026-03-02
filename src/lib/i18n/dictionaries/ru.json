@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Are you sure you want to go with this Bumpkin?",
   "signup.createBumpkinConfirmation.two": "This is your only free chance to customise. You will need to buy wearables from wardrobe or marketplace if you want to change your look.",
   "equip.outfit": "Outfit",
-  "leaderboard.loadMore": "load more"
+  "leaderboard.loadMore": "load more",
+  "toolGuide.landToolsTip": "Land tools chop trees and mine stone.",
+  "toolGuide.waterToolsTip": "Water tools catch fish and place traps.",
+  "toolGuide.levelUpTip": "Level up your Bumpkin to unlock more tools.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Trap ready",
+  "resource.treeRecoveryTime": "Tree",
+  "resource.stoneRecoveryTime": "Stone",
+  "resource.ironRecoveryTime": "Iron",
+  "resource.goldRecoveryTime": "Gold",
+  "resource.crimstoneRecoveryTime": "Crimstone",
+  "resource.oilRecoveryTime": "Oil",
+  "resource.sunstoneRecoveryTime": "Sunstone"
 }

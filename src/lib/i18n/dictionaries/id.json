@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Apakah Anda yakin ingin pergi dengan Bumpkin ini?",
   "signup.createBumpkinConfirmation.two": "Ini adalah satu-satunya kesempatan gratis Anda untuk menyesuaikan. Anda perlu membeli barang yang dapat dikenakan dari lemari pakaian atau pasar jika Anda ingin mengubah penampilan Anda.",
   "equip.outfit": "Pakaian",
-  "leaderboard.loadMore": "memuat lebih banyak"
+  "leaderboard.loadMore": "memuat lebih banyak",
+  "toolGuide.landToolsTip": "Alat tanah memotong pohon dan menambang batu.",
+  "toolGuide.waterToolsTip": "Alat air menangkap ikan dan menempatkan perangkap.",
+  "toolGuide.levelUpTip": "Tingkatkan Bumpkin Anda untuk membuka lebih banyak alat.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Perangkap siap",
+  "resource.treeRecoveryTime": "Pohon",
+  "resource.stoneRecoveryTime": "Batu",
+  "resource.ironRecoveryTime": "Besi",
+  "resource.goldRecoveryTime": "Emas",
+  "resource.crimstoneRecoveryTime": "Batu merah",
+  "resource.oilRecoveryTime": "Minyak",
+  "resource.sunstoneRecoveryTime": "Batu Matahari"
 }

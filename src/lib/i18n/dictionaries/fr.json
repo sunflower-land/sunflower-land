@@ -8098,5 +8098,17 @@
   "signup.createBumpkinConfirmation": "Tu es sûre de vouloir choisir ce Bumpkin ?",
   "signup.createBumpkinConfirmation.two": "C'est votre seule chance gratuite de personnaliser. Vous devrez acheter des appareils portables dans votre garde-robe ou sur le marché si vous souhaitez changer de look.",
   "equip.outfit": "Tenue",
-  "leaderboard.loadMore": "charger plus"
+  "leaderboard.loadMore": "charger plus",
+  "toolGuide.landToolsTip": "Les outils agricoles coupent les arbres et extraient la pierre.",
+  "toolGuide.waterToolsTip": "Les outils aquatiques permettent d'attraper les poissons et de placer des pièges.",
+  "toolGuide.levelUpTip": "Améliorez votre Bumpkin pour débloquer plus d'outils.",
+  "toolGuide.nodeCooldown": "{{node}} : {{time}}",
+  "toolGuide.trapReady": "Piège prêt",
+  "resource.treeRecoveryTime": "Arbre",
+  "resource.stoneRecoveryTime": "Pierre",
+  "resource.ironRecoveryTime": "Fer",
+  "resource.goldRecoveryTime": "Doré",
+  "resource.crimstoneRecoveryTime": "Crimstone",
+  "resource.oilRecoveryTime": "Pétrole",
+  "resource.sunstoneRecoveryTime": "Pierre solaire"
 }
