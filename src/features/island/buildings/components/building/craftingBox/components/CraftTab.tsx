@@ -449,6 +449,7 @@ export const CraftTab: React.FC<Props> = ({
             isPending={isPending}
             isCrafting={isCrafting}
             isReady={isReady}
+            isViewingQueuedRecipe={isViewingQueuedRecipe}
           />
           <ButtonPanel
             disabled={isDisabled}
@@ -518,34 +519,27 @@ export const CraftTab: React.FC<Props> = ({
             farmId={farmId}
           />
           <div>
-            {isViewingQueuedRecipe ? (
-              <Button
-                className="mt-2 whitespace-nowrap"
-                onClick={handleCancelQueuedItem}
-              >
-                {t("cancel")}
-              </Button>
-            ) : (
-              <CraftButton
-                isCrafting={isCrafting}
-                isPending={isPending}
-                isReady={isReady}
-                handleCollect={handleCollect}
-                handleCraft={handleCraft}
-                isCraftingBoxEmpty={isCraftingBoxEmpty}
-                selectedItems={selectedItems}
-                inventory={inventory}
-                wardrobe={wardrobe}
-                gems={gems}
-                onInstantCraft={handleInstantCraft}
-                canAddToQueue={canAddToQueue}
-                isQueueFull={isQueueFull}
-                isPreparingQueueSlot={
-                  queueSelection.slot > 0 && !isViewingInProgressItem
-                }
-                isPreparingEmptyQueueSlot={queueSelection.slot > 0}
-              />
-            )}
+            <CraftButton
+              isCrafting={isCrafting}
+              isPending={isPending}
+              isReady={isReady}
+              handleCollect={handleCollect}
+              handleCraft={handleCraft}
+              handleCancelQueuedItem={handleCancelQueuedItem}
+              isCraftingBoxEmpty={isCraftingBoxEmpty}
+              selectedItems={selectedItems}
+              inventory={inventory}
+              wardrobe={wardrobe}
+              gems={gems}
+              onInstantCraft={handleInstantCraft}
+              canAddToQueue={canAddToQueue}
+              isQueueFull={isQueueFull}
+              isPreparingQueueSlot={
+                queueSelection.slot > 0 && !isViewingInProgressItem
+              }
+              isPreparingEmptyQueueSlot={queueSelection.slot > 0}
+              isViewingQueuedRecipe={isViewingQueuedRecipe}
+            />
           </div>
         </div>
       </div>

@@ -6,13 +6,22 @@ export const CraftStatus: React.FC<{
   isPending: boolean;
   isCrafting: boolean;
   isReady: boolean;
-}> = ({ isPending, isCrafting, isReady }) => {
+  isViewingQueuedRecipe: boolean;
+}> = ({ isPending, isCrafting, isReady, isViewingQueuedRecipe }) => {
   const { t } = useAppTranslation();
 
   if (isReady) {
     return (
       <Label type="success" className="mb-1">
         {t("crafting.readyToCollect")}
+      </Label>
+    );
+  }
+
+  if (isViewingQueuedRecipe) {
+    return (
+      <Label type="default" className="mb-1">
+        {t("crafting.inQueue")}
       </Label>
     );
   }

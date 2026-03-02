@@ -15,6 +15,7 @@ export const CraftButton: React.FC<{
   isReady: boolean;
   handleCollect: () => void;
   handleCraft: () => void;
+  handleCancelQueuedItem?: () => void;
   isCraftingBoxEmpty: boolean;
   selectedItems: (RecipeIngredient | null)[];
   inventory: Inventory;
@@ -25,12 +26,14 @@ export const CraftButton: React.FC<{
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
   isPreparingEmptyQueueSlot?: boolean;
+  isViewingQueuedRecipe?: boolean;
 }> = ({
   isCrafting,
   isPending,
   isReady,
   handleCollect,
   handleCraft,
+  handleCancelQueuedItem,
   isCraftingBoxEmpty,
   selectedItems,
   inventory,
@@ -41,9 +44,21 @@ export const CraftButton: React.FC<{
   isQueueFull = false,
   isPreparingQueueSlot = false,
   isPreparingEmptyQueueSlot = false,
+  isViewingQueuedRecipe = false,
 }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  if (isViewingQueuedRecipe && handleCancelQueuedItem) {
+    return (
+      <Button
+        className="mt-2 whitespace-nowrap"
+        onClick={handleCancelQueuedItem}
+      >
+        {t("cancel")}
+      </Button>
+    );
+  }
 
   const hasRequiredIngredients = useMemo(() => {
     return selectedItems.every((ingredient) => {
