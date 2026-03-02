@@ -1502,7 +1502,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Frozen Cow": { width: 2, height: 1 },
   "Frozen Sheep": { width: 2, height: 1 },
   "Summer Chicken": { width: 1, height: 1 },
-  Jellyfish: { width: 2, height: 2 },
+  Jellyfish: { width: 2, height: 1 },
   Quarry: { width: 2, height: 2 },
   "Obsidian Turtle": { width: 1, height: 1 },
   "Winter Guardian": { width: 2, height: 2 },
@@ -1520,7 +1520,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Dr Cow": { width: 2, height: 1 },
   "Nurse Sheep": { width: 2, height: 1 },
   Lunalist: { width: 1, height: 1 },
-  "Pink Dolphin": { width: 2, height: 2 },
+  "Pink Dolphin": { width: 2, height: 1 },
   "Giant Kale": { width: 2, height: 2 },
 
   "Big Apple": { width: 2, height: 2 },
