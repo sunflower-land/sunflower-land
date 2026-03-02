@@ -3,6 +3,30 @@ import { collectCrafting } from "./collectCrafting";
 import Decimal from "decimal.js-light";
 
 describe("collectCrafting", () => {
+  it("returns a valid GameState when collecting from empty queue (legacy format)", () => {
+    const state = collectCrafting({
+      state: {
+        ...INITIAL_FARM,
+        craftingBox: {
+          item: { collectible: "Doll" },
+          readyAt: 1,
+          startedAt: 1,
+          status: "crafting",
+          recipes: {},
+        },
+      },
+      action: {
+        type: "crafting.collected",
+      },
+    });
+
+    expect(state).toBeDefined();
+    expect(state).toHaveProperty("craftingBox");
+    expect(state).toHaveProperty("inventory");
+    expect(state.craftingBox.status).toBe("idle");
+    expect(state.craftingBox.queue).toEqual([]);
+  });
+
   it("adds the item to the inventory", () => {
     const state = collectCrafting({
       state: {

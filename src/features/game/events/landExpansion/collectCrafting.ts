@@ -64,37 +64,36 @@ export function collectCrafting({
       copy.craftingBox.status = "idle";
       copy.craftingBox.item = undefined;
       copy.craftingBox.queue = [];
-      return;
-    }
-
-    const nothingReady = queue.every((item) => item.readyAt > createdAt);
-    if (nothingReady) {
-      throw new Error("No items are ready");
-    }
-
-    const remainingQueue = queue.filter((item) => {
-      if (item.readyAt <= createdAt) {
-        collectQueueItem(item, copy);
-        return false;
-      }
-      return true;
-    });
-
-    copy.craftingBox.queue = remainingQueue;
-
-    if (remainingQueue.length === 0) {
-      copy.craftingBox.status = "idle";
-      copy.craftingBox.item = undefined;
-      copy.craftingBox.startedAt = 0;
-      copy.craftingBox.readyAt = 0;
     } else {
-      const current = remainingQueue[0];
-      copy.craftingBox.item =
-        current.type === "collectible"
-          ? { collectible: current.name as RecipeCollectibleName }
-          : { wearable: current.name as BumpkinItem };
-      copy.craftingBox.startedAt = current.startedAt;
-      copy.craftingBox.readyAt = current.readyAt;
+      const nothingReady = queue.every((item) => item.readyAt > createdAt);
+      if (nothingReady) {
+        throw new Error("No items are ready");
+      }
+
+      const remainingQueue = queue.filter((item) => {
+        if (item.readyAt <= createdAt) {
+          collectQueueItem(item, copy);
+          return false;
+        }
+        return true;
+      });
+
+      copy.craftingBox.queue = remainingQueue;
+
+      if (remainingQueue.length === 0) {
+        copy.craftingBox.status = "idle";
+        copy.craftingBox.item = undefined;
+        copy.craftingBox.startedAt = 0;
+        copy.craftingBox.readyAt = 0;
+      } else {
+        const current = remainingQueue[0];
+        copy.craftingBox.item =
+          current.type === "collectible"
+            ? { collectible: current.name as RecipeCollectibleName }
+            : { wearable: current.name as BumpkinItem };
+        copy.craftingBox.startedAt = current.startedAt;
+        copy.craftingBox.readyAt = current.readyAt;
+      }
     }
   });
 }
