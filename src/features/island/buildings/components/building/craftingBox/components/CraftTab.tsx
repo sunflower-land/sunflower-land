@@ -553,7 +553,9 @@ export const CraftTab: React.FC<Props> = ({
     queueSelection.viewedSlotIndex > 0;
 
   const isViewingReadyItem =
-    viewedItem.readyAt > 0 && viewedItem.readyAt <= now;
+    craftingStatus === "crafting" &&
+    viewedItem.readyAt > 0 &&
+    viewedItem.readyAt <= now;
 
   const isDisabled =
     isPending ||
