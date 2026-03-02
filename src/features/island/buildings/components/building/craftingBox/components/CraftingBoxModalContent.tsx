@@ -45,8 +45,15 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   type Tab = "craft" | "recipes" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>("craft");
+  const [pendingQueueSlot, setPendingQueueSlot] = useState<number | null>(null);
 
   const { gameService } = useContext(Context);
+
+  const switchTab: React.Dispatch<React.SetStateAction<Tab>> = (value) => {
+    const nextTab = typeof value === "function" ? value(currentTab) : value;
+    if (nextTab !== "craft") setPendingQueueSlot(null);
+    setCurrentTab(value);
+  };
 
   const craftingItem = useSelector(gameService, _craftingItem);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
@@ -64,13 +71,14 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
 
   const button = useSound("button");
 
-  const handleSetupRecipe = (recipe: Recipe) => {
+  const handleSetupRecipe = (recipe: Recipe, targetSlot?: number) => {
     const paddedIngredients = [
       ...recipe.ingredients,
       ...Array(9).fill(null),
     ].slice(0, 9);
     selectItems(paddedIngredients);
-    setCurrentTab("craft"); // Switch to the craft tab
+    setPendingQueueSlot(targetSlot ?? null);
+    switchTab("craft");
   };
 
   const selectItems = (items: (RecipeIngredient | null)[]) => {
@@ -95,7 +103,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
                 {
                   text: t("craftingBox.startCrafting"),
                   cb: () => {
-                    setCurrentTab("craft");
+                    switchTab("craft");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -103,7 +111,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
                 {
                   text: t("craftingBox.viewRecipes"),
                   cb: () => {
-                    setCurrentTab("recipes");
+                    switchTab("recipes");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -132,7 +140,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
         },
       ]}
       currentTab={currentTab}
-      setCurrentTab={setCurrentTab}
+      setCurrentTab={switchTab}
     >
       {currentTab === "craft" && (
         <CraftTab
@@ -140,13 +148,14 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
           onClose={onClose}
+          initialQueueSlot={pendingQueueSlot}
         />
       )}
       {currentTab === "recipes" && (
         <RecipesTab handleSetupRecipe={handleSetupRecipe} />
       )}
       {currentTab === "guide" && (
-        <CraftingBoxGuide onClose={() => setCurrentTab("craft")} />
+        <CraftingBoxGuide onClose={() => switchTab("craft")} />
       )}
     </CloseButtonPanel>
   );

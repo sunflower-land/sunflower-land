@@ -47,6 +47,7 @@ interface Props {
   selectedItems: (RecipeIngredient | null)[];
   setSelectedItems: (items: (RecipeIngredient | null)[]) => void;
   onClose?: () => void;
+  initialQueueSlot?: number | null;
 }
 
 export const CraftTab: React.FC<Props> = ({
@@ -54,6 +55,7 @@ export const CraftTab: React.FC<Props> = ({
   selectedItems,
   setSelectedItems,
   onClose = () => {},
+  initialQueueSlot,
 }) => {
   const { t } = useAppTranslation();
 
@@ -112,16 +114,30 @@ export const CraftTab: React.FC<Props> = ({
       startedAt: 0,
       type: "collectible",
     };
-  const [queueSelection, setQueueSelection] = useState<{
-    slot: number;
-    item: CraftingQueueItem;
-    viewedSlotIndex: number;
-  }>({ slot: 0, item: defaultQueueItem, viewedSlotIndex: 0 });
-
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
   const isIdle = craftingStatus === "idle";
   const canAddToQueue = isCrafting && isVIP && !isQueueFull;
+
+  const [queueSelection, setQueueSelection] = useState<{
+    slot: number;
+    item: CraftingQueueItem;
+    viewedSlotIndex: number;
+  }>(() => {
+    const defaultSelection = {
+      slot: 0,
+      item: defaultQueueItem,
+      viewedSlotIndex: 0,
+    };
+    if (initialQueueSlot == null || (initialQueueSlot > 0 && !canAddToQueue)) {
+      return defaultSelection;
+    }
+    return {
+      slot: initialQueueSlot,
+      item: cooking ?? defaultQueueItem,
+      viewedSlotIndex: -1,
+    };
+  });
 
   const remainingTime = useMemo(() => {
     if (
