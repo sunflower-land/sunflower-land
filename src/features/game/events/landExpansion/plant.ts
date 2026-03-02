@@ -115,14 +115,15 @@ export const getSupportedPlots = ({
   island: IslandType;
 }) => {
   let plots = INITIAL_SUPPORTED_PLOTS(island);
-  const hasWell = (buildings["Water Well"]?.length ?? 0) > 0;
+  const hasPlacedWell =
+    buildings["Water Well"]?.some((w) => !!w.coordinates) ?? false;
   let effectiveWellLevel = wellLevel;
 
   if (upgradeReadyAt && upgradeReadyAt > createdAt) {
     effectiveWellLevel -= 1;
   }
 
-  if (!hasWell) return plots;
+  if (!hasPlacedWell) return plots;
   if (effectiveWellLevel >= 4) return 99;
 
   plots =
@@ -139,7 +140,6 @@ export function isPlotFertile({
   createdAt = Date.now(),
   island,
 }: IsPlotFertile): boolean {
-  // get the well count
   const cropsWellCanWater = getSupportedPlots({
     wellLevel,
     buildings,
