@@ -63,21 +63,24 @@ export function recalculateCraftingQueue({
     let readyAt: number;
     const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
 
+    const { seconds: recipeTime } = getBoostedCraftingTime({
+      game,
+      time: recipe.time,
+      prngArgs: {
+        farmId,
+        itemId:
+          recipe.type === "collectible"
+            ? KNOWN_IDS[recipe.name as InventoryItemName]
+            : ITEM_IDS[recipe.name as BumpkinItem],
+        counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
+      },
+    });
+
     if (i === 0 && firstItemReadyAt !== undefined) {
       readyAt = firstItemReadyAt;
+    } else if (recipeTime === 0) {
+      readyAt = item.readyAt;
     } else {
-      const { seconds: recipeTime } = getBoostedCraftingTime({
-        game,
-        time: recipe.time,
-        prngArgs: {
-          farmId,
-          itemId:
-            recipe.type === "collectible"
-              ? KNOWN_IDS[recipe.name as InventoryItemName]
-              : ITEM_IDS[recipe.name as BumpkinItem],
-          counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
-        },
-      });
       readyAt = startAt + recipeTime;
     }
 

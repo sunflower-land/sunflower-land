@@ -131,6 +131,101 @@ describe("cancelQueuedCrafting", () => {
     );
   });
 
+  it("preserves instant items as ready when a pending item before them is cancelled", () => {
+    const now = Date.now();
+    const inProgressReadyAt = now + 2 * 60 * 60 * 1000;
+    const pendingReadyAt = inProgressReadyAt + 60000;
+    const instant1ReadyAt = now - 2000;
+    const instant2ReadyAt = now - 1000;
+
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        inventory: {
+          Wood: new Decimal(0),
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              name: "Doll",
+              readyAt: inProgressReadyAt,
+              startedAt: now,
+              type: "collectible",
+            },
+            {
+              name: "Timber",
+              readyAt: pendingReadyAt,
+              startedAt: inProgressReadyAt,
+              type: "collectible",
+            },
+            {
+              name: "Timber",
+              readyAt: instant1ReadyAt,
+              startedAt: instant1ReadyAt,
+              type: "collectible",
+            },
+            {
+              name: "Timber",
+              readyAt: instant2ReadyAt,
+              startedAt: instant2ReadyAt,
+              type: "collectible",
+            },
+          ],
+          item: { collectible: "Doll" },
+          startedAt: now,
+          readyAt: inProgressReadyAt,
+          recipes: {
+            Timber: {
+              name: "Timber",
+              type: "collectible",
+              ingredients: [
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+              ],
+              time: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crafting.cancelled",
+        queueItem: {
+          name: "Timber",
+          readyAt: pendingReadyAt,
+          startedAt: inProgressReadyAt,
+          type: "collectible",
+        },
+      },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(3);
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(inProgressReadyAt);
+    expect(state.craftingBox.queue?.[1].readyAt).toEqual(instant1ReadyAt);
+    expect(state.craftingBox.queue?.[1].readyAt).toBeLessThanOrEqual(now);
+    expect(state.craftingBox.queue?.[2].readyAt).toEqual(instant2ReadyAt);
+    expect(state.craftingBox.queue?.[2].readyAt).toBeLessThanOrEqual(now);
+  });
+
   it("cancels a queued item and refunds ingredients", () => {
     const now = Date.now();
     const timber1ReadyAt = now - 1000;
