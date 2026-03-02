@@ -45,6 +45,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 import { hasFeatureAccess } from "lib/flags";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -58,6 +59,14 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
   const previous = prev ?? new Decimal(0);
   const current = next ?? new Decimal(0);
   return previous.eq(current);
+};
+
+const needsHelp = (state: GameMachineState) => {
+  const missingScarecrow =
+    !state.context.state.inventory["Basic Scarecrow"] &&
+    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+
+  return missingScarecrow;
 };
 
 const selectMovingItem = (state: MachineState) => state.context.moving;
@@ -95,6 +104,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     (state) => state.context.state.inventory["Gem"] ?? new Decimal(0),
     compareBlockBucks,
   );
+
+  const showHelper = useSelector(gameService, needsHelp);
 
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
@@ -245,6 +256,25 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                         width: `${PIXEL_SCALE * 14}px`,
                       }}
                     />
+                    {showHelper && (
+                      <div
+                        className="absolute z-40"
+                        style={{
+                          left: `${PIXEL_SCALE * -8}px`,
+                          top: `${PIXEL_SCALE * 20}px`,
+                          transform: "scaleX(-1)",
+                        }}
+                      >
+                        <img
+                          className="cursor-pointer group-hover:img-highlight animate-pulsate"
+                          src={SUNNYSIDE.icons.click_icon}
+                          style={{
+                            width: `${PIXEL_SCALE * 18}px`,
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )}
                   </RoundButton>
                   <CraftDecorationsModal
                     show={showDecorations}

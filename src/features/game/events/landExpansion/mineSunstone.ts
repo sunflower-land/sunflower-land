@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
+import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { canMine } from "features/game/lib/resourceNodes";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type MineSunstoneAction = {
@@ -80,4 +81,17 @@ export function mineSunstone({
 
     return stateCopy;
   });
+}
+
+export function getSunstoneRecoveryTimeForDisplay(_game: GameState): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseTimeMs = SUNSTONE_RECOVERY_TIME * 1000;
+  return {
+    baseTimeMs,
+    recoveryTimeMs: baseTimeMs,
+    boostsUsed: [],
+  };
 }

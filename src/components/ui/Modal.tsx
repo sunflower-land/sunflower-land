@@ -85,15 +85,12 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
               afterLeave={() => onExited?.()}
             >
               <DialogPanel
-                className={classNames(
-                  `relative w-full ${dialogClassName ?? ""}`,
-                  {
-                    "max-w-[300px]": !fullscreen && size === "sm",
-                    "max-w-[500px]": !fullscreen && size === undefined,
-                    "max-w-[800px]": !fullscreen && size === "lg",
-                    "w-screen h-full": !!fullscreen,
-                  },
-                )}
+                className={classNames(`relative w-full`, dialogClassName, {
+                  "max-w-[300px]": !fullscreen && size === "sm",
+                  "max-w-[500px]": !fullscreen && size === undefined,
+                  "max-w-[800px]": !fullscreen && size === "lg",
+                  "w-screen h-full": !!fullscreen,
+                })}
                 // Prevent click through to Phaser
                 onMouseDown={(e) => e.stopPropagation()}
                 onMouseUp={(e) => e.stopPropagation()}

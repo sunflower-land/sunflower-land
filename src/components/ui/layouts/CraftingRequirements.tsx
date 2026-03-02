@@ -463,7 +463,7 @@ export const CraftingRequirements: React.FC<Props> = ({
               ) {
                 return (
                   <div
-                    className="flex flex-col items-center cursor-pointer"
+                    className="flex flex-row sm:flex-col items-center cursor-pointer"
                     onClick={() => setShowBoosts(!showBoosts)}
                   >
                     <RequirementLabel type="xp" xp={requirements.xp} boosted />
@@ -507,7 +507,7 @@ export const CraftingRequirements: React.FC<Props> = ({
               ) {
                 return (
                   <div
-                    className="flex flex-col items-center cursor-pointer"
+                    className="flex flex-row sm:flex-col items-center cursor-pointer"
                     onClick={() => setShowTimeBoosts(!showTimeBoosts)}
                   >
                     <RequirementLabel

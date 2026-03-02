@@ -5734,6 +5734,11 @@
   "cropGuide.cantPlantSeeds": "Seeds can't be planted",
   "cropGuide.onlyInCropMachine": "Seeds can only be planted in Crop Machine",
   "cropGuide.tutorialAlwaysSpring": "On your first island, it is always Spring! When you upgrade your island, the seasons will begin to change.",
+  "toolGuide.landToolsTip": "Land tools chop trees and mine stone.",
+  "toolGuide.waterToolsTip": "Water tools catch fish and place traps.",
+  "toolGuide.levelUpTip": "Level up your Bumpkin to unlock more tools.",
+  "toolGuide.nodeCooldown": "{{node}}: {{time}}",
+  "toolGuide.trapReady": "Trap ready",
   "spring.seeds": "Spring Seeds",
   "summer.seeds": "Summer Seeds",
   "autumn.seeds": "Autumn Seeds",
@@ -8099,5 +8104,12 @@
   "description.victoriasApron.boost": "33% chance next reset is free after feeding pet fully.",
   "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
-  "boost.buildingOil": "Building oil: x{{percent}}"
+  "boost.buildingOil": "Building oil: x{{percent}}",
+  "resource.treeRecoveryTime": "Tree",
+  "resource.stoneRecoveryTime": "Stone",
+  "resource.ironRecoveryTime": "Iron",
+  "resource.goldRecoveryTime": "Gold",
+  "resource.crimstoneRecoveryTime": "Crimstone",
+  "resource.oilRecoveryTime": "Oil",
+  "resource.sunstoneRecoveryTime": "Sunstone"
 }

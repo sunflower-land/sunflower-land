@@ -50,6 +50,7 @@ import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { KNOWN_IDS } from "features/game/types";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -717,6 +718,7 @@ const RecipeLabelContent: React.FC<{
   farmId: number;
 }> = ({ state, recipe, farmId }) => {
   const { t } = useTranslation();
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   if (!recipe) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
@@ -726,21 +728,51 @@ const RecipeLabelContent: React.FC<{
     return <span>{t("instant")}</span>;
   }
 
-  const { seconds: boostedCraftTime } = getBoostedCraftingTime({
+  const { seconds: boostedCraftTime, boostsUsed } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
-    farmId,
-    itemId:
-      recipe.type === "collectible"
-        ? KNOWN_IDS[recipe.name as InventoryItemName]
-        : ITEM_IDS[recipe.name as BumpkinItem],
-    counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+    prngArgs: {
+      farmId,
+      itemId:
+        recipe.type === "collectible"
+          ? KNOWN_IDS[recipe.name as InventoryItemName]
+          : ITEM_IDS[recipe.name as BumpkinItem],
+      counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+    },
   });
+
+  if (boostsUsed.length > 0) {
+    return (
+      <div
+        className="flex flex-col items-center cursor-pointer"
+        onClick={() => setShowTimeBoosts((prev) => !prev)}
+      >
+        <span>
+          {secondsToString(boostedCraftTime / 1000, {
+            length: "medium",
+            isShortFormat: true,
+          })}
+        </span>
+        <span className="text-xxs line-through">
+          {secondsToString(recipe.time / 1000, {
+            length: "medium",
+            isShortFormat: true,
+          })}
+        </span>
+        <BoostsDisplay
+          boosts={boostsUsed}
+          show={showTimeBoosts}
+          state={state}
+          onClick={() => setShowTimeBoosts((prev) => !prev)}
+        />
+      </div>
+    );
+  }
 
   return (
     <span>
       {secondsToString(boostedCraftTime / 1000, {
-        length: "short",
+        length: "medium",
         isShortFormat: true,
       })}
     </span>
