@@ -31,7 +31,7 @@ import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExp
 import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
-import { CommodityName, ResourceName } from "features/game/types/resources";
+import { CommodityName } from "features/game/types/resources";
 
 const LAND_TOOLS = getObjectEntries(WORKBENCH_TOOLS).filter(
   ([, tool]) => !tool.disabled && tool.type === "land",
@@ -53,7 +53,6 @@ type CooldownDisplay = {
 
 type ToolDisplayItem = {
   resource: CommodityName | CrustaceanName;
-  nodeName?: ResourceName[];
   cooldown: CooldownDisplay | null;
 };
 
@@ -92,7 +91,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Wood",
-            nodeName: ["Tree", "Ancient Tree", "Sacred Tree"],
             cooldown: toDisplay(
               translate("resource.treeRecoveryTime"),
               baseTimeMs,
@@ -112,11 +110,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Stone",
-            nodeName: [
-              "Stone Rock",
-              "Fused Stone Rock",
-              "Reinforced Stone Rock",
-            ],
             cooldown: toDisplay(
               translate("resource.stoneRecoveryTime"),
               baseTimeMs,
@@ -136,7 +129,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Iron",
-            nodeName: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
             cooldown: toDisplay(
               translate("resource.ironRecoveryTime"),
               baseTimeMs,
@@ -155,7 +147,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Gold",
-            nodeName: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
             cooldown: toDisplay(
               translate("resource.goldRecoveryTime"),
               gold.baseTimeMs,
@@ -175,7 +166,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Crimstone",
-            nodeName: ["Crimstone Rock"],
             cooldown: toDisplay(
               translate("resource.crimstoneRecoveryTime"),
               crimstone.baseTimeMs,
@@ -186,7 +176,6 @@ function getToolDisplayData(
           },
           {
             resource: "Sunstone",
-            nodeName: ["Sunstone Rock"],
             cooldown: toDisplay(
               translate("resource.sunstoneRecoveryTime"),
               sunstone.baseTimeMs,
@@ -206,7 +195,6 @@ function getToolDisplayData(
         items: [
           {
             resource: "Oil",
-            nodeName: ["Oil Reserve"],
             cooldown: toDisplay(
               translate("resource.oilRecoveryTime"),
               baseTimeMs,
@@ -469,11 +457,6 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
 }) => {
   const data = getToolDisplayData(toolName, state);
 
-  const isCrabPotStyle =
-    data.type === "items" &&
-    data.items.length > 1 &&
-    data.sharedCooldown != null;
-
   return (
     <div
       className={classNames("flex flex-col gap-1 py-1 pl-1", {
@@ -510,17 +493,6 @@ const ToolRowMobile: React.FC<ToolRowProps> = ({
         <div className="flex flex-col gap-1">
           {data.items.map((item) => (
             <div key={item.resource} className="flex w-full gap-2">
-              <div className="flex flex-1 min-w-0 flex-col gap-0.5">
-                {item.nodeName && item.nodeName.length > 0
-                  ? item.nodeName.map((nodeName) => (
-                      <LineItem
-                        key={nodeName}
-                        icon={ITEM_DETAILS[nodeName].image}
-                        text={nodeName}
-                      />
-                    ))
-                  : null}
-              </div>
               <div className="flex flex-1 min-w-0 flex-col gap-0.5 items-start">
                 <LineItem
                   icon={ITEM_DETAILS[item.resource].image}
@@ -639,22 +611,6 @@ const ToolRowDesktop: React.FC<ToolRowProps> = ({
               )}
             >
               {i === 0 ? toolNameCell(toolName, tool) : null}
-            </div>
-            <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
-              {item.nodeName && item.nodeName.length > 0 ? (
-                <div className="flex flex-col gap-1">
-                  {item.nodeName.map((nodeName) => (
-                    <div key={nodeName} className="flex items-center">
-                      <img
-                        src={ITEM_DETAILS[nodeName].image}
-                        className="w-3 h-3 mr-1 flex-shrink-0"
-                        alt={nodeName}
-                      />
-                      <span className="text-xxs">{nodeName}</span>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
             </div>
             <div className={classNames(CELL_CLASS, "flex-1 min-w-0")}>
               <div className="flex items-center">
