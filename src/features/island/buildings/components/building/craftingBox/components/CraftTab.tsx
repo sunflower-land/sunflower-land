@@ -36,6 +36,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { validCraftingResourcesSorted } from "./craftingTabConstants";
+import { hasFeatureAccess } from "lib/flags";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -99,7 +100,12 @@ export const CraftTab: React.FC<Props> = ({
   const cooking = inProgress[0];
   const queue = inProgress.slice(1);
   const readyProducts = craftingQueue.filter((item) => item.readyAt <= now);
-  const isVIP = hasVipAccess({ game: state });
+  const hasCraftingBoxQueuesAccess = hasFeatureAccess(
+    state,
+    "CRAFTING_BOX_QUEUES",
+  );
+
+  const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
 
@@ -495,7 +501,9 @@ export const CraftTab: React.FC<Props> = ({
     isViewingMode && queueSelection.viewedSlotIndex === 0;
 
   const isViewingQueuedRecipe =
-    queueSelection.slot === 0 && !isViewingInProgressItem;
+    queueSelection.slot === 0 &&
+    !isViewingInProgressItem &&
+    queueSelection.viewedSlotIndex > 0;
 
   const isDisabled =
     isPending ||
@@ -602,11 +610,15 @@ export const CraftTab: React.FC<Props> = ({
               queueSelection.slot > 0 && !isViewingInProgressItem
             }
             isViewingQueuedRecipe={isViewingQueuedRecipe}
+            hasCraftingBoxQueuesAccess={hasFeatureAccess(
+              state,
+              "CRAFTING_BOX_QUEUES",
+            )}
           />
         </div>
       </div>
 
-      {cooking && isVIP && (
+      {isVIP && (
         <CraftingQueue
           product={cooking}
           queue={queue}

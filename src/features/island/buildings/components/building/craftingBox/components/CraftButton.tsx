@@ -25,6 +25,7 @@ export const CraftButton: React.FC<{
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
   isViewingQueuedRecipe?: boolean;
+  hasCraftingBoxQueuesAccess?: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -41,6 +42,7 @@ export const CraftButton: React.FC<{
   isQueueFull = false,
   isPreparingQueueSlot = false,
   isViewingQueuedRecipe = false,
+  hasCraftingBoxQueuesAccess = false,
 }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -64,27 +66,31 @@ export const CraftButton: React.FC<{
 
   if (isCrafting && isReady) {
     return (
-      <Button className="mt-2 whitespace-nowrap" onClick={handleCollect}>
-        {t("collect")}
-      </Button>
+      <div className="flex flex-col items-center justify-center gap-1 mt-2">
+        <Button className="mt-2 whitespace-nowrap" onClick={handleCollect}>
+          {t("collect")}
+        </Button>
+      </div>
     );
   }
 
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        <Button
-          className="whitespace-nowrap relative"
-          onClick={handleCraft}
-          disabled={addToQueueDisabled}
-        >
-          <img
-            src={vipIcon}
-            alt="VIP"
-            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
-          />
-          {t("recipes.addToQueue")}
-        </Button>
+        {hasCraftingBoxQueuesAccess && (
+          <Button
+            className="whitespace-nowrap relative"
+            onClick={handleCraft}
+            disabled={addToQueueDisabled}
+          >
+            <img
+              src={vipIcon}
+              alt="VIP"
+              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+            />
+            {t("recipes.addToQueue")}
+          </Button>
+        )}
         <Button onClick={handleCancelQueuedItem}>{t("cancel")}</Button>
       </div>
     );
@@ -93,18 +99,20 @@ export const CraftButton: React.FC<{
   if (isCrafting || isPending) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        <Button
-          className="whitespace-nowrap relative"
-          onClick={handleCraft}
-          disabled={addToQueueDisabled}
-        >
-          <img
-            src={vipIcon}
-            alt="VIP"
-            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
-          />
-          {t("recipes.addToQueue")}
-        </Button>
+        {hasCraftingBoxQueuesAccess && (
+          <Button
+            className="whitespace-nowrap relative"
+            onClick={handleCraft}
+            disabled={addToQueueDisabled}
+          >
+            <img
+              src={vipIcon}
+              alt="VIP"
+              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+            />
+            {t("recipes.addToQueue")}
+          </Button>
+        )}
         {!isPreparingQueueSlot && (
           <Button
             disabled={!inventory.Gem?.gte(gems) || isPending}
@@ -136,12 +144,14 @@ export const CraftButton: React.FC<{
   }
 
   return (
-    <Button
-      className="mt-2 whitespace-nowrap"
-      onClick={handleCraft}
-      disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
-    >
-      {`${t("craft")} 1`}
-    </Button>
+    <div className="flex flex-col items-center justify-center gap-1 mt-2">
+      <Button
+        className="mt-2 whitespace-nowrap"
+        onClick={handleCraft}
+        disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
+      >
+        {t("craft")}
+      </Button>
+    </div>
   );
 };

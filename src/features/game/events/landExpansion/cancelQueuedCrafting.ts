@@ -14,6 +14,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getBoostedCraftingTime } from "./startCrafting";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { hasFeatureAccess } from "lib/flags";
 
 export type CancelQueuedCraftingAction = {
   type: "crafting.cancelled";
@@ -99,6 +100,9 @@ export function cancelQueuedCrafting({
   createdAt = Date.now(),
   farmId = 0,
 }: Options): GameState {
+  if (!hasFeatureAccess(state, "CRAFTING_BOX_QUEUES")) {
+    throw new Error("Crafting box queues are not enabled");
+  }
   return produce(state, (game) => {
     const { queueItem } = action;
     const queue = game.craftingBox.queue ?? [];
