@@ -22,10 +22,8 @@ export const CraftButton: React.FC<{
   wardrobe: Wardrobe;
   gems: number;
   onInstantCraft: (gems: number) => void;
-  canAddToQueue?: boolean;
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
-  isPreparingEmptyQueueSlot?: boolean;
   isViewingQueuedRecipe?: boolean;
 }> = ({
   isCrafting,
@@ -40,10 +38,8 @@ export const CraftButton: React.FC<{
   wardrobe,
   gems,
   onInstantCraft,
-  canAddToQueue = false,
   isQueueFull = false,
   isPreparingQueueSlot = false,
-  isPreparingEmptyQueueSlot = false,
   isViewingQueuedRecipe = false,
 }) => {
   const { t } = useAppTranslation();
@@ -63,16 +59,8 @@ export const CraftButton: React.FC<{
     });
   }, [selectedItems, inventory, wardrobe]);
 
-  if (isViewingQueuedRecipe && handleCancelQueuedItem) {
-    return (
-      <Button
-        className="mt-2 whitespace-nowrap"
-        onClick={handleCancelQueuedItem}
-      >
-        {t("cancel")}
-      </Button>
-    );
-  }
+  const addToQueueDisabled =
+    isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
 
   if (isCrafting && isReady) {
     return (
@@ -82,26 +70,41 @@ export const CraftButton: React.FC<{
     );
   }
 
-  if (isCrafting || isPending) {
-    const addToQueueDisabled =
-      isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
-
+  if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2 flex-wrap">
-        {isPreparingEmptyQueueSlot && canAddToQueue ? (
-          <Button
-            className="whitespace-nowrap relative"
-            onClick={handleCraft}
-            disabled={addToQueueDisabled}
-          >
-            <img
-              src={vipIcon}
-              alt="VIP"
-              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
-            />
-            {t("recipes.addToQueue")}
-          </Button>
-        ) : null}
+      <div className="flex flex-col items-center justify-center gap-1 mt-2">
+        <Button
+          className="whitespace-nowrap relative"
+          onClick={handleCraft}
+          disabled={addToQueueDisabled}
+        >
+          <img
+            src={vipIcon}
+            alt="VIP"
+            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+          />
+          {t("recipes.addToQueue")}
+        </Button>
+        <Button onClick={handleCancelQueuedItem}>{t("cancel")}</Button>
+      </div>
+    );
+  }
+
+  if (isCrafting || isPending) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-1 mt-2">
+        <Button
+          className="whitespace-nowrap relative"
+          onClick={handleCraft}
+          disabled={addToQueueDisabled}
+        >
+          <img
+            src={vipIcon}
+            alt="VIP"
+            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+          />
+          {t("recipes.addToQueue")}
+        </Button>
         {!isPreparingQueueSlot && (
           <Button
             disabled={!inventory.Gem?.gte(gems) || isPending}

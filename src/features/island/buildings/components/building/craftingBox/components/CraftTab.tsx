@@ -7,7 +7,6 @@ import {
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { CraftingQueueItem } from "features/game/types/game";
-import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -19,8 +18,7 @@ import { findMatchingRecipe } from "features/game/events/landExpansion/startCraf
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
-import { ModalOverlay } from "components/ui/ModalOverlay";
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
@@ -103,7 +101,6 @@ export const CraftTab: React.FC<Props> = ({
   const prevSelectedItemsRef = useRef(selectedItems);
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const defaultQueueItem: CraftingQueueItem = cooking ??
     craftingQueue[0] ?? {
       name: "Sunflower",
@@ -310,11 +307,6 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleCraft = () => {
-    setShowConfirmModal(true);
-  };
-
-  const confirmCraft = () => {
-    setShowConfirmModal(false);
     if (craftingStatus === "pending") return;
 
     gameService.send("crafting.started", { ingredients: selectedItems });
@@ -519,29 +511,25 @@ export const CraftTab: React.FC<Props> = ({
             key={`${currentRecipe?.name}-${queueSelection.slot}-${queueSelection.item?.name ?? ""}`}
             farmId={farmId}
           />
-          <div>
-            <CraftButton
-              isCrafting={isCrafting}
-              isPending={isPending}
-              isReady={isReady}
-              handleCollect={handleCollect}
-              handleCraft={handleCraft}
-              handleCancelQueuedItem={handleCancelQueuedItem}
-              isCraftingBoxEmpty={isCraftingBoxEmpty}
-              selectedItems={selectedItems}
-              inventory={inventory}
-              wardrobe={wardrobe}
-              gems={gems}
-              onInstantCraft={handleInstantCraft}
-              canAddToQueue={canAddToQueue}
-              isQueueFull={isQueueFull}
-              isPreparingQueueSlot={
-                queueSelection.slot > 0 && !isViewingInProgressItem
-              }
-              isPreparingEmptyQueueSlot={queueSelection.slot > 0}
-              isViewingQueuedRecipe={isViewingQueuedRecipe}
-            />
-          </div>
+          <CraftButton
+            isCrafting={isCrafting}
+            isPending={isPending}
+            isReady={isReady}
+            handleCollect={handleCollect}
+            handleCraft={handleCraft}
+            handleCancelQueuedItem={handleCancelQueuedItem}
+            isCraftingBoxEmpty={isCraftingBoxEmpty}
+            selectedItems={selectedItems}
+            inventory={inventory}
+            wardrobe={wardrobe}
+            gems={gems}
+            onInstantCraft={handleInstantCraft}
+            isQueueFull={isQueueFull}
+            isPreparingQueueSlot={
+              queueSelection.slot > 0 && !isViewingInProgressItem
+            }
+            isViewingQueuedRecipe={isViewingQueuedRecipe}
+          />
         </div>
       </div>
 
@@ -617,66 +605,6 @@ export const CraftTab: React.FC<Props> = ({
           <p className="text-xs">{t("crafting.undiscovered")}</p>
         </div>
       </div>
-
-      <ModalOverlay
-        show={showConfirmModal}
-        onBackdropClick={() => setShowConfirmModal(false)}
-      >
-        <InnerPanel className="shadow">
-          <div className="flex items-center w-full">
-            <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
-            <span className="flex-1 text-center">
-              {canAddToQueue
-                ? `${t("confirm")} ${t("recipes.addToQueue")} ${currentRecipe?.name ?? ""}`
-                : `${t("confirm")} ${t("craft")} ${currentRecipe?.name ?? ""}`}
-            </span>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="cursor-pointer"
-              onClick={() => setShowConfirmModal(false)}
-              style={{ width: `${PIXEL_SCALE * 9}px` }}
-            />
-          </div>
-
-          <div className="flex justify-around">
-            <div className="flex justify-center">
-              <div className="grid grid-cols-3 gap-1 w-48 h-48">
-                {selectedItems.map((item, index) => (
-                  <Box
-                    key={`${index}-${item}`}
-                    image={
-                      item?.collectible
-                        ? ITEM_DETAILS[item.collectible]?.image
-                        : item?.wearable
-                          ? getImageUrl(ITEM_IDS[item.wearable])
-                          : undefined
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <CraftDetails
-                recipe={currentRecipe}
-                isPending={isPending}
-                failedAttempt={failedAttempt}
-              />
-              <CraftTimer
-                state={state}
-                recipe={currentRecipe}
-                remainingTime={remainingTime}
-                isIdle={isIdle}
-                showRecipeContext={queueSelection.slot > 0}
-                key={`${currentRecipe?.name}-${queueSelection.slot}`}
-                farmId={farmId}
-              />
-            </div>
-          </div>
-          <Button className="mt-2" onClick={() => confirmCraft()}>
-            {canAddToQueue ? t("recipes.addToQueue") : t("craft")}
-          </Button>
-        </InnerPanel>
-      </ModalOverlay>
     </>
   );
 };
