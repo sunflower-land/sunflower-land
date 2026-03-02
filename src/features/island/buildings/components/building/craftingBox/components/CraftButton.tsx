@@ -13,6 +13,7 @@ export const CraftButton: React.FC<{
   isCrafting: boolean;
   isPending: boolean;
   isReady: boolean;
+  hasReadyProducts: boolean;
   handleCollect: () => void;
   handleCraft: () => void;
   handleCancelQueuedItem?: () => void;
@@ -30,6 +31,7 @@ export const CraftButton: React.FC<{
   isCrafting,
   isPending,
   isReady,
+  hasReadyProducts,
   handleCollect,
   handleCraft,
   handleCancelQueuedItem,
@@ -77,6 +79,11 @@ export const CraftButton: React.FC<{
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
+        {hasReadyProducts && (
+          <Button className="whitespace-nowrap" onClick={handleCollect}>
+            {t("collect")}
+          </Button>
+        )}
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
@@ -99,6 +106,11 @@ export const CraftButton: React.FC<{
   if (isCrafting || isPending) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
+        {hasReadyProducts && (
+          <Button className="whitespace-nowrap" onClick={handleCollect}>
+            {t("collect")}
+          </Button>
+        )}
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
@@ -113,7 +125,7 @@ export const CraftButton: React.FC<{
             {t("recipes.addToQueue")}
           </Button>
         )}
-        {!isPreparingQueueSlot && (
+        {!isPreparingQueueSlot && !hasReadyProducts && (
           <Button
             disabled={!inventory.Gem?.gte(gems) || isPending}
             onClick={() => setShowConfirmation(true)}

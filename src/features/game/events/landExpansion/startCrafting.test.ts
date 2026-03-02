@@ -428,9 +428,8 @@ describe("startCrafting", () => {
     expect(newState.craftingBox.queue).toHaveLength(2);
     expect(newState.craftingBox.queue?.[0].name).toBe("Timber");
     expect(newState.craftingBox.queue?.[1].name).toBe("Timber");
-    expect(newState.craftingBox.queue?.[1].readyAt).toBeGreaterThanOrEqual(
-      newState.craftingBox.queue![0].readyAt,
-    );
+    expect(newState.craftingBox.queue?.[1].readyAt).toBe(now);
+    expect(newState.craftingBox.queue?.[1].startedAt).toBe(now);
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
@@ -518,5 +517,74 @@ describe("startCrafting", () => {
     });
 
     expect(state.craftingBox.readyAt).toBe(now);
+  });
+
+  it("makes instant recipe immediately ready when added to a non-empty queue", () => {
+    const now = Date.now();
+    gameState.vip = {
+      bundles: [],
+      expiresAt: now + 86400000,
+    };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          name: "Basic Bed",
+          readyAt: now + 60000,
+          startedAt: now,
+          type: "collectible",
+        },
+      ],
+      startedAt: now,
+      readyAt: now + 60000,
+      recipes: {
+        Timber: {
+          name: "Timber",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+          ],
+          time: 0,
+        },
+      },
+    };
+    gameState.inventory = {
+      Wood: new Decimal(18),
+    };
+
+    const state = startCrafting({
+      farmId,
+      state: gameState,
+      action: {
+        type: "crafting.started",
+        ingredients: [
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+        ],
+      },
+      createdAt: now,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(2);
+
+    const instantItem = state.craftingBox.queue![1];
+    expect(instantItem.name).toBe("Timber");
+    expect(instantItem.readyAt).toBe(now);
+    expect(instantItem.startedAt).toBe(now);
   });
 });

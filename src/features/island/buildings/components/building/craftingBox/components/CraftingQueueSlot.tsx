@@ -48,25 +48,9 @@ export const CraftingQueueSlot: React.FC<CraftingQueueSlotProps> = ({
       ? ITEM_DETAILS[item.name as InventoryItemName]?.image
       : getImageUrl(ITEM_IDS[item.name as BumpkinItem]);
 
-  const handleClick =
-    !isReady && onSelect ? () => onSelect(slotIndex, false, item) : undefined;
-
-  if (isReady) {
-    return (
-      <div className="relative">
-        <Box
-          image={image}
-          isSelected={isSelected}
-          onClick={handleClick}
-          className={!isReady && onSelect ? "cursor-pointer" : undefined}
-        />
-        <img
-          className="absolute top-1 right-1 w-4 z-10 pointer-events-none"
-          src={SUNNYSIDE.icons.confirm}
-        />
-      </div>
-    );
-  }
+  const handleClick = onSelect
+    ? () => onSelect(slotIndex, false, item)
+    : undefined;
 
   return (
     <Box
@@ -74,6 +58,7 @@ export const CraftingQueueSlot: React.FC<CraftingQueueSlotProps> = ({
       isSelected={isSelected}
       onClick={handleClick}
       className={!isReady && onSelect ? "cursor-pointer" : undefined}
+      secondaryImage={isReady ? SUNNYSIDE.icons.confirm : undefined}
     />
   );
 };

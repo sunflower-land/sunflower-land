@@ -130,20 +130,49 @@ export const CraftTab: React.FC<Props> = ({
     item: CraftingQueueItem;
     viewedSlotIndex: number;
   }>(() => {
-    const defaultSelection = {
+    if (initialQueueSlot != null && !(initialQueueSlot > 0 && !canAddToQueue)) {
+      return {
+        slot: initialQueueSlot,
+        item: cooking ?? defaultQueueItem,
+        viewedSlotIndex: initialQueueSlot === 0 ? 0 : -1,
+      };
+    }
+
+    if (readyProducts.length > 0) {
+      const firstReadySlotIndex = (cooking ? 1 : 0) + queue.length;
+      return {
+        slot: 0,
+        item: readyProducts[0],
+        viewedSlotIndex: firstReadySlotIndex,
+      };
+    }
+
+    return {
       slot: 0,
       item: defaultQueueItem,
       viewedSlotIndex: 0,
     };
-    if (initialQueueSlot == null || (initialQueueSlot > 0 && !canAddToQueue)) {
-      return defaultSelection;
-    }
-    return {
-      slot: initialQueueSlot,
-      item: cooking ?? defaultQueueItem,
-      viewedSlotIndex: initialQueueSlot === 0 ? 0 : -1,
-    };
   });
+
+  const autoSelectedReadyRef = useRef(
+    initialQueueSlot == null && readyProducts.length > 0,
+  );
+  useEffect(() => {
+    if (autoSelectedReadyRef.current && readyProducts.length > 0) {
+      const recipeName = readyProducts[0].name;
+      const recipe =
+        recipes[recipeName as keyof typeof recipes] ??
+        RECIPES[recipeName as keyof typeof RECIPES];
+      if (recipe?.ingredients) {
+        const padded = [...recipe.ingredients, ...Array(9).fill(null)].slice(
+          0,
+          9,
+        ) as (RecipeIngredient | null)[];
+        setSelectedItems(padded);
+      }
+      autoSelectedReadyRef.current = false;
+    }
+  }, []);
 
   const remainingTime = useMemo(() => {
     if (
@@ -344,7 +373,7 @@ export const CraftTab: React.FC<Props> = ({
       const recipeStartAt =
         queue.length > 0
           ? queue[queue.length - 1].readyAt
-          : (cooking?.readyAt ?? Date.now());
+          : (cooking?.readyAt ?? now);
 
       const { seconds: recipeTime } = getBoostedCraftingTime({
         game: state,
@@ -359,11 +388,12 @@ export const CraftTab: React.FC<Props> = ({
         },
       });
 
+      const isInstant = recipeTime === 0;
       const newItem: CraftingQueueItem = {
         name: currentRecipe.name,
         type: currentRecipe.type,
-        startedAt: recipeStartAt,
-        readyAt: recipeStartAt + recipeTime,
+        startedAt: isInstant ? now : recipeStartAt,
+        readyAt: isInstant ? now : recipeStartAt + recipeTime,
       };
 
       const addedSlotIndex = queueSelection.slot;
@@ -505,6 +535,9 @@ export const CraftTab: React.FC<Props> = ({
     !isViewingInProgressItem &&
     queueSelection.viewedSlotIndex > 0;
 
+  const isViewingReadyItem =
+    queueSelection.item.readyAt > 0 && queueSelection.item.readyAt <= now;
+
   const isDisabled =
     isPending ||
     (isCrafting && !canAddToQueue) ||
@@ -596,9 +629,12 @@ export const CraftTab: React.FC<Props> = ({
             isCrafting={isCrafting}
             isPending={isPending}
             isReady={isReady}
+            hasReadyProducts={readyProducts.length > 0}
             handleCollect={handleCollect}
             handleCraft={handleCraft}
-            handleCancelQueuedItem={handleCancelQueuedItem}
+            handleCancelQueuedItem={
+              isViewingReadyItem ? undefined : handleCancelQueuedItem
+            }
             isCraftingBoxEmpty={isCraftingBoxEmpty}
             selectedItems={selectedItems}
             inventory={inventory}

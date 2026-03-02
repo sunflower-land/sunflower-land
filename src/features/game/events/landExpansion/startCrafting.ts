@@ -184,12 +184,14 @@ export function startCrafting({
       },
     });
 
-    const readyAt = recipeStartAt + recipeTime;
+    const isInstant = recipeTime === 0;
+    const readyAt = isInstant ? createdAt : recipeStartAt + recipeTime;
+    const startedAt = isInstant ? createdAt : recipeStartAt;
 
     const newQueueItem: CraftingQueueItem = {
       name: recipe.name,
       readyAt,
-      startedAt: recipeStartAt,
+      startedAt,
       type: recipe.type,
     };
 
