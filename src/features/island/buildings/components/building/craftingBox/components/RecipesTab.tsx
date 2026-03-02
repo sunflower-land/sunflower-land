@@ -27,6 +27,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import lightningIcon from "assets/icons/lightning.png";
 import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { hasFeatureAccess } from "lib/flags";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
@@ -91,7 +92,11 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         ]
       : []);
 
-  const isVIP = hasVipAccess({ game: state });
+  const hasCraftingBoxQueuesAccess = hasFeatureAccess(
+    state,
+    "CRAFTING_BOX_QUEUES",
+  );
+  const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
   const canAddToQueue = craftingStatus === "crafting" && isVIP && !isQueueFull;
