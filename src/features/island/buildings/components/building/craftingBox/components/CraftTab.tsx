@@ -7,13 +7,13 @@ import {
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import {
+  CraftingQueueItem,
   GameState,
   Inventory,
   InventoryItemName,
   Wardrobe,
 } from "features/game/types/game";
 import { Button } from "components/ui/Button";
-import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -47,10 +47,15 @@ import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURES } from "features/game/types/treasure";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import fastForward from "assets/icons/fast_forward.png";
+import vipIcon from "assets/icons/vip.webp";
+import { CraftingQueue } from "./CraftingQueue";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { KNOWN_IDS } from "features/game/types";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -152,18 +157,22 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
 
+const MAX_CRAFTING_SLOTS = 4;
+
 interface Props {
   gameService: MachineInterpreter;
   selectedItems: (RecipeIngredient | null)[];
   setSelectedItems: (items: (RecipeIngredient | null)[]) => void;
+  onClose?: () => void;
 }
 
 export const CraftTab: React.FC<Props> = ({
   gameService,
   selectedItems,
   setSelectedItems,
+  onClose = () => {},
 }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);
   const farmId = useSelector(gameService, _farmId);
@@ -172,7 +181,42 @@ export const CraftTab: React.FC<Props> = ({
     status: craftingStatus,
     readyAt: craftingReadyAt,
     recipes,
+    queue: rawQueue,
+    item: legacyItem,
+    startedAt: craftingStartedAt,
   } = craftingBox;
+
+  const craftingQueue: CraftingQueueItem[] =
+    rawQueue ??
+    (legacyItem && craftingStatus === "crafting"
+      ? [
+          {
+            name: legacyItem.collectible ?? legacyItem.wearable,
+            readyAt: craftingReadyAt,
+            startedAt: craftingStartedAt,
+            type: legacyItem.collectible ? "collectible" : "wearable",
+          },
+        ]
+      : []);
+
+  /** readyAt for the currently crafting item (queue format or legacy) */
+  const effectiveReadyAt = craftingQueue[0]?.readyAt ?? craftingReadyAt;
+
+  const needsLiveTime =
+    craftingStatus === "crafting" &&
+    effectiveReadyAt != null &&
+    Number.isFinite(effectiveReadyAt);
+  const now = useNow({
+    live: needsLiveTime,
+    autoEndAt: needsLiveTime ? effectiveReadyAt : undefined,
+  });
+  const inProgress = craftingQueue.filter((item) => item.readyAt > now);
+  const cooking = inProgress[0];
+  const queue = inProgress.slice(1);
+  const readyProducts = craftingQueue.filter((item) => item.readyAt <= now);
+  const isVIP = hasVipAccess({ game: state });
+  const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
+  const isQueueFull = craftingQueue.length >= availableSlots;
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
@@ -180,10 +224,18 @@ export const CraftTab: React.FC<Props> = ({
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedQueueSlot, setSelectedQueueSlot] = useState<number | null>(
+    null,
+  );
+  const [selectedQueuedItem, setSelectedQueuedItem] = useState<{
+    slotIndex: number;
+    item: CraftingQueueItem;
+  } | null>(null);
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
   const isIdle = craftingStatus === "idle";
+  const canAddToQueue = isCrafting && isVIP && !isQueueFull;
   const isReady =
     craftingStatus === "crafting" &&
     remainingTime !== null &&
@@ -196,9 +248,17 @@ export const CraftTab: React.FC<Props> = ({
     setSelectedIngredient(ingredient);
   };
 
-  const processRemainingTime = () => {
-    const now = Date.now();
-    const remaining = Math.max(0, craftingReadyAt - now);
+  const processRemainingTime = (now: number) => {
+    const readyAt = effectiveReadyAt;
+    if (
+      readyAt == null ||
+      typeof readyAt !== "number" ||
+      !Number.isFinite(readyAt)
+    ) {
+      setRemainingTime(null);
+      return 0;
+    }
+    const remaining = Math.max(0, readyAt - now);
     setRemainingTime(remaining);
 
     return remaining;
@@ -237,17 +297,10 @@ export const CraftTab: React.FC<Props> = ({
 
   /** Countdown timer */
   useEffect(() => {
-    if (craftingStatus === "crafting" && craftingReadyAt) {
-      processRemainingTime();
-
-      const interval = setInterval(() => {
-        const remaining = processRemainingTime();
-        if (remaining <= 0) clearInterval(interval);
-      }, 1000);
-
-      return () => clearInterval(interval);
+    if (craftingStatus === "crafting" && effectiveReadyAt != null) {
+      processRemainingTime(now);
     }
-  }, [craftingStatus, craftingReadyAt]);
+  }, [craftingStatus, effectiveReadyAt, now]);
 
   /** Failed attempt */
   useEffect(() => {
@@ -268,10 +321,13 @@ export const CraftTab: React.FC<Props> = ({
   }, [selectedItems]);
 
   /**
-   * Find the recipe that matches the selected items
+   * Find the recipe that matches the selected items.
+   * Use RECIPES (full set) to match - same as API startCrafting - so we find
+   * all valid recipes, not just those in craftingBox.recipes.
    */
+  const recipesToMatch = useMemo(() => ({ ...RECIPES, ...recipes }), [recipes]);
   useEffect(() => {
-    const foundRecipe = findMatchingRecipe(selectedItems, recipes);
+    const foundRecipe = findMatchingRecipe(selectedItems, recipesToMatch);
 
     if (foundRecipe) {
       setCurrentRecipe(foundRecipe);
@@ -279,7 +335,7 @@ export const CraftTab: React.FC<Props> = ({
       setCurrentRecipe(null);
       setRemainingTime(null);
     }
-  }, [selectedItems, recipes]);
+  }, [selectedItems, recipesToMatch]);
 
   const hasIngredient = (ingredient: RecipeIngredient) =>
     (ingredient.collectible &&
@@ -298,7 +354,11 @@ export const CraftTab: React.FC<Props> = ({
     ingredient: RecipeIngredient,
     sourceIndex?: number,
   ) => {
-    if (isPending || isCrafting) {
+    if (
+      selectedQueuedItem != null ||
+      isPending ||
+      (isCrafting && !canAddToQueue)
+    ) {
       e.preventDefault();
       return;
     }
@@ -361,7 +421,7 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleBoxSelect = (index: number) => {
-    if (isPending || isCrafting) return;
+    if (isPending || (isCrafting && !canAddToQueue)) return;
 
     const newSelectedItems = [...selectedItems];
 
@@ -404,11 +464,98 @@ export const CraftTab: React.FC<Props> = ({
 
   const handleCollect = () => {
     gameService.send("crafting.collected");
+    setSelectedItems(getCurrentCraftingRecipeIngredients());
   };
 
   const handleClearIngredients = () => {
     button.play();
-    setSelectedItems(Array(9).fill(null));
+    setSelectedQueuedItem(null);
+    if (selectedQueueSlot != null && canAddToQueue) {
+      setSelectedItems(getCurrentCraftingRecipeIngredients());
+    } else {
+      setSelectedItems(Array(9).fill(null));
+    }
+    setSelectedIngredient(null);
+    setSelectedQueueSlot(null);
+  };
+
+  const getCurrentCraftingRecipeIngredients =
+    (): (RecipeIngredient | null)[] => {
+      if (!cooking) return Array(9).fill(null);
+      const recipe =
+        recipes[cooking.name as keyof typeof recipes] ??
+        RECIPES[cooking.name as keyof typeof RECIPES];
+      if (!recipe?.ingredients) return Array(9).fill(null);
+      const padded = [...recipe.ingredients, ...Array(9).fill(null)].slice(
+        0,
+        9,
+      );
+      return padded as (RecipeIngredient | null)[];
+    };
+
+  const getRecipeIngredientsForItem = (
+    item: CraftingQueueItem,
+  ): (RecipeIngredient | null)[] => {
+    const recipe =
+      recipes[item.name as keyof typeof recipes] ??
+      RECIPES[item.name as keyof typeof RECIPES];
+    if (!recipe?.ingredients) return Array(9).fill(null);
+    const padded = [...recipe.ingredients, ...Array(9).fill(null)].slice(0, 9);
+    return padded as (RecipeIngredient | null)[];
+  };
+
+  const handleQueueSlotSelect = (
+    slotIndex: number,
+    isEmpty: boolean,
+    item?: CraftingQueueItem,
+  ) => {
+    if (isEmpty) {
+      if (!canAddToQueue) return;
+      if (selectedQueueSlot === slotIndex) {
+        setSelectedQueueSlot(null);
+        setSelectedQueuedItem(null);
+        setSelectedItems(getCurrentCraftingRecipeIngredients());
+        setSelectedIngredient(null);
+      } else {
+        setSelectedQueueSlot(slotIndex);
+        setSelectedQueuedItem(null);
+        setSelectedItems(Array(9).fill(null));
+        setSelectedIngredient(null);
+      }
+    } else if (item) {
+      // Clicked on a queued item - show recipe and allow cancel
+      if (
+        selectedQueuedItem?.slotIndex === slotIndex &&
+        selectedQueuedItem?.item.name === item.name &&
+        selectedQueuedItem?.item.readyAt === item.readyAt
+      ) {
+        // Deselect if clicking same item
+        setSelectedQueuedItem(null);
+        setSelectedQueueSlot(null);
+        setSelectedItems(getCurrentCraftingRecipeIngredients());
+        setSelectedIngredient(null);
+      } else {
+        setSelectedQueuedItem({ slotIndex, item });
+        setSelectedQueueSlot(null);
+        setSelectedItems(getRecipeIngredientsForItem(item));
+        setSelectedIngredient(null);
+      }
+    } else {
+      setSelectedQueueSlot(null);
+      setSelectedQueuedItem(null);
+      setSelectedItems(getCurrentCraftingRecipeIngredients());
+      setSelectedIngredient(null);
+    }
+  };
+
+  const handleCancelQueuedItem = () => {
+    if (!selectedQueuedItem) return;
+    button.play();
+    gameService.send("crafting.cancelled", {
+      queueItem: selectedQueuedItem.item,
+    });
+    setSelectedQueuedItem(null);
+    setSelectedItems(getCurrentCraftingRecipeIngredients());
     setSelectedIngredient(null);
   };
 
@@ -422,7 +569,17 @@ export const CraftTab: React.FC<Props> = ({
     });
   };
 
-  const isDisabled = isPending || isCrafting || isCraftingBoxEmpty;
+  const isViewingInProgressRecipe =
+    cooking != null && selectedQueueSlot == null && selectedQueuedItem == null;
+
+  const isViewingQueuedRecipe = selectedQueuedItem != null;
+
+  const isDisabled =
+    isPending ||
+    (isCrafting && !canAddToQueue) ||
+    isCraftingBoxEmpty ||
+    isViewingInProgressRecipe ||
+    isViewingQueuedRecipe;
 
   const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
 
@@ -450,7 +607,7 @@ export const CraftTab: React.FC<Props> = ({
             <div
               className="flex "
               key={`${index}-${item}`}
-              draggable={!isPending && !!item}
+              draggable={!selectedQueuedItem && !isPending && !!item}
               onDragStart={(e) =>
                 handleDragStart(e, item as RecipeIngredient, index)
               }
@@ -466,7 +623,11 @@ export const CraftTab: React.FC<Props> = ({
                       : undefined
                 }
                 onClick={() => handleBoxSelect(index)}
-                disabled={isPending}
+                disabled={
+                  selectedQueuedItem != null ||
+                  isPending ||
+                  (isCrafting && !canAddToQueue)
+                }
               />
             </div>
           ))}
@@ -496,26 +657,58 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             remainingTime={remainingTime}
             isIdle={isIdle}
-            key={currentRecipe?.name}
+            showRecipeContext={
+              selectedQueueSlot != null || selectedQueuedItem != null
+            }
+            key={`${currentRecipe?.name}-${selectedQueueSlot}-${selectedQueuedItem?.item.name}`}
             farmId={farmId}
           />
           <div>
-            <CraftButton
-              isCrafting={isCrafting}
-              isPending={isPending}
-              isReady={isReady}
-              handleCollect={handleCollect}
-              handleCraft={handleCraft}
-              isCraftingBoxEmpty={isCraftingBoxEmpty}
-              selectedItems={selectedItems}
-              inventory={inventory}
-              wardrobe={wardrobe}
-              gems={gems}
-              onInstantCraft={handleInstantCraft}
-            />
+            {selectedQueuedItem ? (
+              <Button
+                className="mt-2 whitespace-nowrap"
+                onClick={handleCancelQueuedItem}
+              >
+                {t("cancel")}
+              </Button>
+            ) : (
+              <CraftButton
+                isCrafting={isCrafting}
+                isPending={isPending}
+                isReady={isReady}
+                handleCollect={handleCollect}
+                handleCraft={handleCraft}
+                isCraftingBoxEmpty={isCraftingBoxEmpty}
+                selectedItems={selectedItems}
+                inventory={inventory}
+                wardrobe={wardrobe}
+                gems={gems}
+                onInstantCraft={handleInstantCraft}
+                canAddToQueue={canAddToQueue}
+                isQueueFull={isQueueFull}
+                isPreparingQueueSlot={
+                  selectedQueueSlot != null || selectedQueuedItem != null
+                }
+                isPreparingEmptyQueueSlot={
+                  selectedQueueSlot != null && selectedQueuedItem == null
+                }
+              />
+            )}
           </div>
         </div>
       </div>
+
+      {cooking && isVIP && (
+        <CraftingQueue
+          product={cooking}
+          queue={queue}
+          readyProducts={readyProducts}
+          onClose={onClose}
+          selectedQueueSlot={selectedQueueSlot}
+          selectedQueuedItemSlot={selectedQueuedItem?.slotIndex ?? null}
+          onSlotSelect={handleQueueSlotSelect}
+        />
+      )}
 
       <div className="flex space-x-3 mb-1 ml-1 mr-2">
         {selectedIngredient && (
@@ -546,7 +739,9 @@ export const CraftTab: React.FC<Props> = ({
               return (
                 <div
                   key={itemName}
-                  draggable={!isPending && amount.greaterThan(0)}
+                  draggable={
+                    !selectedQueuedItem && !isPending && amount.greaterThan(0)
+                  }
                   onDragStart={(e) =>
                     handleDragStart(e, { collectible: itemName })
                   }
@@ -559,7 +754,11 @@ export const CraftTab: React.FC<Props> = ({
                     onClick={() =>
                       handleIngredientSelect({ collectible: itemName })
                     }
-                    disabled={isPending || isCrafting}
+                    disabled={
+                      selectedQueuedItem != null ||
+                      isPending ||
+                      (isCrafting && !canAddToQueue)
+                    }
                   />
                 </div>
               );
@@ -579,7 +778,11 @@ export const CraftTab: React.FC<Props> = ({
         <InnerPanel className="shadow">
           <div className="flex items-center w-full">
             <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
-            <span className="flex-1 text-center">{`${t("confirm")} ${t("craft")} ${currentRecipe?.name ?? ""}`}</span>
+            <span className="flex-1 text-center">
+              {canAddToQueue
+                ? `${t("confirm")} ${t("recipes.addToQueue")} ${currentRecipe?.name ?? ""}`
+                : `${t("confirm")} ${t("craft")} ${currentRecipe?.name ?? ""}`}
+            </span>
             <img
               src={SUNNYSIDE.icons.close}
               className="cursor-pointer"
@@ -616,13 +819,14 @@ export const CraftTab: React.FC<Props> = ({
                 recipe={currentRecipe}
                 remainingTime={remainingTime}
                 isIdle={isIdle}
-                key={currentRecipe?.name}
+                showRecipeContext={selectedQueueSlot != null}
+                key={`${currentRecipe?.name}-${selectedQueueSlot}`}
                 farmId={farmId}
               />
             </div>
           </div>
           <Button className="mt-2" onClick={() => confirmCraft()}>
-            {t("craft")}
+            {canAddToQueue ? t("recipes.addToQueue") : t("craft")}
           </Button>
         </InnerPanel>
       </ModalOverlay>
@@ -635,7 +839,7 @@ const CraftStatus: React.FC<{
   isCrafting: boolean;
   isReady: boolean;
 }> = ({ isPending, isCrafting, isReady }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   if (isReady) {
     return (
@@ -665,7 +869,7 @@ const CraftDetails: React.FC<{
   isPending: boolean;
   failedAttempt: boolean;
 }> = ({ recipe, isPending, failedAttempt }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   if (!recipe) {
     return (
@@ -717,7 +921,7 @@ const RecipeLabelContent: React.FC<{
   recipe: Recipe | null;
   farmId: number;
 }> = ({ state, recipe, farmId }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   if (!recipe) {
@@ -782,7 +986,7 @@ const RecipeLabelContent: React.FC<{
 const InProgressLabelContent: React.FC<{ remainingTime: number | null }> = ({
   remainingTime,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   if (remainingTime === null) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
@@ -808,9 +1012,17 @@ const CraftTimer: React.FC<{
   recipe: Recipe | null;
   remainingTime: number | null;
   isIdle: boolean;
+  showRecipeContext?: boolean;
   farmId: number;
-}> = ({ state, recipe, remainingTime, isIdle, farmId }) => {
-  if (isIdle) {
+}> = ({
+  state,
+  recipe,
+  remainingTime,
+  isIdle,
+  showRecipeContext = false,
+  farmId,
+}) => {
+  if (isIdle || showRecipeContext) {
     return (
       <Label
         type="transparent"
@@ -845,6 +1057,10 @@ const CraftButton: React.FC<{
   wardrobe: Wardrobe;
   gems: number;
   onInstantCraft: (gems: number) => void;
+  canAddToQueue?: boolean;
+  isQueueFull?: boolean;
+  isPreparingQueueSlot?: boolean;
+  isPreparingEmptyQueueSlot?: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -857,8 +1073,12 @@ const CraftButton: React.FC<{
   wardrobe,
   gems,
   onInstantCraft,
+  canAddToQueue = false,
+  isQueueFull = false,
+  isPreparingQueueSlot = false,
+  isPreparingEmptyQueueSlot = false,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const hasRequiredIngredients = useMemo(() => {
@@ -884,19 +1104,37 @@ const CraftButton: React.FC<{
   }
 
   if (isCrafting || isPending) {
+    const addToQueueDisabled =
+      isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
+
     return (
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2">
-        <Button disabled={true}>{t("crafting")}</Button>
-        <Button
-          disabled={!inventory.Gem?.gte(gems) || isPending}
-          onClick={() => setShowConfirmation(true)}
-        >
-          <div className="flex items-center justify-center gap-1">
-            <img src={fastForward} className="h-5" />
-            <span className="text-sm flex items-center">{gems}</span>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-          </div>
-        </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2 flex-wrap">
+        {isPreparingEmptyQueueSlot && canAddToQueue ? (
+          <Button
+            className="whitespace-nowrap relative"
+            onClick={handleCraft}
+            disabled={addToQueueDisabled}
+          >
+            <img
+              src={vipIcon}
+              alt="VIP"
+              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+            />
+            {t("recipes.addToQueue")}
+          </Button>
+        ) : null}
+        {!isPreparingQueueSlot && (
+          <Button
+            disabled={!inventory.Gem?.gte(gems) || isPending}
+            onClick={() => setShowConfirmation(true)}
+          >
+            <div className="flex items-center justify-center gap-1">
+              <img src={fastForward} className="h-5" />
+              <span className="text-sm flex items-center">{gems}</span>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
+          </Button>
+        )}
         <ConfirmationModal
           show={showConfirmation}
           onHide={() => setShowConfirmation(false)}

@@ -133,6 +133,51 @@ describe("speedUpCrafting", () => {
     expect(newState.craftingBox.readyAt).toEqual(createdAt);
   });
 
+  it("speeds up queue[0] and recalculates remaining queue items", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(100) },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: createdAt + 10000,
+            startedAt: createdAt,
+            type: "collectible",
+          },
+          {
+            name: "Basic Bed",
+            readyAt: createdAt + 10000 + 8 * 60 * 60 * 1000,
+            startedAt: createdAt + 10000,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: createdAt,
+        readyAt: createdAt + 10000,
+        recipes: {},
+      },
+    };
+    const gemsNeeded = getInstantGems({
+      readyAt: state.craftingBox.readyAt,
+      now: createdAt,
+      game: state,
+    });
+    state.inventory.Gem = new Decimal(gemsNeeded);
+    const newState = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt,
+      farmId: 1,
+    });
+    expect(newState.craftingBox.queue?.[0].readyAt).toEqual(createdAt);
+    expect(newState.craftingBox.readyAt).toEqual(createdAt);
+    expect(newState.craftingBox.queue).toHaveLength(2);
+    expect(newState.craftingBox.queue?.[1].name).toBe("Basic Bed");
+    expect(newState.craftingBox.queue?.[1].readyAt).toBeGreaterThan(createdAt);
+  });
+
   it("updates gem history", () => {
     const currentDateString = new Date(createdAt)
       .toISOString()

@@ -4561,6 +4561,8 @@
   "crafting.readyToCollect": "Ready to collect",
   "crafting.inProgress": "In progress",
   "crafting.noRecipe": "No recipe",
+  "crafting.queue": "Queue",
+  "crafting.addToQueue": "Add to queue",
   "ready": "Ready",
   "instant": "Instant",
   "bounties.flower.intro.one": "Howdy Bumpkin! We've got a bounty on flowers this week.",
