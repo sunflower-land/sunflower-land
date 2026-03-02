@@ -141,7 +141,7 @@ export const CraftTab: React.FC<Props> = ({
     return {
       slot: initialQueueSlot,
       item: cooking ?? defaultQueueItem,
-      viewedSlotIndex: -1,
+      viewedSlotIndex: initialQueueSlot === 0 ? 0 : -1,
     };
   });
 
