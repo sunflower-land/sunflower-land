@@ -137,8 +137,8 @@ const TelegramConnect: React.FC = () => {
                 }
 
                 // Trigger a no op save event to fetch API
-                gameService.send("kingdomChores.refreshed");
-                gameService.send("SAVE");
+                gameService.send({ type: "kingdomChores.refreshed" });
+                gameService.send({ type: "SAVE" });
               }}
             >
               {t("telegram.alreadyStarted")}
@@ -157,8 +157,8 @@ const TelegramConnect: React.FC = () => {
               setStartedBotAt(Date.now());
 
               // Trigger a no op save event to fetch API
-              gameService.send("kingdomChores.refreshed");
-              gameService.send("SAVE");
+              gameService.send({ type: "kingdomChores.refreshed" });
+              gameService.send({ type: "SAVE" });
             }}
           >
             {t("telegram.startBot")}

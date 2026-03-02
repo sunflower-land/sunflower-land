@@ -92,10 +92,10 @@ export const RevealPet: React.FC = () => {
 
   if (!isActiveState) return null;
 
-  const onClose = () => gameService.send("CONTINUE");
+  const onClose = () => gameService.send({ type: "CONTINUE" });
 
   const onPlacePet = async () => {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
     gameService.send("LANDSCAPE", {
       action: "nft.placed",
       placeable: {

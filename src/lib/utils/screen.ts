@@ -45,7 +45,7 @@ class ScreenTracker {
 
     // World Record is 16 clicks per second
     if (this.clicks.length > 15) {
-      this.service?.send("REFRESH");
+      this.service?.send({ type: "REFRESH" });
     }
   }
 

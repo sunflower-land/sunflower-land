@@ -6,7 +6,7 @@ export const DEV_GenerateLandButton: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const randomise = async () => {
-    gameService.send("RANDOMISE");
+    gameService.send({ type: "RANDOMISE" });
   };
   return (
     <div>

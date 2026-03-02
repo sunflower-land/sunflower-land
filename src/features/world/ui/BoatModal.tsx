@@ -20,7 +20,7 @@ export const BoatModal: React.FC<Props> = ({ isOpen, closeModal, id }) => {
 
   useEffect(() => {
     if (isOpen) {
-      gameService.send("SAVE");
+      gameService.send({ type: "SAVE" });
     }
   }, [isOpen]);
 

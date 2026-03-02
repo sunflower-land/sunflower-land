@@ -13,7 +13,7 @@ export const Promo: React.FC = () => {
       <p className="text-base">{t("promo.cdcBonus")}</p>
       <img src={treasure} className="w-12 my-2" />
       <p className="text-sm mb-1">{t("promo.expandLand")}</p>
-      <Button onClick={() => gameService.send("ACKNOWLEDGE")}>
+      <Button onClick={() => gameService.send({ type: "ACKNOWLEDGE" })}>
         {t("gotIt")}
       </Button>
     </div>

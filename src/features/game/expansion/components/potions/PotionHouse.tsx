@@ -9,7 +9,7 @@ import {
   PotionHouseMachineInterpreter,
   potionHouseMachine,
 } from "./lib/potionHouseMachine";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useActorRef } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import book from "src/assets/icons/tier1_book.webp";
 
@@ -23,7 +23,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const potionHouse = gameService.getSnapshot().context.state.potionHouse;
   const isNewGame = !potionHouse || potionHouse?.game.status === "finished";
 
-  const potionHouseService = useInterpret(potionHouseMachine, {
+  const potionHouseService = useActorRef(potionHouseMachine, {
     context: { isNewGame },
   }) as unknown as PotionHouseMachineInterpreter;
 

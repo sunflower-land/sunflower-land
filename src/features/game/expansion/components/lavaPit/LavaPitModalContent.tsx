@@ -60,11 +60,11 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const isLavaPitTimeBoosted = boostsUsed.length > 0;
 
   const throwResourcesIntoPit = () => {
-    gameService.send("lavaPit.started", { id });
+    gameService.send({ type: "lavaPit.started", id });
   };
 
   const collectLavaPit = () => {
-    gameService.send("lavaPit.collected", { id });
+    gameService.send({ type: "lavaPit.collected", id });
   };
 
   const { requirements } = getLavaPitRequirements(

@@ -521,7 +521,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const confirmBuyMoreDigs = () => {
     onClose();
-    gameService.send("desert.digsBought");
+    gameService.send({ type: "desert.digsBought" });
 
     gameAnalytics.trackSink({
       currency: "Gem",

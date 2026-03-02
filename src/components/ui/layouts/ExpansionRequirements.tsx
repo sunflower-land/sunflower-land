@@ -73,8 +73,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
   const onExpand = () => {
-    gameService.send("land.expanded");
-    gameService.send("SAVE");
+    gameService.send({ type: "land.expanded" });
+    gameService.send({ type: "SAVE" });
 
     const blockBucks = requirements?.resources["Gem"] ?? 0;
     if (blockBucks) {

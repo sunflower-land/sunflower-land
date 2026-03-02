@@ -83,29 +83,34 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const onGuessSpotClick = (guessSpot: number) => {
     // REMOVE GUESS
     if (currentGuess[guessSpot]) {
-      potionHouseService.send("REMOVE_GUESS", { guessSpot });
+      potionHouseService.send({ type: "REMOVE_GUESS", guessSpot });
     }
 
-    potionHouseService.send("SELECT_GUESS_SPOT", { guessSpot });
+    potionHouseService.send({ type: "SELECT_GUESS_SPOT", guessSpot });
   };
 
   const onPotionBottleClick = (potionName: PotionName) => {
     // ADD
-    potionHouseService.send("ADD_GUESS", { guessSpot, potion: potionName });
+    potionHouseService.send({
+      type: "ADD_GUESS",
+      guessSpot,
+      potion: potionName,
+    });
   };
 
   const onSubmit = () => {
-    gameService.send("potion.mixed", {
+    gameService.send({
+      type: "potion.mixed",
       attemptNumber: guessRow + 1,
       potions: currentGuess,
     });
-    gameService.send("SAVE");
-    potionHouseService.send("MIX_POTION");
+    gameService.send({ type: "SAVE" });
+    potionHouseService.send({ type: "MIX_POTION" });
   };
 
   const handleStart = () => {
-    gameService.send("potion.started", { multiplier });
-    potionHouseService.send("NEW_GAME", { multiplier });
+    gameService.send({ type: "potion.started", multiplier });
+    potionHouseService.send({ type: "NEW_GAME", multiplier });
   };
 
   const showStartButton =

@@ -74,9 +74,7 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
   };
 
   const confirm = () => {
-    gameService.send("greenhouse.oiled", {
-      amount: addedOil.toNumber(),
-    });
+    gameService.send({ type: "greenhouse.oiled", amount: addedOil.toNumber() });
 
     close();
   };

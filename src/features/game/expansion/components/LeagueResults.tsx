@@ -39,7 +39,7 @@ export const LeagueResults: React.FC = () => {
     }
 
     const leagueId = leagues.id;
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
 
     const fetchLeaderboards = async () => {
       try {

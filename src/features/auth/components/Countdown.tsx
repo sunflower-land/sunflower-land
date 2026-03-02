@@ -20,7 +20,7 @@ export const Countdown: React.FC = () => {
       setTime(secondsToString(timeLeft, { length: "full" }));
 
       if (timeLeft <= 0) {
-        authService.send("REFRESH");
+        authService.send({ type: "REFRESH" });
         clearInterval(interval);
       }
     }, 1000);

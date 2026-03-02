@@ -46,7 +46,10 @@ export const HolidayPuzzles2025: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "holiday-puzzle-2025" });
+    gameService.send({
+      type: "minigame.prizeClaimed",
+      id: "holiday-puzzle-2025",
+    });
 
     onClose();
   };

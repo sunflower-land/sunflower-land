@@ -278,9 +278,7 @@ const ComposterModalContent: React.FC<{
   const disabled = !hasRequirements || composting;
 
   const accelerate = () => {
-    gameService.send("compost.accelerated", {
-      building: composterName,
-    });
+    gameService.send({ type: "compost.accelerated", building: composterName });
     onBoost();
   };
 

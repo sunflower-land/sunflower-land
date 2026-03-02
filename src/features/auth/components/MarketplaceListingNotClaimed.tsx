@@ -9,7 +9,7 @@ export const MarketplaceListingNotClaimed: React.FC = () => {
   const { gameService } = useGame();
 
   const reload = () => {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
   };
 
   return (

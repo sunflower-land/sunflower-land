@@ -33,8 +33,8 @@ export const ClaimReferralRewards: React.FC = () => {
         coins: rewards.coins ?? 0,
       }}
       onClaim={() => {
-        gameService.send("referral.rewardsClaimed");
-        gameService.send("ACKNOWLEDGE");
+        gameService.send({ type: "referral.rewardsClaimed" });
+        gameService.send({ type: "ACKNOWLEDGE" });
       }}
       label={t("claimReferralRewards.title")}
     />

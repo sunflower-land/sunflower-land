@@ -300,7 +300,7 @@ const FactionPetContent: React.FC<{
       requestIndex: selectedRequestIdx,
       amount,
     });
-    if (!autosaving) gameService.send("SAVE");
+    if (!autosaving) gameService.send({ type: "SAVE" });
 
     const totalXP = getTotalXPForRequest(
       gameService.getSnapshot().context.state,

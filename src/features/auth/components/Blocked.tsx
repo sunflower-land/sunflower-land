@@ -14,7 +14,7 @@ export const Blocked: React.FC = () => {
   const tryAgain = () => {
     removeJWT();
 
-    authService.send("REFRESH");
+    authService.send({ type: "REFRESH" });
   };
 
   return (

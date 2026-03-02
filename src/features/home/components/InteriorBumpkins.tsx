@@ -254,9 +254,7 @@ export const InteriorBumpkins: React.FC = () => {
           <BumpkinEquip
             equipment={bumpkin?.equipped as BumpkinParts}
             onEquip={(equipment) => {
-              gameService.send("bumpkin.equipped", {
-                equipment,
-              });
+              gameService.send({ type: "bumpkin.equipped", equipment });
             }}
           />
         </CloseButtonPanel>
@@ -281,7 +279,8 @@ export const InteriorBumpkins: React.FC = () => {
           <BumpkinEquip
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
+              gameService.send({
+                type: "farmHand.equipped",
                 id: selectedFarmHandId,
                 equipment,
               });

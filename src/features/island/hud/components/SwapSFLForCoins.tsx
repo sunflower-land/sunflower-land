@@ -36,7 +36,7 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
   >(undefined);
 
   const handleSFLtoCoinsExchange = (packageId: number) => {
-    gameService.send("sfl.exchanged", { packageId });
+    gameService.send({ type: "sfl.exchanged", packageId });
     setExchangePackageId(undefined);
     onClose();
   };

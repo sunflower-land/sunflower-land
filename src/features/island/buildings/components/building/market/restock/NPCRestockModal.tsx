@@ -53,9 +53,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("npc.restocked", {
-      npc,
-    });
+    gameService.send({ type: "npc.restocked", npc });
 
     gameAnalytics.trackSink({
       currency: "Gem",

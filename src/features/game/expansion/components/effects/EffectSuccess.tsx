@@ -18,7 +18,7 @@ const SuccessSkip: React.FC = () => {
   useEffect(() => {
     // After 500ms, send a continue event
     setTimeout(() => {
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
     }, 500);
   }, []);
 
@@ -79,7 +79,7 @@ export const EffectSuccess: React.FC<{ state: string }> = ({ state }) => {
       </div>
       <Button
         onClick={() => {
-          gameService.send("CONTINUE");
+          gameService.send({ type: "CONTINUE" });
         }}
       >
         {t("continue")}

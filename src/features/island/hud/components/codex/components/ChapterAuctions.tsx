@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useActorRef, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   Auction,
@@ -410,7 +410,7 @@ export const ChapterAuctions: React.FC<Props> = ({
     InventoryItemName | BumpkinItem | AuctionNFT
   >();
 
-  const auctionService = useInterpret(
+  const auctionService = useActorRef(
     createAuctioneerMachine({
       onUpdate: () => {
         // No op
@@ -431,7 +431,7 @@ export const ChapterAuctions: React.FC<Props> = ({
   const [auctioneerState] = useActor(auctionService);
 
   useEffect(() => {
-    auctionService.send("OPEN", { gameState });
+    auctionService.send({ type: "OPEN", gameState });
   }, []);
 
   if (auctioneerState.matches("idle")) {

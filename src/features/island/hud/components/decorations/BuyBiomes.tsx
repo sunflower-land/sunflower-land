@@ -40,8 +40,8 @@ export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
 
   const buyBiome = () => {
-    gameService.send("biome.bought", { biome: selected });
-    gameService.send("biome.applied", { biome: selected });
+    gameService.send({ type: "biome.bought", biome: selected });
+    gameService.send({ type: "biome.applied", biome: selected });
     onClose();
   };
   const biomeCount = state.inventory[selected] ?? new Decimal(0);

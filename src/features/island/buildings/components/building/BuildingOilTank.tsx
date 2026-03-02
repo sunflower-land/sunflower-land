@@ -83,13 +83,14 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
   }
 
   const handleSupplyOil = (amount: number) => {
-    gameService.send("cookingOil.supplied", {
+    gameService.send({
+      type: "cookingOil.supplied",
       building: buildingName,
       buildingId,
       oilQuantity: amount,
     });
 
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
 
     setShowAddOilModal(false);
     setTotalOilToAdd(0);

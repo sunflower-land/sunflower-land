@@ -487,7 +487,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
             type="danger"
             icon={SUNNYSIDE.icons.cancel}
             className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
-            onClick={() => mmoService.send("RETRY")}
+            onClick={() => mmoService.send({ type: "RETRY" })}
           >
             {t("mmo.connectionFailed")}
           </Label>

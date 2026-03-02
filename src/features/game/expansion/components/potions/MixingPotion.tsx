@@ -116,9 +116,9 @@ export const MixingPotion: React.FC<{
     if (score === null) return;
 
     if (score > 0) {
-      potionHouseService.send("SUCCESS");
+      potionHouseService.send({ type: "SUCCESS" });
     } else {
-      potionHouseService.send("BOMB");
+      potionHouseService.send({ type: "BOMB" });
     }
   }, [isGuessing, lastAttempt, potionHouseService]);
 
@@ -128,7 +128,7 @@ export const MixingPotion: React.FC<{
     );
     const score = isGuessing ? null : calculateScore(lastAttempt);
 
-    potionHouseService.send("NEXT_ANIMATION", { score });
+    potionHouseService.send({ type: "NEXT_ANIMATION", score });
   };
 
   return (

@@ -247,8 +247,8 @@ export const UpcomingExpansion: React.FC = () => {
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const onReveal = () => {
-    gameService.send("land.revealed");
-    gameService.send("SAVE");
+    gameService.send({ type: "land.revealed" });
+    gameService.send({ type: "SAVE" });
 
     if (showAnimations) confetti();
 

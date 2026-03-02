@@ -1,6 +1,12 @@
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { Beehive, GameState } from "features/game/types/game";
-import { Interpreter, State, createMachine, assign } from "xstate";
+import {
+  ActorRefFrom,
+  SnapshotFrom,
+  setup,
+  assign,
+  fromCallback,
+} from "xstate";
 
 export type AttachedFlower = {
   id: string;
@@ -37,24 +43,6 @@ type BeehiveEvent =
   | NewActiveFlower
   | HarvestHoney
   | BeeAnimationDone;
-
-type BeehiveState = {
-  value: "prepareHive" | "hiveBuzzing" | "showBeeAnimation" | "honeyReady";
-  context: BeehiveContext;
-};
-
-export type BeehiveMachineState = State<
-  BeehiveContext,
-  BeehiveEvent,
-  BeehiveState
->;
-
-export type MachineInterpreter = Interpreter<
-  BeehiveContext,
-  any,
-  BeehiveEvent,
-  BeehiveState
->;
 
 export const getActiveFlower = (hive: Beehive) => {
   const now = Date.now();
@@ -97,165 +85,165 @@ export const getCurrentSpeed = (hive: Beehive) => {
   }, 0);
 };
 
-export const beehiveMachine = createMachine<
-  BeehiveContext,
-  BeehiveEvent,
-  BeehiveState
->(
-  {
-    predictableActionArguments: true,
-    id: "beehive",
-    preserveActionOrder: true,
-    initial: "prepareHive",
-    states: {
-      prepareHive: {
-        id: "prepareHive",
-        always: [
-          { target: "honeyReady", cond: "isFull" },
+export const beehiveMachine = setup({
+  types: {} as {
+    context: BeehiveContext;
+    events: BeehiveEvent;
+    input: BeehiveContext;
+  },
+  actors: {
+    startHive: fromCallback(({ sendBack }) => {
+      sendBack({ type: "BUZZ" });
+      const interval = setInterval(() => {
+        sendBack({ type: "BUZZ" });
+      }, 1000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }),
+  },
+  actions: {
+    checkAndUpdateHoney: assign({
+      honeyProduced: ({ context }) => getCurrentHoneyProduced(context.hive),
+      currentSpeed: ({ context }) => getCurrentSpeed(context.hive),
+      isProducing: ({ context }) => {
+        if (!context.attachedFlower) return false;
+        if (context.attachedFlower.attachedAt > Date.now()) return false;
+        if (context.attachedFlower.attachedUntil < Date.now()) return false;
+
+        return true;
+      },
+    }),
+    updateActiveFlower: assign({
+      attachedFlower: ({ context }) => getActiveFlower(context.hive),
+    }),
+    updateHive: assign({
+      hive: ({ event }) => {
+        return (event as UpdateHive).updatedHive;
+      },
+    }),
+    harvestHoney: assign({
+      hive: ({ event }) => {
+        return (event as HarvestHoney).updatedHive;
+      },
+      honeyProduced: ({ event }) =>
+        (event as HarvestHoney).updatedHive.honey.produced,
+    }),
+    removeActiveFlower: assign({
+      attachedFlower: () => undefined,
+    }),
+  },
+  guards: {
+    hasNewActiveFlower: ({ context }) => {
+      if (context.attachedFlower) return false;
+      const activeFlower = getActiveFlower(context.hive);
+
+      return !!activeFlower;
+    },
+    isFull: ({ context }) => {
+      return context.honeyProduced >= DEFAULT_HONEY_PRODUCTION_TIME;
+    },
+    isFlowerReady: ({ context }) => {
+      if (!context.attachedFlower) return false;
+
+      return context.attachedFlower.attachedUntil < Date.now();
+    },
+  },
+}).createMachine({
+  id: "beehive",
+  context: ({ input }) => input,
+  initial: "prepareHive",
+  states: {
+    prepareHive: {
+      id: "prepareHive",
+      always: [
+        { target: "honeyReady", guard: "isFull" },
+        {
+          target: "showBeeAnimation",
+          guard: "hasNewActiveFlower",
+          actions: "updateActiveFlower",
+        },
+        {
+          target: "hiveBuzzing",
+        },
+      ],
+    },
+    hiveBuzzing: {
+      id: "hiveBuzzing",
+      invoke: {
+        src: "startHive",
+      },
+      on: {
+        BUZZ: [
+          {
+            target: "honeyReady",
+            guard: "isFull",
+            actions: "checkAndUpdateHoney",
+          },
+          {
+            guard: "isFlowerReady",
+            actions: ["checkAndUpdateHoney", "removeActiveFlower"],
+          },
           {
             target: "showBeeAnimation",
-            cond: "hasNewActiveFlower",
+            guard: "hasNewActiveFlower",
             actions: "updateActiveFlower",
           },
           {
-            target: "hiveBuzzing",
+            actions: "checkAndUpdateHoney",
           },
         ],
-      },
-      hiveBuzzing: {
-        id: "hiveBuzzing",
-        invoke: {
-          src: "startHive",
-        },
-        on: {
-          BUZZ: [
-            {
-              target: "honeyReady",
-              cond: "isFull",
-              actions: "checkAndUpdateHoney",
-            },
-            {
-              cond: "isFlowerReady",
-              actions: ["checkAndUpdateHoney", "removeActiveFlower"],
-            },
-            {
-              target: "showBeeAnimation",
-              cond: "hasNewActiveFlower",
-              actions: "updateActiveFlower",
-            },
-            {
-              actions: "checkAndUpdateHoney",
-            },
-          ],
-          UPDATE_HIVE: {
-            actions: "updateHive",
-          },
+        UPDATE_HIVE: {
+          actions: "updateHive",
         },
       },
-      showBeeAnimation: {
-        invoke: {
-          src: "startHive",
+    },
+    showBeeAnimation: {
+      invoke: {
+        src: "startHive",
+      },
+      on: {
+        BUZZ: [
+          {
+            target: "honeyReady",
+            guard: "isFull",
+            actions: "checkAndUpdateHoney",
+          },
+          {
+            guard: "isFlowerReady",
+            actions: ["checkAndUpdateHoney", "removeActiveFlower"],
+          },
+          {
+            target: "showBeeAnimation",
+            guard: "hasNewActiveFlower",
+            actions: "updateActiveFlower",
+          },
+          {
+            actions: "checkAndUpdateHoney",
+          },
+        ],
+        BEE_ANIMATION_DONE: {
+          target: "hiveBuzzing",
         },
-        on: {
-          BUZZ: [
-            {
-              target: "honeyReady",
-              cond: "isFull",
-              actions: "checkAndUpdateHoney",
-            },
-            {
-              cond: "isFlowerReady",
-              actions: ["checkAndUpdateHoney", "removeActiveFlower"],
-            },
-            {
-              target: "showBeeAnimation",
-              cond: "hasNewActiveFlower",
-              actions: "updateActiveFlower",
-            },
-            {
-              actions: "checkAndUpdateHoney",
-            },
-          ],
-          BEE_ANIMATION_DONE: {
-            target: "hiveBuzzing",
-          },
-          UPDATE_HIVE: {
-            actions: "updateHive",
-          },
+        UPDATE_HIVE: {
+          actions: "updateHive",
         },
       },
-      honeyReady: {
-        on: {
-          HARVEST_HONEY: {
-            target: "prepareHive",
-            actions: "harvestHoney",
-          },
+    },
+    honeyReady: {
+      on: {
+        HARVEST_HONEY: {
+          target: "prepareHive",
+          actions: "harvestHoney",
         },
       },
     },
   },
-  {
-    services: {
-      startHive: () => (cb) => {
-        cb("BUZZ");
-        const interval = setInterval(() => {
-          cb("BUZZ");
-        }, 1000);
+});
 
-        return () => {
-          clearInterval(interval);
-        };
-      },
-    },
-    actions: {
-      checkAndUpdateHoney: assign({
-        honeyProduced: ({ hive }) => getCurrentHoneyProduced(hive),
-        currentSpeed: ({ hive }) => getCurrentSpeed(hive),
-        isProducing: ({ attachedFlower }) => {
-          if (!attachedFlower) return false;
-          if (attachedFlower.attachedAt > Date.now()) return false;
-          if (attachedFlower.attachedUntil < Date.now()) return false;
-
-          return true;
-        },
-      }),
-      updateActiveFlower: assign({
-        attachedFlower: ({ hive }) => getActiveFlower(hive),
-      }),
-      updateHive: assign({
-        hive: (_, event) => {
-          return (event as UpdateHive).updatedHive;
-        },
-      }),
-      harvestHoney: assign({
-        hive: (_, event) => {
-          return (event as UpdateHive).updatedHive;
-        },
-        honeyProduced: (_, event) =>
-          (event as UpdateHive).updatedHive.honey.produced,
-      }),
-      removeActiveFlower: assign((_) => ({
-        attachedFlower: undefined,
-      })),
-    },
-    guards: {
-      hasNewActiveFlower: ({ attachedFlower, hive }) => {
-        if (attachedFlower) return false;
-        const activeFlower = getActiveFlower(hive);
-
-        return !!activeFlower;
-      },
-      isFull: (context) => {
-        return context.honeyProduced >= DEFAULT_HONEY_PRODUCTION_TIME;
-      },
-      isFlowerReady: ({ attachedFlower }) => {
-        if (!attachedFlower) return false;
-
-        return attachedFlower.attachedUntil < Date.now();
-      },
-    },
-  },
-);
+export type BeehiveMachineState = SnapshotFrom<typeof beehiveMachine>;
+export type MachineInterpreter = ActorRefFrom<typeof beehiveMachine>;
 
 export function areBeehivesEmpty(game: GameState): boolean {
   const beehiveProducing = Object.values(game.beehives).every(

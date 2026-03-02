@@ -208,9 +208,7 @@ export const Deal: React.FC<{
   const now = useNow();
   const ticket = getChapterTicket(now);
   const sell = () => {
-    gameService.send("bounty.sold", {
-      requestId: deal.id,
-    });
+    gameService.send({ type: "bounty.sold", requestId: deal.id });
 
     onSold();
   };

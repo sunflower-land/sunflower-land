@@ -546,7 +546,8 @@ export const MilestoneDetails: React.FC<{
       {canClaim && (
         <Button
           onClick={() => {
-            gameService.send("trackMilestone.claimed", {
+            gameService.send({
+              type: "trackMilestone.claimed",
               track: details.track,
             });
             confetti();

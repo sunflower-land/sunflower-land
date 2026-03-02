@@ -119,7 +119,7 @@ const SeasonChangedContent = () => {
 
   const acknowledgeSeason = () => {
     setLastTemperateSeasonStartedAt(season.startedAt);
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   if (!hasReadTutorial) {

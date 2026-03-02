@@ -150,7 +150,8 @@ export const Monument: React.FC<MonumentProps> = (input) => {
 
   // V2 - local only event
   const handleHelpProject = async () => {
-    gameService.send("project.helped", {
+    gameService.send({
+      type: "project.helped",
       project: input.project,
       totalHelpedToday: totalHelpedToday ?? 0,
     });

@@ -52,7 +52,7 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "mine-whack" });
+    gameService.send({ type: "minigame.prizeClaimed", id: "mine-whack" });
 
     onClose();
   };

@@ -97,7 +97,10 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                   )}
                   key={server.id}
                   onClick={() =>
-                    mmoService.send("PICK_SERVER", { serverId: server.id })
+                    mmoService.send({
+                      type: "PICK_SERVER",
+                      serverId: server.id,
+                    })
                   }
                 >
                   <div className="flex items-center">

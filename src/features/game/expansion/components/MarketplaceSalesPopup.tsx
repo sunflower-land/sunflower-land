@@ -38,16 +38,14 @@ export const MarketplaceSalesPopup: React.FC = () => {
   if (soldListingIds.length === 0) return null;
 
   const claimAll = () => {
-    gameService.send("purchase.claimed", {
-      tradeIds: soldListingIds,
-    });
+    gameService.send({ type: "purchase.claimed", tradeIds: soldListingIds });
 
     if (soldListingIds.some((id) => trades.listings?.[id].signature)) {
-      gameService.send("RESET");
+      gameService.send({ type: "RESET" });
       return;
     }
 
-    gameService.send("CLOSE");
+    gameService.send({ type: "CLOSE" });
   };
 
   return (
@@ -118,7 +116,10 @@ export const MarketplaceSalesPopup: React.FC = () => {
         </div>
       </div>
       <div className="flex space-x-1">
-        <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
+        <Button
+          className="w-full"
+          onClick={() => gameService.send({ type: "CLOSE" })}
+        >
           {t("close")}
         </Button>
         <Button className="w-full" onClick={() => claimAll()}>

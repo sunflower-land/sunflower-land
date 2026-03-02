@@ -97,8 +97,8 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     const lastCollectedAt =
       dailyRewards?.chest?.collectedAt ?? gameState.createdAt ?? now;
 
-    gameService.send("dailyReward.claimed");
-    gameService.send("CONTINUE");
+    gameService.send({ type: "dailyReward.claimed" });
+    gameService.send({ type: "CONTINUE" });
 
     if (gameState.createdAt > new Date("2026-01-09").getTime()) {
       const daysSinceLastClaim = getUtcDayDifference(now, lastCollectedAt);
@@ -206,7 +206,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
           className="absolute top-0 right-0 w-8 cursor-pointer"
           onClick={() => {
             acknowledgeDailyReward();
-            gameService.send("CONTINUE");
+            gameService.send({ type: "CONTINUE" });
           }}
         />
       )}

@@ -63,7 +63,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
   const handleIncreaseLimit = () => {
-    gameService.send("helpLimit.increased");
+    gameService.send({ type: "helpLimit.increased" });
     setShowConfirmation(false);
   };
 

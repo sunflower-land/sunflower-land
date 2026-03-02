@@ -24,7 +24,7 @@ export const ShipmentRestockModal: React.FC<{
   const [gameState] = useActor(gameService);
 
   const replenish = () => {
-    gameService.send("shipment.restocked");
+    gameService.send({ type: "shipment.restocked" });
 
     if (showAnimations) confetti();
     onClose();

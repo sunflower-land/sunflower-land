@@ -39,9 +39,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
             coins: 0,
           }}
           onClaim={() => {
-            gameService.send("bonus.claimed", {
-              name: "2024-nye-bonus",
-            });
+            gameService.send({ type: "bonus.claimed", name: "2024-nye-bonus" });
             onClose();
           }}
         />

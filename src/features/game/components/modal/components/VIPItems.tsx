@@ -317,7 +317,7 @@ export const VIPOffer: React.FC = () => {
   const { t } = useAppTranslation();
   const onClose = () => {
     acknowledgeVIP();
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   return (

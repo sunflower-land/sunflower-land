@@ -375,9 +375,7 @@ const ProjectModal: React.FC<{
   const isProjectComplete = cheers >= required;
 
   const instaGrow = () => {
-    gameService.send("project.instantGrow", {
-      project,
-    });
+    gameService.send({ type: "project.instantGrow", project });
   };
 
   if (isProjectComplete) {
@@ -569,14 +567,13 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   const handleStartProject = () => {
     setShowDetails(false);
-    gameService.send("project.started", {
-      project: input.project,
-    });
+    gameService.send({ type: "project.started", project: input.project });
   };
 
   // V2 - local only event
   const handleHelpProject = async () => {
-    gameService.send("project.helped", {
+    gameService.send({
+      type: "project.helped",
       project: input.project,
       totalHelpedToday: totalHelpedToday ?? 0,
     });

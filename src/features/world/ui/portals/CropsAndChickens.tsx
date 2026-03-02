@@ -49,7 +49,8 @@ export const CropsAndChickens: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
+    gameService.send({
+      type: "minigame.prizeClaimed",
       id: "crops-and-chickens",
     });
 

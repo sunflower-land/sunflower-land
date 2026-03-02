@@ -42,7 +42,7 @@ export const MigrateToLinkedWallet: React.FC = () => {
         <Button
           onClick={() => {
             setShowLinkingWallet(false);
-            gameService.send("ACKNOWLEDGE");
+            gameService.send({ type: "ACKNOWLEDGE" });
           }}
         >
           {t("continue")}

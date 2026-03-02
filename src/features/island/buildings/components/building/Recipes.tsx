@@ -125,17 +125,15 @@ export const Recipes: React.FC<Props> = ({
   const cook = () => onCook(selected.name);
 
   const collect = () => {
-    gameService.send("recipes.collected", {
+    gameService.send({
+      type: "recipes.collected",
       buildingId,
       building: buildingName,
     });
   };
 
   const handleInstantCook = (gems: number) => {
-    gameService.send("recipe.spedUp", {
-      buildingId,
-      buildingName,
-    });
+    gameService.send({ type: "recipe.spedUp", buildingId, buildingName });
 
     gameAnalytics.trackSink({
       currency: "Gem",

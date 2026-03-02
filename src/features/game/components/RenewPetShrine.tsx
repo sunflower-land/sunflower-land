@@ -48,7 +48,7 @@ export const RenewPetShrine: React.FC<Props> = ({
   const collectibles = useSelector(gameService, _collectibles);
 
   const handleRenew = () => {
-    gameService.send("petShrine.renewed", { name, location, id });
+    gameService.send({ type: "petShrine.renewed", name, location, id });
   };
 
   return (

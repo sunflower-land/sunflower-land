@@ -52,7 +52,8 @@ export const BeachBaitShop: React.FC = () => {
   };
 
   const craft = (amount: number) => {
-    gameService.send("optionPurchaseItem.bought", {
+    gameService.send({
+      type: "optionPurchaseItem.bought",
       item: selectedName,
       purchaseType,
       amount,

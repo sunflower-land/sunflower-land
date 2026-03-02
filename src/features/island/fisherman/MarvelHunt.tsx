@@ -42,8 +42,8 @@ export const MarvelHunt: React.FC<{
     // Brief pause so the modal closes completely first
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    gameService.send("marvel.caught", { name: marvel });
-    gameService.send("SAVE");
+    gameService.send({ type: "marvel.caught", name: marvel });
+    gameService.send({ type: "SAVE" });
   };
 
   if (showClaim) {

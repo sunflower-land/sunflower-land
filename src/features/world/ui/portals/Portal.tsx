@@ -123,20 +123,19 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
     if (event.data.event === "attemptStarted") {
       // Start the minigame attempt
-      gameService.send("minigame.attemptStarted", {
-        id: portalName,
-      });
-      gameService.send("SAVE");
+      gameService.send({ type: "minigame.attemptStarted", id: portalName });
+      gameService.send({ type: "SAVE" });
       return;
     }
 
     if (event.data.event === "scoreSubmitted") {
       // Submit the minigame score
-      gameService.send("minigame.scoreSubmitted", {
+      gameService.send({
+        type: "minigame.scoreSubmitted",
         score: event.data.score,
         id: portalName,
       });
-      gameService.send("SAVE");
+      gameService.send({ type: "SAVE" });
       return;
     }
   };
@@ -152,12 +151,13 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   }, []);
 
   const confirmPurchase = () => {
-    gameService.send("minigame.itemPurchased", {
+    gameService.send({
+      type: "minigame.itemPurchased",
       id: portalName,
       sfl: purchase?.sfl,
       items: purchase?.items,
     });
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
 
     if (iframeRef.current) {
       iframeRef.current.contentWindow?.postMessage(
@@ -174,9 +174,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   };
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
-      id: portalName,
-    });
+    gameService.send({ type: "minigame.prizeClaimed", id: portalName });
 
     onClose();
   };

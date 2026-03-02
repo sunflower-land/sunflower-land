@@ -115,7 +115,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
       waterTrap,
       chum,
     });
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
     setShowChumSelectionModal(false);
   };
 

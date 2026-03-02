@@ -107,7 +107,8 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const buy = (amount = 1) => {
-    const state = gameService.send("seed.bought", {
+    const state = gameService.send({
+      type: "seed.bought",
       item: selectedName,
       amount,
     });

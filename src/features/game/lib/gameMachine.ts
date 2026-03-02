@@ -1,11 +1,12 @@
 import {
   createMachine,
-  Interpreter,
   assign,
-  TransitionsConfig,
-  State,
-  send,
-  DoneInvokeEvent,
+  fromPromise,
+  fromCallback,
+  sendTo,
+  raise,
+  ActorRefFrom,
+  SnapshotFrom,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -124,7 +125,7 @@ const getError = () => {
   return error;
 };
 
-const shouldShowLeagueResults = (context: Context) => {
+const shouldShowLeagueResults = ({ context }: { context: Context }) => {
   // Don't show league results for visitors
   if (context.visitorId !== undefined) {
     return false;
@@ -360,12 +361,20 @@ export type BlockchainEvent =
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
+type GuardArgs = { context: Context; event: BlockchainEvent };
+
 const playingEventHandler = (eventName: string) => {
   return {
     [eventName]: [
       {
         target: "hoarding",
-        cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
+        guard: ({
+          context,
+          event,
+        }: {
+          context: Context;
+          event: PlayingEvent | VisitingEvent;
+        }) => {
           const { valid } = checkProgress({
             state: context.state as GameState,
             action: event,
@@ -376,7 +385,13 @@ const playingEventHandler = (eventName: string) => {
           return !valid;
         },
         actions: assign(
-          (context: Context, event: PlayingEvent | VisitingEvent) => {
+          ({
+            context,
+            event,
+          }: {
+            context: Context;
+            event: PlayingEvent | VisitingEvent;
+          }) => {
             const { maxedItem } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -390,7 +405,13 @@ const playingEventHandler = (eventName: string) => {
       },
       {
         actions: assign(
-          (context: Context, event: PlayingEvent | VisitingEvent) => {
+          ({
+            context,
+            event,
+          }: {
+            context: Context;
+            event: PlayingEvent | VisitingEvent;
+          }) => {
             const createdAt = new Date();
 
             const result = processEvent({
@@ -437,25 +458,23 @@ const playingEventHandler = (eventName: string) => {
 };
 
 // // For each game event, convert it to an XState event + handler
-const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(PLAYING_EVENTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      ...playingEventHandler(eventName),
-    }),
-    {},
-  );
+const GAME_EVENT_HANDLERS = Object.keys(PLAYING_EVENTS).reduce(
+  (events, eventName) => ({
+    ...events,
+    ...playingEventHandler(eventName),
+  }),
+  {},
+);
 
-const VISITING_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(VISITING_EVENTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      ...playingEventHandler(eventName),
-    }),
-    {},
-  );
+const VISITING_EVENT_HANDLERS = Object.keys(VISITING_EVENTS).reduce(
+  (events, eventName) => ({
+    ...events,
+    ...playingEventHandler(eventName),
+  }),
+  {},
+);
 
-const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
+const PLACEMENT_EVENT_HANDLERS = [
   ...Object.keys(PLACEMENT_EVENTS),
   "biome.bought",
   "biome.applied",
@@ -463,40 +482,41 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
   (events, eventName) => ({
     ...events,
     [eventName]: {
-      actions: assign((context: Context, event: PlacementEvent) => {
-        const createdAt = new Date();
+      actions: assign(
+        ({ context, event }: { context: Context; event: PlacementEvent }) => {
+          const createdAt = new Date();
 
-        return {
-          state: processEvent({
-            state: context.state as GameState,
-            action: event,
-            farmId: context.farmId,
-            createdAt: createdAt.getTime(),
-          }) as GameState,
-          actions: [
-            ...context.actions,
-            {
-              ...event,
-              createdAt,
-            },
-          ],
-        };
-      }),
+          return {
+            state: processEvent({
+              state: context.state as GameState,
+              action: event,
+              farmId: context.farmId,
+              createdAt: createdAt.getTime(),
+            }) as GameState,
+            actions: [
+              ...context.actions,
+              {
+                ...event,
+                createdAt,
+              },
+            ],
+          };
+        },
+      ),
     },
   }),
   {},
 );
 
-const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  getKeys(STATE_MACHINE_EFFECTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      [eventName]: {
-        target: STATE_MACHINE_EFFECTS[eventName],
-      },
-    }),
-    {},
-  );
+const EFFECT_EVENT_HANDLERS = getKeys(STATE_MACHINE_EFFECTS).reduce(
+  (events, eventName) => ({
+    ...events,
+    [eventName]: {
+      target: STATE_MACHINE_EFFECTS[eventName],
+    },
+  }),
+  {},
+);
 
 const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   (states, stateName) => ({
@@ -506,8 +526,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
         CONTINUE: [
           {
             target: "visiting",
-            cond: (context: Context, event: DoneInvokeEvent<any>) =>
-              !!context.visitorId,
+            guard: ({ context }: GuardArgs) => !!context.visitorId,
           },
           { target: "notifying" },
         ],
@@ -518,16 +537,14 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
         CONTINUE: [
           {
             target: "visiting",
-            cond: (context: Context, event: DoneInvokeEvent<any>) =>
-              !!context.visitorId,
+            guard: ({ context }: GuardArgs) => !!context.visitorId,
           },
           { target: "notifying" },
         ],
         REFRESH: [
           {
             target: "visiting",
-            cond: (context: Context, event: DoneInvokeEvent<any>) =>
-              !!context.visitorId,
+            guard: ({ context }: GuardArgs) => !!context.visitorId,
           },
           { target: "notifying" },
         ],
@@ -536,68 +553,94 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
     [stateName]: {
       entry: "setTransactionId",
       invoke: {
-        src: async (context: Context, event: PostEffectEvent) => {
-          const { effect, authToken } = event;
+        src: fromPromise(
+          async ({
+            input,
+          }: {
+            input: { context: Context; event: PostEffectEvent };
+          }) => {
+            const { context, event } = input;
+            const { effect, authToken } = event;
 
-          if (context.actions.length > 0) {
-            await autosave({
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(context.farmId),
+                sessionId: context.sessionId as string,
+                actions: context.actions,
+                token: authToken ?? context.rawToken,
+                fingerprint: context.fingerprint as string,
+                deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
+                state: context.state,
+              });
+            }
+
+            const { gameState, data } = await postEffect({
               farmId: Number(context.farmId),
-              sessionId: context.sessionId as string,
-              actions: context.actions,
+              effect,
               token: authToken ?? context.rawToken,
-              fingerprint: context.fingerprint as string,
-              deviceTrackerId: context.deviceTrackerId as string,
               transactionId: context.transactionId as string,
               state: context.state,
             });
-          }
 
-          const { gameState, data } = await postEffect({
-            farmId: Number(context.farmId),
-            effect,
-            token: authToken ?? context.rawToken,
-            transactionId: context.transactionId as string,
-            state: context.state,
-          });
+            if (context.visitorId) {
+              return {
+                state: makeGame(data.visitedFarmState),
+                data,
+              };
+            }
 
-          if (context.visitorId) {
-            return {
-              state: makeGame(data.visitedFarmState),
-              data,
-            };
-          }
-
-          return { state: gameState, data };
-        },
+            return { state: gameState, data };
+          },
+        ),
+        input: ({ context, event }: GuardArgs) => ({
+          context,
+          event: event as PostEffectEvent,
+        }),
         onDone: [
           {
             target: `${stateName}Success`,
-            cond: (_: Context, event: DoneInvokeEvent<any>) =>
-              !event.data.state.transaction,
+            guard: ({
+              event,
+            }: {
+              event: { output: { state: { transaction?: unknown } } };
+            }) => !event.output.state.transaction,
             actions: [
-              assign((context: Context, event: DoneInvokeEvent<any>) => {
+              assign(({ context, event }) => {
+                const output = (
+                  event as unknown as {
+                    output: {
+                      state: GameState;
+                      data?: Record<string, unknown>;
+                    };
+                  }
+                ).output;
                 return {
-                  actions: [],
-                  state: event.data.state,
+                  actions: [] as PastAction[],
+                  state: output.state,
                   linkedWallet:
-                    event.data.data?.linkedWallet ?? context.linkedWallet,
-                  nftId: event.data.data?.nftId ?? context.nftId,
+                    (output.data as Record<string, string | undefined>)
+                      ?.linkedWallet ?? context.linkedWallet,
+                  nftId:
+                    (output.data as Record<string, number | undefined>)
+                      ?.nftId ?? context.nftId,
                   farmAddress:
-                    event.data.data?.farmAddress ?? context.farmAddress,
-                  data: { ...context.data, [stateName]: event.data.data },
+                    (output.data as Record<string, string | undefined>)
+                      ?.farmAddress ?? context.farmAddress,
+                  data: { ...context.data, [stateName]: output.data },
                 };
               }),
             ],
           },
-          // If there is a transaction on the gameState move into playing so that
-          // the transaction flow can handle the rest of the flow
           {
             target: `notifying`,
             actions: [
-              assign((_, event: DoneInvokeEvent<any>) => ({
-                actions: [],
-                state: event.data.state,
-              })),
+              assign(
+                ({ event }: { event: { output: { state: GameState } } }) => ({
+                  actions: [] as PastAction[],
+                  state: event.output.state,
+                }),
+              ),
             ],
           },
         ],
@@ -611,16 +654,15 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   {},
 );
 
-const VISIT_EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  getKeys(STATE_MACHINE_VISIT_EFFECTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      [eventName]: {
-        target: STATE_MACHINE_VISIT_EFFECTS[eventName],
-      },
-    }),
-    {},
-  );
+const VISIT_EFFECT_EVENT_HANDLERS = getKeys(STATE_MACHINE_VISIT_EFFECTS).reduce(
+  (events, eventName) => ({
+    ...events,
+    [eventName]: {
+      target: STATE_MACHINE_VISIT_EFFECTS[eventName],
+    },
+  }),
+  {},
+);
 
 const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
   (states, stateName) => ({
@@ -639,70 +681,97 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
     [stateName]: {
       entry: "setTransactionId",
       invoke: {
-        src: async (context: Context, event: PostEffectEvent) => {
-          const { effect, authToken } = event;
+        src: fromPromise(
+          async ({
+            input,
+          }: {
+            input: { context: Context; event: PostEffectEvent };
+          }) => {
+            const { context, event } = input;
+            const { effect, authToken } = event;
 
-          if (!context.visitorState || !context.visitorId) {
-            throw new Error("Visitor state and/or visitor id are required");
-          }
+            if (!context.visitorState || !context.visitorId) {
+              throw new Error("Visitor state and/or visitor id are required");
+            }
 
-          if (context.actions.length > 0) {
-            await autosave({
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(context.visitorId),
+                sessionId: context.sessionId as string,
+                actions: context.actions,
+                token: authToken ?? context.rawToken,
+                fingerprint: context.fingerprint as string,
+                deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
+                state: context.visitorState,
+              });
+            }
+
+            const { gameState, data } = await postEffect({
               farmId: Number(context.visitorId),
-              sessionId: context.sessionId as string,
-              actions: context.actions,
+              effect,
               token: authToken ?? context.rawToken,
-              fingerprint: context.fingerprint as string,
-              deviceTrackerId: context.deviceTrackerId as string,
               transactionId: context.transactionId as string,
               state: context.visitorState,
             });
-          }
 
-          const { gameState, data } = await postEffect({
-            farmId: Number(context.visitorId),
-            effect,
-            token: authToken ?? context.rawToken,
-            transactionId: context.transactionId as string,
-            state: context.visitorState,
-          });
+            if (event.effect.type === "farm.followed") {
+              return {
+                state: context.state,
+                data,
+                visitorState: gameState,
+              };
+            }
 
-          if (event.effect.type === "farm.followed") {
+            const { visitedFarmState, ...rest } = data;
+
             return {
-              state: context.state,
-              data,
+              state: makeGame(visitedFarmState),
+              data: rest,
               visitorState: gameState,
             };
-          }
-
-          const { visitedFarmState, ...rest } = data;
-
-          return {
-            state: makeGame(visitedFarmState),
-            data: rest,
-            visitorState: gameState,
-          };
-        },
+          },
+        ),
+        input: ({ context, event }: GuardArgs) => ({
+          context,
+          event: event as PostEffectEvent,
+        }),
         onDone: [
           {
             target: `${stateName}Success`,
-            cond: (_: Context, event: DoneInvokeEvent<any>) =>
-              !event.data.state.transaction,
+            guard: ({
+              event,
+            }: {
+              event: { output: { state: { transaction?: unknown } } };
+            }) => !event.output.state.transaction,
             actions: [
-              assign((context: Context, event: DoneInvokeEvent<any>) => {
+              assign(({ context, event }) => {
+                const output = (
+                  event as unknown as {
+                    output: {
+                      state: GameState;
+                      data: Record<string, unknown>;
+                      visitorState?: GameState;
+                    };
+                  }
+                ).output;
                 const { hasHelpedPlayerToday, totalHelpedToday, ...rest } =
-                  event.data.data;
+                  output.data;
 
                 return {
-                  actions: [],
-                  state: event.data.state,
+                  actions: [] as PastAction[],
+                  state: output.state,
                   linkedWallet:
-                    event.data.data?.linkedWallet ?? context.linkedWallet,
-                  nftId: event.data.data?.nftId ?? context.nftId,
+                    (output.data as Record<string, string | undefined>)
+                      ?.linkedWallet ?? context.linkedWallet,
+                  nftId:
+                    (output.data as Record<string, number | undefined>)
+                      ?.nftId ?? context.nftId,
                   farmAddress:
-                    event.data.data?.farmAddress ?? context.farmAddress,
+                    (output.data as Record<string, string | undefined>)
+                      ?.farmAddress ?? context.farmAddress,
                   data: { ...context.data, [stateName]: rest },
-                  visitorState: event.data.visitorState,
+                  visitorState: output.visitorState,
                   hasHelpedPlayerToday,
                   totalHelpedToday,
                 };
@@ -712,16 +781,28 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           {
             target: "visiting",
             actions: [
-              assign((context: Context, event: DoneInvokeEvent<any>) => ({
-                actions: [],
-                state: event.data.state,
-                visitorState: event.data.visitorState,
-                hasHelpedPlayerToday:
-                  event.data.data?.hasHelpedPlayerToday ??
-                  context.hasHelpedPlayerToday,
-                totalHelpedToday:
-                  event.data.data?.totalHelpedToday ?? context.totalHelpedToday,
-              })),
+              assign(({ context, event }) => {
+                const output = (
+                  event as unknown as {
+                    output: {
+                      state: GameState;
+                      visitorState?: GameState;
+                      data?: Record<string, unknown>;
+                    };
+                  }
+                ).output;
+                return {
+                  actions: [] as PastAction[],
+                  state: output.state,
+                  visitorState: output.visitorState,
+                  hasHelpedPlayerToday:
+                    (output.data as Record<string, boolean | undefined>)
+                      ?.hasHelpedPlayerToday ?? context.hasHelpedPlayerToday,
+                  totalHelpedToday:
+                    (output.data as Record<string, number | undefined>)
+                      ?.totalHelpedToday ?? context.totalHelpedToday,
+                };
+              }),
             ],
           },
         ],
@@ -798,14 +879,9 @@ export type BlockchainState = {
 export type StateKeys = keyof Omit<BlockchainState, "context">;
 export type StateValues = BlockchainState[StateKeys];
 
-export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
+export type MachineState = SnapshotFrom<ReturnType<typeof startGame>>;
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  BlockchainEvent,
-  BlockchainState
->;
+export type MachineInterpreter = ActorRefFrom<ReturnType<typeof startGame>>;
 
 export const saveGame = async (
   context: Context,
@@ -848,33 +924,38 @@ export const saveGame = async (
   };
 };
 
-const handleSuccessfulSave = (context: Context, event: any) => {
+const handleSuccessfulSave = (
+  context: Context,
+  output: { saveAt: Date; farm: GameState; announcements: Announcements },
+) => {
   const isVisiting = !!context.visitorId;
-  // Actions that occurred since the server request
   const recentActions = context.actions.filter(
-    (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
+    (action) => action.createdAt.getTime() > output.saveAt.getTime(),
   );
 
   if (recentActions.length === 0) {
     return {
-      state: isVisiting ? context.state : event.data.farm,
+      state: isVisiting ? context.state : output.farm,
       visitorState: context.visitorState,
       saveQueued: false,
-      actions: [],
-      announcements: event.data.announcements,
+      actions: [] as PastAction[],
+      announcements: output.announcements,
     };
   }
 
-  const updatedState = recentActions.reduce((state, action) => {
-    return processEvent({
-      state,
-      action,
-      announcements: context.announcements,
-      farmId: context.farmId,
-      visitorState: context.visitorState,
-      createdAt: action.createdAt.getTime(),
-    });
-  }, event.data.farm);
+  const updatedState = recentActions.reduce<GameState | [GameState, GameState]>(
+    (state, action) => {
+      return processEvent({
+        state: Array.isArray(state) ? state[0] : state,
+        action,
+        announcements: context.announcements,
+        farmId: context.farmId,
+        visitorState: context.visitorState,
+        createdAt: action.createdAt.getTime(),
+      });
+    },
+    output.farm,
+  );
 
   if (Array.isArray(updatedState)) {
     const [state, visitorState] = updatedState;
@@ -883,7 +964,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
       actions: recentActions,
       visitorState,
       saveQueued: false,
-      announcements: event.data.announcements,
+      announcements: output.announcements,
     };
   }
 
@@ -892,7 +973,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
     state: updatedState,
     visitorState: context.visitorState,
     saveQueued: false,
-    announcements: event.data.announcements,
+    announcements: output.announcements,
   };
 };
 
@@ -900,8 +981,60 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 export const INITIAL_SESSION = "0x0";
 
 export function startGame(authContext: AuthContext) {
-  return createMachine<Context, BlockchainEvent, BlockchainState>(
+  const assignGame = assign(({ event }) => {
+    const output = (event as unknown as { output: Record<string, unknown> })
+      .output;
+    return {
+      farmId: output.farmId as number,
+      state: output.state as GameState,
+      sessionId: output.sessionId as string,
+      fingerprint: output.fingerprint as string,
+      deviceTrackerId: output.deviceTrackerId as string,
+      announcements: output.announcements as Announcements,
+      moderation: output.moderation as Moderation,
+      farmAddress: output.farmAddress as string,
+      linkedWallet: output.linkedWallet as string,
+      wallet: output.wallet as string,
+      nftId: output.nftId as number,
+      verified: output.verified as boolean,
+      purchases: output.purchases as Purchase[],
+      discordId: output.discordId as string,
+      fslId: output.fslId as string,
+      oauthNonce: output.oauthNonce as string,
+      prices: output.prices as Context["prices"],
+      apiKey: output.apiKey as string,
+      method: output.method as string,
+      accountTradedAt: output.accountTradedAt as string,
+    };
+  });
+
+  const initialiseAnalytics = ({
+    context,
+    event,
+  }: {
+    context: Context;
+    event: BlockchainEvent;
+  }) => {
+    if (!ART_MODE) {
+      const output = (event as unknown as { output: { analyticsId: number } })
+        .output;
+      gameAnalytics.initialise({ id: output.analyticsId });
+      onboardingAnalytics.initialise({ id: context.farmId });
+      onboardingAnalytics.logEvent("login");
+    }
+  };
+
+  const assignUrl = () => {
+    if (window.location.hash.includes("retreat")) return;
+    if (window.location.hash.includes("world")) return;
+  };
+
+  return createMachine(
     {
+      types: {} as {
+        context: Context;
+        events: BlockchainEvent;
+      },
       id: "gameMachine",
       initial: "loading",
       context: {
@@ -952,14 +1085,14 @@ export function startGame(authContext: AuthContext) {
           always: [
             {
               target: "error",
-              cond: () => !!getError(),
+              guard: () => !!getError(),
               actions: assign({
-                errorCode: (_) => getError() as ErrorCode,
+                errorCode: () => getError() as ErrorCode,
               }),
             },
             {
               target: "notifying",
-              cond: () => ART_MODE,
+              guard: () => ART_MODE,
               actions: assign({
                 state: (_context) => OFFLINE_FARM,
               }),
@@ -969,8 +1102,9 @@ export function startGame(authContext: AuthContext) {
             if (CONFIG.API_URL)
               preloadHotNow(authContext.user.rawToken as string);
           },
+          // @ts-expect-error XState v5 type inference limitation with large event unions and dynamically spread states
           invoke: {
-            src: async (context) => {
+            src: fromPromise(async ({ input: context }: { input: Context }) => {
               const fingerprint = "X";
 
               const { connector } = getConnection(config);
@@ -1010,28 +1144,32 @@ export function startGame(authContext: AuthContext) {
                 apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
               };
-            },
+            }),
+            input: ({ context }) => context,
             onDone: [
               {
                 target: "loadLandToVisit",
-                cond: () => window.location.href.includes("visit"),
-                actions: ["assignGame"],
+                guard: () => window.location.href.includes("visit"),
+                actions: [assignGame],
               },
               {
                 target: "blacklisted",
-                cond: (_, event) => {
-                  return event.data.state.ban.status === "permanent";
+                guard: ({ event }) => {
+                  const output = (
+                    event as unknown as { output: { state: GameState } }
+                  ).output;
+                  return output.state.ban.status === "permanent";
                 },
               },
               {
                 target: "portalling",
-                cond: () => !!portalName,
-                actions: ["assignGame"],
+                guard: () => !!portalName,
+                actions: [assignGame],
               },
 
               {
                 target: "notifying",
-                actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
+                actions: [assignGame, assignUrl, initialiseAnalytics],
               },
             ],
             onError: [
@@ -1046,7 +1184,7 @@ export function startGame(authContext: AuthContext) {
         portalling: {
           id: "portalling",
           invoke: {
-            src: async (context) => {
+            src: fromPromise(async ({ input: context }) => {
               const portalId = portalName as MinigameName;
               const { token } = await portal({
                 portalId,
@@ -1061,7 +1199,8 @@ export function startGame(authContext: AuthContext) {
               }
 
               window.location.href = `${redirect}?jwt=${token}`;
-            },
+            }),
+            input: ({ context }) => context,
             onError: {
               target: "error",
               actions: "assignErrorMessage",
@@ -1070,67 +1209,75 @@ export function startGame(authContext: AuthContext) {
         },
         loadLandToVisit: {
           invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                  state: context.state,
-                });
-              }
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                // Autosave just in case
+                if (context.actions.length > 0) {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                }
 
-              let farmId: number;
+                let farmId: number;
 
-              // We can enter this state two ways
-              // 1. Directly on load if the url has a visit path (/visit)
-              // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
+                // We can enter this state two ways
+                // 1. Directly on load if the url has a visit path (/visit)
+                // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
-              if (!(event as VisitEvent).landId) {
-                farmId = Number(window.location.href.split("/").pop());
-              } else {
-                farmId = (event as VisitEvent).landId;
-              }
+                if (!(event as VisitEvent).landId) {
+                  farmId = Number(window.location.href.split("/").pop());
+                } else {
+                  farmId = (event as VisitEvent).landId;
+                }
 
-              const {
-                visitedFarmState, // Their gameState
-                visitorFarmState, // Your gameState
-                hasHelpedPlayerToday,
-                totalHelpedToday,
-                visitorId,
-                visitedFarmNftId,
-              } = await loadGameStateForVisit(
-                Number(farmId),
-                authContext.user.rawToken as string,
-              );
+                const {
+                  visitedFarmState, // Their gameState
+                  visitorFarmState, // Your gameState
+                  hasHelpedPlayerToday,
+                  totalHelpedToday,
+                  visitorId,
+                  visitedFarmNftId,
+                } = await loadGameStateForVisit(
+                  Number(farmId),
+                  authContext.user.rawToken as string,
+                );
 
-              return {
-                state: visitedFarmState,
-                farmId,
-                hasHelpedPlayerToday,
-                totalHelpedToday,
-                visitorId,
-                visitorState: visitorFarmState,
-                visitedFarmNftId,
-              };
-            },
+                return {
+                  state: visitedFarmState,
+                  farmId,
+                  hasHelpedPlayerToday,
+                  totalHelpedToday,
+                  visitorId,
+                  visitorState: visitorFarmState,
+                  visitedFarmNftId,
+                };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "visiting",
               actions: assign({
-                state: (_, event) => event.data.state,
-                farmId: (_, event) => event.data.farmId,
-                visitorId: (_, event) => event.data.visitorId,
-                visitorState: (_, event) => event.data.visitorState,
-                nftId: (_, event) => event.data.visitedFarmNftId,
-                visitorNftId: (context) => context.nftId,
-                hasHelpedPlayerToday: (_, event) =>
-                  event.data.hasHelpedPlayerToday,
-                totalHelpedToday: (_, event) => event.data.totalHelpedToday,
+                state: ({ event }) => event.output.state,
+                farmId: ({ event }) => event.output.farmId,
+                visitorId: ({ event }) => event.output.visitorId,
+                visitorState: ({ event }) => event.output.visitorState,
+                nftId: ({ event }) => event.output.visitedFarmNftId,
+                visitorNftId: ({ context }) => context.nftId,
+                hasHelpedPlayerToday: ({ event }) =>
+                  event.output.hasHelpedPlayerToday,
+                totalHelpedToday: ({ event }) => event.output.totalHelpedToday,
                 actions: () => [],
               }),
             },
@@ -1161,7 +1308,7 @@ export function startGame(authContext: AuthContext) {
             },
             END_VISIT: {
               target: "playing",
-              actions: assign((context) => ({
+              actions: assign(({ context }) => ({
                 visitorId: undefined,
                 visitorState: undefined,
                 visitorNftId: undefined,
@@ -1179,7 +1326,7 @@ export function startGame(authContext: AuthContext) {
           always: [
             {
               target: "welcome",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const isNew =
                   context.state.createdAt > new Date("2026-01-28").getTime();
                 return (
@@ -1189,7 +1336,7 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "introduction",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return (
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
@@ -1199,21 +1346,21 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "investigating",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return context.state.ban.status === "investigating";
               },
             },
 
             {
               target: "gems",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return !!context.state.inventory["Block Buck"]?.gte(1);
               },
             },
 
             {
               target: "communityCoin",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return !!context.state.inventory["Community Coin"]?.gte(1);
               },
             },
@@ -1221,16 +1368,16 @@ export function startGame(authContext: AuthContext) {
             // TODO - FIX
             // {
             //   target: "mailbox",
-            //   cond: (context) =>
+            //   guard: ({ context }) =>
             //     hasUnreadMail(context.announcements, context.state.mailbox),
             // },
             {
               target: "swarming",
-              cond: () => isSwarming(),
+              guard: () => isSwarming(),
             },
             {
               target: "blessing",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const { offered, reward } = context.state.blessing;
 
                 if (reward) return true;
@@ -1242,7 +1389,7 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "vip",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const isNew = context.state.bumpkin.experience < 100;
 
                 // Don't show for new players
@@ -1287,19 +1434,19 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "referralRewards",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return !!context.state.referrals?.rewards;
               },
             },
 
             {
               target: "somethingArrived",
-              cond: (context) => !!context.revealed,
+              guard: ({ context }) => !!context.revealed,
             },
 
             {
               target: "seasonChanged",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return (
                   context.state.island.type !== "basic" &&
                   (context.state.island.upgradedAt ?? 0) <
@@ -1312,7 +1459,7 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "calendarEvent",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const game = context.state;
 
                 const activeEvent = getActiveCalendarEvent({
@@ -1331,12 +1478,12 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "competition",
-              cond: () => false,
+              guard: () => false,
             },
 
             {
               target: "linkWallet",
-              cond: (context) => {
+              guard: ({ context }) => {
                 return (
                   (context.method === "fsl" || context.method === "wechat") &&
                   !context.linkedWallet
@@ -1346,7 +1493,7 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "dailyReward",
-              cond: (context) => {
+              guard: ({ context }) => {
                 // If already acknowledged in last 24 hours, don't show
                 const lastAcknowledged = getDailyRewardLastAcknowledged();
                 if (
@@ -1370,7 +1517,7 @@ export function startGame(authContext: AuthContext) {
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
             // {
             //   target: "promo",
-            //   cond: (context) => {
+            //   guard: ({ context }) => {
             //     return (
             //       context.state.bumpkin?.experience === 0 &&
             //       getPromoCode() === "crypto-com"
@@ -1379,7 +1526,7 @@ export function startGame(authContext: AuthContext) {
             // },
             {
               target: "airdrop",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const airdrop = context.state.airdrops?.find(
                   (airdrop) => !airdrop.coordinates,
                 );
@@ -1392,25 +1539,26 @@ export function startGame(authContext: AuthContext) {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
               target: "auctionResults",
-              cond: (context: Context) => !!context.state.auctioneer.bid,
+              guard: ({ context }: { context: Context }) =>
+                !!context.state.auctioneer.bid,
             },
             {
               target: "offers",
-              cond: (context: Context) =>
+              guard: ({ context }: { context: Context }) =>
                 getKeys(context.state.trades.offers ?? {}).some(
                   (id) => !!context.state.trades.offers![id].fulfilledAt,
                 ),
             },
             {
               target: "marketplaceSale",
-              cond: (context: Context) =>
+              guard: ({ context }: { context: Context }) =>
                 getKeys(context.state.trades.listings ?? {}).some(
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
             {
               target: "tradesCleared",
-              cond: (context: Context) => {
+              guard: ({ context }: { context: Context }) => {
                 return (
                   getKeys(context.state.trades.listings ?? {}).some(
                     (id) => !!context.state.trades.listings![id].clearedAt,
@@ -1424,13 +1572,13 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "jinAirdrop",
-              cond: (context) =>
+              guard: ({ context }) =>
                 !!context.state.nfts?.ronin?.acknowledgedAt &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             {
               target: "leagueResults",
-              cond: shouldShowLeagueResults,
+              guard: shouldShowLeagueResults,
             },
             {
               target: "playing",
@@ -1449,7 +1597,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
-              actions: assign((_) => ({
+              actions: assign(() => ({
                 revealed: undefined,
               })),
             },
@@ -1556,7 +1704,7 @@ export function startGame(authContext: AuthContext) {
         auctionResults: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context: Context) => {
+            src: fromPromise(async ({ input: context }: { input: Context }) => {
               const {
                 user: { rawToken },
               } = authContext;
@@ -1569,23 +1717,24 @@ export function startGame(authContext: AuthContext) {
               });
 
               return { auctionResults };
-            },
+            }),
+            input: ({ context }) => context,
             onDone: [
               {
                 target: "claimAuction",
-                cond: (_, event) =>
-                  event.data.auctionResults.status === "winner",
-                actions: assign((_, event) => ({
-                  auctionResults: event.data.auctionResults,
+                guard: ({ event }) =>
+                  event.output.auctionResults.status === "winner",
+                actions: assign(({ event }) => ({
+                  auctionResults: event.output.auctionResults,
                 })),
               },
               {
                 target: "refundAuction",
-                cond: (_, event) =>
-                  event.data.auctionResults.status === "loser" ||
-                  event.data.auctionResults.status === "tiebreaker",
-                actions: assign((_, event) => ({
-                  auctionResults: event.data.auctionResults,
+                guard: ({ event }) =>
+                  event.output.auctionResults.status === "loser" ||
+                  event.output.auctionResults.status === "tiebreaker",
+                actions: assign(({ event }) => ({
+                  auctionResults: event.output.auctionResults,
                 })),
               },
               {
@@ -1656,7 +1805,7 @@ export function startGame(authContext: AuthContext) {
              * An in game loop that checks if Blockchain becomes out of sync
              * It is a rare event but it saves a user from making too much progress that would not be synced
              */
-            src: (context) => (cb) => {
+            src: fromCallback(({ sendBack, input: context }) => {
               const interval = setInterval(
                 async () => {
                   if (!context.farmAddress) return;
@@ -1666,7 +1815,7 @@ export function startGame(authContext: AuthContext) {
                   );
 
                   if (sessionID !== context.sessionId) {
-                    cb("EXPIRED");
+                    sendBack({ type: "EXPIRED" });
                   }
                 },
                 1000 * 60 * 2,
@@ -1675,7 +1824,8 @@ export function startGame(authContext: AuthContext) {
               return () => {
                 clearInterval(interval);
               };
-            },
+            }),
+            input: ({ context }) => context,
             onError: [
               {
                 target: "error",
@@ -1688,7 +1838,7 @@ export function startGame(authContext: AuthContext) {
             ...GAME_EVENT_HANDLERS,
             ...PLACEMENT_EVENT_HANDLERS,
             UPDATE_USERNAME: {
-              actions: assign((context, event) => ({
+              actions: assign(({ context, event }) => ({
                 state: {
                   ...context.state,
                   username: event.username,
@@ -1709,7 +1859,7 @@ export function startGame(authContext: AuthContext) {
             },
             EXPIRED: {
               target: "error",
-              actions: assign((_) => ({
+              actions: assign(() => ({
                 errorCode: ERRORS.SESSION_EXPIRED as ErrorCode,
               })),
             },
@@ -1739,7 +1889,7 @@ export function startGame(authContext: AuthContext) {
             },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
             UPDATE_GEMS: {
-              actions: assign((context, event) => ({
+              actions: assign(({ context, event }) => ({
                 state: {
                   ...context.state,
                   inventory: {
@@ -1761,7 +1911,7 @@ export function startGame(authContext: AuthContext) {
               })),
             },
             UPDATE: {
-              actions: assign((_, event) => ({
+              actions: assign(({ event }) => ({
                 state: event.state,
               })),
             },
@@ -1773,15 +1923,23 @@ export function startGame(authContext: AuthContext) {
         buyingSFL: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
-              await buySFL({
-                farmId: Number(context.farmId),
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-                matic: (event as BuySFLEvent).maticAmount,
-                amountOutMin: (event as BuySFLEvent).amountOutMin,
-              });
-            },
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                await buySFL({
+                  farmId: Number(context.farmId),
+                  token: authContext.user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                  matic: (event as BuySFLEvent).maticAmount,
+                  amountOutMin: (event as BuySFLEvent).amountOutMin,
+                });
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "refreshing",
             },
@@ -1798,52 +1956,60 @@ export function startGame(authContext: AuthContext) {
             ...GAME_EVENT_HANDLERS,
             SAVE: {
               actions: assign({
-                saveQueued: (c) => c.actions.length > 0,
+                saveQueued: ({ context }) => context.actions.length > 0,
               }),
             },
           },
           invoke: {
-            src: async (context, event) => {
-              const farmId = context.visitorId ?? context.farmId;
-              const data = await saveGame(
-                context,
-                event,
-                farmId,
-                authContext.user.rawToken as string,
-              );
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                const farmId = context.visitorId ?? context.farmId;
+                const data = await saveGame(
+                  context,
+                  event,
+                  farmId,
+                  authContext.user.rawToken as string,
+                );
 
-              return data;
-            },
+                return data;
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: [
               {
                 target: "autosaving",
                 // If a SAVE was queued up, go back into saving
-                cond: (c) => c.saveQueued,
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                guard: ({ context }) => context.saveQueued,
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
               {
                 target: "seasonChanged",
-                cond: (context, event) => {
+                guard: ({ context, event }) => {
                   return (
                     context.state.island.type !== "basic" &&
                     (context.state.island.upgradedAt ?? 0) <
-                      event.data.farm.seasonStartedAt &&
-                    event.data.farm.season.startedAt !==
+                      event.output.farm.seasonStartedAt &&
+                    event.output.farm.season.startedAt !==
                       getLastTemperateSeasonStartedAt()
                   );
                 },
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
               {
                 target: "calendarEvent",
-                cond: (context, event) => {
+                guard: ({ context, event }) => {
                   if (context.visitorState) return false;
 
-                  const game = event.data.farm;
+                  const game = event.output.farm;
 
                   const activeEvent = getActiveCalendarEvent({
                     calendar: game.calendar,
@@ -1856,28 +2022,28 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
               {
                 target: "leagueResults",
-                cond: shouldShowLeagueResults,
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                guard: shouldShowLeagueResults,
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
               {
                 target: "visiting",
-                cond: (context, _) => !!context.visitorId,
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                guard: ({ context }) => !!context.visitorId,
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
               {
                 target: "playing",
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
+                actions: assign(({ context, event }) =>
+                  handleSuccessfulSave(context, event.output),
                 ),
               },
             ],
@@ -1890,40 +2056,50 @@ export function startGame(authContext: AuthContext) {
         transacting: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                  state: context.state,
-                });
-              }
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                // Autosave just in case
+                if (context.actions.length > 0) {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                }
 
-              const { transaction, request } = event as TransactEvent;
+                const { transaction, request } = event as TransactEvent;
 
-              const { gameState } = await TRANSACTION_SIGNATURES[transaction]({
-                ...request,
-                farmId: Number(context.farmId),
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
+                const { gameState } = await TRANSACTION_SIGNATURES[transaction](
+                  {
+                    ...request,
+                    farmId: Number(context.farmId),
+                    token: authContext.user.rawToken as string,
+                    transactionId: context.transactionId as string,
+                  },
+                );
 
-              return {
-                // sessionId: sessionId,
-                farm: gameState,
-              };
-            },
+                return {
+                  // sessionId: sessionId,
+                  farm: gameState,
+                };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "playing",
               actions: [
-                assign((_, event) => ({
-                  state: event.data.farm,
+                assign(({ event }) => ({
+                  state: event.output.farm,
                   actions: [],
                 })),
               ],
@@ -1931,9 +2107,10 @@ export function startGame(authContext: AuthContext) {
             onError: [
               {
                 target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
+                guard: ({ event }) =>
+                  (event as unknown as { error?: { message?: string } }).error
+                    ?.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign(() => ({
                   actions: [],
                 })),
               },
@@ -1947,38 +2124,46 @@ export function startGame(authContext: AuthContext) {
         buyingBlockBucks: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
-              const transaction = await buyBlockBucks({
-                farmId: Number(context.farmId),
-                type: (event as BuyBlockBucksEvent).currency,
-                amount: (event as BuyBlockBucksEvent).amount,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                const transaction = await buyBlockBucks({
+                  farmId: Number(context.farmId),
+                  type: (event as BuyBlockBucksEvent).currency,
+                  amount: (event as BuyBlockBucksEvent).amount,
+                  token: authContext.user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                });
 
-              const response = await buyBlockBucksMATIC(transaction);
+                const response = await buyBlockBucksMATIC(transaction);
 
-              return {
-                ...response,
-                amount: transaction.amount,
-              };
-            },
+                return {
+                  ...response,
+                  amount: transaction.amount,
+                };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "playing",
-              actions: assign((context, event) => ({
+              actions: assign(({ context, event }) => ({
                 state: {
                   ...context.state,
                   inventory: {
                     ...context.state.inventory,
                     Gem: (context.state.inventory["Gem"] ?? new Decimal(0)).add(
-                      event.data.amount,
+                      event.output.amount,
                     ),
                   },
                 },
                 purchases: [
                   ...context.purchases,
                   {
-                    id: `${event.data.amount} Gem`,
+                    id: `${event.output.amount} Gem`,
                     method: "MATIC",
                     purchasedAt: Date.now(),
                     usd: 1, // Placeholder
@@ -1989,9 +2174,10 @@ export function startGame(authContext: AuthContext) {
             onError: [
               {
                 target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
+                guard: ({ event }) =>
+                  (event as unknown as { error?: { message?: string } }).error
+                    ?.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign(() => ({
                   actions: [],
                 })),
               },
@@ -2007,68 +2193,77 @@ export function startGame(authContext: AuthContext) {
         revealing: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, e) => {
-              // Grab the server side event to fire
-              const { event } = e as { event: any; type: "REVEAL" };
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event: e } = input;
+                // Grab the server side event to fire
+                const { event } = e as { event: any; type: "REVEAL" };
 
-              if (context.actions.length > 0) {
-                await autosave({
+                if (context.actions.length > 0) {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                }
+
+                const { farm, changeset } = await autosave({
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
-                  actions: context.actions,
+                  actions: [event],
                   token: authContext.user.rawToken as string,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
                   state: context.state,
                 });
-              }
 
-              const { farm, changeset } = await autosave({
-                farmId: Number(context.farmId),
-                sessionId: context.sessionId as string,
-                actions: [event],
-                token: authContext.user.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-                state: context.state,
-              });
-
-              return {
-                event,
-                farm,
-                changeset,
-              };
-            },
+                return {
+                  event,
+                  farm,
+                  changeset,
+                };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: [
               {
                 target: "beanRevealed",
-                cond: (_, event) => event.data.event.type === "bean.harvested",
-                actions: assign((context, event) => {
+                guard: ({ event }) =>
+                  event.output.event.type === "bean.harvested",
+                actions: assign(({ context, event }) => {
                   return {
                     // Remove events
                     actions: [],
                     // Update immediately with state from server except for collectibles
                     state: {
-                      ...event.data.farm,
+                      ...event.output.farm,
                       collectibles: {
-                        ...event.data.farm.collectibles,
+                        ...event.output.farm.collectibles,
                         "Magic Bean": context.state.collectibles["Magic Bean"],
                       },
                     },
-                    revealed: event.data.changeset,
+                    revealed: event.output.changeset,
                   };
                 }),
               },
               {
                 target: "genieRevealed",
-                cond: (_, event) =>
-                  event.data.event.type === "genieLamp.rubbed",
-                actions: assign((context, event) => {
+                guard: ({ event }) =>
+                  event.output.event.type === "genieLamp.rubbed",
+                actions: assign(({ context, event }) => {
                   const lamps = context.state.collectibles["Genie Lamp"]?.map(
                     (lamp) => {
-                      if (lamp.id === event.data.event.id) {
+                      if (lamp.id === event.output.event.id) {
                         return {
                           ...lamp,
                           rubbedCount: (lamp.rubbedCount ?? 0) + 1,
@@ -2084,24 +2279,24 @@ export function startGame(authContext: AuthContext) {
                     actions: [],
                     // Update immediately with state from server except for collectibles
                     state: {
-                      ...event.data.farm,
+                      ...event.output.farm,
                       collectibles: {
-                        ...event.data.farm.collectibles,
+                        ...event.output.farm.collectibles,
                         "Genie Lamp": lamps,
                       },
                     },
-                    revealed: event.data.changeset,
+                    revealed: event.output.changeset,
                   };
                 }),
               },
               {
                 target: "revealed",
-                actions: assign((_, event) => ({
+                actions: assign(({ event }) => ({
                   // Remove events
                   actions: [],
                   // Update immediately with state from server
-                  state: event.data.farm,
-                  revealed: event.data.changeset,
+                  state: event.output.farm,
+                  revealed: event.output.changeset,
                 })),
               },
             ],
@@ -2115,7 +2310,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
-              actions: assign((_, event) => ({
+              actions: assign(({ event }) => ({
                 revealed: undefined,
               })),
             },
@@ -2126,7 +2321,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
-              actions: assign((context, event) => {
+              actions: assign(({ context, event }) => {
                 const shouldRemoveLamp = (lamp: PlacedLamp) =>
                   lamp.id === event.id && (lamp.rubbedCount ?? 0) >= 3;
 
@@ -2154,7 +2349,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
-              actions: assign((context, event) => {
+              actions: assign(({ context, event }) => {
                 // Delete the Bean from the collectibles
                 const beans = context.state.collectibles["Magic Bean"];
                 const newBeans = beans?.filter(
@@ -2178,50 +2373,60 @@ export function startGame(authContext: AuthContext) {
         sellMarketResource: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
-              const { item, pricePerUnit } = event as SellMarketResourceEvent;
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                const { item, pricePerUnit } = event as SellMarketResourceEvent;
 
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                  state: context.state,
-                });
-              }
+                if (context.actions.length > 0) {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                }
 
-              const { farm, prices, error } = await sellMarketResourceRequest({
-                farmId: Number(context.farmId),
-                token: authContext.user.rawToken as string,
-                soldAt: new Date().toISOString(),
-                item,
-                pricePerUnit,
-              });
+                const { farm, prices, error } = await sellMarketResourceRequest(
+                  {
+                    farmId: Number(context.farmId),
+                    token: authContext.user.rawToken as string,
+                    soldAt: new Date().toISOString(),
+                    item,
+                    pricePerUnit,
+                  },
+                );
 
-              return {
-                farm,
-                error,
-                prices,
-              };
-            },
+                return {
+                  farm,
+                  error,
+                  prices,
+                };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: [
               {
                 target: "priceChanged",
-                cond: (_, event) => event.data.error === "PRICE_CHANGED",
+                guard: ({ event }) => event.output.error === "PRICE_CHANGED",
               },
               {
                 target: "playing",
                 actions: [
-                  (_context, event) => {
-                    setCachedMarketPrices(event.data.prices);
+                  ({ event }) => {
+                    setCachedMarketPrices(event.output.prices);
                   },
-                  assign((_, event) => ({
+                  assign(({ event }) => ({
                     actions: [],
-                    state: event.data.farm,
+                    state: event.output.farm,
                   })),
                 ],
               },
@@ -2239,22 +2444,30 @@ export function startGame(authContext: AuthContext) {
         },
         depositingFlowerFromLinkedWallet: {
           invoke: {
-            src: async (context, event) => {
-              if (!wallet.getConnection()) throw new Error("No account");
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                if (!wallet.getConnection()) throw new Error("No account");
 
-              const { amount, depositAddress, selectedNetwork } =
-                event as DepositFlowerFromLinkedWalletEvent;
+                const { amount, depositAddress, selectedNetwork } =
+                  event as DepositFlowerFromLinkedWalletEvent;
 
-              await depositFlower({
-                account: wallet.getConnection() as `0x${string}`,
-                depositAddress,
-                amount,
-                selectedNetwork,
-              });
-            },
+                await depositFlower({
+                  account: wallet.getConnection() as `0x${string}`,
+                  depositAddress,
+                  amount,
+                  selectedNetwork,
+                });
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "playing",
-              actions: send(() => ({
+              actions: raise(() => ({
                 type: "flower.depositStarted",
                 effect: {
                   type: "flower.depositStarted",
@@ -2271,23 +2484,31 @@ export function startGame(authContext: AuthContext) {
         },
         depositingSFLFromLinkedWallet: {
           invoke: {
-            src: async (context, event) => {
-              const address = wallet.getConnection();
-              if (!address) throw new Error("No account");
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                const address = wallet.getConnection();
+                if (!address) throw new Error("No account");
 
-              const { amount, depositAddress, selectedNetwork } =
-                event as DepositSFLFromLinkedWalletEvent;
+                const { amount, depositAddress, selectedNetwork } =
+                  event as DepositSFLFromLinkedWalletEvent;
 
-              await depositSFL({
-                account: address,
-                depositAddress,
-                amount,
-                selectedNetwork,
-              });
-            },
+                await depositSFL({
+                  account: address,
+                  depositAddress,
+                  amount,
+                  selectedNetwork,
+                });
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "playing",
-              actions: send(() => ({
+              actions: raise(() => ({
                 type: "sfl.depositStarted",
                 effect: {
                   type: "sfl.depositStarted",
@@ -2304,30 +2525,38 @@ export function startGame(authContext: AuthContext) {
         },
         depositing: {
           invoke: {
-            src: async (context, event) => {
-              const account = wallet.getConnection();
-              if (!account) throw new Error("No account");
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event } = input;
+                const account = wallet.getConnection();
+                if (!account) throw new Error("No account");
 
-              const {
-                itemAmounts,
-                itemIds,
-                petIds,
-                wearableIds,
-                wearableAmounts,
-                budIds,
-              } = event as DepositEvent;
+                const {
+                  itemAmounts,
+                  itemIds,
+                  petIds,
+                  wearableIds,
+                  wearableAmounts,
+                  budIds,
+                } = event as DepositEvent;
 
-              await depositToFarm({
-                account,
-                farmId: context.nftId as number,
-                itemIds: itemIds,
-                itemAmounts: itemAmounts,
-                wearableAmounts,
-                wearableIds,
-                budIds,
-                petIds,
-              });
-            },
+                await depositToFarm({
+                  account,
+                  farmId: context.nftId as number,
+                  itemIds: itemIds,
+                  itemAmounts: itemAmounts,
+                  wearableAmounts,
+                  wearableIds,
+                  budIds,
+                  petIds,
+                });
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: {
               target: "refreshing",
             },
@@ -2340,35 +2569,43 @@ export function startGame(authContext: AuthContext) {
         refreshing: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, e) => {
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
+            src: fromPromise(
+              async ({
+                input,
+              }: {
+                input: { context: Context; event: BlockchainEvent };
+              }) => {
+                const { context, event: e } = input;
+                if (context.actions.length > 0) {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                }
+
+                const { success, changeset } = await reset({
+                  farmId: context.farmId,
                   token: authContext.user.rawToken as string,
                   fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
-                  state: context.state,
                 });
-              }
 
-              const { success, changeset } = await reset({
-                farmId: context.farmId,
-                token: authContext.user.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return { success, changeset };
-            },
+                return { success, changeset };
+              },
+            ),
+            input: ({ context, event }) => ({ context, event }),
             onDone: [
               {
                 target: "loading",
                 actions: assign({
-                  revealed: (_, event) => event.data.changeset,
-                  actions: (_) => [],
+                  revealed: ({ event }) => event.output.changeset,
+                  actions: () => [],
                 }),
               },
             ],
@@ -2497,25 +2734,25 @@ export function startGame(authContext: AuthContext) {
           invoke: {
             id: "landscaping",
             src: landscapingMachine,
-            data: {
-              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
-              action: (_: Context, event: LandscapeEvent) => event.action,
-              requirements: (_: Context, event: LandscapeEvent) =>
-                event.requirements,
+            input: ({ event }) => ({
+              placeable: (event as LandscapeEvent).placeable,
+              action: (event as LandscapeEvent).action,
+              requirements: (event as LandscapeEvent).requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
-              maximum: (_: Context, event: LandscapeEvent) => event.maximum,
-              location: (_: Context, event: LandscapeEvent) => event.location,
-            },
+              multiple: (event as LandscapeEvent).multiple,
+              maximum: (event as LandscapeEvent).maximum,
+              location: (event as LandscapeEvent).location,
+            }),
             onDone: {
               target: "autosaving",
             },
             onError: [
               {
                 target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                guard: ({ event }) =>
+                  (event as unknown as { error?: { message?: string } }).error
+                    ?.message === ERRORS.REJECTED_TRANSACTION,
               },
               {
                 target: "error",
@@ -2526,20 +2763,27 @@ export function startGame(authContext: AuthContext) {
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
             SAVE: {
-              actions: send(
-                (context) =>
+              actions: sendTo(
+                "landscaping",
+                ({ context }) =>
                   ({
                     type: "SAVE",
                     gameMachineContext: context,
                     rawToken: authContext.user.rawToken as string,
                     farmId: context.farmId,
                   }) as SaveEvent,
-                { to: "landscaping" },
               ),
             },
             SAVE_SUCCESS: {
-              actions: assign((context: Context, event: any) =>
-                handleSuccessfulSave(context, event),
+              actions: assign(({ context, event }) =>
+                handleSuccessfulSave(
+                  context,
+                  event as unknown as {
+                    saveAt: Date;
+                    farm: GameState;
+                    announcements: Announcements;
+                  },
+                ),
               ),
             },
             SAVE_ERROR: {
@@ -2550,17 +2794,17 @@ export function startGame(authContext: AuthContext) {
         },
         randomising: {
           invoke: {
-            src: async () => {
+            src: fromPromise(async () => {
               const { game } = await generateTestLand();
 
               return { game };
-            },
+            }),
             onDone: {
               target: "playing",
-              actions: assign<Context, any>({
-                state: (context, event) => ({
+              actions: assign({
+                state: ({ context, event }) => ({
                   ...context.state,
-                  ...makeGame(event.data.game),
+                  ...makeGame(event.output.game),
                 }),
               }),
             },
@@ -2574,78 +2818,32 @@ export function startGame(authContext: AuthContext) {
       on: {
         PAUSE: {
           actions: assign({
-            paused: (_) => true,
+            paused: () => true,
           }),
         },
         PLAY: {
           actions: assign({
-            paused: (_) => false,
+            paused: () => false,
           }),
         },
         COMMUNITY_UPDATE: {
           actions: assign({
-            state: (_, event) => event.game,
+            state: ({ event }) => event.game,
           }),
         },
       },
     },
     {
       actions: {
-        initialiseAnalytics: (context, event: any) => {
-          if (!ART_MODE) {
-            gameAnalytics.initialise({
-              id: event.data.analyticsId,
-            });
-            onboardingAnalytics.initialise({
-              id: context.farmId,
-            });
-            onboardingAnalytics.logEvent("login");
-          }
-        },
-        assignUrl: (context) => {
-          if (window.location.hash.includes("retreat")) return;
-          if (window.location.hash.includes("world")) return;
-
-          // if (!ART_MODE) {
-          //   window.history.replaceState(
-          //     null,
-          //     "",
-          //     `${window.location.pathname}#/land/${context.farmId}`
-          //   );
-          // }
-        },
-        assignErrorMessage: assign<Context, any>({
-          errorCode: (_context, event) => event.data.message,
-          actions: [],
+        setTransactionId: assign({ transactionId: () => randomID() }),
+        clearTransactionId: assign({
+          transactionId: () => undefined as string | undefined,
         }),
-        assignGame: assign<Context, any>({
-          farmId: (_, event) => event.data.farmId,
-          state: (_, event) => event.data.state,
-          sessionId: (_, event) => event.data.sessionId,
-          fingerprint: (_, event) => event.data.fingerprint,
-          deviceTrackerId: (_, event) => event.data.deviceTrackerId,
-          announcements: (_, event) => event.data.announcements,
-          moderation: (_, event) => event.data.moderation,
-          farmAddress: (_, event) => event.data.farmAddress,
-          linkedWallet: (_, event) => event.data.linkedWallet,
-          wallet: (_, event) => event.data.wallet,
-          nftId: (_, event) => event.data.nftId,
-          verified: (_, event) => event.data.verified,
-          purchases: (_, event) => event.data.purchases,
-          discordId: (_, event) => event.data.discordId,
-          fslId: (_, event) => event.data.fslId,
-          oauthNonce: (_, event) => event.data.oauthNonce,
-          prices: (_, event) => event.data.prices,
-          apiKey: (_, event) => event.data.apiKey,
-          method: (_, event) => event.data.method,
-          accountTradedAt: (_, event) => event.data.accountTradedAt,
-        }),
-        setTransactionId: assign<Context, any>({
-          transactionId: () => randomID(),
-        }),
-        clearTransactionId: assign<Context, any>({
-          transactionId: () => undefined,
-        }),
+        assignErrorMessage: assign(({ event }) => ({
+          errorCode: (event as { error?: { message?: string } }).error
+            ?.message as ErrorCode,
+          actions: [] as PastAction[],
+        })),
       },
     },
   );

@@ -95,7 +95,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   const handleClaim = () => {
     setShowConfirmation(false);
-    const state = gameService.send("skill.chosen", { skill: name });
+    const state = gameService.send({ type: "skill.chosen", skill: name });
 
     gameAnalytics.trackMilestone({
       event: `Bumpkin:SkillUnlocked:${name}`,

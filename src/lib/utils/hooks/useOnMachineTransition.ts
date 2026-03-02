@@ -1,34 +1,37 @@
-import { useEffect } from "react";
-import { EventObject, Interpreter, State } from "xstate";
+import { useEffect, useRef } from "react";
+import { AnyActor } from "xstate";
 
-export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
-  service: Interpreter<TContext, any, TEvent>,
+export const useOnMachineTransition = (
+  service: AnyActor,
   prevState: string,
   newState: string,
   callback?: () => void,
   shouldListen = true,
 ) => {
+  const previousValueRef = useRef<string | undefined>(undefined);
+
   useEffect(() => {
     if (!shouldListen) return;
 
-    const handleTransition = (state: State<TContext, TEvent>) => {
-      if (!state.changed) return;
+    const snapshot = service.getSnapshot();
+    previousValueRef.current = String(snapshot.value);
 
-      // Check if the state transitioned from prevState to newState
+    const subscription = service.subscribe((snapshot) => {
+      const currentValue = String(snapshot.value);
+
       if (
-        state.history?.matches(prevState) &&
-        state.matches(newState) &&
+        previousValueRef.current === prevState &&
+        currentValue === newState &&
         callback
       ) {
         callback();
       }
-    };
 
-    // Register the transition handler
-    service.onTransition(handleTransition);
+      previousValueRef.current = currentValue;
+    });
 
     return () => {
-      service.off(handleTransition);
+      subscription.unsubscribe();
     };
   }, []); // Empty dependency array is fine since we only want to set up the listener once
 };

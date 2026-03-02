@@ -13,7 +13,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActorRef, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
 import { Beehive as IBeehive } from "features/game/types/game";
 import {
@@ -94,7 +94,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     currentSpeed: getCurrentSpeed(hive),
   };
 
-  const beehiveService = useInterpret(beehiveMachine, {
+  const beehiveService = useActorRef(beehiveMachine, {
     context: beehiveContext,
   }) as unknown as MachineInterpreter;
 
@@ -108,7 +108,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const { multiplier: honeyMultiplier } = getHoneyMultiplier(gameState);
 
   const handleBeeAnimationEnd = useCallback(() => {
-    beehiveService.send("BEE_ANIMATION_DONE");
+    beehiveService.send({ type: "BEE_ANIMATION_DONE" });
     if (!honeyReady) setShowProducingBee(true);
   }, [honeyReady, beehiveService]);
 
@@ -119,8 +119,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
     setShowHoneyLevelModal(false);
 
-    const state = gameService.send("beehive.harvested", { id });
-    beehiveService.send("HARVEST_HONEY", {
+    const state = gameService.send({ type: "beehive.harvested", id });
+    beehiveService.send({
+      type: "HARVEST_HONEY",
       updatedHive: state.context.state.beehives[id],
     });
   };
@@ -163,7 +164,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
+    beehiveService.send({ type: "UPDATE_HIVE", updatedHive: hive });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hive, beehiveService]);

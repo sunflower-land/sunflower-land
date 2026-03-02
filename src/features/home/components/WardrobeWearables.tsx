@@ -79,9 +79,7 @@ export const WardrobeWearables: React.FC = () => {
     );
 
   const buy = () => {
-    gameService.send("wearable.bought", {
-      name: selected,
-    });
+    gameService.send({ type: "wearable.bought", name: selected });
 
     if (wearable.ingredients["Gem"]) {
       gameAnalytics.trackSink({

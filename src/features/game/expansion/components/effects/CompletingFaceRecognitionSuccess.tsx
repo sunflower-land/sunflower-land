@@ -18,7 +18,7 @@ export const CompletingFaceRecognitionSuccess: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          gameService.send("CONTINUE");
+          gameService.send({ type: "CONTINUE" });
         }}
       >
         {t("continue")}

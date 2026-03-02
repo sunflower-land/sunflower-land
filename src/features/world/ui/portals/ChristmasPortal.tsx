@@ -83,7 +83,10 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "christmas-delivery" });
+    gameService.send({
+      type: "minigame.prizeClaimed",
+      id: "christmas-delivery",
+    });
 
     onClose();
   };

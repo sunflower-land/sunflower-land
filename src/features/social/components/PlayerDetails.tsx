@@ -171,7 +171,7 @@ export const PlayerDetails: React.FC<Props> = ({
       setFromRoute(location.pathname);
     }
 
-    gameService.send("VISIT", { landId: player.id });
+    gameService.send({ type: "VISIT", landId: player.id });
     navigate(`/visit/${player.id}`);
   };
 

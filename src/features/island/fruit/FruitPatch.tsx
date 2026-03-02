@@ -144,7 +144,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    const newState = gameService.send("fruit.planted", {
+    const newState = gameService.send({
+      type: "fruit.planted",
       index: id,
       seed: item,
     });
@@ -155,7 +156,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   };
 
   const fertilise = () => {
-    gameService.send("fruitPatch.fertilised", {
+    gameService.send({
+      type: "fruitPatch.fertilised",
       patchID: id,
       fertiliser: selectedItem,
     });
@@ -172,9 +174,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         prngArgs: { farmId, counter: activityCount },
       }).amount;
 
-    const newState = gameService.send("fruit.harvested", {
-      index: id,
-    });
+    const newState = gameService.send({ type: "fruit.harvested", index: id });
 
     if (!newState.matches("hoarding")) {
       setCollectingFruit(true);
@@ -202,7 +202,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     )
       shortcutItem("Axe");
 
-    const newState = gameService.send("fruitTree.removed", {
+    const newState = gameService.send({
+      type: "fruitTree.removed",
       index: id,
       selectedItem: "Axe",
     });

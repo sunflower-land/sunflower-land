@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActorRef, useSelector } from "@xstate/react";
 import {
   Context as CropMachineContext,
   MachineInterpreter,
@@ -64,7 +64,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     canHarvest: hasReadyCrops(queue, now),
   };
 
-  const cropMachineService = useInterpret(cropStateMachine, {
+  const cropMachineService = useActorRef(cropStateMachine, {
     context: cropMachineContext,
   }) as unknown as MachineInterpreter;
 

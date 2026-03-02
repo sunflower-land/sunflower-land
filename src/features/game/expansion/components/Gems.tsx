@@ -34,8 +34,12 @@ export const Gems: React.FC = () => {
       .context.state.inventory["Block Buck"]?.toNumber() ?? 0;
 
   const onClaim = () => {
-    gameService.send("garbage.sold", { item: "Block Buck", amount: gems });
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({
+      type: "garbage.sold",
+      item: "Block Buck",
+      amount: gems,
+    });
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   return (

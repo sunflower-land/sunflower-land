@@ -55,10 +55,7 @@ export const FarmHand: React.FC<{
             <BumpkinEquip
               equipment={fh.equipped}
               onEquip={(equipment) => {
-                gameService.send("farmHand.equipped", {
-                  id,
-                  equipment,
-                });
+                gameService.send({ type: "farmHand.equipped", id, equipment });
               }}
             />
           </CloseButtonPanel>

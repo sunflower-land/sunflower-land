@@ -237,7 +237,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
         counter: activityCount,
       }).amount;
 
-    const newState = gameService.send("timber.chopped", {
+    const newState = gameService.send({
+      type: "timber.chopped",
       index: id,
       item: "Axe",
     });

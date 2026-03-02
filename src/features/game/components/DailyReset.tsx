@@ -12,8 +12,8 @@ const useDailyResetActions = (): DailyResetActions => {
 
   return {
     triggerReset: () => {
-      gameService.send("daily.reset");
-      gameService.send("SAVE");
+      gameService.send({ type: "daily.reset" });
+      gameService.send({ type: "SAVE" });
       play();
     },
   };

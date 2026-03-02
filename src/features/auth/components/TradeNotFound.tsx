@@ -13,7 +13,7 @@ export const TradeNotFound: React.FC = () => {
 
   const reload = () => {
     mutate(() => true, undefined, { revalidate: true });
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
   };
 
   return (

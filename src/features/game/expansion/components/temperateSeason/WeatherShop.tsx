@@ -47,9 +47,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
   const { coins, inventory, island } = state;
 
   const craft = () => {
-    gameService.send("tool.crafted", {
-      tool: selected,
-    });
+    gameService.send({ type: "tool.crafted", tool: selected });
   };
 
   if (showIntro) {

@@ -247,18 +247,18 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setShowModal(false);
-    gameService.send("PAUSE");
+    gameService.send({ type: "PAUSE" });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    gameService.send("farm.upgraded");
-    gameService.send("SAVE");
+    gameService.send({ type: "farm.upgraded" });
+    gameService.send({ type: "SAVE" });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setShowUpgraded(true);
 
-    gameService.send("PLAY");
+    gameService.send({ type: "PLAY" });
 
     scrollIntoView(Section.GenesisBlock, "auto");
 

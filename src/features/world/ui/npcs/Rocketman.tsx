@@ -141,7 +141,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
   const loveCharmIcon = ITEM_DETAILS["Love Charm"].image;
 
   const handleExchange = () => {
-    gameService.send("exchange.flower", { amount: loveCharms });
+    gameService.send({ type: "exchange.flower", amount: loveCharms });
     onClose();
   };
 

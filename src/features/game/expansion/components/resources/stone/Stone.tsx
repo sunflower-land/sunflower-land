@@ -161,9 +161,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
         }).amount,
     );
 
-    const newState = gameService.send("stoneRock.mined", {
-      index: id,
-    });
+    const newState = gameService.send({ type: "stoneRock.mined", index: id });
 
     if (!newState.matches("hoarding")) {
       if (showAnimations) {

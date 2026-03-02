@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback, useEffect } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useActorRef } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -51,7 +51,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   const [gameMachine] = useState(startGame(authState.context) as any);
 
   // TODO - Typescript error
-  const gameService = useInterpret(gameMachine) as MachineInterpreter;
+  const gameService = useActorRef(gameMachine) as MachineInterpreter;
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -59,7 +59,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         !window.location.href.includes("visit") &&
         gameService.getSnapshot().matches("visiting")
       ) {
-        gameService.send("END_VISIT");
+        gameService.send({ type: "END_VISIT" });
       }
     };
 

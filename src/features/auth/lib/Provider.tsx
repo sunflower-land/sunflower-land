@@ -1,5 +1,5 @@
 import React from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useActorRef } from "@xstate/react";
 import { authMachine, MachineInterpreter } from "./authMachine";
 
 interface AuthContext {
@@ -9,9 +9,7 @@ interface AuthContext {
 export const Context = React.createContext<AuthContext>({} as AuthContext);
 
 export const Provider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const authService = useInterpret(
-    authMachine,
-  ) as unknown as MachineInterpreter;
+  const authService = useActorRef(authMachine) as unknown as MachineInterpreter;
 
   return (
     <Context.Provider value={{ authService }}>{children}</Context.Provider>

@@ -51,7 +51,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "fruit-dash" });
+    gameService.send({ type: "minigame.prizeClaimed", id: "fruit-dash" });
 
     onClose();
   };

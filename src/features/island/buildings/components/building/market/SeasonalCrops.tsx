@@ -56,12 +56,10 @@ export const SeasonalCrops: React.FC = () => {
 
   const sell = (amount: Decimal) => {
     if (isExoticCrop(selected.name)) {
-      gameService.send("treasure.sold", {
-        item: selected.name,
-        amount,
-      });
+      gameService.send({ type: "treasure.sold", item: selected.name, amount });
     } else {
-      const state = gameService.send("crop.sold", {
+      const state = gameService.send({
+        type: "crop.sold",
         crop: selected.name,
         amount: setPrecision(amount, 2),
       });

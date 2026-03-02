@@ -131,7 +131,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
 
   useEffect(() => {
     if (success || failed) {
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
       checkDepositsStale();
     }
   }, [success, failed]);

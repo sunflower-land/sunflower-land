@@ -13,7 +13,7 @@ export const LandscapeButton: React.FC = () => {
     <RoundButton
       onClick={() => {
         button.play();
-        gameService.send("LANDSCAPE");
+        gameService.send({ type: "LANDSCAPE" });
       }}
     >
       <img

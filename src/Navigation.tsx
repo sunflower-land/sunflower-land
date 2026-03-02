@@ -120,7 +120,9 @@ export const Navigation: React.FC = () => {
                                       <Splash>
                                         <Forbidden
                                           onClose={() => {
-                                            authService.send("RETURN");
+                                            authService.send({
+                                              type: "RETURN",
+                                            });
                                           }}
                                         />
                                       </Splash>

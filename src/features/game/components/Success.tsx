@@ -15,7 +15,7 @@ export const Success: React.FC = () => {
       <span className="text-center mb-2">
         {t("transaction.storeProgress.success")}
       </span>
-      <Button onClick={() => gameService.send("REFRESH")}>
+      <Button onClick={() => gameService.send({ type: "REFRESH" })}>
         {t("continue")}
       </Button>
     </div>

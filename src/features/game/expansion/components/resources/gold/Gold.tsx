@@ -174,9 +174,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
           counter: currentCounter,
         }).amount,
     );
-    const newState = gameService.send("goldRock.mined", {
-      index: id,
-    });
+    const newState = gameService.send({ type: "goldRock.mined", index: id });
 
     if (!newState.matches("hoarding")) {
       if (showAnimations) {

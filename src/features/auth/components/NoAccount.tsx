@@ -151,7 +151,7 @@ export const NoAccount: React.FC = () => {
     return (
       <ClaimAccount
         onBack={() => setShowClaimAccount(false)}
-        onClaim={(id) => authService.send("CLAIM", { id })}
+        onClaim={(id) => authService.send({ type: "CLAIM", id })}
       />
     );
   }

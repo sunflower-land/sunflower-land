@@ -17,7 +17,7 @@ export const IslandNotFound = () => {
         <div className="flex flex-col items-center">
           <img id="richBegger" src={SUNNYSIDE.npcs.humanDeath} />
           <p className="my-4 px-2 text-center">{t("islandNotFound.message")}</p>
-          <Button onClick={() => gameService.send("END_VISIT")}>
+          <Button onClick={() => gameService.send({ type: "END_VISIT" })}>
             {t("islandNotFound.takeMeHome")}
           </Button>
         </div>

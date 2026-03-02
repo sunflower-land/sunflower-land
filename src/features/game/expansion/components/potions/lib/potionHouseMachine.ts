@@ -1,4 +1,4 @@
-import { Interpreter, State, assign, createMachine } from "xstate";
+import { ActorRefFrom, SnapshotFrom, assign, createMachine } from "xstate";
 import {
   acknowledgePotionHouseIntro,
   getPotionHouseIntroRead,
@@ -52,30 +52,15 @@ export type PotionHouseState = {
   context: PotionHouseContext;
 };
 
-export type PotionMachineState = State<
-  PotionHouseContext,
-  PotionHouseEvent,
-  PotionHouseState
->;
-
-export type PotionHouseMachineInterpreter = Interpreter<
-  PotionHouseContext,
-  any,
-  PotionHouseEvent,
-  PotionHouseState
->;
-
 const nextValidAnimationIndex = (
   animationQueue: DesiredAnimation[],
   validAnimations: DesiredAnimation[],
 ) => {
-  // iterate backwards through the animation queue and find the last valid animation
   for (let i = animationQueue.length - 1; i >= 0; i--) {
     if (validAnimations.includes(animationQueue[i])) {
       return i;
     }
   }
-  // If no valid animation is found, return -1
   return -1;
 };
 
@@ -94,11 +79,11 @@ function findNextGuessSpot(guess: Potions, currentGuessSpot: number): number {
   return currentGuessSpot;
 }
 
-export const potionHouseMachine = createMachine<
-  PotionHouseContext,
-  PotionHouseEvent,
-  PotionHouseState
->({
+export const potionHouseMachine = createMachine({
+  types: {} as {
+    context: PotionHouseContext;
+    events: PotionHouseEvent;
+  },
   initial: "introduction",
   context: {
     guessSpot: 0,
@@ -114,7 +99,7 @@ export const potionHouseMachine = createMachine<
     introduction: {
       always: {
         target: "playing",
-        cond: () => !!getPotionHouseIntroRead(),
+        guard: () => !!getPotionHouseIntroRead(),
       },
       on: {
         ACKNOWLEDGE: {
@@ -131,20 +116,20 @@ export const potionHouseMachine = createMachine<
       states: {
         idle: {
           entry: assign({
-            animationQueue: (context) => [],
-            feedbackText: (context) => {
+            animationQueue: () => [] as DesiredAnimation[],
+            feedbackText: ({ context }) => {
               return context.score !== null
                 ? getFeedbackText(context.score)
                 : context.feedbackText;
             },
           }),
           exit: assign({
-            feedbackText: null,
+            feedbackText: () => null,
           }),
           on: {
             NEXT_ANIMATION: {
               target: "#startMixing",
-              cond: (context) => {
+              guard: ({ context }) => {
                 const nextIndex = nextValidAnimationIndex(
                   context.animationQueue,
                   ["startMixing"],
@@ -153,7 +138,7 @@ export const potionHouseMachine = createMachine<
                 return context.animationQueue[nextIndex] === "startMixing";
               },
               actions: assign({
-                animationQueue: (context) => {
+                animationQueue: ({ context }) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
                     ["startMixing"],
@@ -163,7 +148,9 @@ export const potionHouseMachine = createMachine<
                     ? context.animationQueue.slice(nextIndex + 1)
                     : context.animationQueue;
                 },
-                score: (_, event) => event.score,
+                score: ({ event }) =>
+                  (event as { type: "NEXT_ANIMATION"; score: number | null })
+                    .score,
               }),
             },
           },
@@ -174,7 +161,9 @@ export const potionHouseMachine = createMachine<
             NEXT_ANIMATION: {
               target: "loopMixing",
               actions: assign({
-                score: (_, event) => event.score,
+                score: ({ event }) =>
+                  (event as { type: "NEXT_ANIMATION"; score: number | null })
+                    .score,
               }),
             },
           },
@@ -185,7 +174,7 @@ export const potionHouseMachine = createMachine<
             NEXT_ANIMATION: [
               {
                 target: "success",
-                cond: (context) => {
+                guard: ({ context }) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
                     ["success", "bomb"],
@@ -194,7 +183,7 @@ export const potionHouseMachine = createMachine<
                   return context.animationQueue[nextIndex] === "success";
                 },
                 actions: assign({
-                  animationQueue: (context) => {
+                  animationQueue: ({ context }) => {
                     const nextIndex = nextValidAnimationIndex(
                       context.animationQueue,
                       ["success", "bomb"],
@@ -204,12 +193,14 @@ export const potionHouseMachine = createMachine<
                       ? context.animationQueue.slice(nextIndex + 1)
                       : context.animationQueue;
                   },
-                  score: (_context, event) => event.score,
+                  score: ({ event }) =>
+                    (event as { type: "NEXT_ANIMATION"; score: number | null })
+                      .score,
                 }),
               },
               {
                 target: "bomb",
-                cond: (context) => {
+                guard: ({ context }) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
                     ["success", "bomb"],
@@ -218,7 +209,7 @@ export const potionHouseMachine = createMachine<
                   return context.animationQueue[nextIndex] === "bomb";
                 },
                 actions: assign({
-                  animationQueue: (context) => {
+                  animationQueue: ({ context }) => {
                     const nextIndex = nextValidAnimationIndex(
                       context.animationQueue,
                       ["success", "bomb"],
@@ -228,7 +219,9 @@ export const potionHouseMachine = createMachine<
                       ? context.animationQueue.slice(nextIndex + 1)
                       : context.animationQueue;
                   },
-                  score: (_, event) => event.score,
+                  score: ({ event }) =>
+                    (event as { type: "NEXT_ANIMATION"; score: number | null })
+                      .score,
                 }),
               },
             ],
@@ -239,7 +232,9 @@ export const potionHouseMachine = createMachine<
             NEXT_ANIMATION: {
               target: "idle",
               actions: assign({
-                score: (_, event) => event.score,
+                score: ({ event }) =>
+                  (event as { type: "NEXT_ANIMATION"; score: number | null })
+                    .score,
               }),
             },
           },
@@ -249,7 +244,9 @@ export const potionHouseMachine = createMachine<
             NEXT_ANIMATION: {
               target: "idle",
               actions: assign({
-                score: (_, event) => event.score,
+                score: ({ event }) =>
+                  (event as { type: "NEXT_ANIMATION"; score: number | null })
+                    .score,
               }),
             },
           },
@@ -257,9 +254,11 @@ export const potionHouseMachine = createMachine<
       },
       on: {
         REMOVE_GUESS: {
-          actions: assign((context, event) => {
+          actions: assign(({ context, event }) => {
             const newGuess: Potions = [...context.currentGuess];
-            newGuess[event.guessSpot] = null;
+            newGuess[
+              (event as { type: "REMOVE_GUESS"; guessSpot: number }).guessSpot
+            ] = null;
 
             return {
               ...context,
@@ -268,11 +267,16 @@ export const potionHouseMachine = createMachine<
           }),
         },
         ADD_GUESS: {
-          actions: assign((context, event) => {
+          actions: assign(({ context, event }) => {
+            const e = event as {
+              type: "ADD_GUESS";
+              guessSpot: number;
+              potion: PotionName;
+            };
             const newGuess: Potions = [...context.currentGuess];
-            newGuess[event.guessSpot] = event.potion;
+            newGuess[e.guessSpot] = e.potion;
 
-            const guessSpot = findNextGuessSpot(newGuess, event.guessSpot);
+            const guessSpot = findNextGuessSpot(newGuess, e.guessSpot);
 
             return {
               ...context,
@@ -282,57 +286,77 @@ export const potionHouseMachine = createMachine<
           }),
         },
         SELECT_GUESS_SPOT: {
-          actions: assign((context, event) => {
+          actions: assign(({ context, event }) => {
             return {
               ...context,
-              guessSpot: event.guessSpot,
+              guessSpot: (
+                event as { type: "SELECT_GUESS_SPOT"; guessSpot: number }
+              ).guessSpot,
             };
           }),
         },
         MIX_POTION: {
-          actions: assign((context) => {
+          actions: assign(({ context }) => {
             return {
               ...context,
               guessSpot: 0,
               selectedPotion: Object.values(POTIONS)[0],
-              currentGuess: [null, null, null, null],
-              animationQueue: [...context.animationQueue, "startMixing"],
+              currentGuess: [null, null, null, null] as Potions,
+              animationQueue: [
+                ...context.animationQueue,
+                "startMixing" as DesiredAnimation,
+              ],
               isNewGame: false,
               multiplier: context.multiplier,
             };
           }),
         },
         NEW_GAME: {
-          target: "playing",
-          actions: assign((context, event) => ({
-            guessSpot: 0,
-            selectedPotion: Object.values(POTIONS)[0],
-            currentGuess: [null, null, null, null],
-            isNewGame: true,
-            score: null,
-            feedbackText: translate("rules.potion.feedback"),
-            animationQueue: [],
-            multiplier: event.multiplier ?? context.multiplier ?? 1,
-          })),
+          target: ".playing",
+          actions: assign(({ context, event }) => {
+            const e = event as { type: "NEW_GAME"; multiplier?: number };
+            return {
+              guessSpot: 0,
+              selectedPotion: Object.values(POTIONS)[0],
+              currentGuess: [null, null, null, null] as Potions,
+              isNewGame: true,
+              isFinished: context.isFinished,
+              score: null,
+              feedbackText: translate("rules.potion.feedback"),
+              animationQueue: [] as DesiredAnimation[],
+              multiplier: e.multiplier ?? context.multiplier ?? 1,
+            };
+          }),
         },
         BOMB: {
-          actions: assign((context) => {
+          actions: assign(({ context }) => {
             return {
               ...context,
-              animationQueue: [...context.animationQueue, "bomb"],
+              animationQueue: [
+                ...context.animationQueue,
+                "bomb" as DesiredAnimation,
+              ],
             };
           }),
         },
         SUCCESS: {
-          actions: assign((context) => {
+          actions: assign(({ context }) => {
             return {
               ...context,
-              animationQueue: [...context.animationQueue, "success"],
+              animationQueue: [
+                ...context.animationQueue,
+                "success" as DesiredAnimation,
+              ],
             };
           }),
         },
       },
     },
   },
-  on: { OPEN_RULES: "rules" },
+  on: { OPEN_RULES: ".rules" },
 });
+
+export type PotionMachineState = SnapshotFrom<typeof potionHouseMachine>;
+export type PotionHouseMachineInterpreter = ActorRefFrom<
+  typeof potionHouseMachine
+>;

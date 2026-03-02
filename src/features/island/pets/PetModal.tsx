@@ -94,7 +94,7 @@ export const PetModal: React.FC<Props> = ({
   const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
-    const state = gameService.send("pet.fed", { petId, food });
+    const state = gameService.send({ type: "pet.fed", petId, food });
 
     const hasVictoriaApron = isWearableActive({
       game: state.context.state,
@@ -112,17 +112,14 @@ export const PetModal: React.FC<Props> = ({
         );
         const fedRequests = petData.requests.foodFed;
         if (requests.every((request) => fedRequests?.includes(request))) {
-          gameService.send("SAVE");
+          gameService.send({ type: "SAVE" });
         }
       }
     }
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
-    gameService.send("pet.fetched", {
-      petId,
-      fetch,
-    });
+    gameService.send({ type: "pet.fetched", petId, fetch });
   };
 
   const handleResetRequests = () => {
@@ -154,7 +151,9 @@ export const PetModal: React.FC<Props> = ({
               <div className="flex flex-row gap-2 items-center">
                 <Checkbox
                   checked={!!data.walking}
-                  onChange={() => gameService.send("pet.walked", { petId })}
+                  onChange={() =>
+                    gameService.send({ type: "pet.walked", petId })
+                  }
                 />
                 <p className="text-xs">{t("pets.follow")}</p>
               </div>
@@ -303,7 +302,7 @@ export const PetModal: React.FC<Props> = ({
             todayDate={todayDate}
             handleResetRequests={handleResetRequests}
             onAcknowledged={() => {
-              gameService.send("CONTINUE");
+              gameService.send({ type: "CONTINUE" });
             }}
             onBack={() => setDisplay("feeding")}
           />

@@ -397,12 +397,12 @@ export const CraftTab: React.FC<Props> = ({
     setShowConfirmModal(false);
     if (craftingStatus === "pending") return;
 
-    gameService.send("crafting.started", { ingredients: selectedItems });
-    if (!currentRecipe) gameService.send("SAVE");
+    gameService.send({ type: "crafting.started", ingredients: selectedItems });
+    if (!currentRecipe) gameService.send({ type: "SAVE" });
   };
 
   const handleCollect = () => {
-    gameService.send("crafting.collected");
+    gameService.send({ type: "crafting.collected" });
   };
 
   const handleClearIngredients = () => {
@@ -412,7 +412,7 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleInstantCraft = (gems: number) => {
-    gameService.send("crafting.spedUp");
+    gameService.send({ type: "crafting.spedUp" });
     gameAnalytics.trackSink({
       currency: "Gem",
       amount: gems,

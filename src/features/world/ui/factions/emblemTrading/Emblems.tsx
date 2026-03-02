@@ -52,8 +52,8 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   }, []);
 
   const leave = () => {
-    gameService.send("faction.left");
-    gameService.send("SAVE");
+    gameService.send({ type: "faction.left" });
+    gameService.send({ type: "SAVE" });
     navigate("/world/kingdom");
   };
 

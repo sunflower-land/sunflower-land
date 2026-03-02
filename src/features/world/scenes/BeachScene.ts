@@ -407,8 +407,8 @@ export class BeachScene extends BaseScene {
 
     this.desertStormTimer = setTimeout(() => {
       // Trigger a no op save event to fetch latest patterns
-      this.gameService.send("kingdomChores.refreshed");
-      this.gameService.send("SAVE");
+      this.gameService.send({ type: "kingdomChores.refreshed" });
+      this.gameService.send({ type: "SAVE" });
 
       this.resetSite();
     }, secondsTillDesertStorm() * 1000);
@@ -1561,7 +1561,7 @@ export class BeachScene extends BaseScene {
 
       const onComplete = () => {
         // Move out of revealed state
-        this.gameService.send("CONTINUE");
+        this.gameService.send({ type: "CONTINUE" });
         this.currentPlayer?.sprite?.off("animationstop", onComplete);
 
         const sfxKey = this.selectedItem === "Sand Drill" ? "drill" : "dig";

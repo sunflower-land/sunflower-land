@@ -54,7 +54,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   };
 
   const handleSpeedUp = (gems: number) => {
-    gameService.send("upgrade.spedUp", { name: "Water Well" });
+    gameService.send({ type: "upgrade.spedUp", name: "Water Well" });
     gameAnalytics.trackSink({
       currency: "Gem",
       amount: gems,

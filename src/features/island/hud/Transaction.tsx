@@ -350,7 +350,7 @@ export const TransactionProgress: React.FC<Props> = ({
   };
 
   const reload = () => {
-    gameService.send("REFRESH");
+    gameService.send({ type: "REFRESH" });
     if (onClose) {
       onClose();
     }

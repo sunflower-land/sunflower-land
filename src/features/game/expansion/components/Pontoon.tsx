@@ -34,7 +34,7 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
       game: gameService.getSnapshot().context.state,
     });
 
-    gameService.send("expansion.spedUp");
+    gameService.send({ type: "expansion.spedUp" });
 
     gameAnalytics.trackSink({
       currency: "Gem",

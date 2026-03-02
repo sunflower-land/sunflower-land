@@ -112,9 +112,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("floatingShopItem.bought", {
-      name: item.name,
-    });
+    gameService.send({ type: "floatingShopItem.bought", name: item.name });
 
     if (!isWearable) {
       shortcutItem(item.name as InventoryItemName);

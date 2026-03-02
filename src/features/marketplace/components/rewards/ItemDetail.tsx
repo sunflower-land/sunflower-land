@@ -74,9 +74,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   };
 
   const handleBuy = () => {
-    gameService.send("reward.redeemed", {
-      item: itemName,
-    });
+    gameService.send({ type: "reward.redeemed", item: itemName });
 
     if (showAnimations) confetti();
     setShowSuccess(true);

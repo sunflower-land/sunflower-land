@@ -79,7 +79,7 @@ export const VisitingHud: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEndVisit = () => {
-    gameService.send("END_VISIT");
+    gameService.send({ type: "END_VISIT" });
 
     const target =
       fromRoute &&
@@ -102,7 +102,7 @@ export const VisitingHud: React.FC = () => {
     // Store acknowledgment in local storage
     localStorage.setItem("visitorGuideAcknowledged", "true");
     setShowVisitorGuide(false);
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
   };
 
   useEffect(() => {
@@ -200,7 +200,7 @@ export const VisitingHud: React.FC = () => {
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            gameService.send("SAVE");
+            gameService.send({ type: "SAVE" });
           }}
         >
           {saving ? (

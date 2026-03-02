@@ -26,8 +26,8 @@ export const KingdomChores: React.FC = () => {
   const { gameService } = useContext(Context);
   const kingdomChores = useSelector(gameService, _kingdomChores);
   const handleReset = () => {
-    gameService.send("kingdomChores.refreshed");
-    gameService.send("SAVE");
+    gameService.send({ type: "kingdomChores.refreshed" });
+    gameService.send({ type: "SAVE" });
   };
   return (
     <div className="mt-3">

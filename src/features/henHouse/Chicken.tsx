@@ -3,7 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActorRef, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -114,7 +114,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const chicken = useSelector(gameService, _chicken(id));
   const game = useSelector(gameService, _game);
   const inventory = useSelector(gameService, _inventory);
-  const chickenService = useInterpret(animalMachine, {
+  const chickenService = useActorRef(animalMachine, {
     context: { animal: chicken },
     devTools: true,
   }) as unknown as AnimalMachineInterpreter;
@@ -251,7 +251,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const cureChicken = (item = selectedItem) => {
-    const updatedState = gameService.send("animal.fed", {
+    const updatedState = gameService.send({
+      type: "animal.fed",
       animal: "Chicken",
       item: item as AnimalMedicineName,
       id: chicken.id,

@@ -37,11 +37,12 @@ export const LoveCharm: React.FC = () => {
       .context.state.inventory["Community Coin"]?.toNumber() ?? 0;
 
   const onClaim = () => {
-    gameService.send("garbage.sold", {
+    gameService.send({
+      type: "garbage.sold",
       item: "Community Coin",
       amount: communityCoins,
     });
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   return (

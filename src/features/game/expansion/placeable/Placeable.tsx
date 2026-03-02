@@ -295,7 +295,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           scale={scale.get()}
           onStart={() => {
             // reset
-            send("DRAG");
+            send({ type: "DRAG" });
           }}
           onDrag={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
@@ -310,7 +310,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
             detect({ x, y });
 
-            send("DROP");
+            send({ type: "DROP" });
           }}
           position={position}
         >

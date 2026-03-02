@@ -53,7 +53,11 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
 
   const handlePetClick = () => {
     if (petData && visitorGameState && !hasHelpedPet) {
-      gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
+      gameService.send({
+        type: "pet.visitingPets",
+        pet: name,
+        totalHelpedToday,
+      });
 
       if (
         isHelpComplete({

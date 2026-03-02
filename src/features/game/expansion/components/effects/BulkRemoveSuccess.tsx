@@ -67,7 +67,7 @@ export const BulkRemoveSuccess: React.FC<{
       <div className="p-1.5">{getContent()}</div>
       <Button
         onClick={() => {
-          gameService.send("CONTINUE");
+          gameService.send({ type: "CONTINUE" });
         }}
       >
         {t("continue")}

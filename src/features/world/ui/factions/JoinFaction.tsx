@@ -110,7 +110,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   }, [joinedFaction]);
 
   const handlePledge = () => {
-    gameService.send("faction.joined", { faction, sfl: cost });
+    gameService.send({ type: "faction.joined", faction, sfl: cost });
     recruiterVoice.play();
   };
 

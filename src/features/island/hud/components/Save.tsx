@@ -69,7 +69,7 @@ export const Save: React.FC = () => {
   }, [showSaved]);
 
   const save = () => {
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
   };
 
   return (

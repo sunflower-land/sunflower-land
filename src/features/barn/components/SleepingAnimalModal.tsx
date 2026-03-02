@@ -47,10 +47,7 @@ export const SleepingAnimalModal = ({
   const { count } = getCountAndType(state, toy);
 
   const onWakeUp = () => {
-    gameService.send("animal.wakeUp", {
-      animal: animal.type,
-      id,
-    });
+    gameService.send({ type: "animal.wakeUp", animal: animal.type, id });
     onClose();
   };
 

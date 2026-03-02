@@ -61,9 +61,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const achievements = ACHIEVEMENTS();
 
   const claim = () => {
-    gameService.send("achievement.claimed", {
-      achievement: selected,
-    });
+    gameService.send({ type: "achievement.claimed", achievement: selected });
   };
 
   return (

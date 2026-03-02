@@ -47,7 +47,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   };
 
   const claimBlessing = () => {
-    gameService.send("blessing.claimed");
+    gameService.send({ type: "blessing.claimed" });
     setShowResults(true);
   };
 

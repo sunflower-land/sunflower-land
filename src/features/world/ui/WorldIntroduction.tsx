@@ -110,7 +110,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
       setState("success");
 
       // Move out of that state
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
     }
   }, [usernameAssignmentSuccess]);
 
@@ -119,7 +119,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
       setState("error");
 
       // Move out of that state
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
     }
   }, [usernameAssignmentFailed]);
 

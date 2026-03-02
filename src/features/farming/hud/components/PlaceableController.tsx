@@ -340,7 +340,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   ]);
 
   const handleCancelPlacement = useCallback(() => {
-    send("BACK");
+    send({ type: "BACK" });
     setPreviousPosition(undefined);
   }, [send]);
 

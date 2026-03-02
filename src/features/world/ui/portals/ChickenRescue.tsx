@@ -50,7 +50,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "chicken-rescue" });
+    gameService.send({ type: "minigame.prizeClaimed", id: "chicken-rescue" });
 
     onClose();
   };

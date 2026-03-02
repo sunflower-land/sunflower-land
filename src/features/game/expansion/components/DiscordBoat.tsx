@@ -54,7 +54,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
 
   const claim = () => {
     // Fire event
-    gameService.send("bonus.claimed", { name: "discord-signup" });
+    gameService.send({ type: "bonus.claimed", name: "discord-signup" });
 
     gameAnalytics.trackMilestone({ event: "Reward:DiscordSignup:Claimed" });
 

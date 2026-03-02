@@ -71,7 +71,8 @@ export const Tools: React.FC = () => {
 
   const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
-    const state = gameService.send("tool.crafted", {
+    const state = gameService.send({
+      type: "tool.crafted",
       tool: selectedName,
       amount,
     });
@@ -87,10 +88,7 @@ export const Tools: React.FC = () => {
 
   const craftAnimalTool = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
-    gameService.send("tool.crafted", {
-      tool: selectedName,
-      amount,
-    });
+    gameService.send({ type: "tool.crafted", tool: selectedName, amount });
     shortcutItem(selectedName);
   };
 

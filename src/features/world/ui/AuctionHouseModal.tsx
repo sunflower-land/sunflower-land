@@ -26,7 +26,7 @@ export const AuctionHouseModal: React.FC<Props> = ({
       onClose={closeModal}
       gameState={state}
       onUpdate={(state) => {
-        gameService.send("UPDATE", { state });
+        gameService.send({ type: "UPDATE", state });
       }}
       onMint={() => {
         closeModal();

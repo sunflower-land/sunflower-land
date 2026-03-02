@@ -19,9 +19,9 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
   const { gameService } = useContext(Context);
 
   const refund = () => {
-    gameService.send("bid.refunded");
+    gameService.send({ type: "bid.refunded" });
     onRefund();
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
   };
 
   return (

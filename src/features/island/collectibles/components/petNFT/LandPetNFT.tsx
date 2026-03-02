@@ -53,15 +53,11 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
 
   const handlePetClick = () => {
     if (isNeglected && !isTypeFed) {
-      gameService.send("pet.neglected", {
-        petId: Number(id),
-      });
+      gameService.send({ type: "pet.neglected", petId: Number(id) });
       setShowNegativeXpPopup(true);
       window.setTimeout(() => setShowNegativeXpPopup(false), 1000);
     } else if (isNapping && !isTypeFed) {
-      gameService.send("pet.pet", {
-        petId: Number(id),
-      });
+      gameService.send({ type: "pet.pet", petId: Number(id) });
       setShowPositiveXpPopup(true);
       window.setTimeout(() => setShowPositiveXpPopup(false), 1000);
     } else {

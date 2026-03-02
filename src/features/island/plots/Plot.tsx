@@ -167,7 +167,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const harvestCrop = async (plot: CropPlot) => {
     if (!plot.crop) return;
-    const newState = gameService.send("crop.harvested", { index: id });
+    const newState = gameService.send({ type: "crop.harvested", index: id });
 
     if (newState.matches("hoarding")) return;
 
@@ -262,7 +262,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // apply fertilisers
     if (!readyToHarvest && seed && seed in CROP_COMPOST) {
-      gameService.send("plot.fertilised", {
+      gameService.send({
+        type: "plot.fertilised",
         plotID: id,
         fertiliser: seed,
       });
@@ -276,7 +277,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
         setShowSeasonalSeed(true);
       }
 
-      const newState = gameService.send("seed.planted", {
+      const newState = gameService.send({
+        type: "seed.planted",
         index: id,
         item: seed,
         cropId: uuidv4().slice(0, 8),

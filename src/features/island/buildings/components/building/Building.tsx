@@ -84,9 +84,9 @@ const InProgressBuilding: React.FC<Prop> = ({
 
   const onSpeedUp = (gems: number) => {
     if (isUpgradable) {
-      gameService.send("upgrade.spedUp", { name });
+      gameService.send({ type: "upgrade.spedUp", name });
     } else {
-      gameService.send("building.spedUp", { name, id });
+      gameService.send({ type: "building.spedUp", name, id });
     }
 
     gameAnalytics.trackSink({

@@ -51,13 +51,9 @@ export const PotionHouseItems: React.FC = () => {
       selected.name in POTION_HOUSE_ITEMS ||
       selected.name in POTION_HOUSE_EXOTIC_CROPS
     ) {
-      gameService.send("collectible.crafted", {
-        name: selected.name,
-      });
+      gameService.send({ type: "collectible.crafted", name: selected.name });
     } else {
-      gameService.send("decoration.bought", {
-        name: selected.name,
-      });
+      gameService.send({ type: "decoration.bought", name: selected.name });
     }
 
     shortcutItem(selected.name);

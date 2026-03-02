@@ -5,7 +5,14 @@ import {
   BuildingName,
 } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
-import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
+import {
+  assign,
+  createMachine,
+  sendParent,
+  fromPromise,
+  ActorRefFrom,
+  SnapshotFrom,
+} from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import { Inventory } from "features/game/types/game";
 import {
@@ -196,26 +203,20 @@ export type BlockchainState = {
   context: Context;
 };
 
-export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
+export type MachineState = SnapshotFrom<typeof landscapingMachine>;
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  BlockchainEvent,
-  BlockchainState
->;
+export type MachineInterpreter = ActorRefFrom<typeof landscapingMachine>;
 
-export const landscapingMachine = createMachine<
-  Context,
-  BlockchainEvent,
-  BlockchainState
->({
+export const landscapingMachine = createMachine({
+  types: {} as {
+    context: Context;
+    events: BlockchainEvent;
+  },
   id: "placeableMachine",
   type: "parallel",
-  preserveActionOrder: true,
   on: {
     CANCEL: {
-      target: ["saving.done", "editing.done"],
+      target: [".saving.done", ".editing.done"],
     },
   },
   states: {
@@ -230,35 +231,34 @@ export const landscapingMachine = createMachine<
         },
         autosaving: {
           invoke: {
-            src: async (_: Context, event: any) => {
-              const saveEvent = event as SaveEvent;
-
+            src: fromPromise(async ({ input }: { input: SaveEvent }) => {
               const result = await saveGame(
-                saveEvent.gameMachineContext,
+                input.gameMachineContext,
                 undefined,
-                saveEvent.farmId,
-                saveEvent.rawToken,
+                input.farmId,
+                input.rawToken,
               );
 
               return result;
-            },
+            }),
+            input: ({ event }) => event as SaveEvent,
             onDone: {
               target: "idle",
-              actions: sendParent((_, event) => ({
+              actions: sendParent(({ event }) => ({
                 type: "SAVE_SUCCESS",
-                data: event.data,
+                data: (event as any).output,
               })),
             },
             onError: {
-              actions: sendParent((_, event) => ({
+              actions: sendParent(({ event }) => ({
                 type: "SAVE_ERROR",
-                data: event.data,
+                data: (event as any).error,
               })),
             },
           },
         },
         done: {
-          type: "final",
+          type: "final" as const,
         },
       },
     },
@@ -269,31 +269,32 @@ export const landscapingMachine = createMachine<
           always: [
             {
               target: "placing",
-              cond: (context) => !!context.placeable,
+              guard: ({ context }) => !!context.placeable,
             },
           ],
           on: {
             SELECT: {
               target: "placing",
               actions: assign({
-                placeable: (_, event) => event.placeable,
-                action: (_, event) => event.action,
-                requirements: (_, event) => event.requirements,
-                multiple: (_, event) => event.multiple,
-                maximum: (_, event) => event.maximum,
+                placeable: ({ event }) => (event as SelectEvent).placeable,
+                action: ({ event }) => (event as SelectEvent).action,
+                requirements: ({ event }) =>
+                  (event as SelectEvent).requirements,
+                multiple: ({ event }) => (event as SelectEvent).multiple,
+                maximum: ({ event }) => (event as SelectEvent).maximum,
               }),
             },
             MOVE: {
               actions: assign({
-                moving: (_, event) => ({
-                  id: event.id,
-                  name: event.name,
+                moving: ({ event }) => ({
+                  id: (event as MoveEvent).id,
+                  name: (event as MoveEvent).name,
                 }),
               }),
             },
             BLUR: {
               actions: assign({
-                moving: (_, event) => undefined,
+                moving: () => undefined,
               }),
             },
             BUILD: {
@@ -302,46 +303,47 @@ export const landscapingMachine = createMachine<
             REMOVE_ALL: {
               target: "idle",
               actions: [
-                sendParent((_context, event) => ({
-                  type: event.event,
-                  location: event.location,
+                sendParent(({ event }) => ({
+                  type: (event as RemoveAllEvent).event,
+                  location: (event as RemoveAllEvent).location,
                 })),
-                assign({ moving: (_) => undefined }),
+                assign({ moving: () => undefined }),
               ],
             },
             FLIP: {
               target: "idle",
               actions: [
-                sendParent((_, event) => ({
+                sendParent(({ event }) => ({
                   type: "collectible.flipped",
-                  id: event.id,
-                  name: event.name,
-                  location: event.location,
+                  id: (event as FlipEvent).id,
+                  name: (event as FlipEvent).name,
+                  location: (event as FlipEvent).location,
                 })),
               ],
             },
             REMOVE: {
               target: "idle",
               actions: [
-                sendParent((_context, event: RemoveEvent) => {
-                  const isResource = event.name in RESOURCE_MOVE_EVENTS;
-                  const isNFT = event.name === "Bud" || event.name === "Pet";
-                  const isFarmHand = event.name === "FarmHand";
-                  const hasLocation = !(event.name in RESOURCES_REMOVE_ACTIONS);
+                sendParent(({ event }) => {
+                  const e = event as RemoveEvent;
+                  const isResource = e.name in RESOURCE_MOVE_EVENTS;
+                  const isNFT = e.name === "Bud" || e.name === "Pet";
+                  const isFarmHand = e.name === "FarmHand";
+                  const hasLocation = !(e.name in RESOURCES_REMOVE_ACTIONS);
 
                   let nameField = {};
-                  if (isNFT) nameField = { nft: event.name };
+                  if (isNFT) nameField = { nft: e.name };
                   else if (!isResource && !isFarmHand)
-                    nameField = { name: event.name };
+                    nameField = { name: e.name };
 
                   return {
-                    type: event.event,
-                    id: event.id,
+                    type: e.event,
+                    id: e.id,
                     ...nameField,
-                    ...(hasLocation ? { location: event.location } : {}),
+                    ...(hasLocation ? { location: e.location } : {}),
                   };
                 }),
-                assign({ moving: (_) => undefined }),
+                assign({ moving: () => undefined }),
               ],
             },
           },
@@ -350,14 +352,15 @@ export const landscapingMachine = createMachine<
           on: {
             UPDATE: {
               actions: assign({
-                coordinates: (_, event) => event.coordinates,
-                collisionDetected: (_, event) => event.collisionDetected,
+                coordinates: ({ event }) => (event as UpdateEvent).coordinates,
+                collisionDetected: ({ event }) =>
+                  (event as UpdateEvent).collisionDetected,
               }),
             },
             BACK: {
               target: "idle",
               actions: assign({
-                placeable: (_) => undefined,
+                placeable: () => undefined,
               }),
             },
             DRAG: {
@@ -366,93 +369,106 @@ export const landscapingMachine = createMachine<
             PLACE: [
               {
                 target: "placing",
-                // They have more to place
-                cond: (context, e) => {
+                guard: ({ context, event }) => {
+                  const e = event as PlaceEvent;
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }, e) => {
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location: e.location,
-                      } as PlacementEvent;
-                    },
-                  ),
+                  sendParent(({ context, event }) => {
+                    const e = event as PlaceEvent;
+                    return {
+                      type: context.action,
+                      name: context.placeable?.name,
+                      coordinates: {
+                        x: context.coordinates.x,
+                        y: context.coordinates.y,
+                      },
+                      id: uuidv4().slice(0, 8),
+                      location: e.location,
+                    } as PlacementEvent;
+                  }),
                   assign({
-                    collisionDetected: (_, event) => !!event.nextWillCollide,
-                    origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
-                    coordinates: (_, event) =>
-                      event.nextOrigin ?? { x: 0, y: 0 },
+                    collisionDetected: ({ event }) =>
+                      !!(event as PlaceEvent).nextWillCollide,
+                    origin: ({ event }) =>
+                      (event as PlaceEvent).nextOrigin ?? { x: 0, y: 0 },
+                    coordinates: ({ event }) =>
+                      (event as PlaceEvent).nextOrigin ?? { x: 0, y: 0 },
                   }),
                 ],
               },
               {
                 target: ["#saving.done", "done"],
-                cond: (context) =>
-                  // When buying/crafting items, return them to playing mode once bought
+                guard: ({ context }) =>
                   context.action === "collectible.crafted" ||
                   context.action === "collectible.placed" ||
                   context.action === "building.constructed",
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }, e) => {
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location: e.location,
-                      } as PlacementEvent;
-                    },
-                  ),
+                  sendParent(({ context, event }) => {
+                    const e = event as PlaceEvent;
+                    return {
+                      type: context.action,
+                      name: context.placeable?.name,
+                      coordinates: {
+                        x: context.coordinates.x,
+                        y: context.coordinates.y,
+                      },
+                      id: uuidv4().slice(0, 8),
+                      location: e.location,
+                    } as PlacementEvent;
+                  }),
                   assign({
-                    placeable: (_) => undefined,
+                    placeable: () => undefined,
                   }),
                 ],
               },
               {
                 target: ["#saving.done", "idle"],
                 actions: [
-                  sendParent(
-                    (
-                      { placeable, action, coordinates: { x, y } },
-                      { location },
-                    ) => {
-                      if (
-                        placeable?.name === "Bud" ||
-                        placeable?.name === "Pet"
-                      ) {
-                        return {
-                          type: action,
-                          coordinates: { x, y },
-                          id: placeable?.id,
-                          nft: placeable?.name,
-                          location,
-                        } as PlacementEvent;
-                      }
-                      if (placeable?.name === "FarmHand" && placeable?.id) {
-                        return {
-                          type: action,
-                          coordinates: { x, y },
-                          id: placeable.id,
-                          location,
-                        } as PlacementEvent;
-                      }
+                  sendParent(({ context, event }) => {
+                    const e = event as PlaceEvent;
+                    if (
+                      context.placeable?.name === "Bud" ||
+                      context.placeable?.name === "Pet"
+                    ) {
                       return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location,
+                        type: context.action,
+                        coordinates: {
+                          x: context.coordinates.x,
+                          y: context.coordinates.y,
+                        },
+                        id: (context.placeable as any)?.id,
+                        nft: context.placeable?.name,
+                        location: e.location,
                       } as PlacementEvent;
-                    },
-                  ),
+                    }
+                    if (
+                      context.placeable?.name === "FarmHand" &&
+                      (context.placeable as any)?.id
+                    ) {
+                      return {
+                        type: context.action,
+                        coordinates: {
+                          x: context.coordinates.x,
+                          y: context.coordinates.y,
+                        },
+                        id: (context.placeable as any).id,
+                        location: e.location,
+                      } as PlacementEvent;
+                    }
+                    return {
+                      type: context.action,
+                      name: context.placeable?.name,
+                      coordinates: {
+                        x: context.coordinates.x,
+                        y: context.coordinates.y,
+                      },
+                      id: uuidv4().slice(0, 8),
+                      location: e.location,
+                    } as PlacementEvent;
+                  }),
                   assign({
-                    placeable: (_) => undefined,
+                    placeable: () => undefined,
                   }),
                 ],
               },
@@ -462,9 +478,8 @@ export const landscapingMachine = createMachine<
         resetting: {
           always: {
             target: "placing",
-            // Move the next piece
             actions: assign({
-              coordinates: (context) => {
+              coordinates: ({ context }) => {
                 return {
                   x: context.coordinates.x,
                   y: context.coordinates.y - 1,
@@ -477,8 +492,9 @@ export const landscapingMachine = createMachine<
           on: {
             UPDATE: {
               actions: assign({
-                coordinates: (_, event) => event.coordinates,
-                collisionDetected: (_, event) => event.collisionDetected,
+                coordinates: ({ event }) => (event as UpdateEvent).coordinates,
+                collisionDetected: ({ event }) =>
+                  (event as UpdateEvent).collisionDetected,
               }),
             },
             DROP: {
@@ -487,7 +503,7 @@ export const landscapingMachine = createMachine<
           },
         },
         done: {
-          type: "final",
+          type: "final" as const,
         },
       },
     },

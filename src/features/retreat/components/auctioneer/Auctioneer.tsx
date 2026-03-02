@@ -22,11 +22,11 @@ export const Auctioneer: React.FC = () => {
   // getValidAuctionItems(goblinState.context.auctioneerItems)[0]?.name;
 
   // const openAuctioneer = () => {
-  //   goblinService.send("OPEN_AUCTIONEER");
+  //   goblinService.send({ type: "OPEN_AUCTIONEER" });
   // };
 
   // const closeAuctioneer = () => {
-  //   goblinService.send("CLOSE_AUCTIONEER");
+  //   goblinService.send({ type: "CLOSE_AUCTIONEER" });
   // };
 
   return (

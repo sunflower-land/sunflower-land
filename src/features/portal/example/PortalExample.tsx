@@ -55,7 +55,7 @@ export const PortalExample: React.FC = () => {
             <Label type="danger">{t("error")}</Label>
             <span className="text-sm my-2">{t("error.wentWrong")}</span>
           </div>
-          <Button onClick={() => portalService.send("RETRY")}>
+          <Button onClick={() => portalService.send({ type: "RETRY" })}>
             {t("retry")}
           </Button>
         </Panel>

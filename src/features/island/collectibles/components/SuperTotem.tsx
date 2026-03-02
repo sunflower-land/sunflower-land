@@ -32,7 +32,8 @@ export const SuperTotem: React.FC<CollectibleProps> = ({
   const percentage = 100 - (secondsToExpire / (7 * 24 * 60 * 60)) * 100;
 
   const handleRemove = () => {
-    gameService.send("collectible.burned", {
+    gameService.send({
+      type: "collectible.burned",
       name: "Super Totem",
       location,
       id,

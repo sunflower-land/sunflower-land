@@ -94,7 +94,8 @@ export const CompetitionModal: React.FC<{
         <div className="flex">
           <Button
             onClick={() => {
-              gameService.send("competition.started", {
+              gameService.send({
+                type: "competition.started",
                 name: competitionName,
               });
             }}

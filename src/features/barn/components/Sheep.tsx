@@ -3,7 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActorRef, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -65,7 +65,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
   const sheep = useSelector(gameService, _sheep(id));
-  const sheepService = useInterpret(animalMachine, {
+  const sheepService = useActorRef(animalMachine, {
     context: {
       animal: sheep,
     },

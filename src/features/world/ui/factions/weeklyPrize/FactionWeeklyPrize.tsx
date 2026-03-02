@@ -53,9 +53,7 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   }
 
   const claim = () => {
-    gameService.send("faction.prizeClaimed", {
-      week,
-    });
+    gameService.send({ type: "faction.prizeClaimed", week });
 
     onClose();
   };

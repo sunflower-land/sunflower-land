@@ -69,10 +69,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
 
   const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
-    gameService.send("tool.crafted", {
-      tool: selectedName,
-      amount,
-    });
+    gameService.send({ type: "tool.crafted", tool: selectedName, amount });
 
     shortcutItem(selectedName);
   };
@@ -157,9 +154,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
   });
 
   const craft = () => {
-    gameService.send("collectible.crafted", {
-      name: selectedName,
-    });
+    gameService.send({ type: "collectible.crafted", name: selectedName });
 
     const count = inventory[selectedName]?.toNumber() ?? 1;
     gameAnalytics.trackMilestone({
@@ -240,9 +235,7 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName];
 
   const craft = () => {
-    gameService.send("wearable.bought", {
-      name: selectedName,
-    });
+    gameService.send({ type: "wearable.bought", name: selectedName });
 
     if (selected.ingredients["Gem"]) {
       gameAnalytics.trackSink({

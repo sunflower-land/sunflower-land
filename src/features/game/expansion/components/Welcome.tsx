@@ -14,8 +14,8 @@ export const Welcome: React.FC = () => {
 
   const [showPrize, setShowPrize] = useState(false);
   const claim = () => {
-    gameService.send("bonus.claimed", { name: "welcome" });
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "bonus.claimed", name: "welcome" });
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   if (showPrize) {

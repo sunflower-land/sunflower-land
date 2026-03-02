@@ -37,15 +37,13 @@ export const OffersAcceptedPopup: React.FC = () => {
   if (offersAcceptedIds.length === 0) return null;
 
   const claimAll = () => {
-    gameService.send("offer.claimed", {
-      tradeIds: offersAcceptedIds,
-    });
+    gameService.send({ type: "offer.claimed", tradeIds: offersAcceptedIds });
 
     if (offersAcceptedIds.some((id) => trades.offers?.[id].signature)) {
-      gameService.send("RESET");
+      gameService.send({ type: "RESET" });
     }
 
-    gameService.send("CLOSE");
+    gameService.send({ type: "CLOSE" });
   };
 
   return (
@@ -111,7 +109,10 @@ export const OffersAcceptedPopup: React.FC = () => {
         })}
       </div>
       <div className="flex space-x-1">
-        <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
+        <Button
+          className="w-full"
+          onClick={() => gameService.send({ type: "CLOSE" })}
+        >
           {t("close")}
         </Button>
         <Button className="w-full" onClick={() => claimAll()}>

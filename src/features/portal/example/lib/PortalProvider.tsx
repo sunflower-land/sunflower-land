@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useInterpret } from "@xstate/react";
+import { useActorRef } from "@xstate/react";
 import { MachineInterpreter, portalMachine } from "./portalMachine";
 
 interface PortalContext {
@@ -13,7 +13,7 @@ export const PortalContext = React.createContext<PortalContext>(
 export const PortalProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const portalService = useInterpret(
+  const portalService = useActorRef(
     portalMachine,
   ) as unknown as MachineInterpreter;
 
@@ -25,7 +25,7 @@ export const PortalProvider: React.FC<React.PropsWithChildren> = ({
       // Handle the received message
       if (event.data.event === "purchased") {
         // Put in your handlers here
-        portalService.send("PURCHASED");
+        portalService.send({ type: "PURCHASED" });
       }
     };
 

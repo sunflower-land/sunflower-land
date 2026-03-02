@@ -71,9 +71,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
 
   const upgrade = () => {
     // Implement the upgrade logic here
-    gameService.send("building.upgraded", {
-      buildingType: buildingName,
-    });
+    gameService.send({ type: "building.upgraded", buildingType: buildingName });
 
     onClose();
   };

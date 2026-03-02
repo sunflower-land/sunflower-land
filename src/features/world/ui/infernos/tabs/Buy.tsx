@@ -34,9 +34,7 @@ export const Buy: React.FC<Props> = ({ game }) => {
   const price = getResourcePrice({ gameState: game, resourceName: selected });
 
   const buy = async () => {
-    gameService.send("resource.bought", {
-      name: selected,
-    });
+    gameService.send({ type: "resource.bought", name: selected });
 
     setBought(selected);
 

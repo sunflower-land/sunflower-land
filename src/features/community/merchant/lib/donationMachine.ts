@@ -1,4 +1,4 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, assign, fromPromise, ActorRefFrom } from "xstate";
 
 import { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
@@ -24,18 +24,11 @@ export type DonationState = {
   context: Context;
 };
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  Event,
-  DonationState
->;
-
-const assignErrorMessage = assign<Context, any>({
-  errorCode: (_: Context, event: any) => event.data.message,
-});
-
-export const donationMachine = createMachine<Context, Event, DonationState>({
+export const donationMachine = createMachine({
+  types: {} as {
+    context: Context;
+    events: Event;
+  },
   id: "donation",
   initial: "idle",
   context: {
@@ -71,21 +64,23 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
     },
     donating: {
       invoke: {
-        src: async (_context: Context, event: any): Promise<void> => {
-          const { donation, to } = event as DonateEvent;
-
+        src: fromPromise(async ({ input }: { input: DonateEvent }) => {
           await wallet.donate(
-            donation,
-            to || (frogDonationAddress as `0x${string}`),
+            input.donation,
+            input.to || (frogDonationAddress as `0x${string}`),
           );
-        },
+        }),
+        input: ({ event }) => event as DonateEvent,
         onDone: {
           target: "donated",
-          actions: assign({ hasDonated: (_context, _event) => true }),
+          actions: assign({ hasDonated: () => true }),
         },
         onError: {
           target: "error",
-          actions: assignErrorMessage,
+          actions: assign({
+            errorCode: ({ event }) =>
+              (event as any).error?.message as ErrorCode,
+          }),
         },
       },
     },
@@ -93,3 +88,5 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
     error: {},
   },
 });
+
+export type MachineInterpreter = ActorRefFrom<typeof donationMachine>;

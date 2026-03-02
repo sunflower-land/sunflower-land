@@ -54,10 +54,7 @@ export const TreasureShopSell: React.FC = () => {
   const coinAmount = price * customAmount.toNumber();
 
   const sell = (amount = 1) => {
-    gameService.send("treasure.sold", {
-      item: selectedName,
-      amount,
-    });
+    gameService.send({ type: "treasure.sold", item: selectedName, amount });
   };
   const isValuable = selectedName === currentSeasonalArtefact || price > 1000;
   const handleSellOne = () => {

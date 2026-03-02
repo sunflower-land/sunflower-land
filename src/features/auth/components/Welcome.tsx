@@ -45,7 +45,7 @@ export const Welcome: React.FC = () => {
       <p className="text-xs text-center mb-2">{t("welcome.playInstantly")}</p>
       <Button
         className="mb-1 py-2 text-sm relative"
-        onClick={() => authService.send("SIGN_IN")}
+        onClick={() => authService.send({ type: "SIGN_IN" })}
       >
         <div className="px-8">
           <img
@@ -57,7 +57,7 @@ export const Welcome: React.FC = () => {
       </Button>
       <Button
         className="mb-1 py-2 text-sm relative"
-        onClick={() => authService.send("SIGNUP")}
+        onClick={() => authService.send({ type: "SIGNUP" })}
       >
         <div className="px-8">
           <img

@@ -113,7 +113,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   };
 
   const handleContinue = () => {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
     setShowModal(false);
   };
 

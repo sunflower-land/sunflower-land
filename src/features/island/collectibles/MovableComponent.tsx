@@ -438,7 +438,7 @@ export const MoveableComponent: React.FC<
 
   const flip = () => {
     if (isCollectible(name)) {
-      landscapingMachine.send("FLIP", { id, name, location });
+      landscapingMachine.send({ type: "FLIP", id, name, location });
     }
   };
 
@@ -462,7 +462,8 @@ export const MoveableComponent: React.FC<
     }
 
     if (showRemoveConfirmation) {
-      landscapingMachine.send("REMOVE", {
+      landscapingMachine.send({
+        type: "REMOVE",
         event: removeAction,
         id: id,
         name: name,
@@ -589,7 +590,7 @@ export const MoveableComponent: React.FC<
         nodeRef.current &&
         !(nodeRef.current as any).contains(event.target)
       ) {
-        landscapingMachine.send("BLUR");
+        landscapingMachine.send({ type: "BLUR" });
         setPosition({ x: 0, y: 0 });
         onStop.flush();
       }
@@ -778,7 +779,7 @@ export const MoveableComponent: React.FC<
         // Don't reopen the menu if an item was just chosen from the overlap menu
         if (suppressNextMenuOpen.current) {
           suppressNextMenuOpen.current = false;
-          landscapingMachine.send("MOVE", { name, id });
+          landscapingMachine.send({ type: "MOVE", name, id });
           isActive.current = true;
           return;
         }
@@ -802,7 +803,7 @@ export const MoveableComponent: React.FC<
           return;
         }
 
-        landscapingMachine.send("MOVE", { name, id });
+        landscapingMachine.send({ type: "MOVE", name, id });
 
         isActive.current = true;
       }}
@@ -927,7 +928,8 @@ export const MoveableComponent: React.FC<
                       if (closeCurrentOverlapMenu === localCloserRef.current) {
                         closeCurrentOverlapMenu = null;
                       }
-                      landscapingMachine.send("MOVE", {
+                      landscapingMachine.send({
+                        type: "MOVE",
                         name: choice.name,
                         id: choice.id,
                       });

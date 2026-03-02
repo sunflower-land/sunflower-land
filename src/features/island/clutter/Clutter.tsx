@@ -85,7 +85,8 @@ export const ClutterItem: React.FC<
 
   // V2 - local only event
   const handleHelpFarm = async () => {
-    gameService.send("garbage.collected", {
+    gameService.send({
+      type: "garbage.collected",
       id,
       visitedFarmId: farmId,
       totalHelpedToday,

@@ -111,7 +111,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     });
   };
 
-  const acknowledge = () => gameService.send("CONTINUE");
+  const acknowledge = () => gameService.send({ type: "CONTINUE" });
 
   const rewardHeaderProps: RewardHeaderProps = {
     timeToNextClaim,

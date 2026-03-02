@@ -37,8 +37,8 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   const hasGems = !!gameState.inventory["Gem"]?.gte(cost);
 
   const onAdd = () => {
-    gameService.send("farmHand.bought");
-    gameService.send("SAVE");
+    gameService.send({ type: "farmHand.bought" });
+    gameService.send({ type: "SAVE" });
     setShowSuccess(true);
     if (showAnimations) confetti();
 

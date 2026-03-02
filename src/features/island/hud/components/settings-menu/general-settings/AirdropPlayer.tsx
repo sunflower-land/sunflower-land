@@ -534,7 +534,7 @@ export const AirdropPlayer: React.FC<
           farmIds={farmIds}
           setFarmIds={setFarmIds}
           airdroppingRewardFailed={airdroppingRewardFailed}
-          closeErrorModal={() => gameService.send("CONTINUE")}
+          closeErrorModal={() => gameService.send({ type: "CONTINUE" })}
           errorCode={errorCode}
           transactionId={transactionId}
         />
@@ -556,7 +556,7 @@ export const AirdropPlayer: React.FC<
       showAdvancedItems={showAdvancedItems}
       advancedItemsProps={advancedItemsProps}
       airdroppingRewardFailed={airdroppingRewardFailed}
-      closeErrorModal={() => gameService.send("CONTINUE")}
+      closeErrorModal={() => gameService.send({ type: "CONTINUE" })}
       errorCode={errorCode}
       transactionId={transactionId}
     />

@@ -17,7 +17,7 @@ export const ClaimAuction: React.FC = () => {
   const image = getAuctionItemImage(bid);
 
   const onClose = () => {
-    gameService.send("CLOSE");
+    gameService.send({ type: "CLOSE" });
   };
 
   const transaction = gameService.getSnapshot().context.state.transaction;

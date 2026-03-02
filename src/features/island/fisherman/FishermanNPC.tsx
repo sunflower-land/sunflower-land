@@ -212,7 +212,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   };
 
   const onChallengeRetry = () => {
-    gameService.send("fish.retried");
+    gameService.send({ type: "fish.retried" });
   };
 
   const onChallengeLost = () => {
@@ -223,13 +223,13 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 
-    gameService.send("map.missed");
-    gameService.send("SAVE");
+    gameService.send({ type: "map.missed" });
+    gameService.send({ type: "SAVE" });
   };
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      const state = gameService.send("rod.reeled");
+      const state = gameService.send({ type: "rod.reeled" });
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) =>

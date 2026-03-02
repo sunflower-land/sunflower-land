@@ -16,7 +16,7 @@ export const RefundAuction: React.FC = () => {
   const { image } = getAuctionItemImage(bid);
 
   const onClose = () => {
-    gameService.send("CLOSE");
+    gameService.send({ type: "CLOSE" });
   };
 
   return (
@@ -28,7 +28,7 @@ export const RefundAuction: React.FC = () => {
         <Loser
           farmId={gameService.getSnapshot().context.farmId}
           onRefund={() => {
-            gameService.send("CLOSE");
+            gameService.send({ type: "CLOSE" });
           }}
           results={gameService.getSnapshot().context.auctionResults!}
         />

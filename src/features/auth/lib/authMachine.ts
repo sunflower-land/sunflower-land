@@ -1,4 +1,10 @@
-import { createMachine, Interpreter, State, assign } from "xstate";
+import {
+  createMachine,
+  assign,
+  fromPromise,
+  ActorRefFrom,
+  SnapshotFrom,
+} from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS, ErrorCode } from "lib/errors";
 
@@ -9,7 +15,6 @@ import {
 import { login, Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
@@ -172,31 +177,18 @@ export type BlockchainState = {
   context: Context;
 };
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  BlockchainEvent,
-  BlockchainState
->;
+export type MachineInterpreter = ActorRefFrom<typeof authMachine>;
 
-export type AuthMachineState = State<Context, BlockchainEvent, BlockchainState>;
-
-type AuthService = {
-  loadFarm: { data: Awaited<ReturnType<typeof loadSession>> };
-  setupContracts: { data: void };
-  createFarm: { data: void };
-};
+export type AuthMachineState = SnapshotFrom<typeof authMachine>;
 
 export const authMachine = createMachine(
   {
     id: "authMachine",
     initial: ART_MODE ? "connected" : "idle",
-    schema: {
-      services: {} as AuthService,
-      context: {} as Context,
-      events: {} as BlockchainEvent,
+    types: {} as {
+      context: Context;
+      events: BlockchainEvent;
     },
-    preserveActionOrder: true,
     context: { user: {} },
     states: {
       idle: {
@@ -213,7 +205,7 @@ export const authMachine = createMachine(
         always: [
           {
             target: "authorised",
-            cond: () => !!getToken(),
+            guard: () => !!getToken(),
             actions: [
               "assignWeb2Token",
               "saveToken",
@@ -270,6 +262,11 @@ export const authMachine = createMachine(
         entry: "setTransactionId",
         invoke: {
           src: "login",
+          input: ({ context, event }: any) => ({
+            transactionId: context.transactionId as string,
+            address: (event as ConnectedWalletEvent).address,
+            signature: (event as ConnectedWalletEvent).signature,
+          }),
           onDone: [
             {
               target: "verifying",
@@ -294,7 +291,7 @@ export const authMachine = createMachine(
         always: [
           {
             target: "noAccount",
-            cond: (context) => !context.user.token?.farmId,
+            guard: ({ context }) => !context.user.token?.farmId,
           },
           {
             target: "connected",
@@ -330,7 +327,7 @@ export const authMachine = createMachine(
         },
       },
       visiting: {
-        entry: (context) => {
+        entry: ({ context }) => {
           window.location.href = `${window.location.pathname}#/visit/${context.visitingFarmId}`;
         },
         on: {
@@ -366,18 +363,32 @@ export const authMachine = createMachine(
       creating: {
         entry: "setTransactionId",
         invoke: {
-          src: async (context, event) => {
-            const createEvent = event as CreateFarmEvent;
-            const { token } = await signUp({
-              token: context.user.rawToken as string,
-              transactionId: context.transactionId as string,
-              referrerId: getReferrerIdFromLS(),
-              utm: getUTMs(),
-              equipment: createEvent.equipment,
-            });
+          src: fromPromise(
+            async ({
+              input,
+            }: {
+              input: {
+                rawToken: string;
+                transactionId: string;
+                equipment: BumpkinParts;
+              };
+            }) => {
+              const { token } = await signUp({
+                token: input.rawToken,
+                transactionId: input.transactionId,
+                referrerId: getReferrerIdFromLS(),
+                utm: getUTMs(),
+                equipment: input.equipment,
+              });
 
-            return { token };
-          },
+              return { token };
+            },
+          ),
+          input: ({ context, event }: any) => ({
+            rawToken: context.user.rawToken as string,
+            transactionId: context.transactionId as string,
+            equipment: (event as CreateFarmEvent).equipment,
+          }),
           onDone: [
             {
               target: "connected",
@@ -387,8 +398,8 @@ export const authMachine = createMachine(
           onError: [
             {
               target: "walletInUse",
-              cond: (_, event: any) =>
-                event.data.message === ERRORS.SIGN_UP_FARM_EXISTS_ERROR,
+              guard: ({ event }: any) =>
+                event.error.message === ERRORS.SIGN_UP_FARM_EXISTS_ERROR,
             },
             {
               target: "unauthorised",
@@ -401,18 +412,32 @@ export const authMachine = createMachine(
       claiming: {
         entry: "setTransactionId",
         invoke: {
-          src: async (context, event) => {
-            const { id } = event as ClaimFarmEvent;
-            const { token } = await claimFarm({
-              token: context.user.rawToken as string,
-              transactionId: context.transactionId as string,
-              farmId: id,
-            });
+          src: fromPromise(
+            async ({
+              input,
+            }: {
+              input: {
+                rawToken: string;
+                transactionId: string;
+                farmId: number;
+              };
+            }) => {
+              const { token } = await claimFarm({
+                token: input.rawToken,
+                transactionId: input.transactionId,
+                farmId: input.farmId,
+              });
 
-            return {
-              token,
-            };
-          },
+              return {
+                token,
+              };
+            },
+          ),
+          input: ({ context, event }: any) => ({
+            rawToken: context.user.rawToken as string,
+            transactionId: context.transactionId as string,
+            farmId: (event as ClaimFarmEvent).id,
+          }),
           onDone: [
             {
               target: "connected",
@@ -434,29 +459,36 @@ export const authMachine = createMachine(
     },
   },
   {
-    services: {
-      login: async (context, event): Promise<{ token: string | null }> => {
-        const { address, signature } = event as any as ConnectedWalletEvent;
+    actors: {
+      login: fromPromise(
+        async ({
+          input,
+        }: {
+          input: {
+            transactionId: string;
+            address: string;
+            signature: string;
+          };
+        }): Promise<{ token: string | null }> => {
+          const { token } = await login({
+            transactionId: input.transactionId,
+            address: input.address,
+            signature: input.signature,
+          });
 
-        const { token } = await login({
-          transactionId: context.transactionId as string,
-          address,
-          signature,
-        });
-
-        return { token };
-      },
+          return { token };
+        },
+      ),
     },
     actions: {
-      assignToken: assign<Context, any>({
-        user: (context, event) => ({
+      assignToken: assign({
+        user: ({ context, event }: any) => ({
           ...context.user,
-          token: decodeToken(event.data.token),
-          rawToken: event.data.token,
+          token: decodeToken(event.output.token),
+          rawToken: event.output.token,
         }),
       }),
-      saveToken: (context: Context, event: any) => {
-        // Clear browser token
+      saveToken: ({ context, event }: { context: Context; event: any }) => {
         const hasParamsJWT = new URLSearchParams(window.location.search).get(
           "token",
         );
@@ -464,24 +496,23 @@ export const authMachine = createMachine(
           window.history.pushState({}, "", window.location.pathname);
         }
 
-        // Save primary JWT
-        saveJWT(event.data?.token ?? context.user.rawToken);
+        saveJWT(event.output?.token ?? context.user.rawToken);
       },
-      assignWeb2Token: assign<Context, any>({
-        user: (context) => ({
+      assignWeb2Token: assign({
+        user: ({ context }: any) => ({
           ...context.user,
           token: decodeToken(getToken() as string),
           rawToken: getToken() as string,
         }),
       }),
-      assignErrorMessage: assign<Context, any>({
-        errorCode: (_context, event) => event.data.message,
+      assignErrorMessage: assign({
+        errorCode: ({ event }: any) => event.error.message,
       }),
 
       assignVisitingFarmIdFromUrl: assign({
-        visitingFarmId: (_) => getFarmIdFromUrl(),
+        visitingFarmId: () => getFarmIdFromUrl(),
       }),
-      refreshFarm: assign<Context, any>({
+      refreshFarm: assign({
         visitingFarmId: undefined,
       }),
       clearSession: () => {
@@ -489,18 +520,18 @@ export const authMachine = createMachine(
         removeMinigameJWTs();
       },
       deleteFarmIdUrl: deleteFarmUrl,
-      setTransactionId: assign<Context, any>({
+      setTransactionId: assign({
         transactionId: () => randomID(),
       }),
-      clearTransactionId: assign<Context, any>({
+      clearTransactionId: assign({
         transactionId: () => undefined,
       }),
-      setShowPWAInstallPrompt: assign<Context, any>({
+      setShowPWAInstallPrompt: assign({
         showPWAInstallPrompt: () =>
           new URLSearchParams(window.location.search).get("pwaInstall") ===
           "true",
       }),
-      unsetShowPWAInstallPrompt: assign<Context, any>({
+      unsetShowPWAInstallPrompt: assign({
         showPWAInstallPrompt: () => false,
       }),
     },

@@ -81,10 +81,7 @@ const InProgressCollectible: React.FC<Props> = ({
   });
 
   const onSpeedUp = (gems: number) => {
-    gameService.send("collectible.spedUp", {
-      name,
-      id,
-    });
+    gameService.send({ type: "collectible.spedUp", name, id });
 
     gameAnalytics.trackSink({
       currency: "Gem",

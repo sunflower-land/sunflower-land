@@ -77,7 +77,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   useEffect(() => {
     if (!show) return;
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
 
     const fetchLeaderboards = async () => {
       try {

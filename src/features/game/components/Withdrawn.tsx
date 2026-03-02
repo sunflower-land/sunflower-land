@@ -58,7 +58,9 @@ export const Withdrawn: React.FC = () => {
           {"."}
         </span>
       </div>
-      <Button onClick={() => gameService.send("REFRESH")}>{t("ok")}</Button>
+      <Button onClick={() => gameService.send({ type: "REFRESH" })}>
+        {t("ok")}
+      </Button>
     </div>
   );
 };

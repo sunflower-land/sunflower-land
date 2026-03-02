@@ -149,7 +149,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   }, [snapToSection]);
 
   const handleClaimReward = (milestone: MilestoneName) => {
-    gameService.send("milestone.claimed", { milestone });
+    gameService.send({ type: "milestone.claimed", milestone });
     onMilestoneReached(milestone);
     setSelectedMilestone(undefined);
   };

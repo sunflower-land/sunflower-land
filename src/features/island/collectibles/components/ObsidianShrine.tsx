@@ -129,7 +129,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
 
   const doHarvestAll = () => {
-    gameService.send("crops.bulkHarvested", {});
+    gameService.send({ type: "crops.bulkHarvested" });
     setActiveTab("plant");
   };
 
@@ -441,7 +441,8 @@ const PlantAll: React.FC<{
   const plantAll = () => {
     if (!selectedSeed) return;
 
-    const updatedState = gameService.send("seeds.bulkPlanted", {
+    const updatedState = gameService.send({
+      type: "seeds.bulkPlanted",
       seed: selectedSeed,
     });
 

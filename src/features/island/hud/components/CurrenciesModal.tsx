@@ -111,7 +111,7 @@ export const CurrenciesModal: React.FC<Props> = ({
 
   useEffect(() => {
     // Trigger an autosave in case they have changes so user can sync right away
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
 
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
@@ -158,7 +158,7 @@ export const CurrenciesModal: React.FC<Props> = ({
   };
 
   const handleCreditCardSuccess = () => {
-    gameService.send("UPDATE_GEMS", { amount: price?.amount });
+    gameService.send({ type: "UPDATE_GEMS", amount: price?.amount });
     onClose();
   };
 

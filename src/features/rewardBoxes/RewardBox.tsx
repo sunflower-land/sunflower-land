@@ -92,14 +92,14 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
   const [currentRewards] = useState(() => getCurrentRewards(itemNames));
 
   const open = () => {
-    gameService.send("rewardBox.opened", { name });
-    gameService.send("SAVE");
+    gameService.send({ type: "rewardBox.opened", name });
+    gameService.send({ type: "SAVE" });
     setOpenedAt(Date.now());
   };
 
   const onClaimed = () => {
-    gameService.send("rewardBox.acknowledged", { name });
-    gameService.send("SAVE");
+    gameService.send({ type: "rewardBox.acknowledged", name });
+    gameService.send({ type: "SAVE" });
   };
 
   const isOpened = !!gameState.context.state.rewardBoxes?.[name]?.spunAt;

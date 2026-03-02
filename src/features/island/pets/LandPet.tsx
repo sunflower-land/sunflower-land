@@ -28,15 +28,11 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
 
   const handlePetClick = () => {
     if (isNeglected) {
-      gameService.send("pet.neglected", {
-        petId: name,
-      });
+      gameService.send({ type: "pet.neglected", petId: name });
       setShowNegativeXpPopup(true);
       window.setTimeout(() => setShowNegativeXpPopup(false), 1000);
     } else if (isNapping) {
-      gameService.send("pet.pet", {
-        petId: name,
-      });
+      gameService.send({ type: "pet.pet", petId: name });
       setShowPositiveXpPopup(true);
       window.setTimeout(() => setShowPositiveXpPopup(false), 1000);
     } else {

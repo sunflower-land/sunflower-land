@@ -79,7 +79,7 @@ export const CraftingBox: React.FC = () => {
     craftingStatus === "crafting" && craftingReadyAt && craftingReadyAt <= now;
 
   const handleOpen = () => {
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
     setShowModal(true);
   };
   const handleClose = () => setShowModal(false);

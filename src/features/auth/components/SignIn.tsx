@@ -15,7 +15,7 @@ const Login: React.FC<{ screen: "signin" | "signup" }> = ({ screen }) => {
       <WalletWall
         screen={screen}
         onSignMessage={({ address, signature }) => {
-          authService.send("CONNECTED", { address, signature });
+          authService.send({ type: "CONNECTED", address, signature });
         }}
       />
       <div className="flex justify-between my-1 items-center">

@@ -26,9 +26,9 @@ export const TradesCleared: React.FC = () => {
   const { trades } = state.context.state;
 
   const clearAll = () => {
-    gameService.send("trades.cleared");
+    gameService.send({ type: "trades.cleared" });
 
-    gameService.send("CLOSE");
+    gameService.send({ type: "CLOSE" });
   };
 
   const clearedListings = getKeys(trades.listings ?? {}).filter(

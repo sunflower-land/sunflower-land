@@ -136,7 +136,8 @@ export const Hourglass: React.FC<HourglassProps> = ({
   };
 
   const handleRemove = () => {
-    gameService.send("collectible.burned", {
+    gameService.send({
+      type: "collectible.burned",
       name: hourglass,
       location,
       id,

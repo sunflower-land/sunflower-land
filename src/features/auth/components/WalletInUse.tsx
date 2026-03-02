@@ -22,7 +22,7 @@ export const WalletInUse: React.FC = () => {
     return (
       <ClaimAccount
         onBack={() => setShowClaimAccount(false)}
-        onClaim={(id) => authService.send("CLAIM", { id })}
+        onClaim={(id) => authService.send({ type: "CLAIM", id })}
       />
     );
   }
@@ -53,7 +53,7 @@ export const WalletInUse: React.FC = () => {
         <Button
           onClick={() => {
             removeJWT();
-            authService.send("BACK");
+            authService.send({ type: "BACK" });
           }}
         >
           {t("error.walletInUse.three")}

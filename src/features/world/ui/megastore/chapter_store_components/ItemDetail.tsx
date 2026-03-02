@@ -265,7 +265,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item || !itemName) return;
 
-    gameService.send("chapterItem.bought", {
+    gameService.send({
+      type: "chapterItem.bought",
       name: itemName,
       tier: tiers,
     });

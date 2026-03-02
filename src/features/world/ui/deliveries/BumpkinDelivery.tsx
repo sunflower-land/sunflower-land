@@ -393,7 +393,8 @@ export const Gifts: React.FC<{
 
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
-    const state = gameService.send("flowers.gifted", {
+    const state = gameService.send({
+      type: "flowers.gifted",
       bumpkin: name,
       flower: selected,
     });
@@ -725,7 +726,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const isHoliday = holiday === today;
 
   const deliver = () => {
-    gameService.send("order.delivered", {
+    gameService.send({
+      type: "order.delivered",
       id: delivery?.id,
       friendship: true,
     });
@@ -817,7 +819,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           reward={gift}
           onClose={() => setGift(undefined)}
           onClaim={() => {
-            gameService.send("gift.claimed", { bumpkin: npc });
+            gameService.send({ type: "gift.claimed", bumpkin: npc });
             onClose && onClose();
           }}
         />

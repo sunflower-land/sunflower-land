@@ -46,7 +46,7 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "halloween" });
+    gameService.send({ type: "minigame.prizeClaimed", id: "halloween" });
 
     onClose();
   };

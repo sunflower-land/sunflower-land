@@ -10,7 +10,7 @@ export const TradeAlreadyFulfilled: React.FC = () => {
   const { t } = useAppTranslation();
 
   function onAcknowledge() {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
   }
 
   return (

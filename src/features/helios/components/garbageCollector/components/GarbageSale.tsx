@@ -42,10 +42,7 @@ export const GarbageSale: React.FC = () => {
   const items = selected.items || undefined;
 
   const sell = (amount = 1) => {
-    gameService.send("garbage.sold", {
-      item: selectedName,
-      amount,
-    });
+    gameService.send({ type: "garbage.sold", item: selectedName, amount });
   };
 
   return (

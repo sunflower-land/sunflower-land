@@ -84,13 +84,13 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   };
 
   const handleComplete = (index: number) => {
-    gameService.send("kingdomChore.completed", { id: index });
-    gameService.send("SAVE");
+    gameService.send({ type: "kingdomChore.completed", id: index });
+    gameService.send({ type: "SAVE" });
   };
 
   const handleReset = () => {
-    gameService.send("kingdomChores.refreshed");
-    gameService.send("SAVE");
+    gameService.send({ type: "kingdomChores.refreshed" });
+    gameService.send({ type: "SAVE" });
   };
 
   const handleSkip = () => {
@@ -99,8 +99,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 
   const confirmSkip = (index: number) => {
     setShowSkipConfirmation(false);
-    gameService.send("kingdomChore.skipped", { id: index });
-    gameService.send("SAVE");
+    gameService.send({ type: "kingdomChore.skipped", id: index });
+    gameService.send({ type: "SAVE" });
   };
 
   const activeChoresCount = activeChores.length;

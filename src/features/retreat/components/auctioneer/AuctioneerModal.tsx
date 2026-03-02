@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { AuctionHistory } from "./AuctionHistory";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useActorRef } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   MachineInterpreter,
@@ -50,7 +50,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   type Tab = "auction" | "results";
   const [tab, setTab] = useState<Tab>("auction");
 
-  const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
+  const auctionService = useActorRef(createAuctioneerMachine({ onUpdate }), {
     context: {
       farmId: farmId,
       token: authState.context.user.rawToken,
@@ -65,7 +65,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   useEffect(() => {
     if (isOpen) {
-      auctionService.send("OPEN", { gameState });
+      auctionService.send({ type: "OPEN", gameState });
     }
   }, [isOpen]);
 

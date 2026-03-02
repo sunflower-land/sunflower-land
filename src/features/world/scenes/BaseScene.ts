@@ -1442,7 +1442,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public initialiseMMO() {
     if (this.options.mmo.url && this.options.mmo.serverId) {
-      this.mmoService?.send("CONNECT", {
+      this.mmoService?.send({
+        type: "CONNECT",
         url: this.options.mmo.url,
         serverId: this.options.mmo.serverId,
       });

@@ -163,7 +163,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   const chapterTicket = getChapterTicket(now);
 
   const handleBonusClaim = () => {
-    gameService.send("claim.bountyBoardBonus");
+    gameService.send({ type: "claim.bountyBoardBonus" });
     setBonusClaimed(true);
   };
 
@@ -368,12 +368,9 @@ const Deal: React.FC<{
   };
 
   const sell = () => {
-    gameService.send("bounty.sold", {
-      requestId: bounty.id,
-    });
+    gameService.send({ type: "bounty.sold", requestId: bounty.id });
     if (showAnimations) confetti();
     setConfirmExchange(false);
-
     onSold();
   };
 

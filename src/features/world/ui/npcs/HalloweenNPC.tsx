@@ -104,9 +104,7 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
   const sacrifice = () => {
     // Place the purchase function here
-    gameService.send("bear.sacrificed", {
-      bears: selectedItems,
-    });
+    gameService.send({ type: "bear.sacrificed", bears: selectedItems });
 
     onClose();
   };

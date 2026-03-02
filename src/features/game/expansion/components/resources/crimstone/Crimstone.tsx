@@ -172,7 +172,8 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         ...{ minesLeft: crimstoneStage === 1 ? 5 : resource.minesLeft },
       },
     });
-    const newState = gameService.send("crimstoneRock.mined", {
+    const newState = gameService.send({
+      type: "crimstoneRock.mined",
       index: id,
     });
 

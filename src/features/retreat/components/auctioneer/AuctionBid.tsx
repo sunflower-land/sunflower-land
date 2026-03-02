@@ -83,7 +83,7 @@ export const AuctionBid: React.FC<Props> = ({
           <Button
             onClick={() =>
               cancelConfirm
-                ? auctionService.send("CANCEL")
+                ? auctionService.send({ type: "CANCEL" })
                 : setCancelConfirm(true)
             }
           >
@@ -96,7 +96,7 @@ export const AuctionBid: React.FC<Props> = ({
         <Button
           className="mt-2"
           disabled={!canReveal}
-          onClick={() => auctionService.send("CHECK_RESULTS")}
+          onClick={() => auctionService.send({ type: "CHECK_RESULTS" })}
         >
           {t("auction.reveal")}
         </Button>

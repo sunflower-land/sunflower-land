@@ -18,7 +18,7 @@ export const SFLExceeded = () => {
       />
       <p className="text-sm mb-2">{t("statements.sflLim.one")}</p>
       <p className="text-sm mb-2">{t("statements.sflLim.two")}</p>
-      <Button onClick={() => gameService.send("CONTINUE")}>
+      <Button onClick={() => gameService.send({ type: "CONTINUE" })}>
         {t("continue")}
       </Button>
     </div>

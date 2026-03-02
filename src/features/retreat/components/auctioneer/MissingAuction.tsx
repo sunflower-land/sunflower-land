@@ -16,9 +16,9 @@ export const MissingAuction: React.FC<Props> = ({ auctionService }) => {
   const { gameService } = useContext(Context);
 
   const refund = () => {
-    gameService.send("bid.refunded");
-    auctionService.send("REFUND");
-    gameService.send("SAVE");
+    gameService.send({ type: "bid.refunded" });
+    auctionService.send({ type: "REFUND" });
+    gameService.send({ type: "SAVE" });
   };
 
   return (

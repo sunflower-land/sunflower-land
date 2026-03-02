@@ -35,10 +35,7 @@ export const Incinerator: React.FC = () => {
   const [selectedName, setSelectedName] = useState<ClutterName>(clutter[0]);
 
   const burn = (amount = 1) => {
-    gameService.send("clutter.burned", {
-      item: selectedName,
-      amount,
-    });
+    gameService.send({ type: "clutter.burned", item: selectedName, amount });
   };
 
   return (

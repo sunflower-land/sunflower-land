@@ -24,7 +24,7 @@ export const TwitterFollowedSuccess: React.FC = () => {
         </p>
         <Button
           onClick={() => {
-            gameService.send("CONTINUE");
+            gameService.send({ type: "CONTINUE" });
           }}
         >
           {t("continue")}
@@ -42,7 +42,7 @@ export const TwitterFollowedSuccess: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          gameService.send("CONTINUE");
+          gameService.send({ type: "CONTINUE" });
         }}
       >
         {t("continue")}

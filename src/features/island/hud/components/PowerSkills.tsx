@@ -118,7 +118,8 @@ const PowerSkillsContent: React.FC<{
 
   const useSkill = () => {
     if (isCropFertiliserSkill) {
-      gameService.send("plots.bulkFertilised", {
+      gameService.send({
+        type: "plots.bulkFertilised",
         fertiliser: skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",
       });
 
@@ -128,7 +129,8 @@ const PowerSkillsContent: React.FC<{
     if (isFruitFertiliserSkill) {
       Object.entries(fruitPatches).map(([id, fruitPatch]) => {
         if (!fruitPatch.fertiliser) {
-          gameService.send("fruitPatch.fertilised", {
+          gameService.send({
+            type: "fruitPatch.fertilised",
             patchID: id,
             fertiliser: "Fruitful Blend",
           });
@@ -138,7 +140,7 @@ const PowerSkillsContent: React.FC<{
       return;
     }
 
-    gameService.send("skill.used", { skill: skillName });
+    gameService.send({ type: "skill.used", skill: skillName });
   };
 
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });

@@ -28,7 +28,7 @@ export const Swarming: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
   const onAcknowledge = () => {
-    gameService.send("REFRESH");
+    gameService.send({ type: "REFRESH" });
   };
 
   return (

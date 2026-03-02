@@ -52,9 +52,9 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
 
   const handleEndVisit = () => {
     if (authState.matches("connected")) {
-      gameService.send("END_VISIT");
+      gameService.send({ type: "END_VISIT" });
     } else {
-      authService.send("RETURN");
+      authService.send({ type: "RETURN" });
     }
   };
 

@@ -17,9 +17,7 @@ export const AirdropModal: React.FC<{
   const { gameService } = useContext(Context);
 
   const claim = () => {
-    gameService.send("airdrop.claimed", {
-      id: airdrop.id,
-    });
+    gameService.send({ type: "airdrop.claimed", id: airdrop.id });
 
     onClaimed();
   };
@@ -96,7 +94,7 @@ export const AirdropPopup: React.FC = () => {
     (amount) => amount < 0,
   );
 
-  const onClose = () => gameService.send("CLOSE");
+  const onClose = () => gameService.send({ type: "CLOSE" });
 
   return (
     <AirdropModal

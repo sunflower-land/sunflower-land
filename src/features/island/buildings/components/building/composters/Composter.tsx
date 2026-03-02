@@ -57,7 +57,8 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const startComposter = () => {
     // Simulate delayed closing of lid
     setTimeout(() => {
-      gameService.send("composter.started", {
+      gameService.send({
+        type: "composter.started",
         buildingId: composter!.id,
         building: name,
       });
@@ -67,7 +68,8 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const handleClick = () => setShowModal(true);
 
   const handleCollect = () => {
-    const state = gameService.send("compost.collected", {
+    const state = gameService.send({
+      type: "compost.collected",
       buildingId: composter!.id,
       building: name,
     });

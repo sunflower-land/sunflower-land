@@ -50,7 +50,7 @@ export const Memory: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "memory" });
+    gameService.send({ type: "minigame.prizeClaimed", id: "memory" });
 
     onClose();
   };

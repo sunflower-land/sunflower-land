@@ -22,7 +22,7 @@ export const DuplicateUser: React.FC = () => {
         onClick={() => {
           window.history.pushState({}, "", window.location.pathname);
 
-          gameService.send("REFRESH");
+          gameService.send({ type: "REFRESH" });
         }}
       >
         {t("continue")}

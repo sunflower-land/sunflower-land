@@ -82,7 +82,8 @@ export const Feed: React.FC<Props> = ({ food }) => {
     const previousExperience = bumpkin?.experience ?? 0;
     let previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
 
-    const newState = gameService.send("bumpkin.feed", {
+    const newState = gameService.send({
+      type: "bumpkin.feed",
       food: activeSelected.name,
       amount,
     });

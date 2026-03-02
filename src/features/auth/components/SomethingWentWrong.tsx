@@ -223,7 +223,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   const onAcknowledge = () => {
     window.history.pushState({}, "", window.location.pathname);
-    service.send("REFRESH");
+    service.send({ type: "REFRESH" });
   };
 
   return (

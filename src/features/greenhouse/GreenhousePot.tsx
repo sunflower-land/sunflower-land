@@ -151,7 +151,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    gameService.send("greenhouse.planted", { id, seed });
+    gameService.send({ type: "greenhouse.planted", id, seed });
   };
 
   if (!pot?.plant) {
@@ -259,7 +259,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         }).amount,
     );
 
-    gameService.send("greenhouse.harvested", { id });
+    gameService.send({ type: "greenhouse.harvested", id });
 
     if (showAnimations) {
       setShowHarvested(true);

@@ -115,7 +115,8 @@ export const SpecialEventModalContent: React.FC<{
   const claimReward = (day: number) => {
     task.current = event.tasks[day - 1];
 
-    gameService.send("specialEvent.taskCompleted", {
+    gameService.send({
+      type: "specialEvent.taskCompleted",
       event: eventName,
       task: day,
     });

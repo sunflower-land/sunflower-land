@@ -37,13 +37,13 @@ export const Hoarding: React.FC = () => {
   const itemName = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
   const sync = () => {
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "ACKNOWLEDGE" });
 
     openModal("STORE_ON_CHAIN");
   };
 
   const onAcknowledge = () => {
-    gameService.send("ACKNOWLEDGE");
+    gameService.send({ type: "ACKNOWLEDGE" });
   };
 
   const makeTitle = () => {

@@ -133,7 +133,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     }
 
     if (showRemoveConfirmation) {
-      child.send("REMOVE", {
+      child.send({
+        type: "REMOVE",
         event: action,
         id: selectedItem?.id,
         name: selectedItem?.name,
@@ -147,10 +148,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const removeAll = () => {
     if (showRemoveAllConfirmation) {
-      child.send("REMOVE_ALL", {
-        event: "items.removed",
-        location,
-      });
+      child.send({ type: "REMOVE_ALL", event: "items.removed", location });
       setShowRemoveAllConfirmation(false);
     } else {
       setShowRemoveAllConfirmation(true);
@@ -159,7 +157,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const flip = () => {
     if (selectedItem && isCollectible(selectedItem.name)) {
-      child.send("FLIP", {
+      child.send({
+        type: "FLIP",
         id: selectedItem.id,
         name: selectedItem.name,
         location,
@@ -205,7 +204,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 className="mb-3.5"
                 onClick={() => {
                   button.play();
-                  child.send("CANCEL");
+                  child.send({ type: "CANCEL" });
                 }}
               >
                 <img

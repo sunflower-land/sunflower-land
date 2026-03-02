@@ -23,7 +23,7 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
 
   const { t } = useAppTranslation();
 
-  const buy = () => gameService.send("obsidian.exchanged");
+  const buy = () => gameService.send({ type: "obsidian.exchanged" });
 
   if (showIntro) {
     return (

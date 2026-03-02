@@ -2,7 +2,7 @@ import { Context } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useActorRef, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
@@ -122,7 +122,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const location = useLocation();
   const { isVisiting } = useVisiting();
 
-  const mmoService = useInterpret(mmoMachine, {
+  const mmoService = useActorRef(mmoMachine, {
     context: {
       jwt: authState.context.user.rawToken,
       farmId: gameState.context.farmId,
@@ -162,7 +162,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     const eventSubscription = PubSub.subscribe(
       "CHANGE_SERVER",
       (message: string, data?: any) => {
-        mmoService.send("CHANGE_SERVER", { serverId: data.serverId });
+        mmoService.send({ type: "CHANGE_SERVER", serverId: data.serverId });
       },
     );
 
@@ -213,9 +213,9 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       <Modal show={isIntroducing}>
         <WorldIntroduction
           onClose={(username: string) => {
-            mmoService.send("CONTINUE", { username });
+            mmoService.send({ type: "CONTINUE", username });
             // BUG - need to call twice?
-            mmoService.send("CONTINUE", { username });
+            mmoService.send({ type: "CONTINUE", username });
           }}
         />
       </Modal>

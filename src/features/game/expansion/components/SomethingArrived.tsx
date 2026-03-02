@@ -35,7 +35,7 @@ export const SomethingArrived: React.FC = () => {
         sfl,
         coins,
       }}
-      onClaim={() => gameService.send("ACKNOWLEDGE")}
+      onClaim={() => gameService.send({ type: "ACKNOWLEDGE" })}
     />
   );
 };

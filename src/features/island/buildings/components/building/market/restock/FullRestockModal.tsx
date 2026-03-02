@@ -48,7 +48,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("shops.restocked");
+    gameService.send({ type: "shops.restocked" });
 
     gameAnalytics.trackSink({
       currency: "Gem",

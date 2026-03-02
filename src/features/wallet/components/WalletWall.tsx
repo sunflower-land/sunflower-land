@@ -266,7 +266,9 @@ export const WalletWall: React.FC<{
             <>
               {isLoginScreen && (
                 <>
-                  <BackHeader onClick={() => authService.send("BACK")} />
+                  <BackHeader
+                    onClick={() => authService.send({ type: "BACK" })}
+                  />
                   <GoogleButton
                     onClick={() => {
                       setShowLoading(true);
@@ -358,7 +360,9 @@ export const WalletWall: React.FC<{
           <>
             {isLoginScreen && (
               <>
-                <BackHeader onClick={() => authService.send("BACK")} />
+                <BackHeader
+                  onClick={() => authService.send({ type: "BACK" })}
+                />
                 <GoogleButton
                   onClick={() => {
                     setShowLoading(true);

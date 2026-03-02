@@ -35,7 +35,8 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   const hasExpired = secondsToExpire <= 0;
 
   const handleRemove = () => {
-    gameService.send("collectible.burned", {
+    gameService.send({
+      type: "collectible.burned",
       name: "Time Warp Totem",
       location,
       id,

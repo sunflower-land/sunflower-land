@@ -76,7 +76,7 @@ export function prepareAPI({
         mintWearables: wearables,
       });
 
-      gameService.send("COMMUNITY_UPDATE", { game: response?.game });
+      gameService.send({ type: "COMMUNITY_UPDATE", game: response?.game });
 
       return { updatedAt: response?.updatedAt };
     }
@@ -100,7 +100,7 @@ export function prepareAPI({
         burnSFL: sfl,
       });
 
-      gameService.send("COMMUNITY_UPDATE", { game: response?.game });
+      gameService.send({ type: "COMMUNITY_UPDATE", game: response?.game });
 
       return { updatedAt: response?.updatedAt };
     }

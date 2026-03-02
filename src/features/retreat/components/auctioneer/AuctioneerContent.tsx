@@ -66,7 +66,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <div className="p-2">
         <p className="mb-2">{t("error.wentWrong")}</p>
-        <Button onClick={() => auctionService.send("REFRESH")}>
+        <Button onClick={() => auctionService.send({ type: "REFRESH" })}>
           {t("retry")}
         </Button>
       </div>
@@ -77,7 +77,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <GameWallet action="auction">
         <div className="p-2">
-          <Button onClick={() => auctionService.send("REFRESH")}>
+          <Button onClick={() => auctionService.send({ type: "REFRESH" })}>
             {t("continue")}
           </Button>
         </div>
@@ -96,9 +96,13 @@ export const AuctioneerContent: React.FC<Props> = ({
         auction={auction}
         maxTickets={9999999} // TODO
         onBid={(tickets: number) => {
-          auctionService.send("BID", { auctionId: auction.auctionId, tickets });
+          auctionService.send({
+            type: "BID",
+            auctionId: auction.auctionId,
+            tickets,
+          });
         }}
-        onBack={() => auctionService.send("CANCEL")}
+        onBack={() => auctionService.send({ type: "CANCEL" })}
       />
     );
   }
@@ -145,7 +149,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <Loser
         farmId={auctioneerState.context.farmId}
-        onRefund={() => auctionService.send("REFUND")}
+        onRefund={() => auctionService.send({ type: "REFUND" })}
         results={auctioneerState.context.results as AuctionResults}
       />
     );
@@ -181,7 +185,7 @@ export const AuctioneerContent: React.FC<Props> = ({
         auction={auction}
         game={gameState}
         onDraftBid={() => {
-          auctionService.send("DRAFT_BID");
+          auctionService.send({ type: "DRAFT_BID" });
         }}
         isUpcomingItem={false}
         onBack={() => setSelectedAuctionId(undefined)}

@@ -106,13 +106,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   };
 
   const refreshSession = () => {
-    gameService.send("RESET");
+    gameService.send({ type: "RESET" });
     onClose();
   };
 
   const onLogout = () => {
     removeJWT();
-    authService.send("LOGOUT");
+    authService.send({ type: "LOGOUT" });
   };
 
   const canRefresh = !gameService.getSnapshot().context.state.transaction;

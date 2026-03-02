@@ -50,7 +50,7 @@ export const Mushroom: React.FC<Props> = ({ id, name }) => {
 
   const pickMushroom = () => {
     mushroomSound.play();
-    gameService.send("mushroom.picked", { id });
+    gameService.send({ type: "mushroom.picked", id });
   };
 
   return (

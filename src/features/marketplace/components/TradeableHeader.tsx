@@ -105,7 +105,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     "marketplacePurchasing",
     "marketplacePurchasingSuccess",
     () => {
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
       setShowPurchaseModal(false);
     },
     cheapestListing?.type === "onchain",

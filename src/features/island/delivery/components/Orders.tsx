@@ -163,8 +163,8 @@ export const DeliveryOrders: React.FC<Props> = ({
   const skip = () => {
     setShowSkipDialog(false);
     onSelect(undefined);
-    gameService.send("order.skipped", { id: previewOrder?.id });
-    gameService.send("SAVE");
+    gameService.send({ type: "order.skipped", id: previewOrder?.id });
+    gameService.send({ type: "SAVE" });
   };
 
   const select = (id: string) => {
@@ -694,7 +694,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       <Button
                         className="!text-xs !mt-0 !-mb-1"
                         onClick={() => {
-                          gameService.send("SAVE");
+                          gameService.send({ type: "SAVE" });
                           onClose();
                           {
                             if (

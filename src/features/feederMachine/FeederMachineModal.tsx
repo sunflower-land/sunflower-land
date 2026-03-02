@@ -70,10 +70,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   };
 
   const mix = (amount = 1) => {
-    gameService.send("feed.mixed", {
-      item: selectedName,
-      amount,
-    });
+    gameService.send({ type: "feed.mixed", item: selectedName, amount });
 
     shortcutItem(selectedName);
   };

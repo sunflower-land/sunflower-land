@@ -29,7 +29,7 @@ export const SessionExpired: React.FC = () => {
       <Button
         onClick={() => {
           removeJWT();
-          authService.send("REFRESH");
+          authService.send({ type: "REFRESH" });
         }}
       >
         {t("refresh")}

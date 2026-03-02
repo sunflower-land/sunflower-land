@@ -128,7 +128,8 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           <BumpkinEquip
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
+              gameService.send({
+                type: "farmHand.equipped",
                 id: selectedFarmHandId,
                 equipment,
               });

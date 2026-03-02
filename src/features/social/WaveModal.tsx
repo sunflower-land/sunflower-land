@@ -35,7 +35,7 @@ export const WaveModal: React.FC = () => {
   };
 
   const claimTiara = () => {
-    gameService.send("bonus.claimed", { name: "2026-tiara-wave" });
+    gameService.send({ type: "bonus.claimed", name: "2026-tiara-wave" });
     confetti();
     closeModal();
   };

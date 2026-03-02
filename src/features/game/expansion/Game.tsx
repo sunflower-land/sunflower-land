@@ -496,7 +496,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const { t } = useAppTranslation();
 
   useInterval(() => {
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
   }, AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
@@ -517,7 +517,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const save = () => {
-      gameService.send("SAVE");
+      gameService.send({ type: "SAVE" });
     };
 
     window.addEventListener("blur", save);
@@ -535,7 +535,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     if (playing && showPWAInstallPrompt) {
       pwaInstallRef.current?.showDialog();
 
-      authService.send("PWA_INSTALL_PROMPT_SHOWN");
+      authService.send({ type: "PWA_INSTALL_PROMPT_SHOWN" });
 
       fixInstallPromptTextStyles();
     }
@@ -628,7 +628,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
       marketPriceChanged ||
       tradeAlreadyFulfilled
     ) {
-      gameService.send("CONTINUE");
+      gameService.send({ type: "CONTINUE" });
     } else {
       return undefined;
     }
@@ -698,7 +698,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {investigating && <SoftBan />}
             {blessing && (
               <ClaimBlessingReward
-                onClose={() => gameService.send("ACKNOWLEDGE")}
+                onClose={() => gameService.send({ type: "ACKNOWLEDGE" })}
               />
             )}
             {linkWallet && <MigrateToLinkedWallet />}
@@ -710,10 +710,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {seasonChanged && <SeasonChanged />}
         {calendarEvent && <CalendarEvent />}
         {competition && (
-          <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
+          <Modal show onHide={() => gameService.send({ type: "ACKNOWLEDGE" })}>
             <CompetitionModal
               competitionName="BUILDING_FRIENDSHIPS"
-              onClose={() => gameService.send("ACKNOWLEDGE")}
+              onClose={() => gameService.send({ type: "ACKNOWLEDGE" })}
             />
           </Modal>
         )}

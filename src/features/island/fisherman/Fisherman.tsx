@@ -148,14 +148,15 @@ export const Fisherman: React.FC = () => {
     guaranteedCatch?: FishName,
     reelPacksToBuy?: number,
   ) => {
-    gameService.send("rod.casted", {
+    gameService.send({
+      type: "rod.casted",
       bait,
       chum,
       multiplier,
       guaranteedCatch,
       reelPacksToBuy,
     });
-    gameService.send("SAVE");
+    gameService.send({ type: "SAVE" });
     setShowModal(false);
   };
 

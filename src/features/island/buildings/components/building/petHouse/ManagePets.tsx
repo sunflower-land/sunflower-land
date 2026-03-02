@@ -57,7 +57,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
   const handleConfirmFeed = () => {
     // Event to handle Bulk Feed
-    const state = gameService.send("pets.bulkFeed", {
+    const state = gameService.send({
+      type: "pets.bulkFeed",
       pets: selectedFeed,
     });
 
@@ -67,7 +68,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     });
 
     if (hasVictoriaApron) {
-      gameService.send("SAVE");
+      gameService.send({ type: "SAVE" });
     }
     setSelectedFeed([]);
     setIsBulkFeed(false);
@@ -135,7 +136,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const handleBulkPet = () => {
     nappingPets.forEach(([petName, pet]) => {
       if (pet) {
-        gameService.send("pet.pet", { petId: petName });
+        gameService.send({ type: "pet.pet", petId: petName });
       }
     });
   };
@@ -143,7 +144,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const handleBulkNeglect = () => {
     neglectedPets.forEach(([petName, pet]) => {
       if (pet) {
-        gameService.send("pet.neglected", { petId: petName });
+        gameService.send({ type: "pet.neglected", petId: petName });
       }
     });
   };
@@ -231,7 +232,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   })();
 
   const handleFeed = (petId: PetName | number, food: CookableName) => {
-    const state = gameService.send("pet.fed", { petId, food });
+    const state = gameService.send({ type: "pet.fed", petId, food });
 
     const hasVictoriaApron = isWearableActive({
       game: state.context.state,
@@ -249,22 +250,22 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
         );
         const fedRequests = petData.requests.foodFed;
         if (requests.every((request) => fedRequests?.includes(request))) {
-          gameService.send("SAVE");
+          gameService.send({ type: "SAVE" });
         }
       }
     }
   };
 
   const handleFetch = (petId: PetName | number, fetch: PetResourceName) => {
-    gameService.send("pet.fetched", { petId, fetch });
+    gameService.send({ type: "pet.fetched", petId, fetch });
   };
 
   const handleNeglectPet = (petId: PetName | number) => {
-    gameService.send("pet.neglected", { petId });
+    gameService.send({ type: "pet.neglected", petId });
   };
 
   const handlePetPet = (petId: PetName | number) => {
-    gameService.send("pet.pet", { petId });
+    gameService.send({ type: "pet.pet", petId });
   };
 
   const handleResetRequests = (petId: PetName | number) => {
@@ -361,7 +362,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 selectedFeed={selectedFeed}
                 setSelectedFeed={setSelectedFeed}
                 handleResetRequests={() => handleResetRequests(petName)}
-                onAcknowledged={() => gameService.send("CONTINUE")}
+                onAcknowledged={() => gameService.send({ type: "CONTINUE" })}
                 farmId={farmId}
               />
             </PetInfo>

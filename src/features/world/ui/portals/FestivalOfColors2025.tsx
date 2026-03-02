@@ -85,7 +85,7 @@ export const FestivalOfColors2025: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: PORTAL_NAME });
+    gameService.send({ type: "minigame.prizeClaimed", id: PORTAL_NAME });
 
     onClose();
   };

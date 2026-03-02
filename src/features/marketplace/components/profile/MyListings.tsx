@@ -78,15 +78,13 @@ export const MyListings: React.FC = () => {
   const claim = () => {
     const listing = listings[claimId as string];
 
-    gameService.send("purchase.claimed", {
-      tradeIds: [claimId],
-    });
+    gameService.send({ type: "purchase.claimed", tradeIds: [claimId] });
 
     // For on chain items let's fire a refresh
     const tradeType = listing.signature ? "onchain" : "instant";
 
     if (tradeType === "onchain") {
-      gameService.send("RESET");
+      gameService.send({ type: "RESET" });
     }
 
     setClaimId(undefined);

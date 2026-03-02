@@ -54,8 +54,8 @@ export const ChestReward: React.FC<Props> = ({
 
   const fail = () => {
     close(false);
-    gameService.send("bot.detected");
-    gameService.send("REFRESH");
+    gameService.send({ type: "bot.detected" });
+    gameService.send({ type: "REFRESH" });
   };
 
   const close = (success: boolean) => {

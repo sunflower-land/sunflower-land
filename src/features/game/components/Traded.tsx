@@ -9,7 +9,7 @@ export const Traded: React.FC = () => {
   const { gameService } = useContext(Context);
 
   function onAcknowledge() {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE" });
   }
   const { t } = useAppTranslation();
   return (

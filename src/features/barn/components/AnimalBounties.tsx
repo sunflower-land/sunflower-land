@@ -188,7 +188,8 @@ export const AnimalDeal: React.FC<{
   }
 
   const sell = () => {
-    gameService.send("animal.sold", {
+    gameService.send({
+      type: "animal.sold",
       requestId: deal.id,
       animalId: animal.id.toString(),
     });

@@ -64,7 +64,7 @@ export const PetShopModal: React.FC = () => {
   };
 
   const buy = () => {
-    gameService.send("collectible.crafted", { name: selectedItem });
+    gameService.send({ type: "collectible.crafted", name: selectedItem });
   };
 
   return (

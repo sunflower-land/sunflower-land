@@ -116,7 +116,8 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   };
 
   const mine = async () => {
-    const newState = gameService.send("sunstoneRock.mined", {
+    const newState = gameService.send({
+      type: "sunstoneRock.mined",
       index: id,
     });
 

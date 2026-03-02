@@ -1,6 +1,12 @@
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { GameState } from "features/game/types/game";
-import { assign, createMachine, Interpreter, State } from "xstate";
+import {
+  assign,
+  createMachine,
+  fromPromise,
+  ActorRefFrom,
+  SnapshotFrom,
+} from "xstate";
 import { getJwt, getUrl, loadPortal } from "../../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { decodeToken } from "features/auth/actions/login";
@@ -8,7 +14,7 @@ import { decodeToken } from "features/auth/actions/login";
 export interface Context {
   id: number;
   jwt: string;
-  state: GameState;
+  state: GameState | undefined;
 }
 
 export type PortalEvent = { type: "PURCHASED" } | { type: "RETRY" };
@@ -18,17 +24,9 @@ export type PortalState = {
   context: Context;
 };
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  PortalEvent,
-  PortalState
->;
-
-export type PortalMachineState = State<Context, PortalEvent, PortalState>;
-
 export const portalMachine = createMachine({
   id: "festivalOfColorsMachine",
+  types: {} as { context: Context; events: PortalEvent },
   initial: "initialising",
   context: {
     id: 0,
@@ -41,7 +39,7 @@ export const portalMachine = createMachine({
         {
           target: "unauthorised",
           // TODO: Also validate token
-          cond: (context) => !!CONFIG.API_URL && !context.jwt,
+          guard: ({ context }) => !!CONFIG.API_URL && !context.jwt,
         },
         {
           target: "loading",
@@ -52,29 +50,30 @@ export const portalMachine = createMachine({
     loading: {
       id: "loading",
       invoke: {
-        src: async (context) => {
+        src: fromPromise(async ({ input }) => {
           if (!getUrl()) {
             return {
               game: OFFLINE_FARM,
             };
           }
 
-          const { farmId } = decodeToken(context.jwt as string);
+          const { farmId } = decodeToken(input.jwt as string);
 
           // Load the game data
           const { game } = await loadPortal({
             portalId: CONFIG.PORTAL_APP,
-            token: context.jwt as string,
+            token: input.jwt as string,
           });
 
           return { game, farmId };
-        },
+        }),
+        input: ({ context }) => context,
         onDone: [
           {
             target: "playing",
             actions: assign({
-              state: (_: any, event) => event.data.game,
-              id: (_: any, event) => event.data.farmId,
+              state: ({ event }) => (event as any).output.game,
+              id: ({ event }) => (event as any).output.farmId,
             }),
           },
         ],
@@ -107,3 +106,7 @@ export const portalMachine = createMachine({
     unauthorised: {},
   },
 });
+
+export type MachineInterpreter = ActorRefFrom<typeof portalMachine>;
+
+export type PortalMachineState = SnapshotFrom<typeof portalMachine>;

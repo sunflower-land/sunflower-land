@@ -76,13 +76,11 @@ export const MyOffers: React.FC = () => {
   const claim = () => {
     const offer = offers[claimId as string];
 
-    gameService.send("offer.claimed", {
-      tradeIds: [claimId],
-    });
+    gameService.send({ type: "offer.claimed", tradeIds: [claimId] });
 
     // For on chain items let's fire a refresh
     if (offer.signature) {
-      gameService.send("RESET");
+      gameService.send({ type: "RESET" });
     }
 
     setClaimId(undefined);

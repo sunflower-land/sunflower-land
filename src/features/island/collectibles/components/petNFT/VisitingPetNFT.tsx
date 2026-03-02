@@ -72,7 +72,8 @@ export const VisitingPetNFT: React.FC<{
 
   const handlePetClick = () => {
     if (petNFTData && visitorGameState && !hasHelpedPet) {
-      gameService.send("pet.visitingPets", {
+      gameService.send({
+        type: "pet.visitingPets",
         pet: Number(id),
         totalHelpedToday,
       });

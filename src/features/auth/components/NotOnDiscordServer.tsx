@@ -51,7 +51,7 @@ export const NotOnDiscordServer: React.FC = () => {
           onClick={() => {
             // Remove query parameters from url
             window.history.pushState({}, "", window.location.pathname);
-            gameService.send("REFRESH");
+            gameService.send({ type: "REFRESH" });
           }}
           className="mr-1"
         >

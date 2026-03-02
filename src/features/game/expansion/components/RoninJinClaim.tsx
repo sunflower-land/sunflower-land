@@ -19,7 +19,9 @@ export const RoninJinClaim: React.FC = () => {
 
   if (!jinAirdrop?.isEligible) {
     return (
-      <Button onClick={() => gameService.send("CLOSE")}>{t("continue")}</Button>
+      <Button onClick={() => gameService.send({ type: "CLOSE" })}>
+        {t("continue")}
+      </Button>
     );
   }
 
@@ -39,13 +41,14 @@ export const RoninJinClaim: React.FC = () => {
     <ClaimReward
       reward={jinAirdropDetails}
       onClaim={() => {
-        gameService.send("specialEvent.taskCompleted", {
+        gameService.send({
+          type: "specialEvent.taskCompleted",
           event: "Jin Airdrop",
           task: 1,
         });
-        gameService.send("CLOSE");
+        gameService.send({ type: "CLOSE" });
       }}
-      onClose={() => gameService.send("CLOSE")}
+      onClose={() => gameService.send({ type: "CLOSE" })}
       label="Jin Airdrop"
     />
   );

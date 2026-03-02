@@ -162,7 +162,7 @@ export const RestockBoat: React.FC = () => {
           </div>
           <Button
             onClick={() => {
-              gameService.send("shipment.restocked");
+              gameService.send({ type: "shipment.restocked" });
 
               if (showAnimations) confetti();
               setIsOpen(false);

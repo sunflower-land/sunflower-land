@@ -82,7 +82,10 @@ export const EasterEggstravaganza: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "easter-eggstravaganza" });
+    gameService.send({
+      type: "minigame.prizeClaimed",
+      id: "easter-eggstravaganza",
+    });
 
     onClose();
   };

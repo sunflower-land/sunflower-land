@@ -144,7 +144,8 @@ export const UpcomingRaffles: React.FC = () => {
           <Button
             className="ml-1"
             onClick={() => {
-              gameService.send("auctionRaffle.entered", {
+              gameService.send({
+                type: "auctionRaffle.entered",
                 effect: {
                   type: "auctionRaffle.entered",
                   raffleId: selectedRaffle.id,
