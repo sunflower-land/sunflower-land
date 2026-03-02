@@ -51,22 +51,29 @@ export const CraftingQueueSlot: React.FC<CraftingQueueSlotProps> = ({
   const handleClick =
     !isReady && onSelect ? () => onSelect(slotIndex, false, item) : undefined;
 
-  return (
-    <>
+  if (isReady) {
+    return (
       <div className="relative">
-        {isReady && (
-          <img
-            className="absolute top-1 right-1 w-4 z-10"
-            src={SUNNYSIDE.icons.confirm}
-          />
-        )}
+        <Box
+          image={image}
+          isSelected={isSelected}
+          onClick={handleClick}
+          className={!isReady && onSelect ? "cursor-pointer" : undefined}
+        />
+        <img
+          className="absolute top-1 right-1 w-4 z-10 pointer-events-none"
+          src={SUNNYSIDE.icons.confirm}
+        />
       </div>
-      <Box
-        image={image}
-        isSelected={isSelected}
-        onClick={handleClick}
-        className={!isReady && onSelect ? "cursor-pointer" : undefined}
-      />
-    </>
+    );
+  }
+
+  return (
+    <Box
+      image={image}
+      isSelected={isSelected}
+      onClick={handleClick}
+      className={!isReady && onSelect ? "cursor-pointer" : undefined}
+    />
   );
 };
