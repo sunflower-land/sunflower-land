@@ -20,11 +20,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose, show }) => {
   const { t } = useAppTranslation();
 
   return (
-    <Modal
-      show={show}
-      onHide={onClose}
-      dialogClassName={`${tab === "Guide" ? "sm:max-w-xl" : ""}`}
-    >
+    <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.blacksmith}
