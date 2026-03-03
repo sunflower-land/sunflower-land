@@ -226,6 +226,84 @@ describe("cancelQueuedCrafting", () => {
     expect(state.craftingBox.queue?.[2].readyAt).toBeLessThanOrEqual(now);
   });
 
+  it("removes only the selected item when cancelling one of two identical instant items", () => {
+    const now = Date.now();
+    const identicalReadyAt = now - 1000;
+
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Beta Pass": new Decimal(1),
+          Wood: new Decimal(0),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              name: "Timber",
+              readyAt: identicalReadyAt,
+              startedAt: identicalReadyAt,
+              type: "collectible",
+            },
+            {
+              name: "Timber",
+              readyAt: identicalReadyAt,
+              startedAt: identicalReadyAt,
+              type: "collectible",
+            },
+          ],
+          item: { collectible: "Timber" },
+          startedAt: identicalReadyAt,
+          readyAt: identicalReadyAt,
+          recipes: {
+            Timber: {
+              name: "Timber",
+              type: "collectible",
+              ingredients: [
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+                { collectible: "Wood" },
+              ],
+              time: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crafting.cancelled",
+        queueItem: {
+          name: "Timber",
+          readyAt: identicalReadyAt,
+          startedAt: identicalReadyAt,
+          type: "collectible",
+        },
+      },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(1);
+    expect(state.craftingBox.queue?.[0].name).toBe("Timber");
+    expect(state.inventory.Wood).toEqual(new Decimal(9));
+  });
+
   it("cancels a queued item and refunds ingredients", () => {
     const now = Date.now();
     const timber1ReadyAt = now - 1000;

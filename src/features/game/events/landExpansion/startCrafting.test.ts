@@ -187,6 +187,100 @@ describe("startCrafting", () => {
     );
   });
 
+  it("does not change status when invalid recipe is attempted with non-empty queue", () => {
+    const now = Date.now();
+    gameState.inventory["Beta Pass"] = new Decimal(1);
+    gameState.vip = { bundles: [], expiresAt: now + 86400000 };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          name: "Timber",
+          readyAt: now + 60000,
+          startedAt: now,
+          type: "collectible",
+        },
+      ],
+      startedAt: now,
+      readyAt: now + 60000,
+      recipes: {
+        Timber: {
+          name: "Timber",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+          ],
+          time: 0,
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [null, null, null, null, null, null, null, null, null],
+    };
+
+    const newState = startCrafting({ farmId, state: gameState, action });
+
+    expect(newState.craftingBox.status).toBe("crafting");
+    expect(newState.craftingBox.queue).toHaveLength(1);
+  });
+
+  it("blocks new craft when legacy in-progress craft fills the slot (no queue)", () => {
+    const now = Date.now();
+    gameState.craftingBox = {
+      status: "crafting",
+      item: { collectible: "Timber" },
+      startedAt: now,
+      readyAt: now + 60000,
+      recipes: {
+        Timber: {
+          name: "Timber",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+          ],
+          time: 0,
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+      ],
+    };
+
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
+      "No available slots",
+    );
+  });
+
   it("throws an error if the player provides less than 9 ingredients", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",

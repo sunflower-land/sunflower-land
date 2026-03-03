@@ -135,7 +135,7 @@ export const CraftTab: React.FC<Props> = ({
       }
       autoSelectedReadyRef.current = false;
     }
-  }, []);
+  }, [readyProducts, recipes, setSelectedItems]);
 
   const viewedItem =
     liveDisplayItems[queueSelection.viewedSlotIndex] ?? queueSelection.item;

@@ -153,14 +153,8 @@ export function cancelQueuedCrafting({
       }
     });
 
-    const updatedQueue = queue.filter(
-      (r) =>
-        !(
-          r.name === queueItem.name &&
-          r.readyAt === queueItem.readyAt &&
-          r.type === queueItem.type
-        ),
-    );
+    const updatedQueue = [...queue];
+    updatedQueue.splice(recipeIndex, 1);
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,

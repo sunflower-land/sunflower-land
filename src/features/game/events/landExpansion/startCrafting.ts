@@ -111,23 +111,39 @@ export function startCrafting({
       throw new Error("You do not have a Crafting Box");
     }
 
-    const queue = copy.craftingBox.queue ?? [];
+    const legacyItem = copy.craftingBox.item;
+    const rawQueue = copy.craftingBox.queue;
+    const effectiveQueue: CraftingQueueItem[] =
+      rawQueue ??
+      (legacyItem && copy.craftingBox.status === "crafting"
+        ? [
+            {
+              name: legacyItem.collectible ?? legacyItem.wearable,
+              readyAt: copy.craftingBox.readyAt,
+              startedAt: copy.craftingBox.startedAt,
+              type: legacyItem.collectible ? "collectible" : "wearable",
+            } as CraftingQueueItem,
+          ]
+        : []);
+
     const availableSlots =
       hasVipAccess({ game: copy }) &&
       hasFeatureAccess(copy, "CRAFTING_BOX_QUEUES")
         ? 4
         : 1;
 
-    if (queue.length >= availableSlots) {
+    if (effectiveQueue.length >= availableSlots) {
       throw new Error("No available slots");
     }
 
     // Find matching recipe
     const recipe = findMatchingRecipe(ingredients, copy.craftingBox.recipes);
     if (!recipe) {
-      copy.craftingBox.status = "pending";
-      copy.craftingBox.startedAt = createdAt;
-      copy.craftingBox.readyAt = createdAt;
+      if (effectiveQueue.length === 0) {
+        copy.craftingBox.status = "pending";
+        copy.craftingBox.startedAt = createdAt;
+        copy.craftingBox.readyAt = createdAt;
+      }
       return;
     }
 
@@ -169,7 +185,9 @@ export function startCrafting({
     });
 
     const recipeStartAt =
-      queue.length > 0 ? queue[queue.length - 1].readyAt : createdAt;
+      effectiveQueue.length > 0
+        ? effectiveQueue[effectiveQueue.length - 1].readyAt
+        : createdAt;
 
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
@@ -195,7 +213,7 @@ export function startCrafting({
       type: recipe.type,
     };
 
-    const updatedQueue = [...queue, newQueueItem];
+    const updatedQueue = [...effectiveQueue, newQueueItem];
     const currentItem = updatedQueue[0];
 
     copy.craftingBox = {
