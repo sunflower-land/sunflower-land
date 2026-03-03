@@ -49,6 +49,7 @@ interface Props {
   setSelectedItems: (items: (RecipeIngredient | null)[]) => void;
   onClose?: () => void;
   initialQueueSlot?: number | null;
+  onQueueSelectionChange?: (slot: number) => void;
 }
 
 export const CraftTab: React.FC<Props> = ({
@@ -57,6 +58,7 @@ export const CraftTab: React.FC<Props> = ({
   setSelectedItems,
   onClose = () => {},
   initialQueueSlot,
+  onQueueSelectionChange,
 }) => {
   const { t } = useAppTranslation();
 
@@ -406,6 +408,7 @@ export const CraftTab: React.FC<Props> = ({
         item: newItem,
         viewedSlotIndex: addedSlotIndex,
       });
+      onQueueSelectionChange?.(0);
       setSelectedItems(getRecipeIngredients(newItem.name));
       setSelectedIngredient(null);
     } else if (wasAddingToQueue) {
@@ -414,6 +417,7 @@ export const CraftTab: React.FC<Props> = ({
         item: cooking ?? defaultQueueItem,
         viewedSlotIndex: 0,
       });
+      onQueueSelectionChange?.(0);
       setSelectedItems(getCurrentCraftingRecipeIngredients());
       setSelectedIngredient(null);
     }
@@ -427,6 +431,7 @@ export const CraftTab: React.FC<Props> = ({
       item: nextCooking ?? defaultQueueItem,
       viewedSlotIndex: 0,
     });
+    onQueueSelectionChange?.(0);
     setSelectedItems(
       nextCooking
         ? getRecipeIngredients(nextCooking.name)
@@ -438,6 +443,7 @@ export const CraftTab: React.FC<Props> = ({
     button.play();
     const defaultItem = cooking ?? craftingQueue[0] ?? defaultQueueItem;
     setQueueSelection({ slot: 0, item: defaultItem, viewedSlotIndex: 0 });
+    onQueueSelectionChange?.(0);
     if (queueSelection.slot > 0 && canAddToQueue) {
       setSelectedItems(getCurrentCraftingRecipeIngredients());
     } else {
@@ -487,11 +493,13 @@ export const CraftTab: React.FC<Props> = ({
         item: cooking ?? defaultQueueItem,
         viewedSlotIndex: -1,
       });
+      onQueueSelectionChange?.(slotIndex);
       setSelectedItems(Array(9).fill(null));
       setSelectedIngredient(null);
     } else if (item) {
       // Clicked on an item - show recipe; allow cancel only for queued (not in-progress)
       setQueueSelection({ slot: 0, item, viewedSlotIndex: slotIndex });
+      onQueueSelectionChange?.(0);
       setSelectedItems(getRecipeIngredientsForItem(item));
       setSelectedIngredient(null);
     } else {
@@ -500,6 +508,7 @@ export const CraftTab: React.FC<Props> = ({
         item: cooking ?? defaultQueueItem,
         viewedSlotIndex: 0,
       });
+      onQueueSelectionChange?.(0);
       setSelectedItems(getCurrentCraftingRecipeIngredients());
       setSelectedIngredient(null);
     }
@@ -512,6 +521,7 @@ export const CraftTab: React.FC<Props> = ({
     });
     if (cooking) {
       setQueueSelection({ slot: 0, item: cooking, viewedSlotIndex: 0 });
+      onQueueSelectionChange?.(0);
     }
     setSelectedItems(getCurrentCraftingRecipeIngredients());
     setSelectedIngredient(null);
@@ -532,6 +542,7 @@ export const CraftTab: React.FC<Props> = ({
       item: nextCooking ?? defaultQueueItem,
       viewedSlotIndex: 0,
     });
+    onQueueSelectionChange?.(0);
     setSelectedItems(
       nextCooking
         ? getRecipeIngredients(nextCooking.name)

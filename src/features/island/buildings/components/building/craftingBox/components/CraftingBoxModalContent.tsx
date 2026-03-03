@@ -46,6 +46,9 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   type Tab = "craft" | "recipes" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>("craft");
   const [pendingQueueSlot, setPendingQueueSlot] = useState<number | null>(null);
+  const [craftTabPersistedSlot, setCraftTabPersistedSlot] = useState<
+    number | null
+  >(null);
 
   const { gameService } = useContext(Context);
 
@@ -148,7 +151,8 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
           onClose={onClose}
-          initialQueueSlot={pendingQueueSlot}
+          initialQueueSlot={pendingQueueSlot ?? craftTabPersistedSlot}
+          onQueueSelectionChange={setCraftTabPersistedSlot}
         />
       )}
       {currentTab === "recipes" && (
