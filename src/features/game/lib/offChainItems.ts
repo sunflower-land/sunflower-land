@@ -16,7 +16,7 @@ import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
 import { CRUSTACEANS } from "../types/crustaceans";
-import { CONSUMABLES, FISH } from "../types/consumables";
+import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { FLOWERS } from "../types/flowers";
 
@@ -45,8 +45,6 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Bronze Friends Trophy",
   "Basic Land",
   ...getKeys(REWARD_BOXES),
-  // Fishing (no hoarding limits)
-  ...getKeys(FISH),
   ...CRUSTACEANS,
   "Holiday Token 2025",
   "Holiday Ticket 2025",
