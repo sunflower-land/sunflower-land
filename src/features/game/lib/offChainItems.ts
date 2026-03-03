@@ -15,10 +15,10 @@ import { FRUIT_COMPOST, CROP_COMPOST, WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
-import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
-import { CONSUMABLES } from "../types/consumables";
+import { CONSUMABLES, FISH } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
+import { FLOWERS } from "../types/flowers";
 
 const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
@@ -45,7 +45,7 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Bronze Friends Trophy",
   "Basic Land",
   ...getKeys(REWARD_BOXES),
-  // Fishing + water traps (no hoarding limits)
+  // Fishing (no hoarding limits)
   ...getKeys(FISH),
   ...CRUSTACEANS,
   "Holiday Token 2025",
@@ -57,6 +57,7 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
   ...getKeys(TRADE_LIMITS),
+  ...getKeys(FLOWERS),
 ]);
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] =
