@@ -358,11 +358,12 @@ export const CraftTab: React.FC<Props> = ({
         readyAt: isInstant ? now : recipeStartAt + recipeTime,
       };
 
-      const addedSlotIndex = queueSelection.slot;
+      // New item is always appended to the queue, so it appears at the end of liveDisplayItems
+      const newItemSlotIndex = liveDisplayItems.length;
       setQueueSelection({
         slot: 0,
         item: newItem,
-        viewedSlotIndex: addedSlotIndex,
+        viewedSlotIndex: newItemSlotIndex,
       });
       onQueueSelectionChange?.(0);
       setSelectedItems(getRecipeIngredientsForName(newItem.name, recipes));
@@ -625,9 +626,8 @@ export const CraftTab: React.FC<Props> = ({
 
       {isVIP && (
         <CraftingQueue
-          product={cooking}
-          queue={queue}
           readyProducts={readyProducts}
+          displayItems={liveDisplayItems}
           onClose={onClose}
           selectedQueueSlot={queueSelection.slot}
           selectedQueuedItemSlot={

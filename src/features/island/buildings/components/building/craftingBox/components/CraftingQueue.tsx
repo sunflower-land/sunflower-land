@@ -12,9 +12,9 @@ import { CraftingQueueSlot } from "./CraftingQueueSlot";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
-  product?: CraftingQueueItem;
   readyProducts: CraftingQueueItem[];
-  queue: CraftingQueueItem[];
+  /** Display order must match CraftTab's liveDisplayItems for slot indices to align */
+  displayItems: CraftingQueueItem[];
   onClose: () => void;
   selectedQueueSlot: number;
   selectedQueuedItemSlot: number;
@@ -28,9 +28,8 @@ type Props = {
 const _state = (state: MachineState) => state.context.state;
 
 export const CraftingQueue: React.FC<Props> = ({
-  product,
-  queue,
   readyProducts,
+  displayItems,
   onClose,
   selectedQueueSlot,
   selectedQueuedItemSlot,
@@ -40,12 +39,6 @@ export const CraftingQueue: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
-  const sortedQueue = [...queue].sort((a, b) => a.readyAt - b.readyAt);
-  const displayItems = [
-    ...(product ? [product] : []),
-    ...sortedQueue,
-    ...readyProducts,
-  ];
 
   return (
     <div className="mb-2">
