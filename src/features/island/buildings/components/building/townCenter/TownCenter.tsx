@@ -98,9 +98,8 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
       <div
         className="absolute w-full pointer-events-auto"
         style={{
-          top: `${PIXEL_SCALE * 16}px`,
+          bottom: `${PIXEL_SCALE * 26.5}px`,
           left: `${PIXEL_SCALE * 4}px`,
-          height: `${PIXEL_SCALE * 32}px`,
         }}
       >
         <HomeBumpkins game={game} />

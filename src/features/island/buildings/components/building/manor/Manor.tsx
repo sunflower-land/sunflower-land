@@ -100,7 +100,7 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
       <div
         className="relative w-full pointer-events-auto"
         style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 26.5}px`,
           left: `${PIXEL_SCALE * 0}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
