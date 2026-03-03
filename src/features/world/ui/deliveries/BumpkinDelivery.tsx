@@ -113,7 +113,6 @@ const OrderCard: React.FC<{
       hasTimeBasedFeatureAccess({
         featureName: "TICKETS_FROM_COIN_NPC",
         now: order.createdAt,
-        game,
       })
     ) {
       if (areBumpkinsOnHoliday(order.createdAt)) {

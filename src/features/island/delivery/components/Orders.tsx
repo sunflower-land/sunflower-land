@@ -269,7 +269,6 @@ export const DeliveryOrders: React.FC<Props> = ({
       hasTimeBasedFeatureAccess({
         featureName: "TICKETS_FROM_COIN_NPC",
         now: previewOrder.createdAt,
-        game: state,
       })
     ) {
       if (areBumpkinsOnHoliday(previewOrder.createdAt)) {

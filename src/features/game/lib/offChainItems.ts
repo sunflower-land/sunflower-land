@@ -1,6 +1,6 @@
 import { CLUTTER } from "../types/clutter";
 import { getKeys, TOOLS } from "../types/craftables";
-import { GameState, InventoryItemName } from "../types/game";
+import { InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
   CHAPTER_TICKET_NAME,
@@ -19,7 +19,6 @@ import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
@@ -57,17 +56,8 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   ...getKeys(CONSUMABLES),
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
+  ...getKeys(TRADE_LIMITS),
 ]);
 
-export const getOffChainItems = (
-  now: number,
-  game: GameState,
-): InventoryItemName[] => {
-  const items = new Set(BASE_OFFCHAIN_ITEMS);
-  if (
-    hasTimeBasedFeatureAccess({ featureName: "OFFCHAIN_RESOURCES", now, game })
-  ) {
-    getKeys(TRADE_LIMITS).forEach((item) => items.add(item));
-  }
-  return Array.from(items);
-};
+export const OFFCHAIN_ITEMS: InventoryItemName[] =
+  Array.from(BASE_OFFCHAIN_ITEMS);

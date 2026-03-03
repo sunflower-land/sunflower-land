@@ -4,15 +4,12 @@ import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { WithdrawFlower } from "./WithdrawFlower";
 import { WithdrawItems } from "./WithdrawItems";
-import { WithdrawResources } from "./WithdrawResources";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { Context } from "features/game/GameProvider";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
-import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -81,10 +78,7 @@ type Page =
   | "verify"
   | "pets";
 
-const MainMenu: React.FC<{
-  setPage: (page: Page) => void;
-  showResources: boolean;
-}> = ({ setPage, showResources }) => {
+const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
     <div className="flex flex-col justify-center space-y-1">
       <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
@@ -96,14 +90,6 @@ const MainMenu: React.FC<{
             {getPageText("tokens")}
           </div>
         </Button>
-        {showResources && (
-          <Button onClick={() => setPage("resources")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("resources")} className="h-4 mr-1" />
-              {getPageText("resources")}
-            </div>
-          </Button>
-        )}
       </div>
       <div className="flex space-x-1">
         <Button onClick={() => setPage("items")}>
@@ -179,19 +165,6 @@ const _game = (state: MachineState) => state.context.state;
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
-  const game = useSelector(gameService, _game);
-
-  // For testing purposes, delete after feature flag is released
-  const now = useNow({
-    live: true,
-    autoEndAt: new Date("2026-03-02T00:00:00Z").getTime(),
-  });
-
-  const showResources = !hasTimeBasedFeatureAccess({
-    featureName: "OFFCHAIN_RESOURCES",
-    now,
-    game,
-  });
 
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
@@ -266,9 +239,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      {page === "main" && (
-        <MainMenu setPage={setPage} showResources={showResources} />
-      )}
+      {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
         <GameWallet action="withdrawFlower">
@@ -282,14 +253,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <GameWallet action="withdrawItems">
           <WithdrawItems
             onWithdraw={onWithdrawItems}
-            withdrawDisabled={accountTradedRecently}
-          />
-        </GameWallet>
-      )}
-      {page === "resources" && (
-        <GameWallet action="withdrawItems">
-          <WithdrawResources
-            onWithdraw={onClose}
             withdrawDisabled={accountTradedRecently}
           />
         </GameWallet>

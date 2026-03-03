@@ -23,7 +23,7 @@ import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
-  getInventoryReleases,
+  INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -195,11 +195,10 @@ export const TradeableDescription: React.FC<{
     withdrawAt = WEARABLE_RELEASES[display.name as BumpkinItem]?.withdrawAt;
   }
 
-  const inventoryReleases = getInventoryReleases(now, state);
   if (tradeable?.collection === "collectibles") {
-    tradeAt = inventoryReleases[display.name as InventoryItemName]?.tradeAt;
+    tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
     withdrawAt =
-      inventoryReleases[display.name as InventoryItemName]?.withdrawAt;
+      INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
   }
 
   const canTrade = !!tradeAt && tradeAt <= new Date(now);
