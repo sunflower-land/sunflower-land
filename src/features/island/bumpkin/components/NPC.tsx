@@ -60,7 +60,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
 
   const height = isFarmHand ? width : width * 2;
-  const frontAuraTop = width * 0.44 * (isFarmHand ? -1 : 1);
+  const frontAuraTop = width * 0.3 * (isFarmHand ? -1 : 1);
   const backAuraTop = width * 0.125 * (isFarmHand ? -1 : 1);
 
   return (

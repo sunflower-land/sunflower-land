@@ -14,7 +14,6 @@ import classNames from "classnames";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
@@ -29,7 +28,6 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
 };
 
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _gameState = (state: MachineState) => state.context.state;
 
 export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
@@ -39,10 +37,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
 
   const isLandscaping = useSelector(gameService, _isLandscaping);
-  const gameState = useSelector(gameService, _gameState);
-
-  const hasFarmHandPlacement =
-    isLandscaping && hasFeatureAccess(gameState, "PLACE_FARM_HAND");
 
   const bumpkin = game.bumpkin as Bumpkin;
   const farmHands = game.farmHands.bumpkins;
@@ -81,7 +75,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
               "hover:img-highlight": !isVisiting && !isLandscaping,
             })}
             onClick={() => {
-              if (hasFarmHandPlacement) {
+              if (isLandscaping) {
                 handlePlaceFarmHand(id);
               } else if (!isLandscaping) {
                 setSelectedFarmHandId(id);
@@ -94,7 +88,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
               parts={farmHands[id].equipped}
             />
 
-            {hasFarmHandPlacement && (
+            {isLandscaping && (
               <img
                 src={SUNNYSIDE.icons.click_icon}
                 className="absolute z-10 animate-float"

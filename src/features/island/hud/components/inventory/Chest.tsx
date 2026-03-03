@@ -69,8 +69,6 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
-import { hasFeatureAccess } from "lib/flags";
-
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
@@ -651,39 +649,37 @@ export const Chest: React.FC<Props> = ({
               </div>
             </div>
           )}
-          {hasFeatureAccess(state, "PLACE_FARM_HAND") &&
-            !isEmpty(farmHands) &&
-            onPlaceFarmHand && (
-              <div className="flex flex-col pl-2 mb-2 w-full" key="FarmHands">
-                <Label
-                  type="default"
-                  className="my-1"
-                  icon={SUNNYSIDE.achievement.farmHand}
-                >
-                  {`Farm Hands`}
-                </Label>
-                <div className="flex mb-2 flex-wrap -ml-1.5">
-                  {Object.keys(farmHands).map((id) => (
-                    <Box
-                      key={`FarmHand-${id}`}
-                      isSelected={
-                        selectedChestItem?.name === "FarmHand" &&
-                        selectedChestItem?.id === id
-                      }
-                      onClick={() => {
-                        handleItemClick({ name: "FarmHand", id });
-                      }}
-                      image={SUNNYSIDE.achievement.farmHand}
-                    >
-                      <NPCPlaceable
-                        parts={farmHands[id].equipped}
-                        width={PIXEL_SCALE * 12}
-                      />
-                    </Box>
-                  ))}
-                </div>
+          {!isEmpty(farmHands) && onPlaceFarmHand && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="FarmHands">
+              <Label
+                type="default"
+                className="my-1"
+                icon={SUNNYSIDE.achievement.farmHand}
+              >
+                {`Farm Hands`}
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {Object.keys(farmHands).map((id) => (
+                  <Box
+                    key={`FarmHand-${id}`}
+                    isSelected={
+                      selectedChestItem?.name === "FarmHand" &&
+                      selectedChestItem?.id === id
+                    }
+                    onClick={() => {
+                      handleItemClick({ name: "FarmHand", id });
+                    }}
+                    image={SUNNYSIDE.achievement.farmHand}
+                  >
+                    <NPCPlaceable
+                      parts={farmHands[id].equipped}
+                      width={PIXEL_SCALE * 12}
+                    />
+                  </Box>
+                ))}
               </div>
-            )}
+            </div>
+          )}
           {/* {Object.values(collectibles) && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Collectibles">
               <p className="mb-2">Collectibles</p>
