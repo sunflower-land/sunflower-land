@@ -104,6 +104,10 @@ function getMoveAction(
     return "nft.moved";
   }
 
+  if (name === "FarmHand") {
+    return "farmHand.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
@@ -209,6 +213,10 @@ export function getRemoveAction(
 
   if (name === "Bud" || name === "Pet") {
     return "nft.removed";
+  }
+
+  if (name === "FarmHand") {
+    return "farmHand.removed";
   }
 
   if (name in RESOURCES_REMOVE_ACTIONS) {
@@ -482,6 +490,7 @@ export const MoveableComponent: React.FC<
     ...RESOURCE_DIMENSIONS,
     Bud: { width: 1, height: 1 },
     Pet: { width: 2, height: 2 },
+    FarmHand: { width: 1, height: 1 },
   };
 
   const dimensions = DIMENSIONS_MAP[name];
@@ -544,7 +553,9 @@ export const MoveableComponent: React.FC<
               ? {}
               : name === "Bud" || name === "Pet"
                 ? { nft: name }
-                : { name }),
+                : name === "FarmHand"
+                  ? {}
+                  : { name }),
             coordinates: { x, y },
             id,
             // Resources do not require location to be passed
@@ -898,7 +909,9 @@ export const MoveableComponent: React.FC<
                     ? getPetImage("happy", Number(choice.id))
                     : choice.name === "Bud"
                       ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
-                      : ITEM_DETAILS[choice.name].image;
+                      : choice.name === "FarmHand"
+                        ? SUNNYSIDE.achievement.farmHand
+                        : ITEM_DETAILS[choice.name].image;
 
                 return (
                   <div

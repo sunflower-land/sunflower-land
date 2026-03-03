@@ -1002,9 +1002,11 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -1028,9 +1030,11 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -1054,9 +1058,11 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -1087,9 +1093,11 @@ describe("mineGold", () => {
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
     const now = Date.now();
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -1112,9 +1120,11 @@ describe("mineGold", () => {
   it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
     const now = Date.now();
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         bumpkin: {
@@ -1131,9 +1141,11 @@ describe("mineGold", () => {
   it("applies a boost of -15% recovery time when Pickaxe Shark is equipped", () => {
     const now = Date.now();
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         bumpkin: {
@@ -1171,9 +1183,11 @@ describe("mineGold", () => {
     }
     const now = Date.now();
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: getCounter(),
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: getCounter(),
+      },
       game: {
         ...INITIAL_FARM,
         bumpkin: {
@@ -1195,9 +1209,11 @@ describe("mineGold", () => {
     const fourHoursAgo = now - 4 * 60 * 60 * 1000;
 
     const { time } = getMinedAt({
-      farmId: 1,
-      itemId: KNOWN_IDS["Gold Rock"],
-      counter: 0,
+      prngArgs: {
+        farmId: 1,
+        itemId: KNOWN_IDS["Gold Rock"],
+        counter: 0,
+      },
       game: {
         ...INITIAL_FARM,
         collectibles: {

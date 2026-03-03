@@ -29,25 +29,20 @@ type Options = {
 export function getBoostedCraftingTime({
   game,
   time,
-  farmId,
-  itemId,
-  counter,
+  prngArgs,
 }: {
   game: GameState;
   time: number;
-  farmId: number;
-  itemId: number;
-  counter: number;
+  prngArgs?: { farmId: number; itemId: number; counter: number };
 }) {
   let seconds = time;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
     if (
+      prngArgs &&
       prngChance({
-        farmId,
-        itemId,
-        counter,
+        ...prngArgs,
         chance: 10,
         criticalHitName: "Fox Shrine",
       })
@@ -165,12 +160,14 @@ export function startCrafting({
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      farmId,
-      itemId:
-        recipe.type === "collectible"
-          ? KNOWN_IDS[recipe.name as InventoryItemName]
-          : ITEM_IDS[recipe.name as BumpkinItem],
-      counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+      prngArgs: {
+        farmId,
+        itemId:
+          recipe.type === "collectible"
+            ? KNOWN_IDS[recipe.name as InventoryItemName]
+            : ITEM_IDS[recipe.name as BumpkinItem],
+        counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+      },
     });
 
     copy.craftingBox = {

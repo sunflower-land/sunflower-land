@@ -52,6 +52,7 @@ type EffectName =
   | "auction.claimed"
   | "auction.bidPlaced"
   | "auction.bidCancelled"
+  | "reset.petRequests"
   | "auctionRaffle.entered"
   | "auctionRaffle.claimed"
   | "marketplace.buyBulkResources"
@@ -122,7 +123,8 @@ export type StateMachineStateName =
   | "marketplaceBuyingBulkResources"
   | "updatingLeagues"
   | "generatingAppInstall"
-  | "pickingUpWaterTrap";
+  | "pickingUpWaterTrap"
+  | "resettingPetRequests";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -177,6 +179,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "pet.wakeUp": "wakingPet",
   "auction.bidPlaced": "auctionBidding",
   "auction.bidCancelled": "auctionCancelling",
+  "reset.petRequests": "resettingPetRequests",
   "auctionRaffle.entered": "enteringAuctionRaffle",
   "auctionRaffle.claimed": "claimingAuctionRaffle",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",

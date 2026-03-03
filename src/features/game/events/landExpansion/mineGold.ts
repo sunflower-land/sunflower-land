@@ -32,43 +32,49 @@ export type LandExpansionGoldMineAction = {
   index: string;
 };
 
-type GetMinedAtArgs = {
-  createdAt: number;
-  game: GameState;
+type PrngArgs = {
   farmId: number;
   itemId: number;
   counter: number;
 };
 
-const getBoostedTime = ({
+type GetMinedAtArgs = {
+  createdAt: number;
+  game: GameState;
+  prngArgs?: PrngArgs;
+};
+
+/**
+ * Single source of truth for gold recovery boosts. Used by both getMinedAt (game) and UI.
+ * When prngArgs is omitted, PRNG-dependent branches (e.g. Pickaxe Shark instant) are skipped.
+ */
+export function getGoldRecoveryTimeForDisplay({
   game,
-  farmId,
-  itemId,
-  counter,
+  prngArgs,
 }: {
   game: GameState;
-  farmId: number;
-  itemId: number;
-  counter: number;
+  prngArgs?: PrngArgs;
 }): {
-  boostedTime: number;
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
-} => {
+} {
+  const baseTimeMs = GOLD_RECOVERY_TIME * 1000;
   let totalSeconds = GOLD_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isWearableActive({ name: "Pickaxe Shark", game }) &&
+    prngArgs &&
     prngChance({
-      farmId,
-      itemId,
-      counter,
+      ...prngArgs,
       chance: 10,
       criticalHitName: "Pickaxe Shark",
     })
   ) {
     return {
-      boostedTime: GOLD_RECOVERY_TIME * 1000,
+      baseTimeMs,
+      recoveryTimeMs: 0,
       boostsUsed: [{ name: "Pickaxe Shark", value: "Instant" }],
     };
   }
@@ -115,32 +121,24 @@ const getBoostedTime = ({
     boostsUsed.push({ name: "Midas Rush", value: "x0.8" });
   }
 
-  const buff = GOLD_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
-};
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
+}
 
 /**
- * Set a mined in the past to make it replenish faster
+ * Set a mined in the past to make it replenish faster. Uses getGoldRecoveryTimeForDisplay for boost logic.
  */
-export function getMinedAt({
-  createdAt,
-  game,
-  farmId,
-  itemId,
-  counter,
-}: GetMinedAtArgs): {
+export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   time: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({
-    game,
-    farmId,
-    itemId,
-    counter,
-  });
-
-  return { time: createdAt - boostedTime, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getGoldRecoveryTimeForDisplay({ game, prngArgs });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 type Options = {
@@ -375,13 +373,18 @@ export function mineGold({
     const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
       createdAt,
       game: stateCopy,
-      ...prngObject,
+      prngArgs: prngObject,
     });
 
-    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
+    const {
+      baseTimeMs,
+      recoveryTimeMs,
+      boostsUsed: boostedTimeBoostsUsed,
+    } = getGoldRecoveryTimeForDisplay({
       game: stateCopy,
-      ...prngObject,
+      prngArgs: prngObject,
     });
+    const boostedTime = baseTimeMs - recoveryTimeMs;
 
     goldRock.stone = {
       minedAt: time,

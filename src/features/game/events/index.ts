@@ -572,6 +572,15 @@ import {
   CollectWaterTrapAction,
 } from "./landExpansion/collectWaterTrap";
 import {
+  placeFarmHand,
+  PlaceFarmHandAction,
+} from "./landExpansion/placeFarmHand";
+import { moveFarmHand, MoveFarmHandAction } from "./landExpansion/moveFarmHand";
+import {
+  removeFarmHand,
+  RemoveFarmHandAction,
+} from "./landExpansion/removeFarmHand";
+import {
   speedUpProcessing,
   SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
@@ -739,6 +748,9 @@ export type PlayingEvent =
   | RenewPetShrineAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
+  | PlaceFarmHandAction
+  | MoveFarmHandAction
+  | RemoveFarmHandAction
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction;
 
@@ -800,7 +812,10 @@ export type PlacementEvent =
   | RemoveFlowerBedAction
   | RemoveBeehiveAction
   | RemoveAllAction
-  | FlipCollectibleAction;
+  | FlipCollectibleAction
+  | PlaceFarmHandAction
+  | MoveFarmHandAction
+  | RemoveFarmHandAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 
@@ -995,6 +1010,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "petShrine.renewed": renewPetShrine,
   "waterTrap.placed": placeWaterTrap,
   "waterTrap.collected": collectWaterTrap,
+  "farmHand.placed": placeFarmHand,
+  "farmHand.moved": moveFarmHand,
+  "farmHand.removed": removeFarmHand,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
@@ -1036,6 +1054,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "nft.placed": placeNFT,
   "nft.moved": moveBud,
   "nft.removed": removeNFT,
+  "farmHand.placed": placeFarmHand,
+  "farmHand.moved": moveFarmHand,
+  "farmHand.removed": removeFarmHand,
   "beehive.moved": moveBeehive,
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,

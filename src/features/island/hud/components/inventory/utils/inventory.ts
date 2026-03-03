@@ -14,6 +14,7 @@ import {
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import {
+  FarmHands,
   GameState,
   Inventory,
   InventoryItemName,
@@ -109,6 +110,14 @@ export const getChestBuds = (
 export const getChestPets = (pets: PetNFTs): PetNFTs => {
   return Object.fromEntries(
     Object.entries(pets ?? {}).filter(([, pet]) => !pet.coordinates),
+  );
+};
+
+export const getChestFarmHands = (farmHands: FarmHands) => {
+  return Object.fromEntries(
+    Object.entries(farmHands.bumpkins ?? {}).filter(
+      ([, farmHand]) => !farmHand.coordinates,
+    ),
   );
 };
 

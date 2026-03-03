@@ -29,8 +29,8 @@ import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "features/game/types";
 import { Context } from "features/game/GameProvider";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -58,9 +58,11 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [showBoostsRecipeName, setShowBoostsRecipeName] = useState<
+    string | null
+  >(null);
 
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
   const remainingInventory = useSelector(gameService, _remainingInventory);
   const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
 
@@ -143,16 +145,11 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);
-            const { seconds: boostedCraftTime } = getBoostedCraftingTime({
-              game: state,
-              time: recipe.time,
-              farmId,
-              itemId:
-                recipe.type === "collectible"
-                  ? KNOWN_IDS[recipe.name as InventoryItemName]
-                  : ITEM_IDS[recipe.name as BumpkinItem],
-              counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
-            });
+            const { seconds: boostedCraftTime, boostsUsed } =
+              getBoostedCraftingTime({
+                game: state,
+                time: recipe.time,
+              });
 
             return (
               <div
@@ -236,20 +233,79 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                         )}
                       </ButtonPanel>
                     </div>
-                    <div className="flex mt-1">
-                      <img
-                        src={SUNNYSIDE.icons.stopwatch}
-                        className="w-3 h-3 mr-1"
-                        alt="Crafting time"
-                      />
-                      <span className="text-xxs">
-                        {boostedCraftTime
-                          ? secondsToString(boostedCraftTime / 1000, {
-                              length: "short",
-                              isShortFormat: true,
-                            })
-                          : "Instant"}
-                      </span>
+                    <div className="flex flex-col mt-1">
+                      {boostsUsed.length > 0 ? (
+                        <div
+                          className="flex flex-col items-start cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowBoostsRecipeName(
+                              showBoostsRecipeName === recipe.name
+                                ? null
+                                : recipe.name,
+                            );
+                          }}
+                        >
+                          <div className="flex">
+                            <img
+                              src={SUNNYSIDE.icons.lightning}
+                              className="w-3 h-3 mr-1"
+                              alt="Crafting time"
+                            />
+                            <span className="text-xxs">
+                              {boostedCraftTime
+                                ? secondsToString(boostedCraftTime / 1000, {
+                                    length: "medium",
+                                    isShortFormat: true,
+                                  })
+                                : "Instant"}
+                            </span>
+                          </div>
+                          {recipe.time > 0 && (
+                            <div className="flex">
+                              <img
+                                src={SUNNYSIDE.icons.stopwatch}
+                                className="w-3 h-3 mr-1"
+                                alt="Crafting time"
+                              />
+                              <span className="text-xxs line-through">
+                                {secondsToString(recipe.time / 1000, {
+                                  length: "medium",
+                                  isShortFormat: true,
+                                })}
+                              </span>
+                            </div>
+                          )}
+                          <BoostsDisplay
+                            boosts={boostsUsed}
+                            show={showBoostsRecipeName === recipe.name}
+                            state={state}
+                            onClick={() =>
+                              setShowBoostsRecipeName(
+                                showBoostsRecipeName === recipe.name
+                                  ? null
+                                  : recipe.name,
+                              )
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex">
+                          <img
+                            src={SUNNYSIDE.icons.stopwatch}
+                            className="w-3 h-3 mr-1"
+                            alt="Crafting time"
+                          />
+                          <span className="text-xxs">
+                            {boostedCraftTime
+                              ? secondsToString(boostedCraftTime / 1000, {
+                                  length: "medium",
+                                  isShortFormat: true,
+                                })
+                              : "Instant"}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-0.5">
@@ -286,94 +342,96 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
           })}
         </div>
 
-        {!searchTerm.trim() && (
-          <>
-            <Label type="default" className="my-2">
-              {t("undiscovered")}
-            </Label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {Object.values(sillhouetteRecipes || {}).map((recipe) => (
-                <div
-                  key={recipe.name}
-                  className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
-                >
-                  <Label type="transparent" className="mb-1">
-                    {recipe.name}
-                  </Label>
-                  <div className="flex items-start justify-between">
-                    <div className="flex flex-col mr-2">
-                      <div className="flex">
-                        <ButtonPanel
-                          className={classNames("!p-0 cursor-not-allowed")}
-                          disabled={true}
-                        >
-                          {recipe.type === "collectible" && (
-                            <img
-                              src={ITEM_DETAILS[recipe.name]?.image}
-                              alt={recipe.name}
-                              className="w-6 h-6 object-contain silhouette"
-                            />
-                          )}
-                          {recipe.type === "wearable" && (
-                            <img
-                              src={getImageUrl(ITEM_IDS[recipe.name])}
-                              className="w-6 h-6 object-contain silhouette"
-                            />
-                          )}
-                        </ButtonPanel>
+        {!searchTerm.trim() &&
+          Object.keys(sillhouetteRecipes || {}).length > 0 && (
+            <>
+              <Label type="default" className="my-2">
+                {t("undiscovered")}
+              </Label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {Object.values(sillhouetteRecipes || {}).map((recipe) => (
+                  <div
+                    key={recipe.name}
+                    className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
+                  >
+                    <Label type="transparent" className="mb-1">
+                      {recipe.name}
+                    </Label>
+                    <div className="flex items-start justify-between">
+                      <div className="flex flex-col mr-2">
+                        <div className="flex">
+                          <ButtonPanel
+                            className={classNames("!p-0 cursor-not-allowed")}
+                            disabled={true}
+                          >
+                            {recipe.type === "collectible" && (
+                              <img
+                                src={ITEM_DETAILS[recipe.name]?.image}
+                                alt={recipe.name}
+                                className="w-6 h-6 object-contain silhouette"
+                              />
+                            )}
+                            {recipe.type === "wearable" && (
+                              <img
+                                src={getImageUrl(ITEM_IDS[recipe.name])}
+                                className="w-6 h-6 object-contain silhouette"
+                              />
+                            )}
+                          </ButtonPanel>
+                        </div>
+                        <div className="flex mt-1">
+                          <SquareIcon
+                            icon={
+                              COLLECTIBLE_BUFF_LABELS[
+                                recipe.name as InventoryItemName
+                              ]?.({
+                                skills: state.bumpkin.skills,
+                                collectibles: state.collectibles,
+                              })?.length
+                                ? lightningIcon
+                                : SUNNYSIDE.icons.expression_confused
+                            }
+                            width={7}
+                          />
+                        </div>
                       </div>
-                      <div className="flex mt-1">
-                        <SquareIcon
-                          icon={
-                            COLLECTIBLE_BUFF_LABELS[
-                              recipe.name as InventoryItemName
-                            ]?.({
-                              skills: state.bumpkin.skills,
-                              collectibles: state.collectibles,
-                            })?.length
-                              ? lightningIcon
-                              : SUNNYSIDE.icons.expression_confused
-                          }
-                          width={7}
-                        />
+                      <div className="grid grid-cols-3 gap-0.5">
+                        {Array(9)
+                          .fill(null)
+                          .map((_, index) => {
+                            const ingredient = recipe.ingredients[index];
+                            return (
+                              <div
+                                key={index}
+                                className="w-6 h-6 bg-brown-600 rounded border border-brown-700 flex items-center justify-center"
+                              >
+                                {ingredient?.collectible && (
+                                  <img
+                                    src={
+                                      ITEM_DETAILS[ingredient.collectible]
+                                        ?.image
+                                    }
+                                    className="w-5 h-5 object-contain"
+                                  />
+                                )}
+                                {ingredient?.wearable && (
+                                  <img
+                                    src={getImageUrl(
+                                      ITEM_IDS[ingredient.wearable],
+                                    )}
+                                    className="w-5 h-5 object-contain"
+                                  />
+                                )}
+                              </div>
+                            );
+                          })}
                       </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-0.5">
-                      {Array(9)
-                        .fill(null)
-                        .map((_, index) => {
-                          const ingredient = recipe.ingredients[index];
-                          return (
-                            <div
-                              key={index}
-                              className="w-6 h-6 bg-brown-600 rounded border border-brown-700 flex items-center justify-center"
-                            >
-                              {ingredient?.collectible && (
-                                <img
-                                  src={
-                                    ITEM_DETAILS[ingredient.collectible]?.image
-                                  }
-                                  className="w-5 h-5 object-contain"
-                                />
-                              )}
-                              {ingredient?.wearable && (
-                                <img
-                                  src={getImageUrl(
-                                    ITEM_IDS[ingredient.wearable],
-                                  )}
-                                  className="w-5 h-5 object-contain"
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+                ))}
+              </div>
+            </>
+          )}
       </div>
     </div>
   );

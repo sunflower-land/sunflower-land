@@ -37,7 +37,6 @@ type Options = {
   state: Readonly<GameState>;
   action: PlantGreenhouseAction;
   createdAt?: number;
-  farmId: number;
 };
 
 type GreenhouseSeed = GreenHouseCropSeedName | GreenHouseFruitSeedName;
@@ -81,10 +80,9 @@ type GetPlantedAtArgs = {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
-  prngArgs?: { farmId: number; counter: number };
 };
 
-function getPlantedAt({ crop, game, createdAt, prngArgs }: GetPlantedAtArgs): {
+function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
   plantedAt: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
@@ -95,7 +93,6 @@ function getPlantedAt({ crop, game, createdAt, prngArgs }: GetPlantedAtArgs): {
   const { seconds: boostedTime, boostsUsed } = getGreenhouseCropTime({
     crop,
     game,
-    prngArgs,
   });
 
   const offset = cropTime - boostedTime;
@@ -106,11 +103,9 @@ function getPlantedAt({ crop, game, createdAt, prngArgs }: GetPlantedAtArgs): {
 export const getGreenhouseCropTime = ({
   crop,
   game,
-  prngArgs,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
-  prngArgs?: { farmId: number; counter: number };
 }): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -119,7 +114,6 @@ export const getGreenhouseCropTime = ({
       getCropTime({
         game,
         crop,
-        prngArgs,
       });
     seconds *= baseMultiplier;
     boostsUsed.push(...cropBoostsUsed);
@@ -208,7 +202,6 @@ export function plantGreenhouse({
   state,
   action,
   createdAt = Date.now(),
-  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     // Requires Greenhouse exists
@@ -254,12 +247,10 @@ export function plantGreenhouse({
     }
 
     const plantName = SEED_TO_PLANT[action.seed];
-    const counter = game.farmActivity[`${plantName} Planted`] ?? 0;
     const { plantedAt, boostsUsed } = getPlantedAt({
       createdAt,
       crop: plantName,
       game,
-      prngArgs: { farmId, counter },
     });
     // Plants
     game.greenhouse.pots[potId] = {

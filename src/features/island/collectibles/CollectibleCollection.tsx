@@ -388,7 +388,7 @@ import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { BedName } from "features/game/types/game";
 
 export const COLLECTIBLE_COMPONENTS: Record<
-  CollectibleName | "Bud" | "PetNFT",
+  CollectibleName | "Bud" | "Pet" | "PetNFT",
   React.FC<CollectibleProps>
 > = {
   ...getKeys(DECORATION_TEMPLATES).reduce(
@@ -725,6 +725,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Town Sign": Sign,
   "White Crow": WhiteCrow,
   Bud: Bud,
+  // Added for easier mapping with placeable.name in Placeable.tsx
+  Pet: PetNFT,
+
   PetNFT: PetNFT,
   "Twilight Anglerfish": TwilightAnglerfish,
   "Starlight Tuna": StarlightTuna,
@@ -3709,7 +3712,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
 // Need readonly versions for some troublesome components while in design mode
 
 export const READONLY_COLLECTIBLES: Record<
-  CollectibleName | "Bud" | "PetNFT",
+  CollectibleName | "Bud" | "Pet" | "PetNFT",
   React.FC<CollectibleProps>
 > = {
   ...COLLECTIBLE_COMPONENTS,

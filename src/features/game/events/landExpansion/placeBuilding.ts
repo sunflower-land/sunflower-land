@@ -159,9 +159,12 @@ export function placeBuilding({
             ? getBoostedCraftingTime({
                 game: stateCopy,
                 time: RECIPES[collectible]?.time ?? 0,
-                farmId,
-                itemId: KNOWN_IDS[collectible],
-                counter: stateCopy.farmActivity[`${collectible} Crafted`] ?? 0,
+                prngArgs: {
+                  farmId,
+                  itemId: KNOWN_IDS[collectible],
+                  counter:
+                    stateCopy.farmActivity[`${collectible} Crafted`] ?? 0,
+                },
               })
             : { seconds: 0 };
           craftingBox.readyAt = craftingBox.startedAt + recipeTime;

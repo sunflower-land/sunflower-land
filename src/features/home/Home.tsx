@@ -47,6 +47,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { PetNFT } from "features/island/pets/PetNFT";
+import { FarmHand } from "features/island/farmhand/FarmHand";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -86,6 +87,14 @@ const _homeCollectiblePositions = (state: MachineState) => {
       })),
   };
 };
+const _homeFarmHands = (state: MachineState) => {
+  const bumpkins = state.context.state.farmHands.bumpkins;
+  return Object.fromEntries(
+    Object.entries(bumpkins).filter(
+      ([, fh]) => fh.coordinates && fh.location === "home",
+    ),
+  );
+};
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const Home: React.FC = () => {
@@ -112,6 +121,7 @@ export const Home: React.FC = () => {
   const buds = useSelector(gameService, _buds);
   const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
+  const homeFarmHands = useSelector(gameService, _homeFarmHands);
   const { collectibles, positions: homeCollectiblePositions } = useSelector(
     gameService,
     _homeCollectiblePositions,
@@ -227,6 +237,17 @@ export const Home: React.FC = () => {
       }),
   );
 
+  mapPlacements.push(
+    ...Object.entries(homeFarmHands).map(([id, farmHand]) => {
+      const { x, y } = farmHand.coordinates!;
+      return (
+        <MapPlacement key={`farmHand-${id}`} x={x} y={y} height={1} width={1}>
+          <FarmHand id={id} location="home" />
+        </MapPlacement>
+      );
+    }),
+  );
+
   const bounds = HOME_BOUNDS[island.type];
   const currentBiome = getCurrentBiome(island);
 
@@ -318,26 +339,24 @@ export const Home: React.FC = () => {
                 onClick={() => setShowPainting(true)}
               />
 
+              {!isVisiting && (
+                <div className="absolute -top-16 left-0 w-full">
+                  <InteriorBumpkins />
+                </div>
+              )}
               {!landscaping && (
-                <>
-                  {!isVisiting && (
-                    <div className="absolute -top-16 left-0 w-full">
-                      <InteriorBumpkins />
-                    </div>
-                  )}
-                  <Button
-                    className="absolute -bottom-16"
-                    onClick={() =>
-                      navigate(
-                        isVisiting
-                          ? `/visit/${gameService.state.context.farmId}`
-                          : "/",
-                      )
-                    }
-                  >
-                    {t("exit")}
-                  </Button>
-                </>
+                <Button
+                  className="absolute -bottom-16"
+                  onClick={() =>
+                    navigate(
+                      isVisiting
+                        ? `/visit/${gameService.getSnapshot().context.farmId}`
+                        : "/",
+                    )
+                  }
+                >
+                  {t("exit")}
+                </Button>
               )}
 
               {/* Sort island elements by y axis */}

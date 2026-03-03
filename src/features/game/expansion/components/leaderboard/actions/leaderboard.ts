@@ -20,6 +20,8 @@ type Options = {
   farmId: number;
   leaderboardName: keyof Leaderboards;
   cacheExpiry?: number;
+  /** Optional limit (e.g. 500 for tickets). When set, skips cache and adds limit query param. */
+  limit?: number;
 };
 
 export type RankData = {
@@ -89,8 +91,10 @@ export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
   cacheExpiry,
+  limit,
 }: Options): Promise<T | undefined> {
   if (!API_URL && leaderboardName === "tickets") {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       topTen: [
         {
@@ -150,23 +154,50 @@ export async function getLeaderboard<T>({
           experience: LEVEL_EXPERIENCE[51],
           farmId: 9,
         },
+        {
+          id: "hannigan",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 10,
+        },
+        {
+          id: "bailey",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 11,
+        },
+        {
+          id: "bailey",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 11,
+        },
       ],
       lastUpdated: 0,
     } as T;
   }
 
-  const cache = getCachedLeaderboardData({
-    name: leaderboardName,
-    duration: cacheExpiry,
-  });
+  const skipCache = limit != null;
+  const cache = skipCache
+    ? null
+    : getCachedLeaderboardData({
+        name: leaderboardName,
+        duration: cacheExpiry,
+      });
 
   if (cache) {
     return cache as T;
   }
 
-  const url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
+  const url = new URL(`${API_URL}/leaderboard/${leaderboardName}/${farmId}`);
+  if (limit != null) {
+    url.searchParams.set("limit", String(limit));
+  }
 
-  const response = await window.fetch(url, {
+  const response = await window.fetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -183,7 +214,9 @@ export async function getLeaderboard<T>({
 
   const data = await response.json();
 
-  cacheLeaderboard({ name: leaderboardName, data });
+  if (!skipCache) {
+    cacheLeaderboard({ name: leaderboardName, data });
+  }
 
   return data;
 }

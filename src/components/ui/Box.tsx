@@ -59,6 +59,11 @@ export interface BoxProps {
   };
   onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop?: (e: React.DragEvent<HTMLDivElement>) => void;
+  /**
+   * Custom content to show inside the box (e.g. Bumpkin).
+   * When provided, this is shown instead of the image.
+   */
+  children?: React.ReactNode;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -82,6 +87,7 @@ export const Box: React.FC<BoxProps> = ({
   progress,
   onDragOver,
   onDrop,
+  children,
 }) => {
   const [isHover, setIsHover] = useState(false);
 
@@ -136,13 +142,14 @@ export const Box: React.FC<BoxProps> = ({
             },
           )}
         >
-          {image && (
-            <SquareIcon
-              icon={image}
-              width={INNER_CANVAS_WIDTH}
-              className={iconClassName}
-            />
-          )}
+          {children ??
+            (image && (
+              <SquareIcon
+                icon={image}
+                width={INNER_CANVAS_WIDTH}
+                className={iconClassName}
+              />
+            ))}
           {secondaryImage && (
             <img
               src={secondaryImage}
