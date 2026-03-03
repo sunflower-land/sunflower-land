@@ -9,11 +9,9 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
 import { RecipesTab } from "./RecipesTab";
 import { CraftTab } from "./CraftTab";
-import { MachineState } from "features/game/lib/gameMachine";
-import { NPC_WEARABLES } from "lib/npcs";
-import { Panel } from "components/ui/Panel";
-import { SpeakingText } from "features/game/components/SpeakingModal";
+import { CraftingBoxIntro } from "./CraftingBoxIntro";
 import { CraftingBoxGuide } from "./CraftingBoxGuide";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `crafting-box-read.${host}-${window.location.pathname}`;
@@ -91,42 +89,19 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
 
   if (showIntro) {
     return (
-      <Panel bumpkinParts={NPC_WEARABLES.blacksmith}>
-        <SpeakingText
-          message={[
-            {
-              text: t("craftingBox.welcome.1"),
-            },
-            {
-              text: t("craftingBox.welcome.2"),
-            },
-            {
-              text: t("craftingBox.welcome.3"),
-              actions: [
-                {
-                  text: t("craftingBox.startCrafting"),
-                  cb: () => {
-                    switchTab("craft");
-                    acknowledgeIntroRead();
-                    setShowIntro(false);
-                  },
-                },
-                {
-                  text: t("craftingBox.viewRecipes"),
-                  cb: () => {
-                    switchTab("recipes");
-                    acknowledgeIntroRead();
-                    setShowIntro(false);
-                  },
-                },
-              ],
-            },
-          ]}
-          onClose={() => {
-            acknowledgeRead();
-          }}
-        />
-      </Panel>
+      <CraftingBoxIntro
+        onStartCrafting={() => {
+          switchTab("craft");
+          acknowledgeIntroRead();
+          setShowIntro(false);
+        }}
+        onViewRecipes={() => {
+          switchTab("recipes");
+          acknowledgeIntroRead();
+          setShowIntro(false);
+        }}
+        onClose={acknowledgeRead}
+      />
     );
   }
 
