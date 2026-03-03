@@ -1,16 +1,6 @@
 import { useMemo } from "react";
-import { CraftingQueueItem } from "features/game/types/game";
+import { CraftingQueueItem, GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
-
-export type CraftingBoxInput = {
-  status: "pending" | "idle" | "crafting";
-  queue?: CraftingQueueItem[];
-  item?:
-    | { collectible: string; wearable?: never }
-    | { collectible?: never; wearable: string };
-  startedAt: number;
-  readyAt: number;
-};
 
 const DEFAULT_QUEUE_ITEM: CraftingQueueItem = {
   name: "Sunflower" as CraftingQueueItem["name"],
@@ -19,7 +9,7 @@ const DEFAULT_QUEUE_ITEM: CraftingQueueItem = {
   type: "collectible",
 };
 
-export function useCraftingQueue(craftingBox: CraftingBoxInput) {
+export function useCraftingQueue(craftingBox: GameState["craftingBox"]) {
   const {
     status: craftingStatus,
     readyAt: craftingReadyAt,
