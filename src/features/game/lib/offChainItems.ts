@@ -51,6 +51,7 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
     (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
   ),
+  // Consumables includes fish, cookables, and consumables
   ...getKeys(CONSUMABLES),
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
