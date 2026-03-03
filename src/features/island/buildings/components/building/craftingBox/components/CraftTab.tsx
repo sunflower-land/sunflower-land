@@ -5,38 +5,36 @@ import {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
-import { Label } from "components/ui/Label";
 import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
-import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SquareIcon } from "components/ui/SquareIcon";
 import { RecipeIngredient, RECIPES } from "features/game/lib/crafting";
+import {
+  getRecipeIngredientsForName,
+  padRecipeIngredients,
+} from "./craftingBoxUtils";
 import {
   findMatchingRecipe,
   getBoostedCraftingTime,
 } from "features/game/events/landExpansion/startCrafting";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
-import { ButtonPanel } from "components/ui/Panel";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { CraftingQueue } from "./CraftingQueue";
-import { CraftStatus } from "./CraftStatus";
+import { IngredientGrid } from "./IngredientGrid";
+import { CraftingHeader } from "./CraftingHeader";
+import { ResourceInventory } from "./ResourceInventory";
 import { CraftDetails } from "./CraftDetails";
 import { CraftButton } from "./CraftButton";
 import { CraftTimer } from "./CraftTimer";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useNow } from "lib/utils/hooks/useNow";
-import { validCraftingResourcesSorted } from "./craftingTabConstants";
 import { hasFeatureAccess } from "lib/flags";
+import { useCraftingQueue } from "./useCraftingQueue";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -60,50 +58,22 @@ export const CraftTab: React.FC<Props> = ({
   initialQueueSlot,
   onQueueSelectionChange,
 }) => {
-  const { t } = useAppTranslation();
-
   const state = useSelector(gameService, _state);
   const farmId = useSelector(gameService, _farmId);
   const { inventory, wardrobe, craftingBox } = state;
+  const { recipes } = craftingBox;
   const {
-    status: craftingStatus,
-    readyAt: craftingReadyAt,
-    recipes,
-    queue: rawQueue,
-    item: legacyItem,
-    startedAt: craftingStartedAt,
-  } = craftingBox;
-
-  const craftingQueue: CraftingQueueItem[] =
-    rawQueue ??
-    (legacyItem && craftingStatus === "crafting"
-      ? [
-          {
-            name: legacyItem.collectible ?? legacyItem.wearable,
-            readyAt: craftingReadyAt,
-            startedAt: craftingStartedAt,
-            type: legacyItem.collectible ? "collectible" : "wearable",
-          },
-        ]
-      : []);
-
-  const effectiveReadyAt =
-    craftingQueue.length > 0
-      ? Math.max(...craftingQueue.map((i) => i.readyAt))
-      : craftingReadyAt;
-
-  const needsLiveTime =
-    craftingStatus === "crafting" &&
-    effectiveReadyAt != null &&
-    Number.isFinite(effectiveReadyAt);
-  const now = useNow({
-    live: needsLiveTime,
-    autoEndAt: needsLiveTime ? effectiveReadyAt : undefined,
-  });
-  const inProgress = craftingQueue.filter((item) => item.readyAt > now);
-  const cooking = inProgress[0];
-  const queue = inProgress.slice(1);
-  const readyProducts = craftingQueue.filter((item) => item.readyAt <= now);
+    craftingQueue,
+    cooking,
+    queue,
+    readyProducts,
+    liveDisplayItems,
+    defaultQueueItem,
+    effectiveReadyAt,
+    craftingStatus,
+    craftingReadyAt,
+    now,
+  } = useCraftingQueue(craftingBox);
   const hasCraftingBoxQueuesAccess = hasFeatureAccess(
     state,
     "CRAFTING_BOX_QUEUES",
@@ -117,13 +87,6 @@ export const CraftTab: React.FC<Props> = ({
   const prevSelectedItemsRef = useRef(selectedItems);
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
-  const defaultQueueItem: CraftingQueueItem = cooking ??
-    craftingQueue[0] ?? {
-      name: "Sunflower",
-      readyAt: 0,
-      startedAt: 0,
-      type: "collectible",
-    };
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
   const isIdle = craftingStatus === "idle";
@@ -163,24 +126,17 @@ export const CraftTab: React.FC<Props> = ({
   );
   useEffect(() => {
     if (autoSelectedReadyRef.current && readyProducts.length > 0) {
-      const recipeName = readyProducts[0].name;
-      const recipe =
-        recipes[recipeName as keyof typeof recipes] ??
-        RECIPES[recipeName as keyof typeof RECIPES];
-      if (recipe?.ingredients) {
-        const padded = [...recipe.ingredients, ...Array(9).fill(null)].slice(
-          0,
-          9,
-        ) as (RecipeIngredient | null)[];
+      const padded = getRecipeIngredientsForName(
+        readyProducts[0].name,
+        recipes,
+      );
+      if (padded.some((i) => i != null)) {
         setSelectedItems(padded);
       }
       autoSelectedReadyRef.current = false;
     }
   }, []);
 
-  const liveDisplayItems = [cooking, ...queue, ...readyProducts].filter(
-    Boolean,
-  );
   const viewedItem =
     liveDisplayItems[queueSelection.viewedSlotIndex] ?? queueSelection.item;
 
@@ -409,7 +365,7 @@ export const CraftTab: React.FC<Props> = ({
         viewedSlotIndex: addedSlotIndex,
       });
       onQueueSelectionChange?.(0);
-      setSelectedItems(getRecipeIngredients(newItem.name));
+      setSelectedItems(getRecipeIngredientsForName(newItem.name, recipes));
       setSelectedIngredient(null);
     } else if (wasAddingToQueue) {
       setQueueSelection({
@@ -434,8 +390,8 @@ export const CraftTab: React.FC<Props> = ({
     onQueueSelectionChange?.(0);
     setSelectedItems(
       nextCooking
-        ? getRecipeIngredients(nextCooking.name)
-        : Array(9).fill(null),
+        ? getRecipeIngredientsForName(nextCooking.name, recipes)
+        : padRecipeIngredients(null),
     );
   };
 
@@ -447,28 +403,17 @@ export const CraftTab: React.FC<Props> = ({
     if (queueSelection.slot > 0 && canAddToQueue) {
       setSelectedItems(getCurrentCraftingRecipeIngredients());
     } else {
-      setSelectedItems(Array(9).fill(null));
+      setSelectedItems(padRecipeIngredients(null));
     }
     setSelectedIngredient(null);
   };
 
-  const getRecipeIngredients = (
-    recipeName: string,
-  ): (RecipeIngredient | null)[] => {
-    const recipe =
-      recipes[recipeName as keyof typeof recipes] ??
-      RECIPES[recipeName as keyof typeof RECIPES];
-    if (!recipe?.ingredients) return Array(9).fill(null);
-    const padded = [...recipe.ingredients, ...Array(9).fill(null)].slice(0, 9);
-    return padded as (RecipeIngredient | null)[];
-  };
-
-  const getCurrentCraftingRecipeIngredients =
-    (): (RecipeIngredient | null)[] =>
-      cooking ? getRecipeIngredients(cooking.name) : Array(9).fill(null);
-
   const getRecipeIngredientsForItem = (item: CraftingQueueItem) =>
-    getRecipeIngredients(item.name);
+    getRecipeIngredientsForName(item.name, recipes);
+  const getCurrentCraftingRecipeIngredients = () =>
+    cooking
+      ? getRecipeIngredientsForName(cooking.name, recipes)
+      : padRecipeIngredients(null);
 
   const handleQueueSlotSelect = (
     slotIndex: number,
@@ -494,7 +439,7 @@ export const CraftTab: React.FC<Props> = ({
         viewedSlotIndex: -1,
       });
       onQueueSelectionChange?.(slotIndex);
-      setSelectedItems(Array(9).fill(null));
+      setSelectedItems(padRecipeIngredients(null));
       setSelectedIngredient(null);
     } else if (item) {
       // Clicked on an item - show recipe; allow cancel only for queued (not in-progress)
@@ -545,28 +490,45 @@ export const CraftTab: React.FC<Props> = ({
     onQueueSelectionChange?.(0);
     setSelectedItems(
       nextCooking
-        ? getRecipeIngredients(nextCooking.name)
+        ? getRecipeIngredientsForName(nextCooking.name, recipes)
         : getCurrentCraftingRecipeIngredients(),
     );
     setSelectedIngredient(null);
   };
 
   const canEditGrid = cooking == null || queueSelection.slot > 0;
-  const isViewingMode = cooking != null && queueSelection.slot === 0;
-  const isViewingInProgressRecipe = isViewingMode;
+  const viewingState = useMemo(() => {
+    const isViewingMode = cooking != null && queueSelection.slot === 0;
+    return {
+      isViewingMode,
+      isViewingInProgressItem:
+        isViewingMode && queueSelection.viewedSlotIndex === 0,
+      isViewingQueuedRecipe:
+        queueSelection.slot === 0 &&
+        !(isViewingMode && queueSelection.viewedSlotIndex === 0) &&
+        queueSelection.viewedSlotIndex > 0,
+      isViewingReadyItem:
+        craftingStatus === "crafting" &&
+        viewedItem.readyAt > 0 &&
+        viewedItem.readyAt <= now,
+      isViewingInProgressRecipe: isViewingMode,
+    };
+  }, [
+    cooking,
+    queueSelection.slot,
+    queueSelection.viewedSlotIndex,
+    craftingStatus,
+    viewedItem.readyAt,
+    now,
+  ]);
 
-  const isViewingInProgressItem =
-    isViewingMode && queueSelection.viewedSlotIndex === 0;
-
-  const isViewingQueuedRecipe =
-    queueSelection.slot === 0 &&
-    !isViewingInProgressItem &&
-    queueSelection.viewedSlotIndex > 0;
-
-  const isViewingReadyItem =
-    craftingStatus === "crafting" &&
-    viewedItem.readyAt > 0 &&
-    viewedItem.readyAt <= now;
+  const {
+    isViewingMode,
+    isViewingInProgressItem,
+    isViewingQueuedRecipe,
+    isViewingReadyItem,
+    isViewingInProgressRecipe,
+  } = viewingState;
 
   const isDisabled =
     isPending ||
@@ -582,53 +544,28 @@ export const CraftTab: React.FC<Props> = ({
 
   return (
     <>
-      <div className="flex pl-1 pt-1">
-        <div className="flex justify-between items-center w-full mr-1">
-          <CraftStatus
-            isPending={isPending}
-            isCrafting={isCrafting}
-            isViewingReadyItem={isViewingReadyItem}
-            isViewingQueuedRecipe={isViewingQueuedRecipe}
-            isPreparingQueueSlot={queueSelection.slot > 0}
-          />
-          <ButtonPanel
-            disabled={isDisabled}
-            onClick={isDisabled ? undefined : handleClearIngredients}
-          >
-            <SquareIcon icon={SUNNYSIDE.icons.cancel} width={5} />
-          </ButtonPanel>
-        </div>
-      </div>
+      <CraftingHeader
+        isPending={isPending}
+        isCrafting={isCrafting}
+        isViewingReadyItem={isViewingReadyItem}
+        isViewingQueuedRecipe={isViewingQueuedRecipe}
+        isPreparingQueueSlot={queueSelection.slot > 0}
+        isDisabled={isDisabled}
+        onClearIngredients={handleClearIngredients}
+      />
       <div className="flex mb-2">
-        {/** Crafting Grid */}
-        <div className="grid grid-cols-3 gap-1 flex-shrink-0">
-          {selectedItems.map((item, index) => (
-            <div
-              className="flex "
-              key={`${index}-${item}`}
-              draggable={canEditGrid && !isPending && !!item}
-              onDragStart={(e) =>
-                handleDragStart(e, item as RecipeIngredient, index)
-              }
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, index)}
-            >
-              <Box
-                image={
-                  item?.collectible
-                    ? ITEM_DETAILS[item.collectible]?.image
-                    : item?.wearable
-                      ? getImageUrl(ITEM_IDS[item.wearable])
-                      : undefined
-                }
-                onClick={() => handleBoxSelect(index)}
-                disabled={
-                  isViewingMode || isPending || (isCrafting && !canAddToQueue)
-                }
-              />
-            </div>
-          ))}
-        </div>
+        <IngredientGrid
+          selectedItems={selectedItems}
+          onBoxSelect={handleBoxSelect}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          canEditGrid={canEditGrid}
+          isPending={isPending}
+          disabled={
+            isViewingMode || isPending || (isCrafting && !canAddToQueue)
+          }
+        />
 
         {/** Arrow */}
         <div className="flex items-center justify-center flex-grow">
@@ -700,64 +637,16 @@ export const CraftTab: React.FC<Props> = ({
         />
       )}
 
-      <div className="flex space-x-3 mb-1 ml-1 mr-2">
-        {selectedIngredient && (
-          <Label
-            type="formula"
-            className="ml-1"
-            icon={
-              selectedIngredient.collectible
-                ? ITEM_DETAILS[selectedIngredient.collectible].image
-                : undefined
-            }
-          >
-            {selectedIngredient.collectible ?? selectedIngredient.wearable}
-          </Label>
-        )}
-      </div>
-      <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
-        <div className="flex flex-wrap">
-          {validCraftingResourcesSorted()
-            // If it is a doll, but they haven't discovered it yet, don't show it.
-            .filter(
-              (itemName) =>
-                !(itemName in RECIPES) ||
-                (itemName in RECIPES && itemName in state.craftingBox.recipes),
-            )
-            .map((itemName) => {
-              const amount = remainingInventory[itemName] || new Decimal(0);
-              return (
-                <div
-                  key={itemName}
-                  draggable={canEditGrid && !isPending && amount.greaterThan(0)}
-                  onDragStart={(e) =>
-                    handleDragStart(e, { collectible: itemName })
-                  }
-                  className="flex"
-                >
-                  <Box
-                    count={amount}
-                    image={ITEM_DETAILS[itemName]?.image}
-                    isSelected={selectedIngredient?.collectible === itemName}
-                    onClick={() =>
-                      handleIngredientSelect({ collectible: itemName })
-                    }
-                    disabled={
-                      isViewingMode ||
-                      isPending ||
-                      (isCrafting && !canAddToQueue)
-                    }
-                  />
-                </div>
-              );
-            })}
-          <Box image={SUNNYSIDE.icons.expression_confused} />
-        </div>
-        <div className="flex items-center  mt-1 mx-1">
-          <img src={SUNNYSIDE.icons.expression_confused} className="h-4 mr-1" />
-          <p className="text-xs">{t("crafting.undiscovered")}</p>
-        </div>
-      </div>
+      <ResourceInventory
+        remainingInventory={remainingInventory}
+        selectedIngredient={selectedIngredient}
+        onIngredientSelect={handleIngredientSelect}
+        onDragStart={handleDragStart}
+        canEditGrid={canEditGrid}
+        isPending={isPending}
+        disabled={isViewingMode || isPending || (isCrafting && !canAddToQueue)}
+        discoveredRecipes={state.craftingBox.recipes}
+      />
     </>
   );
 };

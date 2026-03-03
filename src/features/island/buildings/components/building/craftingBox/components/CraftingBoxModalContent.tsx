@@ -3,6 +3,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Recipe } from "features/game/lib/crafting";
+import { padRecipeIngredients } from "./craftingBoxUtils";
 import { useSelector } from "@xstate/react";
 import { RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -62,10 +63,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   // Determine the current recipe if any
   const itemName = craftingItem?.collectible;
   const currentRecipe = itemName ? (recipes[itemName] ?? null) : null;
-  const paddedIngredients = [
-    ...(currentRecipe?.ingredients ?? []),
-    ...Array(9).fill(null),
-  ].slice(0, 9);
+  const paddedIngredients = padRecipeIngredients(currentRecipe);
 
   const [selectedItems, setSelectedItems] =
     useState<(RecipeIngredient | null)[]>(paddedIngredients);
@@ -73,11 +71,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const button = useSound("button");
 
   const handleSetupRecipe = (recipe: Recipe, targetSlot?: number) => {
-    const paddedIngredients = [
-      ...recipe.ingredients,
-      ...Array(9).fill(null),
-    ].slice(0, 9);
-    selectItems(paddedIngredients);
+    selectItems(padRecipeIngredients(recipe));
     setPendingQueueSlot(targetSlot ?? null);
     switchTab("craft");
   };
