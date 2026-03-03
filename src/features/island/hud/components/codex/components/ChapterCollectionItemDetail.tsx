@@ -42,8 +42,8 @@ const HOW_TO_OBTAIN_I18N_KEY: Record<
   mutants: "season.codex.howToObtain.mutants",
   track: "season.codex.howToObtain.track",
   auctioneer: "season.codex.howToObtain.auctioneer",
-  vipChest: "season.codex.howToObtain.vipChest",
   vipGift: "season.codex.howToObtain.vipGift",
+  other: "season.codex.howToObtain.unknown",
 };
 
 const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
