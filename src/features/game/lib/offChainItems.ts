@@ -15,7 +15,6 @@ import { FRUIT_COMPOST, CROP_COMPOST, WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
-import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
@@ -46,14 +45,13 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Bronze Friends Trophy",
   "Basic Land",
   ...getKeys(REWARD_BOXES),
-  // Fishing + water traps (no hoarding limits)
-  ...getKeys(FISH),
   ...CRUSTACEANS,
   "Holiday Token 2025",
   "Holiday Ticket 2025",
   ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
     (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
   ),
+  // Consumables includes fish, cookables, and consumables
   ...getKeys(CONSUMABLES),
   ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
