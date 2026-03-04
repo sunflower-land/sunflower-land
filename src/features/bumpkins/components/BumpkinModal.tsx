@@ -37,6 +37,12 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PanelTabs } from "features/game/components/CloseablePanel";
+import foodIcon from "assets/food/chicken_drumstick.png";
+import { Equipped } from "features/game/types/bumpkin";
+import { Feed } from "features/island/bumpkin/components/Feed";
+import { LevelUp } from "features/island/bumpkin/components/LevelUp";
+import { getAvailableFood } from "features/game/lib/availableFood";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export type ViewState =
   | "home"
@@ -86,7 +92,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
     </div>
   );
 };
-type Tab = "info" | "equip" | "skills";
+type Tab = "info" | "equip" | "skills" | "feed";
 
 interface Props {
   initialTab: Tab;
@@ -110,12 +116,21 @@ export const BumpkinModal: React.FC<Props> = ({
   hasPowerSkills,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const level = getBumpkinLevel(experience);
+  const currentBumpkinLevel = level;
   const maxLevel = isMaxLevel(experience);
   const [view, setView] = useState<ViewState>("home");
   const [tab, setTab] = useState(initialTab);
   const { t } = useAppTranslation();
+
+  const [acknowledgedLevel, setAcknowledgedLevel] =
+    useState(currentBumpkinLevel);
+  const hasLeveledUp = currentBumpkinLevel > acknowledgedLevel;
+  const acknowledgeLevelUp = () => setAcknowledgedLevel(currentBumpkinLevel);
+
+  const availableFood = getAvailableFood(inventory);
 
   if (view === "achievements") {
     return (
@@ -174,6 +189,11 @@ export const BumpkinModal: React.FC<Props> = ({
         icon: SUNNYSIDE.badges.seedSpecialist,
         name: t("skills"),
       },
+      {
+        id: "feed",
+        icon: foodIcon,
+        name: t("feed.bumpkin"),
+      },
     ];
   };
 
@@ -183,7 +203,7 @@ export const BumpkinModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       onClose={onClose}
       tabs={renderTabs()}
-      container={tab === "skills" ? OuterPanel : undefined}
+      container={tab === "skills" || tab === "feed" ? OuterPanel : undefined}
     >
       <div
         style={{
@@ -216,6 +236,25 @@ export const BumpkinModal: React.FC<Props> = ({
           />
         )}
         {tab === "skills" && <Skills readonly={readonly} />}
+        {tab === "feed" && (
+          <>
+            {hasLeveledUp ? (
+              <LevelUp
+                level={currentBumpkinLevel}
+                onClose={() => {
+                  onClose();
+                  if (currentBumpkinLevel === 2) {
+                    openModal("SECOND_LEVEL");
+                  }
+                  setTimeout(() => acknowledgeLevelUp(), 500);
+                }}
+                wearables={bumpkin.equipped as Equipped}
+              />
+            ) : (
+              <Feed food={availableFood} />
+            )}
+          </>
+        )}
       </div>
     </CloseButtonPanel>
   );

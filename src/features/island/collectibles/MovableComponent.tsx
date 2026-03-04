@@ -108,6 +108,10 @@ function getMoveAction(
     return "farmHand.moved";
   }
 
+  if (name === "Bumpkin") {
+    return "bumpkin.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
@@ -217,6 +221,10 @@ export function getRemoveAction(
 
   if (name === "FarmHand") {
     return "farmHand.removed";
+  }
+
+  if (name === "Bumpkin") {
+    return "bumpkin.removedPlacement";
   }
 
   if (name in RESOURCES_REMOVE_ACTIONS) {
@@ -491,6 +499,7 @@ export const MoveableComponent: React.FC<
     Bud: { width: 1, height: 1 },
     Pet: { width: 2, height: 2 },
     FarmHand: { width: 1, height: 1 },
+    Bumpkin: { width: 1, height: 1 },
   };
 
   const dimensions = DIMENSIONS_MAP[name];
@@ -553,7 +562,7 @@ export const MoveableComponent: React.FC<
               ? {}
               : name === "Bud" || name === "Pet"
                 ? { nft: name }
-                : name === "FarmHand"
+                : name === "FarmHand" || name === "Bumpkin"
                   ? {}
                   : { name }),
             coordinates: { x, y },

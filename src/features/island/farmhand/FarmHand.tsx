@@ -10,6 +10,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
+import { Button } from "components/ui/Button";
 
 const _farmHands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
@@ -61,6 +62,15 @@ export const FarmHand: React.FC<{
                 });
               }}
             />
+            <Button
+              onClick={() => {
+                gameService.send("farmhand.promoted", { id });
+                gameService.send("SAVE");
+                setShowModal(false);
+              }}
+            >
+              {t("switchAsMain")}
+            </Button>
           </CloseButtonPanel>
         </Modal>
       </>

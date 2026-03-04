@@ -15,6 +15,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { Button } from "components/ui/Button";
 
 interface Props {
   game: GameState;
@@ -55,17 +56,46 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
     });
   };
 
+  const handlePlaceBumpkin = () => {
+    const landscaping = gameService.getSnapshot().children
+      .landscaping as MachineInterpreter;
+    landscaping.send("SELECT", {
+      placeable: { name: "Bumpkin", id: "main" },
+      action: "bumpkin.placed",
+      requirements: { coins: 0, ingredients: {} },
+    });
+  };
+
   return (
     <>
       <div className="flex w-full">
-        <div
-          className={classNames("mr-1 relative", {
-            "pointer-events-none": isLandscaping,
-          })}
-          style={{ width: `${GRID_WIDTH_PX}px` }}
-        >
-          <PlayerNPC parts={bumpkin.equipped} />
-        </div>
+        {!bumpkin.coordinates && (
+          <div
+            className={classNames("mr-1 relative", {
+              "pointer-events-none": !isLandscaping,
+              "cursor-pointer hover:img-highlight": isLandscaping,
+            })}
+            onClick={() => {
+              if (isLandscaping) {
+                handlePlaceBumpkin();
+              }
+            }}
+            style={{ width: `${GRID_WIDTH_PX}px` }}
+          >
+            <PlayerNPC parts={bumpkin.equipped} />
+            {isLandscaping && (
+              <img
+                src={SUNNYSIDE.icons.click_icon}
+                className="absolute z-10 animate-float"
+                style={{
+                  width: `${10 * PIXEL_SCALE}px`,
+                  top: `${-6 * PIXEL_SCALE}px`,
+                  left: `${4 * PIXEL_SCALE}px`,
+                }}
+              />
+            )}
+          </div>
+        )}
 
         {unplacedFarmHandIds.map((id) => (
           <div
@@ -128,6 +158,15 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
               });
             }}
           />
+          <Button
+            onClick={() => {
+              gameService.send("farmhand.promoted", { id: selectedFarmHandId });
+              gameService.send("SAVE");
+              setSelectedFarmHandId(undefined);
+            }}
+          >
+            {t("switchAsMain")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
     </>

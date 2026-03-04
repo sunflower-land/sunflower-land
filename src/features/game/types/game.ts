@@ -471,6 +471,8 @@ export type Bumpkin = {
   previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
   paidSkillResets?: number;
+  coordinates?: Coordinates;
+  location?: "farm" | "home";
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
