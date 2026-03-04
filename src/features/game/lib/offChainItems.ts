@@ -7,10 +7,14 @@ import {
   ChapterRaffleTicket,
 } from "../types/chapters";
 import { SEEDS } from "../types/seeds";
-import { TREASURE_TOOLS } from "../types/tools";
-import { PET_SHRINES } from "../types/pets";
+import {
+  LOVE_ANIMAL_TOOLS,
+  TREASURE_TOOLS,
+  WORKBENCH_TOOLS,
+} from "../types/tools";
+import { PET_RESOURCES, PET_SHRINES, PET_TYPES } from "../types/pets";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
-import { RESOURCES } from "../types/resources";
+import { COMMODITIES, RESOURCES } from "../types/resources";
 import { FRUIT_COMPOST, CROP_COMPOST, WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
@@ -20,8 +24,11 @@ import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { ANIMAL_FOODS } from "../types/animals";
 import { EXOTIC_CROPS } from "../types/beans";
-import { DOLLS } from "./crafting";
-
+import { DOLLS, RECIPE_CRAFTABLES } from "./crafting";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
+import { BUILDINGS } from "../types/buildings";
+import { FLOWERS } from "../types/flowers";
+import { WORKBENCH_MONUMENTS } from "../types/monuments";
 const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
@@ -32,6 +39,8 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
     ...SELLABLE_TREASURES,
     ...SEEDS,
     ...TOOLS,
+    ...WORKBENCH_TOOLS,
+    ...LOVE_ANIMAL_TOOLS,
     ...TREASURE_TOOLS,
     ...PET_SHRINES,
     ...RESOURCES,
@@ -45,6 +54,15 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
     ...ANIMAL_FOODS,
     ...EXOTIC_CROPS,
     ...DOLLS,
+    ...LAND_BIOMES,
+    ...WORKBENCH_MONUMENTS,
+    ...PET_SHRINES,
+    ...PET_RESOURCES,
+    ...PET_TYPES,
+    ...BUILDINGS,
+    ...FLOWERS,
+    ...RECIPE_CRAFTABLES,
+    ...COMMODITIES,
   }),
   ...Object.values(CHAPTER_TICKET_NAME),
   ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
