@@ -92,7 +92,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
-          if (OFFCHAIN_ITEMS.includes(key)) return;
+          if (OFFCHAIN_ITEMS.has(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);

@@ -29,7 +29,8 @@ import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { BUILDINGS } from "../types/buildings";
 import { FLOWERS } from "../types/flowers";
 import { WORKBENCH_MONUMENTS } from "../types/monuments";
-const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
+
+export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
@@ -83,5 +84,3 @@ const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Town Sign",
   "Acorn",
 ]);
-
-export const OFFCHAIN_ITEMS = Array.from(BASE_OFFCHAIN_ITEMS);

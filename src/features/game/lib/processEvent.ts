@@ -430,7 +430,7 @@ export function checkProgress({
 
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
+    .filter((name) => !OFFCHAIN_ITEMS.has(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
@@ -489,7 +489,7 @@ export function hasMaxItems({
   oldWardrobe: Wardrobe;
 }) {
   const validInventoryProgress = getKeys(currentInventory)
-    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
+    .filter((name) => !OFFCHAIN_ITEMS.has(name))
     .every((name) => {
       const oldAmount = oldInventory[name] || new Decimal(0);
       const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);
