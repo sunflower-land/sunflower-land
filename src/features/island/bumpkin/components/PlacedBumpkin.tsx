@@ -21,7 +21,7 @@ export const PlacedBumpkin: React.FC<{
   if (!bumpkin) return null;
 
   if (!bumpkin.coordinates) {
-    return <NPCPlaceable parts={bumpkin.equipped} />;
+    return <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />;
   }
 
   if (!isLandscaping) {
@@ -30,6 +30,7 @@ export const PlacedBumpkin: React.FC<{
         <NPCPlaceable
           parts={bumpkin.equipped}
           onClick={() => setShowModal(true)}
+          isManuallyPlaced={true}
         />
         <NPCModal isOpen={showModal} onClose={() => setShowModal(false)} />
       </>
@@ -45,7 +46,7 @@ export const PlacedBumpkin: React.FC<{
       y={bumpkin.coordinates.y}
       location={location}
     >
-      <NPCPlaceable parts={bumpkin.equipped} />
+      <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />
     </MoveableComponent>
   );
 };

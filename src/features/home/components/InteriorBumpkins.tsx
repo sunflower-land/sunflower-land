@@ -78,7 +78,7 @@ export const InteriorBumpkins: React.FC = () => {
     const landscaping = gameService.getSnapshot().children
       .landscaping as MachineInterpreter;
     landscaping.send("SELECT", {
-      placeable: { name: "Bumpkin", id: "main" },
+      placeable: { name: "Bumpkin" },
       action: "bumpkin.placed",
       requirements: { coins: 0, ingredients: {} },
     });
@@ -273,6 +273,7 @@ export const InteriorBumpkins: React.FC = () => {
           ]}
         >
           <BumpkinEquip
+            farmHandId={undefined}
             equipment={bumpkin?.equipped as BumpkinParts}
             onEquip={(equipment) => {
               gameService.send("bumpkin.equipped", {
@@ -300,6 +301,7 @@ export const InteriorBumpkins: React.FC = () => {
           ]}
         >
           <BumpkinEquip
+            farmHandId={selectedFarmHandId as string}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
               gameService.send("farmHand.equipped", {
@@ -308,15 +310,6 @@ export const InteriorBumpkins: React.FC = () => {
               });
             }}
           />
-          <Button
-            onClick={() => {
-              gameService.send("farmhand.promoted", { id: selectedFarmHandId });
-              gameService.send("SAVE");
-              setSelectedFarmHandId(undefined);
-            }}
-          >
-            {t("switchAsMain")}
-          </Button>
         </CloseButtonPanel>
       </Modal>
     </>

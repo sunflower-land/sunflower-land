@@ -10,7 +10,6 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { Button } from "components/ui/Button";
 
 const _farmHands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
@@ -30,7 +29,7 @@ export const FarmHand: React.FC<{
   if (!fh) return null;
 
   if (!fh.coordinates) {
-    return <NPCPlaceable parts={fh.equipped} isFarmHand={true} />;
+    return <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />;
   }
 
   if (!isLandscaping) {
@@ -39,11 +38,10 @@ export const FarmHand: React.FC<{
         <NPCPlaceable
           parts={fh.equipped}
           onClick={() => setShowModal(true)}
-          isFarmHand={true}
+          isManuallyPlaced={true}
         />
         <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
           <CloseButtonPanel
-            bumpkinParts={fh?.equipped}
             onClose={() => setShowModal(false)}
             tabs={[
               {
@@ -54,6 +52,7 @@ export const FarmHand: React.FC<{
             ]}
           >
             <BumpkinEquip
+              farmHandId={id}
               equipment={fh.equipped}
               onEquip={(equipment) => {
                 gameService.send("farmHand.equipped", {
@@ -62,15 +61,6 @@ export const FarmHand: React.FC<{
                 });
               }}
             />
-            <Button
-              onClick={() => {
-                gameService.send("farmhand.promoted", { id });
-                gameService.send("SAVE");
-                setShowModal(false);
-              }}
-            >
-              {t("switchAsMain")}
-            </Button>
           </CloseButtonPanel>
         </Modal>
       </>
@@ -86,7 +76,7 @@ export const FarmHand: React.FC<{
       y={fh.coordinates.y}
       location={location}
     >
-      <NPCPlaceable parts={fh.equipped} isFarmHand={true} />
+      <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />
     </MoveableComponent>
   );
 };

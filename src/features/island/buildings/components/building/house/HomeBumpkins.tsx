@@ -15,7 +15,6 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
-import { Button } from "components/ui/Button";
 
 interface Props {
   game: GameState;
@@ -60,7 +59,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
     const landscaping = gameService.getSnapshot().children
       .landscaping as MachineInterpreter;
     landscaping.send("SELECT", {
-      placeable: { name: "Bumpkin", id: "main" },
+      placeable: { name: "Bumpkin" },
       action: "bumpkin.placed",
       requirements: { coins: 0, ingredients: {} },
     });
@@ -72,7 +71,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
         {!bumpkin.coordinates && (
           <div
             className={classNames("mr-1 relative", {
-              "pointer-events-none": !isLandscaping,
               "cursor-pointer hover:img-highlight": isLandscaping,
             })}
             onClick={() => {
@@ -103,6 +101,8 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
             className={classNames("mr-1 cursor-pointer relative", {
               "pointer-events-none": isVisiting,
               "hover:img-highlight": !isVisiting && !isLandscaping,
+              "cursor-pointer hover:img-highlight":
+                !isVisiting && isLandscaping,
             })}
             onClick={() => {
               if (isLandscaping) {
@@ -139,7 +139,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
           onClose={() => setSelectedFarmHandId(undefined)}
           tabs={[
             {
@@ -150,6 +149,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           ]}
         >
           <BumpkinEquip
+            farmHandId={selectedFarmHandId}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
               gameService.send("farmHand.equipped", {
@@ -158,15 +158,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
               });
             }}
           />
-          <Button
-            onClick={() => {
-              gameService.send("farmhand.promoted", { id: selectedFarmHandId });
-              gameService.send("SAVE");
-              setSelectedFarmHandId(undefined);
-            }}
-          >
-            {t("switchAsMain")}
-          </Button>
         </CloseButtonPanel>
       </Modal>
     </>

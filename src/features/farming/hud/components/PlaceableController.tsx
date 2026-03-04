@@ -208,7 +208,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     ? (location === "home" &&
         ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
           placeable.name !== "Bud" &&
-          placeable.name !== "FarmHand") ||
+          placeable.name !== "FarmHand" &&
+          placeable.name !== "Bumpkin") ||
           placeable.name in LANDSCAPING_DECORATIONS ||
           placeable.name === "Magic Bean")) ||
       (location === "petHouse" && !isPetCollectible && !isPetNFT)
@@ -236,6 +237,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         Bud: { width: 1, height: 1 },
         Pet: { width: 2, height: 2 },
         FarmHand: { width: 1, height: 1 },
+        Bumpkin: { width: 1, height: 1 },
       }[placeable.name];
     }
     return { width: 0, height: 0 };
@@ -256,7 +258,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     const available =
       placeable?.name === "Bud" ||
       placeable?.name === "Pet" ||
-      placeable?.name === "FarmHand"
+      placeable?.name === "FarmHand" ||
+      placeable?.name === "Bumpkin"
         ? new Decimal(1)
         : (items[placeable.name] ?? new Decimal(0));
 
@@ -287,7 +290,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     if (
       placeable?.name === "Bud" ||
       placeable?.name === "Pet" ||
-      placeable?.name === "FarmHand"
+      placeable?.name === "FarmHand" ||
+      placeable?.name === "Bumpkin"
     ) {
       placeMore = false;
     } else {
@@ -399,7 +403,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   ) => {
     if (
       placeable &&
-      (placeable === "Bud" || placeable === "Pet" || placeable === "FarmHand")
+      (placeable === "Bud" ||
+        placeable === "Pet" ||
+        placeable === "FarmHand" ||
+        placeable === "Bumpkin")
     ) {
       return "";
     }
@@ -416,7 +423,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const available =
     placeable?.name === "Bud" ||
     placeable?.name === "Pet" ||
-    placeable?.name === "FarmHand"
+    placeable?.name === "FarmHand" ||
+    placeable?.name === "Bumpkin"
       ? new Decimal(1)
       : (items[placeable.name] ?? new Decimal(0));
 

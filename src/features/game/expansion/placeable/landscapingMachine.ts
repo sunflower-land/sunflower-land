@@ -338,8 +338,8 @@ export const landscapingMachine = createMachine<
 
                   return {
                     type: event.event,
-                    id: event.id,
                     ...nameField,
+                    ...(!isBumpkin ? { id: event.id } : {}),
                     ...(hasLocation ? { location: event.location } : {}),
                   };
                 }),

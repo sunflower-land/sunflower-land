@@ -57,11 +57,16 @@ const NOTREQUIRED: BumpkinPart[] = [
 interface Props {
   onEquip: (equipment: BumpkinParts) => void;
   equipment: BumpkinParts;
+  farmHandId?: string;
 }
 
 const _game = (state: MachineState) => state.context.state;
 
-export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
+export const BumpkinEquip: React.FC<Props> = ({
+  equipment,
+  onEquip,
+  farmHandId,
+}) => {
   const { gameService } = useContext(Context);
   const [equipped, setEquipped] = useState(equipment);
   const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
@@ -157,6 +162,16 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
           <Button disabled={!isDirty} onClick={() => finish(equipped)}>
             <div className="flex">{t("save")}</div>
           </Button>
+          {farmHandId && (
+            <Button
+              onClick={() => {
+                gameService.send("farmhand.promoted", { id: farmHandId });
+                gameService.send("SAVE");
+              }}
+            >
+              {t("setAsBumpkin")}
+            </Button>
+          )}
         </div>
         <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>

@@ -40,14 +40,15 @@ export type NPCParts = Omit<
 export interface NPCProps {
   parts: Partial<NPCParts>;
   width?: number;
-  isFarmHand?: boolean;
+  // Set to true if an NPC is manually placed on the island (e.g. Bumpkin or FarmHand)
+  isManuallyPlaced?: boolean;
 }
 
 export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   parts,
   onClick,
   width = PIXEL_SCALE * 16, // Default to original width if not passed
-  isFarmHand = false,
+  isManuallyPlaced = false,
 }) => {
   const { scale } = useContext(ZoomContext);
 
@@ -59,9 +60,9 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
 
-  const height = isFarmHand ? width : width * 2;
-  const frontAuraTop = width * 0.3 * (isFarmHand ? -1 : 1);
-  const backAuraTop = width * 0.125 * (isFarmHand ? -1 : 1);
+  const height = isManuallyPlaced ? width : width * 2;
+  const frontAuraTop = width * 0.3 * (isManuallyPlaced ? -1 : 1);
+  const backAuraTop = width * 0.125 * (isManuallyPlaced ? -1 : 1);
 
   return (
     <div
@@ -97,7 +98,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
         className="absolute w-full inset-0 pointer-events-none"
         style={{
           width: `${width * 1.25}px`,
-          top: `${width * 0.31 * (isFarmHand ? -1 : 1)}px`,
+          top: `${width * 0.31 * (isManuallyPlaced ? -1 : 1)}px`,
           left: `${width * -0.125}px`,
           imageRendering: "pixelated",
         }}
