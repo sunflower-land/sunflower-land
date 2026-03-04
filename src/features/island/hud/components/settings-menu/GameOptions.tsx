@@ -59,6 +59,7 @@ import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
+import { CreatorMode } from "./creator-mode/CreatorMode";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -190,13 +191,18 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
             <span>{t("gameOptions.plazaSettings")}</span>
           </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("creatorMode")}>
+            <span>{`Creator Mode`}</span>
+          </Button>
           {hasHoardingCheck && (
             <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
               <span>{t("gameOptions.developerOptions")}</span>
             </Button>
           )}
           <Button
-            className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            className={`p-1 ${
+              hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"
+            }`}
             onClick={() => showConfirmLogoutModal(true)}
           >
             {t("gameOptions.logout")}
@@ -294,6 +300,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "creatorMode"
   | "admin"
   | "faceRecognition"
   // Blockchain Settings
@@ -353,6 +360,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.plazaSettings"),
     parent: "main",
     content: PlazaSettings,
+  },
+  creatorMode: {
+    title: "Creator Mode",
+    parent: "main",
+    content: CreatorMode,
   },
 
   // Blockchain Settings
