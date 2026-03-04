@@ -99,6 +99,11 @@ export function getChapterMutants(
 }
 
 export function getChapterTrackCollectibles(chapter: ChapterName) {
+  const track = CHAPTER_TRACKS[chapter];
+  if (!track || CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Crabs and Traps"]) {
+    return [];
+  }
+
   const excludedItems: InventoryItemName[] = [
     "Treasure Key",
     "Rare Key",
@@ -112,11 +117,6 @@ export function getChapterTrackCollectibles(chapter: ChapterName) {
     ...getKeys(COMMODITIES),
   ];
 
-  const track = CHAPTER_TRACKS[chapter];
-  if (!track || CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Crabs and Traps"]) {
-    return [];
-  }
-
   return track.milestones.flatMap((milestone) => {
     return [
       ...getKeys(milestone.free.items ?? {}),
@@ -127,9 +127,10 @@ export function getChapterTrackCollectibles(chapter: ChapterName) {
 
 export function getChapterTrackWearables(chapter: ChapterName) {
   const track = CHAPTER_TRACKS[chapter];
-  if (!track) {
+  if (!track || CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Crabs and Traps"]) {
     return [];
   }
+
   return track.milestones.flatMap((milestone) => {
     return [
       ...getKeys(milestone.free.wearables ?? {}),
