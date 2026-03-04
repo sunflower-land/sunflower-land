@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
-import { FOODS, getKeys } from "../types/craftables";
+import { getKeys } from "../types/craftables";
 import {
   GameState,
   Inventory,
@@ -9,42 +9,15 @@ import {
 } from "../types/game";
 import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
-import { EXOTIC_CROPS } from "../types/beans";
-import { getValues } from "../types/decorations";
-import { LANDSCAPING_DECORATIONS } from "../types/decorations";
-import { ANIMAL_FOODS } from "../types/animals";
+import {
+  LANDSCAPING_DECORATIONS,
+  LandscapingDecorationName,
+} from "../types/decorations";
 import { BumpkinItem } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
-import { CHAPTER_TICKET_NAME } from "../types/chapters";
-import { getOffChainItems } from "./offChainItems";
-import { PET_RESOURCES } from "../types/pets";
-import { COOKABLES } from "features/game/types/consumables";
+import { OFFCHAIN_ITEMS } from "./offChainItems";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
-  ...getKeys(EXOTIC_CROPS).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  // Max of 1000 food item
-  ...getKeys(FOODS()).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1000),
-    }),
-    {},
-  ),
-  ...getKeys(COOKABLES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1000),
-    }),
-    {},
-  ),
-
   // Max of 1 skill badge
   ...getKeys(LEGACY_BADGE_TREE).reduce(
     (acc, name) => ({
@@ -54,107 +27,22 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     {},
   ),
 
-  ...getKeys(EXOTIC_CROPS).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  "Basic Bear": new Decimal(1000),
-
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
   ...getKeys(LANDSCAPING_DECORATIONS)
-    .filter(
-      (name) => !LANDSCAPING_DECORATIONS[name].ingredients["Wild Mushroom"],
-    )
+    .filter((name) => name !== "Town Sign")
     .reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: new Decimal(1000),
-      }),
-      {},
-    ),
-  ...getKeys(LANDSCAPING_DECORATIONS)
-    .filter(
-      (name) => LANDSCAPING_DECORATIONS[name].ingredients["Wild Mushroom"],
-    )
-    .reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: new Decimal(100),
-      }),
-      {},
+      (acc, name) => {
+        if (LANDSCAPING_DECORATIONS[name].ingredients["Wild Mushroom"]) {
+          acc[name] = new Decimal(100);
+        } else {
+          acc[name] = new Decimal(1000);
+        }
+        return acc;
+      },
+      {} as Record<LandscapingDecorationName, Decimal>,
     ),
 
-  ...getKeys(ANIMAL_FOODS).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1500),
-    }),
-    {},
-  ),
-
-  // Max of 1500 Chapter tickets
-  ...getValues(CHAPTER_TICKET_NAME).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1500),
-    }),
-    {},
-  ),
-  "Solar Flare Ticket": new Decimal(350),
-  "Dawn Breaker Ticket": new Decimal(750),
-  "Crow Feather": new Decimal(750),
   "Bud Ticket": new Decimal(1),
-
-  Sunflower: new Decimal(90000),
-  Potato: new Decimal(60000),
-  Rhubarb: new Decimal(60000),
-  Pumpkin: new Decimal(48000),
-  Zucchini: new Decimal(48000),
-  Carrot: new Decimal(42000),
-  Yam: new Decimal(42000),
-  Cabbage: new Decimal(36000),
-  Broccoli: new Decimal(36000),
-  Soybean: new Decimal(36000),
-  Beetroot: new Decimal(30000),
-  Pepper: new Decimal(30000),
-  Cauliflower: new Decimal(30000),
-  Parsnip: new Decimal(24000),
-  Eggplant: new Decimal(18000),
-  Corn: new Decimal(15000),
-  Onion: new Decimal(15000),
-  Radish: new Decimal(12000),
-  Wheat: new Decimal(12000),
-  Turnip: new Decimal(12000),
-  Artichoke: new Decimal(12000),
-  Kale: new Decimal(24000),
-  Barley: new Decimal(12150),
-
-  Tomato: new Decimal(3600),
-  Lemon: new Decimal(3000),
-  Blueberry: new Decimal(2700),
-  Orange: new Decimal(2700),
-  Apple: new Decimal(2100),
-  Banana: new Decimal(2100),
-
-  Olive: new Decimal(1200),
-  Grape: new Decimal(2400),
-  Rice: new Decimal(1200),
-  Duskberry: new Decimal(1200),
-  Lunara: new Decimal(1200),
-  Celestine: new Decimal(1200),
-
-  Chicken: new Decimal(20),
-  Egg: new Decimal(5100),
-  Leather: new Decimal(4500),
-  Wool: new Decimal(18000),
-  "Merino Wool": new Decimal(4500),
-  Feather: new Decimal(9000),
-  Milk: new Decimal(9000),
-
   "Speed Chicken": new Decimal(5),
   "Rich Chicken": new Decimal(5),
   "Fat Chicken": new Decimal(5),
@@ -225,15 +113,9 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Blue Clover": new Decimal(80),
 
   Sunstone: new Decimal(75),
-  Crimstone: new Decimal(3000),
   Obsidian: new Decimal(1500),
-  Gold: new Decimal(2400),
-  Iron: new Decimal(4800),
-  Stone: new Decimal(4800),
-  Wood: new Decimal(24000),
   "Wild Mushroom": new Decimal(300),
   "Magic Mushroom": new Decimal(225),
-  Honey: new Decimal(700),
   Oil: new Decimal(1500),
 
   "War Bond": new Decimal(500),
@@ -243,12 +125,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Rapid Growth": new Decimal(100),
   "Red Envelope": new Decimal(100),
   "Love Letter": new Decimal(400),
-
-  // Emblems
-  "Goblin Emblem": new Decimal(90_000),
-  "Bumpkin Emblem": new Decimal(90_000),
-  "Sunflorian Emblem": new Decimal(90_000),
-  "Nightshade Emblem": new Decimal(90_000),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
@@ -278,15 +154,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
 
-  // Fertilisers
-  "Sprout Mix": new Decimal(500),
-  "Fruitful Blend": new Decimal(500),
-  "Rapid Root": new Decimal(500),
-
   // Bait
-  Earthworm: new Decimal(200),
-  Grub: new Decimal(150),
-  "Red Wiggler": new Decimal(100),
   "Fishing Lure": new Decimal(100),
 
   // Seasonal decorations - Dawnbreaker
@@ -331,15 +199,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Squirrel: new Decimal(5),
   Butterfly: new Decimal(5),
   Macaw: new Decimal(5),
-
-  // Pet resources all 300
-  ...getKeys(PET_RESOURCES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(300),
-    }),
-    {},
-  ),
 };
 /**
  * Add wearable into array if it requires a hoard limit
@@ -629,10 +488,9 @@ export function checkProgress({
   const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const offChainItems = new Set(getOffChainItems(createdAt, state));
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .filter((name) => !offChainItems.has(name))
+    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
@@ -684,19 +542,14 @@ export function hasMaxItems({
   oldInventory,
   currentWardrobe,
   oldWardrobe,
-  now,
-  state,
 }: {
   currentInventory: Inventory;
   oldInventory: Inventory;
   currentWardrobe: Wardrobe;
   oldWardrobe: Wardrobe;
-  now: number;
-  state: GameState;
 }) {
-  const offChainItems = new Set(getOffChainItems(now, state));
   const validInventoryProgress = getKeys(currentInventory)
-    .filter((name) => !offChainItems.has(name))
+    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
     .every((name) => {
       const oldAmount = oldInventory[name] || new Decimal(0);
       const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);

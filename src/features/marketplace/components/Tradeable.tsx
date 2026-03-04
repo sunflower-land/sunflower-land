@@ -193,14 +193,12 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
             hideLimited={hideLimited}
             display={display}
             tradeable={tradeable}
-            state={state}
           />
         ) : (
           <TradeableInfo
             display={display}
             tradeable={tradeable}
             hideLimited={hideLimited}
-            state={state}
           />
         )}
       </div>

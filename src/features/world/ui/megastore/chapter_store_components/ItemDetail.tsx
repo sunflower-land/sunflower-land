@@ -41,7 +41,7 @@ import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
-  getInventoryReleases,
+  INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 
 import lockIcon from "assets/icons/lock.png";
@@ -307,10 +307,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
-  const inventoryReleases = getInventoryReleases(now, state);
   const isTradeable = isWearable
     ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
-    : !!inventoryReleases[(item as ChapterStoreCollectible)?.collectible];
+    : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
 
   return (
     <InnerPanel className="shadow">

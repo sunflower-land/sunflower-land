@@ -1,6 +1,6 @@
 import { CLUTTER } from "../types/clutter";
 import { getKeys, TOOLS } from "../types/craftables";
-import { GameState, InventoryItemName } from "../types/game";
+import { InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
   CHAPTER_TICKET_NAME,
@@ -18,54 +18,52 @@ import { SELLABLE_TREASURES } from "../types/treasure";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { ANIMAL_FOODS } from "../types/animals";
+import { EXOTIC_CROPS } from "../types/beans";
+import { DOLLS } from "./crafting";
 
 const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
   "Potion Ticket",
-  ...getKeys(CLUTTER),
-  ...getKeys(SELLABLE_TREASURES),
-  ...getKeys(SEEDS),
-  ...getKeys(TOOLS),
-  ...getKeys(TREASURE_TOOLS),
+  ...getKeys({
+    ...CLUTTER,
+    ...SELLABLE_TREASURES,
+    ...SEEDS,
+    ...TOOLS,
+    ...TREASURE_TOOLS,
+    ...PET_SHRINES,
+    ...RESOURCES,
+    ...PROCESSED_RESOURCES,
+    ...WORM,
+    ...REWARD_BOXES,
+    ...CONSUMABLES,
+    ...CROP_COMPOST,
+    ...FRUIT_COMPOST,
+    ...TRADE_LIMITS,
+    ...ANIMAL_FOODS,
+    ...EXOTIC_CROPS,
+    ...DOLLS,
+  }),
   ...Object.values(CHAPTER_TICKET_NAME),
-  "Cheer",
-  ...getKeys(PET_SHRINES),
-  "Obsidian Shrine",
+  ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
+    (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
+  ),
   ...HOURGLASSES,
+  ...CRUSTACEANS,
+  "Cheer",
+  "Obsidian Shrine",
   "Time Warp Totem",
   "Super Totem",
-  ...getKeys(RESOURCES),
-  ...getKeys(PROCESSED_RESOURCES),
-  ...getKeys(WORM),
   "Gold Friends Trophy",
   "Silver Friends Trophy",
   "Bronze Friends Trophy",
   "Basic Land",
-  ...getKeys(REWARD_BOXES),
-  ...CRUSTACEANS,
   "Holiday Token 2025",
   "Holiday Ticket 2025",
-  ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
-    (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
-  ),
-  // Consumables includes fish, cookables, and consumables
-  ...getKeys(CONSUMABLES),
-  ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
+  "Acorn",
 ]);
 
-export const getOffChainItems = (
-  now: number,
-  game: GameState,
-): InventoryItemName[] => {
-  const items = new Set(BASE_OFFCHAIN_ITEMS);
-  if (
-    hasTimeBasedFeatureAccess({ featureName: "OFFCHAIN_RESOURCES", now, game })
-  ) {
-    getKeys(TRADE_LIMITS).forEach((item) => items.add(item));
-  }
-  return Array.from(items);
-};
+export const OFFCHAIN_ITEMS = Array.from(BASE_OFFCHAIN_ITEMS);
