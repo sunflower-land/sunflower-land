@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Auction } from "features/game/lib/auctionMachine";
 
 import sflIcon from "assets/icons/flower_token.webp";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

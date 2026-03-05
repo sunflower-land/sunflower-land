@@ -4,7 +4,7 @@ import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";

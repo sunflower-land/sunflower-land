@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isSeed } from "features/game/types/seeds";

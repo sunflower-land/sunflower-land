@@ -7,7 +7,7 @@ import trade from "assets/icons/trade.png";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

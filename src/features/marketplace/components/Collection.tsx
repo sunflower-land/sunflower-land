@@ -34,7 +34,7 @@ import {
   CHAPTER_COLLECTIONS,
   getChapterCollectionForDisplay,
 } from "features/game/types/collections";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import {

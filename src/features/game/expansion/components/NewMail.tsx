@@ -5,7 +5,7 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 
 import { NPC_WEARABLES } from "lib/npcs";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Message } from "features/farming/mail/components/Message";
 import { ConversationName } from "features/game/types/announcements";

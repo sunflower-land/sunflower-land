@@ -9,7 +9,7 @@ import giftIcon from "assets/icons/gift.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 

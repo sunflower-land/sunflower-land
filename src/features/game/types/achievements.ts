@@ -4,7 +4,7 @@ import { GameState, Inventory } from "./game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
 import { TOOLS } from "./craftables";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 import { GREENHOUSE_FRUIT, PATCH_FRUIT } from "./fruits";
 import { getChapterTicket } from "./chapters";

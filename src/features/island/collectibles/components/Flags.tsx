@@ -5,7 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Flag } from "features/game/types/flags";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 interface Props {
   flagName: CollectibleName;

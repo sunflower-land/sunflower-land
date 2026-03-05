@@ -7,7 +7,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   ChapterName,
   secondsLeftInChapter,

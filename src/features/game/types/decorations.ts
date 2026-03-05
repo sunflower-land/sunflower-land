@@ -6,7 +6,7 @@ import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
 import { BeanName, GiantFruit } from "./beans";
 import { DollName } from "../lib/crafting";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type AchievementDecorationName =
   | "Chef Bear"

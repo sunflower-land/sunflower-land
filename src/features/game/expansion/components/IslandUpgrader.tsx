@@ -16,7 +16,7 @@ import { Panel } from "components/ui/Panel";
 import { useActor, useSelector } from "@xstate/react";
 import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
 import { CollectibleName } from "features/game/types/craftables";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import { IslandType } from "features/game/types/game";

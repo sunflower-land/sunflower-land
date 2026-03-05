@@ -1,4 +1,4 @@
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   Inventory,
   InventoryItemName,

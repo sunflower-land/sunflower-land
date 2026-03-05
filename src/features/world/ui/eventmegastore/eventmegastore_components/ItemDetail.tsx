@@ -30,7 +30,7 @@ import {
   EventTierItemName,
 } from "features/game/types/holidayEventShop";
 import { getItemDescription } from "../EventStore";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";

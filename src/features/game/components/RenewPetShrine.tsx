@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import React, { useContext, useState } from "react";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { PetShrineName } from "../types/pets";

@@ -25,7 +25,7 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _hasReputation = (state: MachineState) =>

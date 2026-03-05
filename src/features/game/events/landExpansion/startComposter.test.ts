@@ -3,7 +3,7 @@ import { startComposter } from "./startComposter";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SEASON_COMPOST_REQUIREMENTS } from "features/game/types/composters";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 const season: TemperateSeasonName = "winter";
 

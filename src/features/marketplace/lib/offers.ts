@@ -1,6 +1,6 @@
 import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { InventoryItemName } from "features/game/types/game";
 import {
   CollectionName,

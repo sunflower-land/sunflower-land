@@ -43,7 +43,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import Decimal from "decimal.js-light";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";

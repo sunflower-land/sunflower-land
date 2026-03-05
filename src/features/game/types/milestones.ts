@@ -4,7 +4,7 @@ import {
 } from "features/island/hud/components/codex/lib/utils";
 import { KNOWN_IDS } from ".";
 import { BumpkinItem } from "./bumpkin";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   FishType,
   FishName,

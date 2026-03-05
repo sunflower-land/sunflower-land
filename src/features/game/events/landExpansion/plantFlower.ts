@@ -18,7 +18,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlantFlowerAction = {

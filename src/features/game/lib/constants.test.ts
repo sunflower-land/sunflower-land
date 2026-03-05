@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, INVENTORY_LIMIT, TEST_FARM } from "./constants";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   isFullMoonBerry,
   isGreenhouseCropSeed,

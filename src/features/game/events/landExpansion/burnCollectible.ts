@@ -10,7 +10,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { isPetCollectible } from "./placeCollectible";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type BurnCollectibleAction = {
   type: "collectible.burned";

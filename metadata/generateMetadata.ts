@@ -3,7 +3,7 @@ import * as path from "path";
 
 import { KNOWN_IDS } from "../src/features/game/types";
 
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { OPEN_SEA_COLLECTIBLES, OPEN_SEA_WEARABLES } from "./metadata";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 

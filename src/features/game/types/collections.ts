@@ -22,7 +22,7 @@ import { CHAPTER_MUTANTS, MutantsChapterName } from "./chapterMutants";
 import { ChapterFish } from "./fishing";
 import { MutantFlowerName } from "./flowers";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { REWARD_BOXES } from "./rewardBoxes";
 import { CHAPTER_TRACKS } from "./tracks";
 

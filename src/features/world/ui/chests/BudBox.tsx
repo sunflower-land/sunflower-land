@@ -14,7 +14,7 @@ import rewardsIcon from "assets/icons/stock.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Bud, TypeTrait } from "features/game/types/buds";
 import {
   getDayOfYear,

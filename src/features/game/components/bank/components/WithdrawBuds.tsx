@@ -6,7 +6,7 @@ import { Box } from "components/ui/Box";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";

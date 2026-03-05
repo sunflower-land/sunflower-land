@@ -5,7 +5,7 @@ import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { CollectibleName } from "features/game/types/craftables";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

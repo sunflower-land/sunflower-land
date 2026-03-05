@@ -25,7 +25,7 @@ import {
   CompetitionTaskName,
   getCompetitionPointsPerTask,
 } from "features/game/types/competitions";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";

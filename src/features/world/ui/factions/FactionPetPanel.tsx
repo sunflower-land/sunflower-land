@@ -44,7 +44,7 @@ import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";

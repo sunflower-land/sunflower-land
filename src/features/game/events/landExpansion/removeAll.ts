@@ -15,7 +15,7 @@ import { removeStone } from "./removeStone";
 import { removeSunstone } from "./removeSunstone";
 import { removeTree } from "./removeTree";
 import { removeNFT } from "./removeNFT";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 

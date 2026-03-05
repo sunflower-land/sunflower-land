@@ -1,5 +1,5 @@
 import { Announcements } from "features/game/types/announcements";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 
 export function getFLOWERTeaserLastRead(): Date | null {

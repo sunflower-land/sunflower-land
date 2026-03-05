@@ -19,7 +19,7 @@ import {
   OIL_USAGE,
   SEED_TO_PLANT,
 } from "features/game/events/landExpansion/plantGreenhouse";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";

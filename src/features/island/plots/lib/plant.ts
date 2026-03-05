@@ -1,5 +1,5 @@
 import { CropName } from "features/game/types/crops";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 
 import sunflowerProc from "assets/crops/sunflower/proc_sprite.png";

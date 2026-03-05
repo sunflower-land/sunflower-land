@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "./game";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 
 // 50% faster crops, +0.2 Crops

@@ -23,7 +23,7 @@ import {
   secondsToString,
 } from "lib/utils/time";
 import { getEntries } from "features/game/types/craftables";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Bud } from "features/game/types/buds";
 import { MinigameName } from "features/game/types/minigames";
 import { ModalOverlay } from "./ModalOverlay";

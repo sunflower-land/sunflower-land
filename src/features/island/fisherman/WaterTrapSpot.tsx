@@ -24,11 +24,11 @@ import { TimerPopover } from "features/island/common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
 import crabSpot1 from "assets/wharf/crab_spot_1.webp";
 import crabSpot2 from "assets/wharf/crab_spot_2.webp";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { ZoomContext } from "components/ZoomProvider";
 import type { CrabTrap, GameState } from "features/game/types/game";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 
 const _crabTraps: (state: MachineState) => CrabTrap = (state) =>
   state.context.state.crabTraps;

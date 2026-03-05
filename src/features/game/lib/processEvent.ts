@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   GameState,
   Inventory,

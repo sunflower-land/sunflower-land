@@ -8,7 +8,7 @@ import { loadRaffles } from "features/world/ui/chapterRaffles/actions/loadRaffle
 import { randomID } from "lib/utils/random";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

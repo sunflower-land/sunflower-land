@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { CraftableCollectible, PlaceableLocation } from "./collectibles";
 import { CookableName } from "./consumables";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { GameState, InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PetTraits } from "features/pets/data/types";

@@ -11,7 +11,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 import { BlessingResults } from "./Blessings";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import confetti from "canvas-confetti";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { ButtonPanel } from "components/ui/Panel";

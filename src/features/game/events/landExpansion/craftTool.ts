@@ -13,7 +13,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState, IslandType } from "../../types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 type CraftableToolName = WorkbenchToolName | TreasureToolName | WeatherShopItem;

@@ -1,5 +1,5 @@
 import { InventoryItemName } from "features/game/types/game";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { CROPS } from "features/game/types/crops";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";

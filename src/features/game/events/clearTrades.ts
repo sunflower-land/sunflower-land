@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type ClearTradesAction = {
   type: "trades.cleared";

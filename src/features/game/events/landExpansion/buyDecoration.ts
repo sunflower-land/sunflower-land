@@ -10,7 +10,7 @@ import {
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type BuyDecorationAction = {
   type: "decoration.bought";

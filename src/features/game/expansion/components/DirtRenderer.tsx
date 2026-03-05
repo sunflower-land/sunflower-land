@@ -1,5 +1,5 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import React, { memo } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 

@@ -25,7 +25,7 @@ import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,

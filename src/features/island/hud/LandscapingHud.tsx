@@ -24,7 +24,7 @@ import { Label } from "components/ui/Label";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { LandscapingChest } from "./components/LandscapingChest";
 import { getChestItems } from "./components/inventory/utils/inventory";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getRemoveAction,

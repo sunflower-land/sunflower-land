@@ -7,7 +7,7 @@ import {
   RESOURCE_MULTIPLIER,
 } from "features/game/types/resources";
 import { GameState, InventoryItemName, Tree } from "features/game/types/game";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   canUpgrade,

@@ -4,7 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";

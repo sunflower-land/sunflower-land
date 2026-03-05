@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { GameState } from "../types/game";
 
 import cloneDeep from "lodash.clonedeep";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { removeBuilding } from "./landExpansion/removeBuilding";
 import { removeCollectible } from "./landExpansion/removeCollectible";
 import {

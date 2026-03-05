@@ -9,7 +9,7 @@ import {
   ChapterName,
   CHAPTERS,
 } from "features/game/types/chapters";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";

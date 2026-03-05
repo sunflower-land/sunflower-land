@@ -8,7 +8,7 @@ import {
   Decoration,
 } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";

@@ -8,7 +8,7 @@ import {
   getResourcePrice,
   RESOURCE_NODE_PRICES,
 } from "features/game/events/landExpansion/buyResource";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResourceName } from "features/game/types/resources";

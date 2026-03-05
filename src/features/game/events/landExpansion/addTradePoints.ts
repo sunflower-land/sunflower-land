@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_IDS } from "features/game/types";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 

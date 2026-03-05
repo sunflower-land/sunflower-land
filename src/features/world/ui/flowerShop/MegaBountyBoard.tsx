@@ -15,7 +15,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ANIMALS } from "features/game/types/craftables";
-import { getObjectEntries, getKeys } from "features/game/expansion/lib/utils";
+import { getObjectEntries, getKeys } from "lib/object";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {

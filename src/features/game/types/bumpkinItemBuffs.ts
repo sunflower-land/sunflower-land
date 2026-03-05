@@ -14,7 +14,7 @@ import { SEASON_ICONS } from "features/island/buildings/components/building/mark
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { BuffLabel } from ".";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {

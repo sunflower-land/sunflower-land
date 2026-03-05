@@ -9,7 +9,7 @@ import {
   WorkbenchMonumentName,
 } from "features/game/types/monuments";
 import { produce } from "immer";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type BuyMonumentAction = {
   type: "monument.bought";

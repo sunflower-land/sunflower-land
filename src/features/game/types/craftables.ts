@@ -31,7 +31,7 @@ import { BED_FARMHAND_COUNT } from "./beds";
 import { ChapterCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
 import { PetName, PetShrineName } from "./pets";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export { FLAGS };
 

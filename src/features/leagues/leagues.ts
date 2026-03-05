@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { RecipeCollectibleName } from "features/game/lib/crafting";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   HarvestEvent,
   CookEvent,

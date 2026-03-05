@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { FISH, FishingBait } from "features/game/types/fishing";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { TemperateSeasonName } from "features/game/types/game";

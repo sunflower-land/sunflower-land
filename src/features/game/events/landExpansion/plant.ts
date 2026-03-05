@@ -46,14 +46,14 @@ import {
 } from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";

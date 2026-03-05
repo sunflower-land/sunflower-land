@@ -16,7 +16,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
 

@@ -29,7 +29,7 @@ import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { BUILDINGS } from "../types/buildings";
 import { FLOWERS } from "../types/flowers";
 import { WORKBENCH_MONUMENTS } from "../types/monuments";
-import { getKeys } from "../expansion/lib/utils";
+import { getKeys } from "lib/object";
 
 export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",

@@ -5,7 +5,7 @@ import {
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { produce } from "immer";
 

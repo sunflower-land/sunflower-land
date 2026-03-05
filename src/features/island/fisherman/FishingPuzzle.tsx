@@ -24,7 +24,7 @@ import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { useGame } from "features/game/GameProvider";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";

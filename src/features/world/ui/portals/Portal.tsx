@@ -18,7 +18,7 @@ import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
 import { InventoryItemName } from "features/game/types/game";
 import { Box } from "components/ui/Box";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/flower_token.webp";

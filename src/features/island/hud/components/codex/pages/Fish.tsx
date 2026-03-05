@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MilestonePanel } from "../components/Milestone";
 import { MilestoneTracker } from "../components/MilestoneTracker";

@@ -9,7 +9,7 @@ import { getEntries } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinGift } from "features/game/types/gifts";
 import { getWearableImage } from "features/game/lib/getWearableImage";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 
 interface Props {
   show: boolean;

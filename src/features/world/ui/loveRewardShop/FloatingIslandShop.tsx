@@ -26,7 +26,7 @@ import { secondsTillReset } from "lib/utils/time";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import shopIcon from "assets/icons/shop.png";
 import guideIcon from "assets/icons/tier1_book.webp";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
 
 export const getItemImage = (item: FloatingShopItem | null): string => {

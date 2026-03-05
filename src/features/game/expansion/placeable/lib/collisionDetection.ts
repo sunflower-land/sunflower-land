@@ -28,10 +28,9 @@ import {
   ResourceName,
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { getObjectEntries } from "../../lib/utils";
 import { LandscapingPlaceable } from "../landscapingMachine";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys, getObjectEntries } from "lib/object";
 
 export type Position = {
   width: number;

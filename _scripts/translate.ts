@@ -8,7 +8,7 @@ import {
   LANGUAGE_DETAILS,
 } from "../src/lib/i18n/dictionaries/language";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
-import { getKeys } from "../src/features/game/expansion/lib/utils";
+import { getKeys } from "../src/lib/object";
 
 import {
   TranslateClient,

@@ -8,7 +8,7 @@ import {
   AnimalType,
 } from "features/game/types/animals";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { AnimalBuilding, BoostName, GameState } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";

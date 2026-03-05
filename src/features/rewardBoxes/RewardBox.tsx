@@ -5,7 +5,7 @@ import { Context, useGame } from "features/game/GameProvider";
 import { RewardBoxName, REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { useActor, useSelector } from "@xstate/react";
 
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";

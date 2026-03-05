@@ -15,7 +15,7 @@ import { toWei } from "web3-utils";
 import chest from "assets/icons/chest.png";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";

@@ -17,7 +17,7 @@ import { Box } from "components/ui/Box";
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";

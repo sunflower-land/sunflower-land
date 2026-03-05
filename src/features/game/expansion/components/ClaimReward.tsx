@@ -9,7 +9,7 @@ import factionPoint from "assets/icons/faction_point.webp";
 import vip from "assets/icons/vip.webp";
 import xpIcon from "assets/icons/xp.png";
 import recipeIcon from "assets/decorations/page.png";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";

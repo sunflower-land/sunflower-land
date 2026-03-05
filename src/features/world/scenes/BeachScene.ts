@@ -9,7 +9,7 @@ import { InventoryItemName } from "features/game/types/game";
 
 import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { getKeys } from "features/game/expansion/lib/utils";
+import { getKeys } from "lib/object";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
