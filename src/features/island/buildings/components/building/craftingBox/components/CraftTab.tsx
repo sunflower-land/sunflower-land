@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import { useSelector } from "@xstate/react";
 import {
   MachineInterpreter,
@@ -35,6 +35,12 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { hasFeatureAccess } from "lib/flags";
 import { useCraftingQueue } from "./useCraftingQueue";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Panel } from "components/ui/Panel";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import vipIcon from "assets/icons/vip.webp";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -58,6 +64,8 @@ export const CraftTab: React.FC<Props> = ({
   initialQueueSlot,
   onQueueSelectionChange,
 }) => {
+  const { openModal } = useContext(ModalContext);
+  const { t } = useAppTranslation();
   const state = useSelector(gameService, _state);
   const farmId = useSelector(gameService, _farmId);
   const { inventory, wardrobe, craftingBox } = state;
@@ -84,6 +92,8 @@ export const CraftTab: React.FC<Props> = ({
   const isQueueFull = craftingQueue.length >= availableSlots;
 
   const [failedAttempt, setFailedAttempt] = useState(false);
+  const [showCraftingQueueVipModal, setShowCraftingQueueVipModal] =
+    useState(false);
   const prevSelectedItemsRef = useRef(selectedItems);
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
@@ -380,6 +390,14 @@ export const CraftTab: React.FC<Props> = ({
     }
   };
 
+  const handleAddToQueue = () => {
+    if (!isVIP) {
+      setShowCraftingQueueVipModal(true);
+      return;
+    }
+    handleCraft();
+  };
+
   const handleCollect = () => {
     const nextCooking = queue[0] ?? cooking;
     gameService.send("crafting.collected");
@@ -432,7 +450,10 @@ export const CraftTab: React.FC<Props> = ({
     if (isSameSlotSelected) return;
 
     if (isEmpty) {
-      if (!canAddToQueue) return;
+      if (!canAddToQueue) {
+        if (!isVIP) setShowCraftingQueueVipModal(true);
+        return;
+      }
       setQueueSelection({
         slot: slotIndex,
         item: cooking ?? defaultQueueItem,
@@ -601,6 +622,7 @@ export const CraftTab: React.FC<Props> = ({
             isViewingReadyItem={isViewingReadyItem}
             handleCollect={handleCollect}
             handleCraft={handleCraft}
+            onAddToQueue={handleAddToQueue}
             handleCancelQueuedItem={
               isViewingReadyItem ? undefined : handleCancelQueuedItem
             }
@@ -623,7 +645,7 @@ export const CraftTab: React.FC<Props> = ({
         </div>
       </div>
 
-      {isVIP && (
+      {hasCraftingBoxQueuesAccess && (
         <CraftingQueue
           readyProducts={readyProducts}
           displayItems={liveDisplayItems}
@@ -646,6 +668,36 @@ export const CraftTab: React.FC<Props> = ({
         disabled={isViewingMode || isPending || (isCrafting && !canAddToQueue)}
         discoveredRecipes={state.craftingBox.recipes}
       />
+
+      <ModalOverlay
+        show={showCraftingQueueVipModal}
+        onBackdropClick={() => setShowCraftingQueueVipModal(false)}
+      >
+        <Panel>
+          <div className="p-2 text-sm">
+            <p className="mb-1.5">{t("crafting.vipCraftingQueue")}</p>
+          </div>
+          <div className="flex space-x-1 justify-end">
+            <Button onClick={() => setShowCraftingQueueVipModal(false)}>
+              {t("close")}
+            </Button>
+            <Button
+              className="relative"
+              onClick={() => {
+                onClose();
+                openModal("BUY_BANNER");
+              }}
+            >
+              <img
+                src={vipIcon}
+                alt="VIP"
+                className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+              />
+              <span>{t("upgrade")}</span>
+            </Button>
+          </div>
+        </Panel>
+      </ModalOverlay>
     </>
   );
 };

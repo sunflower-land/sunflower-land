@@ -15,6 +15,7 @@ export const CraftButton: React.FC<{
   isViewingReadyItem: boolean;
   handleCollect: () => void;
   handleCraft: () => void;
+  onAddToQueue?: () => void;
   handleCancelQueuedItem?: () => void;
   isCraftingBoxEmpty: boolean;
   selectedItems: (RecipeIngredient | null)[];
@@ -32,6 +33,7 @@ export const CraftButton: React.FC<{
   isViewingReadyItem,
   handleCollect,
   handleCraft,
+  onAddToQueue,
   handleCancelQueuedItem,
   isCraftingBoxEmpty,
   selectedItems,
@@ -63,6 +65,7 @@ export const CraftButton: React.FC<{
 
   const addToQueueDisabled =
     isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
+  const addToQueueHandler = onAddToQueue ?? handleCraft;
 
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
@@ -70,7 +73,7 @@ export const CraftButton: React.FC<{
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
-            onClick={handleCraft}
+            onClick={addToQueueHandler}
             disabled={addToQueueDisabled}
           >
             <img
@@ -92,7 +95,7 @@ export const CraftButton: React.FC<{
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
-            onClick={handleCraft}
+            onClick={addToQueueHandler}
             disabled={addToQueueDisabled}
           >
             <img

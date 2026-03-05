@@ -8112,6 +8112,7 @@
   "resource.oilRecoveryTime": "石油",
   "resource.sunstoneRecoveryTime": "日光石",
   "crafting.queue": "队列",
+  "crafting.vipCraftingQueue": "成为 VIP 会员，解锁一次制作多达 4 个配方的能力！立即升级，为您的制作锦上添花。",
   "crafting.inQueue": "在队列中",
   "crafting.addToQueue": "添加到队列",
   "vip.benefit.craftingQueue": "在制作箱中排队配方"

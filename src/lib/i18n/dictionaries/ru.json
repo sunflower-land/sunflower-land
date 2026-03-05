@@ -8110,6 +8110,7 @@
   "resource.oilRecoveryTime": "Нефть",
   "resource.sunstoneRecoveryTime": "Санстоун",
   "crafting.queue": "Queue",
+  "crafting.vipCraftingQueue": "Станьте VIP-членом и получите возможность создавать до 4 рецептов одновременно! Обновитесь прямо сейчас, чтобы ускорить создание.",
   "crafting.inQueue": "In queue",
   "crafting.addToQueue": "Add to queue",
   "vip.benefit.craftingQueue": "Queue up recipes in crafting box",

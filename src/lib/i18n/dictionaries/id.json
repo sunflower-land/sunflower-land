@@ -8112,6 +8112,7 @@
   "resource.oilRecoveryTime": "Minyak",
   "resource.sunstoneRecoveryTime": "Batu Matahari",
   "crafting.queue": "Antrian",
+  "crafting.vipCraftingQueue": "Menjadi anggota VIP dan buka kemampuan untuk membuat hingga 4 resep sekaligus! Tingkatkan sekarang untuk meningkatkan pembuatan Anda.",
   "crafting.inQueue": "Dalam antrian",
   "crafting.addToQueue": "Tambahkan ke antrian",
   "vip.benefit.craftingQueue": "Antrekan resep di kotak kerajinan"
