@@ -389,11 +389,10 @@ export const CraftTab: React.FC<Props> = ({
       viewedSlotIndex: 0,
     });
     onQueueSelectionChange?.(0);
-    setSelectedItems(
-      nextCooking
-        ? getRecipeIngredientsForName(nextCooking.name, recipes)
-        : padRecipeIngredients(null),
-    );
+    if (nextCooking) {
+      setSelectedItems(getRecipeIngredientsForName(nextCooking.name, recipes));
+    }
+    // When no next item: keep selectedItems as-is so the collected recipe stays in the grid for re-crafting
   };
 
   const handleClearIngredients = () => {
