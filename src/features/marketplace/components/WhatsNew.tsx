@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from "react-router";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import {
   WEARABLE_RELEASES,
-  getInventoryReleases,
+  INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
@@ -20,18 +20,17 @@ import { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
-import { GameState } from "features/game/types/game";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _state = (state: MachineState) => state.context.state;
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
-  const [authState] = useActor(authService);
   const now = useNow();
 
-  const token = authState.context.user.rawToken as string;
+  const token = useSelector(authService, _rawToken);
   const {
     data: collectibles,
     isLoading: collectiblesLoading,
@@ -51,14 +50,8 @@ export const WhatsNew: React.FC = () => {
     collectibles?.items ?? [],
     "collectibles",
     now,
-    state,
   );
-  const sortedWearables = sortItems(
-    wearables?.items ?? [],
-    "wearables",
-    now,
-    state,
-  );
+  const sortedWearables = sortItems(wearables?.items ?? [], "wearables", now);
 
   return (
     <div className="flex flex-wrap">
@@ -138,16 +131,14 @@ const sortItems = (
   items: Tradeable[],
   type: "collectibles" | "wearables",
   now: number,
-  state: GameState,
 ) => {
   const oneMonthAgo = new Date(now);
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const filteredItems: (Tradeable & { tradeAt: number })[] = [];
-  const inventoryReleases = getInventoryReleases(now, state);
 
   items.forEach((item) => {
-    let tradeAt = inventoryReleases[KNOWN_ITEMS[item.id]]?.tradeAt;
+    let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
     if (type === "wearables") {
       tradeAt = WEARABLE_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
     }
