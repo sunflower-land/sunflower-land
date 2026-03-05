@@ -1,7 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpCrafting } from "./speedUpCrafting";
 import Decimal from "decimal.js-light";
-import { getInstantGems } from "./speedUpRecipe";
+import { getInstantGems } from "features/game/lib/getInstantGems";
 import { GameState } from "features/game/types/game";
 const createdAt = Date.now();
 describe("speedUpCrafting", () => {

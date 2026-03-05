@@ -23,7 +23,7 @@ import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/lib/getInstantGems";
 import { CraftingQueue } from "./CraftingQueue";
 import { IngredientGrid } from "./IngredientGrid";
 import { CraftingHeader } from "./CraftingHeader";
