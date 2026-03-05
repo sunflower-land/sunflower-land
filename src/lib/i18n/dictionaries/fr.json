@@ -8110,5 +8110,11 @@
   "resource.goldRecoveryTime": "Doré",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Pétrole",
-  "resource.sunstoneRecoveryTime": "Pierre solaire"
+  "resource.sunstoneRecoveryTime": "Pierre solaire",
+  "crafting.queue": "File d'attente",
+  "crafting.vipCraftingQueue": "Devenez membre VIP et débloquez la possibilité de fabriquer jusqu'à 4 recettes à la fois ! Passez à la version supérieure dès maintenant pour améliorer votre fabrication.",
+  "crafting.inQueue": "En file d'attente",
+  "crafting.addToQueue": "Ajouter à la file",
+  "vip.benefit.craftingQueue": "Mettez les recettes en file d'attente dans une boîte à bricolage",
+  "experiments": "Expériences"
 }

@@ -8110,5 +8110,11 @@
   "resource.goldRecoveryTime": "ゴールド",
   "resource.crimstoneRecoveryTime": "クリムストーン",
   "resource.oilRecoveryTime": "石油",
-  "resource.sunstoneRecoveryTime": "サンストーン"
+  "resource.sunstoneRecoveryTime": "サンストーン",
+  "crafting.queue": "キュー",
+  "crafting.vipCraftingQueue": "VIPメンバーになると、一度に最大4つのレシピを制作できるようになります！今すぐアップグレードして制作を強化しましょう。",
+  "crafting.inQueue": "待機中",
+  "crafting.addToQueue": "キューに追加",
+  "vip.benefit.craftingQueue": "クラフトボックスでレシピをキューに入れる",
+  "experiments": "実験"
 }

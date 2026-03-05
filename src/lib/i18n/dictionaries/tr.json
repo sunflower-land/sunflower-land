@@ -8110,5 +8110,11 @@
   "resource.goldRecoveryTime": "Altın",
   "resource.crimstoneRecoveryTime": "Kızıl Taş",
   "resource.oilRecoveryTime": "Yağ",
-  "resource.sunstoneRecoveryTime": "Güneş taşı"
+  "resource.sunstoneRecoveryTime": "Güneş taşı",
+  "crafting.queue": "Kuyruk",
+  "crafting.vipCraftingQueue": "VIP üye olun ve aynı anda 4 tarife kadar üretim yeteneğinin kilidini açın! Üretiminizi güçlendirmek için şimdi yükseltin.",
+  "crafting.inQueue": "Kuyrukta",
+  "crafting.addToQueue": "Kuyruğa ekle",
+  "vip.benefit.craftingQueue": "Tarifleri işçilik kutusunda sıraya koyun",
+  "experiments": "Deneyler"
 }

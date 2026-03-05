@@ -12,7 +12,8 @@
 // 20: Less than 48 hrs
 
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
+import { getInstantGems } from "features/game/lib/getInstantGems";
+import { speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
