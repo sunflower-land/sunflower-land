@@ -11,8 +11,6 @@ import {
 import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { prngChance } from "lib/prng";
-import { KNOWN_IDS } from "features/game/types";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -48,8 +46,6 @@ export function getFetchYield({
   petLevel,
   fetchResource,
   isPetNFT,
-  farmId,
-  counter,
   state,
 }: {
   petLevel: number;
@@ -59,63 +55,50 @@ export function getFetchYield({
   counter: number;
   state: GameState;
 }) {
-  let yieldAmount = 1;
+  let yieldAmount = new Decimal(1);
   const boostUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isWearableActive({ game: state, name: "Squirrel Onesie" }) &&
     fetchResource === "Acorn"
   ) {
-    yieldAmount += 1;
+    yieldAmount = yieldAmount.add(1);
     boostUsed.push({ name: "Squirrel Onesie", value: "+1" });
   }
 
   if (
     fetchResource === "Acorn" &&
-    isCollectibleBuilt({ name: "Oaken", game: state }) &&
-    prngChance({
-      farmId,
-      itemId: KNOWN_IDS[fetchResource],
-      counter,
-      chance: 25,
-      criticalHitName: "Oaken",
-    })
+    isCollectibleBuilt({ name: "Oaken", game: state })
   ) {
-    yieldAmount += 1;
-    boostUsed.push({ name: "Oaken", value: "+1" });
+    yieldAmount = yieldAmount.add(0.25);
+    boostUsed.push({ name: "Oaken", value: "+0.25" });
   }
 
-  const fetchPercentage = getFetchPercentage({
-    petLevel,
-    fetchResource,
-    isPetNFT,
-  });
-
-  if (
-    prngChance({
-      farmId,
-      itemId: KNOWN_IDS[fetchResource],
-      counter,
-      chance: fetchPercentage,
-      criticalHitName: "Native",
-    })
-  ) {
-    yieldAmount += 1;
-    boostUsed.push({ name: "Native", value: "+1" });
+  if (fetchResource !== "Fossil Shell") {
+    const fetchPercentage = getFetchPercentage({
+      petLevel,
+      fetchResource,
+      isPetNFT,
+    });
+    const nativeBoost = fetchPercentage / 100;
+    if (nativeBoost > 0) {
+      yieldAmount = yieldAmount.add(nativeBoost);
+      boostUsed.push({ name: "Native", value: `+${nativeBoost}` });
+    }
   }
 
   if (petLevel >= 18 && fetchResource === "Acorn") {
-    yieldAmount += 1;
+    yieldAmount = yieldAmount.add(1);
   }
 
   if (petLevel >= 60 && isPetNFT) {
     const excludedResources: PetResourceName[] = ["Acorn", "Moonfur"];
     if (!excludedResources.includes(fetchResource)) {
-      yieldAmount += 1;
+      yieldAmount = yieldAmount.add(1);
     }
   }
 
-  return { yieldAmount, boostUsed };
+  return { yieldAmount: yieldAmount.toNumber(), boostUsed };
 }
 
 export type FetchPetAction = {
