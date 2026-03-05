@@ -51,7 +51,7 @@ import { STREAM_REWARD_COOLDOWN } from "features/world/ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
-import { WALKING_SPEED } from "../Constants";
+import { DEPTH, WALKING_SPEED } from "../Constants";
 
 export type NPCBumpkin = {
   x: number;
@@ -145,6 +145,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
   velocity = WALKING_SPEED;
   isMoving = false;
+  depth = DEPTH;
 
   layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
 
@@ -1108,6 +1109,10 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.isCameraFading) return 0;
 
     return this.velocity;
+  }
+
+  get playerDepth(): number {
+    return this.playerDepth;
   }
 
   updatePlayer() {
