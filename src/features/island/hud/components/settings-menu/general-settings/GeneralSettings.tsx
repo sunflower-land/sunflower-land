@@ -47,6 +47,9 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           <span>{t("gameOptions.faceRecognition")}</span>
         </Button>
       )}
+      <Button onClick={() => onSubMenuClick("experiments")}>
+        <span>{"Experiments"}</span>
+      </Button>
       <Button onClick={() => onSubMenuClick("apiKey")}>
         <span>{t("share.apiKey")}</span>
       </Button>

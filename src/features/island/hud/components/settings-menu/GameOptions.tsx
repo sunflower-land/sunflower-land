@@ -59,6 +59,7 @@ import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
+import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -294,6 +295,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "experiments"
   | "admin"
   | "faceRecognition"
   // Blockchain Settings
@@ -353,6 +355,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.plazaSettings"),
     parent: "main",
     content: PlazaSettings,
+  },
+  experiments: {
+    title: "Experiments",
+    parent: "general",
+    content: ExperimentsSettings,
   },
 
   // Blockchain Settings
