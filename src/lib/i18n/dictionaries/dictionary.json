@@ -4562,6 +4562,7 @@
   "crafting.inProgress": "In progress",
   "crafting.noRecipe": "No recipe",
   "crafting.queue": "Queue",
+  "crafting.vipCraftingQueue": "Become a VIP member and unlock the ability to craft up to 4 recipes at once! Upgrade now to supercharge your crafting.",
   "crafting.inQueue": "In queue",
   "crafting.addToQueue": "Add to queue",
   "ready": "Ready",
