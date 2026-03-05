@@ -92,7 +92,11 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
               alt="Energy"
               className="w-4 h-4 object-contain shrink-0"
             />
-            <span className="text-brown-800">{fetchAmount}</span>
+            <span className="text-brown-800">
+              {Number.isInteger(fetchAmount)
+                ? fetchAmount
+                : fetchAmount.toFixed(2)}
+            </span>
           </div>
           <div className="flex items-center gap-1 text-xs">
             <img
