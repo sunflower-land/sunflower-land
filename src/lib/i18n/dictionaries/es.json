@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Oro",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Petróleo",
-  "resource.sunstoneRecoveryTime": "Piedra solar"
+  "resource.sunstoneRecoveryTime": "Piedra solar",
+  "crafting.queue": "Fila",
+  "crafting.inQueue": "En cola",
+  "crafting.addToQueue": "Añadir a la cola",
+  "vip.benefit.craftingQueue": "Haz cola para preparar recetas en la caja de manualidades"
 }

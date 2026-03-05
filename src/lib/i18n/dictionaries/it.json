@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Oro",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Olio",
-  "resource.sunstoneRecoveryTime": "Pietra solare"
+  "resource.sunstoneRecoveryTime": "Pietra solare",
+  "crafting.queue": "Coda",
+  "crafting.inQueue": "In coda",
+  "crafting.addToQueue": "Aggiungi alla coda",
+  "vip.benefit.craftingQueue": "Mette in coda le ricette nella scatola da lavoro"
 }

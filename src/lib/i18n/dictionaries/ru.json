@@ -8108,5 +8108,11 @@
   "resource.goldRecoveryTime": "Золото",
   "resource.crimstoneRecoveryTime": "Кримстоун",
   "resource.oilRecoveryTime": "Нефть",
-  "resource.sunstoneRecoveryTime": "Санстоун"
+  "resource.sunstoneRecoveryTime": "Санстоун",
+  "crafting.queue": "Queue",
+  "crafting.inQueue": "In queue",
+  "crafting.addToQueue": "Add to queue",
+  "vip.benefit.craftingQueue": "Queue up recipes in crafting box",
+  "streams.thursday.ongoing": "Discord Stream Ongoing",
+  "waterTrap.selectTrap": "Select a trap"
 }

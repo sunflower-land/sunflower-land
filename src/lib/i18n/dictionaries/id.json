@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Emas",
   "resource.crimstoneRecoveryTime": "Batu merah",
   "resource.oilRecoveryTime": "Minyak",
-  "resource.sunstoneRecoveryTime": "Batu Matahari"
+  "resource.sunstoneRecoveryTime": "Batu Matahari",
+  "crafting.queue": "Antrian",
+  "crafting.inQueue": "Dalam antrian",
+  "crafting.addToQueue": "Tambahkan ke antrian",
+  "vip.benefit.craftingQueue": "Antrekan resep di kotak kerajinan"
 }

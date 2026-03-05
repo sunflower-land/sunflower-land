@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "金",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "石油",
-  "resource.sunstoneRecoveryTime": "日光石"
+  "resource.sunstoneRecoveryTime": "日光石",
+  "crafting.queue": "队列",
+  "crafting.inQueue": "在队列中",
+  "crafting.addToQueue": "添加到队列",
+  "vip.benefit.craftingQueue": "在制作箱中排队配方"
 }

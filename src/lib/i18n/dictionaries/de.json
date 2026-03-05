@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Gold",
   "resource.crimstoneRecoveryTime": "Purpur",
   "resource.oilRecoveryTime": "Öl",
-  "resource.sunstoneRecoveryTime": "Sonnenstein"
+  "resource.sunstoneRecoveryTime": "Sonnenstein",
+  "crafting.queue": "Warteschlange",
+  "crafting.inQueue": "In der Warteschlange",
+  "crafting.addToQueue": "Zur Warteschlange hinzufügen",
+  "vip.benefit.craftingQueue": "Stellen Sie Rezepte in der Bastelkiste in die Warteschlange"
 }

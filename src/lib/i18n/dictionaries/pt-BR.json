@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Dourado",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Óleo",
-  "resource.sunstoneRecoveryTime": "Pedra do sol"
+  "resource.sunstoneRecoveryTime": "Pedra do sol",
+  "crafting.queue": "Fila",
+  "crafting.inQueue": "Na fila",
+  "crafting.addToQueue": "Adicionar à fila",
+  "vip.benefit.craftingQueue": "Coloque receitas na fila na caixa de artesanato"
 }

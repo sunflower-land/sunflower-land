@@ -8110,5 +8110,9 @@
   "resource.goldRecoveryTime": "Doré",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Pétrole",
-  "resource.sunstoneRecoveryTime": "Pierre solaire"
+  "resource.sunstoneRecoveryTime": "Pierre solaire",
+  "crafting.queue": "File d'attente",
+  "crafting.inQueue": "En file d'attente",
+  "crafting.addToQueue": "Ajouter à la file",
+  "vip.benefit.craftingQueue": "Mettez les recettes en file d'attente dans une boîte à bricolage"
 }
