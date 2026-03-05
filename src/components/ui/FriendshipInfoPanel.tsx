@@ -5,7 +5,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import recipeIcon from "assets/decorations/page.png";
-import { getEntries } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinGift } from "features/game/types/gifts";
 import { getWearableImage } from "features/game/lib/getWearableImage";
@@ -78,22 +77,22 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
               })}
 
             {!!nextGift.items &&
-              getEntries(nextGift.items).map((item) => (
+              getObjectEntries(nextGift.items).map(([item, count]) => (
                 <div
-                  key={String(item)}
+                  key={item}
                   className="capitalize space-x-1 flex items-center"
                 >
                   {item && (
                     <>
                       <img
                         src={
-                          ITEM_DETAILS[item[0]]?.image ??
+                          ITEM_DETAILS[item]?.image ??
                           SUNNYSIDE.icons.expression_confused
                         }
-                        alt={item[0]}
+                        alt={item}
                         className="w-4 mr-0.5"
                       />
-                      <span className="text-xs">{`${item[1]} ${item[0]}`}</span>
+                      <span className="text-xs">{`${count} ${item}`}</span>
                     </>
                   )}
                 </div>

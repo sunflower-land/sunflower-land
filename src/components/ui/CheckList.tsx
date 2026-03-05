@@ -22,8 +22,7 @@ import {
   secondsTillReset,
   secondsToString,
 } from "lib/utils/time";
-import { getEntries } from "features/game/types/craftables";
-import { getKeys } from "lib/object";
+import { getKeys, getObjectEntries } from "lib/object";
 import { Bud } from "features/game/types/buds";
 import { MinigameName } from "features/game/types/minigames";
 import { ModalOverlay } from "./ModalOverlay";
@@ -707,21 +706,20 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
                   </div>
                 </div>
                 <div className="flex flex-col text-xxs items-end">
-                  {getEntries(minigameInfo(option.id)?.prize?.items ?? {}).map(
-                    (entry, index) =>
-                      entry && (
-                        <Label
-                          type="default"
-                          key={index}
-                          secondaryIcon={ITEM_DETAILS[entry[0]].image}
-                          className="mr-1"
-                        >
-                          <p className="text-xxs sm:text-xs">
-                            {`${entry[1]} ${entry[0]}`}
-                          </p>
-                        </Label>
-                      ),
-                  )}
+                  {getObjectEntries(
+                    minigameInfo(option.id)?.prize?.items ?? {},
+                  ).map(([item, count]) => (
+                    <Label
+                      type="default"
+                      key={item}
+                      secondaryIcon={ITEM_DETAILS[item].image}
+                      className="mr-1"
+                    >
+                      <p className="text-xxs sm:text-xs">
+                        {`${count} ${item}`}
+                      </p>
+                    </Label>
+                  ))}
                 </div>
               </OuterPanel>
             );

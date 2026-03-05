@@ -1045,14 +1045,6 @@ export const ANIMALS: Record<Animal, CraftableItem> = {
   },
 };
 
-/**
- * getEntries is a ref to Object.entries, but the return is typed literally.
- */
-type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T];
-export const getEntries = Object.entries as <T extends object>(
-  obj: T,
-) => Entries<T>[];
-
 export type Dimensions = { width: number; height: number };
 
 const flagsDimension = getKeys(FLAGS).reduce(
