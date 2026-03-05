@@ -5,11 +5,9 @@ import Decimal from "decimal.js-light";
 
 describe("fetchPet", () => {
   const now = Date.now();
-  const farmId = 1;
   it("throws an error if pet is not found", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: { ...INITIAL_FARM },
         action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
@@ -19,7 +17,6 @@ describe("fetchPet", () => {
   it("throws an error if pet is napping", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -43,7 +40,6 @@ describe("fetchPet", () => {
   it("throws an error if pet is neglected", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -67,7 +63,6 @@ describe("fetchPet", () => {
   it("throws an error if fetch is not found", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -90,7 +85,6 @@ describe("fetchPet", () => {
   it("throws an error if pet level doesn't match fetch required level", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -113,7 +107,6 @@ describe("fetchPet", () => {
   it("throws an error if pet doesn't have enough energy", () => {
     expect(() => {
       fetchPet({
-        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -135,7 +128,6 @@ describe("fetchPet", () => {
   });
   it("fetches the item for the pet and deducts the energy", () => {
     const state = fetchPet({
-      farmId,
       state: {
         ...INITIAL_FARM,
         pets: {
@@ -160,7 +152,6 @@ describe("fetchPet", () => {
 
   it("fetches a boost yield", () => {
     const state = fetchPet({
-      farmId,
       state: {
         ...INITIAL_FARM,
         pets: {
@@ -185,7 +176,6 @@ describe("fetchPet", () => {
 
   it("applies the Oaken fetch bonus", () => {
     const state = fetchPet({
-      farmId,
       state: {
         ...INITIAL_FARM,
         collectibles: {
@@ -241,7 +231,7 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
-      farmId,
+
       createdAt: now,
     });
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
@@ -272,7 +262,7 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
-      farmId,
+
       createdAt: now,
     });
 
@@ -281,7 +271,6 @@ describe("fetchPet", () => {
 
   it("gives +0.10 if pet level is >= 15 and fetch is Acorn", () => {
     const state = fetchPet({
-      farmId,
       state: {
         ...INITIAL_FARM,
         pets: {
@@ -302,7 +291,6 @@ describe("fetchPet", () => {
     });
 
     expect(state.inventory["Acorn"]).toEqual(new Decimal(1.1));
-    expect(state.pets?.common?.Barkley?.fetches?.Acorn).toBe(1);
   });
 
   it("Fossil Shell receives no Native boost", () => {
@@ -322,7 +310,7 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Fossil Shell" },
-      farmId,
+
       createdAt: now,
     });
     expect(state.inventory["Fossil Shell"]).toEqual(new Decimal(1));

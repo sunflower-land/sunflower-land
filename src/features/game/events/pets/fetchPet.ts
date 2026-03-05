@@ -51,8 +51,6 @@ export function getFetchYield({
   petLevel: number;
   fetchResource: PetResourceName;
   isPetNFT: boolean;
-  farmId: number;
-  counter: number;
   state: GameState;
 }) {
   let yieldAmount = new Decimal(1);
@@ -110,16 +108,10 @@ export type FetchPetAction = {
 type Options = {
   state: GameState;
   action: FetchPetAction;
-  farmId: number;
   createdAt?: number;
 };
 
-export function fetchPet({
-  state,
-  action,
-  farmId,
-  createdAt = Date.now(),
-}: Options) {
+export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { petId, fetch } = action;
 
@@ -163,22 +155,12 @@ export function fetchPet({
 
     petData.energy -= energyRequired;
 
-    const initialFetchCount = stateCopy.farmActivity[`${fetch} Fetched`] ?? 0;
-    const counter = petData.fetches?.[fetch] ?? initialFetchCount;
-
     const { yieldAmount, boostUsed } = getFetchYield({
       petLevel,
       fetchResource: fetch,
       isPetNFT,
-      farmId,
-      counter,
       state: stateCopy,
     });
-
-    petData.fetches = {
-      ...petData.fetches,
-      [fetch]: counter + 1,
-    };
 
     stateCopy.inventory[fetch] = (
       stateCopy.inventory[fetch] ?? new Decimal(0)
