@@ -25,7 +25,9 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
-import { InventoryItemName } from "features/game/types/game";
+import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { hasFeatureAccess } from "lib/flags";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
@@ -33,10 +35,11 @@ import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 const _state = (state: MachineState) => state.context.state;
-const _farmId = (state: MachineState) => state.context.farmId;
+
+const MAX_CRAFTING_SLOTS = 4;
 
 interface Props {
-  handleSetupRecipe: (recipe: Recipe) => void;
+  handleSetupRecipe: (recipe: Recipe, targetSlot?: number) => void;
 }
 
 const _remainingInventory = (state: MachineState) => {
@@ -67,7 +70,36 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
 
   const { craftingBox } = state;
-  const { recipes, status: craftingStatus } = craftingBox;
+  const {
+    recipes,
+    status: craftingStatus,
+    queue: rawQueue,
+    item: legacyItem,
+    readyAt: craftingReadyAt,
+    startedAt: craftingStartedAt,
+  } = craftingBox;
+
+  const craftingQueue: CraftingQueueItem[] =
+    rawQueue ??
+    (legacyItem && craftingStatus === "crafting"
+      ? [
+          {
+            name: legacyItem.collectible ?? legacyItem.wearable,
+            readyAt: craftingReadyAt,
+            startedAt: craftingStartedAt,
+            type: legacyItem.collectible ? "collectible" : "wearable",
+          },
+        ]
+      : []);
+
+  const hasCraftingBoxQueuesAccess = hasFeatureAccess(
+    state,
+    "CRAFTING_BOX_QUEUES",
+  );
+  const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
+  const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
+  const isQueueFull = craftingQueue.length >= availableSlots;
+  const canAddToQueue = craftingStatus === "crafting" && isVIP && !isQueueFull;
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
@@ -130,6 +162,8 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   const recipeAmount = (recipeName: RecipeCollectibleName) =>
     remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
 
+  const targetSlot = canAddToQueue ? (craftingQueue?.length ?? 0) : 0;
+
   return (
     <div className="flex flex-col">
       <Label type="default" className="mb-2">
@@ -145,6 +179,8 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);
+            const isCraftButtonDisabled =
+              isPending || !canCraft || (isCrafting && !canAddToQueue);
             const { seconds: boostedCraftTime, boostsUsed } =
               getBoostedCraftingTime({
                 game: state,
@@ -175,19 +211,18 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                       className={classNames(
                         "flex items-center relative mb-1 cursor-pointer !p-0",
                         {
-                          "cursor-not-allowed":
-                            isPending || isCrafting || !canCraft,
+                          "cursor-not-allowed": isCraftButtonDisabled,
                         },
                       )}
                       onClick={
-                        isPending || isCrafting || !canCraft
+                        isCraftButtonDisabled
                           ? undefined
                           : (e) => {
                               e.stopPropagation();
-                              handleSetupRecipe(recipe);
+                              handleSetupRecipe(recipe, targetSlot);
                             }
                       }
-                      disabled={isPending || isCrafting || !canCraft}
+                      disabled={isCraftButtonDisabled}
                     >
                       <SquareIcon icon={SUNNYSIDE.icons.hammer} width={5} />
                     </ButtonPanel>
@@ -198,16 +233,15 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                     <div className="flex">
                       <ButtonPanel
                         onClick={
-                          isPending || isCrafting || !canCraft
+                          isCraftButtonDisabled
                             ? undefined
-                            : () => handleSetupRecipe(recipe)
+                            : () => handleSetupRecipe(recipe, targetSlot)
                         }
                         className={classNames("!p-0", {
-                          "cursor-not-allowed":
-                            isPending || isCrafting || !canCraft,
+                          "cursor-not-allowed": isCraftButtonDisabled,
                           "opacity-50": !canCraft,
                         })}
-                        disabled={isPending || isCrafting || !canCraft}
+                        disabled={isCraftButtonDisabled}
                       >
                         {recipe.type === "collectible" && (
                           <img

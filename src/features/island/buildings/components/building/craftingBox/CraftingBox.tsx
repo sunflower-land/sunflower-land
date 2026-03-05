@@ -54,12 +54,7 @@ const CraftingTimer: React.FC<CraftingTimerProps> = ({
   );
 };
 
-const _craftingStatus = (state: MachineState) =>
-  state.context.state.craftingBox.status;
-const _craftingReadyAt = (state: MachineState) =>
-  state.context.state.craftingBox.readyAt;
-const _craftingStartedAt = (state: MachineState) =>
-  state.context.state.craftingBox.startedAt;
+const _craftingBox = (state: MachineState) => state.context.state.craftingBox;
 
 export const CraftingBox: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -68,15 +63,46 @@ export const CraftingBox: React.FC = () => {
 
   const { gameService, showTimers } = useContext(Context);
 
-  const craftingStatus = useSelector(gameService, _craftingStatus);
-  const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
-  const craftingStartedAt = useSelector(gameService, _craftingStartedAt);
-  const now = useNow({ live: true, autoEndAt: craftingReadyAt });
+  const craftingBox = useSelector(gameService, _craftingBox);
+  const {
+    status: craftingStatus,
+    queue: rawQueue,
+    item: legacyItem,
+    readyAt: craftingReadyAt,
+    startedAt: craftingStartedAt,
+  } = craftingBox;
 
-  const isCrafting =
-    craftingStatus === "crafting" && craftingReadyAt && craftingReadyAt > now;
-  const isReady =
-    craftingStatus === "crafting" && craftingReadyAt && craftingReadyAt <= now;
+  const craftingQueue =
+    rawQueue ??
+    (legacyItem && craftingStatus === "crafting"
+      ? [
+          {
+            name: legacyItem.collectible ?? legacyItem.wearable,
+            readyAt: craftingReadyAt,
+            startedAt: craftingStartedAt,
+            type: legacyItem.collectible ? "collectible" : "wearable",
+          },
+        ]
+      : []);
+
+  const maxReadyAt =
+    craftingQueue.length > 0
+      ? Math.max(...craftingQueue.map((i) => i.readyAt), 0)
+      : craftingReadyAt;
+  const needsLiveTime =
+    craftingStatus === "crafting" &&
+    maxReadyAt != null &&
+    Number.isFinite(maxReadyAt);
+  const now = useNow({
+    live: needsLiveTime,
+    autoEndAt: needsLiveTime ? maxReadyAt : undefined,
+  });
+
+  const inProgress = craftingQueue.filter((item) => item.readyAt > now);
+  const readyProducts = craftingQueue.filter((item) => item.readyAt <= now);
+  const hasReadyItem = readyProducts.length > 0;
+  const hasInProgressItem = inProgress.length > 0;
+  const nextInProgress = inProgress[0];
 
   const handleOpen = () => {
     gameService.send("SAVE");
@@ -97,7 +123,7 @@ export const CraftingBox: React.FC = () => {
         >
           <img
             src={
-              craftingStatus === "crafting" && !isReady
+              hasInProgressItem
                 ? craftingBoxAnimation
                 : ITEM_DETAILS["Crafting Box"].image
             }
@@ -109,14 +135,14 @@ export const CraftingBox: React.FC = () => {
               bottom: `${PIXEL_SCALE * 0}px`,
             }}
           />
-          {showTimers && isCrafting && craftingReadyAt && craftingStartedAt && (
+          {showTimers && hasInProgressItem && nextInProgress && (
             <CraftingTimer
-              readyAt={craftingReadyAt}
-              startedAt={craftingStartedAt}
+              readyAt={nextInProgress.readyAt}
+              startedAt={nextInProgress.startedAt}
             />
           )}
         </div>
-        {isReady && (
+        {hasReadyItem && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className="absolute -top-8 ready -ml-[5px] left-1/2 transform -translate-x-1/2 z-20"

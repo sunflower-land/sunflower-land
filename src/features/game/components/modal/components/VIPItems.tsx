@@ -39,6 +39,8 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -259,53 +261,56 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           {t("vip.benefits")}
         </Label> */}
         <div className="flex flex-col space-y-1 ml-1 mb-2 justify-between h-full">
-          {[
-            { text: t("vip.benefit.airdrop"), icon: giftIcon },
-            { text: t("vip.benefit.expBoost"), icon: xpIcon },
-            {
-              text: t("vip.benefit.cookingQueue"),
-              icon: ITEM_DETAILS["Pumpkin Soup"].image,
-            },
-            {
-              text: t("vip.benefit.multicast"),
-              icon: multiCast,
-            },
-            { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
-            {
-              text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[chapterTicket].image,
-            },
-            {
-              text: t("vip.benefit.reputation", {
-                points: REPUTATION_POINTS.VIP,
-              }),
-              icon: increaseArrow,
-            },
-            { text: t("vip.benefit.competition"), icon: trophyIcon },
-            ...(currentChapter === "Paw Prints"
-              ? [
-                  {
-                    text: t("vip.benefit.bonusPetEnergy"),
-                    icon: SUNNYSIDE.icons.lightning,
-                  },
-                ]
-              : []),
-            ...(currentChapter === "Crabs and Traps"
-              ? [
-                  {
-                    text: t("vip.benefit.bonusFishingAttempts"),
-                    icon: ITEM_DETAILS["Rod"].image,
-                  },
-                ]
-              : []),
-          ].map((item, index) => (
-            <div className="flex items-center min-h-[25px]" key={index}>
-              <img src={item.icon} className="w-6 mr-2 object-contain" />
-              <div className="w-full flex items-center">
-                <p className="text-xs">{item.text}</p>
-              </div>
-            </div>
-          ))}
+          <NoticeboardItems
+            items={[
+              { text: t("vip.benefit.airdrop"), icon: giftIcon },
+              { text: t("vip.benefit.expBoost"), icon: xpIcon },
+              {
+                text: t("vip.benefit.cookingQueue"),
+                icon: ITEM_DETAILS["Pumpkin Soup"].image,
+              },
+              ...(hasFeatureAccess(state, "CRAFTING_BOX_QUEUES")
+                ? [
+                    {
+                      text: t("vip.benefit.craftingQueue"),
+                      icon: ITEM_DETAILS["Crafting Box"].image,
+                    },
+                  ]
+                : []),
+              {
+                text: t("vip.benefit.multicast"),
+                icon: multiCast,
+              },
+              { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
+              {
+                text: t("vip.benefit.bonusDelivery"),
+                icon: ITEM_DETAILS[chapterTicket].image,
+              },
+              {
+                text: t("vip.benefit.reputation", {
+                  points: REPUTATION_POINTS.VIP,
+                }),
+                icon: increaseArrow,
+              },
+              { text: t("vip.benefit.competition"), icon: trophyIcon },
+              ...(currentChapter === "Paw Prints"
+                ? [
+                    {
+                      text: t("vip.benefit.bonusPetEnergy"),
+                      icon: SUNNYSIDE.icons.lightning,
+                    },
+                  ]
+                : []),
+              ...(currentChapter === "Crabs and Traps"
+                ? [
+                    {
+                      text: t("vip.benefit.bonusFishingAttempts"),
+                      icon: ITEM_DETAILS["Rod"].image,
+                    },
+                  ]
+                : []),
+            ]}
+          />
         </div>
       </div>
     </>
