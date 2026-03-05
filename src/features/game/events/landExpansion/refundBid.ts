@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 

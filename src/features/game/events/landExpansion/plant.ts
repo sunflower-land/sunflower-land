@@ -19,10 +19,7 @@ import {
   InventoryItemName,
   IslandType,
 } from "../../types/game";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
@@ -56,6 +53,7 @@ import {
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";

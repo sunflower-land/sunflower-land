@@ -31,6 +31,7 @@ import { BED_FARMHAND_COUNT } from "./beds";
 import { ChapterCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
 import { PetName, PetShrineName } from "./pets";
+import { getKeys } from "../expansion/lib/utils";
 
 export { FLAGS };
 
@@ -1043,13 +1044,6 @@ export const ANIMALS: Record<Animal, CraftableItem> = {
     disabled: true,
   },
 };
-
-/**
- * getKeys is a ref to Object.keys, but the return is typed literally.
- */
-export const getKeys = Object.keys as <T extends object>(
-  obj: T,
-) => Array<keyof T>;
 
 /**
  * getEntries is a ref to Object.entries, but the return is typed literally.

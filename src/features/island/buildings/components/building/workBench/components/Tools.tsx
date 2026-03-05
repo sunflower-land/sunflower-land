@@ -13,7 +13,7 @@ import {
   LOVE_ANIMAL_TOOLS,
   Tool,
 } from "features/game/types/tools";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyTools } from "../../market/lib/makeBulkBuyAmount";

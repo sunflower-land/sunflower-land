@@ -1,4 +1,4 @@
-import { getKeys } from "./craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";

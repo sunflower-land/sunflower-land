@@ -8,7 +8,7 @@ import { Label } from "components/ui/Label";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ADVANCED_RESOURCES,

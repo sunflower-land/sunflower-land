@@ -3,7 +3,7 @@ import { Box } from "components/ui/Box";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { LAND_BIOMES, LandBiomeName } from "features/island/biomes/biomes";
 import React, { useContext, useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";

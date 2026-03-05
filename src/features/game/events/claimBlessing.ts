@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
 import Decimal from "decimal.js-light";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "../expansion/lib/utils";
 
 export type ClaimBlessingAction = {
   type: "blessing.claimed";

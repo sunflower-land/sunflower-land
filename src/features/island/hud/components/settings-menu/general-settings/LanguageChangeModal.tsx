@@ -7,7 +7,7 @@ import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LanguageCode, LANGUAGE_DETAILS } from "lib/i18n/dictionaries/language";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();

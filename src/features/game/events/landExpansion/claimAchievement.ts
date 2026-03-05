@@ -3,7 +3,7 @@ import {
   AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { translate } from "lib/i18n/translate";

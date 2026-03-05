@@ -6,7 +6,7 @@ import {
   TradeRewardPacks,
   TradeRewardsItem,
 } from "features/game/events/landExpansion/redeemTradeReward";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import React, { useContext, useState } from "react";
 import { RewardsViewCard } from "./RewardsViewCard";
 import { Context } from "features/game/GameProvider";

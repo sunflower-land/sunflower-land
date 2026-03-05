@@ -1,6 +1,6 @@
 import { NPC_WEARABLES } from "lib/npcs";
 import { ANIMATION, getAnimationUrl } from "../../lib/animations";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { BaseScene } from "../BaseScene";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 

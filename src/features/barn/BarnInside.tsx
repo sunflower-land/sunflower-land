@@ -9,11 +9,11 @@ import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys, getValues } from "features/game/types/decorations";
+import { getValues } from "features/game/expansion/lib/utils";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
-
+import { getKeys } from "features/game/expansion/lib/utils";
 import shopDisc from "assets/icons/shop_disc.png";
 
 import {

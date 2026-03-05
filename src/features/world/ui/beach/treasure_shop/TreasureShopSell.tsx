@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   BeachBountyTreasure,
   SELLABLE_TREASURES,

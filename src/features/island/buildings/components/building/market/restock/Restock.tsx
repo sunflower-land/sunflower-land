@@ -20,7 +20,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { FullRestockModal } from "./FullRestockModal";
 import { NPCRestockModal } from "./NPCRestockModal";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ShipmentRestockModal } from "./ShipmentRestockModal";

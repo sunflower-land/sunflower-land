@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   GameState,
   InventoryItemName,

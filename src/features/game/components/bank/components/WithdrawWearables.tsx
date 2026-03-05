@@ -9,7 +9,7 @@ import { Box } from "components/ui/Box";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";

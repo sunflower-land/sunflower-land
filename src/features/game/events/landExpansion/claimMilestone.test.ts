@@ -2,14 +2,12 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { getFishByType } from "features/island/hud/components/codex/lib/utils";
 import { claimMilestone } from "./claimMilestone";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { FISH } from "features/game/types/fishing";
 
 const farm: GameState = { ...TEST_FARM };
 
 describe("claim milestone", () => {
-  const date = Date.now();
-
   it("throws an error if requirement is not met", () => {
     expect(() =>
       claimMilestone({

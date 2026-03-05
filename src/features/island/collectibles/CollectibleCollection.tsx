@@ -1,7 +1,8 @@
 import React from "react";
 
 import { CollectibleProps } from "./Collectible";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
 import { WarTombstone } from "./components/WarTombstone";

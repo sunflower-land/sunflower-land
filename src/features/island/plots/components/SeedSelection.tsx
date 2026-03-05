@@ -2,7 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS, SeedName } from "features/game/types/seeds";

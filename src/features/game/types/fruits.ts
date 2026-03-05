@@ -2,7 +2,7 @@
  * Classic seeds can be found in crops.ts
  */
 
-import { getKeys } from "./craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
 import { SeedName } from "./seeds";

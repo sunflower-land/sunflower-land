@@ -1,5 +1,5 @@
 import { getDayOfYear } from "lib/utils/time";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "../expansion/lib/utils";
 import { GameState } from "../types/game";
 import { getBumpkinLevel } from "./level";
 import { hasVipAccess } from "./vipAccess";

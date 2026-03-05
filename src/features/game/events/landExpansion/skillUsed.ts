@@ -3,7 +3,7 @@ import {
   BUMPKIN_REVAMP_SKILL_TREE,
   BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   GameState,
   CropPlot,

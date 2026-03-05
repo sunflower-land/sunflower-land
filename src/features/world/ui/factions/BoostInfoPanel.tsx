@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import lightning from "assets/icons/lightning.png";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { getKingdomPetBoost } from "features/game/events/landExpansion/feedFactionPet";

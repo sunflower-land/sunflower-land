@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";

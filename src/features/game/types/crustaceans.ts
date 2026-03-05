@@ -1,7 +1,7 @@
 import { InventoryItemName } from "./game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
-import { getKeys } from "./craftables";
+import { getKeys } from "../expansion/lib/utils";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 

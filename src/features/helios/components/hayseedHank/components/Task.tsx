@@ -7,7 +7,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";

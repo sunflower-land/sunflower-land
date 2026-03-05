@@ -18,7 +18,7 @@ import {
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 

@@ -4,7 +4,7 @@ import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";

@@ -4,7 +4,7 @@ import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ANIMALS } from "features/game/types/animals";
 import { EXOTIC_CROPS } from "features/game/types/beans";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { FISH, FishName } from "features/game/types/fishing";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";

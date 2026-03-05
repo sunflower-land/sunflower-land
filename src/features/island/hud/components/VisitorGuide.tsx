@@ -19,7 +19,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SmallBox } from "components/ui/SmallBox";
 
 import helpIcon from "assets/icons/help.webp";

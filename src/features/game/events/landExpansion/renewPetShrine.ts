@@ -1,6 +1,6 @@
 import { Decimal } from "decimal.js-light";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { PetShrineName } from "features/game/types/pets";

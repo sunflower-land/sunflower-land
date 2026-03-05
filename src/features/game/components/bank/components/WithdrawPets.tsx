@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

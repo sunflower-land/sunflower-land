@@ -3,7 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CRUSTACEAN_CHUM_AMOUNTS } from "features/game/types/crustaceans";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Label } from "components/ui/Label";
 
 export const CrustaceanGuide = () => {

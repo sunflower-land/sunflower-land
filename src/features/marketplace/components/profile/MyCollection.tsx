@@ -7,7 +7,7 @@ import { CollectionName } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";

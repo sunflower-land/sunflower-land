@@ -6,7 +6,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
 import { makeBulkBuyTools } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";

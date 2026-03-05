@@ -24,7 +24,7 @@ import { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { toOrdinalSuffix } from "../../../retreat/components/auctioneer/AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";

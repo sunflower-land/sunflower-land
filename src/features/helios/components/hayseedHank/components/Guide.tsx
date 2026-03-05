@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";

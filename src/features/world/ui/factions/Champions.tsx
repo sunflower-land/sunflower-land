@@ -17,7 +17,7 @@ import {
   getWeekNumber,
   FACTION_BONUS_WEEKS,
 } from "features/game/lib/factions";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import gift from "assets/icons/gift.png";

@@ -6,7 +6,7 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { TemperateSeasonName } from "features/game/types/game";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 

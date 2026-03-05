@@ -30,7 +30,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { LEGACY_BADGE_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
 import { isBuffActive } from "features/game/types/buffs";
 import { Label } from "components/ui/Label";

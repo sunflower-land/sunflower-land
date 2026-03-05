@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";

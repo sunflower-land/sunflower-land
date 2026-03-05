@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { produce } from "immer";
 
 export type CancelBidAction = {

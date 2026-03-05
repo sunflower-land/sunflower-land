@@ -2,7 +2,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { RESOURCE_NODE_PRICES } from "features/game/events/landExpansion/buyResource";
 import { useGame } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";

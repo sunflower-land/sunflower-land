@@ -20,7 +20,6 @@ import { Coordinates } from "../../components/MapPlacement";
 import {
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
-  getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
@@ -32,6 +31,7 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { getObjectEntries } from "../../lib/utils";
 import { LandscapingPlaceable } from "../landscapingMachine";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 export type Position = {
   width: number;

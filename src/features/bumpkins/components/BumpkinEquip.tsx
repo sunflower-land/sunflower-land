@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { BumpkinPartGroup } from "./BumpkinPartGroup";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 import lightning from "assets/icons/lightning.png";
 

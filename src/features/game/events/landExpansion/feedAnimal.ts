@@ -22,7 +22,7 @@ import {
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

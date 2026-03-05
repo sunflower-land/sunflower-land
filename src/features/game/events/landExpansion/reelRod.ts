@@ -3,7 +3,7 @@ import { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

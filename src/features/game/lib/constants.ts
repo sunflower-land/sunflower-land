@@ -8,7 +8,7 @@ import {
   BB_TO_GEM_RATIO,
   InventoryItemName,
 } from "../types/game";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";

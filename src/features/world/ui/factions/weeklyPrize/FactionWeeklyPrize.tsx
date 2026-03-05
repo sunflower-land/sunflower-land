@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";

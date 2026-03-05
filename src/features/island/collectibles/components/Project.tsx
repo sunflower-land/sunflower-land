@@ -72,7 +72,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { EffectSuccess } from "features/game/expansion/components/effects/EffectSuccess";
 

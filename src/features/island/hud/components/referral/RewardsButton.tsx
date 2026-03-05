@@ -7,7 +7,7 @@ import {
   InGameTaskName,
   IN_GAME_TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 

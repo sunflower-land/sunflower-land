@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 
 import { Context } from "../GameProvider";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ClaimReward } from "../expansion/components/ClaimReward";

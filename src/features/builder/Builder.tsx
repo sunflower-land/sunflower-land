@@ -4,7 +4,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context, GameProvider } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Box } from "components/ui/Box";
 import { ResourcePlacer, getResources } from "./components/ResourcePlacer";
 import {

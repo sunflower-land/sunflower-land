@@ -3,7 +3,7 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { ARTEFACT_SHOP_WEARABLES } from "features/game/types/artefactShop";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";

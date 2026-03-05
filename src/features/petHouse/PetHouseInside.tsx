@@ -20,10 +20,8 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Collectible } from "features/island/collectibles/Collectible";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { PetNFT } from "features/island/pets/PetNFT";

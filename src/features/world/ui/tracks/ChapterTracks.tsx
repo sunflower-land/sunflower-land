@@ -27,7 +27,7 @@ import {
 } from "features/game/types/tracks";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ResizableBar } from "components/ui/ProgressBar";

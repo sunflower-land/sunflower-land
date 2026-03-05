@@ -1,4 +1,4 @@
-import { getKeys } from "./decorations";
+import { getKeys } from "../expansion/lib/utils";
 import { GameState, InventoryItemName } from "./game";
 import { ChapterName, getCurrentChapter } from "./chapters";
 import { BeachBountyChapterArtefact } from "./treasure";

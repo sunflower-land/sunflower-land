@@ -14,7 +14,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";

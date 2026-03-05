@@ -11,10 +11,8 @@ import { Hud } from "features/island/hud/Hud";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";

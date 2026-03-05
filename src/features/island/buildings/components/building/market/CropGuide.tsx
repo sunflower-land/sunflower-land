@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import seasonIcon from "assets/icons/season.webp";
 import lightningIcon from "assets/icons/lightning.png";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   CROP_SEEDS,
   CropName,

@@ -9,7 +9,7 @@ import Decimal from "decimal.js-light";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";

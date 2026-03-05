@@ -13,7 +13,7 @@ import betterTogetherBanner from "assets/decorations/banners/better_together_ban
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import { BeachBountyChapterArtefact } from "./treasure";
-import { getKeys } from "./decorations";
+import { getKeys } from "../expansion/lib/utils";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
 

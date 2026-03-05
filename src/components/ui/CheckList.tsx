@@ -22,7 +22,8 @@ import {
   secondsTillReset,
   secondsToString,
 } from "lib/utils/time";
-import { getEntries, getKeys } from "features/game/types/craftables";
+import { getEntries } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Bud } from "features/game/types/buds";
 import { MinigameName } from "features/game/types/minigames";
 import { ModalOverlay } from "./ModalOverlay";

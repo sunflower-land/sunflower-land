@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { getItemId, tradeToId } from "../../lib/offers";
 import { useLocation, useNavigate, useParams } from "react-router";

@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PanelTabs } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";

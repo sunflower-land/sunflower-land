@@ -5,7 +5,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 

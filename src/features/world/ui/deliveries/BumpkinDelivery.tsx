@@ -17,7 +17,7 @@ import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";

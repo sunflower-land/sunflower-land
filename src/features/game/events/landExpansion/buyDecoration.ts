@@ -2,10 +2,7 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   DECORATIONS,
   LandscapingDecorationName,
@@ -13,6 +10,7 @@ import {
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 export type BuyDecorationAction = {
   type: "decoration.bought";

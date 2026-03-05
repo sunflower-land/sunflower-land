@@ -10,7 +10,7 @@ import { hasOrderRequirements } from "./Orders";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterTicket } from "features/game/types/chapters";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";

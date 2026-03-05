@@ -34,7 +34,7 @@ import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp"
 import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
 import Decimal from "decimal.js-light";
 import { BoostType, BoostValue } from "../types/boosts";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "../expansion/lib/utils";
 
 type BumpkinRank =
   | "forager"

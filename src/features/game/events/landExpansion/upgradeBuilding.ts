@@ -3,7 +3,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { AnimalBuildingType } from "features/game/types/animals";
 import { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   GameState,
   InventoryItemName,

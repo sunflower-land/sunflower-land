@@ -7,7 +7,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getReturnValues, useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

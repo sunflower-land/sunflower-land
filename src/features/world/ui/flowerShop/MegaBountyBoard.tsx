@@ -14,8 +14,8 @@ import {
   BountyRequest,
   InventoryItemName,
 } from "features/game/types/game";
-import { ANIMALS, getKeys } from "features/game/types/craftables";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { ANIMALS } from "features/game/types/craftables";
+import { getObjectEntries, getKeys } from "features/game/expansion/lib/utils";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {

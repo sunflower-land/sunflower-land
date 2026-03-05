@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { GameState } from "../types/game";
 
 import cloneDeep from "lodash.clonedeep";

@@ -13,7 +13,7 @@ import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";

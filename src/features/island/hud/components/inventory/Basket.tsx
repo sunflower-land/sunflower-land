@@ -17,7 +17,7 @@ import {
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { getBasketItems } from "./utils/inventory";
 import {
   ConsumableName,

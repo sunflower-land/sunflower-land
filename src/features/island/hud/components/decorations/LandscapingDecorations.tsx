@@ -5,10 +5,10 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import {
   LANDSCAPING_DECORATIONS,
-  getKeys,
   Decoration,
 } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";

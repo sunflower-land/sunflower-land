@@ -1,4 +1,4 @@
-import { getKeys } from "../types/craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { ExpansionRequirements, GameState } from "../types/game";
 import { getBumpkinLevel } from "./level";
 

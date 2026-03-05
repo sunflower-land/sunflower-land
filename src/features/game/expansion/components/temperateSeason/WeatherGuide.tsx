@@ -13,7 +13,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { Label } from "components/ui/Label";

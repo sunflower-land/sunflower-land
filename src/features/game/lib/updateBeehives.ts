@@ -10,7 +10,7 @@ import {
   isCollectibleBuilt,
   isTemporaryCollectibleActive,
 } from "./collectibleBuilt";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "../expansion/lib/utils";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
 import cloneDeep from "lodash.clonedeep";

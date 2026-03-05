@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import {
   REQUIRED_CHEERS,
   VillageProjectName,

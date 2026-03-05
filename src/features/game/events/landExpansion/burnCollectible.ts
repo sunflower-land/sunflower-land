@@ -1,5 +1,5 @@
 import { GameState } from "../../types/game";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
@@ -10,6 +10,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { isPetCollectible } from "./placeCollectible";
+import { getKeys } from "features/game/expansion/lib/utils";
 
 export type BurnCollectibleAction = {
   type: "collectible.burned";

@@ -22,7 +22,7 @@ import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MANAGER_IDS } from "lib/access";
 import { CONFIG } from "lib/config";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

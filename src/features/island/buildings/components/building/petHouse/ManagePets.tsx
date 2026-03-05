@@ -8,7 +8,7 @@ import {
   getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { CookableName } from "features/game/types/consumables";
 import {
   PET_CATEGORIES,

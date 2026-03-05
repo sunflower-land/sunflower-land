@@ -5,7 +5,7 @@ import {
   FishType,
   MarineMarvelName,
 } from "features/game/types/fishing";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { AssetType } from "features/game/types/codex";
 import {
   FLOWERS,

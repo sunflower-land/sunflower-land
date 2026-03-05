@@ -19,7 +19,7 @@ import gift from "assets/icons/gift.png";
 import rewardIcon from "assets/icons/stock.webp";
 
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

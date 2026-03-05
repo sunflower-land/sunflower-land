@@ -7,7 +7,7 @@ import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { GreenHouseCropName } from "features/game/types/crops";
 import { GreenHouseFruitName } from "features/game/types/fruits";

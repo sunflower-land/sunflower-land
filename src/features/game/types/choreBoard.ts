@@ -1,6 +1,6 @@
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { GameState, InventoryItemName } from "./game";
-import { getKeys } from "./decorations";
+import { getKeys } from "../expansion/lib/utils";
 import { FarmActivityName } from "./farmActivity";
 
 type ChoreTask = {

@@ -17,7 +17,7 @@ import {
   FlowerName,
   FlowerSeedName,
 } from "features/game/types/flowers";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/expansion/lib/utils";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MilestoneName } from "features/game/types/milestones";
 import { SUNNYSIDE } from "assets/sunnyside";

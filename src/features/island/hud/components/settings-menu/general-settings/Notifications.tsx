@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import useSWR from "swr";
 import { SettingMenuId, subscriptionsFetcher } from "../GameOptions";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "features/game/expansion/lib/utils";
 import Switch from "components/ui/Switch";
 import { Button } from "components/ui/Button";
 import { useGetDeviceType } from "lib/utils/hooks/useGetDeviceType";
