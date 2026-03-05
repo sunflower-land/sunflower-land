@@ -53,7 +53,6 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
-import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
 import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
@@ -118,11 +117,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 
   const canRefresh = !gameService.getSnapshot().context.state.transaction;
   const hideRefresh = !gameService.getSnapshot().context.nftId;
-
-  const hasHoardingCheck = hasFeatureAccess(
-    gameService.getSnapshot()?.context?.state,
-    "HOARDING_CHECK",
-  );
 
   return (
     <>
@@ -191,13 +185,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
             <span>{t("gameOptions.plazaSettings")}</span>
           </Button>
-          {hasHoardingCheck && (
-            <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
-              <span>{t("gameOptions.developerOptions")}</span>
-            </Button>
-          )}
+          <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
+            <span>{t("gameOptions.developerOptions")}</span>
+          </Button>
           <Button
-            className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            className="p-1 col-span-1 sm:col-span-2"
             onClick={() => showConfirmLogoutModal(true)}
           >
             {t("gameOptions.logout")}
@@ -358,7 +350,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
   experiments: {
     title: "Experiments",
-    parent: "general",
+    parent: "amoy",
     content: ExperimentsSettings,
   },
 
@@ -399,7 +391,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
 
   apiKey: {
     title: translate("share.apiKey"),
-    parent: "general",
+    parent: "amoy",
     content: ApiKey,
   },
   preferences: {
