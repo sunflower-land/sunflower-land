@@ -42,7 +42,6 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const now = useNow();
 
   const inventory = useSelector(gameService, _inventory);
-  const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
 
   const { level } = getPetLevel(data.experience);
@@ -102,8 +101,6 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
             petLevel: level,
             fetchResource,
             isPetNFT: isPetNFT(data),
-            farmId,
-            counter: data.fetches?.[fetchResource] ?? 0,
             state,
           });
 
