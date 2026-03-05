@@ -1,6 +1,9 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import {
+  getInstantGems,
+  makeGemHistory,
+} from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
 
@@ -55,7 +58,7 @@ export function speedUpCrafting({
 
     inventory["Gem"] = inventoryGems.sub(gems);
 
-    game = makeGemHistory({ game, amount: gems });
+    game = makeGemHistory({ game, amount: gems, createdAt });
 
     if (queue.length > 0) {
       const readyItems = queue.filter((q) => q.readyAt <= createdAt);

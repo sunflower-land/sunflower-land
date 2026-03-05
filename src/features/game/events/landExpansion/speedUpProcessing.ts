@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { ProcessingBuildingName } from "features/game/types/buildings";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems } from "./speedUpRecipe";
+import {
+  getInstantGems,
+  makeGemHistory,
+} from "features/game/lib/getInstantGems";
 import { recalculateProcessingQueue } from "./cancelProcessedResource";
 
 export type SpeedUpProcessingAction = {
@@ -73,6 +76,8 @@ export const speedUpProcessing = ({
     game.inventory[currentProcessingItem.name] = (
       game.inventory[currentProcessingItem.name] ?? new Decimal(0)
     ).add(1);
+
+    game = makeGemHistory({ game, amount: gems, createdAt });
 
     const queue = building.processing ?? [];
     const queueWithoutSpedUpItem = queue.filter(

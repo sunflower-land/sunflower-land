@@ -295,6 +295,47 @@ describe("instantProcessing", () => {
         PROCESSING_TIME("Fish Oil"),
     );
   });
+
+  it("updates the gem history", () => {
+    const PROCESSING_TIME = (name: ProcessedResource) =>
+      FISH_PROCESSING_TIME_SECONDS[name] * 1000;
+    const now = Date.now();
+    const state = speedUpProcessing({
+      farmId,
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Gem: new Decimal(100) },
+        buildings: {
+          "Fish Market": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              processing: [
+                {
+                  name: "Fish Stick",
+                  readyAt: now + PROCESSING_TIME("Fish Oil"),
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        buildingId: "123",
+        buildingName: "Fish Market",
+        type: "processing.spedUp",
+      },
+      createdAt: now,
+    });
+
+    expect(state.gems.history).toEqual({
+      [new Date(now).toISOString().substring(0, 10)]: {
+        spent: 40,
+      },
+    });
+  });
 });
 //   const farmId = 1;
 //   it("returns the correct amount of gems for a 1 hour recipe", () => {
