@@ -212,7 +212,7 @@ export const REWARD_ITEMS: Record<
   },
 };
 
-export function isMonumentComplete({
+function isMonumentComplete({
   game,
   monument,
 }: {
@@ -222,6 +222,19 @@ export function isMonumentComplete({
   return (
     (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
     REQUIRED_CHEERS[monument]
+  );
+}
+
+export function isMonumentActive({
+  game,
+  monument,
+}: {
+  game: GameState;
+  monument: MonumentName;
+}) {
+  return (
+    isMonumentComplete({ game, monument }) &&
+    isCollectibleBuilt({ name: monument, game })
   );
 }
 
@@ -445,18 +458,12 @@ export function getHelpLimit({
   };
 
   getKeys(monuments).forEach((monument) => {
-    if (
-      isMonumentComplete({ game, monument }) &&
-      isCollectibleBuilt({ name: monument, game })
-    ) {
+    if (isMonumentActive({ game, monument })) {
       limit += 1;
     }
   });
 
-  if (
-    isCollectibleBuilt({ name: "Teamwork Monument", game }) &&
-    isMonumentComplete({ game, monument: "Teamwork Monument" })
-  ) {
+  if (isMonumentActive({ game, monument: "Teamwork Monument" })) {
     limit += 1;
   }
 
