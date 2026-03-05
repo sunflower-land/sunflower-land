@@ -8115,5 +8115,6 @@
   "crafting.vipCraftingQueue": "¡Conviértete en miembro VIP y desbloquea la posibilidad de elaborar hasta 4 recetas a la vez! Actualízate ahora para potenciar tu elaboración.",
   "crafting.inQueue": "En cola",
   "crafting.addToQueue": "Añadir a la cola",
-  "vip.benefit.craftingQueue": "Haz cola para preparar recetas en la caja de manualidades"
+  "vip.benefit.craftingQueue": "Haz cola para preparar recetas en la caja de manualidades",
+  "experiments": "Experimentos"
 }

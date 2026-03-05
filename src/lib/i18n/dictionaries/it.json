@@ -8115,5 +8115,6 @@
   "crafting.vipCraftingQueue": "Diventa un membro VIP e sblocca la possibilità di creare fino a 4 ricette contemporaneamente! Effettua subito l'upgrade per potenziare la tua creazione.",
   "crafting.inQueue": "In coda",
   "crafting.addToQueue": "Aggiungi alla coda",
-  "vip.benefit.craftingQueue": "Mette in coda le ricette nella scatola da lavoro"
+  "vip.benefit.craftingQueue": "Mette in coda le ricette nella scatola da lavoro",
+  "experiments": "Esperimenti"
 }

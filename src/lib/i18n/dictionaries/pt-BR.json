@@ -8115,5 +8115,6 @@
   "crafting.vipCraftingQueue": "Torne-se um membro VIP e desbloqueie a capacidade de criar até 4 receitas ao mesmo tempo! Atualize agora para turbinar sua criação.",
   "crafting.inQueue": "Na fila",
   "crafting.addToQueue": "Adicionar à fila",
-  "vip.benefit.craftingQueue": "Coloque receitas na fila na caixa de artesanato"
+  "vip.benefit.craftingQueue": "Coloque receitas na fila na caixa de artesanato",
+  "experiments": "Experimentos"
 }
