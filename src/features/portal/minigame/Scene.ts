@@ -5,10 +5,12 @@ import { BaseScene } from "./Core/BaseScene";
 import { MachineInterpreter } from "./lib/Machine";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "features/world/lib/device";
-import { PORTAL_NAME, WALKING_SPEED } from "./Constants";
+import { BLAST_SKELETON_POSITIONS, MENACE_SKELETON_POSITIONS, PORTAL_NAME, WALKING_SPEED } from "./Constants";
 import { EventBus } from "./lib/EventBus";
 import { Giant_Skeleton } from "./containers/Giant_Skeleton";
 import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
+import { Menace_Skeleton } from "./containers/Menace_Skeleton";
+import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -21,6 +23,8 @@ import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 
 export class Scene extends BaseScene {
   private backgroundMusic!: Phaser.Sound.BaseSound;
+  private menaceSkeleton: Menace_Skeleton[] = [];
+  private drownedSkeleton: Blast_Skeleton[] = [];
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -53,27 +57,50 @@ export class Scene extends BaseScene {
     this.load.spritesheet("giant_skeleton_idle", "public/world/minigame/skeleton_hurt.webp", {
       frameWidth: 23,
       frameHeight: 26
-    })
+    });
     this.load.spritesheet("sniper_skeleton_idle", "public/world/minigame/skeleton_attack.webp", {
       frameWidth: 23,
       frameHeight: 24
-    })
+    });
+        this.load.spritesheet("sniper_skeleton_move", "public/world/minigame/skeleton_hurt.webp", {
+      frameWidth: 23,
+      frameHeight: 26
+    });
+    // Vege Splats
     this.load.spritesheet("sniper_skeleton_carrot_splat", "public/world/minigame/carrot_splat.webp", {
-      frameWidth: 18,
-      frameHeight: 16
+      frameWidth: 20,
+      frameHeight: 20
     })
     this.load.spritesheet("sniper_skeleton_tomato_splat", "public/world/minigame/tomato_splat.webp", {
       frameWidth: 18,
       frameHeight: 16
     })
     this.load.spritesheet("sniper_skeleton_cabbage_splat", "public/world/minigame/cabbage_splat.webp", {
-      frameWidth: 18,
-      frameHeight: 15
-    })
-    this.load.image("giant_skeleton_barrel", "public/world/minigame/Wooden_Barrel.webp")
-    this.load.image("sniper_skeleton_carrot", "public/world/minigame/carrot.png")
-    this.load.image("sniper_skeleton_tomato", "public/world/minigame/tomato.webp")
-    this.load.image("sniper_skeleton_cabbage", "public/world/minigame/cabbage.png")
+      frameWidth: 27,
+      frameHeight: 19
+    });
+    this.load.spritesheet("sniper_skeleton_potato_splat", "public/world/minigame/potato_splat.webp", {
+      frameWidth: 26,
+      frameHeight: 26
+    });
+    this.load.spritesheet("sniper_skeleton_tomato_splatter", "public/world/minigame/tomato_splatter.webp", {
+      frameWidth: 17,
+      frameHeight: 32
+    });
+    this.load.spritesheet("sniper_skeleton_tomato_screenSplat", "public/world/minigame/tomato_screenSplat.webp", {
+      frameWidth: 160,
+      frameHeight: 160
+    });
+    this.load.spritesheet("sniper_skeleton_tomato_rolling", "public/world/minigame/tomato_rolling.webp", {
+      frameWidth: 160,
+      frameHeight: 160
+    });
+
+    this.load.image("giant_skeleton_barrel", "public/world/minigame/Wooden_Barrel.webp");
+    this.load.image("sniper_skeleton_carrot", "public/world/minigame/carrot.png");
+    this.load.image("sniper_skeleton_tomato", "public/world/minigame/tomato.webp");
+    this.load.image("sniper_skeleton_cabbage", "public/world/minigame/cabbage.png");
+    this.load.image("sniper_skeleton_potato", "public/world/minigame/potato.png");
 
     // Music
     // Background
@@ -92,6 +119,8 @@ export class Scene extends BaseScene {
     // Enemies
     this.createGiantSkeleton();
     this.createSniperSkeleton();
+    // this.createMenaceSkeleton();
+    // this.createBlastSkeleton();
 
     // Reset listeners
     EventBus.removeAllListeners();
@@ -253,7 +282,7 @@ export class Scene extends BaseScene {
   }
 
   private createGiantSkeleton() {
-    const { x, y } = { x: 230, y: 240 }
+    const { x, y } = { x: 230, y: 100 }
     const giantCardboard = new Giant_Skeleton({
       x,
       y,
@@ -263,7 +292,7 @@ export class Scene extends BaseScene {
   }
 
   private createSniperSkeleton() {
-    const { x, y } = { x: 250, y: 260 }
+    const { x, y } = { x: 250, y: 20 }
     const sniperSkeleton = new Sniper_Skeleton({
       x,
       y,
@@ -272,4 +301,22 @@ export class Scene extends BaseScene {
     });
   }
 
-}
+  private createMenaceSkeleton() {
+    const {x, y} = {x: 250, y: 240}
+    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => new Menace_Skeleton({
+      x: pos.x,
+      y: pos.y,
+      scene: this,
+      player: this.currentPlayer,
+    }));
+  }
+
+  private createBlastSkeleton() {
+    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => new Blast_Skeleton({
+      x: pos.x,
+      y: pos.y,
+      scene: this,
+      player: this.currentPlayer
+    }))
+  }
+ }
