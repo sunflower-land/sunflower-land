@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "Na fila",
   "crafting.addToQueue": "Adicionar à fila",
   "vip.benefit.craftingQueue": "Coloque receitas na fila na caixa de artesanato",
-  "experiments": "Experimentos"
+  "experiments": "Experimentos",
+  "playerModal.viewTrades": "Exibir negociações"
 }

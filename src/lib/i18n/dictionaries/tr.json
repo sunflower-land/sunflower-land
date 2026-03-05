@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "Kuyrukta",
   "crafting.addToQueue": "Kuyruğa ekle",
   "vip.benefit.craftingQueue": "Tarifleri işçilik kutusunda sıraya koyun",
-  "experiments": "Deneyler"
+  "experiments": "Deneyler",
+  "playerModal.viewTrades": "İşlemleri görüntüleyin"
 }

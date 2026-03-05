@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "待機中",
   "crafting.addToQueue": "キューに追加",
   "vip.benefit.craftingQueue": "クラフトボックスでレシピをキューに入れる",
-  "experiments": "実験"
+  "experiments": "実験",
+  "playerModal.viewTrades": "取引を表示"
 }

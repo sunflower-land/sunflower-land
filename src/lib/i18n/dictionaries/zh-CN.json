@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "在队列中",
   "crafting.addToQueue": "添加到队列",
   "vip.benefit.craftingQueue": "在制作箱中排队配方",
-  "experiments": "实验"
+  "experiments": "实验",
+  "playerModal.viewTrades": "查看交易"
 }

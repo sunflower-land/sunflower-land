@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "In coda",
   "crafting.addToQueue": "Aggiungi alla coda",
   "vip.benefit.craftingQueue": "Mette in coda le ricette nella scatola da lavoro",
-  "experiments": "Esperimenti"
+  "experiments": "Esperimenti",
+  "playerModal.viewTrades": "Visualizza le negoziazioni"
 }

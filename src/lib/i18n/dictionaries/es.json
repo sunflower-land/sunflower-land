@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "En cola",
   "crafting.addToQueue": "Añadir a la cola",
   "vip.benefit.craftingQueue": "Haz cola para preparar recetas en la caja de manualidades",
-  "experiments": "Experimentos"
+  "experiments": "Experimentos",
+  "playerModal.viewTrades": "Ver operaciones"
 }

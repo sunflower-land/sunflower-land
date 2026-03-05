@@ -8116,5 +8116,6 @@
   "crafting.inQueue": "In der Warteschlange",
   "crafting.addToQueue": "Zur Warteschlange hinzufügen",
   "vip.benefit.craftingQueue": "Stellen Sie Rezepte in der Bastelkiste in die Warteschlange",
-  "experiments": "Experimente"
+  "experiments": "Experimente",
+  "playerModal.viewTrades": "Trades ansehen"
 }

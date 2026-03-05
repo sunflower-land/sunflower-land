@@ -8116,5 +8116,6 @@
   "vip.benefit.craftingQueue": "Queue up recipes in crafting box",
   "streams.thursday.ongoing": "Discord Stream Ongoing",
   "waterTrap.selectTrap": "Select a trap",
-  "experiments": "Experiments"
+  "experiments": "Experiments",
+  "playerModal.viewTrades": "View trades"
 }
