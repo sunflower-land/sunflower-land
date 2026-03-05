@@ -89,11 +89,6 @@ export const CraftButton: React.FC<{
   if (isCrafting || isPending) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        {isViewingReadyItem && (
-          <Button className="whitespace-nowrap" onClick={handleCollect}>
-            {t("collect")}
-          </Button>
-        )}
         {hasCraftingBoxQueuesAccess && (
           <Button
             className="whitespace-nowrap relative"
@@ -106,6 +101,11 @@ export const CraftButton: React.FC<{
               className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
             />
             {t("recipes.addToQueue")}
+          </Button>
+        )}
+        {isViewingReadyItem && (
+          <Button className="whitespace-nowrap" onClick={handleCollect}>
+            {t("collect")}
           </Button>
         )}
         {!isPreparingQueueSlot && !isViewingReadyItem && (
