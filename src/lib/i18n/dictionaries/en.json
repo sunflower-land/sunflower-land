@@ -8117,6 +8117,5 @@
   "resource.goldRecoveryTime": "Gold",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Oil",
-  "resource.sunstoneRecoveryTime": "Sunstone",
-  "boost.buildingOil": "Building oil: x{{percent}}"
+  "resource.sunstoneRecoveryTime": "Sunstone"
 }
