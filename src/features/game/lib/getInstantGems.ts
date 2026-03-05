@@ -1,4 +1,3 @@
-import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 
 const SECONDS_TO_GEMS = {
@@ -30,7 +29,7 @@ export function getInstantGems({
 }) {
   const secondsLeft = (readyAt - now) / 1000;
 
-  const thresholds = getKeys(SECONDS_TO_GEMS);
+  const thresholds = Object.keys(SECONDS_TO_GEMS).map(Number);
 
   let gems = 100;
 

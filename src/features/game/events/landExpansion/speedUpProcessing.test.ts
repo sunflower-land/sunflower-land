@@ -314,7 +314,7 @@ describe("instantProcessing", () => {
               readyAt: 0,
               processing: [
                 {
-                  name: "Fish Stick",
+                  name: "Fish Oil",
                   readyAt: now + PROCESSING_TIME("Fish Oil"),
                 },
               ],
