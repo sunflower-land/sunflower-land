@@ -40,6 +40,7 @@ import {
   GoblinPirateItemName,
   HeliosBlacksmithItem,
   MegaStoreCollectibleName,
+  PlaceableLocation,
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
@@ -472,7 +473,7 @@ export type Bumpkin = {
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
   paidSkillResets?: number;
   coordinates?: Coordinates;
-  location?: "farm" | "home";
+  location?: Exclude<PlaceableLocation, "petHouse">;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
