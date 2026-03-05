@@ -4,6 +4,7 @@ import {
   PanelTabs,
 } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { Modal } from "components/ui/Modal";
 import cheer from "assets/icons/cheer.webp";
 import followersIcon from "assets/icons/followers.webp";
@@ -67,10 +68,16 @@ export const PlayerModal: React.FC<Props> = ({
     navigateToPlayer,
   } = usePlayerNavigation();
 
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showAirdrop, setShowAirdrop] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
+
+  const marketplaceBase = location.pathname.includes("/world")
+    ? "/world/marketplace"
+    : "/marketplace";
 
   const closeModal = useCallback(() => {
     setShowPlayerModal(false);
@@ -282,6 +289,15 @@ export const PlayerModal: React.FC<Props> = ({
             )}
             {tab === "Guide" && <CheersGuide />}
             <div className="flex items-center p-1 space-x-3 justify-end">
+              <span
+                className="text-xxs underline cursor-pointer"
+                onClick={() => {
+                  closeModal();
+                  navigate(`${marketplaceBase}/profile/${currentPlayerId}`);
+                }}
+              >
+                {t("playerModal.viewTrades")}
+              </span>
               <span
                 className="text-xxs underline cursor-pointer"
                 onClick={() => setShowReport(true)}

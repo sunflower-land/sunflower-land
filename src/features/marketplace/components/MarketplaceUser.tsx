@@ -1,7 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
@@ -14,6 +14,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -21,7 +22,6 @@ const _token = (state: AuthMachineState) =>
 export const MarketplaceUser: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const token = useSelector(authService, _token);
-  const navigate = useNavigate();
 
   const { id } = useParams();
   const { t } = useAppTranslation();
@@ -49,7 +49,16 @@ export const MarketplaceUser: React.FC = () => {
     <div className="overflow-y-scroll scrollable pr-1">
       <div className="flex flex-wrap">
         <div className="w-full sm:w-1/3 pr-1 mb-1">
-          <InnerPanel className="flex items-center h-full">
+          <InnerPanel
+            className="flex items-center h-full cursor-pointer"
+            onClick={() =>
+              playerModalManager.open({
+                farmId: profile.id,
+                username: profile.username,
+                clothing: interpretTokenUri(profile.tokenUri).equipped,
+              })
+            }
+          >
             <div className="h-16 w-16 flex items-center justify-center mr-2 relative">
               <NPCIcon
                 parts={interpretTokenUri(profile.tokenUri).equipped}
@@ -118,9 +127,13 @@ export const MarketplaceUser: React.FC = () => {
             <div
               key={friend.id}
               className="flex items-center w-full sm:w-1/3 pr-4 cursor-pointer"
-              onClick={() => {
-                navigate(`/marketplace/profile/${friend.id}`);
-              }}
+              onClick={() =>
+                playerModalManager.open({
+                  farmId: friend.id,
+                  username: friend.username,
+                  clothing: interpretTokenUri(friend.tokenUri).equipped,
+                })
+              }
             >
               <div className="h-16 w-16 flex items-center justify-center relative">
                 <NPCIcon parts={interpretTokenUri(friend.tokenUri).equipped} />

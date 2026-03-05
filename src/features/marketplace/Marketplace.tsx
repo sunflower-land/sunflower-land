@@ -11,12 +11,19 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
 import { formatNumber } from "lib/utils/formatNumber";
+import { PlayerModal } from "features/social/PlayerModal";
+import * as Auth from "features/auth/lib/Provider";
 
 const _balance = (state: MachineState) => state.context.state.balance;
+const _farmId = (state: MachineState) => state.context.farmId ?? 0;
 
 export const Marketplace: React.FC = () => {
   const { gameService, fromRoute } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
   const balance = useSelector(gameService, _balance);
+  const farmId = useSelector(gameService, _farmId);
+  const token =
+    (authService.getSnapshot().context.user?.rawToken as string) ?? "";
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useAppTranslation();
@@ -46,6 +53,11 @@ export const Marketplace: React.FC = () => {
 
   return (
     <>
+      <PlayerModal
+        loggedInFarmId={farmId}
+        token={token}
+        hasAirdropAccess={false}
+      />
       <MarketplaceIntroduction />
       <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
         <OuterPanel className="h-full">

@@ -14,6 +14,7 @@ import petEggNFT from "assets/icons/pet_nft_egg.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 import { RafflePrize } from "./types";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 type Props = {
   winners: RaffleWinner[];
@@ -40,9 +41,16 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
           return (
             <tr
               key={`${winner.farmId}-${winner.position}`}
-              className={classNames({
+              className={classNames("cursor-pointer", {
                 "bg-green-500": winner.farmId === farmId,
               })}
+              onClick={() =>
+                playerModalManager.open({
+                  farmId: winner.farmId,
+                  username: name,
+                  clothing: winner.profile?.equipped,
+                })
+              }
             >
               <td
                 style={{ border: "1px solid #b96f50" }}
