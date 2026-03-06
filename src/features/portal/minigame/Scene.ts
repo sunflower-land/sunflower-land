@@ -5,12 +5,12 @@ import { BaseScene } from "./Core/BaseScene";
 import { MachineInterpreter } from "./lib/Machine";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "features/world/lib/device";
-import { PORTAL_NAME, WALKING_SPEED } from "./Constants";
+import { PORTAL_NAME, WALKING_SPEED, BLAST_SKELETON_POSITIONS, MENACE_SKELETON_POSITIONS} from "./Constants";
 import { EventBus } from "./lib/EventBus";
 import { Giant_Skeleton } from "./containers/Giant_Skeleton";
 import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
-// import { Menace_Skeleton } from "./containers/Menace_Skeleton";
-// import { Blast_Skeleton } from "./containers/Blast_Skeleton";
+import { Menace_Skeleton } from "./containers/Menace_Skeleton";
+import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -23,8 +23,8 @@ import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 
 export class Scene extends BaseScene {
   private backgroundMusic!: Phaser.Sound.BaseSound;
-  // private menaceSkeleton: Menace_Skeleton[] = [];
-  // private drownedSkeleton: Blast_Skeleton[] = [];
+  private menaceSkeleton: Menace_Skeleton[] = [];
+  private drownedSkeleton: Blast_Skeleton[] = [];
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -135,6 +135,27 @@ export class Scene extends BaseScene {
         frameHeight: 160,
       },
     );
+    this.load.spritesheet(
+      "waves_up", "public/world/minigame/waves_tile_up.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    ),
+    this.load.spritesheet(
+      "waves_center", "public/world/minigame/waves_tile_center.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    ),
+    this.load.spritesheet(
+      "waves_down", "public/world/minigame/waves_tile_down.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    ),
 
     this.load.image(
       "giant_skeleton_barrel",
@@ -172,10 +193,7 @@ export class Scene extends BaseScene {
     super.create();
 
     // Enemies
-    this.createGiantSkeleton();
-    this.createSniperSkeleton();
-    // this.createMenaceSkeleton();
-    // this.createBlastSkeleton();
+    this.createEnemies();
 
     // Reset listeners
     EventBus.removeAllListeners();
@@ -336,6 +354,13 @@ export class Scene extends BaseScene {
     this.currentPlayer[animation]?.();
   }
 
+  private createEnemies() {
+    this.createGiantSkeleton();
+    this.createSniperSkeleton();
+    this.createMenaceSkeleton();
+    this.createBlastSkeleton();
+  }
+
   private createGiantSkeleton() {
     const { x, y } = { x: 230, y: 100 };
     const giantCardboard = new Giant_Skeleton({
@@ -356,22 +381,22 @@ export class Scene extends BaseScene {
     });
   }
 
-  //   private createMenaceSkeleton() {
-  //     const {x, y} = {x: 250, y: 240}
-  //     this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => new Menace_Skeleton({
-  //       x: pos.x,
-  //       y: pos.y,
-  //       scene: this,
-  //       player: this.currentPlayer,
-  //     }));
-  //   }
+    private createMenaceSkeleton() {
+      const {x, y} = {x: 250, y: 240}
+      this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => new Menace_Skeleton({
+        x: pos.x,
+        y: pos.y,
+        scene: this,
+        player: this.currentPlayer,
+      }));
+    }
 
-  //   private createBlastSkeleton() {
-  //     this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => new Blast_Skeleton({
-  //       x: pos.x,
-  //       y: pos.y,
-  //       scene: this,
-  //       player: this.currentPlayer
-  //     }))
-  //   }
+    private createBlastSkeleton() {
+      this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => new Blast_Skeleton({
+        x: pos.x,
+        y: pos.y,
+        scene: this,
+        player: this.currentPlayer
+      }))
+    }
 }
