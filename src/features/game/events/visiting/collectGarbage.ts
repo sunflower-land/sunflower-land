@@ -3,9 +3,8 @@ import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import {
   hasHitHelpLimit,
-  isMonumentComplete,
+  isMonumentActive,
 } from "features/game/types/monuments";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type CollectGarbageAction = {
   type: "garbage.collected";
@@ -55,11 +54,10 @@ export function collectGarbage({
     if (
       (type === "Weed" || type === "Dung") &&
       isLastClutter &&
-      isMonumentComplete({
+      isMonumentActive({
         game: visitorGame,
         monument: "Poseidon's Throne",
-      }) &&
-      isCollectibleBuilt({ name: "Poseidon's Throne", game: visitorGame })
+      })
     ) {
       amount += 1;
     }
