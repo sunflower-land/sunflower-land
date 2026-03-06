@@ -49,7 +49,6 @@ interface Props {
   ) => void;
   handleResetRequests: () => void;
   onAcknowledged: () => void;
-  farmId: number;
 }
 
 export const getAdjustedFoodCount = (
@@ -126,7 +125,6 @@ export const PetCard: React.FC<Props> = ({
   setSelectedFeed,
   handleResetRequests,
   onAcknowledged,
-  farmId,
 }) => {
   const now = useNow({ live: true });
   const todayDate = new Date(now).toISOString().split("T")[0];
@@ -327,15 +325,10 @@ export const PetCard: React.FC<Props> = ({
                   const inventoryCount =
                     inventory[fetch.name] ?? new Decimal(0);
 
-                  const initialFetchCount =
-                    state.farmActivity[`${fetch.name} Fetched`] ?? 0;
-
                   const { yieldAmount: fetchAmount } = getFetchYield({
                     petLevel: level,
                     fetchResource: fetch.name,
                     isPetNFT: isPetNFT(petData),
-                    farmId,
-                    counter: petData.fetches?.[fetch.name] ?? initialFetchCount,
                     state,
                   });
 
