@@ -1,0 +1,53 @@
+name: Art Request
+description: A request for in-game art
+title: "[ART] "
+labels: ["🖼️ art request"]
+assignees: []
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Please provide a brief summary of what art needs doing.
+      placeholder: This is a request for mineral-based NFT items to craft at the Blacksmith! 🚀
+    validations:
+      required: true
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Requirements
+      description: Please confirm the following requirements for your art submission.
+      options:
+        - label: Minified art submission
+        - label: Dimensions and colour palette match the gameplay
+        - label: Screenshot of the asset used in the game
+        - label: Original art, no plagiarism
+    validations:
+      required: false
+  - type: checkboxes
+    id: acknowledgments
+    attributes:
+      label: Acknowledgments
+      description: |
+        You have read the [contributing guidelines](https://github.com/sunflower-land/sunflower-land/blob/main/docs/ART_CONTRIBUTING.md) and agree to the project's [terms of service](https://docs.sunflower-land.com/support/terms-of-service).
+
+        Note: Your art & mechanic may be modified/altered by the community if needed.
+      options:
+        - label: I have read the contributing guidelines
+          required: true
+        - label: I agree to the project's terms and conditions
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Rewards
+
+        There is no guarantee of rewards by contributing to the project. Based on past history however, artists are airdropped their designs or surprised with in-game rewards.
+  - type: input
+    id: deadline
+    attributes:
+      label: Deadline
+      description: Optional. When does this need to be completed?
+      placeholder: "e.g. 2024-03-15"
+    validations:
+      required: false
