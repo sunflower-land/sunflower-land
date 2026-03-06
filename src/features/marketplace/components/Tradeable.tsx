@@ -25,7 +25,7 @@ import { TradeableListings } from "./TradeableListings";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { tradeToId } from "../lib/offers";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";

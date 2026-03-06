@@ -7,7 +7,7 @@ import { produce } from "immer";
 import { KNOWN_IDS } from "features/game/types";
 import { availableWardrobe } from "./equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 
 export type SellGarbageAction = {
   type: "garbage.sold";

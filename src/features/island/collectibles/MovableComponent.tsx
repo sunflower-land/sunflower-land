@@ -52,7 +52,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { getPetImage } from "../pets/lib/petShared";
 import { budImageDomain } from "./components/Bud";
 import { useNow } from "lib/utils/hooks/useNow";

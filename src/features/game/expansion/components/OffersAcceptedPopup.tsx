@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import React, { useContext } from "react";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";

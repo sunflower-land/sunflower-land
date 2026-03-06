@@ -32,7 +32,7 @@ import {
 } from "features/game/types/seeds";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { Transition } from "@headlessui/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useSound } from "lib/utils/hooks/useSound";

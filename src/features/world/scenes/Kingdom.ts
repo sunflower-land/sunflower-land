@@ -15,7 +15,7 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { npcModalManager } from "../ui/NPCModals";
 import { FactionName, TemperateSeasonName } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 import {
   getFactionScores,

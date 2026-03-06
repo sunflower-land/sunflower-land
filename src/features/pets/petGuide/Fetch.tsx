@@ -7,7 +7,7 @@ import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const SECONDARY_RESOURCES = getObjectEntries(FETCHES_BY_CATEGORY);

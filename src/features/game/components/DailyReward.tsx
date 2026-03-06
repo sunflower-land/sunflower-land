@@ -10,7 +10,7 @@ import {
 } from "../events/landExpansion/claimDailyReward";
 import { DailyRewardName, getRewardsForStreak } from "../types/dailyRewards";
 import { InventoryItemName } from "../types/game";
-import { getKeys } from "../lib/crafting";
+import { getKeys } from "lib/object";
 import { ClaimReward } from "../expansion/components/ClaimReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsTillReset, secondsToString } from "lib/utils/time";

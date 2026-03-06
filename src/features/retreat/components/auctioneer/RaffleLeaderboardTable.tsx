@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

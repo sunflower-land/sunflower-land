@@ -12,7 +12,7 @@ import {
   getResourceDropAmount,
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

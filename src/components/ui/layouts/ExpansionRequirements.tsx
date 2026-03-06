@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   Bumpkin,
   GameState,

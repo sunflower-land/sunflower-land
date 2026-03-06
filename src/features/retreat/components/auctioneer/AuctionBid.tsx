@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
 import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

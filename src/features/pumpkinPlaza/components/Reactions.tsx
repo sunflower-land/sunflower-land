@@ -3,7 +3,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SceneId } from "features/world/mmoMachine";

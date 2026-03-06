@@ -27,7 +27,7 @@ import {
 } from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CrustaceanGuide } from "./CrustaceanGuide";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
 const _state = (state: MachineState) => state.context.state;

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CONSUMABLES, COOKABLE_CAKES } from "features/game/types/consumables";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   BoostName,
   GameState,

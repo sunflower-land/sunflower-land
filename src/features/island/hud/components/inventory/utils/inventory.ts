@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   BuildingName,
@@ -12,7 +12,7 @@ import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   FarmHands,
   GameState,

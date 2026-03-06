@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import giftIcon from "assets/icons/gift.png";
 import letter from "assets/icons/letter.png";
 

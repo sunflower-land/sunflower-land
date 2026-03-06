@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
-import { Decoration, getKeys } from "./decorations";
+import { Decoration } from "./decorations";
+import { getKeys } from "lib/object";
 import { GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
 import { PetName, PetNFTName } from "./pets";

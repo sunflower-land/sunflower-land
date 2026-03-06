@@ -29,7 +29,7 @@ import {
   ChapterStoreWearable,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {

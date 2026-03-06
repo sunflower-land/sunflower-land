@@ -6,7 +6,7 @@ import {
   getSignupWardrobe,
   DEFAULT_SIGNUP_EQUIPMENT,
 } from "./signupBumpkinDefaults";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 
 describe("signupBumpkinDefaults", () => {
   describe("getSignupWardrobe", () => {

@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys, getObjectEntries } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -16,7 +16,6 @@ import {
 import { PurchaseType } from "features/game/types/buyOptionPurchaseItem";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useSelector } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Button } from "components/ui/Button";

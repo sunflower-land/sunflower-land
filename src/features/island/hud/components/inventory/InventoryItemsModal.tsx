@@ -10,7 +10,7 @@ import { Modal } from "components/ui/Modal";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./Biomes";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {

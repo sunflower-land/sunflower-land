@@ -1,5 +1,5 @@
 import { CLUTTER } from "../types/clutter";
-import { getKeys, TOOLS } from "../types/craftables";
+import { TOOLS } from "../types/craftables";
 import { InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
@@ -29,6 +29,7 @@ import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { BUILDINGS } from "../types/buildings";
 import { FLOWERS } from "../types/flowers";
 import { WORKBENCH_MONUMENTS } from "../types/monuments";
+import { getKeys } from "lib/object";
 
 export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",

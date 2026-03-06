@@ -1,4 +1,4 @@
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { PetName } from "features/game/types/pets";

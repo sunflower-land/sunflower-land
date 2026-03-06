@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 import { NPCName } from "lib/npcs";
 import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { RecipeCollectibleName, RECIPES } from "features/game/lib/crafting";

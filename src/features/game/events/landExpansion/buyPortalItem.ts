@@ -10,7 +10,7 @@ import {
   MINIGAME_SHOP_ITEMS,
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type BuyMinigameItemAction = {

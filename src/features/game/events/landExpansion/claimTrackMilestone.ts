@@ -10,7 +10,7 @@ import {
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 export type ClaimTrackMilestoneAction = {

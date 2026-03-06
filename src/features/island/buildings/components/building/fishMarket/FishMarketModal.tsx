@@ -31,7 +31,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 
 interface Props {
   isOpen: boolean;

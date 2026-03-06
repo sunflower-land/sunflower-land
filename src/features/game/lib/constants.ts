@@ -8,14 +8,14 @@ import {
   BB_TO_GEM_RATIO,
   InventoryItemName,
 } from "../types/game";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getChapterTicket } from "../types/chapters";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   isFullMoonBerry,
   isGreenhouseCropSeed,

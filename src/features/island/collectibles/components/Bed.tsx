@@ -8,7 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { Loading } from "features/auth/components";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

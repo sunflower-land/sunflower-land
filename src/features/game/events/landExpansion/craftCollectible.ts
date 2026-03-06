@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
-
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import { GameState, Keys } from "../../types/game";

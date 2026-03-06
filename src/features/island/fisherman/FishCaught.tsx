@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { FISH, MarineMarvelName } from "features/game/types/fishing";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";

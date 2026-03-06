@@ -30,7 +30,7 @@ import {
   VIP_PRICES,
   VipBundle,
 } from "features/game/lib/vipAccess";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

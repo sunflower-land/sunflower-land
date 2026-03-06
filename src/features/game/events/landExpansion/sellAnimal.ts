@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getAnimalLevel } from "features/game/lib/animals";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import {

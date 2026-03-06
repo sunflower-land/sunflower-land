@@ -6,7 +6,8 @@ import {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   getChestBuds,
   getChestFarmHands,

@@ -10,7 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 import { secondsToString } from "lib/utils/time";
 
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import lightning from "assets/icons/lightning.png";

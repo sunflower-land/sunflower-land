@@ -9,9 +9,8 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { PET_SHRINES, PetShrineName } from "features/game/types/pets";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys, getObjectEntries } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
 
 export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {

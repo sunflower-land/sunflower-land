@@ -18,7 +18,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CALEDNAR_EVENT_INFORMATION } from "./WeatherGuide";
 import { SpecialEvents } from "./WeatherGuide";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
 

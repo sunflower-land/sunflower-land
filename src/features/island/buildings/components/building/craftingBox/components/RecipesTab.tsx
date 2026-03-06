@@ -29,7 +29,7 @@ import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasFeatureAccess } from "lib/flags";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";

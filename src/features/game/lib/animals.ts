@@ -10,7 +10,7 @@ import {
   AnimalType,
 } from "../types/animals";
 import { BuildingName } from "../types/buildings";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "lib/object";
 import {
   Animal,
   AnimalBuilding,

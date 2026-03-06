@@ -9,7 +9,7 @@ import {
   INITIAL_RESOURCES,
   INITIAL_STOCK,
 } from "./constants";
-import { getKeys } from "./crafting";
+import { getKeys } from "lib/object";
 import { makeAnimalBuilding } from "./animals";
 import { getChapterTicket } from "../types/chapters";
 

@@ -24,8 +24,8 @@ import { detectCollision } from "features/game/expansion/placeable/lib/collision
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
-  getKeys,
 } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
