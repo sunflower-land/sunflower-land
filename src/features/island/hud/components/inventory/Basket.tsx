@@ -61,7 +61,7 @@ import {
   isFlowerSeed,
 } from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BUILDING_ORDER } from "features/island/bumpkin/components/NPCModal";
+import { BUILDING_ORDER } from "features/game/lib/availableFood";
 import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,

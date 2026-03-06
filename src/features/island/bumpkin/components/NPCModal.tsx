@@ -1,13 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import {
-  COOKABLES,
-  PIRATE_CAKE,
-  FISH,
-  Consumable,
-  FACTION_FOOD,
-  TRADE_FOOD,
-} from "features/game/types/consumables";
+import { Consumable } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Feed } from "./Feed";
@@ -19,22 +12,14 @@ import { LevelUp } from "./LevelUp";
 import { Equipped } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BuildingName } from "features/game/types/buildings";
 import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getAvailableFood } from "features/game/lib/availableFood";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
-
-export const BUILDING_ORDER: BuildingName[] = [
-  "Fire Pit",
-  "Kitchen",
-  "Deli",
-  "Smoothie Shack",
-  "Bakery",
-];
 
 const _currentBumpkinLevel = (state: MachineState) => {
   return getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
@@ -71,23 +56,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { hasLeveledUp, acknowledgeLevelUp } = useLevelUp(currentBumpkinLevel);
 
-  const allFoods: Consumable[] = [
-    ...Object.values(COOKABLES)
-      .sort((a, b) => a.cookingSeconds - b.cookingSeconds)
-      .sort(
-        (a, b) =>
-          BUILDING_ORDER.indexOf(a.building) -
-          BUILDING_ORDER.indexOf(b.building),
-      ),
-    ...Object.values(PIRATE_CAKE),
-    ...Object.values(FACTION_FOOD),
-    ...Object.values(TRADE_FOOD),
-    ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
-  ];
-
-  const availableFood: Consumable[] = allFoods
-    .filter((consumable) => !!inventory[consumable.name]?.gt(0))
-    .map((consumable) => consumable);
+  const availableFood: Consumable[] = getAvailableFood(inventory);
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 

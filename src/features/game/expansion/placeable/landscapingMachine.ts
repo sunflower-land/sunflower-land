@@ -67,11 +67,12 @@ export type LandscapingPlaceable =
   | CollectibleName
   | ResourceName
   | NFTName
-  | "FarmHand";
+  | "FarmHand"
+  | "Bumpkin";
 
 export type LandscapingPlaceableType =
   | {
-      name: NFTName | "FarmHand";
+      name: NFTName | "FarmHand" | "Bumpkin";
       id: string;
     }
   | {
@@ -327,17 +328,18 @@ export const landscapingMachine = createMachine<
                   const isResource = event.name in RESOURCE_MOVE_EVENTS;
                   const isNFT = event.name === "Bud" || event.name === "Pet";
                   const isFarmHand = event.name === "FarmHand";
+                  const isBumpkin = event.name === "Bumpkin";
                   const hasLocation = !(event.name in RESOURCES_REMOVE_ACTIONS);
 
                   let nameField = {};
                   if (isNFT) nameField = { nft: event.name };
-                  else if (!isResource && !isFarmHand)
+                  else if (!isResource && !isFarmHand && !isBumpkin)
                     nameField = { name: event.name };
 
                   return {
                     type: event.event,
-                    id: event.id,
                     ...nameField,
+                    ...(!isBumpkin ? { id: event.id } : {}),
                     ...(hasLocation ? { location: event.location } : {}),
                   };
                 }),
@@ -431,6 +433,13 @@ export const landscapingMachine = createMachine<
                           coordinates: { x, y },
                           id: placeable?.id,
                           nft: placeable?.name,
+                          location,
+                        } as PlacementEvent;
+                      }
+                      if (placeable?.name === "Bumpkin") {
+                        return {
+                          type: action,
+                          coordinates: { x, y },
                           location,
                         } as PlacementEvent;
                       }

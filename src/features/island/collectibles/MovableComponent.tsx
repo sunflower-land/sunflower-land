@@ -108,6 +108,10 @@ function getMoveAction(
     return "farmHand.moved";
   }
 
+  if (name === "Bumpkin") {
+    return "bumpkin.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
@@ -217,6 +221,10 @@ export function getRemoveAction(
 
   if (name === "FarmHand") {
     return "farmHand.removed";
+  }
+
+  if (name === "Bumpkin") {
+    return "bumpkin.removedPlacement";
   }
 
   if (name in RESOURCES_REMOVE_ACTIONS) {
@@ -491,6 +499,7 @@ export const MoveableComponent: React.FC<
     Bud: { width: 1, height: 1 },
     Pet: { width: 2, height: 2 },
     FarmHand: { width: 1, height: 1 },
+    Bumpkin: { width: 1, height: 1 },
   };
 
   const dimensions = DIMENSIONS_MAP[name];
@@ -553,11 +562,12 @@ export const MoveableComponent: React.FC<
               ? {}
               : name === "Bud" || name === "Pet"
                 ? { nft: name }
-                : name === "FarmHand"
+                : name === "FarmHand" || name === "Bumpkin"
                   ? {}
                   : { name }),
             coordinates: { x, y },
-            id,
+            // Don't pass id for Bumpkin
+            ...(name === "Bumpkin" ? {} : { id }),
             // Resources do not require location to be passed
             location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
           });
@@ -904,14 +914,28 @@ export const MoveableComponent: React.FC<
           >
             <InnerPanel>
               {overlapChoices.map((choice) => {
-                const image =
-                  choice.name === "Pet"
-                    ? getPetImage("happy", Number(choice.id))
-                    : choice.name === "Bud"
-                      ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
-                      : choice.name === "FarmHand"
-                        ? SUNNYSIDE.achievement.farmHand
-                        : ITEM_DETAILS[choice.name].image;
+                let image: string;
+
+                switch (choice.name) {
+                  case "Pet":
+                    image = getPetImage("happy", Number(choice.id));
+                    break;
+                  case "Bud":
+                    image = `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`;
+                    break;
+                  case "FarmHand":
+                    image = SUNNYSIDE.achievement.farmHand;
+                    break;
+                  case "Bumpkin":
+                    image = SUNNYSIDE.npcs.bumpkin;
+                    break;
+                  default:
+                    if (choice.name in ITEM_DETAILS) {
+                      image = ITEM_DETAILS[choice.name].image;
+                    } else {
+                      image = SUNNYSIDE.icons.expression_confused;
+                    }
+                }
 
                 return (
                   <div
