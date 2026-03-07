@@ -2,6 +2,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Position, Side } from "./Types";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -32,6 +33,11 @@ export const RESTOCK_ATTEMPTS = [
 //   9239, 36214, 55626, 3249, 128122,
 // ];
 export const BETA_TESTERS: number[] = [];
+
+export const CANNON_CONFIG: (Position & { side: Side })[] = [
+  { x: 160, y: 319, side: "left" },
+  { x: 448, y: 319, side: "right" },
+]
 
 // Guide
 export const INSTRUCTIONS: {
@@ -89,39 +95,3 @@ export const ENEMIES_TABLE: {
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
-
-// Animation
-export const createAnimation: any = (
-  scene: Phaser.Scene,
-  sprite: Phaser.GameObjects.Sprite,
-  spriteName: string,
-  animType: string,
-  start: number,
-  end: number,
-  frameRate: number,
-  repeat: number,
-) => {
-  const animationKey = `${spriteName}_${animType}_anim`;
-
-  if (!scene.anims.exists(animationKey)) {
-    scene.anims.create({
-      key: animationKey,
-      frames: scene.anims.generateFrameNumbers(spriteName, {
-        start,
-        end,
-      }),
-      frameRate,
-      repeat,
-    });
-  }
-  sprite.play(animationKey, true);
-}
-
-export const addSoundEffect = (
-  scene: Phaser.Scene,
-  key: string,
-  loop = false,
-  volume = 0.2,
-): Phaser.Sound.BaseSound => {
-  return scene.sound.add(key, { loop, volume });
-}

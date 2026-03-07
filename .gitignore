@@ -46,3 +46,6 @@ cache
 /.cursor
 
 /*.json
+
+# Agent
+AGENT_CONTEXT.md

@@ -146,6 +146,12 @@ export const getDaysPassedSince = (utcStartDate: string): number => {
   return Math.max(0, diffInDays + 1);
 };
 
+/**
+ * Attaches a one-time animation complete event listener to a sprite.
+ * @param object The sprite to attach the event listener to.
+ * @param animKey The animation key/name to filter for.
+ * @param callback The callback function to execute when the animation completes.
+ */
 export const onAnimationComplete = (
   object: Phaser.GameObjects.Sprite,
   animKey: string,
@@ -160,3 +166,57 @@ export const onAnimationComplete = (
     },
   );
 };
+
+/**
+ * Creates and plays an animation on a sprite if it doesn't already exist.
+ * @param scene The Phaser scene.
+ * @param sprite The sprite to play the animation on.
+ * @param spriteName The name of the sprite texture/spritesheet.
+ * @param animType The type/name of the animation to create.
+ * @param start The starting frame number.
+ * @param end The ending frame number.
+ * @param frameRate The frame rate for the animation.
+ * @param repeat Information on how many times to repeat the animation (-1 for infinite).
+ */
+export const createAnimation: any = (
+  scene: Phaser.Scene,
+  sprite: Phaser.GameObjects.Sprite,
+  spriteName: string,
+  animType: string,
+  start: number,
+  end: number,
+  frameRate: number,
+  repeat: number,
+) => {
+  const animationKey = `${spriteName}_${animType}_anim`;
+
+  if (!scene.anims.exists(animationKey)) {
+    scene.anims.create({
+      key: animationKey,
+      frames: scene.anims.generateFrameNumbers(spriteName, {
+        start,
+        end,
+      }),
+      frameRate,
+      repeat,
+    });
+  }
+  sprite.play(animationKey, true);
+}
+
+/**
+ * Adds a sound effect to the scene and returns the sound object.
+ * @param scene The Phaser scene.
+ * @param key The key of the sound asset.
+ * @param loop Whether the sound should loop (default: false).
+ * @param volume The volume level (default: 0.2).
+ * @returns The Phaser sound object.
+ */
+export const addSoundEffect = (
+  scene: Phaser.Scene,
+  key: string,
+  loop = false,
+  volume = 0.2,
+): Phaser.Sound.BaseSound => {
+  return scene.sound.add(key, { loop, volume });
+}

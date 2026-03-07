@@ -132,6 +132,7 @@ export abstract class BaseScene extends Phaser.Scene {
       s?: Phaser.Input.Keyboard.Key;
       a?: Phaser.Input.Keyboard.Key;
       d?: Phaser.Input.Keyboard.Key;
+      e: Phaser.Input.Keyboard.Key;
     }
     | undefined;
 
@@ -298,7 +299,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const mapHeightPx = this.map.height * SQUARE_WIDTH;
       const zoomX = window.innerWidth / mapWidthPx;
       const zoomY = window.innerHeight / mapHeightPx;
-      this.zoom = Math.min(zoomX, zoomY);
+      this.zoom = zoomY;
 
       this.createMapBorders();
 
@@ -842,6 +843,7 @@ export abstract class BaseScene extends Phaser.Scene {
       );
       this.cursorKeys.s = this.input.keyboard?.addKey("S", false);
       this.cursorKeys.d = this.input.keyboard?.addKey("D", false);
+      this.cursorKeys.e = this.input.keyboard?.addKey("E", false);
 
       this.input.keyboard?.removeCapture("SPACE");
     }

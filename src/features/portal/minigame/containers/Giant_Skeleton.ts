@@ -1,6 +1,6 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
-import { createAnimation } from "../Constants";
+import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
 
 interface Props {

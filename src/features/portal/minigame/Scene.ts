@@ -5,10 +5,12 @@ import { BaseScene } from "./Core/BaseScene";
 import { MachineInterpreter } from "./lib/Machine";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "features/world/lib/device";
-import { PORTAL_NAME, WALKING_SPEED } from "./Constants";
+import { CANNON_CONFIG, PORTAL_NAME, WALKING_SPEED } from "./Constants";
 import { EventBus } from "./lib/EventBus";
 import { Giant_Skeleton } from "./containers/Giant_Skeleton";
 import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
+import { Cannon } from "./containers/Cannon";
+import { Position, Side } from "./Types";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -21,6 +23,11 @@ import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 
 export class Scene extends BaseScene {
   private backgroundMusic!: Phaser.Sound.BaseSound;
+  private updateCallbacks!: { key: string; fn: () => void }[];
+  private isCannonEnabled: Record<Side, boolean> = { left: false, right: false };
+  private activeCannonPosition: Position = { x: 0, y: 0 };
+  private isUsingCannon = false;
+  private activeCannondSide: Side | null = null;
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -46,34 +53,45 @@ export class Scene extends BaseScene {
     return this.registry.get("portalService") as MachineInterpreter | undefined;
   }
 
+  addToUpdate(key: string, fn: () => void) {
+    this.updateCallbacks.push({ key, fn });
+  }
+
+  removeFromUpdate(key: string) {
+    this.updateCallbacks = this.updateCallbacks.filter((cb) => cb.key !== key);
+  }
+
   preload() {
     super.preload();
 
     // Minigame assets
-    this.load.spritesheet("giant_skeleton_idle", "public/world/minigame/skeleton_hurt.webp", {
+    this.load.spritesheet("giant_skeleton_idle", "/world/portal/images/skeleton_hurt.webp", {
       frameWidth: 23,
       frameHeight: 26
     })
-    this.load.spritesheet("sniper_skeleton_idle", "public/world/minigame/skeleton_attack.webp", {
+    this.load.spritesheet("sniper_skeleton_idle", "/world/portal/images/skeleton_attack.webp", {
       frameWidth: 23,
       frameHeight: 24
     })
-    this.load.spritesheet("sniper_skeleton_carrot_splat", "public/world/minigame/carrot_splat.webp", {
+    this.load.spritesheet("sniper_skeleton_carrot_splat", "/world/portal/images/carrot_splat.webp", {
       frameWidth: 18,
       frameHeight: 16
     })
-    this.load.spritesheet("sniper_skeleton_tomato_splat", "public/world/minigame/tomato_splat.webp", {
+    this.load.spritesheet("sniper_skeleton_tomato_splat", "/world/portal/images/tomato_splat.webp", {
       frameWidth: 18,
       frameHeight: 16
     })
-    this.load.spritesheet("sniper_skeleton_cabbage_splat", "public/world/minigame/cabbage_splat.webp", {
+    this.load.spritesheet("sniper_skeleton_cabbage_splat", "/world/portal/images/cabbage_splat.webp", {
       frameWidth: 18,
       frameHeight: 15
     })
-    this.load.image("giant_skeleton_barrel", "public/world/minigame/Wooden_Barrel.webp")
-    this.load.image("sniper_skeleton_carrot", "public/world/minigame/carrot.png")
-    this.load.image("sniper_skeleton_tomato", "public/world/minigame/tomato.webp")
-    this.load.image("sniper_skeleton_cabbage", "public/world/minigame/cabbage.png")
+    this.load.image("giant_skeleton_barrel", "/world/portal/images/Wooden_Barrel.webp")
+    this.load.image("sniper_skeleton_carrot", "/world/portal/images/carrot.png")
+    this.load.image("sniper_skeleton_tomato", "/world/portal/images/tomato.webp")
+    this.load.image("sniper_skeleton_cabbage", "/world/portal/images/cabbage.png")
+
+    // Cannon
+    this.load.image("cannon", "/world/portal/images/tree.webp")
 
     // Music
     // Background
@@ -89,10 +107,6 @@ export class Scene extends BaseScene {
     });
     super.create();
 
-    // Enemies
-    this.createGiantSkeleton();
-    this.createSniperSkeleton();
-
     // Reset listeners
     EventBus.removeAllListeners();
 
@@ -102,21 +116,32 @@ export class Scene extends BaseScene {
     this.initialiseEvents();
     this.initialiseFontFamily();
 
+    // Enemies
+    this.createGiantSkeleton();
+    this.createSniperSkeleton();
+
+    // Cannons
+    this.createCannons();
+
     // Config
     this.input.addPointer(3);
     this.physics.world.drawDebug = false;
 
     // Background music
-    this.backgroundMusic = this.sound.add("backgroundMusic", {
-      loop: true,
-      volume: 0.1,
-    });
-    this.backgroundMusic.play();
+    // this.backgroundMusic = this.sound.add("backgroundMusic", {
+    //   loop: true,
+    //   volume: 0.1,
+    // });
+    // this.backgroundMusic.play();
   }
 
   update() {
     if (this.isGamePlaying) {
       // The game has started
+      for (const cb of this.updateCallbacks) {
+        cb.fn();
+      }
+      this.controls();
       this.loadBumpkinAnimations();
     } else if (this.isGameReady) {
       this.portalService?.send("START");
@@ -128,6 +153,7 @@ export class Scene extends BaseScene {
 
   private initialiseProperties() {
     this.velocity = 0;
+    this.updateCallbacks = [];
   }
 
   private initializeControls() {
@@ -208,6 +234,18 @@ export class Scene extends BaseScene {
   }
 
   private initialiseEvents() {
+    EventBus.on("activate-cannon-button",
+      (data: { isActivated: boolean, side: Side, position: Position }) => {
+        this.isCannonEnabled[data.side] = data.isActivated;
+        if (data.isActivated) {
+          this.activeCannonPosition = data.position;
+          this.activeCannondSide = data.side;
+        } else if (this.activeCannondSide === data.side) {
+          // player walked away while not using — clear active side
+          if (!this.isUsingCannon) this.activeCannondSide = null;
+        }
+      });
+
     // reload scene when player hit retry
     const onRetry = (event: EventObject) => {
       if (event.type === "RETRY") {
@@ -247,9 +285,36 @@ export class Scene extends BaseScene {
     if (!this.currentPlayer) return;
     if (!this.cursorKeys) return;
 
-    const animation = this.isMoving ? "walk" : "idle";
+    const animation = this.isMoving && !this.isCannonEnabled
+      ? "walk"
+      : "idle";
 
     this.currentPlayer[animation]?.();
+  }
+
+  private controls() {
+    if (!this.cursorKeys) return;
+
+    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e) &&
+      (this.isCannonEnabled.left || this.isCannonEnabled.right)) {
+      if (!this.isUsingCannon) {
+        this.currentPlayer?.setX(this.activeCannonPosition.x);
+        this.currentPlayer?.setY(this.activeCannonPosition.y + 20);
+        this.velocity = 0;
+        this.isUsingCannon = true;
+
+        if (this.activeCannondSide) {
+          EventBus.emit("cannon-aim-start", { side: this.activeCannondSide });
+        }
+      } else {
+        this.velocity = WALKING_SPEED;
+        this.isUsingCannon = false;
+
+        if (this.activeCannondSide) {
+          EventBus.emit("cannon-aim-stop", { side: this.activeCannondSide });
+        }
+      }
+    }
   }
 
   private createGiantSkeleton() {
@@ -272,4 +337,15 @@ export class Scene extends BaseScene {
     });
   }
 
+  private createCannons() {
+    CANNON_CONFIG.forEach(({ x, y, side }) => {
+      new Cannon({
+        x,
+        y,
+        scene: this,
+        side,
+        player: this.currentPlayer
+      });
+    });
+  }
 }
