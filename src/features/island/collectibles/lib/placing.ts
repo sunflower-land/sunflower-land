@@ -56,5 +56,14 @@ export function removePlaceable({
     return game;
   }
 
+  if (name === "FarmHand") {
+    const farmHand = game.farmHands.bumpkins[id];
+    if (farmHand) {
+      delete farmHand.coordinates;
+      delete farmHand.location;
+    }
+    return game;
+  }
+
   return game;
 }

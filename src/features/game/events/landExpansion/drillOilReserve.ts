@@ -98,10 +98,15 @@ type getDrilledAtArgs = {
   game: GameState;
 };
 
-export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
-  time: number;
+/**
+ * Single source of truth for oil recovery boosts. Used by both getDrilledAt (game) and UI.
+ */
+export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
+  const baseTimeMs = OIL_RESERVE_RECOVERY_TIME * 1000;
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -119,9 +124,24 @@ export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
     boostsUsed.push({ name: "Stag Shrine", value: "x0.75" });
   }
 
-  const buff = OIL_RESERVE_RECOVERY_TIME - totalSeconds;
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
+}
 
-  return { time: createdAt - buff * 1000, boostsUsed };
+/**
+ * Set a drilled in the past to make it replenish faster. Uses getOilRecoveryTimeForDisplay for boost logic.
+ */
+export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
+  time: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getOilRecoveryTimeForDisplay({ game });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 export function drillOilReserve({

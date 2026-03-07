@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import useSWR from "swr";
 
 import { InnerPanel } from "components/ui/Panel";
@@ -9,6 +9,7 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
+import { PlayerModal } from "features/social/PlayerModal";
 
 type Props = {
   farmId: number;
@@ -17,6 +18,10 @@ type Props = {
 
 export const LeaderboardSection: React.FC<Props> = ({ farmId, token }) => {
   const isOffline = !CONFIG.API_URL;
+  const [extendedData, setExtendedData] = useState<TicketLeaderboard | null>(
+    null,
+  );
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const { data, isLoading } = useSWR<TicketLeaderboard | null>(
     farmId
@@ -32,6 +37,21 @@ export const LeaderboardSection: React.FC<Props> = ({ farmId, token }) => {
     { revalidateOnFocus: false },
   );
 
+  const onLoadMore = useCallback(async () => {
+    if (extendedData || isLoadingMore) return;
+    setIsLoadingMore(true);
+    try {
+      const result = await getLeaderboard<TicketLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "tickets",
+        limit: 500,
+      });
+      if (result) setExtendedData(result);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [farmId, extendedData, isLoadingMore]);
+
   if (isLoading) {
     return (
       <InnerPanel className="mb-2">
@@ -42,11 +62,27 @@ export const LeaderboardSection: React.FC<Props> = ({ farmId, token }) => {
     );
   }
 
+  const displayData = extendedData ?? data ?? null;
+  const hasExtended = extendedData != null;
+
   return (
-    <InnerPanel className="mb-2">
-      <div className="p-1 space-y-2">
-        <TicketsLeaderboard isLoading={isLoading} data={data ?? null} />
-      </div>
-    </InnerPanel>
+    <>
+      <PlayerModal
+        loggedInFarmId={farmId}
+        token={token}
+        hasAirdropAccess={false}
+      />
+      <InnerPanel className="mb-2">
+        <div className="p-1 space-y-2">
+          <TicketsLeaderboard
+            isLoading={isLoading}
+            data={displayData}
+            onLoadMore={onLoadMore}
+            isLoadingMore={isLoadingMore}
+            hasExtended={hasExtended}
+          />
+        </div>
+      </InnerPanel>
+    </>
   );
 };

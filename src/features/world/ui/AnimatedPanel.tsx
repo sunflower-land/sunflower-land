@@ -5,6 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 interface Props {
   show: boolean;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
   onBackdropClick?: () => void;
 }
@@ -15,6 +16,7 @@ export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
   onBackdropClick,
   children,
   className,
+  style,
 }) => {
   return (
     <>
@@ -36,6 +38,7 @@ export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className={`flex absolute z-40 ${className}`}
+        style={style}
         onClick={(e) => {
           e.stopPropagation();
           onClick?.();

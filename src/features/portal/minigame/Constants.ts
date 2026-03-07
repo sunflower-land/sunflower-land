@@ -13,6 +13,7 @@ export const GAME_LIVES = 5;
 
 // Player
 export const WALKING_SPEED = 70;
+export const DEPTH = 1000;
 
 // Attempts
 export const INITIAL_DATE = "2025-10-28"; // YYYY-MM-DD
@@ -95,3 +96,17 @@ export const ENEMIES_TABLE: {
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
+
+export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
+  { x: 320, y: 60 },
+  { x: 150, y: 70 },
+  { x: 450, y: 72 },
+  { x: 230, y: 140 }
+];
+
+export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
+  { x: 320, y: 190 },
+  //  { x: 150, y: 200},
+  //  { x: 450, y: 180},
+  //  { x: 230, y: 220}
+];

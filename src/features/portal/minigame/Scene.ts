@@ -5,12 +5,20 @@ import { BaseScene } from "./Core/BaseScene";
 import { MachineInterpreter } from "./lib/Machine";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "features/world/lib/device";
-import { CANNON_CONFIG, PORTAL_NAME, WALKING_SPEED } from "./Constants";
+import {
+  PORTAL_NAME,
+  WALKING_SPEED,
+  BLAST_SKELETON_POSITIONS,
+  MENACE_SKELETON_POSITIONS,
+  CANNON_CONFIG
+} from "./Constants";
+import { Side, Position } from "./Types";
 import { EventBus } from "./lib/EventBus";
 import { Giant_Skeleton } from "./containers/Giant_Skeleton";
 import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
+import { Menace_Skeleton } from "./containers/Menace_Skeleton";
+import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 import { Cannon } from "./containers/Cannon";
-import { Position, Side } from "./Types";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -28,6 +36,8 @@ export class Scene extends BaseScene {
   private activeCannonPosition: Position = { x: 0, y: 0 };
   private isUsingCannon = false;
   private activeCannondSide: Side | null = null;
+  private menaceSkeleton: Menace_Skeleton[] = [];
+  private drownedSkeleton: Blast_Skeleton[] = [];
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -65,30 +75,128 @@ export class Scene extends BaseScene {
     super.preload();
 
     // Minigame assets
-    this.load.spritesheet("giant_skeleton_idle", "/world/portal/images/skeleton_hurt.webp", {
-      frameWidth: 23,
-      frameHeight: 26
-    })
-    this.load.spritesheet("sniper_skeleton_idle", "/world/portal/images/skeleton_attack.webp", {
-      frameWidth: 23,
-      frameHeight: 24
-    })
-    this.load.spritesheet("sniper_skeleton_carrot_splat", "/world/portal/images/carrot_splat.webp", {
-      frameWidth: 18,
-      frameHeight: 16
-    })
-    this.load.spritesheet("sniper_skeleton_tomato_splat", "/world/portal/images/tomato_splat.webp", {
-      frameWidth: 18,
-      frameHeight: 16
-    })
-    this.load.spritesheet("sniper_skeleton_cabbage_splat", "/world/portal/images/cabbage_splat.webp", {
-      frameWidth: 18,
-      frameHeight: 15
-    })
-    this.load.image("giant_skeleton_barrel", "/world/portal/images/Wooden_Barrel.webp")
-    this.load.image("sniper_skeleton_carrot", "/world/portal/images/carrot.png")
-    this.load.image("sniper_skeleton_tomato", "/world/portal/images/tomato.webp")
-    this.load.image("sniper_skeleton_cabbage", "/world/portal/images/cabbage.png")
+    this.load.spritesheet(
+      "giant_skeleton_idle",
+      "/world/portal/images/skeleton_hurt.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 26,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_idle",
+      "/world/portal/images/skeleton_attack.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_move",
+      "/world/portal/images/skeleton_hurt.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 26,
+      },
+    );
+    // Vege Splats
+    this.load.spritesheet(
+      "sniper_skeleton_carrot_splat",
+      "/world/portal/images/carrot_splat.webp",
+      {
+        frameWidth: 20,
+        frameHeight: 20,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_tomato_splat",
+      "/world/portal/images/tomato_splat.webp",
+      {
+        frameWidth: 18,
+        frameHeight: 16,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_cabbage_splat",
+      "/world/portal/images/cabbage_splat.webp",
+      {
+        frameWidth: 27,
+        frameHeight: 19,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_potato_splat",
+      "/world/portal/images/potato_splat.webp",
+      {
+        frameWidth: 26,
+        frameHeight: 26,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_tomato_splatter",
+      "/world/portal/images/tomato_splatter.webp",
+      {
+        frameWidth: 17,
+        frameHeight: 32,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_tomato_screenSplat",
+      "/world/portal/images/tomato_screenSplat.webp",
+      {
+        frameWidth: 160,
+        frameHeight: 160,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_tomato_rolling",
+      "/world/portal/images/tomato_rolling.webp",
+      {
+        frameWidth: 160,
+        frameHeight: 160,
+      },
+    );
+    this.load.spritesheet(
+      "waves_up", "/world/portal/images/waves_tile_up.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    );
+    this.load.spritesheet(
+      "waves_center", "/world/portal/images/waves_tile_center.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    );
+    this.load.spritesheet(
+      "waves_down", "/world/portal/images/waves_tile_down.webp",
+      {
+        frameWidth: 32,
+        frameHeight: 32
+      }
+    );
+    this.load.image(
+      "giant_skeleton_barrel",
+      "/world/portal/images/Wooden_Barrel.webp",
+    );
+    this.load.image(
+      "sniper_skeleton_carrot",
+      "/world/portal/images/carrot.png",
+    );
+    this.load.image(
+      "sniper_skeleton_tomato",
+      "/world/portal/images/tomato.webp",
+    );
+    this.load.image(
+      "sniper_skeleton_cabbage",
+      "/world/portal/images/cabbage.png",
+    );
+    this.load.image(
+      "sniper_skeleton_potato",
+      "/world/portal/images/potato.png",
+    );
 
     // Cannon
     this.load.image("cannon", "/world/portal/images/tree.webp")
@@ -117,8 +225,7 @@ export class Scene extends BaseScene {
     this.initialiseFontFamily();
 
     // Enemies
-    this.createGiantSkeleton();
-    this.createSniperSkeleton();
+    this.createEnemies();
 
     // Cannons
     this.createCannons();
@@ -317,24 +424,49 @@ export class Scene extends BaseScene {
     }
   }
 
+  private createEnemies() {
+    this.createGiantSkeleton();
+    this.createSniperSkeleton();
+    this.createMenaceSkeleton();
+    this.createBlastSkeleton();
+  }
+
   private createGiantSkeleton() {
-    const { x, y } = { x: 230, y: 240 }
+    const { x, y } = { x: 230, y: 100 };
     const giantCardboard = new Giant_Skeleton({
       x,
       y,
       scene: this,
-      player: this.currentPlayer
+      player: this.currentPlayer,
     });
   }
 
   private createSniperSkeleton() {
-    const { x, y } = { x: 250, y: 260 }
+    const { x, y } = { x: 250, y: 20 };
     const sniperSkeleton = new Sniper_Skeleton({
       x,
       y,
       scene: this,
-      player: this.currentPlayer
+      player: this.currentPlayer,
     });
+  }
+
+  private createMenaceSkeleton() {
+    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => new Menace_Skeleton({
+      x: pos.x,
+      y: pos.y,
+      scene: this,
+      player: this.currentPlayer,
+    }));
+  }
+
+  private createBlastSkeleton() {
+    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => new Blast_Skeleton({
+      x: pos.x,
+      y: pos.y,
+      scene: this,
+      player: this.currentPlayer
+    }))
   }
 
   private createCannons() {

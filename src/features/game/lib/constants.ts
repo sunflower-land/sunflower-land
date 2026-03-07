@@ -519,8 +519,6 @@ export const INITIAL_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  experiments: ["GEM_BOOSTS"],
-
   ...INITIAL_RESOURCES,
 
   conversations: ["hank-intro"],
@@ -761,7 +759,6 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  experiments: [],
   farmActivity: {},
   milestones: {},
   home: { collectibles: {} },
@@ -1071,7 +1068,6 @@ export const EMPTY: GameState = {
     dates: [],
   },
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  experiments: [],
   minigames: {
     games: {},
     prizes: {},

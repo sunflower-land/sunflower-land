@@ -82,7 +82,6 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
-import { ExperimentName } from "lib/flags";
 import {
   BudNFTName,
   CollectionName,
@@ -93,6 +92,7 @@ import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
+
 import { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -118,6 +118,13 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
+
+export type CraftingQueueItem = {
+  name: RecipeCollectibleName | BumpkinItem;
+  readyAt: number;
+  startedAt: number;
+  type: "collectible" | "wearable";
+};
 
 export type Reward = {
   coins?: number;
@@ -963,6 +970,8 @@ export type FlowerShop = {
 
 export type FarmHand = {
   equipped: BumpkinParts;
+  coordinates?: Coordinates;
+  location?: "farm" | "home";
 };
 
 export type Mushroom = {
@@ -1925,7 +1934,6 @@ export interface GameState {
     isSocialVerified?: boolean;
   };
 
-  experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
@@ -1933,6 +1941,7 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
+    queue?: CraftingQueueItem[];
     item?:
       | {
           collectible: RecipeCollectibleName;

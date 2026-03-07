@@ -99,7 +99,6 @@ export function makeGame(farm: any): GameState {
     buds: farm.buds,
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
-    experiments: farm.experiments,
     floatingIsland: farm.floatingIsland,
     megastore: farm.megastore,
     goblinMarket: farm.goblinMarket,

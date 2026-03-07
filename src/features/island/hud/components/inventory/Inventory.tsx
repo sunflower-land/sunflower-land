@@ -27,6 +27,7 @@ interface Props {
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -43,6 +44,7 @@ export const Inventory: React.FC<Props> = ({
   isSaving,
   onPlace,
   onPlaceNFT,
+  onPlaceFarmHand,
   onDepositClick,
   hideActions,
   location,
@@ -138,6 +140,7 @@ export const Inventory: React.FC<Props> = ({
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
         onPlaceNFT={onPlaceNFT}
+        onPlaceFarmHand={onPlaceFarmHand}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}

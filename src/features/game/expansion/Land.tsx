@@ -45,6 +45,7 @@ import {
 import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
+import { FarmHand } from "features/island/farmhand/FarmHand";
 
 export const LAND_WIDTH = 6;
 
@@ -210,6 +211,24 @@ const _petNFTPositions = (state: MachineState) => {
   };
 };
 
+const _farmHandPositions = (state: MachineState) => {
+  const bumpkins = state.context.state.farmHands?.bumpkins;
+
+  if (!bumpkins) return { farmHands: {}, positions: [] };
+
+  return {
+    farmHands: bumpkins,
+    positions: Object.entries(bumpkins).flatMap(([, fh]) => {
+      if (!fh.coordinates) return undefined;
+
+      return {
+        x: fh.coordinates.x,
+        y: fh.coordinates.y,
+      };
+    }),
+  };
+};
+
 const _airdropPositions = (state: MachineState) => {
   const airdrops = state.context.state.airdrops;
 
@@ -325,6 +344,11 @@ export const LandComponent: React.FC = () => {
   const { nfts: petNFTs } = useSelector(
     gameService,
     _petNFTPositions,
+    comparePositions,
+  );
+  const { farmHands } = useSelector(
+    gameService,
+    _farmHandPositions,
     comparePositions,
   );
   const { airdrops } = useSelector(
@@ -878,6 +902,22 @@ export const LandComponent: React.FC = () => {
       });
   }, [petNFTs]);
 
+  const farmHandElements = useMemo(() => {
+    if (!farmHands || Object.keys(farmHands).length === 0) return [];
+
+    return Object.entries(farmHands).flatMap(([id, fh]) => {
+      if (!fh.coordinates || fh.location === "home") return [];
+
+      const { x, y } = fh.coordinates;
+
+      return (
+        <MapPlacement key={`farmhand-${id}`} x={x} y={y} height={1} width={1}>
+          <FarmHand id={id} />
+        </MapPlacement>
+      );
+    });
+  }, [farmHands]);
+
   const airdropElements = useMemo(() => {
     if (!airdrops) return [];
 
@@ -942,6 +982,7 @@ export const LandComponent: React.FC = () => {
       clutterElements,
       budElements,
       petNFTElements,
+      farmHandElements,
       airdropElements,
     ].flat();
 
@@ -984,6 +1025,7 @@ export const LandComponent: React.FC = () => {
     clutterElements,
     budElements,
     petNFTElements,
+    farmHandElements,
     airdropElements,
     mushroomElements,
   ]);

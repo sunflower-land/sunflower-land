@@ -10,7 +10,6 @@ import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { Context } from "features/game/GameProvider";
-import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -91,12 +90,6 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
             {getPageText("tokens")}
           </div>
         </Button>
-        <Button onClick={() => setPage("resources")}>
-          <div className="flex items-center">
-            <img src={getPageIcon("resources")} className="h-4 mr-1" />
-            {getPageText("resources")}
-          </div>
-        </Button>
       </div>
       <div className="flex space-x-1">
         <Button onClick={() => setPage("items")}>
@@ -171,6 +164,7 @@ const _farmId = (state: MachineState) => state.context.farmId;
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -258,14 +252,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <GameWallet action="withdrawItems">
           <WithdrawItems
             onWithdraw={onWithdrawItems}
-            withdrawDisabled={accountTradedRecently}
-          />
-        </GameWallet>
-      )}
-      {page === "resources" && (
-        <GameWallet action="withdrawItems">
-          <WithdrawResources
-            onWithdraw={onClose}
             withdrawDisabled={accountTradedRecently}
           />
         </GameWallet>

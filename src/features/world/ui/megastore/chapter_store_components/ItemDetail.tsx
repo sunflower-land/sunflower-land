@@ -40,7 +40,7 @@ import {
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
+  WEARABLE_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 
@@ -308,7 +308,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const isTradeable = isWearable
-    ? !!BUMPKIN_RELEASES[(item as ChapterStoreWearable)?.wearable]
+    ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
     : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
 
   return (

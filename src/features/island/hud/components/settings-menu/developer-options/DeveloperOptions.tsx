@@ -17,6 +17,15 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
 
   return (
     <>
+      <Button
+        className="p-1 mb-1"
+        onClick={() => onSubMenuClick("experiments")}
+      >
+        <span>{t("experiments")}</span>
+      </Button>
+      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("apiKey")}>
+        <span>{t("share.apiKey")}</span>
+      </Button>
       {hasFeatureAccess(
         gameService.getSnapshot()?.context?.state,
         "AIRDROP_PLAYER",

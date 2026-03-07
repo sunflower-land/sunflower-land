@@ -12,6 +12,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { MinigameName } from "features/game/types/minigames";
 import { LeagueId, LeagueName } from "features/leagues/leagues";
 import { NPC_WEARABLES } from "lib/npcs";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 const API_URL = CONFIG.API_URL;
 
@@ -19,6 +20,8 @@ type Options = {
   farmId: number;
   leaderboardName: keyof Leaderboards;
   cacheExpiry?: number;
+  /** Optional limit (e.g. 500 for tickets). When set, skips cache and adds limit query param. */
+  limit?: number;
 };
 
 export type RankData = {
@@ -26,6 +29,8 @@ export type RankData = {
   count: number;
   rank?: number;
   bumpkin: BumpkinParts;
+  experience?: number;
+  farmId?: number;
 };
 
 export type MazeAttemptStat = Pick<MazeAttempt, "time" | "health"> & {
@@ -86,77 +91,113 @@ export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
   cacheExpiry,
+  limit,
 }: Options): Promise<T | undefined> {
   if (!API_URL && leaderboardName === "tickets") {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       topTen: [
         {
           id: "Chun Long",
           count: 1000,
           bumpkin: NPC_WEARABLES["Chun Long"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 1,
         },
         {
           id: "pumpkin' pete",
           count: 900,
           bumpkin: NPC_WEARABLES["pumpkin' pete"],
+          experience: LEVEL_EXPERIENCE[12],
+          farmId: 2,
         },
         {
           id: "gordy",
           count: 800,
           bumpkin: NPC_WEARABLES["gordy"],
+          experience: LEVEL_EXPERIENCE[1],
+          farmId: 3,
         },
         {
           id: "bert",
           count: 700,
           bumpkin: NPC_WEARABLES["bert"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 4,
         },
         {
           id: "craig",
           count: 600,
           bumpkin: NPC_WEARABLES["craig"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 5,
         },
         {
           id: "raven",
           count: 500,
           bumpkin: NPC_WEARABLES["raven"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 6,
         },
-        {
-          id: "birdie",
-          count: 400,
-          bumpkin: NPC_WEARABLES["birdie"],
-        },
-        {
-          id: "old salty",
-          count: 300,
-          bumpkin: NPC_WEARABLES["old salty"],
-        },
+
         {
           id: "cornwell",
           count: 200,
           bumpkin: NPC_WEARABLES["cornwell"],
+          experience: LEVEL_EXPERIENCE[5],
+          farmId: 8,
         },
         {
           id: "wanderleaf",
           count: 100,
           bumpkin: NPC_WEARABLES["wanderleaf"],
+          experience: LEVEL_EXPERIENCE[51],
+          farmId: 9,
+        },
+        {
+          id: "hannigan",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 10,
+        },
+        {
+          id: "bailey",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 11,
+        },
+        {
+          id: "bailey",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["bailey"],
+          experience: LEVEL_EXPERIENCE[150],
+          farmId: 11,
         },
       ],
       lastUpdated: 0,
     } as T;
   }
 
-  const cache = getCachedLeaderboardData({
-    name: leaderboardName,
-    duration: cacheExpiry,
-  });
+  const skipCache = limit != null;
+  const cache = skipCache
+    ? null
+    : getCachedLeaderboardData({
+        name: leaderboardName,
+        duration: cacheExpiry,
+      });
 
   if (cache) {
     return cache as T;
   }
 
-  const url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
+  const url = new URL(`${API_URL}/leaderboard/${leaderboardName}/${farmId}`);
+  if (limit != null) {
+    url.searchParams.set("limit", String(limit));
+  }
 
-  const response = await window.fetch(url, {
+  const response = await window.fetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -173,7 +214,9 @@ export async function getLeaderboard<T>({
 
   const data = await response.json();
 
-  cacheLeaderboard({ name: leaderboardName, data });
+  if (!skipCache) {
+    cacheLeaderboard({ name: leaderboardName, data });
+  }
 
   return data;
 }

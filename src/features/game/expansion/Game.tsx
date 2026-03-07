@@ -166,6 +166,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   airdroppingRewardFailed: false,
   completingProject: false,
   completingProjectSuccess: false,
+  unlockingFarmhand: false,
+  unlockingFarmhandSuccess: false,
+  resettingPetRequests: false,
+  resettingPetRequestsSuccess: false,
 
   // Every new state should be added below here
   gems: true,
@@ -321,8 +325,7 @@ const GameContent: React.FC = () => {
       isBuildingReady(game.buildings["Hen House"]),
     PetHouse: (game) =>
       !!game.buildings["Pet House"] &&
-      isBuildingReady(game.buildings["Pet House"]) &&
-      hasFeatureAccess(game, "PET_HOUSE"),
+      isBuildingReady(game.buildings["Pet House"]),
   };
 
   const hasAccess = (pathName: string) => {

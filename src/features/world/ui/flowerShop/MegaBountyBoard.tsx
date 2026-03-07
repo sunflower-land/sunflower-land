@@ -471,7 +471,7 @@ const Deal: React.FC<{
                 })}
                 {!!tickets && (
                   <Label type={"vibrant"} icon={chapterPoints}>
-                    {`+${getChapterTaskPoints({ task: "bounty", tickets: tickets })} ${chapter} points.`}
+                    {`+${getChapterTaskPoints({ task: "bounty", points: tickets })} ${chapter} points.`}
                   </Label>
                 )}
                 {BOUNTY_CATEGORIES["Obsidian Bounties"](bounty) &&

@@ -35,6 +35,8 @@ import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState } from "features/game/lib/gameMachine";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 const PROJECTS: WorkbenchMonumentName[] = [
   "Basic Cooking Pot",
@@ -110,24 +112,26 @@ const BLACKSMITH_ITEMS: Record<
   ...WORKBENCH_MONUMENTS,
 };
 
+const _state = (state: MachineState) => state.context.state;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _coins = (state: MachineState) => state.context.state.coins;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _landscapingMachine = (state: MachineState) =>
+  state.children.landscaping as MachineInterpreter;
+
 export const IslandBlacksmithItems: React.FC = () => {
   const { t } = useAppTranslation();
   const [selectedName, setSelectedName] = useState<
     HeliosBlacksmithItem | WorkbenchMonumentName
   >("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useSelector(gameService, _state);
   const now = useNow();
   const ticket = getChapterTicket(now);
-  const inventory = useSelector(
-    gameService,
-    (state) => state.context.state.inventory,
-  );
-  const coins = useSelector(gameService, (state) => state.context.state.coins);
-  const bumpkin = useSelector(
-    gameService,
-    (state) => state.context.state.bumpkin,
-  );
+  const inventory = useSelector(gameService, _inventory);
+  const coins = useSelector(gameService, _coins);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const landscapingMachine = useSelector(gameService, _landscapingMachine);
 
   const { ...selectedItem } = BLACKSMITH_ITEMS[selectedName];
 
@@ -161,7 +165,7 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS) {
-      gameService.send("LANDSCAPE", {
+      landscapingMachine.send("SELECT", {
         placeable: { name: selectedName },
         action: "monument.bought",
         requirements: {
@@ -171,7 +175,7 @@ export const IslandBlacksmithItems: React.FC = () => {
         multiple: false,
       });
     } else {
-      gameService.send("LANDSCAPE", {
+      landscapingMachine.send("SELECT", {
         placeable: { name: selectedName },
         action: "collectible.crafted",
         // Not used yet

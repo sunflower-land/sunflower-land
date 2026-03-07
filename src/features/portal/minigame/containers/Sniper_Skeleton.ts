@@ -1,8 +1,8 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
+import { WALKING_SPEED } from "../Constants";
 import { MachineInterpreter } from "../lib/Machine";
-import Phaser from "phaser";
 
 interface Props {
     x: number;
@@ -16,28 +16,25 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     private player?: BumpkinContainer;
     private sprite: Phaser.GameObjects.Sprite;
     private spriteName: string;
-    private food: Phaser.GameObjects.Sprite;
+    private vege: Phaser.GameObjects.Sprite;
     private playerWorldX_Sprite?: number;
-    private randomFood: string;
-    private foodList: string[];
+    private vegeName: string;
 
     constructor({ x, y, scene, player }: Props) {
         super(scene, x, y);
         this.scene = scene
         this.player = player;
         this.spriteName = "sniper_skeleton";
-
-        this.foodList = ["tomato"];
-        this.randomFood = Phaser.Math.RND.pick(this.foodList);
+        this.vegeName = "tomato";
 
         this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`).setScale(1);
-        this.food = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomFood}`).setScale(1).setVisible(false);
-        this.add([this.sprite, this.food]);
+        this.vege = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.vegeName}`).setScale(1).setVisible(false);
+        this.add([this.sprite, this.vege]);
         this.sprite.setVisible(false);
 
         // Sniper Skeleton starts with glitch effect
         this.scene.time.addEvent({
-            delay: 5000,
+            delay: Phaser.Math.Between(4000, 6000),
             callback: this.glitchEffect,
             callbackScope: this,
             loop: true
@@ -58,6 +55,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     private glitchEffect(duration: number = 150) {
         if (!this.player) return;
         this.sprite.setVisible(true);
+
         const sprite = this.sprite;
         const originalX = this.player.getWorldTransformMatrix().tx - this.x;
         const originalY = sprite.y;
@@ -79,7 +77,6 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
                 sprite.setPosition(originalX, originalY);
                 sprite.setScale(originalScaleX, originalScaleY);
                 sprite.setAlpha(1);
-                // After glitch, create sniper skeleton
                 this.createSniper();
             }
         });
@@ -98,18 +95,18 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
 
     private createSniper() {
         if (!this.player) return;
+
         this.playerWorldX_Sprite = this.player.getWorldTransformMatrix().tx;
-        this.randomFood = Phaser.Math.RND.pick(this.foodList);
-        this.food.setTexture(`${this.spriteName}_${this.randomFood}`);
-        this.food.setVisible(true);
+        this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
+        this.vege.setVisible(true);
 
         const flipX = this.player.x < this.x ? true : false;
-        const switchFoodSide = flipX === true ? this.playerWorldX_Sprite - this.x + 10 : this.playerWorldX_Sprite - this.x - 10;
-        flipX === true ? this.food.setFlipX(true) : this.food.setFlipX(false);
+        const switchSide = flipX === true ? this.playerWorldX_Sprite - this.x + 10 : this.playerWorldX_Sprite - this.x - 10;
+        flipX === true ? this.vege.setFlipX(true) : this.vege.setFlipX(false);
         this.sprite.setFlipX(flipX);
 
         this.sprite.setPosition(this.playerWorldX_Sprite - this.x, 0);
-        this.food.setPosition(switchFoodSide, 0);
+        this.vege.setPosition(switchSide, 0);
 
         this.scene.physics.add.existing(this.sprite);
         const body = this.sprite.body as Phaser.Physics.Arcade.Body
@@ -132,49 +129,71 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
         );
 
         this.scene.time.delayedCall(300, () =>
-            // Throw food after short delay
-            this.foodMovement()
+            this.throwVege()
         )
     }
 
-    private foodMovement() {
+    private throwVege() {
         if (!this.player) return;
-        this.food.setVisible(true);
-        this.scene.physics.add.existing(this.food);
-        (this.food.body as Phaser.Physics.Arcade.Body).enable = true;
+
+        this.vege.setVisible(true);
+        this.setDepth(10000)
+        this.scene.physics.add.existing(this.vege);
+        const vegeBody = this.vege.body as Phaser.Physics.Arcade.Body;
+        vegeBody.enable = false;
+        vegeBody.setSize(0, this.vege.height * 2)
+        vegeBody.setOffset(3, 6);
+
         const playerWorldX = this.player.getWorldTransformMatrix().tx;
         const playerWorldY = this.player.getWorldTransformMatrix().ty;
-
         const flipX = this.player.x < this.x ? true : false;
-        const targetX = flipX === true ? playerWorldX - this.x - 15 : playerWorldX - this.x + 15;
+        const targetX = flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
+        const throwSpeed = playerWorldY < 297 ? 250 : 300;
 
         this.scene.add.tween({
-            targets: this.food,
+            targets: this.vege,
             x: targetX,
             y: playerWorldY - this.y,
-            duration: 500,
+            duration: throwSpeed,
             ease: 'Quad.Out',
             onComplete: () => {
                 createAnimation(
                     this.scene,
-                    this.food,
-                    `${this.spriteName}_${this.randomFood}_splat`,
-                    "splat",
+                    this.vege,
+                    `${this.spriteName}_${this.vegeName}_splatter`,
+                    "splatter",
                     0,
                     4,
-                    15,
+                    20,
                     0
                 );
+                vegeBody.enable = true;
                 this.sprite.setVisible(false);
             }
         });
 
         this.scene.time.delayedCall(2000, () => {
-            this.food.setVisible(false);
-            (this.food.body as Phaser.Physics.Arcade.Body).enable = false;
+            this.resetSniper();
+        });
+    }
+
+    private resetSniper() {
+        this.vege.setVisible(false);
+        (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
+        (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
+        this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
+    }
+
+    private createOverlaps() {
+        if (!this.player) return;
+        const speedDebuff = 1;
+
+        this.scene.physics.add.overlap(this.vege, this.player, () => {
+            this.vege.setVisible(false);
+            this.scene.velocity = speedDebuff;
+            (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
             (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
-            this.food.setTexture(`${this.spriteName}_${this.randomFood}`);
-            // console.log("Food physics enabled?", (this.food.body as Phaser.Physics.Arcade.Body).enable);
+            this.scene.time.delayedCall(2000, () => this.scene.velocity = WALKING_SPEED);
         });
     }
 
@@ -183,16 +202,6 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     private createHit() { }
 
     private createEvents() { }
-
-    private createOverlaps() {
-        if (!this.player) return;
-        this.scene.physics.add.overlap(this.food, this.player, () => {
-            this.food.setVisible(false);
-            // console.log("Overlap triggered!"); // Should NOT appear after disabling
-            (this.food.body as Phaser.Physics.Arcade.Body).enable = false;
-            (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
-        });
-    }
 
     private createDefeat() { }
 

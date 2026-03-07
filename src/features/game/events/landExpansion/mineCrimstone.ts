@@ -25,33 +25,49 @@ type Options = {
   farmId: number;
 };
 
-type GetMinedAtArgs = {
-  createdAt: number;
-  game: GameState;
+type PrngArgs = {
   farmId: number;
   itemId: number;
   counter: number;
 };
 
-function getBoostedTime({ game, farmId, itemId, counter }: GetMinedAtArgs): {
-  boostedTime: number;
+type GetMinedAtArgs = {
+  createdAt: number;
+  game: GameState;
+  prngArgs?: PrngArgs;
+};
+
+/**
+ * Single source of truth for crimstone recovery boosts. Used by both getMinedAt (game) and UI.
+ * When prngArgs is omitted, PRNG-dependent branches (e.g. Crimstone Clam instant) are skipped.
+ */
+export function getCrimstoneRecoveryTimeForDisplay({
+  game,
+  prngArgs,
+}: {
+  game: GameState;
+  prngArgs?: PrngArgs;
+}): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
+  const baseTimeMs = CRIMSTONE_RECOVERY_TIME * 1000;
   let totalSeconds = CRIMSTONE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isCollectibleBuilt({ name: "Crimstone Clam", game }) &&
+    prngArgs &&
     prngChance({
-      farmId,
-      itemId,
-      counter,
+      ...prngArgs,
       chance: 10,
       criticalHitName: "Crimstone Clam",
     })
   ) {
     return {
-      boostedTime: CRIMSTONE_RECOVERY_TIME * 1000,
+      baseTimeMs,
+      recoveryTimeMs: 0,
       boostsUsed: [{ name: "Crimstone Clam", value: "Instant" }],
     };
   }
@@ -76,32 +92,24 @@ function getBoostedTime({ game, farmId, itemId, counter }: GetMinedAtArgs): {
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
-  const buff = CRIMSTONE_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
 }
 
-export function getMinedAt({
-  createdAt,
-  game,
-  farmId,
-  itemId,
-  counter,
-}: GetMinedAtArgs): {
+/**
+ * Set a mined in the past to make it replenish faster. Uses getCrimstoneRecoveryTimeForDisplay for boost logic.
+ */
+export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   time: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({
-    game,
-    createdAt,
-    farmId,
-    itemId,
-    counter,
-  });
-
-  const time = createdAt - boostedTime;
-
-  return { time, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getCrimstoneRecoveryTimeForDisplay({ game, prngArgs });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 export function getCrimstoneDropAmount({
@@ -207,7 +215,7 @@ export function mineCrimstone({
     const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
       createdAt,
       game: stateCopy,
-      ...prngObject,
+      prngArgs: prngObject,
     });
     rock.stone = { minedAt: time };
 

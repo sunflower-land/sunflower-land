@@ -31,6 +31,7 @@ interface Props {
   onSelectChestItem: (item: LandscapingPlaceableType) => void;
   onPlace?: (name: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
@@ -55,6 +56,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onDepositClick,
   onPlace,
   onPlaceNFT,
+  onPlaceFarmHand,
   isSaving,
   isFarming,
   isFullUser,
@@ -124,6 +126,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onPlace={isFarming ? onPlace : undefined}
             onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
+            onPlaceFarmHand={isFarming ? onPlaceFarmHand : undefined}
             isSaving={isSaving}
             location={location}
           />

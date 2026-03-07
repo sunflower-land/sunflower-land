@@ -2,6 +2,7 @@ import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
+import { EventBus } from "../lib/EventBus";
 
 interface Props {
     x: number;
@@ -27,12 +28,11 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
         this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`);
         this.barrel = this.scene.add.sprite(0, -20, `${this.spriteName}_barrel`)
-        this.add(this.barrel)
+        this.add([this.sprite, this.barrel])
         this.scene.physics.add.existing(this.barrel);
 
         // Giant skeleton
         this.createGiant();
-        this.giantMovemen();
 
         // Barrel
         this.throwBarrelLoop();
@@ -49,10 +49,6 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
             | undefined;
     }
 
-    getRandomNumber(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     private createGiant() {
         this.scene.physics.add.existing(this.sprite);
         (this.sprite.body as Phaser.Physics.Arcade.Body)
@@ -62,15 +58,12 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
         this.setSize(this.sprite.width, this.sprite.height);
         this.add(this.sprite);
-        this.setDepth(10);
+        this.setDepth(0);
 
-        // Animation
         createAnimation(this.scene, this.sprite, `${this.spriteName}_idle`, "idle", 0, 3, 4, -1)
-    }
 
-    private giantMovemen() {
-        const moveLeft = this.x - 150;
-        const moveRight = 330;
+        const moveLeft = this.x - 90;
+        const moveRight = 335;
         this.x = moveLeft;
 
         let prevX = this.x
@@ -104,7 +97,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     }
 
     private throwBarrelLoop() {
-        const delay = this.getRandomNumber(1000, 8000);
+        const delay = Phaser.Math.Between(1000, 8000);
         this.scene.time.delayedCall(delay, () => {
             this.followGiant = false;
             (this.barrel.body as Phaser.Physics.Arcade.Body).enable = false;
@@ -117,13 +110,14 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     }
 
     private barrelMovement(onComplete?: () => void) {
+        if (!this.player) return;
         const body = this.barrel.body as Phaser.Physics.Arcade.Body;
         body.enable = true;
         body.setCollideWorldBounds(false);
+        this.setDepth(200);
 
-        // Throw barrel
         const distance = this.direction === 1 ? "+=150" : "-=150"
-        const valueY = this.getRandomNumber(50, 200)
+        const valueY = this.player.getWorldTransformMatrix().ty - this.y;
         this.scene.tweens.add({
             targets: this.barrel,
             props: {
@@ -141,21 +135,25 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
     }
 
+    private createOverlaps() {
+        if (!this.player) return;
+        const enlargePlayer = 1.5;
+        const deafaultScale = 1;
+
+        this.scene.physics.add.collider(this, this.player);
+        this.scene.physics.add.overlap(this.barrel, this.player, () => {
+            this.barrel.setVisible(false);
+            this.player?.setScale(enlargePlayer);
+            (this.barrel.body as Phaser.Physics.Arcade.Body).enable = false;
+            this.scene.time.delayedCall(3000, () => this.player?.setScale(deafaultScale))
+        });
+    }
+
     private createDamage() { }
 
     private createHit() { }
 
     private createEvents() { }
 
-    private createOverlaps() {
-        if (!this.player) return;
-        this.scene.physics.add.collider(this, this.player);
-        this.scene.physics.add.overlap(this.barrel, this.player, () => {
-            this.barrel.setVisible(false);
-            (this.barrel.body as Phaser.Physics.Arcade.Body).enable = false;
-        });
-    }
-
     private createDefeat() { }
-
 }

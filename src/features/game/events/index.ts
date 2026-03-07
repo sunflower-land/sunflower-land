@@ -378,6 +378,10 @@ import {
   CollectCraftingAction,
 } from "./landExpansion/collectCrafting";
 import {
+  cancelQueuedCrafting,
+  CancelQueuedCraftingAction,
+} from "./landExpansion/cancelQueuedCrafting";
+import {
   completeNPCChore,
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
@@ -388,10 +392,6 @@ import {
   BuyChapterItemAction,
 } from "./landExpansion/buyChapterItem";
 
-import {
-  unlockFarmhand,
-  UnlockFarmhandAction,
-} from "./landExpansion/unlockFarmhand";
 import {
   sacrificeBear,
   SacrificeBearAction,
@@ -576,6 +576,15 @@ import {
   CollectWaterTrapAction,
 } from "./landExpansion/collectWaterTrap";
 import {
+  placeFarmHand,
+  PlaceFarmHandAction,
+} from "./landExpansion/placeFarmHand";
+import { moveFarmHand, MoveFarmHandAction } from "./landExpansion/moveFarmHand";
+import {
+  removeFarmHand,
+  RemoveFarmHandAction,
+} from "./landExpansion/removeFarmHand";
+import {
   speedUpProcessing,
   SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
@@ -704,10 +713,10 @@ export type PlayingEvent =
   | UpgradeBuildingAction
   | StartCraftingAction
   | CollectCraftingAction
+  | CancelQueuedCraftingAction
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuyChapterItemAction
-  | UnlockFarmhandAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
   | DailyResetAction
@@ -744,6 +753,9 @@ export type PlayingEvent =
   | RenewPetShrineAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
+  | PlaceFarmHandAction
+  | MoveFarmHandAction
+  | RemoveFarmHandAction
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction;
 
@@ -805,7 +817,10 @@ export type PlacementEvent =
   | RemoveFlowerBedAction
   | RemoveBeehiveAction
   | RemoveAllAction
-  | FlipCollectibleAction;
+  | FlipCollectibleAction
+  | PlaceFarmHandAction
+  | MoveFarmHandAction
+  | RemoveFarmHandAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 
@@ -962,10 +977,10 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,
   "crafting.collected": collectCrafting,
+  "crafting.cancelled": cancelQueuedCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "chapterItem.bought": buyChapterItem,
-  "farmHand.unlocked": unlockFarmhand,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
   "daily.reset": dailyReset,
@@ -1001,6 +1016,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "petShrine.renewed": renewPetShrine,
   "waterTrap.placed": placeWaterTrap,
   "waterTrap.collected": collectWaterTrap,
+  "farmHand.placed": placeFarmHand,
+  "farmHand.moved": moveFarmHand,
+  "farmHand.removed": removeFarmHand,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
@@ -1042,6 +1060,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "nft.placed": placeNFT,
   "nft.moved": moveBud,
   "nft.removed": removeNFT,
+  "farmHand.placed": placeFarmHand,
+  "farmHand.moved": moveFarmHand,
+  "farmHand.removed": removeFarmHand,
   "beehive.moved": moveBeehive,
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,

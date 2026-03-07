@@ -58,13 +58,16 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-function getBoostedTime({
-  skills,
-  game,
-}: Pick<GetMinedAtArgs, "skills" | "game">): {
-  boostedTime: number;
+/**
+ * Single source of truth for stone recovery boosts. Used by both getMinedAt (game) and UI.
+ */
+export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
+  const baseTimeMs = STONE_RECOVERY_TIME * 1000;
+  const skills = game.bumpkin.skills;
   let totalSeconds = STONE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -99,24 +102,24 @@ function getBoostedTime({
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
-  const buff = STONE_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
 }
 
 /**
- * Set a mined in the past to make it replenish faster
+ * Set a mined in the past to make it replenish faster. Uses getStoneRecoveryTimeForDisplay for boost logic.
  */
-export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   time: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({
-    skills,
-    game,
-  });
-
-  return { time: createdAt - boostedTime, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getStoneRecoveryTimeForDisplay({ game });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 /**
@@ -420,10 +423,12 @@ export function mineStone({
       createdAt,
       game: stateCopy,
     });
-    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
-      skills: bumpkin.skills,
-      game: stateCopy,
-    });
+    const {
+      baseTimeMs,
+      recoveryTimeMs,
+      boostsUsed: boostedTimeBoostsUsed,
+    } = getStoneRecoveryTimeForDisplay({ game: stateCopy });
+    const boostedTime = baseTimeMs - recoveryTimeMs;
 
     rock.stone = {
       minedAt: time,
