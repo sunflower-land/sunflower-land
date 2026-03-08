@@ -202,15 +202,19 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
         if (!this.player) return;
         this.scene.physics.add.overlap(this.vegeSplat, this.player, () => {
             this.vegeSplat.setVisible(false);
-            (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
-
+            
             if (this.player) {
-                if (this.player.clothing.aura && VISIBLE_AURA.includes(this.player.clothing.aura)) {
+                const aura = this.player.clothing.aura;
+                
+                if (!aura) {
+                    // No aura in inventory
+                    this.player.setVisible(false);
+                } else if (VISIBLE_AURA.includes(aura)) {
                     // Aura is visible
                     this.player?.sprite?.setVisible(false);
                     this.player?.shadow?.setVisible(false);
                     this.player.showAura();
-                } else if (this.player.clothing.aura && NOT_VISIBLE_AURA.includes(this.player.clothing.aura)) {
+                } else if (NOT_VISIBLE_AURA.includes(aura)) {
                     // Aura is not visible
                     this.player.setVisible(false);
                 } else {
@@ -218,8 +222,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
                     this.player.showAura();
                 }
             }
+            (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
         }
-        )
+    )
     }
 
     private createDamage() {
