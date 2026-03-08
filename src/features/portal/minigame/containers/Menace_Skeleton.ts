@@ -2,6 +2,7 @@ import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
+import { VISIBLE_AURA, NOT_VISIBLE_AURA } from "../Constants";
 
 interface Props {
     x: number;
@@ -22,7 +23,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     private vegeList: string[];
     private flipX: boolean = false;
     private randomThrow: number;
-
     constructor({ x, y, scene, player }: Props) {
         super(scene, x, y);
         this.scene = scene
@@ -185,12 +185,16 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     }
 
     private createReset() {
-        this.scene.time.delayedCall(3000, () => {
+        this.scene.time.delayedCall(4000, () => {
             if (!this.player) return;
             this.vegeSplat.setVisible(false);
             (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
             (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
             this.vege.setTexture(`${this.spriteName}_${this.randomVege}`);
+
+            this.player?.sprite?.setVisible(true);
+            this.player?.shadow?.setVisible(true);
+            this.player.setVisible(true);
         });
     }
 
@@ -198,8 +202,22 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
         if (!this.player) return;
         this.scene.physics.add.overlap(this.vegeSplat, this.player, () => {
             this.vegeSplat.setVisible(false);
-            this.player?.setVisible(false);
             (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
+
+            if (this.player) {
+                if (this.player.clothing.aura && VISIBLE_AURA.includes(this.player.clothing.aura)) {
+                    // Aura is visible
+                    this.player?.sprite?.setVisible(false);
+                    this.player?.shadow?.setVisible(false);
+                    this.player.showAura();
+                } else if (this.player.clothing.aura && NOT_VISIBLE_AURA.includes(this.player.clothing.aura)) {
+                    // Aura is not visible
+                    this.player.setVisible(false);
+                } else {
+                    // Default case
+                    this.player.showAura();
+                }
+            }
         }
         )
     }

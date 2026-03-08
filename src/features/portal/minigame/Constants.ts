@@ -3,6 +3,7 @@ import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Position, Side } from "./Types";
+import { BumpkinAura } from "features/game/types/bumpkin";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -94,7 +95,19 @@ export const ENEMIES_TABLE: {
       image: ITEM_DETAILS["Abandoned Bear"].image,
       description: t(`${PORTAL_NAME}.enemy2`),
     },
-  ];
+];
+
+export const VISIBLE_AURA: BumpkinAura[] = [
+    "Slime Aura",
+    "Wisp Aura",
+    "Diamond Snow Aura",
+];
+
+export const NOT_VISIBLE_AURA: BumpkinAura[] = [
+    "Coin Aura",
+    "Love Puff Aura",
+    "Paw Aura",
+];
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
