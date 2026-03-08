@@ -12,13 +12,15 @@ import {
   MENACE_SKELETON_POSITIONS,
   CANNON_CONFIG
 } from "./Constants";
-import { Side, Position } from "./Types";
+import { Side, Position, Enemy } from "./Types";
 import { EventBus } from "./lib/EventBus";
 import { Giant_Skeleton } from "./containers/Giant_Skeleton";
 import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 import { Menace_Skeleton } from "./containers/Menace_Skeleton";
 import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 import { Cannon } from "./containers/Cannon";
+import { Orange } from "./containers/Orange";
+import { createAnimation } from "./lib/Utils";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -38,6 +40,7 @@ export class Scene extends BaseScene {
   private activeCannondSide: Side | null = null;
   private menaceSkeleton: Menace_Skeleton[] = [];
   private drownedSkeleton: Blast_Skeleton[] = [];
+  public allEnemies: Enemy[] = [];
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -197,6 +200,14 @@ export class Scene extends BaseScene {
       "sniper_skeleton_potato",
       "/world/portal/images/potato.png",
     );
+    this.load.image(
+      "orange",
+      "/world/portal/images/orange.png",
+    );
+    this.load.image(
+      "wood",
+      "/world/portal/images/wood.png",
+    );
 
     // Cannon
     this.load.image("cannon", "/world/portal/images/tree.webp")
@@ -225,10 +236,16 @@ export class Scene extends BaseScene {
     this.initialiseFontFamily();
 
     // Enemies
+    this.allEnemies = [];
     this.createEnemies();
 
     // Cannons
     this.createCannons();
+
+    // Ocean
+    this.createOcean();
+
+    this.createShips();
 
     // Config
     this.input.addPointer(3);
@@ -252,7 +269,7 @@ export class Scene extends BaseScene {
       this.loadBumpkinAnimations();
     } else if (this.isGameReady) {
       this.portalService?.send("START");
-      this.velocity = WALKING_SPEED;
+      this.resetVelocity();
     }
 
     super.update();
@@ -353,6 +370,14 @@ export class Scene extends BaseScene {
         }
       });
 
+    EventBus.on("cannon-dismount", (data: { side: Side }) => {
+      if (this.isUsingCannon && this.activeCannondSide === data.side) {
+        this.resetVelocity();
+        this.isUsingCannon = false;
+        EventBus.emit("cannon-aim-stop", { side: this.activeCannondSide });
+      }
+    });
+
     // reload scene when player hit retry
     const onRetry = (event: EventObject) => {
       if (event.type === "RETRY") {
@@ -401,6 +426,7 @@ export class Scene extends BaseScene {
 
   private controls() {
     if (!this.cursorKeys) return;
+    if (!this.cursorKeys.e) return;
 
     if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e) &&
       (this.isCannonEnabled.left || this.isCannonEnabled.right)) {
@@ -414,7 +440,7 @@ export class Scene extends BaseScene {
           EventBus.emit("cannon-aim-start", { side: this.activeCannondSide });
         }
       } else {
-        this.velocity = WALKING_SPEED;
+        this.resetVelocity();
         this.isUsingCannon = false;
 
         if (this.activeCannondSide) {
@@ -422,6 +448,10 @@ export class Scene extends BaseScene {
         }
       }
     }
+  }
+
+  private resetVelocity() {
+    this.velocity = WALKING_SPEED;
   }
 
   private createEnemies() {
@@ -439,6 +469,7 @@ export class Scene extends BaseScene {
       scene: this,
       player: this.currentPlayer,
     });
+    this.allEnemies.push(giantCardboard);
   }
 
   private createSniperSkeleton() {
@@ -449,24 +480,33 @@ export class Scene extends BaseScene {
       scene: this,
       player: this.currentPlayer,
     });
+    this.allEnemies.push(sniperSkeleton);
   }
 
   private createMenaceSkeleton() {
-    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => new Menace_Skeleton({
-      x: pos.x,
-      y: pos.y,
-      scene: this,
-      player: this.currentPlayer,
-    }));
+    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => {
+      const skel = new Menace_Skeleton({
+        x: pos.x,
+        y: pos.y,
+        scene: this,
+        player: this.currentPlayer,
+      });
+      this.allEnemies.push(skel);
+      return skel;
+    });
   }
 
   private createBlastSkeleton() {
-    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => new Blast_Skeleton({
-      x: pos.x,
-      y: pos.y,
-      scene: this,
-      player: this.currentPlayer
-    }))
+    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => {
+      const skel = new Blast_Skeleton({
+        x: pos.x,
+        y: pos.y,
+        scene: this,
+        player: this.currentPlayer
+      });
+      this.allEnemies.push(skel);
+      return skel;
+    });
   }
 
   private createCannons() {
@@ -476,7 +516,70 @@ export class Scene extends BaseScene {
         y,
         scene: this,
         side,
-        player: this.currentPlayer
+        player: this.currentPlayer,
+        allEnemies: this.allEnemies
+      });
+    });
+  }
+
+  private createOcean() {
+    const wavesUpTileIndexes = [
+      1356, 1358,
+    ];
+    const wavesCenterTileIndexes = [
+      1228, 1230,
+    ];
+
+    // const wavesUpTileIndexes = [
+    //   1356, 1357, 1358, 1359,
+    //   1228, 1229, 1230, 1231,
+    // ];
+    // const wavesCenterTileIndexes = [
+    //   1164, 1165, 1166, 1167,
+    //   1292, 1293, 1294, 1295
+    // ];
+
+    const loadWaterForLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, isBorder = false) => {
+      if (!layer) return;
+      const upTileIndexes = isBorder ? wavesUpTileIndexes.map(index => index - 1) : wavesUpTileIndexes;
+      const centerTileIndexes = isBorder ? wavesCenterTileIndexes.map(index => index - 1) : wavesCenterTileIndexes;
+
+      layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
+        row.forEach((tile: Phaser.Tilemaps.Tile) => {
+          if (tile && upTileIndexes.includes(tile.index)) {
+            const worldX = tile.pixelX + layer.x + tile.width / 2;
+            const worldY = tile.pixelY + layer.y + tile.height / 2;
+            const sprite = this.add.sprite(worldX, worldY, "waves_up").setOrigin(0.25);
+            createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
+          }
+          if (tile && centerTileIndexes.includes(tile.index)) {
+            const worldX = tile.pixelX + layer.x + tile.width / 2;
+            const worldY = tile.pixelY + layer.y + tile.height / 2;
+            const sprite = this.add.sprite(worldX, worldY, "waves_center").setOrigin(0.25);
+            createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
+          }
+        });
+      });
+    };
+    loadWaterForLayer(this.layers["Water"] as Phaser.Tilemaps.TilemapLayer | null ?? null);
+    if (this.borderMapLeft) {
+      loadWaterForLayer(this.borderMapLeft.getLayer("Water")?.tilemapLayer ?? null, true);
+    }
+    if (this.borderMapRight) {
+      loadWaterForLayer(this.borderMapRight.getLayer("Water")?.tilemapLayer ?? null, true);
+    }
+  }
+
+  private createShips() {
+    const ground = 578;
+    const layer = this.layers["Ground"]
+    layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
+      row.forEach((tile: Phaser.Tilemaps.Tile) => {
+        if (tile && ground === tile.index) {
+          const worldX = tile.pixelX + layer.x + tile.width / 2;
+          const worldY = tile.pixelY + layer.y + tile.height / 2;
+          this.add.sprite(worldX, worldY, "wood").setScale(0.95);
+        }
       });
     });
   }

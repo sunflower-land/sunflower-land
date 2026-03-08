@@ -102,6 +102,8 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
+  public borderMapLeft?: Phaser.Tilemaps.Tilemap;
+  public borderMapRight?: Phaser.Tilemaps.Tilemap;
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
 
@@ -132,7 +134,8 @@ export abstract class BaseScene extends Phaser.Scene {
       s?: Phaser.Input.Keyboard.Key;
       a?: Phaser.Input.Keyboard.Key;
       d?: Phaser.Input.Keyboard.Key;
-      e: Phaser.Input.Keyboard.Key;
+      e?: Phaser.Input.Keyboard.Key;
+      space: Phaser.Input.Keyboard.Key;
     }
     | undefined;
 
@@ -603,13 +606,13 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const extraCols = Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH);
 
-    const borderMapLeft = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
-    const borderMapRight = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
+    this.borderMapLeft = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
+    this.borderMapRight = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
 
     const tilesetKey = this.options.map?.tilesetUrl ?? "Sunnyside V3";
     const imageKey = this.options.map?.imageKey ?? "tileset";
-    const tilesetLeft = borderMapLeft.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
-    const tilesetRight = borderMapRight.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
+    const tilesetLeft = this.borderMapLeft.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
+    const tilesetRight = this.borderMapRight.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -627,8 +630,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData) => {
       if (layerData.name === "Ground") return;
 
-      const leftLayer = borderMapLeft.createBlankLayer(layerData.name, tilesetLeft, -extraCols * SQUARE_WIDTH, 0) as Phaser.Tilemaps.TilemapLayer;
-      const rightLayer = borderMapRight.createBlankLayer(layerData.name, tilesetRight, mapWidthPx, 0) as Phaser.Tilemaps.TilemapLayer;
+      const leftLayer = this.borderMapLeft!.createBlankLayer(layerData.name, tilesetLeft, -extraCols * SQUARE_WIDTH, 0) as Phaser.Tilemaps.TilemapLayer;
+      const rightLayer = this.borderMapRight!.createBlankLayer(layerData.name, tilesetRight, mapWidthPx, 0) as Phaser.Tilemaps.TilemapLayer;
 
       for (let y = 0; y < this.map.height; y++) {
         let startLeft = -1;

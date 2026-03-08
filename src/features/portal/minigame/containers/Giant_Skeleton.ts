@@ -2,7 +2,6 @@ import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
-import { EventBus } from "../lib/EventBus";
 
 interface Props {
     x: number;
@@ -30,14 +29,17 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
         this.barrel = this.scene.add.sprite(0, -20, `${this.spriteName}_barrel`)
         this.add([this.sprite, this.barrel])
         this.scene.physics.add.existing(this.barrel);
+        this.scene.physics.add.existing(this);
+        (this.body as Phaser.Physics.Arcade.Body)
+            .setSize(this.sprite.width, this.sprite.height);
 
-        // Giant skeleton
+        // // Giant skeleton
         this.createGiant();
 
-        // Barrel
+        // // Barrel
         this.throwBarrelLoop();
 
-        // Overlap
+        // // Overlap
         this.createOverlaps();
 
         scene.add.existing(this);
@@ -50,12 +52,6 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     }
 
     private createGiant() {
-        this.scene.physics.add.existing(this.sprite);
-        (this.sprite.body as Phaser.Physics.Arcade.Body)
-            .setSize(this.sprite.width, this.sprite.height)
-            .setCollideWorldBounds(true)
-            .setImmovable(true);
-
         this.setSize(this.sprite.width, this.sprite.height);
         this.add(this.sprite);
         this.setDepth(0);
@@ -69,7 +65,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
         let prevX = this.x
 
         this.scene.tweens.add({
-            targets: this.sprite,
+            targets: this,
             x: moveRight,
             duration: 15000,
             ease: "Linear",
@@ -156,4 +152,9 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     private createEvents() { }
 
     private createDefeat() { }
+
+    public defeat() {
+        this.sprite.setVisible(false);
+        this.barrel.setVisible(false);
+    }
 }

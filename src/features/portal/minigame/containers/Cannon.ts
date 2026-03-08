@@ -1,7 +1,10 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { EventBus } from "../lib/EventBus";
 import { Scene } from "../Scene";
-import { Side } from "../Types";
+import { Enemy, Side } from "../Types";
+import { Orange } from "./Orange";
+import { TimerBar } from "./TimerBar";
+import { CANNON_COOLDOWN } from "../Constants";
 
 interface Props {
     x: number;
@@ -9,6 +12,7 @@ interface Props {
     scene: Scene,
     side: Side,
     player?: BumpkinContainer,
+    allEnemies: Enemy[],
 }
 
 // Radius from cannon center to where the player stands while using it
@@ -21,10 +25,13 @@ const DASH_GAP = 4;
 
 /**
  * Cannon game object. Sits at a fixed position on the map.
+ *
  * When the player stands within range and presses E, the cannon enters
- * aiming mode: the sprite rotates toward the mouse cursor, a dashed
+ * aiming mode: the sprite rotates based on keyboard inputs, a dashed
  * trajectory line is drawn, and the player is repositioned at the base.
- * @fires   EventBus#activate-cannon-button — every frame, emitting status: { isActivated, side, position }.
+ *
+ * @fires   EventBus#activate-cannon-button — every frame while active, with { isActivated, side, position }.
+ * @fires   EventBus#cannon-dismount — emitted when the cannon fires.
  * @listens EventBus#cannon-aim-start — triggers startAiming().
  * @listens EventBus#cannon-aim-stop  — triggers stopAiming().
  */
@@ -34,32 +41,34 @@ export class Cannon extends Phaser.GameObjects.Container {
     private sprite: Phaser.GameObjects.Sprite;
     private spriteName: string;
     private side: Side;
-
-    // Aim graphics (dashed line)
+    private allEnemies: Enemy[];
     private aimGraphics: Phaser.GameObjects.Graphics;
-
-    // Current aim angle in radians (0 = right, PI/2 = down, etc.)
-    private aimAngle: number = Math.PI / 2; // default pointing down
-
-    // Rotation speed for the cannon when aiming (radians per frame)
+    private aimAngle: number = Math.PI / 2;
     private readonly AIM_SPEED: number = 0.025;
-
-    // Whether this cannon is currently being operated by the player
     private isActive: boolean = false;
+    private isHighlighted: boolean = false;
+
+    // Cooldown variables
+    private onCooldown: boolean = false;
+    private cooldownTimerBar!: TimerBar;
+    private remainingCooldown: number = 0;
 
     /**
      * Creates a new Cannon instance.
-     * @param x      {number}           X position in the world.
-     * @param y      {number}           Y position in the world.
-     * @param scene  {Scene}            The main Scene.
-     * @param side   {Side}             Which side this cannon belongs to.
-     * @param player {BumpkinContainer} (optional) Reference to the player container.
+     *
+     * @param x          {number}            X position in the world.
+     * @param y          {number}            Y position in the world.
+     * @param scene      {Scene}             The main Scene.
+     * @param side       {Side}              Which side this cannon belongs to.
+     * @param player     {BumpkinContainer}  Reference to the player container (optional).
+     * @param allEnemies {Enemy[]}           Array of all enemies in the scene.
      */
-    constructor({ x, y, scene, side, player }: Props) {
+    constructor({ x, y, scene, side, player, allEnemies }: Props) {
         super(scene, x, y);
         this.scene = scene;
         this.side = side;
         this.player = player;
+        this.allEnemies = allEnemies;
 
         // Sprite
         this.spriteName = "cannon";
@@ -70,12 +79,17 @@ export class Cannon extends Phaser.GameObjects.Container {
         this.aimGraphics.setDepth(500);
         this.aimGraphics.setVisible(false);
 
+        // Cooldown timer bar
+        this.createTimerBar();
+
         // Physics on the container body
         scene.physics.add.existing(this);
-        (this.body as Phaser.Physics.Arcade.Body)
-            .setSize(this.sprite.width, this.sprite.height)
-            .setImmovable(true)
-            .setCollideWorldBounds(true);
+        const physicsBody = this.body as Phaser.Physics.Arcade.Body;
+        if (physicsBody) {
+            physicsBody.setSize(this.sprite.width, this.sprite.height)
+                .setImmovable(true)
+                .setCollideWorldBounds(true);
+        }
 
         this.setSize(this.sprite.width, this.sprite.height);
         this.add(this.sprite);
@@ -97,8 +111,23 @@ export class Cannon extends Phaser.GameObjects.Container {
     }
 
     /**
+     * Creates the timer bar graphic to display the cooldown visually.
+     */
+    private createTimerBar() {
+        this.cooldownTimerBar = new TimerBar({
+            x: 0,
+            y: 20,
+            scene: this.scene,
+            width: 20,
+            maxTime: CANNON_COOLDOWN
+        });
+        this.add(this.cooldownTimerBar);
+    }
+
+    /**
      * Returns the current aim angle in radians.
      * 0 = right, PI/2 = down, PI = left, -PI/2 = up.
+     *
      * @returns {number} Aim angle in radians.
      */
     public get currentAngle(): number {
@@ -106,10 +135,9 @@ export class Cannon extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Activates mouse-aim mode for this cannon.
+     * Activates keyboard-aim mode for this cannon.
      * Should be called only when the player is within proximity range
      * and has pressed the interaction key.
-     * @fires EventBus#(internal graphics update) — redraws trajectory each frame.
      */
     public startAiming(): void {
         this.isActive = true;
@@ -118,7 +146,7 @@ export class Cannon extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Deactivates mouse-aim mode for this cannon.
+     * Deactivates keyboard-aim mode for this cannon.
      * Hides aim graphics and resets cannon rotation.
      */
     public stopAiming(): void {
@@ -129,16 +157,43 @@ export class Cannon extends Phaser.GameObjects.Container {
 
     /**
      * Registers a per-frame update loop for this cannon using scene.addToUpdate.
-     * Evaluates proximity to the player and handles active aiming.
+     *
+     * Evaluates proximity to the player, handles active aiming,
+     * and updates the cooldown timer if necessary.
+     *
      * @fires EventBus#activate-cannon-button — emitted with activation state.
      */
     private updates(): void {
         this.scene.addToUpdate("cannon-" + this.side, () => {
+            if (this.onCooldown) {
+                this.remainingCooldown -= this.scene.game.loop.delta;
+
+                if (this.remainingCooldown <= 0) {
+                    this.onCooldown = false;
+                    this.cooldownTimerBar.setVisible(false);
+                } else {
+                    this.cooldownTimerBar.setTime(this.remainingCooldown);
+                }
+            }
+
             const distance = Phaser.Math.Distance.BetweenPoints(
                 this.player as BumpkinContainer,
                 this,
             );
-            if (distance > 40) {
+            const limit = 40;
+
+            const inRange = distance <= limit && !this.onCooldown;
+            const shouldHighlight = inRange && !this.isActive;
+
+            if (shouldHighlight && !this.isHighlighted) {
+                this.isHighlighted = true;
+                this.sprite.preFX?.addGlow(0xffffff, 2, 0, false, 0.1, 10);
+            } else if (!shouldHighlight && this.isHighlighted) {
+                this.isHighlighted = false;
+                this.sprite.preFX?.clear();
+            }
+
+            if (distance > limit || this.onCooldown) {
                 EventBus.emit("activate-cannon-button", {
                     isActivated: false,
                     side: this.side,
@@ -159,8 +214,12 @@ export class Cannon extends Phaser.GameObjects.Container {
 
     /**
      * Rotates the cannon sprite and repositions the player based on
-     * keyboard inputs (A/D or Left/Right arrows).
+     * keyboard inputs (A/D or Left/Right arrows). Evaluates firing
+     * via the spacebar.
+     *
      * Called every frame while isActive is true.
+     *
+     * @fires EventBus#cannon-dismount — emitted when the cannon is successfully fired.
      */
     private updateAim(): void {
         const keys = this.scene.cursorKeys;
@@ -173,6 +232,31 @@ export class Cannon extends Phaser.GameObjects.Container {
             this.aimAngle -= this.AIM_SPEED;
         } else if (rightDown) {
             this.aimAngle += this.AIM_SPEED;
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.scene.cursorKeys!.space)) {
+            if (this.onCooldown) return;
+
+            const chance = Math.random();
+            console.log(chance)
+            if (chance < 0.5) {
+                new Orange({
+                    x: this.x + Math.cos(this.aimAngle) * (this.sprite.height / 2),
+                    y: this.y + Math.sin(this.aimAngle) * (this.sprite.height / 2),
+                    scene: this.scene,
+                    angle: this.aimAngle,
+                    enemies: this.allEnemies
+                });
+            } else {
+                // TODO: Implement the other 50% functionality in the future
+            }
+
+            this.aimAngle = -Math.PI / 2;
+            this.onCooldown = true;
+            this.remainingCooldown = CANNON_COOLDOWN;
+            this.cooldownTimerBar.setTime(this.remainingCooldown);
+
+            EventBus.emit("cannon-dismount", { side: this.side });
         }
 
         const spriteDegrees = Phaser.Math.RadToDeg(this.aimAngle) + 90;
@@ -206,7 +290,7 @@ export class Cannon extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Draws a dashed trajectory line from the barrel tip toward the cursor.
+     * Draws a dashed trajectory line from the barrel tip in the aim direction.
      * Automatically handles fading out longer dashes.
      */
     private drawAimLine(): void {

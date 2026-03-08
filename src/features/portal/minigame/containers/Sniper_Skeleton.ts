@@ -31,6 +31,9 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
         this.vege = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.vegeName}`).setScale(1).setVisible(false);
         this.add([this.sprite, this.vege]);
         this.sprite.setVisible(false);
+        this.scene.physics.add.existing(this);
+        (this.body as Phaser.Physics.Arcade.Body)
+            .setSize(this.sprite.width, this.sprite.height);
 
         // Sniper Skeleton starts with glitch effect
         this.scene.time.addEvent({
@@ -128,9 +131,9 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
             0
         );
 
-        this.scene.time.delayedCall(300, () =>
-            this.throwVege()
-        )
+        this.scene.time.delayedCall(300, () => {
+            this.throwVege();
+        });
     }
 
     private throwVege() {
@@ -205,4 +208,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
 
     private createDefeat() { }
 
+    public defeat() {
+        this.sprite.setVisible(false);
+        this.vege.setVisible(false);
+    }
 }

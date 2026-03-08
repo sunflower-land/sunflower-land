@@ -1,6 +1,13 @@
+import { Blast_Skeleton } from "./containers/Blast_Skeleton";
+import { Giant_Skeleton } from "./containers/Giant_Skeleton";
+import { Menace_Skeleton } from "./containers/Menace_Skeleton";
+import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
+
 export type Position = {
     x: number;
     y: number;
 }
 
 export type Side = "left" | "right";
+
+export type Enemy = Blast_Skeleton | Giant_Skeleton | Menace_Skeleton | Sniper_Skeleton;

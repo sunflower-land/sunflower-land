@@ -40,6 +40,8 @@ export const CANNON_CONFIG: (Position & { side: Side })[] = [
   { x: 448, y: 319, side: "right" },
 ]
 
+export const CANNON_COOLDOWN = 30000;
+
 // Guide
 export const INSTRUCTIONS: {
   image: string;

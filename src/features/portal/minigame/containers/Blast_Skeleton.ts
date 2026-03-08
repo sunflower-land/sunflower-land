@@ -1,8 +1,8 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
-import { createAnimation, WALKING_SPEED } from "../Constants";
+import { createAnimation } from "../lib/Utils";
+import { WALKING_SPEED } from "../Constants";
 import { MachineInterpreter } from "../lib/Machine";
-import { EventBus } from "../lib/EventBus";
 
 interface Props {
     x: number,
@@ -29,6 +29,9 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
         this.food = this.scene.add.sprite(0, +5, `${this.spriteName}_tomato`).setVisible(false);
         this.tomatoBomb = this.scene.add.sprite(0, 0, `${this.spriteName}_tomato_screenSplat`).setVisible(false);
         this.add([this.sprite, this.tomatoBomb, this.food])
+        scene.physics.add.existing(this);
+        (this.body as Phaser.Physics.Arcade.Body)
+            .setSize(this.sprite.width, this.sprite.height);
 
         // Enemy
         this.scheduleAction();
@@ -61,8 +64,9 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
         const delay = Phaser.Math.Between(6000, 8000)
         this.scene.time.delayedCall(
             delay, () => {
-                this.createBlast(),
-                    this.scheduleAction()
+
+                this.createBlast();
+                this.scheduleAction();
             }
         )
     }
@@ -124,17 +128,18 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
 
     private createReset() {
         this.scene.time.delayedCall(1000, () => {
+
             this.tomatoBomb.setVisible(false);
             this.sprite.setPosition(0, 0);
             this.food.setPosition(0, 0);
             this.tomatoBomb.setPosition(0, 0);
             this.food.setTexture(`${this.spriteName}_tomato`);
             (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
-        }
-        )
-        this.scene.time.delayedCall(2000, () =>
-            this.scene.velocity = WALKING_SPEED
-        )
+        });
+
+        this.scene.time.delayedCall(2000, () => {
+            this.scene.velocity = WALKING_SPEED;
+        });
     }
 
     private createOverlaps() {
@@ -154,5 +159,9 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
 
     private createDefeat() { }
 
-
+    public defeat() {
+        this.sprite.setVisible(false);
+        this.food.setVisible(false);
+        this.tomatoBomb.setVisible(false);
+    }
 }

@@ -1,8 +1,7 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
-import { createAnimation } from "../Constants";
+import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
-import { EventBus } from "../lib/EventBus";
 
 interface Props {
     x: number;
@@ -41,6 +40,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
         this.vegeSplat = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomVege}_splat`).setVisible(false);
         this.add([this.sprite, this.vege]);
         this.player?.setVisible(true)
+        this.scene.physics.add.existing(this);
+        (this.body as Phaser.Physics.Arcade.Body)
+            .setSize(this.sprite.width, this.sprite.height);
 
         // Enemy
         this.scheduleMenace();
@@ -72,6 +74,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     private scheduleMenace() {
         const delay = Phaser.Math.Between(6000, 8000);
         this.scene.time.delayedCall(delay, () => {
+
             this.createMenace();
             this.scheduleMenace();
         });
@@ -115,9 +118,10 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
             0
         );
 
-        this.scene.time.delayedCall(650, () =>
-            this.foodMovement()
-        )
+        this.scene.time.delayedCall(650, () => {
+
+            this.foodMovement();
+        });
     }
 
     private foodMovement() {
@@ -210,4 +214,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
 
     private createDefeat() { }
 
+    public defeat() {
+        this.sprite.setVisible(false);
+        this.vege.setVisible(false);
+        this.vegeSplat.setVisible(false);
+    }
 }
