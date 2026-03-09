@@ -20,13 +20,18 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import flowerIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
+import { secondsToString } from "lib/utils/time";
+
+export const STARTER_PACK = "STARTER_PACK" as const;
+export const STARTER_PACK_GEMS = 300;
+export const STARTER_PACK_COINS = 500;
+export const STARTER_PACK_USD = 0.49;
 
 export interface Price {
-  amount: number;
+  amount: number | typeof STARTER_PACK;
   usd: number;
   image?: string;
   img_width?: number;
@@ -43,25 +48,19 @@ const PRICES: Price[] = [
 ];
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
-  const hasPurchasedXsolla = state.context.purchases.length > 0;
-
-  if (hasPurchasedXsolla) return 0;
-
-  if (state.context.state.farmActivity["Gems Purchased"]) return 0;
-
-  return (
-    (new Date(state.context.state.createdAt).getTime() +
-      24 * 60 * 60 * 1000 -
-      Date.now()) /
-    1000
-  );
+  const deadline =
+    new Date(state.context.state.createdAt).getTime() + 24 * 60 * 60 * 1000;
+  return Math.max(0, (deadline - Date.now()) / 1000);
 };
 
 interface Props {
   isSaving: boolean;
-  price?: { usd: number; amount: number };
+  price?: { usd: number; amount: number | typeof STARTER_PACK };
   hideIntroLabel?: boolean;
-  setPrice: (price?: { usd: number; amount: number }) => void;
+  setPrice: (price?: {
+    usd: number;
+    amount: number | typeof STARTER_PACK;
+  }) => void;
   onFlowerBuy: (quote: number) => void;
   onCreditCardBuy: () => void;
   onHideBuyBBLabel: (hide: boolean) => void;
@@ -78,7 +77,7 @@ export const BuyGems: React.FC<Props> = ({
   onBack,
 }) => {
   const { gameService } = useContext(Context);
-  const startOfferSecondsLeft = useSelector(
+  const starterOfferSecondsLeft = useSelector(
     gameService,
     _starterOfferSecondsLeft,
   );
@@ -106,6 +105,13 @@ export const BuyGems: React.FC<Props> = ({
     const hasFlower = gameService
       .getSnapshot()
       .context.state.balance.gte(flowerQuote);
+
+    const isStarterPack = price.amount === STARTER_PACK;
+    const gemsLabel = isStarterPack
+      ? STARTER_PACK_GEMS
+      : typeof price.amount === "number"
+        ? price.amount
+        : 0;
 
     return (
       <>
@@ -135,10 +141,19 @@ export const BuyGems: React.FC<Props> = ({
           <div className="flex justify-between mb-1">
             <p className="text-sm">{t("gems")}</p>
             <div className="flex items-center space-x-2">
-              <span>{`${price.amount} x`}</span>
+              <span>{`${gemsLabel} x`}</span>
               <img src={ITEM_DETAILS.Gem.image} className="w-6" />
             </div>
           </div>
+          {isStarterPack && (
+            <div className="flex justify-between mb-1">
+              <p className="text-sm">{t("coins")}</p>
+              <div className="flex items-center space-x-2">
+                <span>{`${STARTER_PACK_COINS} x`}</span>
+                <img src={SUNNYSIDE.ui.coinsImg} className="w-6" alt="coins" />
+              </div>
+            </div>
+          )}
 
           <div className="flex justify-between mb-1">
             <p className="text-sm">{t("usd")}</p>
@@ -187,7 +202,11 @@ export const BuyGems: React.FC<Props> = ({
     );
   }
 
-  const isWhalePack = price?.amount === PRICES[PRICES.length - 1].amount;
+  const isStarterPackPrice = price?.amount === STARTER_PACK;
+  const isWhalePack =
+    !isStarterPackPrice &&
+    typeof price?.amount === "number" &&
+    price?.amount === PRICES[PRICES.length - 1].amount;
 
   if (price) {
     return (
@@ -219,11 +238,28 @@ export const BuyGems: React.FC<Props> = ({
             </a>
           </div>
           <div className="flex items-center sm:text-sm justify-between mt-2 mb-3">
-            <div className="flex items-center space-x-2">
-              <span className="text-xs">
-                {t("item")} {price.amount} {"x"}
-              </span>
-              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-center space-x-2">
+                <span className="text-xs">
+                  {t("item")}{" "}
+                  {isStarterPackPrice
+                    ? `${STARTER_PACK_GEMS} x`
+                    : `${price.amount} x`}
+                </span>
+                <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+              </div>
+              {isStarterPackPrice && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs">
+                    {t("item")} {`${STARTER_PACK_COINS} x`}
+                  </span>
+                  <img
+                    src={SUNNYSIDE.ui.coinsImg}
+                    className="w-6"
+                    alt="coins"
+                  />
+                </div>
+              )}
             </div>
             <span className="text-xs">{`${t("total")}: US$${price.usd}`}</span>
           </div>
@@ -235,8 +271,11 @@ export const BuyGems: React.FC<Props> = ({
                   className={classNames(
                     "flex relative flex-col flex-1 items-center p-2",
                     {
-                      "opacity-60 cursor-not-allowed": price.amount === 1,
-                      "cursor-pointer": price.amount > 1,
+                      "opacity-60 cursor-not-allowed":
+                        typeof price.amount === "number" && price.amount === 1,
+                      "cursor-pointer":
+                        price.amount === STARTER_PACK ||
+                        (typeof price.amount === "number" && price.amount > 1),
                     },
                   )}
                 >
@@ -322,41 +361,49 @@ export const BuyGems: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-col w-full p-1">
-        {startOfferSecondsLeft > 0 && (
-          <ButtonPanel
-            onClick={() => setPrice({ amount: 300, usd: 1.29 })}
-            className="w-full mb-1"
-          >
-            <div className="flex justify-between">
-              <Label type="vibrant">{t("transaction.starterOffer")}</Label>
-              <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-                {`${secondsToString(startOfferSecondsLeft, {
-                  length: "short",
-                })} left`}
-              </Label>
-            </div>
-            <div className="flex w-full">
-              <div>
-                <div className="flex items-center">
-                  <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
-                  <span className="ml-1 text-sm">{`300 x Gems`}</span>
-                </div>
+        <ButtonPanel
+          onClick={() =>
+            setPrice({ amount: STARTER_PACK, usd: STARTER_PACK_USD })
+          }
+          className="w-full mb-1"
+        >
+          <div className="flex justify-between items-center">
+            <Label type="vibrant">{t("transaction.starterOffer")}</Label>
+            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+              {`${secondsToString(starterOfferSecondsLeft, {
+                length: "short",
+              })} left`}
+            </Label>
+          </div>
+          <div className="flex w-full">
+            <div>
+              <div className="flex items-center">
+                <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
+                <span className="ml-1 text-sm">{`${STARTER_PACK_GEMS} x Gems`}</span>
               </div>
-              <div className="flex flex-col justify-end flex-1 items-end">
-                <span className="text-sm mb-1 line-through">{`$3.89`}</span>
-                <Label type="warning">{`US$1.29`}</Label>
+              <div className="flex items-center mt-0.5">
+                <img
+                  src={SUNNYSIDE.ui.coinsImg}
+                  alt="coins"
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="ml-1 text-sm">{`${STARTER_PACK_COINS} x ${t("coins")}`}</span>
               </div>
             </div>
-          </ButtonPanel>
-        )}
+            <div className="flex flex-col justify-end flex-1 items-end">
+              <Label type="warning">{`US$${STARTER_PACK_USD}`}</Label>
+            </div>
+          </div>
+        </ButtonPanel>
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price, index) => {
-            // Compare price to base package
+            // Compare price to base package (PRICES only has numeric amounts)
+            const amount = typeof price.amount === "number" ? price.amount : 0;
             const gemsPerDollar =
               100 / (PRICES.find((p) => p.amount === 100)?.usd ?? 0);
             const expected = gemsPerDollar * price.usd;
-            const bonus = 100 * (price.amount / expected - 1);
+            const bonus = 100 * (amount / expected - 1);
 
             return (
               <ButtonPanel
