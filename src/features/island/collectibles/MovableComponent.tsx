@@ -54,9 +54,9 @@ import {
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { getObjectEntries } from "lib/object";
 import { getPetImage } from "../pets/lib/petShared";
-import { budImageDomain } from "./components/Bud";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
+import { getBudImage } from "lib/buds/types";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -908,7 +908,7 @@ export const MoveableComponent: React.FC<
                   choice.name === "Pet"
                     ? getPetImage("happy", Number(choice.id))
                     : choice.name === "Bud"
-                      ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
+                      ? getBudImage(Number(choice.id))
                       : choice.name === "FarmHand"
                         ? SUNNYSIDE.achievement.farmHand
                         : ITEM_DETAILS[choice.name].image;

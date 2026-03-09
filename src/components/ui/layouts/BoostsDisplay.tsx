@@ -18,12 +18,12 @@ import {
   CALENDAR_EVENT_ICONS,
   SeasonalEventName,
 } from "features/game/types/calendar";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { startCase } from "lodash";
 import { BudNFTName } from "features/game/types/marketplace";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import classNames from "classnames";
+import { getBudImage } from "lib/buds/types";
 
 const BOOSTS_PANEL_ESTIMATED_HEIGHT = 220;
 
@@ -136,7 +136,7 @@ export const BoostsDisplay: React.FC<{
 
     if (isBud(boost)) {
       const budId = Number(boost.split("#")[1]);
-      return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
+      return getBudImage(budId);
     }
 
     return SUNNYSIDE.icons.lightning;

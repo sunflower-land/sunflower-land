@@ -70,6 +70,7 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
+import { getBudImage } from "lib/buds/types";
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
@@ -606,7 +607,7 @@ export const Chest: React.FC<Props> = ({
                       onClick={() =>
                         handleItemClick({ name: "Bud", id: String(budId) })
                       }
-                      image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                      image={getBudImage(budId)}
                       iconClassName={classNames(
                         "scale-[1.8] origin-bottom absolute",
                         {

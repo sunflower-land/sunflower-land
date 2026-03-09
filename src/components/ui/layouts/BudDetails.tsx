@@ -2,9 +2,9 @@ import classNames from "classnames";
 import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
 import { Bud } from "features/game/types/buds";
-import { CONFIG } from "lib/config";
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getBudImage } from "lib/buds/types";
 
 /**
  * The props for the component.
@@ -19,8 +19,6 @@ interface Props {
   actionView?: JSX.Element;
 }
 
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
-
 /**
  * The view for displaying item name, details, properties and action.
  * @props The component props.
@@ -31,7 +29,7 @@ export const BudDetails: React.FC<Props> = ({
   bud,
   actionView,
 }) => {
-  const icon = `https://${imageDomain}.sunflower-land.com/images/${budId}.webp`;
+  const icon = getBudImage(budId);
   const title = `${bud.type} Bud`;
   const { t } = useAppTranslation();
 
