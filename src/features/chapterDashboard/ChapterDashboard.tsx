@@ -132,7 +132,7 @@ export const ChapterDashboard: React.FC = () => {
                 gameState={gameState}
                 token={effectiveToken}
               />
-              <RafflesSection chapter={chapter} token={effectiveToken} />
+              <RafflesSection token={effectiveToken} />
               <MutantsSection chapter={chapter} />
             </div>
 

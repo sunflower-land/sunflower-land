@@ -4,8 +4,6 @@ import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import petEggNFT from "assets/icons/pet_nft_egg.png";
-import budSeedling from "assets/icons/bud_seedling.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -20,8 +18,10 @@ import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
-import { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
-import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import {
+  RaffleDefinition,
+  RafflePrize,
+} from "../../../retreat/components/auctioneer/types";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { getKeys } from "lib/object";
@@ -32,6 +32,9 @@ import { PetNFTName } from "features/game/types/pets";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
 import { translate } from "lib/i18n/translate";
 import { RafflePrizeTable } from "features/retreat/components/auctioneer/RaffleLeaderboardTable";
+import { getPetImage } from "features/island/pets/lib/petShared";
+import { getBudImage } from "lib/buds/types";
+import { BudNFTName } from "features/game/types/marketplace";
 
 export const UpcomingRaffles: React.FC = () => {
   const { t } = useAppTranslation();
@@ -265,7 +268,7 @@ export const UpcomingRaffles: React.FC = () => {
   }
 
   if (selectedRaffle) {
-    const display = getPrizeDisplay({ prize: 1, raffle: selectedRaffle });
+    const display = getPrizeDisplay({ prize: selectedRaffle.prizes[1] });
     const raffleEntries =
       game.raffle?.active?.[selectedRaffle.id]?.entries ?? 0;
 
@@ -274,20 +277,23 @@ export const UpcomingRaffles: React.FC = () => {
 
     const items: Partial<Record<InventoryItemName, number>> = {};
     const wearables: Wardrobe = {};
-    const nfts: PetNFTName[] = [];
+    const nfts: (PetNFTName | BudNFTName)[] = [];
     getKeys(selectedRaffle.prizes).forEach((position) => {
       const prize = selectedRaffle.prizes[position];
 
-      getKeys(prize.items ?? {}).forEach((item) => {
-        items[item] = (items[item] ?? 0) + (prize.items?.[item] ?? 0);
-      });
+      if (prize.type === "collectible") {
+        getKeys(prize.items ?? {}).forEach((item) => {
+          items[item] = (items[item] ?? 0) + (prize.items?.[item] ?? 0);
+        });
+      }
 
-      getKeys(prize.wearables ?? {}).forEach((wearable) => {
-        wearables[wearable] =
-          (wearables[wearable] ?? 0) + (prize.wearables?.[wearable] ?? 0);
-      });
-
-      if (prize.nft) {
+      if (prize.type === "wearable") {
+        getKeys(prize.wearables ?? {}).forEach((wearable) => {
+          wearables[wearable] =
+            (wearables[wearable] ?? 0) + (prize.wearables?.[wearable] ?? 0);
+        });
+      }
+      if (prize.type === "Pet" || prize.type === "Bud") {
         nfts.push(prize.nft);
       }
     });
@@ -400,57 +406,43 @@ const formatRaffleDate = (timestamp: number) => {
 export const formatRaffleWindow = (raffle: RaffleDefinition) =>
   `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
 
-export const getPrizeDisplay = ({
-  prize,
-  raffle,
-}: {
-  prize: number;
-  raffle: RaffleDefinition;
-}) => {
-  const items = getKeys(raffle.prizes[prize].items ?? {});
-  const wearables = getKeys(raffle.prizes[prize].wearables ?? {});
-
-  const collectible = items.find((item) => isCollectible(item));
-  const nft = raffle.prizes[prize].nft;
-
-  if (nft) {
-    const isBud = nft.includes("Bud");
-    return {
-      name: isBud ? "Bud NFT ?" : "Pet NFT ?",
-      image: isBud ? budSeedling : petEggNFT,
-      type: "nft" as const,
-    };
+export const getPrizeDisplay = ({ prize }: { prize: RafflePrize }) => {
+  switch (prize.type) {
+    case "Bud":
+      return {
+        type: "Bud",
+        name: prize.nft,
+        image: getBudImage(Number(prize.nft.split("#")[1])),
+      };
+    case "Pet":
+      return {
+        type: "Pet",
+        name: prize.nft,
+        image: getPetImage("happy", Number(prize.nft.split("#")[1])),
+      };
+    case "collectible": {
+      const key = getKeys(prize.items)[0];
+      return {
+        type: "collectible",
+        name: key,
+        image: ITEM_DETAILS[key].image,
+      };
+    }
+    case "wearable": {
+      const key = getKeys(prize.wearables)[0];
+      return {
+        type: "wearable",
+        name: key,
+        image: getImageUrl(ITEM_IDS[key]),
+      };
+    }
+    default:
+      return {
+        name: translate("auction.raffle.prizeFallback"),
+        image: SUNNYSIDE.icons.expression_confused,
+        type: "item" as const,
+      };
   }
-
-  if (collectible) {
-    return {
-      name: collectible,
-      image: ITEM_DETAILS[collectible].image,
-      type: "collectible" as const,
-    };
-  }
-
-  if (wearables[0]) {
-    return {
-      name: wearables[0],
-      image: getImageUrl(ITEM_IDS[wearables[0]]),
-      type: "wearable" as const,
-    };
-  }
-
-  if (items[0]) {
-    return {
-      name: items[0],
-      image: ITEM_DETAILS[items[0]].image,
-      type: "item" as const,
-    };
-  }
-
-  return {
-    name: translate("auction.raffle.prizeFallback"),
-    image: SUNNYSIDE.icons.expression_confused,
-    type: "item" as const,
-  };
 };
 
 const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({ raffle }) => {
@@ -464,10 +456,9 @@ export const RaffleCard: React.FC<{
 }> = ({ raffle, onClick }) => {
   const { gameState } = useGame();
   const now = useNow({ live: true });
-  const { t } = useAppTranslation();
 
   const game = gameState.context.state;
-  const display = getPrizeDisplay({ prize: 1, raffle });
+  const display = getPrizeDisplay({ prize: raffle.prizes[1] });
   const isCurrent = raffle.startAt <= now && raffle.endAt > now;
 
   const entries = game.raffle?.active?.[raffle.id]?.entries ?? 0;
@@ -502,7 +493,7 @@ export const RaffleCard: React.FC<{
             {Object.keys(raffle.prizes ?? {})
               .map(
                 (prize) =>
-                  getPrizeDisplay({ prize: Number(prize), raffle }).name,
+                  getPrizeDisplay({ prize: raffle.prizes[Number(prize)] }).name,
               )
               // Remove duplicates
               .filter((prize, index, self) => self.indexOf(prize) === index)
