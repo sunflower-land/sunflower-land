@@ -174,12 +174,9 @@ export const OnChainRafflePetModal: React.FC<Props> = ({ petId }) => {
             </InnerPanel>
           </div>
         )}
-        <div className="flex gap-1">
-          <Button onClick={onClose}>{t("close")}</Button>
-          <Button className="flex-1" onClick={onPlacePet}>
-            {t("pets.place")}
-          </Button>
-        </div>
+        <Button className="w-full" onClick={onPlacePet}>
+          {t("pets.place")}
+        </Button>
       </OuterPanel>
     </Modal>
   );
