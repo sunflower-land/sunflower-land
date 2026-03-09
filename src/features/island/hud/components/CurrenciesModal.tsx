@@ -145,7 +145,7 @@ export const CurrenciesModal: React.FC<Props> = ({
       const amount = price?.amount ?? 0;
 
       const { url } = await buyGemsXsolla({
-        amount,
+        amount: amount as number,
         farmId,
         transactionId: randomID(),
         token,

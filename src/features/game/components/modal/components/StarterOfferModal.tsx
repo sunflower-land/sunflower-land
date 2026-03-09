@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -10,13 +11,19 @@ import {
   STARTER_PACK_GEMS,
   STARTER_PACK_COINS,
   STARTER_PACK_USD,
+  starterOfferSecondsLeftSelector,
 } from "./BuyGems";
 import { ModalContext } from "../ModalProvider";
+import { secondsToString } from "lib/utils/time";
 
 export const StarterOfferModal: React.FC = () => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
+  const starterOfferSecondsLeft = useSelector(
+    gameService,
+    starterOfferSecondsLeftSelector,
+  );
 
   const onClose = () => {
     gameService.send("CLOSE");
@@ -31,12 +38,19 @@ export const StarterOfferModal: React.FC = () => {
     <>
       <div className="flex justify-between items-center mb-2">
         <Label type="vibrant">{t("transaction.starterOffer")}</Label>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="w-6 h-6 cursor-pointer"
-          onClick={onClose}
-          alt="close"
-        />
+        <div className="flex items-center gap-2">
+          <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+            {`${secondsToString(starterOfferSecondsLeft, {
+              length: "short",
+            })} left`}
+          </Label>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="w-6 h-6 cursor-pointer"
+            onClick={onClose}
+            alt="close"
+          />
+        </div>
       </div>
       <div className="space-y-2 mb-4">
         <div className="flex items-center">
@@ -51,7 +65,8 @@ export const StarterOfferModal: React.FC = () => {
           />
           <span className="ml-1 text-sm">{`${STARTER_PACK_COINS} x ${t("coins")}`}</span>
         </div>
-        <div className="flex items-center pt-1">
+        <div className="flex flex-col items-start pt-1">
+          <span className="text-sm mb-0.5 line-through">{`$4.49`}</span>
           <Label type="warning">{`US$${STARTER_PACK_USD}`}</Label>
         </div>
       </div>

@@ -47,10 +47,23 @@ const PRICES: Price[] = [
   { amount: 200000, usd: 1299.99 },
 ];
 
-const _starterOfferSecondsLeft = (state: MachineState) => {
+const STARTER_PACK_AVAILABLE_SECONDS = 7 * 24 * 60 * 60; // First 7 days
+/** Exported for StarterOfferModal time remaining display */
+export const starterOfferSecondsLeftSelector = (state: MachineState) => {
   const deadline =
-    new Date(state.context.state.createdAt).getTime() + 24 * 60 * 60 * 1000;
+    new Date(state.context.state.createdAt).getTime() +
+    STARTER_PACK_AVAILABLE_SECONDS * 1000;
   return Math.max(0, (deadline - Date.now()) / 1000);
+};
+const _starterOfferSecondsLeft = starterOfferSecondsLeftSelector;
+
+/** Show starter offer only when time hasn't expired and player hasn't purchased gems yet */
+const _canShowStarterOffer = (state: MachineState) => {
+  const timeLeft = _starterOfferSecondsLeft(state);
+  const hasPurchasedXsollaOrMatic = state.context.purchases.length > 0;
+  const hasPurchasedFlower =
+    !!state.context.state.farmActivity["Gems Purchased"];
+  return timeLeft > 0 && !hasPurchasedXsollaOrMatic && !hasPurchasedFlower;
 };
 
 interface Props {
@@ -77,6 +90,7 @@ export const BuyGems: React.FC<Props> = ({
   onBack,
 }) => {
   const { gameService } = useContext(Context);
+  const canShowStarterOffer = useSelector(gameService, _canShowStarterOffer);
   const starterOfferSecondsLeft = useSelector(
     gameService,
     _starterOfferSecondsLeft,
@@ -361,40 +375,43 @@ export const BuyGems: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-col w-full p-1">
-        <ButtonPanel
-          onClick={() =>
-            setPrice({ amount: STARTER_PACK, usd: STARTER_PACK_USD })
-          }
-          className="w-full mb-1"
-        >
-          <div className="flex justify-between items-center">
-            <Label type="vibrant">{t("transaction.starterOffer")}</Label>
-            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-              {`${secondsToString(starterOfferSecondsLeft, {
-                length: "short",
-              })} left`}
-            </Label>
-          </div>
-          <div className="flex w-full">
-            <div>
-              <div className="flex items-center">
-                <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
-                <span className="ml-1 text-sm">{`${STARTER_PACK_GEMS} x Gems`}</span>
+        {canShowStarterOffer && (
+          <ButtonPanel
+            onClick={() =>
+              setPrice({ amount: STARTER_PACK, usd: STARTER_PACK_USD })
+            }
+            className="w-full mb-1"
+          >
+            <div className="flex justify-between items-center">
+              <Label type="vibrant">{t("transaction.starterOffer")}</Label>
+              <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+                {`${secondsToString(starterOfferSecondsLeft, {
+                  length: "short",
+                })} left`}
+              </Label>
+            </div>
+            <div className="flex w-full">
+              <div>
+                <div className="flex items-center">
+                  <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
+                  <span className="ml-1 text-sm">{`${STARTER_PACK_GEMS} x Gems`}</span>
+                </div>
+                <div className="flex items-center mt-0.5">
+                  <img
+                    src={SUNNYSIDE.ui.coinsImg}
+                    alt="coins"
+                    className="w-5 h-5 object-contain"
+                  />
+                  <span className="ml-1 text-sm">{`${STARTER_PACK_COINS} x ${t("coins")}`}</span>
+                </div>
               </div>
-              <div className="flex items-center mt-0.5">
-                <img
-                  src={SUNNYSIDE.ui.coinsImg}
-                  alt="coins"
-                  className="w-5 h-5 object-contain"
-                />
-                <span className="ml-1 text-sm">{`${STARTER_PACK_COINS} x ${t("coins")}`}</span>
+              <div className="flex flex-col justify-end flex-1 items-end">
+                <span className="text-sm mb-0.5 line-through">{`$4.49`}</span>
+                <Label type="warning">{`US$${STARTER_PACK_USD}`}</Label>
               </div>
             </div>
-            <div className="flex flex-col justify-end flex-1 items-end">
-              <Label type="warning">{`US$${STARTER_PACK_USD}`}</Label>
-            </div>
-          </div>
-        </ButtonPanel>
+          </ButtonPanel>
+        )}
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price, index) => {

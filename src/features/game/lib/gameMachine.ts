@@ -243,6 +243,8 @@ type BuyBlockBucksEvent = {
 type UpdateBlockBucksEvent = {
   type: "UPDATE_GEMS";
   amount: number;
+  /** Coins to add (e.g. from Xsolla starter pack) */
+  coins?: number;
 };
 
 type LandscapeEvent = {
@@ -1202,13 +1204,13 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 const now = Date.now();
                 const createdAt = context.state.createdAt;
-                const fiveDaysMs = 5 * 24 * 60 * 60 * 1000;
+                const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
                 const thirtyMinsMs = 30 * 60 * 1000;
-                const accountLessThan5Days = createdAt > now - fiveDaysMs;
+                const accountLessThan7Days = createdAt > now - sevenDaysMs;
                 const accountOlderThan30Mins = createdAt < now - thirtyMinsMs;
                 const noPurchaseYet = context.purchases.length === 0;
                 return (
-                  accountLessThan5Days &&
+                  accountLessThan7Days &&
                   accountOlderThan30Mins &&
                   noPurchaseYet
                 );
@@ -1773,6 +1775,11 @@ export function startGame(authContext: AuthContext) {
                       event.amount,
                     ),
                   },
+                  ...(event.coins != null && event.coins > 0
+                    ? {
+                        coins: (context.state.coins ?? 0) + event.coins,
+                      }
+                    : {}),
                 },
                 purchases: [
                   ...context.purchases,
