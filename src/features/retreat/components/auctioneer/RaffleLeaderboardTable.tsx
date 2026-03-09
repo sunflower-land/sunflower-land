@@ -187,18 +187,17 @@ export const RafflePrizeTable: React.FC<{
                         <span className="text-xs">{`${prize.wearables?.[wearable]} x ${wearable}`}</span>
                       </div>
                     ))}
-                  {prize.type === "Pet" ||
-                    (prize.type === "Bud" && (
-                      <div className="flex items-center">
-                        <img
-                          src={getPrizeDisplay({ prize }).image}
-                          className="h-4 mr-1"
-                        />
-                        <span className="text-xs truncate">
-                          {getPrizeDisplay({ prize }).name}
-                        </span>
-                      </div>
-                    ))}
+                  {(prize.type === "Pet" || prize.type === "Bud") && (
+                    <div className="flex items-center">
+                      <img
+                        src={getPrizeDisplay({ prize }).image}
+                        className="h-4 mr-1"
+                      />
+                      <span className="text-xs truncate">
+                        {getPrizeDisplay({ prize }).name}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </td>
             </tr>
