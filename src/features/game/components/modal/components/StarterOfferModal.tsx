@@ -15,22 +15,32 @@ import {
 } from "./BuyGems";
 import { ModalContext } from "../ModalProvider";
 import { secondsToString } from "lib/utils/time";
+import { setStarterOfferShown } from "features/game/lib/starterOfferStorage";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const farmIdSelector = (state: MachineState) => state.context.farmId;
 
 export const StarterOfferModal: React.FC = () => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
+  const farmId = useSelector(gameService, farmIdSelector);
   const starterOfferSecondsLeft = useSelector(
     gameService,
     starterOfferSecondsLeftSelector,
   );
 
-  const onClose = () => {
+  const acknowledgeAndClose = () => {
+    setStarterOfferShown(farmId);
     gameService.send("CLOSE");
   };
 
+  const onClose = () => {
+    acknowledgeAndClose();
+  };
+
   const onBuyNow = () => {
-    gameService.send("CLOSE");
+    acknowledgeAndClose();
     openModal("BUY_GEMS");
   };
 

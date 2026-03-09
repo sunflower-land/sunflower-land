@@ -56,6 +56,7 @@ import {
   getIntroductionRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
+import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
@@ -1202,6 +1203,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "starterOffer",
               cond: (context) => {
+                if (getStarterOfferShown(context.farmId)) return false;
                 const now = Date.now();
                 const createdAt = context.state.createdAt;
                 const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
