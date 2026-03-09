@@ -1,34 +1,28 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { InventoryItemName } from "features/game/types/game";
-import { BumpkinItem } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { PetNFTName } from "features/game/types/pets";
 import { NPC_WEARABLES } from "lib/npcs";
-import { BudNFTName } from "features/game/types/marketplace";
+import { RaffleRewards } from "features/retreat/components/auctioneer/types";
 
-export type RaffleWinner = {
+export type RaffleSnapshotWinner = {
   farmId: number;
   position: number;
   entries: number;
   ticketsUsed: number;
-  items?: Partial<Record<InventoryItemName, number>>;
-  wearables?: Partial<Record<BumpkinItem, number>>;
   sfl?: number;
-  nft?: BudNFTName | PetNFTName;
   onChain?: boolean;
   profile?: {
     username: string;
     level: number;
     equipped?: BumpkinParts;
   };
-};
+} & RaffleRewards;
 
 export type RaffleResults = {
   status: "pending" | "complete";
   raffleId: string;
   endAt: number;
-  winners: RaffleWinner[];
+  winners: RaffleSnapshotWinner[];
   participants: number;
   entries: number;
 };
@@ -55,7 +49,9 @@ export async function loadRaffleResults(
           position: 1,
           entries: 10,
           ticketsUsed: 10,
+          type: "Pet",
           nft: "Pet #4",
+          onChain: true,
           profile: {
             level: 22,
             equipped: NPC_WEARABLES.adam,
@@ -67,9 +63,8 @@ export async function loadRaffleResults(
           position: 2,
           entries: 10,
           ticketsUsed: 10,
-          items: {
-            Gold: 10,
-          },
+          type: "collectible",
+          items: { Gold: 10 },
           profile: {
             level: 122,
             equipped: NPC_WEARABLES.gordy,

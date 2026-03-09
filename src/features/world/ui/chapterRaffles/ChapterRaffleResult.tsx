@@ -91,7 +91,13 @@ export const ChapterRaffleResult: React.FC<{
 
                   if (isActiveEntry) {
                     gameService.send("auctionRaffle.claimed", {
-                      effect: { type: "auctionRaffle.claimed", raffleId: id },
+                      effect: {
+                        type: "auctionRaffle.claimed",
+                        raffleId: id,
+                        ...(canClaim && raffleWinner
+                          ? { prize: raffleWinner }
+                          : {}),
+                      },
                     });
                   }
                 }}
@@ -136,7 +142,11 @@ export const ChapterRaffleResult: React.FC<{
         <Button
           onClick={() => {
             gameService.send("auctionRaffle.claimed", {
-              effect: { type: "auctionRaffle.claimed", raffleId: id },
+              effect: {
+                type: "auctionRaffle.claimed",
+                raffleId: id,
+                prize: raffleWinner,
+              },
             });
             onClose?.();
           }}

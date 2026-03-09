@@ -7,7 +7,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
-import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
+import { RaffleSnapshotWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
@@ -18,7 +18,7 @@ import { playerModalManager } from "features/social/lib/playerModalManager";
 import { getPrizeDisplay } from "features/world/ui/chapterRaffles/UpcomingRaffles";
 
 type Props = {
-  winners: RaffleWinner[];
+  winners: RaffleSnapshotWinner[];
   farmId: number;
 };
 
@@ -99,27 +99,29 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                       <span className="text-xs">{winner.sfl}</span>
                     </div>
                   )}
-                  {getKeys(winner.items ?? {}).map((name) => (
-                    <div className="flex w-16 items-center" key={name}>
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        className="h-4 mr-0.5"
-                      />
-                      <span className="text-xs">{winner.items?.[name]}</span>
-                    </div>
-                  ))}
-                  {getKeys(winner.wearables ?? {}).map((wearable) => (
-                    <div className="flex w-16 items-center" key={wearable}>
-                      <img
-                        src={getImageUrl(ITEM_IDS[wearable])}
-                        className="h-4 mr-0.5"
-                      />
-                      <span className="text-xs">
-                        {winner.wearables?.[wearable]}
-                      </span>
-                    </div>
-                  ))}
-                  {winner.nft && (
+                  {winner.type === "collectible" &&
+                    getKeys(winner.items ?? {}).map((name) => (
+                      <div className="flex w-16 items-center" key={name}>
+                        <img
+                          src={ITEM_DETAILS[name].image}
+                          className="h-4 mr-0.5"
+                        />
+                        <span className="text-xs">{winner.items?.[name]}</span>
+                      </div>
+                    ))}
+                  {winner.type === "wearable" &&
+                    getKeys(winner.wearables ?? {}).map((wearable) => (
+                      <div className="flex w-16 items-center" key={wearable}>
+                        <img
+                          src={getImageUrl(ITEM_IDS[wearable])}
+                          className="h-4 mr-0.5"
+                        />
+                        <span className="text-xs">
+                          {winner.wearables?.[wearable]}
+                        </span>
+                      </div>
+                    ))}
+                  {(winner.type === "Pet" || winner.type === "Bud") && (
                     <div className="flex w-16 items-center">
                       <img
                         src={
