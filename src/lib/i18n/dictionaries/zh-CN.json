@@ -2731,7 +2731,6 @@
   "nyonStatue.description": "负责从地雷间清除地精的传奇骑士。获胜后不久，他便死于哥布林阴谋家的毒害。向日葵公民用他的盔甲竖起了这座雕像，以纪念他的凯旋。",
   "offer.okxOffer": "哈喽喂，农夫，我有 OKX 独家优惠要给你！",
   "offer.beginWithNFT": "首先，你要铸造一个免费农场 NFT。这将包括：",
-  "offer.getStarterPack": "立即获取新手包",
   "offer.newHere": "哈喽喂，农夫，你看着像新来的！",
   "offer.getStarted": "立即开始",
   "onboarding.welcome": "欢迎来到去中心化游戏！",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "加入队列",
   "vip.benefit.craftingQueue": "解锁锻打箱的配方排队特权",
   "experiments": "实验性功能",
-  "playerModal.viewTrades": "查看交易"
+  "playerModal.viewTrades": "查看交易",
+  "offer.getStarterPack": "立即购买"
 }

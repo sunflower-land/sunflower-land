@@ -2536,7 +2536,6 @@
   "nyonStatue.description": "El legendario caballero responsable de sacar a los duendes de las minas. Poco después de su victoria, murió envenenado por un conspirador goblin. Los Ciudadanos de Sunflower erigieron esta estatua con su armadura para conmemorar sus conquistas.",
   "offer.okxOffer": "Hola granjero, tengo una oferta OKX exclusiva para ti!",
   "offer.beginWithNFT": "Para empezar, necesitarás crear un Granja NFT gratuita. Esto incluirá:",
-  "offer.getStarterPack": "Obtenga el paquete de inicio ahora",
   "offer.newHere": "Hola, granjero! Pareces nuevo aquí!",
   "offer.getStarted": "Comience ahora",
   "onboarding.welcome": "Bienvenido a los juegos descentralizados!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Añadir a la cola",
   "vip.benefit.craftingQueue": "Haz cola para preparar recetas en la caja de manualidades",
   "experiments": "Experimentos",
-  "playerModal.viewTrades": "Ver operaciones"
+  "playerModal.viewTrades": "Ver operaciones",
+  "offer.getStarterPack": "Comprar ahora"
 }

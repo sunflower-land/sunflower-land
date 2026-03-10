@@ -1765,7 +1765,6 @@
   "nyonStatue.description": "Le chevalier légendaire responsable d'avoir débarrassé les gobelins des mines. Peu de temps après sa victoire, il est décédé empoisonné par un conspirateur gobelin. Les Citoyens du Tournesol ont érigé cette statue avec son armure pour commémorer ses conquêtes.",
   "offer.okxOffer": "Salut fermier, j'ai une offre exclusive OKX pour toi!",
   "offer.beginWithNFT": "Pour commencer, vous devrez créer un NFT de ferme gratuit. Cela comprendra :",
-  "offer.getStarterPack": "Obtiens le Pack de Démarrage Maintenant",
   "offer.newHere": "Salut fermier, tu sembles nouveau ici!",
   "offer.getStarted": "Commence Maintenant",
   "onboarding.welcome": "Bienvenue dans le monde du jeu décentralisé!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Ajouter à la file",
   "vip.benefit.craftingQueue": "Mettez les recettes en file d'attente dans une boîte à bricolage",
   "experiments": "Expériences",
-  "playerModal.viewTrades": "Afficher les transactions"
+  "playerModal.viewTrades": "Afficher les transactions",
+  "offer.getStarterPack": "Achetez maintenant"
 }

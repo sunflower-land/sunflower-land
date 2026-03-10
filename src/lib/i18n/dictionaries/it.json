@@ -2534,7 +2534,6 @@
   "nyonStatue.description": "Il leggendario cavaliere responsabile dell'eliminazione dei goblin dalle miniere. Poco dopo la sua vittoria morì avvelenato da un cospiratore Goblin. I Sunflower Citizens eressero questa statua con la loro armatura per commemorare le sue conquiste.",
   "offer.okxOffer": "Salve Farmer, ho un'offerta OKX esclusiva per te!",
   "offer.beginWithNFT": "Per iniziare dovrai creare un Farm NFT gratuito. Ciò includerà:",
-  "offer.getStarterPack": "Ottieni subito lo Starter Pack",
   "offer.newHere": "Salve Farmer, sembri nuovo qui!",
   "offer.getStarted": "Inizia subito",
   "onboarding.welcome": "Benvenuto nel mondo del gioco decentralizzato!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Aggiungi alla coda",
   "vip.benefit.craftingQueue": "Mette in coda le ricette nella scatola da lavoro",
   "experiments": "Esperimenti",
-  "playerModal.viewTrades": "Visualizza le negoziazioni"
+  "playerModal.viewTrades": "Visualizza le negoziazioni",
+  "offer.getStarterPack": "Acquista ora"
 }

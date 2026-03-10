@@ -2565,7 +2565,6 @@
   "nyonStatue.description": "Der legendäre Ritter, der dafür verantwortlich ist, die Kobolde aus den Minen zu vertreiben. Kurz nach seinem Sieg starb er an einer Vergiftung durch einen Goblin-Verschwörer. Die Sunflower Citizens errichteten diese Statue mit seiner Rüstung zum Gedenken an seine Eroberungen.",
   "offer.okxOffer": "Hallo Farmer, ich habe ein exklusives OKX-Angebot für dich!",
   "offer.beginWithNFT": "Zu Beginn musst du ein kostenloses Farm NFT minten. Dies beinhaltet:",
-  "offer.getStarterPack": "Holen Sie sich jetzt das Starter Pack",
   "offer.newHere": "Hallo Farmer, du siehst neu aus hier!",
   "offer.getStarted": "Fangen Sie jetzt an",
   "onboarding.welcome": "Willkommen beim dezentralen Spielen!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Zur Warteschlange hinzufügen",
   "vip.benefit.craftingQueue": "Stellen Sie Rezepte in der Bastelkiste in die Warteschlange",
   "experiments": "Experimente",
-  "playerModal.viewTrades": "Trades ansehen"
+  "playerModal.viewTrades": "Trades ansehen",
+  "offer.getStarterPack": "Jetzt kaufen"
 }

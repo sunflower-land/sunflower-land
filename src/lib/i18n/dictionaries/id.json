@@ -2570,7 +2570,6 @@
   "nyonStatue.description": "Ksatria legendaris yang bertanggung jawab untuk membersihkan goblin dari tambang. Tak lama setelah kemenangannya dia meninggal karena keracunan dari konspirator Goblin. Warga Bunga Matahari mendirikan patung ini dengan baju besinya untuk memperingati penaklukannya.",
   "offer.okxOffer": "Halo Petani, saya punya penawaran OKX eksklusif untuk Anda!",
   "offer.beginWithNFT": "Untuk memulai, Anda perlu membuat NFT Farm gratis. Ini akan mencakup:",
-  "offer.getStarterPack": "Dapatkan Starter Pack Sekarang",
   "offer.newHere": "Howdy Farmer, Anda terlihat baru di sini!",
   "offer.getStarted": "Mulai Sekarang",
   "onboarding.welcome": "Selamat datang di game terdesentralisasi!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Tambahkan ke antrian",
   "vip.benefit.craftingQueue": "Antrekan resep di kotak kerajinan",
   "experiments": "Eksperimen",
-  "playerModal.viewTrades": "Lihat perdagangan"
+  "playerModal.viewTrades": "Lihat perdagangan",
+  "offer.getStarterPack": "Beli Sekarang"
 }

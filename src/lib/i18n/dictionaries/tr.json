@@ -1773,7 +1773,6 @@
   "nyonStatue.memory": "Anısına",
   "nyonStatue.description": "Mağaralardaki goblinleri temizlemekten sorumlu efsanevi şövalye. Zaferinden kısa bir süre sonra, bir Goblin komplocusunun zehirlemesi sonucu öldü. Sunflower Vatandaşları, onun zaferlerini anmak için zırhıyla birlikte bu heykeli dikti.",
   "offer.okxOffer": "Merhaba Çiftçi, senin için özel bir OKX teklifim var!",
-  "offer.getStarterPack": "Başlangıç Paketini Al",
   "offer.newHere": "Merhaba Çiftçi, burada yenisin görünüyorsun!",
   "offer.getStarted": "Şimdi Başla",
   "onboarding.welcome": "Merkeziyetsiz oyun dünyasına hoş geldiniz!",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Kuyruğa ekle",
   "vip.benefit.craftingQueue": "Tarifleri işçilik kutusunda sıraya koyun",
   "experiments": "Deneyler",
-  "playerModal.viewTrades": "İşlemleri görüntüleyin"
+  "playerModal.viewTrades": "İşlemleri görüntüleyin",
+  "offer.getStarterPack": "Şimdi Satın Al"
 }

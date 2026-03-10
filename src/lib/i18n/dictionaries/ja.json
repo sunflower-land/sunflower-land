@@ -2570,7 +2570,6 @@
   "nyonStatue.description": "地雷からゴブリンを一掃した伝説の騎士。勝利して間もなく、彼はゴブリンの共謀者に毒殺されて死亡した。ヒマワリの市民たちは、彼の征服を記念して、彼の鎧を使ってこの像を建てました。",
   "offer.okxOffer": "ハウディファーマー、OKX限定のオファーがあります！",
   "offer.beginWithNFT": "まず、無料のファームNFTをミントする必要があります。これには以下が含まれます。",
-  "offer.getStarterPack": "スターターパックを今すぐ入手",
   "offer.newHere": "やあ、ファーマー、新人みたいだね！",
   "offer.getStarted": "今すぐ始めましょう",
   "onboarding.welcome": "分散型ゲームへようこそ！",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "キューに追加",
   "vip.benefit.craftingQueue": "クラフトボックスでレシピをキューに入れる",
   "experiments": "実験",
-  "playerModal.viewTrades": "取引を表示"
+  "playerModal.viewTrades": "取引を表示",
+  "offer.getStarterPack": "今すぐ購入"
 }

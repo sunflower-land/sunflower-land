@@ -1730,7 +1730,6 @@
   "npcMessages.corale.msg7": "Junte-se a mim na dança da vida do mar. Peixes, para libertar meus amigos!",
   "plaza.magicButton.query": "Um botão mágico apareceu na praça. Você quer apertá-lo?",
   "offer.okxOffer": "Olá Agricultor, tenho uma oferta exclusiva OKX para você!",
-  "offer.getStarterPack": "Obtenha o Pacote Inicial Agora",
   "offer.newHere": "Olá Agricultor, você parece novo por aqui!",
   "offer.getStarted": "Comece Agora",
   "onCollectReward.Missing.Seed": "Sementes em falta",
@@ -8117,5 +8116,6 @@
   "crafting.addToQueue": "Adicionar à fila",
   "vip.benefit.craftingQueue": "Coloque receitas na fila na caixa de artesanato",
   "experiments": "Experimentos",
-  "playerModal.viewTrades": "Exibir negociações"
+  "playerModal.viewTrades": "Exibir negociações",
+  "offer.getStarterPack": "Compre agora"
 }

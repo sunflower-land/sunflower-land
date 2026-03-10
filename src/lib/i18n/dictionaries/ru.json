@@ -3224,7 +3224,6 @@
   "nyonStatue.description": "Легендарный рыцарь, ответственный за очистку шахт от гоблинов. Вскоре после одержанной победы он был отравлен гоблинским заговорщиком. Граждане Sunflower Land воздвигли эту статую в память о его победах.",
   "offer.okxOffer": "Привет, фермер, у меня для тебя эксклюзивное предложение от биржи OKX!",
   "offer.beginWithNFT": "Для начала тебе нужно будет создать бесплатный Farm NFT. Это будет включать:",
-  "offer.getStarterPack": "Получите стартовый пакет сейчас",
   "offer.newHere": "Привет, Фармер, ты здесь как новенький!",
   "offer.getStarted": "Ну погнали",
   "offer.not.enough.gems": "У тебя недостаточно гемов!",
@@ -8117,5 +8116,6 @@
   "streams.thursday.ongoing": "Discord Stream Ongoing",
   "waterTrap.selectTrap": "Select a trap",
   "experiments": "Experiments",
-  "playerModal.viewTrades": "View trades"
+  "playerModal.viewTrades": "View trades",
+  "offer.getStarterPack": "Buy Now"
 }
