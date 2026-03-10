@@ -86,8 +86,8 @@ export const CraftBuildModal: React.FC<Props> = ({ show, onHide }) => {
         tabs={[
           {
             id: "craft",
-            icon: SUNNYSIDE.icons.hammer,
-            name: "Craft",
+            icon: SUNNYSIDE.icons.lightning,
+            name: "Boosts",
           },
           {
             id: "build",
