@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import { useNavigate } from "react-router";
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
@@ -18,6 +17,7 @@ import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { Rewards } from "features/island/hud/components/referral/Rewards";
 import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
+import { MarketplaceTutorialModal } from "./MarketplaceTutorialModal";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -45,38 +45,6 @@ export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
   // eslint-disable-next-line no-console
 }>({ openModal: console.log });
-
-const STONE_BEETLE_MARKETPLACE_PATH = "/marketplace/collectibles/2129";
-
-const MarketplaceTutorialModal: FC<{ onClose: () => void }> = ({ onClose }) => {
-  const navigate = useNavigate();
-  return (
-    <SpeakingModal
-      message={[
-        {
-          text: translate("marketplace.tutorial.one"),
-        },
-        {
-          text: translate("marketplace.tutorial.two"),
-        },
-        {
-          text: translate("marketplace.tutorial.three"),
-          actions: [
-            {
-              text: translate("marketplace.tutorial.openButton"),
-              cb: () => {
-                navigate(STONE_BEETLE_MARKETPLACE_PATH);
-                onClose();
-              },
-            },
-          ],
-        },
-      ]}
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["hammerin harry"]}
-    />
-  );
-};
 
 export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();

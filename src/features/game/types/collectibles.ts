@@ -30,7 +30,6 @@ export type HeliosBlacksmithItem =
   | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
-  | "Stone Beetle"
   | "Iron Beetle"
   | "Gold Beetle"
   | "Fairy Circle"
@@ -88,6 +87,7 @@ export type SoldOutCollectibleName =
   | "Royal Throne"
   | "Lily Egg"
   | "Goblet"
+  | "Stone Beetle"
   | "Pharaoh Gnome"
   | "Lemon Tea Bath"
   | "Tomato Clown"
@@ -277,15 +277,6 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     coins: 1000,
     ingredients: {
       Wood: new Decimal(100),
-    },
-    inventoryLimit: 1,
-  },
-  "Stone Beetle": {
-    description: translate("description.stone.beetle"),
-    boost: translate("description.stone.beetle.boost"),
-    coins: 1000,
-    ingredients: {
-      Stone: new Decimal(20),
     },
     inventoryLimit: 1,
   },
