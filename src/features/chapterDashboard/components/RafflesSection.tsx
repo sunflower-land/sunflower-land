@@ -11,10 +11,8 @@ import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
-  getPrizeDisplay,
-  UpcomingRaffles,
-} from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import { UpcomingRaffles } from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import lightning from "assets/icons/lightning.png";

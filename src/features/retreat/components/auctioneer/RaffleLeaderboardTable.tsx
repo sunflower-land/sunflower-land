@@ -15,7 +15,7 @@ import budSeedling from "assets/icons/bud_seedling.png";
 import { RafflePrize } from "./types";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { playerModalManager } from "features/social/lib/playerModalManager";
-import { getPrizeDisplay } from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
 
 type Props = {
   winners: RaffleSnapshotWinner[];

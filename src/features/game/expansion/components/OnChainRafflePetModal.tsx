@@ -24,6 +24,8 @@ import blankGriffinBackground from "assets/pets/backgrounds/blank-griffin.webp";
 import blankWarthogBackground from "assets/pets/backgrounds/blank-warthog.webp";
 import blankWolfBackground from "assets/pets/backgrounds/blank-wolf.webp";
 import blankRamBackground from "assets/pets/backgrounds/blank-ram.webp";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const BLANK_BACKGROUNDS: Record<PetTraits["type"], string> = {
   Bear: blankBearBackground,
@@ -39,11 +41,14 @@ interface Props {
   petId: number;
 }
 
+const _pet = (petId: number) => (state: MachineState) =>
+  state.context.state.pets?.nfts?.[petId];
+
 export const OnChainRafflePetModal: React.FC<Props> = ({ petId }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const pet = gameService.getSnapshot().context.state.pets?.nfts?.[petId];
+  const pet = useSelector(gameService, _pet(petId));
   const petImageUrl = getPetImageForMarketplace(petId);
   const {
     isLoaded: petImageLoaded,

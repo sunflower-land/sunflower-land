@@ -25,7 +25,6 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { isEmpty } from "lodash";
 
 import { Bud } from "features/game/types/buds";
-import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
 import { RESOURCES } from "features/game/types/resources";
@@ -71,7 +70,6 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,

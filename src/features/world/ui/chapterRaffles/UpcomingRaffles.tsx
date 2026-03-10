@@ -18,23 +18,16 @@ import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
-import {
-  RaffleDefinition,
-  RafflePrize,
-} from "../../../retreat/components/auctioneer/types";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "lib/utils/getImageURLS";
+import { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
 import { getKeys } from "lib/object";
 import { toOrdinalSuffix } from "../../../retreat/components/auctioneer/AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
-import { translate } from "lib/i18n/translate";
 import { RafflePrizeTable } from "features/retreat/components/auctioneer/RaffleLeaderboardTable";
-import { getPetImage } from "features/island/pets/lib/petShared";
-import { getBudImage } from "lib/buds/types";
 import { BudNFTName } from "features/game/types/marketplace";
+import { getPrizeDisplay } from "./prizeDisplay";
 
 export const UpcomingRaffles: React.FC = () => {
   const { t } = useAppTranslation();
@@ -405,45 +398,6 @@ const formatRaffleDate = (timestamp: number) => {
 
 export const formatRaffleWindow = (raffle: RaffleDefinition) =>
   `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
-
-export const getPrizeDisplay = ({ prize }: { prize: RafflePrize }) => {
-  switch (prize.type) {
-    case "Bud":
-      return {
-        type: "Bud",
-        name: prize.nft,
-        image: getBudImage(Number(prize.nft.split("#")[1])),
-      };
-    case "Pet":
-      return {
-        type: "Pet",
-        name: prize.nft,
-        image: getPetImage("happy", Number(prize.nft.split("#")[1])),
-      };
-    case "collectible": {
-      const key = getKeys(prize.items)[0];
-      return {
-        type: "collectible",
-        name: key,
-        image: ITEM_DETAILS[key].image,
-      };
-    }
-    case "wearable": {
-      const key = getKeys(prize.wearables)[0];
-      return {
-        type: "wearable",
-        name: key,
-        image: getImageUrl(ITEM_IDS[key]),
-      };
-    }
-    default:
-      return {
-        name: translate("auction.raffle.prizeFallback"),
-        image: SUNNYSIDE.icons.expression_confused,
-        type: "item" as const,
-      };
-  }
-};
 
 const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({ raffle }) => {
   const countdown = useCountdown(raffle.endAt);
