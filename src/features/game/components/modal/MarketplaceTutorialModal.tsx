@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router";
-import { SpeakingModal } from "../../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
+import { SpeakingModal } from "../SpeakingModal";
 
 const STONE_BEETLE_MARKETPLACE_PATH = "/marketplace/collectibles/2129";
 
