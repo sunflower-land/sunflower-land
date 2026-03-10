@@ -304,6 +304,103 @@ describe("cancelQueuedCrafting", () => {
     expect(state.inventory.Wood).toEqual(new Decimal(9));
   });
 
+  it("uses unique same-recipe counters when recalculating queue after cancel", () => {
+    const now = Date.now();
+    const stateWithQueue = {
+      ...INITIAL_FARM,
+      buildings: {
+        "Crafting Box": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+      inventory: {
+        Leather: new Decimal(12),
+        Wool: new Decimal(15),
+        "Beta Pass": new Decimal(1),
+      },
+      collectibles: {
+        "Fox Shrine": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: now + 60000,
+            startedAt: now,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: now + 120000,
+            startedAt: now + 60000,
+            type: "collectible",
+          },
+          {
+            name: "Doll",
+            readyAt: now + 180000,
+            startedAt: now + 120000,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: now,
+        readyAt: now + 60000,
+        recipes: {
+          Doll: {
+            name: "Doll",
+            type: "collectible",
+            ingredients: [
+              { collectible: "Leather" },
+              { collectible: "Wool" },
+              { collectible: "Leather" },
+              { collectible: "Wool" },
+              { collectible: "Wool" },
+              { collectible: "Wool" },
+              { collectible: "Leather" },
+              { collectible: "Wool" },
+              { collectible: "Leather" },
+            ],
+            time: 2 * 60 * 60 * 1000,
+          },
+        },
+      },
+    };
+
+    const queueItemToCancel = stateWithQueue.craftingBox.queue![1];
+    const state = cancelQueuedCrafting({
+      state: stateWithQueue,
+      action: {
+        type: "crafting.cancelled",
+        queueItem: queueItemToCancel,
+      },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(2);
+    expect(state.craftingBox.queue?.[0].name).toBe("Doll");
+    expect(state.craftingBox.queue?.[1].name).toBe("Doll");
+    expect(state.craftingBox.queue?.[1].startedAt).toBe(
+      state.craftingBox.queue![0].readyAt,
+    );
+    expect(state.craftingBox.queue?.[1].readyAt).toBeGreaterThanOrEqual(
+      state.craftingBox.queue![1].startedAt,
+    );
+  });
+
   it("cancels a queued item and refunds ingredients", () => {
     const now = Date.now();
     const timber1ReadyAt = now - 1000;

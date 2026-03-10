@@ -69,6 +69,7 @@ export function speedUpCrafting({
         game,
         farmId,
         firstItemReadyAt: createdAt,
+        createdAt,
       });
 
       game.craftingBox.queue = [...readyItems, ...recalculated];

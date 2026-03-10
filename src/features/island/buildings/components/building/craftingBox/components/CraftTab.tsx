@@ -91,7 +91,6 @@ export const CraftTab: React.FC<Props> = ({
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
 
-  const [failedAttempt, setFailedAttempt] = useState(false);
   const [showCraftingQueueVipModal, setShowCraftingQueueVipModal] =
     useState(false);
   const prevSelectedItemsRef = useRef(selectedItems);
@@ -107,14 +106,27 @@ export const CraftTab: React.FC<Props> = ({
     item: CraftingQueueItem;
     viewedSlotIndex: number;
   }>(() => {
-    if (initialQueueSlot != null && !(initialQueueSlot > 0 && !canAddToQueue)) {
+    const displayItems = [cooking, ...queue, ...readyProducts].filter(Boolean);
+    const itemAtSlot =
+      initialQueueSlot != null &&
+      initialQueueSlot >= 0 &&
+      initialQueueSlot < displayItems.length
+        ? displayItems[initialQueueSlot]
+        : undefined;
+    if (itemAtSlot) {
+      return {
+        slot: 0,
+        item: itemAtSlot,
+        viewedSlotIndex: initialQueueSlot as number,
+      };
+    }
+    if (initialQueueSlot != null && initialQueueSlot > 0 && canAddToQueue) {
       return {
         slot: initialQueueSlot,
         item: cooking ?? defaultQueueItem,
-        viewedSlotIndex: initialQueueSlot === 0 ? 0 : -1,
+        viewedSlotIndex: -1,
       };
     }
-
     if (readyProducts.length > 0) {
       const firstReadySlotIndex = (cooking ? 1 : 0) + queue.length;
       return {
@@ -123,7 +135,6 @@ export const CraftTab: React.FC<Props> = ({
         viewedSlotIndex: firstReadySlotIndex,
       };
     }
-
     return {
       slot: 0,
       item: defaultQueueItem,
@@ -134,6 +145,24 @@ export const CraftTab: React.FC<Props> = ({
   const autoSelectedReadyRef = useRef(
     initialQueueSlot == null && readyProducts.length > 0,
   );
+  useEffect(() => {
+    if (initialQueueSlot == null) return;
+    const displayItems = [cooking, ...queue, ...readyProducts].filter(Boolean);
+    const itemAtSlot =
+      initialQueueSlot >= 0 && initialQueueSlot < displayItems.length
+        ? displayItems[initialQueueSlot]
+        : undefined;
+    if (itemAtSlot) {
+      setSelectedItems(getRecipeIngredientsForName(itemAtSlot.name, recipes));
+    }
+  }, [
+    initialQueueSlot,
+    cooking,
+    queue,
+    readyProducts,
+    recipes,
+    setSelectedItems,
+  ]);
   useEffect(() => {
     if (autoSelectedReadyRef.current && readyProducts.length > 0) {
       const padded = getRecipeIngredientsForName(
@@ -201,17 +230,9 @@ export const CraftTab: React.FC<Props> = ({
     return selectedItems.every((item) => item === null);
   }, [selectedItems]);
 
-  /** Failed attempt: set on pending, reset on crafting or when ingredients change */
-  useEffect(() => {
-    const selectedItemsChanged = prevSelectedItemsRef.current !== selectedItems;
-    prevSelectedItemsRef.current = selectedItems;
-
-    if (craftingStatus !== "pending" || selectedItemsChanged) {
-      setFailedAttempt(false);
-    } else {
-      setFailedAttempt(true);
-    }
-  }, [craftingStatus, selectedItems]);
+  const selectedItemsChanged = prevSelectedItemsRef.current !== selectedItems;
+  prevSelectedItemsRef.current = selectedItems;
+  const failedAttempt = isPending && !selectedItemsChanged;
 
   /**
    * Find the recipe that matches the selected items.
@@ -356,7 +377,9 @@ export const CraftTab: React.FC<Props> = ({
             currentRecipe.type === "collectible"
               ? KNOWN_IDS[currentRecipe.name as InventoryItemName]
               : ITEM_IDS[currentRecipe.name as BumpkinItem],
-          counter: state.farmActivity[`${currentRecipe.name} Crafted`] ?? 0,
+          counter:
+            (state.farmActivity[`${currentRecipe.name} Crafted`] ?? 0) +
+            queue.filter((q) => q.name === currentRecipe.name).length,
         },
       });
 
@@ -375,7 +398,7 @@ export const CraftTab: React.FC<Props> = ({
         item: newItem,
         viewedSlotIndex: newItemSlotIndex,
       });
-      onQueueSelectionChange?.(0);
+      onQueueSelectionChange?.(newItemSlotIndex);
       setSelectedItems(getRecipeIngredientsForName(newItem.name, recipes));
       setSelectedIngredient(null);
     } else if (wasAddingToQueue) {
@@ -465,7 +488,7 @@ export const CraftTab: React.FC<Props> = ({
     } else if (item) {
       // Clicked on an item - show recipe; allow cancel only for queued (not in-progress)
       setQueueSelection({ slot: 0, item, viewedSlotIndex: slotIndex });
-      onQueueSelectionChange?.(0);
+      onQueueSelectionChange?.(slotIndex);
       setSelectedItems(getRecipeIngredientsForItem(item));
       setSelectedIngredient(null);
     } else {

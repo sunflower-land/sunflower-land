@@ -613,6 +613,89 @@ describe("startCrafting", () => {
     expect(state.craftingBox.readyAt).toBe(now);
   });
 
+  it("gives each queued same-recipe item an independent Fox Shrine proc roll", () => {
+    const now = Date.now();
+    gameState.vip = {
+      bundles: [],
+      expiresAt: now + 86400000,
+    };
+    gameState.inventory["Beta Pass"] = new Decimal(1);
+    gameState.collectibles = {
+      "Fox Shrine": [
+        {
+          id: "123",
+          coordinates: { x: 0, y: 0 },
+          createdAt: now,
+          readyAt: now,
+        },
+      ],
+    };
+    gameState.craftingBox = {
+      status: "idle",
+      startedAt: 0,
+      readyAt: 0,
+      recipes: {
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
+        },
+      },
+    };
+    gameState.inventory = {
+      Leather: new Decimal(12),
+      Wool: new Decimal(15),
+      Stone: new Decimal(10),
+      "Beta Pass": new Decimal(1),
+    };
+
+    const dollIngredients = [
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+    ];
+
+    let state = gameState;
+    for (let i = 0; i < 3; i++) {
+      state = startCrafting({
+        state,
+        action: {
+          type: "crafting.started",
+          ingredients: dollIngredients,
+        },
+        createdAt: now,
+        farmId,
+      });
+    }
+
+    const queue = state.craftingBox.queue!;
+    expect(queue).toHaveLength(3);
+    expect(queue.every((q) => q.name === "Doll")).toBe(true);
+    expect(queue[0].startedAt).toBe(now);
+    expect(queue[0].readyAt).toBeGreaterThanOrEqual(now);
+    for (let i = 1; i < queue.length; i++) {
+      expect(queue[i].startedAt).toBe(queue[i - 1].readyAt);
+      expect(queue[i].readyAt).toBeGreaterThanOrEqual(queue[i].startedAt);
+    }
+  });
+
   it("makes instant recipe immediately ready when added to a non-empty queue", () => {
     const now = Date.now();
     gameState.vip = {

@@ -198,7 +198,9 @@ export function startCrafting({
           recipe.type === "collectible"
             ? KNOWN_IDS[recipe.name as InventoryItemName]
             : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        counter:
+          (state.farmActivity[`${recipe.name} Crafted`] ?? 0) +
+          effectiveQueue.filter((q) => q.name === recipe.name).length,
       },
     });
 

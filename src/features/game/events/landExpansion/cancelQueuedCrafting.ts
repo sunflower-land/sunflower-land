@@ -45,11 +45,13 @@ export function recalculateCraftingQueue({
   game,
   farmId = 0,
   firstItemReadyAt,
+  createdAt,
 }: {
   queue: CraftingQueueItem[];
   game: GameState;
   farmId?: number;
   firstItemReadyAt?: number;
+  createdAt?: number;
 }): CraftingQueueItem[] {
   if (queue.length === 0) return [];
 
@@ -63,6 +65,9 @@ export function recalculateCraftingQueue({
     let readyAt: number;
     const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
 
+    const sameRecipeCountBefore = result
+      .slice(0, i)
+      .filter((q) => q.name === recipe.name).length;
     const { seconds: recipeTime } = getBoostedCraftingTime({
       game,
       time: recipe.time,
@@ -72,14 +77,20 @@ export function recalculateCraftingQueue({
           recipe.type === "collectible"
             ? KNOWN_IDS[recipe.name as InventoryItemName]
             : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        counter:
+          (game.farmActivity[`${recipe.name} Crafted`] ?? 0) +
+          sameRecipeCountBefore,
       },
     });
 
     if (i === 0 && firstItemReadyAt !== undefined) {
       readyAt = firstItemReadyAt;
     } else if (recipeTime === 0) {
-      readyAt = item.readyAt;
+      // Instant proc: use startAt. Preserve item.readyAt only if already ready (e.g. after cancel)
+      readyAt =
+        createdAt !== undefined && item.readyAt <= createdAt
+          ? item.readyAt
+          : startAt;
     } else {
       readyAt = startAt + recipeTime;
     }
@@ -160,6 +171,7 @@ export function cancelQueuedCrafting({
       queue: updatedQueue,
       game,
       farmId,
+      createdAt,
     });
 
     if (game.craftingBox.queue.length > 0) {

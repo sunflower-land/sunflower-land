@@ -44,16 +44,13 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   type Tab = "craft" | "recipes" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>("craft");
-  const [pendingQueueSlot, setPendingQueueSlot] = useState<number | null>(null);
-  const [craftTabPersistedSlot, setCraftTabPersistedSlot] = useState<
-    number | null
-  >(null);
+  const [selectedQueueSlot, setSelectedQueueSlot] = useState<number | null>(
+    null,
+  );
 
   const { gameService } = useContext(Context);
 
   const switchTab: React.Dispatch<React.SetStateAction<Tab>> = (value) => {
-    const nextTab = typeof value === "function" ? value(currentTab) : value;
-    if (nextTab !== "craft") setPendingQueueSlot(null);
     setCurrentTab(value);
   };
 
@@ -72,7 +69,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
 
   const handleSetupRecipe = (recipe: Recipe, targetSlot?: number) => {
     selectItems(padRecipeIngredients(recipe));
-    setPendingQueueSlot(targetSlot ?? null);
+    setSelectedQueueSlot(targetSlot ?? null);
     switchTab("craft");
   };
 
@@ -120,8 +117,8 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
           onClose={onClose}
-          initialQueueSlot={pendingQueueSlot ?? craftTabPersistedSlot}
-          onQueueSelectionChange={setCraftTabPersistedSlot}
+          initialQueueSlot={selectedQueueSlot}
+          onQueueSelectionChange={setSelectedQueueSlot}
         />
       )}
       {currentTab === "recipes" && (
