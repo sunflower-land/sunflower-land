@@ -10,6 +10,7 @@ import { Travel } from "./Travel";
 import { Timer } from "./Timer";
 // import { Target } from "./Target";
 import { Lives } from "./Lives";
+import { Equipment_Immunity } from "./EquipmentImmunity";
 
 const _isJoystickActive = (state: PortalMachineState) =>
   state.context.isJoystickActive;
@@ -61,6 +62,7 @@ export const Hud: React.FC = () => {
             </>
           )}
         </div>
+        {isPlaying && <Equipment_Immunity />}
 
         {!isJoystickActive && (
           <>
