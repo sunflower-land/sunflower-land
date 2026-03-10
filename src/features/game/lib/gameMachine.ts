@@ -56,6 +56,7 @@ import {
   getIntroductionRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
+import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
@@ -243,6 +244,8 @@ type BuyBlockBucksEvent = {
 type UpdateBlockBucksEvent = {
   type: "UPDATE_GEMS";
   amount: number;
+  /** Coins to add (e.g. from Xsolla starter pack) */
+  coins?: number;
 };
 
 type LandscapeEvent = {
@@ -789,6 +792,7 @@ export type BlockchainState = {
     | "jinAirdrop"
     | "leagueResults"
     | "linkWallet"
+    | "starterOffer"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -1196,6 +1200,24 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+            {
+              target: "starterOffer",
+              cond: (context) => {
+                if (getStarterOfferShown(context.farmId)) return false;
+                const now = Date.now();
+                const createdAt = context.state.createdAt;
+                const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+                const thirtyMinsMs = 30 * 60 * 1000;
+                const accountLessThan7Days = createdAt > now - sevenDaysMs;
+                const accountOlderThan30Mins = createdAt < now - thirtyMinsMs;
+                const noPurchaseYet = context.purchases.length === 0;
+                return (
+                  accountLessThan7Days &&
+                  accountOlderThan30Mins &&
+                  noPurchaseYet
+                );
+              },
+            },
 
             {
               target: "investigating",
@@ -1442,6 +1464,13 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        starterOffer: {
+          on: {
+            CLOSE: {
+              target: "playing",
             },
           },
         },
@@ -1748,6 +1777,11 @@ export function startGame(authContext: AuthContext) {
                       event.amount,
                     ),
                   },
+                  ...(event.coins != null && event.coins > 0
+                    ? {
+                        coins: (context.state.coins ?? 0) + event.coins,
+                      }
+                    : {}),
                 },
                 purchases: [
                   ...context.purchases,

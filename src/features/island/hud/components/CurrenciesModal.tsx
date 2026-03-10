@@ -16,6 +16,9 @@ import { XsollaIFrame } from "features/game/components/modal/components/XsollaIF
 import {
   BuyGems,
   Price,
+  STARTER_PACK,
+  STARTER_PACK_COINS,
+  STARTER_PACK_GEMS,
 } from "features/game/components/modal/components/BuyGems";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
@@ -142,7 +145,7 @@ export const CurrenciesModal: React.FC<Props> = ({
       const amount = price?.amount ?? 0;
 
       const { url } = await buyGemsXsolla({
-        amount,
+        amount: amount as number,
         farmId,
         transactionId: randomID(),
         token,
@@ -158,7 +161,13 @@ export const CurrenciesModal: React.FC<Props> = ({
   };
 
   const handleCreditCardSuccess = () => {
-    gameService.send("UPDATE_GEMS", { amount: price?.amount });
+    const isStarterPack = price?.amount === STARTER_PACK;
+    gameService.send("UPDATE_GEMS", {
+      amount: isStarterPack
+        ? STARTER_PACK_GEMS
+        : ((price?.amount as number) ?? 0),
+      ...(isStarterPack ? { coins: STARTER_PACK_COINS } : {}),
+    });
     onClose();
   };
 

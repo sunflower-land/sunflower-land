@@ -57,6 +57,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
 import { VIPOffer } from "../components/modal/components/VIPItems";
+import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
@@ -221,6 +222,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
+  starterOffer: true,
 };
 
 // State change selectors
@@ -300,6 +302,7 @@ const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
+const isStarterOffer = (state: MachineState) => state.matches("starterOffer");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
 const isLeagueResultsReleased = (state: MachineState) =>
@@ -495,6 +498,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     isLeagueResultsReleased,
   );
   const dailyReward = useSelector(gameService, isDailyReward);
+  const starterOffer = useSelector(gameService, isStarterOffer);
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -692,6 +696,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {showSales && <MarketplaceSalesPopup />}
             {tradesCleared && <TradesCleared />}
             {vip && <VIPOffer />}
+            {starterOffer && <StarterOfferModal />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
             {hasCommunityCoin && <LoveCharm />}
