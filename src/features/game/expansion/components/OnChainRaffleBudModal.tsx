@@ -23,7 +23,7 @@ export const OnChainRaffleBudModal: React.FC<Props> = ({ budId }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const budImageUrl = getBudImage(budId);
+  const budImageUrl = getBudImage(budId, "small");
   const budTraits = getBudTraits(budId);
   const buffs = getBudBuffs(budId);
 
