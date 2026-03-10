@@ -172,6 +172,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const marketPrice = getMarketPrice({ tradeable });
 
+  const isStoneBeetle = collection === "collectibles" && Number(id) === 2129;
+
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
@@ -245,16 +247,18 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
           reload={reload}
         />
 
-        <TradeableOffers
-          hideLimited={hideLimited}
-          itemId={Number(id)}
-          limitedTradesLeft={limitedTradesLeft}
-          limitedPurchasesLeft={limitedPurchasesLeft}
-          tradeable={tradeable}
-          display={display}
-          farmId={farmId}
-          reload={reload}
-        />
+        {!isStoneBeetle && (
+          <TradeableOffers
+            hideLimited={hideLimited}
+            itemId={Number(id)}
+            limitedTradesLeft={limitedTradesLeft}
+            limitedPurchasesLeft={limitedPurchasesLeft}
+            tradeable={tradeable}
+            display={display}
+            farmId={farmId}
+            reload={reload}
+          />
+        )}
 
         <SaleHistory history={tradeable?.history} />
       </div>
