@@ -568,11 +568,10 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
             return {
               state: makeGame(data.visitedFarmState),
               data,
-              effect: event.effect,
             };
           }
 
-          return { state: gameState, data, effect: event.effect };
+          return { state: gameState, data };
         },
         onDone: [
           {
@@ -1558,9 +1557,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
-              actions: assign((_) => ({
-                onChainRaffleReward: undefined,
-              })),
+              actions: assign((_) => ({ onChainRaffleReward: undefined })),
             },
           },
         },
