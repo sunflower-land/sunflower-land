@@ -16,7 +16,10 @@ import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import lightning from "assets/icons/lightning.png";
+import prizesIcon from "assets/icons/raffle_icon.png";
 import calendar from "assets/icons/calendar.webp";
+import choresIcon from "assets/icons/chores.webp";
+import { RaffleHistory } from "features/world/ui/chapterRaffles/RaffleHistory";
 
 type Props = {
   token: string;
@@ -26,6 +29,7 @@ export const RafflesSection: React.FC<Props> = ({ token }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [showMore, setShowMore] = useState(false);
+  const [tab, setTab] = useState<"raffles" | "history">("raffles");
   const isOffline = !CONFIG.API_URL;
 
   const { data: raffles, isLoading } = useSWR(
@@ -107,11 +111,23 @@ export const RafflesSection: React.FC<Props> = ({ token }) => {
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
         <CloseButtonPanel
           tabs={[
-            { icon: calendar, name: t("auction.raffle.title"), id: "raffles" },
+            {
+              icon: prizesIcon,
+              name: t("auction.raffle.title"),
+              id: "raffles",
+            },
+            {
+              id: "history",
+              name: "History",
+              icon: choresIcon,
+            },
           ]}
+          currentTab={tab}
+          setCurrentTab={setTab}
           onClose={() => setShowMore(false)}
         >
-          <UpcomingRaffles />
+          {tab === "raffles" && <UpcomingRaffles />}
+          {tab === "history" && <RaffleHistory />}
         </CloseButtonPanel>
       </Modal>
     </>
