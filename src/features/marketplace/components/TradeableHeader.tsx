@@ -307,15 +307,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             {showBuyNow && (
               <Button
                 onClick={() => setShowPurchaseModal(true)}
-                disabled={
-                  !balance.gt(cheapestListing.sfl) || limitedPurchasesLeft <= 0
-                }
-                className="mr-1 w-full sm:w-auto"
+                disabled={!canBuy}
+                className={classNames("mr-1 w-full sm:w-auto", {
+                  "animate-pulsate": isTutorialBuy,
+                })}
               >
                 {t("marketplace.buyNow")}
               </Button>
             )}
-            {tradeable?.isActive && !vipIsRequired && (
+            {tradeable?.isActive && !vipIsRequired && !isTutorialItem && (
               <Button
                 onClick={onListClick}
                 disabled={
