@@ -7,7 +7,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
-import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
+import { RaffleSnapshotWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
@@ -15,9 +15,10 @@ import budSeedling from "assets/icons/bud_seedling.png";
 import { RafflePrize } from "./types";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { playerModalManager } from "features/social/lib/playerModalManager";
+import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
 
 type Props = {
-  winners: RaffleWinner[];
+  winners: RaffleSnapshotWinner[];
   farmId: number;
 };
 
@@ -98,27 +99,29 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                       <span className="text-xs">{winner.sfl}</span>
                     </div>
                   )}
-                  {getKeys(winner.items ?? {}).map((name) => (
-                    <div className="flex w-16 items-center" key={name}>
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        className="h-4 mr-0.5"
-                      />
-                      <span className="text-xs">{winner.items?.[name]}</span>
-                    </div>
-                  ))}
-                  {getKeys(winner.wearables ?? {}).map((wearable) => (
-                    <div className="flex w-16 items-center" key={wearable}>
-                      <img
-                        src={getImageUrl(ITEM_IDS[wearable])}
-                        className="h-4 mr-0.5"
-                      />
-                      <span className="text-xs">
-                        {winner.wearables?.[wearable]}
-                      </span>
-                    </div>
-                  ))}
-                  {winner.nft && (
+                  {winner.type === "collectible" &&
+                    getKeys(winner.items ?? {}).map((name) => (
+                      <div className="flex w-16 items-center" key={name}>
+                        <img
+                          src={ITEM_DETAILS[name].image}
+                          className="h-4 mr-0.5"
+                        />
+                        <span className="text-xs">{winner.items?.[name]}</span>
+                      </div>
+                    ))}
+                  {winner.type === "wearable" &&
+                    getKeys(winner.wearables ?? {}).map((wearable) => (
+                      <div className="flex w-16 items-center" key={wearable}>
+                        <img
+                          src={getImageUrl(ITEM_IDS[wearable])}
+                          className="h-4 mr-0.5"
+                        />
+                        <span className="text-xs">
+                          {winner.wearables?.[wearable]}
+                        </span>
+                      </div>
+                    ))}
+                  {(winner.type === "Pet" || winner.type === "Bud") && (
                     <div className="flex w-16 items-center">
                       <img
                         src={
@@ -166,33 +169,35 @@ export const RafflePrizeTable: React.FC<{
 
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex space-x-1 flex-wrap space-y-1">
-                  {getKeys(prize.items ?? {}).map((name) => (
-                    <div className="flex items-center" key={name}>
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        className="h-4 mr-1"
-                      />
-                      <span className="text-xs">{`${prize.items?.[name]} x ${name}`}</span>
-                    </div>
-                  ))}
-                  {getKeys(prize.wearables ?? {}).map((wearable) => (
-                    <div className="flex items-center" key={wearable}>
-                      <img
-                        src={getImageUrl(ITEM_IDS[wearable])}
-                        className="h-4 mr-1"
-                      />
-                      <span className="text-xs">{`${prize.wearables?.[wearable]} x ${wearable}`}</span>
-                    </div>
-                  ))}
-                  {prize.nft && (
+                  {prize.type === "collectible" &&
+                    getKeys(prize.items).map((name) => (
+                      <div className="flex items-center" key={name}>
+                        <img
+                          src={ITEM_DETAILS[name].image}
+                          className="h-4 mr-1"
+                        />
+                        <span className="text-xs">{`${prize.items?.[name]} x ${name}`}</span>
+                      </div>
+                    ))}
+                  {prize.type === "wearable" &&
+                    getKeys(prize.wearables).map((wearable) => (
+                      <div className="flex items-center" key={wearable}>
+                        <img
+                          src={getImageUrl(ITEM_IDS[wearable])}
+                          className="h-4 mr-1"
+                        />
+                        <span className="text-xs">{`${prize.wearables?.[wearable]} x ${wearable}`}</span>
+                      </div>
+                    ))}
+                  {(prize.type === "Pet" || prize.type === "Bud") && (
                     <div className="flex items-center">
                       <img
-                        src={
-                          prize.nft.includes("Bud") ? budSeedling : petEggNFT
-                        }
+                        src={getPrizeDisplay({ prize }).image}
                         className="h-4 mr-1"
                       />
-                      <span className="text-xs truncate">{`${prize.nft.includes("Bud") ? "Bud NFT ?" : "Pet NFT ?"}`}</span>
+                      <span className="text-xs truncate">
+                        {getPrizeDisplay({ prize }).name}
+                      </span>
                     </div>
                   )}
                 </div>

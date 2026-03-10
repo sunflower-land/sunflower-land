@@ -5,11 +5,11 @@ import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SceneId } from "features/world/mmoMachine";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
+import { getBudImage } from "lib/buds/types";
 
 export type ReactionName = "heart" | "happy" | "sad";
 interface Props {
@@ -53,7 +53,7 @@ export const BudReaction: React.FC<{
                 key={budId}
                 onClick={() => setSelected(budId)}
                 isSelected={selected === budId}
-                image={`https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`}
+                image={getBudImage(budId)}
               />
             );
           })}

@@ -94,6 +94,7 @@ import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
+import { OnChainRaffleRewardModal } from "./components/OnChainRaffleRewardModal";
 import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 import { DailyRewardClaim } from "../components/DailyReward";
@@ -203,6 +204,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   auctionResults: false,
   claimAuction: false,
   refundAuction: false,
+  onChainRaffleAcknowledgment: false,
   promo: true,
   priceChanged: true,
   buds: false,
@@ -275,6 +277,8 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const isOnChainRaffleAcknowledgment = (state: MachineState) =>
+  state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
 const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
@@ -472,6 +476,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
+  const onChainRaffleAcknowledgment = useSelector(
+    gameService,
+    isOnChainRaffleAcknowledgment,
+  );
   const showOffers = useSelector(gameService, hasFulfilledOffers);
   const vip = useSelector(gameService, hasVipNotification);
   const playing = useSelector(gameService, isPlaying);
@@ -714,6 +722,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
+        {onChainRaffleAcknowledgment && <OnChainRaffleRewardModal />}
         {seasonChanged && <SeasonChanged />}
         {calendarEvent && <CalendarEvent />}
         {competition && (

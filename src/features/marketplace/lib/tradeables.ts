@@ -8,12 +8,12 @@ import {
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { translate } from "lib/i18n/translate";
 import { PetNFTName } from "features/game/types/pets";
 import { getPetImageForMarketplace } from "features/island/pets/lib/petShared";
 import { getWearableImage } from "features/game/lib/getWearableImage";
+import { getBudImage } from "lib/buds/types";
 
 export type TradeableDisplay = {
   name: MarketplaceTradeableName;
@@ -55,7 +55,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: translate("description.bud.generic"),
-      image: `https://${budImageDomain}.sunflower-land.com/small-nfts/${id}.webp`,
+      image: getBudImage(Number(id), "small"),
       type,
       buffs: getItemBuffs({ state, item: name, collection: "buds" }),
     };

@@ -27,47 +27,67 @@ export async function loadRaffles(
         endAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
         prizes: {
           1: {
+            type: "wearable",
             wearables: {
               "Acorn Hat": 1,
             },
           },
           2: {
+            type: "collectible",
             items: { Gold: 5 },
           },
           3: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           4: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           5: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           6: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           7: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           8: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           9: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           10: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           11: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           12: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           13: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           14: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
         },
@@ -83,13 +103,17 @@ export async function loadRaffles(
         endAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
         prizes: {
           1: {
+            type: "collectible",
             items: { Crimstone: 1 },
           },
           2: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           3: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
         },
         entryRequirements: {
@@ -103,47 +127,67 @@ export async function loadRaffles(
         endAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
         prizes: {
           1: {
+            type: "wearable",
             wearables: {
               "Acorn Hat": 1,
             },
           },
           2: {
+            type: "collectible",
             items: { Gold: 5 },
           },
           3: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           4: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           5: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           6: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           7: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           8: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           9: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           10: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           11: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           12: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
           13: {
+            type: "Pet",
             nft: "Pet #4",
+            onChain: true,
           },
           14: {
+            type: "collectible",
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
         },

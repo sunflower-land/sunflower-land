@@ -25,7 +25,6 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { isEmpty } from "lodash";
 
 import { Bud } from "features/game/types/buds";
-import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
 import { RESOURCES } from "features/game/types/resources";
@@ -70,7 +69,7 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+import { getBudImage } from "lib/buds/types";
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,
@@ -606,7 +605,7 @@ export const Chest: React.FC<Props> = ({
                       onClick={() =>
                         handleItemClick({ name: "Bud", id: String(budId) })
                       }
-                      image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                      image={getBudImage(budId)}
                       iconClassName={classNames(
                         "scale-[1.8] origin-bottom absolute",
                         {
