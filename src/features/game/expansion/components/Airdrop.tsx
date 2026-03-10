@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { Context } from "features/game/GameProvider";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -32,16 +33,21 @@ interface Props {
 }
 export const Airdrop: React.FC<Props> = ({ airdrop }) => {
   const { showAnimations } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const [showModal, setShowModal] = useState(false);
+
+  const onClaimed = () => {
+    setShowModal(false);
+    if (airdrop.id === "expansion-seven-airdrop") {
+      openModal("MARKETPLACE_TUTORIAL");
+    }
+  };
 
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <AirdropModal
-            airdrop={airdrop}
-            onClaimed={() => setShowModal(false)}
-          />
+          <AirdropModal airdrop={airdrop} onClaimed={onClaimed} />
         </CloseButtonPanel>
       </Modal>
 
@@ -82,6 +88,7 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
  */
 export const AirdropPopup: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const [state] = useActor(gameService);
 
   const airdrop = state.context.state.airdrops?.find(
@@ -98,10 +105,17 @@ export const AirdropPopup: React.FC = () => {
 
   const onClose = () => gameService.send("CLOSE");
 
+  const onClaimed = () => {
+    onClose();
+    if (airdrop.id === "expansion-seven-airdrop") {
+      openModal("MARKETPLACE_TUTORIAL");
+    }
+  };
+
   return (
     <AirdropModal
       airdrop={airdrop}
-      onClaimed={onClose}
+      onClaimed={onClaimed}
       onClose={isAirdropNegative ? undefined : onClose}
     />
   );

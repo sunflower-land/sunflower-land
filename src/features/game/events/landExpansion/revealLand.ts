@@ -450,7 +450,11 @@ export function getRewards({
     airdrops = [
       ...airdrops,
       {
-        ...blockBuckAirdrop,
+        createdAt,
+        items: {},
+        sfl: 0.1,
+        coins: 0,
+        wearables: {},
         coordinates: { x: -7, y: -3 },
         id: "expansion-seven-airdrop",
       },

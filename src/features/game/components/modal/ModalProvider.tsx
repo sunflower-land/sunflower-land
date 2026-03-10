@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-
+import { useNavigate } from "react-router";
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
@@ -38,12 +38,45 @@ type GlobalModal =
   | "STREAMS"
   | "DEPOSIT"
   | "DAILY_REWARD"
-  | "EARN";
+  | "EARN"
+  | "MARKETPLACE_TUTORIAL";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
   // eslint-disable-next-line no-console
 }>({ openModal: console.log });
+
+const STONE_BEETLE_MARKETPLACE_PATH = "/marketplace/collectibles/2129";
+
+const MarketplaceTutorialModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const navigate = useNavigate();
+  return (
+    <SpeakingModal
+      message={[
+        {
+          text: translate("marketplace.tutorial.one"),
+        },
+        {
+          text: translate("marketplace.tutorial.two"),
+        },
+        {
+          text: translate("marketplace.tutorial.three"),
+          actions: [
+            {
+              text: translate("marketplace.tutorial.openButton"),
+              cb: () => {
+                navigate(STONE_BEETLE_MARKETPLACE_PATH);
+                onClose();
+              },
+            },
+          ],
+        },
+      ]}
+      onClose={onClose}
+      bumpkinParts={NPC_WEARABLES["hammerin harry"]}
+    />
+  );
+};
 
 export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();
@@ -213,6 +246,10 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
           onClose={handleClose}
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
+      </Modal>
+
+      <Modal show={opened === "MARKETPLACE_TUTORIAL"}>
+        <MarketplaceTutorialModal onClose={handleClose} />
       </Modal>
 
       <Rewards show={opened === "EARN"} onHide={handleClose} tab={"Earn"} />
