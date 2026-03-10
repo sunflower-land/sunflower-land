@@ -29,7 +29,7 @@ export const LandscapeButton: React.FC = () => {
       }}
     >
       <img
-        src={SUNNYSIDE.icons.drag}
+        src={SUNNYSIDE.tools.hammer}
         className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
