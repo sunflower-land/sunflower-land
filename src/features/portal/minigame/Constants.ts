@@ -1,9 +1,12 @@
-import { Equipped } from "features/game/types/bumpkin";
+import {
+  BumpkinWings,
+  BumpkinAura,
+  Equipped,
+} from "features/game/types/bumpkin";
 import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Position, Side } from "./Types";
-import { BumpkinAura } from "features/game/types/bumpkin";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -39,7 +42,7 @@ export const BETA_TESTERS: number[] = [];
 export const CANNON_CONFIG: (Position & { side: Side })[] = [
   { x: 160, y: 319, side: "left" },
   { x: 448, y: 319, side: "right" },
-]
+];
 
 export const CANNON_COOLDOWN = 30000;
 
@@ -49,65 +52,67 @@ export const INSTRUCTIONS: {
   description: string;
   width?: number;
 }[] = [
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource1`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource2`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource3`),
-    },
-  ];
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource1`),
+  },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource2`),
+  },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource3`),
+  },
+];
 
 export const RESOURCES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource1`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource2`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource3`),
-    },
-  ];
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource1`),
+  },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource2`),
+  },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.resource3`),
+  },
+];
 
 export const ENEMIES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.enemy1`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.enemy2`),
-    },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.enemy1`),
+  },
+  {
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    description: t(`${PORTAL_NAME}.enemy2`),
+  },
 ];
 
 export const VISIBLE_AURA: BumpkinAura[] = [
-    "Slime Aura",
-    "Wisp Aura",
-    "Diamond Snow Aura",
+  "Slime Aura",
+  "Wisp Aura",
+  "Diamond Snow Aura",
 ];
 
 export const NOT_VISIBLE_AURA: BumpkinAura[] = [
-    "Coin Aura",
-    "Love Puff Aura",
-    "Paw Aura",
+  "Coin Aura",
+  "Love Puff Aura",
+  "Paw Aura",
 ];
+
+export const WING_BUFF: BumpkinWings = "Sol & Luna";
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
@@ -116,7 +121,7 @@ export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
   { x: 320, y: 60 },
   { x: 150, y: 70 },
   { x: 450, y: 72 },
-  { x: 230, y: 140 }
+  { x: 230, y: 140 },
 ];
 
 export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
