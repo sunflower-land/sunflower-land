@@ -5,6 +5,7 @@ import { PetResourceName } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { formatFetchYield } from "features/game/lib/formatFetchYield";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -93,9 +94,7 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
               className="w-4 h-4 object-contain shrink-0"
             />
             <span className="text-brown-800">
-              {fetchAmount.isInteger()
-                ? fetchAmount.toString()
-                : fetchAmount.toFixed(2)}
+              {formatFetchYield(fetchAmount)}
             </span>
           </div>
           <div className="flex items-center gap-1 text-xs">

@@ -266,6 +266,28 @@ describe("fetchPet", () => {
     expect(state.farmActivity["Acorn Fetched"]).toBe(1);
   });
 
+  it("gives no Native boost at level 14 for non-Fossil resource", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 200,
+              experience: 9_100,
+              pettedAt: now,
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Ribbon" },
+      createdAt: now,
+    });
+    expect(state.inventory["Ribbon"]).toEqual(new Decimal(1));
+  });
+
   it("gives +0.10 if pet level is >= 15 and fetch is Acorn", () => {
     const state = fetchPet({
       state: {
@@ -356,6 +378,36 @@ describe("fetchPet", () => {
     expect(state.inventory["Ribbon"]).toEqual(new Decimal(1.25));
   });
 
+  it("gives +0.25 Native for Moonfur NFT at level 149", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          nfts: {
+            1: {
+              id: 1,
+              name: "Pet #1" as const,
+              requests: { food: [], fedAt: now },
+              energy: 1000,
+              experience: 1_102_600,
+              pettedAt: now,
+              traits: {
+                type: "Phoenix" as const,
+                fur: "Green" as const,
+                accessory: "Crown" as const,
+                bib: "Gold Necklace" as const,
+                aura: "Common Aura" as const,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: 1, fetch: "Moonfur" },
+      createdAt: now,
+    });
+    expect(state.inventory["Moonfur"]).toEqual(new Decimal(1.25));
+  });
+
   it("gives +0.50 Native if NFT pet level is >= 150 and fetch is Moonfur", () => {
     const state = fetchPet({
       state: {
@@ -364,17 +416,17 @@ describe("fetchPet", () => {
           nfts: {
             1: {
               id: 1,
-              name: "Pet #1",
+              name: "Pet #1" as const,
               requests: { food: [], fedAt: now },
               energy: 1000,
               experience: 1_117_500,
               pettedAt: now,
               traits: {
-                type: "Phoenix",
-                fur: "Green",
-                accessory: "Crown",
-                bib: "Gold Necklace",
-                aura: "Common Aura",
+                type: "Phoenix" as const,
+                fur: "Green" as const,
+                accessory: "Crown" as const,
+                bib: "Gold Necklace" as const,
+                aura: "Common Aura" as const,
               },
             },
           },
@@ -394,17 +446,17 @@ describe("fetchPet", () => {
           nfts: {
             1: {
               id: 1,
-              name: "Pet #1",
+              name: "Pet #1" as const,
               requests: { food: [], fedAt: now },
               energy: 200,
               experience: 1_117_500,
               pettedAt: now,
               traits: {
-                type: "Griffin",
-                fur: "Green",
-                accessory: "Crown",
-                bib: "Gold Necklace",
-                aura: "Common Aura",
+                type: "Griffin" as const,
+                fur: "Green" as const,
+                accessory: "Crown" as const,
+                bib: "Gold Necklace" as const,
+                aura: "Common Aura" as const,
               },
             },
           },
