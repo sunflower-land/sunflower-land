@@ -8122,5 +8122,6 @@
   "marketplace.tutorial.one": "Olá, parceiro! Você ganhou um pouco de FLOR. Essa é a moeda que usamos no Marketplace.",
   "marketplace.tutorial.two": "No Marketplace, você pode negociar recursos, comprar itens colecionáveis e impulsionar sua fazenda. Deixe-me mostrar um item popular - o Besouro de Pedra!",
   "marketplace.tutorial.three": "Pronto para explorar? Vá até o Marketplace para ver o Stone Beetle e começar a negociar.",
-  "marketplace.tutorial.openButton": "Abra o Marketplace"
+  "marketplace.tutorial.openButton": "Abra o Marketplace",
+  "setAsBumpkin": "Definido como Bumpkin"
 }

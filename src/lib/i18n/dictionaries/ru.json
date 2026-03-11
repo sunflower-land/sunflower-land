@@ -8122,5 +8122,6 @@
   "marketplace.tutorial.one": "Howdy, partner! You've earned some FLOWER. That's the currency we use on the Marketplace.",
   "marketplace.tutorial.two": "On the Marketplace you can trade resources, buy collectibles and boost your farm. Let me show you a popular item - the Stone Beetle!",
   "marketplace.tutorial.three": "Ready to explore? Head to the Marketplace to see the Stone Beetle and start trading.",
-  "marketplace.tutorial.openButton": "Open the Marketplace"
+  "marketplace.tutorial.openButton": "Open the Marketplace",
+  "setAsBumpkin": "Set as Bumpkin"
 }

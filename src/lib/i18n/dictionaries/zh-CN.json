@@ -8122,5 +8122,6 @@
   "marketplace.tutorial.one": "你好，伙伴！你获得了一些花。这就是我们在商城上使用的货币。",
   "marketplace.tutorial.two": "在商城上，你可以交易资源，购买收藏品并强化你的农场。让我给你看一件很受欢迎的物品——石甲虫！",
   "marketplace.tutorial.three": "准备好探索了吗？前往市场看看石甲壳虫并开始交易。",
-  "marketplace.tutorial.openButton": "打开市场"
+  "marketplace.tutorial.openButton": "打开市场",
+  "setAsBumpkin": "设置为 Bumpkin"
 }
