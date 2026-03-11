@@ -245,7 +245,7 @@ export function getTreeRecoveryTimeForDisplay({
   const hasBeaverReady = hasApprenticeBeaver || hasForemanBeaver;
 
   if (hasBeaverReady) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     if (hasForemanBeaver)
       boostsUsed.push({ name: "Foreman Beaver", value: "x0.5" });
     else if (hasApprenticeBeaver)
@@ -254,7 +254,7 @@ export function getTreeRecoveryTimeForDisplay({
 
   if (bumpkin.skills["Tree Charge"]) {
     boostsUsed.push({ name: "Tree Charge", value: "x0.9" });
-    totalSeconds = totalSeconds * 0.9;
+    totalSeconds = new Decimal(totalSeconds).mul(0.9).toNumber();
   }
 
   const hasSuperTotem = isTemporaryCollectibleActive({
@@ -269,19 +269,19 @@ export function getTreeRecoveryTimeForDisplay({
   const hasSuperTotemOrTimeWarpTotem = hasSuperTotem || hasTimeWarpTotem;
 
   if (hasSuperTotemOrTimeWarpTotem) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (hasTimeWarpTotem)
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Timber Hourglass", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Timber Hourglass", value: "x0.75" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
@@ -443,8 +443,9 @@ export function chop({
         });
 
     if (treeReward?.coins) {
-      stateCopy.coins =
-        stateCopy.coins + treeReward.coins * (tree.multiplier ?? 1);
+      stateCopy.coins = new Decimal(stateCopy.coins)
+        .add(new Decimal(treeReward.coins).mul(tree.multiplier ?? 1))
+        .toNumber();
     }
 
     if (treeReward?.items) {

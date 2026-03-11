@@ -61,7 +61,7 @@ export function feedMixed({ state, action }: Options) {
     }
 
     const { coins } = selectedItem;
-    const price = (coins ?? 0) * amount;
+    const price = new Decimal(coins ?? 0).mul(amount).toNumber();
 
     if (price && copy.coins < price) {
       throw new Error("Insufficient Coins");
@@ -99,7 +99,7 @@ export function feedMixed({ state, action }: Options) {
       copy.farmActivity,
       new Decimal(amount ?? 0),
     );
-    copy.coins -= price;
+    copy.coins = new Decimal(copy.coins).sub(price).toNumber();
     copy.inventory = {
       ...subtractedInventory,
       [item]: oldAmount.add(amount ?? 0),

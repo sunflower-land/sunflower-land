@@ -84,7 +84,7 @@ export function sellCrop({
       now: new Date(createdAt),
     });
 
-    const coinsEarned = price * action.amount;
+    const coinsEarned = new Decimal(price).mul(action.amount).toNumber();
     game.farmActivity = trackFarmActivity(
       "Coins Earned",
       game.farmActivity,
@@ -96,7 +96,7 @@ export function sellCrop({
       new Decimal(amount),
     );
 
-    game.coins = game.coins + coinsEarned;
+    game.coins = new Decimal(game.coins).add(coinsEarned).toNumber();
     game.inventory[action.crop] = setPrecision(
       (game.inventory[action.crop] ?? new Decimal(0)).sub(amount),
     );

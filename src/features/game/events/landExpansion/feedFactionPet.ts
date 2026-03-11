@@ -44,8 +44,8 @@ export const getKingdomPetBoost = (
   let pawShieldBoost = 0;
   const boostUsed: { name: BoostName; value: string }[] = [];
   if (isPawShieldActive(game)) {
-    pawShieldBoost = marks * 0.25;
-    boosts["Paw Shield"] = `+${0.25 * 100}%`;
+    pawShieldBoost = new Decimal(marks).mul(0.25).toNumber();
+    boosts["Paw Shield"] = `+${new Decimal(0.25).mul(100).toNumber()}%`;
     boostUsed.push({ name: "Paw Shield", value: "+25%" });
   }
 
@@ -87,10 +87,10 @@ export const getTotalXPForRequest = (
   }
 
   if (isPawShieldActive(game)) {
-    foodXP *= 1.25;
+    foodXP = new Decimal(foodXP).mul(1.25).toNumber();
   }
 
-  return foodXP * quantity * amount;
+  return new Decimal(foodXP).mul(quantity).mul(amount).toNumber();
 };
 
 export type FeedFactionPetAction = {
@@ -160,15 +160,15 @@ export function feedFactionPet({
       stateCopy,
       baseReward,
     );
-    const totalAmount = baseReward + boostAmount;
+    const totalAmount = new Decimal(baseReward).add(boostAmount).toNumber();
 
     stateCopy.inventory.Mark = marksBalance.add(totalAmount);
     request.dailyFulfilled[day] = fulfilled + amount;
 
     stateCopy.faction.history[week] = {
       ...leaderboard,
-      score: leaderboard.score + totalAmount,
-      petXP: leaderboard.petXP + totalXP,
+      score: new Decimal(leaderboard.score).add(totalAmount).toNumber(),
+      petXP: new Decimal(leaderboard.petXP).add(totalXP).toNumber(),
     };
 
     stateCopy.boostsUsedAt = updateBoostUsed({

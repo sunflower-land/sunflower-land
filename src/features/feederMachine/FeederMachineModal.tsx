@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
@@ -66,7 +67,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const lessFunds = (amount = 1) => {
     if (!coins) return;
 
-    return state.coins < coins * amount;
+    return new Decimal(state.coins).lessThan(new Decimal(coins).mul(amount));
   };
 
   const mix = (amount = 1) => {

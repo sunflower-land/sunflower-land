@@ -76,7 +76,7 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
     game,
   });
   if (superTotemActive || timeWarpTotemActive) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     if (superTotemActive)
       boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (timeWarpTotemActive)
@@ -84,17 +84,17 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
   if (game.bumpkin.skills["Iron Hustle"]) {
-    totalSeconds = totalSeconds * 0.7;
+    totalSeconds = new Decimal(totalSeconds).mul(0.7).toNumber();
     boostsUsed.push({ name: "Iron Hustle", value: "x0.7" });
   }
 
@@ -166,7 +166,7 @@ export function getIronDropAmount({
   }
 
   if (isCollectibleBuilt({ name: "Iron Idol", game })) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Iron Idol", value: "+1" });
   }
 
@@ -186,12 +186,12 @@ export function getIronDropAmount({
   }
 
   if (game.bumpkin.skills["Ferrous Favor"]) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Ferrous Favor", value: "+1" });
   }
 
   if (getPrngChance(20, "Native")) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Native", value: "+1" });
   }
 
@@ -267,7 +267,7 @@ export function getIronDropAmount({
   }
 
   const multiplier = rock.multiplier ?? 1;
-  amount *= multiplier;
+  amount = new Decimal(amount).mul(multiplier).toNumber();
 
   if (rock.tier === 2) {
     amount += 0.5;

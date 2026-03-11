@@ -77,7 +77,9 @@ export function getReelsPackGemPrice({
   // Sum the cost of each pack at the incremented price scale
   let totalPrice = 0;
   for (let i = 0; i < packs; i++) {
-    totalPrice += basePrice * gemMultiplier ** (timesBoughtToday + i);
+    totalPrice = new Decimal(totalPrice)
+      .add(new Decimal(basePrice).mul(gemMultiplier ** (timesBoughtToday + i)))
+      .toNumber();
   }
 
   return totalPrice;
@@ -142,7 +144,9 @@ export function castRod({
         };
       }
 
-      extraReels.count += EXTRA_REELS_AMOUNT * packsBought;
+      extraReels.count += new Decimal(EXTRA_REELS_AMOUNT)
+        .mul(packsBought)
+        .toNumber();
     }
 
     const todayAttempts = game.fishing.dailyAttempts?.[today] ?? 0;
@@ -200,7 +204,7 @@ export function castRod({
       }
 
       const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
-      const chumRequired = chumAmount * multiplier;
+      const chumRequired = new Decimal(chumAmount).mul(multiplier).toNumber();
 
       if (inventoryChum.lt(chumRequired)) {
         throw new Error(

@@ -152,7 +152,7 @@ describe("boosts", () => {
         now,
       }),
     ).toEqual({
-      price: CROPS.Sunflower.sellPrice * 1.1,
+      price: new Decimal(CROPS.Sunflower.sellPrice).mul(1.1).toNumber(),
       boostsUsed: [{ name: "Coin Swindler", value: "+0.1" }],
     });
   });

@@ -34,12 +34,12 @@ export const getSellPrice = (
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Treasure Map", game })) {
-    price += sellPrice * 0.2;
+    price = new Decimal(price).add(new Decimal(sellPrice).mul(0.2)).toNumber();
     boostsUsed.push({ name: "Treasure Map", value: "+20%" });
   }
 
   if (isCollectibleBuilt({ name: "Camel", game })) {
-    price += sellPrice * 0.3;
+    price = new Decimal(price).add(new Decimal(sellPrice).mul(0.3)).toNumber();
     boostsUsed.push({ name: "Camel", value: "+30%" });
   }
 
@@ -74,7 +74,7 @@ export function sellTreasure({ state, action }: Options) {
     const { price, boostsUsed } = isExoticCrop(item)
       ? { price: EXOTIC_CROPS[item].sellPrice, boostsUsed: [] }
       : getSellPrice(SELLABLES[item], game);
-    const earned = price * amount;
+    const earned = new Decimal(price).mul(amount).toNumber();
     game.farmActivity = trackFarmActivity(
       "Coins Earned",
       game.farmActivity,

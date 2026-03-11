@@ -102,7 +102,7 @@ export const TradeableSummary: React.FC<{
         >
           <span className="text-xs">{t("marketplace.label.pricePerUnit")}</span>
           <p className="text-xs font-secondary">{`${formatNumber(
-            sfl / quantity,
+            new Decimal(sfl).div(quantity),
             {
               decimalPlaces: 4,
               showTrailingZeros: true,

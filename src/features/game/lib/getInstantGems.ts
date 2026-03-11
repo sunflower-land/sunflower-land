@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 
 const SECONDS_TO_GEMS = {
@@ -45,7 +46,7 @@ export function getInstantGems({
 
   if (gemsSpentToday >= 100) {
     const multiplier = Math.floor(gemsSpentToday / 100);
-    gems += Math.floor(0.2 * multiplier * gems);
+    gems += Math.floor(new Decimal(0.2).mul(multiplier).mul(gems).toNumber());
   }
 
   return gems;

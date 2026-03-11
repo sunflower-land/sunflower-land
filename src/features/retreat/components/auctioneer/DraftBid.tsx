@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -25,7 +26,7 @@ const INPUT_MAX_CHAR = 10;
 function getInitialTickets(auction: Auction, gameState: GameState) {
   const defaultTickets = 5;
 
-  if (gameState.balance.lt(auction.sfl * defaultTickets)) {
+  if (gameState.balance.lt(new Decimal(auction.sfl).mul(defaultTickets))) {
     return 1;
   }
 
@@ -33,7 +34,7 @@ function getInitialTickets(auction: Auction, gameState: GameState) {
     getKeys(auction.ingredients).some(
       (name) =>
         !gameState.inventory[name]?.gt(
-          (auction.ingredients[name] ?? 0) * defaultTickets,
+          new Decimal(auction.ingredients[name] ?? 0).mul(defaultTickets),
         ),
     )
   ) {
@@ -70,9 +71,13 @@ export const DraftBid: React.FC<Props> = ({
   const ingredient = getKeys(auction.ingredients)[0];
 
   // Validators for multi ingredient auctions. These auctions go up in multiples of tickets
-  const missingSFL = gameState.balance.lt(auction.sfl * tickets);
+  const missingSFL = gameState.balance.lt(
+    new Decimal(auction.sfl).mul(tickets),
+  );
   const missingIngredients = getKeys(auction.ingredients).some((name) =>
-    gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets),
+    gameState.inventory[name]?.lt(
+      new Decimal(auction.ingredients[name] ?? 0).mul(tickets),
+    ),
   );
 
   const getInputErrorMessage = () => {
@@ -121,7 +126,7 @@ export const DraftBid: React.FC<Props> = ({
               <div className={classNames("flex items-center  mb-1 mr-3")}>
                 <div>
                   <p className="mr-1 text-right text-sm">
-                    {auction.sfl * tickets}
+                    {new Decimal(auction.sfl).mul(tickets).toNumber()}
                   </p>
                 </div>
                 <img src={sflIcon} className="h-5" />
@@ -131,7 +136,9 @@ export const DraftBid: React.FC<Props> = ({
               <div className="flex items-center mb-1 mr-3" key={name}>
                 <div>
                   <p className={classNames("mr-1 text-right text-sm")}>
-                    {(auction.ingredients[name] ?? 0) * tickets}
+                    {new Decimal(auction.ingredients[name] ?? 0)
+                      .mul(tickets)
+                      .toNumber()}
                   </p>
                 </div>
                 <img src={ITEM_DETAILS[name].image} className="h-5" />
@@ -208,7 +215,7 @@ export const DraftBid: React.FC<Props> = ({
                 >
                   <div>
                     <p className="mr-1 text-right text-sm">
-                      {auction.sfl * tickets}
+                      {new Decimal(auction.sfl).mul(tickets).toNumber()}
                     </p>
                   </div>
                   <img src={sflIcon} className="h-5" />
@@ -220,11 +227,15 @@ export const DraftBid: React.FC<Props> = ({
                     <p
                       className={classNames("mr-1 text-right text-sm", {
                         ["text-red-500"]: gameState.inventory[name]?.lt(
-                          (auction.ingredients[name] ?? 0) * tickets,
+                          new Decimal(auction.ingredients[name] ?? 0).mul(
+                            tickets,
+                          ),
                         ),
                       })}
                     >
-                      {(auction.ingredients[name] ?? 0) * tickets}
+                      {new Decimal(auction.ingredients[name] ?? 0)
+                        .mul(tickets)
+                        .toNumber()}
                     </p>
                   </div>
                   <img src={ITEM_DETAILS[name].image} className="h-5" />

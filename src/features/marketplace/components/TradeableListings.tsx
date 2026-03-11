@@ -23,7 +23,6 @@ import {
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 import { ResourceTable } from "./ResourceTable";
-import { formatNumber } from "lib/utils/formatNumber";
 import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
@@ -385,11 +384,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                     id: listing.id,
                     price: listing.sfl,
                     quantity: listing.quantity,
-                    pricePerUnit: Number(
-                      formatNumber(listing.sfl / listing.quantity, {
-                        decimalPlaces: 4,
-                      }),
-                    ),
+                    pricePerUnit: new Decimal(listing.sfl)
+                      .div(listing.quantity)
+                      .toDecimalPlaces(4)
+                      .toNumber(),
                     createdBy: listing.listedBy,
                   }))}
                   inventoryCount={count}

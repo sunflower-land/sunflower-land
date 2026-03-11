@@ -401,7 +401,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             >
               <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
               <p className="text-xs font-secondary">{`${formatNumber(
-                price * MARKETPLACE_TAX,
+                new Decimal(price).mul(MARKETPLACE_TAX),
                 {
                   decimalPlaces: 4,
                   showTrailingZeros: true,

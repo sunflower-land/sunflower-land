@@ -249,9 +249,9 @@ export const ResourceList: React.FC<Props> = ({
             <div className="flex-1 flex items-end">
               <div className="flex flex-col">
                 <div className="flex items-center justify-end">
-                  {new Decimal(pricePerUnit * quantity).greaterThan(
-                    MAX_SFL,
-                  ) && (
+                  {new Decimal(pricePerUnit)
+                    .mul(quantity)
+                    .greaterThan(MAX_SFL) && (
                     <Label type="danger" className="my-1 ml-2 mr-1">
                       {t("bumpkinTrade.max", { max: MAX_SFL })}
                     </Label>
@@ -377,7 +377,7 @@ export const ResourceList: React.FC<Props> = ({
           >
             <span className="text-xs"> {t("marketplace.totalItems")}</span>
             <p className="text-xs font-secondary">{`${formatNumber(
-              quantity * multiple,
+              new Decimal(quantity).mul(multiple).toNumber(),
             )} ${itemName}`}</p>
           </div>
         )}

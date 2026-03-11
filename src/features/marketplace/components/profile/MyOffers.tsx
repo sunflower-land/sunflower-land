@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
@@ -183,7 +184,9 @@ export const MyOffers: React.FC = () => {
 
                   const quantity = offer.items[itemName];
                   const price = offer.sfl;
-                  const unitPrice = price / (quantity ?? 1);
+                  const unitPrice = new Decimal(price)
+                    .div(quantity ?? 1)
+                    .toNumber();
 
                   return (
                     <MyTableRow

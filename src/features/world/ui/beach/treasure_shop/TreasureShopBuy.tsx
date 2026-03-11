@@ -58,7 +58,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const lessFunds = (amount = 1) => {
     if (!price) return;
 
-    return state.coins < price * amount;
+    return state.coins < new Decimal(price).mul(amount).toNumber();
   };
   const selectedIngredients = selected.ingredients(state.bumpkin.skills);
   const lessIngredients = (amount = 1) =>

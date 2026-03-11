@@ -112,7 +112,10 @@ export const getSellPrice = ({
     boostUsed.push({ name: "Coin Swindler", value: "+0.1" });
   }
 
-  return { price: price * multiplier, boostsUsed: boostUsed };
+  return {
+    price: new Decimal(price).mul(multiplier).toNumber(),
+    boostsUsed: boostUsed,
+  };
 };
 
 /**

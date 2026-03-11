@@ -57,7 +57,7 @@ export function getBuyPrice(
     return { price: 0, boostsUsed };
   }
 
-  let price = seed.price;
+  let price = new Decimal(seed.price);
 
   // Ladybug Suit 25% Onion Cost
   if (
@@ -65,24 +65,24 @@ export function getBuyPrice(
     isWearableActive({ name: "Ladybug Suit", game })
   ) {
     boostsUsed.push({ name: "Ladybug Suit", value: "x0.75" });
-    price = price * 0.75;
+    price = price.mul(0.75);
   }
 
   //LEGACY SKILL Contributor Artist Skill
 
-  if (price && inventory.Artist?.gte(1)) {
+  if (price.gt(0) && inventory.Artist?.gte(1)) {
     boostsUsed.push({ name: "Artist", value: "x0.9" });
-    price = price * 0.9;
+    price = price.mul(0.9);
   }
 
   if (name in FLOWER_SEEDS && bumpkin.skills["Flower Sale"]) {
     boostsUsed.push({ name: "Flower Sale", value: "x0.8" });
-    price = price * 0.8;
+    price = price.mul(0.8);
   }
 
   if (isPatchFruitSeed(name) && bumpkin.skills["Fruity Heaven"]) {
     boostsUsed.push({ name: "Fruity Heaven", value: "x0.9" });
-    price = price * 0.9;
+    price = price.mul(0.9);
   }
 
   if (
@@ -90,10 +90,10 @@ export function getBuyPrice(
     bumpkin.skills["Seedy Business"]
   ) {
     boostsUsed.push({ name: "Seedy Business", value: "x0.85" });
-    price = price * 0.85;
+    price = price.mul(0.85);
   }
 
-  return { price, boostsUsed };
+  return { price: price.toNumber(), boostsUsed };
 }
 
 export const isGreenhouseCropSeed = (
@@ -172,7 +172,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     }
 
     const { price, boostsUsed } = getBuyPrice(item, seed, stateCopy);
-    const totalExpenses = price * amount;
+    const totalExpenses = new Decimal(price).mul(amount).toNumber();
 
     if (totalExpenses && stateCopy.coins < totalExpenses) {
       throw new Error("Insufficient tokens");

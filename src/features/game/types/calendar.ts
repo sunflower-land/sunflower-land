@@ -228,7 +228,7 @@ export const getWeatherShop = (
   const convertIngredients = (ingredients: Record<string, number>) => {
     return Object.entries(ingredients).reduce(
       (acc, [name, amount]) => {
-        acc[name as InventoryItemName] = new Decimal(amount * multiplier);
+        acc[name as InventoryItemName] = new Decimal(amount).mul(multiplier);
         return acc;
       },
       {} as Record<InventoryItemName, Decimal>,
@@ -243,7 +243,9 @@ export const getWeatherShop = (
         convertIngredients(
           WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].ingredients,
         ),
-      price: WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].coins * multiplier,
+      price: new Decimal(WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].coins)
+        .mul(multiplier)
+        .toNumber(),
       type: "weather",
     },
     Mangrove: {
@@ -251,7 +253,9 @@ export const getWeatherShop = (
       description: translate("description.mangrove"),
       ingredients: () =>
         convertIngredients(WEATHER_SHOP_ITEM_COSTS["Mangrove"].ingredients),
-      price: WEATHER_SHOP_ITEM_COSTS["Mangrove"].coins * multiplier,
+      price: new Decimal(WEATHER_SHOP_ITEM_COSTS["Mangrove"].coins)
+        .mul(multiplier)
+        .toNumber(),
       type: "weather",
     },
     "Thermal Stone": {
@@ -261,7 +265,9 @@ export const getWeatherShop = (
         convertIngredients(
           WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].ingredients,
         ),
-      price: WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].coins * multiplier,
+      price: new Decimal(WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].coins)
+        .mul(multiplier)
+        .toNumber(),
       type: "weather",
     },
     "Protective Pesticide": {
@@ -271,7 +277,9 @@ export const getWeatherShop = (
         convertIngredients(
           WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].ingredients,
         ),
-      price: WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].coins * multiplier,
+      price: new Decimal(WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].coins)
+        .mul(multiplier)
+        .toNumber(),
       type: "weather",
     },
   };

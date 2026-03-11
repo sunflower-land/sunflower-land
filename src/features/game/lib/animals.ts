@@ -1,4 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
+import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 import {
   ANIMAL_FOOD_EXPERIENCE,
@@ -373,7 +374,7 @@ export function getResourceDropAmount({
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let amount = baseAmount;
+  let amount = new Decimal(baseAmount);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const { bumpkin, buds = {} } = game;
@@ -386,7 +387,7 @@ export function getResourceDropAmount({
   if (isChicken && resource === "Egg") {
     const { amount: eggBoost, boostsUsed: eggBoostsUsed } =
       getEggYieldBoosts(game);
-    amount += eggBoost;
+    amount = amount.add(eggBoost);
     boostsUsed.push(...eggBoostsUsed);
   }
 
@@ -394,7 +395,7 @@ export function getResourceDropAmount({
   if (isChicken && resource === "Feather") {
     const { amount: featherBoost, boostsUsed: featherBoostsUsed } =
       getFeatherYieldBoosts(game);
-    amount += featherBoost;
+    amount = amount.add(featherBoost);
     boostsUsed.push(...featherBoostsUsed);
   }
 
@@ -402,7 +403,7 @@ export function getResourceDropAmount({
   if (isSheep && resource === "Wool") {
     const { amount: woolBoost, boostsUsed: woolBoostsUsed } =
       getWoolYieldBoosts(game);
-    amount += woolBoost;
+    amount = amount.add(woolBoost);
     boostsUsed.push(...woolBoostsUsed);
   }
 
@@ -410,7 +411,7 @@ export function getResourceDropAmount({
   if (isSheep && resource === "Merino Wool") {
     const { amount: merinoWoolBoost, boostsUsed: merinoWoolBoostsUsed } =
       getMerinoWoolYieldBoosts(game);
-    amount += merinoWoolBoost;
+    amount = amount.add(merinoWoolBoost);
     boostsUsed.push(...merinoWoolBoostsUsed);
   }
 
@@ -418,7 +419,7 @@ export function getResourceDropAmount({
   if (isCow && resource === "Milk") {
     const { amount: milkBoost, boostsUsed: milkBoostsUsed } =
       getMilkYieldBoosts(game);
-    amount += milkBoost;
+    amount = amount.add(milkBoost);
     boostsUsed.push(...milkBoostsUsed);
   }
 
@@ -426,7 +427,7 @@ export function getResourceDropAmount({
   if (isCow && resource === "Leather") {
     const { amount: leatherBoost, boostsUsed: leatherBoostsUsed } =
       getLeatherYieldBoosts(game);
-    amount += leatherBoost;
+    amount = amount.add(leatherBoost);
     boostsUsed.push(...leatherBoostsUsed);
   }
 
@@ -436,10 +437,10 @@ export function getResourceDropAmount({
     // For Chickens (Eggs) - always applies
     if (isChicken && resource === "Egg") {
       if (bumpkin.skills["Double Bale"]) {
-        amount += baleBoost * 2;
+        amount = amount.add(baleBoost * 2);
         boostsUsed.push({ name: "Double Bale", value: "+0.2" });
       } else {
-        amount += baleBoost;
+        amount = amount.add(baleBoost);
       }
     }
 
@@ -449,10 +450,10 @@ export function getResourceDropAmount({
       ((isSheep && resource === "Wool") || (isCow && resource === "Milk"))
     ) {
       if (bumpkin.skills["Double Bale"]) {
-        amount += baleBoost * 2;
+        amount = amount.add(baleBoost * 2);
         boostsUsed.push({ name: "Double Bale", value: "+0.2" });
       } else {
-        amount += baleBoost;
+        amount = amount.add(baleBoost);
       }
       boostsUsed.push({ name: "Bale Economy", value: "+0.1" });
     }
@@ -461,24 +462,24 @@ export function getResourceDropAmount({
 
   // Cattlegrim boosts all produce
   if (isWearableActive({ name: "Cattlegrim", game })) {
-    amount += 0.25;
+    amount = amount.add(0.25);
     boostsUsed.push({ name: "Cattlegrim", value: "+0.25" });
   }
 
   // Barn Manager boosts all produce
   if (game.inventory["Barn Manager"]?.gt(0)) {
-    amount += 0.1;
+    amount = amount.add(0.1);
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
-  amount += yieldBoost;
+  amount = amount.add(yieldBoost);
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (multiplier) amount *= multiplier;
+  if (multiplier) amount = amount.mul(multiplier);
 
-  return { amount: Number(amount.toFixed(2)), boostsUsed };
+  return { amount: amount.toDecimalPlaces(2).toNumber(), boostsUsed };
 }
 
 export function getBoostedFoodQuantity({

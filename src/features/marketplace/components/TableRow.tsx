@@ -123,7 +123,7 @@ export const TableRow: React.FC<RowProps> = ({
               {isResource && (
                 <div className="text-[16px] sm:text-xxs w-full">
                   {t("bumpkinTrade.price/unit", {
-                    price: formatNumber(price / Number(quantity), {
+                    price: formatNumber(new Decimal(price).div(quantity), {
                       decimalPlaces: 4,
                     }),
                   })}

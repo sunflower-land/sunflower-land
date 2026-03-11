@@ -262,7 +262,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     let hasRequirements = false;
     if (requirements) {
-      const hasCoins = state.coins > requirements.coins * 2;
+      const hasCoins = new Decimal(state.coins).gte(
+        new Decimal(requirements.coins).mul(2),
+      );
       const hasIngredients = getKeys(requirements.ingredients).every((name) =>
         state.inventory[name]?.gte(requirements.ingredients[name]?.mul(2) ?? 0),
       );

@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
@@ -187,7 +188,10 @@ export const MyListings: React.FC = () => {
                       usdPrice={usd}
                       isFulfilled={!!listing.fulfilledAt || !!listing.boughtAt}
                       isResource={isResource}
-                      fee={listing.tax ?? listing.sfl * MARKETPLACE_TAX}
+                      fee={
+                        listing.tax ??
+                        new Decimal(listing.sfl).mul(MARKETPLACE_TAX).toNumber()
+                      }
                       onCancel={() => setRemoveListingId(id)}
                       onRowClick={() =>
                         navigate(

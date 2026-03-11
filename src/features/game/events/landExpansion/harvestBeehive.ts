@@ -30,10 +30,10 @@ type Options = {
 export const calculateSwarmBoost = (amount: number, game: GameState) => {
   const { bumpkin } = game;
 
-  let boost = amount + 0.2;
+  let boost = new Decimal(amount).add(0.2).toNumber();
 
   if (bumpkin.skills["Pollen Power Up"]) {
-    boost += 0.1; // 0.3
+    boost = new Decimal(boost).add(0.1).toNumber(); // 0.3
   }
 
   return boost;
@@ -68,22 +68,22 @@ export const getHoneyMultiplier = (game: GameState) => {
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Bee Suit", game })) {
-    multiplier += 0.1;
+    multiplier = new Decimal(multiplier).add(0.1).toNumber();
     boostsUsed.push({ name: "Bee Suit", value: "+0.1" });
   }
 
   if (isWearableActive({ name: "Honeycomb Shield", game })) {
-    multiplier += 1;
+    multiplier = new Decimal(multiplier).add(1).toNumber();
     boostsUsed.push({ name: "Honeycomb Shield", value: "+1" });
   }
 
   if (bumpkin.skills["Sweet Bonus"]) {
-    multiplier += 0.1;
+    multiplier = new Decimal(multiplier).add(0.1).toNumber();
     boostsUsed.push({ name: "Sweet Bonus", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "King of Bears", game })) {
-    multiplier += 0.25;
+    multiplier = new Decimal(multiplier).add(0.25).toNumber();
     boostsUsed.push({ name: "King of Bears", value: "+0.25" });
   }
 
@@ -96,7 +96,10 @@ const getTotalHoneyProduced = (
 ): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { multiplier, boostsUsed } = getHoneyMultiplier(game);
 
-  return { amount: honeyProduced * multiplier, boostsUsed };
+  return {
+    amount: new Decimal(honeyProduced).mul(multiplier).toNumber(),
+    boostsUsed,
+  };
 };
 
 export function harvestBeehive({

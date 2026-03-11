@@ -101,11 +101,11 @@ export function generateBountyTicket({
   Object.values(chapterBoost).forEach((item) => {
     if (isCollectible(item)) {
       if (isCollectibleBuilt({ game, name: item })) {
-        amount += 1;
+        amount = new Decimal(amount).add(1).toNumber();
       }
     } else {
       if (isWearableActive({ game, name: item })) {
-        amount += 1;
+        amount = new Decimal(amount).add(1).toNumber();
       }
     }
   });
@@ -129,7 +129,7 @@ export function generateBountyCoins({
     multiplier += 0.5;
   }
 
-  coins *= multiplier;
+  coins = new Decimal(coins).mul(multiplier).toNumber();
   return { coins };
 }
 

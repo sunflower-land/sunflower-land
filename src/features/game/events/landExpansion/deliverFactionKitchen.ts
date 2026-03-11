@@ -31,7 +31,10 @@ export const getKingdomKitchenBoost = (
   );
   const [rankBoost, rankLabels] = getFactionRankBoostAmount(game, marks);
 
-  return [wearablesBoost + rankBoost, { ...wearablesLabels, ...rankLabels }];
+  return [
+    new Decimal(wearablesBoost).add(rankBoost).toNumber(),
+    { ...wearablesLabels, ...rankLabels },
+  ];
 };
 
 export type DeliverFactionKitchenAction = {
@@ -79,7 +82,7 @@ export function deliverFactionKitchen({
     const request = resources[action.resourceIndex];
     const { amount = 1 } = action;
     const resourceBalance = inventory[request.item] ?? new Decimal(0);
-    const requestAmount = request.amount * amount;
+    const requestAmount = new Decimal(request.amount).mul(amount).toNumber();
 
     if (resourceBalance.lt(requestAmount)) {
       throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INSUFFICIENT_RESOURCES);
@@ -94,7 +97,7 @@ export function deliverFactionKitchen({
 
     const points = calculatePoints(fulfilledToday, BASE_POINTS, amount);
     const [boostPoints] = getKingdomKitchenBoost(stateCopy, points);
-    const totalPoints = points + boostPoints;
+    const totalPoints = new Decimal(points).add(boostPoints).toNumber();
 
     const leaderboard = faction.history[week] ?? {
       score: 0,
@@ -103,7 +106,7 @@ export function deliverFactionKitchen({
 
     faction.history[week] = {
       ...leaderboard,
-      score: leaderboard.score + totalPoints,
+      score: new Decimal(leaderboard.score).add(totalPoints).toNumber(),
     };
     inventory["Mark"] = marksBalance.plus(totalPoints);
 

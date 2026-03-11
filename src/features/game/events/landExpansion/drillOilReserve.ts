@@ -111,16 +111,16 @@ export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ game, name: "Dev Wrench" })) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     boostsUsed.push({ name: "Dev Wrench", value: "x0.5" });
   }
   if (game.bumpkin.skills["Oil Be Back"]) {
-    totalSeconds = totalSeconds * 0.8;
+    totalSeconds = new Decimal(totalSeconds).mul(0.8).toNumber();
     boostsUsed.push({ name: "Oil Be Back", value: "x0.8" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Stag Shrine", value: "x0.75" });
   }
 

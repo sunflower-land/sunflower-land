@@ -89,7 +89,7 @@ export function getGoldRecoveryTimeForDisplay({
   });
 
   if (superTotemActive || timeWarpTotemActive) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     if (superTotemActive)
       boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (timeWarpTotemActive)
@@ -97,27 +97,27 @@ export function getGoldRecoveryTimeForDisplay({
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isWearableActive({ name: "Pickaxe Shark", game })) {
-    totalSeconds = totalSeconds * 0.85;
+    totalSeconds = new Decimal(totalSeconds).mul(0.85).toNumber();
     boostsUsed.push({ name: "Pickaxe Shark", value: "x0.85" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
   if (game.bumpkin.skills["Midas Sprint"]) {
-    totalSeconds = totalSeconds * 0.9;
+    totalSeconds = new Decimal(totalSeconds).mul(0.9).toNumber();
     boostsUsed.push({ name: "Midas Sprint", value: "x0.9" });
   }
 
   if (game.bumpkin.skills["Midas Rush"]) {
-    totalSeconds = totalSeconds * 0.8;
+    totalSeconds = new Decimal(totalSeconds).mul(0.8).toNumber();
     boostsUsed.push({ name: "Midas Rush", value: "x0.8" });
   }
 
@@ -199,7 +199,7 @@ export function getGoldDropAmount({
       criticalHitName: "Native",
     })
   ) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Native", value: "+1" });
   }
 
@@ -290,7 +290,7 @@ export function getGoldDropAmount({
   }
 
   const multiplier = rock.multiplier ?? 1;
-  amount *= multiplier;
+  amount = new Decimal(amount).mul(multiplier).toNumber();
   if (rock.tier === 2) {
     amount += 0.5;
     boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });

@@ -122,7 +122,7 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const lessFunds = (amount = 1) => {
-    return coins < price * amount;
+    return coins < new Decimal(price).mul(amount).toNumber();
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);

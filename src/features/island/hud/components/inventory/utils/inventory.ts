@@ -69,7 +69,9 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
         const amount = quantity ?? 0;
         const collection = listing.collection ?? getCollectionName(itemName);
 
-        acc[collection][itemName] = (acc[collection][itemName] ?? 0) + amount;
+        acc[collection][itemName] = new Decimal(acc[collection][itemName] ?? 0)
+          .add(amount)
+          .toNumber();
       });
 
       return acc;

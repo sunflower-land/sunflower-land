@@ -99,20 +99,20 @@ export function sellGarbage({ state, action }: Options) {
     // Handle coins
     const { sellPrice = 0 } = GARBAGE[item];
     if (sellPrice) {
-      const coinsEarned = sellPrice * amount;
+      const coinsEarned = new Decimal(sellPrice).mul(amount).toNumber();
       game.farmActivity = trackFarmActivity(
         "Coins Earned",
         game.farmActivity,
         new Decimal(coinsEarned),
       );
-      game.coins += coinsEarned;
+      game.coins = new Decimal(game.coins).add(coinsEarned).toNumber();
     }
 
     // Handle gems
     const gems = GARBAGE[item].gems ?? 0;
     if (gems) {
       const previous = inventory.Gem ?? new Decimal(0);
-      inventory.Gem = previous.add(gems * amount);
+      inventory.Gem = previous.add(new Decimal(gems).mul(amount));
     }
 
     // Handle additional items

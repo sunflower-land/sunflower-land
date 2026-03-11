@@ -146,19 +146,19 @@ const getMultiplicativeCropYield = ({
     isWearableActive({ name: "Green Amulet", game }) &&
     criticalDrop("Green Amulet", 10)
   ) {
-    amount *= 10;
+    amount = new Decimal(amount).mul(10).toNumber();
     boostsUsed.push({ name: "Green Amulet", value: "x10" });
   }
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt({ name: "Golden Cauliflower", game })
   ) {
-    amount *= 2;
+    amount = new Decimal(amount).mul(2).toNumber();
     boostsUsed.push({ name: "Golden Cauliflower", value: "x2" });
   }
 
   if (crop === "Carrot" && isCollectibleBuilt({ name: "Easter Bunny", game })) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     boostsUsed.push({ name: "Easter Bunny", value: "x1.2" });
   }
 
@@ -166,12 +166,12 @@ const getMultiplicativeCropYield = ({
     crop === "Pumpkin" &&
     isCollectibleBuilt({ name: "Victoria Sisters", game })
   ) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     boostsUsed.push({ name: "Victoria Sisters", value: "x1.2" });
   }
 
   if (crop === "Parsnip" && isWearableActive({ name: "Parsnip", game })) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     boostsUsed.push({ name: "Parsnip", value: "x1.2" });
   }
 
@@ -179,7 +179,7 @@ const getMultiplicativeCropYield = ({
     crop === "Beetroot" &&
     isWearableActive({ name: "Beetroot Amulet", game })
   ) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     boostsUsed.push({ name: "Beetroot Amulet", value: "x1.2" });
   }
 
@@ -187,7 +187,7 @@ const getMultiplicativeCropYield = ({
     crop === "Sunflower" &&
     isWearableActive({ name: "Sunflower Amulet", game })
   ) {
-    amount *= 1.1;
+    amount = new Decimal(amount).mul(1.1).toNumber();
     boostsUsed.push({ name: "Sunflower Amulet", value: "x1.1" });
   }
 
@@ -195,13 +195,13 @@ const getMultiplicativeCropYield = ({
   const scarecrow = isCollectibleBuilt({ name: "Scarecrow", game });
   const kuebiko = isCollectibleBuilt({ name: "Kuebiko", game });
   if (scarecrow || kuebiko) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     if (kuebiko) boostsUsed.push({ name: "Kuebiko", value: "x1.2" });
     else if (scarecrow) boostsUsed.push({ name: "Scarecrow", value: "x1.2" });
   }
 
   if (inventory.Coder?.gte(1)) {
-    amount *= 1.2;
+    amount = new Decimal(amount).mul(1.2).toNumber();
     boostsUsed.push({ name: "Coder", value: "x1.2" });
   }
 
@@ -240,7 +240,7 @@ export function getCropYieldAmount({
     prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
   if (isBuffActive({ buff: "Power hour", game })) {
-    amount += 0.2;
+    amount = new Decimal(amount).add(0.2).toNumber();
   }
 
   if (
@@ -248,7 +248,7 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Peeled Potato", game }) &&
     criticalDrop("Peeled Potato", 20)
   ) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Peeled Potato", value: "+1" });
   }
 
@@ -257,7 +257,7 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Potent Potato", game }) &&
     criticalDrop("Potent Potato", 10 / 3)
   ) {
-    amount += 10;
+    amount = new Decimal(amount).add(10).toNumber();
     boostsUsed.push({ name: "Potent Potato", value: "+10" });
   }
 
@@ -266,7 +266,7 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
     criticalDrop("Stellar Sunflower", 10 / 3)
   ) {
-    amount += 10;
+    amount = new Decimal(amount).add(10).toNumber();
     boostsUsed.push({ name: "Stellar Sunflower", value: "+10" });
   }
 
@@ -275,23 +275,23 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Radical Radish", game }) &&
     criticalDrop("Radical Radish", 10 / 3)
   ) {
-    amount += 10;
+    amount = new Decimal(amount).add(10).toNumber();
     boostsUsed.push({ name: "Radical Radish", value: "+10" });
   }
 
   if (crop === "Cabbage") {
     // Yields + 0.25 Cabagge with Cabbage boy and +0.5 if Cabbage Boy and Girl are built
     if (isCollectibleBuilt({ name: "Cabbage Boy", game })) {
-      amount += 0.25;
+      amount = new Decimal(amount).add(0.25).toNumber();
 
       if (isCollectibleBuilt({ name: "Cabbage Girl", game })) {
-        amount += 0.25;
+        amount = new Decimal(amount).add(0.25).toNumber();
         boostsUsed.push({ name: "Cabbage Girl", value: "+0.25" });
       }
       boostsUsed.push({ name: "Cabbage Boy", value: "+0.25" });
     } else if (isCollectibleBuilt({ name: "Karkinos", game })) {
       // Yields +0.1 Cabbage with Karkinos
-      amount += 0.1;
+      amount = new Decimal(amount).add(0.1).toNumber();
       boostsUsed.push({ name: "Karkinos", value: "+0.1" });
     }
   }
@@ -300,12 +300,12 @@ export function getCropYieldAmount({
     crop === "Carrot" &&
     isCollectibleBuilt({ name: "Pablo The Bunny", game })
   ) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Pablo The Bunny", value: "+0.1" });
   }
 
   if (crop === "Kale" && isCollectibleBuilt({ name: "Foliant", game })) {
-    amount += 0.2;
+    amount = new Decimal(amount).add(0.2).toNumber();
     boostsUsed.push({ name: "Foliant", value: "+0.2" });
   }
 
@@ -313,12 +313,12 @@ export function getCropYieldAmount({
     crop === "Eggplant" &&
     isCollectibleBuilt({ name: "Purple Trail", game })
   ) {
-    amount += 0.2;
+    amount = new Decimal(amount).add(0.2).toNumber();
     boostsUsed.push({ name: "Purple Trail", value: "+0.2" });
   }
 
   if (crop === "Eggplant" && isCollectibleBuilt({ name: "Maximus", game })) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Maximus", value: "+1" });
   }
 
@@ -326,7 +326,7 @@ export function getCropYieldAmount({
     crop === "Eggplant" &&
     isWearableActive({ name: "Eggplant Onesie", game })
   ) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Eggplant Onesie", value: "+0.1" });
   }
 
@@ -334,32 +334,32 @@ export function getCropYieldAmount({
     crop === "Artichoke" &&
     isCollectibleBuilt({ name: "Giant Artichoke", game })
   ) {
-    amount += 2;
+    amount = new Decimal(amount).add(2).toNumber();
     boostsUsed.push({ name: "Giant Artichoke", value: "+2" });
   }
 
   if (crop === "Yam" && isCollectibleBuilt({ name: "Giant Yam", game })) {
-    amount += 0.5;
+    amount = new Decimal(amount).add(0.5).toNumber();
     boostsUsed.push({ name: "Giant Yam", value: "+0.5" });
   }
 
   if (crop === "Soybean" && isWearableActive({ name: "Tofu Mask", game })) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Tofu Mask", value: "+0.1" });
   }
 
   if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Corn Onesie", value: "+0.1" });
   }
 
   if (crop === "Corn" && isWearableActive({ name: "Corn Silk Hair", game })) {
-    amount += 2;
+    amount = new Decimal(amount).add(2).toNumber();
     boostsUsed.push({ name: "Corn Silk Hair", value: "+2" });
   }
 
   if (crop === "Wheat" && isWearableActive({ name: "Sickle", game })) {
-    amount += 2;
+    amount = new Decimal(amount).add(2).toNumber();
     boostsUsed.push({ name: "Sickle", value: "+2" });
   }
 
@@ -368,20 +368,20 @@ export function getCropYieldAmount({
     crop === "Barley" &&
     isCollectibleBuilt({ name: "Sheaf of Plenty", game })
   ) {
-    amount += 2;
+    amount = new Decimal(amount).add(2).toNumber();
     boostsUsed.push({ name: "Sheaf of Plenty", value: "+2" });
   }
 
   if (crop === "Kale" && isCollectibleBuilt({ name: "Giant Kale", game })) {
-    amount += 2;
+    amount = new Decimal(amount).add(2).toNumber();
     boostsUsed.push({ name: "Giant Kale", value: "+2" });
   }
 
   if (plot?.fertiliser?.name === "Sprout Mix") {
-    amount += 0.2;
+    amount = new Decimal(amount).add(0.2).toNumber();
     boostsUsed.push({ name: "Sprout Mix", value: "+0.2" });
     if (isCollectibleBuilt({ name: "Knowledge Crab", game })) {
-      amount += 0.2;
+      amount = new Decimal(amount).add(0.2).toNumber();
       boostsUsed.push({ name: "Knowledge Crab", value: "+0.2" });
     }
   }
@@ -392,7 +392,7 @@ export function getCropYieldAmount({
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Blossom Ward", game })
   ) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Blossom Ward", value: "+1" });
   }
 
@@ -401,18 +401,18 @@ export function getCropYieldAmount({
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Frozen Heart", game })
   ) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Frozen Heart", value: "+1" });
   }
 
   // Generic crop additions
   if (isWearableActive({ name: "Infernal Pitchfork", game })) {
-    amount += 3;
+    amount = new Decimal(amount).add(3).toNumber();
     boostsUsed.push({ name: "Infernal Pitchfork", value: "+3" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
@@ -425,17 +425,17 @@ export function getCropYieldAmount({
       name: FACTION_ITEMS[factionName].wings,
     })
   ) {
-    amount += 0.25;
+    amount = new Decimal(amount).add(0.25).toNumber();
     boostsUsed.push({ name: FACTION_ITEMS[factionName].wings, value: "+0.25" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds ?? {}, crop);
-  amount += yieldBoost;
+  amount = new Decimal(amount).add(yieldBoost).toNumber();
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
-    amount += 0.5;
+    amount = new Decimal(amount).add(0.5).toNumber();
     boostsUsed.push({ name: "Hoot", value: "+0.5" });
   }
 
@@ -474,10 +474,10 @@ export function getCropYieldAmount({
         setAOELastUsed(updatedAoe, "Scary Mike", { dx, dy }, createdAt);
 
         if (game.bumpkin.skills["Horror Mike"]) {
-          amount = amount + 0.3;
+          amount = new Decimal(amount).add(0.3).toNumber();
           boostsUsed.push({ name: "Horror Mike", value: "+0.3" });
         } else {
-          amount = amount + 0.2;
+          amount = new Decimal(amount).add(0.2).toNumber();
         }
       }
       boostsUsed.push({ name: "Scary Mike", value: "+0.2" });
@@ -521,7 +521,7 @@ export function getCropYieldAmount({
 
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Sir Goldensnout", { dx, dy }, createdAt);
-        amount = amount + 0.5;
+        amount = new Decimal(amount).add(0.5).toNumber();
       }
       boostsUsed.push({ name: "Sir Goldensnout", value: "+0.5" });
     }
@@ -576,10 +576,10 @@ export function getCropYieldAmount({
           createdAt,
         );
         if (game.bumpkin.skills["Laurie's Gains"]) {
-          amount = amount + 0.3;
+          amount = new Decimal(amount).add(0.3).toNumber();
           boostsUsed.push({ name: "Laurie's Gains", value: "+0.3" });
         } else {
-          amount = amount + 0.2;
+          amount = new Decimal(amount).add(0.2).toNumber();
         }
       }
       boostsUsed.push({ name: "Laurie the Chuckle Crow", value: "+0.2" });
@@ -621,7 +621,7 @@ export function getCropYieldAmount({
 
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Queen Cornelia", { dx, dy }, createdAt);
-        amount = amount + 1;
+        amount = new Decimal(amount).add(1).toNumber();
       }
       boostsUsed.push({ name: "Queen Cornelia", value: "+1" });
     }
@@ -678,19 +678,19 @@ export function getCropYieldAmount({
       );
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Gnome", { dx, dy }, createdAt);
-        amount += 10;
+        amount = new Decimal(amount).add(10).toNumber();
       }
       boostsUsed.push({ name: "Gnome", value: "+10" });
     }
   }
 
   if (crop === "Corn" && isCollectibleBuilt({ name: "Poppy", game })) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Poppy", value: "+0.1" });
   }
 
   if (crop === "Pumpkin" && isCollectibleBuilt({ name: "Freya Fox", game })) {
-    amount += 0.5;
+    amount = new Decimal(amount).add(0.5).toNumber();
     boostsUsed.push({ name: "Freya Fox", value: "+0.5" });
   }
 
@@ -698,7 +698,7 @@ export function getCropYieldAmount({
     crop === "Carrot" &&
     isCollectibleBuilt({ name: "Lab Grown Carrot", game })
   ) {
-    amount += 0.2;
+    amount = new Decimal(amount).add(0.2).toNumber();
     boostsUsed.push({ name: "Lab Grown Carrot", value: "+0.2" });
   }
 
@@ -706,7 +706,7 @@ export function getCropYieldAmount({
     crop === "Pumpkin" &&
     isCollectibleBuilt({ name: "Lab Grown Pumpkin", game })
   ) {
-    amount += 0.3;
+    amount = new Decimal(amount).add(0.3).toNumber();
     boostsUsed.push({ name: "Lab Grown Pumpkin", value: "+0.3" });
   }
 
@@ -714,74 +714,74 @@ export function getCropYieldAmount({
     crop === "Radish" &&
     isCollectibleBuilt({ name: "Lab Grown Radish", game })
   ) {
-    amount += 0.4;
+    amount = new Decimal(amount).add(0.4).toNumber();
     boostsUsed.push({ name: "Lab Grown Radish", value: "+0.4" });
   }
 
   if (plot?.beeSwarm) {
-    let beeSwarmBonus = 0.2;
+    let beeSwarmBonus = new Decimal(0.2);
     boostsUsed.push({ name: "Bee Swarm Bonus", value: "+0.2" });
     if (skills["Pollen Power Up"]) {
-      beeSwarmBonus += 0.1;
+      beeSwarmBonus = beeSwarmBonus.add(0.1);
       boostsUsed.push({ name: "Pollen Power Up", value: "+0.1" });
     }
     // Multiply by the amount of stacked beeswarms
-    beeSwarmBonus *= plot.beeSwarm.count;
-    amount += beeSwarmBonus;
+    beeSwarmBonus = beeSwarmBonus.mul(plot.beeSwarm.count);
+    amount = new Decimal(amount).add(beeSwarmBonus).toNumber();
   }
 
   if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Soybliss", value: "+1" });
   }
 
   if (skills["Young Farmer"] && isBasicCrop(crop)) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Young Farmer", value: "+0.1" });
   }
 
   if (skills["Experienced Farmer"] && isMediumCrop(crop)) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Experienced Farmer", value: "+0.1" });
   }
 
   if (skills["Old Farmer"] && isAdvancedCrop(crop)) {
-    amount += 0.1;
+    amount = new Decimal(amount).add(0.1).toNumber();
     boostsUsed.push({ name: "Old Farmer", value: "+0.1" });
   }
 
   if (skills["Acre Farm"] && isAdvancedCrop(crop)) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Acre Farm", value: "+1" });
   }
 
   if (skills["Acre Farm"] && isMediumCrop(crop)) {
-    amount -= 0.5;
+    amount = new Decimal(amount).sub(0.5).toNumber();
     boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
   }
 
   if (skills["Acre Farm"] && isBasicCrop(crop)) {
-    amount -= 0.5;
+    amount = new Decimal(amount).sub(0.5).toNumber();
     boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
   }
 
   if (skills["Hectare Farm"] && isAdvancedCrop(crop)) {
-    amount -= 0.5;
+    amount = new Decimal(amount).sub(0.5).toNumber();
     boostsUsed.push({ name: "Hectare Farm", value: "-0.5" });
   }
 
   if (skills["Hectare Farm"] && isMediumCrop(crop)) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Hectare Farm", value: "+1" });
   }
 
   if (skills["Hectare Farm"] && isBasicCrop(crop)) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Hectare Farm", value: "+1" });
   }
 
   if (isCollectibleBuilt({ game, name: "Giant Onion" }) && crop === "Onion") {
-    amount += 3;
+    amount = new Decimal(amount).add(3).toNumber();
     boostsUsed.push({ name: "Giant Onion", value: "+3" });
   }
 
@@ -796,19 +796,19 @@ export function getCropYieldAmount({
   const isProtected = game.calendar.insectPlague?.protected;
 
   if (isInsectPlagueActive && !isProtected) {
-    amount = amount * 0.5;
+    amount = new Decimal(amount).mul(0.5).toNumber();
   }
 
   if (
     getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "bountifulHarvest", value: "+1" });
     const { activeGuardian } = getActiveGuardian({
       game,
     });
     if (activeGuardian) {
-      amount += 1;
+      amount = new Decimal(amount).add(1).toNumber();
       boostsUsed.push({ name: activeGuardian, value: "+1" });
     }
   }

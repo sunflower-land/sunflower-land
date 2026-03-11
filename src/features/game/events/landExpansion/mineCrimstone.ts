@@ -73,22 +73,22 @@ export function getCrimstoneRecoveryTimeForDisplay({
   }
 
   if (isCollectibleBuilt({ name: "Crimstone Clam", game })) {
-    totalSeconds = totalSeconds * 0.9;
+    totalSeconds = new Decimal(totalSeconds).mul(0.9).toNumber();
     boostsUsed.push({ name: "Crimstone Clam", value: "x0.9" });
   }
 
   if (isWearableActive({ name: "Crimstone Amulet", game })) {
-    totalSeconds = totalSeconds * 0.8;
+    totalSeconds = new Decimal(totalSeconds).mul(0.8).toNumber();
     boostsUsed.push({ name: "Crimstone Amulet", value: "x0.8" });
   }
 
   if (game.bumpkin.skills["Fireside Alchemist"]) {
-    totalSeconds = totalSeconds * 0.85;
+    totalSeconds = new Decimal(totalSeconds).mul(0.85).toNumber();
     boostsUsed.push({ name: "Fireside Alchemist", value: "x0.85" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 

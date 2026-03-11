@@ -72,7 +72,7 @@ export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (skills["Speed Miner"]) {
-    totalSeconds = totalSeconds * 0.8;
+    totalSeconds = new Decimal(totalSeconds).mul(0.8).toNumber();
     boostsUsed.push({ name: "Speed Miner", value: "x0.8" });
   }
 
@@ -86,19 +86,19 @@ export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
   });
 
   if (superTotem || timeWarpTotem) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     if (superTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (timeWarpTotem)
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
-    totalSeconds = totalSeconds * 0.5;
+    totalSeconds = new Decimal(totalSeconds).mul(0.5).toNumber();
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
-    totalSeconds = totalSeconds * 0.75;
+    totalSeconds = new Decimal(totalSeconds).mul(0.75).toNumber();
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
   }
 
@@ -200,7 +200,7 @@ export function getStoneDropAmount({
   }
 
   if (skills["Rocky Favor"]) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Rocky Favor", value: "+1" });
   }
 
@@ -211,7 +211,7 @@ export function getStoneDropAmount({
 
   // Add native critical hit before the AoE boosts
   if (getPrngChance(20, "Native")) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Native", value: "+1" });
   }
 
@@ -315,7 +315,7 @@ export function getStoneDropAmount({
   }
 
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
-    amount += 1;
+    amount = new Decimal(amount).add(1).toNumber();
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
@@ -328,7 +328,7 @@ export function getStoneDropAmount({
     amount += 0.1;
   }
 
-  amount *= multiplier;
+  amount = new Decimal(amount).mul(multiplier).toNumber();
 
   // Add yield boost for upgraded stones
   if (rock.tier === 2) {

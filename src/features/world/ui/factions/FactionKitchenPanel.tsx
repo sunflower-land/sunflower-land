@@ -102,17 +102,19 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
 
   const canFulfillRequest = (amount = 1) =>
     (inventory[selectedRequest.item] ?? new Decimal(0)).gte(
-      selectedRequest.amount * amount,
+      new Decimal(selectedRequest.amount).mul(amount),
     );
 
   const boost = (amount = 1) =>
     getKingdomKitchenBoost(game, selectedRequestReward(amount))[0];
   const boostedMarks = (amount = 1) =>
-    selectedRequestReward(amount) + boost(amount);
+    new Decimal(selectedRequestReward(amount)).add(boost(amount)).toNumber();
 
   const singularReward = selectedRequestReward();
   const singularBoost = boost();
-  const singularBoostedMarks = singularReward + singularBoost;
+  const singularBoostedMarks = new Decimal(singularReward)
+    .add(singularBoost)
+    .toNumber();
   const singularCanFulfillRequest = canFulfillRequest();
 
   return (
@@ -153,7 +155,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           points,
                         )[0];
 
-                        const boostedMarks = points + boost;
+                        const boostedMarks = new Decimal(points)
+                          .add(boost)
+                          .toNumber();
 
                         return (
                           <OuterPanel
@@ -269,7 +273,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         disabled={!canFulfillRequest(10)}
                         onClick={() => setShowConfirm(true)}
                       >
-                        {`${t("deliver")} ${selectedRequest.amount * 10}`}
+                        {`${t("deliver")} ${new Decimal(selectedRequest.amount).mul(10).toNumber()}`}
                       </Button>
                     </div>
                   </div>
@@ -296,7 +300,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         {selectedRequest.item}
                       </span>
                     </div>
-                    <span className="text-xs">{`${selectedRequest.amount * 10}`}</span>
+                    <span className="text-xs">{`${new Decimal(selectedRequest.amount).mul(10).toNumber()}`}</span>
                   </div>
                 </div>
               </div>

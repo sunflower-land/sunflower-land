@@ -72,7 +72,7 @@ export function buyOptionPurchaseItem({ state, action }: Options) {
     }
 
     if (purchaseOption.coins) {
-      const coinCost = purchaseOption.coins * amount;
+      const coinCost = new Decimal(purchaseOption.coins).mul(amount).toNumber();
       if (copy.coins < coinCost) {
         throw new Error("Insufficient Coins");
       }

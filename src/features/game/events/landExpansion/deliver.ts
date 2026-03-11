@@ -76,11 +76,11 @@ export function generateDeliveryTickets({
     Object.values(chapterBoost).forEach((item) => {
       if (isCollectible(item)) {
         if (isCollectibleBuilt({ game, name: item })) {
-          amount += 1;
+          amount = new Decimal(amount).add(1).toNumber();
         }
       } else {
         if (isWearableActive({ game, name: item })) {
-          amount += 1;
+          amount = new Decimal(amount).add(1).toNumber();
         }
       }
     });
@@ -103,7 +103,7 @@ export function generateDeliveryTickets({
     getActiveCalendarEvent({ calendar: game.calendar }) === "doubleDelivery" &&
     !hasClaimedBonus
   ) {
-    amount *= 2;
+    amount = new Decimal(amount).mul(2).toNumber();
   }
 
   return amount;

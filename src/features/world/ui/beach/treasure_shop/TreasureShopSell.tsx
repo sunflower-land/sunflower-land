@@ -51,7 +51,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const { price } = getSellPrice(selected, state);
   const amount = inventory[selectedName] || new Decimal(0);
-  const coinAmount = price * customAmount.toNumber();
+  const coinAmount = new Decimal(price).mul(customAmount).toNumber();
 
   const sell = (amount = 1) => {
     gameService.send("treasure.sold", {

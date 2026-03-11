@@ -323,7 +323,7 @@ const FactionPetContent: React.FC<{
 
   const canFulfillRequest = (amount = 1) =>
     (inventory[selectedRequest.food] ?? new Decimal(0)).gte(
-      selectedRequest.quantity * amount,
+      new Decimal(selectedRequest.quantity).mul(amount),
     );
   const boost = (amount = 1) =>
     getKingdomPetBoost(

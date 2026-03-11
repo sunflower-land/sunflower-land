@@ -58,29 +58,29 @@ export function getToolPrice(
   const { bumpkin, inventory } = game;
 
   // Default price
-  let price = tool.price;
+  let price = new Decimal(tool.price);
 
   // Feller's Discount Skill: 20% off on Axes
   if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
-    price = price * 0.8;
+    price = price.mul(0.8);
   }
 
   // Reel Deal: 50% off fishing rods
   if (bumpkin.skills["Reel Deal"] && name === "Rod") {
-    price *= 0.5;
+    price = price.mul(0.5);
   }
 
   // Artist's Discount Skill: 10% off
   if (inventory["Artist"]?.gte(1)) {
-    price = price * 0.9;
+    price = price.mul(0.9);
   }
 
   if (bumpkin.skills["Frugal Miner"] && isPickaxe(name as WorkbenchToolName)) {
-    price = price * 0.8;
+    price = price.mul(0.8);
   }
 
   // Return the price for the amount of tools
-  return price * amount;
+  return price.mul(amount).toNumber();
 }
 
 export function craftTool({ state, action }: Options) {

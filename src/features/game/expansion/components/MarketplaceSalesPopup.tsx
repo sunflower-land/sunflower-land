@@ -72,7 +72,9 @@ export const MarketplaceSalesPopup: React.FC = () => {
             });
             const amount = listing.items[itemName as InventoryItemName];
 
-            const tax = listing.tax ?? listing.sfl * MARKETPLACE_TAX;
+            const tax =
+              listing.tax ??
+              new Decimal(listing.sfl).mul(MARKETPLACE_TAX).toNumber();
             const sfl = new Decimal(listing.sfl).sub(tax);
             const estTradePoints = calculateTradePoints({
               sfl: listing.sfl,

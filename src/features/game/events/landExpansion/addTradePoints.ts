@@ -29,8 +29,10 @@ export function calculateTradePoints({
     }
   }
 
-  const pointsCalculation = sfl * TRADE_POINTS_MULTIPLIER;
-  multipliedPoints = points * pointsCalculation;
+  const pointsCalculation = new Decimal(sfl)
+    .mul(TRADE_POINTS_MULTIPLIER)
+    .toNumber();
+  multipliedPoints = new Decimal(points).mul(pointsCalculation).toNumber();
 
   return { multipliedPoints };
 }
@@ -49,7 +51,9 @@ export function addTradePoints({
   const { multipliedPoints } = calculateTradePoints({ points, sfl, items });
 
   // Add points to gamestate
-  state.trades.tradePoints = (state.trades.tradePoints ?? 0) + multipliedPoints;
+  state.trades.tradePoints = new Decimal(state.trades.tradePoints ?? 0)
+    .add(multipliedPoints)
+    .toNumber();
   state.inventory["Trade Point"] = (
     state.inventory["Trade Point"] ?? new Decimal(0)
   ).add(multipliedPoints);
