@@ -4,7 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";
@@ -213,7 +213,6 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Laurie the Chuckle Crow",
     "Immortal Pear",
     "Bale",
-    "Stone Beetle",
     "Iron Beetle",
     "Gold Beetle",
     "Fairy Circle",

@@ -19,10 +19,7 @@ import {
   InventoryItemName,
   IslandType,
 } from "../../types/game";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
@@ -49,13 +46,14 @@ import {
 } from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
+import { getKeys } from "lib/object";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";

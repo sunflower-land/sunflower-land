@@ -11,7 +11,7 @@ import { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Animal } from "features/game/types/game";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 
 type Props = {
   animal: Animal;

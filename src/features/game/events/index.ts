@@ -378,6 +378,10 @@ import {
   CollectCraftingAction,
 } from "./landExpansion/collectCrafting";
 import {
+  cancelQueuedCrafting,
+  CancelQueuedCraftingAction,
+} from "./landExpansion/cancelQueuedCrafting";
+import {
   completeNPCChore,
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
@@ -719,6 +723,7 @@ export type PlayingEvent =
   | UpgradeBuildingAction
   | StartCraftingAction
   | CollectCraftingAction
+  | CancelQueuedCraftingAction
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuyChapterItemAction
@@ -989,6 +994,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,
   "crafting.collected": collectCrafting,
+  "crafting.cancelled": cancelQueuedCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "chapterItem.bought": buyChapterItem,

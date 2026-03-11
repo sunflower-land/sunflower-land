@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
@@ -18,6 +17,7 @@ import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { Rewards } from "features/island/hud/components/referral/Rewards";
 import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
+import { MarketplaceTutorialModal } from "./MarketplaceTutorialModal";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -38,7 +38,8 @@ type GlobalModal =
   | "STREAMS"
   | "DEPOSIT"
   | "DAILY_REWARD"
-  | "EARN";
+  | "EARN"
+  | "MARKETPLACE_TUTORIAL";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -213,6 +214,10 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
           onClose={handleClose}
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
+      </Modal>
+
+      <Modal show={opened === "MARKETPLACE_TUTORIAL"}>
+        <MarketplaceTutorialModal onClose={handleClose} />
       </Modal>
 
       <Rewards show={opened === "EARN"} onHide={handleClose} tab={"Earn"} />

@@ -15,7 +15,7 @@ import {
 } from "features/game/events/landExpansion/redeemTradeReward";
 import { Context } from "features/game/GameProvider";
 import { INVENTORY_LIMIT, PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useLayoutEffect, useState } from "react";

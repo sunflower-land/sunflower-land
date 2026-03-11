@@ -1,16 +1,20 @@
 import { CLUTTER } from "../types/clutter";
-import { getKeys, TOOLS } from "../types/craftables";
-import { GameState, InventoryItemName } from "../types/game";
+import { TOOLS } from "../types/craftables";
+import { InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
   CHAPTER_TICKET_NAME,
   ChapterRaffleTicket,
 } from "../types/chapters";
 import { SEEDS } from "../types/seeds";
-import { TREASURE_TOOLS } from "../types/tools";
-import { PET_SHRINES } from "../types/pets";
+import {
+  LOVE_ANIMAL_TOOLS,
+  TREASURE_TOOLS,
+  WORKBENCH_TOOLS,
+} from "../types/tools";
+import { PET_RESOURCES, PET_SHRINES, PET_TYPES } from "../types/pets";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
-import { RESOURCES } from "../types/resources";
+import { COMMODITIES, RESOURCES } from "../types/resources";
 import { FRUIT_COMPOST, CROP_COMPOST, WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
@@ -18,54 +22,66 @@ import { SELLABLE_TREASURES } from "../types/treasure";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { ANIMAL_FOODS } from "../types/animals";
+import { EXOTIC_CROPS } from "../types/beans";
+import { DOLLS, RECIPE_CRAFTABLES } from "./crafting";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
+import { BUILDINGS } from "../types/buildings";
+import { FLOWERS } from "../types/flowers";
+import { WORKBENCH_MONUMENTS } from "../types/monuments";
+import { getKeys } from "lib/object";
 
-const BASE_OFFCHAIN_ITEMS = new Set<InventoryItemName>([
+export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
   "Potion Ticket",
-  ...getKeys(CLUTTER),
-  ...getKeys(SELLABLE_TREASURES),
-  ...getKeys(SEEDS),
-  ...getKeys(TOOLS),
-  ...getKeys(TREASURE_TOOLS),
+  ...getKeys({
+    ...CLUTTER,
+    ...SELLABLE_TREASURES,
+    ...SEEDS,
+    ...TOOLS,
+    ...WORKBENCH_TOOLS,
+    ...LOVE_ANIMAL_TOOLS,
+    ...TREASURE_TOOLS,
+    ...PET_SHRINES,
+    ...RESOURCES,
+    ...PROCESSED_RESOURCES,
+    ...WORM,
+    ...REWARD_BOXES,
+    ...CONSUMABLES,
+    ...CROP_COMPOST,
+    ...FRUIT_COMPOST,
+    ...TRADE_LIMITS,
+    ...ANIMAL_FOODS,
+    ...EXOTIC_CROPS,
+    ...DOLLS,
+    ...LAND_BIOMES,
+    ...WORKBENCH_MONUMENTS,
+    ...PET_SHRINES,
+    ...PET_RESOURCES,
+    ...PET_TYPES,
+    ...BUILDINGS,
+    ...FLOWERS,
+    ...RECIPE_CRAFTABLES,
+    ...COMMODITIES,
+  }),
   ...Object.values(CHAPTER_TICKET_NAME),
-  "Cheer",
-  ...getKeys(PET_SHRINES),
-  "Obsidian Shrine",
+  ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
+    (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
+  ),
   ...HOURGLASSES,
+  ...CRUSTACEANS,
+  "Cheer",
+  "Obsidian Shrine",
   "Time Warp Totem",
   "Super Totem",
-  ...getKeys(RESOURCES),
-  ...getKeys(PROCESSED_RESOURCES),
-  ...getKeys(WORM),
   "Gold Friends Trophy",
   "Silver Friends Trophy",
   "Bronze Friends Trophy",
   "Basic Land",
-  ...getKeys(REWARD_BOXES),
-  ...CRUSTACEANS,
   "Holiday Token 2025",
   "Holiday Ticket 2025",
-  ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
-    (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
-  ),
-  // Consumables includes fish, cookables, and consumables
-  ...getKeys(CONSUMABLES),
-  ...getKeys({ ...CROP_COMPOST, ...FRUIT_COMPOST }),
   "Town Sign",
+  "Acorn",
 ]);
-
-export const getOffChainItems = (
-  now: number,
-  game: GameState,
-): InventoryItemName[] => {
-  const items = new Set(BASE_OFFCHAIN_ITEMS);
-  if (
-    hasTimeBasedFeatureAccess({ featureName: "OFFCHAIN_RESOURCES", now, game })
-  ) {
-    getKeys(TRADE_LIMITS).forEach((item) => items.add(item));
-  }
-  return Array.from(items);
-};

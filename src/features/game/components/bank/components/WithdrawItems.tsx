@@ -17,10 +17,10 @@ import { Box } from "components/ui/Box";
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getInventoryReleases } from "features/game/types/withdrawables";
+import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
@@ -199,10 +199,9 @@ export const WithdrawItems: React.FC<Props> = ({
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
-  const inventoryReleases = getInventoryReleases(now, state);
   const withdrawableItems = getKeys(inventory)
     .filter((itemName) => {
-      const withdrawAt = inventoryReleases[itemName]?.withdrawAt;
+      const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
       return !!withdrawAt && withdrawAt <= new Date(now);
     })
     .filter(

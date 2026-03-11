@@ -6,19 +6,7 @@ import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
 import { BeanName, GiantFruit } from "./beans";
 import { DollName } from "../lib/crafting";
-
-/**
- * getKeys is a ref to Object.keys, but the return is typed literally.
- */
-export const getKeys = Object.keys as <T extends object>(
-  obj: T,
-) => Array<keyof T>;
-/**
- * getValues is a ref to Object.values, but the return is typed literally.
- */
-export const getValues = Object.values as <T extends object>(
-  obj: T,
-) => Array<T[keyof T]>;
+import { getKeys } from "lib/object";
 
 export type AchievementDecorationName =
   | "Chef Bear"

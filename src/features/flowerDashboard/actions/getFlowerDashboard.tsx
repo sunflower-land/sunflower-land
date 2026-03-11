@@ -4,6 +4,7 @@ type TopPlayer = {
   player: string;
   amount: number;
   tokenUri: string;
+  farmId?: number;
 };
 
 export type FlowerDashboardData = {

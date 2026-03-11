@@ -20,7 +20,7 @@ import {
   PET_TRAIT_GROUPS,
   TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
-import { getKeys, getValues } from "features/game/types/decorations";
+import { getKeys, getValues } from "lib/object";
 import { Button } from "components/ui/Button";
 import {
   CHAPTER_BANNER_IMAGES,

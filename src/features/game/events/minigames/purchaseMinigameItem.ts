@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { CROPS, CropName } from "features/game/types/crops";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { GameState } from "features/game/types/game";

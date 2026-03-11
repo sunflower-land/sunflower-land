@@ -8,7 +8,7 @@ import {
 
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 

@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { resources, LanguageCode } from "lib/i18n/dictionaries/language";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 
 if (process.env.NODE_ENV !== "metadata") {
   let lng: LanguageCode =

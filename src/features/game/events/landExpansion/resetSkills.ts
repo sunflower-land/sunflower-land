@@ -1,4 +1,4 @@
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 

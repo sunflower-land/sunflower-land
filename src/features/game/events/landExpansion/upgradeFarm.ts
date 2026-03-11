@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { BuildingName } from "features/game/types/buildings";
 import {
   GameState,

@@ -52,11 +52,11 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { getPetImage } from "../pets/lib/petShared";
-import { budImageDomain } from "./components/Bud";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
+import { getBudImage } from "lib/buds/types";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -921,7 +921,7 @@ export const MoveableComponent: React.FC<
                     image = getPetImage("happy", Number(choice.id));
                     break;
                   case "Bud":
-                    image = `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`;
+                    image = getBudImage(Number(choice.id));
                     break;
                   case "FarmHand":
                     image = SUNNYSIDE.achievement.farmHand;

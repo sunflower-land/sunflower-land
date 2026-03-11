@@ -4,7 +4,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { addNoise } from "lib/images";
 
 import { CROPS } from "features/game/types/crops";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";

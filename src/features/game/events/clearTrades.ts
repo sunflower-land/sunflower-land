@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
-import { getKeys } from "../lib/crafting";
+import { getKeys } from "lib/object";
 
 export type ClearTradesAction = {
   type: "trades.cleared";
@@ -14,8 +14,8 @@ type Options = {
 
 export function clearTrades({
   state,
-  action,
-  createdAt = Date.now(),
+  action: _action,
+  createdAt: _createdAt,
 }: Options): GameState {
   return produce(state, (game) => {
     // Clear any listings that have a removedAt field

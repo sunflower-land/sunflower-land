@@ -23,7 +23,7 @@ import {
 import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouettes";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 
 const MALE_HAIRSTYLES: BumpkinHair[] = [
   "Basic Hair",

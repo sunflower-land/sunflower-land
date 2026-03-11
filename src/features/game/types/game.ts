@@ -93,6 +93,7 @@ import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
+
 import { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -118,6 +119,13 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
+
+export type CraftingQueueItem = {
+  name: RecipeCollectibleName | BumpkinItem;
+  readyAt: number;
+  startedAt: number;
+  type: "collectible" | "wearable";
+};
 
 export type Reward = {
   coins?: number;
@@ -1936,6 +1944,7 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
+    queue?: CraftingQueueItem[];
     item?:
       | {
           collectible: RecipeCollectibleName;

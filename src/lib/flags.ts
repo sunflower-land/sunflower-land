@@ -87,14 +87,13 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
+  CRAFTING_BOX_QUEUES: defaultFeatureFlag,
+  // CRAFTING_BOX_QUEUES: () => false,
 } satisfies Record<string, FeatureFlag>;
 
 const TIME_BASED_FEATURE_FLAGS = {
   TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag(
     new Date("2026-02-24T00:00:00Z"),
-  ),
-  OFFCHAIN_RESOURCES: betaTimeBasedFeatureFlag(
-    new Date("2026-03-02T00:00:00Z"),
   ),
 } satisfies Record<string, TimeBasedFeatureFlag>;
 
@@ -113,11 +112,11 @@ export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAGS;
 export const hasTimeBasedFeatureAccess = ({
   featureName,
   now,
-  game,
+  game: _game,
 }: {
   featureName: TimeBasedFeatureName;
   now: number;
   game: GameState;
 }) => {
-  return TIME_BASED_FEATURE_FLAGS[featureName](game)(now);
+  return TIME_BASED_FEATURE_FLAGS[featureName]()(now);
 };

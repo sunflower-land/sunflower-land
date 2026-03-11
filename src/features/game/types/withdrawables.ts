@@ -1,7 +1,6 @@
-import { GameState, InventoryItemName } from "../types/game";
+import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 type Releases = {
   tradeAt: Date;
@@ -685,32 +684,6 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
 };
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
-
-const RESOURCE_RELEASES: InventoryReleases = {
-  Beetroot: CAN_WITHDRAW_AND_TRADE,
-  Cabbage: CAN_WITHDRAW_AND_TRADE,
-  Carrot: CAN_WITHDRAW_AND_TRADE,
-  Cauliflower: CAN_WITHDRAW_AND_TRADE,
-  Kale: CAN_WITHDRAW_AND_TRADE,
-  Potato: CAN_WITHDRAW_AND_TRADE,
-  Pumpkin: CAN_WITHDRAW_AND_TRADE,
-  Sunflower: CAN_WITHDRAW_AND_TRADE,
-  Parsnip: CAN_WITHDRAW_AND_TRADE,
-  Eggplant: CAN_WITHDRAW_AND_TRADE,
-  Corn: CAN_WITHDRAW_AND_TRADE,
-  Radish: CAN_WITHDRAW_AND_TRADE,
-  Wheat: CAN_WITHDRAW_AND_TRADE,
-  Soybean: CAN_WITHDRAW_AND_TRADE,
-  Apple: CAN_WITHDRAW_AND_TRADE,
-  Blueberry: CAN_WITHDRAW_AND_TRADE,
-  Orange: CAN_WITHDRAW_AND_TRADE,
-  Banana: CAN_WITHDRAW_AND_TRADE,
-  Egg: CAN_WITHDRAW_AND_TRADE,
-  Wood: CAN_WITHDRAW_AND_TRADE,
-  Stone: CAN_WITHDRAW_AND_TRADE,
-  Iron: CAN_WITHDRAW_AND_TRADE,
-  Gold: CAN_WITHDRAW_AND_TRADE,
-};
 
 export const INVENTORY_RELEASES: InventoryReleases = {
   // Collectibles
@@ -1658,23 +1631,10 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-02-01"),
     withdrawAt: new Date("2026-02-01"),
   },
-};
 
-const INVENTORY_RELEASES_WITH_RESOURCES: InventoryReleases = {
-  ...INVENTORY_RELEASES,
-  ...RESOURCE_RELEASES,
-};
-
-export const getInventoryReleases = (
-  now: number,
-  game: GameState,
-): Partial<Record<InventoryItemName, Releases>> => {
-  const offchainEnabled = hasTimeBasedFeatureAccess({
-    featureName: "OFFCHAIN_RESOURCES",
-    now,
-    game,
-  });
-  return offchainEnabled
-    ? INVENTORY_RELEASES
-    : INVENTORY_RELEASES_WITH_RESOURCES;
+  // Tutorial marketplace item
+  "Stone Beetle": {
+    tradeAt: new Date("2026-03-09"),
+    // Cannot withdraw the tutorial item
+  },
 };

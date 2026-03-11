@@ -26,7 +26,7 @@ import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator"
 import powerup from "assets/icons/level_up.png";
 import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

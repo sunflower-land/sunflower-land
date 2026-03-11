@@ -17,7 +17,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import sfl from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";

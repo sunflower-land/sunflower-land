@@ -7,8 +7,8 @@ import {
   LanguageCode,
   LANGUAGE_DETAILS,
 } from "../src/lib/i18n/dictionaries/language";
-import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
+import { getKeys } from "../src/lib/object";
 
 import {
   TranslateClient,

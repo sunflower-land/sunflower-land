@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import Decimal from "decimal.js-light";
@@ -10,7 +10,7 @@ import { Modal } from "components/ui/Modal";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./Biomes";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -45,6 +45,30 @@ export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
+type TabId = "Basket" | "Chest" | "Biomes";
+
+const LAST_INVENTORY_TAB_KEY = "inventory.lastTab";
+
+function getStoredTab(): TabId | undefined {
+  try {
+    const value = localStorage.getItem(LAST_INVENTORY_TAB_KEY);
+    if (value === "Basket" || value === "Chest" || value === "Biomes") {
+      return value;
+    }
+  } catch {
+    // ignore
+  }
+  return undefined;
+}
+
+function setStoredTab(tab: TabId) {
+  try {
+    localStorage.setItem(LAST_INVENTORY_TAB_KEY, tab);
+  } catch {
+    // ignore
+  }
+}
+
 export const InventoryItemsModal: React.FC<Props> = ({
   show,
   onHide,
@@ -64,35 +88,40 @@ export const InventoryItemsModal: React.FC<Props> = ({
   defaultToChest,
 }) => {
   const { t } = useAppTranslation();
-  const initialTab: "Basket" | "Chest" | "Biomes" =
-    defaultToChest || location === "petHouse" ? "Chest" : "Basket";
-  const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
-    initialTab,
-  );
+  const storedTab = getStoredTab();
+  const initialTab: TabId =
+    defaultToChest || location === "petHouse"
+      ? "Chest"
+      : (storedTab ?? "Basket");
+  const [currentTab, setCurrentTab] = useState<TabId>(initialTab);
+
+  useEffect(() => {
+    setStoredTab(currentTab);
+  }, [currentTab]);
 
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
   );
 
-  const basketTab: PanelTabs<"Basket" | "Chest" | "Biomes"> = {
+  const basketTab: PanelTabs<TabId> = {
     icon: SUNNYSIDE.icons.basket,
     name: t("basket"),
     id: "Basket",
   };
 
-  const chestTab: PanelTabs<"Basket" | "Chest" | "Biomes"> = {
+  const chestTab: PanelTabs<TabId> = {
     icon: chest,
     name: t("chest"),
     id: "Chest",
   };
 
-  const biomesTab: PanelTabs<"Basket" | "Chest" | "Biomes"> = {
+  const biomesTab: PanelTabs<TabId> = {
     icon: ITEM_DETAILS["Basic Biome"].image,
     name: t("biomes"),
     id: "Biomes",
   };
 
-  const tabs: PanelTabs<"Basket" | "Chest" | "Biomes">[] = [];
+  const tabs: PanelTabs<TabId>[] = [];
   if (location !== "petHouse") {
     tabs.push(basketTab);
   }
@@ -104,7 +133,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={tabs as PanelTabs<"Basket" | "Chest">[]}
+        tabs={tabs as PanelTabs<TabId>[]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}

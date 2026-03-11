@@ -6,7 +6,7 @@ import {
   AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { AchievementDetails } from "./AchievementDetails";

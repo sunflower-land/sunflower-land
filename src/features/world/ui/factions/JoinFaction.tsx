@@ -22,7 +22,7 @@ import {
   getChampionsLeaderboard,
   KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { Loading } from "features/auth/components";
 import { useNow } from "lib/utils/hooks/useNow";
 

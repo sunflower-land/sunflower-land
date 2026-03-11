@@ -8,7 +8,7 @@ import token from "assets/icons/flower_token.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";

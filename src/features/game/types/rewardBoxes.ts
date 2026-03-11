@@ -1,4 +1,4 @@
-import { getKeys } from "./decorations";
+import { getKeys } from "lib/object";
 import {
   Inventory,
   InventoryItemName,

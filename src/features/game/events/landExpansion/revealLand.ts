@@ -11,7 +11,7 @@ import {
 } from "features/game/types/expansions";
 import { Airdrop, BoostName, GameState } from "features/game/types/game";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CropName } from "features/game/types/crops";
@@ -450,7 +450,11 @@ export function getRewards({
     airdrops = [
       ...airdrops,
       {
-        ...blockBuckAirdrop,
+        createdAt,
+        items: {},
+        sfl: 0.1,
+        coins: 0,
+        wearables: {},
         coordinates: { x: -7, y: -3 },
         id: "expansion-seven-airdrop",
       },

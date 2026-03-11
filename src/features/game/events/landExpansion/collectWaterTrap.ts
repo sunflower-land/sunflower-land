@@ -2,7 +2,7 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { caughtCrustacean } from "features/game/types/crustaceans";
 
 export type CollectWaterTrapAction = {

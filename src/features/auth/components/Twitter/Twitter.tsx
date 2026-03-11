@@ -15,7 +15,7 @@ import {
   TWITTER_REWARDS,
   TwitterPostName,
 } from "features/game/types/social";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import saveIcon from "assets/icons/save.webp";

@@ -56,6 +56,7 @@ import {
   getIntroductionRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
+import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
@@ -69,6 +70,7 @@ import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
+import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/actions/loadRaffleResults";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { portal } from "features/world/ui/community/actions/portal";
@@ -91,9 +93,10 @@ import {
   STATE_MACHINE_VISIT_EFFECTS,
   StateMachineVisitStateName,
   StateMachineVisitEffectName,
+  sanitizeEffectForBackend,
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "lib/object";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
@@ -193,6 +196,7 @@ export interface Context {
   apiKey?: string;
   method?: "google" | "wallet" | "wechat" | "fsl";
   accountTradedAt?: string;
+  onChainRaffleReward?: RaffleSnapshotWinner;
 }
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
@@ -243,6 +247,8 @@ type BuyBlockBucksEvent = {
 type UpdateBlockBucksEvent = {
   type: "UPDATE_GEMS";
   amount: number;
+  /** Coins to add (e.g. from Xsolla starter pack) */
+  coins?: number;
 };
 
 type LandscapeEvent = {
@@ -538,6 +544,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
       invoke: {
         src: async (context: Context, event: PostEffectEvent) => {
           const { effect, authToken } = event;
+          const effectToSend = sanitizeEffectForBackend(effect);
 
           if (context.actions.length > 0) {
             await autosave({
@@ -554,7 +561,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
 
           const { gameState, data } = await postEffect({
             farmId: Number(context.farmId),
-            effect,
+            effect: effectToSend,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
             state: context.state,
@@ -570,6 +577,34 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           return { state: gameState, data };
         },
         onDone: [
+          {
+            target: "onChainRaffleAcknowledgment",
+            cond: (_context: Context, event: DoneInvokeEvent<any>) => {
+              if (stateName !== "claimingAuctionRaffle") return false;
+              if (event.data.state.transaction) return false;
+              const prize = event.data.effect?.prize as
+                | RaffleSnapshotWinner
+                | undefined;
+              if (!prize?.onChain) return false;
+              return !!prize;
+            },
+            actions: [
+              assign((context: Context, event: DoneInvokeEvent<any>) => {
+                const prize = event.data.effect?.prize as RaffleSnapshotWinner;
+                return {
+                  actions: [],
+                  state: event.data.state,
+                  onChainRaffleReward: prize,
+                  linkedWallet:
+                    event.data.data?.linkedWallet ?? context.linkedWallet,
+                  nftId: event.data.data?.nftId ?? context.nftId,
+                  farmAddress:
+                    event.data.data?.farmAddress ?? context.farmAddress,
+                  data: { ...context.data, [stateName]: event.data.data },
+                };
+              }),
+            ],
+          },
           {
             target: `${stateName}Success`,
             cond: (_: Context, event: DoneInvokeEvent<any>) =>
@@ -773,6 +808,7 @@ export type BlockchainState = {
     | "priceChanged"
     | "buds"
     | "airdrop"
+    | "onChainRaffleAcknowledgment"
     | "offers"
     | "marketplaceSale"
     | "tradesCleared"
@@ -789,6 +825,7 @@ export type BlockchainState = {
     | "jinAirdrop"
     | "leagueResults"
     | "linkWallet"
+    | "starterOffer"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -1196,6 +1233,24 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+            {
+              target: "starterOffer",
+              cond: (context) => {
+                if (getStarterOfferShown(context.farmId)) return false;
+                const now = Date.now();
+                const createdAt = context.state.createdAt;
+                const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+                const thirtyMinsMs = 30 * 60 * 1000;
+                const accountLessThan7Days = createdAt > now - sevenDaysMs;
+                const accountOlderThan30Mins = createdAt < now - thirtyMinsMs;
+                const noPurchaseYet = context.purchases.length === 0;
+                return (
+                  accountLessThan7Days &&
+                  accountOlderThan30Mins &&
+                  noPurchaseYet
+                );
+              },
+            },
 
             {
               target: "investigating",
@@ -1445,6 +1500,13 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        starterOffer: {
+          on: {
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
         somethingArrived: {
           on: {
             ACKNOWLEDGE: {
@@ -1517,6 +1579,14 @@ export function startGame(authContext: AuthContext) {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             CLOSE: {
               target: "playing",
+            },
+          },
+        },
+        onChainRaffleAcknowledgment: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((_) => ({ onChainRaffleReward: undefined })),
             },
           },
         },
@@ -1748,6 +1818,11 @@ export function startGame(authContext: AuthContext) {
                       event.amount,
                     ),
                   },
+                  ...(event.coins != null && event.coins > 0
+                    ? {
+                        coins: (context.state.coins ?? 0) + event.coins,
+                      }
+                    : {}),
                 },
                 purchases: [
                   ...context.purchases,

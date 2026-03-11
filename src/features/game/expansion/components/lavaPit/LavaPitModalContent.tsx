@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   getLavaPitRequirements,
   getLavaPitTime,

@@ -4,7 +4,10 @@ import {
   UpgradableBuildingType,
 } from "./upgradeBuilding";
 import { produce } from "immer";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import {
+  getInstantGems,
+  makeGemHistory,
+} from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 
 export type SpeedUpUpgradeAction = {
@@ -48,7 +51,7 @@ export function speedUpUpgrade({
 
     game[buildingKey].upgradeReadyAt = createdAt;
 
-    game = makeGemHistory({ game, amount: gems });
+    game = makeGemHistory({ game, amount: gems, createdAt });
 
     return game;
   });

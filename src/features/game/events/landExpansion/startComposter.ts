@@ -5,7 +5,7 @@ import {
   SEASON_COMPOST_REQUIREMENTS,
   composterDetails,
 } from "features/game/types/composters";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   BoostName,
   CompostBuilding,

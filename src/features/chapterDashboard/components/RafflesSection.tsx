@@ -3,34 +3,33 @@ import useSWR from "swr";
 
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ChapterName } from "features/game/types/chapters";
 import { loadRaffles } from "features/world/ui/chapterRaffles/actions/loadRaffles";
 import { randomID } from "lib/utils/random";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
-  getPrizeDisplay,
-  UpcomingRaffles,
-} from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import { UpcomingRaffles } from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
 import { Loading } from "features/auth/components";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { CONFIG } from "lib/config";
 import lightning from "assets/icons/lightning.png";
+import prizesIcon from "assets/icons/raffle_icon.png";
 import calendar from "assets/icons/calendar.webp";
+import choresIcon from "assets/icons/chores.webp";
+import { RaffleHistory } from "features/world/ui/chapterRaffles/RaffleHistory";
 
 type Props = {
-  chapter: ChapterName;
   token: string;
 };
 
-export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
+export const RafflesSection: React.FC<Props> = ({ token }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [showMore, setShowMore] = useState(false);
+  const [tab, setTab] = useState<"raffles" | "history">("raffles");
   const isOffline = !CONFIG.API_URL;
 
   const { data: raffles, isLoading } = useSWR(
@@ -41,8 +40,6 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
   );
 
   const active = raffles?.filter((raffle) => raffle.endAt > now)[0];
-
-  const countdown = useCountdown(active?.endAt ?? 0);
 
   if (isLoading) {
     return (
@@ -64,7 +61,7 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
       </InnerPanel>
     );
   }
-  const display = getPrizeDisplay({ prize: 1, raffle: active });
+  const display = getPrizeDisplay({ prize: active.prizes[1] });
 
   return (
     <>
@@ -114,11 +111,23 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
         <CloseButtonPanel
           tabs={[
-            { icon: calendar, name: t("auction.raffle.title"), id: "raffles" },
+            {
+              icon: prizesIcon,
+              name: t("auction.raffle.title"),
+              id: "raffles",
+            },
+            {
+              id: "history",
+              name: "History",
+              icon: choresIcon,
+            },
           ]}
+          currentTab={tab}
+          setCurrentTab={setTab}
           onClose={() => setShowMore(false)}
         >
-          <UpcomingRaffles />
+          {tab === "raffles" && <UpcomingRaffles />}
+          {tab === "history" && <RaffleHistory />}
         </CloseButtonPanel>
       </Modal>
     </>

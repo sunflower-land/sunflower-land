@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { Pet, PetName, PetNFT } from "features/game/types/pets";
 import { ManagePets } from "./ManagePets";
 import { OuterPanel } from "components/ui/Panel";

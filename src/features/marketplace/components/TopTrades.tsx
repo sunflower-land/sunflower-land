@@ -8,22 +8,20 @@ import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { useLocation, useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { formatNumber } from "lib/utils/formatNumber";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 const _state = (state: MachineState) => state.context.state;
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
-  const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
-  const isWorldRoute = useLocation().pathname.includes("/world");
 
   if (!trends) {
     return <Loading />;
@@ -63,9 +61,12 @@ export const TopTrades: React.FC<{
                 <div
                   className="flex items-center flex-1 sm:w-1/2 w-full cursor-pointer"
                   onClick={() => {
-                    navigate(
-                      `${isWorldRoute ? "/world" : ""}/marketplace/profile/${item.buyer.id}`,
-                    );
+                    playerModalManager.open({
+                      farmId: item.buyer.id,
+                      username: item.buyer.username,
+                      clothing: interpretTokenUri(item.buyer.bumpkinUri)
+                        .equipped,
+                    });
                   }}
                 >
                   <div className="relative w-8 h-8 flex items-center justify-center mr-2">

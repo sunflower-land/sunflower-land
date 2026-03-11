@@ -8,7 +8,7 @@ import {
 } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const LAVA_PIT_REQUIREMENTS_OLD: Record<TemperateSeasonName, Inventory> = {

@@ -8,14 +8,14 @@ import {
   BB_TO_GEM_RATIO,
   InventoryItemName,
 } from "../types/game";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getChapterTicket } from "../types/chapters";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   isFullMoonBerry,
   isGreenhouseCropSeed,
@@ -373,11 +373,6 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
-    "Easter Token 2025": new Decimal(500),
-    Marty: new Decimal(2),
-    Miffy: new Decimal(2),
-    Morty: new Decimal(2),
-    Mog: new Decimal(2),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),

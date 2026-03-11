@@ -3,7 +3,7 @@ import { translate } from "lib/i18n/translate";
 import { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 
 export type SupplyCookingOilAction = {
   type: "cookingOil.supplied";

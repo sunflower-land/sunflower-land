@@ -2,16 +2,14 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import {
   WORKBENCH_MONUMENTS,
   WorkbenchMonumentName,
 } from "features/game/types/monuments";
 import { produce } from "immer";
+import { getKeys } from "lib/object";
 
 export type BuyMonumentAction = {
   type: "monument.bought";

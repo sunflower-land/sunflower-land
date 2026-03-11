@@ -6,7 +6,8 @@ import classNames from "classnames";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
-import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { BUILDINGS_DIMENSIONS, Home } from "../types/buildings";
@@ -36,8 +37,8 @@ import { createPortal } from "react-dom";
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
+import { getObjectEntries } from "lib/object";
 import {
-  getObjectEntries,
   comparePositions,
   getSortedResourcePositions,
   getSortedCollectiblePositions,

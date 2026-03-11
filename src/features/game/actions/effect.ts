@@ -263,3 +263,18 @@ export async function postEffect(
     data,
   };
 }
+
+/** Client-only effect fields to strip before sending to backend (not in API schema) */
+const CLIENT_ONLY_EFFECT_FIELDS: Partial<Record<EffectName, string[]>> = {
+  "auctionRaffle.claimed": ["prize"],
+};
+
+export function sanitizeEffectForBackend(effect: Effect): Effect {
+  const fieldsToStrip = CLIENT_ONLY_EFFECT_FIELDS[effect.type];
+  if (!fieldsToStrip?.length) return effect;
+  const sanitized = { ...effect };
+  for (const field of fieldsToStrip) {
+    delete sanitized[field];
+  }
+  return sanitized;
+}

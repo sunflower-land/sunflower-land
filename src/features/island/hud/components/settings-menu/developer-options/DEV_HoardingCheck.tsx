@@ -11,14 +11,12 @@ import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
-import { getOffChainItems } from "features/game/lib/offChainItems";
+import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
 import { InventoryItemName } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/lib/crafting";
-import { useNow } from "lib/utils/hooks/useNow";
-import { makeGame } from "features/game/lib/transforms";
+import { getKeys } from "lib/object";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
 
@@ -30,7 +28,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const [farmId, setFarmId] = useState("");
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
   const [wardrobeLimits, setWardrobeLimits] = useState<string[]>([]);
-  const now = useNow();
+
   async function search() {
     setLoading(true);
     setInventoryLimits([]);
@@ -84,9 +82,6 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       ).map(Number);
 
       const inventoryLimits: string[] = [];
-      const offChainItems = new Set(
-        getOffChainItems(now, makeGame(json.farms[farmId])),
-      );
 
       getKeys(current).forEach((key) => {
         const diff = Number(current[key] ?? "0") - Number(previous[key] ?? "0");
@@ -97,7 +92,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
-          if (offChainItems.has(key)) return;
+          if (OFFCHAIN_ITEMS.has(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);

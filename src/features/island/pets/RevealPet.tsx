@@ -12,7 +12,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { getPetImageForMarketplace } from "./lib/petShared";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 import { capitalize } from "lib/utils/capitalize";
 import { getPetBuffs } from "features/game/types/getPetBuffs";
 import { MachineState } from "features/game/lib/gameMachine";

@@ -1,7 +1,7 @@
 import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
-import { getKeys } from "./decorations";
+import { getKeys } from "lib/object";
 import {
   ADVANCED_RESOURCES,
   REQUIRED_NODES_TO_FORGE,
