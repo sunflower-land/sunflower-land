@@ -96,7 +96,7 @@ export function getFetchYield({
     }
   }
 
-  return { yieldAmount: yieldAmount.toNumber(), boostUsed };
+  return { yieldAmount, boostUsed };
 }
 
 export type FetchPetAction = {

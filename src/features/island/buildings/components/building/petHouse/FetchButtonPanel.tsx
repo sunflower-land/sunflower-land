@@ -19,7 +19,7 @@ export interface FetchButtonPanelProps {
   selected?: boolean;
   locked?: boolean;
   className?: string;
-  fetchAmount: number;
+  fetchAmount: Decimal;
 }
 
 export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
@@ -93,8 +93,8 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
               className="w-4 h-4 object-contain shrink-0"
             />
             <span className="text-brown-800">
-              {Number.isInteger(fetchAmount)
-                ? fetchAmount
+              {fetchAmount.isInteger()
+                ? fetchAmount.toString()
                 : fetchAmount.toFixed(2)}
             </span>
           </div>

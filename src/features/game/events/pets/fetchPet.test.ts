@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { fetchPet } from "./fetchPet";
 import Decimal from "decimal.js-light";
@@ -48,7 +47,7 @@ describe("fetchPet", () => {
                 name: "Barkley",
                 requests: { food: [], fedAt: now - 4 * 24 * 60 * 60 * 1000 },
                 energy: 100,
-                experience: 10,
+                experience: 120,
                 pettedAt: now,
               },
             },
@@ -174,7 +173,7 @@ describe("fetchPet", () => {
     expect(state.inventory["Acorn"]).toEqual(new Decimal(1.1));
   });
 
-  it("applies the Oaken fetch bonus", () => {
+  it("fetches +0.25 Acorn with Oaken", () => {
     const state = fetchPet({
       state: {
         ...INITIAL_FARM,
@@ -231,7 +230,6 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
-
       createdAt: now,
     });
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
@@ -262,7 +260,6 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
-
       createdAt: now,
     });
 
@@ -310,9 +307,112 @@ describe("fetchPet", () => {
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Fossil Shell" },
-
       createdAt: now,
     });
     expect(state.inventory["Fossil Shell"]).toEqual(new Decimal(1));
+  });
+
+  it("gives +0.15 Native if pet level is >= 50", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 200,
+              experience: 122_500,
+              pettedAt: now,
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Ribbon" },
+      createdAt: now,
+    });
+    expect(state.inventory["Ribbon"]).toEqual(new Decimal(1.15));
+  });
+
+  it("gives +0.25 Native if pet level is >= 100", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 200,
+              experience: 495_000,
+              pettedAt: now,
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Ribbon" },
+      createdAt: now,
+    });
+    expect(state.inventory["Ribbon"]).toEqual(new Decimal(1.25));
+  });
+
+  it("gives +0.50 Native if NFT pet level is >= 150 and fetch is Moonfur", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          nfts: {
+            1: {
+              id: 1,
+              name: "Pet #1",
+              requests: { food: [], fedAt: now },
+              energy: 1000,
+              experience: 1_117_500,
+              pettedAt: now,
+              traits: {
+                type: "Phoenix",
+                fur: "Green",
+                accessory: "Crown",
+                bib: "Gold Necklace",
+                aura: "Common Aura",
+              },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: 1, fetch: "Moonfur" },
+      createdAt: now,
+    });
+    expect(state.inventory["Moonfur"]).toEqual(new Decimal(1.5));
+  });
+
+  it("gives +0.25 Native if NFT pet level is >= 150 and fetch is not Moonfur", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          nfts: {
+            1: {
+              id: 1,
+              name: "Pet #1",
+              requests: { food: [], fedAt: now },
+              energy: 200,
+              experience: 1_117_500,
+              pettedAt: now,
+              traits: {
+                type: "Griffin",
+                fur: "Green",
+                accessory: "Crown",
+                bib: "Gold Necklace",
+                aura: "Common Aura",
+              },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: 1, fetch: "Ruffroot" },
+      createdAt: now,
+    });
+    expect(state.inventory["Ruffroot"]).toEqual(new Decimal(2.25));
   });
 });
