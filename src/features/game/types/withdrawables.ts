@@ -1631,4 +1631,10 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-02-01"),
     withdrawAt: new Date("2026-02-01"),
   },
+
+  // Tutorial marketplace item
+  "Stone Beetle": {
+    tradeAt: new Date("2026-03-09"),
+    // Cannot withdraw the tutorial item
+  },
 };

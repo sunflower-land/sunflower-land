@@ -213,7 +213,6 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Laurie the Chuckle Crow",
     "Immortal Pear",
     "Bale",
-    "Stone Beetle",
     "Iron Beetle",
     "Gold Beetle",
     "Fairy Circle",
