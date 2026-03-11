@@ -18,14 +18,8 @@ import {
   LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
-  placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { Label } from "components/ui/Label";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
-import { LandscapingChest } from "./components/LandscapingChest";
-import { getChestItems } from "./components/inventory/utils/inventory";
-import { getKeys } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getRemoveAction,
   getSelectedCollectible,
@@ -38,13 +32,22 @@ import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterp
 import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
-import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
+import {
+  CraftBuildModal,
+  CraftDecorationsModal,
+} from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { getKeys } from "lib/object";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { getChestItems } from "./components/inventory/utils/inventory";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { LandscapingChest } from "./components/LandscapingChest";
+import classNames from "classnames";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -81,6 +84,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const [showRemoveAllConfirmation, setShowRemoveAllConfirmation] =
     useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
+  const [showCraftBuild, setShowCraftBuild] = useState(false);
   const button = useSound("button");
 
   const child = gameService.getSnapshot().children
@@ -110,6 +114,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const idle = useSelector(child, isIdle);
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
+  const hasNoBuildings = !gameState.buildings["Water Well"];
 
   const isShrine =
     selectedItem?.name &&
@@ -225,18 +230,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
-              <RoundButton className="mb-3.5" onClick={removeAll}>
-                <img
-                  src={cleanBroom}
-                  className="absolute group-active:translate-y-[2px]"
-                  style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 13}px`,
-                  }}
-                />
-              </RoundButton>
-
               {location === "farm" && (
                 <>
                   <RoundButton
@@ -252,62 +245,63 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                         width: `${PIXEL_SCALE * 14}px`,
                       }}
                     />
-                    {showHelper && (
-                      <div
-                        className="absolute z-40"
-                        style={{
-                          left: `${PIXEL_SCALE * -8}px`,
-                          top: `${PIXEL_SCALE * 20}px`,
-                          transform: "scaleX(-1)",
-                        }}
-                      >
-                        <img
-                          className="cursor-pointer group-hover:img-highlight animate-pulsate"
-                          src={SUNNYSIDE.icons.click_icon}
-                          style={{
-                            width: `${PIXEL_SCALE * 18}px`,
-                            display: "block",
-                          }}
-                        />
-                      </div>
-                    )}
                   </RoundButton>
                   <CraftDecorationsModal
                     show={showDecorations}
                     onHide={() => setShowDecorations(false)}
                   />
+
+                  <RoundButton
+                    className="mb-3.5"
+                    onClick={() => setShowCraftBuild(true)}
+                  >
+                    <img src={SUNNYSIDE.icons.disc} className="w-full" />
+                    <img
+                      src={SUNNYSIDE.icons.hammer}
+                      className={classNames(
+                        "absolute group-active:translate-y-[2px]",
+                        {
+                          "animate-pulsate": hasNoBuildings,
+                        },
+                      )}
+                      style={{
+                        top: `${PIXEL_SCALE * 4.5}px`,
+                        left: `${PIXEL_SCALE * 4.5}px`,
+                        width: `${PIXEL_SCALE * 13}px`,
+                      }}
+                    />
+                    {hasNoBuildings && (
+                      <div
+                        className="absolute z-40"
+                        style={{
+                          left: `${PIXEL_SCALE * -21}px`,
+                          top: `${PIXEL_SCALE * 6}px`,
+                        }}
+                      >
+                        <Label type="vibrant" className="whitespace-nowrap">
+                          {t("build")}
+                        </Label>
+                      </div>
+                    )}
+                  </RoundButton>
+                  <CraftBuildModal
+                    show={showCraftBuild}
+                    onHide={() => setShowCraftBuild(false)}
+                  />
                 </>
               )}
 
-              <Chest
-                location={location}
-                onPlaceChestItem={(selected) => {
-                  child.send("SELECT", {
-                    action: placeEvent(selected),
-                    placeable: { name: selected },
-                    multiple: true,
-                  });
-                }}
-                onPlaceNFT={(id, nft) => {
-                  child.send("SELECT", {
-                    action: "nft.placed",
-                    placeable: { id, name: nft },
-                    location,
-                  });
-                }}
-                onPlaceFarmHand={
-                  farmHandIds.length > 0
-                    ? (id) => {
-                        button.play();
-                        child.send("SELECT", {
-                          placeable: { name: "FarmHand", id },
-                          action: "farmHand.placed",
-                          requirements: { coins: 0, ingredients: {} },
-                        });
-                      }
-                    : undefined
-                }
-              />
+              <RoundButton className="mb-3.5" onClick={removeAll}>
+                <img
+                  src={cleanBroom}
+                  className="absolute group-active:translate-y-[2px]"
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 13}px`,
+                  }}
+                />
+              </RoundButton>
 
               {/* {farmHandIds.length > 0 && (
                 <>

@@ -10,7 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
-    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 3;
 
   return missingScarecrow;
 };
@@ -29,7 +29,7 @@ export const LandscapeButton: React.FC = () => {
       }}
     >
       <img
-        src={SUNNYSIDE.icons.drag}
+        src={SUNNYSIDE.tools.hammer}
         className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,

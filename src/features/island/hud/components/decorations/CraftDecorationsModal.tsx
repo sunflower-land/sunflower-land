@@ -34,11 +34,10 @@ interface Props {
 
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const { gameService } = useContext(Context);
-  type Tab = "landscaping" | "biomes" | "craft" | "build";
-  const showCrafting = useSelector(gameService, needsHelp);
+  type Tab = "landscaping" | "biomes";
   const islandType = useSelector(gameService, _islandType);
 
-  const [tab, setTab] = useState<Tab>(showCrafting ? "craft" : "landscaping");
+  const [tab, setTab] = useState<Tab>("landscaping");
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -50,16 +49,6 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
             id: "landscaping",
             icon: SUNNYSIDE.decorations.bush,
             name: "Landscaping",
-          },
-          {
-            id: "craft",
-            icon: SUNNYSIDE.icons.hammer,
-            name: "Craft",
-          },
-          {
-            id: "build",
-            icon: SUNNYSIDE.icons.hammer,
-            name: "Build",
           },
           ...(islandType !== "basic"
             ? [
@@ -76,9 +65,42 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         container={OuterPanel}
       >
         {tab === "landscaping" && <LandscapingDecorations onClose={onHide} />}
+        {tab === "biomes" && <BuyBiomes onClose={onHide} />}
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+export const CraftBuildModal: React.FC<Props> = ({ show, onHide }) => {
+  const { gameService } = useContext(Context);
+  type Tab = "craft" | "build";
+  const showCrafting = useSelector(gameService, needsHelp);
+
+  const [tab, setTab] = useState<Tab>(showCrafting ? "craft" : "build");
+
+  return (
+    <Modal show={show} onHide={onHide} size="lg">
+      <CloseButtonPanel
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            id: "craft",
+            icon: SUNNYSIDE.icons.lightning,
+            name: "Boosts",
+          },
+          {
+            id: "build",
+            icon: SUNNYSIDE.icons.hammer,
+            name: "Build",
+          },
+        ]}
+        onClose={onHide}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
+        container={OuterPanel}
+      >
         {tab === "craft" && <IslandBlacksmithItems />}
         {tab === "build" && <Buildings onClose={onHide} />}
-        {tab === "biomes" && <BuyBiomes onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );
