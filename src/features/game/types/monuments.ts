@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { getKeys } from "lib/object";
-import { GameState, InventoryItemName } from "./game";
+import { BoostName, GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
 import { PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
@@ -212,6 +212,30 @@ export const REWARD_ITEMS: Record<
     amount: 2,
   },
 };
+
+export function getProjectReward({
+  project,
+  game,
+  amount,
+}: {
+  amount: number;
+  project: MonumentName;
+  game: GameState;
+}) {
+  let newAmount = amount;
+  const boostsUsed: BoostName[] = [];
+
+  if (
+    isMonumentActive({ game, monument: "Cornucopia" }) &&
+    (project === "Big Orange" ||
+      project === "Big Apple" ||
+      project === "Big Banana")
+  ) {
+    newAmount += 1;
+    boostsUsed.push("Cornucopia");
+  }
+  return { amount: newAmount, boostsUsed };
+}
 
 function isMonumentComplete({
   game,

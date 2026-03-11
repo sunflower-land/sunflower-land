@@ -17,6 +17,7 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
+  getProjectReward,
   isHelpComplete,
   MonumentName,
   RAFFLE_REWARDS,
@@ -165,7 +166,11 @@ const ProjectComplete: React.FC<{
 
   const rewardItem = REWARD_ITEMS[project];
 
-  const amount = rewardItem?.amount ?? 0;
+  const { amount } = getProjectReward({
+    project,
+    game: state,
+    amount: rewardItem.amount,
+  });
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
 
