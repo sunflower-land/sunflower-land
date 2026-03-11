@@ -1,13 +1,24 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
 
+export const VIP_TRIAL_PERIOD_MS = 1000 * 60 * 60 * 24 * 7;
+
 export const hasVipAccess = ({
   game,
   now = Date.now(),
+  type = "trial",
 }: {
   game: GameState;
   now?: number;
+  type?: "trial" | "full";
 }): boolean => {
+  const hasTrialVIP =
+    !!game.vip?.trialStartedAt &&
+    game.vip?.trialStartedAt > now - VIP_TRIAL_PERIOD_MS;
+  if (type === "trial" && hasTrialVIP) {
+    return true;
+  }
+
   const lifetimeBannerQuantity =
     game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
 

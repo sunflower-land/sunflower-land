@@ -49,6 +49,7 @@ import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { FreeTrial } from "./FreeTrial";
 
 type InteractableName =
   | "guardian"
@@ -153,7 +154,8 @@ type InteractableName =
   | "event_store"
   | "event_noticeboard"
   | "holiday_puzzle"
-  | "chapter_raffles";
+  | "chapter_raffles"
+  | "free_trial";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -212,6 +214,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "vip_chest"} onHide={closeModal}>
         <VIPGift onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "free_trial"} onHide={closeModal}>
+        <FreeTrial onClose={closeModal} />
       </Modal>
 
       {/* TODO - make smoother opening */}

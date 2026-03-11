@@ -16,6 +16,7 @@ import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
 import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
 import { CONFIG } from "lib/config";
+import { canClaimTrial } from "features/game/events/landExpansion/startTrial";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -164,6 +165,8 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
+  private trialVipSprite: Phaser.GameObjects.Sprite | undefined;
+
   constructor() {
     super({
       name: "plaza",
@@ -180,6 +183,10 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("vip_gift", "world/vip_gift.png");
+    this.load.spritesheet("trial_vip", "world/trial_vip.webp", {
+      frameWidth: 18,
+      frameHeight: 23,
+    });
     this.load.image("rarecrows", "world/rarecrows.webp");
 
     this.load.image("page", "world/page.png");
@@ -487,6 +494,48 @@ export class PlazaScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    // Trial VIP - only show if canClaimTrial; disappears after trial.started
+    if (canClaimTrial({ vip: this.gameState.vip })) {
+      const trialVip = this.add.sprite(600, 320, "trial_vip");
+      this.trialVipSprite = trialVip;
+      trialVip.setDepth(100000001);
+      this.anims.create({
+        key: "trial_vip_anim",
+        frames: this.anims.generateFrameNumbers("trial_vip", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+      });
+      trialVip.play("trial_vip_anim", true);
+      this.physics.world.enable(trialVip);
+      this.colliders?.add(trialVip);
+      this.triggerColliders?.add(trialVip);
+      (trialVip.body as Phaser.Physics.Arcade.Body)
+        .setSize(24, 24)
+        .setOffset(-11, -8.5) // center 40x40 on 18x23 sprite (origin 0.5)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+      trialVip.setData("id", "free_trial");
+      this.onCollision["free_trial"] = () => {
+        interactableModalManager.open("free_trial");
+      };
+      trialVip
+        .setInteractive({
+          cursor: "pointer",
+          hitArea: new Phaser.Geom.Rectangle(-25, -25, 50, 50),
+          hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+        })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(trialVip, 75)) {
+            interactableModalManager.open("free_trial");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+    }
 
     this.add.sprite(321.5, 230, "shop_icon");
 
@@ -938,5 +987,17 @@ export class PlazaScene extends BaseScene {
     }
 
     this.updateDogs();
+
+    // Remove trial VIP from plaza once trial has been started
+    if (
+      this.trialVipSprite &&
+      !canClaimTrial({ vip: this.gameState.vip })
+    ) {
+      this.colliders?.remove(this.trialVipSprite);
+      this.triggerColliders?.remove(this.trialVipSprite);
+      delete this.onCollision["free_trial"];
+      this.trialVipSprite.destroy();
+      this.trialVipSprite = undefined;
+    }
   }
 }
