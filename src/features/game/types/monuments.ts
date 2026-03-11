@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { getKeys } from "lib/object";
-import { GameState, InventoryItemName } from "./game";
+import { BoostName, GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
 import { PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
@@ -213,7 +213,31 @@ export const REWARD_ITEMS: Record<
   },
 };
 
-export function isMonumentComplete({
+export function getProjectReward({
+  project,
+  game,
+  amount,
+}: {
+  amount: number;
+  project: MonumentName;
+  game: GameState;
+}) {
+  let newAmount = amount;
+  const boostsUsed: BoostName[] = [];
+
+  if (
+    isMonumentActive({ game, monument: "Cornucopia" }) &&
+    (project === "Big Orange" ||
+      project === "Big Apple" ||
+      project === "Big Banana")
+  ) {
+    newAmount += 1;
+    boostsUsed.push("Cornucopia");
+  }
+  return { amount: newAmount, boostsUsed };
+}
+
+function isMonumentComplete({
   game,
   monument,
 }: {
@@ -223,6 +247,19 @@ export function isMonumentComplete({
   return (
     (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
     REQUIRED_CHEERS[monument]
+  );
+}
+
+export function isMonumentActive({
+  game,
+  monument,
+}: {
+  game: GameState;
+  monument: MonumentName;
+}) {
+  return (
+    isMonumentComplete({ game, monument }) &&
+    isCollectibleBuilt({ name: monument, game })
   );
 }
 
@@ -446,18 +483,12 @@ export function getHelpLimit({
   };
 
   getKeys(monuments).forEach((monument) => {
-    if (
-      isMonumentComplete({ game, monument }) &&
-      isCollectibleBuilt({ name: monument, game })
-    ) {
+    if (isMonumentActive({ game, monument })) {
       limit += 1;
     }
   });
 
-  if (
-    isCollectibleBuilt({ name: "Teamwork Monument", game }) &&
-    isMonumentComplete({ game, monument: "Teamwork Monument" })
-  ) {
+  if (isMonumentActive({ game, monument: "Teamwork Monument" })) {
     limit += 1;
   }
 
