@@ -785,6 +785,13 @@ export const MAINNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
 
+  // Reserved Eggs - Not assigned - To update when assigned
+  {
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
+    startId: 2511,
+    endId: 2874,
+  },
+
   // Reserved Eggs - Giveaway
   {
     revealAt: new Date("2025-11-12T00:00:00.000Z"),
@@ -825,6 +832,13 @@ export const TESTNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     endId: 2510,
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
+  },
+
+  // Reserved Eggs - Not assigned - To update when assigned
+  {
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
+    startId: 2511,
+    endId: 2874,
   },
 
   // Reserved Eggs - Giveaway
