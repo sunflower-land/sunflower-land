@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 
 export const VIP_TRIAL_PERIOD_MS = 1000 * 60 * 60 * 24 * 7;
 
@@ -42,6 +42,18 @@ export const VIP_DURATIONS: Record<VipBundle, number> = {
   "3_MONTHS": 1000 * 60 * 60 * 24 * 31 * 3,
   "2_YEARS": 1000 * 60 * 60 * 24 * 365 * 2,
 };
+
+/** VIP bonus daily reward by bumpkin level (1 item). Used when claiming daily reward. */
+export function getVipDailyBonusItem(level: number): InventoryItemName | null {
+  if (level < 3) return "Mushroom Soup";
+  if (level < 6) return "Bumpkin Broth";
+  if (level < 10) return "Kale Stew";
+  if (level < 15) return "Sunflower Cake";
+  if (level < 20) return "Orange Cake";
+  if (level < 30) return "Parsnip Cake";
+  if (level < 100) return "Honey Cake";
+  return "Honey Cheddar";
+}
 
 const EXPANSION_VIP_DISCOUNT_FIXED = 500;
 const EXPANSION_VIP_DISCOUNT_PERCENT = 0.2;

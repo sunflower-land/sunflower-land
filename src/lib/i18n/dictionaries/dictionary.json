@@ -6662,6 +6662,7 @@
   "dailyReward.returnTomorrow": "Come back tomorrow to claim your next reward.",
   "dailyReward.timeLeft": "{{time}} Left",
   "dailyReward.claim": "Claim",
+  "dailyReward.bonusVipGift": "VIP Gift",
   "chestRewardsList.otherChests.desc1": "Open the chest for a chance to receive one of the following rewards.",
   "chestRewardsList.otherChests.desc2": "Some rewards are exclusive to specific chest types.",
   "chestRewardsList.listTitle1": "Reward",

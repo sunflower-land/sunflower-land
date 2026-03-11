@@ -65,6 +65,29 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
+
+  it("gives VIP players a bonus daily reward based on level", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: LEVEL_3_EXPERIENCE, // level 3
+        },
+        vip: {
+          trialStartedAt: now - 24 * 60 * 60 * 1000,
+          expiresAt: 0,
+          bundles: [],
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Bumpkin Broth"]).toEqual(new Decimal(1));
+  });
+
   it("keeps streak for first 7 days even if a day is missed", () => {
     const now = new Date("2025-01-10T05:00:00.000Z").getTime();
     const state = claimDailyReward({
