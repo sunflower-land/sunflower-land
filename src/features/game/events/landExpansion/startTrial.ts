@@ -1,6 +1,3 @@
-import { BONUSES, BonusName } from "features/game/types/bonuses";
-import { getKeys } from "lib/object";
-import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, VIP } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -24,7 +21,7 @@ export function startTrial({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (game.vip?.trialStartedAt || game.vip?.expiresAt) {
+    if (!canClaimTrial({ vip: game.vip })) {
       throw new Error("VIP already started");
     }
 

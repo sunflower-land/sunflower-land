@@ -155,7 +155,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
     return <FaceRecognition />;
   }
 
-  const isVIP = hasVipAccess({ game: state });
+  const isVIP = hasVipAccess({ game: state, type: "full" });
   if (!isVIP) {
     return (
       <div className="p-1">

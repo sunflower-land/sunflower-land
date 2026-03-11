@@ -1306,7 +1306,7 @@ export function startGame(authContext: AuthContext) {
                 // Wow, they haven't seen the VIP promo in 1 month
                 const readAt = getVipRead();
                 if (
-                  !hasVipAccess({ game: context.state }) &&
+                  !hasVipAccess({ game: context.state, type: "full" }) &&
                   (!readAt ||
                     readAt.getTime() <
                       Date.now() - 1 * 31 * 24 * 60 * 60 * 1000)

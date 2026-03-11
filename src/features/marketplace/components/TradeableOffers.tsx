@@ -167,6 +167,7 @@ export const TradeableOffers: React.FC<{
     tradeable?.isVip &&
     !hasVipAccess({
       game: gameService.getSnapshot().context.state,
+      type: "full",
     });
 
   return (

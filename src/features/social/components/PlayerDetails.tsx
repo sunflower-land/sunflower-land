@@ -246,6 +246,7 @@ export const PlayerDetails: React.FC<Props> = ({
                     </Label>
                     {hasVipAccess({
                       game: gameService.getSnapshot().context.state,
+                      type: "full",
                     }) && (
                       <Label
                         type="warning"

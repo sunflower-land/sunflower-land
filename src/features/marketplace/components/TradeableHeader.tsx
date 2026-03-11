@@ -119,6 +119,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     tradeable?.isVip &&
     !hasVipAccess({
       game: gameService.getSnapshot().context.state,
+      type: "full",
     });
 
   const isTutorialItem = tradeable?.id === 2129;
