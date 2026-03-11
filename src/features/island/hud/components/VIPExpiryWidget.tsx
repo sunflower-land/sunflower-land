@@ -78,7 +78,7 @@ export const VIPExpiryWidget: React.FC = () => {
 
   const handleClick = () => {
     acknowledgeVipExpiry();
-    openModal("BUY_BANNER");
+    openModal("VIP_SAVINGS");
     setShow(false);
   };
 

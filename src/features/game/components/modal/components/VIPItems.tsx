@@ -45,6 +45,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { GameState, VIP } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { VIPSavings } from "./VIPSavings";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -207,7 +208,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           </div>
         </Panel>
       </ModalOverlay>
-      <div className="flex flex-col pt-2 max-h-[400px] scrollable pr-0.5 overflow-y-scroll">
+      <div className="flex flex-col pt-2 max-h-[400px] scrollable px-0.5 overflow-y-scroll">
         <div className="flex justify-between items-center px-1">
           <div className="flex items-center gap-2">
             {!!onBack && (
@@ -233,7 +234,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         <p className="text-xs px-1 mt-2 mb-2">{t("season.vip.description")}</p>
         <VIPLabel state={state} now={now} />
 
-        <div className="flex mt-3 mb-2">
+        <div className="flex mt-3 mb-2 px-1">
           {getKeys(VIP_PRICES).map((name) => (
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
@@ -329,6 +330,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 : []),
             ]}
           />
+        </div>
+        <div className="mt-3 px-0.5">
+          <VIPSavings />
         </div>
       </div>
     </>

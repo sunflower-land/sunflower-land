@@ -43,16 +43,6 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-/** Mock farmActivity data for VIP-related activities (for display/demos) */
-export const MOCK_VIP_FARM_ACTIVITY = {
-  "VIP Coins Saved": 5000,
-  "VIP FLOWER Saved": 120,
-  "VIP Ticket Earned": 24,
-  "VIP Gift Claimed": 7,
-  "Recipe Queued": 12,
-  "VIP XP Earned": 450,
-};
-
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => (b.readyAt ?? 0) <= Date.now() && b.coordinates);
 }
@@ -632,7 +622,7 @@ export const INITIAL_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: { ...MOCK_VIP_FARM_ACTIVITY },
+  farmActivity: {},
   milestones: {},
   specialEvents: {
     history: {},
@@ -764,7 +754,8 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  farmActivity: { ...MOCK_VIP_FARM_ACTIVITY },
+  farmActivity: {},
+
   milestones: {},
   home: { collectibles: {} },
   island: { type: "basic" },
@@ -1142,7 +1133,8 @@ export const EMPTY: GameState = {
   oilReserves: {},
   trees: {},
   sunstones: {},
-  farmActivity: { ...MOCK_VIP_FARM_ACTIVITY },
+  farmActivity: {},
+
   milestones: {},
   fishing: {
     wharf: {},

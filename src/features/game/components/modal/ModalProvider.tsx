@@ -7,6 +7,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
 import { CurrenciesModal } from "features/island/hud/components/CurrenciesModal";
 import { VIPItems } from "./components/VIPItems";
+import { VIPSavings } from "./components/VIPSavings";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
 import { Telegram } from "features/auth/components/Telegram/Telegram";
@@ -31,6 +32,7 @@ type GlobalModal =
   | "BETTY"
   | "BLACKSMITH"
   | "VIP_ITEMS"
+  | "VIP_SAVINGS"
   | "REPUTATION"
   | "TELEGRAM"
   | "TWITTER"
@@ -90,6 +92,12 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         <Panel>
           <VIPItems />
         </Panel>
+      </Modal>
+
+      <Modal show={opened === "VIP_SAVINGS"} onHide={handleClose}>
+        <CloseButtonPanel onClose={handleClose}>
+          <VIPSavings showBuyButton />
+        </CloseButtonPanel>
       </Modal>
 
       <Modal show={opened === "CHAPTER_TRACKS"} onHide={handleClose}>
