@@ -62,16 +62,17 @@ export const WithdrawPets: React.FC<Props> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const now = useNow();
+  const nowDate = new Date(now);
 
   const withdrawableUnselected = unselected.filter((petId) => {
     const { withdrawAt } = getPetReleases(petId);
-    return !withdrawAt || withdrawAt <= new Date(now);
+    return !withdrawAt || withdrawAt <= nowDate;
   });
 
   const revealedButNotWithdrawable = unselected.filter((petId) => {
     const { withdrawAt } = getPetReleases(petId);
     const isRevealed = isPetNFTRevealed(petId, now);
-    return isRevealed && !!withdrawAt && withdrawAt > new Date(now);
+    return isRevealed && !!withdrawAt && withdrawAt > nowDate;
   });
 
   const petsToShow = [...withdrawableUnselected, ...revealedButNotWithdrawable];
@@ -222,7 +223,7 @@ export const WithdrawPets: React.FC<Props> = ({
               const revealDate = getPetNFTReleaseDate(petId, now);
               const { withdrawAt } = getPetReleases(petId);
               const isRevealedButNotWithdrawable =
-                isRevealed && !!withdrawAt && withdrawAt > new Date(now);
+                isRevealed && !!withdrawAt && withdrawAt > nowDate;
 
               const isDisabled =
                 isRestricted || !isRevealed || isRevealedButNotWithdrawable;

@@ -45,6 +45,7 @@ export const MyCollection: React.FC = () => {
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
   const now = useNow();
+  const nowDate = new Date(now);
 
   let items: CollectionItem[] = [];
 
@@ -62,7 +63,7 @@ export const MyCollection: React.FC = () => {
   const wardrobe = availableWardrobe(gameState);
   getKeys(wardrobe).forEach((name) => {
     const withdrawAt = WEARABLE_RELEASES[name]?.withdrawAt;
-    const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
+    const canWithdraw = !!withdrawAt && withdrawAt <= nowDate;
     if (canWithdraw) {
       items.push({
         id: ITEM_IDS[name],
@@ -82,9 +83,9 @@ export const MyCollection: React.FC = () => {
 
   getKeys(petNFTs ?? {}).forEach((id) => {
     const petId = Number(id);
-    const { withdrawAt } = getPetReleases(petId);
-    const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
-    if (canWithdraw) {
+    const { tradeAt } = getPetReleases(petId);
+    const canTrade = !!tradeAt && tradeAt <= nowDate;
+    if (canTrade) {
       items.push({
         id: petId,
         collection: "pets",
