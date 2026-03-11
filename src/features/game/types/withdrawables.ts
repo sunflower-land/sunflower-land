@@ -1,6 +1,7 @@
 import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
+import { getPetNFTRevealConfig } from "./pets";
 
 type Releases = {
   tradeAt: Date;
@@ -1641,3 +1642,18 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     // Cannot withdraw the tutorial item
   },
 };
+
+export function getPetReleases(petId: number): {
+  tradeAt?: Date;
+  withdrawAt?: Date;
+} {
+  const config = getPetNFTRevealConfig().find(
+    (c) => petId >= c.startId && petId <= c.endId,
+  );
+  if (!config) return {};
+
+  return {
+    tradeAt: config.tradeAt,
+    withdrawAt: config.withdrawAt,
+  };
+}

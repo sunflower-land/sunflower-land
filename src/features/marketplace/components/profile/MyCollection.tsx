@@ -19,7 +19,10 @@ import { ListViewCard } from "../ListViewCard";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
-import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
+import {
+  WEARABLE_RELEASES,
+  getPetReleases,
+} from "features/game/types/withdrawables";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -78,11 +81,16 @@ export const MyCollection: React.FC = () => {
   });
 
   getKeys(petNFTs ?? {}).forEach((id) => {
-    items.push({
-      id,
-      collection: "pets",
-      count: 1,
-    });
+    const petId = Number(id);
+    const { withdrawAt } = getPetReleases(petId);
+    const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
+    if (canWithdraw) {
+      items.push({
+        id: petId,
+        collection: "pets",
+        count: 1,
+      });
+    }
   });
 
   items = items.filter((item) => {

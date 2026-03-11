@@ -28,6 +28,7 @@ import {
   getPetNFTReleaseDate,
   isPetNFTRevealed,
 } from "features/game/types/pets";
+import { getPetReleases } from "features/game/types/withdrawables";
 import { useNow } from "lib/utils/hooks/useNow";
 
 // const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
@@ -61,6 +62,11 @@ export const WithdrawPets: React.FC<Props> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const now = useNow();
+
+  const withdrawableUnselected = unselected.filter((petId) => {
+    const { withdrawAt } = getPetReleases(petId);
+    return !!withdrawAt && withdrawAt <= new Date(now);
+  });
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -194,7 +200,7 @@ export const WithdrawPets: React.FC<Props> = ({
           {t("withdraw.pets")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {unselected
+          {withdrawableUnselected
             .slice()
             .sort((a, b) => sortWithdrawableItems(a, b))
             .map((petId) => {
@@ -253,8 +259,8 @@ export const WithdrawPets: React.FC<Props> = ({
               );
             })}
           {/* Pad with empty boxes */}
-          {unselected.length < 4 &&
-            new Array(4 - unselected.length)
+          {withdrawableUnselected.length < 4 &&
+            new Array(4 - withdrawableUnselected.length)
               .fill(null)
               .map((_, index) => <Box disabled key={index} />)}
         </div>
