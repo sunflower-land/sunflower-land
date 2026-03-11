@@ -15,7 +15,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-export const getFetchPercentage = ({
+export const getPetLevelFetchYield = ({
   petLevel,
   fetchResource,
   isPetNFT,
@@ -73,7 +73,7 @@ export function getFetchYield({
   }
 
   if (fetchResource !== "Fossil Shell") {
-    const fetchPercentage = getFetchPercentage({
+    const fetchPercentage = getPetLevelFetchYield({
       petLevel,
       fetchResource,
       isPetNFT,
