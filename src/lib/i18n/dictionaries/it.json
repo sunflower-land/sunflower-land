@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Nessuna offerta disponibile",
   "marketplace.signAndList": "Firma ed elenca",
   "marketplace.itemInUse": "Articolo in uso",
-  "marketplace.availableCount": "Disponibile: {{count}}",
   "marketplace.itemSecured": "Articolo protetto",
   "marketplace.youDontOwn": "Questo articolo non è tuo!",
   "marketplace.itemInUseWarning": "Questo oggetto è attualmente in uso nella tua fattoria. Devi prima rimuoverlo dal petto.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Tieni d'occhio questi pinguini o causeranno il caos sulla tua isola!",
   "description.snowman": "Un pupazzo di neve speciale che per qualche motivo non si scioglie mai!?",
   "description.festiveToyTrain": "Un pupazzo di neve speciale che per qualche motivo non si scioglie mai!?",
-  "marketplace.available": "Disponibile: {{count}}",
   "skill.strongRoots": "-10% Tempo di crescita delle colture avanzato",
   "skill.acreFarm.buff": "+1 Rendimento del raccolto avanzato",
   "skill.acreFarm.debuff": "-0,5 Rendimento delle colture di base e media",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Visualizza le negoziazioni",
   "offer.getStarterPack": "Acquista ora",
   "buds.place": "Posiziona il tuo bocciolo",
-  "pete.craftScarecrow.three": "Crea uno spaventapasseri per accelerare quei girasoli."
+  "pete.craftScarecrow.three": "Crea uno spaventapasseri per accelerare quei girasoli.",
+  "marketplace.available": "Nel tuo inventario: {{count}}",
+  "marketplace.availableCount": "Nel tuo inventario: {{count}}",
+  "marketplace.tutorial.one": "Salve, partner! Ti sei guadagnato dei FIORI. Questa è la valuta che utilizziamo sul Marketplace.",
+  "marketplace.tutorial.two": "Sul Marketplace puoi scambiare risorse, acquistare oggetti da collezione e potenziare la tua fattoria. Lascia che ti mostri un oggetto popolare: lo Stone Beetle!",
+  "marketplace.tutorial.three": "Pronti a esplorare? Vai al Marketplace per vedere lo Stone Beetle e iniziare a fare trading.",
+  "marketplace.tutorial.openButton": "Apri il Marketplace"
 }

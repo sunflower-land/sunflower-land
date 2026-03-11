@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Teklif yok",
   "marketplace.signAndList": "İmzala ve Liste",
   "marketplace.itemInUse": "Kullanımdaki öğe",
-  "marketplace.availableCount": "Mevcut: {{count}}",
   "marketplace.itemSecured": "Öğe güvence altına alındı",
   "marketplace.youDontOwn": "Bu öğeye sahip değilsin!",
   "marketplace.itemInUseWarning": "Bu ürün şu anda çiftliğinizde kullanılıyor. Önce göğsünüze çıkarmalısınız.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Gözlerini bu penguenlerde tut yoksa adanda kaosa neden olurlar!",
   "description.snowman": "Bazı nedenlerden dolayı asla erimeyen özel bir kardan adam!?",
   "description.festiveToyTrain": "Bazı nedenlerden dolayı asla erimeyen özel bir kardan adam!?",
-  "marketplace.available": "Mevcut: {{count}}",
   "skill.strongRoots": "-10% Gelişmiş mahsul büyüme süresi",
   "skill.acreFarm.buff": "+1 Gelişmiş mahsul verimi",
   "skill.acreFarm.debuff": "-0.5 Temel ve Orta mahsul verimi",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "İşlemleri görüntüleyin",
   "offer.getStarterPack": "Şimdi Satın Al",
   "buds.place": "Tomurcuğunu yerleştir",
-  "pete.craftScarecrow.three": "Ayçiçeklerini hızlandırmak için bir korkuluk yap."
+  "pete.craftScarecrow.three": "Ayçiçeklerini hızlandırmak için bir korkuluk yap.",
+  "marketplace.available": "Envanterinizde: {{count}}",
+  "marketplace.availableCount": "Envanterinizde: {{count}}",
+  "marketplace.tutorial.one": "Selamlar, ortak! Biraz çiçek kazandın. Market'te kullandığımız para birimidir.",
+  "marketplace.tutorial.two": "Marketplace'de kaynak ticareti yapabilir, koleksiyon ürünleri satın alabilir ve çiftliğinizi güçlendirebilirsiniz. Size popüler bir eşya göstereyim - Taş Böceği!",
+  "marketplace.tutorial.three": "Keşfetmeye hazır mısınız? Taş Böceği'ni görmek ve ticarete başlamak için Marketplace'e gidin.",
+  "marketplace.tutorial.openButton": "Marketplace'i açın"
 }

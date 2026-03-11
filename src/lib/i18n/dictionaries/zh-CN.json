@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "暂无报价",
   "marketplace.signAndList": "签名并挂单",
   "marketplace.itemInUse": "物品正在使用",
-  "marketplace.availableCount": "可用：{{count}}",
   "marketplace.itemSecured": "物品已妥置",
   "marketplace.youDontOwn": "您未拥有这件物品！",
   "marketplace.itemInUseWarning": "此物品目前正在被您的农场使用。您必须先把它移到您的库存。",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "留意这些企鹅，否则它们会在你的岛上造成混乱！",
   "description.snowman": "特殊的雪人，由于某种原因居然永不融化！？",
   "description.festiveToyTrain": "特殊的雪人，由于某种原因居然永不融化！？",
-  "marketplace.available": "可用：{{count}}",
   "skill.strongRoots": "-10% 高阶庄稼生长时间",
   "skill.acreFarm.buff": "+1 高阶庄稼产量",
   "skill.acreFarm.debuff": "-0.5 低阶和中阶庄稼产量",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "查看交易",
   "offer.getStarterPack": "立即购买",
   "buds.place": "放下你的花蕾",
-  "pete.craftScarecrow.three": "制作一只稻草人来加速那些向日葵。"
+  "pete.craftScarecrow.three": "制作一只稻草人来加速那些向日葵。",
+  "marketplace.available": "在您的库存中：{{count}}",
+  "marketplace.availableCount": "在您的库存中：{{count}}",
+  "marketplace.tutorial.one": "你好，伙伴！你获得了一些花。这就是我们在商城上使用的货币。",
+  "marketplace.tutorial.two": "在商城上，你可以交易资源，购买收藏品并强化你的农场。让我给你看一件很受欢迎的物品——石甲虫！",
+  "marketplace.tutorial.three": "准备好探索了吗？前往市场看看石甲壳虫并开始交易。",
+  "marketplace.tutorial.openButton": "打开市场"
 }

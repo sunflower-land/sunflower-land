@@ -2560,13 +2560,11 @@
   "marketplace.pets": "NFT Питомцы",
   "marketplace.youOwn": "Вы владеете: {{count}}",
   "marketplace.pricePerUnit": "{{price}}/шт.",
-  "marketplace.available": "Доступно: {{count}}",
   "marketplace.areYouSureYouWantToBuy": "Ты уверен, что хочешь купить этот товар?",
   "marketplace.areYouSureBulkBuy": "Ты уверен, что хочешь сделать эту оптовую покупку?",
   "marketplace.successfulPurchase": "Ты только что успешно купил этот товар!",
   "marketplace.bulkBuyDescription": "Можно ввести максимальное количество ресурсов или выбрать отдельные объявления.",
   "marketplace.signAndBuy": "Подписать и купить",
-  "marketplace.availableCount": "В наличии: {{count}}",
   "marketplace.collection": "Коллекция",
   "marketplace.purpose": "Назначение",
   "marketplace.purchasing": "Покупка",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "View trades",
   "offer.getStarterPack": "Buy Now",
   "buds.place": "Place your bud",
-  "pete.craftScarecrow.three": "Craft a scarecrow to speed up those Sunflowers."
+  "pete.craftScarecrow.three": "Craft a scarecrow to speed up those Sunflowers.",
+  "marketplace.available": "In your inventory: {{count}}",
+  "marketplace.availableCount": "In your inventory: {{count}}",
+  "marketplace.tutorial.one": "Howdy, partner! You've earned some FLOWER. That's the currency we use on the Marketplace.",
+  "marketplace.tutorial.two": "On the Marketplace you can trade resources, buy collectibles and boost your farm. Let me show you a popular item - the Stone Beetle!",
+  "marketplace.tutorial.three": "Ready to explore? Head to the Marketplace to see the Stone Beetle and start trading.",
+  "marketplace.tutorial.openButton": "Open the Marketplace"
 }

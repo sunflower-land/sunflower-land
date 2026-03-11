@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Nenhuma oferta disponível",
   "marketplace.signAndList": "Assine e liste",
   "marketplace.itemInUse": "Item em uso",
-  "marketplace.availableCount": "Disponível: {{count}}",
   "marketplace.itemSecured": "Item protegido",
   "marketplace.youDontOwn": "Você não possui este item!",
   "marketplace.itemInUseWarning": "Este item está sendo usado atualmente em sua fazenda. Você deve primeiro removê-lo em seu peito.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Fique de olho nesses pinguins ou eles causarão o caos em sua ilha!",
   "description.snowman": "Um boneco de neve especial que, por algum motivo, nunca derrete!?",
   "description.festiveToyTrain": "Um boneco de neve especial que, por algum motivo, nunca derrete!?",
-  "marketplace.available": "Disponível: {{count}}",
   "skill.strongRoots": "-10% no tempo de crescimento da safra avançada",
   "skill.acreFarm.buff": "+1 Rendimento da safra avançada",
   "skill.acreFarm.debuff": "-0,5 Rendimento da safra básica e média",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Exibir negociações",
   "offer.getStarterPack": "Compre agora",
   "buds.place": "Coloque seu broto",
-  "pete.craftScarecrow.three": "Crie um espantalho para acelerar os girassóis."
+  "pete.craftScarecrow.three": "Crie um espantalho para acelerar os girassóis.",
+  "marketplace.available": "Em seu inventário: {{count}}",
+  "marketplace.availableCount": "Em seu inventário: {{count}}",
+  "marketplace.tutorial.one": "Olá, parceiro! Você ganhou um pouco de FLOR. Essa é a moeda que usamos no Marketplace.",
+  "marketplace.tutorial.two": "No Marketplace, você pode negociar recursos, comprar itens colecionáveis e impulsionar sua fazenda. Deixe-me mostrar um item popular - o Besouro de Pedra!",
+  "marketplace.tutorial.three": "Pronto para explorar? Vá até o Marketplace para ver o Stone Beetle e começar a negociar.",
+  "marketplace.tutorial.openButton": "Abra o Marketplace"
 }

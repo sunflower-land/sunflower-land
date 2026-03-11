@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Tidak ada penawaran yang tersedia",
   "marketplace.signAndList": "Tanda & Daftar",
   "marketplace.itemInUse": "Barang yang digunakan",
-  "marketplace.availableCount": "Tersedia: {{count}}",
   "marketplace.itemSecured": "Barang diamankan",
   "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
   "marketplace.itemInUseWarning": "Item ini saat ini sedang digunakan di pertanian Anda. Anda harus terlebih dahulu mengeluarkannya ke dada Anda.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Awasi penguin ini atau mereka akan menyebabkan kekacauan di pulau Anda!",
   "description.snowman": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?",
   "description.festiveToyTrain": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?",
-  "marketplace.available": "Tersedia: {{count}}",
   "skill.strongRoots": "-10% Waktu pertumbuhan tanaman lanjutan",
   "skill.acreFarm.buff": "+1 Hasil panen lanjutan",
   "skill.acreFarm.debuff": "-0.5 Hasil panen dasar dan menengah",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Lihat perdagangan",
   "offer.getStarterPack": "Beli Sekarang",
   "buds.place": "Tempatkan kuncup Anda",
-  "pete.craftScarecrow.three": "Buat orang-orangan orang-orangan untuk mempercepat Bunga Matahari itu."
+  "pete.craftScarecrow.three": "Buat orang-orangan orang-orangan untuk mempercepat Bunga Matahari itu.",
+  "marketplace.available": "Dalam inventaris Anda: {{count}}",
+  "marketplace.availableCount": "Dalam inventaris Anda: {{count}}",
+  "marketplace.tutorial.one": "Halo, mitra! Anda telah mendapatkan bunga. Itulah mata uang yang kami gunakan di Marketplace.",
+  "marketplace.tutorial.two": "Di Marketplace Anda dapat memperdagangkan sumber daya, membeli barang koleksi, dan meningkatkan pertanian Anda. Biarkan saya menunjukkan kepada Anda item populer - Kumbang Batu!",
+  "marketplace.tutorial.three": "Siap untuk menjelajah? Pergilah ke Marketplace untuk melihat Kumbang Batu dan mulai berdagang.",
+  "marketplace.tutorial.openButton": "Buka Marketplace"
 }

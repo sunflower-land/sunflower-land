@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "No hay ofertas disponibles",
   "marketplace.signAndList": "Firmar y listar",
   "marketplace.itemInUse": "Artículo en uso",
-  "marketplace.availableCount": "Disponible: {{count}}",
   "marketplace.itemSecured": "Artículo asegurado",
   "marketplace.youDontOwn": "¡No eres dueño de este artículo!",
   "marketplace.itemInUseWarning": "Este artículo se está utilizando actualmente en tu granja. Primero debes retirarlo y colocarlo en tu inventario.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "¡No pierdas de vista a estos pingüinos o provocarán el caos en tu isla!",
   "description.snowman": "¿¡Un muñeco de nieve especial que por alguna razón nunca se derrite!?",
   "description.festiveToyTrain": "¿¡Un muñeco de nieve especial que por alguna razón nunca se derrite!?",
-  "marketplace.available": "Disponible: {{count}}",
   "skill.strongRoots": "-10% de tiempo de crecimiento avanzado del cultivo",
   "skill.acreFarm.buff": "+1 Rendimiento de cultivo avanzado",
   "skill.acreFarm.debuff": "-0.5 Rendimiento de cultivo básico y medio",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Ver operaciones",
   "offer.getStarterPack": "Comprar ahora",
   "buds.place": "Coloca tu cogollo",
-  "pete.craftScarecrow.three": "Crea un espantapájaros para acelerar esos girasoles."
+  "pete.craftScarecrow.three": "Crea un espantapájaros para acelerar esos girasoles.",
+  "marketplace.available": "En tu inventario: {{count}}",
+  "marketplace.availableCount": "En tu inventario: {{count}}",
+  "marketplace.tutorial.one": "¡Hola, compañero! Te has ganado unas FLORES. Esa es la moneda que utilizamos en el Mercado.",
+  "marketplace.tutorial.two": "En el mercado puedes intercambiar recursos, comprar objetos coleccionables y mejorar tu granja. Os enseñaré un objeto muy popular: ¡el escarabajo de piedra!",
+  "marketplace.tutorial.three": "¿Preparado para explorar? Dirígete al mercado para ver el escarabajo de piedra y empezar a operar.",
+  "marketplace.tutorial.openButton": "Abra el mercado"
 }

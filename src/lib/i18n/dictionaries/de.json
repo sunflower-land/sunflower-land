@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Keine Angebote verfügbar",
   "marketplace.signAndList": "Unterschreiben und auflisten",
   "marketplace.itemInUse": "Artikel wird verwendet",
-  "marketplace.availableCount": "Verfügbar: {{count}}",
   "marketplace.itemSecured": "Artikel gesichert",
   "marketplace.youDontOwn": "Sie besitzen diesen Artikel nicht!",
   "marketplace.itemInUseWarning": "Dieser Gegenstand wird derzeit auf deiner Farm verwendet. Du musst ihn zuerst in deine Brust nehmen.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Behalte diese Pinguine im Auge oder sie werden Chaos auf deiner Insel anrichten!",
   "description.snowman": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?",
   "description.festiveToyTrain": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?",
-  "marketplace.available": "Verfügbar: {{count}}",
   "skill.strongRoots": "-10% Fortgeschrittene Wachstumszeit der Pflanzen",
   "skill.acreFarm.buff": "+1 Fortgeschrittener Ernteertrag",
   "skill.acreFarm.debuff": "-0,5 Grundernteertrag und mittlerer Ernteertrag",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Trades ansehen",
   "offer.getStarterPack": "Jetzt kaufen",
   "buds.place": "Platziere deine Knospe",
-  "pete.craftScarecrow.three": "Stelle eine Vogelscheuche her, um die Sonnenblumen zu beschleunigen."
+  "pete.craftScarecrow.three": "Stelle eine Vogelscheuche her, um die Sonnenblumen zu beschleunigen.",
+  "marketplace.available": "In deinem Inventar: {{count}}",
+  "marketplace.availableCount": "In deinem Inventar: {{count}}",
+  "marketplace.tutorial.one": "Hallo, Partner! Du hast dir etwas BLUME verdient. Das ist die Währung, die wir auf dem Marktplatz verwenden.",
+  "marketplace.tutorial.two": "Auf dem Marktplatz kannst du mit Ressourcen handeln, Sammlerstücke kaufen und deine Farm verbessern. Lass mich dir einen beliebten Gegenstand zeigen — den Steinkäfer!",
+  "marketplace.tutorial.three": "Bereit zum Erkunden? Begib dich zum Marktplatz, um den Steinkäfer zu sehen und mit dem Handel zu beginnen.",
+  "marketplace.tutorial.openButton": "Öffnen Sie den Marketplace"
 }

@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "ご利用いただけるオファーはありません",
   "marketplace.signAndList": "サイン&リスト",
   "marketplace.itemInUse": "使用中のアイテム",
-  "marketplace.availableCount": "ご利用可能:{{count}}",
   "marketplace.itemSecured": "アイテムは保護されました",
   "marketplace.youDontOwn": "あなたはこのアイテムを所有していません！",
   "marketplace.itemInUseWarning": "このアイテムは現在あなたの農場で使用されています。まずそれを胸の中に取り出さなければなりません。",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "これらのペンギンから目を離さないでください。さもないと、島に混乱が生じます！",
   "description.snowman": "なぜか溶けない特別な雪だるま!?",
   "description.festiveToyTrain": "なぜか溶けない特別な雪だるま!?",
-  "marketplace.available": "ご利用可能:{{count}}",
   "skill.strongRoots": "-10% 作物の生育時間の短縮",
   "skill.acreFarm.buff": "+1 高度な作物収量",
   "skill.acreFarm.debuff": "-0.5 基本および中程度の作物収量",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "取引を表示",
   "offer.getStarterPack": "今すぐ購入",
   "buds.place": "イヤホンを置いて",
-  "pete.craftScarecrow.three": "かかしを作ってヒマワリの速度を上げよう。"
+  "pete.craftScarecrow.three": "かかしを作ってヒマワリの速度を上げよう。",
+  "marketplace.available": "インベントリ内:{{count}}",
+  "marketplace.availableCount": "インベントリ内:{{count}}",
+  "marketplace.tutorial.one": "やあ、パートナー！花を手に入れました。それがマーケットプレイスで使われている通貨です。",
+  "marketplace.tutorial.two": "マーケットプレイスでは、資源を交換したり、収集品を購入したり、農場を強化したりできます。人気アイテムの「ストーンビートル」をお見せしましょう！",
+  "marketplace.tutorial.three": "探索する準備はできましたか？マーケットプレイスに行ってストーンビートルを見て、取引を始めましょう。",
+  "marketplace.tutorial.openButton": "マーケットプレイスを開く"
 }

@@ -3262,7 +3262,6 @@
   "marketplace.noOffers": "Aucune offre disponible",
   "marketplace.signAndList": "Signer et lister",
   "marketplace.itemInUse": "Article en cours d'utilisation",
-  "marketplace.availableCount": "Disponible : {{count}}",
   "marketplace.itemSecured": "Article sécurisé",
   "marketplace.youDontOwn": "Vous n'êtes pas propriétaire de cet article !",
   "marketplace.itemInUseWarning": "Cet article est actuellement utilisé dans votre ferme. Vous devez d'abord le retirer dans votre poitrine.",
@@ -3894,7 +3893,6 @@
   "description.penguinPool": "Gardez un œil sur ces pingouins ou ils provoqueront le chaos sur votre île !",
   "description.snowman": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?",
   "description.festiveToyTrain": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?",
-  "marketplace.available": "Disponible : {{count}}",
   "skill.strongRoots": "-10 % Temps de croissance avancé des cultures",
   "skill.acreFarm.buff": "+1 Rendement des cultures avancé",
   "skill.acreFarm.debuff": "-0,5 Rendement des cultures de base et moyen",
@@ -8118,5 +8116,11 @@
   "playerModal.viewTrades": "Afficher les transactions",
   "offer.getStarterPack": "Achetez maintenant",
   "buds.place": "Placez votre bourgeon",
-  "pete.craftScarecrow.three": "Fabriquez un épouvantail pour accélérer ces tournesols."
+  "pete.craftScarecrow.three": "Fabriquez un épouvantail pour accélérer ces tournesols.",
+  "marketplace.available": "Dans votre inventaire : {{count}}",
+  "marketplace.availableCount": "Dans votre inventaire : {{count}}",
+  "marketplace.tutorial.one": "Bonjour, partenaire ! Tu as mérité une FLEUR. C'est la devise que nous utilisons sur le Marketplace.",
+  "marketplace.tutorial.two": "Sur la place de marché, vous pouvez échanger des ressources, acheter des objets de collection et dynamiser votre ferme. Permettez-moi de vous montrer un article populaire : le scarabée de pierre !",
+  "marketplace.tutorial.three": "Prêt à explorer ? Rendez-vous sur la place de marché pour voir le scarabée de pierre et commencer à trader.",
+  "marketplace.tutorial.openButton": "Ouvrez la place de marché"
 }
