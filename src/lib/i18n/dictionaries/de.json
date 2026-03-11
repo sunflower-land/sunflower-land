@@ -544,7 +544,6 @@
   "pete.first-expansion.four": "Herzlichen Glückwunsch, Bumpkin! Mach weiter so mit der guten Arbeit.",
   "pete.craftScarecrow.one": "Hmm, diese Pflanzen wachsen langsam.",
   "pete.craftScarecrow.two": "Sunflower Land ist voller magischer Gegenstände, die du herstellen kannst, um deine landwirtschaftlichen Fähigkeiten zu verbessern.",
-  "pete.craftScarecrow.three": "Gehe zur Werkbank und stelle eine Vogelscheuche her, um die Sonnenblumen zu beschleunigen.",
   "pete.levelthree.one": "Herzlichen Glückwunsch, dein grüner Daumen leuchtet wirklich!",
   "pete.levelthree.two": "Es sieht so aus, als ob du ein paar Lieferungen auf der Plaza erledigen musst.",
   "pete.levelthree.four": "Du kannst reisen, indem du auf das Weltsymbol unten links klickst.",
@@ -8118,5 +8117,6 @@
   "experiments": "Experimente",
   "playerModal.viewTrades": "Trades ansehen",
   "offer.getStarterPack": "Jetzt kaufen",
-  "buds.place": "Platziere deine Knospe"
+  "buds.place": "Platziere deine Knospe",
+  "pete.craftScarecrow.three": "Stelle eine Vogelscheuche her, um die Sonnenblumen zu beschleunigen."
 }

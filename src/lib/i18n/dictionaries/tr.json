@@ -378,7 +378,6 @@
   "pete.first-expansion.four": "Tebrikler Bumpkin! İyi işler yapmaya devam edin.",
   "pete.craftScarecrow.one": "Hmm, bu mahsuller yavaş büyüyor.",
   "pete.craftScarecrow.two": "Sunflower Land, çiftçilik becerilerinizi geliştirmek için üretebileceğiniz büyülü öğelerle doludur.",
-  "pete.craftScarecrow.three": "Çalışma tezgahına gidin ve Ayçiçeklerini hızlandırmak için bir korkuluk yapın.",
   "pete.levelthree.one": "Tebrikler, yeşil baş parmağınız gerçekten parlıyor!",
   "pete.levelthree.two": "Çiftçilik yeteneğinizin daha da parlayabileceği Plaza'ya gitmemizin tam zamanı.",
   "pete.levelthree.four": "Sol alttaki dünya simgesine tıklayarak seyahat edebilirsiniz.",
@@ -8118,5 +8117,6 @@
   "experiments": "Deneyler",
   "playerModal.viewTrades": "İşlemleri görüntüleyin",
   "offer.getStarterPack": "Şimdi Satın Al",
-  "buds.place": "Tomurcuğunu yerleştir"
+  "buds.place": "Tomurcuğunu yerleştir",
+  "pete.craftScarecrow.three": "Ayçiçeklerini hızlandırmak için bir korkuluk yap."
 }

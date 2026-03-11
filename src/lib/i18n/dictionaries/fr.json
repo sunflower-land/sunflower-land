@@ -373,7 +373,6 @@
   "pete.first-expansion.four": "Félicitations, Bumpkin ! Continue ton bon travail.",
   "pete.craftScarecrow.one": "Hmm, ces cultures poussent lentement.",
   "pete.craftScarecrow.two": "Sunflower Land regorge d'objets magiques que tu peux fabriquer pour améliorer tes compétences en agriculture.",
-  "pete.craftScarecrow.three": "Dirige-toi vers l'établi et fabrique un épouvantail pour accélérer la croissance de ces Sunflowers.",
   "pete.levelthree.one": "Félicitations, ton pouce vert brille vraiment!",
   "pete.levelthree.two": "Il est grand temps de se rendre à la Plaza, où ton talent en agriculture peut briller encore plus.",
   "pete.levelthree.four": "Tu peux voyager en cliquant sur l'icône du monde en bas à gauche.",
@@ -8118,5 +8117,6 @@
   "experiments": "Expériences",
   "playerModal.viewTrades": "Afficher les transactions",
   "offer.getStarterPack": "Achetez maintenant",
-  "buds.place": "Placez votre bourgeon"
+  "buds.place": "Placez votre bourgeon",
+  "pete.craftScarecrow.three": "Fabriquez un épouvantail pour accélérer ces tournesols."
 }

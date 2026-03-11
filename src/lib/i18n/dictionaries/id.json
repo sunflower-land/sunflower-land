@@ -544,7 +544,6 @@
   "pete.first-expansion.four": "Selamat, Bumpkin! Teruslah bekerja dengan baik.",
   "pete.craftScarecrow.one": "Hmm, tanaman itu tumbuh lambat.",
   "pete.craftScarecrow.two": "Sunflower Land penuh dengan barang-barang ajaib yang dapat Anda buat untuk meningkatkan kemampuan bertani Anda.",
-  "pete.craftScarecrow.three": "Pergilah ke bangku kerja dan buat orang-orangan mata untuk mempercepat Bunga Matahari itu.",
   "pete.levelthree.one": "Selamat, ibu jari hijau Anda benar-benar bersinar!",
   "pete.levelthree.two": "Sepertinya kau punya beberapa pengiriman di Plaza yang harus diselesaikan.",
   "pete.levelthree.four": "Anda dapat melakukan perjalanan dengan mengklik ikon dunia di kiri bawah.",
@@ -8118,5 +8117,6 @@
   "experiments": "Eksperimen",
   "playerModal.viewTrades": "Lihat perdagangan",
   "offer.getStarterPack": "Beli Sekarang",
-  "buds.place": "Tempatkan kuncup Anda"
+  "buds.place": "Tempatkan kuncup Anda",
+  "pete.craftScarecrow.three": "Buat orang-orangan orang-orangan untuk mempercepat Bunga Matahari itu."
 }

@@ -520,7 +520,6 @@
   "pete.first-expansion.four": "恭喜，乡包佬！继续加油吧。",
   "pete.craftScarecrow.one": "唔，这些庄稼长得有点慢。",
   "pete.craftScarecrow.two": "Sunflower Land 到处都有魔法物品供你铸造，好增进你的农活技艺。 ",
-  "pete.craftScarecrow.three": "跑去 Work Bench 并锻造一个 Scarecrow 好助长那些向日葵吧。",
   "pete.levelthree.one": "恭喜，你那绿指头是真的闪亮！",
   "pete.levelthree.two": "我们是时候跑去广场了，在那里你的农艺天赋可以甚至更上一层、更加闪耀！",
   "pete.levelthree.four": "点击左下角的地球图标，你就可以开始旅行啦。",
@@ -8118,5 +8117,6 @@
   "experiments": "实验性功能",
   "playerModal.viewTrades": "查看交易",
   "offer.getStarterPack": "立即购买",
-  "buds.place": "放下你的花蕾"
+  "buds.place": "放下你的花蕾",
+  "pete.craftScarecrow.three": "制作一只稻草人来加速那些向日葵。"
 }

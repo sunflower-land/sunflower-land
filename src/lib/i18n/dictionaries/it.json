@@ -540,7 +540,6 @@
   "pete.first-expansion.four": "Congratulazioni, Bumpkin! Continuate così.",
   "pete.craftScarecrow.one": "Hmm, quei raccolti stanno crescendo lentamente.",
   "pete.craftScarecrow.two": "Sunflower Land è pieno di oggetti magici che puoi creare per migliorare le tue abilità agricole.",
-  "pete.craftScarecrow.three": "Vai al banco da lavoro e crea uno spaventapasseri per accelerare quei girasoli.",
   "pete.levelthree.one": "Congratulazioni, il tuo pollice verde brilla davvero!",
   "pete.levelthree.two": "Sembra che tu abbia delle consegne in Plaza da completare.",
   "pete.levelthree.four": "Puoi viaggiare facendo clic sull'icona del mondo in basso a sinistra.",
@@ -8118,5 +8117,6 @@
   "experiments": "Esperimenti",
   "playerModal.viewTrades": "Visualizza le negoziazioni",
   "offer.getStarterPack": "Acquista ora",
-  "buds.place": "Posiziona il tuo bocciolo"
+  "buds.place": "Posiziona il tuo bocciolo",
+  "pete.craftScarecrow.three": "Crea uno spaventapasseri per accelerare quei girasoli."
 }

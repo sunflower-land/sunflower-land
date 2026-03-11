@@ -544,7 +544,6 @@
   "pete.first-expansion.four": "おめでとう、バンプキン！良い仕事を続けてください。",
   "pete.craftScarecrow.one": "うーん、それらの作物はゆっくりと成長しています。",
   "pete.craftScarecrow.two": "サンフラワーランドには、農業能力を高めるためにクラフトできる魔法のアイテムがたくさんあります。",
-  "pete.craftScarecrow.three": "作業台に向かい、かかしを作ってひまわりのスピードを上げましょう。",
   "pete.levelthree.one": "おめでとうございます、あなたの緑の親指は本当に輝いています！",
   "pete.levelthree.two": "プラザに配達物があるようだね。",
   "pete.levelthree.four": "左下のワールドアイコンをクリックすると移動できます。",
@@ -8118,5 +8117,6 @@
   "experiments": "実験",
   "playerModal.viewTrades": "取引を表示",
   "offer.getStarterPack": "今すぐ購入",
-  "buds.place": "イヤホンを置いて"
+  "buds.place": "イヤホンを置いて",
+  "pete.craftScarecrow.three": "かかしを作ってヒマワリの速度を上げよう。"
 }

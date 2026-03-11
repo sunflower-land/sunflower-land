@@ -751,7 +751,6 @@
   "pete.first-expansion.four": "Поздравляю, бампкин! Продолжай в том же духе.",
   "pete.craftScarecrow.one": "Хмм, эти растения медленно растут.",
   "pete.craftScarecrow.two": "Sunflower Land полон волшебных предметов, которые ты можешь создать, чтобы усилить свои фермерские навыки.",
-  "pete.craftScarecrow.three": "Направляйся к верстаку и создай пугало, чтобы увеличить скорость роста подсолнухов.",
   "pete.levelthree.one": "Поздравляю, твои садоводческие навыки действительно хороши!",
   "pete.levelthree.two": "Похоже у тебя есть невыполненные доставки на Плазе.",
   "pete.levelthree.three": "Посмотри свои доставки слева вверху экрана, как только ты соберешь необходимые ресурсы, ты сможешь их выполнить.",
@@ -8118,5 +8117,6 @@
   "experiments": "Experiments",
   "playerModal.viewTrades": "View trades",
   "offer.getStarterPack": "Buy Now",
-  "buds.place": "Place your bud"
+  "buds.place": "Place your bud",
+  "pete.craftScarecrow.three": "Craft a scarecrow to speed up those Sunflowers."
 }
