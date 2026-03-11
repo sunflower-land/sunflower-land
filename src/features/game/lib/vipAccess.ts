@@ -42,3 +42,24 @@ export const VIP_DURATIONS: Record<VipBundle, number> = {
   "3_MONTHS": 1000 * 60 * 60 * 24 * 31 * 3,
   "2_YEARS": 1000 * 60 * 60 * 24 * 365 * 2,
 };
+
+const EXPANSION_VIP_DISCOUNT_FIXED = 500;
+const EXPANSION_VIP_DISCOUNT_PERCENT = 0.2;
+
+/**
+ * Expansion coin cost after VIP discount: 500 coins off or 20% off, whichever is bigger.
+ */
+export const getExpansionCoinCostWithVip = ({
+  coins,
+  game,
+}: {
+  coins: number | undefined;
+  game: GameState;
+}): number => {
+  const fullCost = coins ?? 0;
+  if (fullCost === 0) return 0;
+  if (!hasVipAccess({ game })) return fullCost;
+  const discount20 = Math.floor(fullCost * EXPANSION_VIP_DISCOUNT_PERCENT);
+  const discount = Math.max(EXPANSION_VIP_DISCOUNT_FIXED, discount20);
+  return Math.max(0, fullCost - discount);
+};

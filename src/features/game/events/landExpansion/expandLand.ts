@@ -8,6 +8,7 @@ import { expansionRequirements } from "./revealLand";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getExpansionCoinCostWithVip } from "features/game/lib/vipAccess";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -38,15 +39,18 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       throw new Error("Insufficient Bumpkin Level");
     }
 
-    const coinRequirement = requirements.coins ?? 0;
-    if (game.coins < coinRequirement) {
+    const effectiveCoinCost = getExpansionCoinCostWithVip({
+      coins: requirements.coins,
+      game,
+    });
+    if (game.coins < effectiveCoinCost) {
       throw new Error("Insufficient coins");
     }
-    game.coins -= coinRequirement;
+    game.coins -= effectiveCoinCost;
     game.farmActivity = trackFarmActivity(
       "Coins Spent",
       game.farmActivity,
-      new Decimal(coinRequirement),
+      new Decimal(effectiveCoinCost),
     );
 
     const inventory = getKeys(requirements.resources).reduce(
