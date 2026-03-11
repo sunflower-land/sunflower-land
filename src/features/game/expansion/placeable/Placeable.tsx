@@ -41,6 +41,7 @@ import {
 } from "../lib/utils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { FarmHand } from "features/island/farmhand/FarmHand";
+import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 
 type PlaceableArgs = {
   island: GameState["island"];
@@ -62,6 +63,7 @@ export const PLACEABLES = (args: PlaceableArgs) => {
     }),
     ...READONLY_BUILDINGS({ island, season, henHouseLevel, barnLevel }),
     FarmHand: () => <FarmHand id={placeableId ?? ""} />,
+    Bumpkin: () => <PlacedBumpkin />,
     "Dirt Path": () => (
       <img
         src={DIRT_PATH_VARIANTS[biome]}
@@ -179,6 +181,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   } else if (placeable?.name === "Pet") {
     dimensions = { width: 2, height: 2 };
   } else if (placeable?.name === "FarmHand") {
+    dimensions = { width: 1, height: 1 };
+  } else if (placeable?.name === "Bumpkin") {
     dimensions = { width: 1, height: 1 };
   } else if (placeable?.name) {
     dimensions = {

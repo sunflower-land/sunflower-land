@@ -47,6 +47,7 @@ import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
 import { FarmHand } from "features/island/farmhand/FarmHand";
+import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 
 export const LAND_WIDTH = 6;
 
@@ -212,6 +213,8 @@ const _petNFTPositions = (state: MachineState) => {
   };
 };
 
+const _bumpkinPlacement = (state: MachineState) => state.context.state.bumpkin;
+
 const _farmHandPositions = (state: MachineState) => {
   const bumpkins = state.context.state.farmHands?.bumpkins;
 
@@ -352,6 +355,7 @@ export const LandComponent: React.FC = () => {
     _farmHandPositions,
     comparePositions,
   );
+  const bumpkin = useSelector(gameService, _bumpkinPlacement);
   const { airdrops } = useSelector(
     gameService,
     _airdropPositions,
@@ -919,6 +923,18 @@ export const LandComponent: React.FC = () => {
     });
   }, [farmHands]);
 
+  const bumpkinElement = useMemo(() => {
+    if (!bumpkin?.coordinates || bumpkin.location === "home") return [];
+
+    const { x, y } = bumpkin.coordinates;
+
+    return [
+      <MapPlacement key="main-bumpkin" x={x} y={y} height={1} width={1}>
+        <PlacedBumpkin />
+      </MapPlacement>,
+    ];
+  }, [bumpkin]);
+
   const airdropElements = useMemo(() => {
     if (!airdrops) return [];
 
@@ -984,6 +1000,7 @@ export const LandComponent: React.FC = () => {
       budElements,
       petNFTElements,
       farmHandElements,
+      bumpkinElement,
       airdropElements,
     ].flat();
 
@@ -1027,6 +1044,7 @@ export const LandComponent: React.FC = () => {
     budElements,
     petNFTElements,
     farmHandElements,
+    bumpkinElement,
     airdropElements,
     mushroomElements,
   ]);

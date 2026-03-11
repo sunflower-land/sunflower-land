@@ -584,6 +584,16 @@ import {
   removeFarmHand,
   RemoveFarmHandAction,
 } from "./landExpansion/removeFarmHand";
+import { placeBumpkin, PlaceBumpkinAction } from "./landExpansion/placeBumpkin";
+import { moveBumpkin, MoveBumpkinAction } from "./landExpansion/moveBumpkin";
+import {
+  removeBumpkinPlacement,
+  RemoveBumpkinPlacementAction,
+} from "./landExpansion/removeBumpkinPlacement";
+import {
+  promoteFarmhand,
+  PromoteFarmhandAction,
+} from "./landExpansion/promoteFarmhand";
 import {
   speedUpProcessing,
   SpeedUpProcessingAction,
@@ -756,6 +766,10 @@ export type PlayingEvent =
   | PlaceFarmHandAction
   | MoveFarmHandAction
   | RemoveFarmHandAction
+  | PlaceBumpkinAction
+  | MoveBumpkinAction
+  | RemoveBumpkinPlacementAction
+  | PromoteFarmhandAction
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction;
 
@@ -820,7 +834,10 @@ export type PlacementEvent =
   | FlipCollectibleAction
   | PlaceFarmHandAction
   | MoveFarmHandAction
-  | RemoveFarmHandAction;
+  | RemoveFarmHandAction
+  | PlaceBumpkinAction
+  | MoveBumpkinAction
+  | RemoveBumpkinPlacementAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 
@@ -1019,6 +1036,10 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmHand.placed": placeFarmHand,
   "farmHand.moved": moveFarmHand,
   "farmHand.removed": removeFarmHand,
+  "bumpkin.placed": placeBumpkin,
+  "bumpkin.moved": moveBumpkin,
+  "bumpkin.removedPlacement": removeBumpkinPlacement,
+  "farmhand.promoted": promoteFarmhand,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
@@ -1063,6 +1084,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "farmHand.placed": placeFarmHand,
   "farmHand.moved": moveFarmHand,
   "farmHand.removed": removeFarmHand,
+  "bumpkin.placed": placeBumpkin,
+  "bumpkin.moved": moveBumpkin,
+  "bumpkin.removedPlacement": removeBumpkinPlacement,
   "beehive.moved": moveBeehive,
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,

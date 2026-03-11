@@ -129,7 +129,8 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 
-  if (!selectedChestItem) return null;
+  // Bumpkin is not placeable from the chest
+  if (!selectedChestItem || selectedChestItem.name === "Bumpkin") return null;
 
   const handlePlace = () => {
     if (

@@ -55,17 +55,45 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
     });
   };
 
+  const handlePlaceBumpkin = () => {
+    const landscaping = gameService.getSnapshot().children
+      .landscaping as MachineInterpreter;
+    landscaping.send("SELECT", {
+      placeable: { name: "Bumpkin" },
+      action: "bumpkin.placed",
+      requirements: { coins: 0, ingredients: {} },
+    });
+  };
+
   return (
     <>
       <div className="flex w-full">
-        <div
-          className={classNames("mr-1 relative", {
-            "pointer-events-none": isLandscaping,
-          })}
-          style={{ width: `${GRID_WIDTH_PX}px` }}
-        >
-          <PlayerNPC parts={bumpkin.equipped} />
-        </div>
+        {!bumpkin.coordinates && (
+          <div
+            className={classNames("mr-1 relative", {
+              "cursor-pointer hover:img-highlight": isLandscaping,
+            })}
+            onClick={() => {
+              if (isLandscaping) {
+                handlePlaceBumpkin();
+              }
+            }}
+            style={{ width: `${GRID_WIDTH_PX}px` }}
+          >
+            <PlayerNPC parts={bumpkin.equipped} />
+            {isLandscaping && (
+              <img
+                src={SUNNYSIDE.icons.click_icon}
+                className="absolute z-10 animate-float"
+                style={{
+                  width: `${10 * PIXEL_SCALE}px`,
+                  top: `${-6 * PIXEL_SCALE}px`,
+                  left: `${4 * PIXEL_SCALE}px`,
+                }}
+              />
+            )}
+          </div>
+        )}
 
         {unplacedFarmHandIds.map((id) => (
           <div
@@ -73,6 +101,8 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
             className={classNames("mr-1 cursor-pointer relative", {
               "pointer-events-none": isVisiting,
               "hover:img-highlight": !isVisiting && !isLandscaping,
+              "cursor-pointer hover:img-highlight":
+                !isVisiting && isLandscaping,
             })}
             onClick={() => {
               if (isLandscaping) {
@@ -109,7 +139,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
           onClose={() => setSelectedFarmHandId(undefined)}
           tabs={[
             {
@@ -120,6 +149,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           ]}
         >
           <BumpkinEquip
+            farmHandId={selectedFarmHandId}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
               gameService.send("farmHand.equipped", {
