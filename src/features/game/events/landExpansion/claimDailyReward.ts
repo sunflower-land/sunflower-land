@@ -15,6 +15,7 @@ import {
   getVipDailyBonusItem,
 } from "features/game/lib/vipAccess";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+
 import { applyBuff } from "features/game/types/buffs";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getChapterTicket } from "features/game/types/chapters";
@@ -143,6 +144,10 @@ export function claimDailyReward({
             items: { [vipBonusItem]: 1 },
           },
           createdAt,
+        );
+        game.farmActivity = trackFarmActivity(
+          "VIP Gift Claimed",
+          game.farmActivity,
         );
       }
     }

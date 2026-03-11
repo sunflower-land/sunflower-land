@@ -556,6 +556,13 @@ export function deliverOrder({
         game.farmActivity,
         new Decimal(amount),
       );
+      if (hasVipAccess({ game, now: createdAt })) {
+        game.farmActivity = trackFarmActivity(
+          "VIP Ticket Earned",
+          game.farmActivity,
+          new Decimal(2),
+        );
+      }
       game.farmActivity = trackFarmActivity(
         `${chapter} Points Earned`,
         game.farmActivity,

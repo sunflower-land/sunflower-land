@@ -12,6 +12,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -215,6 +216,13 @@ export function startCrafting({
 
     const updatedQueue = [...effectiveQueue, newQueueItem];
     const currentItem = updatedQueue[0];
+
+    if (effectiveQueue.length > 0) {
+      copy.farmActivity = trackFarmActivity(
+        "Recipe Queued",
+        copy.farmActivity,
+      );
+    }
 
     copy.craftingBox = {
       status: "crafting",
