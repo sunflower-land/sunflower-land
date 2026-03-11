@@ -1,6 +1,6 @@
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { PetName, isPetNFTRevealed } from "features/game/types/pets";
 import { MachineState } from "features/game/lib/gameMachine";
 

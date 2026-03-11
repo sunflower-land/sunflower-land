@@ -4,7 +4,7 @@ import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { NPC_WEARABLES } from "lib/npcs";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -18,6 +18,7 @@ import {
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { PanelTabs } from "features/game/components/CloseablePanel";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;
@@ -25,6 +26,8 @@ interface Props {
   state: GameState;
   onPlace: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
+  location: PlaceableLocation;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -33,6 +36,8 @@ export const LandscapingChest: React.FC<Props> = ({
   state,
   onPlace,
   onPlaceNFT,
+  onPlaceFarmHand,
+  location,
 }) => {
   const { t } = useAppTranslation();
 
@@ -56,7 +61,7 @@ export const LandscapingChest: React.FC<Props> = ({
 
   const tabs: PanelTabs<"Chest" | "Biomes">[] = [
     chestTab,
-    ...(hasBiomes ? [biomesTab] : []),
+    ...(hasBiomes && location === "farm" ? [biomesTab] : []),
   ];
 
   return (
@@ -77,6 +82,8 @@ export const LandscapingChest: React.FC<Props> = ({
             closeModal={onHide}
             onPlace={onPlace}
             onPlaceNFT={onPlaceNFT}
+            onPlaceFarmHand={onPlaceFarmHand}
+            location={location}
           />
         )}
         {currentTab === "Biomes" && <Biomes state={state} />}

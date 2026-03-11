@@ -36,7 +36,6 @@ import { Button } from "components/ui/Button";
 import { BulkBuyInterface } from "./BulkBuyInterface";
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import debounce from "lodash.debounce";
 import { BulkPurchaseModalContent } from "./BulkPurchaseModalContent";
 import { useDeepEffect } from "lib/utils/hooks/useDeepEffect";
@@ -63,14 +62,6 @@ type BulkOrder = {
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
 const _balance = (state: MachineState) => state.context.state.balance;
-const _maxLimit = (item: InventoryItemName) => (state: MachineState) => {
-  const max = MAX_INVENTORY_ITEMS[item] || new Decimal(0);
-  const current = state.context.state.inventory[item] ?? new Decimal(0);
-  const old = state.context.state.previousInventory[item] ?? new Decimal(0);
-  const diff = current.minus(old);
-
-  return max.minus(diff).toNumber();
-};
 
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
@@ -90,10 +81,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
-  const maxLimit = useSelector(
-    gameService,
-    _maxLimit(display.name as InventoryItemName),
-  );
 
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -380,7 +367,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               totalPrice={bulkOrder?.price ?? 0}
               maxAmountToBuy={maxAmountToBuy}
               onMaxAmountToBuyChange={setMaxAmountToBuy}
-              maxLimit={maxLimit}
             />
           )}
           <div className="my-2">

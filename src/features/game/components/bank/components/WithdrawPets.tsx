@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -34,11 +34,15 @@ import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
+  withdrawDisabled?: boolean;
 }
 
 const _state = (state: MachineState) => state.context.state;
 
-export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawPets: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -306,7 +310,10 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
         </p>
       </div>
 
-      <Button onClick={handleOpenConfirmation} disabled={selected.length <= 0}>
+      <Button
+        onClick={handleOpenConfirmation}
+        disabled={selected.length <= 0 || withdrawDisabled}
+      >
         {t("withdraw")}
       </Button>
     </>

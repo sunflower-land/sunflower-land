@@ -15,7 +15,7 @@ import { toWei } from "web3-utils";
 import chest from "assets/icons/chest.png";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
@@ -27,7 +27,6 @@ import { getItemUnit } from "features/game/lib/conversion";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
-import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -39,8 +38,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { getPetsBalance } from "lib/blockchain/Pets";
 import { getPetImage } from "features/island/pets/lib/petShared";
-
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+import { getBudImage } from "lib/buds/types";
 
 export function transferInventoryItem(
   itemName: InventoryItemName,
@@ -371,7 +369,7 @@ const DepositOptions: React.FC<Props> = ({
                           <Box
                             key={`bud-${budId}`}
                             onClick={() => onAddBud(budId)}
-                            image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                            image={getBudImage(budId)}
                             iconClassName="scale-[1.8] origin-bottom absolute"
                           />
                         );
@@ -470,7 +468,7 @@ const DepositOptions: React.FC<Props> = ({
                               <Box
                                 key={`bud-${budId}`}
                                 onClick={() => onRemoveBud(budId)}
-                                image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                                image={getBudImage(budId)}
                                 iconClassName="scale-[1.8] origin-bottom absolute"
                               />
                             );

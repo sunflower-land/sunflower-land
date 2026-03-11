@@ -16,7 +16,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;
 
@@ -92,7 +92,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
-          if (OFFCHAIN_ITEMS.includes(key)) return;
+          if (OFFCHAIN_ITEMS.has(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);

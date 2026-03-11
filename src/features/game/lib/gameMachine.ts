@@ -56,6 +56,7 @@ import {
   getIntroductionRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
+import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
@@ -69,6 +70,7 @@ import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
+import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/actions/loadRaffleResults";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { portal } from "features/world/ui/community/actions/portal";
@@ -91,9 +93,10 @@ import {
   STATE_MACHINE_VISIT_EFFECTS,
   StateMachineVisitStateName,
   StateMachineVisitEffectName,
+  sanitizeEffectForBackend,
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "lib/object";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
@@ -187,10 +190,33 @@ export interface Context {
   rawToken?: string;
   visitorId?: number;
   visitorState?: GameState;
+  visitorNftId?: number;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
   apiKey?: string;
   method?: "google" | "wallet" | "wechat" | "fsl";
+  accountTradedAt?: string;
+  onChainRaffleReward?: RaffleSnapshotWinner;
+}
+
+const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
+
+export function isAccountTradedWithin90Days(context: Context): boolean {
+  const tradedAt = context?.accountTradedAt;
+  if (!tradedAt) return false;
+  const tradedAtMs = new Date(tradedAt).getTime();
+  return Date.now() - tradedAtMs < NINETY_DAYS_MS;
+}
+
+export function getAccountTradedRestrictionSecondsLeft(
+  context: Context,
+): number {
+  const tradedAt = context.accountTradedAt;
+  if (!tradedAt) return 0;
+  const tradedAtMs = new Date(tradedAt).getTime();
+  const endMs = tradedAtMs + NINETY_DAYS_MS;
+  const leftMs = endMs - Date.now();
+  return Math.max(0, leftMs / 1000);
 }
 
 export type Moderation = {
@@ -221,6 +247,8 @@ type BuyBlockBucksEvent = {
 type UpdateBlockBucksEvent = {
   type: "UPDATE_GEMS";
   amount: number;
+  /** Coins to add (e.g. from Xsolla starter pack) */
+  coins?: number;
 };
 
 type LandscapeEvent = {
@@ -516,6 +544,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
       invoke: {
         src: async (context: Context, event: PostEffectEvent) => {
           const { effect, authToken } = event;
+          const effectToSend = sanitizeEffectForBackend(effect);
 
           if (context.actions.length > 0) {
             await autosave({
@@ -532,7 +561,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
 
           const { gameState, data } = await postEffect({
             farmId: Number(context.farmId),
-            effect,
+            effect: effectToSend,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
             state: context.state,
@@ -548,6 +577,34 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           return { state: gameState, data };
         },
         onDone: [
+          {
+            target: "onChainRaffleAcknowledgment",
+            cond: (_context: Context, event: DoneInvokeEvent<any>) => {
+              if (stateName !== "claimingAuctionRaffle") return false;
+              if (event.data.state.transaction) return false;
+              const prize = event.data.effect?.prize as
+                | RaffleSnapshotWinner
+                | undefined;
+              if (!prize?.onChain) return false;
+              return !!prize;
+            },
+            actions: [
+              assign((context: Context, event: DoneInvokeEvent<any>) => {
+                const prize = event.data.effect?.prize as RaffleSnapshotWinner;
+                return {
+                  actions: [],
+                  state: event.data.state,
+                  onChainRaffleReward: prize,
+                  linkedWallet:
+                    event.data.data?.linkedWallet ?? context.linkedWallet,
+                  nftId: event.data.data?.nftId ?? context.nftId,
+                  farmAddress:
+                    event.data.data?.farmAddress ?? context.farmAddress,
+                  data: { ...context.data, [stateName]: event.data.data },
+                };
+              }),
+            ],
+          },
           {
             target: `${stateName}Success`,
             cond: (_: Context, event: DoneInvokeEvent<any>) =>
@@ -751,6 +808,7 @@ export type BlockchainState = {
     | "priceChanged"
     | "buds"
     | "airdrop"
+    | "onChainRaffleAcknowledgment"
     | "offers"
     | "marketplaceSale"
     | "tradesCleared"
@@ -767,6 +825,7 @@ export type BlockchainState = {
     | "jinAirdrop"
     | "leagueResults"
     | "linkWallet"
+    | "starterOffer"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -894,7 +953,17 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         linkedWallet: "0x123",
         sessionId: INITIAL_SESSION,
-        announcements: {},
+        announcements: {
+          test: {
+            content: [
+              {
+                text: "Test",
+              },
+            ],
+            headline: "Test",
+            from: "poppy",
+          },
+        },
         prices: {
           sfl: {
             timestamp: Date.now(),
@@ -910,6 +979,7 @@ export function startGame(authContext: AuthContext) {
         purchases: [],
         oauthNonce: "",
         data: {},
+        accountTradedAt: "2026-02-15T12:00:00Z",
       },
       states: {
         ...EFFECT_STATES,
@@ -975,6 +1045,7 @@ export function startGame(authContext: AuthContext) {
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
                 apiKey: response.apiKey,
+                accountTradedAt: response.accountTradedAt,
               };
             },
             onDone: [
@@ -1069,6 +1140,7 @@ export function startGame(authContext: AuthContext) {
                 hasHelpedPlayerToday,
                 totalHelpedToday,
                 visitorId,
+                visitedFarmNftId,
               } = await loadGameStateForVisit(
                 Number(farmId),
                 authContext.user.rawToken as string,
@@ -1081,6 +1153,7 @@ export function startGame(authContext: AuthContext) {
                 totalHelpedToday,
                 visitorId,
                 visitorState: visitorFarmState,
+                visitedFarmNftId,
               };
             },
             onDone: {
@@ -1090,10 +1163,12 @@ export function startGame(authContext: AuthContext) {
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
                 visitorState: (_, event) => event.data.visitorState,
+                nftId: (_, event) => event.data.visitedFarmNftId,
+                visitorNftId: (context) => context.nftId,
                 hasHelpedPlayerToday: (_, event) =>
                   event.data.hasHelpedPlayerToday,
                 totalHelpedToday: (_, event) => event.data.totalHelpedToday,
-                actions: (_, event) => [],
+                actions: () => [],
               }),
             },
             onError: {
@@ -1126,10 +1201,12 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context) => ({
                 visitorId: undefined,
                 visitorState: undefined,
+                visitorNftId: undefined,
                 hasHelpedPlayerToday: undefined,
                 totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
+                nftId: context.visitorNftId,
                 actions: [],
               })),
             },
@@ -1153,6 +1230,24 @@ export function startGame(authContext: AuthContext) {
                 return (
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
+                );
+              },
+            },
+            {
+              target: "starterOffer",
+              cond: (context) => {
+                if (getStarterOfferShown(context.farmId)) return false;
+                const now = Date.now();
+                const createdAt = context.state.createdAt;
+                const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+                const thirtyMinsMs = 30 * 60 * 1000;
+                const accountLessThan7Days = createdAt > now - sevenDaysMs;
+                const accountOlderThan30Mins = createdAt < now - thirtyMinsMs;
+                const noPurchaseYet = context.purchases.length === 0;
+                return (
+                  accountLessThan7Days &&
+                  accountOlderThan30Mins &&
+                  noPurchaseYet
                 );
               },
             },
@@ -1405,6 +1500,13 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        starterOffer: {
+          on: {
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
         somethingArrived: {
           on: {
             ACKNOWLEDGE: {
@@ -1477,6 +1579,14 @@ export function startGame(authContext: AuthContext) {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             CLOSE: {
               target: "playing",
+            },
+          },
+        },
+        onChainRaffleAcknowledgment: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((_) => ({ onChainRaffleReward: undefined })),
             },
           },
         },
@@ -1708,6 +1818,11 @@ export function startGame(authContext: AuthContext) {
                       event.amount,
                     ),
                   },
+                  ...(event.coins != null && event.coins > 0
+                    ? {
+                        coins: (context.state.coins ?? 0) + event.coins,
+                      }
+                    : {}),
                 },
                 purchases: [
                   ...context.purchases,
@@ -2555,7 +2670,6 @@ export function startGame(authContext: AuthContext) {
           if (!ART_MODE) {
             gameAnalytics.initialise({
               id: event.data.analyticsId,
-              experiments: context.state?.experiments ?? [],
             });
             onboardingAnalytics.initialise({
               id: context.farmId,
@@ -2599,6 +2713,7 @@ export function startGame(authContext: AuthContext) {
           prices: (_, event) => event.data.prices,
           apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
+          accountTradedAt: (_, event) => event.data.accountTradedAt,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

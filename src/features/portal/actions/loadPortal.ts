@@ -52,7 +52,7 @@ export async function loadPortal(request: Request) {
   );
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
+    throw new Error(ERRORS.PORTAL_LOAD_ERROR);
   }
 
   const data: { farm: GameState } = await response.json();

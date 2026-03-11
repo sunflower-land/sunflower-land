@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CONFIG } from "lib/config";
 
 import shadow from "assets/npcs/shadow.png";
 import { TypeTrait } from "features/game/types/buds";
@@ -17,9 +16,7 @@ import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-
-export const budImageDomain =
-  CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+import { getBudImage } from "lib/buds/types";
 
 type Props = {
   id: string;
@@ -75,10 +72,7 @@ const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
   return (
     <div className="flex flex-col gap-3">
       {buffs.map(
-        (
-          { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
-          index,
-        ) => (
+        ({ boostTypeIcon, boostedItemIcon, shortDescription }, index) => (
           <Label
             key={index}
             type="transparent"
@@ -116,7 +110,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
             className="absolute"
           />
           <img
-            src={`https://${budImageDomain}.sunflower-land.com/images/${id}.webp`}
+            src={getBudImage(Number(id))}
             className={classNames("absolute w-full -translate-x-1/4", {
               "top-1": type === "Retreat",
             })}
@@ -128,7 +122,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
         <SFTDetailPopoverInnerPanel>
           <div className="flex space-x-1 relative">
             <img
-              src={`https://${budImageDomain}.sunflower-land.com/images/${id}.webp`}
+              src={getBudImage(Number(id))}
               className="absolute"
               style={{
                 width: `48px`,

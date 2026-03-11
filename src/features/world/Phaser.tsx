@@ -237,6 +237,13 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     };
   }, []);
 
+  // Keep game state in sync with React state (e.g. after completing a delivery)
+  useEffect(() => {
+    if (!game.current) return;
+    game.current.registry.set("gameState", state);
+    game.current.events.emit("gameStateUpdated");
+  }, [state]);
+
   // When server changes, update game registry
   useEffect(() => {
     game.current?.registry.set(

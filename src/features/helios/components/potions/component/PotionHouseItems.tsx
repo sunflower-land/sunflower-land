@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   Decoration,
   POTION_HOUSE_DECORATIONS,

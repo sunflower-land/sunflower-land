@@ -14,7 +14,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chest from "assets/icons/chest.png";
 import { InventoryItemName } from "features/game/types/game";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { useSound } from "lib/utils/hooks/useSound";
 import clipboard from "clipboard";
 import { getReferrees } from "./actions/getReferrees";

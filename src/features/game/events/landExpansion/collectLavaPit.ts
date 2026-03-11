@@ -8,15 +8,15 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export function getObsidianYield({ game }: { game: GameState }) {
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (isCollectibleBuilt({ name: "Obsidian Turtle", game })) {
     amount += 0.5;
-    boostsUsed.push("Obsidian Turtle");
+    boostsUsed.push({ name: "Obsidian Turtle", value: "+0.5" });
   }
 
   if (isCollectibleBuilt({ name: "Magma Stone", game })) {
     amount += 0.15;
-    boostsUsed.push("Magma Stone");
+    boostsUsed.push({ name: "Magma Stone", value: "+0.15" });
   }
 
   return { amount, boostsUsed };

@@ -1412,12 +1412,21 @@ describe("getReadyAt", () => {
 
 describe("getCookingOilBoost", () => {
   it("returns 60 minutes for Boiled Egg if no oil", () => {
-    const time = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1").timeToCook;
+    const result = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1");
 
-    expect(time).toEqual(60 * 60);
+    expect(result.timeToCook).toEqual(60 * 60);
+    expect(result.percent).toBeUndefined();
   });
 
-  it("boosts Fire Pit time by 20% with oil", () => {
+  it("returns timeToCook only and no percent when no buildingId", () => {
+    const result = getCookingOilBoost("Boiled Eggs", TEST_FARM, undefined);
+
+    expect(result.timeToCook).toEqual(60 * 60);
+    expect(result.oilConsumed).toEqual(0);
+    expect(result.percent).toBeUndefined();
+  });
+
+  it("boosts Fire Pit time by 20% with oil and returns percent", () => {
     const game = {
       ...TEST_FARM,
       buildings: {
@@ -1433,9 +1442,35 @@ describe("getCookingOilBoost", () => {
       },
     };
 
-    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
+    const result = getCookingOilBoost("Boiled Eggs", game, "1");
 
-    expect(time).toEqual(60 * 60 * 0.8);
+    expect(result.timeToCook).toEqual(60 * 60 * 0.8);
+    expect(result.percent).toEqual(0.2);
+  });
+
+  it("returns effective percent for partial oil", () => {
+    const itemOilConsumption = (1 * (60 * 60)) / 86400;
+    const oilRemaining = itemOilConsumption * 0.5;
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: createdAt,
+            id: "1",
+            readyAt: 0,
+            oil: oilRemaining,
+          },
+        ],
+      },
+    };
+
+    const result = getCookingOilBoost("Boiled Eggs", game, "1");
+    const expectedEffectivePercent = 0.5 * 0.2;
+
+    expect(result.percent).toEqual(expectedEffectivePercent);
+    expect(result.timeToCook).toEqual(60 * 60 * (1 - expectedEffectivePercent));
   });
 });
 

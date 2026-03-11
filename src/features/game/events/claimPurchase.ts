@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../types/game";
 import { produce } from "immer";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "lib/object";
 import { MARKETPLACE_TAX } from "../types/marketplace";
 import { addTradePoints } from "./landExpansion/addTradePoints";
 import { BumpkinItem } from "../types/bumpkin";

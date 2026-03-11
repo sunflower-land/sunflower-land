@@ -29,7 +29,7 @@ import {
   ChapterStoreWearable,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
@@ -40,15 +40,9 @@ import {
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
-  BUMPKIN_RELEASES,
+  WEARABLE_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
-import {
-  MEGASTORE_MONUMENTS,
-  MonumentName,
-  REQUIRED_CHEERS,
-} from "features/game/types/monuments";
-import helpIcon from "assets/icons/help.webp";
 
 import lockIcon from "assets/icons/lock.png";
 
@@ -314,7 +308,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const isTradeable = isWearable
-    ? !!BUMPKIN_RELEASES[(item as ChapterStoreWearable)?.wearable]
+    ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
     : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
 
   return (
@@ -383,15 +377,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         )}
                       </div>
                     )}
-                    {!isWearable &&
-                      itemName in MEGASTORE_MONUMENTS &&
-                      REQUIRED_CHEERS[itemName as MonumentName] && (
-                        <Label type="info" className="text-xxs" icon={helpIcon}>
-                          {t("megastore.monument.helpsNeeded", {
-                            count: REQUIRED_CHEERS[itemName as MonumentName],
-                          })}
-                        </Label>
-                      )}
                     {description && (
                       <span className="text-xs leading-none">
                         {description}

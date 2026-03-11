@@ -1,4 +1,4 @@
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { Bud } from "../types/buds";
 import { GameState } from "../types/game";
 import { BudNFTName } from "../types/marketplace";

@@ -4,7 +4,7 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";
 

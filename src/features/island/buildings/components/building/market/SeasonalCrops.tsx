@@ -17,7 +17,7 @@ import { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { ExoticCrop } from "features/game/types/beans";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

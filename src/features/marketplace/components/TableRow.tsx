@@ -9,6 +9,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Checkbox } from "components/ui/Checkbox";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 export type TableItem = {
   id: string;
@@ -67,7 +68,16 @@ export const TableRow: React.FC<RowProps> = ({
         borderTop: index === 0 ? "1px solid #b96f50" : "",
       }}
     >
-      <div className="p-1.5 truncate flex sm:w-1/3 items-center">
+      <div
+        className="p-1.5 truncate flex sm:w-1/3 items-center cursor-pointer"
+        onClick={() => {
+          playerModalManager.open({
+            farmId: createdBy.id,
+            username: createdBy.username,
+            clothing: interpretTokenUri(createdBy.bumpkinUri).equipped,
+          });
+        }}
+      >
         <div className="flex items-center">
           <div className="relative w-6 sm:w-8 h-8 flex items-center">
             <NPCIcon

@@ -9,7 +9,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { Inventory } from "features/game/types/game";
 
 interface Props {

@@ -6,7 +6,6 @@ import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 
 import { PlaceableContainer } from "../containers/PlaceableContainer";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
 import { FactionName } from "features/game/types/game";
@@ -16,7 +15,7 @@ import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
 import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { CONFIG } from "lib/config";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -145,6 +144,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
 ];
+
+const budImageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
@@ -444,13 +445,6 @@ export class PlazaScene extends BaseScene {
           "arrows_to_move",
         )
         .setDepth(1000000000000);
-    }
-
-    if (!hasTimeBasedFeatureAccess("PET_CHAPTER_COMPLETE", now)) {
-      const vipGift = this.add.sprite(379, 240, "vip_gift");
-      vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("vip_chest");
-      });
     }
 
     if (this.gameState.inventory["Treasure Key"]) {

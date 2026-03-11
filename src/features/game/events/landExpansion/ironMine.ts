@@ -55,16 +55,17 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-const getBoostedTime = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  boostedTime: number;
-  boostsUsed: BoostName[];
-} => {
+/**
+ * Single source of truth for iron recovery boosts. Used by both getMinedAt (game) and UI.
+ */
+export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseTimeMs = IRON_RECOVERY_TIME * 1000;
   let totalSeconds = IRON_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const superTotemActive = isTemporaryCollectibleActive({
     name: "Super Totem",
@@ -76,40 +77,45 @@ const getBoostedTime = ({
   });
   if (superTotemActive || timeWarpTotemActive) {
     totalSeconds = totalSeconds * 0.5;
-    if (superTotemActive) boostsUsed.push("Super Totem");
-    else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
+    if (superTotemActive)
+      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
+    else if (timeWarpTotemActive)
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push("Ore Hourglass");
+    boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Mole Shrine");
+    boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
   if (game.bumpkin.skills["Iron Hustle"]) {
     totalSeconds = totalSeconds * 0.7;
-    boostsUsed.push("Iron Hustle");
+    boostsUsed.push({ name: "Iron Hustle", value: "x0.7" });
   }
 
-  const buff = IRON_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
-};
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
+}
 
 /**
- * Set a mined in the past to make it replenish faster
+ * Set a mined in the past to make it replenish faster. Uses getIronRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({ game });
-
-  return { time: createdAt - boostedTime, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getIronRecoveryTimeForDisplay({ game });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 /**
@@ -129,7 +135,11 @@ export function getIronDropAmount({
   farmId: number;
   counter: number;
   itemId: number;
-}): { amount: Decimal; aoe: AOE; boostsUsed: BoostName[] } {
+}): {
+  amount: Decimal;
+  aoe: AOE;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   const { aoe } = game;
   const updatedAoe = cloneDeep(aoe);
 
@@ -143,45 +153,46 @@ export function getIronDropAmount({
     });
 
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Rocky the Mole", game })) {
     amount += 0.25;
-    boostsUsed.push("Rocky the Mole");
+    boostsUsed.push({ name: "Rocky the Mole", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Radiant Ray", game })) {
     amount += 0.1;
-    boostsUsed.push("Radiant Ray");
+    boostsUsed.push({ name: "Radiant Ray", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Iron Idol", game })) {
     amount += 1;
-    boostsUsed.push("Iron Idol");
+    boostsUsed.push({ name: "Iron Idol", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Iron Beetle", game })) {
     amount += 0.1;
-    boostsUsed.push("Iron Beetle");
+    boostsUsed.push({ name: "Iron Beetle", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Iron Bumpkin"]) {
     amount += 0.1;
-    boostsUsed.push("Iron Bumpkin");
+    boostsUsed.push({ name: "Iron Bumpkin", value: "+0.1" });
   }
 
   if (game.bumpkin.skills["Rocky Favor"]) {
     amount -= 0.5;
-    boostsUsed.push("Rocky Favor");
+    boostsUsed.push({ name: "Rocky Favor", value: "-0.5" });
   }
 
   if (game.bumpkin.skills["Ferrous Favor"]) {
     amount += 1;
-    boostsUsed.push("Ferrous Favor");
+    boostsUsed.push({ name: "Ferrous Favor", value: "+1" });
   }
 
   if (getPrngChance(20, "Native")) {
     amount += 1;
+    boostsUsed.push({ name: "Native", value: "+1" });
   }
 
   if (
@@ -225,7 +236,7 @@ export function getIronDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
-      boostsUsed.push("Emerald Turtle");
+      boostsUsed.push({ name: "Emerald Turtle", value: "+0.5" });
     }
   }
 
@@ -239,15 +250,20 @@ export function getIronDropAmount({
     })
   ) {
     amount += 0.25;
-    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
+    boostsUsed.push({
+      name: FACTION_ITEMS[factionName].secondaryTool,
+      value: "+0.25",
+    });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Iron");
   amount += yieldBoost;
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (game.island.type === "volcano") {
     amount += 0.1;
+    boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
   const multiplier = rock.multiplier ?? 1;
@@ -255,10 +271,12 @@ export function getIronDropAmount({
 
   if (rock.tier === 2) {
     amount += 0.5;
+    boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
 
   if (rock.tier === 3) {
     amount += 2.5;
+    boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
 
   return {
@@ -334,9 +352,12 @@ export function mineIron({
       game: stateCopy,
     });
 
-    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
-      game: stateCopy,
-    });
+    const {
+      baseTimeMs,
+      recoveryTimeMs,
+      boostsUsed: boostedTimeBoostsUsed,
+    } = getIronRecoveryTimeForDisplay({ game: stateCopy });
+    const boostedTime = baseTimeMs - recoveryTimeMs;
 
     ironRock.stone = {
       minedAt: time,

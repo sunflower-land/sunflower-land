@@ -10,9 +10,12 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import {
   FactionName,
+  GameState,
   InventoryItemName,
   IslandType,
+  Order,
 } from "features/game/types/game";
+import { hasOrderRequirements } from "features/island/delivery/components/Orders";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -23,13 +26,7 @@ const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
   "hammerin harry": "auctions",
 };
-export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
-  "pumpkin' pete": true,
-  hank: true,
-  santa: true,
-  chase: true,
-  "rocket man": true,
-};
+export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {};
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -99,6 +96,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     isVip,
     createdAt,
     islandType,
+    showDeliveryIcon,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -117,6 +115,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     isVip?: boolean;
     createdAt?: number;
     islandType?: IslandType;
+    showDeliveryIcon?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -152,9 +151,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
       const labelType = name === "hammerin harry" ? "gold" : "grey";
-      const label = new Label(this.scene, text.toUpperCase(), labelType);
+      const labelIconKey =
+        showDeliveryIcon && this.scene.textures.exists("delivery_icon")
+          ? "delivery_icon"
+          : undefined;
+      const label = new Label(
+        this.scene,
+        text.toUpperCase(),
+        labelType,
+        labelIconKey,
+      );
       this.add(label);
-      label.setPosition(label.width / 2, -16);
+
+      const width = label.width;
+      label.setPosition(width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
         !acknowledgedNPCs()[name as NPCName] &&
@@ -217,6 +227,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public teleport(x: number, y: number) {
     this.setPosition(x, y);
+  }
+
+  /**
+   * Update delivery icon visibility based on current game state.
+   * Call when game state changes (e.g. after completing a delivery) so the icon is removed.
+   */
+  public updateDeliveryIconVisibility(npcName: NPCName): void {
+    const gameState = this.scene.registry.get("gameState") as
+      | GameState
+      | undefined;
+    if (!gameState?.delivery?.orders || !this.label) return;
+    const now = Date.now();
+    const order = gameState.delivery.orders.find(
+      (o: Order) => o.from === npcName && now >= o.readyAt && !o.completedAt,
+    );
+    const showDeliveryIcon =
+      !!order && hasOrderRequirements({ order, state: gameState });
+    this.label.setIconVisible(showDeliveryIcon);
   }
 
   get directionFacing() {

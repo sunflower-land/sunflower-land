@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   isPetNFT,
   Pet,
@@ -37,8 +37,13 @@ import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { capitalize } from "lib/utils/capitalize";
+import { useNow } from "lib/utils/hooks/useNow";
+import { isWearableActive } from "features/game/lib/wearables";
+import { getPetFoodRequests } from "features/game/events/pets/feedPet";
+import * as Auth from "features/auth/lib/Provider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 interface Props {
   show: boolean;
@@ -50,6 +55,8 @@ interface Props {
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const PetModal: React.FC<Props> = ({
   show,
@@ -58,23 +65,64 @@ export const PetModal: React.FC<Props> = ({
   isTypeFed,
 }) => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
   const [display, setDisplay] = useState<
     "feeding" | "fetching" | "resetting" | "typeFed" | "guide"
-  >(isTypeFed ? "typeFed" : "feeding");
+  >(() => {
+    if (isTypeFed) {
+      return "typeFed";
+    }
+    return "feeding";
+  });
   const [previousDisplay, setPreviousDisplay] = useState<
     "feeding" | "fetching" | "resetting"
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
+  const now = useNow({ live: true });
+
+  useEffect(() => {
+    if (show) {
+      queueMicrotask(() =>
+        setDisplay(() => {
+          if (isTypeFed) {
+            return "typeFed";
+          }
+          return "feeding";
+        }),
+      );
+    }
+  }, [show, isTypeFed]);
+
   const inventory = useSelector(gameService, _inventory);
+  const authToken = useSelector(authService, _authToken);
+
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
-    gameService.send("pet.fed", {
-      petId,
-      food,
+    const state = gameService.send("pet.fed", { petId, food });
+
+    const hasVictoriaApron = isWearableActive({
+      game: state.context.state,
+      name: "Victoria's Apron",
     });
+    if (hasVictoriaApron) {
+      const petData =
+        typeof petId === "number"
+          ? state.context.state.pets?.nfts?.[petId]
+          : state.context.state.pets?.common?.[petId];
+      if (petData) {
+        const requests = getPetFoodRequests(
+          petData,
+          getPetLevel(petData.experience).level,
+        );
+        const fedRequests = petData.requests.foodFed;
+        if (requests.every((request) => fedRequests?.includes(request))) {
+          gameService.send("SAVE");
+        }
+      }
+    }
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
@@ -85,12 +133,9 @@ export const PetModal: React.FC<Props> = ({
   };
 
   const handleResetRequests = () => {
-    gameService.send("REVEAL", {
-      event: {
-        type: "reset.petRequests",
-        petId,
-        createdAt: new Date(),
-      },
+    gameService.send("reset.petRequests", {
+      effect: { type: "reset.petRequests", petId },
+      authToken,
     });
   };
 
@@ -99,7 +144,7 @@ export const PetModal: React.FC<Props> = ({
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(data.experience);
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
 
   return (
     <Modal show={show} onHide={onClose}>

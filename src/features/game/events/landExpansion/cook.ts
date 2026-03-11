@@ -12,6 +12,7 @@ import {
   Skills,
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
+import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import {
   BuildingName,
@@ -64,7 +65,7 @@ export function getCookingOilBoost(
   item: CookableName,
   game: GameState,
   buildingId?: string,
-): { timeToCook: number; oilConsumed: number } {
+): { timeToCook: number; oilConsumed: number; percent?: number } {
   const buildingName = COOKABLES[item].building;
 
   if (!isCookingBuilding(buildingName) || !buildingId) {
@@ -84,7 +85,11 @@ export function getCookingOilBoost(
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
 
   if (oilRemaining >= itemOilConsumption) {
-    return { timeToCook: boostedCookingTime, oilConsumed: itemOilConsumption };
+    return {
+      timeToCook: boostedCookingTime,
+      oilConsumed: itemOilConsumption,
+      percent: boostValue,
+    };
   }
 
   // Calculate the partial boost based on remaining oil
@@ -94,6 +99,7 @@ export function getCookingOilBoost(
   return {
     timeToCook: partialBoostedCookingTime,
     oilConsumed: (oilRemaining / itemOilConsumption) * itemOilConsumption,
+    percent: effectiveBoostValue > 0 ? effectiveBoostValue : undefined,
   };
 }
 
@@ -103,16 +109,30 @@ export const getReadyAt = ({
   createdAt,
   game,
 }: GetReadyAtArgs) => {
-  const withOilBoost = getCookingOilBoost(item, game, buildingId).timeToCook;
+  const oilBoostResult = getCookingOilBoost(item, game, buildingId);
 
   const { reducedSecs, boostsUsed } = getCookingTime({
-    seconds: withOilBoost,
+    seconds: oilBoostResult.timeToCook,
     item,
     game,
     cookStartAt: createdAt,
   });
 
-  return { createdAt: createdAt + reducedSecs * 1000, boostsUsed };
+  const oilEntry =
+    oilBoostResult.percent != null && oilBoostResult.percent > 0
+      ? [
+          {
+            name: "Building Oil" as const,
+            value: "x" + setPrecision(1 - oilBoostResult.percent, 2),
+          },
+        ]
+      : [];
+
+  return {
+    createdAt: createdAt + reducedSecs * 1000,
+    reducedSecs,
+    boostsUsed: [...oilEntry, ...boostsUsed],
+  };
 };
 
 export const BUILDING_DAILY_OIL_CONSUMPTION: Record<

@@ -15,7 +15,7 @@ import {
 } from "../types/fruits";
 import { AnimalResource, GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { BudNFTName } from "../types/marketplace";
 
 export type Resource =

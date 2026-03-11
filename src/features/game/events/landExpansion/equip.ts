@@ -1,5 +1,5 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";

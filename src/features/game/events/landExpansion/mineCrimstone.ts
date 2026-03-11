@@ -25,83 +25,91 @@ type Options = {
   farmId: number;
 };
 
-type GetMinedAtArgs = {
-  createdAt: number;
-  game: GameState;
+type PrngArgs = {
   farmId: number;
   itemId: number;
   counter: number;
 };
 
-function getBoostedTime({ game, farmId, itemId, counter }: GetMinedAtArgs): {
-  boostedTime: number;
-  boostsUsed: BoostName[];
+type GetMinedAtArgs = {
+  createdAt: number;
+  game: GameState;
+  prngArgs?: PrngArgs;
+};
+
+/**
+ * Single source of truth for crimstone recovery boosts. Used by both getMinedAt (game) and UI.
+ * When prngArgs is omitted, PRNG-dependent branches (e.g. Crimstone Clam instant) are skipped.
+ */
+export function getCrimstoneRecoveryTimeForDisplay({
+  game,
+  prngArgs,
+}: {
+  game: GameState;
+  prngArgs?: PrngArgs;
+}): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
 } {
+  const baseTimeMs = CRIMSTONE_RECOVERY_TIME * 1000;
   let totalSeconds = CRIMSTONE_RECOVERY_TIME;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isCollectibleBuilt({ name: "Crimstone Clam", game }) &&
+    prngArgs &&
     prngChance({
-      farmId,
-      itemId,
-      counter,
+      ...prngArgs,
       chance: 10,
       criticalHitName: "Crimstone Clam",
     })
   ) {
     return {
-      boostedTime: CRIMSTONE_RECOVERY_TIME * 1000,
-      boostsUsed: ["Crimstone Clam"],
+      baseTimeMs,
+      recoveryTimeMs: 0,
+      boostsUsed: [{ name: "Crimstone Clam", value: "Instant" }],
     };
   }
 
   if (isCollectibleBuilt({ name: "Crimstone Clam", game })) {
     totalSeconds = totalSeconds * 0.9;
-    boostsUsed.push("Crimstone Clam");
+    boostsUsed.push({ name: "Crimstone Clam", value: "x0.9" });
   }
 
   if (isWearableActive({ name: "Crimstone Amulet", game })) {
     totalSeconds = totalSeconds * 0.8;
-    boostsUsed.push("Crimstone Amulet");
+    boostsUsed.push({ name: "Crimstone Amulet", value: "x0.8" });
   }
 
   if (game.bumpkin.skills["Fireside Alchemist"]) {
     totalSeconds = totalSeconds * 0.85;
-    boostsUsed.push("Fireside Alchemist");
+    boostsUsed.push({ name: "Fireside Alchemist", value: "x0.85" });
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push("Mole Shrine");
+    boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
-  const buff = CRIMSTONE_RECOVERY_TIME - totalSeconds;
-
-  return { boostedTime: buff * 1000, boostsUsed };
+  return {
+    baseTimeMs,
+    recoveryTimeMs: totalSeconds * 1000,
+    boostsUsed,
+  };
 }
 
-export function getMinedAt({
-  createdAt,
-  game,
-  farmId,
-  itemId,
-  counter,
-}: GetMinedAtArgs): {
+/**
+ * Set a mined in the past to make it replenish faster. Uses getCrimstoneRecoveryTimeForDisplay for boost logic.
+ */
+export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   time: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({
-    game,
-    createdAt,
-    farmId,
-    itemId,
-    counter,
-  });
-
-  const time = createdAt - boostedTime;
-
-  return { time, boostsUsed };
+  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
+    getCrimstoneRecoveryTimeForDisplay({ game, prngArgs });
+  const buffMs = baseTimeMs - recoveryTimeMs;
+  return { time: createdAt - buffMs, boostsUsed };
 }
 
 export function getCrimstoneDropAmount({
@@ -110,35 +118,36 @@ export function getCrimstoneDropAmount({
 }: {
   game: GameState;
   rock: FiniteResource;
-}): { amount: Decimal; boostsUsed: BoostName[] } {
+}): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = new Decimal(1);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Crimson Carp", game })) {
     amount = amount.add(0.05);
-    boostsUsed.push("Crimson Carp");
+    boostsUsed.push({ name: "Crimson Carp", value: "+0.05" });
   }
 
   if (isCollectibleBuilt({ name: "Crim Peckster", game })) {
     amount = amount.add(0.1);
-    boostsUsed.push("Crim Peckster");
+    boostsUsed.push({ name: "Crim Peckster", value: "+0.1" });
   }
 
   if (isWearableActive({ name: "Crimstone Armor", game })) {
     amount = amount.add(0.1);
-    boostsUsed.push("Crimstone Armor");
+    boostsUsed.push({ name: "Crimstone Armor", value: "+0.1" });
   }
 
   if (rock.minesLeft === 1) {
     if (isWearableActive({ name: "Crimstone Hammer", game })) {
       amount = amount.add(2);
-      boostsUsed.push("Crimstone Hammer");
+      boostsUsed.push({ name: "Crimstone Hammer", value: "+2" });
     }
     if (game.bumpkin.skills["Fire Kissed"]) {
       amount = amount.add(1);
-      boostsUsed.push("Fire Kissed");
+      boostsUsed.push({ name: "Fire Kissed", value: "+1" });
     }
     amount = amount.add(2);
+    boostsUsed.push({ name: "Streak Bonus", value: "+2" });
   }
 
   return { amount: amount.toDecimalPlaces(4), boostsUsed };
@@ -171,7 +180,7 @@ export function mineCrimstone({
     }
 
     const toolAmount = stateCopy.inventory["Gold Pickaxe"] || new Decimal(0);
-    const pickaxeBoosts: BoostName[] = [];
+    const pickaxeBoosts: { name: BoostName; value: string }[] = [];
     const hasCrimstoneSpikes = isWearableActive({
       name: "Crimstone Spikes Hair",
       game: stateCopy,
@@ -206,7 +215,7 @@ export function mineCrimstone({
     const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
       createdAt,
       game: stateCopy,
-      ...prngObject,
+      prngArgs: prngObject,
     });
     rock.stone = { minedAt: time };
 
@@ -217,7 +226,7 @@ export function mineCrimstone({
     }
 
     if (hasCrimstoneSpikes) {
-      pickaxeBoosts.push("Crimstone Spikes Hair");
+      pickaxeBoosts.push({ name: "Crimstone Spikes Hair", value: "Free" });
     } else {
       stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
     }

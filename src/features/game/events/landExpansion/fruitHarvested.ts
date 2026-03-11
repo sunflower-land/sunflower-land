@@ -100,11 +100,11 @@ export function getFruitYield({
   prngArgs,
 }: FruitYield): {
   amount: number;
-  boostsUsed: BoostName[];
+  boostsUsed: { name: BoostName; value: string }[];
 } {
   const { bumpkin } = game;
   let amount = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (prngArgs) {
     const itemId = KNOWN_IDS[name];
@@ -118,13 +118,13 @@ export function getFruitYield({
       isFruit(name)
     ) {
       amount += 1;
-      boostsUsed.push("Generous Orchard");
+      boostsUsed.push({ name: "Generous Orchard", value: "+1" });
     }
   }
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
-    boostsUsed.push("Lady Bug");
+    boostsUsed.push({ name: "Lady Bug", value: "+0.25" });
   }
 
   if (
@@ -132,22 +132,22 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
-    boostsUsed.push("Black Bearry");
+    boostsUsed.push({ name: "Black Bearry", value: "+1" });
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
     if (bumpkin.skills["Loyal Macaw"]) {
       amount += 0.2;
-      boostsUsed.push("Loyal Macaw");
+      boostsUsed.push({ name: "Loyal Macaw", value: "+0.2" });
     } else {
       amount += 0.1;
     }
-    boostsUsed.push("Macaw");
+    boostsUsed.push({ name: "Macaw", value: "+0.1" });
   }
 
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
     amount += 0.1;
-    boostsUsed.push("Camel Onesie");
+    boostsUsed.push({ name: "Camel Onesie", value: "+0.1" });
   }
 
   if (
@@ -158,12 +158,12 @@ export function getFruitYield({
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
     amount += 0.1;
-    boostsUsed.push("Fruit Picker Apron");
+    boostsUsed.push({ name: "Fruit Picker Apron", value: "+0.1" });
   }
 
   if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
-    boostsUsed.push("Fruitful Fumble");
+    boostsUsed.push({ name: "Fruitful Fumble", value: "+0.1" });
   }
 
   //Faction Quiver
@@ -176,7 +176,7 @@ export function getFruitYield({
     })
   ) {
     amount += 0.25;
-    boostsUsed.push(FACTION_ITEMS[factionName].wings);
+    boostsUsed.push({ name: FACTION_ITEMS[factionName].wings, value: "+0.25" });
   }
 
   if (fertiliser === "Fruitful Blend") {
@@ -188,7 +188,7 @@ export function getFruitYield({
 
   if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {
     amount += 0.5;
-    boostsUsed.push("Banana Amulet");
+    boostsUsed.push({ name: "Banana Amulet", value: "+0.5" });
   }
 
   if (
@@ -196,18 +196,18 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Banana Chicken", game })
   ) {
     amount += 0.1;
-    boostsUsed.push("Banana Chicken");
+    boostsUsed.push({ name: "Banana Chicken", value: "+0.1" });
   }
 
   // Lemon
   if (name === "Lemon" && isCollectibleBuilt({ name: "Lemon Shark", game })) {
     amount += 0.2;
-    boostsUsed.push("Lemon Shark");
+    boostsUsed.push({ name: "Lemon Shark", value: "+0.2" });
   }
 
   if (name === "Lemon" && isWearableActive({ name: "Lemon Shield", game })) {
     amount += 1;
-    boostsUsed.push("Lemon Shield");
+    boostsUsed.push({ name: "Lemon Shield", value: "+1" });
   }
 
   if (
@@ -215,7 +215,7 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Reveling Lemon", game })
   ) {
     amount += 0.25;
-    boostsUsed.push("Reveling Lemon");
+    boostsUsed.push({ name: "Reveling Lemon", value: "+0.25" });
   }
 
   if (
@@ -223,53 +223,56 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Tomato Bombard", game })
   ) {
     amount += 1;
-    boostsUsed.push("Tomato Bombard");
+    boostsUsed.push({ name: "Tomato Bombard", value: "+1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, name);
   amount += yieldBoost;
-  if (budUsed) boostsUsed.push(budUsed);
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   // Grape
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
     amount += 0.25;
-    boostsUsed.push("Vinny");
+    boostsUsed.push({ name: "Vinny", value: "+0.25" });
   }
 
   if (name === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
     amount += 1;
-    boostsUsed.push("Grape Granny");
+    boostsUsed.push({ name: "Grape Granny", value: "+1" });
   }
 
   if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
     amount += 0.2;
-    boostsUsed.push("Grape Pants");
+    boostsUsed.push({ name: "Grape Pants", value: "+0.2" });
   }
 
   if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
     if (name === "Tomato" || name === "Lemon") {
       amount += 1;
+      boostsUsed.push({ name: "Zesty Vibes", value: "+1" });
     } else {
       amount -= 0.25;
+      boostsUsed.push({ name: "Zesty Vibes", value: "-0.25" });
     }
-    boostsUsed.push("Zesty Vibes");
   }
 
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     amount += 1;
-    boostsUsed.push("Legendary Shrine");
+    boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
   if (
     getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
     amount += 1;
+    boostsUsed.push({ name: "bountifulHarvest", value: "+1" });
     const { activeGuardian } = getActiveGuardian({
       game,
     });
     if (activeGuardian) {
       amount += 1;
-      boostsUsed.push(activeGuardian);
+      boostsUsed.push({ name: activeGuardian, value: "+1" });
     }
   }
 

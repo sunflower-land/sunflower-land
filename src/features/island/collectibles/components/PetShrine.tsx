@@ -17,7 +17,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { PetShrineName } from "features/game/types/pets";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
 import { useVisiting } from "lib/utils/visitUtils";

@@ -27,6 +27,7 @@ import withdrawIcon from "assets/icons/withdraw.png";
 
 interface Props {
   onWithdraw: (sfl: string, chainId: number) => void;
+  withdrawDisabled?: boolean;
 }
 
 const _state = (state: MachineState) => state.context.state;
@@ -34,7 +35,10 @@ const _autosaving = (state: MachineState) => state.matches("autosaving");
 
 const MIN_FLOWER_WITHDRAW_AMOUNT = new Decimal(5);
 
-export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawFlower: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -66,7 +70,9 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   }
 
   const disableWithdraw =
-    amount.greaterThan(balance) || amount.lessThan(MIN_FLOWER_WITHDRAW_AMOUNT);
+    amount.greaterThan(balance) ||
+    amount.lessThan(MIN_FLOWER_WITHDRAW_AMOUNT) ||
+    !!withdrawDisabled;
 
   const withdraw = () => {
     if (disableWithdraw || autosaving || !chain) return;
@@ -206,7 +212,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
 
       <Button
         onClick={() => setShowConfirmation(true)}
-        disabled={disableWithdraw || autosaving}
+        disabled={disableWithdraw || autosaving || withdrawDisabled}
       >
         {t("withdraw")}
       </Button>

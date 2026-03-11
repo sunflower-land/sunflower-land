@@ -7,7 +7,11 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { FishName, FishingBait, MAP_PIECES } from "features/game/types/fishing";
+import {
+  FishName,
+  FishingBait,
+  MAP_PIECE_MARVELS,
+} from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
@@ -17,7 +21,6 @@ import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/lib/crafting";
 import { MarvelHunt } from "./MarvelHunt";
 import { BaitSelection } from "./BaitSelection";
 
@@ -47,7 +50,7 @@ const _state = (state: MachineState) => state.context.state;
 const _marvel = (state: MachineState) => {
   const game = state.context.state;
   // If there is a ready marvel to be caught;
-  const ready = getKeys(MAP_PIECES).find(
+  const ready = MAP_PIECE_MARVELS.find(
     (marvel) =>
       !game.farmActivity[`${marvel} Caught`] &&
       (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,

@@ -28,6 +28,8 @@ import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { RetentionDashboard } from "features/retentionDashboard/RetentionDashboard";
+import { ChapterDashboard } from "features/chapterDashboard/ChapterDashboard";
+import { GameWrapper } from "features/game/expansion/Game";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 
@@ -179,6 +181,22 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/game/retention-dashboard"
                                   element={<RetentionDashboard />}
+                                />
+                                <Route
+                                  path="/chapter"
+                                  element={
+                                    <GameWrapper>
+                                      <ChapterDashboard />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/game/chapter"
+                                  element={
+                                    <GameWrapper>
+                                      <ChapterDashboard />
+                                    </GameWrapper>
+                                  }
                                 />
                                 <Route
                                   path="*"

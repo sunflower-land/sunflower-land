@@ -3,10 +3,29 @@ import { Modal } from "components/ui/Modal";
 import { OuterPanel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { BuyBiomes } from "./BuyBiomes";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
+import { Buildings } from "../buildings/Buildings";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const needsHelp = (state: MachineState) => {
+  const missingScarecrow =
+    !state.context.state.inventory["Basic Scarecrow"] &&
+    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+
+  if (missingScarecrow) {
+    return true;
+  }
+
+  return false;
+};
+
+const _islandType = (state: MachineState) => state.context.state.island.type;
 
 interface Props {
   show: boolean;
@@ -14,11 +33,14 @@ interface Props {
 }
 
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
+  const { gameService } = useContext(Context);
   type Tab = "landscaping" | "biomes";
+  const islandType = useSelector(gameService, _islandType);
+
   const [tab, setTab] = useState<Tab>("landscaping");
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} size="lg">
       <CloseButtonPanel
         currentTab={tab}
         setCurrentTab={setTab}
@@ -28,11 +50,15 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
             icon: SUNNYSIDE.decorations.bush,
             name: "Landscaping",
           },
-          {
-            id: "biomes",
-            icon: ITEM_DETAILS["Basic Biome"].image,
-            name: "Biomes",
-          },
+          ...(islandType !== "basic"
+            ? [
+                {
+                  id: "biomes" as Tab,
+                  icon: ITEM_DETAILS["Basic Biome"].image,
+                  name: "Biomes",
+                },
+              ]
+            : []),
         ]}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
@@ -40,6 +66,41 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
       >
         {tab === "landscaping" && <LandscapingDecorations onClose={onHide} />}
         {tab === "biomes" && <BuyBiomes onClose={onHide} />}
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+export const CraftBuildModal: React.FC<Props> = ({ show, onHide }) => {
+  const { gameService } = useContext(Context);
+  type Tab = "craft" | "build";
+  const showCrafting = useSelector(gameService, needsHelp);
+
+  const [tab, setTab] = useState<Tab>(showCrafting ? "craft" : "build");
+
+  return (
+    <Modal show={show} onHide={onHide} size="lg">
+      <CloseButtonPanel
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            id: "craft",
+            icon: SUNNYSIDE.icons.lightning,
+            name: "Boosts",
+          },
+          {
+            id: "build",
+            icon: SUNNYSIDE.icons.hammer,
+            name: "Build",
+          },
+        ]}
+        onClose={onHide}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
+        container={OuterPanel}
+      >
+        {tab === "craft" && <IslandBlacksmithItems />}
+        {tab === "build" && <Buildings onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

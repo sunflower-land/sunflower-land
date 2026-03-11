@@ -14,8 +14,8 @@ import {
   BountyRequest,
   InventoryItemName,
 } from "features/game/types/game";
-import { ANIMALS, getKeys } from "features/game/types/craftables";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { ANIMALS } from "features/game/types/craftables";
+import { getObjectEntries, getKeys } from "lib/object";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
@@ -293,7 +293,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
         </div>
       </InnerPanel>
       {!noBonusBountiesWeek && !readonly && (
-        <InnerPanel className="flex flex-col justify-center gap-2">
+        <InnerPanel className="flex flex-col justify-center gap-2 mb-1">
           <div className="flex items-center gap-2 justify-between">
             <Label
               type="default"

@@ -23,7 +23,7 @@ import calendar from "assets/icons/calendar.webp";
 import sunshower from "assets/icons/sunshower.webp";
 import fishFrenzy from "assets/icons/fish_frenzy.webp";
 import Decimal from "decimal.js-light";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;

@@ -1,11 +1,6 @@
+import { getKeys } from "lib/object";
 import { BumpkinItem } from "../types/bumpkin";
 import { BedName, InventoryItemName, RecipeCraftableName } from "../types/game";
-/**
- * getKeys is a ref to Object.keys, but the return is typed literally.
- */
-export const getKeys = Object.keys as <T extends object>(
-  obj: T,
-) => Array<keyof T>;
 
 export type DollName =
   | "Doll"

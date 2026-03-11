@@ -1,10 +1,17 @@
 import Decimal from "decimal.js-light";
-import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
+import {
+  Recipe,
+  RecipeCollectibleName,
+  RecipeIngredient,
+  Recipes,
+} from "features/game/lib/crafting";
 import {
   BoostName,
+  CraftingQueueItem,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { produce } from "immer";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -13,6 +20,7 @@ import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
+import { hasFeatureAccess } from "lib/flags";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -29,46 +37,42 @@ type Options = {
 export function getBoostedCraftingTime({
   game,
   time,
-  farmId,
-  itemId,
-  counter,
+  prngArgs,
 }: {
   game: GameState;
   time: number;
-  farmId: number;
-  itemId: number;
-  counter: number;
+  prngArgs?: { farmId: number; itemId: number; counter: number };
 }) {
   let seconds = time;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
-    boostsUsed.push("Fox Shrine");
     if (
+      prngArgs &&
       prngChance({
-        farmId,
-        itemId,
-        counter,
+        ...prngArgs,
         chance: 10,
         criticalHitName: "Fox Shrine",
       })
     ) {
       seconds *= 0;
+      boostsUsed.push({ name: "Fox Shrine", value: "x0" });
       return { seconds, boostsUsed };
     } else {
       seconds *= 0.75;
+      boostsUsed.push({ name: "Fox Shrine", value: "x0.75" });
     }
   }
 
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
     seconds *= 0.5;
-    boostsUsed.push("Sol & Luna");
+    boostsUsed.push({ name: "Sol & Luna", value: "x0.5" });
   }
 
   if (isWearableActive({ name: "Architect Ruler", game })) {
     seconds *= 0.75;
-    boostsUsed.push("Architect Ruler");
+    boostsUsed.push({ name: "Architect Ruler", value: "x0.75" });
   }
 
   if (
@@ -77,9 +81,9 @@ export function getBoostedCraftingTime({
   ) {
     seconds *= 0.5;
     if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game })) {
-      boostsUsed.push("Time Warp Totem");
+      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
     } else if (isTemporaryCollectibleActive({ name: "Super Totem", game })) {
-      boostsUsed.push("Super Totem");
+      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     }
   }
 
@@ -107,20 +111,39 @@ export function startCrafting({
       throw new Error("You do not have a Crafting Box");
     }
 
-    // Check if there's an ongoing crafting
-    if (
-      copy.craftingBox.status === "pending" ||
-      copy.craftingBox.status === "crafting"
-    ) {
-      throw new Error("There's already an ongoing crafting");
+    const legacyItem = copy.craftingBox.item;
+    const rawQueue = copy.craftingBox.queue;
+    const effectiveQueue: CraftingQueueItem[] =
+      rawQueue ??
+      (legacyItem && copy.craftingBox.status === "crafting"
+        ? [
+            {
+              name: legacyItem.collectible ?? legacyItem.wearable,
+              readyAt: copy.craftingBox.readyAt,
+              startedAt: copy.craftingBox.startedAt,
+              type: legacyItem.collectible ? "collectible" : "wearable",
+            } as CraftingQueueItem,
+          ]
+        : []);
+
+    const availableSlots =
+      hasVipAccess({ game: copy }) &&
+      hasFeatureAccess(copy, "CRAFTING_BOX_QUEUES")
+        ? 4
+        : 1;
+
+    if (effectiveQueue.length >= availableSlots) {
+      throw new Error("No available slots");
     }
 
     // Find matching recipe
     const recipe = findMatchingRecipe(ingredients, copy.craftingBox.recipes);
     if (!recipe) {
-      copy.craftingBox.status = "pending";
-      copy.craftingBox.startedAt = createdAt;
-      copy.craftingBox.readyAt = createdAt;
+      if (effectiveQueue.length === 0) {
+        copy.craftingBox.status = "pending";
+        copy.craftingBox.startedAt = createdAt;
+        copy.craftingBox.readyAt = createdAt;
+      }
       return;
     }
 
@@ -161,25 +184,47 @@ export function startCrafting({
       }
     });
 
+    const recipeStartAt =
+      effectiveQueue.length > 0
+        ? effectiveQueue[effectiveQueue.length - 1].readyAt
+        : createdAt;
+
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      farmId,
-      itemId:
-        recipe.type === "collectible"
-          ? KNOWN_IDS[recipe.name as InventoryItemName]
-          : ITEM_IDS[recipe.name as BumpkinItem],
-      counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+      prngArgs: {
+        farmId,
+        itemId:
+          recipe.type === "collectible"
+            ? KNOWN_IDS[recipe.name as InventoryItemName]
+            : ITEM_IDS[recipe.name as BumpkinItem],
+        counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+      },
     });
+
+    const isInstant = recipeTime === 0;
+    const readyAt = isInstant ? createdAt : recipeStartAt + recipeTime;
+    const startedAt = isInstant ? createdAt : recipeStartAt;
+
+    const newQueueItem: CraftingQueueItem = {
+      name: recipe.name,
+      readyAt,
+      startedAt,
+      type: recipe.type,
+    };
+
+    const updatedQueue = [...effectiveQueue, newQueueItem];
+    const currentItem = updatedQueue[0];
 
     copy.craftingBox = {
       status: "crafting",
-      startedAt: createdAt,
-      readyAt: createdAt + recipeTime,
+      queue: updatedQueue,
+      startedAt: currentItem.startedAt,
+      readyAt: currentItem.readyAt,
       item:
-        recipe.type === "collectible"
-          ? { collectible: recipe.name }
-          : { wearable: recipe.name },
+        currentItem.type === "collectible"
+          ? { collectible: currentItem.name as RecipeCollectibleName }
+          : { wearable: currentItem.name as BumpkinItem },
       recipes: {
         ...copy.craftingBox.recipes,
         [recipe.name]: { ...recipe },
@@ -200,6 +245,10 @@ export function findMatchingRecipe(
   ingredients: (RecipeIngredient | null)[],
   recipes: Partial<Recipes>,
 ): Recipe | undefined {
+  // Empty grid should not match any recipe (avoids showing Cushion etc. when nothing is placed)
+  const hasAnyIngredient = ingredients.some((i) => i != null);
+  if (!hasAnyIngredient) return undefined;
+
   for (const recipe of Object.values(recipes)) {
     // Check if every ingredient matches
     const ingredientsMatch = recipe.ingredients.every(

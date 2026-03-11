@@ -57,7 +57,7 @@ import autumnIcon from "assets/icons/autumn.webp";
 import winterIcon from "assets/icons/winter.webp";
 import fullMoon from "assets/icons/full_moon.png";
 import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   BASIC_CROP_MACHINE_SEEDS,
@@ -261,7 +261,10 @@ export const SeasonalSeeds: React.FC = () => {
     return CROP_SEEDS[selectedName as CropSeedName].plantSeconds;
   };
 
-  const getPlantSeconds = (): { seconds: number; boostsUsed: BoostName[] } => {
+  const getPlantSeconds = (): {
+    seconds: number;
+    boostsUsed: { name: BoostName; value: string }[];
+  } => {
     if (selectedName in FLOWER_SEEDS) {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }

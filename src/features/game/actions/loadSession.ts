@@ -41,6 +41,8 @@ type Response = {
     };
   };
   apiKey: string;
+
+  accountTradedAt?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -136,6 +138,7 @@ export async function loadSession(
     oauthNonce,
     prices,
     apiKey,
+    accountTradedAt,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -163,6 +166,7 @@ export async function loadSession(
       };
     };
     apiKey: string;
+    accountTradedAt?: string;
   }>(response);
 
   saveSession(farm.id);
@@ -186,6 +190,7 @@ export async function loadSession(
     oauthNonce,
     prices,
     apiKey,
+    accountTradedAt,
   };
 }
 

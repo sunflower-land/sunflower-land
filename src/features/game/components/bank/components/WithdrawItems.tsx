@@ -17,11 +17,12 @@ import { Box } from "components/ui/Box";
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
@@ -40,6 +41,7 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
   allowLongpressWithdrawal?: boolean;
+  withdrawDisabled?: boolean;
 }
 
 export function transferInventoryItem(
@@ -77,8 +79,10 @@ const _state = (state: MachineState) => state.context.state;
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
+  withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -198,7 +202,7 @@ export const WithdrawItems: React.FC<Props> = ({
   const withdrawableItems = getKeys(inventory)
     .filter((itemName) => {
       const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
-      return !!withdrawAt && withdrawAt <= new Date();
+      return !!withdrawAt && withdrawAt <= new Date(now);
     })
     .filter(
       (itemName) =>
@@ -351,7 +355,10 @@ export const WithdrawItems: React.FC<Props> = ({
         </p>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0 || withdrawDisabled}
+      >
         {t("withdraw")}
       </Button>
     </>

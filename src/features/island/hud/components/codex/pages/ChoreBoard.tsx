@@ -6,7 +6,7 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -56,9 +56,12 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { choreBoard, bumpkin } = state;
   const { chores } = choreBoard;
 
-  const [selectedId, setSelectedId] = useState<NPCName | undefined>(
-    getKeys(chores)[0],
-  );
+  const [selectedId, setSelectedId] = useState<NPCName | undefined>(() => {
+    if (isMobile) {
+      return undefined;
+    }
+    return getKeys(chores)[0];
+  });
 
   const end = useCountdown(weekResetsAt());
   const level = getBumpkinLevel(bumpkin.experience ?? 0);

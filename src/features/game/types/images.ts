@@ -2438,7 +2438,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("building.waterWell"),
   },
   "Pet House": {
-    image: SUNNYSIDE.building.tent,
+    image: SUNNYSIDE.building.petHouse1,
     description: translate("description.pet.house"),
     translatedName: translate("building.petHouse"),
   },

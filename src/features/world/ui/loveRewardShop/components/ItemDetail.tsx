@@ -20,7 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getItemDescription } from "../FloatingIslandShop";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { FloatingShopItem } from "features/game/types/floatingIsland";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 
 interface ItemOverlayProps {
   item: FloatingShopItem | null;

@@ -64,7 +64,7 @@ export async function buyBlockBucksMATIC(transaction: any) {
 }
 
 export async function buyBlockBucksXsolla(
-  request: Omit<Request, "type">,
+  request: Omit<Request, "type"> & { amount: number | "STARTER_PACK" },
 ): Promise<{ url: string }> {
   const response = await window.fetch(
     `${API_URL}/payments/create/${request.farmId}`,
@@ -86,7 +86,7 @@ export async function buyBlockBucksXsolla(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+    throw new Error(ERRORS.BUY_GEMS_SERVER_ERROR);
   }
 
   return await response.json();

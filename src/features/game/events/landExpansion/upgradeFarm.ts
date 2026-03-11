@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { BuildingName } from "features/game/types/buildings";
 import {
   GameState,
@@ -11,6 +11,10 @@ import {
   Season,
   TemperateSeasonName,
 } from "features/game/types/game";
+import {
+  getTotalBaseResourceEquivalents,
+  topUpResourceToMinimum,
+} from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { placeBuilding } from "./placeBuilding";
 import { placeFruitPatch } from "./placeFruitPatch";
@@ -516,12 +520,20 @@ function volcanoUpgrade(state: GameState) {
 
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
+  // Account for upgraded resources when checking minimums
   const minimum = { ...TOTAL_EXPANSION_NODES.volcano[5], "Sunstone Rock": 0 };
 
-  Object.entries(minimum).forEach(([name, amount]) => {
-    const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
-    if (item.lt(amount)) {
-      game.inventory[name as InventoryItemName] = new Decimal(amount);
+  getObjectEntries(minimum).forEach(([resource, amount]) => {
+    const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
+
+    // Only set minimum if total equivalents are less than required
+    if (totalEquivalents < amount) {
+      topUpResourceToMinimum({
+        game,
+        name: resource,
+        amount,
+        totalEquivalents,
+      });
     }
   });
 

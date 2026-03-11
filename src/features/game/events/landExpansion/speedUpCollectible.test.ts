@@ -122,4 +122,36 @@ describe("speedUpCollectible", () => {
 
     expect(state.collectibles["Basic Scarecrow"]![0].readyAt).toEqual(now);
   });
+
+  it("records gem history under the createdAt date key (cross-day)", () => {
+    const createdAt = new Date("2024-06-15T12:00:00Z").getTime();
+    const dateKey = "2024-06-15";
+    const state = speedUpCollectible({
+      action: {
+        type: "collectible.spedUp",
+        id: "123",
+        name: "Basic Scarecrow",
+      },
+      createdAt,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Gem: new Decimal(100),
+        },
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 100,
+              id: "123",
+              readyAt: createdAt + 1000,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(state.gems.history).toHaveProperty(dateKey);
+    expect(state.gems.history?.[dateKey]?.spent).toBe(1);
+  });
 });

@@ -57,6 +57,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
 import { VIPOffer } from "../components/modal/components/VIPItems";
+import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
@@ -66,6 +67,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
+import { PetHouseInside } from "features/petHouse/PetHouseInside";
 import {
   STATE_MACHINE_EFFECTS,
   STATE_MACHINE_VISIT_EFFECTS,
@@ -92,6 +94,7 @@ import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
+import { OnChainRaffleRewardModal } from "./components/OnChainRaffleRewardModal";
 import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 import { DailyRewardClaim } from "../components/DailyReward";
@@ -163,6 +166,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimingStreamRewardSuccess: false,
   claimingStreamRewardFailed: false,
   airdroppingRewardFailed: false,
+  completingProject: false,
+  completingProjectSuccess: false,
+  unlockingFarmhand: false,
+  unlockingFarmhandSuccess: false,
+  resettingPetRequests: false,
+  resettingPetRequestsSuccess: false,
 
   // Every new state should be added below here
   gems: true,
@@ -195,6 +204,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   auctionResults: false,
   claimAuction: false,
   refundAuction: false,
+  onChainRaffleAcknowledgment: false,
   promo: true,
   priceChanged: true,
   buds: false,
@@ -214,6 +224,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
+  starterOffer: true,
 };
 
 // State change selectors
@@ -266,6 +277,8 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const isOnChainRaffleAcknowledgment = (state: MachineState) =>
+  state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
 const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
@@ -293,6 +306,7 @@ const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
+const isStarterOffer = (state: MachineState) => state.matches("starterOffer");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
 const isLeagueResultsReleased = (state: MachineState) =>
@@ -316,6 +330,9 @@ const GameContent: React.FC = () => {
     HenHouse: (game) =>
       !!game.buildings["Hen House"] &&
       isBuildingReady(game.buildings["Hen House"]),
+    PetHouse: (game) =>
+      !!game.buildings["Pet House"] &&
+      isBuildingReady(game.buildings["Pet House"]),
   };
 
   const hasAccess = (pathName: string) => {
@@ -364,6 +381,9 @@ const GameContent: React.FC = () => {
           <Routes>
             <Route path="/:id" element={<Land />} />
             <Route path="/:id/home" element={<Home />} />
+            {hasAccess("PetHouse") && (
+              <Route path="/:id/pet-house" element={<PetHouseInside />} />
+            )}
           </Routes>
         </div>
       </>
@@ -386,6 +406,9 @@ const GameContent: React.FC = () => {
           {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
+          )}
+          {hasAccess("PetHouse") && (
+            <Route path="/pet-house" element={<PetHouseInside />} />
           )}
           <Route
             path="*"
@@ -453,6 +476,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
+  const onChainRaffleAcknowledgment = useSelector(
+    gameService,
+    isOnChainRaffleAcknowledgment,
+  );
   const showOffers = useSelector(gameService, hasFulfilledOffers);
   const vip = useSelector(gameService, hasVipNotification);
   const playing = useSelector(gameService, isPlaying);
@@ -479,6 +506,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     isLeagueResultsReleased,
   );
   const dailyReward = useSelector(gameService, isDailyReward);
+  const starterOffer = useSelector(gameService, isStarterOffer);
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -676,6 +704,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {showSales && <MarketplaceSalesPopup />}
             {tradesCleared && <TradesCleared />}
             {vip && <VIPOffer />}
+            {starterOffer && <StarterOfferModal />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
             {hasCommunityCoin && <LoveCharm />}
@@ -693,6 +722,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
+        {onChainRaffleAcknowledgment && <OnChainRaffleRewardModal />}
         {seasonChanged && <SeasonChanged />}
         {calendarEvent && <CalendarEvent />}
         {competition && (

@@ -2,6 +2,7 @@ import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
 import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
+import { getLand } from "features/game/types/expansions";
 
 describe("upgradeFarm", () => {
   const farmId = 1;
@@ -1237,5 +1238,324 @@ describe("upgradeFarm", () => {
       },
     ]);
     expect(state.inventory["Super Totem"]).toEqual(new Decimal(2));
+  });
+
+  it("preserves upgraded trees when upgrading from desert to volcano", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          Tree: new Decimal(11),
+          "Ancient Tree": new Decimal(3),
+        },
+        farmActivity: {
+          "Ancient Tree Upgrade": 3,
+        },
+      },
+    });
+
+    expect(state.island.type).toEqual("volcano");
+    expect(state.inventory.Tree).toEqual(new Decimal(11));
+    expect(state.inventory["Ancient Tree"]).toEqual(new Decimal(3));
+    expect(state.farmActivity["Ancient Tree Upgrade"]).toEqual(3);
+  });
+
+  it("counts upgraded trees correctly when expanding after desert to volcano upgrade", () => {
+    const upgradedState = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          Tree: new Decimal(11),
+          "Ancient Tree": new Decimal(3),
+        },
+        farmActivity: {
+          "Ancient Tree Upgrade": 3,
+        },
+      },
+    });
+
+    const land = getLand({
+      id: farmId,
+      game: {
+        ...upgradedState,
+        inventory: {
+          ...upgradedState.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
+
+    expect(land).toBeDefined();
+    expect(land?.trees.length).toBe(0);
+  });
+
+  it("counts sacred trees correctly when expanding after desert to volcano upgrade", () => {
+    const upgradedState = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          Tree: new Decimal(7),
+          "Sacred Tree": new Decimal(1),
+        },
+        farmActivity: {
+          "Ancient Tree Upgrade": 4,
+          "Sacred Tree Upgrade": 1,
+        },
+      },
+    });
+
+    expect(upgradedState.inventory.Tree).toEqual(new Decimal(7));
+    expect(upgradedState.inventory["Sacred Tree"]).toEqual(new Decimal(1));
+
+    const land = getLand({
+      id: farmId,
+      game: {
+        ...upgradedState,
+        inventory: {
+          ...upgradedState.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
+
+    expect(land).toBeDefined();
+    expect(land?.trees.length).toBe(0);
+  });
+
+  it("preserves upgraded stones when upgrading from desert to volcano", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Stone Rock": new Decimal(16),
+          "Fused Stone Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Fused Stone Rock Upgrade": 1,
+        },
+      },
+    });
+
+    expect(state.island.type).toEqual("volcano");
+    expect(state.inventory["Stone Rock"]).toEqual(new Decimal(16));
+    expect(state.inventory["Fused Stone Rock"]).toEqual(new Decimal(1));
+    expect(state.farmActivity["Fused Stone Rock Upgrade"]).toEqual(1);
+  });
+
+  it("counts upgraded stones correctly when expanding after desert to volcano upgrade", () => {
+    const upgradedState = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Stone Rock": new Decimal(16),
+          "Fused Stone Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Fused Stone Rock Upgrade": 1,
+        },
+      },
+    });
+
+    const land = getLand({
+      id: farmId,
+      game: {
+        ...upgradedState,
+        inventory: {
+          ...upgradedState.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
+
+    expect(land).toBeDefined();
+    expect(land?.stones.length).toBe(0);
+  });
+
+  it("preserves upgraded iron when upgrading from desert to volcano", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Iron Rock": new Decimal(8),
+          "Refined Iron Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Refined Iron Rock Upgrade": 1,
+        },
+      },
+    });
+
+    expect(state.island.type).toEqual("volcano");
+    expect(state.inventory["Iron Rock"]).toEqual(new Decimal(8));
+    expect(state.inventory["Refined Iron Rock"]).toEqual(new Decimal(1));
+    expect(state.farmActivity["Refined Iron Rock Upgrade"]).toEqual(1);
+  });
+
+  it("counts upgraded iron correctly when expanding after desert to volcano upgrade", () => {
+    const upgradedState = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Iron Rock": new Decimal(8),
+          "Refined Iron Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Refined Iron Rock Upgrade": 1,
+        },
+      },
+    });
+
+    const land = getLand({
+      id: farmId,
+      game: {
+        ...upgradedState,
+        inventory: {
+          ...upgradedState.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
+
+    expect(land).toBeDefined();
+    expect(land?.iron?.length ?? 0).toBe(0);
+  });
+
+  it("preserves upgraded gold when upgrading from desert to volcano", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Gold Rock": new Decimal(3),
+          "Pure Gold Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Pure Gold Rock Upgrade": 1,
+        },
+      },
+    });
+
+    expect(state.island.type).toEqual("volcano");
+    expect(state.inventory["Gold Rock"]).toEqual(new Decimal(3));
+    expect(state.inventory["Pure Gold Rock"]).toEqual(new Decimal(1));
+    expect(state.farmActivity["Pure Gold Rock Upgrade"]).toEqual(1);
+  });
+
+  it("counts upgraded gold correctly when expanding after desert to volcano upgrade", () => {
+    const upgradedState = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Gold Rock": new Decimal(3),
+          "Pure Gold Rock": new Decimal(1),
+        },
+        farmActivity: {
+          "Pure Gold Rock Upgrade": 1,
+        },
+      },
+    });
+
+    const land = getLand({
+      id: farmId,
+      game: {
+        ...upgradedState,
+        inventory: {
+          ...upgradedState.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
+
+    expect(land).toBeDefined();
+    expect(land?.gold?.length ?? 0).toBe(0);
   });
 });

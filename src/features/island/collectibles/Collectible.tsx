@@ -24,7 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/lib/getInstantGems";
 import { gameAnalytics } from "lib/gameAnalytics";
 import classNames from "classnames";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -35,6 +35,7 @@ export type CollectibleProps = {
   id: string;
   readyAt: number;
   createdAt: number;
+  index: number;
   x: number;
   y: number;
   grid: GameGrid;
@@ -60,6 +61,7 @@ const InProgressCollectible: React.FC<Props> = ({
   y,
   grid,
   location,
+  index,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -122,6 +124,7 @@ const InProgressCollectible: React.FC<Props> = ({
             showTimers={showTimers}
             grid={grid}
             location={location}
+            index={index}
           />
         </div>
         {showTimers && (
@@ -153,6 +156,7 @@ const CollectibleComponent: React.FC<Props> = ({
   location,
   z,
   flipped,
+  index,
 }) => {
   const { gameService, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -181,6 +185,7 @@ const CollectibleComponent: React.FC<Props> = ({
           location={location}
           skills={skills}
           showTimers={showTimers}
+          index={index}
         />
       ) : (
         <CollectiblePlaced
@@ -195,6 +200,7 @@ const CollectibleComponent: React.FC<Props> = ({
           location={location}
           skills={skills}
           showTimers={showTimers}
+          index={index}
         />
       )}
     </div>

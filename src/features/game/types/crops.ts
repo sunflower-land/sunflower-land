@@ -1,6 +1,6 @@
 import { translate } from "lib/i18n/translate";
 import { Seed } from "./seeds";
-import { getKeys } from "./decorations";
+import { getKeys } from "lib/object";
 import { EXOTIC_CROPS, ExoticCrop, ExoticCropName } from "./beans";
 import {
   GREENHOUSE_FRUIT,

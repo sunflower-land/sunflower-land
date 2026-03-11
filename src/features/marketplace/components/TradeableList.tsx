@@ -32,7 +32,10 @@ import {
 } from "features/game/actions/tradeLimits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
@@ -45,7 +48,6 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-
 type TradeableListItemProps = {
   authToken: string;
   display: TradeableDisplay;
@@ -71,8 +73,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  /** Number of identical listings to create (1–20). Only for resources */
+  const [multiple, setMultiple] = useState(1);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
 
   const { state } = gameState.context;
 
@@ -143,6 +150,15 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
+  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  const currentListingCount = isResource
+    ? Object.values(state.trades.listings ?? {}).filter(
+        (listing) => (listing.items[display.name] ?? 0) > 0,
+      ).length
+    : 0;
+  const maxMultiple =
+    currentListingCount >= 20 ? 1 : Math.min(20, 20 - currentListingCount);
+
   // Otherwise show the list item UI
   const submitListing = () => {
     if (available === 0) {
@@ -154,6 +170,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   };
 
   const confirm = async ({ signature }: { signature?: string }) => {
+    if (accountTradedRecently) return;
     gameService.send("marketplace.listed", {
       effect: {
         type: "marketplace.listed",
@@ -162,6 +179,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         sfl: price,
         signature,
         quantity: Math.max(1, quantity),
+        multiple,
       },
       authToken,
     });
@@ -224,6 +242,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               tax={new Decimal(price).mul(MARKETPLACE_TAX)}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
+              multiple={multiple}
             />
             <div className="flex items-start mt-2">
               <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
@@ -235,7 +254,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <Button onClick={() => setShowConfirmation(false)} className="mr-1">
               {t("cancel")}
             </Button>
-            <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+            <Button
+              disabled={isLessThanOffer || accountTradedRecently}
+              onClick={() => confirm({})}
+            >
               {t("confirm")}
             </Button>
           </div>
@@ -264,6 +286,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             display={display}
             sfl={price}
             tax={tax}
+            multiple={multiple}
             quantity={Math.max(1, quantity)}
             estTradePoints={estTradePoints}
           />
@@ -277,7 +300,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Button onClick={() => setShowConfirmation(false)} className="mr-1">
             {t("cancel")}
           </Button>
-          <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+          <Button
+            disabled={isLessThanOffer || accountTradedRecently}
+            onClick={() => confirm({})}
+          >
             {t("confirm")}
           </Button>
         </div>
@@ -298,6 +324,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         quantity={quantity}
         setPrice={setPrice}
         setQuantity={setQuantity}
+        multiple={multiple}
+        setMultiple={setMultiple}
+        maxMultiple={maxMultiple}
       />
     );
   }
@@ -425,7 +454,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button
-              disabled={!price}
+              disabled={!price || accountTradedRecently}
               onClick={submitListing}
               className="relative"
             >

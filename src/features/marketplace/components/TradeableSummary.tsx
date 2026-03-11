@@ -71,7 +71,8 @@ export const TradeableSummary: React.FC<{
   tax: Decimal;
   quantity: number;
   estTradePoints?: number;
-}> = ({ display, sfl, tax, quantity, estTradePoints }) => {
+  multiple?: number;
+}> = ({ display, sfl, tax, quantity, estTradePoints, multiple = 1 }) => {
   const { t } = useAppTranslation();
 
   const isResource = display.name in TRADE_LIMITS;
@@ -79,6 +80,18 @@ export const TradeableSummary: React.FC<{
   return (
     <div>
       <TradeableItemDetails display={display} quantity={quantity} sfl={sfl} />
+      {isResource && multiple > 1 && (
+        <div
+          className="flex justify-between"
+          style={{
+            borderBottom: "1px solid #ead4aa",
+            padding: "5px 5px 5px 2px",
+          }}
+        >
+          <span className="text-xs">{t("marketplace.totalListings")}</span>
+          <p className="text-xs font-secondary">{`${multiple} x ${quantity} ${display.name}`}</p>
+        </div>
+      )}
       {isResource && (
         <div
           className="flex justify-between"

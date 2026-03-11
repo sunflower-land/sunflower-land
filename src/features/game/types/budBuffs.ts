@@ -2,7 +2,6 @@ import mainnetBuds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
 import { BuffLabel } from ".";
-import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 import { translate } from "lib/i18n/translate";
 
 import powerup from "assets/icons/level_up.png";
@@ -203,7 +202,7 @@ const getAuraBoost = (aura: string) => {
 };
 
 const getTypeBoost = (type: string) => {
-  const buffs: AdditionalBoostInfoBuffLabel[] = [];
+  const buffs: BuffLabel[] = [];
 
   if (type === "Plaza") {
     buffs.push({
@@ -269,9 +268,6 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.saphiro.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostType: "time",
-      boostValue: "-10%",
-      boostOn: "crops",
     });
   }
 
@@ -294,8 +290,18 @@ const getTypeBoost = (type: string) => {
   return buffs;
 };
 
+/**
+ * Returns buff labels for display (e.g. boost modal).
+ * Uses budFromState when provided (player's actual traits) so aura percentage
+ * is correct; otherwise falls back to mainnet bud data.
+ */
 export const getBudBuffs = (budId: number): BuffLabel[] => {
-  const { type, stem, aura } = buds[budId];
+  const bud = buds[budId];
+  if (!bud) {
+    return [];
+  }
+
+  const { type, stem, aura } = bud;
 
   const typeBuffs = getTypeBoost(type);
   const stemBuffs = getStemBoost(stem);

@@ -1,6 +1,9 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import {
+  getInstantGems,
+  makeGemHistory,
+} from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
@@ -48,7 +51,7 @@ export function speedUpExpansion({
 
     expansion.readyAt = createdAt;
 
-    game = makeGemHistory({ game, amount: gems });
+    game = makeGemHistory({ game, amount: gems, createdAt });
 
     return game;
   });

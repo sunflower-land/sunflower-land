@@ -7,7 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -25,6 +25,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
 import {
   HEN_HOUSE_VARIANTS,
+  PET_HOUSE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
@@ -129,6 +130,10 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
       return WATER_WELL_VARIANTS[state.season.season][nextLevel];
     }
 
+    if (buildingName === "Pet House") {
+      return PET_HOUSE_VARIANTS[nextLevel];
+    }
+
     const biome: LandBiomeName = getCurrentBiome(state.island);
 
     return BARN_IMAGES[biome][state.season.season][nextLevel];
@@ -152,6 +157,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
         return t("upgrade.unlockAllPlots");
       }
       return t("upgrade.plusPlotFertility", { amount: nextLevelFertility });
+    }
+    if (buildingName === "Pet House") {
+      return t("upgrade.petHouseCapacity");
     }
     return t("upgrade.capacityIncrease", { amount: capacityIncrease });
   };
@@ -208,7 +216,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 message={t(
                   buildingName === "Water Well"
                     ? "upgrade.intro.water.well"
-                    : "upgrade.intro",
+                    : buildingName === "Pet House"
+                      ? "upgrade.intro.pet.house"
+                      : "upgrade.intro",
                   {
                     building: buildingName,
                     animals:

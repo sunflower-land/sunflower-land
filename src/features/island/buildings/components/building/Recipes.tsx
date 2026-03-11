@@ -1,27 +1,28 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Cookable, CookableName } from "features/game/types/consumables";
+import {
+  COOKABLES,
+  Cookable,
+  CookableName,
+} from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
-import {
-  getCookingTime,
-  getFoodExpBoost,
-} from "features/game/expansion/lib/boosts";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  getCookingOilBoost,
   getCookingRequirements,
+  getReadyAt,
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
-import { BuildingName } from "features/game/types/buildings";
+import { CookingBuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
@@ -33,6 +34,7 @@ import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   selected: Cookable;
@@ -40,7 +42,7 @@ interface Props {
   recipes: Cookable[];
   queue: BuildingProduct[];
   cooking?: BuildingProduct;
-  buildingName: BuildingName;
+  buildingName: CookingBuildingName;
   buildingId?: string;
   readyRecipes: BuildingProduct[];
   onClose: () => void;
@@ -72,15 +74,20 @@ export const Recipes: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
+  const [showBoosts, setShowBoosts] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+  const now = useNow({ live: true });
+
+  const { boostedExp, boostsUsed } = getFoodExpBoost({
+    food: selected,
+    game: state,
+    createdAt: now,
+  });
 
   const ingredients = getCookingRequirements({
     state,
@@ -105,19 +112,17 @@ export const Recipes: React.FC<Props> = ({
     return lastRecipeInQueueReadyAt;
   };
 
-  const { reducedSecs: cookingTime } = getCookingTime({
-    seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
+  const recipeStartAt = getNewRecipeStartAt() ?? now;
+  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } = getReadyAt({
+    buildingId: buildingId ?? "",
     item: selected.name,
+    createdAt: recipeStartAt,
     game: state,
-    cookStartAt: getNewRecipeStartAt(),
   });
 
-  const cook = () => {
-    onCook(selected.name);
-    if (buildingName === "Fire Pit" || cookingTime < 60) {
-      gameService.send("SAVE");
-    }
-  };
+  const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
+
+  const cook = () => onCook(selected.name);
 
   const collect = () => {
     gameService.send("recipes.collected", {
@@ -171,12 +176,17 @@ export const Recipes: React.FC<Props> = ({
               hideDescription
               requirements={{
                 resources: ingredients,
-                xp: getFoodExpBoost({
-                  food: selected,
-                  game: state,
-                }).boostedExp,
+                xp: boostedExp,
+                baseXp: selected.experience,
+                xpBoostsUsed: boostsUsed,
                 timeSeconds: cookingTime,
+                baseTimeSeconds,
+                timeBoostsUsed,
               }}
+              showBoosts={showBoosts}
+              setShowBoosts={setShowBoosts}
+              showTimeBoosts={showTimeBoosts}
+              setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
                   {hasDoubleNom && (
@@ -254,7 +264,11 @@ export const Recipes: React.FC<Props> = ({
                 <Box
                   isSelected={selected.name === item.name}
                   key={item.name}
-                  onClick={() => setSelected(item)}
+                  onClick={() => {
+                    setSelected(item);
+                    setShowBoosts(false);
+                    setShowTimeBoosts(false);
+                  }}
                   image={ITEM_DETAILS[item.name].image}
                   count={inventory[item.name]}
                 />

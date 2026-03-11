@@ -7,7 +7,7 @@ import {
   Inventory,
 } from "./game";
 import { translate } from "lib/i18n/translate";
-import { getKeys } from "./decorations";
+import { getKeys } from "lib/object";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
 

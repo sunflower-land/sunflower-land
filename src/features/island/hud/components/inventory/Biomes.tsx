@@ -9,7 +9,7 @@ import {
   LandBiomeName,
 } from "features/island/biomes/biomes";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { Button } from "components/ui/Button";

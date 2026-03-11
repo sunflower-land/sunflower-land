@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CONSUMABLES, COOKABLE_CAKES } from "features/game/types/consumables";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   BoostName,
   GameState,
@@ -28,11 +28,13 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
+import { isCoinNPC, isTicketNPC } from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -59,30 +61,34 @@ export function generateDeliveryTickets({
   npc: NPCName;
   now: number;
 }) {
-  let amount = TICKET_REWARDS[npc as QuestNPCName];
+  let amount = 0;
+
+  if (isTicketNPC(npc)) {
+    amount = TICKET_REWARDS[npc];
+
+    if (hasVipAccess({ game, now })) {
+      amount += 2;
+    }
+
+    const chapter = getCurrentChapter(now);
+    const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+
+    Object.values(chapterBoost).forEach((item) => {
+      if (isCollectible(item)) {
+        if (isCollectibleBuilt({ game, name: item })) {
+          amount += 1;
+        }
+      } else {
+        if (isWearableActive({ game, name: item })) {
+          amount += 1;
+        }
+      }
+    });
+  }
 
   if (!amount) {
     return 0;
   }
-
-  if (hasVipAccess({ game, now })) {
-    amount += 2;
-  }
-
-  const chapter = getCurrentChapter(now);
-  const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
-
-  Object.values(chapterBoost).forEach((item) => {
-    if (isCollectible(item)) {
-      if (isCollectibleBuilt({ game, name: item })) {
-        amount += 1;
-      }
-    } else {
-      if (isWearableActive({ game, name: item })) {
-        amount += 1;
-      }
-    }
-  });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
@@ -222,9 +228,9 @@ export function getOrderSellPrice<T>(
   game: GameState,
   order: Order,
   now: Date = new Date(),
-): { reward: T; boostsUsed: BoostName[] } {
+): { reward: T; boostsUsed: { name: BoostName; value: string }[] } {
   let mul = 1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     order.from === "betty" &&
@@ -232,7 +238,7 @@ export function getOrderSellPrice<T>(
     order.reward.coins
   ) {
     mul += 0.3;
-    boostsUsed.push("Betty's Friend");
+    boostsUsed.push({ name: "Betty's Friend", value: "+30%" });
   }
 
   if (
@@ -241,7 +247,7 @@ export function getOrderSellPrice<T>(
     order.reward.coins
   ) {
     mul += 0.5;
-    boostsUsed.push("Victoria's Secretary");
+    boostsUsed.push({ name: "Victoria's Secretary", value: "+50%" });
   }
 
   if (
@@ -250,7 +256,7 @@ export function getOrderSellPrice<T>(
     order.reward.coins
   ) {
     mul += 0.2;
-    boostsUsed.push("Forge-Ward Profits");
+    boostsUsed.push({ name: "Forge-Ward Profits", value: "+20%" });
   }
 
   // Fruity Profit - 50% Coins bonus if fruit
@@ -262,7 +268,7 @@ export function getOrderSellPrice<T>(
     const items = getKeys(order.items);
     if (items.some((name) => isFruit(name as PatchFruitName))) {
       mul += 0.5;
-      boostsUsed.push("Fruity Profit");
+      boostsUsed.push({ name: "Fruity Profit", value: "+50%" });
     }
   }
 
@@ -273,7 +279,7 @@ export function getOrderSellPrice<T>(
     order.from === "corale"
   ) {
     mul += 1;
-    boostsUsed.push("Fishy Fortune");
+    boostsUsed.push({ name: "Fishy Fortune", value: "+100%" });
   }
 
   // Nom Nom - 10% bonus with food orders
@@ -281,7 +287,7 @@ export function getOrderSellPrice<T>(
     const items = getKeys(order.items);
     if (items.some((name) => name in CONSUMABLES && !(name in FISH))) {
       mul += 0.1;
-      boostsUsed.push("Nom Nom");
+      boostsUsed.push({ name: "Nom Nom", value: "+10%" });
     }
   }
 
@@ -291,7 +297,7 @@ export function getOrderSellPrice<T>(
     isWearableActive({ name: "Chef Apron", game })
   ) {
     mul += 0.2;
-    boostsUsed.push("Chef Apron");
+    boostsUsed.push({ name: "Chef Apron", value: "+20%" });
   }
 
   // Apply the faction crown boost if in the right faction
@@ -301,7 +307,10 @@ export function getOrderSellPrice<T>(
     isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
   ) {
     mul += 0.25;
-    boostsUsed.push(FACTION_OUTFITS[factionName].crown);
+    boostsUsed.push({
+      name: FACTION_OUTFITS[factionName].crown,
+      value: "+25%",
+    });
   }
 
   const completedAt = game.npcs?.[order.from]?.deliveryCompletedAt;
@@ -339,6 +348,11 @@ export const GOBLINS_REQUIRING_REPUTATION: NPCName[] = [
   "guria",
   "gambit",
 ];
+
+export const areBumpkinsOnHoliday = (timestamp: number) => {
+  const { holiday } = getBumpkinHoliday({ now: timestamp });
+  return holiday === new Date(timestamp).toISOString().split("T")[0];
+};
 
 export function deliverOrder({
   state,
@@ -379,10 +393,9 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const { holiday } = getBumpkinHoliday({ now: createdAt });
+    const ticketTasksAreFrozen = areBumpkinsOnHoliday(createdAt);
 
-    const ticketTasksAreFrozen =
-      holiday === new Date(createdAt).toISOString().split("T")[0];
+    const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];
 
     const tickets = generateDeliveryTickets({
       game,
@@ -391,9 +404,14 @@ export function deliverOrder({
     });
     const isTicketOrder = tickets > 0;
 
-    if (isTicketOrder && ticketTasksAreFrozen) {
+    // Quest ticket deliveries are blocked during freeze.
+    // Coin deliveries can still be completed but award 0 tickets during freeze.
+    if (isQuestTicketOrder && isTicketOrder && ticketTasksAreFrozen) {
       throw new Error("Ticket tasks are frozen");
     }
+
+    const ticketsToAward =
+      !isQuestTicketOrder && ticketTasksAreFrozen ? 0 : tickets;
 
     getKeys(order.items).forEach((name) => {
       if (name === "coins") {
@@ -458,6 +476,7 @@ export function deliverOrder({
         game.farmActivity,
       );
     }
+    const chapter = getCurrentChapter(createdAt);
 
     if (order.reward.coins) {
       const { reward: coinsReward } = getOrderSellPrice<number>(
@@ -477,24 +496,55 @@ export function deliverOrder({
         "Coins Order Delivered",
         game.farmActivity,
       );
+
+      // Take the timestamp of the order
+      const coinCreatedAt = order.createdAt;
+      const isCoinTasksFrozen = areBumpkinsOnHoliday(coinCreatedAt);
+
+      if (
+        isCoinNPC(order.from) &&
+        hasTimeBasedFeatureAccess({
+          featureName: "TICKETS_FROM_COIN_NPC",
+          now: coinCreatedAt,
+          game,
+        }) &&
+        !isCoinTasksFrozen
+      ) {
+        const coinChapter = getCurrentChapter(coinCreatedAt);
+
+        handleChapterAnalytics({
+          task: "coinDelivery",
+          points: 10,
+          farmActivity: game.farmActivity,
+          createdAt: coinCreatedAt,
+        });
+
+        game.farmActivity = trackFarmActivity(
+          `${coinChapter} Points Earned`,
+          game.farmActivity,
+          new Decimal(
+            getChapterTaskPoints({ task: "coinDelivery", points: 10 }),
+          ),
+        );
+      }
     }
 
-    if (tickets > 0) {
+    if (ticketsToAward > 0) {
       const chapterTicket = getChapterTicket(createdAt);
-      const chapter = getCurrentChapter(createdAt);
+      const deliveryTask = "delivery";
       const pointsAwarded = getChapterTaskPoints({
-        task: "delivery",
-        points: tickets,
+        task: deliveryTask,
+        points: ticketsToAward,
       });
       handleChapterAnalytics({
-        task: "delivery",
-        points: tickets,
+        task: deliveryTask,
+        points: ticketsToAward,
         farmActivity: game.farmActivity,
         createdAt,
       });
 
       const count = game.inventory[chapterTicket] || new Decimal(0);
-      const amount = tickets || new Decimal(0);
+      const amount = ticketsToAward || new Decimal(0);
 
       game.inventory[chapterTicket] = count.add(amount);
       game.farmActivity = trackFarmActivity(

@@ -3,10 +3,12 @@ import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSound } from "lib/utils/hooks/useSound";
 import React from "react";
+import classnames from "classnames";
 
 export const BasketButton: React.FC<{
   onClick: () => void;
-}> = ({ onClick }) => {
+  pulse?: boolean;
+}> = ({ onClick, pulse }) => {
   const inventory = useSound("inventory");
   return (
     <RoundButton
@@ -18,7 +20,9 @@ export const BasketButton: React.FC<{
     >
       <img
         src={SUNNYSIDE.icons.basket}
-        className="absolute group-active:translate-y-[2px]"
+        className={classnames("absolute group-active:translate-y-[2px]", {
+          "animate-pulsate": pulse,
+        })}
         style={{
           top: `${PIXEL_SCALE * 5}px`,
           left: `${PIXEL_SCALE * 5}px`,

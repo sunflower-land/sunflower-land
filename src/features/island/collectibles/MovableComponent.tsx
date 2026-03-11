@@ -52,10 +52,11 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { getPetImage } from "../pets/lib/petShared";
-import { budImageDomain } from "./components/Bud";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
+import { getBudImage } from "lib/buds/types";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -103,6 +104,10 @@ function getMoveAction(
     return "nft.moved";
   }
 
+  if (name === "FarmHand") {
+    return "farmHand.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
@@ -146,7 +151,11 @@ function getOverlappingCollectibles({
   current: { id: string; name: LandscapingPlaceable };
 }): { id: string; name: LandscapingPlaceable }[] {
   const source =
-    location === "home" ? state.home.collectibles : state.collectibles;
+    location === "home"
+      ? state.home.collectibles
+      : location === "petHouse"
+        ? state.petHouse.pets
+        : state.collectibles;
   const results: { id: string; name: LandscapingPlaceable }[] = [];
 
   getObjectEntries(source).forEach(([name, placed]) => {
@@ -206,6 +215,10 @@ export function getRemoveAction(
     return "nft.removed";
   }
 
+  if (name === "FarmHand") {
+    return "farmHand.removed";
+  }
+
   if (name in RESOURCES_REMOVE_ACTIONS) {
     return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
   }
@@ -248,7 +261,7 @@ const onDrag = ({
   detect: (
     coordinates: Coordinates,
     state: GameState,
-    name: CollectibleName,
+    name: LandscapingPlaceable,
     id: string,
     location: PlaceableLocation,
     dimensions: Dimensions,
@@ -256,7 +269,7 @@ const onDrag = ({
   ) => void;
   setIsDragging: (isDragging: boolean) => void;
   setPosition: (position: Coordinates) => void;
-  name: CollectibleName;
+  name: LandscapingPlaceable;
   id: string;
   location: PlaceableLocation;
   dimensions: Dimensions;
@@ -280,7 +293,7 @@ const onDrag = ({
 const detect = (
   { x, y }: Coordinates,
   state: GameState,
-  name: CollectibleName,
+  name: LandscapingPlaceable,
   id: string,
   location: PlaceableLocation,
   dimensions: Dimensions,
@@ -292,7 +305,7 @@ const detect = (
     name,
   });
   const collisionDetected = detectCollision({
-    name: name as CollectibleName,
+    name,
     state: game,
     location,
     position: { x, y, ...dimensions },
@@ -315,9 +328,11 @@ export const getSelectedCollectible =
     if (!name || !isCollectible(name)) return undefined;
     return (
       location === "home"
-        ? state.context.state.home.collectibles
-        : state.context.state.collectibles
-    )[name]?.find((collectible) => collectible.id === id);
+        ? state.context.state.home.collectibles[name]
+        : location === "petHouse" && isPetCollectible(name)
+          ? state.context.state.petHouse.pets[name]
+          : state.context.state.collectibles[name]
+    )?.find((collectible) => collectible.id === id);
   };
 
 export const MoveableComponent: React.FC<
@@ -431,11 +446,13 @@ export const MoveableComponent: React.FC<
     if (!isCollectible(name)) return false;
     const collectibles =
       location === "home"
-        ? state.context.state.home.collectibles
-        : state.context.state.collectibles;
+        ? state.context.state.home.collectibles[name]
+        : location === "petHouse" && isPetCollectible(name)
+          ? state.context.state.petHouse.pets[name]
+          : state.context.state.collectibles[name];
     return (
-      collectibles[name]?.find((collectible) => collectible.id === id)
-        ?.flipped ?? false
+      collectibles?.find((collectible) => collectible.id === id)?.flipped ??
+      false
     );
   });
 
@@ -473,6 +490,7 @@ export const MoveableComponent: React.FC<
     ...RESOURCE_DIMENSIONS,
     Bud: { width: 1, height: 1 },
     Pet: { width: 2, height: 2 },
+    FarmHand: { width: 1, height: 1 },
   };
 
   const dimensions = DIMENSIONS_MAP[name];
@@ -516,7 +534,7 @@ export const MoveableComponent: React.FC<
           name,
         });
         const collisionDetected = detectCollision({
-          name: name as CollectibleName,
+          name,
           state: game,
           location,
           position: {
@@ -535,7 +553,9 @@ export const MoveableComponent: React.FC<
               ? {}
               : name === "Bud" || name === "Pet"
                 ? { nft: name }
-                : { name }),
+                : name === "FarmHand"
+                  ? {}
+                  : { name }),
             coordinates: { x, y },
             id,
             // Resources do not require location to be passed
@@ -596,7 +616,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -625,7 +645,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -654,7 +674,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -683,7 +703,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -804,7 +824,7 @@ export const MoveableComponent: React.FC<
             detect,
             setIsDragging,
             setPosition,
-            name: name as CollectibleName,
+            name,
             id,
             location,
             dimensions,
@@ -839,7 +859,7 @@ export const MoveableComponent: React.FC<
             detect,
             setIsDragging,
             setPosition,
-            name: name as CollectibleName,
+            name,
             id,
             location,
             dimensions,
@@ -888,8 +908,10 @@ export const MoveableComponent: React.FC<
                   choice.name === "Pet"
                     ? getPetImage("happy", Number(choice.id))
                     : choice.name === "Bud"
-                      ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
-                      : ITEM_DETAILS[choice.name].image;
+                      ? getBudImage(Number(choice.id))
+                      : choice.name === "FarmHand"
+                        ? SUNNYSIDE.achievement.farmHand
+                        : ITEM_DETAILS[choice.name].image;
 
                 return (
                   <div

@@ -138,10 +138,18 @@ const HudComponent: React.FC<{
               location,
             });
           }}
+          onPlaceFarmHand={(id) => {
+            gameService.send("LANDSCAPE", {
+              action: "farmHand.placed",
+              placeable: { name: "FarmHand", id },
+              multiple: true,
+            });
+          }}
           onDepositClick={() => setShowDepositModal(true)}
           isSaving={autosaving}
           isFarming={isFarming}
           hideActions={false}
+          location={location}
         />
       </div>
 

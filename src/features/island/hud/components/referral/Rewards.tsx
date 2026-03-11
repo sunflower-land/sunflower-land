@@ -15,8 +15,7 @@ import {
   IN_GAME_TASKS,
   InGameTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
-import { getKeys } from "features/game/types/decorations";
-import { DailyRewardClaim } from "features/game/components/DailyReward";
+import { getKeys } from "lib/object";
 
 const _chestCollectedAt = (state: MachineState) =>
   state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
@@ -69,12 +68,6 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
             alert: isAnyTaskCompleted,
             id: "Earn",
           },
-          {
-            icon: SUNNYSIDE.decorations.treasure_chest,
-            name: t("rewards"),
-            alert: !isChestCollected,
-            id: "Rewards",
-          },
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -83,7 +76,6 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
         {currentTab === "Earn" && (
           <TaskBoard state={state} socialTasks={state.socialTasks} />
         )}
-        {currentTab === "Rewards" && <DailyRewardClaim />}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
       {showMessage && (

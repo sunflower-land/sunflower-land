@@ -14,6 +14,11 @@ import {
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { Context } from "features/game/GameProvider";
+import { PlaceableLocation } from "features/game/types/collectibles";
+import { ChestButton } from "./ChestButton";
+import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   state: GameState;
@@ -22,10 +27,12 @@ interface Props {
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
   hideActions: boolean;
+  location?: PlaceableLocation;
 }
 
 export const Inventory: React.FC<Props> = ({
@@ -37,11 +44,16 @@ export const Inventory: React.FC<Props> = ({
   isSaving,
   onPlace,
   onPlaceNFT,
+  onPlaceFarmHand,
   onDepositClick,
   hideActions,
+  location,
 }) => {
   const { shortcuts } = useContext(Context);
+  const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const showPlaceFirstHelper =
+    location !== "petHouse" && hasChestItemAndNoCollectiblesPlaced(state);
 
   useEffect(() => {
     const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
@@ -78,7 +90,19 @@ export const Inventory: React.FC<Props> = ({
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
         }}
       >
-        <BasketButton onClick={() => setIsOpen(true)} />
+        {showPlaceFirstHelper && (
+          <Label type="vibrant" className="absolute top-[90px] right-[70px]">
+            {t("chest.placeFirst")}
+          </Label>
+        )}
+        {location !== "petHouse" ? (
+          <BasketButton
+            pulse={showPlaceFirstHelper}
+            onClick={() => setIsOpen(true)}
+          />
+        ) : (
+          <ChestButton onClick={() => setIsOpen(true)} />
+        )}
 
         {!hideActions && (
           <div
@@ -104,6 +128,7 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <InventoryItemsModal
+        key={isOpen ? `open-${!!showPlaceFirstHelper}` : "closed"}
         show={isOpen}
         onHide={() => {
           setIsOpen(false);
@@ -115,10 +140,13 @@ export const Inventory: React.FC<Props> = ({
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
         onPlaceNFT={onPlaceNFT}
+        onPlaceFarmHand={onPlaceFarmHand}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
         isFullUser={isFullUser}
+        location={location}
+        defaultToChest={showPlaceFirstHelper}
       />
     </>
   );

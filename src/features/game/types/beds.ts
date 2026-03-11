@@ -1,19 +1,5 @@
 import { BedName } from "./game";
 
-export const BEDS: Record<BedName, string> = {
-  "Basic Bed": "",
-  "Fisher Bed": "",
-  "Floral Bed": "",
-  "Sturdy Bed": "",
-  "Desert Bed": "",
-  "Cow Bed": "",
-  "Pirate Bed": "",
-  "Royal Bed": "",
-  "Pearl Bed": "",
-  "Double Bed": "",
-  "Messy Bed": "",
-};
-
 export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Basic Bed": 1,
   "Fisher Bed": 2,
@@ -23,7 +9,7 @@ export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Cow Bed": 6,
   "Pirate Bed": 7,
   "Royal Bed": 8,
-  "Pearl Bed": 11,
   "Double Bed": 9,
   "Messy Bed": 10,
+  "Pearl Bed": 11,
 };

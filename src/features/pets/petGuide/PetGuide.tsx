@@ -9,10 +9,11 @@ import { PetMaintenance } from "./PetMaintenance";
 import { PetLevelsAndPerks } from "./PetLevelsAndPerks";
 import { Shrines } from "./Shrines";
 import { NFTTraits } from "./NFTTraits";
+import { PetHouse } from "./PetHouse";
 import { Social } from "./Social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import foodIcon from "assets/food/chicken_drumstick.png";
@@ -25,6 +26,7 @@ type PetGuideView =
   | "Care"
   | "Level Perks"
   | "Shrines"
+  | "Pet House"
   | "NFT Traits"
   | "Social";
 
@@ -62,6 +64,11 @@ export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
       translatedTitle: "Shrines",
       content: Shrines,
       image: ITEM_DETAILS["Obsidian Shrine"].image,
+    },
+    "Pet House": {
+      translatedTitle: t("petGuide.petHouse.title"),
+      content: PetHouse,
+      image: SUNNYSIDE.building.petHouse1,
     },
     Social: {
       translatedTitle: "Social",

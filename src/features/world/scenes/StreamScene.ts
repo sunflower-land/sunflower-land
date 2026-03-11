@@ -3,7 +3,7 @@ import streamJSON from "assets/map/stream.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { Physics } from "phaser";
 import { hasFeatureAccess } from "lib/flags";
 import { npcModalManager } from "../ui/NPCModals";

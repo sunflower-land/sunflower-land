@@ -7,7 +7,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Button } from "components/ui/Button";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import {
   AnimalBuildingType,
   ANIMALS,

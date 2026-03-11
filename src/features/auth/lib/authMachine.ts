@@ -13,6 +13,7 @@ import { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;
@@ -106,11 +107,12 @@ type PWAInstallPromptShown = {
   type: "PWA_INSTALL_PROMPT_SHOWN";
 };
 
-type CreateFarmEvent = {
+export type CreateFarmEvent = {
   type: "CREATE_FARM";
-  donation: number;
-  captcha: string;
-  hasEnoughMatic: boolean;
+  donation?: number;
+  captcha?: string;
+  hasEnoughMatic?: boolean;
+  equipment: BumpkinParts;
 };
 
 type LoadFarmEvent = {
@@ -364,12 +366,14 @@ export const authMachine = createMachine(
       creating: {
         entry: "setTransactionId",
         invoke: {
-          src: async (context) => {
+          src: async (context, event) => {
+            const createEvent = event as CreateFarmEvent;
             const { token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               referrerId: getReferrerIdFromLS(),
               utm: getUTMs(),
+              equipment: createEvent.equipment,
             });
 
             return { token };

@@ -52,13 +52,14 @@ type EffectName =
   | "auction.claimed"
   | "auction.bidPlaced"
   | "auction.bidCancelled"
+  | "reset.petRequests"
   | "auctionRaffle.entered"
   | "auctionRaffle.claimed"
   | "marketplace.buyBulkResources"
   | "leagues.updated"
   | "liquidity.registered"
   | "appInstall.generate"
-  | "waterTrap.pickedUp";
+  | "farmHand.unlocked";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -111,6 +112,7 @@ export type StateMachineStateName =
   | "cheeringFarm"
   | "followingFarm"
   | "completingProject"
+  | "unlockingFarmhand"
   | "helpingFarm"
   | "claimingAuction"
   | "wakingPet"
@@ -121,7 +123,8 @@ export type StateMachineStateName =
   | "marketplaceBuyingBulkResources"
   | "updatingLeagues"
   | "generatingAppInstall"
-  | "pickingUpWaterTrap";
+  | "pickingUpWaterTrap"
+  | "resettingPetRequests";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -170,17 +173,18 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",
+  "farmHand.unlocked": "unlockingFarmhand",
   "farm.helped": "helpingFarm",
   "auction.claimed": "claimingAuction",
   "pet.wakeUp": "wakingPet",
   "auction.bidPlaced": "auctionBidding",
   "auction.bidCancelled": "auctionCancelling",
+  "reset.petRequests": "resettingPetRequests",
   "auctionRaffle.entered": "enteringAuctionRaffle",
   "auctionRaffle.claimed": "claimingAuctionRaffle",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
-  "waterTrap.pickedUp": "pickingUpWaterTrap",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
@@ -258,4 +262,19 @@ export async function postEffect(
     gameState: makeGame(mergedGameState),
     data,
   };
+}
+
+/** Client-only effect fields to strip before sending to backend (not in API schema) */
+const CLIENT_ONLY_EFFECT_FIELDS: Partial<Record<EffectName, string[]>> = {
+  "auctionRaffle.claimed": ["prize"],
+};
+
+export function sanitizeEffectForBackend(effect: Effect): Effect {
+  const fieldsToStrip = CLIENT_ONLY_EFFECT_FIELDS[effect.type];
+  if (!fieldsToStrip?.length) return effect;
+  const sanitized = { ...effect };
+  for (const field of fieldsToStrip) {
+    delete sanitized[field];
+  }
+  return sanitized;
 }

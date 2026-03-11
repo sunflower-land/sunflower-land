@@ -1,5 +1,5 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";

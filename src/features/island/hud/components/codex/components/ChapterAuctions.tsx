@@ -17,7 +17,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import {
   getCurrentChapter,
   ChapterName,
@@ -56,17 +56,21 @@ type AuctionItems = Record<
  */
 function getChapterAuctions({
   auctions,
-  totalSupply,
   chapter,
 }: {
   auctions: Auction[];
-  totalSupply: Record<string, number>;
   chapter: ChapterName;
 }) {
   const { startDate, endDate } = CHAPTERS[chapter];
+  const startTime = startDate.getTime();
+  const endTime = endDate.getTime();
+
+  const chapterAuctions = auctions.filter(
+    (auction) => auction.startAt >= startTime && auction.startAt <= endTime,
+  );
 
   // Aggregate supplies
-  let details: AuctionItems = auctions.reduce((acc, auction) => {
+  const details: AuctionItems = chapterAuctions.reduce((acc, auction) => {
     const name = getAuctionItemType(auction);
 
     const existing = acc[name];
@@ -85,30 +89,7 @@ function getChapterAuctions({
     return acc;
   }, {} as AuctionItems);
 
-  // Filter out any not in this season
-  details = getKeys(details).reduce((acc, name) => {
-    const hasNoSeasonAuctions = details[name].auctions.every(
-      (auction) =>
-        auction.startAt < startDate.getTime() ||
-        auction.startAt > endDate.getTime(),
-    );
-
-    if (hasNoSeasonAuctions) {
-      return acc;
-    }
-
-    return {
-      ...acc,
-      [name]: details[name],
-    };
-  }, {} as AuctionItems);
-
-  // Filter totalSupply based on the remaining seasonal items
-  const filteredTotalSupply = Object.fromEntries(
-    Object.entries(totalSupply).filter(([name]) => name in details),
-  );
-
-  return { details, filteredTotalSupply };
+  return { details };
 }
 
 const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
@@ -410,6 +391,7 @@ interface Props {
   gameState: GameState;
   farmId: number;
   chapter: ChapterName;
+  hideNext?: boolean;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
@@ -418,6 +400,7 @@ export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
   chapter,
+  hideNext,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -459,12 +442,10 @@ export const ChapterAuctions: React.FC<Props> = ({
     return <Loading />;
   }
 
-  const { details: auctionItems, filteredTotalSupply: totalItems } =
-    getChapterAuctions({
-      auctions: auctioneerState.context.auctions,
-      totalSupply: auctioneerState.context.totalSupply,
-      chapter,
-    });
+  const { details: auctionItems } = getChapterAuctions({
+    auctions: auctioneerState.context.auctions,
+    chapter,
+  });
 
   return (
     <>
@@ -480,14 +461,14 @@ export const ChapterAuctions: React.FC<Props> = ({
             <Drops
               name={selected}
               detail={auctionItems[selected]}
-              maxSupply={totalItems[selected]}
+              maxSupply={auctioneerState.context.totalSupply[selected] ?? 0}
               game={gameState}
             />
           )}
         </CloseButtonPanel>
       </ModalOverlay>
 
-      <NextDrop auctions={auctionItems} game={gameState} />
+      {!hideNext && <NextDrop auctions={auctionItems} game={gameState} />}
 
       <InnerPanel className="mb-1">
         <div className="p-1">

@@ -15,7 +15,7 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import {
   Animal,
   AnimalBounty,
@@ -23,22 +23,34 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useMemo } from "react";
+import chapterPoints from "assets/icons/red_medal_short.webp";
 
+import { getChapterTaskPoints } from "features/game/types/tracks";
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
   type: InventoryItemName[];
   onExchanging: (deal: AnimalBounty) => void;
+  reward?: "coins" | "tickets";
+  readonly?: boolean;
 }
 
-export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
+export const AnimalBounties: React.FC<Props> = ({
+  type,
+  onExchanging,
+  reward,
+  readonly,
+}) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
@@ -48,15 +60,18 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
 
-  const deals = requests.filter((deal) =>
-    type.includes(deal.name),
-  ) as AnimalBounty[];
+  const { deals, dealsByType } = useMemo(() => {
+    let filtered = requests.filter((deal) =>
+      type.includes(deal.name),
+    ) as AnimalBounty[];
 
-  const expiresAt = useCountdown(weekResetsAt());
-  const hasDeals = deals.length > 0;
+    if (reward === "tickets") {
+      filtered = filtered.filter(
+        (deal) => deal.items?.[chapterTicket] !== undefined,
+      );
+    }
 
-  const dealsByType = useMemo(() => {
-    const grouped = deals.reduce(
+    const grouped = filtered.reduce(
       (acc, deal) => {
         if (deal.coins !== undefined) {
           acc.coins = acc.coins ?? [];
@@ -75,15 +90,22 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
     );
 
     // Sort each array by level
-    Object.values(grouped).forEach((deals) => {
-      deals.sort((a, b) => a.level - b.level);
+    Object.values(grouped).forEach((arr) => {
+      arr.sort((a, b) => a.level - b.level);
     });
 
-    return grouped;
-  }, [deals]);
+    return { deals: filtered, dealsByType: grouped };
+  }, [requests, type, reward, chapterTicket]);
+
+  const expiresAt = useCountdown(weekResetsAt());
+  const hasDeals = deals.length > 0;
 
   return (
-    <InnerPanel className="overflow-y-auto max-h-[500px] scrollable">
+    <InnerPanel
+      className={classNames({
+        "overflow-y-auto max-h-[500px] scrollable": !readonly,
+      })}
+    >
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
@@ -179,6 +201,27 @@ export const AnimalDeal: React.FC<{
     bounty: deal,
   });
 
+  const tickets = deal.items?.[chapterTicket] ?? 0;
+  const chapter = getCurrentChapter(now);
+
+  let pointsAwarded = 0;
+
+  if (tickets > 0) {
+    let points = 0;
+
+    points = generateBountyTicket({
+      game: state,
+      bounty: deal,
+      now,
+    });
+
+    if (animal.state === "sick") {
+      points = getSickAnimalRewardAmount(points);
+    }
+
+    pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
+  }
+
   return (
     <>
       {animal.state === "sick" ? (
@@ -220,6 +263,12 @@ export const AnimalDeal: React.FC<{
                   </div>
                 );
               })}
+
+              {!!deal.items?.[chapterTicket] && (
+                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                  {`+${pointsAwarded} ${chapter} points.`}
+                </Label>
+              )}
             </div>
           </div>
           <div className="flex space-x-1">
@@ -259,6 +308,12 @@ export const AnimalDeal: React.FC<{
                       })}
                 </Label>
               ))}
+
+              {!!deal.items?.[chapterTicket] && (
+                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                  {`+${pointsAwarded} ${chapter} points.`}
+                </Label>
+              )}
             </div>
 
             <p>
@@ -301,6 +356,8 @@ export const ExchangeHud: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = gameService.getSnapshot().context.state;
+  const now = useNow({ live: true, intervalMs: 60_000 });
+  const chapterTicket = getChapterTicket(now);
 
   const { coins } = generateBountyCoins({
     game: state,
@@ -327,7 +384,13 @@ export const ExchangeHud: React.FC<{
 
             {getKeys(deal.items ?? {}).map((name) => (
               <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-                {deal.items?.[name]}
+                {name !== chapterTicket
+                  ? deal.items?.[name]
+                  : generateBountyTicket({
+                      game: state,
+                      bounty: deal,
+                      now,
+                    })}
               </Label>
             ))}
           </div>

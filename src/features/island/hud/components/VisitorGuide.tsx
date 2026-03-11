@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelpLimit";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
@@ -19,7 +19,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/lib/crafting";
+import { getKeys } from "lib/object";
 import { SmallBox } from "components/ui/SmallBox";
 
 import helpIcon from "assets/icons/help.webp";
@@ -28,6 +28,7 @@ import clutterIcon from "assets/clutter/clutter.webp";
 interface VisitorGuideProps {
   farmHelpRequired: number;
   homeHelpRequired: number;
+  petHouseHelpRequired: number;
   onClose: () => void;
 }
 
@@ -44,6 +45,7 @@ const _username = (state: MachineState) =>
 export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   farmHelpRequired,
   homeHelpRequired,
+  petHouseHelpRequired,
   onClose,
 }) => {
   const { gameState, gameService } = useGame();
@@ -73,7 +75,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   );
 
   const {
-    tasks: { farm: farmTasks, home: homeTasks },
+    tasks: { farm: farmTasks, home: homeTasks, petHouse: petHouseTasks },
   } = getHelpRequired({ game });
 
   if (showConfirmation) {
@@ -186,8 +188,11 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
 
   const farmTasksCompleted = farmHelpRequired - farmTasks.count;
   const homeTasksCompleted = homeHelpRequired - homeTasks.count;
+  const petHouseTasksCompleted = petHouseHelpRequired - petHouseTasks.count;
   const farmPercentage = (farmTasksCompleted / farmHelpRequired) * 100;
   const homePercentage = (homeTasksCompleted / homeHelpRequired) * 100;
+  const petHousePercentage =
+    (petHouseTasksCompleted / petHouseHelpRequired) * 100;
 
   return (
     <div className="flex flex-col gap-1">
@@ -329,6 +334,49 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
                   <div className="flex items-center justify-between flex-wrap">
                     <p className="text-xs sm:text-sm">
                       {t("visitorGuide.pets", { count: homeTasks.pets.length })}
+                    </p>
+                  </div>
+                  <div className="flex items-center my-0.5">
+                    <p className="text-xxs sm:text-xs mr-1">
+                      {t("visitorGuide.showLove")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </InnerPanel>
+      )}
+      {petHouseHelpRequired > 0 && (
+        <InnerPanel className="flex flex-col gap-2">
+          <div className="flex justify-between items-stretch">
+            <Label type="default">{t("visitorGuide.inThePetHouse")}</Label>
+            <div className="relative p-1 flex-grow flex justify-end gap-1">
+              <span className="text-xs mt-[1px]">
+                {`${petHouseTasksCompleted}/${petHouseHelpRequired}`}
+              </span>
+              <ProgressBar
+                type="quantity"
+                percentage={petHousePercentage}
+                formatLength="full"
+                className="relative"
+                style={{
+                  width: PIXEL_SCALE * 15,
+                  height: PIXEL_SCALE * 7,
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 ml-1">
+            {petHouseTasks.pets.length > 0 && (
+              <div className="flex items-center gap-2 -ml-1 -mt-1">
+                <SmallBox image={SUNNYSIDE.icons.drag} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between flex-wrap">
+                    <p className="text-xs sm:text-sm">
+                      {t("visitorGuide.pets", {
+                        count: petHouseTasks.pets.length,
+                      })}
                     </p>
                   </div>
                   <div className="flex items-center my-0.5">

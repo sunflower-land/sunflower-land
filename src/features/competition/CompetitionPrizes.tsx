@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { ITEM_DETAILS } from "features/game/types/images";

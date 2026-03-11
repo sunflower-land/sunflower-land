@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { useContext } from "react";
 import useSWR from "swr";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -27,6 +26,11 @@ import { getFlowerDashboard } from "./actions/getFlowerDashboard";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 import { Modal } from "components/ui/Modal";
 import { FlowerRewards } from "./FlowerRewards";
+import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
+import { useAuth } from "features/auth/lib/Provider";
+import { useGame } from "features/game/GameProvider";
+import { PlayerModal } from "features/social/PlayerModal";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 const TOTAL_SUPPLY = 256000000;
 
@@ -35,12 +39,18 @@ export const FlowerDashboard = () => {
   const navigate = useNavigate();
   const { openModal } = useContext(ModalContext);
   const [showRewards, setShowRewards] = useState(false);
+  const { authState } = useAuth();
+  const { gameService } = useGame();
+  const token = (authState.context.user?.rawToken as string) ?? "";
+  const farmId = gameService.getSnapshot().context.farmId ?? 0;
+
   const { data, isLoading, error, mutate } = useSWR(
     ["/data?type=flowerDashboard"],
     getFlowerDashboard,
   );
 
   const { pathname } = useLocation();
+  const safeAreaPaddingTop = useSafeAreaPaddingTop(30);
 
   const isInternalRoute = pathname.includes("/game");
 
@@ -74,7 +84,10 @@ export const FlowerDashboard = () => {
 
   if (error) {
     return (
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
@@ -127,7 +140,17 @@ export const FlowerDashboard = () => {
 
   return (
     <>
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      {farmId && token && (
+        <PlayerModal
+          loggedInFarmId={farmId}
+          token={token}
+          hasAirdropAccess={false}
+        />
+      )}
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
@@ -452,18 +475,31 @@ export const FlowerDashboard = () => {
                     </span>
                   </div>
                   {data?.topEarners.map(
-                    ({ player, amount, tokenUri }, index) => (
+                    (
+                      { player, amount, tokenUri, farmId: playerFarmId },
+                      index,
+                    ) => (
                       <div
                         key={index}
                         className={classNames(
                           "flex items-center relative justify-between p-1.5 ",
                           {
                             "bg-[#ead4aa]": index % 2 === 0,
+                            "cursor-pointer": !!playerFarmId,
                           },
                         )}
                         style={{
                           borderBottom: "1px solid #b96f50",
                           borderTop: index === 0 ? "1px solid #b96f50" : "",
+                        }}
+                        onClick={() => {
+                          if (playerFarmId != null) {
+                            playerModalManager.open({
+                              farmId: playerFarmId,
+                              username: player,
+                              clothing: interpretTokenUri(tokenUri).equipped,
+                            });
+                          }
                         }}
                       >
                         <div className="flex items-center gap-2 h-4">
@@ -497,18 +533,31 @@ export const FlowerDashboard = () => {
                     </span>
                   </div>
                   {data?.topBurners.map(
-                    ({ player, amount, tokenUri }, index) => (
+                    (
+                      { player, amount, tokenUri, farmId: playerFarmId },
+                      index,
+                    ) => (
                       <div
                         key={index}
                         className={classNames(
                           "flex items-center relative justify-between p-1.5 ",
                           {
                             "bg-[#ead4aa]": index % 2 === 0,
+                            "cursor-pointer": playerFarmId != null,
                           },
                         )}
                         style={{
                           borderBottom: "1px solid #b96f50",
                           borderTop: index === 0 ? "1px solid #b96f50" : "",
+                        }}
+                        onClick={() => {
+                          if (playerFarmId != null) {
+                            playerModalManager.open({
+                              farmId: playerFarmId,
+                              username: player,
+                              clothing: interpretTokenUri(tokenUri).equipped,
+                            });
+                          }
                         }}
                       >
                         <div className="flex items-center gap-2 h-4">

@@ -1,15 +1,17 @@
 import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
+  BoostName,
   GameState,
   InventoryItemName,
   Rock,
   Tree,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState, type JSX } from "react";
+import React, { Dispatch, SetStateAction, useState, type JSX } from "react";
+import { BoostsDisplay } from "./BoostsDisplay";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -106,7 +108,11 @@ interface RequirementsProps {
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
+  xpBoostsUsed?: { name: BoostName; value: string }[];
+  baseXp?: number;
   timeSeconds?: number;
+  baseTimeSeconds?: number;
+  timeBoostsUsed?: { name: BoostName; value: string }[];
   level?: number;
 }
 
@@ -133,6 +139,10 @@ interface Props {
   hideDescription?: boolean;
   label?: JSX.Element;
   showSeason?: boolean;
+  showBoosts?: boolean;
+  setShowBoosts?: (show: boolean) => void;
+  showTimeBoosts?: boolean;
+  setShowTimeBoosts?: Dispatch<SetStateAction<boolean>>;
 }
 
 function getDetails(
@@ -193,6 +203,10 @@ export const CraftingRequirements: React.FC<Props> = ({
   hideDescription,
   showSeason = false,
   label,
+  showBoosts,
+  setShowBoosts,
+  showTimeBoosts,
+  setShowTimeBoosts,
 }: Props) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
@@ -386,17 +400,18 @@ export const CraftingRequirements: React.FC<Props> = ({
                 }
 
                 return (
-                  <RequirementLabel
-                    key={index}
-                    type="item"
-                    item={ingredientName}
-                    balance={balance}
-                    requirement={
-                      new Decimal(
-                        (requirements.resources ?? {})[ingredientName] ?? 0,
-                      )
-                    }
-                  />
+                  <div key={index}>
+                    <RequirementLabel
+                      type="item"
+                      item={ingredientName}
+                      balance={balance}
+                      requirement={
+                        new Decimal(
+                          (requirements.resources ?? {})[ingredientName] ?? 0,
+                        )
+                      }
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -432,9 +447,43 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
 
           {/* XP display */}
-          {!!requirements.xp && (
-            <RequirementLabel type="xp" xp={requirements.xp} />
-          )}
+          {!!requirements.xp &&
+            (() => {
+              const isXpBoosted =
+                requirements.xpBoostsUsed &&
+                requirements.xpBoostsUsed.length > 0 &&
+                requirements.baseXp !== undefined &&
+                requirements.xp.greaterThan(requirements.baseXp);
+
+              if (
+                isXpBoosted &&
+                requirements.xpBoostsUsed &&
+                setShowBoosts &&
+                showBoosts !== undefined
+              ) {
+                return (
+                  <div
+                    className="flex flex-row sm:flex-col items-center cursor-pointer"
+                    onClick={() => setShowBoosts(!showBoosts)}
+                  >
+                    <RequirementLabel type="xp" xp={requirements.xp} boosted />
+                    <RequirementLabel
+                      type="xp"
+                      xp={new Decimal(requirements.baseXp ?? 0)}
+                      strikethrough
+                    />
+                    <BoostsDisplay
+                      boosts={requirements.xpBoostsUsed}
+                      show={showBoosts}
+                      state={gameState}
+                      onClick={() => setShowBoosts(!showBoosts)}
+                    />
+                  </div>
+                );
+              }
+
+              return <RequirementLabel type="xp" xp={requirements.xp} />;
+            })()}
 
           {/* Instant ready display */}
           {requirements.timeSeconds === 0 && (
@@ -442,12 +491,54 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
 
           {/* Time requirement display */}
-          {!!requirements.timeSeconds && (
-            <RequirementLabel
-              type="time"
-              waitSeconds={requirements.timeSeconds}
-            />
-          )}
+          {!!requirements.timeSeconds &&
+            (() => {
+              const baseTimeSeconds = requirements.baseTimeSeconds;
+              const timeBoostsUsed = requirements.timeBoostsUsed;
+              const isTimeBoosted =
+                baseTimeSeconds != null &&
+                requirements.timeSeconds < baseTimeSeconds &&
+                !!(timeBoostsUsed?.length ?? 0);
+
+              if (
+                isTimeBoosted &&
+                setShowTimeBoosts &&
+                showTimeBoosts !== undefined
+              ) {
+                return (
+                  <div
+                    className="flex flex-row sm:flex-col items-center cursor-pointer"
+                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+                  >
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={requirements.timeSeconds}
+                      boosted
+                    />
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={baseTimeSeconds ?? 0}
+                      strikethrough
+                    />
+                    {showTimeBoosts && (
+                      <BoostsDisplay
+                        boosts={timeBoostsUsed ?? []}
+                        show={showTimeBoosts}
+                        state={gameState}
+                        onClick={() => setShowTimeBoosts((prev) => !prev)}
+                      />
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={requirements.timeSeconds}
+                />
+              );
+            })()}
 
           {/* Level requirement */}
           {!!requirements.level && (

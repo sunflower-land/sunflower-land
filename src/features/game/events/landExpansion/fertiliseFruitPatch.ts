@@ -29,12 +29,13 @@ type Options = {
 
 export const getFruitfulBlendBuff = (
   state: GameState,
-): { amount: number; boostsUsed: BoostName[] } => {
+): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let fruitfulBlendBuff = 0.1;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  boostsUsed.push({ name: "Fruitful Blend", value: "+0.1" });
   if (state.bumpkin?.skills["Fruitful Bounty"]) {
     fruitfulBlendBuff *= 2;
-    boostsUsed.push("Fruitful Bounty");
+    boostsUsed.push({ name: "Fruitful Bounty", value: "+0.1" });
   }
 
   return { amount: fruitfulBlendBuff, boostsUsed };

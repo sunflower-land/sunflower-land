@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   BuildingName,
@@ -12,8 +12,9 @@ import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
+  FarmHands,
   GameState,
   Inventory,
   InventoryItemName,
@@ -24,7 +25,7 @@ import {
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
-import { PetNFTs } from "features/game/types/pets";
+import { PetName, PetNFTs } from "features/game/types/pets";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
@@ -112,6 +113,14 @@ export const getChestPets = (pets: PetNFTs): PetNFTs => {
   );
 };
 
+export const getChestFarmHands = (farmHands: FarmHands) => {
+  return Object.fromEntries(
+    Object.entries(farmHands.bumpkins ?? {}).filter(
+      ([, farmHand]) => !farmHand.coordinates,
+    ),
+  );
+};
+
 /**
  * Items that require "chest" counting (i.e. available/unplaced amount).
  *
@@ -165,7 +174,9 @@ export const getChestItemCount = (
       ).length ?? 0) +
       (state.home.collectibles[name as CollectibleName]?.filter(
         (collectible) => collectible.coordinates,
-      ).length ?? 0);
+      ).length ?? 0) +
+      (state.petHouse?.pets[name as PetName]?.filter((pet) => pet.coordinates)
+        .length ?? 0);
 
     const available = new Decimal(inventoryCount.minus(placed));
     return available.greaterThanOrEqualTo(0) ? available : new Decimal(0);
@@ -199,6 +210,24 @@ export const getChestItems = (state: GameState): Inventory => {
   // `getChestItemCount` already clamps to >= 0 for placeables,
   // so this is the final result.
   return availableItems;
+};
+
+/**
+ * True when the player has at least one placeable chest item and has not
+ * placed any collectibles yet (used to show "place your first item" helper).
+ */
+export const hasChestItemAndNoCollectiblesPlaced = (
+  state: GameState,
+): boolean => {
+  const chestItems = getChestItems(state);
+  const hasChestItem = getKeys(chestItems).some((name) =>
+    (chestItems[name] ?? new Decimal(0)).gt(0),
+  );
+  if (!hasChestItem) return false;
+  const hasPlacedCollectible = getObjectEntries(state.collectibles ?? {}).some(
+    ([, items]) => (items ?? []).some((item) => item.coordinates !== undefined),
+  );
+  return !hasPlacedCollectible;
 };
 
 export function getCountAndType(

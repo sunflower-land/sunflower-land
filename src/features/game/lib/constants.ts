@@ -8,14 +8,14 @@ import {
   BB_TO_GEM_RATIO,
   InventoryItemName,
 } from "../types/game";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getChapterTicket } from "../types/chapters";
-import { getObjectEntries } from "../expansion/lib/utils";
+import { getObjectEntries } from "lib/object";
 import {
   isFullMoonBerry,
   isGreenhouseCropSeed,
@@ -172,49 +172,49 @@ export const INITIAL_STOCK = (
   };
 };
 
+type InventoryLimit = Partial<Record<SeedName, Decimal>>;
+
 // Inventory limit is 2.5x the initial stock for seeds
-export const INVENTORY_LIMIT = (
-  state?: GameState,
-): Record<SeedName, Decimal> => {
+export const INVENTORY_LIMIT = (state: GameState): InventoryLimit => {
   return {
-    ...getObjectEntries(INITIAL_STOCK(state)).reduce(
+    ...getObjectEntries(INITIAL_STOCK(state)).reduce<InventoryLimit>(
       (acc, [key, value]) => {
         if (!isSeed(key)) return acc;
-        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key))
-          return {
-            ...acc,
-            [key]: new Decimal(
-              Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
-            ),
-          };
-        if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(10) };
-        if (isBasicFruitSeed(key as PatchFruitSeedName))
-          return {
-            ...acc,
-            [key]: new Decimal(
-              Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
-            ),
-          };
-        if (isAdvancedFruitSeed(key as PatchFruitSeedName))
-          return {
-            ...acc,
-            [key]: new Decimal(
-              Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
-            ),
-          };
+        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
+          acc[key] = new Decimal(
+            Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
+          );
+          return acc;
+        }
 
-        return {
-          ...acc,
-          [key]: new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
-          ),
-        };
+        if (isFullMoonBerry(key)) {
+          acc[key] = new Decimal(10);
+          return acc;
+        }
+
+        if (isBasicFruitSeed(key as PatchFruitSeedName)) {
+          acc[key] = new Decimal(
+            Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
+          );
+          return acc;
+        }
+
+        if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
+          acc[key] = new Decimal(
+            Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
+          );
+          return acc;
+        }
+
+        acc[key] = new Decimal(
+          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+        );
+        return acc;
       },
-      {} as Record<SeedName, Decimal>,
+      {},
     ),
   };
 };
-
 export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
@@ -373,11 +373,6 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
-    "Easter Token 2025": new Decimal(500),
-    Marty: new Decimal(2),
-    Miffy: new Decimal(2),
-    Morty: new Decimal(2),
-    Mog: new Decimal(2),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
@@ -519,8 +514,6 @@ export const INITIAL_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  experiments: ["GEM_BOOSTS"],
-
   ...INITIAL_RESOURCES,
 
   conversations: ["hank-intro"],
@@ -654,6 +647,10 @@ export const INITIAL_FARM: GameState = {
   waterWell: {
     level: 1,
   },
+  petHouse: {
+    level: 1,
+    pets: {},
+  },
   craftingBox: {
     status: "idle",
     startedAt: 0,
@@ -757,7 +754,6 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  experiments: [],
   farmActivity: {},
   milestones: {},
   home: { collectibles: {} },
@@ -985,6 +981,10 @@ export const TEST_FARM: GameState = {
   waterWell: {
     level: 1,
   },
+  petHouse: {
+    level: 1,
+    pets: {},
+  },
   craftingBox: {
     status: "idle",
     startedAt: 0,
@@ -1063,7 +1063,6 @@ export const EMPTY: GameState = {
     dates: [],
   },
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  experiments: [],
   minigames: {
     games: {},
     prizes: {},
@@ -1164,6 +1163,10 @@ export const EMPTY: GameState = {
   barn: makeAnimalBuilding("Barn"),
   waterWell: {
     level: 1,
+  },
+  petHouse: {
+    level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",

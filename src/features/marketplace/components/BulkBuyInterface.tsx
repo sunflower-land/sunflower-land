@@ -13,7 +13,6 @@ type Props = {
   resource: InventoryItemName;
   totalResources: number;
   totalPrice: number;
-  maxLimit: number;
   maxAmountToBuy: number;
   onMaxAmountToBuyChange: (value: number) => void;
 };
@@ -22,12 +21,11 @@ export const BulkBuyInterface: React.FC<Props> = ({
   resource,
   totalResources,
   totalPrice,
-  maxLimit,
   maxAmountToBuy,
   onMaxAmountToBuyChange,
 }) => {
   const { t } = useAppTranslation();
-  const atLimit = maxAmountToBuy > maxLimit || maxAmountToBuy < 0;
+  const atLimit = maxAmountToBuy < 0;
   const averagePricePerUnit =
     totalResources > 0 ? totalPrice / totalResources : 0;
 
@@ -53,11 +51,6 @@ export const BulkBuyInterface: React.FC<Props> = ({
                 className="w-[120px]"
               />
             </div>
-          </div>
-          <div className="pl-2 text-[20px] -mt-1.5">
-            {t("marketplace.limit", {
-              maxLimit: formatNumber(maxLimit, { decimalPlaces: 0 }),
-            })}
           </div>
         </div>
         <div className="flex flex-grow-1 flex-col w-1/2 justify-evenly p-1 gap-1 text-xs sm:text-sm">
