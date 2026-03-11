@@ -65,8 +65,16 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const withdrawableUnselected = unselected.filter((petId) => {
     const { withdrawAt } = getPetReleases(petId);
-    return !!withdrawAt && withdrawAt <= new Date(now);
+    return !withdrawAt || withdrawAt <= new Date(now);
   });
+
+  const revealedButNotWithdrawable = unselected.filter((petId) => {
+    const { withdrawAt } = getPetReleases(petId);
+    const isRevealed = isPetNFTRevealed(petId, now);
+    return isRevealed && !!withdrawAt && withdrawAt > new Date(now);
+  });
+
+  const petsToShow = [...withdrawableUnselected, ...revealedButNotWithdrawable];
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -200,7 +208,7 @@ export const WithdrawPets: React.FC<Props> = ({
           {t("withdraw.pets")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableUnselected
+          {petsToShow
             .slice()
             .sort((a, b) => sortWithdrawableItems(a, b))
             .map((petId) => {
@@ -210,14 +218,20 @@ export const WithdrawPets: React.FC<Props> = ({
               );
               const RestrictionCooldown = cooldownTimeLeft / 1000;
 
+              const isRevealed = isPetNFTRevealed(petId, now);
+              const revealDate = getPetNFTReleaseDate(petId, now);
+              const { withdrawAt } = getPetReleases(petId);
+              const isRevealedButNotWithdrawable =
+                isRevealed && !!withdrawAt && withdrawAt > new Date(now);
+
+              const isDisabled =
+                isRestricted || !isRevealed || isRevealedButNotWithdrawable;
+
               const handleBoxClick = () => {
-                if (isRestricted || !isRevealed) {
+                if (isDisabled) {
                   setShowInfo((prev) => (prev === petName ? "" : petName));
                 }
               };
-
-              const isRevealed = isPetNFTRevealed(petId, now);
-              const revealDate = getPetNFTReleaseDate(petId, now);
 
               return (
                 <div
@@ -241,26 +255,28 @@ export const WithdrawPets: React.FC<Props> = ({
                         ? t("withdraw.pet.notRevealed", {
                             date: revealDate.toLocaleDateString(),
                           })
-                        : undefined}
+                        : isRevealedButNotWithdrawable && withdrawAt
+                          ? t("withdraw.pet.withdrawableFrom", {
+                              date: withdrawAt.toLocaleDateString(),
+                            })
+                          : undefined}
                   </InfoPopover>
 
                   <Box
                     key={`pet-${petId}`}
                     onClick={() => onAdd(petId)}
                     image={getPetImage("happy", petId)}
-                    disabled={isRestricted || !isRevealed}
+                    disabled={isDisabled}
                     secondaryImage={
-                      isRestricted || !isRevealed
-                        ? SUNNYSIDE.icons.lock
-                        : undefined
+                      isDisabled ? SUNNYSIDE.icons.lock : undefined
                     }
                   />
                 </div>
               );
             })}
           {/* Pad with empty boxes */}
-          {withdrawableUnselected.length < 4 &&
-            new Array(4 - withdrawableUnselected.length)
+          {petsToShow.length < 4 &&
+            new Array(4 - petsToShow.length)
               .fill(null)
               .map((_, index) => <Box disabled key={index} />)}
         </div>
