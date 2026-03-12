@@ -16,6 +16,8 @@
   "claim.bonusItemName": "Claim {{bonusItemName}}",
   "processedResources": "Processed Resources",
   "crustaceans": "Crustaceans",
+  "crustaceans.crabPot": "Crab Pot",
+  "crustaceans.marinerPot": "Mariner Pot",
   "giveUp": "Give up",
   "new": "New",
   "renew": "Renew",
