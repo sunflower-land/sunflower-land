@@ -2,11 +2,17 @@ import {
   BumpkinWings,
   BumpkinAura,
   Equipped,
+  BumpkinShoe,
+  BumpkinHat,
 } from "features/game/types/bumpkin";
 import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Position, Side } from "./Types";
+import hat_immunity from "public/world/portal/images/prevents_slowing_icon.webp";
+import shoes_immunity from "public/world/portal/images/prevents_slipping_icon.webp";
+import wings_immunity_icon from "public/world/portal/images/prevents_enlargement_icon.webp";
+import aura_immunity_icon from "public/world/portal/images/prevents_complete_visibility_icon.webp";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -100,6 +106,39 @@ export const ENEMIES_TABLE: {
   },
 ];
 
+export type Immunity_Wearables = "aura" | "wings" | "shoe" | "hat";
+
+export const IMMUNITY_TOOLTIP: {
+  id: Immunity_Wearables;
+  image: string;
+  description: string;
+}[] = [
+  {
+    id: "aura",
+    image: aura_immunity_icon,
+    description: t(`${PORTAL_NAME}.menace_Immunity`),
+  },
+  {
+    id: "wings",
+    image: wings_immunity_icon,
+    description: t(`${PORTAL_NAME}.giant_Immunity`),
+  },
+  {
+    id: "shoe",
+    image: shoes_immunity,
+    description: t(`${PORTAL_NAME}.sniper_Immunity`),
+  },
+  {
+    id: "hat",
+    image: hat_immunity,
+    description: t(`${PORTAL_NAME}.blast_Immunity`),
+  },
+];
+
+// Panel
+export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
+
+// Immunity
 export const VISIBLE_AURA: BumpkinAura[] = [
   "Slime Aura",
   "Wisp Aura",
@@ -112,10 +151,9 @@ export const NOT_VISIBLE_AURA: BumpkinAura[] = [
   "Paw Aura",
 ];
 
-export const WING_BUFF: BumpkinWings = "Sol & Luna";
-
-// Panel
-export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
+export const WINGS_IMMUNITY: BumpkinWings = "Sol & Luna";
+export const SHOES_IMMUNITY: BumpkinShoe = "Crimstone Boots";
+export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
 
 export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
   { x: 320, y: 60 },
@@ -125,7 +163,7 @@ export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
 ];
 
 export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
-  { x: 320, y: 190 },
+  { x: 300, y: 190 },
   //  { x: 150, y: 200},
   //  { x: 450, y: 180},
   //  { x: 230, y: 220}
