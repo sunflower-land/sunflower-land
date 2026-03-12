@@ -27,7 +27,6 @@ import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasVipAccess,
-  VIP_DURATIONS,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
   VipBundle,
@@ -43,7 +42,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { GameState, VIP } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
 
@@ -69,10 +68,7 @@ const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  console.log("VIP Label");
-
   if (!state.vip || (!state.vip.trialStartedAt && !state.vip.expiresAt)) {
-    console.log("no vip");
     return null;
   }
   const hasVip = hasVipAccess({ game: state, now, type: "full" });
@@ -128,8 +124,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const now = useNow();
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
-
-  console.log("VIP ITEMs");
 
   const handlePurchase = () => {
     gameService.send("vip.bought", {

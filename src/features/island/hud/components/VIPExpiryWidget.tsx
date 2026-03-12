@@ -1,13 +1,12 @@
-import React, { useContext, useEffect } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { VIP_TRIAL_PERIOD_MS, hasVipAccess } from "features/game/lib/vipAccess";
-import Decimal from "decimal.js-light";
+import { VIP_TRIAL_PERIOD_MS } from "features/game/lib/vipAccess";
 import vipIcon from "assets/icons/vip.webp";
 
 import { secondsToString } from "lib/utils/time";
@@ -26,11 +25,14 @@ function vipAcknowledgedAt() {
 }
 
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
 
 export const VIPExpiryWidget: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const [show, setShow] = React.useState(false);
+  const [acknowledgedAt, setAcknowledgedAt] = useState<Date | null>(() =>
+    vipAcknowledgedAt(),
+  );
   const now = useNow();
   const { gameService } = useContext(Context);
 
@@ -44,42 +46,28 @@ export const VIPExpiryWidget: React.FC = () => {
   const isExpiring = now > expiresAt - THREE_DAYS_MS;
   const isExpired = now > expiresAt;
 
-  useEffect(() => {
-    // Determine whether to show.
-    const acknowledgedAt = vipAcknowledgedAt();
-
-    const isExpired = vip?.expiresAt && vip.expiresAt < now;
-
-    // They have already acknowledged after an expiry
-    if (isExpired) {
+  const show = (() => {
+    const isVipExpired = vip?.expiresAt && vip.expiresAt < now;
+    if (isVipExpired) {
       const hasAcknowledgedExpiry =
-        acknowledgedAt && acknowledgedAt?.getTime() < now;
-      setShow(!hasAcknowledgedExpiry);
-      return;
+        acknowledgedAt && acknowledgedAt.getTime() < now;
+      return !hasAcknowledgedExpiry;
     }
-
-    // if acknowledged in last 24 hours
     const acknowledgedRecently =
-      acknowledgedAt && acknowledgedAt?.getTime() > now - 24 * 60 * 60 * 1000;
-
-    if (isExpiring && !acknowledgedRecently) {
-      setShow(true);
-      return;
-    }
-
-    setShow(false);
-  }, [vip]);
+      acknowledgedAt && acknowledgedAt.getTime() > now - TWENTY_FOUR_HOURS_MS;
+    return isExpiring && !acknowledgedRecently;
+  })();
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     acknowledgeVipExpiry();
-    setShow(false);
+    setAcknowledgedAt(new Date());
   };
 
   const handleClick = () => {
     acknowledgeVipExpiry();
     openModal("VIP_SAVINGS");
-    setShow(false);
+    setAcknowledgedAt(new Date());
   };
 
   if (!show) {

@@ -218,10 +218,7 @@ export function startCrafting({
     const currentItem = updatedQueue[0];
 
     if (effectiveQueue.length > 0) {
-      copy.farmActivity = trackFarmActivity(
-        "Recipe Queued",
-        copy.farmActivity,
-      );
+      copy.farmActivity = trackFarmActivity("Recipe Queued", copy.farmActivity);
     }
 
     copy.craftingBox = {

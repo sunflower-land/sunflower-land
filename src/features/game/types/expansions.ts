@@ -2583,7 +2583,7 @@ const LAND_8_REQUIREMENTS: Requirements = {
     Iron: 3,
     Gold: 1,
   },
-  coins: 20000,
+  coins: 200,
   seconds: 4 * 60 * 60,
   bumpkinLevel: 8,
 };

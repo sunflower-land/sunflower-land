@@ -7,7 +7,6 @@ import { NoticeboardItems } from "./kingdom/KingdomNoticeboard";
 import xpIcon from "assets/icons/xp.png";
 import giftIcon from "assets/icons/gift.png";
 import coinIcon from "assets/icons/coins.webp";
-import flowerIcon from "assets/icons/flower_token.webp";
 import powerupIcon from "assets/icons/level_up.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import confetti from "canvas-confetti";

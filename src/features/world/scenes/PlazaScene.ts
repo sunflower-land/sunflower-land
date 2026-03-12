@@ -989,10 +989,7 @@ export class PlazaScene extends BaseScene {
     this.updateDogs();
 
     // Remove trial VIP from plaza once trial has been started
-    if (
-      this.trialVipSprite &&
-      !canClaimTrial({ vip: this.gameState.vip })
-    ) {
+    if (this.trialVipSprite && !canClaimTrial({ vip: this.gameState.vip })) {
       this.colliders?.remove(this.trialVipSprite);
       this.triggerColliders?.remove(this.trialVipSprite);
       delete this.onCollision["free_trial"];
