@@ -11,6 +11,7 @@ export async function loadGameStateForAdmin({
   discordId,
   nftId,
   wallet,
+  depositAddress,
 }: {
   adminId: number;
   token: string;
@@ -19,6 +20,7 @@ export async function loadGameStateForAdmin({
   discordId?: string;
   nftId?: number;
   wallet?: string;
+  depositAddress?: string;
 }): Promise<{
   visitedFarmState: VisitGameState;
   id: number;
@@ -44,6 +46,10 @@ export async function loadGameStateForAdmin({
 
   if (wallet) {
     url.searchParams.set("wallet", wallet);
+  }
+
+  if (depositAddress) {
+    url.searchParams.set("depositAddress", depositAddress);
   }
 
   const response = await window.fetch(url, {
