@@ -92,7 +92,11 @@ export function makeGemHistory({
     },
   };
 
-  game.farmActivity = trackFarmActivity("Gems Spent", game.farmActivity);
+  game.farmActivity = trackFarmActivity(
+    "Gems Spent",
+    game.farmActivity,
+    new Decimal(amount),
+  );
 
   return game;
 }
