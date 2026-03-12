@@ -364,8 +364,8 @@ export const CraftTab: React.FC<Props> = ({
 
     if (wasAddingToQueue && currentRecipe) {
       const recipeStartAt =
-        queue.length > 0
-          ? queue[queue.length - 1].readyAt
+        craftingQueue.length > 0
+          ? craftingQueue[craftingQueue.length - 1].readyAt
           : (cooking?.readyAt ?? now);
 
       const { seconds: recipeTime } = getBoostedCraftingTime({
@@ -379,7 +379,7 @@ export const CraftTab: React.FC<Props> = ({
               : ITEM_IDS[currentRecipe.name as BumpkinItem],
           counter:
             (state.farmActivity[`${currentRecipe.name} Crafted`] ?? 0) +
-            queue.filter((q) => q.name === currentRecipe.name).length,
+            craftingQueue.filter((q) => q.name === currentRecipe.name).length,
         },
       });
 
