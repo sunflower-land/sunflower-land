@@ -10,7 +10,7 @@ import {
   WALKING_SPEED,
   BLAST_SKELETON_POSITIONS,
   MENACE_SKELETON_POSITIONS,
-  CANNON_CONFIG
+  CANNON_CONFIG,
 } from "./Constants";
 import { Side, Position, Enemy } from "./Types";
 import { EventBus } from "./lib/EventBus";
@@ -19,7 +19,6 @@ import { Sniper_Skeleton } from "./containers/Sniper_Skeleton";
 import { Menace_Skeleton } from "./containers/Menace_Skeleton";
 import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 import { Cannon } from "./containers/Cannon";
-import { Orange } from "./containers/Orange";
 import { createAnimation } from "./lib/Utils";
 
 // export const NPCS: NPCBumpkin[] = [
@@ -34,7 +33,10 @@ import { createAnimation } from "./lib/Utils";
 export class Scene extends BaseScene {
   private backgroundMusic!: Phaser.Sound.BaseSound;
   private updateCallbacks!: { key: string; fn: () => void }[];
-  private isCannonEnabled: Record<Side, boolean> = { left: false, right: false };
+  private isCannonEnabled: Record<Side, boolean> = {
+    left: false,
+    right: false,
+  };
   private activeCannonPosition: Position = { x: 0, y: 0 };
   private isUsingCannon = false;
   private activeCannondSide: Side | null = null;
@@ -79,15 +81,39 @@ export class Scene extends BaseScene {
 
     // Minigame assets
     this.load.spritesheet(
-      "giant_skeleton_idle",
-      "/world/portal/images/skeleton_hurt.webp",
+      "giant_idle",
+      "/world/portal/images/Giant_Cardboard_Skeleton_Idle.webp",
       {
-        frameWidth: 23,
-        frameHeight: 26,
+        frameWidth: 40,
+        frameHeight: 35,
+      },
+    );
+    this.load.spritesheet(
+      "giant_attack",
+      "/world/portal/images/Giant_Cardboard_Skeleton_Attack.webp",
+      {
+        frameWidth: 40,
+        frameHeight: 35,
+      },
+    );
+    this.load.spritesheet(
+      "giant_death",
+      "/world/portal/images/Giant_Cardboard_Skeleton_Death.webp",
+      {
+        frameWidth: 45,
+        frameHeight: 38,
       },
     );
     this.load.spritesheet(
       "sniper_skeleton_idle",
+      "/world/portal/images/skeleton_attack.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_attack",
       "/world/portal/images/skeleton_attack.webp",
       {
         frameWidth: 23,
@@ -100,6 +126,14 @@ export class Scene extends BaseScene {
       {
         frameWidth: 23,
         frameHeight: 26,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_skeleton_death",
+      "/world/portal/images/skeleton_death.webp",
+      {
+        frameWidth: 29,
+        frameHeight: 29,
       },
     );
     // Vege Splats
@@ -160,30 +194,30 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "waves_up", "/world/portal/images/waves_tile_up.webp",
+      "waves_up",
+      "/world/portal/images/waves_tile_up.webp",
       {
         frameWidth: 32,
-        frameHeight: 32
-      }
+        frameHeight: 32,
+      },
     );
     this.load.spritesheet(
-      "waves_center", "/world/portal/images/waves_tile_center.webp",
+      "waves_center",
+      "/world/portal/images/waves_tile_center.webp",
       {
         frameWidth: 32,
-        frameHeight: 32
-      }
+        frameHeight: 32,
+      },
     );
     this.load.spritesheet(
-      "waves_down", "/world/portal/images/waves_tile_down.webp",
+      "waves_down",
+      "/world/portal/images/waves_tile_down.webp",
       {
         frameWidth: 32,
-        frameHeight: 32
-      }
+        frameHeight: 32,
+      },
     );
-    this.load.image(
-      "giant_skeleton_barrel",
-      "/world/portal/images/Wooden_Barrel.webp",
-    );
+    this.load.image("giant_barrel", "/world/portal/images/Wooden_Barrel.webp");
     this.load.image(
       "sniper_skeleton_carrot",
       "/world/portal/images/carrot.png",
@@ -200,17 +234,11 @@ export class Scene extends BaseScene {
       "sniper_skeleton_potato",
       "/world/portal/images/potato.png",
     );
-    this.load.image(
-      "orange",
-      "/world/portal/images/orange.png",
-    );
-    this.load.image(
-      "wood",
-      "/world/portal/images/wood.png",
-    );
+    this.load.image("orange", "/world/portal/images/orange.png");
+    this.load.image("wood", "/world/portal/images/wood.png");
 
     // Cannon
-    this.load.image("cannon", "/world/portal/images/tree.webp")
+    this.load.image("cannon", "/world/portal/images/tree.webp");
 
     // Music
     // Background
@@ -358,8 +386,9 @@ export class Scene extends BaseScene {
   }
 
   private initialiseEvents() {
-    EventBus.on("activate-cannon-button",
-      (data: { isActivated: boolean, side: Side, position: Position }) => {
+    EventBus.on(
+      "activate-cannon-button",
+      (data: { isActivated: boolean; side: Side; position: Position }) => {
         this.isCannonEnabled[data.side] = data.isActivated;
         if (data.isActivated) {
           this.activeCannonPosition = data.position;
@@ -368,7 +397,8 @@ export class Scene extends BaseScene {
           // player walked away while not using — clear active side
           if (!this.isUsingCannon) this.activeCannondSide = null;
         }
-      });
+      },
+    );
 
     EventBus.on("cannon-dismount", (data: { side: Side }) => {
       if (this.isUsingCannon && this.activeCannondSide === data.side) {
@@ -417,9 +447,7 @@ export class Scene extends BaseScene {
     if (!this.currentPlayer) return;
     if (!this.cursorKeys) return;
 
-    const animation = this.isMoving && !this.isCannonEnabled
-      ? "walk"
-      : "idle";
+    const animation = this.isMoving && !this.isCannonEnabled ? "walk" : "idle";
 
     this.currentPlayer[animation]?.();
   }
@@ -428,8 +456,10 @@ export class Scene extends BaseScene {
     if (!this.cursorKeys) return;
     if (!this.cursorKeys.e) return;
 
-    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e) &&
-      (this.isCannonEnabled.left || this.isCannonEnabled.right)) {
+    if (
+      Phaser.Input.Keyboard.JustDown(this.cursorKeys.e) &&
+      (this.isCannonEnabled.left || this.isCannonEnabled.right)
+    ) {
       if (!this.isUsingCannon) {
         this.currentPlayer?.setX(this.activeCannonPosition.x);
         this.currentPlayer?.setY(this.activeCannonPosition.y + 20);
@@ -484,7 +514,7 @@ export class Scene extends BaseScene {
   }
 
   private createMenaceSkeleton() {
-    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map(pos => {
+    this.menaceSkeleton = MENACE_SKELETON_POSITIONS.map((pos) => {
       const skel = new Menace_Skeleton({
         x: pos.x,
         y: pos.y,
@@ -497,12 +527,12 @@ export class Scene extends BaseScene {
   }
 
   private createBlastSkeleton() {
-    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map(pos => {
+    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map((pos) => {
       const skel = new Blast_Skeleton({
         x: pos.x,
         y: pos.y,
         scene: this,
-        player: this.currentPlayer
+        player: this.currentPlayer,
       });
       this.allEnemies.push(skel);
       return skel;
@@ -517,18 +547,14 @@ export class Scene extends BaseScene {
         scene: this,
         side,
         player: this.currentPlayer,
-        allEnemies: this.allEnemies
+        allEnemies: this.allEnemies,
       });
     });
   }
 
   private createOcean() {
-    const wavesUpTileIndexes = [
-      1356, 1358,
-    ];
-    const wavesCenterTileIndexes = [
-      1228, 1230,
-    ];
+    const wavesUpTileIndexes = [1356, 1358];
+    const wavesCenterTileIndexes = [1228, 1230];
 
     // const wavesUpTileIndexes = [
     //   1356, 1357, 1358, 1359,
@@ -539,40 +565,59 @@ export class Scene extends BaseScene {
     //   1292, 1293, 1294, 1295
     // ];
 
-    const loadWaterForLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, isBorder = false) => {
+    const loadWaterForLayer = (
+      layer: Phaser.Tilemaps.TilemapLayer | null,
+      isBorder = false,
+    ) => {
       if (!layer) return;
-      const upTileIndexes = isBorder ? wavesUpTileIndexes.map(index => index - 1) : wavesUpTileIndexes;
-      const centerTileIndexes = isBorder ? wavesCenterTileIndexes.map(index => index - 1) : wavesCenterTileIndexes;
+      const upTileIndexes = isBorder
+        ? wavesUpTileIndexes.map((index) => index - 1)
+        : wavesUpTileIndexes;
+      const centerTileIndexes = isBorder
+        ? wavesCenterTileIndexes.map((index) => index - 1)
+        : wavesCenterTileIndexes;
 
       layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
         row.forEach((tile: Phaser.Tilemaps.Tile) => {
           if (tile && upTileIndexes.includes(tile.index)) {
             const worldX = tile.pixelX + layer.x + tile.width / 2;
             const worldY = tile.pixelY + layer.y + tile.height / 2;
-            const sprite = this.add.sprite(worldX, worldY, "waves_up").setOrigin(0.25);
+            const sprite = this.add
+              .sprite(worldX, worldY, "waves_up")
+              .setOrigin(0.25);
             createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
           }
           if (tile && centerTileIndexes.includes(tile.index)) {
             const worldX = tile.pixelX + layer.x + tile.width / 2;
             const worldY = tile.pixelY + layer.y + tile.height / 2;
-            const sprite = this.add.sprite(worldX, worldY, "waves_center").setOrigin(0.25);
+            const sprite = this.add
+              .sprite(worldX, worldY, "waves_center")
+              .setOrigin(0.25);
             createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
           }
         });
       });
     };
-    loadWaterForLayer(this.layers["Water"] as Phaser.Tilemaps.TilemapLayer | null ?? null);
+    loadWaterForLayer(
+      (this.layers["Water"] as Phaser.Tilemaps.TilemapLayer | null) ?? null,
+    );
     if (this.borderMapLeft) {
-      loadWaterForLayer(this.borderMapLeft.getLayer("Water")?.tilemapLayer ?? null, true);
+      loadWaterForLayer(
+        this.borderMapLeft.getLayer("Water")?.tilemapLayer ?? null,
+        true,
+      );
     }
     if (this.borderMapRight) {
-      loadWaterForLayer(this.borderMapRight.getLayer("Water")?.tilemapLayer ?? null, true);
+      loadWaterForLayer(
+        this.borderMapRight.getLayer("Water")?.tilemapLayer ?? null,
+        true,
+      );
     }
   }
 
   private createShips() {
     const ground = 578;
-    const layer = this.layers["Ground"]
+    const layer = this.layers["Ground"];
     layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
       row.forEach((tile: Phaser.Tilemaps.Tile) => {
         if (tile && ground === tile.index) {
