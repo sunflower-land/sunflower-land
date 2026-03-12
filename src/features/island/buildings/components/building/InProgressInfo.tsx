@@ -9,7 +9,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { getInstantGems } from "features/game/lib/getInstantGems";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
@@ -49,7 +49,7 @@ export const InProgressInfo: React.FC<Props> = ({
   const totalSeconds = getProductTotalSeconds();
   const { inventory } = state;
 
-  const gems = getInstantGems({
+  const gems = useRealTimeInstantGems({
     readyAt: product.readyAt,
     game: state,
   });

@@ -6,10 +6,14 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Modal } from "components/ui/Modal";
 import { Expanding } from "components/ui/layouts/ExpansionRequirements";
-import { getInstantGems } from "features/game/lib/getInstantGems";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Panel } from "components/ui/Panel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
+
+const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   expansion: ExpansionConstruction;
@@ -20,20 +24,15 @@ interface Props {
  */
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
   const { gameService, showTimers } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const readyAt = expansion.readyAt;
 
-  const { totalSeconds: secondsLeft } = useCountdown(expansion.readyAt);
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
 
   const [showModal, setShowModal] = useState(false);
+  const gems = useRealTimeInstantGems({ readyAt, game: state });
 
   const onInstantExpand = () => {
-    const readyAt =
-      gameService.getSnapshot().context.state.expansionConstruction?.readyAt ??
-      0;
-    const gems = getInstantGems({
-      readyAt: readyAt as number,
-      game: gameService.getSnapshot().context.state,
-    });
-
     gameService.send("expansion.spedUp");
 
     gameAnalytics.trackSink({
@@ -55,7 +54,9 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
         <Panel>
           <Expanding
             onClose={() => setShowModal(false)}
-            state={gameService.getSnapshot().context.state}
+            state={state}
+            readyAt={readyAt}
+            gems={gems}
             onInstantExpanded={onInstantExpand}
           />
         </Panel>
