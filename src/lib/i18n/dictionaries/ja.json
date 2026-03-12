@@ -8123,5 +8123,7 @@
   "marketplace.tutorial.two": "マーケットプレイスでは、資源を交換したり、収集品を購入したり、農場を強化したりできます。人気アイテムの「ストーンビートル」をお見せしましょう！",
   "marketplace.tutorial.three": "探索する準備はできましたか？マーケットプレイスに行ってストーンビートルを見て、取引を始めましょう。",
   "marketplace.tutorial.openButton": "マーケットプレイスを開く",
-  "setAsBumpkin": "バンプキンとして設定"
+  "setAsBumpkin": "バンプキンとして設定",
+  "crustaceans.crabPot": "カニポット",
+  "crustaceans.marinerPot": "マリナーポット"
 }
