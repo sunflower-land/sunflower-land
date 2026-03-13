@@ -248,24 +248,10 @@ export function trackFarmActivity(
   farmAnalytics: GameState["farmActivity"],
   amount = new Decimal(1),
 ) {
-  const previous = farmAnalytics || {};
-  const activityAmount = previous[activityName] || 0;
+  const previous = { ...farmAnalytics };
+  const activityAmount = previous[activityName] ?? 0;
 
-  return {
-    ...previous,
-    [activityName]: amount.add(activityAmount).toNumber(),
-  };
-}
+  previous[activityName] = amount.add(activityAmount).toNumber();
 
-export function decrementFarmActivity(
-  activityName: FarmActivityName,
-  farmAnalytics: GameState["farmActivity"],
-): GameState["farmActivity"] {
-  const previous = farmAnalytics || {};
-  const current = previous[activityName] ?? 0;
-
-  return {
-    ...previous,
-    [activityName]: Math.max(0, current - 1),
-  };
+  return previous;
 }

@@ -114,7 +114,7 @@ export type TimeBasedFeatureFlag = (
 
 export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAGS_DATES;
 
-export const hasTimeBasedFeatureAccess = ({
+export function hasTimeBasedFeatureAccess({
   featureName,
   now,
   game,
@@ -122,8 +122,8 @@ export const hasTimeBasedFeatureAccess = ({
   featureName: TimeBasedFeatureName;
   game: GameState;
   now: number;
-}) => {
+}) {
   const featureDate: Date = TIME_BASED_FEATURE_FLAGS_DATES[featureName];
 
   return TIME_BASED_FEATURE_FLAGS[featureName](featureDate)(game)(now);
-};
+}

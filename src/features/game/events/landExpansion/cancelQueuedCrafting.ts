@@ -13,11 +13,7 @@ import {
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getBoostedCraftingTime } from "./startCrafting";
-import {
-  CraftingStartedEvent,
-  decrementFarmActivity,
-  trackFarmActivity,
-} from "features/game/types/farmActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type CancelQueuedCraftingAction = {
@@ -49,15 +45,11 @@ export function recalculateCraftingQueue({
   game,
   farmId = 0,
   firstItemReadyAt,
-  cancelledIndex,
-  indexOffset,
 }: {
   queue: CraftingQueueItem[];
   game: GameState;
   farmId?: number;
   firstItemReadyAt?: number;
-  cancelledIndex?: number;
-  indexOffset?: number;
 }): CraftingQueueItem[] {
   if (queue.length === 0) return [];
 
@@ -71,12 +63,14 @@ export function recalculateCraftingQueue({
     let readyAt: number;
     const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
 
-    const counter =
-      cancelledIndex !== undefined
-        ? i < cancelledIndex
-          ? i
-          : i + 1
-        : (indexOffset ?? 0) + i;
+    const countSameRecipeFromEnd = result
+      .slice(i)
+      .filter((q) => q.name === item.name).length;
+    const counter = Math.max(
+      0,
+      (game.farmActivity?.[`${recipe.name} Crafting Started`] ?? 0) -
+        countSameRecipeFromEnd,
+    );
 
     const { seconds: recipeTime } = getBoostedCraftingTime({
       game,
@@ -177,16 +171,16 @@ export function cancelQueuedCrafting({
     const updatedQueue = [...queue];
     updatedQueue.splice(recipeIndex, 1);
 
-    game.farmActivity = decrementFarmActivity(
-      `${item.name} Crafting Started` as CraftingStartedEvent,
-      game.farmActivity ?? {},
+    game.farmActivity = trackFarmActivity(
+      `${item.name} Crafting Started`,
+      game.farmActivity,
+      new Decimal(-1),
     );
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,
       game,
       farmId,
-      cancelledIndex: recipeIndex,
     });
 
     if (game.craftingBox.queue.length > 0) {

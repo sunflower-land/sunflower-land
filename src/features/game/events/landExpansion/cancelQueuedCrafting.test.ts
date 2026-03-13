@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { cancelQueuedCrafting } from "./cancelQueuedCrafting";
-import { CraftingQueueItem } from "features/game/types/game";
+import { RECIPES } from "features/game/lib/crafting";
+import {
+  cancelQueuedCrafting,
+  recalculateCraftingQueue,
+} from "./cancelQueuedCrafting";
+import { CraftingQueueItem, GameState } from "features/game/types/game";
 
 describe("cancelQueuedCrafting", () => {
   const farmId = 1;
@@ -396,5 +400,125 @@ describe("cancelQueuedCrafting", () => {
     expect(state.inventory.Wool).toEqual(new Decimal(5));
     expect(state.farmActivity["Crafting Queue Cancelled"]).toBe(1);
     expect(state.farmActivity["Doll Crafting Started"]).toBe(2);
+  });
+
+  it("preserves correct readyAt for mixed recipe queue after cancel", () => {
+    const now = Date.now();
+    const farmId = 1;
+    const dollReadyAt = now + 2 * 60 * 60 * 1000;
+    const timberReadyAt = dollReadyAt;
+    const basicBedReadyAt = timberReadyAt + 8 * 60 * 60 * 1000;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        Leather: new Decimal(20),
+        Wool: new Decimal(25),
+        Wood: new Decimal(27),
+        Cushion: new Decimal(10),
+        Timber: new Decimal(10),
+        "Beta Pass": new Decimal(1),
+      },
+      buildings: {
+        "Crafting Box": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+      collectibles: {
+        "Fox Shrine": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      farmActivity: {
+        "Doll Crafting Started": 1,
+        "Timber Crafting Started": 1,
+        "Basic Bed Crafting Started": 1,
+      },
+      vip: { bundles: [], expiresAt: now + 86400000 },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            name: "Doll",
+            readyAt: dollReadyAt,
+            startedAt: now,
+            type: "collectible",
+          },
+          {
+            name: "Timber",
+            readyAt: timberReadyAt,
+            startedAt: dollReadyAt,
+            type: "collectible",
+          },
+          {
+            name: "Basic Bed",
+            readyAt: basicBedReadyAt,
+            startedAt: timberReadyAt,
+            type: "collectible",
+          },
+        ],
+        item: { collectible: "Doll" },
+        startedAt: now,
+        readyAt: dollReadyAt,
+        recipes: {
+          Doll: { ...RECIPES.Doll },
+          Timber: { ...RECIPES.Timber },
+          "Basic Bed": { ...RECIPES["Basic Bed"] },
+        },
+      },
+    };
+
+    const queue = state.craftingBox.queue!;
+    expect(queue).toHaveLength(3);
+    expect(queue[0].name).toBe("Doll");
+    expect(queue[1].name).toBe("Timber");
+    expect(queue[2].name).toBe("Basic Bed");
+
+    const basicBedToCancel = queue[2];
+    const updatedQueue = [queue[0], queue[1]];
+    const gameAfterDecrement = {
+      ...state,
+      farmActivity: {
+        ...state.farmActivity,
+        "Basic Bed Crafting Started":
+          (state.farmActivity!["Basic Bed Crafting Started"] ?? 1) - 1,
+      },
+    };
+
+    const expectedQueue = recalculateCraftingQueue({
+      queue: updatedQueue,
+      game: gameAfterDecrement,
+      farmId,
+    });
+
+    const result = cancelQueuedCrafting({
+      state,
+      action: {
+        type: "crafting.cancelled",
+        queueItem: basicBedToCancel,
+      },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(result.craftingBox.queue).toHaveLength(2);
+    expect(result.craftingBox.queue?.[0].name).toBe("Doll");
+    expect(result.craftingBox.queue?.[1].name).toBe("Timber");
+    expect(result.craftingBox.queue?.[0].readyAt).toEqual(
+      expectedQueue[0].readyAt,
+    );
+    expect(result.craftingBox.queue?.[1].readyAt).toEqual(
+      expectedQueue[1].readyAt,
+    );
   });
 });
