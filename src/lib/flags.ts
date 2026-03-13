@@ -114,16 +114,22 @@ export type TimeBasedFeatureFlag = (
 
 export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAGS_DATES;
 
+/**
+ * @param featureName - The name of the feature to check access for.
+ * @param startTime - The time that the feature started being available.
+ * @param game - The game state.
+ * @returns True if the player has access to the feature, false otherwise.
+ */
 export function hasTimeBasedFeatureAccess({
   featureName,
-  now,
+  startTime,
   game,
 }: {
   featureName: TimeBasedFeatureName;
   game: GameState;
-  now: number;
+  startTime: number;
 }) {
   const featureDate: Date = TIME_BASED_FEATURE_FLAGS_DATES[featureName];
 
-  return TIME_BASED_FEATURE_FLAGS[featureName](featureDate)(game)(now);
+  return TIME_BASED_FEATURE_FLAGS[featureName](featureDate)(game)(startTime);
 }

@@ -116,7 +116,7 @@ export function cancelQueuedCrafting({
     !hasTimeBasedFeatureAccess({
       game: state,
       featureName: "CRAFTING_BOX_QUEUES",
-      now: createdAt,
+      startTime: createdAt,
     })
   ) {
     throw new Error("Crafting box queues are not enabled");

@@ -19,5 +19,5 @@ export function useTimeBasedFeatureAccess({
     intervalMs: 60 * 1000,
   });
 
-  return hasTimeBasedFeatureAccess({ featureName, now, game });
+  return hasTimeBasedFeatureAccess({ featureName, startTime: now, game });
 }

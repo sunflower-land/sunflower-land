@@ -40,11 +40,11 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -275,10 +275,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 text: t("vip.benefit.cookingQueue"),
                 icon: ITEM_DETAILS["Pumpkin Soup"].image,
               },
-              ...(hasTimeBasedFeatureAccess({
+              ...(useTimeBasedFeatureAccess({
                 game: state,
                 featureName: "CRAFTING_BOX_QUEUES",
-                now,
               })
                 ? [
                     {

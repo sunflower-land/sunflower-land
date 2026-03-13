@@ -133,7 +133,7 @@ export function startCrafting({
       hasTimeBasedFeatureAccess({
         game: copy,
         featureName: "CRAFTING_BOX_QUEUES",
-        now: createdAt,
+        startTime: createdAt,
       })
         ? 4
         : 1;
