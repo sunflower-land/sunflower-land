@@ -47,6 +47,10 @@ export const VIPExpiryWidget: React.FC = () => {
   const isExpired = now > expiresAt;
 
   const show = (() => {
+    if (!vip?.expiresAt && !vip?.trialStartedAt) {
+      return false;
+    }
+
     const isVipExpired = vip?.expiresAt && vip.expiresAt < now;
     if (isVipExpired) {
       const hasAcknowledgedExpiry =

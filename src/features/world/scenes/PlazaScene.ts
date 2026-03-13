@@ -495,6 +495,9 @@ export class PlazaScene extends BaseScene {
       }
     });
 
+    // Draw hit box in debug mode
+    this.physics.world.drawDebug = true;
+
     // Trial VIP - only show if canClaimTrial; disappears after trial.started
     if (canClaimTrial({ vip: this.gameState.vip })) {
       const trialVip = this.add.sprite(600, 320, "trial_vip");
@@ -515,7 +518,7 @@ export class PlazaScene extends BaseScene {
       this.triggerColliders?.add(trialVip);
       (trialVip.body as Phaser.Physics.Arcade.Body)
         .setSize(24, 24)
-        .setOffset(-11, -8.5) // center 40x40 on 18x23 sprite (origin 0.5)
+        .setOffset(0, 0) // center 40x40 on 18x23 sprite (origin 0.5)
         .setImmovable(true)
         .setCollideWorldBounds(true);
       trialVip.setData("id", "free_trial");
