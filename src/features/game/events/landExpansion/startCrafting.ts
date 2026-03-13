@@ -22,6 +22,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
 import { hasFeatureAccess } from "lib/flags";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -199,7 +200,7 @@ export function startCrafting({
           recipe.type === "collectible"
             ? KNOWN_IDS[recipe.name as InventoryItemName]
             : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
       },
     });
 
@@ -220,6 +221,11 @@ export function startCrafting({
     if (effectiveQueue.length > 0) {
       copy.farmActivity = trackFarmActivity("Recipe Queued", copy.farmActivity);
     }
+
+    copy.farmActivity = trackFarmActivity(
+      `${recipe.name} Crafting Started`,
+      copy.farmActivity ?? {},
+    );
 
     copy.craftingBox = {
       status: "crafting",

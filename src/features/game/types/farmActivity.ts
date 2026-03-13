@@ -128,6 +128,9 @@ export type CraftedEvent = `${
   | PetShopItemName
   | RecipeCollectibleName
   | BumpkinItem} Crafted`;
+export type CraftingStartedEvent = `${
+  | RecipeCollectibleName
+  | BumpkinItem} Crafting Started`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
@@ -150,6 +153,7 @@ export type FarmActivityName =
   | HarvestedEvent
   | BountiedEvent
   | CraftedEvent
+  | CraftingStartedEvent
   | ResourceBought
   | BiomeBought
   | "Obsidian Exchanged"
@@ -250,5 +254,18 @@ export function trackFarmActivity(
   return {
     ...previous,
     [activityName]: amount.add(activityAmount).toNumber(),
+  };
+}
+
+export function decrementFarmActivity(
+  activityName: FarmActivityName,
+  farmAnalytics: GameState["farmActivity"],
+): GameState["farmActivity"] {
+  const previous = farmAnalytics || {};
+  const current = previous[activityName] ?? 0;
+
+  return {
+    ...previous,
+    [activityName]: Math.max(0, current - 1),
   };
 }

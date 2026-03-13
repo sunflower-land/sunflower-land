@@ -306,9 +306,9 @@ describe("cancelQueuedCrafting", () => {
 
   it("cancels a queued item and refunds ingredients", () => {
     const now = Date.now();
-    const timber1ReadyAt = now - 1000;
-    const timber2ReadyAt = now + 60000;
-    const timber3ReadyAt = now + 120000;
+    const doll1ReadyAt = now - 1000;
+    const doll2ReadyAt = now + 60000;
+    const doll3ReadyAt = now + 120000;
 
     const state = cancelQueuedCrafting({
       state: {
@@ -324,49 +324,54 @@ describe("cancelQueuedCrafting", () => {
           ],
         },
         inventory: {
-          Wood: new Decimal(0),
+          "Beta Pass": new Decimal(1),
+          Leather: new Decimal(0),
+          Wool: new Decimal(0),
+        },
+        farmActivity: {
+          "Doll Crafting Started": 3,
         },
         craftingBox: {
           status: "crafting",
           queue: [
             {
-              name: "Timber",
-              readyAt: timber1ReadyAt,
+              name: "Doll",
+              readyAt: doll1ReadyAt,
               startedAt: now - 10000,
               type: "collectible",
             },
             {
-              name: "Timber",
-              readyAt: timber2ReadyAt,
-              startedAt: timber1ReadyAt,
+              name: "Doll",
+              readyAt: doll2ReadyAt,
+              startedAt: doll1ReadyAt,
               type: "collectible",
             },
             {
-              name: "Timber",
-              readyAt: timber3ReadyAt,
-              startedAt: timber2ReadyAt,
+              name: "Doll",
+              readyAt: doll3ReadyAt,
+              startedAt: doll2ReadyAt,
               type: "collectible",
             },
           ],
-          item: { collectible: "Timber" },
+          item: { collectible: "Doll" },
           startedAt: now - 10000,
-          readyAt: timber1ReadyAt,
+          readyAt: doll1ReadyAt,
           recipes: {
-            Timber: {
-              name: "Timber",
+            Doll: {
+              name: "Doll",
               type: "collectible",
               ingredients: [
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
-                { collectible: "Wood" },
+                { collectible: "Leather" },
+                { collectible: "Wool" },
+                { collectible: "Leather" },
+                { collectible: "Wool" },
+                { collectible: "Wool" },
+                { collectible: "Wool" },
+                { collectible: "Leather" },
+                { collectible: "Wool" },
+                { collectible: "Leather" },
               ],
-              time: 0,
+              time: 2 * 60 * 60 * 1000,
             },
           },
         },
@@ -374,9 +379,9 @@ describe("cancelQueuedCrafting", () => {
       action: {
         type: "crafting.cancelled",
         queueItem: {
-          name: "Timber",
-          readyAt: timber3ReadyAt,
-          startedAt: timber2ReadyAt,
+          name: "Doll",
+          readyAt: doll3ReadyAt,
+          startedAt: doll2ReadyAt,
           type: "collectible",
         },
       },
@@ -385,9 +390,11 @@ describe("cancelQueuedCrafting", () => {
     });
 
     expect(state.craftingBox.queue).toHaveLength(2);
-    expect(state.craftingBox.queue?.[0].name).toBe("Timber");
-    expect(state.craftingBox.queue?.[1].name).toBe("Timber");
-    expect(state.inventory.Wood).toEqual(new Decimal(9));
+    expect(state.craftingBox.queue?.[0].name).toBe("Doll");
+    expect(state.craftingBox.queue?.[1].name).toBe("Doll");
+    expect(state.inventory.Leather).toEqual(new Decimal(4));
+    expect(state.inventory.Wool).toEqual(new Decimal(5));
     expect(state.farmActivity["Crafting Queue Cancelled"]).toBe(1);
+    expect(state.farmActivity["Doll Crafting Started"]).toBe(2);
   });
 });

@@ -26,6 +26,8 @@ describe("startCrafting", () => {
       inventory: {
         Wood: new Decimal(10),
         Stone: new Decimal(10),
+        Leather: new Decimal(10),
+        Wool: new Decimal(10),
       },
       craftingBox: {
         status: "idle",
@@ -456,6 +458,21 @@ describe("startCrafting", () => {
   });
 
   it("allows adding to queue when VIP and one item is crafting", () => {
+    const counter = (() => {
+      let c = 0;
+      while (
+        !prngChance({
+          farmId,
+          itemId: KNOWN_IDS["Doll"],
+          counter: c,
+          chance: 10,
+          criticalHitName: "Fox Shrine",
+        })
+      ) {
+        c++;
+      }
+      return c;
+    })();
     const now = Date.now();
     gameState.vip = {
       bundles: [],
@@ -465,7 +482,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
-          name: "Timber",
+          name: "Doll",
           readyAt: now + 60000,
           startedAt: now,
           type: "collectible",
@@ -474,41 +491,53 @@ describe("startCrafting", () => {
       startedAt: now,
       readyAt: now + 60000,
       recipes: {
-        Timber: {
-          name: "Timber",
+        Doll: {
+          name: "Doll",
           type: "collectible",
           ingredients: [
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
           ],
-          time: 0,
+          time: 2 * 60 * 60 * 1000,
         },
       },
     };
     gameState.inventory = {
-      Wood: new Decimal(18),
-      Stone: new Decimal(10),
+      "Beta Pass": new Decimal(1),
+      Leather: new Decimal(10),
+      Wool: new Decimal(10),
     };
+    gameState.collectibles = {
+      "Fox Shrine": [
+        {
+          id: "123",
+          coordinates: { x: 0, y: 0 },
+          createdAt: now,
+          readyAt: now,
+        },
+      ],
+    };
+    gameState.farmActivity = { "Doll Crafting Started": counter };
 
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
-        { collectible: "Wood" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
       ],
     };
 
@@ -520,10 +549,152 @@ describe("startCrafting", () => {
     });
 
     expect(newState.craftingBox.queue).toHaveLength(2);
-    expect(newState.craftingBox.queue?.[0].name).toBe("Timber");
-    expect(newState.craftingBox.queue?.[1].name).toBe("Timber");
+    expect(newState.craftingBox.queue?.[0].name).toBe("Doll");
+    expect(newState.craftingBox.queue?.[1].name).toBe("Doll");
     expect(newState.craftingBox.queue?.[1].readyAt).toBe(now);
     expect(newState.craftingBox.queue?.[1].startedAt).toBe(now);
+  });
+
+  it("increments X Crafting Started when adding to queue", () => {
+    const now = Date.now();
+    gameState.vip = {
+      bundles: [],
+      expiresAt: now + 86400000,
+    };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          name: "Doll",
+          readyAt: now + 60000,
+          startedAt: now,
+          type: "collectible",
+        },
+      ],
+      startedAt: now,
+      readyAt: now + 60000,
+      recipes: {
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
+        },
+      },
+    };
+    gameState.inventory = {
+      "Beta Pass": new Decimal(1),
+      Leather: new Decimal(10),
+      Wool: new Decimal(10),
+    };
+    gameState.farmActivity = { "Doll Crafting Started": 1 };
+
+    const newState = startCrafting({
+      farmId,
+      state: gameState,
+      action: {
+        type: "crafting.started",
+        ingredients: [
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+        ],
+      },
+      createdAt: now,
+    });
+
+    expect(newState.farmActivity["Doll Crafting Started"]).toBe(2);
+  });
+
+  it("each queued item gets unique Fox Shrine roll via X Crafting Started", () => {
+    const now = Date.now();
+    gameState.vip = {
+      bundles: [],
+      expiresAt: now + 86400000,
+    };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [],
+      startedAt: now,
+      readyAt: now,
+      recipes: {
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
+        },
+      },
+    };
+    gameState.inventory = {
+      "Beta Pass": new Decimal(1),
+      Leather: new Decimal(20),
+      Wool: new Decimal(25),
+    };
+    gameState.collectibles = {
+      "Fox Shrine": [
+        {
+          id: "123",
+          coordinates: { x: 0, y: 0 },
+          createdAt: now,
+          readyAt: now,
+        },
+      ],
+    };
+
+    let state = gameState;
+    for (let i = 0; i < 4; i++) {
+      state = startCrafting({
+        farmId,
+        state,
+        action: {
+          type: "crafting.started",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+        },
+        createdAt: now,
+      });
+    }
+
+    expect(state.farmActivity["Doll Crafting Started"]).toBe(4);
+    const readyAts = state.craftingBox.queue!.map((q) => q.readyAt);
+    const uniqueReadyAts = new Set(readyAts);
+    expect(uniqueReadyAts.size).toBeGreaterThan(1);
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
@@ -590,7 +761,7 @@ describe("startCrafting", () => {
           "Fox Shrine": new Decimal(1),
         },
         farmActivity: {
-          "Basic Bed Crafted": counter,
+          "Basic Bed Crafting Started": counter,
         },
       },
       action: {
@@ -614,6 +785,21 @@ describe("startCrafting", () => {
   });
 
   it("makes instant recipe immediately ready when added to a non-empty queue", () => {
+    const counter = (() => {
+      let c = 0;
+      while (
+        !prngChance({
+          farmId,
+          itemId: KNOWN_IDS["Doll"],
+          counter: c,
+          chance: 10,
+          criticalHitName: "Fox Shrine",
+        })
+      ) {
+        c++;
+      }
+      return c;
+    })();
     const now = Date.now();
     gameState.vip = {
       bundles: [],
@@ -632,27 +818,58 @@ describe("startCrafting", () => {
       startedAt: now,
       readyAt: now + 60000,
       recipes: {
-        Timber: {
-          name: "Timber",
+        "Basic Bed": {
+          name: "Basic Bed",
           type: "collectible",
           ingredients: [
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
+            { collectible: "Cushion" },
+            { collectible: "Cushion" },
+            { collectible: "Cushion" },
+            { collectible: "Timber" },
+            { collectible: "Cushion" },
+            { collectible: "Timber" },
+            { collectible: "Timber" },
+            { collectible: "Timber" },
+            { collectible: "Timber" },
           ],
-          time: 0,
+          time: 8 * 60 * 60 * 1000,
+        },
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
         },
       },
     };
     gameState.inventory = {
-      Wood: new Decimal(18),
+      "Beta Pass": new Decimal(1),
+      Cushion: new Decimal(4),
+      Timber: new Decimal(5),
+      Leather: new Decimal(10),
+      Wool: new Decimal(10),
     };
+    gameState.collectibles = {
+      "Fox Shrine": [
+        {
+          id: "123",
+          coordinates: { x: 0, y: 0 },
+          createdAt: now,
+          readyAt: now,
+        },
+      ],
+    };
+    gameState.farmActivity = { "Doll Crafting Started": counter };
 
     const state = startCrafting({
       farmId,
@@ -660,15 +877,15 @@ describe("startCrafting", () => {
       action: {
         type: "crafting.started",
         ingredients: [
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
-          { collectible: "Wood" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
         ],
       },
       createdAt: now,
@@ -677,7 +894,7 @@ describe("startCrafting", () => {
     expect(state.craftingBox.queue).toHaveLength(2);
 
     const instantItem = state.craftingBox.queue![1];
-    expect(instantItem.name).toBe("Timber");
+    expect(instantItem.name).toBe("Doll");
     expect(instantItem.readyAt).toBe(now);
     expect(instantItem.startedAt).toBe(now);
   });

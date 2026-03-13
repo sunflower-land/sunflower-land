@@ -356,7 +356,8 @@ export const CraftTab: React.FC<Props> = ({
             currentRecipe.type === "collectible"
               ? KNOWN_IDS[currentRecipe.name as InventoryItemName]
               : ITEM_IDS[currentRecipe.name as BumpkinItem],
-          counter: state.farmActivity[`${currentRecipe.name} Crafted`] ?? 0,
+          counter:
+            state.farmActivity[`${currentRecipe.name} Crafting Started`] ?? 0,
         },
       });
 
