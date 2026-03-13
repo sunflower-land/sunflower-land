@@ -251,7 +251,6 @@ export function trackFarmActivity(
   const previous = { ...farmAnalytics };
   const activityAmount = previous[activityName] ?? 0;
 
-  previous[activityName] = amount.add(activityAmount).toNumber();
-
+  previous[activityName] = Math.max(0, amount.add(activityAmount).toNumber());
   return previous;
 }

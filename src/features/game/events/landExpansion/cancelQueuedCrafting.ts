@@ -171,11 +171,15 @@ export function cancelQueuedCrafting({
     const updatedQueue = [...queue];
     updatedQueue.splice(recipeIndex, 1);
 
-    game.farmActivity = trackFarmActivity(
-      `${item.name} Crafting Started`,
-      game.farmActivity,
-      new Decimal(-1),
-    );
+    // Only decrement when the item hasn't become ready yet - otherwise we'd rewind
+    // a PRNG counter that was already consumed, causing reuse for future crafts.
+    if (item.readyAt > createdAt) {
+      game.farmActivity = trackFarmActivity(
+        `${item.name} Crafting Started`,
+        game.farmActivity ?? {},
+        new Decimal(-1),
+      );
+    }
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,

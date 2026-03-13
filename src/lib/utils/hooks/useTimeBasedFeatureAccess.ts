@@ -16,6 +16,7 @@ export function useTimeBasedFeatureAccess({
   const now = useNow({
     live: true,
     autoEndAt: TIME_BASED_FEATURE_FLAGS_DATES[featureName].getTime(),
+    intervalMs: 60 * 1000,
   });
 
   return hasTimeBasedFeatureAccess({ featureName, now, game });
