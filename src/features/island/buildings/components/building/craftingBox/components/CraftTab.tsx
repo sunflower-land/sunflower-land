@@ -33,7 +33,6 @@ import { CraftButton } from "./CraftButton";
 import { CraftTimer } from "./CraftTimer";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { hasFeatureAccess } from "lib/flags";
 import { useCraftingQueue } from "./useCraftingQueue";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
@@ -41,6 +40,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import vipIcon from "assets/icons/vip.webp";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -82,10 +82,10 @@ export const CraftTab: React.FC<Props> = ({
     craftingReadyAt,
     now,
   } = useCraftingQueue(craftingBox);
-  const hasCraftingBoxQueuesAccess = hasFeatureAccess(
-    state,
-    "CRAFTING_BOX_QUEUES",
-  );
+  const hasCraftingBoxQueuesAccess = useTimeBasedFeatureAccess({
+    game: state,
+    featureName: "CRAFTING_BOX_QUEUES",
+  });
 
   const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
@@ -638,10 +638,7 @@ export const CraftTab: React.FC<Props> = ({
               queueSelection.slot > 0 && !isViewingInProgressItem
             }
             isViewingQueuedRecipe={isViewingQueuedRecipe}
-            hasCraftingBoxQueuesAccess={hasFeatureAccess(
-              state,
-              "CRAFTING_BOX_QUEUES",
-            )}
+            hasCraftingBoxQueuesAccess={hasCraftingBoxQueuesAccess}
           />
         </div>
       </div>

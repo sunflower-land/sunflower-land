@@ -21,7 +21,7 @@ import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type StartCraftingAction = {
@@ -130,7 +130,11 @@ export function startCrafting({
 
     const availableSlots =
       hasVipAccess({ game: copy }) &&
-      hasFeatureAccess(copy, "CRAFTING_BOX_QUEUES")
+      hasTimeBasedFeatureAccess({
+        game: copy,
+        featureName: "CRAFTING_BOX_QUEUES",
+        now: createdAt,
+      })
         ? 4
         : 1;
 

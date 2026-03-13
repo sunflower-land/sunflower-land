@@ -40,7 +40,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
@@ -275,7 +275,11 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 text: t("vip.benefit.cookingQueue"),
                 icon: ITEM_DETAILS["Pumpkin Soup"].image,
               },
-              ...(hasFeatureAccess(state, "CRAFTING_BOX_QUEUES")
+              ...(hasTimeBasedFeatureAccess({
+                game: state,
+                featureName: "CRAFTING_BOX_QUEUES",
+                now,
+              })
                 ? [
                     {
                       text: t("vip.benefit.craftingQueue"),

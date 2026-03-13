@@ -87,15 +87,20 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
-  CRAFTING_BOX_QUEUES: defaultFeatureFlag,
-  // CRAFTING_BOX_QUEUES: () => false,
 } satisfies Record<string, FeatureFlag>;
 
-const TIME_BASED_FEATURE_FLAGS = {
-  TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag(
-    new Date("2026-02-24T00:00:00Z"),
-  ),
-} satisfies Record<string, TimeBasedFeatureFlag>;
+export const TIME_BASED_FEATURE_FLAGS_DATES = {
+  TICKETS_FROM_COIN_NPC: new Date("2026-02-24T00:00:00Z"),
+  CRAFTING_BOX_QUEUES: new Date("2026-03-16T00:00:00Z"),
+} satisfies Record<string, Date>;
+
+export const TIME_BASED_FEATURE_FLAGS: Record<
+  TimeBasedFeatureName,
+  TimeBasedFeatureFlag
+> = {
+  TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag,
+  CRAFTING_BOX_QUEUES: betaTimeBasedFeatureFlag,
+};
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
 
@@ -104,19 +109,21 @@ export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
 };
 
 export type TimeBasedFeatureFlag = (
-  game: GameState,
-) => (now: number) => boolean;
+  date: Date,
+) => (game: GameState) => (now: number) => boolean;
 
-export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAGS;
+export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAGS_DATES;
 
 export const hasTimeBasedFeatureAccess = ({
   featureName,
   now,
-  game: _game,
+  game,
 }: {
   featureName: TimeBasedFeatureName;
-  now: number;
   game: GameState;
+  now: number;
 }) => {
-  return TIME_BASED_FEATURE_FLAGS[featureName]()(now);
+  const featureDate: Date = TIME_BASED_FEATURE_FLAGS_DATES[featureName];
+
+  return TIME_BASED_FEATURE_FLAGS[featureName](featureDate)(game)(now);
 };

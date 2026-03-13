@@ -18,7 +18,7 @@ import {
   decrementFarmActivity,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type CancelQueuedCraftingAction = {
   type: "crafting.cancelled";
@@ -118,7 +118,13 @@ export function cancelQueuedCrafting({
   createdAt = Date.now(),
   farmId = 0,
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "CRAFTING_BOX_QUEUES")) {
+  if (
+    !hasTimeBasedFeatureAccess({
+      game: state,
+      featureName: "CRAFTING_BOX_QUEUES",
+      now: createdAt,
+    })
+  ) {
     throw new Error("Crafting box queues are not enabled");
   }
   return produce(state, (game) => {
