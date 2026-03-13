@@ -230,9 +230,10 @@ describe("cancelQueuedCrafting", () => {
     expect(state.craftingBox.queue?.[2].readyAt).toBeLessThanOrEqual(now);
   });
 
-  it("removes only the selected item when cancelling one of two identical instant items", () => {
+  it("removes only the selected item when cancelling one of two identical pending items", () => {
     const now = Date.now();
-    const identicalReadyAt = now - 1000;
+    const timber1ReadyAt = now + 60000;
+    const timber2ReadyAt = now + 120000;
 
     const state = cancelQueuedCrafting({
       state: {
@@ -256,20 +257,20 @@ describe("cancelQueuedCrafting", () => {
           queue: [
             {
               name: "Timber",
-              readyAt: identicalReadyAt,
-              startedAt: identicalReadyAt,
+              readyAt: timber1ReadyAt,
+              startedAt: now,
               type: "collectible",
             },
             {
               name: "Timber",
-              readyAt: identicalReadyAt,
-              startedAt: identicalReadyAt,
+              readyAt: timber2ReadyAt,
+              startedAt: timber1ReadyAt,
               type: "collectible",
             },
           ],
           item: { collectible: "Timber" },
-          startedAt: identicalReadyAt,
-          readyAt: identicalReadyAt,
+          startedAt: now,
+          readyAt: timber1ReadyAt,
           recipes: {
             Timber: {
               name: "Timber",
@@ -294,8 +295,8 @@ describe("cancelQueuedCrafting", () => {
         type: "crafting.cancelled",
         queueItem: {
           name: "Timber",
-          readyAt: identicalReadyAt,
-          startedAt: identicalReadyAt,
+          readyAt: timber2ReadyAt,
+          startedAt: timber1ReadyAt,
           type: "collectible",
         },
       },
@@ -305,88 +306,89 @@ describe("cancelQueuedCrafting", () => {
 
     expect(state.craftingBox.queue).toHaveLength(1);
     expect(state.craftingBox.queue?.[0].name).toBe("Timber");
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(timber1ReadyAt);
     expect(state.inventory.Wood).toEqual(new Decimal(9));
   });
 
-  it("does NOT decrement X Crafting Started when cancelling a ready item", () => {
+  it("throws when cancelling a ready item", () => {
     const now = Date.now();
     const readyItemReadyAt = now - 1000;
     const inProgressReadyAt = now + 60000;
 
-    const state = cancelQueuedCrafting({
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          "Beta Pass": new Decimal(1),
-          Leather: new Decimal(0),
-          Wool: new Decimal(0),
-        },
-        buildings: {
-          "Crafting Box": [
-            {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-        farmActivity: {
-          "Doll Crafting Started": 2,
-        },
-        craftingBox: {
-          status: "crafting",
-          queue: [
-            {
-              name: "Doll",
-              readyAt: readyItemReadyAt,
-              startedAt: now - 10000,
-              type: "collectible",
-            },
-            {
-              name: "Doll",
-              readyAt: inProgressReadyAt,
-              startedAt: readyItemReadyAt,
-              type: "collectible",
-            },
-          ],
-          item: { collectible: "Doll" },
-          startedAt: now - 10000,
-          readyAt: readyItemReadyAt,
-          recipes: {
-            Doll: {
-              name: "Doll",
-              type: "collectible",
-              ingredients: [
-                { collectible: "Leather" },
-                { collectible: "Wool" },
-                { collectible: "Leather" },
-                { collectible: "Wool" },
-                { collectible: "Wool" },
-                { collectible: "Wool" },
-                { collectible: "Leather" },
-                { collectible: "Wool" },
-                { collectible: "Leather" },
-              ],
-              time: 2 * 60 * 60 * 1000,
+    expect(() =>
+      cancelQueuedCrafting({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Beta Pass": new Decimal(1),
+            Leather: new Decimal(0),
+            Wool: new Decimal(0),
+          },
+          buildings: {
+            "Crafting Box": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+          farmActivity: {
+            "Doll Crafting Started": 2,
+          },
+          craftingBox: {
+            status: "crafting",
+            queue: [
+              {
+                name: "Doll",
+                readyAt: readyItemReadyAt,
+                startedAt: now - 10000,
+                type: "collectible",
+              },
+              {
+                name: "Doll",
+                readyAt: inProgressReadyAt,
+                startedAt: readyItemReadyAt,
+                type: "collectible",
+              },
+            ],
+            item: { collectible: "Doll" },
+            startedAt: now - 10000,
+            readyAt: readyItemReadyAt,
+            recipes: {
+              Doll: {
+                name: "Doll",
+                type: "collectible",
+                ingredients: [
+                  { collectible: "Leather" },
+                  { collectible: "Wool" },
+                  { collectible: "Leather" },
+                  { collectible: "Wool" },
+                  { collectible: "Wool" },
+                  { collectible: "Wool" },
+                  { collectible: "Leather" },
+                  { collectible: "Wool" },
+                  { collectible: "Leather" },
+                ],
+                time: 2 * 60 * 60 * 1000,
+              },
             },
           },
         },
-      },
-      action: {
-        type: "crafting.cancelled",
-        queueItem: {
-          name: "Doll",
-          readyAt: readyItemReadyAt,
-          startedAt: now - 10000,
-          type: "collectible",
+        action: {
+          type: "crafting.cancelled",
+          queueItem: {
+            name: "Doll",
+            readyAt: readyItemReadyAt,
+            startedAt: now - 10000,
+            type: "collectible",
+          },
         },
-      },
-      createdAt: now,
-      farmId,
-    });
-
-    expect(state.farmActivity["Doll Crafting Started"]).toBe(2);
+        createdAt: now,
+        farmId,
+      }),
+    ).toThrow("is already ready and cannot be cancelled");
   });
 
   it("cancels a queued item and refunds ingredients", () => {

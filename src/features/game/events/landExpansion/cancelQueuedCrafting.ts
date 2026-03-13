@@ -149,6 +149,12 @@ export function cancelQueuedCrafting({
       );
     }
 
+    if (item.readyAt <= createdAt) {
+      throw new Error(
+        `Item ${queueItem.name} with readyAt ${item.readyAt} is already ready and cannot be cancelled`,
+      );
+    }
+
     const recipe = getRecipeByName(item.name, game);
     if (!recipe) {
       throw new Error(`Recipe not found for ${item.name}`);
@@ -171,15 +177,11 @@ export function cancelQueuedCrafting({
     const updatedQueue = [...queue];
     updatedQueue.splice(recipeIndex, 1);
 
-    // Only decrement when the item hasn't become ready yet - otherwise we'd rewind
-    // a PRNG counter that was already consumed, causing reuse for future crafts.
-    if (item.readyAt > createdAt) {
-      game.farmActivity = trackFarmActivity(
-        `${item.name} Crafting Started`,
-        game.farmActivity ?? {},
-        new Decimal(-1),
-      );
-    }
+    game.farmActivity = trackFarmActivity(
+      `${item.name} Crafting Started`,
+      game.farmActivity ?? {},
+      new Decimal(-1),
+    );
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,
