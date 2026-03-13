@@ -22,6 +22,8 @@ const SECONDS_TO_GEMS = {
   [96 * 60 * 60]: 140,
 };
 
+const EXPONENTIAL_MULTIPLIER = 1.15;
+
 export function getInstantGems({
   readyAt,
   now,
@@ -33,21 +35,25 @@ export function getInstantGems({
 }) {
   const secondsLeft = (readyAt - now) / 1000;
 
-  let gems = new Decimal(140);
+  let gems: Decimal;
+  const thresholds = getObjectEntries(SECONDS_TO_GEMS);
 
-  const entry = getObjectEntries(SECONDS_TO_GEMS).find(
-    ([threshold]) => secondsLeft <= threshold,
-  );
-  if (entry) {
-    gems = new Decimal(entry[1]);
+  const threshold = thresholds.find(([threshold]) => secondsLeft <= threshold);
+
+  if (threshold) {
+    gems = new Decimal(threshold[1]);
+  } else {
+    const lastThreshold = thresholds[thresholds.length - 1];
+    gems = new Decimal(lastThreshold[1]);
   }
 
   const today = new Date(now).toISOString().substring(0, 10);
-  const gemsSpentToday = game.gems?.history?.[today]?.spent ?? 0;
+  const gemsSpentToday = game.gems.history?.[today]?.spent ?? 0;
 
   const multiplier = new Decimal(gemsSpentToday).div(100);
+
   gems = new Decimal(gems)
-    .mul(new Decimal(1.2).pow(multiplier))
+    .mul(new Decimal(EXPONENTIAL_MULTIPLIER).pow(multiplier))
     .toDecimalPlaces(0, Decimal.ROUND_HALF_UP);
 
   return gems.toNumber();
@@ -93,7 +99,7 @@ export function makeGemHistory({
   };
 
   game.farmActivity = trackFarmActivity(
-    "Gems Spent",
+    "Instant Gems Spent",
     game.farmActivity,
     new Decimal(amount),
   );

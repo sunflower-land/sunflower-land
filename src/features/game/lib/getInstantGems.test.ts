@@ -119,33 +119,35 @@ describe("getInstantGems", () => {
     });
   });
 
-  describe("cumulative sequence (base 4, multiplier 1.2)", () => {
+  describe("cumulative sequence (base 4, multiplier 1.15)", () => {
     const transitionPoints: Array<[number, number, number]> = [
-      [18, 5, 73],
-      [40, 6, 184],
-      [55, 7, 275],
-      [66, 8, 353],
-      [75, 9, 426],
-      [82, 10, 490],
-      [87, 11, 541],
-      [92, 12, 597],
-      [96, 13, 646],
-      [99, 14, 686],
-      [102, 15, 729],
-      [104, 16, 760],
-      [107, 17, 809],
-      [109, 18, 844],
-      [112, 20, 902],
-      [117, 24, 1014],
+      [23, 5, 93],
+      [51, 6, 234],
+      [71, 7, 355],
+      [86, 8, 461],
+      [97, 9, 550],
+      [106, 10, 632],
+      [113, 11, 703],
+      [119, 12, 770],
+      [124, 13, 831],
+      [129, 14, 897],
+      [132, 15, 940],
+      [135, 16, 986],
+      [138, 17, 1035],
+      [141, 18, 1087],
+      [143, 19, 1124],
+      [145, 20, 1163],
+      [147, 21, 1204],
+      [148, 22, 1226],
+      [150, 23, 1271],
     ];
 
     it("matches expected cost and total at transitions", () => {
       let game = createGameWithGemsSpent(0, "2024-01-01");
       let totalGems = 0;
-      const dateStr = "2024-01-01";
       const readyAt = now + THIRTY_MIN_MS;
 
-      for (let count = 1; count <= 117; count++) {
+      for (let count = 1; count <= 150; count++) {
         const cost = getInstantGems({
           readyAt,
           now,
@@ -168,7 +170,6 @@ describe("getInstantGems", () => {
     });
 
     it("cost is 4 for first 17 purchases", () => {
-      const game = createGameWithGemsSpent(0, "2024-01-01");
       const readyAt = now + THIRTY_MIN_MS;
 
       for (let spent = 0; spent < 68; spent += 4) {
@@ -198,8 +199,8 @@ describe("getInstantGems", () => {
       ).toBe(4);
     });
 
-    it("returns 5 when 68 gems spent (base 4)", () => {
-      const game = createGameWithGemsSpent(68, dateStr);
+    it("returns 5 when 85 gems spent (base 4)", () => {
+      const game = createGameWithGemsSpent(85, dateStr);
       expect(
         getInstantGems({
           readyAt: now + THIRTY_MIN_MS,
@@ -220,8 +221,8 @@ describe("getInstantGems", () => {
       ).toBe(6);
     });
 
-    it("returns 6 when 178 gems spent (base 4)", () => {
-      const game = createGameWithGemsSpent(178, dateStr);
+    it("returns 6 when 228 gems spent (base 4)", () => {
+      const game = createGameWithGemsSpent(228, dateStr);
       expect(
         getInstantGems({
           readyAt: now + THIRTY_MIN_MS,
@@ -231,8 +232,8 @@ describe("getInstantGems", () => {
       ).toBe(6);
     });
 
-    it("returns 12 when 500 gems spent (base 5)", () => {
-      const game = createGameWithGemsSpent(500, dateStr);
+    it("returns 12 when 596 gems spent (base 5)", () => {
+      const game = createGameWithGemsSpent(596, dateStr);
       expect(
         getInstantGems({
           readyAt: now + ONE_HOUR_MS,
@@ -246,8 +247,8 @@ describe("getInstantGems", () => {
   describe("rounding (ROUND_HALF_UP)", () => {
     const dateStr = "2024-01-01";
 
-    it("rounds up base 4 at 68 spent (4.47 -> 5)", () => {
-      const game = createGameWithGemsSpent(68, dateStr);
+    it("rounds up base 4 at 85 spent (4.51 -> 5)", () => {
+      const game = createGameWithGemsSpent(85, dateStr);
       expect(
         getInstantGems({
           readyAt: now + THIRTY_MIN_MS,
@@ -345,6 +346,6 @@ describe("makeGemHistory", () => {
       amount: 10,
       createdAt: now,
     });
-    expect(result.farmActivity["Gems Spent"]).toBe(10);
+    expect(result.farmActivity["Instant Gems Spent"]).toBe(10);
   });
 });

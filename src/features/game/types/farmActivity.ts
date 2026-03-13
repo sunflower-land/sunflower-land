@@ -242,7 +242,7 @@ export type FarmActivityName =
   | `${BonusName} Bonus Claimed`
   | `${CrustaceanName} Caught with ${CrustaceanChum}`
   | "Crafting Queue Cancelled"
-  | "Gems Spent";
+  | "Instant Gems Spent";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,
