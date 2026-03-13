@@ -1,215 +1,254 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
-import { WALKING_SPEED } from "../Constants";
+import { SHOES_IMMUNITY, WALKING_SPEED } from "../Constants";
 import { MachineInterpreter } from "../lib/Machine";
 
 interface Props {
-    x: number;
-    y: number;
-    scene: Scene,
-    player?: BumpkinContainer,
+  x: number;
+  y: number;
+  scene: Scene;
+  player?: BumpkinContainer;
 }
 
+const SNIPER_MIN_CREATE = 4000;
+const SNIPER_MAX_CREATE = 6000;
+const DEBUFF_DURATION = 400;
+
 export class Sniper_Skeleton extends Phaser.GameObjects.Container {
-    scene: Scene;
-    private player?: BumpkinContainer;
-    private sprite: Phaser.GameObjects.Sprite;
-    private spriteName: string;
-    private vege: Phaser.GameObjects.Sprite;
-    private playerWorldX_Sprite?: number;
-    private vegeName: string;
+  scene: Scene;
+  private player?: BumpkinContainer;
+  private sprite: Phaser.GameObjects.Sprite;
+  private spriteName: string;
+  private vege: Phaser.GameObjects.Sprite;
+  private playerWorldX_Sprite?: number;
+  private vegeName: string;
 
-    constructor({ x, y, scene, player }: Props) {
-        super(scene, x, y);
-        this.scene = scene
-        this.player = player;
-        this.spriteName = "sniper_skeleton";
-        this.vegeName = "tomato";
+  constructor({ x, y, scene, player }: Props) {
+    super(scene, x, y);
+    this.scene = scene;
+    this.player = player;
+    this.spriteName = "sniper_skeleton";
+    this.vegeName = "tomato";
 
-        this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`).setScale(1);
-        this.vege = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.vegeName}`).setScale(1).setVisible(false);
-        this.add([this.sprite, this.vege]);
-        this.sprite.setVisible(false);
-        this.scene.physics.add.existing(this);
-        (this.body as Phaser.Physics.Arcade.Body)
-            .setSize(this.sprite.width, this.sprite.height);
+    // Sprites
+    this.sprite = this.scene.add
+      .sprite(0, 0, `${this.spriteName}_idle`)
+      .setScale(1);
+    this.vege = this.scene.add
+      .sprite(0, 0, `${this.spriteName}_${this.vegeName}`)
+      .setScale(1)
+      .setVisible(false);
+    this.add([this.sprite, this.vege]);
+    this.sprite.setVisible(false);
 
-        // Sniper Skeleton starts with glitch effect
-        this.scene.time.addEvent({
-            delay: Phaser.Math.Between(4000, 6000),
-            callback: this.glitchEffect,
-            callbackScope: this,
-            loop: true
-        });
+    // Physics
+    this.scene.physics.add.existing(this);
+    (this.body as Phaser.Physics.Arcade.Body).setSize(
+      this.sprite.width,
+      this.sprite.height,
+    );
 
-        // Overlaps
-        this.createOverlaps();
+    // Setup
+    this.scheduleSniper();
+    this.createOverlaps();
 
-        scene.add.existing(this);
+    scene.add.existing(this);
+  }
+
+  public get portalService() {
+    return this.scene.registry.get("portalService") as
+      | MachineInterpreter
+      | undefined;
+  }
+
+  private scheduleSniper() {
+    this.scene.time.addEvent({
+      delay: Phaser.Math.Between(SNIPER_MIN_CREATE, SNIPER_MAX_CREATE),
+      callback: this.glitchEffect,
+      callbackScope: this,
+      loop: true,
+    });
+  }
+
+  private glitchEffect(duration: number = 150) {
+    if (!this.player) return;
+    this.sprite.setVisible(true);
+
+    const sprite = this.sprite;
+    const originalX = this.player.getWorldTransformMatrix().tx - this.x;
+    const originalY = sprite.y;
+    const originalScaleX = sprite.scaleX;
+    const originalScaleY = sprite.scaleY;
+
+    this.scene.tweens.add({
+      targets: sprite,
+      x: originalX + Phaser.Math.Between(-4, 4),
+      y: originalY + Phaser.Math.Between(-4, 4),
+      scaleX: originalScaleX + Phaser.Math.FloatBetween(-0.08, 0.08),
+      scaleY: originalScaleY + Phaser.Math.FloatBetween(-0.08, 0.08),
+      alpha: Phaser.Math.FloatBetween(0.7, 1),
+      duration: 30,
+      yoyo: true,
+      repeat: Math.floor(duration / 30),
+      ease: "steps(2)",
+      onComplete: () => {
+        sprite.setPosition(originalX, originalY);
+        sprite.setScale(originalScaleX, originalScaleY);
+        sprite.setAlpha(1);
+        this.createSniper();
+      },
+    });
+
+    if (sprite.anims) {
+      this.scene.time.addEvent({
+        delay: 20,
+        repeat: 5,
+        callback: () => {
+          const randomFrame = Phaser.Math.Between(0, 3);
+          sprite.setFrame(randomFrame);
+        },
+      });
     }
+  }
 
-    public get portalService() {
-        return this.scene.registry.get("portalService") as
-            | MachineInterpreter
-            | undefined;
-    }
+  private createSniper() {
+    if (!this.player) return;
 
-    private glitchEffect(duration: number = 150) {
-        if (!this.player) return;
-        this.sprite.setVisible(true);
+    this.playerWorldX_Sprite = this.player.getWorldTransformMatrix().tx;
+    this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
+    this.vege.setVisible(true);
 
-        const sprite = this.sprite;
-        const originalX = this.player.getWorldTransformMatrix().tx - this.x;
-        const originalY = sprite.y;
-        const originalScaleX = sprite.scaleX;
-        const originalScaleY = sprite.scaleY;
+    const flipX = this.player.x < this.x ? true : false;
+    const switchSide =
+      flipX === true
+        ? this.playerWorldX_Sprite - this.x + 10
+        : this.playerWorldX_Sprite - this.x - 10;
+    flipX === true ? this.vege.setFlipX(true) : this.vege.setFlipX(false);
+    this.sprite.setFlipX(flipX);
 
-        this.scene.tweens.add({
-            targets: sprite,
-            x: originalX + Phaser.Math.Between(-4, 4),
-            y: originalY + Phaser.Math.Between(-4, 4),
-            scaleX: originalScaleX + Phaser.Math.FloatBetween(-0.08, 0.08),
-            scaleY: originalScaleY + Phaser.Math.FloatBetween(-0.08, 0.08),
-            alpha: Phaser.Math.FloatBetween(0.7, 1),
-            duration: 30,
-            yoyo: true,
-            repeat: Math.floor(duration / 30),
-            ease: 'steps(2)',
-            onComplete: () => {
-                sprite.setPosition(originalX, originalY);
-                sprite.setScale(originalScaleX, originalScaleY);
-                sprite.setAlpha(1);
-                this.createSniper();
-            }
-        });
+    this.sprite.setPosition(this.playerWorldX_Sprite - this.x, 0);
+    this.vege.setPosition(switchSide, 0);
 
-        if (sprite.anims) {
-            this.scene.time.addEvent({
-                delay: 20,
-                repeat: 5,
-                callback: () => {
-                    const randomFrame = Phaser.Math.Between(0, 3);
-                    sprite.setFrame(randomFrame);
-                }
-            });
-        }
-    }
+    this.scene.physics.add.existing(this.sprite);
+    const body = this.sprite.body as Phaser.Physics.Arcade.Body;
+    body
+      .setSize(this.sprite.width, this.sprite.height)
+      .setCollideWorldBounds(true)
+      .setImmovable(true);
 
-    private createSniper() {
-        if (!this.player) return;
+    this.setSize(this.sprite.width, this.sprite.height);
+    this.setDepth(10);
 
-        this.playerWorldX_Sprite = this.player.getWorldTransformMatrix().tx;
-        this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
-        this.vege.setVisible(true);
+    createAnimation(
+      this.scene,
+      this.sprite,
+      `${this.spriteName}_idle`,
+      "idle",
+      0,
+      3,
+      4,
+      0,
+    );
 
-        const flipX = this.player.x < this.x ? true : false;
-        const switchSide = flipX === true ? this.playerWorldX_Sprite - this.x + 10 : this.playerWorldX_Sprite - this.x - 10;
-        flipX === true ? this.vege.setFlipX(true) : this.vege.setFlipX(false);
-        this.sprite.setFlipX(flipX);
+    this.scene.time.delayedCall(300, () => {
+      this.throwVege();
+    });
+  }
 
-        this.sprite.setPosition(this.playerWorldX_Sprite - this.x, 0);
-        this.vege.setPosition(switchSide, 0);
+  private throwVege() {
+    if (!this.player) return;
 
-        this.scene.physics.add.existing(this.sprite);
-        const body = this.sprite.body as Phaser.Physics.Arcade.Body
-        body.setSize(this.sprite.width, this.sprite.height)
-            .setCollideWorldBounds(true)
-            .setImmovable(true);
+    this.vege.setVisible(true);
+    this.setDepth(100);
+    this.scene.physics.add.existing(this.vege);
+    const vegeBody = this.vege.body as Phaser.Physics.Arcade.Body;
+    vegeBody.enable = false;
+    vegeBody.setSize(0, this.vege.height * 2);
+    vegeBody.setOffset(3, 6);
 
-        this.setSize(this.sprite.width, this.sprite.height);
-        this.setDepth(10);
+    const playerWorldX = this.player.getWorldTransformMatrix().tx;
+    const playerWorldY = this.player.getWorldTransformMatrix().ty;
+    const flipX = this.player.x < this.x ? true : false;
+    const targetX =
+      flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
+    const throwSpeed = playerWorldY < 297 ? 250 : 300;
 
+    this.scene.add.tween({
+      targets: this.vege,
+      x: targetX,
+      y: playerWorldY - this.y,
+      duration: throwSpeed,
+      ease: "Quad.Out",
+      onComplete: () => {
         createAnimation(
-            this.scene,
-            this.sprite,
-            `${this.spriteName}_idle`,
-            "idle",
-            0,
-            3,
-            4,
-            0
+          this.scene,
+          this.vege,
+          `${this.spriteName}_${this.vegeName}_splatter`,
+          "splatter",
+          0,
+          4,
+          20,
+          0,
         );
-
-        this.scene.time.delayedCall(300, () => {
-            this.throwVege();
-        });
-    }
-
-    private throwVege() {
-        if (!this.player) return;
-
-        this.vege.setVisible(true);
-        this.setDepth(10000)
-        this.scene.physics.add.existing(this.vege);
-        const vegeBody = this.vege.body as Phaser.Physics.Arcade.Body;
-        vegeBody.enable = false;
-        vegeBody.setSize(0, this.vege.height * 2)
-        vegeBody.setOffset(3, 6);
-
-        const playerWorldX = this.player.getWorldTransformMatrix().tx;
-        const playerWorldY = this.player.getWorldTransformMatrix().ty;
-        const flipX = this.player.x < this.x ? true : false;
-        const targetX = flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
-        const throwSpeed = playerWorldY < 297 ? 250 : 300;
-
-        this.scene.add.tween({
-            targets: this.vege,
-            x: targetX,
-            y: playerWorldY - this.y,
-            duration: throwSpeed,
-            ease: 'Quad.Out',
-            onComplete: () => {
-                createAnimation(
-                    this.scene,
-                    this.vege,
-                    `${this.spriteName}_${this.vegeName}_splatter`,
-                    "splatter",
-                    0,
-                    4,
-                    20,
-                    0
-                );
-                vegeBody.enable = true;
-                this.sprite.setVisible(false);
-            }
-        });
-
-        this.scene.time.delayedCall(2000, () => {
-            this.resetSniper();
-        });
-    }
-
-    private resetSniper() {
-        this.vege.setVisible(false);
-        (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
-        (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
-        this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
-    }
-
-    private createOverlaps() {
-        if (!this.player) return;
-        const speedDebuff = 1;
-
-        this.scene.physics.add.overlap(this.vege, this.player, () => {
-            this.vege.setVisible(false);
-            this.scene.velocity = speedDebuff;
-            (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
-            (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
-            this.scene.time.delayedCall(2000, () => this.scene.velocity = WALKING_SPEED);
-        });
-    }
-
-    private createDamage() { }
-
-    private createHit() { }
-
-    private createEvents() { }
-
-    private createDefeat() { }
-
-    public defeat() {
+        vegeBody.enable = true;
         this.sprite.setVisible(false);
-        this.vege.setVisible(false);
+      },
+    });
+
+    this.scene.time.delayedCall(15000, () => {
+      this.resetSniper();
+    });
+  }
+
+  private resetSniper() {
+    this.vege.setVisible(false);
+    (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
+    (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
+    this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
+  }
+
+  private createOverlaps() {
+    if (!this.player) return;
+
+    this.scene.physics.add.overlap(this.vege, this.player, () => {
+      this.vege.setVisible(false);
+      this.handleImmunity();
+      (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
+      (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
+    });
+  }
+
+  private handleImmunity() {
+    if (!this.player) return;
+
+    const shoe = this.player.clothing.shoes;
+    const debuffSpeed = WALKING_SPEED * 7;
+
+    if (!shoe) {
+      this.scene.velocity = debuffSpeed;
+    } else if (SHOES_IMMUNITY.includes(shoe)) {
+      this.scene.velocity = WALKING_SPEED;
+    } else {
+      this.scene.velocity = debuffSpeed;
     }
+
+    this.restorePlayer();
+  }
+
+  private restorePlayer() {
+    this.scene.time.delayedCall(
+      DEBUFF_DURATION,
+      () => (this.scene.velocity = WALKING_SPEED),
+    );
+  }
+
+  private createDamage() {}
+  private createEvents() {}
+
+  public defeat() {
+    if (!this.sprite.visible) return;
+    this.sprite.setVisible(false);
+    this.vege.setVisible(false);
+  }
 }
