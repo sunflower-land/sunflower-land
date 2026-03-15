@@ -2,7 +2,7 @@ import React from "react";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { Box } from "components/ui/Box";
 import { STATIC_OFFLINE_FARM } from "features/game/lib/landDataStatic";
-import { VISIBLE_AURA, WING_BUFF } from "../../Constants";
+import { VISIBLE_AURA, WINGS_IMMUNITY } from "../../Constants";
 
 export const Equipment_Immunity: React.FC = () => {
   const { aura: equippedAura, wings: equippedWing } =
@@ -13,7 +13,7 @@ export const Equipment_Immunity: React.FC = () => {
       ? equippedAura
       : undefined;
   const wings =
-    equippedWing && WING_BUFF.includes(equippedWing) ? equippedWing : undefined;
+    equippedWing && WINGS_IMMUNITY.includes(equippedWing) ? equippedWing : undefined;
 
   if (!aura && !wings) return null;
 

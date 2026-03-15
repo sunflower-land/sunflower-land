@@ -51,7 +51,7 @@ import { STREAM_REWARD_COOLDOWN } from "features/world/ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
-import { DEPTH, WALKING_SPEED } from "../Constants";
+import { DEPTH, WALKING_SPEED, SLIDING_SPEED } from "../Constants";
 
 export type NPCBumpkin = {
   x: number;
@@ -150,6 +150,8 @@ export abstract class BaseScene extends Phaser.Scene {
   velocity = WALKING_SPEED;
   isMoving = false;
   depth = DEPTH;
+  isSliding = false;
+  slideAngle: number | undefined;
 
   layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
 
@@ -1137,25 +1139,43 @@ export abstract class BaseScene extends Phaser.Scene {
       );
     }
 
-    // joystick is active if force is greater than zero
-    this.movementAngle = this.joystick?.force
-      ? this.joystick?.angle
-      : undefined;
+    const currentPlayerBody = this.currentPlayer
+      .body as Phaser.Physics.Arcade.Body;
 
-    // use keyboard control if joystick is not active
-    if (this.movementAngle === undefined) {
-      if (document.activeElement?.tagName === "INPUT") return;
+    if (this.isSliding) {
+      if (
+        currentPlayerBody.blocked.left ||
+        currentPlayerBody.blocked.right ||
+        currentPlayerBody.blocked.up ||
+        currentPlayerBody.blocked.down
+      ) {
+        this.isSliding = false;
+      }
+    }
 
-      const left =
-        (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
-      const right =
-        (this.cursorKeys?.right.isDown || this.cursorKeys?.d?.isDown) ?? false;
-      const up =
-        (this.cursorKeys?.up.isDown || this.cursorKeys?.w?.isDown) ?? false;
-      const down =
-        (this.cursorKeys?.down.isDown || this.cursorKeys?.s?.isDown) ?? false;
+    if (this.isSliding) {
+      this.movementAngle = this.slideAngle;
+    } else {
+      // joystick is active if force is greater than zero
+      this.movementAngle = this.joystick?.force
+        ? this.joystick?.angle
+        : undefined;
 
-      this.movementAngle = this.keysToAngle(left, right, up, down);
+      // use keyboard control if joystick is not active
+      if (this.movementAngle === undefined) {
+        if (document.activeElement?.tagName === "INPUT") return;
+
+        const left =
+          (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
+        const right =
+          (this.cursorKeys?.right.isDown || this.cursorKeys?.d?.isDown) ?? false;
+        const up =
+          (this.cursorKeys?.up.isDown || this.cursorKeys?.w?.isDown) ?? false;
+        const down =
+          (this.cursorKeys?.down.isDown || this.cursorKeys?.s?.isDown) ?? false;
+
+        this.movementAngle = this.keysToAngle(left, right, up, down);
+      }
     }
 
     // change player direction if angle is changed from left to right or vise versa
@@ -1170,12 +1190,11 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     // set player velocity
-    const currentPlayerBody = this.currentPlayer
-      .body as Phaser.Physics.Arcade.Body;
     if (this.movementAngle !== undefined) {
+      const currentSpeed = this.isSliding ? SLIDING_SPEED : this.walkingSpeed;
       currentPlayerBody.setVelocity(
-        this.walkingSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
-        this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180),
+        currentSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
+        currentSpeed * Math.sin((this.movementAngle * Math.PI) / 180),
       );
     } else {
       currentPlayerBody.setVelocity(0, 0);

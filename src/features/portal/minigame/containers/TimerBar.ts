@@ -9,9 +9,7 @@ interface Props {
 }
 
 export class TimerBar extends Phaser.GameObjects.Container {
-    private shadow: Phaser.GameObjects.Rectangle;
-    private border: Phaser.GameObjects.Rectangle;
-    private background: Phaser.GameObjects.Rectangle;
+    private frame: Phaser.GameObjects.Image;
     private bar: Phaser.GameObjects.Rectangle;
     private maxWidth: number;
     maxTime: number;
@@ -24,24 +22,21 @@ export class TimerBar extends Phaser.GameObjects.Container {
         this.currentTime = maxTime;
         this.maxWidth = width;
 
-        // Shadow/Depth
-        this.shadow = scene.add.rectangle(0, 2, width + 2, 2, 0xb8b8b8);
-        this.shadow.setOrigin(0.5);
+        // Random frame image (progress_bar_1 or progress_bar_2)
+        const frameKey = Math.random() < 0.5 ? "progress_bar_1" : "progress_bar_2";
+        this.frame = scene.add.image(0, 0, frameKey);
+        this.frame.setOrigin(0.5).setDepth(10).setVisible(true);
 
-        // Border
-        this.border = scene.add.rectangle(0, 0, width + 2, 4, 0xffffff);
-        this.border.setOrigin(0.5);
+        // Scale the frame to match the desired width, keeping aspect ratio
+        const frameScaleX = (width + 7.5) / this.frame.width;
+        this.frame.setScale(frameScaleX);
 
-        // Background
-        this.background = scene.add.rectangle(0, 0, width, 2, 0x000);
-        this.background.setOrigin(0.5);
-
-        // Bar
-        this.bar = scene.add.rectangle(0, 0, width, 2, 0x6abf9e);
-        this.bar.setOrigin(0.5);
+        // Bar (fills left-to-right based on remaining time)
+        this.bar = scene.add.rectangle(0, -0.5, width, 2, 0x6abf9e);
+        this.bar.setOrigin(0.5).setDepth(11);
 
         this.setVisible(false);
-        this.add([this.shadow, this.border, this.background, this.bar]);
+        this.add([this.frame, this.bar]);
     }
 
     setTime(value: number) {
@@ -52,8 +47,8 @@ export class TimerBar extends Phaser.GameObjects.Container {
         this.bar.width = this.maxWidth * timeRatio;
 
         const color = Phaser.Display.Color.Interpolate.ColorWithColor(
-            new Phaser.Display.Color(255, 0, 0), // Pastel red/coral when terminating
-            new Phaser.Display.Color(106, 191, 158), // Darker pastel green/mint when starting
+            new Phaser.Display.Color(255, 0, 0), // Red/coral when almost done
+            new Phaser.Display.Color(106, 191, 158), // Green/mint when full
             this.maxTime,
             this.currentTime,
         );

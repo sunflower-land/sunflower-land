@@ -52,6 +52,8 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
       .setSize(this.sprite.width, this.sprite.height)
       .setOffset(-this.sprite.width / 2, -this.sprite.height / 2);
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
+
     // Enemy
     this.scheduleAction();
 
@@ -94,6 +96,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
 
     this.tomatoBomb.setVisible(false);
     this.sprite.setVisible(true);
+    (this.body as Phaser.Physics.Arcade.Body).enable = true;
     this.food.setVisible(true);
     this.setDepth(10000);
 
@@ -151,6 +154,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
       this.food.setVisible(false);
       (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
       this.sprite.setVisible(false);
+      (this.body as Phaser.Physics.Arcade.Body).enable = false;
     });
 
     this.restorePlayer();
@@ -191,9 +195,9 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     }
   }
 
-  private createDamage() {}
+  private createDamage() { }
 
-  private createEvents() {}
+  private createEvents() { }
 
   public defeat() {
     if (this.isDefeated || !this.sprite.visible) return;
@@ -227,7 +231,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.food.setVisible(false);
     this.tomatoBomb.setVisible(false);
 
-    (this.body as Phaser.Physics.Arcade.Body).enable = true;
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
     (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
 
     this.scheduleAction();

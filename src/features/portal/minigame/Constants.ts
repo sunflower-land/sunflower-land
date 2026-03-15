@@ -23,6 +23,7 @@ export const GAME_LIVES = 5;
 
 // Player
 export const WALKING_SPEED = 70;
+export const SLIDING_SPEED = 300;
 export const DEPTH = 1000;
 
 // Attempts
@@ -50,7 +51,20 @@ export const CANNON_CONFIG: (Position & { side: Side })[] = [
   { x: 448, y: 319, side: "right" },
 ];
 
+export const PLAYER_CANNON_COOLDOWN = 500;
 export const CANNON_COOLDOWN = 30000;
+export const DRIP_WALKER_CYCLE_DURATION = 30000;
+
+export const LUMBER_CONFIG: Position[] = [
+  { x: 304, y: 190 },
+  { x: 224, y: 190 },
+  { x: 384, y: 190 },
+];
+
+export const REFEREE_POSITION: Position = { x: 304, y: 190 };
+export const REFEREE_EFFECT_SCALE_MODIFIER = 0.4;
+export const REFEREE_EFFECT_SPEED_MODIFIER = 0.5;
+export const REFEREE_EFFECT_DURATION = 15000;
 
 // Guide
 export const INSTRUCTIONS: {
@@ -58,53 +72,53 @@ export const INSTRUCTIONS: {
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource2`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource3`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource2`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource3`),
+    },
+  ];
 
 export const RESOURCES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource2`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.resource3`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource2`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.resource3`),
+    },
+  ];
 
 export const ENEMIES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.enemy1`),
-  },
-  {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
-    description: t(`${PORTAL_NAME}.enemy2`),
-  },
-];
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.enemy1`),
+    },
+    {
+      image: ITEM_DETAILS["Abandoned Bear"].image,
+      description: t(`${PORTAL_NAME}.enemy2`),
+    },
+  ];
 
 export type Immunity_Wearables = "aura" | "wings" | "shoe" | "hat";
 
@@ -113,27 +127,27 @@ export const IMMUNITY_TOOLTIP: {
   image: string;
   description: string;
 }[] = [
-  {
-    id: "aura",
-    image: aura_immunity_icon,
-    description: t(`${PORTAL_NAME}.menace_Immunity`),
-  },
-  {
-    id: "wings",
-    image: wings_immunity_icon,
-    description: t(`${PORTAL_NAME}.giant_Immunity`),
-  },
-  {
-    id: "shoe",
-    image: shoes_immunity,
-    description: t(`${PORTAL_NAME}.sniper_Immunity`),
-  },
-  {
-    id: "hat",
-    image: hat_immunity,
-    description: t(`${PORTAL_NAME}.blast_Immunity`),
-  },
-];
+    {
+      id: "aura",
+      image: aura_immunity_icon,
+      description: t(`${PORTAL_NAME}.menace_Immunity`),
+    },
+    {
+      id: "wings",
+      image: wings_immunity_icon,
+      description: t(`${PORTAL_NAME}.giant_Immunity`),
+    },
+    {
+      id: "shoe",
+      image: shoes_immunity,
+      description: t(`${PORTAL_NAME}.sniper_Immunity`),
+    },
+    {
+      id: "hat",
+      image: hat_immunity,
+      description: t(`${PORTAL_NAME}.blast_Immunity`),
+    },
+  ];
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
@@ -155,16 +169,21 @@ export const WINGS_IMMUNITY: BumpkinWings = "Sol & Luna";
 export const SHOES_IMMUNITY: BumpkinShoe = "Crimstone Boots";
 export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
 
-export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
+export const MENACE_SKELETON_POSITIONS: Position[] = [
   { x: 320, y: 60 },
   { x: 150, y: 70 },
   { x: 450, y: 72 },
-  { x: 230, y: 140 },
+  { x: 230, y: 110 },
 ];
 
-export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
+export const BLAST_SKELETON_POSITIONS: Position[] = [
   { x: 300, y: 190 },
   //  { x: 150, y: 200},
   //  { x: 450, y: 180},
   //  { x: 230, y: 220}
+];
+
+export const DRIP_WALKER_POSITIONS: (Position & { side: Side })[] = [
+  { x: 224, y: 140, side: "right" },
+  { x: 385, y: 140, side: "left" },
 ];

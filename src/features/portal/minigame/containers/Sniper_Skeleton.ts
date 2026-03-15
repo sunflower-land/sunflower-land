@@ -49,6 +49,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
       this.sprite.height,
     );
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
+
     // Setup
     this.scheduleSniper();
     this.createOverlaps();
@@ -74,6 +76,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
   private glitchEffect(duration: number = 150) {
     if (!this.player) return;
     this.sprite.setVisible(true);
+
+    (this.body as Phaser.Physics.Arcade.Body).enable = true;
 
     const sprite = this.sprite;
     const originalX = this.player.getWorldTransformMatrix().tx - this.x;
@@ -206,6 +210,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
     (this.sprite.body as Phaser.Physics.Arcade.Body).enable = false;
     this.vege.setTexture(`${this.spriteName}_${this.vegeName}`);
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
   }
 
   private createOverlaps() {
@@ -243,8 +248,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     );
   }
 
-  private createDamage() {}
-  private createEvents() {}
+  private createDamage() { }
+  private createEvents() { }
 
   public defeat() {
     if (!this.sprite.visible) return;

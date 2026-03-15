@@ -65,6 +65,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.sprite.height,
     );
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
+
     // Setup
     this.scheduleMenace();
     this.createOverlaps();
@@ -107,6 +109,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.vege.setFlipX(this.flipX);
     this.sprite.setFlipX(this.flipX);
     this.vege.setPosition(switchSide, 0);
+
+    (this.body as Phaser.Physics.Arcade.Body).enable = true;
 
     // Physics for sprite
     this.scene.physics.add.existing(this.sprite);
@@ -237,8 +241,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     });
   }
 
-  private createDamage() {}
-  private createEvents() {}
+  private createDamage() { }
+  private createEvents() { }
 
   public defeat() {
     if (this.isDefeated || !this.sprite.visible) return;
@@ -255,6 +259,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       0,
     );
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
+
     this.scene.time.delayedCall(1500, () => {
       this.sprite.setVisible(false);
       this.vege.setVisible(false);
@@ -266,7 +272,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.scene.tweens.killTweensOf(this.vege);
       this.scene.tweens.killTweensOf(this.vegeSplat);
 
-      (this.body as Phaser.Physics.Arcade.Body).enable = false;
       (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
 
       this.respawn();

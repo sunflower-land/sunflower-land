@@ -11,6 +11,9 @@ import {
   BLAST_SKELETON_POSITIONS,
   MENACE_SKELETON_POSITIONS,
   CANNON_CONFIG,
+  LUMBER_CONFIG,
+  DRIP_WALKER_POSITIONS,
+  REFEREE_POSITION,
 } from "./Constants";
 import { Side, Position, Enemy } from "./Types";
 import { EventBus } from "./lib/EventBus";
@@ -20,6 +23,9 @@ import { Menace_Skeleton } from "./containers/Menace_Skeleton";
 import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 import { Cannon } from "./containers/Cannon";
 import { createAnimation } from "./lib/Utils";
+import { Lumber } from "./containers/Lumber";
+import { DripWalker } from "./containers/DripWalker";
+import { Referee } from "./containers/Referee";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -234,11 +240,73 @@ export class Scene extends BaseScene {
       "sniper_skeleton_potato",
       "/world/portal/images/potato.png",
     );
-    this.load.image("orange", "/world/portal/images/orange.png");
     this.load.image("wood", "/world/portal/images/wood.png");
+    this.load.image("lumber", "/world/portal/images/lumber.png");
+    this.load.spritesheet(
+      "basket",
+      "/world/portal/images/basket.png",
+      {
+        frameWidth: 15,
+        frameHeight: 20,
+      },
+    );
+    this.load.image("puddle", "/world/portal/images/puddle.png");
+
+    // Food
+    this.load.image("orange", "/world/portal/images/orange.png");
+    this.load.image("cabbage", "/world/portal/images/cabbage.png");
+    this.load.spritesheet(
+      "cabbage_splat",
+      "/world/portal/images/cabbage_splat.webp",
+      {
+        frameWidth: 27,
+        frameHeight: 19,
+      },
+    );
+
+    // Progress Bar
+    this.load.image("progress_bar_1", "/world/portal/images/progress_bar_1.png");
+    this.load.image("progress_bar_2", "/world/portal/images/progress_bar_2.png");
 
     // Cannon
-    this.load.image("cannon", "/world/portal/images/tree.webp");
+    this.load.image("tree", "/world/portal/images/tree.webp");
+    this.load.image("rock_1", "/world/portal/images/rock_1.webp");
+    this.load.image("rock_2", "/world/portal/images/rock_2.webp");
+    this.load.image("flower", "/world/portal/images/flower.webp");
+    this.load.image("bush", "/world/portal/images/bush.webp");
+    this.load.image("empty", "/world/portal/images/empty.png");
+    this.load.spritesheet(
+      "spawn", "/world/portal/images/spawn.png",
+      {
+        frameWidth: 24,
+        frameHeight: 24
+      }
+    );
+
+    // Player cannon
+    this.load.spritesheet(
+      "player_cannon_shoot", "/world/portal/images/cannon_shoot.png",
+      {
+        frameWidth: 21,
+        frameHeight: 29
+      }
+    );
+
+    // Referee
+    this.load.spritesheet(
+      "referee", "/world/portal/images/referee.png",
+      {
+        frameWidth: 220,
+        frameHeight: 250
+      }
+    );
+    this.load.spritesheet(
+      "referee_yellow_card", "/world/portal/images/referee_yellow_card.png",
+      {
+        frameWidth: 220,
+        frameHeight: 250
+      }
+    );
 
     // Music
     // Background
@@ -267,17 +335,15 @@ export class Scene extends BaseScene {
     this.allEnemies = [];
     this.createEnemies();
 
-    // Cannons
     this.createCannons();
-
-    // Ocean
     this.createOcean();
-
     this.createShips();
+    this.createLumbers();
+    this.createReferee();
 
     // Config
     this.input.addPointer(3);
-    this.physics.world.drawDebug = false;
+    this.physics.world.drawDebug = true;
 
     // Background music
     // this.backgroundMusic = this.sound.add("backgroundMusic", {
@@ -447,19 +513,24 @@ export class Scene extends BaseScene {
     if (!this.currentPlayer) return;
     if (!this.cursorKeys) return;
 
-    const animation = this.isMoving && !this.isCannonEnabled ? "walk" : "idle";
+    const animation = this.isMoving && !this.isCannonEnabled
+      ? "carryNone"
+      : "carryNoneIdle";
 
     this.currentPlayer[animation]?.();
   }
 
   private controls() {
     if (!this.cursorKeys) return;
-    if (!this.cursorKeys.e) return;
 
-    if (
-      Phaser.Input.Keyboard.JustDown(this.cursorKeys.e) &&
-      (this.isCannonEnabled.left || this.isCannonEnabled.right)
-    ) {
+    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.space)) {
+      if (!this.isUsingCannon) {
+        this.currentPlayer?.shoot(this.allEnemies);
+      }
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e!) &&
+      (this.isCannonEnabled.left || this.isCannonEnabled.right)) {
       if (!this.isUsingCannon) {
         this.currentPlayer?.setX(this.activeCannonPosition.x);
         this.currentPlayer?.setY(this.activeCannonPosition.y + 20);
@@ -489,6 +560,7 @@ export class Scene extends BaseScene {
     this.createSniperSkeleton();
     this.createMenaceSkeleton();
     this.createBlastSkeleton();
+    this.createDripWalkers();
   }
 
   private createGiantSkeleton() {
@@ -539,6 +611,14 @@ export class Scene extends BaseScene {
     });
   }
 
+  private createDripWalkers() {
+    new DripWalker({
+      x: DRIP_WALKER_POSITIONS[0].x,
+      y: DRIP_WALKER_POSITIONS[0].y,
+      scene: this,
+    });
+  }
+
   private createCannons() {
     CANNON_CONFIG.forEach(({ x, y, side }) => {
       new Cannon({
@@ -552,23 +632,20 @@ export class Scene extends BaseScene {
     });
   }
 
+  private createReferee() {
+    const referee = new Referee({
+      x: REFEREE_POSITION.x,
+      y: REFEREE_POSITION.y,
+      scene: this,
+    });
+    this.allEnemies.push(referee);
+  }
+
   private createOcean() {
     const wavesUpTileIndexes = [1356, 1358];
     const wavesCenterTileIndexes = [1228, 1230];
 
-    // const wavesUpTileIndexes = [
-    //   1356, 1357, 1358, 1359,
-    //   1228, 1229, 1230, 1231,
-    // ];
-    // const wavesCenterTileIndexes = [
-    //   1164, 1165, 1166, 1167,
-    //   1292, 1293, 1294, 1295
-    // ];
-
-    const loadWaterForLayer = (
-      layer: Phaser.Tilemaps.TilemapLayer | null,
-      isBorder = false,
-    ) => {
+    const loadWaterForLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, isBorder = false) => {
       if (!layer) return;
       const upTileIndexes = isBorder
         ? wavesUpTileIndexes.map((index) => index - 1)
@@ -625,6 +702,16 @@ export class Scene extends BaseScene {
           const worldY = tile.pixelY + layer.y + tile.height / 2;
           this.add.sprite(worldX, worldY, "wood").setScale(0.95);
         }
+      });
+    });
+  }
+
+  private createLumbers() {
+    LUMBER_CONFIG.forEach(({ x, y }) => {
+      new Lumber({
+        x,
+        y,
+        scene: this
       });
     });
   }

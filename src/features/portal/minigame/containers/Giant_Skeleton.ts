@@ -229,8 +229,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     }
   }
 
-  private createDamage() {}
-  private createEvents() {}
+  private createDamage() { }
+  private createEvents() { }
 
   public defeat() {
     if (this.isDefeated || !this.sprite.visible) return;
@@ -247,6 +247,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       0,
     );
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
+
     this.sprite.once("animationcomplete", () => {
       this.barrel.setVisible(false);
       this.sprite.setVisible(false);
@@ -256,7 +258,6 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       this.scene.tweens.killTweensOf(this.sprite);
       this.scene.tweens.killTweensOf(this.barrel);
 
-      (this.body as Phaser.Physics.Arcade.Body).enable = false;
       (this.barrel.body as Phaser.Physics.Arcade.Body).enable = false;
 
       this.respawn();

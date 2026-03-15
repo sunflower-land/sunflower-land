@@ -5,6 +5,7 @@ import { Enemy, Side } from "../Types";
 import { Orange } from "./Orange";
 import { TimerBar } from "./TimerBar";
 import { CANNON_COOLDOWN } from "../Constants";
+import { createAnimation, onAnimationComplete } from "../lib/Utils";
 
 interface Props {
     x: number;
@@ -39,7 +40,7 @@ export class Cannon extends Phaser.GameObjects.Container {
     scene: Scene;
     private player?: BumpkinContainer;
     private sprite: Phaser.GameObjects.Sprite;
-    private spriteName: string;
+    private spriteName: string = "";
     private side: Side;
     private allEnemies: Enemy[];
     private aimGraphics: Phaser.GameObjects.Graphics;
@@ -47,6 +48,8 @@ export class Cannon extends Phaser.GameObjects.Container {
     private readonly AIM_SPEED: number = 0.025;
     private isActive: boolean = false;
     private isHighlighted: boolean = false;
+    private spawn: Phaser.GameObjects.Sprite;
+    private textLoading: Phaser.GameObjects.Text;
 
     // Cooldown variables
     private onCooldown: boolean = false;
@@ -70,9 +73,25 @@ export class Cannon extends Phaser.GameObjects.Container {
         this.player = player;
         this.allEnemies = allEnemies;
 
-        // Sprite
-        this.spriteName = "cannon";
-        this.sprite = this.scene.add.sprite(0, 0, this.spriteName);
+        // Sprite — initial random pick
+        this.sprite = this.scene.add.sprite(0, 0, "tree"); // placeholder, overwritten below
+        this.spawn = this.scene.add.sprite(0, 0, "spawn")
+            .setDepth(10)
+            .setVisible(false);
+        this.pickRandomSprite();
+        this.textLoading = this.scene.add.text(0, 0, "Loading...", {
+            fontSize: "12px",
+            fontFamily: "Basic",
+            color: "#FFFFFF",
+            resolution: 10,
+            shadow: {
+                offsetX: 5,
+                offsetY: 5,
+                color: "#000000",
+                blur: 0,
+                fill: true,
+            }
+        }).setAlpha(0).setOrigin(0.5);
 
         // Aim graphics (world-space, not inside the container)
         this.aimGraphics = this.scene.add.graphics();
@@ -92,8 +111,6 @@ export class Cannon extends Phaser.GameObjects.Container {
         }
 
         this.setSize(this.sprite.width, this.sprite.height);
-        this.add(this.sprite);
-        this.setDepth(10);
 
         // Register proximity check + aim update
         this.updates();
@@ -107,6 +124,8 @@ export class Cannon extends Phaser.GameObjects.Container {
             if (data.side === this.side) this.stopAiming();
         });
 
+        this.add([this.sprite, this.spawn, this.textLoading]);
+        this.setDepth(10);
         scene.add.existing(this);
     }
 
@@ -116,9 +135,9 @@ export class Cannon extends Phaser.GameObjects.Container {
     private createTimerBar() {
         this.cooldownTimerBar = new TimerBar({
             x: 0,
-            y: 20,
+            y: 15,
             scene: this.scene,
-            width: 20,
+            width: 16.5,
             maxTime: CANNON_COOLDOWN
         });
         this.add(this.cooldownTimerBar);
@@ -171,6 +190,8 @@ export class Cannon extends Phaser.GameObjects.Container {
                 if (this.remainingCooldown <= 0) {
                     this.onCooldown = false;
                     this.cooldownTimerBar.setVisible(false);
+                    this.textLoading.setAlpha(0);
+                    this.spawnAnimation();
                 } else {
                     this.cooldownTimerBar.setTime(this.remainingCooldown);
                 }
@@ -238,7 +259,6 @@ export class Cannon extends Phaser.GameObjects.Container {
             if (this.onCooldown) return;
 
             const chance = Math.random();
-            console.log(chance)
             if (chance < 0.5) {
                 new Orange({
                     x: this.x + Math.cos(this.aimAngle) * (this.sprite.height / 2),
@@ -251,10 +271,13 @@ export class Cannon extends Phaser.GameObjects.Container {
                 // TODO: Implement the other 50% functionality in the future
             }
 
+            this.spawnAnimation(false);
+
             this.aimAngle = -Math.PI / 2;
             this.onCooldown = true;
             this.remainingCooldown = CANNON_COOLDOWN;
             this.cooldownTimerBar.setTime(this.remainingCooldown);
+            this.textLoading.setAlpha(1);
 
             EventBus.emit("cannon-dismount", { side: this.side });
         }
@@ -263,6 +286,28 @@ export class Cannon extends Phaser.GameObjects.Container {
         this.sprite.setAngle(spriteDegrees);
         this.repositionPlayer();
         this.drawAimLine();
+    }
+
+    private spawnAnimation(showSprite = true): void {
+        this.pickRandomSprite();
+        this.sprite.setVisible(showSprite);
+        this.spawn.setVisible(true);
+        createAnimation(this.scene, this.spawn, "spawn", "action", 0, 5, 10, 0);
+        onAnimationComplete(this.spawn, "spawn_action_anim", () => {
+            this.spawn.setVisible(false);
+        });
+    }
+
+    /**
+     * Picks a random sprite texture from the available list,
+     * applies it to this.sprite, and adjusts this.spawn scale to match.
+     */
+    private pickRandomSprite(): void {
+        const sprites = ["tree", "rock_1", "rock_2", "flower", "bush", "empty"];
+        this.spriteName = sprites[Math.floor(Math.random() * sprites.length)];
+        this.sprite.setTexture(this.spriteName);
+        const spawnScale = Math.max(this.sprite.width, this.sprite.height) / 24;
+        this.spawn.setScale(spawnScale);
     }
 
     /**
