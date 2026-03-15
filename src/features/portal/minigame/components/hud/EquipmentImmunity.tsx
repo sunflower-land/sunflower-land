@@ -2,14 +2,14 @@ import React from "react";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { Box } from "components/ui/Box";
 import { STATIC_OFFLINE_FARM } from "features/game/lib/landDataStatic";
-import { VISIBLE_AURA, WINGS_IMMUNITY } from "../../Constants";
+import { AURA_IMMUNITY, WINGS_IMMUNITY } from "../../Constants";
 
 export const Equipment_Immunity: React.FC = () => {
   const { aura: equippedAura, wings: equippedWing } =
     STATIC_OFFLINE_FARM.bumpkin.equipped;
 
   const aura =
-    equippedAura && VISIBLE_AURA.includes(equippedAura)
+    equippedAura && AURA_IMMUNITY.includes(equippedAura)
       ? equippedAura
       : undefined;
   const wings =
