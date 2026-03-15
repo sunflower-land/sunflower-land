@@ -18,6 +18,7 @@ import { getUrl } from "features/portal/actions/loadPortal";
 import key from "public/world/base/key.png";
 import { OuterPanel } from "components/ui/Panel";
 import { Controls } from "./Controls";
+import { Immunities_Wearables } from "./ImmunitiesWearables";
 
 interface Props {
   mode: "introduction" | "success" | "failed";
@@ -114,9 +115,12 @@ export const Mission: React.FC<Props> = ({
                   <div>{formattedBestAllTime()}</div>
                 </OuterPanel>
               </div>
-              {/* <div className="w-full">
-                <Prize />
-              </div> */}
+              <OuterPanel className="w-full flex flex-col items-center">
+                <Label type="default">
+                    {t(`${PORTAL_NAME}.Immunity`)}
+                </Label>
+                <Immunities_Wearables />
+              </OuterPanel>
             </div>
           </div>
 
