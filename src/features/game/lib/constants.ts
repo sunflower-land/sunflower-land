@@ -755,6 +755,7 @@ export const TEST_FARM: GameState = {
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   farmActivity: {},
+
   milestones: {},
   home: { collectibles: {} },
   island: { type: "basic" },
@@ -1133,6 +1134,7 @@ export const EMPTY: GameState = {
   trees: {},
   sunstones: {},
   farmActivity: {},
+
   milestones: {},
   fishing: {
     wharf: {},

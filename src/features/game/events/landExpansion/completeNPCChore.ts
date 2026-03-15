@@ -205,6 +205,14 @@ export function completeNPCChore({
         draft.farmActivity,
         new Decimal(pointsAwarded),
       );
+
+      if (hasVipAccess({ game: draft, now: createdAt })) {
+        draft.farmActivity = trackFarmActivity(
+          "VIP Ticket Earned",
+          draft.farmActivity,
+          new Decimal(2),
+        );
+      }
     }
 
     return draft;

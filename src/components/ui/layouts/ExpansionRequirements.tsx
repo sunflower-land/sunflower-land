@@ -27,6 +27,11 @@ import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { getInstantGems } from "features/game/lib/getInstantGems";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import {
+  getExpansionCoinCostWithVip,
+  hasVipAccess,
+} from "features/game/lib/vipAccess";
+import vipIcon from "assets/icons/vip.webp";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -72,6 +77,19 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
+  const fullCoinRequirement = requirements.coins ?? 0;
+  const effectiveCoinCost = getExpansionCoinCostWithVip({
+    coins: requirements.coins,
+    game: state,
+  });
+  const hasVip = hasVipAccess({ game: state });
+  const showVipDiscount =
+    !!fullCoinRequirement && hasVip && effectiveCoinCost < fullCoinRequirement;
+  const requirementsWithVipCoins = {
+    ...requirements,
+    coins: effectiveCoinCost,
+  };
+
   const onExpand = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
@@ -95,7 +113,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
     onClose();
   };
 
-  const canExpand = craftingRequirementsMet(state, requirements);
+  const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
 
   return (
     <div className="flex flex-col justify-center">
@@ -130,13 +148,28 @@ export const ExpansionRequirements: React.FC<Props> = ({
 
         <InnerPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
           {!!requirements.coins && (
-            <RequirementLabel
-              key={"coins"}
-              type="coins"
-              balance={coins}
-              showLabel
-              requirement={requirements.coins}
-            />
+            <div key={"coins"} className="flex items-center gap-1 flex-wrap">
+              <RequirementLabel
+                type="coins"
+                balance={coins}
+                showLabel
+                requirement={effectiveCoinCost}
+              />
+
+              {showVipDiscount && (
+                <span className="flex items-center gap-1">
+                  <span className="line-through text-xs">
+                    {requirements.coins.toLocaleString()}
+                  </span>
+                  <img
+                    src={vipIcon}
+                    alt="VIP"
+                    className="h-4 w-4"
+                    title="VIP discount"
+                  />
+                </span>
+              )}
+            </div>
           )}
           {getKeys(requirements.resources).map((itemName) => {
             return (

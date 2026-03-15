@@ -220,6 +220,12 @@ export type FarmActivityName =
   | "Farm Helped"
   | `${MonumentName} Completed`
   | "Daily Reward Collected"
+  | "VIP Coins Saved"
+  | "VIP FLOWER Saved"
+  | "VIP Ticket Earned"
+  | "VIP Gift Claimed"
+  | "Recipe Queued"
+  | "VIP XP Earned"
   | "Fish Missed"
   | "Fish Retried"
   | `${WaterTrapName} Collected`

@@ -9,6 +9,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
+import lockIcon from "assets/icons/lock.png";
 import giftIcon from "assets/icons/gift.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import xpIcon from "assets/icons/xp.png";
@@ -26,8 +27,8 @@ import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasVipAccess,
-  VIP_DURATIONS,
   VIP_PRICES,
+  VIP_TRIAL_PERIOD_MS,
   VipBundle,
 } from "features/game/lib/vipAccess";
 import { getKeys } from "lib/object";
@@ -41,6 +42,9 @@ import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { GameState } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
+import { VIPSavings } from "./VIPSavings";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -56,6 +60,57 @@ const VIP_ICONS: Record<VipBundle, string> = {
   "1_MONTH": vipIcon,
   "3_MONTHS": blueVipIcon,
   "2_YEARS": purpleVipIcon,
+};
+
+const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
+  state,
+  now,
+}) => {
+  const { t } = useAppTranslation();
+
+  if (!state.vip || (!state.vip.trialStartedAt && !state.vip.expiresAt)) {
+    return null;
+  }
+  const hasVip = hasVipAccess({ game: state, now, type: "full" });
+
+  const hasTrial = !hasVip && hasVipAccess({ game: state, now, type: "trial" });
+
+  if (hasTrial) {
+    return (
+      <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
+        {`Trial - ${secondsToString((state.vip.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
+      </Label>
+    );
+  }
+
+  const vipExpiresAt = state.vip?.expiresAt ?? 0;
+  const expiresSoon = vipExpiresAt < now + 1000 * 60 * 60 * 24 * 7;
+
+  if (hasVip) {
+    return (
+      <>
+        <div className="flex justify-between my-2">
+          <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
+            {t("vip.access")}
+          </Label>
+          {Number(vipExpiresAt) > 0 && (
+            <Label
+              type={expiresSoon ? "danger" : "transparent"}
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
+              {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
+            </Label>
+          )}
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="ml-2">
+      {t("expired")}
+    </Label>
+  );
 };
 
 export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
@@ -84,9 +139,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     setSelected(undefined);
   };
 
-  const hasVip = hasVipAccess({ game: state });
-
-  const expiresSoon = vip && vip.expiresAt < now + 1000 * 60 * 60 * 24 * 7;
+  const hasTrial =
+    !hasVipAccess({ game: state, type: "full" }) &&
+    hasVipAccess({ game: state, now, type: "trial" });
 
   const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
@@ -131,26 +186,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               name: t(VIP_NAME[selected as VipBundle]),
             })}
           </p>
-          {hasVip && (
-            <div className="ml-4">
-              <Label
-                icon={SUNNYSIDE.icons.cancel}
-                className="mb-2"
-                type="transparent"
-              >{`Expires ${new Date(vipExpiresAt).toLocaleDateString()}`}</Label>
-              <Label
-                icon={SUNNYSIDE.icons.confirm}
-                type="transparent"
-                className="mb-2"
-                // Leave this as checking vip.expiresAt because purchased vip doesn't stack on Ronin NFT VIP
-              >{`Expires ${new Date((vip?.expiresAt ?? 0) + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
-            </div>
-          )}
-          {hasOneYear && (
-            <Label type="danger" className="mb-2">
-              {t("vip.oneYear.warning")}
-            </Label>
-          )}
           <div className="flex ">
             <Button className="mr-1" onClick={() => setSelected(undefined)}>
               {t("no")}
@@ -167,7 +202,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           </div>
         </Panel>
       </ModalOverlay>
-      <div className="flex flex-col pt-2">
+      <div className="flex flex-col pt-2 max-h-[400px] scrollable px-0.5 overflow-y-scroll">
         <div className="flex justify-between items-center px-1">
           <div className="flex items-center gap-2">
             {!!onBack && (
@@ -190,39 +225,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             {t("read.more")}
           </a>
         </div>
-        <p className="text-xs px-1 mt-2">{t("season.vip.description")}</p>
-        {hasVip ? (
-          <>
-            <div className="flex justify-between my-2">
-              <Label
-                type="success"
-                className="ml-2"
-                icon={SUNNYSIDE.icons.confirm}
-              >
-                {t("vip.access")}
-              </Label>
-              {Number(vipExpiresAt) > 0 && (
-                <Label
-                  type={expiresSoon ? "danger" : "transparent"}
-                  icon={SUNNYSIDE.icons.stopwatch}
-                >
-                  {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
-                </Label>
-              )}
-            </div>
-          </>
-        ) : (
-          vip && (
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="danger"
-              className="ml-2"
-            >
-              {t("expired")}
-            </Label>
-          )
-        )}
-        <div className="flex mt-3 mb-2">
+        <p className="text-xs px-1 mt-2 mb-2">{t("season.vip.description")}</p>
+        <VIPLabel state={state} now={now} />
+
+        <div className="flex mt-3 mb-2 px-1">
           {getKeys(VIP_PRICES).map((name) => (
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
@@ -291,6 +297,13 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   points: REPUTATION_POINTS.VIP,
                 }),
                 icon: increaseArrow,
+                label: hasTrial
+                  ? {
+                      labelType: "danger",
+                      shortDescription: t("vip.fullVipRequired"),
+                      boostTypeIcon: lockIcon,
+                    }
+                  : undefined,
               },
               { text: t("vip.benefit.competition"), icon: trophyIcon },
               ...(currentChapter === "Paw Prints"
@@ -311,6 +324,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 : []),
             ]}
           />
+        </div>
+        <div className="mt-3 px-0.5">
+          <VIPSavings />
         </div>
       </div>
     </>

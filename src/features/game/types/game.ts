@@ -1638,6 +1638,7 @@ export type LavaPit = {
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];
   expiresAt: number;
+  trialStartedAt?: number;
 };
 
 export type Chain = "ronin";

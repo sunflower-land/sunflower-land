@@ -2573,6 +2573,7 @@ const LAND_7_REQUIREMENTS: Requirements = {
     Stone: 5,
     Iron: 1,
   },
+  coins: 100,
   seconds: 30 * 60,
   bumpkinLevel: 5,
 };
@@ -2582,6 +2583,7 @@ const LAND_8_REQUIREMENTS: Requirements = {
     Iron: 3,
     Gold: 1,
   },
+  coins: 200,
   seconds: 4 * 60 * 60,
   bumpkinLevel: 8,
 };
@@ -2592,6 +2594,7 @@ const LAND_9_REQUIREMENTS: Requirements = {
     Stone: 40,
     Iron: 5,
   },
+  coins: 300,
   seconds: 12 * 60 * 60,
   bumpkinLevel: 11,
 };
@@ -2756,6 +2759,7 @@ const SPRING_LAND_5_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 20,
   },
+  coins: 100,
   seconds: 60,
   bumpkinLevel: 11,
 };
@@ -2766,6 +2770,7 @@ const SPRING_LAND_6_REQUIREMENTS: Requirements = {
     Stone: 5,
     Gold: 2,
   },
+  coins: 200,
   seconds: 5 * 60,
   bumpkinLevel: 13,
 };
@@ -2777,6 +2782,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
     Iron: 5,
     Gem: 1 * LAND_GEM_RATIO,
   },
+  coins: 300,
   seconds: 30 * 60,
   bumpkinLevel: 16,
 };
@@ -2787,6 +2793,7 @@ const SPRING_LAND_8_REQUIREMENTS: Requirements = {
     Crimstone: 1,
     Gem: 1 * LAND_GEM_RATIO,
   },
+  coins: 400,
   seconds: 2 * 60 * 60,
   bumpkinLevel: 20,
 };
@@ -2797,6 +2804,7 @@ const SPRING_LAND_9_REQUIREMENTS: Requirements = {
     Gold: 5,
     Gem: 1 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 2 * 60 * 60,
   bumpkinLevel: 23,
 };
@@ -2807,6 +2815,7 @@ const SPRING_LAND_10_REQUIREMENTS: Requirements = {
     Crimstone: 3,
     Gem: 1 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 4 * 60 * 60,
   bumpkinLevel: 25,
 };
@@ -2819,6 +2828,7 @@ const SPRING_LAND_11_REQUIREMENTS: Requirements = {
     Crimstone: 1,
     Gem: 1 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 8 * 60 * 60,
   bumpkinLevel: 27,
 };
@@ -2830,6 +2840,7 @@ const SPRING_LAND_12_REQUIREMENTS: Requirements = {
     Crimstone: 3,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 12 * 60 * 60,
   bumpkinLevel: 29,
 };
@@ -2842,8 +2853,8 @@ const SPRING_LAND_13_REQUIREMENTS: Requirements = {
     Gold: 10,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 12 * 60 * 60,
-
   bumpkinLevel: 32,
 };
 
@@ -2854,8 +2865,8 @@ const SPRING_LAND_14_REQUIREMENTS: Requirements = {
     Crimstone: 5,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 24 * 60 * 60,
-
   bumpkinLevel: 36,
 };
 
@@ -2868,8 +2879,8 @@ const SPRING_LAND_15_REQUIREMENTS: Requirements = {
     Crimstone: 5,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 24 * 60 * 60,
-
   bumpkinLevel: 40,
 };
 
@@ -2881,8 +2892,8 @@ const SPRING_LAND_16_REQUIREMENTS: Requirements = {
     Crimstone: 8,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 24 * 60 * 60,
-
   bumpkinLevel: 43,
 };
 
@@ -2895,8 +2906,8 @@ const SPRING_LAND_17_REQUIREMENTS: Requirements = {
     Crimstone: 12,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 36 * 60 * 60,
-
   bumpkinLevel: 47,
 };
 
@@ -2909,8 +2920,8 @@ const SPRING_LAND_18_REQUIREMENTS: Requirements = {
     Crimstone: 16,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 36 * 60 * 60,
-
   bumpkinLevel: 51,
 };
 
@@ -2923,8 +2934,8 @@ const SPRING_LAND_19_REQUIREMENTS: Requirements = {
     Crimstone: 20,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 36 * 60 * 60,
-
   bumpkinLevel: 53,
 };
 
@@ -2937,8 +2948,8 @@ const SPRING_LAND_20_REQUIREMENTS: Requirements = {
     Crimstone: 24,
     Gem: 2 * LAND_GEM_RATIO,
   },
+  coins: 500,
   seconds: 48 * 60 * 60,
-
   bumpkinLevel: 55,
 };
 
@@ -2950,7 +2961,7 @@ const DESERT_LAND_5_REQUIREMENTS: Requirements = {
     Gold: 5,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 60,
   bumpkinLevel: 40,
 };
@@ -2963,7 +2974,7 @@ const DESERT_LAND_6_REQUIREMENTS: Requirements = {
     Gold: 5,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 60 * 5,
   bumpkinLevel: 40,
 };
@@ -2977,7 +2988,7 @@ const DESERT_LAND_7_REQUIREMENTS: Requirements = {
     Gem: 1 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 30 * 60,
   bumpkinLevel: 41,
 };
@@ -2993,7 +3004,7 @@ const DESERT_LAND_8_REQUIREMENTS: Requirements = {
     Gem: 2 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 2 * 60 * 60,
   bumpkinLevel: 42,
 };
@@ -3009,7 +3020,7 @@ const DESERT_LAND_9_REQUIREMENTS: Requirements = {
     Gem: 2 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 2 * 60 * 60,
   bumpkinLevel: 43,
 };
@@ -3025,7 +3036,7 @@ const DESERT_LAND_10_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 320,
+  coins: 384,
   seconds: 8 * 60 * 60,
   bumpkinLevel: 44,
 };
@@ -3041,7 +3052,7 @@ const DESERT_LAND_11_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 640,
+  coins: 768,
   seconds: 12 * 60 * 60,
   bumpkinLevel: 45,
 };
@@ -3057,7 +3068,7 @@ const DESERT_LAND_12_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 1280,
+  coins: 1536,
   seconds: 12 * 60 * 60,
   bumpkinLevel: 47,
 };
@@ -3073,7 +3084,7 @@ const DESERT_LAND_13_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 2560,
+  coins: 3072,
   seconds: 24 * 60 * 60,
   bumpkinLevel: 50,
 };
@@ -3089,7 +3100,7 @@ const DESERT_LAND_14_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 3200,
+  coins: 3840,
   seconds: 24 * 60 * 60,
   bumpkinLevel: 53,
 };
@@ -3105,7 +3116,7 @@ const DESERT_LAND_15_REQUIREMENTS: Requirements = {
     Gem: 3 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 3200,
+  coins: 3840,
   seconds: 24 * 60 * 60,
   bumpkinLevel: 56,
 };
@@ -3121,7 +3132,7 @@ const DESERT_LAND_16_REQUIREMENTS: Requirements = {
     Gem: 4 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 3200,
+  coins: 3840,
   seconds: 36 * 60 * 60,
   bumpkinLevel: 58,
 };
@@ -3137,7 +3148,7 @@ const DESERT_LAND_17_REQUIREMENTS: Requirements = {
     Gem: 4 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 4800,
+  coins: 5760,
   seconds: 36 * 60 * 60,
   bumpkinLevel: 60,
 };
@@ -3153,7 +3164,7 @@ const DESERT_LAND_18_REQUIREMENTS: Requirements = {
     Gem: 5 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 4800,
+  coins: 5760,
   seconds: 36 * 60 * 60,
   bumpkinLevel: 63,
 };
@@ -3169,7 +3180,7 @@ const DESERT_LAND_19_REQUIREMENTS: Requirements = {
     Gem: 4 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 6400,
+  coins: 7680,
   seconds: 36 * 60 * 60,
   bumpkinLevel: 65,
 };
@@ -3185,7 +3196,7 @@ const DESERT_LAND_20_REQUIREMENTS: Requirements = {
     Gem: 4 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 6400,
+  coins: 7680,
   seconds: 48 * 60 * 60,
   bumpkinLevel: 68,
 };
@@ -3201,7 +3212,7 @@ const DESERT_LAND_21_REQUIREMENTS: Requirements = {
     Gem: 4 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 8000,
+  coins: 9600,
   seconds: 48 * 60 * 60,
   bumpkinLevel: 70,
 };
@@ -3217,7 +3228,7 @@ const DESERT_LAND_22_REQUIREMENTS: Requirements = {
     Gem: 5 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 8000,
+  coins: 9600,
   seconds: 48 * 60 * 60,
   bumpkinLevel: 72,
 };
@@ -3233,7 +3244,7 @@ const DESERT_LAND_23_REQUIREMENTS: Requirements = {
     Gem: 5 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 8000,
+  coins: 9600,
   seconds: 60 * 60 * 60,
   bumpkinLevel: 73,
 };
@@ -3249,7 +3260,7 @@ const DESERT_LAND_24_REQUIREMENTS: Requirements = {
     Gem: 5 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 9600,
+  coins: 11520,
   seconds: 60 * 60 * 60,
   bumpkinLevel: 74,
 };
@@ -3265,7 +3276,7 @@ const DESERT_LAND_25_REQUIREMENTS: Requirements = {
     Gem: 5 * LAND_GEM_RATIO,
   },
   sfl: 0,
-  coins: 11200,
+  coins: 13440,
   seconds: 60 * 60 * 60,
   bumpkinLevel: 75,
 };
@@ -3278,7 +3289,7 @@ const VOLCANO_LAND_6_REQUIREMENTS: Requirements = {
     Gold: 10,
   },
   sfl: 0,
-  coins: 0,
+  coins: 500,
   seconds: 10, // 10 seconds
   bumpkinLevel: 70,
 };
@@ -3294,7 +3305,7 @@ const VOLCANO_LAND_7_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 2,
   },
   sfl: 0,
-  coins: 320,
+  coins: 384,
   seconds: 5 * 60, // 5 minutes
   bumpkinLevel: 72,
 };
@@ -3310,7 +3321,7 @@ const VOLCANO_LAND_8_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 2,
   },
   sfl: 0,
-  coins: 640,
+  coins: 768,
   seconds: 0.5 * 60 * 60, // 30 minutes
   bumpkinLevel: 74,
 };
@@ -3326,7 +3337,7 @@ const VOLCANO_LAND_9_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 4,
   },
   sfl: 0,
-  coins: 960,
+  coins: 1152,
   seconds: 1 * 60 * 60, // 1 hour
   bumpkinLevel: 76,
 };
@@ -3343,7 +3354,7 @@ const VOLCANO_LAND_10_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 4,
   },
   sfl: 0,
-  coins: 1600,
+  coins: 1920,
   seconds: 2 * 60 * 60, // 2 hours
   bumpkinLevel: 78,
 };
@@ -3359,7 +3370,7 @@ const VOLCANO_LAND_11_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 6,
   },
   sfl: 0,
-  coins: 2500,
+  coins: 3000,
   seconds: 4 * 60 * 60, // 4 hours
   bumpkinLevel: 80,
 };
@@ -3376,7 +3387,7 @@ const VOLCANO_LAND_12_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 3200,
+  coins: 3840,
   seconds: 8 * 60 * 60, // 8 hours
   bumpkinLevel: 82,
 };
@@ -3392,7 +3403,7 @@ const VOLCANO_LAND_13_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 4000,
+  coins: 4800,
   seconds: 12 * 60 * 60, // 12 hours
   bumpkinLevel: 84,
 };
@@ -3409,7 +3420,7 @@ const VOLCANO_LAND_14_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 4800,
+  coins: 5760,
   seconds: 12 * 60 * 60, // 12 hours
   bumpkinLevel: 86,
 };
@@ -3426,7 +3437,7 @@ const VOLCANO_LAND_15_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 5600,
+  coins: 6720,
   seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 88,
 };
@@ -3443,7 +3454,7 @@ const VOLCANO_LAND_16_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 6400,
+  coins: 7680,
   seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 90,
 };
@@ -3460,7 +3471,7 @@ const VOLCANO_LAND_17_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 10,
   },
   sfl: 0,
-  coins: 8000,
+  coins: 9600,
   seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 92,
 };
@@ -3477,7 +3488,7 @@ const VOLCANO_LAND_18_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 10000,
+  coins: 12000,
   seconds: 36 * 60 * 60, // 36 hours
   bumpkinLevel: 94,
 };
@@ -3494,7 +3505,7 @@ const VOLCANO_LAND_19_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 12800,
+  coins: 15360,
   seconds: 36 * 60 * 60, // 36 hours
   bumpkinLevel: 96,
 };
@@ -3511,7 +3522,7 @@ const VOLCANO_LAND_20_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 15000,
+  coins: 18000,
   seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 98,
 };
@@ -3528,7 +3539,7 @@ const VOLCANO_LAND_21_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 18000,
+  coins: 21600,
   seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 100,
 };
@@ -3545,7 +3556,7 @@ const VOLCANO_LAND_22_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 21000,
+  coins: 25200,
   seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 102,
 };
@@ -3562,7 +3573,7 @@ const VOLCANO_LAND_23_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 25000,
+  coins: 30000,
   seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 104,
 };
@@ -3579,7 +3590,7 @@ const VOLCANO_LAND_24_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 28000,
+  coins: 33600,
   seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 106,
 };
@@ -3596,7 +3607,7 @@ const VOLCANO_LAND_25_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 32000,
+  coins: 38400,
   seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 108,
 };
@@ -3613,7 +3624,7 @@ const VOLCANO_LAND_26_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 12,
   },
   sfl: 0,
-  coins: 35000,
+  coins: 42000,
   seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 110,
 };
@@ -3630,7 +3641,7 @@ const VOLCANO_LAND_27_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 15,
   },
   sfl: 0,
-  coins: 38000,
+  coins: 45600,
   seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 112,
 };
@@ -3647,7 +3658,7 @@ const VOLCANO_LAND_28_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 15,
   },
   sfl: 0,
-  coins: 42000,
+  coins: 50400,
   seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 114,
 };
@@ -3664,7 +3675,7 @@ const VOLCANO_LAND_29_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 15,
   },
   sfl: 0,
-  coins: 45000,
+  coins: 54000,
   seconds: 72 * 60 * 60, // 72 hours
   bumpkinLevel: 116,
 };
@@ -3681,7 +3692,7 @@ const VOLCANO_LAND_30_REQUIREMENTS: Requirements = {
     Gem: LAND_GEM_RATIO * 15,
   },
   sfl: 0,
-  coins: 50000,
+  coins: 60000,
   seconds: 72 * 60 * 60, // 72 hours
   bumpkinLevel: 120,
 };

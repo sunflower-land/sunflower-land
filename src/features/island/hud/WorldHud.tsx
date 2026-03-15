@@ -12,6 +12,7 @@ import { Save } from "./components/Save";
 import { Settings } from "./components/Settings";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { VIPExpiryWidget } from "./components/VIPExpiryWidget";
 import { VersionUpdateWidget } from "./components/VersionUpdateWidget";
 import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -155,6 +156,7 @@ const HudComponent: React.FC<Props> = ({
           <RaffleWidget />
           <FloatingIslandCountdown />
           <AuctionCountdown />
+          <VIPExpiryWidget />
           <VersionUpdateWidget />
         </div>
 

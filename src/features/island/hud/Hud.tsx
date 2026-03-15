@@ -11,6 +11,7 @@ import { DepositGameItemsModal } from "features/goblins/bank/components/DepositG
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { VIPExpiryWidget } from "./components/VIPExpiryWidget";
 import { VersionUpdateWidget } from "./components/VersionUpdateWidget";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
@@ -105,6 +106,7 @@ const HudComponent: React.FC<{
         <TransactionCountdown />
         <StreamCountdown />
         <AuctionCountdown />
+        <VIPExpiryWidget />
         <VersionUpdateWidget />
       </div>
 

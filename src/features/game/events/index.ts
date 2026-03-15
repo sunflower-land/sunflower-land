@@ -340,6 +340,7 @@ import {
   startCompetition,
   StartCompetitionAction,
 } from "./landExpansion/startCompetition";
+import { startTrial, StartTrialAction } from "./landExpansion/startTrial";
 import {
   shipmentRestock,
   ShipmentRestockAction,
@@ -771,7 +772,8 @@ export type PlayingEvent =
   | RemoveBumpkinPlacementAction
   | PromoteFarmhandAction
   | SpeedUpProcessingAction
-  | ClaimTrackMilestoneAction;
+  | ClaimTrackMilestoneAction
+  | StartTrialAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1025,6 +1027,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "project.started": startProject,
+  "trial.started": startTrial,
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
   "fish.retried": retryFish,

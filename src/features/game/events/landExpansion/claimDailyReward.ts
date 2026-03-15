@@ -10,7 +10,12 @@ import {
 } from "features/game/types/dailyRewards";
 import { produce } from "immer";
 import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  hasVipAccess,
+  getVipDailyBonusItem,
+} from "features/game/lib/vipAccess";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+
 import { applyBuff } from "features/game/types/buffs";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getChapterTicket } from "features/game/types/chapters";
@@ -125,6 +130,28 @@ export function claimDailyReward({
     });
 
     rewards.forEach((reward) => applyReward(game, reward, createdAt));
+
+    // VIP bonus daily reward (1 consumable based on level)
+    if (hasVipAccess({ game, now: createdAt })) {
+      const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+      const vipBonusItem = getVipDailyBonusItem(level);
+      if (vipBonusItem) {
+        applyReward(
+          game,
+          {
+            id: "default-reward",
+            label: "VIP Bonus",
+            items: { [vipBonusItem]: 1 },
+          },
+          createdAt,
+        );
+        game.farmActivity = trackFarmActivity(
+          "VIP Gift Claimed",
+          game.farmActivity,
+        );
+      }
+    }
+
     const newStreak = currentStreak + 1;
 
     game.dailyRewards!.streaks = newStreak;

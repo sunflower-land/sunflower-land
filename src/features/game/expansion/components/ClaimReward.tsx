@@ -42,6 +42,8 @@ interface ClaimRewardProps {
   onClaim?: () => void;
   onClose?: () => void;
   label?: string;
+  /** Item that was a VIP bonus gift – show crown icon next to it */
+  vipGiftItem?: InventoryItemName;
 }
 
 export const ClaimReward: React.FC<ClaimRewardProps> = ({
@@ -49,6 +51,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClaim,
   onClose,
   label,
+  vipGiftItem,
 }) => {
   const { t } = useAppTranslation();
   const { showAnimations } = useContext(Context);
@@ -72,7 +75,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
             <InlineDialogue message={airdrop.message} />
           </div>
         )}
-        <Rewards reward={airdrop} />
+        <Rewards reward={airdrop} vipGiftItem={vipGiftItem} />
       </div>
 
       <div className="flex items-center mt-1">
@@ -100,7 +103,9 @@ export const Rewards: React.FC<{
     | "wearables"
     | "recipes"
   >;
-}> = ({ reward }) => {
+  /** Item that was a VIP bonus gift – show crown icon next to it */
+  vipGiftItem?: InventoryItemName;
+}> = ({ reward, vipGiftItem }) => {
   const { t } = useAppTranslation();
   const { gameState } = useGame();
   const game = gameState.context.state;
@@ -198,6 +203,7 @@ export const Rewards: React.FC<{
             skills: game.bumpkin.skills,
             collectibles: game.collectibles,
           });
+          const isVipGift = vipGiftItem === name;
           return (
             <ButtonPanel
               className="flex items-start cursor-context-menu hover:brightness-100"
@@ -212,6 +218,13 @@ export const Rewards: React.FC<{
                   <Label type="default" className="mr-1 mb-1">
                     {`${formatNumber(reward.items[name] ?? 1)} x ${name}`}
                   </Label>
+                  {isVipGift && (
+                    <img
+                      src={vip}
+                      className="h-5 w-5 inline-block ml-1 -mb-0.5"
+                      alt="VIP gift"
+                    />
+                  )}
                   {name in CONSUMABLES && (
                     <Label
                       type="success"
