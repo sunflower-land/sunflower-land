@@ -1,8 +1,10 @@
 import { useMemo } from "react";
 import { CraftingQueueItem, GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
+import { randomID } from "lib/utils/random";
 
 const DEFAULT_QUEUE_ITEM: CraftingQueueItem = {
+  id: "",
   name: "Sunflower" as CraftingQueueItem["name"],
   readyAt: 0,
   startedAt: 0,
@@ -24,11 +26,12 @@ export function useCraftingQueue(craftingBox: GameState["craftingBox"]) {
       (legacyItem && craftingStatus === "crafting"
         ? [
             {
+              id: randomID(),
               name: legacyItem.collectible ?? legacyItem.wearable,
               readyAt: craftingReadyAt,
               startedAt: craftingStartedAt,
               type: legacyItem.collectible ? "collectible" : "wearable",
-            } as CraftingQueueItem,
+            },
           ]
         : []),
     [rawQueue, legacyItem, craftingStatus, craftingReadyAt, craftingStartedAt],

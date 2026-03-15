@@ -41,6 +41,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import vipIcon from "assets/icons/vip.webp";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
+import { randomID } from "lib/utils/random";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -337,8 +338,12 @@ export const CraftTab: React.FC<Props> = ({
     if (craftingStatus === "pending") return;
 
     const wasAddingToQueue = queueSelection.slot > 0;
+    const queueItemId = randomID();
 
-    gameService.send("crafting.started", { ingredients: selectedItems });
+    gameService.send("crafting.started", {
+      ingredients: selectedItems,
+      queueItemId,
+    });
     if (!currentRecipe) gameService.send("SAVE");
 
     if (wasAddingToQueue && currentRecipe) {
@@ -363,6 +368,7 @@ export const CraftTab: React.FC<Props> = ({
 
       const isInstant = recipeTime === 0;
       const newItem: CraftingQueueItem = {
+        id: queueItemId,
         name: currentRecipe.name,
         type: currentRecipe.type,
         startedAt: isInstant ? now : recipeStartAt,
@@ -445,9 +451,7 @@ export const CraftTab: React.FC<Props> = ({
       (!isEmpty &&
         item &&
         queueSelection.viewedSlotIndex === slotIndex &&
-        queueSelection.item.name === item.name &&
-        queueSelection.item.readyAt === item.readyAt &&
-        queueSelection.item.type === item.type);
+        queueSelection.item.id === item.id);
     if (isSameSlotSelected) return;
 
     if (isEmpty) {
@@ -484,7 +488,7 @@ export const CraftTab: React.FC<Props> = ({
   const handleCancelQueuedItem = () => {
     button.play();
     gameService.send("crafting.cancelled", {
-      queueItem: queueSelection.item,
+      queueItemId: queueSelection.item.id,
     });
     if (cooking) {
       setQueueSelection({ slot: 0, item: cooking, viewedSlotIndex: 0 });

@@ -23,10 +23,12 @@ import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { randomID } from "lib/utils/random";
 
 export type StartCraftingAction = {
   type: "crafting.started";
   ingredients: (RecipeIngredient | null)[];
+  queueItemId: string;
 };
 
 type Options = {
@@ -120,11 +122,12 @@ export function startCrafting({
       (legacyItem && copy.craftingBox.status === "crafting"
         ? [
             {
+              id: randomID(),
               name: legacyItem.collectible ?? legacyItem.wearable,
               readyAt: copy.craftingBox.readyAt,
               startedAt: copy.craftingBox.startedAt,
               type: legacyItem.collectible ? "collectible" : "wearable",
-            } as CraftingQueueItem,
+            },
           ]
         : []);
 
@@ -213,6 +216,7 @@ export function startCrafting({
     const startedAt = isInstant ? createdAt : recipeStartAt;
 
     const newQueueItem: CraftingQueueItem = {
+      id: action.queueItemId,
       name: recipe.name,
       readyAt,
       startedAt,

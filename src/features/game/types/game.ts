@@ -121,6 +121,7 @@ import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
 
 export type CraftingQueueItem = {
+  id: string;
   name: RecipeCollectibleName | BumpkinItem;
   readyAt: number;
   startedAt: number;

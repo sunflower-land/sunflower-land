@@ -18,7 +18,7 @@ import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type CancelQueuedCraftingAction = {
   type: "crafting.cancelled";
-  queueItem: CraftingQueueItem;
+  queueItemId: string;
 };
 
 type Options = {
@@ -122,36 +122,30 @@ export function cancelQueuedCrafting({
     throw new Error("Crafting box queues are not enabled");
   }
   return produce(state, (game) => {
-    const { queueItem } = action;
+    const { queueItemId } = action;
     const queue = game.craftingBox.queue ?? [];
 
     if (queue.length === 0) {
       throw new Error("No queue exists");
     }
 
-    const recipeIndex = queue.findIndex(
-      (r) =>
-        r.name === queueItem.name &&
-        r.readyAt === queueItem.readyAt &&
-        r.type === queueItem.type,
-    );
+    const item = queue.find((r) => r.id === queueItemId);
 
-    if (recipeIndex === -1) {
+    if (!item) {
       throw new Error("Item does not exist in queue");
     }
 
     const currentCraftingItem = getCurrentCraftingItem(queue, createdAt);
-    const item = queue[recipeIndex];
 
     if (currentCraftingItem?.readyAt === item.readyAt) {
       throw new Error(
-        `Item ${queueItem.name} with readyAt ${item.readyAt} is currently being crafted`,
+        `Item ${item.name} with readyAt ${item.readyAt} is currently being crafted`,
       );
     }
 
     if (item.readyAt <= createdAt) {
       throw new Error(
-        `Item ${queueItem.name} with readyAt ${item.readyAt} is already ready and cannot be cancelled`,
+        `Item ${item.name} with readyAt ${item.readyAt} is already ready and cannot be cancelled`,
       );
     }
 
@@ -174,12 +168,11 @@ export function cancelQueuedCrafting({
       }
     });
 
-    const updatedQueue = [...queue];
-    updatedQueue.splice(recipeIndex, 1);
+    const updatedQueue = [...queue].filter((q) => q.id !== queueItemId);
 
     game.farmActivity = trackFarmActivity(
       `${item.name} Crafting Started`,
-      game.farmActivity ?? {},
+      game.farmActivity,
       new Decimal(-1),
     );
 

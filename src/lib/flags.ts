@@ -91,7 +91,7 @@ const FEATURE_FLAGS = {
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {
   TICKETS_FROM_COIN_NPC: new Date("2026-02-24T00:00:00Z"),
-  CRAFTING_BOX_QUEUES: new Date("2026-03-16T00:00:00Z"),
+  CRAFTING_BOX_QUEUES: new Date("2026-03-17T00:00:00Z"),
 } satisfies Record<string, Date>;
 
 export const TIME_BASED_FEATURE_FLAGS: Record<

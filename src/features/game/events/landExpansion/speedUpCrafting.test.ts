@@ -144,6 +144,7 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-1",
             name: "Doll",
             readyAt: now + 10000,
             startedAt: now,
@@ -183,12 +184,14 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-1",
             name: "Doll",
             readyAt: createdAt + 10000,
             startedAt: createdAt,
             type: "collectible",
           },
           {
+            id: "basic-bed-1",
             name: "Basic Bed",
             readyAt: createdAt + 10000 + 8 * 60 * 60 * 1000,
             startedAt: createdAt + 10000,
@@ -232,12 +235,14 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-ready",
             name: "Doll",
             readyAt: readyItemReadyAt,
             startedAt: readyItemReadyAt - 10000,
             type: "collectible",
           },
           {
+            id: "doll-in-progress",
             name: "Doll",
             readyAt: inProgressReadyAt,
             startedAt: now,
@@ -275,12 +280,14 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-ready",
             name: "Doll",
             readyAt: readyItemReadyAt,
             startedAt: readyItemReadyAt - 10000,
             type: "collectible",
           },
           {
+            id: "doll-in-progress",
             name: "Doll",
             readyAt: inProgressReadyAt,
             startedAt: now,
@@ -322,6 +329,7 @@ describe("speedUpCrafting", () => {
             status: "crafting",
             queue: [
               {
+                id: "doll-ready",
                 name: "Doll",
                 readyAt: now - 5000,
                 startedAt: now - 15000,
@@ -354,18 +362,21 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-1",
             name: "Doll",
             readyAt: readyAt1,
             startedAt: readyAt1 - 10000,
             type: "collectible",
           },
           {
+            id: "doll-2",
             name: "Doll",
             readyAt: readyAt2,
             startedAt: readyAt2 - 10000,
             type: "collectible",
           },
           {
+            id: "doll-3",
             name: "Doll",
             readyAt: inProgressReadyAt,
             startedAt: now,
@@ -423,12 +434,14 @@ describe("speedUpCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-1",
             name: "Doll",
             readyAt: dollReadyAt,
             startedAt: now,
             type: "collectible",
           },
           {
+            id: "timber-1",
             name: "Timber",
             readyAt: timberReadyAt,
             startedAt: dollReadyAt,

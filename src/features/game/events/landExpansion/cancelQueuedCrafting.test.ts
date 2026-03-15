@@ -34,12 +34,7 @@ describe("cancelQueuedCrafting", () => {
         },
         action: {
           type: "crafting.cancelled",
-          queueItem: {
-            name: "Timber",
-            readyAt: 0,
-            startedAt: 0,
-            type: "collectible",
-          },
+          queueItemId: "nonexistent",
         },
       }),
     ).toThrow("No queue exists");
@@ -65,6 +60,7 @@ describe("cancelQueuedCrafting", () => {
             status: "crafting",
             queue: [
               {
+                id: "timber-1",
                 name: "Timber",
                 readyAt: now + 60000,
                 startedAt: now,
@@ -79,12 +75,7 @@ describe("cancelQueuedCrafting", () => {
         },
         action: {
           type: "crafting.cancelled",
-          queueItem: {
-            name: "Doll",
-            readyAt: now + 120000,
-            startedAt: now,
-            type: "collectible",
-          },
+          queueItemId: "nonexistent",
         },
         createdAt: now,
       }),
@@ -95,6 +86,7 @@ describe("cancelQueuedCrafting", () => {
     const now = Date.now();
     const timberReadyAt = now + 60000;
     const queueItem: CraftingQueueItem = {
+      id: "timber-in-progress",
       name: "Timber",
       readyAt: timberReadyAt,
       startedAt: now,
@@ -126,7 +118,7 @@ describe("cancelQueuedCrafting", () => {
         },
         action: {
           type: "crafting.cancelled",
-          queueItem,
+          queueItemId: queueItem.id,
         },
         createdAt: now,
       }),
@@ -162,24 +154,28 @@ describe("cancelQueuedCrafting", () => {
           status: "crafting",
           queue: [
             {
+              id: "doll-1",
               name: "Doll",
               readyAt: inProgressReadyAt,
               startedAt: now,
               type: "collectible",
             },
             {
+              id: "timber-pending",
               name: "Timber",
               readyAt: pendingReadyAt,
               startedAt: inProgressReadyAt,
               type: "collectible",
             },
             {
+              id: "timber-instant-1",
               name: "Timber",
               readyAt: instant1ReadyAt,
               startedAt: instant1ReadyAt,
               type: "collectible",
             },
             {
+              id: "timber-instant-2",
               name: "Timber",
               readyAt: instant2ReadyAt,
               startedAt: instant2ReadyAt,
@@ -211,12 +207,7 @@ describe("cancelQueuedCrafting", () => {
       },
       action: {
         type: "crafting.cancelled",
-        queueItem: {
-          name: "Timber",
-          readyAt: pendingReadyAt,
-          startedAt: inProgressReadyAt,
-          type: "collectible",
-        },
+        queueItemId: "timber-pending",
       },
       createdAt: now,
       farmId,
@@ -256,12 +247,14 @@ describe("cancelQueuedCrafting", () => {
           status: "crafting",
           queue: [
             {
+              id: "timber-1",
               name: "Timber",
               readyAt: timber1ReadyAt,
               startedAt: now,
               type: "collectible",
             },
             {
+              id: "timber-2",
               name: "Timber",
               readyAt: timber2ReadyAt,
               startedAt: timber1ReadyAt,
@@ -293,12 +286,7 @@ describe("cancelQueuedCrafting", () => {
       },
       action: {
         type: "crafting.cancelled",
-        queueItem: {
-          name: "Timber",
-          readyAt: timber2ReadyAt,
-          startedAt: timber1ReadyAt,
-          type: "collectible",
-        },
+        queueItemId: "timber-2",
       },
       createdAt: now,
       farmId,
@@ -341,12 +329,14 @@ describe("cancelQueuedCrafting", () => {
             status: "crafting",
             queue: [
               {
+                id: "doll-ready",
                 name: "Doll",
                 readyAt: readyItemReadyAt,
                 startedAt: now - 10000,
                 type: "collectible",
               },
               {
+                id: "doll-in-progress",
                 name: "Doll",
                 readyAt: inProgressReadyAt,
                 startedAt: readyItemReadyAt,
@@ -378,12 +368,7 @@ describe("cancelQueuedCrafting", () => {
         },
         action: {
           type: "crafting.cancelled",
-          queueItem: {
-            name: "Doll",
-            readyAt: readyItemReadyAt,
-            startedAt: now - 10000,
-            type: "collectible",
-          },
+          queueItemId: "doll-ready",
         },
         createdAt: now,
         farmId,
@@ -422,18 +407,21 @@ describe("cancelQueuedCrafting", () => {
           status: "crafting",
           queue: [
             {
+              id: "doll-1",
               name: "Doll",
               readyAt: doll1ReadyAt,
               startedAt: now - 10000,
               type: "collectible",
             },
             {
+              id: "doll-2",
               name: "Doll",
               readyAt: doll2ReadyAt,
               startedAt: doll1ReadyAt,
               type: "collectible",
             },
             {
+              id: "doll-3",
               name: "Doll",
               readyAt: doll3ReadyAt,
               startedAt: doll2ReadyAt,
@@ -465,12 +453,7 @@ describe("cancelQueuedCrafting", () => {
       },
       action: {
         type: "crafting.cancelled",
-        queueItem: {
-          name: "Doll",
-          readyAt: doll3ReadyAt,
-          startedAt: doll2ReadyAt,
-          type: "collectible",
-        },
+        queueItemId: "doll-3",
       },
       createdAt: now,
       farmId,
@@ -532,18 +515,21 @@ describe("cancelQueuedCrafting", () => {
         status: "crafting",
         queue: [
           {
+            id: "doll-1",
             name: "Doll",
             readyAt: dollReadyAt,
             startedAt: now,
             type: "collectible",
           },
           {
+            id: "timber-1",
             name: "Timber",
             readyAt: timberReadyAt,
             startedAt: dollReadyAt,
             type: "collectible",
           },
           {
+            id: "basic-bed-1",
             name: "Basic Bed",
             readyAt: basicBedReadyAt,
             startedAt: timberReadyAt,
@@ -588,7 +574,7 @@ describe("cancelQueuedCrafting", () => {
       state,
       action: {
         type: "crafting.cancelled",
-        queueItem: basicBedToCancel,
+        queueItemId: basicBedToCancel.id,
       },
       createdAt: now,
       farmId,
