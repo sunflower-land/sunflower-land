@@ -495,9 +495,6 @@ export class PlazaScene extends BaseScene {
       }
     });
 
-    // Draw hit box in debug mode
-    this.physics.world.drawDebug = true;
-
     // Trial VIP - only show if canClaimTrial; disappears after trial.started
     if (canClaimTrial({ vip: this.gameState.vip })) {
       const trialVip = this.add.sprite(600, 320, "trial_vip");
