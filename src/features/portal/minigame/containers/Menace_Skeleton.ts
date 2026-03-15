@@ -2,7 +2,7 @@ import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
 import { MachineInterpreter } from "../lib/Machine";
-import { VISIBLE_AURA, NOT_VISIBLE_AURA } from "../Constants";
+import { AURA_IMMUNITY } from "../Constants";
 
 interface Props {
   x: number;
@@ -108,7 +108,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.sprite.setFlipX(this.flipX);
     this.vege.setPosition(switchSide, 0);
 
-    // Physics for sprite
     this.scene.physics.add.existing(this.sprite);
     const body = this.sprite.body as Phaser.Physics.Arcade.Body;
     body
@@ -210,14 +209,12 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
 
     if (!aura) {
       this.player.setVisible(false);
-    } else if (VISIBLE_AURA.includes(aura)) {
+    } else if (AURA_IMMUNITY.includes(aura)) {
       this.player?.sprite?.setVisible(false);
       this.player?.shadow?.setVisible(false);
       this.player.showAura();
-    } else if (NOT_VISIBLE_AURA.includes(aura)) {
-      this.player.setVisible(false);
     } else {
-      this.player.showAura();
+      this.player.setVisible(false);
     }
 
     this.restorePlayer();
@@ -255,7 +252,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       0,
     );
 
-    this.scene.time.delayedCall(1500, () => {
+    this.scene.time.delayedCall(2000, () => {
       this.sprite.setVisible(false);
       this.vege.setVisible(false);
       this.vegeSplat.setVisible(false);

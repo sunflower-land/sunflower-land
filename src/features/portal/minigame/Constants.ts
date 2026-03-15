@@ -138,19 +138,8 @@ export const IMMUNITY_TOOLTIP: {
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
 
-// Immunity
-export const VISIBLE_AURA: BumpkinAura[] = [
-  "Slime Aura",
-  "Wisp Aura",
-  "Diamond Snow Aura",
-];
-
-export const NOT_VISIBLE_AURA: BumpkinAura[] = [
-  "Coin Aura",
-  "Love Puff Aura",
-  "Paw Aura",
-];
-
+// Immunities
+export const AURA_IMMUNITY: BumpkinAura = "Slime Aura";
 export const WINGS_IMMUNITY: BumpkinWings = "Sol & Luna";
 export const SHOES_IMMUNITY: BumpkinShoe = "Crimstone Boots";
 export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
