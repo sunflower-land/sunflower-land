@@ -116,22 +116,22 @@ export const IMMUNITY_TOOLTIP: {
   {
     id: "aura",
     image: aura_immunity_icon,
-    description: t(`${PORTAL_NAME}.menace_Immunity`),
+    description: t(`${PORTAL_NAME}.aura_immunityDescription`),
   },
   {
     id: "wings",
     image: wings_immunity_icon,
-    description: t(`${PORTAL_NAME}.giant_Immunity`),
+    description: t(`${PORTAL_NAME}.wings_immunityDescription`),
   },
   {
     id: "shoe",
     image: shoes_immunity,
-    description: t(`${PORTAL_NAME}.sniper_Immunity`),
+    description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
   },
   {
     id: "hat",
     image: hat_immunity,
-    description: t(`${PORTAL_NAME}.blast_Immunity`),
+    description: t(`${PORTAL_NAME}.hat_immunityDescription`),
   },
 ];
 
