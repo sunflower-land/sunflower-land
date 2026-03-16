@@ -1,7 +1,7 @@
 import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
-import { getPetNFTRevealConfig } from "./pets";
+import { getPetNFTRevealConfig } from "./petRevealConfig";
 
 type Releases = {
   tradeAt: Date;
