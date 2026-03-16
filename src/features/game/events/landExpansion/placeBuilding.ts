@@ -10,11 +10,7 @@ import {
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
-import { RECIPES } from "features/game/lib/crafting";
-import { getBoostedCraftingTime } from "./startCrafting";
-import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { KNOWN_IDS } from "features/game/types";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -153,36 +149,13 @@ export function placeBuilding({
       if (action.name === "Crafting Box" && !isSecondBuilding) {
         const { craftingBox } = stateCopy;
         const queue = craftingBox.queue ?? [];
-        const firstItem = queue[0];
-        if (existingBuilding.removedAt && firstItem) {
-          const timeOffset = existingBuilding.removedAt - firstItem.startedAt;
-          const newStartedAt = createdAt - timeOffset;
-          const { seconds: recipeTime } =
-            firstItem.type === "collectible"
-              ? getBoostedCraftingTime({
-                  game: stateCopy,
-                  time: RECIPES[firstItem.name]?.time ?? 0,
-                  prngArgs: {
-                    farmId,
-                    itemId: KNOWN_IDS[firstItem.name],
-                    counter:
-                      stateCopy.farmActivity[
-                        `${firstItem.name} Crafting Started`
-                      ] ?? 0,
-                  },
-                })
-              : { seconds: 0 };
-          const newReadyAt = newStartedAt + recipeTime;
-          const updatedFirst = {
-            ...firstItem,
-            startedAt: newStartedAt,
-            readyAt: newReadyAt,
-          };
-          stateCopy.craftingBox.queue = recalculateCraftingQueue({
-            queue: [updatedFirst, ...queue.slice(1)],
-            game: stateCopy,
-            farmId,
-          });
+        if (existingBuilding.removedAt && queue.length > 0) {
+          const downtimeDelta = createdAt - existingBuilding.removedAt;
+          stateCopy.craftingBox.queue = queue.map((item) => ({
+            ...item,
+            startedAt: item.startedAt + downtimeDelta,
+            readyAt: item.readyAt + downtimeDelta,
+          }));
         }
       }
 

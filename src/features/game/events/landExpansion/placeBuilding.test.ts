@@ -484,6 +484,119 @@ describe("Place building", () => {
     );
   });
 
+  it("shifts all crafting box queue items by downtime when re-placing", () => {
+    const dollTime = RECIPES["Doll"]?.time ?? 0;
+    const timberTime = RECIPES["Timber"]?.time ?? 0;
+    const removedAt = dateNow - 120000;
+    const dollStartedAt = dateNow - 180000;
+    const dollReadyAt = dollStartedAt + dollTime;
+    const timberStartedAt = dollReadyAt;
+    const timberReadyAt = timberStartedAt + timberTime;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crafting Box": new Decimal(1),
+          "Basic Land": new Decimal(10),
+          Leather: new Decimal(20),
+          Wood: new Decimal(20),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: dollStartedAt,
+              readyAt: dollReadyAt,
+              type: "collectible",
+            },
+            {
+              id: "timber-1",
+              name: "Timber",
+              startedAt: timberStartedAt,
+              readyAt: timberReadyAt,
+              type: "collectible",
+            },
+          ],
+          recipes: {},
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crafting Box",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.craftingBox.queue).toHaveLength(2);
+    expect(state.craftingBox.queue?.[0].startedAt).toEqual(
+      dollStartedAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(
+      dollReadyAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[1].startedAt).toEqual(
+      timberStartedAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[1].readyAt).toEqual(
+      timberReadyAt + downtimeDelta,
+    );
+  });
+
+  it("does not adjust crafting box when queue is empty", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crafting Box": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "idle",
+          queue: [],
+          recipes: {},
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crafting Box",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.craftingBox.queue).toEqual([]);
+    expect(state.craftingBox.status).toBe("idle");
+  });
+
   it("does not adjust the new readyAt for second instance of building", () => {
     const state = placeBuilding({
       farmId,
