@@ -33,6 +33,7 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
+import { randomID } from "lib/utils/random";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -84,6 +85,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
     (legacyItem && craftingStatus === "crafting"
       ? [
           {
+            id: randomID(),
             name: legacyItem.collectible ?? legacyItem.wearable,
             readyAt: craftingReadyAt,
             startedAt: craftingStartedAt,

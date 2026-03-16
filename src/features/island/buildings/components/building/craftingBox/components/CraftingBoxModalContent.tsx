@@ -9,7 +9,7 @@ import { RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
 import { RecipesTab } from "./RecipesTab";
-import { CraftTab } from "./CraftTab";
+import { CraftTab, CraftTabSelection } from "./CraftTab";
 import { CraftingBoxIntro } from "./CraftingBoxIntro";
 import { CraftingBoxGuide } from "./CraftingBoxGuide";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -45,9 +45,8 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   type Tab = "craft" | "recipes" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>("craft");
   const [pendingQueueSlot, setPendingQueueSlot] = useState<number | null>(null);
-  const [craftTabPersistedSlot, setCraftTabPersistedSlot] = useState<
-    number | null
-  >(null);
+  const [craftTabPersistedSelection, setCraftTabPersistedSelection] =
+    useState<CraftTabSelection | null>(null);
 
   const { gameService } = useContext(Context);
 
@@ -120,8 +119,12 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
           onClose={onClose}
-          initialQueueSlot={pendingQueueSlot ?? craftTabPersistedSlot}
-          onQueueSelectionChange={setCraftTabPersistedSlot}
+          initialSelection={
+            pendingQueueSlot != null
+              ? { preparingSlot: pendingQueueSlot }
+              : craftTabPersistedSelection
+          }
+          onQueueSelectionChange={setCraftTabPersistedSelection}
         />
       )}
       {currentTab === "recipes" && (

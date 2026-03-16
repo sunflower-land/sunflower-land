@@ -16,8 +16,8 @@ type Props = {
   /** Display order must match CraftTab's liveDisplayItems for slot indices to align */
   displayItems: CraftingQueueItem[];
   onClose: () => void;
-  selectedQueueSlot: number;
-  selectedQueuedItemSlot: number;
+  selectedItemId: string | null;
+  selectedPreparingSlotIndex: number;
   onSlotSelect?: (
     slotIndex: number,
     isEmpty: boolean,
@@ -31,8 +31,8 @@ export const CraftingQueue: React.FC<Props> = ({
   readyProducts,
   displayItems,
   onClose,
-  selectedQueueSlot,
-  selectedQueuedItemSlot,
+  selectedItemId,
+  selectedPreparingSlotIndex,
   onSlotSelect,
 }) => {
   const { gameService } = useContext(Context);
@@ -62,22 +62,25 @@ export const CraftingQueue: React.FC<Props> = ({
       <div className="flex flex-wrap h-fit items-start">
         {Array(4)
           .fill(null)
-          .map((_, index) => (
-            <div key={`slot-wrapper-${index}`} className="flex">
-              <CraftingQueueSlot
-                key={`slot-${index}`}
-                item={displayItems[index]}
-                readyProducts={readyProducts}
-                slotIndex={index}
-                isSelected={
-                  selectedQueueSlot > 0
-                    ? selectedQueueSlot === index
-                    : selectedQueuedItemSlot === index
-                }
-                onSelect={onSlotSelect}
-              />
-            </div>
-          ))}
+          .map((_, index) => {
+            const matchByPreparing =
+              selectedPreparingSlotIndex > 0 &&
+              selectedPreparingSlotIndex === index;
+            const matchById = displayItems[index]?.id === selectedItemId;
+            const isSelected = matchByPreparing || matchById;
+            return (
+              <div key={`slot-wrapper-${index}`} className="flex">
+                <CraftingQueueSlot
+                  key={`slot-${index}`}
+                  item={displayItems[index]}
+                  readyProducts={readyProducts}
+                  slotIndex={index}
+                  isSelected={isSelected}
+                  onSelect={onSlotSelect}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
