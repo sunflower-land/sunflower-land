@@ -12,6 +12,7 @@ import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
 import { RECIPES } from "features/game/lib/crafting";
 import { getBoostedCraftingTime } from "./startCrafting";
+import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { KNOWN_IDS } from "features/game/types";
 
@@ -151,23 +152,37 @@ export function placeBuilding({
 
       if (action.name === "Crafting Box" && !isSecondBuilding) {
         const { craftingBox } = stateCopy;
-        if (existingBuilding.removedAt && craftingBox.item) {
-          const timeOffset = existingBuilding.removedAt - craftingBox.startedAt;
-          craftingBox.startedAt = createdAt - timeOffset;
-          const collectible = craftingBox.item.collectible;
-          const { seconds: recipeTime } = collectible
-            ? getBoostedCraftingTime({
-                game: stateCopy,
-                time: RECIPES[collectible]?.time ?? 0,
-                prngArgs: {
-                  farmId,
-                  itemId: KNOWN_IDS[collectible],
-                  counter:
-                    stateCopy.farmActivity[`${collectible} Crafted`] ?? 0,
-                },
-              })
-            : { seconds: 0 };
-          craftingBox.readyAt = craftingBox.startedAt + recipeTime;
+        const queue = craftingBox.queue ?? [];
+        const firstItem = queue[0];
+        if (existingBuilding.removedAt && firstItem) {
+          const timeOffset = existingBuilding.removedAt - firstItem.startedAt;
+          const newStartedAt = createdAt - timeOffset;
+          const { seconds: recipeTime } =
+            firstItem.type === "collectible"
+              ? getBoostedCraftingTime({
+                  game: stateCopy,
+                  time: RECIPES[firstItem.name]?.time ?? 0,
+                  prngArgs: {
+                    farmId,
+                    itemId: KNOWN_IDS[firstItem.name],
+                    counter:
+                      stateCopy.farmActivity[
+                        `${firstItem.name} Crafting Started`
+                      ] ?? 0,
+                  },
+                })
+              : { seconds: 0 };
+          const newReadyAt = newStartedAt + recipeTime;
+          const updatedFirst = {
+            ...firstItem,
+            startedAt: newStartedAt,
+            readyAt: newReadyAt,
+          };
+          stateCopy.craftingBox.queue = recalculateCraftingQueue({
+            queue: [updatedFirst, ...queue.slice(1)],
+            game: stateCopy,
+            farmId,
+          });
         }
       }
 

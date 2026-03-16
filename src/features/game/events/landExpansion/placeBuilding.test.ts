@@ -456,12 +456,16 @@ describe("Place building", () => {
           ],
         },
         craftingBox: {
-          item: {
-            collectible: "Doll",
-          },
-          startedAt: dateNow - 180000,
-          readyAt: dateNow - 180000 + (RECIPES["Doll"]?.time ?? 0),
           status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: dateNow - 180000,
+              readyAt: dateNow - 180000 + (RECIPES["Doll"]?.time ?? 0),
+              type: "collectible",
+            },
+          ],
           recipes: {},
         },
       },
@@ -474,8 +478,8 @@ describe("Place building", () => {
       createdAt: dateNow,
     });
 
-    expect(state.craftingBox.startedAt).toEqual(dateNow - 60000);
-    expect(state.craftingBox.readyAt).toEqual(
+    expect(state.craftingBox.queue?.[0].startedAt).toEqual(dateNow - 60000);
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(
       dateNow - 60000 + (RECIPES["Doll"]?.time ?? 0),
     );
   });

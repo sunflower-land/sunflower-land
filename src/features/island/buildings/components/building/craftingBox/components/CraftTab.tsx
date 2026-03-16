@@ -5,8 +5,7 @@ import {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
-import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
-import { KNOWN_IDS } from "features/game/types";
+import { CraftingQueueItem } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -19,7 +18,6 @@ import {
   findMatchingRecipe,
   getBoostedCraftingTime,
 } from "features/game/events/landExpansion/startCrafting";
-import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -44,7 +42,6 @@ import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAc
 import { randomID } from "lib/utils/random";
 
 const _state = (state: MachineState) => state.context.state;
-const _farmId = (state: MachineState) => state.context.farmId;
 
 const MAX_CRAFTING_SLOTS = 4;
 
@@ -73,7 +70,6 @@ export const CraftTab: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
   const { inventory, wardrobe, craftingBox } = state;
   const { recipes } = craftingBox;
   const {
@@ -351,22 +347,12 @@ export const CraftTab: React.FC<Props> = ({
       const { seconds: recipeTime } = getBoostedCraftingTime({
         game: state,
         time: currentRecipe.time,
-        prngArgs: {
-          farmId,
-          itemId:
-            currentRecipe.type === "collectible"
-              ? KNOWN_IDS[currentRecipe.name as InventoryItemName]
-              : ITEM_IDS[currentRecipe.name as BumpkinItem],
-          counter:
-            state.farmActivity[`${currentRecipe.name} Crafting Started`] ?? 0,
-        },
       });
 
       const isInstant = recipeTime === 0;
       const newItem: CraftingQueueItem = {
         id: queueItemId,
-        name: currentRecipe.name,
-        type: currentRecipe.type,
+        ...currentRecipe,
         startedAt: isInstant ? now : recipeStartAt,
         readyAt: isInstant ? now : recipeStartAt + recipeTime,
       };
@@ -590,7 +576,6 @@ export const CraftTab: React.FC<Props> = ({
             isIdle={isIdle}
             showRecipeContext={!isViewingInProgressItem && !isViewingReadyItem}
             key={`${currentRecipe?.name}-${selectedItemId ?? preparingSlotIndex}`}
-            farmId={farmId}
           />
           <CraftButton
             isCrafting={isCrafting}

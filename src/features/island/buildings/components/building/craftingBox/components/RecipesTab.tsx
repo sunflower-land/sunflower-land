@@ -33,7 +33,6 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
-import { randomID } from "lib/utils/random";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -71,28 +70,9 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
 
   const { craftingBox } = state;
-  const {
-    recipes,
-    status: craftingStatus,
-    queue: rawQueue,
-    item: legacyItem,
-    readyAt: craftingReadyAt,
-    startedAt: craftingStartedAt,
-  } = craftingBox;
+  const { recipes, status: craftingStatus, queue: rawQueue } = craftingBox;
 
-  const craftingQueue: CraftingQueueItem[] =
-    rawQueue ??
-    (legacyItem && craftingStatus === "crafting"
-      ? [
-          {
-            id: randomID(),
-            name: legacyItem.collectible ?? legacyItem.wearable,
-            readyAt: craftingReadyAt,
-            startedAt: craftingStartedAt,
-            type: legacyItem.collectible ? "collectible" : "wearable",
-          },
-        ]
-      : []);
+  const craftingQueue: CraftingQueueItem[] = rawQueue ?? [];
 
   const hasCraftingBoxQueuesAccess = useTimeBasedFeatureAccess({
     game: state,

@@ -5,11 +5,7 @@ import {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import {
-  Recipe,
-  RecipeCollectibleName,
-  RECIPES,
-} from "features/game/lib/crafting";
+import { Recipe, RECIPES } from "features/game/lib/crafting";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getBoostedCraftingTime } from "./startCrafting";
@@ -182,19 +178,8 @@ export function cancelQueuedCrafting({
       farmId,
     });
 
-    if (game.craftingBox.queue.length > 0) {
-      const current = game.craftingBox.queue[0];
-      game.craftingBox.item =
-        current.type === "collectible"
-          ? { collectible: current.name as RecipeCollectibleName }
-          : { wearable: current.name as BumpkinItem };
-      game.craftingBox.startedAt = current.startedAt;
-      game.craftingBox.readyAt = current.readyAt;
-    } else {
+    if (game.craftingBox.queue.length === 0) {
       game.craftingBox.status = "idle";
-      game.craftingBox.item = undefined;
-      game.craftingBox.startedAt = 0;
-      game.craftingBox.readyAt = 0;
     }
 
     game.farmActivity = trackFarmActivity(

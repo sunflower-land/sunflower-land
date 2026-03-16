@@ -72,7 +72,7 @@ export const CraftButton: React.FC<{
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
         {hasCraftingBoxQueuesAccess && (
           <Button
-            className="whitespace-nowrap relative"
+            className="relative"
             onClick={addToQueueHandler}
             disabled={addToQueueDisabled}
           >
@@ -94,22 +94,20 @@ export const CraftButton: React.FC<{
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
         {hasCraftingBoxQueuesAccess && (
           <Button
-            className="whitespace-nowrap relative"
+            className="relative"
             onClick={addToQueueHandler}
             disabled={addToQueueDisabled}
           >
             <img
               src={vipIcon}
               alt="VIP"
-              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+              className="absolute w-4 -top-[1px] -right-[2px]"
             />
             {t("recipes.addToQueue")}
           </Button>
         )}
         {isViewingReadyItem && (
-          <Button className="whitespace-nowrap" onClick={handleCollect}>
-            {t("collect")}
-          </Button>
+          <Button onClick={handleCollect}>{t("collect")}</Button>
         )}
         {!isPreparingQueueSlot && !isViewingReadyItem && (
           <Button
@@ -144,11 +142,18 @@ export const CraftButton: React.FC<{
   return (
     <div className="flex flex-col items-center justify-center gap-1 mt-2">
       <Button
-        className="mt-2 whitespace-nowrap"
+        className="mt-2"
         onClick={handleCraft}
         disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
       >
         {t("craft")}
+      </Button>
+      <Button disabled>
+        <div className="flex items-center justify-center gap-1">
+          <img src={fastForward} className="h-5" />
+          <span className="text-sm flex items-center">{0}</span>
+          <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+        </div>
       </Button>
     </div>
   );

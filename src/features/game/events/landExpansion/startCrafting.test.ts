@@ -41,6 +41,7 @@ describe("startCrafting", () => {
   it("sets the crafting status to pending", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         null,
         null,
@@ -81,6 +82,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         null,
         null,
@@ -104,6 +106,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -134,6 +137,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -158,6 +162,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
+          id: "test-id",
           name: "Timber",
           readyAt: now + 60000,
           startedAt: now,
@@ -171,6 +176,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id1",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -197,6 +203,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
+          id: "test-id",
           name: "Timber",
           readyAt: now + 60000,
           startedAt: now,
@@ -227,6 +234,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id1",
       ingredients: [null, null, null, null, null, null, null, null, null],
     };
 
@@ -236,13 +244,19 @@ describe("startCrafting", () => {
     expect(newState.craftingBox.queue).toHaveLength(1);
   });
 
-  it("blocks new craft when legacy in-progress craft fills the slot (no queue)", () => {
+  it("blocks new craft when queue fills the slot", () => {
     const now = Date.now();
     gameState.craftingBox = {
       status: "crafting",
-      item: { collectible: "Timber" },
-      startedAt: now,
-      readyAt: now + 60000,
+      queue: [
+        {
+          id: "timber-1",
+          name: "Timber",
+          startedAt: now,
+          readyAt: now + 60000,
+          type: "collectible",
+        },
+      ],
       recipes: {
         Timber: {
           name: "Timber",
@@ -265,6 +279,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -286,6 +301,7 @@ describe("startCrafting", () => {
   it("throws an error if the player provides less than 9 ingredients", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -301,6 +317,7 @@ describe("startCrafting", () => {
   it("throws an error if the player provides more than 9 ingredients", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -343,6 +360,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         null,
         null,
@@ -385,6 +403,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         null,
         null,
@@ -439,6 +458,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id",
       ingredients: [
         { collectible: "Merino Cushion" },
         { collectible: "Merino Cushion" },
@@ -482,6 +502,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
+          id: "test-id",
           name: "Doll",
           readyAt: now + 60000,
           startedAt: now,
@@ -528,6 +549,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
+      queueItemId: "test-id1",
       ingredients: [
         { collectible: "Leather" },
         { collectible: "Wool" },
@@ -565,6 +587,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
+          id: "test-id",
           name: "Doll",
           readyAt: now + 60000,
           startedAt: now,
@@ -603,6 +626,7 @@ describe("startCrafting", () => {
       farmId,
       state: gameState,
       action: {
+        queueItemId: "test-id1",
         type: "crafting.started",
         ingredients: [
           { collectible: "Leather" },
@@ -674,6 +698,7 @@ describe("startCrafting", () => {
         farmId,
         state,
         action: {
+          queueItemId: `test-id-${i}`,
           type: "crafting.started",
           ingredients: [
             { collectible: "Leather" },
@@ -766,6 +791,7 @@ describe("startCrafting", () => {
       },
       action: {
         type: "crafting.started",
+        queueItemId: "test-id",
         ingredients: [
           { collectible: "Cushion" },
           { collectible: "Cushion" },
@@ -781,7 +807,7 @@ describe("startCrafting", () => {
       createdAt: now,
     });
 
-    expect(state.craftingBox.readyAt).toBe(now);
+    expect(state.craftingBox.queue?.[0].readyAt).toBe(now);
   });
 
   it("makes instant recipe immediately ready when added to a non-empty queue", () => {
@@ -809,6 +835,7 @@ describe("startCrafting", () => {
       status: "crafting",
       queue: [
         {
+          id: "test-id",
           name: "Basic Bed",
           readyAt: now + 60000,
           startedAt: now,
@@ -876,6 +903,7 @@ describe("startCrafting", () => {
       state: gameState,
       action: {
         type: "crafting.started",
+        queueItemId: "test-id1",
         ingredients: [
           { collectible: "Leather" },
           { collectible: "Wool" },

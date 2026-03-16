@@ -122,11 +122,18 @@ import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
 
 export type CraftingQueueItem = {
   id: string;
-  name: RecipeCollectibleName | BumpkinItem;
   readyAt: number;
   startedAt: number;
-  type: "collectible" | "wearable";
-};
+} & (
+  | {
+      type: "collectible";
+      name: RecipeCollectibleName;
+    }
+  | {
+      type: "wearable";
+      name: BumpkinItem;
+    }
+);
 
 export type Reward = {
   coins?: number;
@@ -1947,6 +1954,7 @@ export interface GameState {
   craftingBox: {
     status: "pending" | "idle" | "crafting";
     queue?: CraftingQueueItem[];
+    /** @deprecated Derive from queue[0] via getCraftingBoxCurrent */
     item?:
       | {
           collectible: RecipeCollectibleName;
@@ -1956,8 +1964,10 @@ export interface GameState {
           collectible?: never;
           wearable: BumpkinItem;
         };
-    startedAt: number;
-    readyAt: number;
+    /** @deprecated Derive from queue[0] */
+    startedAt?: number;
+    /** @deprecated Derive from queue[0] */
+    readyAt?: number;
     recipes: Partial<Recipes>;
   };
   season: Season;

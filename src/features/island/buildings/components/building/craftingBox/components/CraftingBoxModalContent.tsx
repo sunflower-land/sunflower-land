@@ -13,6 +13,7 @@ import { CraftTab, CraftTabSelection } from "./CraftTab";
 import { CraftingBoxIntro } from "./CraftingBoxIntro";
 import { CraftingBoxGuide } from "./CraftingBoxGuide";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getCraftingBoxCurrent } from "features/game/lib/craftingBox";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `crafting-box-read.${host}-${window.location.pathname}`;
@@ -29,8 +30,7 @@ function acknowledgeRead() {
   localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
 }
 
-const _craftingItem = (state: MachineState) =>
-  state.context.state.craftingBox.item;
+const _craftingBox = (state: MachineState) => state.context.state.craftingBox;
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
 
@@ -56,8 +56,9 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
     setCurrentTab(value);
   };
 
-  const craftingItem = useSelector(gameService, _craftingItem);
+  const craftingBox = useSelector(gameService, _craftingBox);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
+  const craftingItem = getCraftingBoxCurrent(craftingBox).item;
 
   // Determine the current recipe if any
   const itemName = craftingItem?.collectible;

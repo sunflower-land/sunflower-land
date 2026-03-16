@@ -1,46 +1,27 @@
 import { useMemo } from "react";
 import { CraftingQueueItem, GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
-import { randomID } from "lib/utils/random";
 
 const DEFAULT_QUEUE_ITEM: CraftingQueueItem = {
   id: "",
-  name: "Sunflower" as CraftingQueueItem["name"],
+  name: "Doll",
   readyAt: 0,
   startedAt: 0,
   type: "collectible",
 };
 
 export function useCraftingQueue(craftingBox: GameState["craftingBox"]) {
-  const {
-    status: craftingStatus,
-    readyAt: craftingReadyAt,
-    queue: rawQueue,
-    item: legacyItem,
-    startedAt: craftingStartedAt,
-  } = craftingBox;
+  const { status: craftingStatus, queue: rawQueue } = craftingBox;
 
   const craftingQueue: CraftingQueueItem[] = useMemo(
-    () =>
-      rawQueue ??
-      (legacyItem && craftingStatus === "crafting"
-        ? [
-            {
-              id: randomID(),
-              name: legacyItem.collectible ?? legacyItem.wearable,
-              readyAt: craftingReadyAt,
-              startedAt: craftingStartedAt,
-              type: legacyItem.collectible ? "collectible" : "wearable",
-            },
-          ]
-        : []),
-    [rawQueue, legacyItem, craftingStatus, craftingReadyAt, craftingStartedAt],
+    () => rawQueue ?? [],
+    [rawQueue],
   );
 
   const effectiveReadyAt =
     craftingQueue.length > 0
       ? Math.max(...craftingQueue.map((i) => i.readyAt))
-      : craftingReadyAt;
+      : 0;
 
   const needsLiveTime =
     craftingStatus === "crafting" &&
@@ -79,7 +60,7 @@ export function useCraftingQueue(craftingBox: GameState["craftingBox"]) {
     liveDisplayItems,
     defaultQueueItem,
     effectiveReadyAt,
-    craftingReadyAt,
+    craftingReadyAt: effectiveReadyAt,
     craftingStatus,
     now,
   };
