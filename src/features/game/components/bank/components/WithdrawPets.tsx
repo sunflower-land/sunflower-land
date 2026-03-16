@@ -65,8 +65,9 @@ export const WithdrawPets: React.FC<Props> = ({
   const nowDate = new Date(now);
 
   const withdrawableUnselected = unselected.filter((petId) => {
+    const isRevealed = isPetNFTRevealed(petId, now);
     const { withdrawAt } = getPetReleases(petId);
-    return !withdrawAt || withdrawAt <= nowDate;
+    return isRevealed && (!withdrawAt || withdrawAt <= nowDate);
   });
 
   const revealedButNotWithdrawable = unselected.filter((petId) => {
