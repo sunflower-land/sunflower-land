@@ -23,6 +23,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getFetchYield } from "features/game/events/pets/fetchPet";
+import { formatFetchYield } from "features/game/lib/formatFetchYield";
 import { SmallBox } from "components/ui/SmallBox";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -42,7 +43,6 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const now = useNow();
 
   const inventory = useSelector(gameService, _inventory);
-  const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
 
   const { level } = getPetLevel(data.experience);
@@ -102,8 +102,6 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
             petLevel: level,
             fetchResource,
             isPetNFT: isPetNFT(data),
-            farmId,
-            counter: data.fetches?.[fetchResource] ?? 0,
             state,
           });
 
@@ -119,7 +117,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
 
                 <div className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                    <p className="  text-xs mb-0.5">{`${fetchYield} x ${fetchResource}`}</p>
+                    <p className="text-xs mb-0.5">{`${formatFetchYield(fetchYield)} x ${fetchResource}`}</p>
                   </div>
                   <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
                     <div className="flex flex-row gap-1 items-center">
