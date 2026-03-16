@@ -236,6 +236,9 @@ export class Scene extends BaseScene {
     );
     this.load.image("orange", "/world/portal/images/orange.png");
     this.load.image("wood", "/world/portal/images/wood.png");
+    this.load.image("health_full", "/world/portal/images/health_bar_full.webp");
+    this.load.image("health_half", "/world/portal/images/health_bar_half.webp");
+    this.load.image("health_low", "/world/portal/images/health_bar_low.webp")
 
     // Cannon
     this.load.image("cannon", "/world/portal/images/tree.webp");
