@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "Risorsa di categoria secondaria (200 energia)",
   "petGuide.levelPerks.lvl10": "Richiesta difficile di sblocco (solo Common Pet)",
   "petGuide.levelPerks.lvl12": "Moonfur (1.000 energia) (solo NFT)",
-  "petGuide.levelPerks.lvl15": "+10% di possibilità di recuperare risorse extra",
   "petGuide.levelPerks.lvl18": "+1 Ghianda",
   "petGuide.levelPerks.lvl20": "Fossil Shell (300 energia)",
   "petGuide.levelPerks.lvl25": "Risorsa di categoria terziaria (200 energia) (solo NFT)",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "Sblocca la seconda richiesta media (solo NFT)",
   "petGuide.levelPerks.lvl35": "+5 recupera energia",
   "petGuide.levelPerks.lvl40": "+15% di XP per feed (25% in totale) (solo NFT)",
-  "petGuide.levelPerks.lvl50": "+5% di possibilità di recuperare risorse extra (15% in totale)",
   "petGuide.levelPerks.lvl60": "+1 senza pelliccia di ghianda o pelliccia di luna garantito (solo NFT)",
   "petGuide.levelPerks.lvl75": "+5 recupera energia",
   "petGuide.levelPerks.lvl85": "+25% di XP per feed (50% in totale) (solo NFT)",
-  "petGuide.levelPerks.lvl100": "+10% di possibilità di recuperare risorse extra (25% in totale)",
   "petGuide.levelPerks.lvl200": "Sblocca la seconda richiesta rigida (solo NFT)",
   "petGuide.care.title": "Attenzione",
   "petGuide.care.description": "Gli animali domestici comuni devono essere nutriti ogni 3 giorni, gli animali NFT ogni 7 giorni. Rianimare un animale trascurato costa 500 XP.",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "Gli animali NFT possono camminare con te nelle aree multigiocatore. Abilita questa opzione nella schermata di gestione degli animali domestici. Può camminare solo un animale alla volta.",
   "instantReady": "Pronto all'istante",
   "twitter.rewards.vip": "Psssst... i membri VIP guadagnano Love Charms!",
-  "petGuide.levelPerks.lvl150": "+25% di possibilità di recuperare risorse extra da Moonfur (50% in totale) (solo NFT)",
   "auction.raffle": "Lotteria",
   "auction.raffle.noWinners": "Nessun vincitore.",
   "auction.raffle.title": "Raffles",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Ricette in coda",
   "vip.savings.xpEarned": "Exp bonus guadagnati",
   "vip.savings.buyBanner": "Acquista VIP",
-  "dailyReward.bonusVipGift": "Regalo VIP"
+  "dailyReward.bonusVipGift": "Regalo VIP",
+  "petGuide.levelPerks.lvl15": "+0,10 risorse di recupero extra (esclude Fossil Shell)",
+  "petGuide.levelPerks.lvl50": "+0,05 risorse di recupero extra (0,15 in totale, esclude Fossil Shell)",
+  "petGuide.levelPerks.lvl100": "+0,10 risorse di recupero extra (0,25 in totale, esclude Fossil Shell)",
+  "petGuide.levelPerks.lvl150": "+0,25 risorse aggiuntive per il recupero di Moonfur (0,50 in totale) (solo NFT)"
 }

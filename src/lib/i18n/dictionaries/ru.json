@@ -7812,7 +7812,6 @@
   "petGuide.levelPerks.lvl7": "Ресурс вторичной категории (200 энергии)",
   "petGuide.levelPerks.lvl10": "Открывает сложный запрос (только для обычных питомцев)",
   "petGuide.levelPerks.lvl12": "Мунфур (1000 энергии) (только NFT)",
-  "petGuide.levelPerks.lvl15": "+10% шанс на дополнительный ресурс при добыче",
   "petGuide.levelPerks.lvl18": "+1 жёлудь",
   "petGuide.levelPerks.lvl20": "Окаменелая раковина (300 энергии)",
   "petGuide.levelPerks.lvl25": "Ресурс третичной категории (200 энергии) (только NFT)",
@@ -7820,12 +7819,9 @@
   "petGuide.levelPerks.lvl30": "Открывает 2й средний запрос (только NFT)",
   "petGuide.levelPerks.lvl35": "+5 энергии для добычи",
   "petGuide.levelPerks.lvl40": "+15% XP за кормление (25% всего) (только NFT)",
-  "petGuide.levelPerks.lvl50": "+5% шанс на доп. ресурс (15% всего)",
   "petGuide.levelPerks.lvl60": "+1 гарантированный ресурс (кроме жёлудя и мунфура) (только NFT)",
   "petGuide.levelPerks.lvl75": "+5 энергии для добычи",
   "petGuide.levelPerks.lvl85": "+25% XP за кормление (50% всего) (только NFT)",
-  "petGuide.levelPerks.lvl100": "+10% шанс на доп. ресурс (25% всего)",
-  "petGuide.levelPerks.lvl150": "+25% шанс на доп. мунфур (50% всего) (только NFT)",
   "petGuide.levelPerks.lvl200": "Открывает 2й сложный запрос (только NFT)",
   "petGuide.care.title": "Забота",
   "petGuide.care.description": "Обычных питомцев нужно кормить раз в 3 дня, NFT - раз в 7 дней. Восстановление запущенного питомца стоит 500 XP.",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Recipes Queued",
   "vip.savings.xpEarned": "Bonus XP Earned",
   "vip.savings.buyBanner": "Buy VIP",
-  "dailyReward.bonusVipGift": "VIP Gift"
+  "dailyReward.bonusVipGift": "VIP Gift",
+  "petGuide.levelPerks.lvl15": "+0.10 extra fetch resource (excludes Fossil Shell)",
+  "petGuide.levelPerks.lvl50": "+0.05 extra fetch resource (0.15 total, excludes Fossil Shell)",
+  "petGuide.levelPerks.lvl100": "+0.10 extra fetch resource (0.25 total, excludes Fossil Shell)",
+  "petGuide.levelPerks.lvl150": "+0.25 extra Moonfur fetch resource (0.50 total) (NFT only)"
 }

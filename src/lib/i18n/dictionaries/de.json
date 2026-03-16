@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "Ressource der sekundären Kategorie (200 Energie)",
   "petGuide.levelPerks.lvl10": "Harte Anfrage freischalten (nur Common Pet)",
   "petGuide.levelPerks.lvl12": "Moonfur (1.000 Energie) (nur NFT)",
-  "petGuide.levelPerks.lvl15": "+10% Chance auf zusätzliche Abholressource",
   "petGuide.levelPerks.lvl18": "+1 Eichel",
   "petGuide.levelPerks.lvl20": "Fossile Schale (300 Energie)",
   "petGuide.levelPerks.lvl25": "Ressource der Tertiärkategorie (200 Energie) (nur NFT)",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "2. Medienanfrage freischalten (nur NFT)",
   "petGuide.levelPerks.lvl35": "+5 Energie holen",
   "petGuide.levelPerks.lvl40": "+15% XP pro Feed (25% insgesamt) (nur NFT)",
-  "petGuide.levelPerks.lvl50": "+5% Chance auf zusätzliche Abholressource (insgesamt 15%)",
   "petGuide.levelPerks.lvl60": "+1 garantiert ohne Eicheln/Moonfur (nur NFT)",
   "petGuide.levelPerks.lvl75": "+5 Energie holen",
   "petGuide.levelPerks.lvl85": "+25% XP pro Feed (insgesamt 50%) (nur NFT)",
-  "petGuide.levelPerks.lvl100": "+10% Chance auf zusätzliche Abholressource (insgesamt 25%)",
   "petGuide.levelPerks.lvl200": "2. Hard-Request freischalten (nur NFT)",
   "petGuide.care.title": "Pflege",
   "petGuide.care.description": "Gewöhnliche Haustiere müssen alle 3 Tage gefüttert werden, NFT-Haustiere alle 7 Tage. Die Wiederbelebung eines vernachlässigten Haustiers kostet 500 XP.",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "NFT-Haustiere können in Mehrspielerbereichen mit dir spazieren gehen. Aktiviere dies auf dem Bildschirm zur Verwaltung von Haustieren. Es kann immer nur ein Haustier laufen.",
   "instantReady": "Sofort einsatzbereit",
   "twitter.rewards.vip": "Psssst... VIP-Mitglieder verdienen Liebeszauber!",
-  "petGuide.levelPerks.lvl150": "+25% Chance, zusätzliche Moonfur-Ressourcen zu erhalten (insgesamt 50%) (nur NFT)",
   "auction.raffle": "Tombola",
   "auction.raffle.noWinners": "Keine Gewinner.",
   "auction.raffle.title": "Verlosungen",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Rezepte in der Warteschlange",
   "vip.savings.xpEarned": "Verdiente Bonus-XP",
   "vip.savings.buyBanner": "VIP kaufen",
-  "dailyReward.bonusVipGift": "VIP-Geschenk"
+  "dailyReward.bonusVipGift": "VIP-Geschenk",
+  "petGuide.levelPerks.lvl15": "+0,10 zusätzliche Fetch-Ressource (ohne Fossil Shell)",
+  "petGuide.levelPerks.lvl50": "+0,05 zusätzliche Fetch-Ressource (insgesamt 0,15, ohne Fossil Shell)",
+  "petGuide.levelPerks.lvl100": "+0,10 zusätzliche Fetch-Ressource (insgesamt 0,25, ohne Fossil Shell)",
+  "petGuide.levelPerks.lvl150": "+0,25 zusätzliche Moonfur-Futch-Ressource (insgesamt 0,50) (nur NFT)"
 }

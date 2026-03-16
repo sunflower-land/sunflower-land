@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "Ressource de catégorie secondaire (200 énergies)",
   "petGuide.levelPerks.lvl10": "Demande de déverrouillage physique (Common Pet uniquement)",
   "petGuide.levelPerks.lvl12": "Moonfur (1 000 points d'énergie) (NFT uniquement)",
-  "petGuide.levelPerks.lvl15": "+10 % de chances d'obtenir des ressources supplémentaires",
   "petGuide.levelPerks.lvl18": "+1 Gland",
   "petGuide.levelPerks.lvl20": "Fossil Shell (300 points d'énergie)",
   "petGuide.levelPerks.lvl25": "Ressource de catégorie tertiaire (200 énergies) (NFT uniquement)",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "Débloquez la deuxième demande de support (NFT uniquement)",
   "petGuide.levelPerks.lvl35": "+5 pour récupérer de l'énergie",
   "petGuide.levelPerks.lvl40": "+15 % d'XP par alimentation (25 % au total) (NFT uniquement)",
-  "petGuide.levelPerks.lvl50": "+5 % de chances d'obtenir des ressources supplémentaires (15 % au total)",
   "petGuide.levelPerks.lvl60": "+1 garantie sans glands ou fourrure de lune (NFT uniquement)",
   "petGuide.levelPerks.lvl75": "+5 pour récupérer de l'énergie",
   "petGuide.levelPerks.lvl85": "+25 % d'XP par alimentation (50 % au total) (NFT uniquement)",
-  "petGuide.levelPerks.lvl100": "+10 % de chances d'obtenir des ressources supplémentaires (25 % au total)",
   "petGuide.levelPerks.lvl200": "Débloquez la deuxième requête physique (NFT uniquement)",
   "petGuide.care.title": "Soin",
   "petGuide.care.description": "Les animaux domestiques ordinaires ont besoin d'être nourris tous les 3 jours, les animaux NFT tous les 7 jours. Faire revivre un animal de compagnie négligé coûte 500 XP.",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "Les animaux de compagnie NFT peuvent marcher avec vous dans les zones multijoueurs. Activez cette option dans l'écran de gestion des animaux de compagnie. Un seul animal de compagnie peut marcher à la fois.",
   "instantReady": "Prêt pour l'instant",
   "twitter.rewards.vip": "Psssst... Les membres VIP gagnent des Love Charms !",
-  "petGuide.levelPerks.lvl150": "+25 % de chances de récupérer des ressources supplémentaires en fourrure de lune (50 % au total) (NFT uniquement)",
   "auction.raffle": "Tombola",
   "auction.raffle.noWinners": "Aucun gagnant.",
   "auction.raffle.title": "Tombolas",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Recettes en file d'attente",
   "vip.savings.xpEarned": "XP supplémentaire gagnée",
   "vip.savings.buyBanner": "Acheter VIP",
-  "dailyReward.bonusVipGift": "Cadeau VIP"
+  "dailyReward.bonusVipGift": "Cadeau VIP",
+  "petGuide.levelPerks.lvl15": "+0,10 ressource de récupération supplémentaire (hors Fossil Shell)",
+  "petGuide.levelPerks.lvl50": "+0,05 ressource de récupération supplémentaire (0,15 au total, hors Fossil Shell)",
+  "petGuide.levelPerks.lvl100": "+0,10 ressource de récupération supplémentaire (0,25 au total, hors Fossil Shell)",
+  "petGuide.levelPerks.lvl150": "+0,25 ressource de récupération Moonfur supplémentaire (0,50 au total) (NFT uniquement)"
 }

@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "Sumber daya kategori sekunder (200 energi)",
   "petGuide.levelPerks.lvl10": "Buka permintaan keras (hanya Hewan Peliharaan Umum)",
   "petGuide.levelPerks.lvl12": "Moonfur (1.000 energi) (hanya NFT)",
-  "petGuide.levelPerks.lvl15": "Peluang +10% untuk sumber daya pengambilan tambahan",
   "petGuide.levelPerks.lvl18": "+1 Acorn",
   "petGuide.levelPerks.lvl20": "Fosil Shell (300 energi)",
   "petGuide.levelPerks.lvl25": "Sumber daya kategori tersier (200 energi) (hanya NFT)",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "Buka permintaan medium ke-2 (hanya NFT)",
   "petGuide.levelPerks.lvl35": "+5 ambil energi",
   "petGuide.levelPerks.lvl40": "+15% XP per umpan (25% total) (hanya NFT)",
-  "petGuide.levelPerks.lvl50": "Peluang +5% untuk sumber daya pengambilan tambahan (total 15%)",
   "petGuide.levelPerks.lvl60": "+1 Dijamin non-Acorn/Moonfur (khusus NFT)",
   "petGuide.levelPerks.lvl75": "+5 ambil energi",
   "petGuide.levelPerks.lvl85": "+25% XP per umpan (50% total) (hanya NFT)",
-  "petGuide.levelPerks.lvl100": "Peluang +10% untuk sumber daya pengambilan tambahan (total 25%)",
   "petGuide.levelPerks.lvl200": "Buka permintaan keras ke-2 (hanya NFT)",
   "petGuide.care.title": "Perawatan",
   "petGuide.care.description": "Hewan peliharaan biasa perlu diberi makan setiap 3 hari, hewan peliharaan NFT setiap 7 hari. Menghidupkan kembali hewan peliharaan yang terbengkalai membutuhkan biaya 500 XP.",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "Hewan peliharaan NFT dapat berjalan bersama Anda di area multipemain. Aktifkan ini di layar manajemen hewan peliharaan. Hanya satu hewan peliharaan yang bisa berjalan pada satu waktu.",
   "instantReady": "Siap Instan",
   "twitter.rewards.vip": "Psssst... anggota VIP mendapatkan Love Charms!",
-  "petGuide.levelPerks.lvl150": "Peluang +25% untuk sumber daya pengambilan Moonfur ekstra (total 50%) (hanya NFT)",
   "auction.raffle": "Undian",
   "auction.raffle.noWinners": "Tidak ada pemenang.",
   "auction.raffle.title": "Undian",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Resep Antri",
   "vip.savings.xpEarned": "Bonus XP yang Diperoleh",
   "vip.savings.buyBanner": "Beli VIP",
-  "dailyReward.bonusVipGift": "Hadiah VIP"
+  "dailyReward.bonusVipGift": "Hadiah VIP",
+  "petGuide.levelPerks.lvl15": "+0,10 sumber daya pengambilan tambahan (tidak termasuk Fosil Shell)",
+  "petGuide.levelPerks.lvl50": "+0,05 sumber daya pengambilan tambahan (0,15 total, tidak termasuk Fosil Shell)",
+  "petGuide.levelPerks.lvl100": "+0,10 sumber daya pengambilan tambahan (0,25 total, tidak termasuk Fosil Shell)",
+  "petGuide.levelPerks.lvl150": "+0.25 sumber daya pengambilan Moonfur tambahan (total 0,50) (hanya NFT)"
 }

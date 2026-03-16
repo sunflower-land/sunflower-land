@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "二次カテゴリー資源（200エネルギー）",
   "petGuide.levelPerks.lvl10": "ハードリクエストのロック解除 (コモンペットのみ)",
   "petGuide.levelPerks.lvl12": "ムーンファー (1,000 エネルギー) (NFT のみ)",
-  "petGuide.levelPerks.lvl15": "+10% の確率でフェッチリソースが増える",
   "petGuide.levelPerks.lvl18": "+1 エイコーン",
   "petGuide.levelPerks.lvl20": "フォッシルシェル（300エネルギー）",
   "petGuide.levelPerks.lvl25": "3次カテゴリー資源（200エネルギー）（NFTのみ）",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "2つ目のメディアリクエストをアンロック (NFTのみ)",
   "petGuide.levelPerks.lvl35": "+5 フェッチエネルギー",
   "petGuide.levelPerks.lvl40": "フィードあたり +15% 経験値 (合計 25%) (NFT のみ)",
-  "petGuide.levelPerks.lvl50": "+5% の追加フェッチリソースの確率 (合計 15%)",
   "petGuide.levelPerks.lvl60": "+1ドングリ/ムーンファー以外保証 (NFTのみ)",
   "petGuide.levelPerks.lvl75": "+5 フェッチエネルギー",
   "petGuide.levelPerks.lvl85": "フィードあたり +25% 経験値 (合計 50%) (NFT のみ)",
-  "petGuide.levelPerks.lvl100": "+10% の確率で追加のフェッチリソース (合計 25%)",
   "petGuide.levelPerks.lvl200": "2 番目のハードリクエストのロック解除 (NFT のみ)",
   "petGuide.care.title": "お手入れ",
   "petGuide.care.description": "一般的なペットは3日ごと、NFTペットは7日ごとに給餌する必要があります。放置されたペットを復活させるには500 XPが必要です。",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "NFTペットはマルチプレイヤーエリアで一緒に歩くことができます。ペット管理画面で有効にしてください。一度に 1 匹のペットしか歩けません。",
   "instantReady": "インスタントレディ",
   "twitter.rewards.vip": "Psssst... VIPメンバーはラブチャームを獲得できます！",
-  "petGuide.levelPerks.lvl150": "+25% の確率でムーンファーのフェッチリソースが追加される (合計 50%) (NFTのみ)",
   "auction.raffle": "ラッフル",
   "auction.raffle.noWinners": "勝者はいません。",
   "auction.raffle.title": "ラッフルズ",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "レシピ待ち",
   "vip.savings.xpEarned": "獲得したボーナス経験値",
   "vip.savings.buyBanner": "VIP を購入する",
-  "dailyReward.bonusVipGift": "VIP ギフト"
+  "dailyReward.bonusVipGift": "VIP ギフト",
+  "petGuide.levelPerks.lvl15": "+0.10 追加フェッチリソース (フォッシル・シェルを除く)",
+  "petGuide.levelPerks.lvl50": "+0.05 追加フェッチリソース (合計 0.15、フォッシル・シェルを除く)",
+  "petGuide.levelPerks.lvl100": "+0.10 追加フェッチリソース (合計 0.25、フォッシル・シェルを除く)",
+  "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)"
 }

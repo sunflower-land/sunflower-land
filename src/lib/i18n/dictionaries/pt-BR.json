@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "Recurso de categoria secundária (200 de energia)",
   "petGuide.levelPerks.lvl10": "Desbloqueie uma solicitação difícil (somente para animais de estimação comuns)",
   "petGuide.levelPerks.lvl12": "Moonfur (1.000 de energia) (somente NFT)",
-  "petGuide.levelPerks.lvl15": "+10% de chance de obter um recurso extra de busca",
   "petGuide.levelPerks.lvl18": "+1 Bolota",
   "petGuide.levelPerks.lvl20": "Fossil Shell (300 de energia)",
   "petGuide.levelPerks.lvl25": "Recurso de categoria terciária (200 de energia) (somente NFT)",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "Desbloqueie a segunda solicitação média (somente NFT)",
   "petGuide.levelPerks.lvl35": "+5 buscam energia",
   "petGuide.levelPerks.lvl40": "+15% de XP por feed (25% no total) (somente NFT)",
-  "petGuide.levelPerks.lvl50": "+5% de chance de obter mais recursos de busca (15% no total)",
   "petGuide.levelPerks.lvl60": "+1 garantia sem bolota/pele de lua (somente NFT)",
   "petGuide.levelPerks.lvl75": "+5 buscam energia",
   "petGuide.levelPerks.lvl85": "+25% de XP por feed (50% no total) (somente NFT)",
-  "petGuide.levelPerks.lvl100": "+10% de chance de obter mais recursos de busca (25% no total)",
   "petGuide.levelPerks.lvl200": "Desbloqueie a segunda solicitação rígida (somente NFT)",
   "petGuide.care.title": "Cuidado",
   "petGuide.care.description": "Animais de estimação comuns precisam ser alimentados a cada 3 dias, animais de estimação NFT a cada 7 dias. Reviver um animal de estimação negligenciado custa 500 XP.",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "Animais de estimação NFT podem caminhar com você em áreas multijogador. Ative isso na tela de gerenciamento de animais de estimação. Apenas um animal de estimação pode andar por vez.",
   "instantReady": "Pronto para uso imediato",
   "twitter.rewards.vip": "Psssst... membros VIP ganham Love Charms!",
-  "petGuide.levelPerks.lvl150": "+25% de chance de um recurso extra de buscar Moonfur (50% no total) (somente NFT)",
   "auction.raffle": "Sorteio",
   "auction.raffle.noWinners": "Sem vencedores.",
   "auction.raffle.title": "Rifas",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "Receitas na fila",
   "vip.savings.xpEarned": "Bônus de XP conquistado",
   "vip.savings.buyBanner": "Compre VIP",
-  "dailyReward.bonusVipGift": "Presente VIP"
+  "dailyReward.bonusVipGift": "Presente VIP",
+  "petGuide.levelPerks.lvl15": "+0,10 recurso de busca extra (exclui Fossil Shell)",
+  "petGuide.levelPerks.lvl50": "+0,05 recurso de busca extra (0,15 no total, exclui Fossil Shell)",
+  "petGuide.levelPerks.lvl100": "+0,10 recurso de busca extra (0,25 no total, exclui Fossil Shell)",
+  "petGuide.levelPerks.lvl150": "+0,25 recurso extra de busca de Moonfur (0,50 no total) (somente NFT)"
 }

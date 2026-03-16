@@ -7796,7 +7796,6 @@
   "petGuide.levelPerks.lvl7": "副类别资源（200 能量）",
   "petGuide.levelPerks.lvl10": "解锁困难需求（仅限普通宠物）",
   "petGuide.levelPerks.lvl12": "月光绒（1,000 能量）（仅限 NFT）",
-  "petGuide.levelPerks.lvl15": "+10% 几率额外拾取 1 个资源",
   "petGuide.levelPerks.lvl18": "+1 橡果",
   "petGuide.levelPerks.lvl20": "化石贝壳（300 能量）",
   "petGuide.levelPerks.lvl25": "第三类别资源（200 能量）（仅限 NFT）",
@@ -7804,11 +7803,9 @@
   "petGuide.levelPerks.lvl30": "解锁第 2 个中等需求（仅限 NFT）",
   "petGuide.levelPerks.lvl35": "宠物能量 +5",
   "petGuide.levelPerks.lvl40": "每次喂食 +15% 宠物 XP（合计 25%）（仅限 NFT）",
-  "petGuide.levelPerks.lvl50": "+5% 几率额外拾取 1 个资源（合计 15%）",
   "petGuide.levelPerks.lvl60": "必得 +1 非橡果/月光绒资源（仅限 NFT）",
   "petGuide.levelPerks.lvl75": "宠物能量 +5",
   "petGuide.levelPerks.lvl85": "每次喂食 +25% 宠物 XP（合计 50%）（仅限 NFT）",
-  "petGuide.levelPerks.lvl100": "+10% 几率额外拾取 1 个资源（合计 25%）",
   "petGuide.levelPerks.lvl200": "解锁第 2 个困难需求（仅限 NFT）",
   "petGuide.care.title": "照顾",
   "petGuide.care.description": "普通宠物需每 3 天喂食一次，NFT 宠物为每 7 天。安慰疏于照顾的宠物需消耗 500 宠物 XP。",
@@ -7822,7 +7819,6 @@
   "petGuide.social.description3": "NFT 宠物可在多人区域跟随你。请在宠物管理界面开启此功能。同一时间仅限一只宠物跟随。",
   "instantReady": "立即完成",
   "twitter.rewards.vip": "嘘……VIP 会员能赚取爱心护符！",
-  "petGuide.levelPerks.lvl150": "+25% 几率额外拾取 1 个月光绒（合计 50%）（仅限 NFT）",
   "auction.raffle": "抽奖",
   "auction.raffle.noWinners": "无人中奖。",
   "auction.raffle.title": "抽奖活动",
@@ -8147,5 +8143,9 @@
   "vip.savings.recipeQueued": "食谱已排队",
   "vip.savings.xpEarned": "获得的额外经验值",
   "vip.savings.buyBanner": "购买 VIP",
-  "dailyReward.bonusVipGift": "贵宾礼物"
+  "dailyReward.bonusVipGift": "贵宾礼物",
+  "petGuide.levelPerks.lvl15": "+0.10 额外提取资源（不包括 Fossil Shell）",
+  "petGuide.levelPerks.lvl50": "+0.05 额外提取资源（总计 0.15，不包括 Fossil Shell）",
+  "petGuide.levelPerks.lvl100": "+0.10 额外提取资源（总计 0.25，不包括 Fossil Shell）",
+  "petGuide.levelPerks.lvl150": "+0.25 额外的 Moonfur 提取资源（总计 0.50 个）（仅限 NFT）"
 }
