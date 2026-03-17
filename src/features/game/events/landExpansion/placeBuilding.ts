@@ -10,10 +10,7 @@ import {
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
-import { RECIPES } from "features/game/lib/crafting";
-import { getBoostedCraftingTime } from "./startCrafting";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { KNOWN_IDS } from "features/game/types";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -151,23 +148,14 @@ export function placeBuilding({
 
       if (action.name === "Crafting Box" && !isSecondBuilding) {
         const { craftingBox } = stateCopy;
-        if (existingBuilding.removedAt && craftingBox.item) {
-          const timeOffset = existingBuilding.removedAt - craftingBox.startedAt;
-          craftingBox.startedAt = createdAt - timeOffset;
-          const collectible = craftingBox.item.collectible;
-          const { seconds: recipeTime } = collectible
-            ? getBoostedCraftingTime({
-                game: stateCopy,
-                time: RECIPES[collectible]?.time ?? 0,
-                prngArgs: {
-                  farmId,
-                  itemId: KNOWN_IDS[collectible],
-                  counter:
-                    stateCopy.farmActivity[`${collectible} Crafted`] ?? 0,
-                },
-              })
-            : { seconds: 0 };
-          craftingBox.readyAt = craftingBox.startedAt + recipeTime;
+        const queue = craftingBox.queue ?? [];
+        if (existingBuilding.removedAt && queue.length > 0) {
+          const downtimeDelta = createdAt - existingBuilding.removedAt;
+          stateCopy.craftingBox.queue = queue.map((item) => ({
+            ...item,
+            startedAt: item.startedAt + downtimeDelta,
+            readyAt: item.readyAt + downtimeDelta,
+          }));
         }
       }
 

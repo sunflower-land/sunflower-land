@@ -3,19 +3,16 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { Recipe } from "features/game/lib/crafting";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { KNOWN_IDS } from "features/game/types";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const RecipeLabelContent: React.FC<{
   state: GameState;
   recipe: Recipe | null;
-  farmId: number;
-}> = ({ state, recipe, farmId }) => {
+}> = ({ state, recipe }) => {
   const { t } = useAppTranslation();
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
@@ -30,14 +27,6 @@ const RecipeLabelContent: React.FC<{
   const { seconds: boostedCraftTime, boostsUsed } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
-    prngArgs: {
-      farmId,
-      itemId:
-        recipe.type === "collectible"
-          ? KNOWN_IDS[recipe.name as InventoryItemName]
-          : ITEM_IDS[recipe.name as BumpkinItem],
-      counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
-    },
   });
 
   if (boostsUsed.length > 0) {
@@ -108,15 +97,7 @@ export const CraftTimer: React.FC<{
   remainingTime: number | null;
   isIdle: boolean;
   showRecipeContext?: boolean;
-  farmId: number;
-}> = ({
-  state,
-  recipe,
-  remainingTime,
-  isIdle,
-  showRecipeContext = false,
-  farmId,
-}) => {
+}> = ({ state, recipe, remainingTime, isIdle, showRecipeContext = false }) => {
   if (isIdle || showRecipeContext) {
     return (
       <Label
@@ -124,7 +105,7 @@ export const CraftTimer: React.FC<{
         className="ml-3 my-1"
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        <RecipeLabelContent state={state} recipe={recipe} farmId={farmId} />
+        <RecipeLabelContent state={state} recipe={recipe} />
       </Label>
     );
   }

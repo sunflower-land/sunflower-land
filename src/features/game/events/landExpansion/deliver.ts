@@ -505,7 +505,7 @@ export function deliverOrder({
         isCoinNPC(order.from) &&
         hasTimeBasedFeatureAccess({
           featureName: "TICKETS_FROM_COIN_NPC",
-          now: coinCreatedAt,
+          startTime: coinCreatedAt,
           game,
         }) &&
         !isCoinTasksFrozen

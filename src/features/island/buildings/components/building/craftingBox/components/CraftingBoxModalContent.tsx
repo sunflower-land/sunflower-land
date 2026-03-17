@@ -9,10 +9,11 @@ import { RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
 import { RecipesTab } from "./RecipesTab";
-import { CraftTab } from "./CraftTab";
+import { CraftTab, CraftTabSelection } from "./CraftTab";
 import { CraftingBoxIntro } from "./CraftingBoxIntro";
 import { CraftingBoxGuide } from "./CraftingBoxGuide";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getCraftingBoxCurrent } from "features/game/lib/craftingBox";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `crafting-box-read.${host}-${window.location.pathname}`;
@@ -29,8 +30,7 @@ function acknowledgeRead() {
   localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
 }
 
-const _craftingItem = (state: MachineState) =>
-  state.context.state.craftingBox.item;
+const _craftingBox = (state: MachineState) => state.context.state.craftingBox;
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
 
@@ -45,9 +45,8 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   type Tab = "craft" | "recipes" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>("craft");
   const [pendingQueueSlot, setPendingQueueSlot] = useState<number | null>(null);
-  const [craftTabPersistedSlot, setCraftTabPersistedSlot] = useState<
-    number | null
-  >(null);
+  const [craftTabPersistedSelection, setCraftTabPersistedSelection] =
+    useState<CraftTabSelection | null>(null);
 
   const { gameService } = useContext(Context);
 
@@ -57,8 +56,9 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
     setCurrentTab(value);
   };
 
-  const craftingItem = useSelector(gameService, _craftingItem);
+  const craftingBox = useSelector(gameService, _craftingBox);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
+  const craftingItem = getCraftingBoxCurrent(craftingBox).item;
 
   // Determine the current recipe if any
   const itemName = craftingItem?.collectible;
@@ -120,8 +120,12 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
           onClose={onClose}
-          initialQueueSlot={pendingQueueSlot ?? craftTabPersistedSlot}
-          onQueueSelectionChange={setCraftTabPersistedSlot}
+          initialSelection={
+            pendingQueueSlot != null
+              ? { preparingSlot: pendingQueueSlot }
+              : craftTabPersistedSelection
+          }
+          onQueueSelectionChange={setCraftTabPersistedSelection}
         />
       )}
       {currentTab === "recipes" && (

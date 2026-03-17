@@ -31,15 +31,15 @@ export function speedUpCrafting({
 
     const { craftingBox, inventory } = game;
     const queue = craftingBox.queue ?? [];
-    const { readyAt, item, status } = craftingBox;
+    const { readyAt, status } = craftingBox;
 
-    if (status !== "crafting" || !item) {
+    if (status !== "crafting" || queue.length === 0) {
       throw new Error("Crafting box is not crafting");
     }
 
     const firstInProgress = queue.find((q) => q.readyAt > createdAt);
     const currentReadyAt =
-      queue.length > 0 ? (firstInProgress?.readyAt ?? readyAt) : readyAt;
+      firstInProgress?.readyAt ?? queue[0]?.readyAt ?? readyAt;
     if (currentReadyAt <= createdAt) {
       throw new Error("Crafting box is not ready to be sped up");
     }
@@ -72,13 +72,6 @@ export function speedUpCrafting({
       });
 
       game.craftingBox.queue = [...readyItems, ...recalculated];
-      const firstActive = game.craftingBox.queue?.[0];
-      if (firstActive) {
-        game.craftingBox.readyAt = firstActive.readyAt;
-        game.craftingBox.startedAt = firstActive.startedAt;
-      }
-    } else {
-      craftingBox.readyAt = createdAt;
     }
 
     return game;
