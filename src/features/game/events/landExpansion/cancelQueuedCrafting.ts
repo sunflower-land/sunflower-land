@@ -5,20 +5,16 @@ import {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import {
-  Recipe,
-  RecipeCollectibleName,
-  RECIPES,
-} from "features/game/lib/crafting";
+import { Recipe, RECIPES } from "features/game/lib/crafting";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getBoostedCraftingTime } from "./startCrafting";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type CancelQueuedCraftingAction = {
   type: "crafting.cancelled";
-  queueItem: CraftingQueueItem;
+  queueItemId: string;
 };
 
 type Options = {
@@ -63,6 +59,15 @@ export function recalculateCraftingQueue({
     let readyAt: number;
     const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
 
+    const countSameRecipeFromEnd = result
+      .slice(i)
+      .filter((q) => q.name === item.name).length;
+    const counter = Math.max(
+      0,
+      (game.farmActivity?.[`${recipe.name} Crafting Started`] ?? 0) -
+        countSameRecipeFromEnd,
+    );
+
     const { seconds: recipeTime } = getBoostedCraftingTime({
       game,
       time: recipe.time,
@@ -72,7 +77,7 @@ export function recalculateCraftingQueue({
           recipe.type === "collectible"
             ? KNOWN_IDS[recipe.name as InventoryItemName]
             : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: game.farmActivity[`${recipe.name} Crafted`] ?? 0,
+        counter,
       },
     });
 
@@ -103,34 +108,40 @@ export function cancelQueuedCrafting({
   createdAt = Date.now(),
   farmId = 0,
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "CRAFTING_BOX_QUEUES")) {
+  if (
+    !hasTimeBasedFeatureAccess({
+      game: state,
+      featureName: "CRAFTING_BOX_QUEUES",
+      startTime: createdAt,
+    })
+  ) {
     throw new Error("Crafting box queues are not enabled");
   }
   return produce(state, (game) => {
-    const { queueItem } = action;
+    const { queueItemId } = action;
     const queue = game.craftingBox.queue ?? [];
 
     if (queue.length === 0) {
       throw new Error("No queue exists");
     }
 
-    const recipeIndex = queue.findIndex(
-      (r) =>
-        r.name === queueItem.name &&
-        r.readyAt === queueItem.readyAt &&
-        r.type === queueItem.type,
-    );
+    const item = queue.find((r) => r.id === queueItemId);
 
-    if (recipeIndex === -1) {
+    if (!item) {
       throw new Error("Item does not exist in queue");
     }
 
     const currentCraftingItem = getCurrentCraftingItem(queue, createdAt);
-    const item = queue[recipeIndex];
 
     if (currentCraftingItem?.readyAt === item.readyAt) {
       throw new Error(
-        `Item ${queueItem.name} with readyAt ${item.readyAt} is currently being crafted`,
+        `Item ${item.name} with readyAt ${item.readyAt} is currently being crafted`,
+      );
+    }
+
+    if (item.readyAt <= createdAt) {
+      throw new Error(
+        `Item ${item.name} with readyAt ${item.readyAt} is already ready and cannot be cancelled`,
       );
     }
 
@@ -153,8 +164,13 @@ export function cancelQueuedCrafting({
       }
     });
 
-    const updatedQueue = [...queue];
-    updatedQueue.splice(recipeIndex, 1);
+    const updatedQueue = [...queue].filter((q) => q.id !== queueItemId);
+
+    game.farmActivity = trackFarmActivity(
+      `${item.name} Crafting Started`,
+      game.farmActivity,
+      new Decimal(-1),
+    );
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,
@@ -162,19 +178,8 @@ export function cancelQueuedCrafting({
       farmId,
     });
 
-    if (game.craftingBox.queue.length > 0) {
-      const current = game.craftingBox.queue[0];
-      game.craftingBox.item =
-        current.type === "collectible"
-          ? { collectible: current.name as RecipeCollectibleName }
-          : { wearable: current.name as BumpkinItem };
-      game.craftingBox.startedAt = current.startedAt;
-      game.craftingBox.readyAt = current.readyAt;
-    } else {
+    if (game.craftingBox.queue.length === 0) {
       game.craftingBox.status = "idle";
-      game.craftingBox.item = undefined;
-      game.craftingBox.startedAt = 0;
-      game.craftingBox.readyAt = 0;
     }
 
     game.farmActivity = trackFarmActivity(

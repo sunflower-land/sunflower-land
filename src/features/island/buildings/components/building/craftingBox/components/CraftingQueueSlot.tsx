@@ -36,12 +36,7 @@ export const CraftingQueueSlot: React.FC<CraftingQueueSlotProps> = ({
     );
   }
 
-  const isReady = readyProducts.some(
-    (product) =>
-      product.name === item.name &&
-      product.readyAt === item.readyAt &&
-      product.type === item.type,
-  );
+  const isReady = readyProducts.some((product) => product.id === item.id);
 
   const image =
     item.type === "collectible"

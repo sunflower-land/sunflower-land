@@ -5,7 +5,6 @@ import {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { RecipeCollectibleName } from "features/game/lib/crafting";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { produce } from "immer";
 
@@ -42,58 +41,26 @@ export function collectCrafting({
     const queue = craftingBox.queue ?? [];
 
     if (queue.length === 0) {
-      const item = craftingBox.item;
-      if (!item) {
-        throw new Error("No item to collect");
+      throw new Error("No item to collect");
+    }
+
+    const nothingReady = queue.every((item) => item.readyAt > createdAt);
+    if (nothingReady) {
+      throw new Error("No items are ready");
+    }
+
+    const remainingQueue = queue.filter((item) => {
+      if (item.readyAt <= createdAt) {
+        collectQueueItem(item, copy);
+        return false;
       }
-      if (craftingBox.readyAt > createdAt) {
-        throw new Error("Item is not ready");
-      }
-      if (item.collectible) {
-        copy.inventory[item.collectible] = (
-          copy.inventory[item.collectible] || new Decimal(0)
-        ).plus(1);
-      }
-      if (item.wearable) {
-        copy.wardrobe[item.wearable] = (copy.wardrobe[item.wearable] || 0) + 1;
-      }
-      copy.farmActivity = trackFarmActivity(
-        `${item.collectible || item.wearable} Crafted`,
-        copy.farmActivity,
-      );
+      return true;
+    });
+
+    copy.craftingBox.queue = remainingQueue;
+
+    if (remainingQueue.length === 0) {
       copy.craftingBox.status = "idle";
-      copy.craftingBox.item = undefined;
-      copy.craftingBox.queue = [];
-    } else {
-      const nothingReady = queue.every((item) => item.readyAt > createdAt);
-      if (nothingReady) {
-        throw new Error("No items are ready");
-      }
-
-      const remainingQueue = queue.filter((item) => {
-        if (item.readyAt <= createdAt) {
-          collectQueueItem(item, copy);
-          return false;
-        }
-        return true;
-      });
-
-      copy.craftingBox.queue = remainingQueue;
-
-      if (remainingQueue.length === 0) {
-        copy.craftingBox.status = "idle";
-        copy.craftingBox.item = undefined;
-        copy.craftingBox.startedAt = 0;
-        copy.craftingBox.readyAt = 0;
-      } else {
-        const current = remainingQueue[0];
-        copy.craftingBox.item =
-          current.type === "collectible"
-            ? { collectible: current.name as RecipeCollectibleName }
-            : { wearable: current.name as BumpkinItem };
-        copy.craftingBox.startedAt = current.startedAt;
-        copy.craftingBox.readyAt = current.readyAt;
-      }
     }
   });
 }

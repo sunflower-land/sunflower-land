@@ -64,31 +64,12 @@ export const CraftingBox: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
   const craftingBox = useSelector(gameService, _craftingBox);
-  const {
-    status: craftingStatus,
-    queue: rawQueue,
-    item: legacyItem,
-    readyAt: craftingReadyAt,
-    startedAt: craftingStartedAt,
-  } = craftingBox;
-
-  const craftingQueue =
-    rawQueue ??
-    (legacyItem && craftingStatus === "crafting"
-      ? [
-          {
-            name: legacyItem.collectible ?? legacyItem.wearable,
-            readyAt: craftingReadyAt,
-            startedAt: craftingStartedAt,
-            type: legacyItem.collectible ? "collectible" : "wearable",
-          },
-        ]
-      : []);
+  const { status: craftingStatus, queue: craftingQueue = [] } = craftingBox;
 
   const maxReadyAt =
     craftingQueue.length > 0
       ? Math.max(...craftingQueue.map((i) => i.readyAt), 0)
-      : craftingReadyAt;
+      : Infinity;
   const needsLiveTime =
     craftingStatus === "crafting" &&
     maxReadyAt != null &&
