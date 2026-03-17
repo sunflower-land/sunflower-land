@@ -16,7 +16,6 @@ import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -113,15 +112,7 @@ export function startCrafting({
       throw new Error("Invalid queue item id");
     }
 
-    const availableSlots =
-      hasVipAccess({ game: copy }) &&
-      hasTimeBasedFeatureAccess({
-        game: copy,
-        featureName: "CRAFTING_BOX_QUEUES",
-        startTime: createdAt,
-      })
-        ? 4
-        : 1;
+    const availableSlots = hasVipAccess({ game: copy }) ? 4 : 1;
 
     if (effectiveQueue.length >= availableSlots) {
       throw new Error("No available slots");

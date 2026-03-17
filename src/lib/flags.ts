@@ -91,7 +91,6 @@ const FEATURE_FLAGS = {
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {
   TICKETS_FROM_COIN_NPC: new Date("2026-02-24T00:00:00Z"),
-  CRAFTING_BOX_QUEUES: new Date("2026-03-17T00:00:00Z"),
 } satisfies Record<string, Date>;
 
 export const TIME_BASED_FEATURE_FLAGS: Record<
@@ -99,7 +98,6 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TimeBasedFeatureFlag
 > = {
   TICKETS_FROM_COIN_NPC: timeBasedOnlyFeatureFlag,
-  CRAFTING_BOX_QUEUES: betaTimeBasedFeatureFlag,
 };
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

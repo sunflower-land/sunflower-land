@@ -44,7 +44,6 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -145,15 +144,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
-  const getExpiresAt = () => {
-    if (!vip) return 0;
-
-    const paidVipExpiresAt = vip?.expiresAt ?? 0;
-
-    return paidVipExpiresAt;
-  };
-
-  const vipExpiresAt = getExpiresAt();
   const chapterTicket = getChapterTicket(now);
   const currentChapter = getCurrentChapter(now);
 
@@ -275,17 +265,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 text: t("vip.benefit.cookingQueue"),
                 icon: ITEM_DETAILS["Pumpkin Soup"].image,
               },
-              ...(useTimeBasedFeatureAccess({
-                game: state,
-                featureName: "CRAFTING_BOX_QUEUES",
-              })
-                ? [
-                    {
-                      text: t("vip.benefit.craftingQueue"),
-                      icon: ITEM_DETAILS["Crafting Box"].image,
-                    },
-                  ]
-                : []),
+              {
+                text: t("vip.benefit.craftingQueue"),
+                icon: ITEM_DETAILS["Crafting Box"].image,
+              },
               {
                 text: t("vip.benefit.multicast"),
                 icon: multiCast,

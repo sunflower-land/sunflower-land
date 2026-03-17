@@ -32,7 +32,6 @@ import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -74,12 +73,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const craftingQueue: CraftingQueueItem[] = rawQueue ?? [];
 
-  const hasCraftingBoxQueuesAccess = useTimeBasedFeatureAccess({
-    game: state,
-    featureName: "CRAFTING_BOX_QUEUES",
-  });
-
-  const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
+  const isVIP = hasVipAccess({ game: state });
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
   const canAddToQueue = craftingStatus === "crafting" && isVIP && !isQueueFull;

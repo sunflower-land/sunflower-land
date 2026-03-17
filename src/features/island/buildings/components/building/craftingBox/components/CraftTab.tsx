@@ -38,7 +38,6 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import vipIcon from "assets/icons/vip.webp";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { randomID } from "lib/utils/random";
 
 const _state = (state: MachineState) => state.context.state;
@@ -84,12 +83,8 @@ export const CraftTab: React.FC<Props> = ({
     craftingReadyAt,
     now,
   } = useCraftingQueue(craftingBox);
-  const hasCraftingBoxQueuesAccess = useTimeBasedFeatureAccess({
-    game: state,
-    featureName: "CRAFTING_BOX_QUEUES",
-  });
 
-  const isVIP = hasVipAccess({ game: state }) && hasCraftingBoxQueuesAccess;
+  const isVIP = hasVipAccess({ game: state });
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
 
@@ -598,21 +593,18 @@ export const CraftTab: React.FC<Props> = ({
               isPreparingQueueSlot && !isViewingInProgressItem
             }
             isViewingQueuedRecipe={isViewingQueuedRecipe}
-            hasCraftingBoxQueuesAccess={hasCraftingBoxQueuesAccess}
           />
         </div>
       </div>
 
-      {hasCraftingBoxQueuesAccess && (
-        <CraftingQueue
-          readyProducts={readyProducts}
-          displayItems={liveDisplayItems}
-          onClose={onClose}
-          selectedItemId={selectedItemId}
-          selectedPreparingSlotIndex={preparingSlotIndex}
-          onSlotSelect={handleQueueSlotSelect}
-        />
-      )}
+      <CraftingQueue
+        readyProducts={readyProducts}
+        displayItems={liveDisplayItems}
+        onClose={onClose}
+        selectedItemId={selectedItemId}
+        selectedPreparingSlotIndex={preparingSlotIndex}
+        onSlotSelect={handleQueueSlotSelect}
+      />
 
       <ResourceInventory
         remainingInventory={remainingInventory}
