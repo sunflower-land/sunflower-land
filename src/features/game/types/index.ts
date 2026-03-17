@@ -174,6 +174,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Brush: 315,
   "Music Box": 316,
   "Mariner Pot": 317,
+  "Salt Rake": 318,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -427,6 +428,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Omnifeed: 662,
   Obsidian: 663,
   "Lava Pit": 664,
+  Salt: 665,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

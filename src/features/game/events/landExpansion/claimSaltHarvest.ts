@@ -1,0 +1,63 @@
+import Decimal from "decimal.js-light";
+import { GameState } from "features/game/types/game";
+import { BASE_SALT_YIELD, syncSaltNode } from "features/game/types/salt";
+import { produce } from "immer";
+
+export enum CLAIM_SALT_HARVEST_ERRORS {
+  SALT_NODE_NOT_FOUND = "Salt node not found",
+  NO_SALT_READY = "No salt ready to claim",
+}
+
+export type ClaimSaltHarvestAction = {
+  type: "saltHarvest.claimed";
+  id: string;
+};
+
+type Options = {
+  state: Readonly<GameState>;
+  action: ClaimSaltHarvestAction;
+  createdAt?: number;
+};
+
+export function claimSaltHarvest({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  return produce(state, (copy) => {
+    const saltNode = copy.saltFarm.nodes[action.id];
+    if (!saltNode) {
+      throw new Error(CLAIM_SALT_HARVEST_ERRORS.SALT_NODE_NOT_FOUND);
+    }
+
+    const syncedNode = syncSaltNode(saltNode, createdAt);
+    const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
+    const readySlots = activeSlots.filter((slot) => slot.readyAt <= createdAt);
+
+    if (readySlots.length === 0) {
+      throw new Error(CLAIM_SALT_HARVEST_ERRORS.NO_SALT_READY);
+    }
+
+    const pendingSlots = activeSlots.filter((slot) => slot.readyAt > createdAt);
+    const saltInInventory = copy.inventory.Salt ?? new Decimal(0);
+    const harvestedSalt = readySlots.length * BASE_SALT_YIELD;
+    const regenerationPausedUntil =
+      syncedNode.salt.harvesting?.regenerationPausedUntil;
+
+    copy.inventory.Salt = saltInInventory.add(harvestedSalt);
+    copy.saltFarm.nodes[action.id] = {
+      ...syncedNode,
+      salt: {
+        ...syncedNode.salt,
+        claimedAt: createdAt,
+        harvesting:
+          pendingSlots.length === 0 && !regenerationPausedUntil
+            ? undefined
+            : {
+                slots: pendingSlots,
+                regenerationPausedUntil,
+              },
+      },
+    };
+  });
+}

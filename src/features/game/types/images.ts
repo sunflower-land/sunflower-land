@@ -1161,7 +1161,7 @@ import {
   WAR_BANNERS,
   WAR_TENT_ITEMS,
 } from "./craftables";
-import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS } from "./tools";
+import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
@@ -1711,6 +1711,11 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Obsidian.description,
     translatedName: translate("resource.obsidian"),
   },
+  Salt: {
+    image: obsidian,
+    description: COMMODITIES.Salt.description,
+    translatedName: "Salt",
+  },
   Sunstone: {
     image: sunstone,
     description: COMMODITIES.Sunstone.description,
@@ -1810,6 +1815,11 @@ export const ITEM_DETAILS: Items = {
     image: oilDrill,
     description: TOOLS["Oil Drill"].description,
     translatedName: translate("tool.oilDrill"),
+  },
+  "Salt Rake": {
+    image: SUNNYSIDE.tools.sand_shovel,
+    description: WORKBENCH_TOOLS["Salt Rake"].description,
+    translatedName: "Salt Rake",
   },
   "Crab Pot": {
     image: SUNNYSIDE.tools.crab_pot,

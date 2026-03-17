@@ -30,7 +30,8 @@ export type CommodityName =
   | "Magic Mushroom"
   | "Sunstone"
   | "Oil"
-  | "Obsidian";
+  | "Obsidian"
+  | "Salt";
 
 export type MushroomName = Extract<
   CommodityName,
@@ -83,6 +84,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   },
   Obsidian: {
     description: translate("use.craft"),
+  },
+  Salt: {
+    description: "Harvested from salt nodes",
   },
 };
 

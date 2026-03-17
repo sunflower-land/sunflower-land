@@ -135,5 +135,6 @@ export function makeGame(farm: any): GameState {
     socialFarming: farm.socialFarming,
     pets: farm.pets,
     prototypes: farm.prototypes,
+    saltFarm: farm.saltFarm,
   };
 }

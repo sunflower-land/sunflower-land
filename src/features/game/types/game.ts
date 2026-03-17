@@ -119,6 +119,7 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
+import { SaltFarm } from "./salt";
 
 export type CraftingQueueItem = {
   id: string;
@@ -2042,6 +2043,7 @@ export interface GameState {
   prototypes?: {
     leagues?: League;
   };
+  saltFarm: SaltFarm;
 }
 
 export type AOE = Partial<
