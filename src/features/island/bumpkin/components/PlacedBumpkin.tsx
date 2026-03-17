@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCModal } from "./NPCModal";
+import { PlayerNPC } from "./PlayerNPC";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -21,17 +22,15 @@ export const PlacedBumpkin: React.FC<{
   if (!bumpkin) return null;
 
   if (!bumpkin.coordinates) {
-    return <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />;
+    return <PlayerNPC parts={bumpkin.equipped} isManuallyPlaced={true} />;
   }
 
   if (!isLandscaping) {
     return (
       <>
-        <NPCPlaceable
-          parts={bumpkin.equipped}
-          onClick={() => setShowModal(true)}
-          isManuallyPlaced={true}
-        />
+        <div style={{ position: "relative", top: "-24px" }}>
+          <PlayerNPC parts={bumpkin.equipped} isManuallyPlaced={true} />
+        </div>
         <NPCModal isOpen={showModal} onClose={() => setShowModal(false)} />
       </>
     );
