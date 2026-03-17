@@ -433,10 +433,9 @@ export const TrackItem: React.FC<{
 
   const totalClaimed = track === "premium" ? progress.premium : progress.free;
   const isClaimed = totalClaimed >= number;
+  const hasReachedPoints = progress.points >= milestone.points;
   const canClaim =
-    progress.milestone.number > number &&
-    !isClaimed &&
-    totalClaimed === number - 1;
+    hasReachedPoints && !isClaimed && totalClaimed === number - 1;
 
   return (
     <div
@@ -506,9 +505,10 @@ export const MilestoneDetails: React.FC<{
 
   const needsVip =
     details.track === "premium" && !hasVipAccess({ game: state });
+  const hasReachedPoints = progress.points >= details.points;
   const canClaim =
     !needsVip &&
-    progress.milestone.number > details.milestone &&
+    hasReachedPoints &&
     claimed < details.milestone &&
     claimed === details.milestone - 1;
 
