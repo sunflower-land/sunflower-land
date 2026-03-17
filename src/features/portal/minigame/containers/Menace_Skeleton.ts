@@ -63,6 +63,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.scene.physics.add.existing(this.sprite);
     const spriteBody = this.sprite.body as Phaser.Physics.Arcade.Body;
     spriteBody.setSize(this.sprite.width, this.sprite.height).setCollideWorldBounds(true).setImmovable(true);
+    this.sprite.setActive(false);
 
     this.scene.physics.add.existing(this.vege);
     const vegeBody = this.vege.body as Phaser.Physics.Arcade.Body;
@@ -95,6 +96,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     const delay = Phaser.Math.Between(MENACE_MIN_CREATE, MENACE_MAX_CREATE);
     this.skeletonTimer = this.scene.time.delayedCall(delay, () => {
       if (!this.isDefeated) {
+        this.sprite.setActive(true);
         this.createMenace();
         this.scheduleMenace();
       }
@@ -266,6 +268,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
         this.vege.setVisible(false);
         this.vegeSplat.setVisible(false);
         this.health_bar.setVisible(false);
+        this.sprite.setActive(false);
 
         this.scene.tweens.killTweensOf(this.sprite);
         this.scene.tweens.killTweensOf(this.vege);
