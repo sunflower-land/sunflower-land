@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { NPCPlaceable } from "./NPC";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { NPCModal } from "./NPCModal";
 import { PlayerNPC } from "./PlayerNPC";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -14,7 +13,6 @@ const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 export const PlacedBumpkin: React.FC<{
   location?: PlaceableLocation;
 }> = ({ location = "farm" }) => {
-  const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   const bumpkin = useSelector(gameService, _bumpkin);
   const isLandscaping = useSelector(gameService, _isLandscaping);
@@ -22,7 +20,7 @@ export const PlacedBumpkin: React.FC<{
   if (!bumpkin) return null;
 
   if (!bumpkin.coordinates) {
-    return <PlayerNPC parts={bumpkin.equipped} isManuallyPlaced={true} />;
+    return <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />;
   }
 
   if (!isLandscaping) {
@@ -31,7 +29,6 @@ export const PlacedBumpkin: React.FC<{
         <div style={{ position: "relative", top: "-24px" }}>
           <PlayerNPC parts={bumpkin.equipped} isManuallyPlaced={true} />
         </div>
-        <NPCModal isOpen={showModal} onClose={() => setShowModal(false)} />
       </>
     );
   }
