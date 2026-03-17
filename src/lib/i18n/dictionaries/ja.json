@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "トラップを選択",
   "megaStore.title": "ステラズメガストア",
   "description.bonusFloater.boost": "+1 フローター",
-  "description.oaken.boost": "25% の確率でどんぐり1個を獲得する",
   "description.meerkat.boost.two": "+1 サンド",
   "description.poseidonsThrone.boost": "+1 ウィード&フン",
   "description.pearlBed.boost": "+1 ファームハンド",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0.10 追加フェッチリソース (フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl50": "+0.05 追加フェッチリソース (合計 0.15、フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl100": "+0.10 追加フェッチリソース (合計 0.25、フォッシル・シェルを除く)",
-  "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)"
+  "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)",
+  "description.oaken.boost": "+0.25 エイコーン"
 }

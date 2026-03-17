@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "Wähle eine Falle",
   "megaStore.title": "Stellas Megastore",
   "description.bonusFloater.boost": "+1 Schwebekörper",
-  "description.oaken.boost": "25% Chance auf +1 Eichel",
   "description.meerkat.boost.two": "+1 Sand",
   "description.poseidonsThrone.boost": "+1 Gras und Mist",
   "description.pearlBed.boost": "+1 Farmarbeiter",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0,10 zusätzliche Fetch-Ressource (ohne Fossil Shell)",
   "petGuide.levelPerks.lvl50": "+0,05 zusätzliche Fetch-Ressource (insgesamt 0,15, ohne Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 zusätzliche Fetch-Ressource (insgesamt 0,25, ohne Fossil Shell)",
-  "petGuide.levelPerks.lvl150": "+0,25 zusätzliche Moonfur-Futch-Ressource (insgesamt 0,50) (nur NFT)"
+  "petGuide.levelPerks.lvl150": "+0,25 zusätzliche Moonfur-Futch-Ressource (insgesamt 0,50) (nur NFT)",
+  "description.oaken.boost": "+0.25 Eichel"
 }

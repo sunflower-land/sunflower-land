@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "选择陷阱",
   "megaStore.title": "超星商店",
   "description.bonusFloater.boost": "+1 Floater",
-  "description.oaken.boost": "25% 几率获得 +1 个橡果",
   "description.meerkat.boost.two": "+1 沙子",
   "description.poseidonsThrone.boost": "+1 大麻和粪便",
   "description.pearlBed.boost": "+1 雇农",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0.10 额外提取资源（不包括 Fossil Shell）",
   "petGuide.levelPerks.lvl50": "+0.05 额外提取资源（总计 0.15，不包括 Fossil Shell）",
   "petGuide.levelPerks.lvl100": "+0.10 额外提取资源（总计 0.25，不包括 Fossil Shell）",
-  "petGuide.levelPerks.lvl150": "+0.25 额外的 Moonfur 提取资源（总计 0.50 个）（仅限 NFT）"
+  "petGuide.levelPerks.lvl150": "+0.25 额外的 Moonfur 提取资源（总计 0.50 个）（仅限 NFT）",
+  "description.oaken.boost": "+0.25 Acorn"
 }

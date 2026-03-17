@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "Selecione uma armadilha",
   "megaStore.title": "Megastore de Stella",
   "description.bonusFloater.boost": "+1 flutuador",
-  "description.oaken.boost": "25% de chance de +1 bolota",
   "description.meerkat.boost.two": "+1 Areia",
   "description.poseidonsThrone.boost": "+1 Erva daninha e esterco",
   "description.pearlBed.boost": "+1 Fazendeiro",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0,10 recurso de busca extra (exclui Fossil Shell)",
   "petGuide.levelPerks.lvl50": "+0,05 recurso de busca extra (0,15 no total, exclui Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 recurso de busca extra (0,25 no total, exclui Fossil Shell)",
-  "petGuide.levelPerks.lvl150": "+0,25 recurso extra de busca de Moonfur (0,50 no total) (somente NFT)"
+  "petGuide.levelPerks.lvl150": "+0,25 recurso extra de busca de Moonfur (0,50 no total) (somente NFT)",
+  "description.oaken.boost": "+0,25 Bolota"
 }

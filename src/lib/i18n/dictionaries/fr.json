@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "Sélectionnez un piège",
   "megaStore.title": "Le mégastore de Stella",
   "description.bonusFloater.boost": "+1 Flotteur",
-  "description.oaken.boost": "25 % de chances d'obtenir +1 gland",
   "description.meerkat.boost.two": "+1 Sand",
   "description.poseidonsThrone.boost": "+1 Weed & Dung",
   "description.pearlBed.boost": "+1 Fermier",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0,10 ressource de récupération supplémentaire (hors Fossil Shell)",
   "petGuide.levelPerks.lvl50": "+0,05 ressource de récupération supplémentaire (0,15 au total, hors Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 ressource de récupération supplémentaire (0,25 au total, hors Fossil Shell)",
-  "petGuide.levelPerks.lvl150": "+0,25 ressource de récupération Moonfur supplémentaire (0,50 au total) (NFT uniquement)"
+  "petGuide.levelPerks.lvl150": "+0,25 ressource de récupération Moonfur supplémentaire (0,50 au total) (NFT uniquement)",
+  "description.oaken.boost": "+0,25 Gland"
 }

@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "Seleziona una trappola",
   "megaStore.title": "Il megastore di Stella",
   "description.bonusFloater.boost": "+1 Galleggiante",
-  "description.oaken.boost": "25% di probabilità di +1 Acorn",
   "description.meerkat.boost.two": "+1 Sabbia",
   "description.poseidonsThrone.boost": "+1 Erba e sterco",
   "description.pearlBed.boost": "+1 Farmhand",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0,10 risorse di recupero extra (esclude Fossil Shell)",
   "petGuide.levelPerks.lvl50": "+0,05 risorse di recupero extra (0,15 in totale, esclude Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 risorse di recupero extra (0,25 in totale, esclude Fossil Shell)",
-  "petGuide.levelPerks.lvl150": "+0,25 risorse aggiuntive per il recupero di Moonfur (0,50 in totale) (solo NFT)"
+  "petGuide.levelPerks.lvl150": "+0,25 risorse aggiuntive per il recupero di Moonfur (0,50 in totale) (solo NFT)",
+  "description.oaken.boost": "+0,25 Ghianda"
 }

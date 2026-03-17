@@ -7915,7 +7915,6 @@
   "chapter.open": "Посмотреть награды",
   "megaStore.title": "Мегамаркет Стеллы",
   "description.bonusFloater.boost": "+1 поплавок",
-  "description.oaken.boost": "25% шанс получить +1 жёлудь",
   "description.meerkat.boost.two": "+1 песок",
   "description.poseidonsThrone.boost": "+1 Weed & Dung",
   "description.pearlBed.boost": "+1 помощник",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0.10 extra fetch resource (excludes Fossil Shell)",
   "petGuide.levelPerks.lvl50": "+0.05 extra fetch resource (0.15 total, excludes Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0.10 extra fetch resource (0.25 total, excludes Fossil Shell)",
-  "petGuide.levelPerks.lvl150": "+0.25 extra Moonfur fetch resource (0.50 total) (NFT only)"
+  "petGuide.levelPerks.lvl150": "+0.25 extra Moonfur fetch resource (0.50 total) (NFT only)",
+  "description.oaken.boost": "+0.25 Acorn"
 }

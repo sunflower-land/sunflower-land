@@ -7902,7 +7902,6 @@
   "waterTrap.selectTrap": "Pilih perangkap",
   "megaStore.title": "Megastore Stella",
   "description.bonusFloater.boost": "+1 Floater",
-  "description.oaken.boost": "Peluang 25% +1 Acorn",
   "description.meerkat.boost.two": "+1 Sand",
   "description.poseidonsThrone.boost": "+1 Gulma & Kotoran",
   "description.pearlBed.boost": "+1 Farmhand",
@@ -8147,5 +8146,6 @@
   "petGuide.levelPerks.lvl15": "+0,10 sumber daya pengambilan tambahan (tidak termasuk Fosil Shell)",
   "petGuide.levelPerks.lvl50": "+0,05 sumber daya pengambilan tambahan (0,15 total, tidak termasuk Fosil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 sumber daya pengambilan tambahan (0,25 total, tidak termasuk Fosil Shell)",
-  "petGuide.levelPerks.lvl150": "+0.25 sumber daya pengambilan Moonfur tambahan (total 0,50) (hanya NFT)"
+  "petGuide.levelPerks.lvl150": "+0.25 sumber daya pengambilan Moonfur tambahan (total 0,50) (hanya NFT)",
+  "description.oaken.boost": "+0.25 Acorn"
 }
