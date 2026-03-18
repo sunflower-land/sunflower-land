@@ -1,4 +1,4 @@
-name: Perform a code review when a pull request is created.
+name: Perform a code review when a pull request is created
 on:
   pull_request:
     types: [opened]
@@ -14,28 +14,53 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          # Explicitly check out the PR's merge commit.
+          fetch-depth: 0
+          # Check out the PR's merge commit
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - name: Pre-fetch base and head refs for the PR
+      - name: Generate PR diff
+        id: generate_diff
         run: |
-          git fetch --no-tags origin \
-            ${{ github.event.pull_request.base.ref }} \
-            +refs/pull/${{ github.event.pull_request.number }}/head
+          if ! git rev-parse --verify HEAD^2 >/dev/null 2>&1; then
+            echo "::error::Expected merge commit (HEAD^2) not found. Ensure refs/pull/N/merge exists."
+            exit 1
+          fi
+
+          R="HEAD^1...HEAD^2"
+          git diff --name-status "$R" > _tmp && head -n 400 _tmp > pr_files.txt
+          git diff --stat "$R" > _tmp && head -n 300 _tmp > pr_stat.txt
+          git diff --unified=3 "$R" > pr.full.diff
+
+          perl -e 'read(STDIN,$b,200000); if(length($b)==200000){$t=$b;$t=~s/[^\n]*\z//; print length($t)?$t:$b}else{print $b}' < pr.full.diff > pr.diff
+
+          for name in diff_content file_list diff_stat; do
+            f=pr.diff; [ "$name" = "file_list" ] && f=pr_files.txt; [ "$name" = "diff_stat" ] && f=pr_stat.txt
+            d="CODEx_$(openssl rand -hex 16)"
+            { echo "${name}<<$d"; cat "$f"; echo "$d"; } >> "$GITHUB_OUTPUT"
+          done
 
       - name: Run Codex
         id: run_codex
         uses: openai/codex-action@v1.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          # Command to control version of Codex to use
-          # codex-version: "0.80.0"
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
             This is PR #${{ github.event.pull_request.number }} for ${{ github.repository }}.
             Base SHA: ${{ github.event.pull_request.base.sha }}
             Head SHA: ${{ github.event.pull_request.head.sha }}
+
+            Here are the changed files:
+            ${{ steps.generate_diff.outputs.file_list }}
+
+            Diff summary (insertions/deletions per file):
+            ${{ steps.generate_diff.outputs.diff_stat }}
+
+            Here is the PR diff (truncated at line boundary if large):
+            ${{ steps.generate_diff.outputs.diff_content }}
+
+            (If content was truncated, use the file list and diff summary above for full context.)
 
             Your job:
             - Review **only** the changes introduced by this PR (the diff between base and head).
@@ -113,9 +138,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: codex
     if: needs.codex.outputs.final_message != ''
-    # permissions:
-    #   issues: write
-    #   pull-requests: write
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - name: Report Codex feedback
         uses: actions/github-script@v7
