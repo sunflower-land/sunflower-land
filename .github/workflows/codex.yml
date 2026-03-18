@@ -19,17 +19,32 @@ jobs:
 
       - name: Pre-fetch base and head refs for the PR
         run: |
-          git fetch --no-tags origin \
-            ${{ github.event.pull_request.base.ref }} \
-            +refs/pull/${{ github.event.pull_request.number }}/head
+          git fetch --no-tags --depth=1 origin \
+            ${{ github.event.pull_request.base.sha }} \
+            ${{ github.event.pull_request.head.sha }}
 
       - name: Generate PR diff
         id: generate_diff
         run: |
-          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > pr.diff
-          echo "diff_content<<EOF" >> $GITHUB_OUTPUT
-          cat pr.diff >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+
+          git diff --name-status "$BASE" "$HEAD" > pr_files.txt
+          git diff --unified=3 "$BASE" "$HEAD" | head -c 450000 > pr.diff
+
+          DELIM="CODEx_$(openssl rand -hex 16)"
+          {
+            echo "diff_content<<$DELIM"
+            cat pr.diff
+            echo "$DELIM"
+          } >> "$GITHUB_OUTPUT"
+
+          DELIM2="CODEx_$(openssl rand -hex 16)"
+          {
+            echo "file_list<<$DELIM2"
+            cat pr_files.txt
+            echo "$DELIM2"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Run Codex
         id: run_codex
@@ -43,8 +58,13 @@ jobs:
             Base SHA: ${{ github.event.pull_request.base.sha }}
             Head SHA: ${{ github.event.pull_request.head.sha }}
 
-            Here is the PR diff:
+            Here are the changed files:
+            ${{ steps.generate_diff.outputs.file_list }}
+
+            Here is the PR diff (truncated if large):
             ${{ steps.generate_diff.outputs.diff_content }}
+
+            (If the diff was truncated due to size, focus on the changed files listed above and the visible portion of the diff.)
 
             Your job:
             - Review **only** the changes introduced by this PR (the diff between base and head).
@@ -112,7 +132,6 @@ jobs:
             - When possible, reference file and line in the diff (e.g. `src/foo/Bar.tsx:42`).
             - For each issue, give a **specific** suggestion or small code sketch for how to improve it.
             - If the PR looks great, explicitly say so and only mention a few small nits that would clearly improve clarity or performance.
-
 
             Pull request title and body:
             ----
