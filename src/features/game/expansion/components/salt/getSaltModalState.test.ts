@@ -81,6 +81,37 @@ describe("getSaltModalState", () => {
     expect(state.pauseRemainingSeconds).toBeGreaterThan(0);
   });
 
+  it("starts charging countdown from pause end, not harvest start", () => {
+    const oneHour = 60 * 60 * 1000;
+    const tenSeconds = 10 * 1000;
+    const state = getSaltModalState({
+      saltNode: makeNode({
+        storedCharges: 0,
+        lastUpdatedAt: now,
+        harvesting: {
+          slots: [
+            {
+              startedAt: now,
+              readyAt: now + oneHour,
+            },
+          ],
+          regenerationPausedUntil: now + oneHour,
+        },
+      }),
+      now: now + oneHour + tenSeconds,
+      saltRakes: new Decimal(5),
+      isVip: true,
+    });
+
+    expect(state.regenerationState).toBe("charging");
+    expect(state.nextChargeInSeconds).toBeDefined();
+    // ~7h minus 10s from pause end
+    expect(state.nextChargeInSeconds!).toBeGreaterThanOrEqual(
+      6 * 60 * 60 + 40 * 60,
+    );
+    expect(state.nextChargeInSeconds!).toBeLessThanOrEqual(7 * 60 * 60);
+  });
+
   it("shows a charging timer when below max and not paused", () => {
     const state = getSaltModalState({
       saltNode: makeNode({

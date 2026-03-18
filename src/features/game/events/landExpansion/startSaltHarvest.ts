@@ -110,6 +110,7 @@ export function startSaltHarvest({
     });
     const wasAtFullStoredCharges =
       storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE;
+    const isInitialQueueStart = existingSlots.length === 0;
 
     copy.saltFarm.nodes[action.id] = {
       ...syncedNode,
@@ -119,9 +120,10 @@ export function startSaltHarvest({
         storedCharges: storedCharges - action.rakes,
         harvesting: {
           slots: [...existingSlots, ...addedSlots],
-          regenerationPausedUntil: wasAtFullStoredCharges
-            ? addedSlots[0]?.readyAt
-            : syncedNode.salt.harvesting?.regenerationPausedUntil,
+          regenerationPausedUntil:
+            wasAtFullStoredCharges && isInitialQueueStart
+              ? addedSlots[0]?.readyAt
+              : syncedNode.salt.harvesting?.regenerationPausedUntil,
         },
       },
     };

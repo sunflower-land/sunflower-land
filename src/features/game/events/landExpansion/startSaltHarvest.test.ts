@@ -467,4 +467,81 @@ describe("startSaltHarvest", () => {
       ),
     ).toBe(2);
   });
+
+  it("resumes regeneration from first slot ready even before claim", () => {
+    const state = startSaltHarvest({
+      state: {
+        ...INITIAL_FARM,
+        vip: { bundles: [], expiresAt: now + 24 * 60 * 60 * 1000 },
+        saltFarm: {
+          level: 1,
+          nodes: {
+            1: {
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                lastUpdatedAt: now,
+                storedCharges: 3,
+              },
+            },
+          },
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Salt Rake": new Decimal(10),
+        },
+      },
+      action: { type: "saltHarvest.started", id: "1", rakes: 3 },
+      createdAt: now,
+    });
+
+    expect(getStoredSaltCharges(state.saltFarm.nodes["1"], now)).toBe(0);
+    expect(
+      getStoredSaltCharges(state.saltFarm.nodes["1"], now + 8 * 60 * 60 * 1000),
+    ).toBe(1);
+  });
+
+  it("does not re-pause regeneration when VIP adds rakes after it resumed", () => {
+    const started = startSaltHarvest({
+      state: {
+        ...INITIAL_FARM,
+        vip: { bundles: [], expiresAt: now + 24 * 60 * 60 * 1000 },
+        saltFarm: {
+          level: 1,
+          nodes: {
+            1: {
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                lastUpdatedAt: now,
+                storedCharges: 3,
+              },
+            },
+          },
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Salt Rake": new Decimal(10),
+        },
+      },
+      action: { type: "saltHarvest.started", id: "1", rakes: 1 },
+      createdAt: now,
+    });
+
+    const addedLater = startSaltHarvest({
+      state: started,
+      action: { type: "saltHarvest.started", id: "1", rakes: 1 },
+      createdAt: now + 8 * 60 * 60 * 1000,
+    });
+
+    expect(
+      addedLater.saltFarm.nodes["1"].salt.harvesting?.regenerationPausedUntil,
+    ).toBeUndefined();
+    expect(
+      getStoredSaltCharges(
+        addedLater.saltFarm.nodes["1"],
+        now + 15 * 60 * 60 * 1000,
+      ),
+    ).toBe(3);
+  });
 });
