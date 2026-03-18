@@ -1,4 +1,4 @@
-name: Perform a code review when a pull request is created.
+name: Perform a code review when a pull request is created
 on:
   pull_request:
     types: [opened, synchronize]
@@ -9,13 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
     outputs:
       final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
       - uses: actions/checkout@v5
         with:
-          # Explicitly check out the PR's merge commit.
+          # Check out the PR's merge commit
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
       - name: Pre-fetch base and head refs for the PR
@@ -24,20 +23,28 @@ jobs:
             ${{ github.event.pull_request.base.ref }} \
             +refs/pull/${{ github.event.pull_request.number }}/head
 
+      - name: Generate PR diff
+        id: generate_diff
+        run: |
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > pr.diff
+          echo "diff_content<<EOF" >> $GITHUB_OUTPUT
+          cat pr.diff >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Run Codex
         id: run_codex
         uses: openai/codex-action@v1.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          sandbox: none
-          # Command to control version of Codex to use
-          # codex-version: "0.80.0"
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
             This is PR #${{ github.event.pull_request.number }} for ${{ github.repository }}.
             Base SHA: ${{ github.event.pull_request.base.sha }}
             Head SHA: ${{ github.event.pull_request.head.sha }}
+
+            Here is the PR diff:
+            ${{ steps.generate_diff.outputs.diff_content }}
 
             Your job:
             - Review **only** the changes introduced by this PR (the diff between base and head).
@@ -106,6 +113,7 @@ jobs:
             - For each issue, give a **specific** suggestion or small code sketch for how to improve it.
             - If the PR looks great, explicitly say so and only mention a few small nits that would clearly improve clarity or performance.
 
+
             Pull request title and body:
             ----
             ${{ github.event.pull_request.title }}
@@ -115,9 +123,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: codex
     if: needs.codex.outputs.final_message != ''
-    # permissions:
-    #   issues: write
-    #   pull-requests: write
     steps:
       - name: Report Codex feedback
         uses: actions/github-script@v7
