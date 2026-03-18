@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created.
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   codex:
@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: read
     outputs:
       final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
@@ -28,6 +29,7 @@ jobs:
         uses: openai/codex-action@v1.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: none
           # Command to control version of Codex to use
           # codex-version: "0.80.0"
           prompt: |
