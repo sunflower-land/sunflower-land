@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   codex:
@@ -138,6 +138,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: codex
     if: needs.codex.outputs.final_message != ''
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - name: Report Codex feedback
         uses: actions/github-script@v7
