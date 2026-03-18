@@ -133,6 +133,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     this.barrelTimer?.remove(false);
     this.barrelTimer = this.scene.time.delayedCall(delay, () => {
       if (this.isDefeated) return;
+      this.scene.sound.add("giant_spawn", { volume: 0.2 }).play();
       createAnimation(
         this.scene,
         this.sprite,
@@ -181,6 +182,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
     const distance = this.direction === 1 ? "+=150" : "-=150";
     const valueY = this.player.getWorldTransformMatrix().ty - this.y;
+    this.scene.sound.add("barrel", { volume: 0.2 }).play();
 
     this.scene.tweens.add({
       targets: this.barrel,
@@ -252,6 +254,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
+    this.scene.sound.add("giant_death", { volume: 0.3 }).play();
     this.health_bar.setTexture(`${this.health_status}_low`);
     createAnimation(
       this.scene,
