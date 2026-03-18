@@ -1,6 +1,9 @@
+import { Coordinates } from "../expansion/components/MapPlacement";
+
 export type SaltNode = {
   createdAt: number;
   salt: Salt;
+  coordinates: Coordinates;
 };
 
 export type SaltHarvestSlot = {

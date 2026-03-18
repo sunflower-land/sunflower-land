@@ -34,6 +34,7 @@ describe("claimSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 1,
@@ -69,6 +70,7 @@ describe("claimSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 1,
@@ -120,6 +122,7 @@ describe("claimSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 3,

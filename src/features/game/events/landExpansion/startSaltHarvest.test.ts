@@ -38,6 +38,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 1,
@@ -70,6 +71,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 0,
@@ -102,6 +104,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 1,
@@ -134,6 +137,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 3,
@@ -179,6 +183,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 3,
@@ -207,6 +212,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 3,
@@ -245,6 +251,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 2,
@@ -280,6 +287,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 3,
@@ -310,6 +318,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 5,
@@ -339,6 +348,7 @@ describe("startSaltHarvest", () => {
             nodes: {
               1: {
                 createdAt: 0,
+                coordinates: { x: 0, y: 0 },
                 salt: {
                   lastUpdatedAt: now,
                   storedCharges: 1,
@@ -386,6 +396,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
@@ -423,6 +434,7 @@ describe("startSaltHarvest", () => {
           nodes: {
             1: {
               createdAt: 0,
+              coordinates: { x: 0, y: 0 },
               salt: {
                 lastUpdatedAt: now,
                 storedCharges: 2,
