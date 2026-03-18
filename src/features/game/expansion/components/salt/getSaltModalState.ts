@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import {
+  getNextSaltChargeInSeconds,
+  getSaltGenerationStartAt,
   MAX_STORED_SALT_CHARGES_PER_NODE,
-  SALT_CHARGE_GENERATION_TIME,
   SaltNode,
   getStoredSaltCharges,
   syncSaltNode,
@@ -71,9 +72,10 @@ export function getSaltModalState({
   }
 
   const pauseUntil = syncedNode.salt.harvesting?.regenerationPausedUntil;
-  const generationStartAt = pauseUntil
-    ? Math.max(syncedNode.salt.lastUpdatedAt, pauseUntil)
-    : syncedNode.salt.lastUpdatedAt;
+  const generationStartAt = getSaltGenerationStartAt({
+    lastUpdatedAt: syncedNode.salt.lastUpdatedAt,
+    regenerationPausedUntil: pauseUntil,
+  });
   const atMaxCharges = storedCharges >= MAX_STORED_SALT_CHARGES_PER_NODE;
 
   let regenerationState: SaltRegenerationState = "charging";
@@ -86,10 +88,10 @@ export function getSaltModalState({
     regenerationState = "paused";
     pauseRemainingSeconds = Math.ceil((pauseUntil - now) / 1000);
   } else {
-    const elapsed = Math.max(0, now - generationStartAt);
-    const remainingMs =
-      SALT_CHARGE_GENERATION_TIME - (elapsed % SALT_CHARGE_GENERATION_TIME);
-    nextChargeInSeconds = Math.ceil(remainingMs / 1000);
+    nextChargeInSeconds = getNextSaltChargeInSeconds({
+      generationStartAt,
+      now,
+    });
   }
 
   return {
