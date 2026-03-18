@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   codex:
@@ -25,7 +25,16 @@ jobs:
           git diff --stat "HEAD^1...HEAD^2" > pr_stat.txt
           git diff --unified=3 "HEAD^1...HEAD^2" > pr.full.diff
           # Truncate at newline boundary to avoid cutting mid-hunk (only when we hit size limit)
-          perl -e 'read(STDIN, $b, 450000); $b =~ s/[^\n]*\z// if length($b) == 450000; print $b' < pr.full.diff > pr.diff
+          perl -e '
+            read(STDIN, $b, 450000);
+            if (length($b) == 450000) {
+              $trim = $b;
+              $trim =~ s/[^\n]*\z//;
+              print(length($trim) ? $trim : $b);
+            } else {
+              print $b;
+            }
+          ' < pr.full.diff > pr.diff
 
           DELIM="CODEx_$(openssl rand -hex 16)"
           {
