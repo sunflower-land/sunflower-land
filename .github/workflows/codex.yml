@@ -26,65 +26,18 @@ jobs:
             exit 1
           fi
 
-          DIFF_RANGE="HEAD^1...HEAD^2"
-          git diff --name-status "$DIFF_RANGE" > pr_files.full.txt
-          git diff --stat "$DIFF_RANGE" > pr_stat.full.txt
-          git diff --unified=3 "$DIFF_RANGE" > pr.full.diff
+          R="HEAD^1...HEAD^2"
+          git diff --name-status "$R" > _tmp && head -n 400 _tmp > pr_files.txt
+          git diff --stat "$R" > _tmp && head -n 300 _tmp > pr_stat.txt
+          git diff --unified=3 "$R" > pr.full.diff
 
-          head -n 400 pr_files.full.txt > pr_files.txt
-          head -n 300 pr_stat.full.txt > pr_stat.txt
+          perl -e 'read(STDIN,$b,200000); if(length($b)==200000){$t=$b;$t=~s/[^\n]*\z//; print length($t)?$t:$b}else{print $b}' < pr.full.diff > pr.diff
 
-          TRUNC_FOOTER=""
-          if [ "$(wc -l < pr_files.full.txt)" -gt 400 ]; then
-            TRUNC_FOOTER="${TRUNC_FOOTER}[File list truncated to 400 entries.] "
-          fi
-          if [ "$(wc -l < pr_stat.full.txt)" -gt 300 ]; then
-            TRUNC_FOOTER="${TRUNC_FOOTER}[Diff stat truncated to 300 entries.] "
-          fi
-
-          # Truncate diff at 200k chars, newline boundary; fallback to raw buffer if no newlines
-          perl -e '
-            read(STDIN, $b, 200000);
-            if (length($b) == 200000) {
-              $trim = $b;
-              $trim =~ s/[^\n]*\z//;
-              print(length($trim) ? $trim : $b);
-            } else {
-              print $b;
-            }
-          ' < pr.full.diff > pr.diff
-
-          if [ "$(wc -c < pr.full.diff)" -gt 200000 ]; then
-            TRUNC_FOOTER="${TRUNC_FOOTER}[Diff truncated at 200k chars.]"
-          fi
-
-          DELIM="CODEx_$(openssl rand -hex 16)"
-          {
-            echo "diff_content<<$DELIM"
-            cat pr.diff
-            echo "$DELIM"
-          } >> "$GITHUB_OUTPUT"
-
-          DELIM2="CODEx_$(openssl rand -hex 16)"
-          {
-            echo "file_list<<$DELIM2"
-            cat pr_files.txt
-            echo "$DELIM2"
-          } >> "$GITHUB_OUTPUT"
-
-          DELIM3="CODEx_$(openssl rand -hex 16)"
-          {
-            echo "diff_stat<<$DELIM3"
-            cat pr_stat.txt
-            echo "$DELIM3"
-          } >> "$GITHUB_OUTPUT"
-
-          DELIM4="CODEx_$(openssl rand -hex 16)"
-          {
-            echo "truncation_footer<<$DELIM4"
-            echo -n "$TRUNC_FOOTER"
-            echo "$DELIM4"
-          } >> "$GITHUB_OUTPUT"
+          for name in diff_content file_list diff_stat; do
+            f=pr.diff; [ "$name" = "file_list" ] && f=pr_files.txt; [ "$name" = "diff_stat" ] && f=pr_stat.txt
+            d="CODEx_$(openssl rand -hex 16)"
+            { echo "${name}<<$d"; cat "$f"; echo "$d"; } >> "$GITHUB_OUTPUT"
+          done
 
       - name: Run Codex
         id: run_codex
@@ -107,9 +60,7 @@ jobs:
             Here is the PR diff (truncated at line boundary if large):
             ${{ steps.generate_diff.outputs.diff_content }}
 
-            ${{ steps.generate_diff.outputs.truncation_footer }}
-
-            (If content was truncated due to size, use the file list and diff summary above for full context, and focus on the visible portion.)
+            (If content was truncated, use the file list and diff summary above for full context.)
 
             Your job:
             - Review **only** the changes introduced by this PR (the diff between base and head).
