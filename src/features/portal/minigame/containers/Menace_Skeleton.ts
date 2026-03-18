@@ -97,6 +97,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.skeletonTimer = this.scene.time.delayedCall(delay, () => {
       if (!this.isDefeated) {
         this.sprite.setActive(true);
+        this.scene.sound.add("spawn", { volume: 0.2 }).play();
         this.createMenace();
         this.scheduleMenace();
       }
@@ -211,6 +212,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.vege.setVisible(false);
       this.vegeSplat.setVisible(true);
       (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = true;
+      this.scene.sound.add("splat", { volume: 0.2 }).play();
       createAnimation(this.scene, this.vegeSplat, `${this.spriteName}_${this.randomVege}_splat`, "splat", 0, 4, 30, 0);
     });
   }
@@ -259,7 +261,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   public defeat() {
     if (this.isDefeated || !this.sprite.active ) return;
       this.isDefeated = true;
-    
+
+    this.scene.sound.add("death", { volume: 0.3 }).play();
     this.health_bar.setTexture(`${this.health_status}_low`)
     createAnimation(this.scene, this.sprite, `${this.spriteName}_death`, "death", 0, 4, 10, 0);
     

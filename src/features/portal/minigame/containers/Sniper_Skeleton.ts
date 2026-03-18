@@ -28,7 +28,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.scene = scene;
     this.player = player;
-    this.spriteName = "sniper_skeleton";
+    this.spriteName = "sniper";
     this.vegeName = "tomato";
 
     // Sprites
@@ -83,6 +83,9 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
 
     this.scene.tweens.add({
       targets: sprite,
+      onStart: () => {
+          this.scene.sound.play("sniper_spawn", { volume: 0.2 });
+      },
       x: originalX + Phaser.Math.Between(-4, 4),
       y: originalY + Phaser.Math.Between(-4, 4),
       scaleX: originalScaleX + Phaser.Math.FloatBetween(-0.08, 0.08),
@@ -143,8 +146,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     createAnimation(
       this.scene,
       this.sprite,
-      `${this.spriteName}_idle`,
-      "idle",
+      `${this.spriteName}_attack`,
+      "attack",
       0,
       3,
       4,
@@ -185,12 +188,13 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
           this.scene,
           this.vege,
           `${this.spriteName}_${this.vegeName}_splatter`,
-          "splatter",
+          "tomato_splatter",
           0,
           4,
           20,
           0,
         );
+        this.scene.sound.add("splat", { volume: 0.2 }).play();
         vegeBody.enable = true;
         this.sprite.setVisible(false);
       },

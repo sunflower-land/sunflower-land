@@ -136,6 +136,38 @@ export class Scene extends BaseScene {
         frameHeight: 29,
       },
     );
+    this.load.spritesheet(
+      "blast_skeleton_emerge",
+      "/world/portal/images/blast_skeleton_emerge.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "blast_skeleton_walk",
+      "/world/portal/images/blast_skeleton_walk.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 21,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_idle",
+      "/world/portal/images/sniper_skeleton_idle.webp",
+      {
+        frameWidth: 24,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_attack",
+      "/world/portal/images/sniper_skeleton_attack.webp",
+      {
+        frameWidth: 24,
+        frameHeight: 24,
+      },
+    );
     // Vege Splats
     this.load.spritesheet(
       "sniper_skeleton_carrot_splat",
@@ -170,7 +202,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_splatter",
+      "sniper_tomato_splatter",
       "/world/portal/images/tomato_splatter.webp",
       {
         frameWidth: 17,
@@ -178,7 +210,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_screenSplat",
+      "blast_skeleton_tomato_screenSplat",
       "/world/portal/images/tomato_screenSplat.webp",
       {
         frameWidth: 160,
@@ -186,7 +218,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_rolling",
+      "blast_skeleton_tomato_rolling",
       "/world/portal/images/tomato_rolling.webp",
       {
         frameWidth: 160,
@@ -227,6 +259,14 @@ export class Scene extends BaseScene {
       "/world/portal/images/tomato.webp",
     );
     this.load.image(
+      "sniper_tomato",
+      "/world/portal/images/tomato.webp",
+    );
+    this.load.image(
+      "blast_skeleton_tomato",
+      "/world/portal/images/tomato.webp",
+    );
+    this.load.image(
       "sniper_skeleton_cabbage",
       "/world/portal/images/cabbage.png",
     );
@@ -243,7 +283,16 @@ export class Scene extends BaseScene {
     // Cannon
     this.load.image("cannon", "/world/portal/images/tree.webp");
 
-    // Music
+    // SFX
+    this.load.audio("spawn", "/world/portal/SFX/spawn.wav");
+    this.load.audio("death", "/world/portal/SFX/death.mp3");
+    this.load.audio("splat", "/world/portal/SFX/splat.mp3");
+    this.load.audio("blast_emerge", "/world/portal/SFX/blast_emerge.wav");
+    this.load.audio("blast_splat", "/world/portal/SFX/blast_splat.wav");
+    this.load.audio("sniper_spawn", "/world/portal/SFX/sniper.wav");
+    this.load.audio("giant_spawn", "/world/portal/SFX/giant.wav");
+    this.load.audio("barrel", "/world/portal/SFX/barrel.mp3");
+    this.load.audio("giant_death", "/world/portal/SFX/giant_death.wav");
     // Background
     this.load.audio(
       "backgroundMusic",

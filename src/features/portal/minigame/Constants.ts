@@ -152,8 +152,5 @@ export const MENACE_SKELETON_POSITIONS: { x: number; y: number }[] = [
 ];
 
 export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
-  { x: 300, y: 190 },
-  //  { x: 150, y: 200},
-  //  { x: 450, y: 180},
-  //  { x: 230, y: 220}
+  { x: 300, y: 210 },
 ];
