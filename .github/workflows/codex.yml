@@ -22,8 +22,10 @@ jobs:
         id: generate_diff
         run: |
           git diff --name-status "HEAD^1...HEAD^2" > pr_files.txt
+          git diff --stat "HEAD^1...HEAD^2" > pr_stat.txt
           git diff --unified=3 "HEAD^1...HEAD^2" > pr.full.diff
-          head -c 450000 pr.full.diff > pr.diff
+          # Truncate at newline boundary to avoid cutting mid-hunk (only when we hit size limit)
+          perl -e 'read(STDIN, $b, 450000); $b =~ s/[^\n]*\z// if length($b) == 450000; print $b' < pr.full.diff > pr.diff
 
           DELIM="CODEx_$(openssl rand -hex 16)"
           {
@@ -37,6 +39,13 @@ jobs:
             echo "file_list<<$DELIM2"
             cat pr_files.txt
             echo "$DELIM2"
+          } >> "$GITHUB_OUTPUT"
+
+          DELIM3="CODEx_$(openssl rand -hex 16)"
+          {
+            echo "diff_stat<<$DELIM3"
+            cat pr_stat.txt
+            echo "$DELIM3"
           } >> "$GITHUB_OUTPUT"
 
       - name: Run Codex
@@ -54,10 +63,13 @@ jobs:
             Here are the changed files:
             ${{ steps.generate_diff.outputs.file_list }}
 
-            Here is the PR diff (truncated if large):
+            Diff summary (insertions/deletions per file):
+            ${{ steps.generate_diff.outputs.diff_stat }}
+
+            Here is the PR diff (truncated at line boundary if large):
             ${{ steps.generate_diff.outputs.diff_content }}
 
-            (If the diff was truncated due to size, focus on the changed files listed above and the visible portion of the diff.)
+            (If the diff was truncated due to size, use the file list and diff summary above for full context, and focus on the visible portion of the diff.)
 
             Your job:
             - Review **only** the changes introduced by this PR (the diff between base and head).
