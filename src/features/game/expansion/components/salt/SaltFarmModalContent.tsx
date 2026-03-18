@@ -1,7 +1,10 @@
 import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,7 +15,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getSaltModalState } from "./getSaltModalState";
+import { getSaltModalState, SaltModalState } from "./getSaltModalState";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _node = (id: string) => (state: MachineState) =>
@@ -43,11 +46,6 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
     });
   }, [node, now, inventory, isVip]);
 
-  const [selectedRakes, setSelectedRakes] = useState(() => {
-    if (!isVip) return 1;
-    return Math.max(1, Math.min(modalState?.maxRakes ?? 0, 1));
-  });
-
   if (!node || !modalState) {
     return (
       <CloseButtonPanel
@@ -68,6 +66,26 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
     );
   }
 
+  return (
+    <SaltFarmContent
+      modalState={modalState}
+      isVip={isVip}
+      gameService={gameService}
+      id={id}
+      onClose={onClose}
+      now={now}
+    />
+  );
+};
+
+const SaltFarmContent: React.FC<{
+  modalState: SaltModalState;
+  isVip: boolean;
+  gameService: MachineInterpreter;
+  id: string;
+  onClose: () => void;
+  now: number;
+}> = ({ modalState, isVip, gameService, id, onClose, now }) => {
   const {
     canStart,
     canClaim,
@@ -84,11 +102,19 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
     maxStoredCharges,
   } = modalState;
 
+  const [selectedRakes, setSelectedRakes] = useState(1);
+
+  const clampedSelectedRakes = isVip
+    ? maxRakes > 0
+      ? Math.min(maxRakes, Math.max(1, selectedRakes))
+      : 1
+    : 1;
+
   const sendStart = () => {
     if (!canStart) return;
     gameService.send("saltHarvest.started", {
       id,
-      rakes: isVip ? selectedRakes : 1,
+      rakes: clampedSelectedRakes,
     });
   };
 
@@ -98,7 +124,7 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
   };
 
   const readyCount = readySlots.length;
-  const startAmount = isVip ? selectedRakes : 1;
+  const startAmount = clampedSelectedRakes;
 
   return (
     <CloseButtonPanel
@@ -125,7 +151,7 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
               nextChargeInSeconds !== undefined && (
                 <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                   {`Next charge in ${secondsToString(nextChargeInSeconds, {
-                    length: "short",
+                    length: "medium",
                   })}`}
                 </Label>
               )}
@@ -135,7 +161,7 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
                   {`Regeneration paused (${secondsToString(
                     pauseRemainingSeconds,
                     {
-                      length: "short",
+                      length: "medium",
                     },
                   )})`}
                 </Label>
@@ -179,7 +205,7 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
                   <span>
                     {isReady
                       ? "Ready"
-                      : secondsToString(secondsRemaining, { length: "short" })}
+                      : secondsToString(secondsRemaining, { length: "medium" })}
                   </span>
                 </div>
               );
@@ -204,17 +230,17 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
             <div className="flex items-center gap-1">
               <Button
                 className="w-7 h-7"
-                disabled={selectedRakes <= 1}
+                disabled={clampedSelectedRakes <= 1}
                 onClick={() =>
                   setSelectedRakes((value) => Math.max(1, value - 1))
                 }
               >
                 {"-"}
               </Button>
-              <Label type="default">{selectedRakes.toString()}</Label>
+              <Label type="default">{clampedSelectedRakes.toString()}</Label>
               <Button
                 className="w-7 h-7"
-                disabled={maxRakes <= 0 || selectedRakes >= maxRakes}
+                disabled={maxRakes <= 0 || clampedSelectedRakes >= maxRakes}
                 onClick={() =>
                   setSelectedRakes((value) => Math.min(maxRakes, value + 1))
                 }

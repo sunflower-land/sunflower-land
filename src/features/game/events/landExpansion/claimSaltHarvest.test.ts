@@ -149,4 +149,48 @@ describe("claimSaltHarvest", () => {
       ),
     ).toBe(3);
   });
+
+  it("does not keep stale harvesting state when claiming at pause boundary", () => {
+    const started = startSaltHarvest({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Salt Rake": new Decimal(10),
+          Salt: new Decimal(0),
+        },
+        saltFarm: {
+          level: 1,
+          nodes: {
+            1: {
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                lastUpdatedAt: now,
+                storedCharges: 3,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "saltHarvest.started", id: "1", rakes: 1 },
+      createdAt: now,
+    });
+
+    const pauseBoundary =
+      started.saltFarm.nodes["1"].salt.harvesting?.slots[0].readyAt;
+    if (!pauseBoundary) {
+      throw new Error("Expected first salt harvest slot");
+    }
+
+    const claimedAtBoundary = claimSaltHarvest({
+      state: started,
+      action: { type: "saltHarvest.claimed", id: "1" },
+      createdAt: pauseBoundary,
+    });
+
+    expect(
+      claimedAtBoundary.saltFarm.nodes["1"].salt.harvesting,
+    ).toBeUndefined();
+  });
 });

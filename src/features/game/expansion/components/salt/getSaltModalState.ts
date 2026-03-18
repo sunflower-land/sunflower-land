@@ -7,6 +7,7 @@ import {
   getStoredSaltCharges,
   syncSaltNode,
 } from "features/game/types/salt";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export type SaltModalPrimaryAction = "claim" | "start" | "blocked";
 export type SaltRegenerationState = "maxed" | "paused" | "charging";
@@ -30,17 +31,18 @@ export type SaltModalState = {
   pauseRemainingSeconds?: number;
 };
 
+type Props = {
+  saltNode: SaltNode;
+  saltRakes: Decimal | undefined;
+  isVip: boolean;
+};
+
 export function getSaltModalState({
   saltNode,
   now,
   saltRakes,
   isVip,
-}: {
-  saltNode: SaltNode;
-  now: number;
-  saltRakes: Decimal | undefined;
-  isVip: boolean;
-}): SaltModalState {
+}: Props & { now: number }): SaltModalState {
   const syncedNode = syncSaltNode(saltNode, now);
   const storedCharges = getStoredSaltCharges(syncedNode, now);
   const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
@@ -112,4 +114,13 @@ export function getSaltModalState({
     nextChargeInSeconds,
     pauseRemainingSeconds,
   };
+}
+
+export function useSaltModalState({
+  saltNode,
+  saltRakes,
+  isVip,
+}: Props): SaltModalState {
+  const now = useNow({ live: true });
+  return getSaltModalState({ saltNode, now, saltRakes, isVip });
 }

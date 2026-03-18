@@ -179,13 +179,25 @@ export function syncSaltNode(saltNode: SaltNode, now: number): SaltNode {
     generatedCharges,
   } = getSaltGenerationState(saltNode, now);
 
+  let pauseClearedHarvesting = saltNode.salt.harvesting;
+  if (pauseClearedHarvesting && pauseUntil && now >= pauseUntil) {
+    pauseClearedHarvesting = {
+      slots: pauseClearedHarvesting.slots,
+      regenerationPausedUntil: undefined,
+    };
+  }
+
   if (generatedCharges <= 0) {
+    const nextLastUpdatedAt =
+      now > generationStartAt ? generationStartAt : lastUpdatedAt;
+
     return {
       ...saltNode,
       salt: {
         ...saltNode.salt,
         storedCharges,
-        lastUpdatedAt,
+        lastUpdatedAt: nextLastUpdatedAt,
+        harvesting: pauseClearedHarvesting,
       },
     };
   }
@@ -197,14 +209,6 @@ export function syncSaltNode(saltNode: SaltNode, now: number): SaltNode {
     nextStoredCharges === MAX_STORED_SALT_CHARGES_PER_NODE
       ? now
       : generationStartAt + generatedCharges * SALT_CHARGE_GENERATION_TIME;
-
-  let pauseClearedHarvesting = saltNode.salt.harvesting;
-  if (pauseClearedHarvesting && pauseUntil && now >= pauseUntil) {
-    pauseClearedHarvesting = {
-      slots: pauseClearedHarvesting.slots,
-      regenerationPausedUntil: undefined,
-    };
-  }
 
   return {
     ...saltNode,
