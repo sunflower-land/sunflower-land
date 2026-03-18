@@ -22,7 +22,8 @@ jobs:
         id: generate_diff
         run: |
           git diff --name-status "HEAD^1...HEAD^2" > pr_files.txt
-          git diff --unified=3 "HEAD^1...HEAD^2" | head -c 450000 > pr.diff
+          git diff --unified=3 "HEAD^1...HEAD^2" > pr.full.diff
+          head -c 450000 pr.full.diff > pr.diff
 
           DELIM="CODEx_$(openssl rand -hex 16)"
           {
