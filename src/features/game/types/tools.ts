@@ -160,15 +160,11 @@ export const WORKBENCH_TOOLS: Record<
   },
   "Salt Rake": {
     name: "Salt Rake",
-    description: "Used to harvest salt charges",
-    price: 150,
-    ingredients: () => ({
-      Wood: new Decimal(4),
-      Iron: new Decimal(2),
-    }),
-    stock: new Decimal(25),
-    requiredLevel: 12,
-    type: "land",
+    description: "Used to harvest salt from salt nodes",
+    price: 20,
+    ingredients: () => ({ Wood: new Decimal(3) }),
+    stock: new Decimal(50),
+    type: "water",
   },
 };
 
