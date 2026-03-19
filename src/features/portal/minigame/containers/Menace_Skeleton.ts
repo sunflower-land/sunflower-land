@@ -266,7 +266,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.health_bar.setTexture(`${this.health_status}_low`)
     createAnimation(this.scene, this.sprite, `${this.spriteName}_death`, "death", 0, 4, 10, 0);
     
-      this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    this.scene.time.delayedCall(800, () => {
         this.sprite.setVisible(false);
         this.vege.setVisible(false);
         this.vegeSplat.setVisible(false);

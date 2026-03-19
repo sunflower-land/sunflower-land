@@ -267,7 +267,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       0,
     );
 
-    this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    this.scene.time.delayedCall(800, () => {
       this.health_bar.setVisible(false);
       this.barrel.setVisible(false);
       this.sprite.setVisible(false);
