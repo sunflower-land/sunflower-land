@@ -25,7 +25,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
-import { getInstantGems } from "features/game/lib/getInstantGems";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import {
   getExpansionCoinCostWithVip,
@@ -207,20 +206,16 @@ export const Expanding: React.FC<{
   state: GameState;
   onClose: () => void;
   onInstantExpanded: () => void;
-}> = ({ state, onClose, onInstantExpanded }) => {
+  readyAt: number;
+  gems: number;
+}> = ({ state, onClose, onInstantExpanded, readyAt, gems }) => {
   const { t } = useAppTranslation();
-  const readyAt = state.expansionConstruction?.readyAt ?? 0;
 
   const { requirements } = expansionRequirements({ game: state });
   const totalSeconds = requirements?.seconds ?? 0;
   const { totalSeconds: secondsTillReady, ...ready } = useCountdown(
     readyAt ?? 0,
   );
-
-  const gems = getInstantGems({
-    readyAt: readyAt as number,
-    game: state,
-  });
 
   const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
 

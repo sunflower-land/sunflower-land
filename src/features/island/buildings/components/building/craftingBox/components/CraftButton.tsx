@@ -26,7 +26,6 @@ export const CraftButton: React.FC<{
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
   isViewingQueuedRecipe?: boolean;
-  hasCraftingBoxQueuesAccess?: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -44,7 +43,6 @@ export const CraftButton: React.FC<{
   isQueueFull = false,
   isPreparingQueueSlot = false,
   isViewingQueuedRecipe = false,
-  hasCraftingBoxQueuesAccess = false,
 }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -70,20 +68,18 @@ export const CraftButton: React.FC<{
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        {hasCraftingBoxQueuesAccess && (
-          <Button
-            className="relative"
-            onClick={addToQueueHandler}
-            disabled={addToQueueDisabled}
-          >
-            <img
-              src={vipIcon}
-              alt="VIP"
-              className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
-            />
-            {t("recipes.addToQueue")}
-          </Button>
-        )}
+        <Button
+          className="relative"
+          onClick={addToQueueHandler}
+          disabled={addToQueueDisabled}
+        >
+          <img
+            src={vipIcon}
+            alt="VIP"
+            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+          />
+          {t("recipes.addToQueue")}
+        </Button>
         <Button onClick={handleCancelQueuedItem}>{t("remove")}</Button>
       </div>
     );
@@ -92,20 +88,18 @@ export const CraftButton: React.FC<{
   if (isCrafting || isPending) {
     return (
       <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        {hasCraftingBoxQueuesAccess && (
-          <Button
-            className="relative"
-            onClick={addToQueueHandler}
-            disabled={addToQueueDisabled}
-          >
-            <img
-              src={vipIcon}
-              alt="VIP"
-              className="absolute w-4 -top-[1px] -right-[2px]"
-            />
-            {t("recipes.addToQueue")}
-          </Button>
-        )}
+        <Button
+          className="relative"
+          onClick={addToQueueHandler}
+          disabled={addToQueueDisabled}
+        >
+          <img
+            src={vipIcon}
+            alt="VIP"
+            className="absolute w-4 -top-[1px] -right-[2px]"
+          />
+          {t("recipes.addToQueue")}
+        </Button>
         {isViewingReadyItem && (
           <Button onClick={handleCollect}>{t("collect")}</Button>
         )}

@@ -20,7 +20,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import confetti from "canvas-confetti";
-import { getInstantGems } from "features/game/lib/getInstantGems";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
 import { gameAnalytics } from "lib/gameAnalytics";
 import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
@@ -398,10 +398,10 @@ export const Constructing: React.FC<{
   const totalSeconds = (readyAt - createdAt) / 1000;
   const { totalSeconds: secondsTillReady } = useCountdown(readyAt ?? 0);
 
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
+  const { days: _days, ...ready } = useCountdown(readyAt ?? 0);
 
-  const gems = getInstantGems({
-    readyAt: readyAt as number,
+  const gems = useRealTimeInstantGems({
+    readyAt,
     game: state,
   });
 

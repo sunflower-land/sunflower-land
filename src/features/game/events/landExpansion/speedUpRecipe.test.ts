@@ -12,7 +12,6 @@
 // 20: Less than 48 hrs
 
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { getInstantGems } from "features/game/lib/getInstantGems";
 import { speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
@@ -429,72 +428,6 @@ describe("instantCook", () => {
 
     // Ready at for the fish should now be minus the milk cooking time
     expect(result).toBe(fishShouldBeReadyAt - twentyMinutesMs);
-  });
-});
-
-describe("getInstantGems", () => {
-  const farmId = 1;
-  it("returns the correct amount of gems for a 1 hour recipe", () => {
-    expect(
-      getInstantGems({
-        readyAt: Date.now() + 1 * 60 * 60 * 1000,
-        game: INITIAL_FARM,
-      }),
-    ).toEqual(5);
-  });
-
-  it("returns the 20% more when player has spent 100 gems in a day", () => {
-    const now = new Date("2024-01-01T03:00:00Z");
-    expect(
-      getInstantGems({
-        readyAt: now.getTime() + 1 * 60 * 60 * 1000,
-        game: {
-          ...INITIAL_FARM,
-          gems: {
-            history: {
-              "2024-01-01": { spent: 100 },
-            },
-          },
-        },
-        now: now.getTime(),
-      }),
-    ).toEqual(6);
-  });
-
-  it("returns the 40% more when player has spent 200 gems in a day", () => {
-    const now = new Date("2024-01-01T03:00:00Z");
-    expect(
-      getInstantGems({
-        readyAt: now.getTime() + 1 * 60 * 60 * 1000,
-        game: {
-          ...INITIAL_FARM,
-          gems: {
-            history: {
-              "2024-01-01": { spent: 200 },
-            },
-          },
-        },
-        now: now.getTime(),
-      }),
-    ).toEqual(7);
-  });
-
-  it("returns the 100% more when player has spent 500 gems in a day", () => {
-    const now = new Date("2024-01-01T03:00:00Z");
-    expect(
-      getInstantGems({
-        readyAt: now.getTime() + 1 * 60 * 60 * 1000,
-        game: {
-          ...INITIAL_FARM,
-          gems: {
-            history: {
-              "2024-01-01": { spent: 500 },
-            },
-          },
-        },
-        now: now.getTime(),
-      }),
-    ).toEqual(10);
   });
 
   it("doesn't remove other ready recipes when speeding up the current recipe", () => {
