@@ -6373,7 +6373,7 @@
   "description.lunalist": "A blooming artifact devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
   "description.giantKale": "A giant kale...",
   "description.giantKale.boost": "+2 Kale",
-  "description.giantZucchini.boost": "-50% Zucchini Growth Time (excluding Crop Machine)",
+  "description.giantZucchini.boost": "-50% Zucchini Plot Growth Time",
   "description.giantYam.boost": "+0.5 Yams",
   "description.oracleSyringe.boost": "Heal animals for free",
   "description.quarry.boost": "Mine stone without pickaxes",
