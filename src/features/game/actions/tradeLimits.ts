@@ -75,6 +75,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Iron: 200,
   Gold: 100,
   Crimstone: 20,
+  Salt: 100,
 
   // Animal Produce
   Egg: 500,
@@ -140,6 +141,7 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Iron: 5,
   Gold: 3,
   Crimstone: 1,
+  Salt: 10,
 
   Honey: 5,
   Feather: 20,
