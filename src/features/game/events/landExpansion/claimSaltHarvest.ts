@@ -2,10 +2,12 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { BASE_SALT_YIELD, syncSaltNode } from "features/game/types/salt";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum CLAIM_SALT_HARVEST_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
   NO_SALT_READY = "No salt ready to claim",
+  SALT_FARM_NOT_ENABLED = "Salt farm not enabled",
 }
 
 export type ClaimSaltHarvestAction = {
@@ -24,6 +26,10 @@ export function claimSaltHarvest({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  if (!hasFeatureAccess(state, "SALT_FARM")) {
+    throw new Error(CLAIM_SALT_HARVEST_ERRORS.SALT_FARM_NOT_ENABLED);
+  }
+
   return produce(state, (copy) => {
     const saltNode = copy.saltFarm.nodes[action.id];
     if (!saltNode) {

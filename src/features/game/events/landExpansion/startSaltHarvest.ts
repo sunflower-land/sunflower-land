@@ -9,6 +9,7 @@ import {
   syncSaltNode,
 } from "features/game/types/salt";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum START_SALT_HARVEST_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -18,6 +19,7 @@ export enum START_SALT_HARVEST_ERRORS {
   VIP_MAX_RAKES_EXCEEDED = "VIP can have up to 4 active salt rakes",
   NOT_ENOUGH_CHARGES = "Not enough salt charges",
   NOT_ENOUGH_SALT_RAKES = "Not enough Salt Rakes",
+  SALT_FARM_NOT_ENABLED = "Salt farm not enabled",
 }
 
 export type StartSaltHarvestAction = {
@@ -63,6 +65,10 @@ export function startSaltHarvest({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  if (!hasFeatureAccess(state, "SALT_FARM")) {
+    throw new Error(START_SALT_HARVEST_ERRORS.SALT_FARM_NOT_ENABLED);
+  }
+
   return produce(state, (copy) => {
     const saltNode = copy.saltFarm.nodes[action.id];
     if (!saltNode) {
