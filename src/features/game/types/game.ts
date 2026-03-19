@@ -21,6 +21,7 @@ import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
+import { FarmHandAnimation } from "./farmhands";
 import { ConsumableName, CookableName } from "./consumables";
 import { ProcessedResource } from "./processedFood";
 import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
@@ -975,6 +976,7 @@ export type FarmHand = {
   equipped: BumpkinParts;
   coordinates?: Coordinates;
   location?: "farm" | "home";
+  animation?: FarmHandAnimation;
 };
 
 export type Mushroom = {

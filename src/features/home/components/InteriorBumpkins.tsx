@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BedName } from "features/game/types/game";
@@ -19,6 +20,7 @@ import { Panel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { FarmHandAnimationSelector } from "features/island/farmhand/FarmHandAnimationSelector";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>
@@ -32,9 +34,12 @@ export const InteriorBumpkins: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const [showBumpkinModal, setShowBumpkinModal] = React.useState(false);
-  const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(false);
-  const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
+  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showBuyFarmHand, setShowBuyFarmHandModal] = useState(false);
+  const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
+  const [farmHandTab, setFarmHandTab] = useState<"equip" | "animations">(
+    "equip",
+  );
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const farmHands = useSelector(gameService, _farmHands);
@@ -153,6 +158,7 @@ export const InteriorBumpkins: React.FC = () => {
                 <NPCPlaceable
                   key={JSON.stringify(farmHands[id].equipped)}
                   parts={farmHands[id].equipped}
+                  animation={farmHands[id].animation ?? "idle"}
                 />
               </div>
 
@@ -292,24 +298,41 @@ export const InteriorBumpkins: React.FC = () => {
         <CloseButtonPanel
           bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
           onClose={() => setSelectedFarmHandId(undefined)}
+          currentTab={farmHandTab}
+          setCurrentTab={setFarmHandTab}
           tabs={[
             {
-              id: "equip",
+              id: "equip" as const,
               icon: SUNNYSIDE.icons.wardrobe,
               name: t("equip"),
             },
+            {
+              id: "animations" as const,
+              icon: SUNNYSIDE.icons.player,
+              name: t("farmHand.animation"),
+            },
           ]}
         >
-          <BumpkinEquip
-            farmHandId={selectedFarmHandId as string}
-            equipment={farmHands[selectedFarmHandId as string]?.equipped}
-            onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
-                id: selectedFarmHandId,
-                equipment,
-              });
-            }}
-          />
+          {farmHandTab === "equip" && (
+            <BumpkinEquip
+              farmHandId={selectedFarmHandId as string}
+              equipment={farmHands[selectedFarmHandId as string]?.equipped}
+              animation={farmHands[selectedFarmHandId]?.animation ?? "idle"}
+              onEquip={(equipment) => {
+                gameService.send("farmHand.equipped", {
+                  id: selectedFarmHandId,
+                  equipment,
+                });
+              }}
+            />
+          )}
+          {farmHandTab === "animations" && selectedFarmHandId && (
+            <FarmHandAnimationSelector
+              id={selectedFarmHandId}
+              animation={farmHands[selectedFarmHandId]?.animation ?? "idle"}
+              parts={farmHands[selectedFarmHandId]?.equipped}
+            />
+          )}
         </CloseButtonPanel>
       </Modal>
     </>

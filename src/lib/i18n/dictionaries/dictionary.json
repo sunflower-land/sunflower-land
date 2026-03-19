@@ -5079,6 +5079,7 @@
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "bedsMigration.label": "My Beds",
   "farmHand": "Farm Hand",
+  "farmHand.animation": "Animation",
   "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
   "description.brush": "Animal Brush. Use this to show affection to your animals.",
   "description.music.box": "Plays music to animals. Use this to show affection to your animals.",

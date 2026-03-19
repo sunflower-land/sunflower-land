@@ -10,6 +10,10 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
+import { FarmHandAnimation } from "features/game/types/farmhands";
+import { FarmHandAnimationSelector } from "./FarmHandAnimationSelector";
+
+type FarmHandTab = "equip" | "animations";
 
 const _farmHands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
@@ -21,6 +25,7 @@ export const FarmHand: React.FC<{
 }> = ({ id, location = "farm" }) => {
   const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
+  const [currentTab, setCurrentTab] = useState<FarmHandTab>("equip");
   const { gameService } = useContext(Context);
   const farmHands = useSelector(gameService, _farmHands);
   const isLandscaping = useSelector(gameService, _isLandscaping);
@@ -28,8 +33,16 @@ export const FarmHand: React.FC<{
 
   if (!fh) return null;
 
+  const animation: FarmHandAnimation = fh.animation ?? "idle";
+
   if (!fh.coordinates) {
-    return <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />;
+    return (
+      <NPCPlaceable
+        parts={fh.equipped}
+        isManuallyPlaced={true}
+        animation={animation}
+      />
+    );
   }
 
   if (!isLandscaping) {
@@ -39,28 +52,46 @@ export const FarmHand: React.FC<{
           parts={fh.equipped}
           onClick={() => setShowModal(true)}
           isManuallyPlaced={true}
+          animation={animation}
         />
         <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
           <CloseButtonPanel
             onClose={() => setShowModal(false)}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
             tabs={[
               {
-                id: "equip",
+                id: "equip" as const,
                 icon: SUNNYSIDE.icons.wardrobe,
                 name: t("equip"),
               },
+              {
+                id: "animations" as const,
+                icon: SUNNYSIDE.icons.player,
+                name: t("farmHand.animation"),
+              },
             ]}
           >
-            <BumpkinEquip
-              farmHandId={id}
-              equipment={fh.equipped}
-              onEquip={(equipment) => {
-                gameService.send("farmHand.equipped", {
-                  id,
-                  equipment,
-                });
-              }}
-            />
+            {currentTab === "equip" && (
+              <BumpkinEquip
+                farmHandId={id}
+                equipment={fh.equipped}
+                animation={animation}
+                onEquip={(equipment) => {
+                  gameService.send("farmHand.equipped", {
+                    id,
+                    equipment,
+                  });
+                }}
+              />
+            )}
+            {currentTab === "animations" && (
+              <FarmHandAnimationSelector
+                id={id}
+                animation={animation}
+                parts={fh.equipped}
+              />
+            )}
           </CloseButtonPanel>
         </Modal>
       </>
@@ -76,7 +107,11 @@ export const FarmHand: React.FC<{
       y={fh.coordinates.y}
       location={location}
     >
-      <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />
+      <NPCPlaceable
+        parts={fh.equipped}
+        isManuallyPlaced={true}
+        animation={animation}
+      />
     </MoveableComponent>
   );
 };

@@ -192,6 +192,10 @@ import {
   equipFarmhand,
   EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
+import {
+  updateFarmHandAnimation,
+  UpdateFarmHandAnimationAction,
+} from "./landExpansion/updateFarmHandAnimation";
 import { moveBeehive, MoveBeehiveAction } from "./landExpansion/moveBeehive";
 import { placeBeehive, PlaceBeehiveAction } from "./landExpansion/placeBeehive";
 import {
@@ -681,6 +685,7 @@ export type PlayingEvent =
   | AccelerateComposterAction
   | BuyFarmHandAction
   | EquipFarmHandAction
+  | UpdateFarmHandAnimationAction
   | HarvestBeehiveAction
   | PlantFlowerAction
   | HarvestFlowerAction
@@ -956,6 +961,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "compost.accelerated": accelerateComposter,
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
+  "farmHand.animationUpdated": updateFarmHandAnimation,
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
   "flower.harvested": harvestFlower,

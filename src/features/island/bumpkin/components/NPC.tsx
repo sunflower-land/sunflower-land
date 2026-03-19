@@ -19,6 +19,11 @@ import {
   getAnimatedWebpUrl,
   getAnimationUrl,
 } from "features/world/lib/animations";
+import {
+  ANIMATION_DISPLAY_CONFIG,
+  getAnimationEndpointKey,
+} from "features/game/constants/animations";
+import { FarmHandAnimation } from "features/game/types/farmhands";
 import silhouette from "assets/npcs/silhouette.webp";
 
 const FRAME_HEIGHT = 19;
@@ -40,19 +45,21 @@ export type NPCParts = Omit<
 export interface NPCProps {
   parts: Partial<NPCParts>;
   width?: number;
-  // Set to true if an NPC is manually placed on the island (e.g. Bumpkin or FarmHand)
   isManuallyPlaced?: boolean;
+  animation?: FarmHandAnimation;
 }
 
 export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   parts,
   onClick,
-  width = PIXEL_SCALE * 16, // Default to original width if not passed
+  width = PIXEL_SCALE * 16,
   isManuallyPlaced = false,
+  animation = "idle",
 }) => {
   const { scale } = useContext(ZoomContext);
-
-  const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
+  const config = ANIMATION_DISPLAY_CONFIG[animation];
+  const animKey = getAnimationEndpointKey(animation);
+  const animUrl = getAnimatedWebpUrl(parts, [animKey]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
@@ -64,6 +71,18 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   const frontAuraTop = width * 0.3 * (isManuallyPlaced ? -1 : 1);
   const backAuraTop = width * 0.125 * (isManuallyPlaced ? -1 : 1);
 
+  const baseImgWidth = width * 1.25;
+  const imgWidth = baseImgWidth * config.cssScale;
+  const imgLeft =
+    config.cssScale > 1
+      ? width * -0.125 - (imgWidth - baseImgWidth) / 2
+      : width * -0.125;
+  const imgTop =
+    width *
+    (isManuallyPlaced
+      ? config.npcImgTopMultiplierManual
+      : config.npcImgTopMultiplierPlaced);
+
   return (
     <div
       className={classNames("absolute", {
@@ -71,15 +90,15 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
       })}
       onClick={() => !!onClick && onClick()}
       style={{
-        width: `${width}px`, // Use passed width for character
-        height: `${height}px`, // Adjust height based on the width
+        width: `${width}px`,
+        height: `${height}px`,
       }}
     >
       {auraBack && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
           style={{
-            width: `${width * 1.25}px`,
+            width: `${baseImgWidth}px`,
             top: `${backAuraTop}px`,
             left: `${width * -0.125}px`,
             imageRendering: "pixelated",
@@ -97,20 +116,20 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
       <div
         className="absolute w-full inset-0 pointer-events-none"
         style={{
-          width: `${width * 1.25}px`,
-          top: `${width * 0.31 * (isManuallyPlaced ? -1 : 1)}px`,
-          left: `${width * -0.125}px`,
+          width: `${imgWidth}px`,
+          top: `${imgTop}px`,
+          left: `${imgLeft}px`,
           imageRendering: "pixelated",
         }}
       >
-        <img src={idle} style={{ width: `${width * 1.25}px` }} />
+        <img src={animUrl} style={{ width: `${imgWidth}px` }} />
       </div>
 
       {auraFront && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
           style={{
-            width: `${width * 1.25}px`,
+            width: `${baseImgWidth}px`,
             top: `${frontAuraTop}px`,
             left: `${width * -0.125}px`,
             imageRendering: "pixelated",
@@ -132,9 +151,13 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
 export const NPCIcon: React.FC<NPCProps> = ({
   parts,
   width = PIXEL_SCALE * 14, // Default to original width if not passed
+  animation = "idle",
 }) => {
   const [loaded, setLoaded] = useState(false);
-  const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
+  const config = ANIMATION_DISPLAY_CONFIG[animation];
+  const animKey = getAnimationEndpointKey(animation);
+  const animationUrl = getAnimatedWebpUrl(parts, [animKey]);
+  const iconWidth = width * config.equipIcon.scale;
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
@@ -163,20 +186,24 @@ export const NPCIcon: React.FC<NPCProps> = ({
         />
       )}
       <div
-        className="w-full inset-0 pointer-events-none"
+        className="w-full inset-0 pointer-events-none overflow-hidden"
         style={{
           width: `${width}px`,
           imageRendering: "pixelated",
         }}
       >
         <div
-          className="relative"
-          style={{ width: `${width}px`, height: `${width}px` }}
+          className="relative overflow-hidden flex items-center justify-center"
+          style={{
+            width: `${iconWidth}px`,
+            height: `${width}px`,
+            left: `${config.equipIcon.left}px`,
+          }}
         >
           <img
-            id="idle"
-            src={idle}
-            style={{ width: `${width}px` }}
+            id={animation}
+            src={animationUrl}
+            style={{ width: `${iconWidth}px` }}
             onLoad={() => setLoaded(true)}
           />
           {!loaded && (

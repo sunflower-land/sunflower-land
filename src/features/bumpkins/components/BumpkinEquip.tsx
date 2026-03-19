@@ -3,6 +3,7 @@ import {
   BumpkinItem,
   BumpkinPart,
 } from "features/game/types/bumpkin";
+import { FarmHandAnimation } from "features/game/types/farmhands";
 import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -59,6 +60,7 @@ interface Props {
   onEquip: (equipment: BumpkinParts) => void;
   equipment: BumpkinParts;
   farmHandId?: string;
+  animation?: FarmHandAnimation;
 }
 
 const _game = (state: MachineState) => state.context.state;
@@ -67,6 +69,7 @@ export const BumpkinEquip: React.FC<Props> = ({
   equipment,
   onEquip,
   farmHandId,
+  animation = "idle",
 }) => {
   const { gameService } = useContext(Context);
   const [equipped, setEquipped] = useState(equipment);
@@ -161,7 +164,11 @@ export const BumpkinEquip: React.FC<Props> = ({
               key={JSON.stringify(equipped)}
             />
             <div className="absolute w-8 h-8 bottom-10 right-4">
-              <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
+              <NPCIcon
+                parts={equipped}
+                animation={farmHandId ? animation : undefined}
+                key={`${JSON.stringify(equipped)}-${animation}`}
+              />
             </div>
           </div>
           <Button disabled={!isDirty} onClick={() => finish(equipped)}>
