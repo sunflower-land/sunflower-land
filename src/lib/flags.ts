@@ -87,6 +87,7 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
+  SALT_FARM: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {

@@ -48,6 +48,7 @@ import { PetNFT } from "features/island/pets/PetNFT";
 import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
+import { SaltNode } from "./components/salt/SaltNode";
 
 export const LAND_WIDTH = 6;
 
@@ -126,6 +127,19 @@ const _lavaPitPositions = (state: MachineState) => {
   return {
     lavaPits: state.context.state.lavaPits,
     positions: getSortedResourcePositions(state.context.state.lavaPits),
+  };
+};
+const _saltNodePositions = (state: MachineState) => {
+  return {
+    saltNodes: state.context.state.saltFarm.nodes,
+    positions: getObjectEntries(state.context.state.saltFarm.nodes)
+      .filter(([, node]) => !!node.coordinates)
+      .map(([id, node]) => ({
+        id,
+        x: node.coordinates.x,
+        y: node.coordinates.y,
+      }))
+      .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
   };
 };
 const _collectiblePositions = (state: MachineState) => {
@@ -331,6 +345,11 @@ export const LandComponent: React.FC = () => {
   const { lavaPits } = useSelector(
     gameService,
     _lavaPitPositions,
+    comparePositions,
+  );
+  const { saltNodes } = useSelector(
+    gameService,
+    _saltNodePositions,
     comparePositions,
   );
   const { mushrooms } = useSelector(
@@ -978,6 +997,26 @@ export const LandComponent: React.FC = () => {
     });
   }, [waterTraps]);
 
+  const saltNodeElements = useMemo(() => {
+    return getObjectEntries(saltNodes)
+      .filter(([, node]) => !!node.coordinates)
+      .map(([id, node]) => {
+        const { x, y } = node.coordinates;
+
+        return (
+          <MapPlacement
+            key={`salt-node-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+          >
+            <SaltNode id={id} />
+          </MapPlacement>
+        );
+      });
+  }, [saltNodes]);
+
   // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
     const elements = [
@@ -1116,6 +1155,7 @@ export const LandComponent: React.FC = () => {
 
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
+        {!landscaping && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div
