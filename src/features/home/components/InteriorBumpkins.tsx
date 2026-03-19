@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BedName } from "features/game/types/game";
@@ -88,9 +89,16 @@ export const InteriorBumpkins: React.FC = () => {
     <>
       <div className="flex justify-between items-end">
         <div className="flex">
-          {(!isLandscaping || !bumpkin.coordinates) && (
+          {(!isLandscaping ||
+            !bumpkin.coordinates ||
+            bumpkin.location !== "home") && (
             <div
-              className="mr-2 cursor-pointer"
+              className={classNames(
+                "mr-2",
+                isLandscaping && bumpkin.coordinates
+                  ? "cursor-not-allowed opacity-75"
+                  : "cursor-pointer",
+              )}
               onClick={() => {
                 if (isLandscaping && !bumpkin.coordinates) {
                   handlePlaceBumpkin();
