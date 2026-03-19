@@ -24,7 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { getInstantGems } from "features/game/lib/getInstantGems";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
 import { gameAnalytics } from "lib/gameAnalytics";
 import classNames from "classnames";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -266,10 +266,7 @@ export const Building: React.FC<{
   const totalSeconds = (readyAt - createdAt) / 1000;
   const { totalSeconds: secondsLeft, ...ready } = useCountdown(readyAt ?? 0);
 
-  const gems = getInstantGems({
-    readyAt: readyAt as number,
-    game: state,
-  });
+  const gems = useRealTimeInstantGems({ readyAt, game: state });
 
   // Automatically close when readyAt time is reached (no re-renders)
   useWhenTime({

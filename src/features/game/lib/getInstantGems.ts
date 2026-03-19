@@ -1,4 +1,8 @@
 import { GameState } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
+import { trackFarmActivity } from "../types/farmActivity";
+import Decimal from "decimal.js-light";
+import { getObjectEntries } from "lib/object";
 
 const SECONDS_TO_GEMS = {
   60: 1,
@@ -18,37 +22,58 @@ const SECONDS_TO_GEMS = {
   [96 * 60 * 60]: 140,
 };
 
+const EXPONENTIAL_MULTIPLIER = 1.15;
+
 export function getInstantGems({
   readyAt,
-  now = Date.now(),
+  now,
   game,
 }: {
   readyAt: number;
-  now?: number;
+  now: number;
   game: GameState;
 }) {
   const secondsLeft = (readyAt - now) / 1000;
 
-  const thresholds = Object.keys(SECONDS_TO_GEMS).map(Number);
+  let gems: Decimal;
+  const thresholds = getObjectEntries(SECONDS_TO_GEMS);
 
-  let gems = 100;
+  const threshold = thresholds.find(([threshold]) => secondsLeft <= threshold);
 
-  for (let i = 0; i < thresholds.length; i++) {
-    if (thresholds[i] >= secondsLeft) {
-      gems = SECONDS_TO_GEMS[thresholds[i]];
-      break;
-    }
+  if (threshold) {
+    gems = new Decimal(threshold[1]);
+  } else {
+    const lastThreshold = thresholds[thresholds.length - 1];
+    gems = new Decimal(lastThreshold[1]);
   }
 
   const today = new Date(now).toISOString().substring(0, 10);
   const gemsSpentToday = game.gems.history?.[today]?.spent ?? 0;
 
-  if (gemsSpentToday >= 100) {
-    const multiplier = Math.floor(gemsSpentToday / 100);
-    gems += Math.floor(0.2 * multiplier * gems);
-  }
+  const multiplier = new Decimal(gemsSpentToday).div(100);
 
-  return gems;
+  gems = new Decimal(gems)
+    .mul(new Decimal(EXPONENTIAL_MULTIPLIER).pow(multiplier))
+    .toDecimalPlaces(0, Decimal.ROUND_HALF_UP);
+
+  return gems.toNumber();
+}
+
+/**
+ * React Hook to get the instant gems for a building or collectible
+ * @param readyAt - The readyAt timestamp of the building or collectible
+ * @param game - The game state
+ * @returns The instant gems
+ */
+export function useRealTimeInstantGems({
+  readyAt,
+  game,
+}: {
+  readyAt: number;
+  game: GameState;
+}) {
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  return getInstantGems({ readyAt, now, game });
 }
 
 export function makeGemHistory({
@@ -67,9 +92,17 @@ export function makeGemHistory({
   // Remove other dates
   game.gems.history = {
     [today]: {
-      spent: (game.gems.history[today]?.spent ?? 0) + amount,
+      spent: new Decimal(game.gems.history[today]?.spent ?? 0)
+        .add(amount)
+        .toNumber(),
     },
   };
+
+  game.farmActivity = trackFarmActivity(
+    "Instant Gems Spent",
+    game.farmActivity,
+    new Decimal(amount),
+  );
 
   return game;
 }

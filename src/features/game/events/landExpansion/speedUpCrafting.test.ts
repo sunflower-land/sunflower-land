@@ -324,7 +324,7 @@ describe("speedUpCrafting", () => {
       farmId: 1,
     });
 
-    expect(newState.inventory.Gem).toEqual(new Decimal(100 - expectedGems));
+    expect(newState.inventory.Gem).toEqual(new Decimal(100).sub(expectedGems));
   });
 
   it("throws when all queue items are already ready", () => {
