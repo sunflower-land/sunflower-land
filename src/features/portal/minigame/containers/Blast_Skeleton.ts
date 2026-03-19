@@ -12,8 +12,8 @@ interface Props {
 }
 
 const RESTORE_SPEED = 3000;
-const MIN_NEXT_MOVE = RESTORE_SPEED + 2000;
-const MAX_NEXT_MOVE = MIN_NEXT_MOVE + 4000;
+const MIN_NEXT_MOVE = RESTORE_SPEED + 3000;
+const MAX_NEXT_MOVE = RESTORE_SPEED + 5000;
 
 export class Blast_Skeleton extends Phaser.GameObjects.Container {
   scene: Scene;
@@ -35,13 +35,13 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.scene = scene;
     this.player = player;
-    this.spriteName = "sniper_skeleton";
     this.spawnX = x;
     this.spawnY = y;
+    this.spriteName = "blast_skeleton";
     this.health_status = "health";
 
     this.sprite = this.scene.add
-      .sprite(0, 0, `${this.spriteName}_idle`)
+      .sprite(0, 0, `${this.spriteName}_walk`)
       .setScale(1.2)
       .setVisible(false);
     this.food = this.scene.add
@@ -61,6 +61,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     (this.body as Phaser.Physics.Arcade.Body)
       .setSize(this.sprite.width, this.sprite.height)
       .setOffset(-this.sprite.width / 2, -this.sprite.height / 2);
+    this.sprite.setActive(false);
 
     scene.physics.add.existing(this.tomatoBomb);
     this.bombBody = this.tomatoBomb.body as Phaser.Physics.Arcade.Body;
@@ -91,12 +92,29 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     const delay = Phaser.Math.Between(MIN_NEXT_MOVE, MAX_NEXT_MOVE);
     this.skeletonTimer = this.scene.time.delayedCall(delay, () => {
       if (!this.player) return;
-      const targetX = this.player.x - 20;
-      const targetY = this.player.y - 20;
-
+      const targetX = this.player.x;
+      const targetY = this.player.y - 40;
+      this.setDepth(1000);
+      this.sprite.setActive(true);
       this.scene.time.delayedCall(200, () => {
-        this.createBlast(targetX, targetY);
-        this.scheduleAction();
+        this.sprite.setVisible(true);
+        createAnimation(
+          this.scene,
+          this.sprite,
+          `${this.spriteName}_emerge`,
+          "emerge",
+          0,
+          10,
+          8,
+          0,
+        );
+        this.scene.sound.add("blast_emerge", { volume: 0.3 }).play();
+        this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+          if (!this.isDefeated) {
+            this.createBlast(targetX, targetY);
+            this.scheduleAction();
+          }
+        });
       });
     });
   }
@@ -106,6 +124,34 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.isDefeated = false;
 
     (this.body as Phaser.Physics.Arcade.Body).enable = true;
+
+    let jumpFrameRate;
+
+    switch (true) {
+      case this.player.x < 250:
+      case this.player.x > 350:
+        jumpFrameRate = 15;
+        break;
+      case this.player.y < 310:
+        jumpFrameRate = 8;
+        break;
+      case this.player.y > 310:
+        jumpFrameRate = 15;
+        break;
+      default:
+        jumpFrameRate = 15;
+    }
+    this.sprite.anims.timeScale = jumpFrameRate / 8;
+    createAnimation(
+      this.scene,
+      this.sprite,
+      `${this.spriteName}_walk`,
+      "walk",
+      0,
+      5,
+      8,
+      -1,
+    );
 
     this.health_bar.setVisible(true);
     this.tomatoBomb.setVisible(false);
@@ -127,7 +173,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
           `${this.spriteName}_tomato_rolling`,
           "tomato_rolling",
           0,
-          7,
+          6,
           20,
           0,
         );
@@ -149,7 +195,10 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
             20,
             0,
           );
+          this.scene.sound.add("blast_splat", { volume: 0.2 }).play();
         });
+        this.sprite.setVisible(false);
+        this.sprite.setActive(false);
         this.tomatoBomb.once("animationcomplete", () => {
           this.createReset();
         });
@@ -167,7 +216,6 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
       this.food.setTexture(`${this.spriteName}_tomato`);
       this.food.setVisible(false);
       (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
-      this.sprite.setVisible(false);
     });
 
     this.restorePlayer();
@@ -219,20 +267,22 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     createAnimation(
       this.scene,
       this.sprite,
-      `${this.spriteName}_death`,
+      "sniper_skeleton_death",
       "death",
       0,
       4,
       4,
       0,
     );
+    this.scene.sound.add("death", { volume: 0.3 }).play();
 
-    this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    this.scene.time.delayedCall(800, () => {
       this.skeletonTimer?.remove(false);
       this.sprite.setVisible(false);
       this.food.setVisible(false);
       this.tomatoBomb.setVisible(false);
       this.health_bar.setVisible(false);
+      this.sprite.setActive(false);
 
       this.scene.tweens.killTweensOf(this.sprite);
       this.scene.tweens.killTweensOf(this.tomatoBomb);
