@@ -6388,7 +6388,7 @@
   "description.summerGuardian.boost2": "Blessed Summer Events",
   "description.obsidianNecklace.boost": "-50% Lava Pit Time",
   "description.medicApron.boost": "-50% Medicine to heal animals",
-  "description.broccoliHat.boost": "-50% Broccoli Growth Time (excluding Crop Machine)",
+  "description.broccoliHat.boost": "-50% Broccoli Plot Growth Time",
   "description.redPepperOnesie.boost": "-25% Red Pepper Growth Time",
   "interactableModals.petalClue.message1": "When the petals are in an orange bloom, a prize appears. Can you find it?",
   "current.timezone": "Current timezone: {{timeZone}}",
