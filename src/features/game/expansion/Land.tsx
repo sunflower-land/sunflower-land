@@ -850,25 +850,6 @@ export const LandComponent: React.FC = () => {
       });
   }, [lavaPits]);
 
-  const saltNodeElements = useMemo(() => {
-    return getObjectEntries(saltNodes)
-      .filter(([, node]) => !!node.coordinates)
-      .map(([id, node]) => {
-        const { x, y } = node.coordinates;
-
-        return (
-          <MapPlacement
-            key={`salt-node-${id}`}
-            x={x}
-            y={y}
-            {...RESOURCE_DIMENSIONS["Lava Pit"]}
-          >
-            <SaltNode id={id} />
-          </MapPlacement>
-        );
-      });
-  }, [saltNodes]);
-
   const mushroomElements = useMemo(() => {
     if (!mushrooms) return [];
 
@@ -1016,6 +997,26 @@ export const LandComponent: React.FC = () => {
     });
   }, [waterTraps]);
 
+  const saltNodeElements = useMemo(() => {
+    return getObjectEntries(saltNodes)
+      .filter(([, node]) => !!node.coordinates)
+      .map(([id, node]) => {
+        const { x, y } = node.coordinates;
+
+        return (
+          <MapPlacement
+            key={`salt-node-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+          >
+            <SaltNode id={id} />
+          </MapPlacement>
+        );
+      });
+  }, [saltNodes]);
+
   // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
     const elements = [
@@ -1033,7 +1034,6 @@ export const LandComponent: React.FC = () => {
       fruitPatchElements,
       oilReserveElements,
       lavaPitElements,
-      saltNodeElements,
       mushroomElements,
       clutterElements,
       budElements,
@@ -1079,7 +1079,6 @@ export const LandComponent: React.FC = () => {
     fruitPatchElements,
     oilReserveElements,
     lavaPitElements,
-    saltNodeElements,
     clutterElements,
     budElements,
     petNFTElements,
@@ -1156,6 +1155,7 @@ export const LandComponent: React.FC = () => {
 
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
+        {!landscaping && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div
