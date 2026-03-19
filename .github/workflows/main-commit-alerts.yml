@@ -1,0 +1,477 @@
+name: Main commit alerts
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  alert:
+    environment: develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect direct commits and send alerts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DISCORD_MAIN_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_MAIN_ALERT_WEBHOOK_URL }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PUSH_ACTOR: ${{ github.actor }}
+        run: |
+          node <<'EOF'
+          const { execFileSync } = require("node:child_process");
+          const fs = require("node:fs");
+
+          const ZERO_SHA = "0000000000000000000000000000000000000000";
+          const {
+            GITHUB_TOKEN,
+            OPENAI_API_KEY,
+            DISCORD_MAIN_ALERT_WEBHOOK_URL,
+            BEFORE_SHA,
+            AFTER_SHA,
+            REPOSITORY,
+            SERVER_URL,
+            RUN_URL,
+            PUSH_ACTOR,
+          } = process.env;
+
+          const [owner, repo] = REPOSITORY.split("/");
+          const skippedEmails = new Set([
+            "metadata@sunflower-land.com",
+            "translator@sunflower-land.com",
+          ]);
+          const skippedNames = new Set(["Metadata Bot", "Translator Bot"]);
+
+          function appendSummary(lines) {
+            if (!process.env.GITHUB_STEP_SUMMARY) {
+              return;
+            }
+
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join("\n")}\n`);
+          }
+
+          function git(args, options = {}) {
+            return execFileSync("git", args, {
+              encoding: "utf8",
+              maxBuffer: 1024 * 1024 * 20,
+              ...options,
+            }).trim();
+          }
+
+          function truncate(value, limit) {
+            if (!value || value.length <= limit) {
+              return value;
+            }
+
+            return `${value.slice(0, limit - 3)}...`;
+          }
+
+          function escapeDiscord(value) {
+            return value.replace(/@/g, "@\u200b").replace(/[`*_~|]/g, "\\$&");
+          }
+
+          function getCommitMetadata(sha) {
+            const raw = execFileSync(
+              "git",
+              [
+                "show",
+                "-s",
+                "--format=%H%x00%an%x00%ae%x00%cn%x00%ce%x00%s%x00%B",
+                sha,
+              ],
+              { encoding: "utf8", maxBuffer: 1024 * 1024 * 5 },
+            );
+            const [commitSha, authorName, authorEmail, committerName, committerEmail, subject, body] =
+              raw.split("\0");
+
+            return {
+              sha: commitSha.trim(),
+              authorName: authorName.trim(),
+              authorEmail: authorEmail.trim(),
+              committerName: committerName.trim(),
+              committerEmail: committerEmail.trim(),
+              subject: subject.trim(),
+              body: (body || "").trim(),
+            };
+          }
+
+          function getChangedFiles(sha) {
+            const output = git(["show", "--name-only", "--format=", sha]);
+            return output
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean);
+          }
+
+          function getDiffForSummary(sha) {
+            return truncate(
+              git([
+                "show",
+                "--format=fuller",
+                "--stat=120,200",
+                "--summary",
+                "--unified=1",
+                sha,
+              ]),
+              15000,
+            );
+          }
+
+          function getCommitUrl(sha) {
+            return `${SERVER_URL}/${REPOSITORY}/commit/${sha}`;
+          }
+
+          function shouldSkipCommit(metadata) {
+            if (
+              skippedEmails.has(metadata.authorEmail) ||
+              skippedEmails.has(metadata.committerEmail)
+            ) {
+              return true;
+            }
+
+            if (
+              skippedNames.has(metadata.authorName) ||
+              skippedNames.has(metadata.committerName)
+            ) {
+              return true;
+            }
+
+            return metadata.subject.startsWith("[BOT]");
+          }
+
+          async function githubRequest(path) {
+            const response = await fetch(`https://api.github.com${path}`, {
+              headers: {
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
+                Accept: "application/vnd.github+json",
+                "User-Agent": "main-commit-alerts",
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error(`GitHub REST request failed: ${response.status} ${await response.text()}`);
+            }
+
+            return response.json();
+          }
+
+          async function githubGraphql(query, variables) {
+            const response = await fetch("https://api.github.com/graphql", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
+                "Content-Type": "application/json",
+                "User-Agent": "main-commit-alerts",
+              },
+              body: JSON.stringify({ query, variables }),
+            });
+
+            const payload = await response.json();
+
+            if (!response.ok || payload.errors) {
+              throw new Error(`GitHub GraphQL request failed: ${JSON.stringify(payload.errors || payload)}`);
+            }
+
+            return payload.data;
+          }
+
+          async function findAssociatedPullRequest(sha, subject) {
+            const query = `
+              query AssociatedPullRequests($owner: String!, $repo: String!, $sha: GitObjectID!) {
+                repository(owner: $owner, name: $repo) {
+                  object(oid: $sha) {
+                    ... on Commit {
+                      associatedPullRequests(first: 5) {
+                        nodes {
+                          number
+                          title
+                          url
+                          mergedAt
+                          baseRefName
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            try {
+              const data = await githubGraphql(query, { owner, repo, sha });
+              const pullRequests =
+                data.repository.object?.associatedPullRequests?.nodes?.filter(
+                  (pullRequest) => pullRequest.mergedAt && pullRequest.baseRefName === "main",
+                ) ?? [];
+
+              if (pullRequests.length > 0) {
+                return pullRequests[0];
+              }
+            } catch (error) {
+              console.log(`GraphQL association lookup failed for ${sha}: ${error.message}`);
+            }
+
+            const match =
+              subject.match(/Merge pull request #(\d+)/) ||
+              subject.match(/\(#(\d+)\)\s*$/);
+
+            if (!match) {
+              return null;
+            }
+
+            try {
+              const pullRequest = await githubRequest(`/repos/${owner}/${repo}/pulls/${match[1]}`);
+              if (pullRequest.merged_at && pullRequest.base?.ref === "main") {
+                return {
+                  number: pullRequest.number,
+                  title: pullRequest.title,
+                  url: pullRequest.html_url,
+                  mergedAt: pullRequest.merged_at,
+                  baseRefName: pullRequest.base.ref,
+                };
+              }
+            } catch (error) {
+              console.log(`REST fallback lookup failed for PR #${match[1]}: ${error.message}`);
+            }
+
+            return null;
+          }
+
+          async function summarizeWithAi(metadata, files, diff) {
+            if (!OPENAI_API_KEY) {
+              appendSummary([
+                "## Main commit alerts",
+                "",
+                "AI summary skipped because `OPENAI_API_KEY` is not available to this workflow run.",
+              ]);
+              return null;
+            }
+
+            const response = await fetch("https://api.openai.com/v1/responses", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                model: "gpt-4.1-mini",
+                max_output_tokens: 220,
+                input: [
+                  {
+                    role: "system",
+                    content:
+                      "You summarize git commits for an internal engineering alert. Reply with 2-4 short markdown bullet points. Be factual, concise, and focus on what changed and likely impact. If the diff looks mechanical or generated, say so. Do not include a heading.",
+                  },
+                  {
+                    role: "user",
+                    content: [
+                      `Repository: ${REPOSITORY}`,
+                      `Commit: ${metadata.sha}`,
+                      `Author: ${metadata.authorName} <${metadata.authorEmail}>`,
+                      `Subject: ${metadata.subject}`,
+                      `Changed files: ${files.join(", ") || "None"}`,
+                      "",
+                      "Diff:",
+                      diff,
+                    ].join("\n"),
+                  },
+                ],
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`OpenAI request failed: ${response.status} ${await response.text()}`);
+            }
+
+            const payload = await response.json();
+            const summaryText =
+              payload.output_text?.trim() ||
+              (payload.output ?? [])
+                .flatMap((item) => item.content ?? [])
+                .filter((item) => item.type === "output_text" && typeof item.text === "string")
+                .map((item) => item.text.trim())
+                .filter(Boolean)
+                .join("\n")
+                .trim();
+
+            if (!summaryText) {
+              appendSummary([
+                "## Main commit alerts",
+                "",
+                "OpenAI responded, but no summary text could be extracted from the response payload.",
+              ]);
+              console.log(
+                `OpenAI response for ${metadata.sha} did not include extractable text. Top-level keys: ${Object.keys(payload).join(", ")}`,
+              );
+              return null;
+            }
+
+            return summaryText;
+          }
+
+          function fallbackSummary(metadata, files) {
+            const bullets = [
+              `- Commit message: ${metadata.subject}`,
+            ];
+
+            if (files.length > 0) {
+              bullets.push(`- Changed files: ${truncate(files.join(", "), 250)}`);
+            }
+
+            if (metadata.body) {
+              bullets.push(`- Commit body: ${truncate(metadata.body.replace(/\s+/g, " "), 250)}`);
+            }
+
+            bullets.push("- AI summary unavailable; showing commit metadata instead.");
+            return bullets.join("\n");
+          }
+
+          async function sendDiscordAlert(metadata, files, summary) {
+            const payload = {
+              username: "GitHub Commits Alerts",
+              content: "<@&1260758874189729867>",
+              allowed_mentions: {
+                roles: ["1260758874189729867"],
+              },
+              avatar_url:
+                "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
+              embeds: [
+                {
+                  title: "Direct commit to main detected",
+                  url: getCommitUrl(metadata.sha),
+                  color: 15158332,
+                  description: truncate(summary, 4000),
+                  fields: [
+                    {
+                      name: "Repository",
+                      value: escapeDiscord(REPOSITORY),
+                      inline: true,
+                    },
+                    {
+                      name: "Commit",
+                      value: `[\`${metadata.sha.slice(0, 7)}\`](${getCommitUrl(metadata.sha)})`,
+                      inline: true,
+                    },
+                    {
+                      name: "Author",
+                      value: escapeDiscord(`${metadata.authorName} <${metadata.authorEmail}>`),
+                      inline: true,
+                    },
+                    {
+                      name: "Pushed by",
+                      value: escapeDiscord(PUSH_ACTOR),
+                      inline: true,
+                    },
+                    {
+                      name: "Workflow run",
+                      value: `[Open run](${RUN_URL})`,
+                      inline: true,
+                    },
+                    {
+                      name: "Message",
+                      value: escapeDiscord(truncate(metadata.subject, 1024)),
+                    },
+                    {
+                      name: "Files",
+                      value: escapeDiscord(truncate(files.join("\n") || "No files detected", 1024)),
+                    },
+                  ],
+                  footer: {
+                    text: "Repo-only alert: PR merges that bypass merge rules are not reliably detectable here.",
+                  },
+                  timestamp: new Date().toISOString(),
+                },
+              ],
+            };
+
+            const response = await fetch(DISCORD_MAIN_ALERT_WEBHOOK_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Discord webhook failed: ${response.status} ${await response.text()}`);
+            }
+          }
+
+          async function main() {
+            if (!DISCORD_MAIN_ALERT_WEBHOOK_URL) {
+              appendSummary([
+                "## Main commit alerts",
+                "",
+                "Skipped notification because `DISCORD_MAIN_ALERT_WEBHOOK_URL` is not configured yet.",
+              ]);
+              return;
+            }
+
+            const commitRange =
+              !BEFORE_SHA || BEFORE_SHA === ZERO_SHA
+                ? [AFTER_SHA]
+                : git(["rev-list", "--reverse", `${BEFORE_SHA}..${AFTER_SHA}`])
+                    .split("\n")
+                    .filter(Boolean);
+
+            const suspiciousCommits = [];
+            let skippedBots = 0;
+
+            for (const sha of commitRange) {
+              const metadata = getCommitMetadata(sha);
+
+              if (shouldSkipCommit(metadata)) {
+                skippedBots += 1;
+                continue;
+              }
+
+              const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
+              if (pullRequest) {
+                continue;
+              }
+
+              suspiciousCommits.push(metadata);
+            }
+
+            appendSummary([
+              "## Main commit alerts",
+              "",
+              `Processed ${commitRange.length} commit(s).`,
+              `Skipped ${skippedBots} known bot commit(s).`,
+              `Flagged ${suspiciousCommits.length} direct commit(s) to \`main\`.`,
+              "",
+              "Note: repo-only automation cannot reliably detect PR merges that bypass merge rules.",
+            ]);
+
+            for (const metadata of suspiciousCommits) {
+              const files = getChangedFiles(metadata.sha);
+              const diff = getDiffForSummary(metadata.sha);
+
+              let summary;
+              try {
+                summary = await summarizeWithAi(metadata, files, diff);
+              } catch (error) {
+                console.log(`AI summary failed for ${metadata.sha}: ${error.message}`);
+              }
+
+              await sendDiscordAlert(metadata, files, summary || fallbackSummary(metadata, files));
+            }
+          }
+
+          main().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          EOF
