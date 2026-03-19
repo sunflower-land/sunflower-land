@@ -408,7 +408,7 @@
   "description.pablo.bunny.boost": "+0.1 Carrot",
   "description.cabbage.boy.boost": "+0.25 Cabbage",
   "description.cabbage.boy.boost.boosted": "+0.5 Cabbage (Cabbage Girl boost)",
-  "description.cabbage.girl.boost": "-50% Cabbage Growth Time (excluding Crop Machine)",
+  "description.cabbage.girl.boost": "-50% Cabbage Plot Growth Time",
   "description.golden.cauliflower.boost": "+100% Cauliflower",
   "description.mysterious.parsnip.boost": "-50% Parsnip Growth Time",
   "description.queen.cornelia.boost": "+1 Corn",
