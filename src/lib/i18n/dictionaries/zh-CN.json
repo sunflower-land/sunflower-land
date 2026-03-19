@@ -185,7 +185,6 @@
   "description.victoria.sisters.boost": "+20% 南瓜",
   "description.easter.bunny.boost": "+20% 胡萝卜",
   "description.pablo.bunny.boost": "+0.1 胡萝卜",
-  "description.cabbage.girl.boost": "-50% 卷心菜生长时间",
   "description.golden.cauliflower.boost": "+100% 花椰菜",
   "description.mysterious.parsnip.boost": "-50% 防风草生长时间",
   "description.foliant.boost": "+0.2 羽衣甘蓝",
@@ -295,7 +294,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 茄子",
   "bumpkinItemBuff.parsnip.boost": "+20% 防风草",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% 向日葵",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% 胡萝卜生长时间",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% 甜菜根",
   "bumpkinItemBuff.green.amulet.boost": "10% 几率获得 10 倍庄稼",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% 烹饪时间",
@@ -5704,7 +5702,6 @@
   "description.bonusGeniseed.boost": "+1 “创世灵种”",
   "description.giantKale": "巨大羽衣甘蓝……",
   "description.giantKale.boost": "+2 羽衣甘蓝",
-  "description.giantZucchini.boost": "-50% 西葫芦生长时间",
   "description.giantYam.boost": "+0.5 山药",
   "description.oracleSyringe.boost": "免药物治疗动物",
   "description.quarry.boost": "无需镐即可开采石脉",
@@ -5718,7 +5715,6 @@
   "description.summerGuardian.boost": "夏季灾难保护",
   "description.summerGuardian.boost2": "夏季祝福效果 x2 倍",
   "description.medicApron.boost": "使用 0.5 瓶 Barn Delight 治愈动物",
-  "description.broccoliHat.boost": "-50% 西兰花生长时间",
   "rocketman.flower.exchange.one": "乘坐热心气球旅行，用爱心护符兑换 $FLOWER。",
   "description.obsidianNecklace.boost": "-50% 岩浆池燃烧时间",
   "description.redPepperOnesie.boost": "-25% 红椒生长时间",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0.05 额外提取资源（总计 0.15，不包括 Fossil Shell）",
   "petGuide.levelPerks.lvl100": "+0.10 额外提取资源（总计 0.25，不包括 Fossil Shell）",
   "petGuide.levelPerks.lvl150": "+0.25 额外的 Moonfur 提取资源（总计 0.50 个）（仅限 NFT）",
-  "description.oaken.boost": "+0.25 Acorn"
+  "description.oaken.boost": "+0.25 Acorn",
+  "description.cabbage.girl.boost": "-50% 卷心菜地块生长时间",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% 胡萝卜地块生长时间",
+  "description.giantZucchini.boost": "-50% 西葫芦地块生长时间",
+  "description.broccoliHat.boost": "-50% 西兰花地块生长时间"
 }

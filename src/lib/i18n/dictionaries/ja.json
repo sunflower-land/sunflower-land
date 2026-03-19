@@ -187,7 +187,6 @@
   "description.victoria.sisters.boost": "+20% パンプキン",
   "description.easter.bunny.boost": "+20% キャロット",
   "description.pablo.bunny.boost": "+0.1 キャロット",
-  "description.cabbage.girl.boost": "-50% キャベツの成長時間",
   "description.golden.cauliflower.boost": "+100% カリフラワー",
   "description.mysterious.parsnip.boost": "パースニップの成長時間 -50%",
   "description.foliant.boost": "+0.2 ケール",
@@ -298,7 +297,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 ナス",
   "bumpkinItemBuff.parsnip.boost": "+20% パースニップ",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% サンフラワー",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% ニンジンの成長時間",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% ビートルート",
   "bumpkinItemBuff.green.amulet.boost": "チャンス10倍作物",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% 調理時間",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20がベースでライブ配信中",
   "flower.launch.two": "入金は有効になっています",
   "flower.launch.three": "流動性報酬と出金は間もなく開始",
-  "description.giantZucchini.boost": "ズッキーニの成長時間 -50%",
   "description.quarry.boost": "つるはしなしのマインストーン",
   "description.obsidianNecklace.boost": "ラバピットタイム -50%",
   "description.medicApron.boost": "-50% 動物を癒す薬",
-  "description.broccoliHat.boost": "-50% ブロッコリーの成長時間",
   "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間",
   "deposit.items": "ゲームアイテムを入金",
   "withdraw.sfl.available": "{{flower}} フラワーは出金可能です",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0.05 追加フェッチリソース (合計 0.15、フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl100": "+0.10 追加フェッチリソース (合計 0.25、フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)",
-  "description.oaken.boost": "+0.25 エイコーン"
+  "description.oaken.boost": "+0.25 エイコーン",
+  "description.cabbage.girl.boost": "-50% キャベツプロットの成長時間",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% キャロットプロットの成長時間",
+  "description.giantZucchini.boost": "-50% ズッキーニプロットの成長時間",
+  "description.broccoliHat.boost": "-50% ブロッコリープロットの成長時間"
 }

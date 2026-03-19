@@ -149,7 +149,6 @@
   "description.victoria.sisters.boost": "+20% Abóbora",
   "description.easter.bunny.boost": "+20% Cenoura",
   "description.pablo.bunny.boost": "+0.1 Cenoura",
-  "description.cabbage.girl.boost": "-50% Tempo de Crescimento de Repolho",
   "description.golden.cauliflower.boost": "+100% Couve-flor",
   "description.mysterious.parsnip.boost": "-50% Tempo de Crescimento de Nabo",
   "description.foliant.boost": "+0.2 Couve",
@@ -225,7 +224,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Berinjela",
   "bumpkinItemBuff.parsnip.boost": "+20% Nabos",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Girassol",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Tempo de Crescimento de Cenoura",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Beterraba",
   "bumpkinItemBuff.green.amulet.boost": "Chance 10x de colheita",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% Tempo de Cozimento",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 está ao vivo no BASE",
   "flower.launch.two": "Depósitos estão habilitados",
   "flower.launch.three": "Recompensas e retiradas de liquidez a partir de breve",
-  "description.giantZucchini.boost": "-50% Tempo de crescimento da abobrinha",
   "description.quarry.boost": "Minar pedra sem picaretas",
   "description.obsidianNecklace.boost": "-50% Tempo do Poço de Lava",
   "description.medicApron.boost": "-50% Remédio para curar animais",
-  "description.broccoliHat.boost": "-50% de tempo de crescimento de brócolis",
   "description.redPepperOnesie.boost": "-25% de tempo de crescimento de pimenta vermelha",
   "deposit.items": "Depositar itens do jogo",
   "withdraw.sfl.available": "{{flower}} FLOWER está disponível para retirada",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0,05 recurso de busca extra (0,15 no total, exclui Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 recurso de busca extra (0,25 no total, exclui Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 recurso extra de busca de Moonfur (0,50 no total) (somente NFT)",
-  "description.oaken.boost": "+0,25 Bolota"
+  "description.oaken.boost": "+0,25 Bolota",
+  "description.cabbage.girl.boost": "-50% de tempo de crescimento da parcela de repolho",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% de tempo de crescimento do lote de cenoura",
+  "description.giantZucchini.boost": "-50% Tempo de crescimento da parcela de abobrinha",
+  "description.broccoliHat.boost": "-50% de tempo de crescimento da parcela de brócolis"
 }

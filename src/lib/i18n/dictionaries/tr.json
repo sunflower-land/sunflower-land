@@ -160,7 +160,6 @@
   "description.victoria.sisters.boost": "+20% Balkabağı",
   "description.easter.bunny.boost": "+20% Havuç",
   "description.pablo.bunny.boost": "+0.1 Havuç",
-  "description.cabbage.girl.boost": "-50% Lahana Büyüme Süresi",
   "description.golden.cauliflower.boost": "+100% Karnabahar",
   "description.mysterious.parsnip.boost": "-50% Yaban Havucu Büyüme Süresi",
   "description.foliant.boost": "+0.2 Kıvırcık Lahana",
@@ -238,7 +237,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Patlıcan",
   "bumpkinItemBuff.parsnip.boost": "+20% Yaban havucu",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Ayçiçeği",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Havuç büyüme süresi",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Pancar",
   "bumpkinItemBuff.green.amulet.boost": "10x Mahsül Şansı",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% Pişirme süresi",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 BASE'de Yayında",
   "flower.launch.two": "Para yatırma etkinleştirildi",
   "flower.launch.three": "Likidite ödülleri ve para çekme işlemleri yakında başlıyor",
-  "description.giantZucchini.boost": "-50% Zucchini Büyüme Süresi",
   "description.quarry.boost": "Kazma olmadan maden taşı",
   "description.obsidianNecklace.boost": "-50% Lav Çukuru Zamanı",
   "description.medicApron.boost": "-50% Hayvanları iyileştirmek için ilaç",
-  "description.broccoliHat.boost": "-50% Brokoli Büyüme Süresi",
   "description.redPepperOnesie.boost": "-25% Kırmızı Biber Büyüme Süresi",
   "deposit.items": "Oyun Öğelerini Yatırma",
   "withdraw.sfl.available": "{{flower}} FLOWER para çekilebilir",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0.05 ekstra getirme kaynağı (toplam 0,15, Fosil Shell hariç)",
   "petGuide.levelPerks.lvl100": "+0.10 ekstra getirme kaynağı (toplam 0.25, Fosil Shell hariç)",
   "petGuide.levelPerks.lvl150": "+0.25 ekstra Moonfur getirme kaynağı (toplam 0,50) (yalnızca NFT)",
-  "description.oaken.boost": "+0.25 Meşe palamudu"
+  "description.oaken.boost": "+0.25 Meşe palamudu",
+  "description.cabbage.girl.boost": "-50% Lahana Arsa Büyüme Süresi",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Havuç Arsa Büyüme süresi",
+  "description.giantZucchini.boost": "-50% Kabak Arsa Büyüme Süresi",
+  "description.broccoliHat.boost": "-50% Brokoli Arsa Büyüme Süresi"
 }

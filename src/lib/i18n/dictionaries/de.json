@@ -187,7 +187,6 @@
   "description.victoria.sisters.boost": "+20% Kürbis",
   "description.easter.bunny.boost": "+20% Karotte",
   "description.pablo.bunny.boost": "+0.1 Karotte",
-  "description.cabbage.girl.boost": "-50% Wachstumszeit des Kohls",
   "description.golden.cauliflower.boost": "+100% Blumenkohl",
   "description.mysterious.parsnip.boost": "-50% Wachstumszeit von Pastinaken",
   "description.foliant.boost": "+0.2 Grünkohl",
@@ -298,7 +297,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Aubergine",
   "bumpkinItemBuff.parsnip.boost": "+20% Pastinake",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Sonnenblume",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Wachstumszeit der Karotte",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Rote Beete",
   "bumpkinItemBuff.green.amulet.boost": "Ernten Sie 10-mal eine Chance",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% Garzeit",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 ist live auf BASE",
   "flower.launch.two": "Einzahlungen sind aktiviert",
   "flower.launch.three": "Liquiditätsprämien und Auszahlungen beginnen bald",
-  "description.giantZucchini.boost": "-50% Wachstumszeit von Zucchini",
   "description.quarry.boost": "Minenstein ohne Spitzhacken",
   "description.obsidianNecklace.boost": "-50% Lavagrubenzeit",
   "description.medicApron.boost": "-50% Medizin zur Heilung von Tieren",
-  "description.broccoliHat.boost": "-50% Wachstumszeit von Brokkoli",
   "description.redPepperOnesie.boost": "-25% Wachstumszeit für rote Paprika",
   "deposit.items": "Spielgegenstände hinterlegen",
   "withdraw.sfl.available": "{{flower}} FLOWER kann ausgezahlt werden",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0,05 zusätzliche Fetch-Ressource (insgesamt 0,15, ohne Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 zusätzliche Fetch-Ressource (insgesamt 0,25, ohne Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 zusätzliche Moonfur-Futch-Ressource (insgesamt 0,50) (nur NFT)",
-  "description.oaken.boost": "+0.25 Eichel"
+  "description.oaken.boost": "+0.25 Eichel",
+  "description.cabbage.girl.boost": "-50% Wachstumszeit der Kohlpflanze",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Wachstumszeit der Karottenpflanze",
+  "description.giantZucchini.boost": "-50% Wachstumszeit der Zucchini-Palze",
+  "description.broccoliHat.boost": "-50% Wachstumszeit der Brokkoli-Pflanzen"
 }

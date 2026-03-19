@@ -294,7 +294,6 @@
   "description.pablo.bunny.boost": "+0.1 морковь",
   "description.cabbage.boy.boost": "+0.25 капуста",
   "description.cabbage.boy.boost.boosted": "+0.5 капуста с Cabbage Girl",
-  "description.cabbage.girl.boost": "-50% времени роста капусты",
   "description.golden.cauliflower.boost": "+100% к цветной капусте",
   "description.mysterious.parsnip.boost": "-50% времени роста пастернака",
   "description.queen.cornelia.boost": "+1 кукуруза",
@@ -470,7 +469,6 @@
   "bumpkinItemBuff.parsnip.boost": "+20% к пастернаку",
   "bumpkinItemBuff.sunflower.shield.boost": "Бесплатные семена подсолнуха",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% к подсолнуху",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% времени роста моркови",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% к свёкле",
   "bumpkinItemBuff.green.amulet.boost": "Шанс получить 10х урожая",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% времени готовки",
@@ -6005,7 +6003,6 @@
   "description.lunalist": "Цветущий артефакт, посвященный Луне. Декоративный цветк-мутант, найденный во время главы «Великого цветения»",
   "description.giantKale": "Гигантский кейл...",
   "description.giantKale.boost": "+2 кейл",
-  "description.giantZucchini.boost": "-50% времени роста цукини",
   "description.giantYam.boost": "+0.5 ямс",
   "description.oracleSyringe.boost": "Бесплатное лечение животных",
   "description.quarry.boost": "Камень добывается без кирки",
@@ -6020,7 +6017,6 @@
   "description.summerGuardian.boost2": "Благословенные летние события",
   "description.obsidianNecklace.boost": "-50% времени производства в лавовой яме",
   "description.medicApron.boost": "-50% лекарств на лечение животных",
-  "description.broccoliHat.boost": "-50% времени роста брокколи",
   "description.redPepperOnesie.boost": "-25% времени роста перца",
   "interactableModals.petalClue.message1": "Когда лепестки станут оранжевыми - появится приз. Сможешь найти его?",
   "current.timezone": "Текущий часовой пояс: {{timeZone}}",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0.05 extra fetch resource (0.15 total, excludes Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0.10 extra fetch resource (0.25 total, excludes Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0.25 extra Moonfur fetch resource (0.50 total) (NFT only)",
-  "description.oaken.boost": "+0.25 Acorn"
+  "description.oaken.boost": "+0.25 Acorn",
+  "description.cabbage.girl.boost": "-50% Cabbage Plot Growth Time",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Carrot Plot Growth time",
+  "description.giantZucchini.boost": "-50% Zucchini Plot Growth Time",
+  "description.broccoliHat.boost": "-50% Broccoli Plot Growth Time"
 }

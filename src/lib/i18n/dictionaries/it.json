@@ -186,7 +186,6 @@
   "description.victoria.sisters.boost": "+20% Zucca",
   "description.easter.bunny.boost": "+20% Carota",
   "description.pablo.bunny.boost": "+0.1 Carota",
-  "description.cabbage.girl.boost": "-50% Tempo di crescita del cavolo",
   "description.golden.cauliflower.boost": "+100% cavolfiore",
   "description.mysterious.parsnip.boost": "-50% Tempo di crescita della pastinaca",
   "description.foliant.boost": "+0,2 Kale",
@@ -296,7 +295,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Melanzane",
   "bumpkinItemBuff.parsnip.boost": "+20% pastinaca",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Girasole",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Tempo di crescita delle carote",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Barbabietola",
   "bumpkinItemBuff.green.amulet.boost": "Chance 10x Raccolti",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% Tempo di cottura",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 è in diretta su BASE",
   "flower.launch.two": "I depositi sono abilitati",
   "flower.launch.three": "Premi e prelievi di liquidità a breve",
-  "description.giantZucchini.boost": "-50% Tempo di crescita di Zucchini",
   "description.quarry.boost": "La mia pietra senza picconi",
   "description.obsidianNecklace.boost": "-50% Lava Pit Time",
   "description.medicApron.boost": "-50% Medicina per curare gli animali",
-  "description.broccoliHat.boost": "-50% Tempo di crescita dei broccoli",
   "description.redPepperOnesie.boost": "-25% Tempo di crescita del peperone rosso",
   "deposit.items": "Deposita oggetti di gioco",
   "withdraw.sfl.available": "{{flower}} FLOWER è disponibile per il ritiro",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0,05 risorse di recupero extra (0,15 in totale, esclude Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 risorse di recupero extra (0,25 in totale, esclude Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 risorse aggiuntive per il recupero di Moonfur (0,50 in totale) (solo NFT)",
-  "description.oaken.boost": "+0,25 Ghianda"
+  "description.oaken.boost": "+0,25 Ghianda",
+  "description.cabbage.girl.boost": "-50% Tempo di crescita del terreno del cavolo",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Tempo di crescita di Carrot Plot",
+  "description.giantZucchini.boost": "-50% Tempo di crescita del terreno di zucchine",
+  "description.broccoliHat.boost": "-50% Tempo di crescita del terreno dei broccoli"
 }

@@ -187,7 +187,6 @@
   "description.victoria.sisters.boost": "Aumenta el rendimiento de las calabazas en un +20%.",
   "description.easter.bunny.boost": "Aumenta el rendimiento de las zanahorias en un +20%.",
   "description.pablo.bunny.boost": "Aumenta el rendimiento de las zanahorias en +0.1.",
-  "description.cabbage.girl.boost": "Reduce el tiempo de crecimiento de la col en un -50%.",
   "description.golden.cauliflower.boost": "Aumenta el rendimiento de la coliflor en un +100%.",
   "description.mysterious.parsnip.boost": "Reduce el tiempo de crecimiento de la chirivía en un -50%.",
   "description.foliant.boost": "Incrementa en +0.2 la col rizada.",
@@ -297,7 +296,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "Aumenta la recolección de berenjenas en +0.1.",
   "bumpkinItemBuff.parsnip.boost": "Incrementa la producción de chirivías en un 20%.",
   "bumpkinItemBuff.sunflower.amulet.boost": "Aumenta la producción de girasoles en un +10%.",
-  "bumpkinItemBuff.carrot.amulet.boost": "Reduce el tiempo de crecimiento de las zanahorias en un -20%.",
   "bumpkinItemBuff.beetroot.amulet.boost": "Incrementa la producción de remolacha en un +20%.",
   "bumpkinItemBuff.green.amulet.boost": "Proporciona una probabilidad de obtener +10 veces más cosechas.",
   "bumpkinItemBuff.Luna.s.hat.boost": "Reduce el tiempo de cocción en un +50%.",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 está disponible en BASE",
   "flower.launch.two": "Los depósitos están habilitados",
   "flower.launch.three": "Las recompensas de liquidez y los retiros comenzarán pronto",
-  "description.giantZucchini.boost": "-50% de tiempo de crecimiento del calabacín",
   "description.quarry.boost": "Mina piedra sin picos",
   "description.obsidianNecklace.boost": "-50% de tiempo en el pozo de lava",
   "description.medicApron.boost": "-50% Medicina para curar animales",
-  "description.broccoliHat.boost": "-50% de tiempo de crecimiento del brócoli",
   "description.redPepperOnesie.boost": "-25% de tiempo de crecimiento del pimiento rojo",
   "deposit.items": "Deposita objetos del juego",
   "withdraw.sfl.available": "{{flower}} FLOWER está disponible para su retirada",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0,05 de recurso de búsqueda adicional (0,15 en total, no incluye Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 de recurso de búsqueda adicional (0,25 en total, no incluye Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 recurso extra para obtener Moonfur (0,50 en total) (solo NFT)",
-  "description.oaken.boost": "+0.25 Bellota"
+  "description.oaken.boost": "+0.25 Bellota",
+  "description.cabbage.girl.boost": "-50% de tiempo de crecimiento de la parcela de repollo",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% de tiempo de crecimiento de la parcela de zanahorias",
+  "description.giantZucchini.boost": "-50% de tiempo de crecimiento de la parcela de calabacín",
+  "description.broccoliHat.boost": "-50% de tiempo de crecimiento de la parcela de brócoli"
 }

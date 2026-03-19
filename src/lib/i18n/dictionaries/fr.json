@@ -160,7 +160,6 @@
   "description.victoria.sisters.boost": "+20% pumpkin",
   "description.easter.bunny.boost": "+20% Carot",
   "description.pablo.bunny.boost": "+0.1 Carot",
-  "description.cabbage.girl.boost": "-50% Temps de croissance du Cabbage",
   "description.mysterious.parsnip.boost": "-50% Temps de croissance du Parsnip",
   "description.hungry.caterpillar.boost": "Graines de fleurs gratuites",
   "description.black.bearry.boost": "+1 Myrtille",
@@ -228,7 +227,6 @@
   "bumpkinItemBuff.eggplant.onesie.boost": "+0,1 Eggplant",
   "bumpkinItemBuff.parsnip.boost": "+20 % de Parsnip",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10 % de Tournesol",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20 % de temps de croissance des Carottes",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20 % de Betterave",
   "bumpkinItemBuff.green.amulet.boost": "Chance 10x pour les cultures",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50 % de temps de cuisson",
@@ -5737,11 +5735,9 @@
   "flower.launch.one": "$FLOWER ERC20 est disponible sur BASE",
   "flower.launch.two": "Les dépôts sont activés",
   "flower.launch.three": "Récompenses et retraits en termes de liquidités à partir de maintenant",
-  "description.giantZucchini.boost": "Temps de croissance des courgettes : -50 %",
   "description.quarry.boost": "Pierre de mine sans pioches",
   "description.obsidianNecklace.boost": "-50 % Durée de la fosse à lave",
   "description.medicApron.boost": "-50% Médicaments pour soigner les animaux",
-  "description.broccoliHat.boost": "-50 % de temps de croissance du brocoli",
   "description.redPepperOnesie.boost": "-25 % de temps de croissance du poivron rouge",
   "deposit.items": "Déposer des objets de jeu",
   "withdraw.sfl.available": "{{flower}} FLOWER est disponible pour le retrait",
@@ -8147,5 +8143,9 @@
   "petGuide.levelPerks.lvl50": "+0,05 ressource de récupération supplémentaire (0,15 au total, hors Fossil Shell)",
   "petGuide.levelPerks.lvl100": "+0,10 ressource de récupération supplémentaire (0,25 au total, hors Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 ressource de récupération Moonfur supplémentaire (0,50 au total) (NFT uniquement)",
-  "description.oaken.boost": "+0,25 Gland"
+  "description.oaken.boost": "+0,25 Gland",
+  "description.cabbage.girl.boost": "-50 % de temps de croissance des parcelles de choux",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Temps de croissance de la parcelle de carottes",
+  "description.giantZucchini.boost": "-50 % Temps de croissance de la parcelle de courgettes",
+  "description.broccoliHat.boost": "-50 % Temps de croissance de la parcelle de brocoli"
 }
