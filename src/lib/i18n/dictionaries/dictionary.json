@@ -595,7 +595,7 @@
   "bumpkinItemBuff.parsnip.boost": "+20% Parsnip",
   "bumpkinItemBuff.sunflower.shield.boost": "Free Sunflower Seeds",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Sunflower",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Carrot Growth time (excluding Crop Machine)",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% Carrot Plot Growth time",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Beetroot",
   "bumpkinItemBuff.green.amulet.boost": "Chance 10x Crops",
   "bumpkinItemBuff.Luna.s.hat.boost": "-50% Cooking Time",
