@@ -20,6 +20,7 @@ import { Menace_Skeleton } from "./containers/Menace_Skeleton";
 import { Blast_Skeleton } from "./containers/Blast_Skeleton";
 import { Cannon } from "./containers/Cannon";
 import { createAnimation } from "./lib/Utils";
+import { LineGlitch } from "./containers/LineGlitch";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -41,8 +42,9 @@ export class Scene extends BaseScene {
   private isUsingCannon = false;
   private activeCannondSide: Side | null = null;
   private menaceSkeleton: Menace_Skeleton[] = [];
-  private drownedSkeleton: Blast_Skeleton[] = [];
+  private blastSkeleton: Blast_Skeleton[] = [];
   public allEnemies: Enemy[] = [];
+  private glitch!: LineGlitch;
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -317,6 +319,7 @@ export class Scene extends BaseScene {
 
     // Enemies
     this.allEnemies = [];
+    this.createGlitch();
     this.createEnemies();
 
     // Cannons
@@ -543,6 +546,17 @@ export class Scene extends BaseScene {
     this.createBlastSkeleton();
   }
 
+  private createGlitch(delay: number = 4000) {
+    this.glitch = new LineGlitch(this, {
+      lineCount: 60,
+      maxOffset: 100
+    })
+    this.time.delayedCall(delay, () => {
+      this.glitch.stop();
+      this.glitch.destroy();
+    });
+  }
+
   private createGiantSkeleton() {
     const { x, y } = { x: 230, y: 100 };
     const giantCardboard = new Giant_Skeleton({
@@ -579,7 +593,7 @@ export class Scene extends BaseScene {
   }
 
   private createBlastSkeleton() {
-    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map((pos) => {
+    this.blastSkeleton = BLAST_SKELETON_POSITIONS.map((pos) => {
       const skel = new Blast_Skeleton({
         x: pos.x,
         y: pos.y,
