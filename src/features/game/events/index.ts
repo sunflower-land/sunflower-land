@@ -607,6 +607,10 @@ import {
   speedUpProcessing,
   SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
+import {
+  upgradeSaltFarm,
+  UpgradeSaltFarmAction,
+} from "./landExpansion/upgradeSaltFarm";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -744,6 +748,7 @@ export type PlayingEvent =
   | StartLavaPitAction
   | StartSaltHarvestAction
   | ClaimSaltHarvestAction
+  | UpgradeSaltFarmAction
   | CancelQueuedRecipeAction
   | AcknowledgeOnChainAirdropAction
   | CompleteSocialTaskAction
@@ -1018,6 +1023,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "lavaPit.started": startLavaPit,
   "saltHarvest.started": startSaltHarvest,
   "saltHarvest.claimed": claimSaltHarvest,
+  "saltFarm.upgraded": upgradeSaltFarm,
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,

@@ -5,8 +5,7 @@ import {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { OuterPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -22,12 +21,7 @@ const _node = (id: string) => (state: MachineState) =>
   state.context.state.saltFarm.nodes[id];
 const _state = (state: MachineState) => state.context.state;
 
-interface Props {
-  id: string;
-  onClose: () => void;
-}
-
-export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
+export const SaltNodeModalContent: React.FC<{ id: string }> = ({ id }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
   const game = useSelector(gameService, _state);
@@ -48,44 +42,30 @@ export const SaltFarmModalContent: React.FC<Props> = ({ id, onClose }) => {
 
   if (!node || !modalState) {
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        tabs={[
-          {
-            id: "saltFarm",
-            name: "Salt Farm",
-            icon: ITEM_DETAILS.Salt.image,
-          },
-        ]}
-        container={OuterPanel}
-      >
-        <InnerPanel className="p-2">
-          <Label type="danger">{"Salt node not found"}</Label>
-        </InnerPanel>
-      </CloseButtonPanel>
+      <InnerPanel className="p-2">
+        <Label type="danger">{"Salt node not found"}</Label>
+      </InnerPanel>
     );
   }
 
   return (
-    <SaltFarmContent
+    <SaltNodeContent
       modalState={modalState}
       isVip={isVip}
       gameService={gameService}
       id={id}
-      onClose={onClose}
       now={now}
     />
   );
 };
 
-const SaltFarmContent: React.FC<{
+const SaltNodeContent: React.FC<{
   modalState: SaltModalState;
   isVip: boolean;
   gameService: MachineInterpreter;
   id: string;
-  onClose: () => void;
   now: number;
-}> = ({ modalState, isVip, gameService, id, onClose, now }) => {
+}> = ({ modalState, isVip, gameService, id, now }) => {
   const {
     canStart,
     canClaim,
@@ -127,17 +107,7 @@ const SaltFarmContent: React.FC<{
   const startAmount = clampedSelectedRakes;
 
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      tabs={[
-        {
-          id: "saltFarm",
-          name: "Salt Farm",
-          icon: ITEM_DETAILS.Salt.image,
-        },
-      ]}
-      container={OuterPanel}
-    >
+    <>
       <InnerPanel className="p-2">
         <Label type="vibrant" icon={ITEM_DETAILS.Salt.image}>
           {`Salt Node #${id}`}
@@ -272,6 +242,6 @@ const SaltFarmContent: React.FC<{
           </Label>
         )}
       </InnerPanel>
-    </CloseButtonPanel>
+    </>
   );
 };

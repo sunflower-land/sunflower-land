@@ -1,4 +1,6 @@
+import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import type { InventoryItemName } from "./game";
 
 export type SaltNode = {
   createdAt: number;
@@ -27,6 +29,88 @@ export type SaltFarm = {
   level: number;
   nodes: SaltNodes;
 };
+
+export const SALT_FARM_MAX_LEVEL = 4;
+
+export const SALT_FARM_UPGRADES: Record<
+  number,
+  {
+    nodes: number;
+    upgradeCost: {
+      coins: number;
+      items: Partial<Record<InventoryItemName, Decimal>>;
+    };
+  }
+> = {
+  0: {
+    nodes: 0,
+    upgradeCost: {
+      coins: 0,
+      items: {},
+    },
+  },
+  1: {
+    nodes: 1,
+    upgradeCost: {
+      coins: 200,
+      items: {
+        Wood: new Decimal(30),
+        Stone: new Decimal(20),
+      },
+    },
+  },
+  2: {
+    nodes: 2,
+    upgradeCost: {
+      coins: 1_000,
+      items: {
+        Stone: new Decimal(15),
+        Iron: new Decimal(5),
+        Salt: new Decimal(100),
+      },
+    },
+  },
+  3: {
+    nodes: 4,
+    upgradeCost: {
+      coins: 40_000,
+      items: {
+        Wood: new Decimal(500),
+        Gold: new Decimal(40),
+        Salt: new Decimal(2_000),
+      },
+    },
+  },
+  4: {
+    nodes: 6,
+    upgradeCost: {
+      coins: 120_000,
+      items: {
+        Gold: new Decimal(100),
+        Salt: new Decimal(10_000),
+      },
+    },
+  },
+};
+
+/**
+ * Node ids for salt slots that the next upgrade will create (map placeholders).
+ * Empty when at max level or when node count already matches the post-upgrade target.
+ */
+export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
+  const { level, nodes } = saltFarm;
+  if (level >= SALT_FARM_MAX_LEVEL) {
+    return [];
+  }
+  const nextLevel = level + 1;
+  const targetCount = SALT_FARM_UPGRADES[nextLevel].nodes;
+  const currentCount = Object.keys(nodes).length;
+  const pending = targetCount - currentCount;
+  if (pending <= 0) {
+    return [];
+  }
+  return Array.from({ length: pending }, (_, i) => String(currentCount + i));
+}
 
 export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
 export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
@@ -218,5 +302,41 @@ export function syncSaltNode(saltNode: SaltNode, now: number): SaltNode {
       lastUpdatedAt: nextLastUpdatedAt,
       harvesting: pauseClearedHarvesting,
     },
+  };
+}
+
+export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
+  "0": { x: -16, y: -18 },
+  "1": { x: -16, y: -16 },
+  "2": { x: -18, y: -18 },
+  "3": { x: -18, y: -16 },
+  "4": { x: -16, y: -20 },
+  "5": { x: -18, y: -20 },
+};
+
+/**
+ * Get the coordinates for a specific salt node
+ * @param expansions - The number of expansions
+ * @param nodeIndex - The index of the node
+ * @returns The coordinates of the node
+ */
+export function getSaltNodeCoordinates(
+  expansions: number,
+  nodeIndex: string,
+): Coordinates {
+  let offsetX = 0;
+  let offsetY = 0;
+  if (expansions < 7) {
+    offsetX = 13;
+    offsetY = 12;
+  }
+  if (expansions >= 7 && expansions < 21) {
+    offsetX = 6;
+    offsetY = 6;
+  }
+
+  return {
+    x: SALT_NODE_COORDINATES[nodeIndex].x + offsetX,
+    y: SALT_NODE_COORDINATES[nodeIndex].y + offsetY,
   };
 }

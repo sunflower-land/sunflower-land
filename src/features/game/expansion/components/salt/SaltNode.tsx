@@ -7,7 +7,7 @@ import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useNow } from "lib/utils/hooks/useNow";
-import { SaltFarmModalContent } from "./SaltFarmModalContent";
+import { SaltNodeModalPanel } from "./SaltNodeModalPanel";
 
 interface Props {
   id: string;
@@ -49,7 +49,7 @@ export const SaltNode: React.FC<Props> = ({ id }) => {
       </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <SaltFarmModalContent onClose={() => setShowModal(false)} id={id} />
+        <SaltNodeModalPanel onClose={() => setShowModal(false)} id={id} />
       </Modal>
     </div>
   );

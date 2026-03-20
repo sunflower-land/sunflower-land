@@ -40,6 +40,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import {
   comparePositions,
+  compareSaltFarmSlice,
   getSortedResourcePositions,
   getSortedCollectiblePositions,
 } from "./lib/utils";
@@ -49,6 +50,9 @@ import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { SaltNode } from "./components/salt/SaltNode";
+import { SaltNodePlaceholder } from "./components/salt/SaltNodePlaceholder";
+import { getSaltNodeCoordinates } from "features/game/types/salt";
+import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
 
 export const LAND_WIDTH = 6;
 
@@ -130,9 +134,17 @@ const _lavaPitPositions = (state: MachineState) => {
   };
 };
 const _saltNodePositions = (state: MachineState) => {
+  const saltNodes = state.context.state.saltFarm.nodes;
+  const saltFarmLevel = state.context.state.saltFarm.level;
+  const basicLand =
+    state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
+  const saltNodeIds = Object.keys(saltNodes).sort();
   return {
-    saltNodes: state.context.state.saltFarm.nodes,
-    positions: getObjectEntries(state.context.state.saltFarm.nodes)
+    saltNodes,
+    saltFarmLevel,
+    basicLand,
+    saltNodeIds,
+    positions: getObjectEntries(saltNodes)
       .filter(([, node]) => !!node.coordinates)
       .map(([id, node]) => ({
         id,
@@ -347,10 +359,10 @@ export const LandComponent: React.FC = () => {
     _lavaPitPositions,
     comparePositions,
   );
-  const { saltNodes } = useSelector(
+  const { saltNodes, saltFarmLevel, basicLand } = useSelector(
     gameService,
     _saltNodePositions,
-    comparePositions,
+    compareSaltFarmSlice,
   );
   const { mushrooms } = useSelector(
     gameService,
@@ -1017,6 +1029,27 @@ export const LandComponent: React.FC = () => {
       });
   }, [saltNodes]);
 
+  const saltPlaceholderElements = useMemo(() => {
+    const pendingIds = getPendingSaltNodeIdsForUpgrade({
+      level: saltFarmLevel,
+      nodes: saltNodes,
+    });
+    return pendingIds.map((id) => {
+      const { x, y } = getSaltNodeCoordinates(basicLand, id);
+      return (
+        <MapPlacement
+          key={`salt-placeholder-${id}`}
+          x={x - 0.5}
+          y={y + 0.5}
+          height={2}
+          width={2}
+        >
+          <SaltNodePlaceholder id={id} visiting={visiting} />
+        </MapPlacement>
+      );
+    });
+  }, [basicLand, saltFarmLevel, saltNodes, visiting]);
+
   // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
     const elements = [
@@ -1155,6 +1188,7 @@ export const LandComponent: React.FC = () => {
 
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
+        {!landscaping && saltPlaceholderElements}
         {!landscaping && saltNodeElements}
 
         {/* Background darkens in landscaping */}
