@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import type { InventoryItemName } from "./game";
+import { hasFeatureAccess } from "lib/flags";
+import type { GameState, InventoryItemName } from "./game";
 
 export type SaltNode = {
   createdAt: number;
@@ -15,7 +16,15 @@ export type SaltHarvestSlot = {
 
 export type Salt = {
   claimedAt?: number;
-  lastUpdatedAt: number;
+  /**
+   * Wall time (ms) when the next stored charge completes while display count is below max.
+   * Undefined when regen is paused (display maxed, harvest pause, etc.).
+   */
+  nextChargeAt?: number;
+  /**
+   * Persisted pile count. Cap is raised when unclaimed ready slots keep display below max
+   * so regeneration can continue (see {@link saltRegenStoredCapAt}).
+   */
   storedCharges: number;
   harvesting?: {
     slots: SaltHarvestSlot[];
@@ -112,8 +121,23 @@ export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
   return Array.from({ length: pending }, (_, i) => String(currentCount + i));
 }
 
-export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
-export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
+export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 7; // 7 hours per charge
+
+export function getSaltChargeGenerationTime({
+  gameState,
+}: {
+  gameState: GameState;
+}): number {
+  let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
+
+  if (hasFeatureAccess(gameState, "SALT_FARM")) {
+    chargeGenerationTimeMs *= 0.5;
+  }
+
+  return chargeGenerationTimeMs;
+}
+
+export const SALT_HARVEST_DURATION = 1000 * 60; // 60 minutes (harvest action only)
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
@@ -127,182 +151,215 @@ function clampStoredCharges(value: number): number {
   return Math.max(0, Math.min(value, MAX_STORED_SALT_CHARGES_PER_NODE));
 }
 
+export type SaltSyncOptions = {
+  chargeIntervalMs?: number;
+};
+
 /**
- * Computes when charge generation is allowed to start.
- *
- * Generation normally starts from `lastUpdatedAt`. When regeneration is paused,
- * generation starts from the later of `lastUpdatedAt` and `regenerationPausedUntil`.
- *
- * @param lastUpdatedAt Last timestamp used as the regeneration anchor.
- * @param regenerationPausedUntil Optional pause boundary for regeneration.
- * @returns The effective timestamp from which generation can progress.
+ * Applies {@link regenerationPausedUntil} the same way as the legacy anchor model:
+ * when the current interval started before the pause boundary, the next charge is
+ * scheduled from `pauseUntil + interval` instead of completing during the pause window.
  */
-export function getSaltGenerationStartAt({
-  lastUpdatedAt,
-  regenerationPausedUntil,
+function applyRegenerationPauseFloorToNextCharge({
+  nextChargeAt,
+  pauseUntil,
+  intervalMs,
 }: {
-  lastUpdatedAt: number;
-  regenerationPausedUntil?: number;
+  nextChargeAt: number;
+  pauseUntil: number;
+  intervalMs: number;
 }): number {
-  return regenerationPausedUntil
-    ? Math.max(lastUpdatedAt, regenerationPausedUntil)
-    : lastUpdatedAt;
+  const intervalStart = nextChargeAt - intervalMs;
+  if (intervalStart < pauseUntil) {
+    return pauseUntil + intervalMs;
+  }
+  return nextChargeAt;
+}
+
+function harvestingWithExpiredPauseCleared(
+  harvesting: Salt["harvesting"],
+  now: number,
+): Salt["harvesting"] {
+  if (!harvesting?.regenerationPausedUntil) {
+    return harvesting;
+  }
+  if (now < harvesting.regenerationPausedUntil) {
+    return harvesting;
+  }
+  return { slots: harvesting.slots };
+}
+
+function harvestSlotPhaseCounts(
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): { active: number; ready: number } {
+  const slots = harvesting?.slots ?? [];
+  let active = 0;
+  let ready = 0;
+  for (const s of slots) {
+    if (now < s.readyAt) {
+      active += 1;
+    } else {
+      ready += 1;
+    }
+  }
+  return { active, ready };
 }
 
 /**
- * Calculates the number of fully generated charges between `generationStartAt` and `now`.
- *
- * Partial intervals do not count toward generated charges.
- *
- * @param generationStartAt Effective generation anchor timestamp.
- * @param now Current timestamp in milliseconds.
- * @returns Number of full 7-hour charge intervals elapsed.
+ * Max persisted pile so that {@link getDisplaySaltCharges}-style display stays at or below max.
+ * Unclaimed-ready slots raise the ceiling; in-progress slots lower it (can be 0).
  */
-export function getGeneratedSaltCharges({
-  generationStartAt,
-  now,
-}: {
-  generationStartAt: number;
-  now: number;
-}): number {
-  if (now <= generationStartAt) {
-    return 0;
+function regenStoredCap(
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): number {
+  const { active, ready } = harvestSlotPhaseCounts(harvesting, now);
+  return Math.max(0, MAX_STORED_SALT_CHARGES_PER_NODE + ready - active);
+}
+
+/**
+ * Max persisted pile at `now` given harvesting slots (same rule as regen materialization).
+ */
+export function saltRegenStoredCapAt(
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): number {
+  return regenStoredCap(
+    harvestingWithExpiredPauseCleared(harvesting, now),
+    now,
+  );
+}
+
+function displayChargesFromPile(
+  storedCharges: number,
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): number {
+  const { active, ready } = harvestSlotPhaseCounts(harvesting, now);
+  return clampStoredCharges(Math.max(0, storedCharges + active - ready));
+}
+
+/**
+ * Materializes elapsed regeneration into `storedCharges` / `nextChargeAt`.
+ * Regen pauses when UI display count is maxed, not only when the raw pile hits 3.
+ */
+export function materializeSaltRegen(
+  salt: Salt,
+  now: number,
+  options?: SaltSyncOptions,
+): Salt {
+  const intervalMs = options?.chargeIntervalMs ?? SALT_CHARGE_GENERATION_TIME;
+  const rawPauseUntil = salt.harvesting?.regenerationPausedUntil;
+  const harvesting = harvestingWithExpiredPauseCleared(salt.harvesting, now);
+  const cap = regenStoredCap(harvesting, now);
+  let storedCharges = Math.max(0, Math.min(salt.storedCharges, cap));
+  let nextChargeAt = salt.nextChargeAt;
+
+  if (
+    displayChargesFromPile(storedCharges, harvesting, now) >=
+    MAX_STORED_SALT_CHARGES_PER_NODE
+  ) {
+    return {
+      ...salt,
+      storedCharges,
+      nextChargeAt: undefined,
+      harvesting,
+    };
   }
 
-  return Math.floor((now - generationStartAt) / SALT_CHARGE_GENERATION_TIME);
-}
+  if (nextChargeAt === undefined) {
+    nextChargeAt = now + intervalMs;
+  }
 
-/**
- * Calculates seconds remaining until the next charge boundary.
- *
- * This helper assumes regeneration is currently active (not paused/maxed) and
- * returns a ceiling-rounded value suitable for countdown UI display.
- *
- * @param generationStartAt Effective generation anchor timestamp.
- * @param now Current timestamp in milliseconds.
- * @returns Whole seconds until the next charge is generated.
- */
-export function getNextSaltChargeInSeconds({
-  generationStartAt,
-  now,
-}: {
-  generationStartAt: number;
-  now: number;
-}): number {
-  const elapsed = Math.max(0, now - generationStartAt);
-  const remainingMs =
-    SALT_CHARGE_GENERATION_TIME - (elapsed % SALT_CHARGE_GENERATION_TIME);
+  if (rawPauseUntil) {
+    nextChargeAt = applyRegenerationPauseFloorToNextCharge({
+      nextChargeAt,
+      pauseUntil: rawPauseUntil,
+      intervalMs,
+    });
+  }
 
-  return Math.ceil(remainingMs / 1000);
-}
+  const regenAllowed = !rawPauseUntil || now >= rawPauseUntil;
 
-/**
- * Builds a normalized regeneration snapshot for a node at `now`.
- *
- * It centralizes common math used by charge derivation and node synchronization:
- * clamped stored charges, effective generation anchor, and full generated intervals.
- */
-function getSaltGenerationState(saltNode: SaltNode, now: number) {
-  const storedCharges = clampStoredCharges(saltNode.salt.storedCharges);
-  const lastUpdatedAt = saltNode.salt.lastUpdatedAt;
-  const pauseUntil = saltNode.salt.harvesting?.regenerationPausedUntil;
-
-  const generationStartAt = getSaltGenerationStartAt({
-    lastUpdatedAt,
-    regenerationPausedUntil: pauseUntil,
-  });
-  const generatedCharges = getGeneratedSaltCharges({ generationStartAt, now });
+  while (regenAllowed && now >= nextChargeAt && storedCharges < cap) {
+    storedCharges += 1;
+    if (storedCharges >= cap) {
+      nextChargeAt = undefined;
+      break;
+    }
+    nextChargeAt = nextChargeAt + intervalMs;
+    if (rawPauseUntil) {
+      nextChargeAt = applyRegenerationPauseFloorToNextCharge({
+        nextChargeAt,
+        pauseUntil: rawPauseUntil,
+        intervalMs,
+      });
+    }
+  }
 
   return {
+    ...salt,
     storedCharges,
-    lastUpdatedAt,
-    pauseUntil,
-    generationStartAt,
-    generatedCharges,
+    nextChargeAt,
+    harvesting,
   };
 }
 
 /**
  * Derives how many unassigned (stored) charges a node has at `now`.
- *
- * Uses the normalized regeneration snapshot to apply full generated intervals
- * on top of clamped stored charges, then constrains the result to node max.
- *
- * @param saltNode Salt node to evaluate.
- * @param now Current timestamp in milliseconds.
- * @returns Stored charge count at `now`, clamped to the valid range.
  */
-export function getStoredSaltCharges(saltNode: SaltNode, now: number): number {
-  const { storedCharges, generatedCharges } = getSaltGenerationState(
-    saltNode,
-    now,
-  );
-
-  return clampStoredCharges(storedCharges + generatedCharges);
+export function getStoredSaltCharges(
+  saltNode: SaltNode,
+  now: number,
+  options?: SaltSyncOptions,
+): number {
+  return materializeSaltRegen(saltNode.salt, now, options).storedCharges;
 }
 
 /**
- * Produces a time-synced copy of a salt node by materializing elapsed
- * regeneration into `storedCharges` and `lastUpdatedAt`.
- *
- * It reuses the same normalized regeneration math as `getStoredSaltCharges`,
- * advances only full 7-hour intervals, updates `lastUpdatedAt` to the last
- * fully materialized charge boundary (or `now` when max is reached), and clears
- * expired `regenerationPausedUntil` while preserving active harvest slots.
- *
- * @param saltNode Salt node to synchronize.
- * @param now Current timestamp in milliseconds.
- * @returns A new SaltNode representing consistent state at `now`.
+ * Charges shown in UI: pile + in-progress harvests − finished unclaimed slots.
+ * Matches {@link getStoredSaltCharges} regen materialization so timers and slots align.
  */
-export function syncSaltNode(saltNode: SaltNode, now: number): SaltNode {
-  const {
-    storedCharges,
-    lastUpdatedAt,
-    pauseUntil,
-    generationStartAt,
-    generatedCharges,
-  } = getSaltGenerationState(saltNode, now);
-
-  let pauseClearedHarvesting = saltNode.salt.harvesting;
-  if (pauseClearedHarvesting && pauseUntil && now >= pauseUntil) {
-    pauseClearedHarvesting = {
-      slots: pauseClearedHarvesting.slots,
-      regenerationPausedUntil: undefined,
-    };
-  }
-
-  if (generatedCharges <= 0) {
-    const nextLastUpdatedAt =
-      now > generationStartAt ? generationStartAt : lastUpdatedAt;
-
-    return {
-      ...saltNode,
-      salt: {
-        ...saltNode.salt,
-        storedCharges,
-        lastUpdatedAt: nextLastUpdatedAt,
-        harvesting: pauseClearedHarvesting,
-      },
-    };
-  }
-
-  const nextStoredCharges = clampStoredCharges(
-    storedCharges + generatedCharges,
+export function getDisplaySaltCharges(
+  saltNode: SaltNode,
+  now: number,
+  options?: SaltSyncOptions,
+): number {
+  const synced = materializeSaltRegen(saltNode.salt, now, options);
+  const slots = synced.harvesting?.slots ?? [];
+  const active = slots.filter((s) => now < s.readyAt).length;
+  const readyUnclaimed = slots.filter((s) => now >= s.readyAt).length;
+  return clampStoredCharges(
+    Math.max(0, synced.storedCharges + active - readyUnclaimed),
   );
-  const nextLastUpdatedAt =
-    nextStoredCharges === MAX_STORED_SALT_CHARGES_PER_NODE
-      ? now
-      : generationStartAt + generatedCharges * SALT_CHARGE_GENERATION_TIME;
+}
 
+/**
+ * Produces a time-synced copy of a salt node at `now`.
+ */
+export function syncSaltNode(
+  saltNode: SaltNode,
+  now: number,
+  options?: SaltSyncOptions,
+): SaltNode {
   return {
     ...saltNode,
-    salt: {
-      ...saltNode.salt,
-      storedCharges: nextStoredCharges,
-      lastUpdatedAt: nextLastUpdatedAt,
-      harvesting: pauseClearedHarvesting,
-    },
+    salt: materializeSaltRegen(saltNode.salt, now, options),
   };
+}
+
+/**
+ * Whole seconds until `nextChargeAt`, suitable for countdown UI.
+ */
+export function getNextSaltChargeInSeconds({
+  nextChargeAt,
+  now,
+}: {
+  nextChargeAt: number;
+  now: number;
+}): number {
+  return Math.max(0, Math.ceil((nextChargeAt - now) / 1000));
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
@@ -318,7 +375,7 @@ export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
  * Get the coordinates for a specific salt node
  * @param expansions - The number of expansions
  * @param nodeIndex - The index of the node
- * @returns The coordinates of the node
+ * @returns The coordinates of the salt node
  */
 export function getSaltNodeCoordinates(
   expansions: number,

@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   BASE_SALT_YIELD,
+  SALT_CHARGE_GENERATION_TIME,
   SALT_HARVEST_DURATION,
   getStoredSaltCharges,
 } from "features/game/types/salt";
@@ -36,7 +37,7 @@ describe("claimSaltHarvest", () => {
                 createdAt: 0,
                 coordinates: { x: 0, y: 0 },
                 salt: {
-                  lastUpdatedAt: now,
+                  nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
                   storedCharges: 1,
                   harvesting: {
                     slots: [
@@ -72,7 +73,7 @@ describe("claimSaltHarvest", () => {
               createdAt: 0,
               coordinates: { x: 0, y: 0 },
               salt: {
-                lastUpdatedAt: now,
+                nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
                 storedCharges: 1,
                 harvesting: {
                   slots: [
@@ -124,7 +125,7 @@ describe("claimSaltHarvest", () => {
               createdAt: 0,
               coordinates: { x: 0, y: 0 },
               salt: {
-                lastUpdatedAt: now,
+                nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
                 storedCharges: 3,
               },
             },
@@ -166,7 +167,7 @@ describe("claimSaltHarvest", () => {
               createdAt: 0,
               coordinates: { x: 0, y: 0 },
               salt: {
-                lastUpdatedAt: now,
+                nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
                 storedCharges: 3,
               },
             },

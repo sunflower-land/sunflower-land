@@ -4,6 +4,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 import {
+  getSaltChargeGenerationTime,
   getSaltNodeCoordinates,
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
@@ -57,13 +58,14 @@ export function upgradeSaltFarm({
 
     const currentNodes = Object.keys(saltFarm.nodes).length;
     const nodesToAdd: number = totalExpectedNodes - currentNodes;
+    const interval = getSaltChargeGenerationTime({ gameState: copy });
 
     for (let i = 0; i < nodesToAdd; i++) {
       copy.saltFarm.nodes[`${currentNodes + i}`] = {
         createdAt,
         salt: {
           storedCharges: 1,
-          lastUpdatedAt: createdAt,
+          nextChargeAt: createdAt + interval,
         },
         coordinates: {
           ...getSaltNodeCoordinates(

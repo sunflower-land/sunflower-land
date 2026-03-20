@@ -1,4 +1,7 @@
 import Decimal from "decimal.js-light";
+import * as flags from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import type { GameState } from "features/game/types/game";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
@@ -9,19 +12,34 @@ import { getSaltModalState } from "./getSaltModalState";
 
 const now = new Date("2026-03-17T00:00:00.000Z").getTime();
 
+const baseGameState: GameState = INITIAL_FARM;
+
 function makeNode(overrides?: Partial<SaltNode["salt"]>): SaltNode {
   return {
     createdAt: now - 1000,
     coordinates: { x: 0, y: 0 },
     salt: {
-      lastUpdatedAt: now,
+      nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
       storedCharges: 1,
       ...overrides,
     },
   };
 }
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 describe("getSaltModalState", () => {
+  beforeEach(() => {
+    const realFlags =
+      jest.requireActual<typeof import("lib/flags")>("lib/flags");
+    jest.spyOn(flags, "hasFeatureAccess").mockImplementation((game, name) => {
+      if (name === "SALT_FARM") return false;
+      return realFlags.hasFeatureAccess(game, name);
+    });
+  });
+
   it("prioritizes claim when ready slots exist", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
@@ -35,6 +53,7 @@ describe("getSaltModalState", () => {
           ],
         },
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(5),
       isVip: true,
@@ -48,7 +67,9 @@ describe("getSaltModalState", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
+        nextChargeAt: undefined,
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(1),
       isVip: false,
@@ -72,6 +93,7 @@ describe("getSaltModalState", () => {
           regenerationPausedUntil: now + 10 * 60 * 1000,
         },
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(5),
       isVip: true,
@@ -87,7 +109,7 @@ describe("getSaltModalState", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: 0,
-        lastUpdatedAt: now,
+        nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
         harvesting: {
           slots: [
             {
@@ -98,6 +120,7 @@ describe("getSaltModalState", () => {
           regenerationPausedUntil: now + oneHour,
         },
       }),
+      gameState: baseGameState,
       now: now + oneHour + tenSeconds,
       saltRakes: new Decimal(5),
       isVip: true,
@@ -105,19 +128,20 @@ describe("getSaltModalState", () => {
 
     expect(state.regenerationState).toBe("charging");
     expect(state.nextChargeInSeconds).toBeDefined();
-    // ~7h minus 10s from pause end
+    const chargeSeconds = Math.ceil(SALT_CHARGE_GENERATION_TIME / 1000);
+    expect(state.nextChargeInSeconds!).toBeLessThanOrEqual(chargeSeconds);
     expect(state.nextChargeInSeconds!).toBeGreaterThanOrEqual(
-      6 * 60 * 60 + 40 * 60,
+      Math.max(1, chargeSeconds - 15),
     );
-    expect(state.nextChargeInSeconds!).toBeLessThanOrEqual(7 * 60 * 60);
   });
 
   it("shows a charging timer when below max and not paused", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: 1,
-        lastUpdatedAt: now - 2 * 60 * 60 * 1000,
+        nextChargeAt: now + SALT_CHARGE_GENERATION_TIME / 2,
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(5),
       isVip: true,
@@ -142,6 +166,7 @@ describe("getSaltModalState", () => {
           ],
         },
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(2),
       isVip: false,
@@ -153,17 +178,19 @@ describe("getSaltModalState", () => {
   });
 
   it("applies VIP 4-slot cap when calculating max rakes", () => {
+    const readyPast = now - SALT_HARVEST_DURATION;
     const state = getSaltModalState({
       saltNode: makeNode({
-        storedCharges: 3,
+        storedCharges: 2,
         harvesting: {
           slots: [
             { startedAt: now, readyAt: now + 1 },
             { startedAt: now, readyAt: now + 2 },
-            { startedAt: now, readyAt: now + 3 },
+            { startedAt: now - 1000, readyAt: readyPast },
           ],
         },
       }),
+      gameState: baseGameState,
       now,
       saltRakes: new Decimal(9),
       isVip: true,
@@ -171,5 +198,127 @@ describe("getSaltModalState", () => {
 
     expect(state.maxRakes).toBe(1);
     expect(state.canStart).toBe(true);
+  });
+
+  it("reports displayCharges as pile plus active minus ready unclaimed slots", () => {
+    const readyPast = now - SALT_HARVEST_DURATION;
+    const readyFuture = now + SALT_HARVEST_DURATION;
+
+    expect(
+      getSaltModalState({
+        saltNode: makeNode({ storedCharges: 3 }),
+        gameState: baseGameState,
+        now,
+        saltRakes: new Decimal(5),
+        isVip: true,
+      }).displayCharges,
+    ).toBe(3);
+
+    expect(
+      getSaltModalState({
+        saltNode: makeNode({
+          storedCharges: 3,
+          harvesting: {
+            slots: [
+              { startedAt: now - 1000, readyAt: readyPast },
+              { startedAt: now - 1000, readyAt: readyPast },
+            ],
+          },
+        }),
+        gameState: baseGameState,
+        now,
+        saltRakes: new Decimal(5),
+        isVip: true,
+      }).displayCharges,
+    ).toBe(1);
+
+    expect(
+      getSaltModalState({
+        saltNode: makeNode({
+          storedCharges: 0,
+          harvesting: {
+            slots: [
+              { startedAt: now, readyAt: readyFuture },
+              { startedAt: now, readyAt: readyFuture },
+            ],
+          },
+        }),
+        gameState: baseGameState,
+        now,
+        saltRakes: new Decimal(5),
+        isVip: true,
+      }).displayCharges,
+    ).toBe(2);
+
+    expect(
+      getSaltModalState({
+        saltNode: makeNode({
+          storedCharges: 0,
+          harvesting: {
+            slots: [
+              {
+                startedAt: now - SALT_HARVEST_DURATION * 2,
+                readyAt: readyPast,
+              },
+              {
+                startedAt: now - SALT_HARVEST_DURATION * 2,
+                readyAt: readyPast,
+              },
+            ],
+          },
+        }),
+        gameState: baseGameState,
+        now,
+        saltRakes: new Decimal(5),
+        isVip: true,
+      }).displayCharges,
+    ).toBe(0);
+  });
+
+  it("when pile is empty but harvests are in progress, blockedReason explains charges in use", () => {
+    const state = getSaltModalState({
+      saltNode: makeNode({
+        storedCharges: 0,
+        harvesting: {
+          slots: [
+            {
+              startedAt: now,
+              readyAt: now + SALT_HARVEST_DURATION,
+            },
+          ],
+        },
+      }),
+      gameState: baseGameState,
+      now,
+      saltRakes: new Decimal(2),
+      isVip: true,
+    });
+
+    expect(state.displayCharges).toBe(1);
+    expect(state.canStart).toBe(false);
+    expect(state.blockedReason).toBe("Charges are in use by active harvests");
+  });
+
+  it("uses SALT_FARM halved interval for countdown when feature is on", () => {
+    const realFlags =
+      jest.requireActual<typeof import("lib/flags")>("lib/flags");
+    jest.spyOn(flags, "hasFeatureAccess").mockImplementation((game, name) => {
+      if (name === "SALT_FARM") return true;
+      return realFlags.hasFeatureAccess(game, name);
+    });
+
+    const halfInterval = SALT_CHARGE_GENERATION_TIME / 2;
+    const state = getSaltModalState({
+      saltNode: makeNode({
+        storedCharges: 1,
+        nextChargeAt: now + halfInterval,
+      }),
+      gameState: baseGameState,
+      now,
+      saltRakes: new Decimal(1),
+      isVip: false,
+    });
+
+    expect(state.nextChargeInSeconds).toBe(halfInterval / 1000);
   });
 });

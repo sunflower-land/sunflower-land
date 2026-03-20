@@ -5,7 +5,9 @@ import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_HARVEST_DURATION,
   SaltHarvestSlot,
+  getSaltChargeGenerationTime,
   getStoredSaltCharges,
+  saltRegenStoredCapAt,
   syncSaltNode,
 } from "features/game/types/salt";
 import { produce } from "immer";
@@ -79,8 +81,10 @@ export function startSaltHarvest({
       throw new Error(START_SALT_HARVEST_ERRORS.INVALID_RAKE_COUNT);
     }
 
-    const syncedNode = syncSaltNode(saltNode, createdAt);
-    const storedCharges = getStoredSaltCharges(syncedNode, createdAt);
+    const interval = getSaltChargeGenerationTime({ gameState: copy });
+    const syncOpts = { chargeIntervalMs: interval };
+    const syncedNode = syncSaltNode(saltNode, createdAt, syncOpts);
+    const storedCharges = getStoredSaltCharges(saltNode, createdAt, syncOpts);
     const existingSlots = syncedNode.salt.harvesting?.slots ?? [];
     const isVip = hasVipAccess({ game: copy, now: createdAt });
 
@@ -118,19 +122,34 @@ export function startSaltHarvest({
       storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE;
     const isInitialQueueStart = existingSlots.length === 0;
 
+    const regenerationPausedUntil =
+      wasAtFullStoredCharges && isInitialQueueStart
+        ? addedSlots[0]?.readyAt
+        : syncedNode.salt.harvesting?.regenerationPausedUntil;
+    const newHarvesting = {
+      slots: [...existingSlots, ...addedSlots],
+      regenerationPausedUntil,
+    };
+    const pileCapAfterStart = saltRegenStoredCapAt(newHarvesting, createdAt);
+
+    const newStoredCharges = storedCharges - action.rakes;
+    const syncedNextChargeAt = syncedNode.salt.nextChargeAt;
+    let nextChargeAt: number | undefined;
+    if (newStoredCharges > pileCapAfterStart) {
+      nextChargeAt = undefined;
+    } else if (syncedNextChargeAt !== undefined) {
+      nextChargeAt = syncedNextChargeAt;
+    } else {
+      nextChargeAt = createdAt + interval;
+    }
+
     copy.saltFarm.nodes[action.id] = {
       ...syncedNode,
       salt: {
         ...syncedNode.salt,
-        lastUpdatedAt: createdAt,
-        storedCharges: storedCharges - action.rakes,
-        harvesting: {
-          slots: [...existingSlots, ...addedSlots],
-          regenerationPausedUntil:
-            wasAtFullStoredCharges && isInitialQueueStart
-              ? addedSlots[0]?.readyAt
-              : syncedNode.salt.harvesting?.regenerationPausedUntil,
-        },
+        nextChargeAt,
+        storedCharges: newStoredCharges,
+        harvesting: newHarvesting,
       },
     };
   });

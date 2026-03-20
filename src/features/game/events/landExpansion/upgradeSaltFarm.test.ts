@@ -2,6 +2,8 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
 import {
   getPendingSaltNodeIdsForUpgrade,
+  getSaltChargeGenerationTime,
+  SALT_CHARGE_GENERATION_TIME,
   SALT_NODE_COORDINATES,
   SaltNode,
 } from "features/game/types/salt";
@@ -16,7 +18,7 @@ const makeSaltFarmTestNodes = (count: number) =>
         coordinates: SALT_NODE_COORDINATES[String(i)],
         salt: {
           storedCharges: 1,
-          lastUpdatedAt: 0,
+          nextChargeAt: SALT_CHARGE_GENERATION_TIME,
         },
       };
 
@@ -112,6 +114,7 @@ describe("upgradeSaltFarm", () => {
       coordinates: { x: -3, y: -6 },
       salt: {
         storedCharges: 1,
+        nextChargeAt: now + getSaltChargeGenerationTime({ gameState: state }),
       },
     });
   });
@@ -135,12 +138,18 @@ describe("upgradeSaltFarm", () => {
             "0": {
               createdAt: 0,
               coordinates: { x: -16, y: -18 },
-              salt: { storedCharges: 1, lastUpdatedAt: 0 },
+              salt: {
+                storedCharges: 1,
+                nextChargeAt: SALT_CHARGE_GENERATION_TIME,
+              },
             },
             "1": {
               createdAt: 0,
               coordinates: { x: -16, y: -16 },
-              salt: { storedCharges: 1, lastUpdatedAt: 0 },
+              salt: {
+                storedCharges: 1,
+                nextChargeAt: SALT_CHARGE_GENERATION_TIME,
+              },
             },
           },
         },

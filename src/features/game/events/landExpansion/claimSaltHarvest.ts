@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import { BASE_SALT_YIELD, syncSaltNode } from "features/game/types/salt";
+import {
+  BASE_SALT_YIELD,
+  getSaltChargeGenerationTime,
+  syncSaltNode,
+} from "features/game/types/salt";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -36,7 +40,10 @@ export function claimSaltHarvest({
       throw new Error(CLAIM_SALT_HARVEST_ERRORS.SALT_NODE_NOT_FOUND);
     }
 
-    const syncedNode = syncSaltNode(saltNode, createdAt);
+    const interval = getSaltChargeGenerationTime({ gameState: copy });
+    const syncedNode = syncSaltNode(saltNode, createdAt, {
+      chargeIntervalMs: interval,
+    });
     const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
     const readySlots = activeSlots.filter((slot) => slot.readyAt <= createdAt);
 

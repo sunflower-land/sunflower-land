@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
+import type { GameState } from "features/game/types/game";
 import {
+  getDisplaySaltCharges,
   getNextSaltChargeInSeconds,
-  getSaltGenerationStartAt,
+  getSaltChargeGenerationTime,
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SaltNode,
   getStoredSaltCharges,
@@ -15,6 +17,7 @@ export type SaltRegenerationState = "maxed" | "paused" | "charging";
 export type SaltModalState = {
   syncedNode: SaltNode;
   storedCharges: number;
+  displayCharges: number;
   maxStoredCharges: number;
   activeSlots: { startedAt: number; readyAt: number }[];
   readySlots: { startedAt: number; readyAt: number }[];
@@ -33,18 +36,23 @@ export type SaltModalState = {
 
 type Props = {
   saltNode: SaltNode;
+  gameState: GameState;
   saltRakes: Decimal | undefined;
   isVip: boolean;
 };
 
 export function getSaltModalState({
   saltNode,
+  gameState,
   now,
   saltRakes,
   isVip,
 }: Props & { now: number }): SaltModalState {
-  const syncedNode = syncSaltNode(saltNode, now);
-  const storedCharges = getStoredSaltCharges(syncedNode, now);
+  const interval = getSaltChargeGenerationTime({ gameState });
+  const syncOpts = { chargeIntervalMs: interval };
+  const syncedNode = syncSaltNode(saltNode, now, syncOpts);
+  const storedCharges = getStoredSaltCharges(saltNode, now, syncOpts);
+  const displayCharges = getDisplaySaltCharges(saltNode, now, syncOpts);
   const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
   const readySlots = activeSlots.filter((slot) => slot.readyAt <= now);
   const availableSaltRakes = Math.max(
@@ -66,32 +74,31 @@ export function getSaltModalState({
       blockedReason = "Non-VIP can only have one active salt rake";
     } else if (isVip && remainingVipSlots <= 0) {
       blockedReason = "VIP can have up to 4 active salt rakes";
-    } else if (storedCharges <= 0) {
-      blockedReason = "No salt charges available";
     } else if (availableSaltRakes <= 0) {
       blockedReason = "Not enough Salt Rakes";
+    } else if (storedCharges <= 0) {
+      blockedReason =
+        displayCharges > 0
+          ? "Charges are in use by active harvests"
+          : "No salt charges available";
     }
   }
 
   const pauseUntil = syncedNode.salt.harvesting?.regenerationPausedUntil;
-  const generationStartAt = getSaltGenerationStartAt({
-    lastUpdatedAt: syncedNode.salt.lastUpdatedAt,
-    regenerationPausedUntil: pauseUntil,
-  });
-  const atMaxCharges = storedCharges >= MAX_STORED_SALT_CHARGES_PER_NODE;
+  const atMaxCharges = displayCharges >= MAX_STORED_SALT_CHARGES_PER_NODE;
 
   let regenerationState: SaltRegenerationState = "charging";
   let pauseRemainingSeconds: number | undefined;
   let nextChargeInSeconds: number | undefined;
 
-  if (atMaxCharges) {
-    regenerationState = "maxed";
-  } else if (pauseUntil && now < pauseUntil) {
+  if (pauseUntil && now < pauseUntil) {
     regenerationState = "paused";
     pauseRemainingSeconds = Math.ceil((pauseUntil - now) / 1000);
-  } else {
+  } else if (atMaxCharges) {
+    regenerationState = "maxed";
+  } else if (syncedNode.salt.nextChargeAt !== undefined) {
     nextChargeInSeconds = getNextSaltChargeInSeconds({
-      generationStartAt,
+      nextChargeAt: syncedNode.salt.nextChargeAt,
       now,
     });
   }
@@ -99,6 +106,7 @@ export function getSaltModalState({
   return {
     syncedNode,
     storedCharges,
+    displayCharges,
     maxStoredCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
     activeSlots,
     readySlots,
@@ -118,9 +126,10 @@ export function getSaltModalState({
 
 export function useSaltModalState({
   saltNode,
+  gameState,
   saltRakes,
   isVip,
 }: Props): SaltModalState {
   const now = useNow({ live: true });
-  return getSaltModalState({ saltNode, now, saltRakes, isVip });
+  return getSaltModalState({ saltNode, gameState, now, saltRakes, isVip });
 }

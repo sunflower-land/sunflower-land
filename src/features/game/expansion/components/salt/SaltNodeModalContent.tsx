@@ -34,11 +34,12 @@ export const SaltNodeModalContent: React.FC<{ id: string }> = ({ id }) => {
 
     return getSaltModalState({
       saltNode: node,
+      gameState: game,
       now,
       saltRakes: inventory["Salt Rake"],
       isVip,
     });
-  }, [node, now, inventory, isVip]);
+  }, [node, game, now, inventory, isVip]);
 
   if (!node || !modalState) {
     return (
@@ -78,7 +79,7 @@ const SaltNodeContent: React.FC<{
     readySlots,
     availableSaltRakes,
     maxRakes,
-    storedCharges,
+    displayCharges,
     maxStoredCharges,
   } = modalState;
 
@@ -116,7 +117,7 @@ const SaltNodeContent: React.FC<{
         <div className="mt-2 flex items-start">
           <Box image={ITEM_DETAILS.Salt.image} className="-ml-1 -mb-1 -mt-1" />
           <div>
-            <Label type="default">{`Charges: ${storedCharges}/${maxStoredCharges}`}</Label>
+            <Label type="default">{`Charges: ${displayCharges}/${maxStoredCharges}`}</Label>
             {regenerationState === "charging" &&
               nextChargeInSeconds !== undefined && (
                 <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
