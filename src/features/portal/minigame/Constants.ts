@@ -13,6 +13,10 @@ import hat_immunity from "public/world/portal/images/prevents_slowing_icon.webp"
 import shoes_immunity from "public/world/portal/images/prevents_slipping_icon.webp";
 import wings_immunity_icon from "public/world/portal/images/prevents_enlargement_icon.webp";
 import aura_immunity_icon from "public/world/portal/images/prevents_complete_visibility_icon.webp";
+import giantIcon from "public/world/portal/images/giant_icon.gif";
+import sniperIcon from "public/world/portal/images/sniper_icon.gif";
+import menaceIcon from "public/world/portal/images/menaceIcon.gif";
+import blastIcon from "public/world/portal/images/blastIcon.gif";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -97,12 +101,20 @@ export const ENEMIES_TABLE: {
   width?: number;
 }[] = [
   {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
+    image: giantIcon,
     description: t(`${PORTAL_NAME}.enemy1`),
   },
   {
-    image: ITEM_DETAILS["Abandoned Bear"].image,
+    image: sniperIcon,
     description: t(`${PORTAL_NAME}.enemy2`),
+  },
+  {
+    image: menaceIcon,
+    description: t(`${PORTAL_NAME}.enemy3`),
+  },
+  {
+    image: blastIcon,
+    description: t(`${PORTAL_NAME}.enemy4`),
   },
 ];
 
