@@ -8,7 +8,10 @@ import {
   SALT_HARVEST_DURATION,
   SaltNode,
 } from "features/game/types/salt";
-import { getSaltModalState } from "./getSaltModalState";
+import {
+  getSaltModalState,
+  partitionSaltHarvestSlotsForQueueUi,
+} from "./getSaltModalState";
 
 const now = new Date("2026-03-17T00:00:00.000Z").getTime();
 
@@ -28,6 +31,39 @@ function makeNode(overrides?: Partial<SaltNode["salt"]>): SaltNode {
 
 afterEach(() => {
   jest.restoreAllMocks();
+});
+
+describe("partitionSaltHarvestSlotsForQueueUi", () => {
+  it("picks earliest-finishing in-progress slot as head and caps VIP tail at 3", () => {
+    const s1 = { startedAt: now, readyAt: now + 5000 };
+    const s2 = { startedAt: now, readyAt: now + 2000 };
+    const s3 = { startedAt: now, readyAt: now + 8000 };
+    const out = partitionSaltHarvestSlotsForQueueUi([s1, s2, s3], now, true);
+    expect(out.inProgressSlot).toEqual(s2);
+    expect(out.queueGridCapacity).toBe(3);
+    expect(out.queueGridSlots).toEqual([s1, s3]);
+  });
+
+  it("uses a 4-slot grid when all ready (VIP)", () => {
+    const past = now - 1000;
+    const slots = [
+      { startedAt: now - 5000, readyAt: past },
+      { startedAt: now - 4000, readyAt: past + 1 },
+    ];
+    const out = partitionSaltHarvestSlotsForQueueUi(slots, now, true);
+    expect(out.inProgressSlot).toBeUndefined();
+    expect(out.queueGridCapacity).toBe(4);
+    expect(out.queueGridSlots).toEqual(slots);
+  });
+
+  it("exposes non-VIP single ready slot as inProgressDisplaySlot only", () => {
+    const past = now - 1000;
+    const slot = { startedAt: now - 5000, readyAt: past };
+    const out = partitionSaltHarvestSlotsForQueueUi([slot], now, false);
+    expect(out.inProgressSlot).toBeUndefined();
+    expect(out.inProgressDisplaySlot).toEqual(slot);
+    expect(out.queueGridCapacity).toBe(0);
+  });
 });
 
 describe("getSaltModalState", () => {

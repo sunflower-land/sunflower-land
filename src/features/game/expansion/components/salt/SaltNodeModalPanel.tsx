@@ -23,7 +23,7 @@ export const SaltNodeModalPanel: React.FC<Props> = ({ onClose, id }) => {
       ]}
       currentTab="saltFarm"
     >
-      <SaltNodeModalContent id={id} />
+      <SaltNodeModalContent id={id} onClose={onClose} />
     </CloseButtonPanel>
   );
 };

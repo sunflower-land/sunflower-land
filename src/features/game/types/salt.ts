@@ -231,13 +231,31 @@ export function saltRegenStoredCapAt(
   );
 }
 
+/**
+ * UI/regen-agreement charge count: pile + in-flight harvests − finished unclaimed slots.
+ * When unclaimed ready slots exceed linear headroom ({@code raw < 0}), show pile + active
+ * so regeneration visibly fills while the queue is full of finished harvests.
+ */
+function saltUiDisplayCharges(
+  storedCharges: number,
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): number {
+  const h = harvestingWithExpiredPauseCleared(harvesting, now);
+  const { active, ready } = harvestSlotPhaseCounts(h, now);
+  const raw = storedCharges + active - ready;
+  if (raw < 0) {
+    return clampStoredCharges(storedCharges + active);
+  }
+  return clampStoredCharges(Math.max(0, raw));
+}
+
 function displayChargesFromPile(
   storedCharges: number,
   harvesting: Salt["harvesting"] | undefined,
   now: number,
 ): number {
-  const { active, ready } = harvestSlotPhaseCounts(harvesting, now);
-  return clampStoredCharges(Math.max(0, storedCharges + active - ready));
+  return saltUiDisplayCharges(storedCharges, harvesting, now);
 }
 
 /**
@@ -327,12 +345,7 @@ export function getDisplaySaltCharges(
   options?: SaltSyncOptions,
 ): number {
   const synced = materializeSaltRegen(saltNode.salt, now, options);
-  const slots = synced.harvesting?.slots ?? [];
-  const active = slots.filter((s) => now < s.readyAt).length;
-  const readyUnclaimed = slots.filter((s) => now >= s.readyAt).length;
-  return clampStoredCharges(
-    Math.max(0, synced.storedCharges + active - readyUnclaimed),
-  );
+  return saltUiDisplayCharges(synced.storedCharges, synced.harvesting, now);
 }
 
 /**

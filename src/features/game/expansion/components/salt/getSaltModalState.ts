@@ -14,6 +14,70 @@ import { useNow } from "lib/utils/hooks/useNow";
 export type SaltModalPrimaryAction = "claim" | "start" | "blocked";
 export type SaltRegenerationState = "maxed" | "paused" | "charging";
 
+export type SaltHarvestSlotUi = {
+  startedAt: number;
+  readyAt: number;
+};
+
+/**
+ * Kitchen-style split: earliest in-progress slot (if any), then up to 3 tail slots
+ * in the VIP grid when a head exists, else up to 4 slots in the grid when all ready.
+ */
+export function partitionSaltHarvestSlotsForQueueUi(
+  slots: SaltHarvestSlotUi[],
+  now: number,
+  isVip: boolean,
+): {
+  sortedSlots: SaltHarvestSlotUi[];
+  /** First slot still cooking; undefined when all slots are ready. */
+  inProgressSlot: SaltHarvestSlotUi | undefined;
+  /**
+   * Row under "In Progress": the active head, or (non-VIP only) the single slot when it is ready.
+   */
+  inProgressDisplaySlot: SaltHarvestSlotUi | undefined;
+  /** Slots shown in the VIP queue strip (empty placeholders filled in UI). */
+  queueGridSlots: SaltHarvestSlotUi[];
+  queueGridCapacity: number;
+} {
+  const sortedSlots = [...slots].sort((a, b) => a.readyAt - b.readyAt);
+  const inProgressIndex = sortedSlots.findIndex((s) => now < s.readyAt);
+  const inProgressSlot =
+    inProgressIndex >= 0 ? sortedSlots[inProgressIndex] : undefined;
+
+  const inProgressDisplaySlot =
+    inProgressSlot ??
+    (!isVip && sortedSlots.length === 1 ? sortedSlots[0] : undefined);
+
+  if (!isVip) {
+    return {
+      sortedSlots,
+      inProgressSlot,
+      inProgressDisplaySlot,
+      queueGridSlots: [],
+      queueGridCapacity: 0,
+    };
+  }
+
+  if (inProgressSlot) {
+    const tail = sortedSlots.filter((s) => s !== inProgressSlot);
+    return {
+      sortedSlots,
+      inProgressSlot,
+      inProgressDisplaySlot: inProgressSlot,
+      queueGridSlots: tail.slice(0, 2),
+      queueGridCapacity: 2,
+    };
+  }
+
+  return {
+    sortedSlots,
+    inProgressSlot: undefined,
+    inProgressDisplaySlot: undefined,
+    queueGridSlots: sortedSlots.slice(0, 3),
+    queueGridCapacity: 3,
+  };
+}
+
 export type SaltModalState = {
   syncedNode: SaltNode;
   storedCharges: number;
@@ -21,6 +85,11 @@ export type SaltModalState = {
   maxStoredCharges: number;
   activeSlots: { startedAt: number; readyAt: number }[];
   readySlots: { startedAt: number; readyAt: number }[];
+  sortedSlots: SaltHarvestSlotUi[];
+  inProgressSlot: SaltHarvestSlotUi | undefined;
+  inProgressDisplaySlot: SaltHarvestSlotUi | undefined;
+  queueGridSlots: SaltHarvestSlotUi[];
+  queueGridCapacity: number;
   availableSaltRakes: number;
   isVip: boolean;
   minRakes: number;
@@ -55,6 +124,13 @@ export function getSaltModalState({
   const displayCharges = getDisplaySaltCharges(saltNode, now, syncOpts);
   const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
   const readySlots = activeSlots.filter((slot) => slot.readyAt <= now);
+  const {
+    sortedSlots,
+    inProgressSlot,
+    inProgressDisplaySlot,
+    queueGridSlots,
+    queueGridCapacity,
+  } = partitionSaltHarvestSlotsForQueueUi(activeSlots, now, isVip);
   const availableSaltRakes = Math.max(
     0,
     Math.floor(saltRakes?.toNumber() ?? 0),
@@ -110,6 +186,11 @@ export function getSaltModalState({
     maxStoredCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
     activeSlots,
     readySlots,
+    sortedSlots,
+    inProgressSlot,
+    inProgressDisplaySlot,
+    queueGridSlots,
+    queueGridCapacity,
     availableSaltRakes,
     isVip,
     minRakes: 1,

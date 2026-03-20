@@ -14,14 +14,20 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getSaltModalState, SaltModalState } from "./getSaltModalState";
+import { SaltHarvestInProgress } from "./SaltHarvestInProgress";
+import { SaltHarvestQueue } from "./SaltHarvestQueue";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _node = (id: string) => (state: MachineState) =>
   state.context.state.saltFarm.nodes[id];
 const _state = (state: MachineState) => state.context.state;
 
-export const SaltNodeModalContent: React.FC<{ id: string }> = ({ id }) => {
+export const SaltNodeModalContent: React.FC<{
+  id: string;
+  onClose: () => void;
+}> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
   const game = useSelector(gameService, _state);
@@ -56,6 +62,7 @@ export const SaltNodeModalContent: React.FC<{ id: string }> = ({ id }) => {
       gameService={gameService}
       id={id}
       now={now}
+      onClose={onClose}
     />
   );
 };
@@ -66,7 +73,9 @@ const SaltNodeContent: React.FC<{
   gameService: MachineInterpreter;
   id: string;
   now: number;
-}> = ({ modalState, isVip, gameService, id, now }) => {
+  onClose: () => void;
+}> = ({ modalState, isVip, gameService, id, now, onClose }) => {
+  const { t } = useAppTranslation();
   const {
     canStart,
     canClaim,
@@ -81,6 +90,9 @@ const SaltNodeContent: React.FC<{
     maxRakes,
     displayCharges,
     maxStoredCharges,
+    inProgressDisplaySlot,
+    queueGridSlots,
+    queueGridCapacity,
   } = modalState;
 
   const [selectedRakes, setSelectedRakes] = useState(1);
@@ -116,7 +128,7 @@ const SaltNodeContent: React.FC<{
 
         <div className="mt-2 flex items-start">
           <Box image={ITEM_DETAILS.Salt.image} className="-ml-1 -mb-1 -mt-1" />
-          <div>
+          <div className="flex flex-col gap-1">
             <Label type="default">{`Charges: ${displayCharges}/${maxStoredCharges}`}</Label>
             {regenerationState === "charging" &&
               nextChargeInSeconds !== undefined && (
@@ -129,16 +141,14 @@ const SaltNodeContent: React.FC<{
             {regenerationState === "paused" &&
               pauseRemainingSeconds !== undefined && (
                 <Label type="warning" icon={SUNNYSIDE.icons.stopwatch}>
-                  {`Regeneration paused (${secondsToString(
+                  {`Regeneration restarts in ${secondsToString(
                     pauseRemainingSeconds,
-                    {
-                      length: "medium",
-                    },
-                  )})`}
+                    { length: "medium" },
+                  )}`}
                 </Label>
               )}
             {regenerationState === "maxed" && (
-              <Label type="success">{"Charges maxed (no timer)"}</Label>
+              <Label type="success">{"Charges maxed"}</Label>
             )}
           </div>
         </div>
@@ -147,41 +157,21 @@ const SaltNodeContent: React.FC<{
       <div className="pt-1" />
 
       <InnerPanel className="p-2">
-        <div className="flex justify-between items-center mb-1">
-          <Label type="default">{"Active Harvest Queue"}</Label>
-          {readyCount > 0 && (
-            <Label type="success">{`${readyCount} Ready`}</Label>
-          )}
-        </div>
-
         {activeSlots.length === 0 && (
-          <p className="text-xs">{"No active harvest slots."}</p>
+          <p className="text-xs">{t("salt.noActiveHarvestSlots")}</p>
         )}
 
-        {activeSlots.length > 0 && (
-          <div className="space-y-1 mb-1">
-            {activeSlots.map((slot, index) => {
-              const secondsRemaining = Math.max(
-                0,
-                Math.ceil((slot.readyAt - now) / 1000),
-              );
-              const isReady = secondsRemaining === 0;
+        {inProgressDisplaySlot && (
+          <SaltHarvestInProgress slot={inProgressDisplaySlot} />
+        )}
 
-              return (
-                <div
-                  key={`${slot.startedAt}-${slot.readyAt}`}
-                  className="flex justify-between text-xs"
-                >
-                  <span>{`Slot ${index + 1}`}</span>
-                  <span>
-                    {isReady
-                      ? "Ready"
-                      : secondsToString(secondsRemaining, { length: "medium" })}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+        {isVip && queueGridCapacity > 0 && activeSlots.length > 0 && (
+          <SaltHarvestQueue
+            queueGridSlots={queueGridSlots}
+            queueGridCapacity={queueGridCapacity}
+            now={now}
+            onCloseModal={onClose}
+          />
         )}
       </InnerPanel>
 
