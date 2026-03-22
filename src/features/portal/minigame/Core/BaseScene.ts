@@ -104,6 +104,7 @@ export abstract class BaseScene extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   public borderMapLeft?: Phaser.Tilemaps.Tilemap;
   public borderMapRight?: Phaser.Tilemaps.Tilemap;
+  public isControlInverted: boolean = false;
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
 
@@ -299,7 +300,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     try {
       this.initialiseMap();
-
 
       const mapWidthPx = this.map.width * SQUARE_WIDTH;
       const mapHeightPx = this.map.height * SQUARE_WIDTH;
@@ -608,13 +608,37 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const extraCols = Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH);
 
-    this.borderMapLeft = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
-    this.borderMapRight = this.make.tilemap({ tileWidth: SQUARE_WIDTH, tileHeight: SQUARE_WIDTH, width: extraCols, height: this.map.height });
+    this.borderMapLeft = this.make.tilemap({
+      tileWidth: SQUARE_WIDTH,
+      tileHeight: SQUARE_WIDTH,
+      width: extraCols,
+      height: this.map.height,
+    });
+    this.borderMapRight = this.make.tilemap({
+      tileWidth: SQUARE_WIDTH,
+      tileHeight: SQUARE_WIDTH,
+      width: extraCols,
+      height: this.map.height,
+    });
 
     const tilesetKey = this.options.map?.tilesetUrl ?? "Sunnyside V3";
     const imageKey = this.options.map?.imageKey ?? "tileset";
-    const tilesetLeft = this.borderMapLeft.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
-    const tilesetRight = this.borderMapRight.addTilesetImage(tilesetKey, imageKey, 16, 16, 1, 2) as Phaser.Tilemaps.Tileset;
+    const tilesetLeft = this.borderMapLeft.addTilesetImage(
+      tilesetKey,
+      imageKey,
+      16,
+      16,
+      1,
+      2,
+    ) as Phaser.Tilemaps.Tileset;
+    const tilesetRight = this.borderMapRight.addTilesetImage(
+      tilesetKey,
+      imageKey,
+      16,
+      16,
+      1,
+      2,
+    ) as Phaser.Tilemaps.Tileset;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -632,8 +656,18 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData) => {
       if (layerData.name === "Ground") return;
 
-      const leftLayer = this.borderMapLeft!.createBlankLayer(layerData.name, tilesetLeft, -extraCols * SQUARE_WIDTH, 0) as Phaser.Tilemaps.TilemapLayer;
-      const rightLayer = this.borderMapRight!.createBlankLayer(layerData.name, tilesetRight, mapWidthPx, 0) as Phaser.Tilemaps.TilemapLayer;
+      const leftLayer = this.borderMapLeft!.createBlankLayer(
+        layerData.name,
+        tilesetLeft,
+        -extraCols * SQUARE_WIDTH,
+        0,
+      ) as Phaser.Tilemaps.TilemapLayer;
+      const rightLayer = this.borderMapRight!.createBlankLayer(
+        layerData.name,
+        tilesetRight,
+        mapWidthPx,
+        0,
+      ) as Phaser.Tilemaps.TilemapLayer;
 
       for (let y = 0; y < this.map.height; y++) {
         let startLeft = -1;
@@ -649,12 +683,15 @@ export abstract class BaseScene extends Phaser.Scene {
           const blockSizeLeft = Math.min(4, availableLeft);
           const blockLeft = [];
           for (let i = 0; i < blockSizeLeft; i++) {
-            blockLeft.push(this.map.getTileAt(startLeft + i, y, true, layerData.name));
+            blockLeft.push(
+              this.map.getTileAt(startLeft + i, y, true, layerData.name),
+            );
           }
           for (let x = 0; x < extraCols; x++) {
             const cx = x - extraCols;
             const relative_x = cx - startLeft;
-            const blockIndex = (relative_x % blockSizeLeft + blockSizeLeft) % blockSizeLeft;
+            const blockIndex =
+              ((relative_x % blockSizeLeft) + blockSizeLeft) % blockSizeLeft;
             const tile = blockLeft[blockIndex];
             if (tile && tile.index !== -1) {
               leftLayer.putTileAt(tile.index - 1, x, y);
@@ -675,7 +712,9 @@ export abstract class BaseScene extends Phaser.Scene {
           const blockRight = [];
           const startIdx = startRight - blockSizeRight + 1;
           for (let i = 0; i < blockSizeRight; i++) {
-            blockRight.push(this.map.getTileAt(startIdx + i, y, true, layerData.name));
+            blockRight.push(
+              this.map.getTileAt(startIdx + i, y, true, layerData.name),
+            );
           }
           for (let x = 0; x < extraCols; x++) {
             const cx = x + this.map.width;
@@ -703,7 +742,8 @@ export abstract class BaseScene extends Phaser.Scene {
     const mapHeightPx = this.map.height * SQUARE_WIDTH;
 
     const extraWidthPx = (window.innerWidth - mapWidthPx * this.zoom) / 2;
-    const extraCols = extraWidthPx > 0 ? Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH) : 0;
+    const extraCols =
+      extraWidthPx > 0 ? Math.ceil(extraWidthPx / this.zoom / SQUARE_WIDTH) : 0;
     const expandedWidthPx = extraCols * SQUARE_WIDTH;
 
     camera.setBounds(
@@ -1174,7 +1214,14 @@ export abstract class BaseScene extends Phaser.Scene {
         const down =
           (this.cursorKeys?.down.isDown || this.cursorKeys?.s?.isDown) ?? false;
 
-        this.movementAngle = this.keysToAngle(left, right, up, down);
+        const inverted = this.keysToAngle(
+          this.isControlInverted ? right : left,
+          this.isControlInverted ? left : right,
+          this.isControlInverted ? down : up,
+          this.isControlInverted ? up : down,
+        );
+
+        this.movementAngle = inverted;
       }
     }
 

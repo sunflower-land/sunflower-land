@@ -19,6 +19,7 @@ import {
   SIMULATED_LAG_DURATION,
   POWER_UNLOCK_THRESHOLDS,
   CHEST_SPAWN_INTERVAL,
+  HONEY_SPAWN_POSITION,
 } from "./Constants";
 import { Side, Position, Enemy } from "./Types";
 import { EventBus } from "./lib/EventBus";
@@ -34,8 +35,7 @@ import { Referee } from "./containers/Referee";
 import { RiceBun } from "./containers/RiceBun";
 import { Honey } from "./containers/Honey";
 import { Chest } from "./containers/Chest";
-import { HONEY_SPAWN_POSITION } from "./Constants";
-
+import { LineGlitch } from "./containers/LineGlitch";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -57,12 +57,12 @@ export class Scene extends BaseScene {
   private isUsingCannon = false;
   private activeCannondSide: Side | null = null;
   private menaceSkeleton: Menace_Skeleton[] = [];
-  private drownedSkeleton: Blast_Skeleton[] = [];
+  private blastSkeleton: Blast_Skeleton[] = [];
   public allEnemies: Enemy[] = [];
   private riceBuns: RiceBun[] = [];
   private honey?: Honey;
   public chests: Chest[] = [];
-
+  private glitch!: LineGlitch;
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -164,6 +164,38 @@ export class Scene extends BaseScene {
         frameHeight: 29,
       },
     );
+    this.load.spritesheet(
+      "blast_skeleton_emerge",
+      "/world/portal/images/blast_skeleton_emerge.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "blast_skeleton_walk",
+      "/world/portal/images/blast_skeleton_walk.webp",
+      {
+        frameWidth: 23,
+        frameHeight: 21,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_idle",
+      "/world/portal/images/sniper_skeleton_idle.webp",
+      {
+        frameWidth: 24,
+        frameHeight: 24,
+      },
+    );
+    this.load.spritesheet(
+      "sniper_attack",
+      "/world/portal/images/sniper_skeleton_attack.webp",
+      {
+        frameWidth: 24,
+        frameHeight: 24,
+      },
+    );
     // Vege Splats
     this.load.spritesheet(
       "sniper_skeleton_carrot_splat",
@@ -198,7 +230,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_splatter",
+      "sniper_tomato_splatter",
       "/world/portal/images/tomato_splatter.webp",
       {
         frameWidth: 17,
@@ -206,7 +238,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_screenSplat",
+      "blast_skeleton_tomato_screenSplat",
       "/world/portal/images/tomato_screenSplat.webp",
       {
         frameWidth: 160,
@@ -214,7 +246,7 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
-      "sniper_skeleton_tomato_rolling",
+      "blast_skeleton_tomato_rolling",
       "/world/portal/images/tomato_rolling.webp",
       {
         frameWidth: 160,
@@ -255,6 +287,14 @@ export class Scene extends BaseScene {
       "/world/portal/images/tomato.webp",
     );
     this.load.image(
+      "sniper_tomato",
+      "/world/portal/images/tomato.webp",
+    );
+    this.load.image(
+      "blast_skeleton_tomato",
+      "/world/portal/images/tomato.webp",
+    );
+    this.load.image(
       "sniper_skeleton_cabbage",
       "/world/portal/images/cabbage.png",
     );
@@ -291,6 +331,9 @@ export class Scene extends BaseScene {
         frameHeight: 25,
       },
     );
+    this.load.image("health_full", "/world/portal/images/health_bar_full.webp");
+    this.load.image("health_half", "/world/portal/images/health_bar_half.webp");
+    this.load.image("health_low", "/world/portal/images/health_bar_low.webp")
 
     // Food
     this.load.image("rice_bun", "/world/portal/images/rice_bun.png");
@@ -352,7 +395,16 @@ export class Scene extends BaseScene {
       }
     );
 
-    // Music
+    // SFX
+    this.load.audio("spawn", "/world/portal/SFX/spawn.wav");
+    this.load.audio("death", "/world/portal/SFX/death.mp3");
+    this.load.audio("splat", "/world/portal/SFX/splat.mp3");
+    this.load.audio("blast_emerge", "/world/portal/SFX/blast_emerge.wav");
+    this.load.audio("blast_splat", "/world/portal/SFX/blast_splat.wav");
+    this.load.audio("sniper_spawn", "/world/portal/SFX/sniper.wav");
+    this.load.audio("giant_spawn", "/world/portal/SFX/giant.wav");
+    this.load.audio("barrel", "/world/portal/SFX/barrel.mp3");
+    this.load.audio("giant_death", "/world/portal/SFX/giant_death.wav");
     // Background
     this.load.audio(
       "backgroundMusic",
@@ -377,8 +429,11 @@ export class Scene extends BaseScene {
 
     // Enemies
     this.allEnemies = [];
-    this.riceBuns = [];
+    this.createGlitch();
     this.createEnemies();
+
+    // Rice buns
+    this.riceBuns = [];
 
     this.createCannons();
     this.createOcean();
@@ -388,7 +443,6 @@ export class Scene extends BaseScene {
     this.createRiceBuns();
     this.createHoney();
     this.createChest();
-
 
     // Config
     this.input.addPointer(3);
@@ -648,6 +702,17 @@ export class Scene extends BaseScene {
     this.createDripWalkers();
   }
 
+  private createGlitch(delay: number = 4000) {
+    this.glitch = new LineGlitch(this, {
+      lineCount: 60,
+      maxOffset: 100
+    })
+    this.time.delayedCall(delay, () => {
+      this.glitch.stop();
+      this.glitch.destroy();
+    });
+  }
+
   private createGiantSkeleton() {
     const { x, y } = { x: 230, y: 100 };
     const giantCardboard = new Giant_Skeleton({
@@ -684,7 +749,7 @@ export class Scene extends BaseScene {
   }
 
   private createBlastSkeleton() {
-    this.drownedSkeleton = BLAST_SKELETON_POSITIONS.map((pos) => {
+    this.blastSkeleton = BLAST_SKELETON_POSITIONS.map((pos) => {
       const skel = new Blast_Skeleton({
         x: pos.x,
         y: pos.y,

@@ -12,8 +12,8 @@ interface Props {
 }
 
 const MOVE_DISTANCE = 90;
-const MIN_BARREL_THROW_DELAY = 1000;
-const MAX_BARREL_THROW_DELAY = 3000;
+const MIN_BARREL_THROW_DELAY = 4000;
+const MAX_BARREL_THROW_DELAY = 6000;
 const BARREL_RESET_DELAY = 2000;
 const RESPAWN_DELAY = 5000;
 
@@ -27,6 +27,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
   private followGiant: boolean = true;
   public isDefeated: boolean = false;
   private barrelTimer?: Phaser.Time.TimerEvent;
+  private health_bar: Phaser.GameObjects.Image;
+  private health_status: string;
 
   constructor({ x, y, scene, player }: Props) {
     super(scene, x, y);
@@ -34,11 +36,18 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     this.scene = scene;
     this.player = player;
     this.spriteName = "giant";
+    this.health_status = "health";
 
     // Sprites
     this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`);
     this.barrel = this.scene.add.sprite(0, -20, `${this.spriteName}_barrel`);
-    this.add([this.sprite, this.barrel]);
+    this.health_bar = this.scene.add.image(
+      0,
+      -30,
+      `${this.health_status}_full`,
+    );
+    this.add([this.sprite, this.barrel, this.health_bar]);
+    this.sprite.setActive(false);
 
     // Physics
     this.scene.physics.add.existing(this.barrel);
@@ -62,6 +71,9 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
   }
 
   private createGiant() {
+    if (!this.player) return;
+    this.isDefeated = false;
+
     this.setSize(this.sprite.width, this.sprite.height);
     this.setDepth(0);
 
@@ -92,7 +104,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       onUpdate: (tween, target: any) => {
         if (this.followGiant) {
           this.barrel.x = this.sprite.x;
-          this.barrel.y = this.sprite.y - 20;
+          this.barrel.y = this.sprite.y - 15;
         }
 
         const dx = target.x - prevX;
@@ -121,6 +133,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     this.barrelTimer?.remove(false);
     this.barrelTimer = this.scene.time.delayedCall(delay, () => {
       if (this.isDefeated) return;
+      this.scene.sound.add("giant_spawn", { volume: 0.2 }).play();
       createAnimation(
         this.scene,
         this.sprite,
@@ -145,6 +158,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       });
       this.scene.time.delayedCall(500, () => {
         if (!this.isDefeated) {
+          this.sprite.setActive(true);
+          (this.body as Phaser.Physics.Arcade.Body).enable = true;
           this.throwBarrel();
         }
       });
@@ -155,6 +170,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     if (!this.player) return;
 
     this.followGiant = false;
+    this.sprite.setVisible(true);
+    this.health_bar.setVisible(true);
 
     const body = this.barrel.body as Phaser.Physics.Arcade.Body;
     body.enable = true;
@@ -165,6 +182,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
     const distance = this.direction === 1 ? "+=150" : "-=150";
     const valueY = this.player.getWorldTransformMatrix().ty - this.y;
+    this.scene.sound.add("barrel", { volume: 0.2 }).play();
 
     this.scene.tweens.add({
       targets: this.barrel,
@@ -233,27 +251,31 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
   private createEvents() { }
 
   public defeat() {
-    if (this.isDefeated || !this.sprite.visible) return;
+    if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
+    this.scene.sound.add("giant_death", { volume: 0.3 }).play();
+    this.health_bar.setTexture(`${this.health_status}_low`);
     createAnimation(
       this.scene,
       this.sprite,
       `${this.spriteName}_death`,
       "death",
       0,
-      12,
+      9,
       15,
       0,
     );
 
     (this.body as Phaser.Physics.Arcade.Body).enable = false;
 
-    this.sprite.once("animationcomplete", () => {
+    this.scene.time.delayedCall(800, () => {
+      this.health_bar.setVisible(false);
       this.barrel.setVisible(false);
       this.sprite.setVisible(false);
 
       this.barrelTimer?.remove(false);
+      this.sprite.setActive(false);
 
       this.scene.tweens.killTweensOf(this.sprite);
       this.scene.tweens.killTweensOf(this.barrel);
@@ -271,25 +293,12 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
       const moveLeft = this.x - MOVE_DISTANCE;
       this.x = moveLeft;
 
-      this.sprite.setVisible(true);
-      this.barrel.setVisible(true);
-      this.barrel.setPosition(this.sprite.x, this.sprite.y - 20);
-
-      (this.body as Phaser.Physics.Arcade.Body).enable = true;
-      (this.barrel.body as Phaser.Physics.Arcade.Body).enable = true;
+      const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
+      this.health_bar.setTexture(`${this.health_status}_${randomHS}`);
+      this.health_bar.setVisible(false);
 
       this.followGiant = true;
 
-      createAnimation(
-        this.scene,
-        this.sprite,
-        `${this.spriteName}_idle`,
-        "idle",
-        0,
-        7,
-        8,
-        -1,
-      );
       this.scheduleNextBarrelThrow();
     });
   }

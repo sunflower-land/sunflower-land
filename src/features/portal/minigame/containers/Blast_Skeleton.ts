@@ -12,8 +12,8 @@ interface Props {
 }
 
 const RESTORE_SPEED = 3000;
-const MIN_NEXT_MOVE = RESTORE_SPEED + 1000;
-const MAX_NEXT_MOVE = MIN_NEXT_MOVE + 4000;
+const MIN_NEXT_MOVE = RESTORE_SPEED + 3000;
+const MAX_NEXT_MOVE = RESTORE_SPEED + 5000;
 
 export class Blast_Skeleton extends Phaser.GameObjects.Container {
   scene: Scene;
@@ -22,22 +22,26 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
   private spriteName: string;
   private food: Phaser.GameObjects.Sprite;
   private tomatoBomb: Phaser.GameObjects.Sprite;
+  private bombBody!: Phaser.Physics.Arcade.Body;
   public isDefeated: boolean = false;
   private isHit: boolean = false;
   private skeletonTimer?: Phaser.Time.TimerEvent;
   private spawnX: number;
   private spawnY: number;
+  private health_bar: Phaser.GameObjects.Image;
+  private health_status: string;
 
   constructor({ x, y, scene, player }: Props) {
     super(scene, x, y);
     this.scene = scene;
     this.player = player;
-    this.spriteName = "sniper_skeleton";
     this.spawnX = x;
     this.spawnY = y;
+    this.spriteName = "blast_skeleton";
+    this.health_status = "health";
 
     this.sprite = this.scene.add
-      .sprite(0, 0, `${this.spriteName}_idle`)
+      .sprite(0, 0, `${this.spriteName}_walk`)
       .setScale(1.2)
       .setVisible(false);
     this.food = this.scene.add
@@ -46,11 +50,24 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.tomatoBomb = this.scene.add
       .sprite(0, 0, `${this.spriteName}_tomato_screenSplat`)
       .setVisible(false);
-    this.add([this.sprite, this.tomatoBomb, this.food]);
+    this.health_bar = this.scene.add
+      .image(0, -20, `${this.health_status}_full`)
+      .setScale(0.8)
+      .setVisible(false);
+    this.add([this.sprite, this.tomatoBomb, this.food, this.health_bar]);
+
+    // Physics
     scene.physics.add.existing(this);
     (this.body as Phaser.Physics.Arcade.Body)
       .setSize(this.sprite.width, this.sprite.height)
       .setOffset(-this.sprite.width / 2, -this.sprite.height / 2);
+    this.sprite.setActive(false);
+
+    scene.physics.add.existing(this.tomatoBomb);
+    this.bombBody = this.tomatoBomb.body as Phaser.Physics.Arcade.Body;
+    this.bombBody.setAllowGravity(false);
+    this.bombBody.setImmovable(true);
+    this.bombBody.enable = false;
 
     (this.body as Phaser.Physics.Arcade.Body).enable = false;
 
@@ -78,22 +95,67 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.skeletonTimer = this.scene.time.delayedCall(delay, () => {
       if (!this.player) return;
       const targetX = this.player.x;
-      const targetY = this.player.y - 20;
-
+      const targetY = this.player.y - 40;
+      this.setDepth(1000);
+      this.sprite.setActive(true);
       this.scene.time.delayedCall(200, () => {
-        this.createBlast(targetX, targetY);
-        this.scheduleAction();
+        this.sprite.setVisible(true);
+        createAnimation(
+          this.scene,
+          this.sprite,
+          `${this.spriteName}_emerge`,
+          "emerge",
+          0,
+          10,
+          8,
+          0,
+        );
+        this.scene.sound.add("blast_emerge", { volume: 0.3 }).play();
+        this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+          if (!this.isDefeated) {
+            this.createBlast(targetX, targetY);
+            this.scheduleAction();
+          }
+        });
       });
     });
   }
 
   private createBlast(targetX: number, targetY: number) {
     if (!this.player) return;
+    this.isDefeated = false;
 
-    this.scene.physics.add.existing(this.tomatoBomb);
-    const body = this.tomatoBomb.body as Phaser.Physics.Arcade.Body;
-    body.enable = false;
+    (this.body as Phaser.Physics.Arcade.Body).enable = true;
 
+    let jumpFrameRate;
+
+    switch (true) {
+      case this.player.x < 250:
+      case this.player.x > 350:
+        jumpFrameRate = 15;
+        break;
+      case this.player.y < 310:
+        jumpFrameRate = 8;
+        break;
+      case this.player.y > 310:
+        jumpFrameRate = 15;
+        break;
+      default:
+        jumpFrameRate = 15;
+    }
+    this.sprite.anims.timeScale = jumpFrameRate / 8;
+    createAnimation(
+      this.scene,
+      this.sprite,
+      `${this.spriteName}_walk`,
+      "walk",
+      0,
+      5,
+      8,
+      -1,
+    );
+
+    this.health_bar.setVisible(true);
     this.tomatoBomb.setVisible(false);
     this.sprite.setVisible(true);
     (this.body as Phaser.Physics.Arcade.Body).enable = true;
@@ -114,15 +176,16 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
           `${this.spriteName}_tomato_rolling`,
           "tomato_rolling",
           0,
-          7,
+          6,
           20,
           0,
         );
 
         this.sprite.setVisible(false);
+        this.health_bar.setVisible(false);
 
         this.food.once("animationcomplete", () => {
-          body.enable = true;
+          this.bombBody.enable = true;
           this.food.setVisible(false);
           this.tomatoBomb.setVisible(true);
           createAnimation(
@@ -135,7 +198,10 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
             20,
             0,
           );
+          this.scene.sound.add("blast_splat", { volume: 0.2 }).play();
         });
+        this.sprite.setVisible(false);
+        this.sprite.setActive(false);
         this.tomatoBomb.once("animationcomplete", () => {
           this.createReset();
         });
@@ -196,26 +262,42 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
   }
 
   private createDamage() { }
-
   private createEvents() { }
 
   public defeat() {
-    if (this.isDefeated || !this.sprite.visible) return;
+    if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
-    this.skeletonTimer?.remove(false);
-    this.sprite.setVisible(false);
-    this.food.setVisible(false);
-    this.tomatoBomb.setVisible(false);
+    this.health_bar.setTexture(`${this.health_status}_low`);
+    createAnimation(
+      this.scene,
+      this.sprite,
+      "sniper_skeleton_death",
+      "death",
+      0,
+      4,
+      4,
+      0,
+    );
+    this.scene.sound.add("death", { volume: 0.3 }).play();
 
-    this.scene.tweens.killTweensOf(this.sprite);
-    this.scene.tweens.killTweensOf(this.tomatoBomb);
+    this.scene.time.delayedCall(800, () => {
+      this.skeletonTimer?.remove(false);
+      this.sprite.setVisible(false);
+      this.food.setVisible(false);
+      this.tomatoBomb.setVisible(false);
+      this.health_bar.setVisible(false);
+      this.sprite.setActive(false);
 
-    (this.body as Phaser.Physics.Arcade.Body).enable = false;
-    (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
+      this.scene.tweens.killTweensOf(this.sprite);
+      this.scene.tweens.killTweensOf(this.tomatoBomb);
 
-    this.scene.time.delayedCall(2000, () => {
-      this.respawn();
+      (this.body as Phaser.Physics.Arcade.Body).enable = false;
+      (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
+
+      this.scene.time.delayedCall(5000, () => {
+        this.respawn();
+      });
     });
   }
 
@@ -224,8 +306,14 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.isDefeated = false;
     this.isHit = false;
 
-    this.setPosition(this.spawnX, this.spawnY);
+    const finalX =
+      this.spawnX +
+      (this.player.x <= 300 ? -1 : 1) * Phaser.Math.Between(10, 50);
+    this.setPosition(finalX, this.spawnY);
 
+    const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
+    this.health_bar.setTexture(`${this.health_status}_${randomHS}`);
+    this.health_bar.setVisible(false);
     this.sprite.setTexture(`${this.spriteName}_idle`);
     this.sprite.setVisible(false);
     this.food.setVisible(false);
@@ -234,6 +322,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     (this.body as Phaser.Physics.Arcade.Body).enable = false;
     (this.tomatoBomb.body as Phaser.Physics.Arcade.Body).enable = false;
 
+    (this.body as Phaser.Physics.Arcade.Body).enable = false;
     this.scheduleAction();
   }
 }
