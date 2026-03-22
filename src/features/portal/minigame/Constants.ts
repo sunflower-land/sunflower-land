@@ -57,7 +57,7 @@ export const CANNON_CONFIG: (Position & { side: Side })[] = [
 
 export const PLAYER_CANNON_COOLDOWN = 500;
 export const PLAYER_CANNON_CHARGE_DURATION = 1200;
-export const PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE = 1;
+export const PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE = 0.1;
 export const CANNON_COOLDOWN = 30000;
 export const DRIP_WALKER_CYCLE_DURATION = 30000;
 
@@ -65,7 +65,7 @@ export const CHEST_LEFT_X = 50;
 export const CHEST_RIGHT_X = 560;
 export const CHEST_Y = 195;
 export const CHEST_TRAVEL_DURATION = 10000;
-export const CHEST_SPAWN_INTERVAL = 3000;
+export const CHEST_SPAWN_INTERVAL = 60000;
 
 export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
   cabbage: {
