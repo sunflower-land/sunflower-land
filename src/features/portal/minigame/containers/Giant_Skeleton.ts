@@ -25,7 +25,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
   private spriteName: string;
   private direction: number = 1;
   private followGiant: boolean = true;
-  private isDefeated: boolean = false;
+  public isDefeated: boolean = false;
   private barrelTimer?: Phaser.Time.TimerEvent;
 
   constructor({ x, y, scene, player }: Props) {

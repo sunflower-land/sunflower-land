@@ -14,6 +14,11 @@ import {
   LUMBER_CONFIG,
   DRIP_WALKER_POSITIONS,
   REFEREE_POSITION,
+  RICE_BUN_POSITIONS,
+  RICE_BUN_SPAWN_INTERVAL,
+  SIMULATED_LAG_DURATION,
+  POWER_UNLOCK_THRESHOLDS,
+  CHEST_SPAWN_INTERVAL,
 } from "./Constants";
 import { Side, Position, Enemy } from "./Types";
 import { EventBus } from "./lib/EventBus";
@@ -26,6 +31,11 @@ import { createAnimation } from "./lib/Utils";
 import { Lumber } from "./containers/Lumber";
 import { DripWalker } from "./containers/DripWalker";
 import { Referee } from "./containers/Referee";
+import { RiceBun } from "./containers/RiceBun";
+import { Honey } from "./containers/Honey";
+import { Chest } from "./containers/Chest";
+import { HONEY_SPAWN_POSITION } from "./Constants";
+
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -49,6 +59,10 @@ export class Scene extends BaseScene {
   private menaceSkeleton: Menace_Skeleton[] = [];
   private drownedSkeleton: Blast_Skeleton[] = [];
   public allEnemies: Enemy[] = [];
+  private riceBuns: RiceBun[] = [];
+  private honey?: Honey;
+  public chests: Chest[] = [];
+
 
   sceneId: SceneId = PORTAL_NAME;
 
@@ -68,6 +82,14 @@ export class Scene extends BaseScene {
 
   private get isGamePlaying() {
     return this.portalService?.state.matches("playing") === true;
+  }
+
+  private get riceBunsCollected() {
+    return this.portalService?.state.context.riceBunsCollected ?? 0;
+  }
+
+  private get isAppleShotUnlocked() {
+    return this.riceBunsCollected >= POWER_UNLOCK_THRESHOLDS.CANNON;
   }
 
   public get portalService() {
@@ -251,10 +273,32 @@ export class Scene extends BaseScene {
       },
     );
     this.load.image("puddle", "/world/portal/images/puddle.png");
+    this.load.image("honey", "/world/portal/images/honey_icon.png");
+    this.load.spritesheet(
+      "honey_screenSplat",
+      "/world/portal/images/honey_screenSplat.png",
+      {
+        frameWidth: 160,
+        frameHeight: 160,
+      },
+    );
+    this.load.image("chest", "/world/portal/images/chest.png");
+    this.load.spritesheet(
+      "open_chest",
+      "/world/portal/images/open_chest.webp",
+      {
+        frameWidth: 22,
+        frameHeight: 25,
+      },
+    );
 
     // Food
+    this.load.image("rice_bun", "/world/portal/images/rice_bun.png");
     this.load.image("orange", "/world/portal/images/orange.png");
+    this.load.image("apple", "/world/portal/images/apple.png");
     this.load.image("cabbage", "/world/portal/images/cabbage.png");
+    this.load.image("sunflower", "/world/portal/images/sunflower.png");
+
     this.load.spritesheet(
       "cabbage_splat",
       "/world/portal/images/cabbage_splat.webp",
@@ -296,15 +340,15 @@ export class Scene extends BaseScene {
     this.load.spritesheet(
       "referee", "/world/portal/images/referee.png",
       {
-        frameWidth: 220,
-        frameHeight: 250
+        frameWidth: 22,
+        frameHeight: 25
       }
     );
     this.load.spritesheet(
       "referee_yellow_card", "/world/portal/images/referee_yellow_card.png",
       {
-        frameWidth: 220,
-        frameHeight: 250
+        frameWidth: 25,
+        frameHeight: 26
       }
     );
 
@@ -333,6 +377,7 @@ export class Scene extends BaseScene {
 
     // Enemies
     this.allEnemies = [];
+    this.riceBuns = [];
     this.createEnemies();
 
     this.createCannons();
@@ -340,6 +385,10 @@ export class Scene extends BaseScene {
     this.createShips();
     this.createLumbers();
     this.createReferee();
+    this.createRiceBuns();
+    this.createHoney();
+    this.createChest();
+
 
     // Config
     this.input.addPointer(3);
@@ -474,6 +523,26 @@ export class Scene extends BaseScene {
       }
     });
 
+    EventBus.on("simulate-lag", () => {
+      const start = Date.now();
+      const interval = setInterval(() => {
+        if (Date.now() - start > SIMULATED_LAG_DURATION || this.scene.isActive() === false) {
+          clearInterval(interval);
+          this.scene.resume();
+          this.portalService?.send("SIMULATE_ERROR", { hasError: true });
+          return;
+        }
+        this.scene.pause();
+        setTimeout(() => {
+          this.scene.resume();
+        }, 100);
+      }, 150);
+    });
+
+    EventBus.on("throw-honey", () => {
+      this.honey?.throw();
+    });
+
     // reload scene when player hit retry
     const onRetry = (event: EventObject) => {
       if (event.type === "RETRY") {
@@ -522,11 +591,27 @@ export class Scene extends BaseScene {
 
   private controls() {
     if (!this.cursorKeys) return;
+    const spaceKey = this.cursorKeys.space;
 
-    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.space)) {
-      if (!this.isUsingCannon) {
-        this.currentPlayer?.shoot(this.allEnemies);
+    if (this.isUsingCannon) {
+      this.currentPlayer?.resetShootCharge();
+    } else if (this.isAppleShotUnlocked) {
+      if (Phaser.Input.Keyboard.JustDown(spaceKey) && this.currentPlayer?.canShoot()) {
+        this.currentPlayer.startShootCharge();
       }
+
+      if (spaceKey.isDown) {
+        this.currentPlayer?.updateShootCharge(this.allEnemies);
+      }
+
+      if (Phaser.Input.Keyboard.JustUp(spaceKey)) {
+        if (this.currentPlayer?.isShootCharging()) {
+          this.currentPlayer?.shoot(this.allEnemies, "cabbage");
+        }
+        this.currentPlayer?.resetShootCharge();
+      }
+    } else if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
+      this.currentPlayer?.shoot(this.allEnemies);
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e!) &&
@@ -639,6 +724,50 @@ export class Scene extends BaseScene {
       scene: this,
     });
     this.allEnemies.push(referee);
+  }
+
+  private createRiceBuns() {
+    this.time.addEvent({
+      delay: RICE_BUN_SPAWN_INTERVAL,
+      callback: () => {
+        const availablePositions = RICE_BUN_POSITIONS.filter(pos => {
+          return !this.riceBuns.some(rb => rb.active && rb.x === pos.x && rb.y === pos.y);
+        });
+
+        if (availablePositions.length === 0) return;
+
+        const position = Phaser.Math.RND.pick(availablePositions);
+        const riceBun = new RiceBun({
+          x: position.x,
+          y: position.y,
+          scene: this,
+        });
+        this.riceBuns.push(riceBun);
+
+        this.riceBuns = this.riceBuns.filter(rb => rb.active);
+      },
+      loop: true,
+    });
+  }
+
+  private createHoney() {
+    this.honey = new Honey({
+      x: HONEY_SPAWN_POSITION.x,
+      y: HONEY_SPAWN_POSITION.y,
+      scene: this,
+    });
+  }
+
+  private createChest() {
+    this.time.addEvent({
+      delay: CHEST_SPAWN_INTERVAL,
+      callback: () => {
+        const chest = new Chest({ scene: this });
+        this.chests.push(chest);
+        this.chests = this.chests.filter(c => c.active);
+      },
+      loop: true,
+    });
   }
 
   private createOcean() {

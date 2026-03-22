@@ -19,10 +19,15 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_IDS } from "features/game/types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { createAnimation, onAnimationComplete } from "../lib/Utils";
-import { Enemy } from "../Types";
+import { Enemy, PlayerFoodType } from "../Types";
 import { Orange } from "../containers/Orange";
-import { PLAYER_CANNON_COOLDOWN } from "../Constants";
+import {
+  PLAYER_CANNON_CHARGE_DURATION,
+  PLAYER_CANNON_COOLDOWN,
+  PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE,
+} from "../Constants";
 import { PlayerFood } from "../containers/PlayerFood";
+import { MachineInterpreter } from "../lib/Machine";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -89,6 +94,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private carryNoneIdleAnimationKey: string | undefined;
   private cannonSprite?: Phaser.GameObjects.Sprite;
   private lastShootTime = 0;
+  private shootChargeBar?: Phaser.GameObjects.Graphics;
+  private shootChargeBarBorder?: Phaser.GameObjects.Image;
+  private shootChargeStartedAt?: number;
+  private shootChargeCompleted = false;
+  private fakeProjectile?: Phaser.GameObjects.Image;
 
   constructor({
     scene,
@@ -203,6 +213,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     // Cannon Animation
     this.createCannonAnimation(isNPC);
+    this.createShootChargeBar();
+    this.createFakeProjectile();
 
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on(
@@ -1045,6 +1057,22 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public hurt() {
+    this.portalService?.send("LOSE_LIFE");
+    // if (
+    //   this.sprite?.anims &&
+    //   this.scene?.anims.exists(this.hurtAnimationKey as string) &&
+    //   this.sprite?.anims.getName() !== this.hurtAnimationKey
+    // ) {
+    //   try {
+    //     this.sprite.anims.play(this.hurtAnimationKey as string, true);
+    //   } catch (e) {
+    //     // eslint-disable-next-line no-console
+    //     console.log("Bumpkin Container: Error playing hurt animation: ", e);
+    //   }
+    // }
+  }
+
   public hitPlayer() {
     this.invincible = true;
 
@@ -1162,8 +1190,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   // April Fools 2026
+  public get portalService() {
+    return this.scene.registry.get("portalService") as MachineInterpreter | undefined;
+  }
+
   public createCannonAnimation(isNPC = false) {
-    console.log("createCannonAnimation", isNPC);
     if (!this.cannonSprite) {
       const yOffset = -10;
       const spriteName = isNPC ? "basket" : "player_cannon_shoot";
@@ -1198,19 +1229,17 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  public shoot(enemies: Enemy[]) {
+  public canShoot() {
     const now = this.scene.time.now;
-    if (now - this.lastShootTime < PLAYER_CANNON_COOLDOWN) return;
+    return now - this.lastShootTime >= PLAYER_CANNON_COOLDOWN;
+  }
+
+  public shoot(enemies: Enemy[], type: PlayerFoodType = "cabbage") {
+    const now = this.scene.time.now;
+    if (now - this.lastShootTime < PLAYER_CANNON_COOLDOWN) return false;
     this.lastShootTime = now;
 
-    this.createCannonAnimation();
-
-    if (this.cannonSprite) {
-      this.cannonSprite.play("player_cannon_shoot_shoot_anim", true);
-      onAnimationComplete(this.cannonSprite, "player_cannon_shoot_shoot_anim", () => {
-        this.cannonSprite?.play("player_cannon_shoot_idle_anim", true);
-      });
-    }
+    this.playShootAnimation();
 
     const angle = -Math.PI / 2;
 
@@ -1220,6 +1249,154 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       scene: this.scene as any,
       angle: angle,
       enemies: enemies,
+      type,
+    });
+  }
+
+  public playShootAnimation() {
+    this.createCannonAnimation();
+
+    if (this.cannonSprite) {
+      this.cannonSprite.play("player_cannon_shoot_shoot_anim", true);
+      onAnimationComplete(this.cannonSprite, "player_cannon_shoot_shoot_anim", () => {
+        this.cannonSprite?.play("player_cannon_shoot_idle_anim", true);
+      });
+    }
+  }
+
+  public createShootChargeBar() {
+    this.shootChargeBar?.destroy();
+    this.shootChargeBarBorder?.destroy();
+
+    this.shootChargeBar = this.scene.add.graphics()
+      .setDepth(2000)
+      .setVisible(false)
+
+    this.shootChargeBarBorder = this.scene.add.image(17, -4, "progress_bar_1")
+      .setDepth(2000)
+      .setScale(0.9, 0.8)
+      .setRotation(Math.PI / 2)
+      .setVisible(false);
+
+    this.add(this.shootChargeBarBorder);
+    this.add(this.shootChargeBar);
+  }
+
+  public startShootCharge() {
+    this.shootChargeStartedAt = this.scene.time.now;
+    this.shootChargeCompleted = false;
+    this.drawShootChargeBar(0);
+    this.shootChargeBar?.setVisible(true);
+    this.shootChargeBarBorder?.setVisible(true);
+  }
+
+  public isShootCharging() {
+    return this.shootChargeStartedAt !== undefined && !this.shootChargeCompleted;
+  }
+
+  public updateShootCharge(enemies: Enemy[]) {
+    if (
+      this.shootChargeStartedAt === undefined ||
+      this.shootChargeCompleted
+    ) {
+      return;
+    }
+
+    const progress = Phaser.Math.Clamp(
+      (this.scene.time.now - this.shootChargeStartedAt) /
+      PLAYER_CANNON_CHARGE_DURATION,
+      0,
+      1,
+    );
+
+    this.drawShootChargeBar(progress);
+
+    if (progress >= 1) {
+      this.playShootAnimation();
+      if (Math.random() < PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE) {
+        this.shoot(enemies, "apple");
+      } else {
+        this.fakeShoot();
+      }
+      this.shootChargeCompleted = true;
+      this.resetShootCharge();
+    }
+  }
+
+  public drawShootChargeBar(progress: number) {
+    if (!this.shootChargeBar) return;
+
+    const width = 5;
+    const height = 22;
+    const x = 15;
+    const y = -15;
+
+    const innerHeight = (height - 2) * progress;
+    this.shootChargeBar.fillStyle(0x83d25a, 1);
+    this.shootChargeBar.fillRect(
+      x + 1,
+      y + height - 1 - innerHeight,
+      width - 2,
+      innerHeight,
+    );
+  }
+
+  public resetShootCharge() {
+    this.shootChargeStartedAt = undefined;
+    this.shootChargeCompleted = false;
+    this.shootChargeBar?.clear();
+    this.shootChargeBar?.setVisible(false);
+    this.shootChargeBarBorder?.setVisible(false);
+  }
+
+  private createFakeProjectile() {
+    this.fakeProjectile = this.scene.add
+      .image(0, -11, "sunflower")
+      .setDepth(2000)
+      .setVisible(false);
+
+    this.add(this.fakeProjectile);
+  }
+
+  private fakeShoot() {
+    if (!this.fakeProjectile) return;
+
+    this.scene.tweens.killTweensOf(this.fakeProjectile);
+
+    const proj = this.fakeProjectile;
+
+    const openingY = -11;
+    const endY = openingY - 11;
+
+    const frameW = this.fakeProjectile.width;
+    const frameH = this.fakeProjectile.height;
+
+    this.fakeProjectile.setVisible(true).setCrop(0, frameH, frameW, 0);
+
+    this.scene.tweens.add({
+      targets: proj,
+      y: endY,
+      duration: 200,
+      ease: "Sine.easeOut",
+      onUpdate: () => {
+        if (!proj.active) return;
+
+        const risen = openingY - proj.y + 5;
+        const revealedPx = risen / proj.scaleY;
+        const clampedReveal = Phaser.Math.Clamp(revealedPx, 0, frameH);
+
+        proj.setCrop(0, frameH - clampedReveal, frameW, clampedReveal);
+      },
+      onComplete: () => {
+        this.scene.time.addEvent({
+          delay: 2000,
+          callback: () => {
+            proj.setCrop(0, 0, frameW, frameH);
+            proj.setVisible(false);
+            proj.setY(openingY);
+          },
+        });
+      },
     });
   }
 }

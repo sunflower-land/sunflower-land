@@ -225,7 +225,6 @@ export class DripWalker extends Phaser.GameObjects.Container {
           const body = this.npc.body as Phaser.Physics.Arcade.Body;
           body.enable = true;
 
-          console.log(this.scene.colliders);
           if (this.scene.colliders) {
             this.scene.physics.add.collider(
               this.npc,

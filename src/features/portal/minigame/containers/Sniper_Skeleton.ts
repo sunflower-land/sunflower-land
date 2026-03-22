@@ -23,6 +23,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
   private vege: Phaser.GameObjects.Sprite;
   private playerWorldX_Sprite?: number;
   private vegeName: string;
+  public isDefeated: boolean = false;
 
   constructor({ x, y, scene, player }: Props) {
     super(scene, x, y);
@@ -75,6 +76,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
 
   private glitchEffect(duration: number = 150) {
     if (!this.player) return;
+    this.isDefeated = false;
     this.sprite.setVisible(true);
 
     (this.body as Phaser.Physics.Arcade.Body).enable = true;
@@ -253,6 +255,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
 
   public defeat() {
     if (!this.sprite.visible) return;
+    this.isDefeated = true;
     this.sprite.setVisible(false);
     this.vege.setVisible(false);
   }

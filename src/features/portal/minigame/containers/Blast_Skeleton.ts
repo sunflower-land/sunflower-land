@@ -22,7 +22,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
   private spriteName: string;
   private food: Phaser.GameObjects.Sprite;
   private tomatoBomb: Phaser.GameObjects.Sprite;
-  private isDefeated: boolean = false;
+  public isDefeated: boolean = false;
   private isHit: boolean = false;
   private skeletonTimer?: Phaser.Time.TimerEvent;
   private spawnX: number;

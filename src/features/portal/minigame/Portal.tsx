@@ -30,6 +30,7 @@ const _isIntroduction = (state: PortalMachineState) =>
 const _isLoser = (state: PortalMachineState) => state.matches("loser");
 const _isWinner = (state: PortalMachineState) => state.matches("winner");
 const _isComplete = (state: PortalMachineState) => state.matches("complete");
+const _hasError = (state: PortalMachineState) => state.context.hasError;
 
 /**
  * A Portal Example which demonstrates basic state management
@@ -38,6 +39,7 @@ export const Portal: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const { t } = useAppTranslation();
 
+  const hasError = useSelector(portalService, _hasError);
   const sflBalance = useSelector(portalService, _sflBalance);
   const isError = useSelector(portalService, _isError);
   const isUnauthorised = useSelector(portalService, _isUnauthorised);
@@ -110,6 +112,27 @@ export const Portal: React.FC = () => {
       {isNoAttempts && (
         <Modal show>
           <NoAttemptsPanel />
+        </Modal>
+      )}
+
+      {hasError && (
+        <Modal show>
+          <Panel>
+            <div className="flex flex-col p-2">
+              <Label className="mb-2" type="danger">{t(`${PORTAL_NAME}.critical.error`)}</Label>
+              <span className="text-xs mb-2">{t(`${PORTAL_NAME}.critical.error.description1`)}</span>
+              <span className="text-sm mb-2">{t(`${PORTAL_NAME}.critical.error.description2`)}</span>
+              <span className="text-xs mb-2">{t(`${PORTAL_NAME}.critical.error.description3`)}</span>
+              <code className="text-xs mb-4">
+                {t(`${PORTAL_NAME}.critical.error.description4`)}
+              </code>
+              <span className="text-lg mb-2">{t(`${PORTAL_NAME}.critical.error.description5`)}</span>
+              <span className="text-sm mb-2">{t(`${PORTAL_NAME}.critical.error.description6`)}</span>
+            </div>
+            <Button onClick={() => portalService.send("SIMULATE_ERROR", { hasError: false })}>
+              {t(`${PORTAL_NAME}.critical.error.button`)}
+            </Button>
+          </Panel>
         </Modal>
       )}
 

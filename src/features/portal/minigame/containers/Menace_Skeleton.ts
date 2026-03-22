@@ -27,7 +27,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   private vegeList: string[];
   private flipX: boolean = false;
   private randomThrow: number;
-  private isDefeated: boolean = false;
+  public isDefeated: boolean = false;
   private skeletonTimer?: Phaser.Time.TimerEvent;
   private isHit: boolean = false;
   private static usedSlots: number[] = [];

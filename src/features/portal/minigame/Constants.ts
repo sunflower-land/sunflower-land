@@ -8,7 +8,7 @@ import {
 import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Position, Side } from "./Types";
+import { PlayerFoodConfig, PlayerFoodType, Position, Side } from "./Types";
 import hat_immunity from "public/world/portal/images/prevents_slowing_icon.webp";
 import shoes_immunity from "public/world/portal/images/prevents_slipping_icon.webp";
 import wings_immunity_icon from "public/world/portal/images/prevents_enlargement_icon.webp";
@@ -52,8 +52,32 @@ export const CANNON_CONFIG: (Position & { side: Side })[] = [
 ];
 
 export const PLAYER_CANNON_COOLDOWN = 500;
+export const PLAYER_CANNON_CHARGE_DURATION = 1200;
+export const PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE = 1;
 export const CANNON_COOLDOWN = 30000;
 export const DRIP_WALKER_CYCLE_DURATION = 30000;
+
+export const CHEST_LEFT_X = 50;
+export const CHEST_RIGHT_X = 560;
+export const CHEST_Y = 195;
+export const CHEST_TRAVEL_DURATION = 10000;
+export const CHEST_SPAWN_INTERVAL = 3000;
+
+export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
+  cabbage: {
+    texture: "cabbage",
+    scale: 1,
+    hitRadiusScale: 0.5,
+    splatTexture: "cabbage_splat",
+  },
+  apple: {
+    texture: "apple",
+    scale: 5,
+    hitRadiusScale: 1,
+    spins: true,
+    noEnemyContact: true,
+  },
+};
 
 export const LUMBER_CONFIG: Position[] = [
   { x: 304, y: 190 },
@@ -63,8 +87,27 @@ export const LUMBER_CONFIG: Position[] = [
 
 export const REFEREE_POSITION: Position = { x: 304, y: 190 };
 export const REFEREE_EFFECT_SCALE_MODIFIER = 0.4;
-export const REFEREE_EFFECT_SPEED_MODIFIER = 0.5;
-export const REFEREE_EFFECT_DURATION = 15000;
+export const REFEREE_EFFECT_SPEED_MODIFIER = 0.4;
+export const REFEREE_EFFECT_DURATION = 5000;
+export const REFEREE_EFFECT_MIN_SCALE = 0.25;
+export const REFEREE_EFFECT_MAX_SCALE = 2;
+
+export const RICE_BUN_POSITIONS: Position[] = [
+  { x: 480, y: 345 }, { x: 407, y: 360 }, { x: 140, y: 375 }, { x: 170, y: 350 }, { x: 318, y: 365 }, { x: 230, y: 355 }, { x: 100, y: 342 }, { x: 150, y: 280 }, { x: 200, y: 300 }, { x: 250, y: 290 }, { x: 300, y: 310 }, { x: 350, y: 285 }, { x: 400, y: 305 }, { x: 450, y: 282 }, { x: 200, y: 235 }, { x: 240, y: 255 }, { x: 280, y: 240 }, { x: 320, y: 260 }, { x: 360, y: 245 }, { x: 400, y: 250 }
+];
+export const RICE_BUN_SPAWN_INTERVAL = 5000;
+export const RICE_BUN_DESPAWN_DURATION = 30000;
+export const SIMULATED_LAG_DURATION = 5000;
+
+export const POWER_UNLOCK_THRESHOLDS = {
+  CANNON: 0,
+  SHIELD: 20,
+  HONEY: 30,
+  EXPLOSIVE: 50,
+};
+
+export const HONEY_SPAWN_POSITION: Position = { x: 304, y: -50 };
+export const HONEY_TARGET_Y = 80;
 
 // Guide
 export const INSTRUCTIONS: {

@@ -34,6 +34,8 @@ export interface Context {
   lives: number;
   validations: Record<string, boolean>;
   isTraining: boolean;
+  riceBunsCollected: number;
+  hasError: boolean;
 }
 
 // type UnlockAchievementsEvent = {
@@ -65,6 +67,11 @@ type SetValidationsEvent = {
   validation: string;
 };
 
+type SimulateErrorEvent = {
+  type: "SIMULATE_ERROR";
+  hasError: boolean;
+};
+
 export type PortalEvent =
   | SetJoystickActiveEvent
   | { type: "START" }
@@ -79,23 +86,25 @@ export type PortalEvent =
   | { type: "GAME_OVER" }
   | GainPointsEvent
   | LoseLifeEvent
-  | SetValidationsEvent;
+  | SetValidationsEvent
+  | { type: "COLLECT_RICE_BUN" }
+  | SimulateErrorEvent;
 
 export type PortalState = {
   value:
-    | "initialising"
-    | "error"
-    | "ready"
-    | "unauthorised"
-    | "loading"
-    | "introduction"
-    | "playing"
-    | "gameOver"
-    | "winner"
-    | "loser"
-    | "complete"
-    | "starting"
-    | "noAttempts";
+  | "initialising"
+  | "error"
+  | "ready"
+  | "unauthorised"
+  | "loading"
+  | "introduction"
+  | "playing"
+  | "gameOver"
+  | "winner"
+  | "loser"
+  | "complete"
+  | "starting"
+  | "noAttempts";
   context: Context;
 };
 
@@ -116,6 +125,8 @@ const resetGameTransition = {
     actions: assign({
       score: () => 0,
       lives: () => GAME_LIVES,
+      riceBunsCollected: () => 0,
+      hasError: () => false,
       endAt: () => 0,
       validations: () => structuredClone(VALIDATIONS),
     }) as any,
@@ -140,6 +151,8 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
     endAt: 0,
     isTraining: false,
     validations: structuredClone(VALIDATIONS),
+    riceBunsCollected: 0,
+    hasError: false,
 
     // Portal minigame
   },
@@ -303,6 +316,8 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
             score: 0,
             lives: GAME_LIVES,
             validations: structuredClone(VALIDATIONS),
+            riceBunsCollected: 0,
+            hasError: false,
             state: (context: Context) => {
               if (context.isTraining) return context.state;
               startAttempt();
@@ -333,10 +348,24 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
             },
           }),
         },
+        COLLECT_RICE_BUN: {
+          actions: assign({
+            riceBunsCollected: (context: Context) => {
+              return context.riceBunsCollected + 1;
+            },
+          }),
+        },
         LOSE_LIFE: {
           actions: assign({
             lives: (context: Context) => {
               return context.lives - 1;
+            },
+          }),
+        },
+        SIMULATE_ERROR: {
+          actions: assign({
+            hasError: (_: Context, event: SimulateErrorEvent) => {
+              return event.hasError;
             },
           }),
         },
@@ -392,7 +421,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
               });
             },
           }),
-        },
+        }
       },
     },
 

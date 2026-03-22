@@ -1,6 +1,12 @@
 import { Scene } from "../Scene";
 import { createAnimation, onAnimationComplete } from "../lib/Utils";
-import { REFEREE_EFFECT_DURATION, REFEREE_EFFECT_SCALE_MODIFIER, REFEREE_EFFECT_SPEED_MODIFIER } from "../Constants";
+import {
+  REFEREE_EFFECT_DURATION,
+  REFEREE_EFFECT_MAX_SCALE,
+  REFEREE_EFFECT_MIN_SCALE,
+  REFEREE_EFFECT_SCALE_MODIFIER,
+  REFEREE_EFFECT_SPEED_MODIFIER,
+} from "../Constants";
 
 interface Props {
   x: number;
@@ -8,11 +14,12 @@ interface Props {
   scene: Scene;
 }
 
-const REFEREE_SCALE = 0.11;
+const REFEREE_SCALE = 1.1;
 
 export class Referee extends Phaser.GameObjects.Container {
   scene: Scene;
   private sprite: Phaser.GameObjects.Sprite;
+  public isDefeated: boolean = false;
 
   constructor({ x, y, scene }: Props) {
     super(scene, x, y);
@@ -21,7 +28,7 @@ export class Referee extends Phaser.GameObjects.Container {
     this.sprite = this.scene.add.sprite(0, 0, "referee")
       .setScale(REFEREE_SCALE)
     this.add(this.sprite);
-    this.setDepth(2);
+    this.setDepth(5);
 
     createAnimation(this.scene, this.sprite, "referee", "idle", 0, 8, 10, -1);
 
@@ -34,6 +41,7 @@ export class Referee extends Phaser.GameObjects.Container {
   }
 
   public defeat() {
+    this.isDefeated = true;
     createAnimation(
       this.scene,
       this.sprite,
@@ -48,6 +56,7 @@ export class Referee extends Phaser.GameObjects.Container {
     onAnimationComplete(this.sprite, "referee_yellow_card_action_anim", () => {
       this.sprite?.play("referee_idle_anim", true);
       this.applyEffect();
+      this.isDefeated = false;
     });
   }
 
@@ -73,9 +82,15 @@ export class Referee extends Phaser.GameObjects.Container {
 
     if (targets.length === 0) return;
 
+
     targets.forEach(targetObj => {
       if (isGrowAndSlow) {
-        targetObj.setScale(targetObj.scale + REFEREE_EFFECT_SCALE_MODIFIER);
+        const newScale = Phaser.Math.Clamp(
+          targetObj.scale + REFEREE_EFFECT_SCALE_MODIFIER,
+          REFEREE_EFFECT_MIN_SCALE,
+          REFEREE_EFFECT_MAX_SCALE,
+        );
+        targetObj.setScale(newScale);
 
         if (targetObj === this.scene.currentPlayer) {
           this.scene.velocity *= (1 - REFEREE_EFFECT_SPEED_MODIFIER);
@@ -84,7 +99,11 @@ export class Referee extends Phaser.GameObjects.Container {
           tweens.forEach(t => t.setTimeScale(t.timeScale * (1 - REFEREE_EFFECT_SPEED_MODIFIER)));
         }
       } else {
-        const newScale = Math.max(0.1, targetObj.scale - REFEREE_EFFECT_SCALE_MODIFIER);
+        const newScale = Phaser.Math.Clamp(
+          targetObj.scale - REFEREE_EFFECT_SCALE_MODIFIER,
+          REFEREE_EFFECT_MIN_SCALE,
+          REFEREE_EFFECT_MAX_SCALE,
+        );
         targetObj.setScale(newScale);
 
         if (targetObj === this.scene.currentPlayer) {
@@ -101,7 +120,12 @@ export class Referee extends Phaser.GameObjects.Container {
         if (!targetObj || !targetObj.active) return;
 
         if (isGrowAndSlow) {
-          targetObj.setScale(targetObj.scale - REFEREE_EFFECT_SCALE_MODIFIER);
+          const newScale = Phaser.Math.Clamp(
+            targetObj.scale - REFEREE_EFFECT_SCALE_MODIFIER,
+            REFEREE_EFFECT_MIN_SCALE,
+            REFEREE_EFFECT_MAX_SCALE,
+          );
+          targetObj.setScale(newScale);
 
           if (targetObj === this.scene.currentPlayer) {
             this.scene.velocity /= (1 - REFEREE_EFFECT_SPEED_MODIFIER);
@@ -110,7 +134,12 @@ export class Referee extends Phaser.GameObjects.Container {
             tweens.forEach(t => t.setTimeScale(t.timeScale / (1 - REFEREE_EFFECT_SPEED_MODIFIER)));
           }
         } else {
-          targetObj.setScale(targetObj.scale + REFEREE_EFFECT_SCALE_MODIFIER);
+          const newScale = Phaser.Math.Clamp(
+            targetObj.scale + REFEREE_EFFECT_SCALE_MODIFIER,
+            REFEREE_EFFECT_MIN_SCALE,
+            REFEREE_EFFECT_MAX_SCALE,
+          );
+          targetObj.setScale(newScale);
 
           if (targetObj === this.scene.currentPlayer) {
             this.scene.velocity /= (1 + REFEREE_EFFECT_SPEED_MODIFIER);

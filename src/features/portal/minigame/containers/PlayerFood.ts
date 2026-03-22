@@ -1,6 +1,9 @@
 import { Scene } from "../Scene";
-import { Enemy } from "../Types";
+import { Enemy, PlayerFoodConfig, PlayerFoodType } from "../Types";
 import { createAnimation, onAnimationComplete } from "../lib/Utils";
+import { PLAYER_FOOD_CONFIG } from "../Constants";
+import { Chest } from "./Chest";
+
 
 interface Props {
     x: number;
@@ -8,7 +11,10 @@ interface Props {
     scene: Scene;
     angle: number;
     enemies: Enemy[];
+    type?: PlayerFoodType;
 }
+
+const SPEED = 300;
 
 /**
  * PlayerFood projectile fired by the Bumpkin player.
@@ -22,6 +28,8 @@ export class PlayerFood extends Phaser.GameObjects.Container {
     private sprite: Phaser.GameObjects.Sprite;
     private enemies: Enemy[];
     private isDefeating: boolean = false;
+    private foodType: PlayerFoodType;
+    private config: PlayerFoodConfig;
 
     /**
      * Creates a new PlayerFood projectile instance.
@@ -31,25 +39,28 @@ export class PlayerFood extends Phaser.GameObjects.Container {
      * @param angle   {number}                           Angle of trajectory in radians (typically -Math.PI / 2 for upward).
      * @param enemies {Phaser.GameObjects.Container[]}   Array of enemies to check collisions against.
      */
-    constructor({ x, y, scene, angle, enemies }: Props) {
+    constructor({ x, y, scene, angle, enemies, type = "cabbage" }: Props) {
         super(scene, x, y);
         this.scene = scene;
         this.enemies = enemies;
+        this.foodType = type;
+        this.config = PLAYER_FOOD_CONFIG[this.foodType];
 
-        this.sprite = this.scene.add.sprite(0, 0, "cabbage");
+        this.sprite = this.scene.add.sprite(0, 0, this.config.texture).setScale(this.config.scale);
+        this.setY(this.y - this.sprite.height);
         this.add(this.sprite);
-        this.setDepth(150);
+        this.setDepth(2000);
 
         // Overlaps
         this.createOverlaps();
 
         scene.physics.add.existing(this);
         const body = this.body as Phaser.Physics.Arcade.Body;
-        body.setCircle(this.sprite.width / 2);
-        body.setOffset(-this.sprite.width / 2, -this.sprite.height / 2);
+        const hitRadius = (this.sprite.displayWidth / 2) * this.config.hitRadiusScale;
+        body.setCircle(hitRadius);
+        body.setOffset(-hitRadius, -hitRadius);
 
-        const speed = 300;
-        body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+        body.setVelocity(Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
 
         scene.add.existing(this);
 
@@ -57,24 +68,46 @@ export class PlayerFood extends Phaser.GameObjects.Container {
     }
 
     private createOverlaps() {
+        if (!this.scene.currentPlayer) return;
+
         this.enemies.forEach(enemy => {
             this.scene.physics.add.overlap(this, enemy, () => {
-                if (this.isDefeating) return;
+                if (this.isDefeating && !this.config.noEnemyContact) return;
                 this.isDefeating = true;
 
-                // Stop movement
-                const body = this.body as Phaser.Physics.Arcade.Body;
-                body.setVelocity(0, 0);
-
                 // Defeat enemy
-                enemy.defeat();
+                if (!enemy.isDefeated) {
+                    enemy.defeat();
+                };
 
-                // Play splat animation once, then destroy
-                createAnimation(this.scene, this.sprite, "cabbage_splat", "action", 0, 4, 10, 0);
-                onAnimationComplete(this.sprite, "cabbage_splat_action_anim", () => {
-                    this.destroy();
-                });
+                if (!this.config.noEnemyContact) {
+                    // Stop movement
+                    const body = this.body as Phaser.Physics.Arcade.Body;
+                    body.setVelocity(0, 0);
+
+                    // Play splat animation once, then destroy
+                    this.sprite.setScale(1);
+                    createAnimation(this.scene, this.sprite, this.config.splatTexture, "action", 0, 4, 10, 0);
+                    onAnimationComplete(this.sprite, `${this.config.splatTexture}_action_anim`, () => {
+                        this.destroy();
+                    });
+                }
             });
+        });
+
+        this.scene.chests.forEach(chest => {
+            this.scene.physics.add.overlap(this, chest, () => {
+                if (chest.isOpened) return;
+                chest.onFoodHit();
+                const body = this.body as Phaser.Physics.Arcade.Body;
+                const angle = Math.PI / 2;
+                body.setVelocity(Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
+            });
+        });
+
+        this.scene.physics.add.overlap(this, this.scene.currentPlayer, () => {
+            this.scene.currentPlayer?.hurt();
+            this.destroy();
         });
     }
 
@@ -90,9 +123,13 @@ export class PlayerFood extends Phaser.GameObjects.Container {
                 return;
             }
 
+            if (this.config.spins) {
+                this.sprite.angle += 10;
+            }
+
             if (
-                this.x < 0 || this.x > (this.scene.map?.widthInPixels ?? 1000) ||
-                this.y < 0 || this.y > (this.scene.map?.heightInPixels ?? 1000)
+                this.x < -100 || this.x > (this.scene.map?.widthInPixels ?? 1000) + 100 ||
+                this.y < -100 || this.y > (this.scene.map?.heightInPixels ?? 1000) + 100
             ) {
                 this.scene.removeFromUpdate(updateKey);
                 this.destroy();
