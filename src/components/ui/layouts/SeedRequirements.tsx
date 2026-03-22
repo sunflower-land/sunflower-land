@@ -134,7 +134,7 @@ function getDetails(
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
         details.item
       ] ?? ITEM_DETAILS[details.item].image,
-    name: details.item,
+    name: ITEM_DETAILS[details.item].translatedName ?? details.item,
     limit: limit as Decimal,
   };
 }
