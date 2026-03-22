@@ -1,7 +1,7 @@
 import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { Scene } from "../Scene";
 import { createAnimation } from "../lib/Utils";
-import { SHOES_IMMUNITY, WALKING_SPEED } from "../Constants";
+import { SHOES_IMMUNITY } from "../Constants";
 import { MachineInterpreter } from "../lib/Machine";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const SNIPER_MIN_CREATE = 4000;
 const SNIPER_MAX_CREATE = 6000;
-const DEBUFF_DURATION = 400;
+const DEBUFF_DURATION = 3000;
 
 export class Sniper_Skeleton extends Phaser.GameObjects.Container {
   scene: Scene;
@@ -84,7 +84,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     this.scene.tweens.add({
       targets: sprite,
       onStart: () => {
-          this.scene.sound.play("sniper_spawn", { volume: 0.2 });
+        this.scene.sound.play("sniper_spawn", { volume: 0.2 });
       },
       x: originalX + Phaser.Math.Between(-4, 4),
       y: originalY + Phaser.Math.Between(-4, 4),
@@ -227,14 +227,13 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     if (!this.player) return;
 
     const shoe = this.player.clothing.shoes;
-    const debuffSpeed = WALKING_SPEED * 7;
 
     if (!shoe) {
-      this.scene.velocity = debuffSpeed;
+      this.scene.isControlInverted = true;
     } else if (SHOES_IMMUNITY.includes(shoe)) {
-      this.scene.velocity = WALKING_SPEED;
+      this.scene.isControlInverted = false;
     } else {
-      this.scene.velocity = debuffSpeed;
+      this.scene.isControlInverted = true;
     }
 
     this.restorePlayer();
@@ -243,7 +242,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
   private restorePlayer() {
     this.scene.time.delayedCall(
       DEBUFF_DURATION,
-      () => (this.scene.velocity = WALKING_SPEED),
+      () => (this.scene.isControlInverted = false),
     );
   }
 
