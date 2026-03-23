@@ -394,6 +394,12 @@ describe("startSaltHarvest", () => {
   });
 
   it("pauses regeneration when harvest starts from full stored charges", () => {
+    const chargeInterval = getSaltChargeGenerationTime({
+      gameState: {
+        ...INITIAL_FARM,
+        saltFarm: { level: 1, nodes: {} },
+      } as GameState,
+    });
     const state = startSaltHarvest({
       state: {
         ...INITIAL_FARM,
@@ -404,7 +410,7 @@ describe("startSaltHarvest", () => {
               createdAt: 0,
               coordinates: { x: 0, y: 0 },
               salt: {
-                nextChargeAt: undefined,
+                nextChargeAt: now + chargeInterval,
                 storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
               },
             },
@@ -419,9 +425,10 @@ describe("startSaltHarvest", () => {
       createdAt: now,
     });
 
-    expect(
-      state.saltFarm.nodes["1"].salt.harvesting?.regenerationPausedUntil,
-    ).toBe(now + SALT_HARVEST_DURATION);
+    expect(state.saltFarm.nodes["1"].salt.harvesting?.slots).toHaveLength(1);
+    expect(state.saltFarm.nodes["1"].salt.harvesting?.slots?.[0].readyAt).toBe(
+      now + SALT_HARVEST_DURATION,
+    );
     expect(getStoredSaltCharges(state.saltFarm.nodes["1"], now)).toBe(2);
     const syncOpts = {
       chargeIntervalMs: getSaltChargeGenerationTime({ gameState: state }),
@@ -476,9 +483,6 @@ describe("startSaltHarvest", () => {
       createdAt: now,
     });
 
-    expect(
-      state.saltFarm.nodes["1"].salt.harvesting?.regenerationPausedUntil,
-    ).toBe(undefined);
     const syncOpts = {
       chargeIntervalMs: getSaltChargeGenerationTime({ gameState: state }),
     };
@@ -499,6 +503,17 @@ describe("startSaltHarvest", () => {
   });
 
   it("resumes regeneration from first slot ready even before claim", () => {
+    const chargeInterval = getSaltChargeGenerationTime({
+      gameState: {
+        ...INITIAL_FARM,
+        vip: { bundles: [], expiresAt: now + 24 * 60 * 60 * 1000 },
+        saltFarm: { level: 1, nodes: {} },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Salt Rake": new Decimal(10),
+        },
+      },
+    });
     const state = startSaltHarvest({
       state: {
         ...INITIAL_FARM,
@@ -510,7 +525,7 @@ describe("startSaltHarvest", () => {
               createdAt: 0,
               coordinates: { x: 0, y: 0 },
               salt: {
-                nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
+                nextChargeAt: now + chargeInterval,
                 storedCharges: 3,
               },
             },
@@ -573,9 +588,6 @@ describe("startSaltHarvest", () => {
       createdAt: now + 8 * 60 * 60 * 1000,
     });
 
-    expect(
-      addedLater.saltFarm.nodes["1"].salt.harvesting?.regenerationPausedUntil,
-    ).toBeUndefined();
     const later = now + 15 * 60 * 60 * 1000;
     const node = addedLater.saltFarm.nodes["1"];
     expect(getDisplaySaltCharges(node, later)).toBe(

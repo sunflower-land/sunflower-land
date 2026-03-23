@@ -2,11 +2,11 @@ import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
 import {
-  MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_HARVEST_DURATION,
   SaltHarvestSlot,
   getSaltChargeGenerationTime,
   getStoredSaltCharges,
+  materializeSaltRegen,
   saltRegenStoredCapAt,
   syncSaltNode,
 } from "features/game/types/salt";
@@ -118,39 +118,28 @@ export function startSaltHarvest({
       rakes: action.rakes,
       createdAt,
     });
-    const wasAtFullStoredCharges =
-      storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE;
-    const isInitialQueueStart = existingSlots.length === 0;
-
-    const regenerationPausedUntil =
-      wasAtFullStoredCharges && isInitialQueueStart
-        ? addedSlots[0]?.readyAt
-        : syncedNode.salt.harvesting?.regenerationPausedUntil;
     const newHarvesting = {
       slots: [...existingSlots, ...addedSlots],
-      regenerationPausedUntil,
     };
     const pileCapAfterStart = saltRegenStoredCapAt(newHarvesting, createdAt);
 
     const newStoredCharges = storedCharges - action.rakes;
     const syncedNextChargeAt = syncedNode.salt.nextChargeAt;
-    let nextChargeAt: number | undefined;
-    if (newStoredCharges > pileCapAfterStart) {
-      nextChargeAt = undefined;
-    } else if (syncedNextChargeAt !== undefined) {
-      nextChargeAt = syncedNextChargeAt;
-    } else {
-      nextChargeAt = createdAt + interval;
-    }
+    const nextChargeAt = Number.isFinite(syncedNextChargeAt)
+      ? syncedNextChargeAt
+      : createdAt + interval;
+
+    const draftSalt = {
+      ...syncedNode.salt,
+      nextChargeAt,
+      storedCharges: Math.min(newStoredCharges, pileCapAfterStart),
+      harvesting: newHarvesting,
+    };
+    const finalizedSalt = materializeSaltRegen(draftSalt, createdAt, syncOpts);
 
     copy.saltFarm.nodes[action.id] = {
       ...syncedNode,
-      salt: {
-        ...syncedNode.salt,
-        nextChargeAt,
-        storedCharges: newStoredCharges,
-        harvesting: newHarvesting,
-      },
+      salt: finalizedSalt,
     };
   });
 }

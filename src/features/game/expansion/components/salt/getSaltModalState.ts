@@ -4,9 +4,11 @@ import {
   getDisplaySaltCharges,
   getNextSaltChargeInSeconds,
   getSaltChargeGenerationTime,
+  getSaltRegenerationHarvestPauseUntil,
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SaltNode,
   getStoredSaltCharges,
+  saltRegenStoredCapAt,
   syncSaltNode,
 } from "features/game/types/salt";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -160,23 +162,48 @@ export function getSaltModalState({
     }
   }
 
-  const pauseUntil = syncedNode.salt.harvesting?.regenerationPausedUntil;
   const atMaxCharges = displayCharges >= MAX_STORED_SALT_CHARGES_PER_NODE;
+  const harvestPauseUntil = getSaltRegenerationHarvestPauseUntil(
+    saltNode.salt,
+    now,
+    syncOpts,
+  );
+  const pileCap = saltRegenStoredCapAt(syncedNode.salt.harvesting, now);
+  const persistedStored = syncedNode.salt.storedCharges;
+  const mustWaitForHarvestToAcceptStored =
+    pileCap === 0 || persistedStored >= pileCap;
+
+  const pileFullToCap =
+    atMaxCharges &&
+    harvestPauseUntil === undefined &&
+    persistedStored >= pileCap;
+
+  const shouldPauseRegeneration =
+    harvestPauseUntil !== undefined &&
+    now < harvestPauseUntil &&
+    (pileCap === 0 || (atMaxCharges && mustWaitForHarvestToAcceptStored));
 
   let regenerationState: SaltRegenerationState = "charging";
   let pauseRemainingSeconds: number | undefined;
   let nextChargeInSeconds: number | undefined;
 
-  if (pauseUntil && now < pauseUntil) {
-    regenerationState = "paused";
-    pauseRemainingSeconds = Math.ceil((pauseUntil - now) / 1000);
-  } else if (atMaxCharges) {
+  const showChargeCountdown =
+    !shouldPauseRegeneration && (!atMaxCharges || persistedStored < pileCap);
+
+  if (pileFullToCap) {
     regenerationState = "maxed";
-  } else if (syncedNode.salt.nextChargeAt !== undefined) {
+  } else if (shouldPauseRegeneration) {
+    regenerationState = "paused";
+    pauseRemainingSeconds = Math.ceil(
+      Math.max(0, harvestPauseUntil! - now) / 1000,
+    );
+  } else if (showChargeCountdown) {
     nextChargeInSeconds = getNextSaltChargeInSeconds({
       nextChargeAt: syncedNode.salt.nextChargeAt,
       now,
     });
+  } else if (atMaxCharges) {
+    regenerationState = "maxed";
   }
 
   return {

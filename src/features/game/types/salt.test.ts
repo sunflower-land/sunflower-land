@@ -11,10 +11,12 @@ jest.mock("../lib/wearables", () => ({
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
+  findHarvestSlotAfterChargeTimestamp,
   getSaltChargeGenerationTime,
   materializeSaltRegen,
   syncSaltNode,
   type Salt,
+  type SaltHarvestSlot,
   type SaltNode,
 } from "./salt";
 import { hasFeatureAccess } from "lib/flags";
@@ -50,17 +52,17 @@ describe("salt nextChargeAt regen", () => {
     const later = t0 + SALT_CHARGE_GENERATION_TIME * 3 + 1;
     const out = materializeSaltRegen(salt, later);
     expect(out.storedCharges).toBe(3);
-    expect(out.nextChargeAt).toBeUndefined();
+    expect(out.nextChargeAt).toBe(t0 + SALT_CHARGE_GENERATION_TIME * 4);
   });
 
-  it("clears nextChargeAt at max charges", () => {
+  it("schedules next boundary when hitting stored cap", () => {
     const salt: Salt = {
       storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE - 1,
       nextChargeAt: t0,
     };
     const out = materializeSaltRegen(salt, t0 + 1);
     expect(out.storedCharges).toBe(MAX_STORED_SALT_CHARGES_PER_NODE);
-    expect(out.nextChargeAt).toBeUndefined();
+    expect(out.nextChargeAt).toBe(t0 + SALT_CHARGE_GENERATION_TIME);
   });
 
   it("does not shorten an in-flight wait when a shorter boost interval is used only for later segments", () => {
@@ -118,5 +120,26 @@ describe("salt nextChargeAt regen", () => {
         SALT_CHARGE_GENERATION_TIME / 2,
       );
     });
+  });
+});
+
+describe("findHarvestSlotAfterChargeTimestamp", () => {
+  const slots: SaltHarvestSlot[] = [
+    { startedAt: 100, readyAt: 200 },
+    { startedAt: 150, readyAt: 250 },
+    { startedAt: 300, readyAt: 400 },
+  ];
+
+  it("returns first slot with startedAt strictly after reference", () => {
+    expect(findHarvestSlotAfterChargeTimestamp(slots, 100)?.startedAt).toBe(
+      150,
+    );
+    expect(findHarvestSlotAfterChargeTimestamp(slots, 149)?.startedAt).toBe(
+      150,
+    );
+    expect(findHarvestSlotAfterChargeTimestamp(slots, 150)?.startedAt).toBe(
+      300,
+    );
+    expect(findHarvestSlotAfterChargeTimestamp(slots, 500)).toBeUndefined();
   });
 });

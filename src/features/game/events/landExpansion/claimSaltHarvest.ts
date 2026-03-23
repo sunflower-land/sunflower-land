@@ -54,12 +54,6 @@ export function claimSaltHarvest({
     const pendingSlots = activeSlots.filter((slot) => slot.readyAt > createdAt);
     const saltInInventory = copy.inventory.Salt ?? new Decimal(0);
     const harvestedSalt = readySlots.length * BASE_SALT_YIELD;
-    const regenerationPausedUntil =
-      syncedNode.salt.harvesting?.regenerationPausedUntil;
-    const activePause =
-      regenerationPausedUntil && createdAt < regenerationPausedUntil
-        ? regenerationPausedUntil
-        : undefined;
 
     copy.inventory.Salt = saltInInventory.add(harvestedSalt);
     copy.saltFarm.nodes[action.id] = {
@@ -68,12 +62,7 @@ export function claimSaltHarvest({
         ...syncedNode.salt,
         claimedAt: createdAt,
         harvesting:
-          pendingSlots.length === 0 && !activePause
-            ? undefined
-            : {
-                slots: pendingSlots,
-                regenerationPausedUntil: activePause,
-              },
+          pendingSlots.length === 0 ? undefined : { slots: pendingSlots },
       },
     };
   });

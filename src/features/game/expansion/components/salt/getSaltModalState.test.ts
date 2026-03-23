@@ -103,7 +103,7 @@ describe("getSaltModalState", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
-        nextChargeAt: undefined,
+        nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
       }),
       gameState: baseGameState,
       now,
@@ -115,7 +115,7 @@ describe("getSaltModalState", () => {
     expect(state.nextChargeInSeconds).toBeUndefined();
   });
 
-  it("shows paused regeneration while pause is active", () => {
+  it("shows paused regeneration while display is maxed and pile cannot accept stored until harvest completes", () => {
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: 2,
@@ -126,7 +126,6 @@ describe("getSaltModalState", () => {
               readyAt: now + SALT_HARVEST_DURATION,
             },
           ],
-          regenerationPausedUntil: now + 10 * 60 * 1000,
         },
       }),
       gameState: baseGameState,
@@ -139,13 +138,14 @@ describe("getSaltModalState", () => {
     expect(state.pauseRemainingSeconds).toBeGreaterThan(0);
   });
 
-  it("starts charging countdown from pause end, not harvest start", () => {
+  it("starts charging countdown after in-progress harvest completes and display drops", () => {
     const oneHour = 60 * 60 * 1000;
     const tenSeconds = 10 * 1000;
+    const evalNow = now + oneHour + tenSeconds;
     const state = getSaltModalState({
       saltNode: makeNode({
         storedCharges: 0,
-        nextChargeAt: now + SALT_CHARGE_GENERATION_TIME,
+        nextChargeAt: evalNow + SALT_CHARGE_GENERATION_TIME,
         harvesting: {
           slots: [
             {
@@ -153,11 +153,10 @@ describe("getSaltModalState", () => {
               readyAt: now + oneHour,
             },
           ],
-          regenerationPausedUntil: now + oneHour,
         },
       }),
       gameState: baseGameState,
-      now: now + oneHour + tenSeconds,
+      now: evalNow,
       saltRakes: new Decimal(5),
       isVip: true,
     });
@@ -167,7 +166,7 @@ describe("getSaltModalState", () => {
     const chargeSeconds = Math.ceil(SALT_CHARGE_GENERATION_TIME / 1000);
     expect(state.nextChargeInSeconds!).toBeLessThanOrEqual(chargeSeconds);
     expect(state.nextChargeInSeconds!).toBeGreaterThanOrEqual(
-      Math.max(1, chargeSeconds - 15),
+      Math.max(1, chargeSeconds - 1),
     );
   });
 
