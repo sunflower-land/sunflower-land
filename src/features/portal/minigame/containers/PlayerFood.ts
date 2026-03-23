@@ -14,8 +14,6 @@ interface Props {
     type?: PlayerFoodType;
 }
 
-const SPEED = 300;
-
 /**
  * PlayerFood projectile fired by the Bumpkin player.
  * Travels vertically upward at a constant speed.
@@ -30,6 +28,7 @@ export class PlayerFood extends Phaser.GameObjects.Container {
     private isDefeating: boolean = false;
     private foodType: PlayerFoodType;
     private config: PlayerFoodConfig;
+    private boomerangReturned: boolean = false;
 
     /**
      * Creates a new PlayerFood projectile instance.
@@ -60,7 +59,7 @@ export class PlayerFood extends Phaser.GameObjects.Container {
         body.setCircle(hitRadius);
         body.setOffset(-hitRadius, -hitRadius);
 
-        body.setVelocity(Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
+        body.setVelocity(Math.cos(angle) * this.config.speed, Math.sin(angle) * this.config.speed);
 
         scene.add.existing(this);
 
@@ -101,7 +100,7 @@ export class PlayerFood extends Phaser.GameObjects.Container {
                 chest.onFoodHit();
                 const body = this.body as Phaser.Physics.Arcade.Body;
                 const angle = Math.PI / 2;
-                body.setVelocity(Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
+                body.setVelocity(Math.cos(angle) * this.config.speed, Math.sin(angle) * this.config.speed);
             });
         });
 
@@ -125,6 +124,12 @@ export class PlayerFood extends Phaser.GameObjects.Container {
 
             if (this.config.spins) {
                 this.sprite.angle += 10;
+            }
+
+            if (this.config.boomerang && !this.boomerangReturned && this.y <= 20) {
+                this.boomerangReturned = true;
+                const body = this.body as Phaser.Physics.Arcade.Body;
+                body.setVelocity(-body.velocity.x, -body.velocity.y);
             }
 
             if (

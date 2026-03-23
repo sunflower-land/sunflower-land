@@ -8,10 +8,11 @@ import { Score } from "./Score";
 import { Settings } from "./Settings";
 import { Travel } from "./Travel";
 import { Timer } from "./Timer";
-// import { Target } from "./Target";
+import { Target } from "./Target";
 import { Lives } from "./Lives";
 import { Equipment_Immunity } from "./EquipmentImmunity";
 import { Powers } from "./Powers";
+import { Food } from "./Food";
 
 const _isJoystickActive = (state: PortalMachineState) =>
   state.context.isJoystickActive;
@@ -48,18 +49,15 @@ export const Hud: React.FC = () => {
     <HudContainer>
       <div>
         <div
-          className="absolute"
-          style={{
-            top: `${PIXEL_SCALE * 4}px`,
-            left: `${PIXEL_SCALE * 6}px`,
-          }}
+          className="flex flex-col gap-2 absolute p-3"
         >
           {isPlaying && (
             <>
-              {/* <Target /> */}
+              <Target />
               <Timer />
               <Lives />
               <Score />
+              <Food />
             </>
           )}
         </div>

@@ -11,15 +11,17 @@ export type Position = {
 
 export type Side = "left" | "right";
 
-export type PlayerFoodType = "cabbage" | "apple";
+export type PlayerFoodType = "cabbage" | "apple" | "potato" | "banana";
 
 export type PlayerFoodConfig = {
     texture: string;
     scale: number;
     hitRadiusScale: number;
+    speed: number;
     splatTexture?: string;
     spins?: boolean;
     noEnemyContact?: boolean;
+    boomerang?: boolean;
 }
 
 export type Enemy = Blast_Skeleton | Giant_Skeleton | Menace_Skeleton | Sniper_Skeleton | Referee;

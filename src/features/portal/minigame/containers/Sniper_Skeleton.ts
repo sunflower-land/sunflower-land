@@ -223,6 +223,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     if (!this.player) return;
 
     this.scene.physics.add.overlap(this.vege, this.player, () => {
+      this.player?.hurt();
       this.vege.setVisible(false);
       this.handleImmunity();
       (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;

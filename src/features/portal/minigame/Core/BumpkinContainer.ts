@@ -25,9 +25,11 @@ import {
   PLAYER_CANNON_CHARGE_DURATION,
   PLAYER_CANNON_COOLDOWN,
   PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE,
+  PLAYER_FOOD_CYCLE,
 } from "../Constants";
 import { PlayerFood } from "../containers/PlayerFood";
 import { MachineInterpreter } from "../lib/Machine";
+import { EventBus } from "../lib/EventBus";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -90,8 +92,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private direction: "left" | "right" = "right";
 
   // April Fools 2026
+  public isHurting = false;
   private carryNoneAnimationKey: string | undefined;
   private carryNoneIdleAnimationKey: string | undefined;
+  private hurtAnimationKey: string | undefined;
   private cannonSprite?: Phaser.GameObjects.Sprite;
   private lastShootTime = 0;
   private shootChargeBar?: Phaser.GameObjects.Graphics;
@@ -255,6 +259,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
     this.carryNoneAnimationKey = `${this.spriteKey}-bumpkin-carry-none`;
     this.carryNoneIdleAnimationKey = `${this.spriteKey}-bumpkin-carry-none-idle`;
+    this.hurtAnimationKey = `${this.spriteKey}-bumpkin-hurt`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -290,6 +295,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         "drilling",
         "carry-none",
         "carry-none-idle",
+        "hurt",
       ]);
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -323,6 +329,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.createDrillAnimation(30, 38);
         this.createCarryNoneAnimation(39, 46);
         this.createCarryNoneIdleAnimation(47, 55);
+        this.createHurtAnimation(56, 63);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -374,6 +381,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       }),
       frameRate: 10,
       repeat: -1,
+    });
+  }
+
+  private createHurtAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.hurtAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
+      frameRate: 10,
+      repeat: 0,
     });
   }
 
@@ -1058,19 +1079,31 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public hurt() {
+    if (this.isHurting) return;
+    this.isHurting = true;
     this.portalService?.send("LOSE_LIFE");
-    // if (
-    //   this.sprite?.anims &&
-    //   this.scene?.anims.exists(this.hurtAnimationKey as string) &&
-    //   this.sprite?.anims.getName() !== this.hurtAnimationKey
-    // ) {
-    //   try {
-    //     this.sprite.anims.play(this.hurtAnimationKey as string, true);
-    //   } catch (e) {
-    //     // eslint-disable-next-line no-console
-    //     console.log("Bumpkin Container: Error playing hurt animation: ", e);
-    //   }
-    // }
+    this.cannonSprite?.setVisible(false);
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.hurtAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.hurtAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.hurtAnimationKey as string, true);
+        this.sprite.once("animationcomplete", () => {
+          this.isHurting = false;
+          this.cannonSprite?.setVisible(true);
+          this.carryNoneIdle();
+        });
+      } catch (e) {
+        this.isHurting = false;
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing hurt animation: ", e);
+      }
+    } else {
+      this.cannonSprite?.setVisible(true);
+      this.isHurting = false;
+    }
   }
 
   public hitPlayer() {
@@ -1229,28 +1262,52 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  private currentFoodIndex: number = 0;
+
+  public cycleNextFood(): PlayerFoodType {
+    const food = PLAYER_FOOD_CYCLE[this.currentFoodIndex];
+    this.currentFoodIndex = (this.currentFoodIndex + 1) % PLAYER_FOOD_CYCLE.length;
+    return food;
+  }
+
   public canShoot() {
     const now = this.scene.time.now;
     return now - this.lastShootTime >= PLAYER_CANNON_COOLDOWN;
   }
 
-  public shoot(enemies: Enemy[], type: PlayerFoodType = "cabbage") {
+  public shoot(enemies: Enemy[], type?: PlayerFoodType) {
     const now = this.scene.time.now;
     if (now - this.lastShootTime < PLAYER_CANNON_COOLDOWN) return false;
     this.lastShootTime = now;
 
     this.playShootAnimation();
+    EventBus.emit("player-shoot");
 
-    const angle = -Math.PI / 2;
+    const actualType = type || this.cycleNextFood();
 
-    new PlayerFood({
-      x: this.x,
-      y: this.y - 10,
-      scene: this.scene as any,
-      angle: angle,
-      enemies: enemies,
-      type,
-    });
+    if (actualType === "potato") {
+      const angles = [-Math.PI / 2, (-Math.PI / 2) - (Math.PI / 8), (-Math.PI / 2) + (Math.PI / 8)];
+      angles.forEach(angle => {
+        new PlayerFood({
+          x: this.x,
+          y: this.y - 10,
+          scene: this.scene as any,
+          angle: angle,
+          enemies: enemies,
+          type: actualType,
+        });
+      });
+    } else {
+      const angle = -Math.PI / 2;
+      new PlayerFood({
+        x: this.x,
+        y: this.y - 10,
+        scene: this.scene as any,
+        angle: angle,
+        enemies: enemies,
+        type: actualType,
+      });
+    }
   }
 
   public playShootAnimation() {

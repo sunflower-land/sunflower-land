@@ -96,6 +96,39 @@ export class Scene extends BaseScene {
     return this.registry.get("portalService") as MachineInterpreter | undefined;
   }
 
+  private restartGameScene = () => {
+    if (!this.scene.manager || this.sys.isActive() === false) return;
+    this.scene.restart();
+  };
+
+  private onStart = (event: EventObject) => {
+    if (!this.sys || !this.sys.isActive() || !this.sys.displayList) return;
+    if (event.type === "START") {
+      this.initializeCreates();
+    }
+  };
+
+  private onRetry = (event: EventObject) => {
+    if (!this.sys || !this.sys.isActive() || !this.sys.displayList) return;
+    if (event.type === "RETRY") {
+      this.restartGameScene();
+    }
+  };
+
+  private onContinue = (event: EventObject) => {
+    if (!this.sys || !this.sys.isActive() || !this.sys.displayList) return;
+    if (event.type === "CONTINUE") {
+      this.restartGameScene();
+    }
+  };
+
+  private onContinueTraining = (event: EventObject) => {
+    if (!this.sys || !this.sys.isActive() || !this.sys.displayList) return;
+    if (event.type === "CONTINUE_TRAINING") {
+      this.restartGameScene();
+    }
+  };
+
   addToUpdate(key: string, fn: () => void) {
     this.updateCallbacks.push({ key, fn });
   }
@@ -340,6 +373,8 @@ export class Scene extends BaseScene {
     this.load.image("orange", "/world/portal/images/orange.png");
     this.load.image("apple", "/world/portal/images/apple.png");
     this.load.image("cabbage", "/world/portal/images/cabbage.png");
+    this.load.image("potato", "/world/portal/images/potato.png");
+    this.load.image("banana", "/world/portal/images/banana.png");
     this.load.image("sunflower", "/world/portal/images/sunflower.png");
 
     this.load.spritesheet(
@@ -427,22 +462,10 @@ export class Scene extends BaseScene {
     this.initialiseEvents();
     this.initialiseFontFamily();
 
-    // Enemies
-    this.allEnemies = [];
-    this.createGlitch();
-    this.createEnemies();
-
-    // Rice buns
-    this.riceBuns = [];
-
-    this.createCannons();
+    // Create background elements
     this.createOcean();
     this.createShips();
     this.createLumbers();
-    this.createReferee();
-    this.createRiceBuns();
-    this.createHoney();
-    this.createChest();
 
     // Config
     this.input.addPointer(3);
@@ -475,6 +498,18 @@ export class Scene extends BaseScene {
   private initialiseProperties() {
     this.velocity = 0;
     this.updateCallbacks = [];
+    this.allEnemies = [];
+    this.riceBuns = [];
+  }
+
+  private initializeCreates() {
+    this.createGlitch();
+    this.createEnemies();
+    this.createCannons();
+    this.createReferee();
+    this.createRiceBuns();
+    this.createHoney();
+    this.createChest();
   }
 
   private initializeControls() {
@@ -597,29 +632,33 @@ export class Scene extends BaseScene {
       this.honey?.throw();
     });
 
-    // reload scene when player hit retry
-    const onRetry = (event: EventObject) => {
-      if (event.type === "RETRY") {
-        this.scene.restart();
-      }
-    };
-    this.portalService?.onEvent(onRetry);
+    const portalService = this.portalService;
+    if (!portalService) return;
 
-    // Restart scene when player hit start
-    const onContinue = (event: EventObject) => {
-      if (event.type === "CONTINUE") {
-        this.scene.restart();
-      }
-    };
-    this.portalService?.onEvent(onContinue);
+    const mainEvents = [
+      this.onStart,
+      this.onRetry,
+      this.onContinue,
+      this.onContinueTraining,
+    ];
 
-    // Restart scene when player hit start training
-    const onContinueTraining = (event: EventObject) => {
-      if (event.type === "CONTINUE_TRAINING") {
-        this.scene.restart();
-      }
+    const resetMainEvents = () => {
+      mainEvents.forEach((event) => {
+        portalService.off(event);
+      });
     };
-    this.portalService?.onEvent(onContinueTraining);
+    resetMainEvents();
+
+    mainEvents.forEach((event) => {
+      portalService.onEvent(event);
+    });
+
+    this.events.once("shutdown", () => {
+      resetMainEvents();
+    });
+    this.events.once("destroy", () => {
+      resetMainEvents();
+    });
   }
 
   private initialiseFontFamily() {
@@ -633,7 +672,7 @@ export class Scene extends BaseScene {
   }
 
   private loadBumpkinAnimations() {
-    if (!this.currentPlayer) return;
+    if (!this.currentPlayer || this.currentPlayer.isHurting) return;
     if (!this.cursorKeys) return;
 
     const animation = this.isMoving && !this.isCannonEnabled
@@ -644,7 +683,7 @@ export class Scene extends BaseScene {
   }
 
   private controls() {
-    if (!this.cursorKeys) return;
+    if (!this.cursorKeys || this.currentPlayer?.isHurting) return;
     const spaceKey = this.cursorKeys.space;
 
     if (this.isUsingCannon) {
@@ -660,7 +699,7 @@ export class Scene extends BaseScene {
 
       if (Phaser.Input.Keyboard.JustUp(spaceKey)) {
         if (this.currentPlayer?.isShootCharging()) {
-          this.currentPlayer?.shoot(this.allEnemies, "cabbage");
+          this.currentPlayer?.shoot(this.allEnemies);
         }
         this.currentPlayer?.resetShootCharge();
       }

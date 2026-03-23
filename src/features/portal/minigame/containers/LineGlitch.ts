@@ -33,11 +33,12 @@ export class LineGlitch {
     }
 
     private createLines(height: number): void {
+        if (!this.scene) return;
         for (let i = 0; i < this.options.lineCount; i++) {
             const y = Phaser.Math.Between(0, height);
             const lineHeight = Phaser.Math.Between(2, 6);
 
-            const line = this.scene.add.rectangle(
+            const line = this.scene?.add.rectangle(
                 this.centerX,
                 y,
                 this.scene.scale.width,
@@ -50,7 +51,7 @@ export class LineGlitch {
     }
 
     private start(): void {
-        this.event = this.scene.time.addEvent({
+        this.event = this.scene?.time.addEvent({
             delay: this.options.delay,
             loop: true,
             callback: this.glitch,

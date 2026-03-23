@@ -23,7 +23,7 @@ export const PORTAL_TOKEN = "April Fools Token 2025";
 
 // Game config
 export const GAME_SECONDS = 300;
-export const GAME_LIVES = 5;
+export const GAME_LIVES = 6;
 
 // Player
 export const WALKING_SPEED = 70;
@@ -70,9 +70,26 @@ export const CHEST_SPAWN_INTERVAL = 60000;
 export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
   cabbage: {
     texture: "cabbage",
-    scale: 1,
+    scale: 1.1,
     hitRadiusScale: 0.5,
     splatTexture: "cabbage_splat",
+    speed: 300,
+  },
+  potato: {
+    texture: "potato",
+    scale: 1.1,
+    hitRadiusScale: 0.5,
+    splatTexture: "sniper_skeleton_potato_splat",
+    speed: 300,
+  },
+  banana: {
+    texture: "banana",
+    scale: 1.2,
+    hitRadiusScale: 1,
+    spins: true,
+    noEnemyContact: true,
+    boomerang: true,
+    speed: 200,
   },
   apple: {
     texture: "apple",
@@ -80,8 +97,11 @@ export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
     hitRadiusScale: 1,
     spins: true,
     noEnemyContact: true,
+    speed: 300,
   },
 };
+
+export const PLAYER_FOOD_CYCLE: PlayerFoodType[] = ["cabbage", "potato", "banana"];
 
 export const LUMBER_CONFIG: Position[] = [
   { x: 304, y: 190 },
@@ -94,7 +114,7 @@ export const REFEREE_EFFECT_SCALE_MODIFIER = 0.4;
 export const REFEREE_EFFECT_SPEED_MODIFIER = 0.4;
 export const REFEREE_EFFECT_DURATION = 5000;
 export const REFEREE_EFFECT_MIN_SCALE = 0.25;
-export const REFEREE_EFFECT_MAX_SCALE = 2;
+export const REFEREE_EFFECT_MAX_SCALE = 2.25;
 
 export const RICE_BUN_POSITIONS: Position[] = [
   { x: 480, y: 345 }, { x: 407, y: 360 }, { x: 140, y: 375 }, { x: 170, y: 350 }, { x: 318, y: 365 }, { x: 230, y: 355 }, { x: 100, y: 342 }, { x: 150, y: 280 }, { x: 200, y: 300 }, { x: 250, y: 290 }, { x: 300, y: 310 }, { x: 350, y: 285 }, { x: 400, y: 305 }, { x: 450, y: 282 }, { x: 200, y: 235 }, { x: 240, y: 255 }, { x: 280, y: 240 }, { x: 320, y: 260 }, { x: 360, y: 245 }, { x: 400, y: 250 }
@@ -104,7 +124,7 @@ export const RICE_BUN_DESPAWN_DURATION = 30000;
 export const SIMULATED_LAG_DURATION = 5000;
 
 export const POWER_UNLOCK_THRESHOLDS = {
-  CANNON: 0,
+  CANNON: 10,
   SHIELD: 20,
   HONEY: 30,
   EXPLOSIVE: 50,

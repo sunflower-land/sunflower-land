@@ -220,6 +220,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
     this.scene.physics.add.collider(this, this.player);
     this.scene.physics.add.overlap(this.barrel, this.player, () => {
+      this.player?.hurt();
       this.barrel.setVisible(false);
       this.handleImmunity();
       this.barrel.setPosition(this.sprite.x, this.sprite.y - 20);
