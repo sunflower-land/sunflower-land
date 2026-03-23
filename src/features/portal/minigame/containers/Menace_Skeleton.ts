@@ -21,8 +21,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   private sprite: Phaser.GameObjects.Sprite;
   private spriteName: string;
   private vege: Phaser.GameObjects.Sprite;
-  private vegeSplat: Phaser.GameObjects.Sprite;
-  private playerWorldX_Sprite?: number;
   private randomVege: string;
   private vegeList: string[];
   private flipX: boolean = false;
@@ -51,9 +49,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     // Sprites
     this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_move`).setVisible(false);
     this.vege = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomVege}`).setVisible(false);
-    this.vegeSplat = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomVege}_splat`).setVisible(false);
     this.health_bar = this.scene.add.image(0, -20, `${this.health_status}_full`).setScale(0.8);
-    this.add([this.sprite, this.vege, this.vegeSplat, this.health_bar]);
 
     // Physics
     this.scene.physics.add.existing(this); // container body
@@ -61,19 +57,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     containerBody.setSize(this.sprite.width, this.sprite.height);
     containerBody.enable = false;
 
-    this.scene.physics.add.existing(this.sprite);
-    const spriteBody = this.sprite.body as Phaser.Physics.Arcade.Body;
-    spriteBody.setSize(this.sprite.width, this.sprite.height).setCollideWorldBounds(true).setImmovable(true);
-    this.sprite.setActive(false);
-
     this.scene.physics.add.existing(this.vege);
     const vegeBody = this.vege.body as Phaser.Physics.Arcade.Body;
-    vegeBody.setSize(15, 15, true).setAllowGravity(false).setImmovable(true);
-
-    this.scene.physics.add.existing(this.vegeSplat);
-    const splatBody = this.vegeSplat.body as Phaser.Physics.Arcade.Body;
-    splatBody.setSize(15, 15, true).setAllowGravity(false).setImmovable(true);
-    splatBody.enable = false;
+    vegeBody.setSize(this.vege.width, this.vege.height).setAllowGravity(false).setImmovable(true);
 
     if (Menace_Skeleton.spawnPositions.length === 0) {
       Menace_Skeleton.generateSpawnPositions();
@@ -85,6 +71,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     // Start menace spawning
     this.scheduleMenace();
 
+    this.add([this.sprite, this.vege, this.health_bar]);
     scene.add.existing(this);
   }
 
@@ -146,7 +133,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   private createMenace() {
     if (!this.player) return;
     this.isDefeated = false;
-    (this.body as Phaser.Physics.Arcade.Body).enable = true;
 
     const { x, y } = this.getRandomPosition();
     this.setPosition(x, y);
@@ -158,10 +144,10 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     }
 
     this.sprite.setVisible(true);
-    (this.body as Phaser.Physics.Arcade.Body).enable = true;
     this.health_bar.setVisible(true);
+    (this.body as Phaser.Physics.Arcade.Body).enable = true;
+    (this.vege.body as Phaser.Physics.Arcade.Body).enable = true;
 
-    this.playerWorldX_Sprite = this.player.getWorldTransformMatrix().tx;
     this.randomVege = Phaser.Math.RND.pick(this.vegeList);
 
     this.vege.setTexture(`${this.spriteName}_${this.randomVege}`);
@@ -174,6 +160,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.vege.setFlipX(this.flipX);
     this.sprite.setFlipX(this.flipX);
     this.vege.setPosition(switchSide, 0);
+    console.log("position", { x: this.vege.x, y: this.vege.y }, this.vege.body?.position);
 
     this.setSize(this.sprite.width, this.sprite.height);
 
@@ -187,17 +174,11 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   private foodMovement() {
     if (!this.player) return;
 
-    this.vegeSplat.setVisible(false);
-    this.sprite.anims.remove("attack");
-    this.vegeSplat.setTexture(`${this.spriteName}_${this.randomVege}_splat`);
-    this.vegeSplat.setVisible(false);
+    this.sprite.anims.remove(`${this.spriteName}_attack_attack_anim`);
 
     const playerWorldY = this.player.getWorldTransformMatrix().ty;
     const throwSpeed = playerWorldY < 297 ? 250 : 300;
 
-    this.vege.setFlipX(this.flipX);
-    this.vegeSplat.setFlipX(this.flipX);
-    this.vegeSplat.setPosition(this.randomThrow, playerWorldY - this.y);
     const localY = (playerWorldY - this.y) / this.scaleY;
     this.scene.add.tween({
       targets: this.vege,
@@ -207,25 +188,20 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       ease: "Quad.Out",
       onComplete: () => {
         createAnimation(this.scene, this.sprite, `${this.spriteName}_move`, "move", 0, 3, 4, -1);
+        this.scene.sound.add("splat", { volume: 0.2 }).play();
+        createAnimation(this.scene, this.vege, `${this.spriteName}_${this.randomVege}_splat`, "splat", 0, 4, 10, 0);
+        (this.vege.body as Phaser.Physics.Arcade.Body).setSize(this.vege.width, this.vege.height);
       },
-    });
-
-    this.scene.time.delayedCall(throwSpeed, () => {
-      this.vege.setVisible(false);
-      this.vegeSplat.setVisible(true);
-      (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = true;
-      this.scene.sound.add("splat", { volume: 0.2 }).play();
-      createAnimation(this.scene, this.vegeSplat, `${this.spriteName}_${this.randomVege}_splat`, "splat", 0, 4, 30, 0);
     });
   }
 
   private createOverlaps() {
     if (!this.player) return;
 
-    this.scene.physics.add.overlap(this.vegeSplat, this.player, () => {
+    this.scene.physics.add.overlap(this.vege, this.player, () => {
       this.player?.hurt();
-      this.vegeSplat.setVisible(false);
-      (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
+      this.vege.setVisible(false);
+      (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
       this.handleImmunity();
     });
   }
@@ -273,15 +249,13 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.scene.time.delayedCall(800, () => {
       this.sprite.setVisible(false);
       this.vege.setVisible(false);
-      this.vegeSplat.setVisible(false);
       this.health_bar.setVisible(false);
       this.sprite.setActive(false);
 
       this.scene.tweens.killTweensOf(this.sprite);
       this.scene.tweens.killTweensOf(this.vege);
-      this.scene.tweens.killTweensOf(this.vegeSplat);
 
-      (this.vegeSplat.body as Phaser.Physics.Arcade.Body).enable = false;
+      (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
 
       this.respawn();
     })
@@ -294,8 +268,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
       this.health_bar.setTexture(`${this.health_status}_${randomHS}`);
       this.health_bar.setVisible(false);
-
-      (this.body as Phaser.Physics.Arcade.Body).enable = false;
 
       this.scheduleMenace();
     });

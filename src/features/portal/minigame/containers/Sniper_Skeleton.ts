@@ -97,8 +97,8 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
         this.scene.sound.play("sniper_spawn", { volume: 0.2 });
       },
       x: {
-      getEnd: () => Phaser.Math.Clamp(originalX + Phaser.Math.Between(-4, 4), minX, maxX),
-    },
+        getEnd: () => Phaser.Math.Clamp(originalX + Phaser.Math.Between(-4, 4), minX, maxX),
+      },
       y: originalY + Phaser.Math.Between(-4, 4),
       scaleX: originalScaleX + Phaser.Math.FloatBetween(-0.08, 0.08),
       scaleY: originalScaleY + Phaser.Math.FloatBetween(-0.08, 0.08),
@@ -188,7 +188,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     // const targetX = flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
     const throwSpeed = playerWorldY < 297 ? 250 : 300;
     const localX = flipX
-      ? (playerWorldX - this.x - 10) / this.scaleX  
+      ? (playerWorldX - this.x - 10) / this.scaleX
       : (playerWorldX - this.x + 10) / this.scaleX;
     const localY = (playerWorldY - this.y) / this.scaleY;
     this.scene.add.tween({
@@ -231,7 +231,6 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     if (!this.player) return;
 
     this.scene.physics.add.overlap(this.vege, this.player, () => {
-      this.player?.hurt();
       this.vege.setVisible(false);
       this.handleImmunity();
       (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
