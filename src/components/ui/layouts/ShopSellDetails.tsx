@@ -95,6 +95,9 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
   const description = isCollectible(item)
     ? ITEM_DETAILS[item].description
     : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
+  const title = isCollectible(item)
+    ? (ITEM_DETAILS[item].translatedName ?? item)
+    : item;
 
   return (
     <>
@@ -104,7 +107,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
             <SquareIcon icon={image} width={14} />
           </div>
         )}
-        <span className="sm:text-center">{item}</span>
+        <span className="sm:text-center">{title}</span>
       </div>
       {description && (
         <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">

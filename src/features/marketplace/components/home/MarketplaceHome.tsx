@@ -192,7 +192,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <div className="flex flex-col p-1">
                 <div className="flex justify-between items-center">
                   <Label type="danger" icon={crownIcon}>
-                    {`${listingsLeft} ${listingsLeft > 1 ? t("reputation.marketplace.listingsLeft") : t("reputation.marketplace.listingLeft")}`}
+                    {`${listingsLeft} ${listingsLeft === 1 ? t("reputation.marketplace.listingLeft") : t("reputation.marketplace.listingsLeft")}`}
                   </Label>
                   <p className="text-xxs underline">{t("read.more")}</p>
                 </div>
