@@ -15,7 +15,7 @@ export const Phaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
-  const game = useRef<Game>();
+  const game = useRef<Game | null>(null);
 
   // This must match the key of your scene [PortalExampleScene]
   const scene = PORTAL_NAME;

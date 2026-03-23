@@ -178,8 +178,9 @@ export const CraftTab: React.FC<Props> = ({
     // Subtract selected items
     return selectedItems.reduce((acc, item) => {
       const collectible = item?.collectible;
-      if (collectible && acc[collectible]) {
-        acc[collectible] = acc[collectible].minus(1);
+      if (collectible) {
+        const currentAmount = acc[collectible] ?? new Decimal(0);
+        acc[collectible] = currentAmount.minus(1);
       }
       return acc;
     }, updatedInventory);
@@ -190,8 +191,9 @@ export const CraftTab: React.FC<Props> = ({
 
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
-      if (wearable && updatedWardrobe[wearable]) {
-        updatedWardrobe[wearable] = updatedWardrobe[wearable] - 1;
+      if (wearable) {
+        const currentAmount = updatedWardrobe[wearable] ?? 0;
+        updatedWardrobe[wearable] = currentAmount - 1;
       }
     });
     return updatedWardrobe;
@@ -307,15 +309,16 @@ export const CraftTab: React.FC<Props> = ({
     if (isPending || (isCrafting && !canAddToQueue)) return;
 
     const newSelectedItems = [...selectedItems];
+    const currentItem = selectedItems[index];
 
-    if (!selectedItems[index]?.collectible && !selectedItems[index]?.wearable) {
+    if (!currentItem?.collectible && !currentItem?.wearable) {
       // If the box is empty, add the selected resource
       if (selectedIngredient && !hasIngredient(selectedIngredient)) return;
 
       newSelectedItems[index] = selectedIngredient;
     } else if (
-      selectedItems[index].collectible === selectedIngredient?.collectible &&
-      selectedItems[index].wearable === selectedIngredient?.wearable
+      currentItem?.collectible === selectedIngredient?.collectible &&
+      currentItem?.wearable === selectedIngredient?.wearable
     ) {
       // If the box has the same resource, set it to null
       newSelectedItems[index] = null;

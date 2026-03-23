@@ -99,10 +99,8 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
         onClick={() => {
           ref.current?.focus();
         }}
-        onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setText(e.target.value);
-          checkValidText();
-          e.preventDefault();
         }}
         className="text-xs w-full px-2 py-2 max-h-min focus:outline-none focus:ring-0"
       />

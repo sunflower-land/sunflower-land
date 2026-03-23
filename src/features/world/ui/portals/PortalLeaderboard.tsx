@@ -20,7 +20,7 @@ export const PortalLeaderboard: React.FC<{
   name: MinigameName;
   farmId: number;
   jwt: string;
-  onBack: () => void;
+  onBack?: () => void;
   startDate?: Date;
   endDate?: Date;
   formatPoints?: (value: number) => string;
@@ -35,80 +35,82 @@ export const PortalLeaderboard: React.FC<{
   formatPoints,
   isAccumulator,
 }) => {
-  const [data, setData] = useState<CompetitionLeaderboardResponse>();
-  const [now] = useState(() => Date.now());
+    const [data, setData] = useState<CompetitionLeaderboardResponse>();
+    const [now] = useState(() => Date.now());
 
-  const formatDate = (date: Date) => date.toISOString().substring(0, 10);
+    const formatDate = (date: Date) => date.toISOString().substring(0, 10);
 
-  // Default 7 days ago
-  const from = startDate
-    ? formatDate(startDate)
-    : formatDate(new Date(now - 7 * 24 * 60 * 60 * 1000));
-  const to = endDate
-    ? formatDate(new Date(Math.min(now, endDate.getTime())))
-    : formatDate(new Date(now));
+    // Default 7 days ago
+    const from = startDate
+      ? formatDate(startDate)
+      : formatDate(new Date(now - 7 * 24 * 60 * 60 * 1000));
+    const to = endDate
+      ? formatDate(new Date(Math.min(now, endDate.getTime())))
+      : formatDate(new Date(now));
 
-  const { t } = useAppTranslation();
-  useEffect(() => {
-    const load = async () => {
-      const data = await getPortalLeaderboard({
-        farmId,
-        name,
-        jwt,
-        from,
-        to,
-      });
+    const { t } = useAppTranslation();
+    useEffect(() => {
+      const load = async () => {
+        const data = await getPortalLeaderboard({
+          farmId,
+          name,
+          jwt,
+          from,
+          to,
+        });
 
-      setData(data);
-    };
+        setData(data);
+      };
 
-    load();
-  }, []);
+      load();
+    }, []);
 
-  if (!data) return <Loading />;
+    if (!data) return <Loading />;
 
-  const { leaderboard, accumulators, miniboard, accumulatorMiniboard, player } =
-    data;
-  const items = (!!isAccumulator && accumulators?.slice(0, 10)) || leaderboard;
-  const title =
-    !!isAccumulator && accumulators?.length
-      ? t("competition.accumulator")
-      : t("competition.highscore");
-  const miniboardItems =
-    !!isAccumulator && accumulatorMiniboard?.length
-      ? accumulatorMiniboard
-      : miniboard;
-  return (
-    <>
-      <div className="p-1">
-        <div className="flex justify-between  items-center mb-2">
-          <Label type="default" className="">
-            {`${t("competition.leaderboard")} - ${title}`}
-          </Label>
+    const { leaderboard, accumulators, miniboard, accumulatorMiniboard, player } =
+      data;
+    const items = (!!isAccumulator && accumulators?.slice(0, 10)) || leaderboard;
+    const title =
+      !!isAccumulator && accumulators?.length
+        ? t("competition.accumulator")
+        : t("competition.highscore");
+    const miniboardItems =
+      !!isAccumulator && accumulatorMiniboard?.length
+        ? accumulatorMiniboard
+        : miniboard;
+    return (
+      <>
+        <div className="p-1">
+          <div className="flex justify-between  items-center mb-2">
+            <Label type="default" className="">
+              {`${t("competition.leaderboard")} - ${title}`}
+            </Label>
+          </div>
+
+          <p className="font-secondary text-xs my-2">{`${from} to ${endDate ? endDate.toISOString().substring(0, 10) : to}`}</p>
+
+          <CompetitionTable items={items} formatPoints={formatPoints} />
+
+          {/* Only show miniboard if player isn't in the main leaderboard */}
+          {player && !items.find((m) => m.id === player.id) && (
+            <>
+              <p className="text-center text-xs mb-2">{`...`}</p>
+              <CompetitionTable
+                items={miniboardItems}
+                formatPoints={formatPoints}
+              />
+            </>
+          )}
         </div>
 
-        <p className="font-secondary text-xs my-2">{`${from} to ${endDate ? endDate.toISOString().substring(0, 10) : to}`}</p>
-
-        <CompetitionTable items={items} formatPoints={formatPoints} />
-
-        {/* Only show miniboard if player isn't in the main leaderboard */}
-        {player && !items.find((m) => m.id === player.id) && (
-          <>
-            <p className="text-center text-xs mb-2">{`...`}</p>
-            <CompetitionTable
-              items={miniboardItems}
-              formatPoints={formatPoints}
-            />
-          </>
+        {onBack && (
+          <Button className="mt-1" onClick={onBack}>
+            {t("back")}
+          </Button>
         )}
-      </div>
-
-      <Button className="mt-1" onClick={onBack}>
-        {t("back")}
-      </Button>
-    </>
-  );
-};
+      </>
+    );
+  };
 
 export const CompetitionTable: React.FC<{
   items: CompetitionPlayer[];

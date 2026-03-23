@@ -22,7 +22,9 @@ export function burnClutter({ state, action }: Options) {
       throw new Error("Can't be thrown into the incinerator");
     }
 
-    if (!game.inventory[item]) {
+    const currentAmount = game.inventory[item];
+
+    if (!currentAmount) {
       throw new Error("Item not in inventory");
     }
 
@@ -33,13 +35,13 @@ export function burnClutter({ state, action }: Options) {
       throw new Error("Invalid amount");
     }
 
-    if (game.inventory[item]?.lessThan(amount)) {
+    if (currentAmount.lessThan(amount)) {
       throw new Error("Insufficient quantity to burn");
     }
 
     const cheer = amount / CLUTTER[item].sellUnit;
 
     game.inventory.Cheer = (game.inventory.Cheer ?? new Decimal(0)).add(cheer);
-    game.inventory[item] = game.inventory[item].sub(amount);
+    game.inventory[item] = currentAmount.sub(amount);
   });
 }

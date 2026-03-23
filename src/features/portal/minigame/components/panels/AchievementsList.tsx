@@ -1,20 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { useSelector } from "@xstate/react";
-import { PortalContext } from "../../lib/PortalProvider";
-import { PortalMachineState } from "../../lib/Machine";
-import { AVAILABLE_ACHIEVEMENTS, AchievementsName } from "../../Achievements";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
-import { PORTAL_NAME } from "../../Constants";
 
-const _achievements = (state: PortalMachineState) =>
-  state.context.state?.minigames.games[PORTAL_NAME]?.achievements ?? {};
+// const _achievements = (state: PortalMachineState) =>
+//   state.context.state?.minigames.games[PORTAL_NAME]?.achievements ?? {};
 
 type Props = {
   onBack: () => void;
@@ -22,17 +15,16 @@ type Props = {
 
 export const AchievementsList: React.FC<Props> = ({ onBack }) => {
   const { t } = useAppTranslation();
-  const { portalService } = useContext(PortalContext);
 
   const button = useSound("button");
 
-  const achievements = useSelector(portalService, _achievements);
-  const inProgressAchievementNames = (
-    Object.keys(AVAILABLE_ACHIEVEMENTS) as AchievementsName[]
-  ).filter((achievementName) => !achievements[achievementName]);
-  const completedAchievementNames = (
-    Object.keys(AVAILABLE_ACHIEVEMENTS) as AchievementsName[]
-  ).filter((achievementName) => achievements[achievementName]);
+  // const achievements = useSelector(portalService, _achievements);
+  // const inProgressAchievementNames = (
+  //   Object.keys(AVAILABLE_ACHIEVEMENTS) as AchievementsName[]
+  // ).filter((achievementName) => !achievements[achievementName]);
+  // const completedAchievementNames = (
+  //   Object.keys(AVAILABLE_ACHIEVEMENTS) as AchievementsName[]
+  // ).filter((achievementName) => achievements[achievementName]);
 
   return (
     <div className="flex flex-col gap-1 max-h-[75vh]">
@@ -81,7 +73,7 @@ export const AchievementsList: React.FC<Props> = ({ onBack }) => {
         {/* in progress */}
         <div className="flex flex-col gap-1">
           <Label type="default">{t("in.progress")}</Label>
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             {inProgressAchievementNames.map((achievementName, index) => {
               const achievement = AVAILABLE_ACHIEVEMENTS[achievementName];
 
@@ -101,11 +93,11 @@ export const AchievementsList: React.FC<Props> = ({ onBack }) => {
                 </OuterPanel>
               );
             })}
-          </div>
+          </div> */}
         </div>
 
         {/* completed */}
-        {completedAchievementNames.length > 0 && (
+        {/* {completedAchievementNames.length > 0 && (
           <div className="flex flex-col gap-1 mt-2">
             <Label type="default">{t("completed")}</Label>
             <div className="flex flex-col gap-1">
@@ -137,6 +129,7 @@ export const AchievementsList: React.FC<Props> = ({ onBack }) => {
             </div>
           </div>
         )}
+      </div> */}
       </div>
     </div>
   );

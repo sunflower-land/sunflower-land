@@ -82,8 +82,9 @@ export const ChatText: React.FC<Props> = ({
     };
   });
 
-  const isValid = () => {
-    const isValidText = text.length <= MAX_CHARACTERS && ALPHA_REGEX.test(text);
+  const isValid = (value: string) => {
+    const isValidText =
+      value.length <= MAX_CHARACTERS && ALPHA_REGEX.test(value);
     setValid(isValidText);
   };
 
@@ -156,10 +157,10 @@ export const ChatText: React.FC<Props> = ({
           onClick={() => {
             ref.current?.focus();
           }}
-          onInput={(e: ChangeEvent<HTMLInputElement>) => {
-            setText(e.target.value);
-            isValid();
-            e.preventDefault();
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const nextText = e.target.value;
+            setText(nextText);
+            isValid(nextText);
           }}
           placeholder="Type here..."
           className=" placeholder-white text-white text-shadow text-xs text-shadow w-full !bg-black !bg-opacity-10 px-2 py-2 rounded-md max-h-min"

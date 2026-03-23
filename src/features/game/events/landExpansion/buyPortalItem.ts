@@ -86,9 +86,10 @@ export function buyEventShopItem({ state, action }: Options): GameState {
     // Add item to inventory
     if (isEventShopCollectible(item)) {
       const name = item.name;
+      const purchasedAmount = purchases.items?.[name] ?? 0;
 
       // If already exists, throw error
-      if (purchases!.items?.[name] && purchases!.items?.[name] >= max) {
+      if (purchasedAmount >= max) {
         throw new Error("Item already purchased");
       }
 
@@ -104,9 +105,10 @@ export function buyEventShopItem({ state, action }: Options): GameState {
       };
     } else {
       const name = item.name;
+      const purchasedAmount = purchases.wearables?.[name] ?? 0;
 
       // If already exists, throw error
-      if (purchases!.wearables?.[name] && purchases!.wearables?.[name] >= max) {
+      if (purchasedAmount >= max) {
         throw new Error("Wearable already purchased");
       }
 

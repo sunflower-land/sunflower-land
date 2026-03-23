@@ -263,8 +263,8 @@ export function cook({
         farmId,
         counter: stateCopy.farmActivity[`${item} Cooked`] || 0,
       });
-      stateCopy.inventory[item] = stateCopy.inventory[item] ?? new Decimal(0);
-      stateCopy.inventory[item] = stateCopy.inventory[item].add(amount);
+      const currentAmount = stateCopy.inventory[item] ?? new Decimal(0);
+      stateCopy.inventory[item] = currentAmount.add(amount);
 
       stateCopy.farmActivity = trackFarmActivity(
         `${item} Cooked`,

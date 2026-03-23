@@ -137,10 +137,11 @@ const _buildingPositions = (state: MachineState) => {
     buildings: state.context.state.buildings,
     positions: getObjectEntries(state.context.state.buildings).flatMap(
       ([, value]) =>
-        value
-          ?.map((item) => item.coordinates)
-          .filter((coords) => coords !== undefined)
-          .map((coords) => ({ x: coords.x, y: coords.y })),
+        value?.flatMap((item) => {
+          const { coordinates } = item;
+
+          return coordinates ? [{ x: coordinates.x, y: coordinates.y }] : [];
+        }) ?? [],
     ),
   };
 };

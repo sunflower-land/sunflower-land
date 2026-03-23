@@ -166,12 +166,12 @@ export function completeNPCChore({
     if (!draft.npcs[npcName]) {
       draft.npcs[npcName] = { deliveryCount: 0 };
     }
-    if (!draft.npcs[npcName].friendship) {
-      draft.npcs[npcName].friendship = { points: 0, updatedAt: createdAt };
-    }
+    const npc = draft.npcs[npcName]!;
+    const friendship =
+      npc.friendship ?? (npc.friendship = { points: 0, updatedAt: createdAt });
 
-    draft.npcs[npcName].friendship.points += 1;
-    draft.npcs[npcName].friendship.updatedAt = createdAt;
+    friendship.points += 1;
+    friendship.updatedAt = createdAt;
 
     draft.farmActivity = trackFarmActivity(
       "Chore Completed",

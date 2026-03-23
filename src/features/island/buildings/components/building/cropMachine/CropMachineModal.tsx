@@ -118,6 +118,12 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
+
+  const getSeedYieldImage = (seed: CropSeedName) => {
+    const cropYield = CROP_SEEDS[seed].yield;
+
+    return cropYield ? ITEM_DETAILS[cropYield].image : undefined;
+  };
   const [totalOil, setTotalOil] = useState(0);
   type Tab = "cropMachine";
   const [tab, setTab] = useState<Tab>("cropMachine");
@@ -403,11 +409,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                           isSelected={selectedSeed === seed}
                           count={inventory[seed] ?? new Decimal(0)}
                           onClick={() => handlePickSeed(seed)}
-                          secondaryImage={
-                            CROP_SEEDS[seed].yield
-                              ? ITEM_DETAILS[CROP_SEEDS[seed].yield].image
-                              : undefined
-                          }
+                          secondaryImage={getSeedYieldImage(seed)}
                         />
                       ))}
                     </div>
@@ -445,14 +447,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     </div>
                   </div>
                   <div className="flex w-full">
-                    <Box
-                      image={ITEM_DETAILS[selectedSeed].image}
-                      secondaryImage={
-                        CROP_SEEDS[selectedSeed].yield
-                          ? ITEM_DETAILS[CROP_SEEDS[selectedSeed].yield].image
-                          : undefined
-                      }
-                    />
+                      <Box
+                        image={ITEM_DETAILS[selectedSeed].image}
+                        secondaryImage={getSeedYieldImage(selectedSeed)}
+                      />
                     <div className="flex w-full justify-between">
                       <div className="flex flex-col justify-center space-y-1 text-xs">
                         <span>

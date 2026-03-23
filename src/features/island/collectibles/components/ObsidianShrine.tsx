@@ -425,8 +425,10 @@ const PlantAll: React.FC<{
 
   const availableSeeds = seasonalSeeds.reduce(
     (acc, seed: CropSeedName) => {
-      if (state.inventory[seed]) {
-        acc[seed] = state.inventory[seed].toNumber();
+      const seedAmount = state.inventory[seed];
+
+      if (seedAmount) {
+        acc[seed] = seedAmount.toNumber();
       }
       return acc;
     },

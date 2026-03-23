@@ -160,7 +160,6 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.vege.setFlipX(this.flipX);
     this.sprite.setFlipX(this.flipX);
     this.vege.setPosition(switchSide, 0);
-    console.log("position", { x: this.vege.x, y: this.vege.y }, this.vege.body?.position);
 
     this.setSize(this.sprite.width, this.sprite.height);
 
