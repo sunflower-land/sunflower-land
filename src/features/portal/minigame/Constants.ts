@@ -216,12 +216,12 @@ export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
 export const MENACE_SKELETON_POSITIONS: Position[] = [
   { x: 320, y: 60 },
   { x: 150, y: 70 },
-  { x: 450, y: 72 },
-  { x: 230, y: 110 },
+  // { x: 450, y: 72 },
+  // { x: 230, y: 110 },
 ];
 
 export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
-  { x: 300, y: 210 },
+  { x: 340, y: 200 },
 ];
 
 export const DRIP_WALKER_POSITIONS: (Position & { side: Side })[] = [

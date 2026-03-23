@@ -12,8 +12,8 @@ interface Props {
 }
 
 const RESTORE_SPEED = 3000;
-const MIN_NEXT_MOVE = RESTORE_SPEED + 3000;
-const MAX_NEXT_MOVE = RESTORE_SPEED + 5000;
+const MIN_NEXT_MOVE = RESTORE_SPEED + 5000;
+const MAX_NEXT_MOVE = RESTORE_SPEED + 8000;
 
 export class Blast_Skeleton extends Phaser.GameObjects.Container {
   scene: Scene;
@@ -213,8 +213,8 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated) return;
     this.scene.time.delayedCall(1000, () => {
       if (!this.player || this.isDefeated) return;
-      // const finalX = this.spawnX + (this.player.x <= 300 ? -1 : 1) * Phaser.Math.Between(10, 50);
-      this.setPosition(this.spawnX, this.spawnY);
+      const finalX = Phaser.Utils.Array.GetRandom([270, 340]);;
+      this.setPosition(finalX, this.spawnY);
       this.tomatoBomb.setVisible(false);
       this.food.setTexture(`${this.spriteName}_tomato`);
       this.food.setVisible(false);
@@ -306,10 +306,8 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.isDefeated = false;
     this.isHit = false;
 
-    const finalX =
-      this.spawnX +
-      (this.player.x <= 300 ? -1 : 1) * Phaser.Math.Between(10, 50);
-    this.setPosition(finalX, this.spawnY);
+    const finalX = this.spawnX + (this.player.x <= 300 ? -1 : 1) * Phaser.Utils.Array.GetRandom([280, 340]);;
+    this.setPosition(finalX / this.scale, this.spawnY);
 
     const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
     this.health_bar.setTexture(`${this.health_status}_${randomHS}`);

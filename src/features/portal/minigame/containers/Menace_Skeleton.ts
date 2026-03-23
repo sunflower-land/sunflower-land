@@ -198,11 +198,11 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.vege.setFlipX(this.flipX);
     this.vegeSplat.setFlipX(this.flipX);
     this.vegeSplat.setPosition(this.randomThrow, playerWorldY - this.y);
-
+    const localY = (playerWorldY - this.y) / this.scaleY;
     this.scene.add.tween({
       targets: this.vege,
       x: this.randomThrow,
-      y: playerWorldY - this.y,
+      y: localY,
       duration: throwSpeed,
       ease: "Quad.Out",
       onComplete: () => {

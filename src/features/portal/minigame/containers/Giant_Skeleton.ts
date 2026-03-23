@@ -181,14 +181,14 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     this.setDepth(200);
 
     const distance = this.direction === 1 ? "+=150" : "-=150";
-    const valueY = this.player.getWorldTransformMatrix().ty - this.y;
+    const playerWorldY = this.player.getWorldTransformMatrix().ty;
     this.scene.sound.add("barrel", { volume: 0.2 }).play();
-
+    const localY = (playerWorldY - this.y) / this.scaleY;
     this.scene.tweens.add({
       targets: this.barrel,
       props: {
         x: { value: distance, duration: 2500, ease: "Power4" },
-        y: { value: `${valueY}`, duration: 2000, ease: "Bounce" },
+        y: { value: `${localY}`, duration: 2000, ease: "Bounce" },
       },
       onComplete: () => this.resetBarrel(),
     });
