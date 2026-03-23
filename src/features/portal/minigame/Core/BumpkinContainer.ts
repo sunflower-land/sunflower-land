@@ -1083,6 +1083,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.isHurting = true;
     this.portalService?.send("LOSE_LIFE");
     this.cannonSprite?.setVisible(false);
+    if (this.portalService?.state.context.lives === 0) {
+      this.portalService?.send("GAME_OVER");
+    }
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.hurtAnimationKey as string) &&
