@@ -6,6 +6,10 @@ import halloweenBorderInner from "assets/ui/halloweenBorderInner.png";
 import halloweenBorderOuter from "assets/ui/halloweenBorderOuter.png";
 import halloweenTabBorderInner1 from "assets/ui/halloweenTabBorderInner1.png";
 import halloweenTabBorderInner2 from "assets/ui/halloweenTabBorderInner2.png";
+import aprilFoolsOuter from "public/world/portal/images/outerBorder_02.webp";
+import aprilFoolsInner from "public/world/portal/images/innerBorder_01.webp";
+import tabBorderStart from "public/world/portal/images/tab_start.png";
+import tabBorderMiddle from "public/world/portal/images/tab_middle.webp";
 
 import interactionBorder from "assets/ui/interaction_border.webp";
 import chatInputBorder from "assets/ui/chat_input_border.webp";
@@ -96,15 +100,17 @@ export const pixelGreenBorderStyle: React.CSSProperties = {
 };
 
 export const pixelTabBorderStartStyle: React.CSSProperties = {
-  borderImage: `url(${SUNNYSIDE.ui.tabBorderStart}) 20%`,
+  borderImage: `url(${tabBorderStart}) 20%`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
+  borderWidth: `${PIXEL_SCALE * 3}px`,
 };
 
 export const pixelTabBorderMiddleStyle: React.CSSProperties = {
-  borderImage: `url(${SUNNYSIDE.ui.tabBorderMiddle}) 20%`,
+  borderImage: `url(${tabBorderMiddle}) 20%`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
+  borderWidth: `${PIXEL_SCALE * 3}px`,
 };
 
 export const pixelTabBorderVerticalStartStyle: React.CSSProperties = {
@@ -129,7 +135,7 @@ export const progressBarBorderStyle: React.CSSProperties = {
   borderImageSlice: "20% 20% 30%",
 };
 
-//Halloween
+//Halloween/April Fools
 export const pixelHalloweenInnerBorderStyle: React.CSSProperties = {
   borderImage: `url(${halloweenBorderInner}) 20%`,
   ...pixelizedBorderStyle,
@@ -161,4 +167,16 @@ export const pixelChatInputBorderStyle: React.CSSProperties = {
   borderImage: `url(${chatInputBorder}) 21%`,
   ...pixelizedBorderStyle,
   borderWidth: `${PIXEL_SCALE * 3}px`,
+};
+
+export const pixelAprilFoolsInnerBorderStyle: React.CSSProperties = {
+  borderImage: `url(${aprilFoolsInner}) 20%`,
+  ...pixelizedBorderStyle,
+  borderWidth: `${PIXEL_SCALE * 3}px`,
+};
+
+export const pixelAprilFoolsOuterBorderStyle: React.CSSProperties = {
+  borderImage: `url(${aprilFoolsOuter}) 20%`,
+  ...pixelizedBorderStyle,
+  borderWidth: `${PIXEL_SCALE * 7}px`,
 };
