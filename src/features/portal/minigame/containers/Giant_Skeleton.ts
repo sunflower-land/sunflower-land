@@ -39,13 +39,13 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     this.health_status = "health";
 
     // Sprites
-    this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`);
-    this.barrel = this.scene.add.sprite(0, -20, `${this.spriteName}_barrel`);
+    this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_idle`).setVisible(false);
+    this.barrel = this.scene.add.sprite(0, -20, `${this.spriteName}_barrel`).setVisible(false);
     this.health_bar = this.scene.add.image(
       0,
       -30,
       `${this.health_status}_full`,
-    );
+    ).setVisible(false);
     this.add([this.sprite, this.barrel, this.health_bar]);
     this.sprite.setActive(false);
 
@@ -171,6 +171,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
 
     this.followGiant = false;
     this.sprite.setVisible(true);
+    this.barrel.setVisible(true);
     this.health_bar.setVisible(true);
 
     const body = this.barrel.body as Phaser.Physics.Arcade.Body;
