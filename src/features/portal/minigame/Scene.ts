@@ -72,7 +72,7 @@ export class Scene extends BaseScene {
       map: {
         json: mapJson,
       },
-      audio: { fx: { walk_key: "dirt_footstep" } },
+      audio: { fx: { walk_key: "wood_footstep" } },
     });
   }
 

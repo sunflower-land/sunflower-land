@@ -240,6 +240,8 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
+    this.portalService?.send("GAIN_POINTS", { points: 1 });
+
     this.scene.sound.add("death", { volume: 0.3 }).play();
     this.health_bar.setTexture(`${this.health_status}_low`)
     createAnimation(this.scene, this.sprite, `${this.spriteName}_death`, "death", 0, 4, 10, 0);

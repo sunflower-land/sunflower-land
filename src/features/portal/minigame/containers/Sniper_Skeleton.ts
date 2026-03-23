@@ -267,6 +267,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
   public defeat() {
     if (!this.sprite.visible) return;
     this.isDefeated = true;
+    this.portalService?.send("GAIN_POINTS", { points: 2 });
     this.sprite.setVisible(false);
     this.vege.setVisible(false);
   }

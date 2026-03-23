@@ -256,6 +256,8 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
+    this.portalService?.send("GAIN_POINTS", { points: 1 });
+
     this.scene.sound.add("giant_death", { volume: 0.3 }).play();
     this.health_bar.setTexture(`${this.health_status}_low`);
     createAnimation(

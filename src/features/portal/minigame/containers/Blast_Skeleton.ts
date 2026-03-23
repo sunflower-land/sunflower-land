@@ -268,6 +268,8 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated || !this.sprite.active) return;
     this.isDefeated = true;
 
+    this.portalService?.send("GAIN_POINTS", { points: 1 });
+
     this.health_bar.setTexture(`${this.health_status}_low`);
     createAnimation(
       this.scene,
