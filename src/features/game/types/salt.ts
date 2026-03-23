@@ -131,7 +131,7 @@ export function getSaltChargeGenerationTime({
   let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
 
   if (isWearableActive({ game: gameState, name: "2026 Tiara" })) {
-    chargeGenerationTimeMs *= 0.5;
+    chargeGenerationTimeMs *= 0.75;
   }
 
   return chargeGenerationTimeMs;
@@ -250,10 +250,68 @@ function rollNextChargeBoundary(
   return t;
 }
 
+/** Earliest `readyAt` among in-flight harvest slots (`now < readyAt`). */
+function minInFlightHarvestReadyAt(
+  slots: SaltHarvestSlot[],
+  now: number,
+): number | undefined {
+  let m: number | undefined;
+  for (const s of slots) {
+    if (now < s.readyAt) {
+      m = m === undefined ? s.readyAt : Math.min(m, s.readyAt);
+    }
+  }
+  return m;
+}
+
+/**
+ * {@link findHarvestSlotAfterChargeTimestamp} can return a later slot when the anchor
+ * predates the first harvest. If the first slot in queue is still in-flight and its
+ * `readyAt` minus `nextChargeAtBoundary` is less than {@link SALT_HARVEST_DURATION}, gate
+ * on the first slot's `readyAt` instead of the slot-after pick's.
+ */
+function gateHarvestReadyAtForSlotQueuePause(
+  firstInQueue: SaltHarvestSlot | undefined,
+  slotAfter: SaltHarvestSlot,
+  nextChargeAtBoundary: number,
+  now: number,
+): number {
+  if (
+    firstInQueue !== undefined &&
+    now < firstInQueue.readyAt &&
+    firstInQueue.readyAt - nextChargeAtBoundary < SALT_HARVEST_DURATION
+  ) {
+    return firstInQueue.readyAt;
+  }
+  return slotAfter.readyAt;
+}
+
+/**
+ * When regen grants are paused by harvest timing, the next charge boundary is the first
+ * full interval after the gating harvest completes: `gateReadyAt + intervalMs`.
+ * If there is no harvest gate, roll the previous scheduling time forward.
+ */
+function nextChargeAtFromHarvestGate(
+  gateReadyAt: number | undefined,
+  fallbackNextChargeAt: number,
+  now: number,
+  intervalMs: number,
+): number {
+  if (gateReadyAt !== undefined) {
+    let t = gateReadyAt + intervalMs;
+    if (t < now) {
+      t = rollNextChargeBoundary(t, now, intervalMs);
+    }
+    return t;
+  }
+  return rollNextChargeBoundary(fallbackNextChargeAt, now, intervalMs);
+}
+
 /**
  * Materializes elapsed regeneration into `storedCharges` / `nextChargeAt`.
  * `nextChargeAt` is always a future scheduling boundary (never cleared).
  * Pauses grants when {@link saltUiDisplayCharges} is full or unclaimed-ready + slot-after-anchor blocks.
+ * While paused by harvests, `nextChargeAt` is derived from the gating slot's {@link SaltHarvestSlot.readyAt}.
  */
 export function materializeSaltRegen(
   salt: Salt,
@@ -285,8 +343,29 @@ export function materializeSaltRegen(
     now < slotAfter.readyAt &&
     (displayBlocked || !firstSlotInQueueReady);
 
+  let gateReadyAt: number | undefined;
+  if (
+    slotQueueBlocksRegen &&
+    slotAfter !== undefined &&
+    now < slotAfter.readyAt
+  ) {
+    gateReadyAt = gateHarvestReadyAtForSlotQueuePause(
+      firstInQueue,
+      slotAfter,
+      nextChargeAt,
+      now,
+    );
+  } else if (displayBlocked) {
+    gateReadyAt = minInFlightHarvestReadyAt(slots, now);
+  }
+
   if (displayBlocked || slotQueueBlocksRegen) {
-    nextChargeAt = rollNextChargeBoundary(nextChargeAt, now, intervalMs);
+    nextChargeAt = nextChargeAtFromHarvestGate(
+      gateReadyAt,
+      nextChargeAt,
+      now,
+      intervalMs,
+    );
     return { ...salt, storedCharges, nextChargeAt, harvesting };
   }
 
@@ -294,7 +373,13 @@ export function materializeSaltRegen(
     const nextStored = storedCharges + 1;
     const { active: activeForGrant } = harvestSlotPhaseCounts(harvesting, now);
     if (nextStored + activeForGrant > MAX_STORED_SALT_CHARGES_PER_NODE) {
-      nextChargeAt = nextChargeAt + intervalMs;
+      const gate = minInFlightHarvestReadyAt(slots, now);
+      nextChargeAt = nextChargeAtFromHarvestGate(
+        gate,
+        nextChargeAt + intervalMs,
+        now,
+        intervalMs,
+      );
       break;
     }
     const tickAnchor = nextChargeAt - intervalMs;
@@ -309,7 +394,18 @@ export function materializeSaltRegen(
       now < slotAfterTick.readyAt &&
       (displayBlocked || !firstSlotInQueueReady)
     ) {
-      nextChargeAt = nextChargeAt + intervalMs;
+      const gateTick = gateHarvestReadyAtForSlotQueuePause(
+        firstInQueue,
+        slotAfterTick,
+        nextChargeAt,
+        now,
+      );
+      nextChargeAt = nextChargeAtFromHarvestGate(
+        gateTick,
+        nextChargeAt + intervalMs,
+        now,
+        intervalMs,
+      );
       break;
     }
     storedCharges = nextStored;

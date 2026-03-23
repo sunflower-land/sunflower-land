@@ -187,8 +187,11 @@ export function getSaltModalState({
   let pauseRemainingSeconds: number | undefined;
   let nextChargeInSeconds: number | undefined;
 
+  /** Unclaimed ready slots raise `pileCap` above `persistedStored`; still hide regen countdown when the display meter is full (matches UI 3/3). */
   const showChargeCountdown =
-    !shouldPauseRegeneration && (!atMaxCharges || persistedStored < pileCap);
+    !shouldPauseRegeneration &&
+    (!atMaxCharges || persistedStored < pileCap) &&
+    !(atMaxCharges && readySlots.length > 0);
 
   if (pileFullToCap) {
     regenerationState = "maxed";
