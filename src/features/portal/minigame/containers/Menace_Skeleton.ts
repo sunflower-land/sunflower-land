@@ -52,7 +52,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.sprite = this.scene.add.sprite(0, 0, `${this.spriteName}_move`).setVisible(false);
     this.vege = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomVege}`).setVisible(false);
     this.vegeSplat = this.scene.add.sprite(0, 0, `${this.spriteName}_${this.randomVege}_splat`).setVisible(false);
-    this.health_bar = this.scene.add.image(0, -20, `${this.health_status}_full`).setScale(0.8);
+    this.health_bar = this.scene.add.image(0, -20, `${this.health_status}_full`).setScale(0.8).setVisible(false);
     this.add([this.sprite, this.vege, this.vegeSplat, this.health_bar]);
 
     // Physics
