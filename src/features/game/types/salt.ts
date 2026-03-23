@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
 import type { GameState, InventoryItemName } from "./game";
+import { isWearableActive } from "../lib/wearables";
 
 export type SaltNode = {
   createdAt: number;
@@ -121,7 +122,7 @@ export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
   return Array.from({ length: pending }, (_, i) => String(currentCount + i));
 }
 
-export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 7; // 7 hours per charge
+export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
 
 export function getSaltChargeGenerationTime({
   gameState,
@@ -134,10 +135,14 @@ export function getSaltChargeGenerationTime({
     chargeGenerationTimeMs *= 0.5;
   }
 
+  if (isWearableActive({ game: gameState, name: "2026 Tiara" })) {
+    chargeGenerationTimeMs *= 0.5;
+  }
+
   return chargeGenerationTimeMs;
 }
 
-export const SALT_HARVEST_DURATION = 1000 * 60; // 60 minutes (harvest action only)
+export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
@@ -207,7 +212,7 @@ function harvestSlotPhaseCounts(
 }
 
 /**
- * Max persisted pile so that {@link getDisplaySaltCharges}-style display stays at or below max.
+ * Max persisted pile so that {@link regenBlockingDisplayCharges} headroom stays at or below max.
  * Unclaimed-ready slots raise the ceiling; in-progress slots lower it (can be 0).
  */
 function regenStoredCap(
@@ -232,11 +237,11 @@ export function saltRegenStoredCapAt(
 }
 
 /**
- * UI/regen-agreement charge count: pile + in-flight harvests − finished unclaimed slots.
- * When unclaimed ready slots exceed linear headroom ({@code raw < 0}), show pile + active
- * so regeneration visibly fills while the queue is full of finished harvests.
+ * Headroom used to pause regeneration: pile + in-flight harvests − finished unclaimed slots.
+ * When unclaimed ready slots exceed linear headroom ({@code raw < 0}), use pile + active
+ * so regeneration can continue while the queue is full of finished harvests.
  */
-function saltUiDisplayCharges(
+function regenBlockingDisplayCharges(
   storedCharges: number,
   harvesting: Salt["harvesting"] | undefined,
   now: number,
@@ -250,17 +255,31 @@ function saltUiDisplayCharges(
   return clampStoredCharges(Math.max(0, raw));
 }
 
+/**
+ * Charges shown in the Salt Farm UI: pile plus in-flight harvests only (unclaimed ready
+ * slots do not reduce the number until salt is claimed).
+ */
+function saltUiDisplayCharges(
+  storedCharges: number,
+  harvesting: Salt["harvesting"] | undefined,
+  now: number,
+): number {
+  const h = harvestingWithExpiredPauseCleared(harvesting, now);
+  const { active } = harvestSlotPhaseCounts(h, now);
+  return clampStoredCharges(storedCharges + active);
+}
+
 function displayChargesFromPile(
   storedCharges: number,
   harvesting: Salt["harvesting"] | undefined,
   now: number,
 ): number {
-  return saltUiDisplayCharges(storedCharges, harvesting, now);
+  return regenBlockingDisplayCharges(storedCharges, harvesting, now);
 }
 
 /**
  * Materializes elapsed regeneration into `storedCharges` / `nextChargeAt`.
- * Regen pauses when UI display count is maxed, not only when the raw pile hits 3.
+ * Regen pauses when {@link regenBlockingDisplayCharges} hits max, not only when the raw pile hits 3.
  */
 export function materializeSaltRegen(
   salt: Salt,
@@ -336,8 +355,8 @@ export function getStoredSaltCharges(
 }
 
 /**
- * Charges shown in UI: pile + in-progress harvests − finished unclaimed slots.
- * Matches {@link getStoredSaltCharges} regen materialization so timers and slots align.
+ * Charges shown in UI: pile + in-progress harvests (ready slots do not reduce the count until claimed).
+ * Uses the same {@link materializeSaltRegen} sync as {@link getStoredSaltCharges} so timers align.
  */
 export function getDisplaySaltCharges(
   saltNode: SaltNode,

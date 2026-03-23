@@ -4,6 +4,10 @@ jest.mock("lib/flags", () => ({
   hasFeatureAccess: jest.fn(),
 }));
 
+jest.mock("../lib/wearables", () => ({
+  isWearableActive: jest.fn().mockReturnValue(false),
+}));
+
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,

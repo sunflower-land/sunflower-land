@@ -34,17 +34,17 @@ afterEach(() => {
 });
 
 describe("partitionSaltHarvestSlotsForQueueUi", () => {
-  it("picks earliest-finishing in-progress slot as head and caps VIP tail at 3", () => {
+  it("picks earliest-finishing in-progress slot as head and caps VIP tail at 2", () => {
     const s1 = { startedAt: now, readyAt: now + 5000 };
     const s2 = { startedAt: now, readyAt: now + 2000 };
     const s3 = { startedAt: now, readyAt: now + 8000 };
     const out = partitionSaltHarvestSlotsForQueueUi([s1, s2, s3], now, true);
     expect(out.inProgressSlot).toEqual(s2);
-    expect(out.queueGridCapacity).toBe(3);
+    expect(out.queueGridCapacity).toBe(2);
     expect(out.queueGridSlots).toEqual([s1, s3]);
   });
 
-  it("uses a 4-slot grid when all ready (VIP)", () => {
+  it("uses a 3-slot grid when all ready (VIP)", () => {
     const past = now - 1000;
     const slots = [
       { startedAt: now - 5000, readyAt: past },
@@ -52,7 +52,7 @@ describe("partitionSaltHarvestSlotsForQueueUi", () => {
     ];
     const out = partitionSaltHarvestSlotsForQueueUi(slots, now, true);
     expect(out.inProgressSlot).toBeUndefined();
-    expect(out.queueGridCapacity).toBe(4);
+    expect(out.queueGridCapacity).toBe(3);
     expect(out.queueGridSlots).toEqual(slots);
   });
 
@@ -236,7 +236,7 @@ describe("getSaltModalState", () => {
     expect(state.canStart).toBe(true);
   });
 
-  it("reports displayCharges as pile plus active minus ready unclaimed slots", () => {
+  it("reports displayCharges as pile plus active (ready slots do not reduce until claimed)", () => {
     const readyPast = now - SALT_HARVEST_DURATION;
     const readyFuture = now + SALT_HARVEST_DURATION;
 
@@ -266,7 +266,7 @@ describe("getSaltModalState", () => {
         saltRakes: new Decimal(5),
         isVip: true,
       }).displayCharges,
-    ).toBe(1);
+    ).toBe(3);
 
     expect(
       getSaltModalState({
