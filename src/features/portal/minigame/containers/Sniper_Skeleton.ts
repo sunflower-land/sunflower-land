@@ -11,8 +11,8 @@ interface Props {
   player?: BumpkinContainer;
 }
 
-const SNIPER_MIN_CREATE = 4000;
-const SNIPER_MAX_CREATE = 6000;
+const SNIPER_MIN_CREATE = 6000;
+const SNIPER_MAX_CREATE = 8000;
 const DEBUFF_DURATION = 3000;
 
 export class Sniper_Skeleton extends Phaser.GameObjects.Container {
@@ -42,6 +42,7 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
       .setVisible(false);
     this.add([this.sprite, this.vege]);
     this.sprite.setVisible(false);
+    this.sprite.setOrigin(0, 0);
 
     // Physics
     this.scene.physics.add.existing(this);
@@ -82,17 +83,22 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     (this.body as Phaser.Physics.Arcade.Body).enable = true;
 
     const sprite = this.sprite;
-    const originalX = this.player.getWorldTransformMatrix().tx - this.x;
+    const originalX = (this.player.getWorldTransformMatrix().tx - this.x) / this.scale;
     const originalY = sprite.y;
     const originalScaleX = sprite.scaleX;
     const originalScaleY = sprite.scaleY;
+
+    const minX = 150;
+    const maxX = 400;
 
     this.scene.tweens.add({
       targets: sprite,
       onStart: () => {
         this.scene.sound.play("sniper_spawn", { volume: 0.2 });
       },
-      x: originalX + Phaser.Math.Between(-4, 4),
+      x: {
+      getEnd: () => Phaser.Math.Clamp(originalX + Phaser.Math.Between(-4, 4), minX, maxX),
+    },
       y: originalY + Phaser.Math.Between(-4, 4),
       scaleX: originalScaleX + Phaser.Math.FloatBetween(-0.08, 0.08),
       scaleY: originalScaleY + Phaser.Math.FloatBetween(-0.08, 0.08),
@@ -179,14 +185,16 @@ export class Sniper_Skeleton extends Phaser.GameObjects.Container {
     const playerWorldX = this.player.getWorldTransformMatrix().tx;
     const playerWorldY = this.player.getWorldTransformMatrix().ty;
     const flipX = this.player.x < this.x ? true : false;
-    const targetX =
-      flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
+    // const targetX = flipX === true ? playerWorldX - this.x : playerWorldX - this.x;
     const throwSpeed = playerWorldY < 297 ? 250 : 300;
-
+    const localX = flipX
+      ? (playerWorldX - this.x - 10) / this.scaleX  
+      : (playerWorldX - this.x + 10) / this.scaleX;
+    const localY = (playerWorldY - this.y) / this.scaleY;
     this.scene.add.tween({
       targets: this.vege,
-      x: targetX,
-      y: playerWorldY - this.y,
+      x: localX,
+      y: localY,
       duration: throwSpeed,
       ease: "Quad.Out",
       onComplete: () => {
