@@ -128,6 +128,7 @@ describe("removeCollectible", () => {
         readyAt: 0,
       },
     ]);
+    expect(gameState.farmActivity["Collectible Removed"]).toBe(1);
   });
 
   it("it prevents a genie lamp from being removed if it is in use", () => {

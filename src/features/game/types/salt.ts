@@ -461,21 +461,17 @@ export function populateSaltFarm({
 }: {
   game: GameState;
   now: number;
-}): GameState {
-  const state = { ...game };
-
-  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: state });
+}) {
+  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: game });
   const syncOpts = { chargeIntervalMs };
 
-  for (const nodeId of Object.keys(state.saltFarm.nodes)) {
-    state.saltFarm.nodes[nodeId] = syncSaltNode(
-      state.saltFarm.nodes[nodeId],
+  for (const nodeId of Object.keys(game.saltFarm.nodes)) {
+    game.saltFarm.nodes[nodeId] = syncSaltNode(
+      game.saltFarm.nodes[nodeId],
       now,
       syncOpts,
     );
   }
-
-  return state;
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {

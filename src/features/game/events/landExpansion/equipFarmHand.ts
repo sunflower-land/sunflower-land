@@ -34,7 +34,7 @@ export function equipFarmhand({
       game,
     });
 
-    game = populateSaltFarm({ game, now: createdAt });
+    populateSaltFarm({ game, now: createdAt });
 
     bumpkin.equipped = action.equipment;
   });

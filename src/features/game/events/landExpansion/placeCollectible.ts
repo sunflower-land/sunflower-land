@@ -80,7 +80,7 @@ export function placeCollectible({
       throw new Error("You cannot place this item");
     }
 
-    stateCopy = populateSaltFarm({ game: stateCopy, now: createdAt });
+    populateSaltFarm({ game: stateCopy, now: createdAt });
 
     // Only pet collectibles can be placed in the pet house
     if (action.location === "petHouse" && !isPetCollectible(action.name)) {

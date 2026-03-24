@@ -169,8 +169,7 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
     if (bumpkinHasSkill) {
       throw new Error("You already have this skill");
     }
-
-    stateCopy = populateSaltFarm({ game: stateCopy, now: createdAt });
+    populateSaltFarm({ game: stateCopy, now: createdAt });
 
     bumpkin.skills = {
       ...bumpkin.skills,

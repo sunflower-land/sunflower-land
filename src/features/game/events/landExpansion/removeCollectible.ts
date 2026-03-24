@@ -104,7 +104,7 @@ export function removeCollectible({
       }
     }
 
-    stateCopy = populateSaltFarm({ game: stateCopy, now: createdAt });
+    populateSaltFarm({ game: stateCopy, now: createdAt });
 
     delete collectibleToRemove.coordinates;
     collectibleToRemove.removedAt = createdAt;

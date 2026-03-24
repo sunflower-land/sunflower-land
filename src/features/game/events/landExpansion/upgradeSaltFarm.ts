@@ -8,6 +8,7 @@ import {
   getSaltNodeCoordinates,
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export type UpgradeSaltFarmAction = {
   type: "saltFarm.upgraded";
@@ -24,6 +25,9 @@ export function upgradeSaltFarm({
   action: _action,
   createdAt,
 }: Options): GameState {
+  if (!hasFeatureAccess(state, "SALT_FARM")) {
+    throw new Error("Salt farm not enabled");
+  }
   return produce(state, (copy) => {
     const { saltFarm } = copy;
     const nextLevel = saltFarm.level + 1;

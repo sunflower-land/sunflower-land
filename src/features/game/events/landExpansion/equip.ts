@@ -30,7 +30,7 @@ export function equip({
 
     assertEquipment({ game, equipment: action.equipment, bumpkin });
 
-    game = populateSaltFarm({ game, now: createdAt });
+    populateSaltFarm({ game, now: createdAt });
 
     bumpkin.equipped = action.equipment;
   });
