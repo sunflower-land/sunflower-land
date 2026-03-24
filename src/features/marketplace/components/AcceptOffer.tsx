@@ -32,6 +32,10 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isTradeResource } from "features/game/actions/tradeLimits";
+import {
+  MinigameCurrencyDisclaimerPanel,
+  showsMinigameCurrencyDisclaimer,
+} from "./MinigameCurrencyDisclaimerPanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 const _state = (state: MachineState) => state.context.state;
@@ -159,6 +163,9 @@ const AcceptOfferContent: React.FC<{
           quantity={offer.quantity}
           estTradePoints={estTradePoints}
         />
+        {showsMinigameCurrencyDisclaimer(display.name) && (
+          <MinigameCurrencyDisclaimerPanel className="mt-3" />
+        )}
       </div>
 
       {!hasItem && (

@@ -206,7 +206,6 @@ export const Collection: React.FC<{
     filters.includes("temporary") && !hideLimited ? ["temporary", token] : null,
     collectionFetcher,
   );
-
   const data = {
     items: [
       ...(resources?.items || []),
