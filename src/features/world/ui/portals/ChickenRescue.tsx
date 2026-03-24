@@ -115,9 +115,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           prize={prize}
           history={dailyAttempt}
           mission={`Mission: Rescue ${prize?.score} chickens`}
-          extraItems={
-            chickenRescueVipCluckCoin ? { CluckCoin: 1 } : undefined
-          }
+          extraItems={chickenRescueVipCluckCoin ? { CluckCoin: 1 } : undefined}
         />
       </div>
       <div className="flex">
