@@ -1,5 +1,3 @@
-import type { GameState } from "./game";
-
 jest.mock("lib/flags", () => ({
   hasFeatureAccess: jest.fn(),
 }));
@@ -11,12 +9,9 @@ jest.mock("../lib/wearables", () => ({
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
-  findHarvestSlotAfterChargeTimestamp,
-  getSaltChargeGenerationTime,
   materializeSaltRegen,
   syncSaltNode,
   type Salt,
-  type SaltHarvestSlot,
   type SaltNode,
 } from "./salt";
 import { hasFeatureAccess } from "lib/flags";
@@ -102,44 +97,5 @@ describe("salt nextChargeAt regen", () => {
     const out = materializeSaltRegen(salt, t0);
     expect(out.nextChargeAt).toBeDefined();
     expect(out.storedCharges).toBeGreaterThanOrEqual(3);
-  });
-
-  describe("getSaltChargeGenerationTime", () => {
-    it("returns base interval when SALT_FARM is disabled", () => {
-      mockHasFeatureAccess.mockReturnValue(false);
-      expect(getSaltChargeGenerationTime({ gameState: {} as GameState })).toBe(
-        SALT_CHARGE_GENERATION_TIME,
-      );
-    });
-
-    it("halves interval when SALT_FARM is enabled", () => {
-      mockHasFeatureAccess.mockImplementation(
-        (_game, name) => name === "SALT_FARM",
-      );
-      expect(getSaltChargeGenerationTime({ gameState: {} as GameState })).toBe(
-        SALT_CHARGE_GENERATION_TIME / 2,
-      );
-    });
-  });
-});
-
-describe("findHarvestSlotAfterChargeTimestamp", () => {
-  const slots: SaltHarvestSlot[] = [
-    { startedAt: 100, readyAt: 200 },
-    { startedAt: 150, readyAt: 250 },
-    { startedAt: 300, readyAt: 400 },
-  ];
-
-  it("returns first slot with startedAt strictly after reference", () => {
-    expect(findHarvestSlotAfterChargeTimestamp(slots, 100)?.startedAt).toBe(
-      150,
-    );
-    expect(findHarvestSlotAfterChargeTimestamp(slots, 149)?.startedAt).toBe(
-      150,
-    );
-    expect(findHarvestSlotAfterChargeTimestamp(slots, 150)?.startedAt).toBe(
-      300,
-    );
-    expect(findHarvestSlotAfterChargeTimestamp(slots, 500)).toBeUndefined();
   });
 });

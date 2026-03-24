@@ -121,7 +121,7 @@ export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
 }
 
 // export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
-export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 2; // 2 minutes per charge (testing purposes)
+export const SALT_CHARGE_GENERATION_TIME = 1000 * 60; // 2 minutes per charge (testing purposes)
 
 export function getSaltChargeGenerationTime({
   gameState,
@@ -138,7 +138,7 @@ export function getSaltChargeGenerationTime({
 }
 
 // export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
-export const SALT_HARVEST_DURATION = 1000 * 60; // 1 minute (harvest action only) (testing purposes)
+export const SALT_HARVEST_DURATION = 1000 * 30; // 1 minute (harvest action only) (testing purposes)
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
@@ -204,40 +204,6 @@ function saltUiDisplayCharges(
   return clampStoredCharges(storedCharges + active);
 }
 
-/**
- * First harvesting slot with {@link SaltHarvestSlot.startedAt} strictly after
- * {@link referenceTimeMs}, in stable order (startedAt, then readyAt).
- */
-export function findHarvestSlotAfterChargeTimestamp(
-  slots: SaltHarvestSlot[],
-  referenceTimeMs: number,
-): SaltHarvestSlot | undefined {
-  const sorted = [...slots].sort((a, b) =>
-    a.startedAt !== b.startedAt
-      ? a.startedAt - b.startedAt
-      : a.readyAt - b.readyAt,
-  );
-  return sorted.find((s) => s.startedAt > referenceTimeMs);
-}
-
-function sortHarvestSlotsByQueueOrder(
-  slots: SaltHarvestSlot[],
-): SaltHarvestSlot[] {
-  return [...slots].sort((a, b) =>
-    a.startedAt !== b.startedAt
-      ? a.startedAt - b.startedAt
-      : a.readyAt - b.readyAt,
-  );
-}
-
-/** Earliest slot in queue order; used with display-full + slot-after for 2→3 pause. */
-function firstHarvestSlotInQueue(
-  slots: SaltHarvestSlot[],
-): SaltHarvestSlot | undefined {
-  const sorted = sortHarvestSlotsByQueueOrder(slots);
-  return sorted[0];
-}
-
 function rollNextChargeBoundary(
   nextChargeAt: number,
   now: number,
@@ -262,28 +228,6 @@ function minInFlightHarvestReadyAt(
     }
   }
   return m;
-}
-
-/**
- * {@link findHarvestSlotAfterChargeTimestamp} can return a later slot when the anchor
- * predates the first harvest. If the first slot in queue is still in-flight and its
- * `readyAt` minus `nextChargeAtBoundary` is less than {@link SALT_HARVEST_DURATION}, gate
- * on the first slot's `readyAt` instead of the slot-after pick's.
- */
-function gateHarvestReadyAtForSlotQueuePause(
-  firstInQueue: SaltHarvestSlot | undefined,
-  slotAfter: SaltHarvestSlot,
-  nextChargeAtBoundary: number,
-  now: number,
-): number {
-  if (
-    firstInQueue !== undefined &&
-    now < firstInQueue.readyAt &&
-    firstInQueue.readyAt - nextChargeAtBoundary < SALT_HARVEST_DURATION
-  ) {
-    return firstInQueue.readyAt;
-  }
-  return slotAfter.readyAt;
 }
 
 /**
@@ -321,47 +265,28 @@ export function materializeSaltRegen(
   const intervalMs = options?.chargeIntervalMs ?? SALT_CHARGE_GENERATION_TIME;
   const harvesting = salt.harvesting;
   const slots = harvesting?.slots ?? [];
+
+  // Max charges the pile can hold right now (MAX - active + ready harvests)
   const cap = regenStoredCap(harvesting, now);
+
+  // Clamp persisted stored to current cap (cap shrinks when harvests start)
   let storedCharges = Math.max(0, Math.min(salt.storedCharges, cap));
+
+  // Use persisted boundary, or seed one interval into the future
   let nextChargeAt = Number.isFinite(salt.nextChargeAt)
     ? salt.nextChargeAt
     : now + intervalMs;
 
-  const anchor = nextChargeAt - intervalMs;
-  const slotAfter = findHarvestSlotAfterChargeTimestamp(slots, anchor);
-  const { ready } = harvestSlotPhaseCounts(harvesting, now);
+  // --- Pre-loop: if display is full right now, gate on earliest in-flight harvest ---
+  const { active: activeNow } = harvestSlotPhaseCounts(harvesting, now);
   const displayBlocked =
     saltUiDisplayCharges(storedCharges, harvesting, now) >=
     MAX_STORED_SALT_CHARGES_PER_NODE;
-  const firstInQueue = firstHarvestSlotInQueue(slots);
-  const firstSlotInQueueReady =
-    firstInQueue !== undefined && now >= firstInQueue.readyAt;
-  /** When display is not full, unblocking when the first queued slot is ready resumes regen before claim; when display is full, slot-after still enforces 2→3 pause with unclaimed ready. */
-  const slotQueueBlocksRegen =
-    ready > 0 &&
-    slotAfter !== undefined &&
-    now < slotAfter.readyAt &&
-    (displayBlocked || !firstSlotInQueueReady);
 
-  let gateReadyAt: number | undefined;
-  if (
-    slotQueueBlocksRegen &&
-    slotAfter !== undefined &&
-    now < slotAfter.readyAt
-  ) {
-    gateReadyAt = gateHarvestReadyAtForSlotQueuePause(
-      firstInQueue,
-      slotAfter,
-      nextChargeAt,
-      now,
-    );
-  } else if (displayBlocked) {
-    gateReadyAt = minInFlightHarvestReadyAt(slots, now);
-  }
-
-  if (displayBlocked || slotQueueBlocksRegen) {
+  if (displayBlocked) {
+    const gate = minInFlightHarvestReadyAt(slots, now);
     nextChargeAt = nextChargeAtFromHarvestGate(
-      gateReadyAt,
+      gate,
       nextChargeAt,
       now,
       intervalMs,
@@ -369,10 +294,10 @@ export function materializeSaltRegen(
     return { ...salt, storedCharges, nextChargeAt, harvesting };
   }
 
+  // --- Charge-granting loop: advance one interval per iteration ---
   while (now >= nextChargeAt && storedCharges < cap) {
-    const nextStored = storedCharges + 1;
-    const { active: activeForGrant } = harvestSlotPhaseCounts(harvesting, now);
-    if (nextStored + activeForGrant > MAX_STORED_SALT_CHARGES_PER_NODE) {
+    // Pre-grant: would this charge push stored + active above MAX?
+    if (storedCharges + 1 + activeNow > MAX_STORED_SALT_CHARGES_PER_NODE) {
       const gate = minInFlightHarvestReadyAt(slots, now);
       nextChargeAt = nextChargeAtFromHarvestGate(
         gate,
@@ -382,40 +307,33 @@ export function materializeSaltRegen(
       );
       break;
     }
-    const tickAnchor = nextChargeAt - intervalMs;
-    const slotAfterTick = findHarvestSlotAfterChargeTimestamp(
-      slots,
-      tickAnchor,
+
+    // Grant the charge
+    storedCharges += 1;
+
+    // Post-grant: was display full at the boundary time?
+    // Evaluates harvest phases at the boundary (not wall-clock) to detect
+    // pauses that started mid-cycle even if the harvest has since finished.
+    const { active: activeAtBoundary } = harvestSlotPhaseCounts(
+      harvesting,
+      nextChargeAt,
     );
-    const readyCount = harvestSlotPhaseCounts(harvesting, now).ready;
-    if (
-      readyCount > 0 &&
-      slotAfterTick !== undefined &&
-      now < slotAfterTick.readyAt &&
-      (displayBlocked || !firstSlotInQueueReady)
-    ) {
-      const gateTick = gateHarvestReadyAtForSlotQueuePause(
-        firstInQueue,
-        slotAfterTick,
-        nextChargeAt,
-        now,
-      );
+    if (storedCharges + activeAtBoundary >= MAX_STORED_SALT_CHARGES_PER_NODE) {
+      const gate = minInFlightHarvestReadyAt(slots, nextChargeAt);
       nextChargeAt = nextChargeAtFromHarvestGate(
-        gateTick,
+        gate,
         nextChargeAt + intervalMs,
         now,
         intervalMs,
       );
       break;
     }
-    storedCharges = nextStored;
-    if (storedCharges >= cap) {
-      nextChargeAt = nextChargeAt + intervalMs;
-      break;
-    }
-    nextChargeAt = nextChargeAt + intervalMs;
+
+    nextChargeAt += intervalMs;
   }
 
+  // If loop ended but nextChargeAt is still in the past (no harvests blocking),
+  // roll forward in intervalMs steps until it's in the future
   if (nextChargeAt < now) {
     nextChargeAt = rollNextChargeBoundary(nextChargeAt, now, intervalMs);
   }
@@ -430,61 +348,19 @@ export function materializeSaltRegen(
 
 /**
  * Earliest harvest `readyAt` that gates "Regeneration restarts in …" for the modal.
+ * Returns a value only when the display is full (stored + active >= MAX).
  */
 export function getSaltRegenerationHarvestPauseUntil(
   salt: Salt,
   now: number,
   options?: SaltSyncOptions,
 ): number | undefined {
-  const intervalMs = options?.chargeIntervalMs ?? SALT_CHARGE_GENERATION_TIME;
   const synced = materializeSaltRegen(salt, now, options);
-  const anchor = synced.nextChargeAt - intervalMs;
-  const slots = synced.harvesting?.slots ?? [];
-  const pileCap = saltRegenStoredCapAt(synced.harvesting, now);
-  const persistedStored = synced.storedCharges;
   const displayFull =
     saltUiDisplayCharges(synced.storedCharges, synced.harvesting, now) >=
     MAX_STORED_SALT_CHARGES_PER_NODE;
-
-  if (pileCap === 0) {
-    let minReady: number | undefined;
-    for (const s of slots) {
-      if (now < s.readyAt) {
-        minReady =
-          minReady === undefined ? s.readyAt : Math.min(minReady, s.readyAt);
-      }
-    }
-    return minReady;
-  }
-
-  const mustWaitForHarvestToAcceptStored =
-    pileCap === 0 || persistedStored >= pileCap;
-  if (!displayFull || !mustWaitForHarvestToAcceptStored) {
-    return undefined;
-  }
-
-  const firstInQueue = firstHarvestSlotInQueue(slots);
-  const firstSlotInQueueReady =
-    firstInQueue !== undefined && now >= firstInQueue.readyAt;
-  const slotAfter = findHarvestSlotAfterChargeTimestamp(slots, anchor);
-  if (
-    slotAfter !== undefined &&
-    now < slotAfter.readyAt &&
-    (displayFull || !firstSlotInQueueReady)
-  ) {
-    return slotAfter.readyAt;
-  }
-
-  let minInFlight: number | undefined;
-  for (const s of slots) {
-    if (now < s.readyAt) {
-      minInFlight =
-        minInFlight === undefined
-          ? s.readyAt
-          : Math.min(minInFlight, s.readyAt);
-    }
-  }
-  return minInFlight;
+  if (!displayFull) return undefined;
+  return minInFlightHarvestReadyAt(synced.harvesting?.slots ?? [], now);
 }
 
 /**
