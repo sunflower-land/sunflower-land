@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { ColorPanel, InnerPanel } from "components/ui/Panel";
 import {
   getMarketPrice,
   getResourceTax,
@@ -45,9 +45,6 @@ import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { NPC_WEARABLES } from "lib/npcs";
-
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
     weekday: "short",
@@ -353,21 +350,19 @@ export const TradeableDescription: React.FC<{
         </div>
       </InnerPanel>
       {display.name === "Cluck Coin" && (
-        <InnerPanel className="mb-1">
-          <div className="p-2 flex gap-2 items-start">
-            <div className="shrink-0 scale-[0.85] origin-top-left">
-              <NPCIcon parts={NPC_WEARABLES["pumpkin' pete"]} width={48} />
-            </div>
-            <div className="flex flex-col gap-1 min-w-0 flex-1">
-              <p className="text-xs font-medium text-[#181425]">
-                {t("marketplace.cluckCoin.builder")}
-              </p>
-              <p className="text-xxs text-brown-700 leading-snug">
-                {t("marketplace.cluckCoin.disclaimer")}
-              </p>
-            </div>
+        <ColorPanel type="vibrant" className="mb-1 rounded-sm p-2">
+          <div className="flex flex-col gap-1.5 min-w-0">
+            <p className="text-sm font-medium">
+              {t("marketplace.cluckCoin.minigameName")}
+            </p>
+            <p className="text-xxs opacity-90">
+              {t("marketplace.cluckCoin.builtBy")}
+            </p>
+            <p className="text-xxs leading-snug opacity-95">
+              {t("marketplace.cluckCoin.disclaimer")}
+            </p>
           </div>
-        </InnerPanel>
+        </ColorPanel>
       )}
     </>
   );
