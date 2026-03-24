@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { ColorPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import {
   getMarketPrice,
   getResourceTax,
@@ -45,6 +45,11 @@ import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  MinigameCurrencyDisclaimerPanel,
+  showsMinigameCurrencyDisclaimer,
+} from "./MinigameCurrencyDisclaimerPanel";
+
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
     weekday: "short",
@@ -349,20 +354,8 @@ export const TradeableDescription: React.FC<{
           )}
         </div>
       </InnerPanel>
-      {display.name === "Cluck Coin" && (
-        <ColorPanel type="vibrant" className="mb-1 rounded-sm p-2">
-          <div className="flex flex-col gap-1.5 min-w-0">
-            <p className="text-sm font-medium">
-              {t("marketplace.cluckCoin.minigameName")}
-            </p>
-            <p className="text-xxs opacity-90">
-              {t("marketplace.cluckCoin.builtBy")}
-            </p>
-            <p className="text-xxs leading-snug opacity-95">
-              {t("marketplace.cluckCoin.disclaimer")}
-            </p>
-          </div>
-        </ColorPanel>
+      {showsMinigameCurrencyDisclaimer(display.name) && (
+        <MinigameCurrencyDisclaimerPanel className="mb-1" />
       )}
     </>
   );
