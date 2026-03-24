@@ -3,6 +3,7 @@ import { getKeys } from "lib/object";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { populateSaltFarm } from "features/game/types/salt";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -29,9 +30,9 @@ export function equip({
 
     assertEquipment({ game, equipment: action.equipment, bumpkin });
 
-    bumpkin.equipped = action.equipment;
+    game = populateSaltFarm({ game, now: createdAt });
 
-    return game;
+    bumpkin.equipped = action.equipment;
   });
 }
 

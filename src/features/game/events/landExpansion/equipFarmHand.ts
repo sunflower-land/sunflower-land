@@ -1,6 +1,7 @@
 import { assertEquipment } from "./equip";
 import { Equipped } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
+import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
 
 export type EquipFarmHandAction = {
@@ -33,8 +34,8 @@ export function equipFarmhand({
       game,
     });
 
-    bumpkin.equipped = action.equipment;
+    game = populateSaltFarm({ game, now: createdAt });
 
-    return game;
+    bumpkin.equipped = action.equipment;
   });
 }

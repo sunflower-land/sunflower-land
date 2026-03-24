@@ -34,6 +34,7 @@ export type Salt = {
 export type SaltNodes = Record<string, SaltNode>;
 
 export type SaltFarm = {
+  updatedAt?: number;
   level: number;
   nodes: SaltNodes;
 };
@@ -412,6 +413,38 @@ export function getNextSaltChargeInSeconds({
   now: number;
 }): number {
   return Math.max(0, Math.ceil((nextChargeAt - now) / 1000));
+}
+
+export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
+
+/**
+ * Materializes salt charge regeneration for every node.
+ * Called before boost-changing mutations to lock in the current interval,
+ * and periodically during farm population.
+ */
+export function populateSaltFarm({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): GameState {
+  const state = { ...game };
+
+  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: state });
+  const syncOpts = { chargeIntervalMs };
+
+  for (const nodeId of Object.keys(state.saltFarm.nodes)) {
+    state.saltFarm.nodes[nodeId] = syncSaltNode(
+      state.saltFarm.nodes[nodeId],
+      now,
+      syncOpts,
+    );
+  }
+
+  state.saltFarm.updatedAt = now;
+
+  return state;
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {

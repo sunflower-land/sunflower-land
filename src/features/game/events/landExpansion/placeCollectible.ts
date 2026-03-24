@@ -21,6 +21,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
+import { populateSaltFarm } from "features/game/types/salt";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -33,7 +34,7 @@ export type PlaceCollectibleAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PlaceCollectibleAction;
-  createdAt?: number;
+  createdAt: number;
 };
 
 /**
@@ -54,7 +55,7 @@ export const isPetCollectible = (name: CollectibleName): name is PetName =>
 export function placeCollectible({
   state,
   action,
-  createdAt = Date.now(),
+  createdAt,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const collectible = action.name;
@@ -78,6 +79,8 @@ export function placeCollectible({
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
     }
+
+    stateCopy = populateSaltFarm({ game: stateCopy, now: createdAt });
 
     // Only pet collectibles can be placed in the pet house
     if (action.location === "petHouse" && !isPetCollectible(action.name)) {
@@ -255,7 +258,5 @@ export function placeCollectible({
       "Collectible Placed",
       stateCopy.farmActivity,
     );
-
-    return stateCopy;
   });
 }

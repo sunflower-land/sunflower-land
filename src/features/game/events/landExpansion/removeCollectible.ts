@@ -10,6 +10,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
+import { populateSaltFarm } from "features/game/types/salt";
 import { isPetCollectible } from "./placeCollectible";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
@@ -103,6 +104,8 @@ export function removeCollectible({
       }
     }
 
+    stateCopy = populateSaltFarm({ game: stateCopy, now: createdAt });
+
     delete collectibleToRemove.coordinates;
     collectibleToRemove.removedAt = createdAt;
 
@@ -110,7 +113,5 @@ export function removeCollectible({
       "Collectible Removed",
       stateCopy.farmActivity,
     );
-
-    return stateCopy;
   });
 }
