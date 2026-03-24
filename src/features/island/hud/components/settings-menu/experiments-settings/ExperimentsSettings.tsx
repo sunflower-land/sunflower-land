@@ -12,7 +12,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 const PORTAL_AI_FORM_URL =
   "https://docs.google.com/forms/d/19kA1K2py4gowO3xOiueMdNYjkNbr7itWpeYkPOScsDY";
 
-const AI_BUILDER_FARM_IDS = [3, 39488, 4237476849907764];
+const AI_BUILDER_FARM_IDS = [
+  1, 3, 39488, 4237476849907764, 147717, 128727, 1411, 62559, 7693815612267337,
+  2102169881534930,
+];
 
 const _farmId = (state: MachineState) => state.context.farmId;
 
