@@ -122,6 +122,7 @@ export const RICE_BUN_POSITIONS: Position[] = [
 export const RICE_BUN_SPAWN_INTERVAL = 5000;
 export const RICE_BUN_DESPAWN_DURATION = 30000;
 export const SIMULATED_LAG_DURATION = 5000;
+export const GAME_OVER_EFFECT_DURATION = 3000;
 
 export const POWER_UNLOCK_THRESHOLDS = {
   CANNON: 10,

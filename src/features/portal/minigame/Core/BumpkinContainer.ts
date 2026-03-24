@@ -1,5 +1,6 @@
 import { INITIAL_FARM, SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "features/world/containers/SpeechBubble";
+import { translate as t } from "lib/i18n/translate";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "features/world/containers/Label";
@@ -26,6 +27,7 @@ import {
   PLAYER_CANNON_COOLDOWN,
   PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE,
   PLAYER_FOOD_CYCLE,
+  GAME_OVER_EFFECT_DURATION,
 } from "../Constants";
 import { PlayerFood } from "../containers/PlayerFood";
 import { MachineInterpreter } from "../lib/Machine";
@@ -1083,9 +1085,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.isHurting = true;
     this.portalService?.send("LOSE_LIFE");
     this.cannonSprite?.setVisible(false);
-    if (this.portalService?.state.context.lives === 0) {
-      this.portalService?.send("GAME_OVER");
-    }
+    this.gameOver();
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.hurtAnimationKey as string) &&
@@ -1458,5 +1458,52 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         });
       },
     });
+  }
+
+  private gameOver() {
+    if (this.portalService?.state.context.lives === 0) {
+      if ((this.scene as any).createGlitch) {
+        (this.scene as any).createGlitch(GAME_OVER_EFFECT_DURATION);
+      }
+      this.scene.physics.pause();
+
+      const cx = this.scene.cameras.main.width / 2;
+      const cy = this.scene.cameras.main.height / 2;
+
+      const blind = this.scene.add.rectangle(
+        cx,
+        cy,
+        this.scene.cameras.main.width * 2,
+        this.scene.cameras.main.height * 2,
+        0x000000,
+        0
+      );
+      blind.setScrollFactor(0);
+      blind.setDepth(10000000);
+
+      this.scene.tweens.add({
+        targets: blind,
+        fillAlpha: 0.8,
+        duration: 1000,
+      });
+
+      const loadingText = this.scene.add.text(
+        cx,
+        cy,
+        t("april-fools.loading"),
+        {
+          fontSize: "30px",
+          fontFamily: "Basic",
+          color: "#ffffff",
+        }
+      );
+      loadingText.setOrigin(0.5);
+      loadingText.setScrollFactor(0);
+      loadingText.setDepth(10000001);
+
+      this.scene.time.delayedCall(GAME_OVER_EFFECT_DURATION, () => {
+        this.portalService?.send("GAME_OVER");
+      });
+    }
   }
 }

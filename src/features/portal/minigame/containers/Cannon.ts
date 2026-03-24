@@ -124,7 +124,7 @@ export class Cannon extends Phaser.GameObjects.Container {
             if (data.side === this.side) this.stopAiming();
         });
 
-        this.add([this.sprite, this.spawn, this.textLoading]);
+        this.add([this.sprite, this.textLoading, this.spawn]);
         this.setDepth(10);
         scene.add.existing(this);
     }
@@ -267,8 +267,6 @@ export class Cannon extends Phaser.GameObjects.Container {
                     angle: this.aimAngle,
                     enemies: this.allEnemies
                 });
-            } else {
-                // TODO: Implement the other 50% functionality in the future
             }
 
             this.spawnAnimation(false);

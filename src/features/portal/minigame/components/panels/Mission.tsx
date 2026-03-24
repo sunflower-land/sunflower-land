@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,6 +19,8 @@ import key from "public/world/base/key.png";
 import { OuterPanel } from "components/ui/Panel";
 import { Controls } from "./Controls";
 import { Immunities_Wearables } from "./ImmunitiesWearables";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   mode: "introduction" | "success" | "failed";
@@ -34,6 +36,83 @@ const _lastScore = (state: PortalMachineState) => state.context.lastScore;
 const _minigame = (state: PortalMachineState) =>
   state.context.state?.minigames.games[PORTAL_NAME];
 const _jwt = (state: PortalMachineState) => state.context.jwt;
+
+type SwapSlot = "left" | "right";
+
+const SWAP_TRANSITION = "transform 220ms cubic-bezier(0.22, 1, 0.36, 1)";
+
+const useSwappablePair = () => {
+  const [isSwapped, setIsSwapped] = useState(false);
+  const hasSwappedRef = useRef(false);
+  const slotRefs = useRef<Record<SwapSlot, HTMLDivElement | null>>({
+    left: null,
+    right: null,
+  });
+  const previousRectsRef = useRef<Partial<Record<SwapSlot, DOMRect>> | null>(
+    null,
+  );
+
+  const setSlotRef =
+    (slot: SwapSlot) => (element: HTMLDivElement | null) => {
+      slotRefs.current[slot] = element;
+    };
+
+  const swapOnce = () => {
+    if (hasSwappedRef.current) return false;
+
+    previousRectsRef.current = {
+      left: slotRefs.current.left?.getBoundingClientRect(),
+      right: slotRefs.current.right?.getBoundingClientRect(),
+    };
+
+    hasSwappedRef.current = true;
+    setIsSwapped((current) => !current);
+
+    return true;
+  };
+
+  useLayoutEffect(() => {
+    const previousRects = previousRectsRef.current;
+
+    if (!previousRects) return;
+
+    (Object.keys(slotRefs.current) as SwapSlot[]).forEach((slot) => {
+      const element = slotRefs.current[slot];
+      const previousRect = previousRects[slot];
+
+      if (!element || !previousRect) return;
+
+      const currentRect = element.getBoundingClientRect();
+      const deltaX = previousRect.left - currentRect.left;
+      const deltaY = previousRect.top - currentRect.top;
+
+      if (!deltaX && !deltaY) return;
+
+      element.style.transition = "none";
+      element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+      void element.getBoundingClientRect();
+
+      element.style.transition = SWAP_TRANSITION;
+      element.style.transform = "";
+      element.addEventListener(
+        "transitionend",
+        () => {
+          element.style.transition = "";
+        },
+        { once: true },
+      );
+    });
+
+    previousRectsRef.current = null;
+  }, [isSwapped]);
+
+  return {
+    isSwapped,
+    setSlotRef,
+    swapOnce,
+  };
+};
 
 export const Mission: React.FC<Props> = ({
   mode,
@@ -60,6 +139,10 @@ export const Mission: React.FC<Props> = ({
   const [page, setPage] = React.useState<
     "main" | "achievements" | "guide" | "controls"
   >("main");
+  const [isConfirming, setIsConfirming] = useState(false);
+
+  const topPair = useSwappablePair();
+  const bottomPair = useSwappablePair();
 
   const formattedLastScore = () => lastScore;
   const formattedBestToday = () => minigame?.history[dateKey]?.highscore;
@@ -73,14 +156,40 @@ export const Mission: React.FC<Props> = ({
   //   ? hasFeatureAccess(state, "")
   //   : false;
 
+  const triggerSwap =
+    (swapOnce: () => boolean) => (event: React.MouseEvent<HTMLDivElement>) => {
+      if (event.button !== 0) return;
+
+      if (!swapOnce()) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
   return (
     <>
       {page === "main" && (
         <div className="px-2">
           <div>
             <div className="w-full relative flex justify-between gap-1 items-center pt-1">
-              <Attempts attemptsLeft={attemptsLeft} />
-              <div className="gap-1">
+              <div
+                ref={topPair.setSlotRef("left")}
+                style={{
+                  order: topPair.isSwapped ? 1 : 0,
+                  willChange: "transform",
+                }}
+              >
+                <Attempts attemptsLeft={attemptsLeft} />
+              </div>
+              <div
+                className="gap-1"
+                ref={topPair.setSlotRef("right")}
+                onClickCapture={triggerSwap(topPair.swapOnce)}
+                style={{
+                  order: topPair.isSwapped ? 0 : 1,
+                  willChange: "transform",
+                }}
+              >
                 <Button
                   className="whitespace-nowrap capitalize w-32 p-0"
                   onClick={() => setPage("controls")}
@@ -117,7 +226,7 @@ export const Mission: React.FC<Props> = ({
               </div>
               <OuterPanel className="w-full flex flex-col items-center">
                 <Label type="default">
-                    {t(`${PORTAL_NAME}.Immunity`)}
+                  {t(`${PORTAL_NAME}.Immunity`)}
                 </Label>
                 <Immunities_Wearables />
               </OuterPanel>
@@ -127,19 +236,38 @@ export const Mission: React.FC<Props> = ({
           {trainingButtonText ? (
             <div className="flex flex-col gap-1 mt-1">
               <div className="flex gap-1">
-                <Button
-                  className="whitespace-nowrap capitalize"
-                  onClick={onTraining}
+                <div
+                  className="w-full"
+                  ref={bottomPair.setSlotRef("left")}
+                  onClickCapture={triggerSwap(bottomPair.swapOnce)}
+                  style={{
+                    order: bottomPair.isSwapped ? 1 : 0,
+                    willChange: "transform",
+                  }}
                 >
-                  {trainingButtonText}
-                </Button>
-                {confirmButtonText && (
                   <Button
                     className="whitespace-nowrap capitalize"
-                    onClick={onConfirm}
+                    onClick={onTraining}
                   >
-                    {confirmButtonText}
+                    {trainingButtonText}
                   </Button>
+                </div>
+                {confirmButtonText && (
+                  <div
+                    className="w-full"
+                    ref={bottomPair.setSlotRef("right")}
+                    style={{
+                      order: bottomPair.isSwapped ? 0 : 1,
+                      willChange: "transform",
+                    }}
+                  >
+                    <Button
+                      className="whitespace-nowrap capitalize"
+                      onClick={() => setIsConfirming(true)}
+                    >
+                      {confirmButtonText}
+                    </Button>
+                  </div>
                 )}
               </div>
               {showExitButton && (
@@ -164,7 +292,7 @@ export const Mission: React.FC<Props> = ({
               {confirmButtonText && (
                 <Button
                   className="whitespace-nowrap capitalize"
-                  onClick={onConfirm}
+                  onClick={() => setIsConfirming(true)}
                 >
                   {confirmButtonText}
                 </Button>
@@ -177,6 +305,27 @@ export const Mission: React.FC<Props> = ({
         <AchievementsList onBack={() => setPage("main")} />
       )} */}
       {page === "controls" && <Controls onBack={() => setPage("main")} />}
+
+      <ModalOverlay
+        show={isConfirming}
+        onBackdropClick={() => setIsConfirming(false)}
+      >
+        <CloseButtonPanel onClose={() => setIsConfirming(false)}>
+          <div className="flex flex-col items-center p-2">
+            <span className="text-center mb-2 mt-5">
+              {t("april-fools.confirm.message")}
+            </span>
+            <div className="flex w-full space-x-1 mt-2">
+              <Button onClick={onConfirm}>
+                {t("april-fools.confirm.yes")}
+              </Button>
+              <Button onClick={onConfirm}>
+                {t("april-fools.confirm.yes")}
+              </Button>
+            </div>
+          </div>
+        </CloseButtonPanel>
+      </ModalOverlay>
     </>
   );
 };

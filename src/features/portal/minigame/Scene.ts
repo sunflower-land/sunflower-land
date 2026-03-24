@@ -469,7 +469,7 @@ export class Scene extends BaseScene {
 
     // Config
     this.input.addPointer(3);
-    this.physics.world.drawDebug = true;
+    this.physics.world.drawDebug = false;
 
     // Background music
     // this.backgroundMusic = this.sound.add("backgroundMusic", {
@@ -741,7 +741,7 @@ export class Scene extends BaseScene {
     this.createDripWalkers();
   }
 
-  private createGlitch(delay: number = 4000) {
+  public createGlitch(delay: number = 4000) {
     this.glitch = new LineGlitch(this, {
       lineCount: 60,
       maxOffset: 100
