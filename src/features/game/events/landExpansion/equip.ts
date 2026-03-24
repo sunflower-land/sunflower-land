@@ -30,9 +30,12 @@ export function equip({
 
     assertEquipment({ game, equipment: action.equipment, bumpkin });
 
+    // Populate the salt farm with the new salt charges
     populateSaltFarm({ game, now: createdAt });
 
     bumpkin.equipped = action.equipment;
+
+    return game;
   });
 }
 

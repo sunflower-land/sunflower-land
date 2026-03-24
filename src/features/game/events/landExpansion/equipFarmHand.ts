@@ -34,8 +34,11 @@ export function equipFarmhand({
       game,
     });
 
+    // Populate the salt farm with the new salt charges
     populateSaltFarm({ game, now: createdAt });
 
     bumpkin.equipped = action.equipment;
+
+    return game;
   });
 }

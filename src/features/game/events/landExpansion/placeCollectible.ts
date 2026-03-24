@@ -79,7 +79,7 @@ export function placeCollectible({
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
     }
-
+    // Populate the salt farm with the new salt charges
     populateSaltFarm({ game: stateCopy, now: createdAt });
 
     // Only pet collectibles can be placed in the pet house
@@ -225,7 +225,7 @@ export function placeCollectible({
         otherCollectibleItems.splice(existingCollectibleIndex, 1);
         setCollectiblesForLocation(otherLocation, otherCollectibleItems);
 
-        return;
+        return stateCopy;
       }
     }
 
@@ -258,5 +258,7 @@ export function placeCollectible({
       "Collectible Placed",
       stateCopy.farmActivity,
     );
+
+    return stateCopy;
   });
 }

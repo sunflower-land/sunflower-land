@@ -113,5 +113,7 @@ export function removeCollectible({
       "Collectible Removed",
       stateCopy.farmActivity,
     );
+
+    return stateCopy;
   });
 }
