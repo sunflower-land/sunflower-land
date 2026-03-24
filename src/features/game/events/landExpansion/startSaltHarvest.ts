@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
 import {
+  MAX_VIP_ACTIVE_HARVEST_SLOTS,
   SALT_HARVEST_DURATION,
   SaltHarvestSlot,
   getSaltChargeGenerationTime,
@@ -84,7 +85,7 @@ export function startSaltHarvest({
     const interval = getSaltChargeGenerationTime({ gameState: copy });
     const syncOpts = { chargeIntervalMs: interval };
     const syncedNode = syncSaltNode(saltNode, createdAt, syncOpts);
-    const storedCharges = getStoredSaltCharges(saltNode, createdAt, syncOpts);
+    const storedCharges = getStoredSaltCharges(syncedNode, createdAt, syncOpts);
     const existingSlots = syncedNode.salt.harvesting?.slots ?? [];
     const isVip = hasVipAccess({ game: copy, now: createdAt });
 
@@ -98,7 +99,10 @@ export function startSaltHarvest({
           START_SALT_HARVEST_ERRORS.NON_VIP_ACTIVE_HARVEST_EXISTS,
         );
       }
-    } else if (existingSlots.length + action.rakes > 4) {
+    } else if (
+      existingSlots.length + action.rakes >
+      MAX_VIP_ACTIVE_HARVEST_SLOTS
+    ) {
       throw new Error(START_SALT_HARVEST_ERRORS.VIP_MAX_RAKES_EXCEEDED);
     }
 

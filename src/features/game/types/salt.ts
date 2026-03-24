@@ -147,6 +147,7 @@ export function getSaltChargeGenerationTime({
 export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
+export const MAX_VIP_ACTIVE_HARVEST_SLOTS = 4;
 
 /** Clamps `value` to `[0, MAX_STORED_SALT_CHARGES_PER_NODE]`. */
 function clampStoredCharges(value: number): number {

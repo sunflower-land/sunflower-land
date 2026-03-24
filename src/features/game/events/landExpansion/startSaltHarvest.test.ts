@@ -555,6 +555,44 @@ describe("startSaltHarvest", () => {
     ).toBe(1);
   });
 
+  it("uses materialized charges at the regen boundary (synced source)", () => {
+    const chargeInterval = getSaltChargeGenerationTime({
+      gameState: {
+        ...INITIAL_FARM,
+        saltFarm: { level: 1, nodes: {} },
+      } as GameState,
+    });
+
+    const state = startSaltHarvest({
+      state: {
+        ...INITIAL_FARM,
+        vip: { bundles: [], expiresAt: now + 24 * 60 * 60 * 1000 },
+        saltFarm: {
+          level: 1,
+          nodes: {
+            1: {
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                nextChargeAt: now,
+                storedCharges: 1,
+              },
+            },
+          },
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Salt Rake": new Decimal(10),
+        },
+      },
+      action: { type: "saltHarvest.started", id: "1", rakes: 2 },
+      createdAt: now,
+    });
+
+    expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(0);
+    expect(state.saltFarm.nodes["1"].salt.harvesting?.slots).toHaveLength(2);
+  });
+
   it("does not re-pause regeneration when VIP adds rakes after it resumed", () => {
     const started = startSaltHarvest({
       state: {
