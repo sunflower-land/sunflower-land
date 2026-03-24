@@ -135,8 +135,8 @@ export function claimMinigamePrize({
       action.id === "chicken-rescue" &&
       hasVipAccess({ game, type: "full", now: createdAt })
     ) {
-      const cluck = game.inventory["Cluck Coin"] ?? new Decimal(0);
-      game.inventory["Cluck Coin"] = cluck.add(1);
+      const cluck = game.inventory.CluckCoin ?? new Decimal(0);
+      game.inventory.CluckCoin = cluck.add(1);
     }
 
     return game;

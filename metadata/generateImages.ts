@@ -15,6 +15,7 @@ type Image = {
 
 const IMAGES: Image[] = [
   { name: "Fish Market", bg: "green", tradeable: false, boosted: false },
+  { name: "CluckCoin", bg: "green", tradeable: true, boosted: false },
 ];
 
 const BACKGROUNDS: Record<Image["bg"], string> = {
@@ -48,17 +49,16 @@ async function generateImage(image: Image) {
   const background = await sharp(BACKGROUNDS[image.bg])
     .webp({ quality: 100, lossless: true })
     .toBuffer();
-  const imgFile = ITEM_DETAILS[image.name].image.slice(1);
+  const rawImage = ITEM_DETAILS[image.name].image;
   const notForSaleLabel = await sharp(NOT_FOR_SALE_LABEL)
     .webp({ quality: 100, lossless: true })
     .toBuffer();
   const boostedLabel = await sharp(BOOSTED_LABEL)
     .webp({ quality: 100, lossless: true })
     .toBuffer();
-  // Fetches the buffer if the image is referencing from our SUNNYSIDE images
-  const itemSource = imgFile.startsWith("http")
-    ? await fetchBuffer(imgFile)
-    : fs.readFileSync(imgFile);
+  const itemSource = rawImage.startsWith("http")
+    ? await fetchBuffer(rawImage)
+    : fs.readFileSync(rawImage.startsWith("/") ? rawImage.slice(1) : rawImage);
   const itemImage = await sharp(itemSource)
     .webp({ quality: 100, lossless: true })
     .toBuffer();
@@ -100,10 +100,11 @@ async function generateImage(image: Image) {
   fs.writeFileSync(`public/erc1155/images/${ID}.png`, resized as any);
 }
 
-export const generateImages = () => {
-  IMAGES.forEach((item) => {
-    generateImage(item);
-  });
+export const generateImages = async () => {
+  await Promise.all(IMAGES.map((item) => generateImage(item)));
 };
 
-generateImages();
+generateImages().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

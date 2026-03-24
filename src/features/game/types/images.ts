@@ -34,6 +34,7 @@ import surimiRiceBowl from "assets/processedFoods/surimi_rice_bowl.webp";
 
 import gem from "assets/icons/gem.webp";
 import tradePoint from "assets/icons/trade_points_coupon.webp";
+import cluckCoin from "assets/icons/cluck_coin.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
@@ -1725,8 +1726,8 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Egg.description,
     translatedName: translate("resource.egg"),
   },
-  "Cluck Coin": {
-    image: SUNNYSIDE.resource.egg,
+  CluckCoin: {
+    image: cluckCoin,
     description: translate("description.cluck.coin"),
     translatedName: translate("cluck.coin"),
   },

@@ -598,7 +598,7 @@ export const ITEM_TRADE_TYPES: {
     "Mermaid Scale": "instant",
     "Community Coin": "instant",
     "Arcade Token": "instant",
-    "Cluck Coin": "instant",
+    CluckCoin: "instant",
     "Farmhand Coupon": "instant",
     Farmhand: "instant",
     "Spring Blossom Banner": "instant",

@@ -70,7 +70,7 @@ export const ListViewCard: React.FC<Props> = ({
   const budsCount = useSelector(gameService, _budsCount(itemId));
   const petsCount = useSelector(gameService, _petsCount(itemId));
 
-  const isCluckCoin = name === "Cluck Coin";
+  const isCluckCoin = name === "CluckCoin";
   const isResources =
     isTradeResource(name as InventoryItemName) && type === "collectibles";
 

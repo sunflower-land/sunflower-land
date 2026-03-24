@@ -117,7 +117,7 @@ export const TradeableImage: React.FC<{
   const isTradeResourceItem = isTradeResource(
     display.name as InventoryItemName,
   );
-  const isCluckCoin = display.name === "Cluck Coin";
+  const isCluckCoin = display.name === "CluckCoin";
   const useResourceBackdrop =
     params.collection === "wearables" || isTradeResourceItem || isCluckCoin;
   // Track the URL we currently render so we can mutate it if the image fails to load.
@@ -215,7 +215,7 @@ export const TradeableDescription: React.FC<{
   const isCollectible = display.type === "collectibles";
   const isResource =
     isTradeResource(display.name as InventoryItemName) ||
-    display.name === "Cluck Coin";
+    display.name === "CluckCoin";
 
   const { revealDate, traits, tradeDate } = getNFTTraits(display);
 

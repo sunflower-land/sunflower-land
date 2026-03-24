@@ -293,7 +293,7 @@ export type Coupons =
   | "Holiday Token 2025"
   | "Holiday Ticket 2025"
   | "Cheer"
-  | "Cluck Coin"
+  | "CluckCoin"
   | Keys
   | ChapterTicket
   | ChapterRaffleTicket
@@ -433,7 +433,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Bracelet: { description: "" },
   Cheer: { description: translate("description.cheer") },
-  "Cluck Coin": { description: translate("description.cluck.coin") },
+  CluckCoin: { description: translate("description.cluck.coin") },
   "Pet Cookie": { description: translate("description.petCookie") },
   Floater: { description: "Collected during the Crabs and Traps." },
   "Paw Prints Raffle Ticket": {

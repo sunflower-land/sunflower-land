@@ -227,7 +227,7 @@ describe("minigame.prizeClaimed", () => {
     ).toEqual(date.getTime());
   });
 
-  it("awards Cluck Coin to full VIP on chicken-rescue claim", () => {
+  it("awards CluckCoin to full VIP on chicken-rescue claim", () => {
     const date = new Date("2024-05-05T00:00:00");
     const state = claimMinigamePrize({
       state: {
@@ -267,10 +267,10 @@ describe("minigame.prizeClaimed", () => {
       createdAt: date.getTime(),
     });
 
-    expect(state.inventory["Cluck Coin"]?.toNumber()).toEqual(1);
+    expect(state.inventory.CluckCoin?.toNumber()).toEqual(1);
   });
 
-  it("does not award Cluck Coin without full VIP", () => {
+  it("does not award CluckCoin without full VIP", () => {
     const date = new Date("2024-05-05T00:00:00");
     const state = claimMinigamePrize({
       state: {
@@ -306,7 +306,7 @@ describe("minigame.prizeClaimed", () => {
       createdAt: date.getTime(),
     });
 
-    expect(state.inventory["Cluck Coin"]?.toNumber() ?? 0).toEqual(0);
+    expect(state.inventory.CluckCoin?.toNumber() ?? 0).toEqual(0);
   });
 
   it("claims a coin prize", () => {

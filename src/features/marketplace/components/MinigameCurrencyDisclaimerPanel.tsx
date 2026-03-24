@@ -6,7 +6,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 
 /** Inventory items that use the minigame currency disclaimer (extend when adding more). */
-export const MINIGAME_CURRENCY_ITEM_NAMES = ["Cluck Coin"] as const;
+export const MINIGAME_CURRENCY_ITEM_NAMES = ["CluckCoin"] as const;
 
 export type MinigameCurrencyItemName =
   (typeof MINIGAME_CURRENCY_ITEM_NAMES)[number];
