@@ -34,7 +34,7 @@ export type PlaceCollectibleAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PlaceCollectibleAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
 /**
@@ -55,7 +55,7 @@ export const isPetCollectible = (name: CollectibleName): name is PetName =>
 export function placeCollectible({
   state,
   action,
-  createdAt,
+  createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const collectible = action.name;
@@ -225,7 +225,7 @@ export function placeCollectible({
         otherCollectibleItems.splice(existingCollectibleIndex, 1);
         setCollectiblesForLocation(otherLocation, otherCollectibleItems);
 
-        return stateCopy;
+        return;
       }
     }
 

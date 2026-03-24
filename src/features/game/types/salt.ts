@@ -37,7 +37,6 @@ export type Salt = {
 export type SaltNodes = Record<string, SaltNode>;
 
 export type SaltFarm = {
-  updatedAt?: number;
   level: number;
   nodes: SaltNodes;
 };
@@ -276,9 +275,10 @@ function nextChargeAtFromHarvestGate(
  * 1. Compute the pile cap via {@link regenStoredCap} (`MAX_STORED + ready - active`).
  *    Clamp persisted `storedCharges` to this cap.
  * 2. Seed `nextChargeAt` from the persisted value (or `now + intervalMs` if missing).
- * 3. **Display-blocked early exit**: if `storedCharges + activeSlots >= MAX_STORED`,
- *    push `nextChargeAt` forward via {@link nextChargeAtFromHarvestGate} (gated by
- *    the earliest in-flight harvest) and return immediately.
+ * 3. **Display-blocked early exit**: if `storedCharges + activeSlots >= MAX_STORED`
+ *    and there are no ready slots at `now`, push `nextChargeAt` forward via
+ *    {@link nextChargeAtFromHarvestGate} (gated by the earliest in-flight harvest)
+ *    and return immediately.
  * 4. **Charge-granting loop**: while `now >= nextChargeAt` and `storedCharges < cap`:
  *    a. *Pre-grant check*: if granting would push `stored + active > MAX_STORED`,
  *       gate on earliest in-flight harvest and break.
@@ -308,12 +308,15 @@ export function materializeSaltRegen(
     ? salt.nextChargeAt
     : now + intervalMs;
 
-  const { active: activeNow } = harvestSlotPhaseCounts(harvesting, now);
+  const { active: activeNow, ready: readyNow } = harvestSlotPhaseCounts(
+    harvesting,
+    now,
+  );
   const displayBlocked =
     saltUiDisplayCharges(storedCharges, harvesting, now) >=
     MAX_STORED_SALT_CHARGES_PER_NODE;
 
-  if (displayBlocked) {
+  if (displayBlocked && readyNow === 0) {
     const gate = minInFlightHarvestReadyAt(slots, now);
     nextChargeAt = nextChargeAtFromHarvestGate(
       gate,
@@ -471,8 +474,6 @@ export function populateSaltFarm({
       syncOpts,
     );
   }
-
-  state.saltFarm.updatedAt = now;
 
   return state;
 }
