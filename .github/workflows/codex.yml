@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   codex:
@@ -27,11 +27,11 @@ jobs:
           fi
 
           R="HEAD^1...HEAD^2"
-          git diff --name-status "$R" > _tmp && head -n 400 _tmp > pr_files.txt
-          git diff --stat "$R" > _tmp && head -n 300 _tmp > pr_stat.txt
+          git diff --name-status "$R" > _tmp && head -n 150 _tmp > pr_files.txt
+          git diff --stat "$R" > _tmp && head -n 100 _tmp > pr_stat.txt
           git diff --unified=3 "$R" > pr.full.diff
 
-          perl -e 'read(STDIN,$b,200000); if(length($b)==200000){$t=$b;$t=~s/[^\n]*\z//; print length($t)?$t:$b}else{print $b}' < pr.full.diff > pr.diff
+          perl -e 'read(STDIN,$b,50000); if(length($b)==50000){$t=$b;$t=~s/[^\n]*\z//; print length($t)?$t:$b}else{print $b}' < pr.full.diff > pr.diff
 
           for name in diff_content file_list diff_stat; do
             f=pr.diff; [ "$name" = "file_list" ] && f=pr_files.txt; [ "$name" = "diff_stat" ] && f=pr_stat.txt
