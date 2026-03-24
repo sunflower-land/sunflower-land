@@ -22,8 +22,19 @@ export type SaltHarvestSlotUi = {
 };
 
 /**
- * Kitchen-style split: earliest in-progress slot (if any), then up to 3 tail slots
- * in the VIP grid when a head exists, else up to 4 slots in the grid when all ready.
+ * Partitions harvest slots into display groups for the salt modal UI.
+ *
+ * Sorts slots by `readyAt` ascending, then finds the first in-progress slot
+ * (`now < readyAt`).
+ *
+ * **Non-VIP**: returns the in-progress slot (or the sole ready slot) as
+ * `inProgressDisplaySlot`; `queueGridSlots` is always empty.
+ *
+ * **VIP with in-progress head**: head goes to `inProgressDisplaySlot`,
+ * remaining slots (up to 2) go to `queueGridSlots`.
+ *
+ * **VIP with all ready**: no `inProgressDisplaySlot`; up to 3 slots in
+ * `queueGridSlots`.
  */
 export function partitionSaltHarvestSlotsForQueueUi(
   slots: SaltHarvestSlotUi[],
@@ -31,13 +42,14 @@ export function partitionSaltHarvestSlotsForQueueUi(
   isVip: boolean,
 ): {
   sortedSlots: SaltHarvestSlotUi[];
-  /** First slot still cooking; undefined when all slots are ready. */
+  /** First slot where `now < readyAt`; `undefined` when all slots are ready. */
   inProgressSlot: SaltHarvestSlotUi | undefined;
   /**
-   * Row under "In Progress": the active head, or (non-VIP only) the single slot when it is ready.
+   * The slot displayed in the "In Progress" row: the active head (VIP/non-VIP),
+   * or (non-VIP only) the single slot when it is ready.
    */
   inProgressDisplaySlot: SaltHarvestSlotUi | undefined;
-  /** Slots shown in the VIP queue strip (empty placeholders filled in UI). */
+  /** VIP queue grid: up to 2 slots when a head exists, up to 3 when all ready. */
   queueGridSlots: SaltHarvestSlotUi[];
   queueGridCapacity: number;
 } {
@@ -112,6 +124,22 @@ type Props = {
   isVip: boolean;
 };
 
+/**
+ * Derives all UI state for the salt node modal at a given `now`.
+ *
+ * 1. Computes the charge interval via {@link getSaltChargeGenerationTime} and
+ *    syncs the node via {@link syncSaltNode}.
+ * 2. Derives `storedCharges` and `displayCharges` from the materialized state.
+ * 3. Partitions harvest slots for the queue UI via {@link partitionSaltHarvestSlotsForQueueUi}.
+ * 4. Computes `canStart` / `canClaim` / `blockedReason`:
+ *    - VIP: `min(remainingVipSlots, storedCharges, availableRakes)` rakes.
+ *    - Non-VIP: 0 if any active slot exists, else `min(1, storedCharges, availableRakes)`.
+ * 5. Determines `regenerationState`:
+ *    - `"maxed"`: display full AND pile at cap with no harvest gate.
+ *    - `"paused"`: harvest gate exists, is in the future, and pile is full or cap is 0.
+ *    - `"charging"`: shows `nextChargeInSeconds` countdown unless display is at max
+ *      with ready slots (hides countdown to match the 3/3 meter).
+ */
 export function getSaltModalState({
   saltNode,
   gameState,
@@ -187,7 +215,6 @@ export function getSaltModalState({
   let pauseRemainingSeconds: number | undefined;
   let nextChargeInSeconds: number | undefined;
 
-  /** Unclaimed ready slots raise `pileCap` above `persistedStored`; still hide regen countdown when the display meter is full (matches UI 3/3). */
   const showChargeCountdown =
     !shouldPauseRegeneration &&
     (!atMaxCharges || persistedStored < pileCap) &&
@@ -235,6 +262,7 @@ export function getSaltModalState({
   };
 }
 
+/** React hook wrapper: calls {@link getSaltModalState} with a live `now` from {@link useNow}. */
 export function useSaltModalState({
   saltNode,
   gameState,

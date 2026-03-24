@@ -17,13 +17,17 @@ export type SaltHarvestSlot = {
 export type Salt = {
   claimedAt?: number;
   /**
-   * Wall time (ms) when the next regen tick completes. Always set; pause/cap is never
-   * represented by clearing this field (see {@link materializeSaltRegen}).
+   * Wall-clock timestamp (ms) of the next charge boundary.
+   * {@link materializeSaltRegen} uses this as the starting point for granting charges;
+   * it is always persisted as a future value after materialization.
+   * When paused (display full or harvest-gated), the value is pushed forward
+   * via {@link nextChargeAtFromHarvestGate} rather than being cleared.
    */
   nextChargeAt: number;
   /**
-   * Persisted pile count. Cap is raised when unclaimed ready slots keep display below max
-   * so regeneration can continue (see {@link saltRegenStoredCapAt}).
+   * Persisted pile count (charges sitting on the node, not yet consumed by a harvest).
+   * Capped by {@link regenStoredCap} which equals `MAX(0, MAX_STORED - active + ready)`,
+   * allowing regen to continue while unclaimed ready slots keep the display under max.
    */
   storedCharges: number;
   harvesting?: {
@@ -103,8 +107,10 @@ export const SALT_FARM_UPGRADES: Record<
 };
 
 /**
- * Node ids for salt slots that the next upgrade will create (map placeholders).
- * Empty when at max level or when node count already matches the post-upgrade target.
+ * Returns string ids for salt nodes that the next upgrade will create.
+ * Computes `SALT_FARM_UPGRADES[level + 1].nodes - currentNodeCount` and
+ * returns sequential ids starting from `currentNodeCount`.
+ * Returns `[]` when at max level or when nodes already match the target.
  */
 export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
   const { level, nodes } = saltFarm;
@@ -124,6 +130,12 @@ export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
 // export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
 export const SALT_CHARGE_GENERATION_TIME = 1000 * 60; // 2 minutes per charge (testing purposes)
 
+/**
+ * Returns the charge interval in ms for a single regen tick.
+ * Starts from `SALT_CHARGE_GENERATION_TIME` and applies multiplicative
+ * boosts: 0.75x when "2026 Tiara" is active (checked via {@link isWearableActive}
+ * across bumpkin + all farmHands).
+ */
 export function getSaltChargeGenerationTime({
   gameState,
 }: {
@@ -143,12 +155,7 @@ export const SALT_HARVEST_DURATION = 1000 * 30; // 1 minute (harvest action only
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
-/**
- * Constrains a stored-charge value to the valid node range.
- *
- * @param value Candidate stored-charge count.
- * @returns A number clamped between 0 and MAX_STORED_SALT_CHARGES_PER_NODE.
- */
+/** Clamps `value` to `[0, MAX_STORED_SALT_CHARGES_PER_NODE]`. */
 function clampStoredCharges(value: number): number {
   return Math.max(0, Math.min(value, MAX_STORED_SALT_CHARGES_PER_NODE));
 }
@@ -157,6 +164,11 @@ export type SaltSyncOptions = {
   chargeIntervalMs?: number;
 };
 
+/**
+ * Counts harvest slots by phase at a given timestamp.
+ * `active`: slots where `now < readyAt` (still in progress).
+ * `ready`: slots where `now >= readyAt` (finished, awaiting claim).
+ */
 function harvestSlotPhaseCounts(
   harvesting: Salt["harvesting"] | undefined,
   now: number,
@@ -174,6 +186,12 @@ function harvestSlotPhaseCounts(
   return { active, ready };
 }
 
+/**
+ * Maximum `storedCharges` the pile can hold at `now`.
+ * Formula: `MAX(0, MAX_STORED_SALT_CHARGES_PER_NODE + readySlots - activeSlots)`.
+ * Active slots reduce the cap (they consumed a charge); ready slots raise it
+ * (their charge is reclaimable once salt is collected).
+ */
 function regenStoredCap(
   harvesting: Salt["harvesting"] | undefined,
   now: number,
@@ -182,9 +200,7 @@ function regenStoredCap(
   return Math.max(0, MAX_STORED_SALT_CHARGES_PER_NODE + ready - active);
 }
 
-/**
- * Max persisted pile at `now` given harvesting slots (same rule as regen materialization).
- */
+/** Public wrapper around {@link regenStoredCap}. Returns `MAX(0, MAX_STORED + ready - active)` at `now`. */
 export function saltRegenStoredCapAt(
   harvesting: Salt["harvesting"] | undefined,
   now: number,
@@ -193,8 +209,9 @@ export function saltRegenStoredCapAt(
 }
 
 /**
- * Charges shown in the Salt Farm UI: pile plus in-flight harvests only (unclaimed ready
- * slots do not reduce the number until salt is claimed).
+ * Display charge count for the UI meter.
+ * Returns `clamp(storedCharges + activeSlots)`. Ready (unclaimed) slots are
+ * excluded — they don't reduce the displayed count until salt is claimed.
  */
 function saltUiDisplayCharges(
   storedCharges: number,
@@ -205,6 +222,10 @@ function saltUiDisplayCharges(
   return clampStoredCharges(storedCharges + active);
 }
 
+/**
+ * Advances `nextChargeAt` forward in `intervalMs` steps until it is >= `now`.
+ * Returns the first future boundary. No-op if already in the future.
+ */
 function rollNextChargeBoundary(
   nextChargeAt: number,
   now: number,
@@ -232,9 +253,10 @@ function minInFlightHarvestReadyAt(
 }
 
 /**
- * When regen grants are paused by harvest timing, the next charge boundary is the first
- * full interval after the gating harvest completes: `gateReadyAt + intervalMs`.
- * If there is no harvest gate, roll the previous scheduling time forward.
+ * Computes the next charge boundary when regen is blocked by a harvest gate.
+ * If `gateReadyAt` is defined, returns `gateReadyAt + intervalMs` (rolled forward
+ * via {@link rollNextChargeBoundary} if that value is still in the past).
+ * If no gate exists, rolls `fallbackNextChargeAt` forward instead.
  */
 function nextChargeAtFromHarvestGate(
   gateReadyAt: number | undefined,
@@ -253,10 +275,28 @@ function nextChargeAtFromHarvestGate(
 }
 
 /**
- * Materializes elapsed regeneration into `storedCharges` / `nextChargeAt`.
- * `nextChargeAt` is always a future scheduling boundary (never cleared).
- * Pauses grants when {@link saltUiDisplayCharges} is full or unclaimed-ready + slot-after-anchor blocks.
- * While paused by harvests, `nextChargeAt` is derived from the gating slot's {@link SaltHarvestSlot.readyAt}.
+ * Pure function that derives the current `storedCharges` and `nextChargeAt`
+ * from persisted salt state at wall-clock time `now`.
+ *
+ * Algorithm:
+ * 1. Compute the pile cap via {@link regenStoredCap} (`MAX_STORED + ready - active`).
+ *    Clamp persisted `storedCharges` to this cap.
+ * 2. Seed `nextChargeAt` from the persisted value (or `now + intervalMs` if missing).
+ * 3. **Display-blocked early exit**: if `storedCharges + activeSlots >= MAX_STORED`,
+ *    push `nextChargeAt` forward via {@link nextChargeAtFromHarvestGate} (gated by
+ *    the earliest in-flight harvest) and return immediately.
+ * 4. **Charge-granting loop**: while `now >= nextChargeAt` and `storedCharges < cap`:
+ *    a. *Pre-grant check*: if granting would push `stored + active > MAX_STORED`,
+ *       gate on earliest in-flight harvest and break.
+ *    b. Grant one charge (`storedCharges += 1`).
+ *    c. *Post-grant check*: evaluate harvest phases at the boundary time (not wall-clock)
+ *       to detect pauses that started mid-cycle. If `stored + activeAtBoundary >= MAX_STORED`,
+ *       gate on earliest in-flight harvest at the boundary and break.
+ *    d. Advance `nextChargeAt += intervalMs`.
+ * 5. If `nextChargeAt` is still in the past after the loop, roll it forward
+ *    via {@link rollNextChargeBoundary}.
+ *
+ * Returns a new `Salt` object; does not mutate the input.
  */
 export function materializeSaltRegen(
   salt: Salt,
@@ -267,18 +307,13 @@ export function materializeSaltRegen(
   const harvesting = salt.harvesting;
   const slots = harvesting?.slots ?? [];
 
-  // Max charges the pile can hold right now (MAX - active + ready harvests)
   const cap = regenStoredCap(harvesting, now);
-
-  // Clamp persisted stored to current cap (cap shrinks when harvests start)
   let storedCharges = Math.max(0, Math.min(salt.storedCharges, cap));
 
-  // Use persisted boundary, or seed one interval into the future
   let nextChargeAt = Number.isFinite(salt.nextChargeAt)
     ? salt.nextChargeAt
     : now + intervalMs;
 
-  // --- Pre-loop: if display is full right now, gate on earliest in-flight harvest ---
   const { active: activeNow } = harvestSlotPhaseCounts(harvesting, now);
   const displayBlocked =
     saltUiDisplayCharges(storedCharges, harvesting, now) >=
@@ -295,9 +330,7 @@ export function materializeSaltRegen(
     return { ...salt, storedCharges, nextChargeAt, harvesting };
   }
 
-  // --- Charge-granting loop: advance one interval per iteration ---
   while (now >= nextChargeAt && storedCharges < cap) {
-    // Pre-grant: would this charge push stored + active above MAX?
     if (storedCharges + 1 + activeNow > MAX_STORED_SALT_CHARGES_PER_NODE) {
       const gate = minInFlightHarvestReadyAt(slots, now);
       nextChargeAt = nextChargeAtFromHarvestGate(
@@ -309,12 +342,8 @@ export function materializeSaltRegen(
       break;
     }
 
-    // Grant the charge
     storedCharges += 1;
 
-    // Post-grant: was display full at the boundary time?
-    // Evaluates harvest phases at the boundary (not wall-clock) to detect
-    // pauses that started mid-cycle even if the harvest has since finished.
     const { active: activeAtBoundary } = harvestSlotPhaseCounts(
       harvesting,
       nextChargeAt,
@@ -333,8 +362,6 @@ export function materializeSaltRegen(
     nextChargeAt += intervalMs;
   }
 
-  // If loop ended but nextChargeAt is still in the past (no harvests blocking),
-  // roll forward in intervalMs steps until it's in the future
   if (nextChargeAt < now) {
     nextChargeAt = rollNextChargeBoundary(nextChargeAt, now, intervalMs);
   }
@@ -348,8 +375,11 @@ export function materializeSaltRegen(
 }
 
 /**
- * Earliest harvest `readyAt` that gates "Regeneration restarts in …" for the modal.
- * Returns a value only when the display is full (stored + active >= MAX).
+ * Returns the earliest in-flight harvest `readyAt` that is blocking regeneration,
+ * or `undefined` if regen is not paused. Materializes salt state first via
+ * {@link materializeSaltRegen}, then checks whether the display is full
+ * (`storedCharges + active >= MAX_STORED`). Used by the modal to show
+ * "Regeneration restarts in …".
  */
 export function getSaltRegenerationHarvestPauseUntil(
   salt: Salt,
@@ -365,7 +395,8 @@ export function getSaltRegenerationHarvestPauseUntil(
 }
 
 /**
- * Derives how many unassigned (stored) charges a node has at `now`.
+ * Returns the materialized `storedCharges` for a node at `now`.
+ * Delegates to {@link materializeSaltRegen} and returns `.storedCharges`.
  */
 export function getStoredSaltCharges(
   saltNode: SaltNode,
@@ -376,8 +407,9 @@ export function getStoredSaltCharges(
 }
 
 /**
- * Charges shown in UI: pile + in-progress harvests (ready slots do not reduce the count until claimed).
- * Uses the same {@link materializeSaltRegen} sync as {@link getStoredSaltCharges} so timers align.
+ * Returns `clamp(materializedStored + activeSlots)` for a node at `now`.
+ * Materializes via {@link materializeSaltRegen} then passes the result
+ * through {@link saltUiDisplayCharges}. Ready (unclaimed) slots are excluded.
  */
 export function getDisplaySaltCharges(
   saltNode: SaltNode,
@@ -389,7 +421,8 @@ export function getDisplaySaltCharges(
 }
 
 /**
- * Produces a time-synced copy of a salt node at `now`.
+ * Returns a shallow copy of `saltNode` with `.salt` replaced by the output
+ * of {@link materializeSaltRegen} at `now`.
  */
 export function syncSaltNode(
   saltNode: SaltNode,
@@ -402,9 +435,7 @@ export function syncSaltNode(
   };
 }
 
-/**
- * Whole seconds until `nextChargeAt`, suitable for countdown UI.
- */
+/** Returns `MAX(0, ceil((nextChargeAt - now) / 1000))` — whole seconds until the next charge. */
 export function getNextSaltChargeInSeconds({
   nextChargeAt,
   now,
@@ -418,9 +449,14 @@ export function getNextSaltChargeInSeconds({
 export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
 
 /**
- * Materializes salt charge regeneration for every node.
- * Called before boost-changing mutations to lock in the current interval,
- * and periodically during farm population.
+ * Iterates every salt node and calls {@link syncSaltNode} with the current
+ * charge interval from {@link getSaltChargeGenerationTime}.
+ * Creates a shallow copy of `game`, mutates `.saltFarm.nodes` on the copy,
+ * sets `.saltFarm.updatedAt = now`, and returns the copy.
+ *
+ * Called in event handlers BEFORE boost-changing mutations (equip, skill,
+ * collectible place/remove) to lock in `nextChargeAt` using the pre-boost
+ * interval, so the current cooldown is not affected by the interval change.
  */
 export function populateSaltFarm({
   game,
@@ -457,10 +493,9 @@ export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
 };
 
 /**
- * Get the coordinates for a specific salt node
- * @param expansions - The number of expansions
- * @param nodeIndex - The index of the salt node
- * @returns The coordinates of the salt node
+ * Returns world coordinates for a salt node, offsetting the base
+ * {@link SALT_NODE_COORDINATES} by `(+13, +12)` when `expansions < 7`
+ * or `(+6, +6)` when `7 <= expansions < 21`, else no offset.
  */
 export function getSaltNodeCoordinates(
   expansions: number,
