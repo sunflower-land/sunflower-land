@@ -1725,6 +1725,11 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Egg.description,
     translatedName: translate("resource.egg"),
   },
+  "Cluck Coin": {
+    image: SUNNYSIDE.resource.egg,
+    description: translate("description.cluck.coin"),
+    translatedName: translate("cluck.coin"),
+  },
   Chicken: {
     image: SUNNYSIDE.resource.chicken,
     description: ANIMALS.Chicken.description,

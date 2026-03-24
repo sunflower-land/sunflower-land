@@ -227,6 +227,88 @@ describe("minigame.prizeClaimed", () => {
     ).toEqual(date.getTime());
   });
 
+  it("awards Cluck Coin to full VIP on chicken-rescue claim", () => {
+    const date = new Date("2024-05-05T00:00:00");
+    const state = claimMinigamePrize({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Lifetime Farmer Banner": new Decimal(1),
+        },
+        minigames: {
+          games: {
+            "chicken-rescue": {
+              highscore: 30,
+              history: {
+                [date.toISOString().substring(0, 10)]: {
+                  attempts: 1,
+                  highscore: 30,
+                },
+              },
+            },
+          },
+          prizes: {
+            "chicken-rescue": {
+              coins: 0,
+              startAt: date.getTime() - 100,
+              endAt: date.getTime() + 1000,
+              items: { Mark: 1 },
+              wearables: {},
+              score: 20,
+            },
+          },
+        },
+      },
+      action: {
+        id: "chicken-rescue",
+        type: "minigame.prizeClaimed",
+      },
+      createdAt: date.getTime(),
+    });
+
+    expect(state.inventory["Cluck Coin"]?.toNumber()).toEqual(1);
+  });
+
+  it("does not award Cluck Coin without full VIP", () => {
+    const date = new Date("2024-05-05T00:00:00");
+    const state = claimMinigamePrize({
+      state: {
+        ...TEST_FARM,
+        minigames: {
+          games: {
+            "chicken-rescue": {
+              highscore: 30,
+              history: {
+                [date.toISOString().substring(0, 10)]: {
+                  attempts: 1,
+                  highscore: 30,
+                },
+              },
+            },
+          },
+          prizes: {
+            "chicken-rescue": {
+              coins: 0,
+              startAt: date.getTime() - 100,
+              endAt: date.getTime() + 1000,
+              items: { Mark: 1 },
+              wearables: {},
+              score: 20,
+            },
+          },
+        },
+      },
+      action: {
+        id: "chicken-rescue",
+        type: "minigame.prizeClaimed",
+      },
+      createdAt: date.getTime(),
+    });
+
+    expect(state.inventory["Cluck Coin"]?.toNumber() ?? 0).toEqual(0);
+  });
+
   it("claims a coin prize", () => {
     const date = new Date("2024-05-05T00:00:00");
     const state = claimMinigamePrize({

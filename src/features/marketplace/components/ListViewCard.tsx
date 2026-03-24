@@ -70,6 +70,7 @@ export const ListViewCard: React.FC<Props> = ({
   const budsCount = useSelector(gameService, _budsCount(itemId));
   const petsCount = useSelector(gameService, _petsCount(itemId));
 
+  const isCluckCoin = name === "Cluck Coin";
   const isResources =
     isTradeResource(name as InventoryItemName) && type === "collectibles";
 
@@ -112,6 +113,13 @@ export const ListViewCard: React.FC<Props> = ({
             "h-[138px]": details.type === "pets",
           })}
         >
+          {isCluckCoin && (
+            <div className="absolute top-1 right-1 z-20">
+              <Label type="info" className="!text-xxs px-1 py-0">
+                {t("marketplace.new")}
+              </Label>
+            </div>
+          )}
           <ListViewImage
             name={name}
             image={image}
@@ -119,7 +127,7 @@ export const ListViewCard: React.FC<Props> = ({
               details.type === "pets" ? petNFTEggMarketplace : undefined
             }
             type={type}
-            isResources={isResources}
+            isResources={isResources || isCluckCoin}
           />
         </div>
 
