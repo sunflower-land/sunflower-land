@@ -8142,5 +8142,11 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% de tiempo de crecimiento de la parcela de zanahorias",
   "description.giantZucchini.boost": "-50% de tiempo de crecimiento de la parcela de calabacín",
   "description.broccoliHat.boost": "-50% de tiempo de crecimiento de la parcela de brócoli",
-  "withdraw.duplicate.waitMessage": "Si estás en una red pública o compartida, es posible que tengas que esperar, eso es normal. Es posible que las redes públicas o compartidas requieran una breve espera debido al uso excesivo. Las redes muy ocupadas pueden tardar hasta 2 semanas en función del uso. Esta protección se aplica automáticamente y no es una huelga ni una advertencia."
+  "withdraw.duplicate.waitMessage": "Si estás en una red pública o compartida, es posible que tengas que esperar, eso es normal. Es posible que las redes públicas o compartidas requieran una breve espera debido al uso excesivo. Las redes muy ocupadas pueden tardar hasta 2 semanas en función del uso. Esta protección se aplica automáticamente y no es una huelga ni una advertencia.",
+  "marketplace.new": "Nuevo",
+  "marketplace.cluckCoin.minigameName": "Minijuego Chicken Rescue",
+  "marketplace.cluckCoin.builtBy": "Construido por Adam",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin aún no tiene ninguna utilidad en el juego. Los precios dependen del jugador. El comercio es experimental y puede cambiar. Este token no se puede retirar de tu monedero.",
+  "description.cluck.coin": "Una moneda de minijuego que obtienen los VIP al completar el desafío diario Chicken Rescue. No se puede retirar.",
+  "cluck.coin": "Moneda Cluck"
 }

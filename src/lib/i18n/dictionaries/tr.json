@@ -8142,5 +8142,11 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% Havuç Arsa Büyüme süresi",
   "description.giantZucchini.boost": "-50% Kabak Arsa Büyüme Süresi",
   "description.broccoliHat.boost": "-50% Brokoli Arsa Büyüme Süresi",
-  "withdraw.duplicate.waitMessage": "Genel veya paylaşılan bir ağdaysanız beklemeniz gerekebilir - bu bekleniyor. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir. Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir."
+  "withdraw.duplicate.waitMessage": "Genel veya paylaşılan bir ağdaysanız beklemeniz gerekebilir - bu bekleniyor. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir. Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir.",
+  "marketplace.new": "Yeni",
+  "marketplace.cluckCoin.minigameName": "Tavuk Kurtarma mini oyunu",
+  "marketplace.cluckCoin.builtBy": "Adam tarafından inşa edildi",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin'in henüz oyun içi bir yardımcı programı yok. Fiyatlar oyuncu odaklıdır. Ticaret deneyseldir ve değişebilir. Bu jeton cüzdanınıza çekilemez.",
+  "description.cluck.coin": "Günlük Tavuk Kurtarma mücadelesini tamamladıkları için VIP'ler tarafından kazanılan bir mini oyun para birimi. Çekilemez.",
+  "cluck.coin": "CluckCoin"
 }

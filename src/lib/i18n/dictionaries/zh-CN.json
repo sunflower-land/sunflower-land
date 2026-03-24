@@ -8142,5 +8142,11 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% 胡萝卜地块生长时间",
   "description.giantZucchini.boost": "-50% 西葫芦地块生长时间",
   "description.broccoliHat.boost": "-50% 西兰花地块生长时间",
-  "withdraw.duplicate.waitMessage": "如果您使用的是公共网络或共享网络，则可能需要等待——这是意料之中的。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。该保障措施自动适用，不是罢工或警告。"
+  "withdraw.duplicate.waitMessage": "如果您使用的是公共网络或共享网络，则可能需要等待——这是意料之中的。由于过度使用，公共或共享网络可能需要短暂的等待。非常繁忙的网络可能需要长达 2 周的时间，具体视使用情况而定。该保障措施自动适用，不是罢工或警告。",
+  "marketplace.new": "全新",
+  "marketplace.cluckCoin.minigameName": "小鸡救援小游戏",
+  "marketplace.cluckCoin.builtBy": "由亚当建造",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin 还没有游戏内工具。价格由玩家决定。交易是实验性的，可能会发生变化。此代币无法提取到您的钱包中。",
+  "description.cluck.coin": "贵宾通过完成每日救鸡挑战获得的迷你游戏货币。不可提款。",
+  "cluck.coin": "CluckCoin"
 }
