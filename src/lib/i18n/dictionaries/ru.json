@@ -7764,11 +7764,6 @@
   "chum": "прикормка",
   "withdraw.duplicate.title": "Обнаружена общая сеть",
   "withdraw.duplicate.description": "Мы заметили вывод средств с другой фермы с этого же интернет-соединения. Чтобы сохранить честность игры и защитить экономику, разрешён только один вывод за раз.",
-  "withdraw.duplicate.howToWithdraw": "Как вывести средства?",
-  "withdraw.duplicate.tip1": "1. Используй мобильный интернет",
-  "withdraw.duplicate.tip2": "2. Используй альтернативный IP-адрес, который не используют другие в твоём доме.",
-  "withdraw.duplicate.tip3": "3. Избегай VPN",
-  "withdraw.duplicate.note": "Эта защита применяется автоматически и не является предупреждением или нарушением.",
   "processedResources": "Переработанные ресурсы",
   "instantProcessedResources.recipes": "Мгновенные рецепты",
   "instantProcessedResources.makeRecipe": "Приготовить рецепт",
@@ -8054,7 +8049,6 @@
   "marketplace.totalListings": "Всего объявлений",
   "marketplace.maxBulk": "Массовое размещение доступно до достижения лимита {{max}} объявлений на ресурс.",
   "chest.placeFirst": "Разместить",
-  "withdraw.duplicate.tip4": "4. В публичных или общих сетях из-за высокой нагрузки может потребоваться ожидание. В очень загруженных сетях - до 2 недель.",
   "description.victoriasApron.boost": "33% шанс, что следующий сброс будет бесплатным после полного кормления питомца.",
   "cropMachine.removePack": "Убрать из очереди",
   "retentionDashboard.marketplaceFlower": "Маркет FLOWER",
@@ -8147,5 +8141,6 @@
   "description.cabbage.girl.boost": "-50% времени роста капусты на грядках",
   "bumpkinItemBuff.carrot.amulet.boost": "-20% времени роста моркови на грядках",
   "description.giantZucchini.boost": "-50% времени роста цукини на грядках",
-  "description.broccoliHat.boost": "-50% времени роста брокколи на грядках"
+  "description.broccoliHat.boost": "-50% времени роста брокколи на грядках",
+  "withdraw.duplicate.waitMessage": "If you're on a public or shared network, you may need to wait—that's expected. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage. This safeguard applies automatically and isn't a strike or warning."
 }

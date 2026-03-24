@@ -7748,11 +7748,6 @@
   "chum": "amigo",
   "withdraw.duplicate.title": "Rede compartilhada detectada",
   "withdraw.duplicate.description": "Percebemos outra retirada acontecendo na mesma conexão com a Internet. Para manter o jogo justo e proteger a economia, permitimos apenas uma retirada por vez.",
-  "withdraw.duplicate.howToWithdraw": "Como se retirar?",
-  "withdraw.duplicate.tip1": "1. Use um ponto de acesso móvel",
-  "withdraw.duplicate.tip2": "2. Use um endereço IP alternativo que outras pessoas em sua casa não estejam usando.",
-  "withdraw.duplicate.tip3": "3. Evite VPNs",
-  "withdraw.duplicate.note": "Essa proteção se aplica automaticamente e não é um aviso ou aviso.",
   "processedResources": "Recursos processados",
   "instantProcessedResources.recipes": "Receitas instantâneas",
   "instantProcessedResources.makeRecipe": "Faça a receita",
@@ -8051,7 +8046,6 @@
   "marketplace.maxBulk": "Você pode usar o recurso em massa até atingir o máximo de {{max}} anúncios por recurso por vez",
   "pete.levelthree.three": "Veja suas entregas no canto superior esquerdo da tela. Depois de reunir os recursos, você pode viajar e entregar os itens aos Bumpkins.",
   "chest.placeFirst": "Lugar",
-  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso.",
   "bumpkinItemBuff.deep.sea.helm": "+100% de chance de encontrar peças do mapa da Marvel",
   "description.victoriasApron.boost": "33% de chance da próxima reinicialização ser gratuita após alimentar totalmente o animal de estimação.",
   "petGuide.feed.description3": "O reroll de gemas embaralha o menu. Custa 50 gemas e aumenta em 2x a cada vez, sendo reinicializado diariamente às 00:00 UTC.",
@@ -8147,5 +8141,6 @@
   "description.cabbage.girl.boost": "-50% de tempo de crescimento da parcela de repolho",
   "bumpkinItemBuff.carrot.amulet.boost": "-20% de tempo de crescimento do lote de cenoura",
   "description.giantZucchini.boost": "-50% Tempo de crescimento da parcela de abobrinha",
-  "description.broccoliHat.boost": "-50% de tempo de crescimento da parcela de brócolis"
+  "description.broccoliHat.boost": "-50% de tempo de crescimento da parcela de brócolis",
+  "withdraw.duplicate.waitMessage": "Se você estiver em uma rede pública ou compartilhada, talvez precise esperar — isso é esperado. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso. Essa proteção se aplica automaticamente e não é um aviso ou aviso."
 }

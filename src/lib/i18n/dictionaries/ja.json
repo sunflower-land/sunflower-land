@@ -7748,11 +7748,6 @@
   "chum": "仲間",
   "withdraw.duplicate.title": "共有ネットワークが検出されました",
   "withdraw.duplicate.description": "同じインターネット接続から別の出金が発生していることに気付きました。ゲームの公平性を保ち、経済を守るため、一度に出金できるのは1回のみです。",
-  "withdraw.duplicate.howToWithdraw": "出金方法は？",
-  "withdraw.duplicate.tip1": "1。モバイルホットスポットを使う",
-  "withdraw.duplicate.tip2": "2。家族の他の人が使用していない代替IPアドレスを使用してください。",
-  "withdraw.duplicate.tip3": "3。VPN は避けてください",
-  "withdraw.duplicate.note": "この保護措置は自動的に適用され、ストライキや警告ではありません。",
   "processedResources": "処理済みリソース",
   "instantProcessedResources.recipes": "インスタントレシピ",
   "instantProcessedResources.makeRecipe": "レシピを作る",
@@ -8051,7 +8046,6 @@
   "marketplace.maxBulk": "一括機能は、一度のリソースあたりのリスティングの最大数 {{max}} に達するまで使用できます",
   "pete.levelthree.three": "画面の左上に配送状況が表示されます。資源を集めたら、移動してアイテムをバンプキンズに届けることができます。",
   "chest.placeFirst": "場所",
-  "withdraw.duplicate.tip4": "4。パブリックネットワークまたは共有ネットワークは、使いすぎにより少し待つ必要がある場合があります。非常に負荷の高いネットワークは、使用状況によっては最長で 2 週間かかる場合があります。",
   "bumpkinItemBuff.deep.sea.helm": "+100% 確率でマーベル・マップ・ピースが見つかる",
   "description.victoriasApron.boost": "ペットに完全に餌を与えると、33% の確率で次のリセットが無料になります。",
   "petGuide.feed.description3": "ジェムリロールはメニューをシャッフルします。消費するジェムは50個で、そのたびに2倍ずつ上昇し、毎日 00:00 UTC にリセットされます。",
@@ -8147,5 +8141,6 @@
   "description.cabbage.girl.boost": "-50% キャベツプロットの成長時間",
   "bumpkinItemBuff.carrot.amulet.boost": "-20% キャロットプロットの成長時間",
   "description.giantZucchini.boost": "-50% ズッキーニプロットの成長時間",
-  "description.broccoliHat.boost": "-50% ブロッコリープロットの成長時間"
+  "description.broccoliHat.boost": "-50% ブロッコリープロットの成長時間",
+  "withdraw.duplicate.waitMessage": "パブリックネットワークまたは共有ネットワークを使用している場合は、しばらく待つ必要があるかもしれません。これは当然のことです。パブリックネットワークや共有ネットワークでは、使用頻度が高くなるため、少し待つ必要がある場合があります。非常に負荷の高いネットワークは、使用状況によっては最長で 2 週間かかる場合があります。この保護措置は自動的に適用され、ストライキや警告ではありません。"
 }
