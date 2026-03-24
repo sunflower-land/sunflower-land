@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import type { GameState, InventoryItemName } from "./game";
-import { isWearableActive } from "../lib/wearables";
 
 export type SaltNode = {
   createdAt: number;
@@ -127,8 +126,7 @@ export function getPendingSaltNodeIdsForUpgrade(saltFarm: SaltFarm): string[] {
   return Array.from({ length: pending }, (_, i) => String(currentCount + i));
 }
 
-// export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
-export const SALT_CHARGE_GENERATION_TIME = 1000 * 60; // 2 minutes per charge (testing purposes)
+export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per charge
 
 /**
  * Returns the charge interval in ms for a single regen tick.
@@ -137,21 +135,17 @@ export const SALT_CHARGE_GENERATION_TIME = 1000 * 60; // 2 minutes per charge (t
  * across bumpkin + all farmHands).
  */
 export function getSaltChargeGenerationTime({
-  gameState,
+  // To be used for future boosts
+  gameState: _gameState,
 }: {
   gameState: GameState;
 }): number {
-  let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
-
-  if (isWearableActive({ game: gameState, name: "2026 Tiara" })) {
-    chargeGenerationTimeMs *= 0.75;
-  }
+  const chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
 
   return chargeGenerationTimeMs;
 }
 
-// export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
-export const SALT_HARVEST_DURATION = 1000 * 30; // 1 minute (harvest action only) (testing purposes)
+export const SALT_HARVEST_DURATION = 1000 * 60 * 60; // 60 minutes (harvest action only)
 export const BASE_SALT_YIELD = 5; // 5 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
