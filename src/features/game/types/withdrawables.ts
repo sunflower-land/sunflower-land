@@ -1,6 +1,7 @@
 import { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
+import { getPetNFTRevealConfig } from "./petRevealConfig";
 
 type Releases = {
   tradeAt: Date;
@@ -1519,6 +1520,9 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
+  CluckCoin: {
+    tradeAt: new Date("2025-01-01T00:00:00.000Z"),
+  },
   "Fish Kite": {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
@@ -1638,3 +1642,18 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     // Cannot withdraw the tutorial item
   },
 };
+
+export function getPetReleases(petId: number): {
+  tradeAt?: Date;
+  withdrawAt?: Date;
+} {
+  const config = getPetNFTRevealConfig().find(
+    (c) => petId >= c.startId && petId <= c.endId,
+  );
+  if (!config) return {};
+
+  return {
+    tradeAt: config.tradeAt,
+    withdrawAt: config.withdrawAt,
+  };
+}

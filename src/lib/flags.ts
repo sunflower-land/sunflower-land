@@ -87,6 +87,8 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
+
+  CHAACS_TEMPLE_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {

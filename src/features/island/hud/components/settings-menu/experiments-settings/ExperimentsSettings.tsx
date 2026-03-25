@@ -1,15 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { ContentComponentProps } from "../GameOptions";
+import { Context as GameContext } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const PORTAL_AI_FORM_URL =
   "https://docs.google.com/forms/d/19kA1K2py4gowO3xOiueMdNYjkNbr7itWpeYkPOScsDY";
 
-export const ExperimentsSettings: React.FC<ContentComponentProps> = () => {
+const AI_BUILDER_FARM_IDS = [
+  1, 3, 39488, 4237476849907764, 147717, 128727, 1411, 62559, 7693815612267337,
+  2102169881534930,
+];
+
+const _farmId = (state: MachineState) => state.context.farmId;
+
+export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
+  onClose,
+}) => {
+  const { gameService, setFromRoute } = useContext(GameContext);
+  const farmId = useSelector(gameService, _farmId);
+  const navigate = useNavigate();
+
   const [showPortalAIOverlay, setShowPortalAIOverlay] = useState(false);
+
+  const hasAIBuilderAccess = AI_BUILDER_FARM_IDS.includes(farmId ?? 0);
+
+  const handleOpenAIBuilder = () => {
+    setShowPortalAIOverlay(false);
+    onClose();
+    setFromRoute(window.location.hash.replace("#", "") || "/");
+    navigate("/ai-builder");
+  };
 
   return (
     <>
@@ -43,6 +69,12 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = () => {
           >
             {"Open Google Form"}
           </Button>
+
+          {hasAIBuilderAccess && (
+            <Button className="mt-1" onClick={handleOpenAIBuilder}>
+              {"Open AI Builder"}
+            </Button>
+          )}
         </InnerPanel>
       </ModalOverlay>
 

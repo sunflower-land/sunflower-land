@@ -2,17 +2,17 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+
 import factions from "assets/icons/factions.webp";
+
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { PortalLeaderboard } from "./PortalLeaderboard";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
 
 interface Props {
@@ -20,21 +20,20 @@ interface Props {
 }
 
 const _minigames = (state: MachineState) => state.context.state.minigames;
-const _game = (state: MachineState) => state.context.state;
 
-export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
+export const ChaacsTemple: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const minigames = useSelector(gameService, _minigames);
-  const game = useSelector(gameService, _game);
-  const minigame = minigames.games["chicken-rescue"];
-  const prize = minigames.prizes["chicken-rescue"];
 
-  const chickenRescueVipCluckCoin = hasVipAccess({ game, type: "full" });
+  const minigames = useSelector(gameService, _minigames);
+  const minigame = minigames.games["chaacs-temple"];
+  const prize = minigames.prizes["chaacs-temple"];
+
+  // First digit of prize is amount how often the threshold has to be reached,
+  // last 2 digits are the default score threshold of that difficulty
+  const startThreshold = prize?.score ? prize.score % 100 : 6;
+  const targetScore = prize?.score ? Math.floor(prize.score / 100) : 3;
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const [page, setPage] = useState<"play" | "leaderboard">("play");
 
   const { t } = useAppTranslation();
 
@@ -50,53 +49,35 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName="chicken-rescue" onClose={onClose} />
+        <Portal portalName="chaacs-temple" onClose={onClose} />
       </div>
     );
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "chicken-rescue" });
+    gameService.send("minigame.prizeClaimed", { id: "chaacs-temple" });
 
     onClose();
   };
 
   const isComplete = isMinigameComplete({
     minigames,
-    name: "chicken-rescue",
+    name: "chaacs-temple",
   });
 
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
-    const claimItems = {
-      ...prize.items,
-      ...(chickenRescueVipCluckCoin ? { CluckCoin: 1 } : {}),
-    };
-
     return (
       <ClaimReward
         onClaim={onClaim}
-        vipGiftItem={chickenRescueVipCluckCoin ? "CluckCoin" : undefined}
         reward={{
-          message:
-            "Congratulations, you rescued the chickens! Here is your reward.",
+          message: t("chaacsTemple.portal.rewardMessage"),
           factionPoints: 0,
-          id: "discord-bonus",
-          items: claimItems,
+          id: "chaacsTemple-rewards",
+          items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
           coins: prize.coins,
         }}
-      />
-    );
-  }
-
-  if (page === "leaderboard") {
-    return (
-      <PortalLeaderboard
-        farmId={gameService.getSnapshot().context.farmId}
-        jwt={authService.getSnapshot().context.user.rawToken as string}
-        onBack={() => setPage("play")}
-        name={"chicken-rescue"}
       />
     );
   }
@@ -106,24 +87,21 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {t("minigame.chickenRescue")}
+            {t("chaacsTemple.portal.title")}
           </Label>
-          <InlineDialogue message={t("minigame.chickenRescueHelp")} />
+          <InlineDialogue message={t("chaacsTemple.portal.description")} />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={`Mission: Rescue ${prize?.score} chickens`}
-          extraItems={chickenRescueVipCluckCoin ? { CluckCoin: 1 } : undefined}
+          mission={t("chaacsTemple.portal.missionObjective", {
+            targetScore: targetScore,
+            start: startThreshold,
+          })}
         />
       </div>
-      <div className="flex">
-        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
-          {t("competition.leaderboard")}
-        </Button>
-        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
-      </div>
+      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>
   );
 };
