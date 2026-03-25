@@ -31,8 +31,8 @@ export const SLIDING_SPEED = 300;
 export const DEPTH = 1000;
 
 // Attempts
-export const INITIAL_DATE = "2025-10-28"; // YYYY-MM-DD
-export const INITIAL_DATE_LEADERBOARD = "2025-10-29"; // YYYY-MM-DD
+export const INITIAL_DATE = "2026-04-1"; // YYYY-MM-DD
+export const INITIAL_DATE_LEADERBOARD = "2025-04-02"; // YYYY-MM-DD
 export const ATTEMPTS_BETA_TESTERS = 100;
 export const UNLIMITED_ATTEMPTS_SFL = 150; // If this value is less than 0, the option disappears
 export const FREE_DAILY_ATTEMPTS = 1;
@@ -44,11 +44,11 @@ export const RESTOCK_ATTEMPTS = [
 ];
 
 // Beta testers
-// export const BETA_TESTERS: number[] = [
-//   29, 9609, 49035, 155026, 1181, 151471, 49035, 86, 79871, 2299, 21303, 206876,
-//   9239, 36214, 55626, 3249, 128122,
-// ];
-export const BETA_TESTERS: number[] = [];
+export const BETA_TESTERS: number[] = [
+  29, 9609, 49035, 155026, 1181, 151471, 49035, 86, 79871, 2299, 21303, 206876,
+  9239, 36214, 55626, 3249, 128122,
+];
+// export const BETA_TESTERS: number[] = [];
 
 export const CANNON_CONFIG: (Position & { side: Side })[] = [
   { x: 160, y: 319, side: "left" },
