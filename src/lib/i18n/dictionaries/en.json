@@ -3990,6 +3990,7 @@
   "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
   "withdraw.requires.storeOnChain": "Store on Chain Required",
   "withdraw.pet.notRevealed": "Pet will be revealed on {{date}}",
+  "withdraw.pet.withdrawableFrom": "Withdrawable from {{date}}",
   "world.lvl.requirement": "Lvl {{lvl}}",
   "world.factionMembersOnly": "Faction members only",
   "world.newArea": "New",

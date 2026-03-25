@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Görev: Artan puan eşiğine {{targetScore}} kez ulaşın. Eşik {{start}} 'den başlar.",
   "chaacsTemple.portal.rewardMessage": "Tebrikler, olasılıklara meydan okudun ve Chaac'ın meydan okumasını çözdün. İşte ödülünüz.",
   "portal.chaacsTemple.title": "Chaac Tapınağı",
-  "portal.chaacsTemple.description": "Tapınağa girin, olasılıklara meydan okuyun ve Chaac'ın hafıza zorluğunu çözün."
+  "portal.chaacsTemple.description": "Tapınağa girin, olasılıklara meydan okuyun ve Chaac'ın hafıza zorluğunu çözün.",
+  "withdraw.pet.withdrawableFrom": "{{date}} 'den çekilebilir"
 }

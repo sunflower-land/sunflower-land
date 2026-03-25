@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Misión: Alcanzar el umbral de puntuación creciente {{targetScore}} veces. El umbral comienza en {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Enhorabuena, has desafiado las probabilidades y has resuelto el desafío de Chaac. Aquí tienes tu recompensa.",
   "portal.chaacsTemple.title": "Templo de Chaac",
-  "portal.chaacsTemple.description": "Entra en el templo, desafía las probabilidades y resuelve el desafío de memoria de Chaac."
+  "portal.chaacsTemple.description": "Entra en el templo, desafía las probabilidades y resuelve el desafío de memoria de Chaac.",
+  "withdraw.pet.withdrawableFrom": "Se puede retirar desde {{date}}"
 }

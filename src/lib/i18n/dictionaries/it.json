@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Missione: raggiungere la soglia di punteggio crescente {{targetScore}} volte. La soglia parte da {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Congratulazioni, hai sfidato ogni previsione e risolto la sfida di Chaac. Ecco la tua ricompensa.",
   "portal.chaacsTemple.title": "Il tempio di Chaac",
-  "portal.chaacsTemple.description": "Entra nel tempio, sfida le probabilità e risolvi la sfida della memoria di Chaac."
+  "portal.chaacsTemple.description": "Entra nel tempio, sfida le probabilità e risolvi la sfida della memoria di Chaac.",
+  "withdraw.pet.withdrawableFrom": "Prelievabile da {{date}}"
 }

@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Missão: Alcance o limite de pontuação crescente {{targetScore}} vezes. O limite começa em {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Parabéns, você desafiou as probabilidades e resolveu o desafio de Chaac. Aqui está sua recompensa.",
   "portal.chaacsTemple.title": "Templo de Chaac",
-  "portal.chaacsTemple.description": "Entre no templo, desafie as adversidades e resolva o desafio de memória de Chaac."
+  "portal.chaacsTemple.description": "Entre no templo, desafie as adversidades e resolva o desafio de memória de Chaac.",
+  "withdraw.pet.withdrawableFrom": "Pode ser retirado de {{date}}"
 }

@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Misi: Mencapai ambang skor yang meningkat {{targetScore}} kali. Ambang batas dimulai pada {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Selamat, Anda telah menentang rintangan dan memecahkan tantangan Chaac. Inilah hadiahmu.",
   "portal.chaacsTemple.title": "Kuil Chaac",
-  "portal.chaacsTemple.description": "Masuki kuil, menentang rintangan dan selesaikan tantangan memori Chaac."
+  "portal.chaacsTemple.description": "Masuki kuil, menentang rintangan dan selesaikan tantangan memori Chaac.",
+  "withdraw.pet.withdrawableFrom": "Dapat ditarik dari {{date}}"
 }

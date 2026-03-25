@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "任务：达到不断增加的分数阈值 {{targetScore}} 次。阈值从 {{start}} 开始。",
   "chaacsTemple.portal.rewardMessage": "恭喜你，你克服了困难，解决了 Chaac 的挑战。这是你的奖励。",
   "portal.chaacsTemple.title": "查克的神殿",
-  "portal.chaacsTemple.description": "进入神殿，克服困难并解决Chaac的记忆挑战。"
+  "portal.chaacsTemple.description": "进入神殿，克服困难并解决Chaac的记忆挑战。",
+  "withdraw.pet.withdrawableFrom": "可从 {{date}} 提款"
 }

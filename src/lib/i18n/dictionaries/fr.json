@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Mission : Atteindre le seuil de score croissant {{targetScore}} fois. Le seuil commence à {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Félicitations, vous avez défié toutes les chances et relevé le défi de Chaac. Voici ta récompense.",
   "portal.chaacsTemple.title": "Le temple de Chaac",
-  "portal.chaacsTemple.description": "Entrez dans le temple, défiez toutes les chances et résolvez le défi de mémoire de Chaac."
+  "portal.chaacsTemple.description": "Entrez dans le temple, défiez toutes les chances et résolvez le défi de mémoire de Chaac.",
+  "withdraw.pet.withdrawableFrom": "Retrait possible à partir de {{date}}"
 }

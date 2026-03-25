@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Auftrag: Erreiche die steigende Punkteschwelle {{targetScore}} mal. Der Schwellenwert beginnt bei {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Herzlichen Glückwunsch, du hast allen Widrigkeiten getrotzt und Chaacs Herausforderung gelöst. Hier ist deine Belohnung.",
   "portal.chaacsTemple.title": "Chaacs Tempel",
-  "portal.chaacsTemple.description": "Betritt den Tempel, trotze allen Widrigkeiten und löse Chaacs Gedächtnisherausforderung."
+  "portal.chaacsTemple.description": "Betritt den Tempel, trotze allen Widrigkeiten und löse Chaacs Gedächtnisherausforderung.",
+  "withdraw.pet.withdrawableFrom": "Auszahlbar ab {{date}}"
 }

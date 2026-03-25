@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "Mission: Reach the increasing score threshold {{targetScore}} times. The threshold starts at {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Congratulations, you have defied the odds and solved Chaac's challenge. Here is your reward.",
   "portal.chaacsTemple.title": "Chaac's Temple",
-  "portal.chaacsTemple.description": "Enter the temple, defy the odds and solve Chaac's memory challenge."
+  "portal.chaacsTemple.description": "Enter the temple, defy the odds and solve Chaac's memory challenge.",
+  "withdraw.pet.withdrawableFrom": "Withdrawable from {{date}}"
 }

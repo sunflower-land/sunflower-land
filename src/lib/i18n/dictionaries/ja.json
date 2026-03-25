@@ -8154,5 +8154,6 @@
   "chaacsTemple.portal.missionObjective": "ミッション:スコアの上昇条件を {{targetScore}} 回達成する。しきい値は {{start}} から始まります。",
   "chaacsTemple.portal.rewardMessage": "おめでとうございます。あなたは困難を乗り越え、Chaacの課題を解決しました。こちらが報酬です。",
   "portal.chaacsTemple.title": "チャアクの神殿",
-  "portal.chaacsTemple.description": "神殿に入り、困難に打ち勝ち、チャックの記憶力を試してください。"
+  "portal.chaacsTemple.description": "神殿に入り、困難に打ち勝ち、チャックの記憶力を試してください。",
+  "withdraw.pet.withdrawableFrom": "{{date}} から出金可能"
 }
