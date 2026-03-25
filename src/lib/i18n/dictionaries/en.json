@@ -511,7 +511,7 @@
   "description.hourglass.expired": "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
   "description.chicory.boost": "10% Chance for +1 Flower",
-  "description.anemoneFlower.boost": "1 Free Fishing Retry",
+  "description.anemoneFlower.boost": "+1 Fishing minigame attempt",
   "description.sleepyChicken.boost": "Chickens cannot get sick during autumn",
   "description.astronautSheep.boost": "+0.1 Wool",
   "description.mermaidSheep.boost": "-5% Sheep Feed",

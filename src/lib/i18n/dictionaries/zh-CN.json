@@ -7872,7 +7872,6 @@
   "tracks.completeTasksToEarnPoints": "完成 {{chapter}} 任务赚取通行证点数。",
   "fishingPuzzle.freeAttemptAvailable": "你有 1 次免费尝试机会。是否使用？",
   "description.squidChicken.boost": "+0.1 鸡蛋",
-  "description.anemoneFlower.boost": "1 次免费钓鱼重试",
   "description.mermaidSheep.boost": "-5% 绵羊饲料",
   "guaranteedCatch.guide.info": "使用下列鱼饵之一，你就能从该类别中指定一种鱼作为必得渔获。",
   "guaranteedCatch.guide.title": "必得钓鱼指南",
@@ -8148,5 +8147,6 @@
   "marketplace.cluckCoin.builtBy": "由亚当建造",
   "marketplace.cluckCoin.disclaimer": "CluckCoin 还没有游戏内工具。价格由玩家决定。交易是实验性的，可能会发生变化。此代币无法提取到您的钱包中。",
   "description.cluck.coin": "贵宾通过完成每日救鸡挑战获得的迷你游戏货币。不可提款。",
-  "cluck.coin": "CluckCoin"
+  "cluck.coin": "CluckCoin",
+  "description.anemoneFlower.boost": "+1 尝试钓鱼小游戏"
 }

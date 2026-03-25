@@ -7872,7 +7872,6 @@
   "tracks.completeTasksToEarnPoints": "Completa las tareas de {{chapter}} para ganar puntos.",
   "fishingPuzzle.freeAttemptAvailable": "Tienes 1 intento gratuito disponible. ¿Te gustaría usarlo?",
   "description.squidChicken.boost": "+0.1 Huevo",
-  "description.anemoneFlower.boost": "1 reintento de pesca gratis",
   "description.mermaidSheep.boost": "-5% pienso para ovejas",
   "guaranteedCatch.guide.info": "Si compra con uno de los siguientes cebos, puede seleccionar uno para los peces de la categoría como captura garantizada.",
   "guaranteedCatch.guide.title": "Guía de pesca garantizada",
@@ -8148,5 +8147,6 @@
   "marketplace.cluckCoin.builtBy": "Construido por Adam",
   "marketplace.cluckCoin.disclaimer": "CluckCoin aún no tiene ninguna utilidad en el juego. Los precios dependen del jugador. El comercio es experimental y puede cambiar. Este token no se puede retirar de tu monedero.",
   "description.cluck.coin": "Una moneda de minijuego que obtienen los VIP al completar el desafío diario Chicken Rescue. No se puede retirar.",
-  "cluck.coin": "Moneda Cluck"
+  "cluck.coin": "Moneda Cluck",
+  "description.anemoneFlower.boost": "+1 intento de minijuego de pesca"
 }

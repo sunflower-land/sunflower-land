@@ -7872,7 +7872,6 @@
   "tracks.completeTasksToEarnPoints": "{{chapter}} タスクを完了してポイントを獲得してください。",
   "fishingPuzzle.freeAttemptAvailable": "無料で試用できるのは 1 回です。使ってみませんか？",
   "description.squidChicken.boost": "+0.1 エッグ",
-  "description.anemoneFlower.boost": "1 回の無料フィッシングリトライ",
   "description.mermaidSheep.boost": "-5% 羊飼料",
   "guaranteedCatch.guide.info": "以下のいずれかの餌をご購入いただくと、そのカテゴリーの魚に合う餌を1つ選択して、確実に釣れるようになります。",
   "guaranteedCatch.guide.title": "保証付き釣りガイド",
@@ -8148,5 +8147,6 @@
   "marketplace.cluckCoin.builtBy": "アダムによって建てられました",
   "marketplace.cluckCoin.disclaimer": "CluckCoinにはまだゲーム内ユーティリティがありません。価格はプレイヤー主導です。取引は実験段階であり、変更される可能性があります。このトークンはウォレットに引き出すことはできません。",
   "description.cluck.coin": "毎日のチキンレスキューチャレンジをクリアすることでVIPが獲得できるミニゲーム通貨です。出金はできません。",
-  "cluck.coin": "CluckCoin"
+  "cluck.coin": "CluckCoin",
+  "description.anemoneFlower.boost": "+1 釣りミニゲーム試行"
 }
