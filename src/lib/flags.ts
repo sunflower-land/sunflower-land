@@ -89,7 +89,7 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   CHAACS_TEMPLE_BETA: defaultFeatureFlag,
-  SALT_FARM: testnetFeatureFlag,
+  SALT_FARM: usernameFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {
