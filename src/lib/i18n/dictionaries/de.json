@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin hat noch kein Tool im Spiel. Die Preise richten sich nach den Spielern. Der Handel ist experimentell und kann sich ändern. Dieses Token kann nicht auf Ihre Brieftasche abgehoben werden.",
   "description.cluck.coin": "Eine Minispielwährung, die VIPs für den Abschluss der täglichen Chicken Rescue-Herausforderung verdienen. Nicht auszahlbar.",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 Versuch eines Angel-Minispiels"
+  "description.anemoneFlower.boost": "+1 Versuch eines Angel-Minispiels",
+  "chaacsTemple.portal.title": "Minispiel - Chaacs Tempel",
+  "chaacsTemple.portal.description": "Traust du dich, Chaacs Tempel zu betreten?",
+  "chaacsTemple.portal.missionObjective": "Auftrag: Erreiche die steigende Punkteschwelle {{targetScore}} mal. Der Schwellenwert beginnt bei {{start}}.",
+  "chaacsTemple.portal.rewardMessage": "Herzlichen Glückwunsch, du hast allen Widrigkeiten getrotzt und Chaacs Herausforderung gelöst. Hier ist deine Belohnung.",
+  "portal.chaacsTemple.title": "Chaacs Tempel",
+  "portal.chaacsTemple.description": "Betritt den Tempel, trotze allen Widrigkeiten und löse Chaacs Gedächtnisherausforderung."
 }

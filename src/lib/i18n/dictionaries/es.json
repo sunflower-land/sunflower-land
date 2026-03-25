@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin aún no tiene ninguna utilidad en el juego. Los precios dependen del jugador. El comercio es experimental y puede cambiar. Este token no se puede retirar de tu monedero.",
   "description.cluck.coin": "Una moneda de minijuego que obtienen los VIP al completar el desafío diario Chicken Rescue. No se puede retirar.",
   "cluck.coin": "Moneda Cluck",
-  "description.anemoneFlower.boost": "+1 intento de minijuego de pesca"
+  "description.anemoneFlower.boost": "+1 intento de minijuego de pesca",
+  "chaacsTemple.portal.title": "Minijuego - El templo de Chaac",
+  "chaacsTemple.portal.description": "¿Te atreves a entrar en el templo de Chaac?",
+  "chaacsTemple.portal.missionObjective": "Misión: Alcanzar el umbral de puntuación creciente {{targetScore}} veces. El umbral comienza en {{start}}.",
+  "chaacsTemple.portal.rewardMessage": "Enhorabuena, has desafiado las probabilidades y has resuelto el desafío de Chaac. Aquí tienes tu recompensa.",
+  "portal.chaacsTemple.title": "Templo de Chaac",
+  "portal.chaacsTemple.description": "Entra en el templo, desafía las probabilidades y resuelve el desafío de memoria de Chaac."
 }

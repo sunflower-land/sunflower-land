@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin n'a pas encore d'utilitaire en jeu. Les prix sont déterminés par les joueurs. Le trading est expérimental et peut changer. Ce jeton ne peut pas être retiré dans votre portefeuille.",
   "description.cluck.coin": "Une monnaie de mini-jeu gagnée par les VIP en terminant le défi quotidien Chicken Rescue. Non retirable.",
   "cluck.coin": "ClickCoin",
-  "description.anemoneFlower.boost": "+1 tentative de mini-jeu de pêche"
+  "description.anemoneFlower.boost": "+1 tentative de mini-jeu de pêche",
+  "chaacsTemple.portal.title": "Mini-jeu - Le temple de Chaac",
+  "chaacsTemple.portal.description": "Oserez-vous entrer dans le temple de Chaac ?",
+  "chaacsTemple.portal.missionObjective": "Mission : Atteindre le seuil de score croissant {{targetScore}} fois. Le seuil commence à {{start}}.",
+  "chaacsTemple.portal.rewardMessage": "Félicitations, vous avez défié toutes les chances et relevé le défi de Chaac. Voici ta récompense.",
+  "portal.chaacsTemple.title": "Le temple de Chaac",
+  "portal.chaacsTemple.description": "Entrez dans le temple, défiez toutes les chances et résolvez le défi de mémoire de Chaac."
 }

@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin 暂无游戏内实际用途。其价格完全由玩家市场驱动。当前交易功能处于实验阶段，规则可能随时变动。此代币无法提现至您的钱包。",
   "description.cluck.coin": "VIP 玩家完成每日「贪救鸡」挑战所获得的小游戏货币。不可提现。",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 次钓鱼小游戏尝试机会"
+  "description.anemoneFlower.boost": "+1 次钓鱼小游戏尝试机会",
+  "chaacsTemple.portal.title": "小游戏-查克的神殿",
+  "chaacsTemple.portal.description": "你敢进入查克神殿吗？",
+  "chaacsTemple.portal.missionObjective": "任务：达到不断增加的分数阈值 {{targetScore}} 次。阈值从 {{start}} 开始。",
+  "chaacsTemple.portal.rewardMessage": "恭喜你，你克服了困难，解决了 Chaac 的挑战。这是你的奖励。",
+  "portal.chaacsTemple.title": "查克的神殿",
+  "portal.chaacsTemple.description": "进入神殿，克服困难并解决Chaac的记忆挑战。"
 }

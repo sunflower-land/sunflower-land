@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin'in henüz oyun içi bir yardımcı programı yok. Fiyatlar oyuncu odaklıdır. Ticaret deneyseldir ve değişebilir. Bu jeton cüzdanınıza çekilemez.",
   "description.cluck.coin": "Günlük Tavuk Kurtarma mücadelesini tamamladıkları için VIP'ler tarafından kazanılan bir mini oyun para birimi. Çekilemez.",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 Balıkçılık mini oyunu denemesi"
+  "description.anemoneFlower.boost": "+1 Balıkçılık mini oyunu denemesi",
+  "chaacsTemple.portal.title": "Mini oyun - Chaac Tapınağı",
+  "chaacsTemple.portal.description": "Chaac Tapınağı'na girmeye cesaretin var mı?",
+  "chaacsTemple.portal.missionObjective": "Görev: Artan puan eşiğine {{targetScore}} kez ulaşın. Eşik {{start}} 'den başlar.",
+  "chaacsTemple.portal.rewardMessage": "Tebrikler, olasılıklara meydan okudun ve Chaac'ın meydan okumasını çözdün. İşte ödülünüz.",
+  "portal.chaacsTemple.title": "Chaac Tapınağı",
+  "portal.chaacsTemple.description": "Tapınağa girin, olasılıklara meydan okuyun ve Chaac'ın hafıza zorluğunu çözün."
 }

@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoin belum memiliki utilitas dalam game. Harga didorong oleh pemain. Perdagangan bersifat eksperimental dan dapat berubah. Token ini tidak dapat ditarik ke dompet Anda.",
   "description.cluck.coin": "Mata uang minigame yang diperoleh VIP untuk menyelesaikan tantangan Penyelamatan Ayam harian. Tidak dapat ditarik.",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 Upaya minigame memancing"
+  "description.anemoneFlower.boost": "+1 Upaya minigame memancing",
+  "chaacsTemple.portal.title": "Minigame - Kuil Chaac",
+  "chaacsTemple.portal.description": "Apakah Anda berani memasuki Kuil Chaac?",
+  "chaacsTemple.portal.missionObjective": "Misi: Mencapai ambang skor yang meningkat {{targetScore}} kali. Ambang batas dimulai pada {{start}}.",
+  "chaacsTemple.portal.rewardMessage": "Selamat, Anda telah menentang rintangan dan memecahkan tantangan Chaac. Inilah hadiahmu.",
+  "portal.chaacsTemple.title": "Kuil Chaac",
+  "portal.chaacsTemple.description": "Masuki kuil, menentang rintangan dan selesaikan tantangan memori Chaac."
 }

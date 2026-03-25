@@ -8148,5 +8148,11 @@
   "marketplace.cluckCoin.disclaimer": "CluckCoinにはまだゲーム内ユーティリティがありません。価格はプレイヤー主導です。取引は実験段階であり、変更される可能性があります。このトークンはウォレットに引き出すことはできません。",
   "description.cluck.coin": "毎日のチキンレスキューチャレンジをクリアすることでVIPが獲得できるミニゲーム通貨です。出金はできません。",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 釣りミニゲーム試行"
+  "description.anemoneFlower.boost": "+1 釣りミニゲーム試行",
+  "chaacsTemple.portal.title": "ミニゲーム-チャアックテンプル",
+  "chaacsTemple.portal.description": "チャアクの神殿に入る勇気はありますか？",
+  "chaacsTemple.portal.missionObjective": "ミッション:スコアの上昇条件を {{targetScore}} 回達成する。しきい値は {{start}} から始まります。",
+  "chaacsTemple.portal.rewardMessage": "おめでとうございます。あなたは困難を乗り越え、Chaacの課題を解決しました。こちらが報酬です。",
+  "portal.chaacsTemple.title": "チャアクの神殿",
+  "portal.chaacsTemple.description": "神殿に入り、困難に打ち勝ち、チャックの記憶力を試してください。"
 }
