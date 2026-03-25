@@ -130,8 +130,6 @@ export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per ch
 /**
  * Returns the charge interval in ms for a single regen tick.
  * Starts from `SALT_CHARGE_GENERATION_TIME` and applies multiplicative
- * boosts: 0.75x when "2026 Tiara" is active (checked via {@link isWearableActive}
- * across bumpkin + all farmHands).
  */
 export function getSaltChargeGenerationTime({
   // To be used for future boosts

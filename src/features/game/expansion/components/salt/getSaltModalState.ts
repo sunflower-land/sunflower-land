@@ -41,9 +41,6 @@ export function partitionSaltHarvestSlotsForQueueUi(
   now: number,
   isVip: boolean,
 ): {
-  sortedSlots: SaltHarvestSlotUi[];
-  /** First slot where `now < readyAt`; `undefined` when all slots are ready. */
-  inProgressSlot: SaltHarvestSlotUi | undefined;
   /**
    * The slot displayed in the "In Progress" row: the active head (VIP/non-VIP),
    * or (non-VIP only) the single slot when it is ready.
@@ -64,19 +61,15 @@ export function partitionSaltHarvestSlotsForQueueUi(
 
   if (!isVip) {
     return {
-      sortedSlots,
-      inProgressSlot,
       inProgressDisplaySlot,
       queueGridSlots: [],
-      queueGridCapacity: 0,
+      queueGridCapacity: 2,
     };
   }
 
   if (inProgressSlot) {
     const tail = sortedSlots.filter((s) => s !== inProgressSlot);
     return {
-      sortedSlots,
-      inProgressSlot,
       inProgressDisplaySlot: inProgressSlot,
       queueGridSlots: tail.slice(0, 2),
       queueGridCapacity: 2,
@@ -84,8 +77,6 @@ export function partitionSaltHarvestSlotsForQueueUi(
   }
 
   return {
-    sortedSlots,
-    inProgressSlot: undefined,
     inProgressDisplaySlot: undefined,
     queueGridSlots: sortedSlots.slice(0, 3),
     queueGridCapacity: 3,
@@ -93,28 +84,19 @@ export function partitionSaltHarvestSlotsForQueueUi(
 }
 
 export type SaltModalState = {
-  syncedNode: SaltNode;
-  storedCharges: number;
-  displayCharges: number;
-  maxStoredCharges: number;
-  activeSlots: { startedAt: number; readyAt: number }[];
-  readySlots: { startedAt: number; readyAt: number }[];
-  sortedSlots: SaltHarvestSlotUi[];
-  inProgressSlot: SaltHarvestSlotUi | undefined;
-  inProgressDisplaySlot: SaltHarvestSlotUi | undefined;
-  queueGridSlots: SaltHarvestSlotUi[];
-  queueGridCapacity: number;
-  availableSaltRakes: number;
-  isVip: boolean;
-  minRakes: number;
-  maxRakes: number;
   canStart: boolean;
   canClaim: boolean;
   blockedReason?: string;
   primaryAction: SaltModalPrimaryAction;
   regenerationState: SaltRegenerationState;
   nextChargeInSeconds?: number;
-  pauseRemainingSeconds?: number;
+  readySlots: { startedAt: number; readyAt: number }[];
+  storedCharges: number;
+  inProgressDisplaySlot: SaltHarvestSlotUi | undefined;
+  queueGridSlots: SaltHarvestSlotUi[];
+  queueGridCapacity: number;
+  displayCharges: number;
+  availableSaltRakes: number;
 };
 
 type Props = {
@@ -154,13 +136,8 @@ export function getSaltModalState({
   const displayCharges = getDisplaySaltCharges(saltNode, now, syncOpts);
   const activeSlots = syncedNode.salt.harvesting?.slots ?? [];
   const readySlots = activeSlots.filter((slot) => slot.readyAt <= now);
-  const {
-    sortedSlots,
-    inProgressSlot,
-    inProgressDisplaySlot,
-    queueGridSlots,
-    queueGridCapacity,
-  } = partitionSaltHarvestSlotsForQueueUi(activeSlots, now, isVip);
+  const { inProgressDisplaySlot, queueGridSlots, queueGridCapacity } =
+    partitionSaltHarvestSlotsForQueueUi(activeSlots, now, isVip);
   const availableSaltRakes = Math.max(
     0,
     Math.floor(saltRakes?.toNumber() ?? 0),
@@ -176,17 +153,12 @@ export function getSaltModalState({
 
   let blockedReason: string | undefined;
   if (!canStart) {
-    if (!isVip && activeSlots.length > 0) {
-      blockedReason = "Non-VIP can only have one active salt rake";
-    } else if (isVip && remainingVipSlots <= 0) {
+    if (isVip && remainingVipSlots <= 0) {
       blockedReason = "VIP can have up to 4 active salt rakes";
     } else if (availableSaltRakes <= 0) {
       blockedReason = "Not enough Salt Rakes";
-    } else if (storedCharges <= 0) {
-      blockedReason =
-        displayCharges > 0
-          ? "Charges are in use by active harvests"
-          : "No salt charges available";
+    } else if (storedCharges <= 0 && displayCharges <= 0) {
+      blockedReason = "No salt charges available";
     }
   }
 
@@ -212,7 +184,6 @@ export function getSaltModalState({
     (pileCap === 0 || (atMaxCharges && mustWaitForHarvestToAcceptStored));
 
   let regenerationState: SaltRegenerationState = "charging";
-  let pauseRemainingSeconds: number | undefined;
   let nextChargeInSeconds: number | undefined;
 
   const showChargeCountdown =
@@ -224,9 +195,6 @@ export function getSaltModalState({
     regenerationState = "maxed";
   } else if (shouldPauseRegeneration) {
     regenerationState = "paused";
-    pauseRemainingSeconds = Math.ceil(
-      Math.max(0, harvestPauseUntil! - now) / 1000,
-    );
   } else if (showChargeCountdown) {
     nextChargeInSeconds = getNextSaltChargeInSeconds({
       nextChargeAt: syncedNode.salt.nextChargeAt,
@@ -237,28 +205,19 @@ export function getSaltModalState({
   }
 
   return {
-    syncedNode,
     storedCharges,
     displayCharges,
-    maxStoredCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
-    activeSlots,
     readySlots,
-    sortedSlots,
-    inProgressSlot,
     inProgressDisplaySlot,
     queueGridSlots,
     queueGridCapacity,
     availableSaltRakes,
-    isVip,
-    minRakes: 1,
-    maxRakes: maxByRules,
     canStart,
     canClaim,
     blockedReason,
     primaryAction: canClaim ? "claim" : canStart ? "start" : "blocked",
     regenerationState,
     nextChargeInSeconds,
-    pauseRemainingSeconds,
   };
 }
 

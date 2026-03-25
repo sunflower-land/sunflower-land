@@ -53,6 +53,7 @@ import { SaltNode } from "./components/salt/SaltNode";
 import { SaltNodePlaceholder } from "./components/salt/SaltNodePlaceholder";
 import { getSaltNodeCoordinates } from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -71,6 +72,10 @@ const _treePositions = (state: MachineState) => ({
   trees: state.context.state.trees,
   positions: getSortedResourcePositions(state.context.state.trees),
 });
+
+const _hasSaltFarmAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "SALT_FARM");
+
 const _stonePositions = (state: MachineState) => {
   return {
     stones: state.context.state.stones,
@@ -133,6 +138,7 @@ const _lavaPitPositions = (state: MachineState) => {
     positions: getSortedResourcePositions(state.context.state.lavaPits),
   };
 };
+
 const _saltNodePositions = (state: MachineState) => {
   const saltNodes = state.context.state.saltFarm.nodes;
   const saltFarmLevel = state.context.state.saltFarm.level;
@@ -364,6 +370,7 @@ export const LandComponent: React.FC = () => {
     _saltNodePositions,
     compareSaltFarmSlice,
   );
+  const hasSaltFarmAccess = useSelector(gameService, _hasSaltFarmAccess);
   const { mushrooms } = useSelector(
     gameService,
     _mushroomPositions,
@@ -1188,8 +1195,8 @@ export const LandComponent: React.FC = () => {
 
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
-        {!landscaping && saltPlaceholderElements}
-        {!landscaping && saltNodeElements}
+        {!landscaping && hasSaltFarmAccess && saltPlaceholderElements}
+        {!landscaping && hasSaltFarmAccess && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div

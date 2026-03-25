@@ -12,6 +12,7 @@ import {
 import { PET_SHRINES } from "features/game/types/pets";
 import { populateSaltFarm } from "features/game/types/salt";
 import { isPetCollectible } from "./placeCollectible";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -104,7 +105,10 @@ export function removeCollectible({
       }
     }
 
-    populateSaltFarm({ game: stateCopy, now: createdAt });
+    // Populate the salt farm with the new salt charges
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
+    }
 
     delete collectibleToRemove.coordinates;
     collectibleToRemove.removedAt = createdAt;

@@ -28,7 +28,7 @@ export enum START_SALT_HARVEST_ERRORS {
 export type StartSaltHarvestAction = {
   type: "saltHarvest.started";
   id: string;
-  rakes: number;
+  rakes?: number;
 };
 
 type Options = {
@@ -65,7 +65,7 @@ function createQueuedSlots({
 
 export function startSaltHarvest({
   state,
-  action,
+  action: { id: saltNodeId, rakes = 1 },
   createdAt = Date.now(),
 }: Options): GameState {
   if (!hasFeatureAccess(state, "SALT_FARM")) {
@@ -73,12 +73,12 @@ export function startSaltHarvest({
   }
 
   return produce(state, (copy) => {
-    const saltNode = copy.saltFarm.nodes[action.id];
+    const saltNode = copy.saltFarm.nodes[saltNodeId];
     if (!saltNode) {
       throw new Error(START_SALT_HARVEST_ERRORS.SALT_NODE_NOT_FOUND);
     }
 
-    if (!Number.isInteger(action.rakes) || action.rakes <= 0) {
+    if (!Number.isInteger(rakes) || rakes <= 0) {
       throw new Error(START_SALT_HARVEST_ERRORS.INVALID_RAKE_COUNT);
     }
 
@@ -90,7 +90,7 @@ export function startSaltHarvest({
     const isVip = hasVipAccess({ game: copy, now: createdAt });
 
     if (!isVip) {
-      if (action.rakes > 1) {
+      if (rakes > 1) {
         throw new Error(START_SALT_HARVEST_ERRORS.NON_VIP_SINGLE_RAKE_ONLY);
       }
 
@@ -99,27 +99,24 @@ export function startSaltHarvest({
           START_SALT_HARVEST_ERRORS.NON_VIP_ACTIVE_HARVEST_EXISTS,
         );
       }
-    } else if (
-      existingSlots.length + action.rakes >
-      MAX_VIP_ACTIVE_HARVEST_SLOTS
-    ) {
+    } else if (existingSlots.length + rakes > MAX_VIP_ACTIVE_HARVEST_SLOTS) {
       throw new Error(START_SALT_HARVEST_ERRORS.VIP_MAX_RAKES_EXCEEDED);
     }
 
-    if (storedCharges < action.rakes) {
+    if (storedCharges < rakes) {
       throw new Error(START_SALT_HARVEST_ERRORS.NOT_ENOUGH_CHARGES);
     }
 
     const availableRakes = copy.inventory["Salt Rake"] ?? new Decimal(0);
-    if (availableRakes.lt(action.rakes)) {
+    if (availableRakes.lt(rakes)) {
       throw new Error(START_SALT_HARVEST_ERRORS.NOT_ENOUGH_SALT_RAKES);
     }
 
-    copy.inventory["Salt Rake"] = availableRakes.sub(action.rakes);
+    copy.inventory["Salt Rake"] = availableRakes.sub(rakes);
 
     const addedSlots = createQueuedSlots({
       existingSlots,
-      rakes: action.rakes,
+      rakes,
       createdAt,
     });
     const newHarvesting = {
@@ -127,7 +124,7 @@ export function startSaltHarvest({
     };
     const pileCapAfterStart = saltRegenStoredCapAt(newHarvesting, createdAt);
 
-    const newStoredCharges = storedCharges - action.rakes;
+    const newStoredCharges = storedCharges - rakes;
     const syncedNextChargeAt = syncedNode.salt.nextChargeAt;
     const nextChargeAt = Number.isFinite(syncedNextChargeAt)
       ? syncedNextChargeAt
@@ -141,7 +138,7 @@ export function startSaltHarvest({
     };
     const finalizedSalt = materializeSaltRegen(draftSalt, createdAt, syncOpts);
 
-    copy.saltFarm.nodes[action.id] = {
+    copy.saltFarm.nodes[saltNodeId] = {
       ...syncedNode,
       salt: finalizedSalt,
     };

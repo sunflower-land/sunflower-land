@@ -22,6 +22,7 @@ import {
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -79,8 +80,11 @@ export function placeCollectible({
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
     }
+
     // Populate the salt farm with the new salt charges
-    populateSaltFarm({ game: stateCopy, now: createdAt });
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
+    }
 
     // Only pet collectibles can be placed in the pet house
     if (action.location === "petHouse" && !isPetCollectible(action.name)) {

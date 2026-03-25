@@ -9,6 +9,7 @@ import {
 import { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -171,7 +172,9 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
     }
 
     // Populate the salt farm with the new salt charges
-    populateSaltFarm({ game: stateCopy, now: createdAt });
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
+    }
 
     bumpkin.skills = {
       ...bumpkin.skills,
