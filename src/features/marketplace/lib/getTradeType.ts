@@ -22,6 +22,7 @@ export const ITEM_TRADE_TYPES: {
     "Creamy Crab Bite": "instant",
     "Crimstone Infused Fish Oil": "instant",
     "Fish Market": "instant",
+    "Aging Shed": "instant",
     "Fish Flake": "instant",
     "Fish Stick": "instant",
     "Fish Oil": "instant",

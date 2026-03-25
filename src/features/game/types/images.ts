@@ -5761,6 +5761,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.craftingBox"),
     translatedName: translate("building.craftingBox"),
   },
+  "Aging Shed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agingShed"),
+    translatedName: translate("building.agingShed"),
+  },
   "Basic Bed": {
     image: SUNNYSIDE.decorations.bed,
     description: translate("description.basicBed"),
