@@ -8,6 +8,8 @@ import {
   ENEMIES_TABLE,
   PORTAL_NAME,
   INSTRUCTIONS,
+  IMMUNITY_GUIDE,
+  REFEREE,
 } from "../../Constants";
 
 export const Guide = () => {
@@ -64,6 +66,56 @@ export const Guide = () => {
                 </tr>
               ),
             )}
+          </tbody>
+        </table>
+        {/* Immunities guide */}
+        <Label type="default">{t(`${PORTAL_NAME}.immunities`)}</Label>
+        <table className="w-full text-xs table-fixed border-collapse">
+          <tbody>
+            {IMMUNITY_GUIDE.map(({ image, description, width = 13 }, index) => (
+              <tr key={index}>
+                <td
+                  style={{ border: "1px solid #b96f50" }}
+                  className="p-1.5 w-1/6"
+                >
+                  <div className="flex items-center justify-center">
+                    {<SquareIcon icon={image} width={width} />}
+                  </div>
+                </td>
+                <td
+                  style={{ border: "1px solid #b96f50" }}
+                  className="p-1.5 w-5/6"
+                >
+                  {t(`${PORTAL_NAME}.guideDescription`, {
+                    description: description,
+                  })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* Referee */}
+        <Label type="default">{t(`${PORTAL_NAME}.referee`)}</Label>
+        <table className="w-full text-xs table-fixed border-collapse">
+          <tbody>
+            <tr>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-1/6"
+              >
+                <div className="flex items-center justify-center">
+                  {<SquareIcon icon={REFEREE.image} width={13} />}
+                </div>
+              </td>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-5/6"
+              >
+                {t(`${PORTAL_NAME}.guideDescription`, {
+                  description: REFEREE.description,
+                })}
+              </td>
+            </tr>
           </tbody>
         </table>
         {/* Enemies */}

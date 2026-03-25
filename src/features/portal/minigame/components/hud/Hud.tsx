@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { PortalContext } from "../../lib/PortalProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HudContainer } from "components/ui/HudContainer";
 import { PortalMachineState } from "../../lib/Machine";
 import { Score } from "./Score";
@@ -10,7 +9,6 @@ import { Travel } from "./Travel";
 import { Timer } from "./Timer";
 import { Target } from "./Target";
 import { Lives } from "./Lives";
-import { Equipment_Immunity } from "./EquipmentImmunity";
 import { Powers } from "./Powers";
 import { Food } from "./Food";
 
@@ -48,9 +46,7 @@ export const Hud: React.FC = () => {
   return (
     <HudContainer>
       <div>
-        <div
-          className="flex flex-col gap-2 absolute p-3"
-        >
+        <div className="flex flex-col gap-2 absolute p-3">
           {isPlaying && (
             <>
               <Target />
@@ -61,7 +57,6 @@ export const Hud: React.FC = () => {
             </>
           )}
         </div>
-        {isPlaying && <Equipment_Immunity />}
         {isPlaying && <Powers />}
 
         {!isJoystickActive && (

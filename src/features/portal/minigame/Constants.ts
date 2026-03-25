@@ -7,16 +7,23 @@ import {
 } from "features/game/types/bumpkin";
 import { translate as t } from "lib/i18n/translate";
 import { NPC_WEARABLES } from "lib/npcs";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { PlayerFoodConfig, PlayerFoodType, Position, Side } from "./Types";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 import hat_immunity from "public/world/portal/images/prevents_slowing_icon.webp";
-import shoes_immunity from "public/world/portal/images/prevents_slipping_icon.webp";
+import shoes_immunity from "public/world/portal/images/inverted_control_icon.webp";
 import wings_immunity_icon from "public/world/portal/images/prevents_enlargement_icon.webp";
 import aura_immunity_icon from "public/world/portal/images/prevents_complete_visibility_icon.webp";
 import giantIcon from "public/world/portal/images/giant_icon.gif";
 import sniperIcon from "public/world/portal/images/sniper_icon.gif";
 import menaceIcon from "public/world/portal/images/menaceIcon.gif";
 import blastIcon from "public/world/portal/images/blastIcon.gif";
+import orangePuddle from "public/world/portal/images/puddle.png";
+import referee from "public/world/portal/images/NPC_Judge_Card_Yellow.gif";
+import riceBun from "public/world/portal/images/rice_bun.png";
+import cannon from "public/world/portal/images/cannon_icon.png";
+import chest from "public/world/portal/images/chest.png";
+import food from "public/world/portal/images/tomato-splat.gif";
+import auraIcon from "public/world/portal/images/Bumpkin_Glitch_Aura.webp";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -101,7 +108,11 @@ export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
   },
 };
 
-export const PLAYER_FOOD_CYCLE: PlayerFoodType[] = ["cabbage", "potato", "banana"];
+export const PLAYER_FOOD_CYCLE: PlayerFoodType[] = [
+  "cabbage",
+  "potato",
+  "banana",
+];
 
 export const LUMBER_CONFIG: Position[] = [
   { x: 304, y: 190 },
@@ -117,7 +128,26 @@ export const REFEREE_EFFECT_MIN_SCALE = 0.25;
 export const REFEREE_EFFECT_MAX_SCALE = 2.25;
 
 export const RICE_BUN_POSITIONS: Position[] = [
-  { x: 480, y: 345 }, { x: 407, y: 360 }, { x: 140, y: 375 }, { x: 170, y: 350 }, { x: 318, y: 365 }, { x: 230, y: 355 }, { x: 100, y: 342 }, { x: 150, y: 280 }, { x: 200, y: 300 }, { x: 250, y: 290 }, { x: 300, y: 310 }, { x: 350, y: 285 }, { x: 400, y: 305 }, { x: 450, y: 282 }, { x: 200, y: 235 }, { x: 240, y: 255 }, { x: 280, y: 240 }, { x: 320, y: 260 }, { x: 360, y: 245 }, { x: 400, y: 250 }
+  { x: 480, y: 345 },
+  { x: 407, y: 360 },
+  { x: 140, y: 375 },
+  { x: 170, y: 350 },
+  { x: 318, y: 365 },
+  { x: 230, y: 355 },
+  { x: 100, y: 342 },
+  { x: 150, y: 280 },
+  { x: 200, y: 300 },
+  { x: 250, y: 290 },
+  { x: 300, y: 310 },
+  { x: 350, y: 285 },
+  { x: 400, y: 305 },
+  { x: 450, y: 282 },
+  { x: 200, y: 235 },
+  { x: 240, y: 255 },
+  { x: 280, y: 240 },
+  { x: 320, y: 260 },
+  { x: 360, y: 245 },
+  { x: 400, y: 250 },
 ];
 export const RICE_BUN_SPAWN_INTERVAL = 5000;
 export const RICE_BUN_DESPAWN_DURATION = 30000;
@@ -134,67 +164,109 @@ export const POWER_UNLOCK_THRESHOLDS = {
 export const HONEY_SPAWN_POSITION: Position = { x: 304, y: -50 };
 export const HONEY_TARGET_Y = 80;
 
+// Immunities
+export const AURA_IMMUNITY: BumpkinAura = "Slime Aura";
+export const WINGS_IMMUNITY: BumpkinWings = "Sol & Luna";
+export const SHOES_IMMUNITY: BumpkinShoe = "Crimstone Boots";
+export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
+
 // Guide
 export const INSTRUCTIONS: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource1`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource2`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource3`),
-    },
-  ];
+  {
+    image: food,
+    description: t(`${PORTAL_NAME}.instructions1`),
+  },
+  {
+    image: giantIcon,
+    description: t(`${PORTAL_NAME}.instructions2`),
+  },
+  {
+    image: auraIcon,
+    description: t(`${PORTAL_NAME}.instructions3`),
+  },
+];
 
 export const RESOURCES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource1`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource2`),
-    },
-    {
-      image: ITEM_DETAILS["Abandoned Bear"].image,
-      description: t(`${PORTAL_NAME}.resource3`),
-    },
-  ];
+  {
+    image: riceBun,
+    description: t(`${PORTAL_NAME}.resource1`),
+  },
+  {
+    image: cannon,
+    description: t(`${PORTAL_NAME}.resource2`),
+  },
+  {
+    image: chest,
+    description: t(`${PORTAL_NAME}.resource3`),
+  },
+];
+
+export const REFEREE: {
+  image: string;
+  description: string;
+  width?: number;
+} = {
+  image: referee,
+  description: t(`${PORTAL_NAME}.refereeDescription`),
+};
+
+export const IMMUNITY_GUIDE: {
+  image: string;
+  description: string;
+  width?: number;
+}[] = [
+  {
+    image: getWearableImage(`${AURA_IMMUNITY}`),
+    description: t(`${PORTAL_NAME}.aura_immunityDescription`),
+  },
+  {
+    image: getWearableImage(`${WINGS_IMMUNITY}`),
+    description: t(`${PORTAL_NAME}.wings_immunityDescription`),
+  },
+  {
+    image: getWearableImage(`${SHOES_IMMUNITY}`),
+    description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
+  },
+  {
+    image: getWearableImage(`${HAT_IMMUNITY}`),
+    description: t(`${PORTAL_NAME}.hat_immunityDescription`),
+  },
+];
 
 export const ENEMIES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-    {
-      image: giantIcon,
-      description: t(`${PORTAL_NAME}.enemy1`),
-    },
-    {
-      image: sniperIcon,
-      description: t(`${PORTAL_NAME}.enemy2`),
-    },
-    {
-      image: menaceIcon,
-      description: t(`${PORTAL_NAME}.enemy3`),
-    },
-    {
-      image: blastIcon,
-      description: t(`${PORTAL_NAME}.enemy4`),
-    },
-  ];
+  {
+    image: giantIcon,
+    description: t(`${PORTAL_NAME}.enemy1`),
+  },
+  {
+    image: sniperIcon,
+    description: t(`${PORTAL_NAME}.enemy2`),
+  },
+  {
+    image: menaceIcon,
+    description: t(`${PORTAL_NAME}.enemy3`),
+  },
+  {
+    image: blastIcon,
+    description: t(`${PORTAL_NAME}.enemy4`),
+  },
+  {
+    image: orangePuddle,
+    description: t(`${PORTAL_NAME}.enemy5`),
+  },
+];
 
 export type Immunity_Wearables = "aura" | "wings" | "shoe" | "hat";
 
@@ -203,36 +275,30 @@ export const IMMUNITY_TOOLTIP: {
   image: string;
   description: string;
 }[] = [
-    {
-      id: "aura",
-      image: aura_immunity_icon,
-      description: t(`${PORTAL_NAME}.aura_immunityDescription`),
-    },
-    {
-      id: "wings",
-      image: wings_immunity_icon,
-      description: t(`${PORTAL_NAME}.wings_immunityDescription`),
-    },
-    {
-      id: "shoe",
-      image: shoes_immunity,
-      description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
-    },
-    {
-      id: "hat",
-      image: hat_immunity,
-      description: t(`${PORTAL_NAME}.hat_immunityDescription`),
-    },
-  ];
+  {
+    id: "aura",
+    image: aura_immunity_icon,
+    description: t(`${PORTAL_NAME}.aura_immunityDescription`),
+  },
+  {
+    id: "wings",
+    image: wings_immunity_icon,
+    description: t(`${PORTAL_NAME}.wings_immunityDescription`),
+  },
+  {
+    id: "shoe",
+    image: shoes_immunity,
+    description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
+  },
+  {
+    id: "hat",
+    image: hat_immunity,
+    description: t(`${PORTAL_NAME}.hat_immunityDescription`),
+  },
+];
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
-
-// Immunities
-export const AURA_IMMUNITY: BumpkinAura = "Slime Aura";
-export const WINGS_IMMUNITY: BumpkinWings = "Sol & Luna";
-export const SHOES_IMMUNITY: BumpkinShoe = "Crimstone Boots";
-export const HAT_IMMUNITY: BumpkinHat = "Grumpy Cat";
 
 export const MENACE_SKELETON_POSITIONS: Position[] = [
   { x: 320, y: 60 },
