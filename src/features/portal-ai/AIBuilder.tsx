@@ -18,6 +18,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import * as Phaser from "phaser";
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _playing = (state: MachineState) => state.matches("playing");
 
 interface WebSocketMessage {
   action: string;
@@ -39,6 +40,15 @@ interface ErrorMessage extends WebSocketMessage {
   data: {
     error: string;
     sessionId?: string;
+  };
+}
+
+interface VersionsListMessage extends WebSocketMessage {
+  action: "versionsList";
+  data: {
+    farmId: string;
+    versions: { timestamp: string }[];
+    sessionId: string;
   };
 }
 
@@ -71,6 +81,7 @@ const EXAMPLE_PROMPTS = [
 export const AIBuilder: React.FC = () => {
   const { gameService, fromRoute } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
+  const isPlaying = useSelector(gameService, _playing);
   const navigate = useNavigate();
 
   const [prompt, setPrompt] = useState("");
@@ -80,6 +91,7 @@ export const AIBuilder: React.FC = () => {
   }>({ message: "", type: "hidden" });
   const [hasSavedFarm, setHasSavedFarm] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [versions, setVersions] = useState<{ timestamp: string }[]>([]);
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -242,14 +254,35 @@ export const AIBuilder: React.FC = () => {
     [cleanupGame, showStatus, setupCanvasFocusHandling],
   );
 
+  const listVersions = useCallback(() => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+      showStatus("Not connected to server. Please wait...", "error");
+      return;
+    }
+
+    const sid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+    sessionIdRef.current = sid;
+
+    wsRef.current.send(
+      JSON.stringify({
+        action: "listVersions",
+        data: { farmId: String(farmId), sessionId: sid },
+      }),
+    );
+  }, [farmId, showStatus]);
+
   const handleSceneGenerated = useCallback(
     (message: SceneGeneratedMessage) => {
       const { phaserScene, sunflowerAssets, sunflowerSDK } = message.data;
 
       const isLoadedFarm = message.data.sessionId.includes("farm-");
       const isDeleteOperation = message.data.sessionId.includes("delete-");
+      const isVersionLoad = message.data.sessionId.includes("version-");
 
-      if (isDeleteOperation) {
+      if (isVersionLoad) {
+        setHasSavedFarm(true);
+        showStatus("Previous version loaded!", "success");
+      } else if (isDeleteOperation) {
         setHasSavedFarm(false);
         showStatus("Successfully deleted saved farm", "success");
       } else if (isLoadedFarm) {
@@ -271,8 +304,20 @@ export const AIBuilder: React.FC = () => {
       loadSceneDirectly(phaserScene, sunflowerAssets, sunflowerSDK);
       setIsGenerating(false);
       setTimeout(() => hideStatus(), 3000);
+
+      // Refresh versions list after generating/loading
+      if (!isDeleteOperation && !isLoadedFarm) {
+        listVersions();
+      }
     },
-    [farmId, isTemplateCode, loadSceneDirectly, showStatus, hideStatus],
+    [
+      farmId,
+      isTemplateCode,
+      loadSceneDirectly,
+      showStatus,
+      hideStatus,
+      listVersions,
+    ],
   );
 
   const handleError = useCallback(
@@ -283,8 +328,10 @@ export const AIBuilder: React.FC = () => {
     [showStatus],
   );
 
-  // Connect WebSocket
+  // Connect WebSocket once in playing state
   useEffect(() => {
+    if (!isPlaying) return;
+
     // Ensure Phaser is available on window for dynamically generated scenes
     (window as any).Phaser = Phaser;
 
@@ -310,6 +357,15 @@ export const AIBuilder: React.FC = () => {
               data: { farmId: String(farmId), sessionId: sid },
             }),
           );
+
+          // Also fetch version history
+          const versionsSid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+          ws.send(
+            JSON.stringify({
+              action: "listVersions",
+              data: { farmId: String(farmId), sessionId: versionsSid },
+            }),
+          );
         }
       };
 
@@ -318,6 +374,9 @@ export const AIBuilder: React.FC = () => {
         switch (message.action) {
           case "sceneGenerated":
             handleSceneGenerated(message as SceneGeneratedMessage);
+            break;
+          case "versionsList":
+            setVersions((message as VersionsListMessage).data.versions);
             break;
           case "error":
             handleError(message as ErrorMessage);
@@ -341,7 +400,7 @@ export const AIBuilder: React.FC = () => {
       cleanupGame();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isPlaying]);
 
   // Escape to close
   useEffect(() => {
@@ -426,6 +485,35 @@ export const AIBuilder: React.FC = () => {
       }),
     );
   }, [showStatus]);
+
+  const loadVersion = useCallback(
+    (timestamp: string) => {
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        showStatus("Not connected to server. Please wait...", "error");
+        return;
+      }
+
+      const sid = `version-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+      sessionIdRef.current = sid;
+      setIsGenerating(true);
+      showStatus(
+        `Loading version from ${new Date(timestamp).toLocaleString()}...`,
+        "generating",
+      );
+
+      wsRef.current.send(
+        JSON.stringify({
+          action: "loadVersion",
+          data: {
+            farmId: String(farmId),
+            timestamp,
+            sessionId: sid,
+          },
+        }),
+      );
+    },
+    [farmId, showStatus],
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -548,6 +636,33 @@ export const AIBuilder: React.FC = () => {
                   </span>
                 ))}
               </div>
+            </InnerPanel>
+
+            {/* Previous Versions */}
+            <InnerPanel className="p-2">
+              <Label type="default">{"Previous Versions"}</Label>
+              {versions.length === 0 ? (
+                <p className="text-xs text-gray-500 mt-1">
+                  {"No previous versions found."}
+                </p>
+              ) : (
+                <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
+                  {versions.map((version) => (
+                    <div
+                      key={version.timestamp}
+                      className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
+                      onClick={() => loadVersion(version.timestamp)}
+                    >
+                      <span>
+                        {new Date(version.timestamp).toLocaleString()}
+                      </span>
+                      <span className="underline ml-2 flex-shrink-0">
+                        {"Load"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </InnerPanel>
           </div>
 
