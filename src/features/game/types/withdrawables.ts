@@ -1519,6 +1519,9 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
+  CluckCoin: {
+    tradeAt: new Date("2025-01-01T00:00:00.000Z"),
+  },
   "Fish Kite": {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),

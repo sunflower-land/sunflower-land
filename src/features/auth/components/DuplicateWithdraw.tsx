@@ -10,16 +10,7 @@ export const DuplicateWithdraw: React.FC = () => {
         {t("withdraw.duplicate.title")}
       </Label>
       <p className="text-xs mb-1">{t("withdraw.duplicate.description")}</p>
-
-      <Label type="default" className="my-2">
-        {t("withdraw.duplicate.howToWithdraw")}
-      </Label>
-      <p className="text-xs">{t("withdraw.duplicate.tip1")}</p>
-      <p className="text-xs">{t("withdraw.duplicate.tip2")}</p>
-      <p className="text-xs">{t("withdraw.duplicate.tip3")}</p>
-      <p className="text-xs">{t("withdraw.duplicate.tip4")}</p>
-
-      <p className="text-xxs italic mt-2">{t("withdraw.duplicate.note")}</p>
+      <p className="text-xs mt-2">{t("withdraw.duplicate.waitMessage")}</p>
     </div>
   );
 };

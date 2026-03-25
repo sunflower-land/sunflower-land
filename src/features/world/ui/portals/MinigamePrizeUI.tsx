@@ -7,7 +7,11 @@ import coins from "assets/icons/coins.webp";
 import giftIcon from "assets/icons/gift.png";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MinigameHistory, MinigamePrize } from "features/game/types/game";
+import {
+  InventoryItemName,
+  MinigameHistory,
+  MinigamePrize,
+} from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -17,7 +21,9 @@ export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
   history?: MinigameHistory;
   mission: string;
-}> = ({ prize, history, mission }) => {
+  /** Shown alongside server prize items (e.g. VIP-only bonuses not in `prize.items`). */
+  extraItems?: Partial<Record<InventoryItemName, number>>;
+}> = ({ prize, history, mission, extraItems }) => {
   const { t } = useAppTranslation();
   const { totalSeconds } = useCountdown(prize?.endAt ?? 0);
 
@@ -56,6 +62,16 @@ export const MinigamePrizeUI: React.FC<{
                 {`${prize.items[item]} x ${item}`}
               </Label>
             ))}
+            {extraItems &&
+              getKeys(extraItems).map((item) => (
+                <Label
+                  key={`extra-${item}`}
+                  type="warning"
+                  icon={ITEM_DETAILS[item].image}
+                >
+                  {`${extraItems[item]} x ${item}`}
+                </Label>
+              ))}
             {getKeys(prize.wearables).map((item) => (
               <Label key={item} type="warning" icon={giftIcon}>
                 {`${prize.wearables[item]} x ${item}`}

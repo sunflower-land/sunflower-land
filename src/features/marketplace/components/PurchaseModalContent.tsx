@@ -14,6 +14,10 @@ import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  MinigameCurrencyDisclaimerPanel,
+  showsMinigameCurrencyDisclaimer,
+} from "./MinigameCurrencyDisclaimerPanel";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -112,6 +116,9 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
               quantity={listing.quantity}
             />
           </div>
+          {showsMinigameCurrencyDisclaimer(display.name) && (
+            <MinigameCurrencyDisclaimerPanel className="mt-3" />
+          )}
         </div>
         <div className="flex space-x-1">
           <Button onClick={onClose}>{t("cancel")}</Button>
@@ -142,6 +149,9 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           quantity={listing.quantity}
           estTradePoints={estTradePoints}
         />
+        {showsMinigameCurrencyDisclaimer(display.name) && (
+          <MinigameCurrencyDisclaimerPanel className="mt-3" />
+        )}
       </div>
       <div className="flex space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
