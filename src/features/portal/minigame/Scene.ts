@@ -206,6 +206,14 @@ export class Scene extends BaseScene {
       },
     );
     this.load.spritesheet(
+      "blast_skeleton_death",
+      "/world/portal/images/Blast_Skeleton_Death.webp",
+      {
+        frameWidth: 28,
+        frameHeight: 29,
+      },
+    );
+    this.load.spritesheet(
       "blast_skeleton_walk",
       "/world/portal/images/blast_skeleton_walk.webp",
       {
@@ -319,10 +327,7 @@ export class Scene extends BaseScene {
       "sniper_skeleton_tomato",
       "/world/portal/images/tomato.webp",
     );
-    this.load.image(
-      "sniper_tomato",
-      "/world/portal/images/tomato.webp",
-    );
+    this.load.image("sniper_tomato", "/world/portal/images/tomato.webp");
     this.load.image(
       "blast_skeleton_tomato",
       "/world/portal/images/tomato.webp",
@@ -337,14 +342,10 @@ export class Scene extends BaseScene {
     );
     this.load.image("wood", "/world/portal/images/wood.png");
     this.load.image("lumber", "/world/portal/images/lumber.png");
-    this.load.spritesheet(
-      "basket",
-      "/world/portal/images/basket.png",
-      {
-        frameWidth: 15,
-        frameHeight: 20,
-      },
-    );
+    this.load.spritesheet("basket", "/world/portal/images/basket.png", {
+      frameWidth: 15,
+      frameHeight: 20,
+    });
     this.load.image("puddle", "/world/portal/images/puddle.png");
     this.load.image("honey", "/world/portal/images/honey_icon.png");
     this.load.spritesheet(
@@ -366,7 +367,7 @@ export class Scene extends BaseScene {
     );
     this.load.image("health_full", "/world/portal/images/health_bar_full.webp");
     this.load.image("health_half", "/world/portal/images/health_bar_half.webp");
-    this.load.image("health_low", "/world/portal/images/health_bar_low.webp")
+    this.load.image("health_low", "/world/portal/images/health_bar_low.webp");
 
     // Food
     this.load.image("rice_bun", "/world/portal/images/rice_bun.png");
@@ -387,8 +388,14 @@ export class Scene extends BaseScene {
     );
 
     // Progress Bar
-    this.load.image("progress_bar_1", "/world/portal/images/progress_bar_1.png");
-    this.load.image("progress_bar_2", "/world/portal/images/progress_bar_2.png");
+    this.load.image(
+      "progress_bar_1",
+      "/world/portal/images/progress_bar_1.png",
+    );
+    this.load.image(
+      "progress_bar_2",
+      "/world/portal/images/progress_bar_2.png",
+    );
 
     // Cannon
     this.load.image("tree", "/world/portal/images/tree.webp");
@@ -397,37 +404,33 @@ export class Scene extends BaseScene {
     this.load.image("flower", "/world/portal/images/flower.webp");
     this.load.image("bush", "/world/portal/images/bush.webp");
     this.load.image("empty", "/world/portal/images/empty.png");
-    this.load.spritesheet(
-      "spawn", "/world/portal/images/spawn.png",
-      {
-        frameWidth: 24,
-        frameHeight: 24
-      }
-    );
+    this.load.spritesheet("spawn", "/world/portal/images/spawn.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
 
     // Player cannon
     this.load.spritesheet(
-      "player_cannon_shoot", "/world/portal/images/cannon_shoot.png",
+      "player_cannon_shoot",
+      "/world/portal/images/cannon_shoot.png",
       {
         frameWidth: 21,
-        frameHeight: 29
-      }
+        frameHeight: 29,
+      },
     );
 
     // Referee
+    this.load.spritesheet("referee", "/world/portal/images/referee.png", {
+      frameWidth: 22,
+      frameHeight: 25,
+    });
     this.load.spritesheet(
-      "referee", "/world/portal/images/referee.png",
-      {
-        frameWidth: 22,
-        frameHeight: 25
-      }
-    );
-    this.load.spritesheet(
-      "referee_yellow_card", "/world/portal/images/referee_yellow_card.png",
+      "referee_yellow_card",
+      "/world/portal/images/referee_yellow_card.png",
       {
         frameWidth: 25,
-        frameHeight: 26
-      }
+        frameHeight: 26,
+      },
     );
 
     // SFX
@@ -615,7 +618,10 @@ export class Scene extends BaseScene {
     EventBus.on("simulate-lag", () => {
       const start = Date.now();
       const interval = setInterval(() => {
-        if (Date.now() - start > SIMULATED_LAG_DURATION || this.scene.isActive() === false) {
+        if (
+          Date.now() - start > SIMULATED_LAG_DURATION ||
+          this.scene.isActive() === false
+        ) {
           clearInterval(interval);
           this.scene.resume();
           this.portalService?.send("SIMULATE_ERROR", { hasError: true });
@@ -675,9 +681,8 @@ export class Scene extends BaseScene {
     if (!this.currentPlayer || this.currentPlayer.isHurting) return;
     if (!this.cursorKeys) return;
 
-    const animation = this.isMoving && !this.isCannonEnabled
-      ? "carryNone"
-      : "carryNoneIdle";
+    const animation =
+      this.isMoving && !this.isCannonEnabled ? "carryNone" : "carryNoneIdle";
 
     this.currentPlayer[animation]?.();
   }
@@ -689,7 +694,10 @@ export class Scene extends BaseScene {
     if (this.isUsingCannon) {
       this.currentPlayer?.resetShootCharge();
     } else if (this.isAppleShotUnlocked) {
-      if (Phaser.Input.Keyboard.JustDown(spaceKey) && this.currentPlayer?.canShoot()) {
+      if (
+        Phaser.Input.Keyboard.JustDown(spaceKey) &&
+        this.currentPlayer?.canShoot()
+      ) {
         this.currentPlayer.startShootCharge();
       }
 
@@ -707,8 +715,10 @@ export class Scene extends BaseScene {
       this.currentPlayer?.shoot(this.allEnemies);
     }
 
-    if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.e!) &&
-      (this.isCannonEnabled.left || this.isCannonEnabled.right)) {
+    if (
+      Phaser.Input.Keyboard.JustDown(this.cursorKeys.e!) &&
+      (this.isCannonEnabled.left || this.isCannonEnabled.right)
+    ) {
       if (!this.isUsingCannon) {
         this.currentPlayer?.setX(this.activeCannonPosition.x);
         this.currentPlayer?.setY(this.activeCannonPosition.y + 20);
@@ -744,8 +754,8 @@ export class Scene extends BaseScene {
   public createGlitch(delay: number = 4000) {
     this.glitch = new LineGlitch(this, {
       lineCount: 60,
-      maxOffset: 100
-    })
+      maxOffset: 100,
+    });
     this.time.delayedCall(delay, () => {
       this.glitch.stop();
       this.glitch.destroy();
@@ -834,8 +844,10 @@ export class Scene extends BaseScene {
     this.time.addEvent({
       delay: RICE_BUN_SPAWN_INTERVAL,
       callback: () => {
-        const availablePositions = RICE_BUN_POSITIONS.filter(pos => {
-          return !this.riceBuns.some(rb => rb.active && rb.x === pos.x && rb.y === pos.y);
+        const availablePositions = RICE_BUN_POSITIONS.filter((pos) => {
+          return !this.riceBuns.some(
+            (rb) => rb.active && rb.x === pos.x && rb.y === pos.y,
+          );
         });
 
         if (availablePositions.length === 0) return;
@@ -848,7 +860,7 @@ export class Scene extends BaseScene {
         });
         this.riceBuns.push(riceBun);
 
-        this.riceBuns = this.riceBuns.filter(rb => rb.active);
+        this.riceBuns = this.riceBuns.filter((rb) => rb.active);
       },
       loop: true,
     });
@@ -868,7 +880,7 @@ export class Scene extends BaseScene {
       callback: () => {
         const chest = new Chest({ scene: this });
         this.chests.push(chest);
-        this.chests = this.chests.filter(c => c.active);
+        this.chests = this.chests.filter((c) => c.active);
       },
       loop: true,
     });
@@ -878,7 +890,10 @@ export class Scene extends BaseScene {
     const wavesUpTileIndexes = [1356, 1358];
     const wavesCenterTileIndexes = [1228, 1230];
 
-    const loadWaterForLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, isBorder = false) => {
+    const loadWaterForLayer = (
+      layer: Phaser.Tilemaps.TilemapLayer | null,
+      isBorder = false,
+    ) => {
       if (!layer) return;
       const upTileIndexes = isBorder
         ? wavesUpTileIndexes.map((index) => index - 1)
@@ -944,7 +959,7 @@ export class Scene extends BaseScene {
       new Lumber({
         x,
         y,
-        scene: this
+        scene: this,
       });
     });
   }
