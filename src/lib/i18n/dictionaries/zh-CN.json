@@ -8142,11 +8142,11 @@
   "description.giantZucchini.boost": "-50% 西葫芦田坑生长时间",
   "description.broccoliHat.boost": "-50% 西兰花田坑生长时间",
   "withdraw.duplicate.waitMessage": "如果您使用的是公共或共享网络，可能需要稍作等待——请放心，这是正常现象。公共网络可能会因请求频繁而触发短暂停留；对于极度拥挤的网络，视具体情况，等待时间最长可达 2 周。此项安全机制为系统自动执行，并非针对您账号的违规警告或惩罚记录。",
-  "marketplace.new": "全新",
-  "marketplace.cluckCoin.minigameName": "小鸡救援小游戏",
-  "marketplace.cluckCoin.builtBy": "由亚当建造",
-  "marketplace.cluckCoin.disclaimer": "CluckCoin 还没有游戏内工具。价格由玩家决定。交易是实验性的，可能会发生变化。此代币无法提取到您的钱包中。",
-  "description.cluck.coin": "贵宾通过完成每日救鸡挑战获得的迷你游戏货币。不可提款。",
+  "marketplace.new": "新品",
+  "marketplace.cluckCoin.minigameName": "「贪救鸡」小游戏",
+  "marketplace.cluckCoin.builtBy": "开发者：Adam",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin 暂无游戏内实际用途。其价格完全由玩家市场驱动。当前交易功能处于实验阶段，规则可能随时变动。此代币无法提现至您的钱包。",
+  "description.cluck.coin": "VIP 玩家完成每日「贪救鸡」挑战所获得的小游戏货币。不可提现。",
   "cluck.coin": "CluckCoin",
-  "description.anemoneFlower.boost": "+1 尝试钓鱼小游戏"
+  "description.anemoneFlower.boost": "+1 次钓鱼小游戏尝试机会"
 }
