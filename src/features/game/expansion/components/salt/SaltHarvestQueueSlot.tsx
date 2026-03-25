@@ -22,7 +22,7 @@ export const SaltHarvestQueueSlot: React.FC<Props> = ({ slot, now }) => {
         <img
           className="absolute top-1 right-1 w-4 z-10"
           src={SUNNYSIDE.icons.confirm}
-          alt=""
+          alt="Confirm"
         />
       )}
       <Box image={ITEM_DETAILS.Salt.image} />

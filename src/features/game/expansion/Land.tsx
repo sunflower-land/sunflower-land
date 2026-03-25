@@ -1030,11 +1030,11 @@ export const LandComponent: React.FC = () => {
             height={2}
             width={2}
           >
-            <SaltNode id={id} />
+            <SaltNode id={id} visiting={visiting} />
           </MapPlacement>
         );
       });
-  }, [saltNodes]);
+  }, [saltNodes, visiting]);
 
   const saltPlaceholderElements = useMemo(() => {
     const pendingIds = getPendingSaltNodeIdsForUpgrade({
@@ -1051,7 +1051,7 @@ export const LandComponent: React.FC = () => {
           height={2}
           width={2}
         >
-          <SaltNodePlaceholder id={id} visiting={visiting} />
+          <SaltNodePlaceholder visiting={visiting} />
         </MapPlacement>
       );
     });
@@ -1196,7 +1196,7 @@ export const LandComponent: React.FC = () => {
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
         {!landscaping && hasSaltFarmAccess && saltPlaceholderElements}
-        {!landscaping && hasSaltFarmAccess && saltNodeElements}
+        {!landscaping && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div

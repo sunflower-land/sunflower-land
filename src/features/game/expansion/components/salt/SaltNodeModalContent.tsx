@@ -21,6 +21,7 @@ import {
   BASE_SALT_YIELD,
   MAX_STORED_SALT_CHARGES_PER_NODE,
 } from "features/game/types/salt";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _node = (id: string) => (state: MachineState) =>
@@ -76,6 +77,7 @@ const SaltNodeContent: React.FC<{
   now: number;
   onClose: () => void;
 }> = ({ modalState, gameService, id, now, onClose }) => {
+  const { t } = useAppTranslation();
   const {
     canStart,
     canClaim,
@@ -110,28 +112,39 @@ const SaltNodeContent: React.FC<{
           <Box image={ITEM_DETAILS.Salt.image} className="-ml-1 -mb-1 -mt-1" />
           <div className="flex flex-col gap-1 w-full">
             <div className="flex flex-row flex-wrap gap-1 justify-between w-full">
-              <Label type="default">{`Stored Charges: ${storedCharges}/${MAX_STORED_SALT_CHARGES_PER_NODE}`}</Label>
+              <Label type="default">
+                {t("saltHarvest.storedCharges", {
+                  count: storedCharges,
+                  max: MAX_STORED_SALT_CHARGES_PER_NODE,
+                })}
+              </Label>
               <div className="hidden sm:block">
                 {regenerationState === "charging" &&
                   nextChargeInSeconds !== undefined && (
                     <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                      {`Next charge in ${secondsToString(nextChargeInSeconds, {
-                        length: "medium",
-                      })}`}
+                      {t("saltHarvest.nextChargeIn", {
+                        time: secondsToString(nextChargeInSeconds, {
+                          length: "medium",
+                        }),
+                      })}
                     </Label>
                   )}
               </div>
             </div>
             <Label type="default" icon={ITEM_DETAILS["Salt Rake"].image}>
-              {`Available Salt Rakes: ${availableSaltRakes}`}
+              {t("saltHarvest.availableSaltRakes", {
+                count: availableSaltRakes,
+              })}
             </Label>
             <div className="block sm:hidden">
               {regenerationState === "charging" &&
                 nextChargeInSeconds !== undefined && (
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`Next charge in ${secondsToString(nextChargeInSeconds, {
-                      length: "medium",
-                    })}`}
+                    {t("saltHarvest.nextChargeIn", {
+                      time: secondsToString(nextChargeInSeconds, {
+                        length: "medium",
+                      }),
+                    })}
                   </Label>
                 )}
             </div>
@@ -150,18 +163,20 @@ const SaltNodeContent: React.FC<{
           />
 
           {primaryAction === "claim" && (
-            <Button onClick={sendClaim}>{`Claim Salt (${readyCount})`}</Button>
+            <Button onClick={sendClaim}>
+              {t("saltHarvest.claimSalt", { count: readyCount })}
+            </Button>
           )}
 
           {primaryAction !== "claim" && (
             <Button disabled={!canStart} onClick={sendStart}>
-              {`Start Harvest`}
+              {t("saltHarvest.startHarvest")}
             </Button>
           )}
 
           {!canStart && blockedReason && (
             <Label type="danger" className="mt-1">
-              {blockedReason}
+              {t(blockedReason)}
             </Label>
           )}
         </div>

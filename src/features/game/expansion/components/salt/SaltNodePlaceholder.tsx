@@ -6,11 +6,10 @@ import add from "assets/icons/plus.png";
 import { UpgradeSaltFarmModalPanel } from "./UpgradeSaltFarmModalPanel";
 
 interface Props {
-  id: string;
   visiting: boolean;
 }
 
-export const SaltNodePlaceholder: React.FC<Props> = ({ id, visiting }) => {
+export const SaltNodePlaceholder: React.FC<Props> = ({ visiting }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (

@@ -11,6 +11,7 @@ import {
   saltRegenStoredCapAt,
   syncSaltNode,
 } from "features/game/types/salt";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useNow } from "lib/utils/hooks/useNow";
 
 export type SaltModalPrimaryAction = "claim" | "start" | "blocked";
@@ -86,7 +87,7 @@ export function partitionSaltHarvestSlotsForQueueUi(
 export type SaltModalState = {
   canStart: boolean;
   canClaim: boolean;
-  blockedReason?: string;
+  blockedReason?: TranslationKeys;
   primaryAction: SaltModalPrimaryAction;
   regenerationState: SaltRegenerationState;
   nextChargeInSeconds?: number;
@@ -151,14 +152,12 @@ export function getSaltModalState({
   const canStart = maxByRules >= 1;
   const canClaim = readySlots.length > 0;
 
-  let blockedReason: string | undefined;
+  let blockedReason: TranslationKeys | undefined;
   if (!canStart) {
-    if (isVip && remainingVipSlots <= 0) {
-      blockedReason = "VIP can have up to 4 active salt rakes";
-    } else if (availableSaltRakes <= 0) {
-      blockedReason = "Not enough Salt Rakes";
+    if (availableSaltRakes <= 0) {
+      blockedReason = "saltHarvest.blockedReason.notEnoughSaltRakes";
     } else if (storedCharges <= 0 && displayCharges <= 0) {
-      blockedReason = "No salt charges available";
+      blockedReason = "saltHarvest.blockedReason.noSaltChargesAvailable";
     }
   }
 

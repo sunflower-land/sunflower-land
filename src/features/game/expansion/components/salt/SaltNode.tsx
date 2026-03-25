@@ -11,12 +11,13 @@ import { SaltNodeModalPanel } from "./SaltNodeModalPanel";
 
 interface Props {
   id: string;
+  visiting: boolean;
 }
 
 const _node = (id: string) => (state: MachineState) =>
   state.context.state.saltFarm.nodes[id];
 
-export const SaltNode: React.FC<Props> = ({ id }) => {
+export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   const { gameService, showAnimations } = useContext(Context);
   const node = useSelector(gameService, _node(id));
   const now = useNow({ live: true });
@@ -34,7 +35,7 @@ export const SaltNode: React.FC<Props> = ({ id }) => {
     <div className="relative w-full h-full">
       <div
         className="w-full h-full cursor-pointer hover:img-highlight"
-        onClick={() => setShowModal(true)}
+        onClick={() => !visiting && setShowModal(true)}
       >
         {readySlots > 0 && (
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">

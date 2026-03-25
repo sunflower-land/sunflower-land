@@ -8161,5 +8161,12 @@
   "resource.goldRecoveryTime": "Gold",
   "resource.crimstoneRecoveryTime": "Crimstone",
   "resource.oilRecoveryTime": "Oil",
-  "resource.sunstoneRecoveryTime": "Sunstone"
+  "resource.sunstoneRecoveryTime": "Sunstone",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Not enough Salt Rakes",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "No salt charges available",
+  "saltHarvest.startHarvest": "Start Harvest",
+  "saltHarvest.claimSalt": "Claim Salt ({{count}})",
+  "saltHarvest.nextChargeIn": "Next charge in {{time}}",
+  "saltHarvest.storedCharges": "Stored Charges: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Available Salt Rakes: {{count}}"
 }
