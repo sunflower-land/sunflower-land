@@ -4403,7 +4403,7 @@
   "skill.longPickings.buff": "-50% Apple and Banana growth time",
   "skill.longPickings.debuff": "+100% growth time for all other fruit patch fruits",
   "skill.shortPickings.buff": "-50% Blueberry and Orange growth time",
-  "skill.shortPickings.debuff": "+100% growth time for all other Fruit Patch",
+  "skill.shortPickings.debuff": "+100% growth time for all other fruit patch fruits",
   "skill.zestyVibes.buff": "+1 Tomato and Lemon yield",
   "skill.zestyVibes.debuff": "-0.25 yield for all other fruit patch fruits",
   "skill.lumberjacksExtra": "+0.1 wood yield",
