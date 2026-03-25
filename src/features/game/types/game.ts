@@ -65,6 +65,7 @@ import {
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
 import {
+  AgedFishName,
   FishName,
   FishingBait,
   MarineMarvelName,
@@ -77,6 +78,7 @@ import {
   FlowerSeedName,
   MutantFlowerName,
 } from "./flowers";
+import { PickledItemName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
@@ -639,6 +641,7 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
+  | AgedFishName
   | MarineMarvelName
   | OldFishName
   | FlowerName
@@ -665,7 +668,8 @@ export type InventoryItemName =
   | PetResourceName
   | PetShopItemName
   | CrustaceanName
-  | ChapterRaffleTicket;
+  | ChapterRaffleTicket
+  | PickledItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
