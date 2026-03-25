@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -62,21 +62,49 @@ export const WithdrawPets: React.FC<Props> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const now = useNow();
-  const nowDate = new Date(now);
 
-  const withdrawableUnselected = unselected.filter((petId) => {
-    const isRevealed = isPetNFTRevealed(petId, now);
-    const { withdrawAt } = getPetReleases(petId);
-    return isRevealed && (!withdrawAt || withdrawAt <= nowDate);
-  });
+  const { petsToShow, petRowById } = useMemo(() => {
+    const nowDate = new Date(now);
+    type Row = {
+      isRevealed: boolean;
+      revealDate: Date | undefined;
+      withdrawAt: Date | undefined;
+      isRevealedButNotWithdrawable: boolean;
+    };
+    const petRowById = new Map<number, Row>();
 
-  const revealedButNotWithdrawable = unselected.filter((petId) => {
-    const { withdrawAt } = getPetReleases(petId);
-    const isRevealed = isPetNFTRevealed(petId, now);
-    return isRevealed && !!withdrawAt && withdrawAt > nowDate;
-  });
+    const withdrawable: number[] = [];
+    const revealedLocked: number[] = [];
+    const unrevealed: number[] = [];
 
-  const petsToShow = [...withdrawableUnselected, ...revealedButNotWithdrawable];
+    for (const petId of unselected) {
+      const isRevealed = isPetNFTRevealed(petId, now);
+      const { withdrawAt } = getPetReleases(petId);
+      const revealDate = getPetNFTReleaseDate(petId, now);
+      const isRevealedButNotWithdrawable =
+        isRevealed && !!withdrawAt && withdrawAt > nowDate;
+
+      petRowById.set(petId, {
+        isRevealed,
+        revealDate,
+        withdrawAt,
+        isRevealedButNotWithdrawable,
+      });
+
+      if (!isRevealed) {
+        unrevealed.push(petId);
+      } else if (isRevealedButNotWithdrawable) {
+        revealedLocked.push(petId);
+      } else if (!withdrawAt || withdrawAt <= nowDate) {
+        withdrawable.push(petId);
+      }
+    }
+
+    return {
+      petsToShow: [...withdrawable, ...revealedLocked, ...unrevealed],
+      petRowById,
+    };
+  }, [unselected, now]);
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -220,11 +248,12 @@ export const WithdrawPets: React.FC<Props> = ({
               );
               const RestrictionCooldown = cooldownTimeLeft / 1000;
 
-              const isRevealed = isPetNFTRevealed(petId, now);
-              const revealDate = getPetNFTReleaseDate(petId, now);
-              const { withdrawAt } = getPetReleases(petId);
+              const row = petRowById.get(petId);
+              const isRevealed = row?.isRevealed ?? false;
+              const revealDate = row?.revealDate;
+              const withdrawAt = row?.withdrawAt;
               const isRevealedButNotWithdrawable =
-                isRevealed && !!withdrawAt && withdrawAt > nowDate;
+                row?.isRevealedButNotWithdrawable ?? false;
 
               const isDisabled =
                 isRestricted || !isRevealed || isRevealedButNotWithdrawable;

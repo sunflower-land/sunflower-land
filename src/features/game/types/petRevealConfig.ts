@@ -46,6 +46,8 @@ export const MAINNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 2511,
     endId: 2874,
+    // Placeholder until wave is assigned; blocks withdraw/trade like a locked wave
+    withdrawAt: new Date("2099-12-31T23:59:59.000Z"),
   },
 
   // Reserved Eggs - Giveaway
@@ -95,6 +97,8 @@ export const TESTNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 2511,
     endId: 2874,
+    // Placeholder until wave is assigned; blocks withdraw/trade like a locked wave
+    withdrawAt: new Date("2099-12-31T23:59:59.000Z"),
   },
 
   // Reserved Eggs - Giveaway
