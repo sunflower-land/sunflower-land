@@ -1196,7 +1196,7 @@ export const LandComponent: React.FC = () => {
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
         {!landscaping && hasSaltFarmAccess && saltPlaceholderElements}
-        {!landscaping && saltNodeElements}
+        {!landscaping && hasSaltFarmAccess && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div
