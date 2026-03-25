@@ -184,6 +184,19 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2830.png",
     name: "Fish Kite",
   },
+  CluckCoin: {
+    description:
+      "A minigame currency from Chicken Rescue. Not withdrawable. No in-game utility yet; trading is experimental.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Minigame currency" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Withdrawable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2831.png",
+    name: "CluckCoin",
+  },
   "Furikake Sprinkle": {
     description: "A lightning-fast umami sprinkle for quick snacks.",
     decimals: 0,

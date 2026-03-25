@@ -7889,7 +7889,6 @@
   "tracks.completeTasksToEarnPoints": "Выполняй задания главы {{chapter}}, чтобы зарабатывать очки.",
   "fishingPuzzle.freeAttemptAvailable": "У тебя есть 1 бесплатная попытка. Хочешь использовать её?",
   "description.squidChicken.boost": "+0.1 яйцо",
-  "description.anemoneFlower.boost": "1 бесплатная попытка рыбалки",
   "description.mermaidSheep.boost": "-5% корма для овец",
   "guaranteedCatch.guide.info": "При использовании одной из следующих наживок ты можешь выбрать рыбу из категории в качестве гарантированного улова.",
   "guaranteedCatch.guide.title": "Гид по гарантированному улову",
@@ -8142,5 +8141,12 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% времени роста моркови на грядках",
   "description.giantZucchini.boost": "-50% времени роста цукини на грядках",
   "description.broccoliHat.boost": "-50% времени роста брокколи на грядках",
-  "withdraw.duplicate.waitMessage": "If you're on a public or shared network, you may need to wait—that's expected. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage. This safeguard applies automatically and isn't a strike or warning."
+  "withdraw.duplicate.waitMessage": "If you're on a public or shared network, you may need to wait—that's expected. Public or shared networks may require a short wait due to overuse. Very busy networks may require up to 2 weeks depending on usage. This safeguard applies automatically and isn't a strike or warning.",
+  "marketplace.new": "New",
+  "marketplace.cluckCoin.minigameName": "Chicken Rescue minigame",
+  "marketplace.cluckCoin.builtBy": "Built by Adam",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin has no in-game utility yet. Prices are player-driven. Trading is experimental and may change. This token cannot be withdrawn to your wallet.",
+  "description.cluck.coin": "A minigame currency earned by VIPs for completing the daily Chicken Rescue challenge. Not withdrawable.",
+  "cluck.coin": "CluckCoin",
+  "description.anemoneFlower.boost": "+1 Fishing minigame attempt"
 }

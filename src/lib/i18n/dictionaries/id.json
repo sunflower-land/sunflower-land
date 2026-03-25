@@ -7872,7 +7872,6 @@
   "tracks.completeTasksToEarnPoints": "Selesaikan tugas {{chapter}} untuk mendapatkan poin.",
   "fishingPuzzle.freeAttemptAvailable": "Anda memiliki 1 percobaan gratis yang tersedia. Apakah Anda ingin menggunakannya?",
   "description.squidChicken.boost": "+0.1 Telur",
-  "description.anemoneFlower.boost": "1 Gratis Coba Kembali Memancing",
   "description.mermaidSheep.boost": "-5% Pakan Domba",
   "guaranteedCatch.guide.info": "Beli menggunakan salah satu umpan berikut, Anda dapat memilih satu untuk ikan dari kategori sebagai tangkapan terjamin Anda.",
   "guaranteedCatch.guide.title": "Panduan Memancing Bergaransi",
@@ -8142,5 +8141,12 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% Waktu Pertumbuhan Plot Wortel",
   "description.giantZucchini.boost": "-50% Waktu Pertumbuhan Plot Zucchini",
   "description.broccoliHat.boost": "-50% Waktu Pertumbuhan Plot Brokoli",
-  "withdraw.duplicate.waitMessage": "Jika Anda berada di jaringan publik atau bersama, Anda mungkin perlu menunggu — itu yang diharapkan. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan. Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan."
+  "withdraw.duplicate.waitMessage": "Jika Anda berada di jaringan publik atau bersama, Anda mungkin perlu menunggu — itu yang diharapkan. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan. Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan.",
+  "marketplace.new": "Baru",
+  "marketplace.cluckCoin.minigameName": "Minigame Penyelamatan Ayam",
+  "marketplace.cluckCoin.builtBy": "Dibangun oleh Adam",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin belum memiliki utilitas dalam game. Harga didorong oleh pemain. Perdagangan bersifat eksperimental dan dapat berubah. Token ini tidak dapat ditarik ke dompet Anda.",
+  "description.cluck.coin": "Mata uang minigame yang diperoleh VIP untuk menyelesaikan tantangan Penyelamatan Ayam harian. Tidak dapat ditarik.",
+  "cluck.coin": "CluckCoin",
+  "description.anemoneFlower.boost": "+1 Upaya minigame memancing"
 }

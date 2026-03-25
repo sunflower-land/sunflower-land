@@ -7872,7 +7872,6 @@
   "tracks.completeTasksToEarnPoints": "Completa le attività {{chapter}} per guadagnare punti.",
   "fishingPuzzle.freeAttemptAvailable": "Hai a disposizione 1 tentativo gratuito. Vuoi utilizzarlo?",
   "description.squidChicken.boost": "+0,1 uovo",
-  "description.anemoneFlower.boost": "1 riprova di pesca gratuita",
   "description.mermaidSheep.boost": "-5% Mangime per pecore",
   "guaranteedCatch.guide.info": "Utilizzando una delle seguenti esche, puoi selezionarne una per il pesce della categoria come cattura garantita.",
   "guaranteedCatch.guide.title": "Guida alla pesca garantita",
@@ -8142,5 +8141,12 @@
   "bumpkinItemBuff.carrot.amulet.boost": "-20% Tempo di crescita di Carrot Plot",
   "description.giantZucchini.boost": "-50% Tempo di crescita del terreno di zucchine",
   "description.broccoliHat.boost": "-50% Tempo di crescita del terreno dei broccoli",
-  "withdraw.duplicate.waitMessage": "Se sei su una rete pubblica o condivisa, potresti dover attendere, come previsto. Le reti pubbliche o condivise possono richiedere una breve attesa a causa dell'uso eccessivo. Le reti molto occupate possono richiedere fino a 2 settimane a seconda dell'utilizzo. Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento."
+  "withdraw.duplicate.waitMessage": "Se sei su una rete pubblica o condivisa, potresti dover attendere, come previsto. Le reti pubbliche o condivise possono richiedere una breve attesa a causa dell'uso eccessivo. Le reti molto occupate possono richiedere fino a 2 settimane a seconda dell'utilizzo. Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento.",
+  "marketplace.new": "Nuovo",
+  "marketplace.cluckCoin.minigameName": "Minigioco Chicken Rescue",
+  "marketplace.cluckCoin.builtBy": "Costruito da Adam",
+  "marketplace.cluckCoin.disclaimer": "CluckCoin non ha ancora alcuna utilità di gioco. I prezzi sono determinati dai giocatori. Il trading è sperimentale e può cambiare. Questo token non può essere prelevato sul tuo portafoglio.",
+  "description.cluck.coin": "Una valuta da minigioco guadagnata dai VIP per aver completato la sfida quotidiana Chicken Rescue. Non estraibile.",
+  "cluck.coin": "ClickCoin",
+  "description.anemoneFlower.boost": "+1 tentativo di minigioco di pesca"
 }
