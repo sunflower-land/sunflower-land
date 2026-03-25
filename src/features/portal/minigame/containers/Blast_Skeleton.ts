@@ -213,7 +213,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated) return;
     this.scene.time.delayedCall(1000, () => {
       if (!this.player || this.isDefeated) return;
-      const finalX = Phaser.Utils.Array.GetRandom([270, 340]);;
+      const finalX = Phaser.Utils.Array.GetRandom([270, 340]);
       this.setPosition(finalX, this.spawnY);
       this.tomatoBomb.setVisible(false);
       this.food.setTexture(`${this.spriteName}_tomato`);
@@ -261,8 +261,8 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     }
   }
 
-  private createDamage() { }
-  private createEvents() { }
+  private createDamage() {}
+  private createEvents() {}
 
   public defeat() {
     if (this.isDefeated || !this.sprite.active) return;
@@ -274,11 +274,11 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     createAnimation(
       this.scene,
       this.sprite,
-      "sniper_skeleton_death",
+      "blast_skeleton_death",
       "death",
       0,
-      4,
-      4,
+      6,
+      10,
       0,
     );
     this.scene.sound.add("death", { volume: 0.3 }).play();
@@ -308,7 +308,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.isDefeated = false;
     this.isHit = false;
 
-    const finalX = this.spawnX + (this.player.x <= 300 ? -1 : 1) * Phaser.Utils.Array.GetRandom([280, 340]);;
+    const finalX = Phaser.Utils.Array.GetRandom([280, 340]);
     this.setPosition(finalX / this.scale, this.spawnY);
 
     const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
