@@ -163,7 +163,7 @@ export const WORKBENCH_TOOLS: Record<
     description: "Used to harvest salt from salt nodes",
     price: 20,
     ingredients: () => ({ Wood: new Decimal(3) }),
-    stock: new Decimal(12),
+    stock: new Decimal(24),
     type: "water",
   },
 };
