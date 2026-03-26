@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useCallback,
+  useMemo,
 } from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "@xstate/react";
@@ -52,6 +53,51 @@ interface VersionsListMessage extends WebSocketMessage {
   };
 }
 
+interface AssetEntry {
+  category: string;
+  name: string;
+  path: string;
+  /** Copy-pasteable reference, e.g. SUNNYSIDE.icons.close */
+  ref: string;
+}
+
+/** Simple fuzzy match: checks if all characters of the query appear in order. */
+function fuzzyMatch(query: string, target: string): boolean {
+  const q = query.toLowerCase();
+  const t = target.toLowerCase();
+  let qi = 0;
+  for (let ti = 0; ti < t.length && qi < q.length; ti++) {
+    if (t[ti] === q[qi]) qi++;
+  }
+  return qi === q.length;
+}
+
+/**
+ * Flatten the global SUNNYSIDE object (set by the asset template) into a
+ * searchable list of entries.
+ */
+function flattenSunnysideAssets(): AssetEntry[] {
+  const sunnyside = (window as any).SUNNYSIDE;
+  if (!sunnyside) return [];
+
+  const entries: AssetEntry[] = [];
+  for (const category of Object.keys(sunnyside)) {
+    const group = sunnyside[category];
+    if (typeof group !== "object" || group === null) continue;
+    for (const name of Object.keys(group)) {
+      const path = group[name];
+      if (typeof path !== "string") continue;
+      entries.push({
+        category,
+        name,
+        path,
+        ref: `SUNNYSIDE.${category}.${name}`,
+      });
+    }
+  }
+  return entries;
+}
+
 const WS_URL = import.meta.env.VITE_AI_PORTAL_WS_URL || "ws://localhost:3001";
 
 const EXAMPLE_PROMPTS = [
@@ -95,6 +141,14 @@ export const AIBuilder: React.FC = () => {
     { versionId: string; lastModified: string }[]
   >([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"builder" | "assets">("builder");
+  const [assetSearch, setAssetSearch] = useState("");
+  const [assetCategory, setAssetCategory] = useState<string>("all");
+  const [assetEntries, setAssetEntries] = useState<AssetEntry[]>([]);
+  const [copiedRef, setCopiedRef] = useState<string | null>(null);
+  const [mobileDrawerTab, setMobileDrawerTab] = useState<"tools" | "assets">(
+    "tools",
+  );
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -208,6 +262,9 @@ export const AIBuilder: React.FC = () => {
         // Load asset definitions into global scope
         const assetsFunction = new Function(sunflowerAssets);
         assetsFunction();
+
+        // Refresh the asset directory after loading
+        setAssetEntries(flattenSunnysideAssets());
 
         // Load SDK into global scope
         const sdkFunction = new Function(sunflowerSDK);
@@ -525,6 +582,118 @@ export const AIBuilder: React.FC = () => {
     }
   };
 
+  // Derive categories and filtered assets from current state
+  const assetCategories = useMemo(
+    () => Array.from(new Set(assetEntries.map((e) => e.category))).sort(),
+    [assetEntries],
+  );
+
+  const filteredAssets = useMemo(() => {
+    let list = assetEntries;
+    if (assetCategory !== "all") {
+      list = list.filter((e) => e.category === assetCategory);
+    }
+    if (assetSearch.trim()) {
+      const q = assetSearch.trim();
+      list = list.filter(
+        (e) =>
+          fuzzyMatch(q, e.name) ||
+          fuzzyMatch(q, e.category) ||
+          fuzzyMatch(q, e.ref),
+      );
+    }
+    return list;
+  }, [assetEntries, assetCategory, assetSearch]);
+
+  const copyAssetRef = useCallback((ref: string) => {
+    navigator.clipboard.writeText(ref).then(() => {
+      setCopiedRef(ref);
+      setTimeout(() => setCopiedRef(null), 1500);
+    });
+  }, []);
+
+  // Shared asset directory content (used in desktop tab and mobile drawer)
+  const assetDirectoryContent = (
+    <div className="flex flex-col gap-2">
+      {/* Search */}
+      <input
+        type="text"
+        value={assetSearch}
+        onChange={(e) => setAssetSearch(e.target.value)}
+        placeholder="Search assets (e.g. chicken, axe, tree)..."
+        className="w-full p-2 rounded text-sm border border-gray-300"
+      />
+
+      {/* Category filter */}
+      <div className="flex flex-wrap gap-1">
+        <span
+          className={`text-xs px-2 py-1 rounded-full cursor-pointer ${
+            assetCategory === "all"
+              ? "bg-blue-200 text-blue-900 font-semibold"
+              : "bg-brown-100 hover:bg-brown-200"
+          }`}
+          onClick={() => setAssetCategory("all")}
+        >
+          {"All"}
+        </span>
+        {assetCategories.map((cat) => (
+          <span
+            key={cat}
+            className={`text-xs px-2 py-1 rounded-full cursor-pointer ${
+              assetCategory === cat
+                ? "bg-blue-200 text-blue-900 font-semibold"
+                : "bg-brown-100 hover:bg-brown-200"
+            }`}
+            onClick={() => setAssetCategory(cat)}
+          >
+            {cat}
+          </span>
+        ))}
+      </div>
+
+      {/* Results */}
+      {assetEntries.length === 0 ? (
+        <p className="text-xs text-gray-500">
+          {"Assets load after a game is generated or loaded."}
+        </p>
+      ) : filteredAssets.length === 0 ? (
+        <p className="text-xs text-gray-500">{"No matching assets found."}</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 max-h-[400px] md:max-h-[calc(100vh-320px)] overflow-y-auto">
+          {filteredAssets.map((asset) => (
+            <div
+              key={asset.ref}
+              className="flex flex-col items-center p-1 rounded bg-brown-100 hover:bg-brown-200 cursor-pointer text-center"
+              onClick={() => copyAssetRef(asset.ref)}
+              title={`Click to copy: ${asset.ref}`}
+            >
+              <img
+                src={asset.path}
+                alt={asset.name}
+                className="w-10 h-10 object-contain"
+                style={{ imageRendering: "pixelated" }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+              <span className="text-[10px] leading-tight mt-1 break-all">
+                {asset.name}
+              </span>
+              <span className="text-[9px] text-gray-500 leading-tight">
+                {asset.category}
+              </span>
+              {copiedRef === asset.ref && (
+                <span className="text-[9px] text-green-700 font-semibold">
+                  {"Copied!"}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
   /*
    * TWO LAYOUTS: This component has a desktop and mobile layout.
    *
@@ -682,23 +851,57 @@ export const AIBuilder: React.FC = () => {
          *   prompt overlaid at the bottom.
          */}
         <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-1 p-1 relative">
-          {/* ===== DESKTOP: Left Side - Form (hidden on mobile) ===== */}
+          {/* ===== DESKTOP: Left Side - Tabbed panel (hidden on mobile) ===== */}
           <div className="hidden md:flex md:w-1/2 flex-col gap-2">
-            <InnerPanel className="flex flex-col gap-2 p-2">
-              <Label type="default">{"Describe Your Minigame"}</Label>
-              {promptSection}
-              {statusBar}
-            </InnerPanel>
+            {/* Tab bar */}
+            <div className="flex gap-1">
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  activeTab === "builder"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setActiveTab("builder")}
+              >
+                {"Builder"}
+              </span>
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  activeTab === "assets"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setActiveTab("assets")}
+              >
+                {"Assets"}
+              </span>
+            </div>
 
-            <InnerPanel className="p-2">
-              <Label type="default">{"Example Prompts"}</Label>
-              {examplePromptsContent}
-            </InnerPanel>
+            {/* Tab content */}
+            {activeTab === "builder" ? (
+              <>
+                <InnerPanel className="flex flex-col gap-2 p-2">
+                  <Label type="default">{"Describe Your Minigame"}</Label>
+                  {promptSection}
+                  {statusBar}
+                </InnerPanel>
 
-            <InnerPanel className="p-2">
-              <Label type="default">{"Previous Versions"}</Label>
-              {versionsContent}
-            </InnerPanel>
+                <InnerPanel className="p-2">
+                  <Label type="default">{"Example Prompts"}</Label>
+                  {examplePromptsContent}
+                </InnerPanel>
+
+                <InnerPanel className="p-2">
+                  <Label type="default">{"Previous Versions"}</Label>
+                  {versionsContent}
+                </InnerPanel>
+              </>
+            ) : (
+              <InnerPanel className="flex flex-col gap-2 p-2">
+                <Label type="default">{"Asset Directory"}</Label>
+                {assetDirectoryContent}
+              </InnerPanel>
+            )}
           </div>
 
           {/* ===== Game Preview - single instance, responsive sizing ===== */}
@@ -758,8 +961,30 @@ export const AIBuilder: React.FC = () => {
               />
               <div className="absolute bottom-0 left-0 right-0 z-20 p-1 pb-2 max-h-[70%] overflow-y-auto md:hidden">
                 <InnerPanel className="flex flex-col gap-2 p-2">
+                  {/* Drawer header: tabs + close */}
                   <div className="flex justify-between items-center">
-                    <Label type="default">{"Tools"}</Label>
+                    <div className="flex gap-1">
+                      <span
+                        className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                          mobileDrawerTab === "tools"
+                            ? "bg-brown-200 font-semibold"
+                            : "bg-brown-100"
+                        }`}
+                        onClick={() => setMobileDrawerTab("tools")}
+                      >
+                        {"Tools"}
+                      </span>
+                      <span
+                        className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                          mobileDrawerTab === "assets"
+                            ? "bg-brown-200 font-semibold"
+                            : "bg-brown-100"
+                        }`}
+                        onClick={() => setMobileDrawerTab("assets")}
+                      >
+                        {"Assets"}
+                      </span>
+                    </div>
                     <button
                       className="text-xs px-2 py-1 rounded"
                       style={{ color: "#000" }}
@@ -769,20 +994,33 @@ export const AIBuilder: React.FC = () => {
                     </button>
                   </div>
 
-                  <div>
-                    <Label type="default">{"Example Prompts"}</Label>
-                    {examplePromptsContent}
-                  </div>
+                  {/* Tab content */}
+                  {mobileDrawerTab === "tools" ? (
+                    <>
+                      <div>
+                        <Label type="default">{"Example Prompts"}</Label>
+                        {examplePromptsContent}
+                      </div>
 
-                  <div>
-                    <Label type="default">{"Previous Versions"}</Label>
-                    {versionsContent}
-                  </div>
+                      <div>
+                        <Label type="default">{"Previous Versions"}</Label>
+                        {versionsContent}
+                      </div>
 
-                  {hasSavedFarm && (
-                    <Button onClick={deleteSavedFarm} disabled={isGenerating}>
-                      {"Delete Saved Farm"}
-                    </Button>
+                      {hasSavedFarm && (
+                        <Button
+                          onClick={deleteSavedFarm}
+                          disabled={isGenerating}
+                        >
+                          {"Delete Saved Farm"}
+                        </Button>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      <Label type="default">{"Asset Directory"}</Label>
+                      {assetDirectoryContent}
+                    </div>
                   )}
                 </InnerPanel>
               </div>
