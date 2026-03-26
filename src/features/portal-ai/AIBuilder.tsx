@@ -47,7 +47,7 @@ interface VersionsListMessage extends WebSocketMessage {
   action: "versionsList";
   data: {
     farmId: string;
-    versions: { timestamp: string }[];
+    versions: { versionId: string; lastModified: string }[];
     sessionId: string;
   };
 }
@@ -91,7 +91,9 @@ export const AIBuilder: React.FC = () => {
   }>({ message: "", type: "hidden" });
   const [hasSavedFarm, setHasSavedFarm] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [versions, setVersions] = useState<{ timestamp: string }[]>([]);
+  const [versions, setVersions] = useState<
+    { versionId: string; lastModified: string }[]
+  >([]);
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -487,7 +489,7 @@ export const AIBuilder: React.FC = () => {
   }, [showStatus]);
 
   const loadVersion = useCallback(
-    (timestamp: string) => {
+    (versionId: string, lastModified: string) => {
       if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
         showStatus("Not connected to server. Please wait...", "error");
         return;
@@ -497,7 +499,7 @@ export const AIBuilder: React.FC = () => {
       sessionIdRef.current = sid;
       setIsGenerating(true);
       showStatus(
-        `Loading version from ${new Date(timestamp).toLocaleString()}...`,
+        `Loading version from ${new Date(lastModified).toLocaleString()}...`,
         "generating",
       );
 
@@ -506,7 +508,7 @@ export const AIBuilder: React.FC = () => {
           action: "loadVersion",
           data: {
             farmId: String(farmId),
-            timestamp,
+            versionId,
             sessionId: sid,
           },
         }),
@@ -649,12 +651,14 @@ export const AIBuilder: React.FC = () => {
                 <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
                   {versions.map((version) => (
                     <div
-                      key={version.timestamp}
+                      key={version.versionId}
                       className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
-                      onClick={() => loadVersion(version.timestamp)}
+                      onClick={() =>
+                        loadVersion(version.versionId, version.lastModified)
+                      }
                     >
                       <span>
-                        {new Date(version.timestamp).toLocaleString()}
+                        {new Date(version.lastModified).toLocaleString()}
                       </span>
                       <span className="underline ml-2 flex-shrink-0">
                         {"Load"}
