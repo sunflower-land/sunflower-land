@@ -8,21 +8,24 @@ type Request = {
   portalId: MinigameName;
   token: string;
   farmId: number;
+  /** When true, skip localStorage cache and always POST `/portal/:id/login`. */
+  skipCache?: boolean;
 };
 
 const API_URL = CONFIG.API_URL;
 
 export async function portal(request: Request) {
-  // TODO check cache for valid token;
-  const cachedToken = getMinigameToken(request.portalId);
+  if (!request.skipCache) {
+    const cachedToken = getMinigameToken(request.portalId);
 
-  if (cachedToken) {
-    const token = decodeToken(cachedToken);
-    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
-    const isValid = !!token.userAccess;
+    if (cachedToken) {
+      const token = decodeToken(cachedToken);
+      const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
+      const isValid = !!token.userAccess;
 
-    if (isFresh && isValid) {
-      return { token: cachedToken };
+      if (isFresh && isValid) {
+        return { token: cachedToken };
+      }
     }
   }
 

@@ -59,6 +59,7 @@ import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
+import { DEV_MinigameToken } from "./developer-options/DEV_MinigameToken";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -306,6 +307,7 @@ export type SettingMenuId =
   | "hoardingCheck"
   | "playerSearch"
   | "errorSearch"
+  | "minigameToken"
   // Plaza Settings
   | "pickServer"
   | "shader";
@@ -416,6 +418,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Error Search (DEV)",
     parent: "amoy",
     content: (props) => <DEV_ErrorSearch {...props} />,
+  },
+  minigameToken: {
+    title: "Minigame token (DEV)",
+    parent: "amoy",
+    content: (props) => <DEV_MinigameToken {...props} />,
   },
   // Plaza Settings
   pickServer: {
