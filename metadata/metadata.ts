@@ -1328,6 +1328,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Salt Rake": {
+    name: "Salt Rake",
+    description:
+      "A tool used to harvest salt nodes. It is burnt after use.\n\nYou can craft a salt rake at the Blacksmith in the game.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/318.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Petting Hand": {
     name: "Petting Hand",
     description:
@@ -2414,6 +2426,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/663.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Salt: {
+    name: "Salt",
+    description:
+      "A resource harvested from salt nodes.\n\nIt is used in a range of different crafting recipes.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/665.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "No" },
@@ -12001,6 +12025,944 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Aged Anchovy": {
+    description: "Aged anchovy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2900.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Anchovy",
+  },
+  "Aged Butterflyfish": {
+    description: "Aged butterflyfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2901.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Butterflyfish",
+  },
+  "Aged Blowfish": {
+    description: "Aged blowfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2902.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Blowfish",
+  },
+  "Aged Clownfish": {
+    description: "Aged clownfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2903.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Clownfish",
+  },
+  "Aged Angelfish": {
+    description: "Aged angelfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2904.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Angelfish",
+  },
+  "Aged Cobia": {
+    description: "Aged cobia.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2905.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Cobia",
+  },
+  "Aged Halibut": {
+    description: "Aged halibut.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2906.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Halibut",
+  },
+  "Aged Muskellunge": {
+    description: "Aged muskellunge.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2907.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Muskellunge",
+  },
+  "Aged Parrotfish": {
+    description: "Aged parrotfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2908.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Parrotfish",
+  },
+  "Aged Porgy": {
+    description: "Aged porgy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2909.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Porgy",
+  },
+  "Aged Sea Bass": {
+    description: "Aged sea bass.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2910.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Sea Bass",
+  },
+  "Aged Tilapia": {
+    description: "Aged tilapia.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2911.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Tilapia",
+  },
+  "Aged Trout": {
+    description: "Aged trout.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2912.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Trout",
+  },
+  "Aged Walleye": {
+    description: "Aged walleye.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2913.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Walleye",
+  },
+  "Aged Weakfish": {
+    description: "Aged weakfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2914.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Weakfish",
+  },
+  "Aged Rock Blackfish": {
+    description: "Aged rock blackfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2915.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Rock Blackfish",
+  },
+  "Aged Sea Horse": {
+    description: "Aged sea horse.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2916.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Sea Horse",
+  },
+  "Aged Horse Mackerel": {
+    description: "Aged horse mackerel.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2917.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Horse Mackerel",
+  },
+  "Aged Squid": {
+    description: "Aged squid.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2918.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Squid",
+  },
+  "Aged Red Snapper": {
+    description: "Aged red snapper.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2919.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Red Snapper",
+  },
+  "Aged Moray Eel": {
+    description: "Aged moray eel.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2920.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Moray Eel",
+  },
+  "Aged Olive Flounder": {
+    description: "Aged olive flounder.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2921.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Olive Flounder",
+  },
+  "Aged Napoleanfish": {
+    description: "Aged napoleanfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2922.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Napoleanfish",
+  },
+  "Aged Surgeonfish": {
+    description: "Aged surgeonfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2923.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Surgeonfish",
+  },
+  "Aged Zebra Turkeyfish": {
+    description: "Aged zebra turkeyfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2924.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Zebra Turkeyfish",
+  },
+  "Aged Ray": {
+    description: "Aged ray.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2925.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Ray",
+  },
+  "Aged Hammerhead shark": {
+    description: "Aged hammerhead shark.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2926.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Hammerhead shark",
+  },
+  "Aged Barred Knifejaw": {
+    description: "Aged barred knifejaw.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2927.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Barred Knifejaw",
+  },
+  "Aged Tuna": {
+    description: "Aged tuna.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2928.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Tuna",
+  },
+  "Aged Mahi Mahi": {
+    description: "Aged mahi mahi.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2929.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Mahi Mahi",
+  },
+  "Aged Blue Marlin": {
+    description: "Aged blue marlin.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2930.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Blue Marlin",
+  },
+  "Aged Oarfish": {
+    description: "Aged oarfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2930.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Oarfish",
+  },
+  "Aged Football fish": {
+    description: "Aged football fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2931.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Football fish",
+  },
+  "Aged Sunfish": {
+    description: "Aged sunfish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2932.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Sunfish",
+  },
+  "Aged Coelacanth": {
+    description: "Aged coelacanth.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2933.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Coelacanth",
+  },
+  "Aged Whale Shark": {
+    description: "Aged whale shark.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2934.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Whale Shark",
+  },
+  "Aged Saw Shark": {
+    description: "Aged saw shark.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2935.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged Saw Shark",
+  },
+  "Aged White Shark": {
+    description: "Aged white shark.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2936.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Aged White Shark",
+  },
+  "Prime Aged Anchovy": {
+    description:
+      "Aged to perfection, this anchovy boasts deep, concentrated flavors of the sea.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2944.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Anchovy",
+  },
+  "Prime Aged Butterflyfish": {
+    description:
+      "A butterflyfish with a refined flavor, matured from gentle ocean currents.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2945.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Butterflyfish",
+  },
+  "Prime Aged Blowfish": {
+    description:
+      "This aged blowfish offers a rich, rare delicacy with a bite of adventure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2946.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Blowfish",
+  },
+  "Prime Aged Clownfish": {
+    description:
+      "A playful flavor, clowning around but matured for the prime palate.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2947.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Clownfish",
+  },
+  "Prime Aged Sea Bass": {
+    description:
+      "Savory and succulent, this prime sea bass is the result of patient aging.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2948.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Sea Bass",
+  },
+  "Prime Aged Sea Horse": {
+    description:
+      "A truly rare aged seahorse, bringing mythical umami from the depths.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2949.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Sea Horse",
+  },
+  "Prime Aged Horse Mackerel": {
+    description:
+      "A mackerel matured for robust flavor with hints of wild ocean breeze.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2950.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Horse Mackerel",
+  },
+  "Prime Aged Halibut": {
+    description:
+      "Rich, velvety, and matured for supreme quality over tide and time.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2951.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Halibut",
+  },
+  "Prime Aged Squid": {
+    description:
+      "Tender and unforgettable, this squid's flavor blossoms with age.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2952.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Squid",
+  },
+  "Prime Aged Red Snapper": {
+    description:
+      "Snappily aged for a richer, sweeter taste and delicate texture.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2953.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Red Snapper",
+  },
+  "Prime Aged Moray Eel": {
+    description: "Aged for a bold, savory experience and an oceanic afterglow.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2954.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Moray Eel",
+  },
+  "Prime Aged Olive Flounder": {
+    description:
+      "Soft and buttery, this prime flounder melts with flavor aged in brine.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2955.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Olive Flounder",
+  },
+  "Prime Aged Napoleanfish": {
+    description:
+      "Legendary Napoleanfish, refined by time, regal in flavor and stature.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2956.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Napoleanfish",
+  },
+  "Prime Aged Surgeonfish": {
+    description:
+      "Carefully aged for exquisite taste and a dash of sea-born elegance.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2957.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Surgeonfish",
+  },
+  "Prime Aged Zebra Turkeyfish": {
+    description:
+      "Striking stripes softened by the patient hands of time and tide.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2958.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Zebra Turkeyfish",
+  },
+  "Prime Aged Angelfish": {
+    description:
+      "A sublime flavor only an aged angelfish can grant, delicate and rare.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2959.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Angelfish",
+  },
+  "Prime Aged Ray": {
+    description:
+      "Silky, ethereal, this ray imparts a savory richness through careful aging.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2960.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Ray",
+  },
+  "Prime Aged Hammerhead shark": {
+    description:
+      "Aged hammerhead delivers bold, powerful flavors for the adventurous.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2961.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Hammerhead shark",
+  },
+  "Prime Aged Barred Knifejaw": {
+    description:
+      "Prime aged for complex notes, this knifejaw impresses the palate.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2962.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Barred Knifejaw",
+  },
+  "Prime Aged Tuna": {
+    description:
+      "An apex catch, this matured tuna provides an exceptional umami journey.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2963.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Tuna",
+  },
+  "Prime Aged Mahi Mahi": {
+    description:
+      "Aged mahi mahi—a radiant, golden delicacy with a sweet, savory finish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2964.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Mahi Mahi",
+  },
+  "Prime Aged Blue Marlin": {
+    description:
+      "This legendary marlin matures into a feast worthy of ocean kings.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2965.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Blue Marlin",
+  },
+  "Prime Aged Oarfish": {
+    description:
+      "Aged and elongated, the oarfish’s taste is as great as its legend.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2966.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Oarfish",
+  },
+  "Prime Aged Football fish": {
+    description:
+      "For those who crave an exotic, hearty taste—an MVP of aged fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2967.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Football fish",
+  },
+  "Prime Aged Sunfish": {
+    description:
+      "Basking in age, the sunfish attains a mellow, magnificent flavor.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2968.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Sunfish",
+  },
+  "Prime Aged Coelacanth": {
+    description:
+      "Prehistoric and patient, this coelacanth rewards with deep, mysterious notes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2969.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Coelacanth",
+  },
+  "Prime Aged Parrotfish": {
+    description:
+      "Aged parrotfish: colorful, robust, its taste as bold as its hues.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2970.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Parrotfish",
+  },
+  "Prime Aged Whale Shark": {
+    description:
+      "The gentle giant, its flavor deepened and enriched over the years.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2971.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Whale Shark",
+  },
+  "Prime Aged Saw Shark": {
+    description:
+      "A bold saw shark with time-hewn, complex tastes for daring diners.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2972.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Saw Shark",
+  },
+  "Prime Aged White Shark": {
+    description:
+      "The ocean's apex predator, matured for a distinguished and hearty savor.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2973.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged White Shark",
+  },
+  "Prime Aged Porgy": {
+    description: "Nutty, meaty, and matured for a taste that’s second to none.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2974.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Porgy",
+  },
+  "Prime Aged Muskellunge": {
+    description:
+      "Prime-aged ‘muskie’, treasured for its robust, legendary flavor.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2975.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Muskellunge",
+  },
+  "Prime Aged Trout": {
+    description:
+      "A time-matured trout: refined, light, and cherished by gourmet anglers.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2976.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Trout",
+  },
+  "Prime Aged Walleye": {
+    description:
+      "Crystalline flavor, perfected by age, a walleye worthy of celebration.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2977.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Walleye",
+  },
+  "Prime Aged Weakfish": {
+    description:
+      "Delicate and unique, this weakfish’s mild flavor achieves new heights with age.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2978.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Weakfish",
+  },
+  "Prime Aged Rock Blackfish": {
+    description:
+      "Dark, rich, and intense – aged rock blackfish for the true enthusiast.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2979.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Rock Blackfish",
+  },
+  "Prime Aged Cobia": {
+    description:
+      "Prime cobia: remarkably supple, aged for flavor seekers and fishing legends.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2980.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Cobia",
+  },
+  "Prime Aged Tilapia": {
+    description:
+      "Mild, tender, a tilapia elevated to perfection through careful maturing.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2981.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Prime Aged Tilapia",
+  },
+  "Pickled Radish": {
+    description: "Crisp radish, pickled to tangy perfection.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2937.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Radish",
+  },
+  "Pickled Zucchini": {
+    description: "Sliced zucchini with a sharp, briny bite.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2938.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Zucchini",
+  },
+  "Pickled Tomato": {
+    description: "Tomatoes steeped until sweet meets sour.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2939.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Tomato",
+  },
+  "Pickled Cabbage": {
+    description: "Leafy crunch, folded in brine and time.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2940.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Cabbage",
+  },
+  "Pickled Onion": {
+    description: "Sharp rings mellowed into punchy preserves.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2941.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Onion",
+  },
+  "Pickled Pepper": {
+    description: "Peppers packed with heat and vinegar spark.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2942.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Pickled Pepper",
+  },
   Timeshard: {
     description: "",
     decimals: 0,
@@ -14257,6 +15219,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/310.webp",
+  },
+  "Aging Shed": {
+    name: "Aging Shed",
+    description: "Age and ferment your resources into refined goods.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1026.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 };
 

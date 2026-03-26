@@ -24,6 +24,7 @@ import { secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
   INVENTORY_RELEASES,
+  getPetReleases,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -101,10 +102,12 @@ export const getNFTTraits = (
         }
       : undefined;
 
+  const { tradeAt } = getPetReleases(id);
+
   return {
     revealDate: getPetNFTReleaseDate(id, Date.now()),
     traits: combinedTraits,
-    tradeDate: new Date("2025-11-10T00:00:00Z"),
+    tradeDate: tradeAt,
   };
 };
 
@@ -206,6 +209,15 @@ export const TradeableDescription: React.FC<{
     tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
     withdrawAt =
       INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
+  }
+
+  if (tradeable?.collection === "pets") {
+    const petId = Number(display.name.split("#")[1]);
+    if (!Number.isNaN(petId)) {
+      const releases = getPetReleases(petId);
+      tradeAt = releases.tradeAt;
+      withdrawAt = releases.withdrawAt;
+    }
   }
 
   const canTrade = !!tradeAt && tradeAt <= new Date(now);

@@ -7,7 +7,9 @@ import {
   BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
 import { Bumpkin, GameState } from "features/game/types/game";
+import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -134,7 +136,7 @@ export const getUnlockedTierForTree = (
   return { availableTier, totalUsedSkillPoints };
 };
 
-export function choseSkill({ state, action }: Options) {
+export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
 
@@ -169,7 +171,11 @@ export function choseSkill({ state, action }: Options) {
       throw new Error("You already have this skill");
     }
 
-    // Add the selected skill to the bumpkin's skills
+    // Populate the salt farm with the new salt charges
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
+    }
+
     bumpkin.skills = {
       ...bumpkin.skills,
       [action.skill]: 1,

@@ -65,6 +65,8 @@ import {
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
 import {
+  AgedFishName,
+  PrimeAgedFishName,
   FishName,
   FishingBait,
   MarineMarvelName,
@@ -77,6 +79,7 @@ import {
   FlowerSeedName,
   MutantFlowerName,
 } from "./flowers";
+import { PickledItemName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
@@ -119,6 +122,7 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
+import { SaltFarm } from "./salt";
 
 export type CraftingQueueItem = {
   id: string;
@@ -639,6 +643,8 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
+  | AgedFishName
+  | PrimeAgedFishName
   | MarineMarvelName
   | OldFishName
   | FlowerName
@@ -665,7 +671,8 @@ export type InventoryItemName =
   | PetResourceName
   | PetShopItemName
   | CrustaceanName
-  | ChapterRaffleTicket;
+  | ChapterRaffleTicket
+  | PickledItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -2042,6 +2049,7 @@ export interface GameState {
   prototypes?: {
     leagues?: League;
   };
+  saltFarm: SaltFarm;
 }
 
 export type AOE = Partial<
