@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "甘酸っぱいトマトを漬け込みました。",
   "description.pickled.cabbage": "葉の多いクランチ。塩水でたたんで時間を取ります。",
   "description.pickled.onion": "鋭いリングがまろやかになってパンチの効いたジャムになりました。",
-  "description.pickled.pepper": "熱がたっぷり詰まったピーマンと酢の火花。"
+  "description.pickled.pepper": "熱がたっぷり詰まったピーマンと酢の火花。",
+  "building.agingShed": "エイジング・シェッド",
+  "description.agingShed": "資源を熟成させ、発酵させて精製品にします。",
+  "agingShed.agingRack": "エージングラック",
+  "agingShed.fermentationRack": "発酵ラック",
+  "agingShed.spiceRack": "スパイスラック"
 }

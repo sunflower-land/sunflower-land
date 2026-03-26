@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Los tomates se remojaron hasta que lo dulce y lo agrio.",
   "description.pickled.cabbage": "Crujiente frondoso, doblado en salmuera y tiempo.",
   "description.pickled.onion": "Anillos afilados suavizados en conservas picantes.",
-  "description.pickled.pepper": "Pimientos llenos de picante y chispa de vinagre."
+  "description.pickled.pepper": "Pimientos llenos de picante y chispa de vinagre.",
+  "building.agingShed": "Cobertizo envejecido",
+  "description.agingShed": "Envejece y fermenta tus recursos para convertirlos en productos refinados.",
+  "agingShed.agingRack": "Estante de envejecimiento",
+  "agingShed.fermentationRack": "Estante de fermentación",
+  "agingShed.spiceRack": "Estante de especias"
 }

@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tomates infusées jusqu'à ce que le sucré rencontre l'acide.",
   "description.pickled.cabbage": "Croquant feuillu, plié dans de la saumure et du temps.",
   "description.pickled.onion": "Des rondelles pointues transformées en conserves percutantes.",
-  "description.pickled.pepper": "Poivrons remplis de chaleur et d'étincelles de vinaigre."
+  "description.pickled.pepper": "Poivrons remplis de chaleur et d'étincelles de vinaigre.",
+  "building.agingShed": "Cabanon pour personnes âgées",
+  "description.agingShed": "Faites vieillir et fermentez vos ressources pour en faire des produits raffinés.",
+  "agingShed.agingRack": "Étagère de vieillissement",
+  "agingShed.fermentationRack": "Étagère de fermentation",
+  "agingShed.spiceRack": "Étagère à épices"
 }

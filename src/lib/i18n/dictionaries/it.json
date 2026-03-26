@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Pomodori macerati fino a quando il dolce incontra l'acido.",
   "description.pickled.cabbage": "Croccantezza delle foglie, piegata in salamoia e tempo.",
   "description.pickled.onion": "Anelli affilati addolciti in conserve incisive.",
-  "description.pickled.pepper": "Peperoni confezionati con calore e scintilla di aceto."
+  "description.pickled.pepper": "Peperoni confezionati con calore e scintilla di aceto.",
+  "building.agingShed": "Capannone per anziani",
+  "description.agingShed": "Invecchia e trasforma le tue risorse in prodotti raffinati.",
+  "agingShed.agingRack": "Rack per invecchiamento",
+  "agingShed.fermentationRack": "Rack di fermentazione",
+  "agingShed.spiceRack": "Portaspezie"
 }

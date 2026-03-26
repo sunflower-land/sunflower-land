@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tatlı ekşi olana kadar domatesler demlenir.",
   "description.pickled.cabbage": "Yapraklı gevrek, tuzlu su ve zaman içinde katlanmış.",
   "description.pickled.onion": "Keskin halkalar keskin konserveler haline getirildi.",
-  "description.pickled.pepper": "Isı ve sirke kıvılcımı ile dolu biberler."
+  "description.pickled.pepper": "Isı ve sirke kıvılcımı ile dolu biberler.",
+  "building.agingShed": "Yaşlanma Kulübesi",
+  "description.agingShed": "Kaynaklarınızı rafine ürünlere dönüştürün ve fermente edin.",
+  "agingShed.agingRack": "Yaşlanma Rafı",
+  "agingShed.fermentationRack": "Fermantasyon Rafı",
+  "agingShed.spiceRack": "Baharat Rafı"
 }

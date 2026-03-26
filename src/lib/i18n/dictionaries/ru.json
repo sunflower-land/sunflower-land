@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tomatoes steeped until sweet meets sour.",
   "description.pickled.cabbage": "Leafy crunch, folded in brine and time.",
   "description.pickled.onion": "Sharp rings mellowed into punchy preserves.",
-  "description.pickled.pepper": "Peppers packed with heat and vinegar spark."
+  "description.pickled.pepper": "Peppers packed with heat and vinegar spark.",
+  "building.agingShed": "Aging Shed",
+  "description.agingShed": "Age and ferment your resources into refined goods.",
+  "agingShed.agingRack": "Aging Rack",
+  "agingShed.fermentationRack": "Fermentation Rack",
+  "agingShed.spiceRack": "Spice Rack"
 }

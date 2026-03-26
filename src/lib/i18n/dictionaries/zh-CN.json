@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "西红柿浸泡直到酸甜交汇。",
   "description.pickled.cabbage": "绿叶脆饼，用盐水和时间折叠。",
   "description.pickled.onion": "锋利的戒指变得柔和而有力的蜜饯。",
-  "description.pickled.pepper": "充满热量和醋的辣椒会产生火花。"
+  "description.pickled.pepper": "充满热量和醋的辣椒会产生火花。",
+  "building.agingShed": "老化棚",
+  "description.agingShed": "将您的资源陈化并发酵成精制品。",
+  "agingShed.agingRack": "老化架",
+  "agingShed.fermentationRack": "发酵架",
+  "agingShed.spiceRack": "香料架"
 }

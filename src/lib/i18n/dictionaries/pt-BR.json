@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tomates mergulhados até que o doce encontre o azedo.",
   "description.pickled.cabbage": "Folhoso crocante, dobrado em salmoura e tempo.",
   "description.pickled.onion": "Anéis afiados se transformam em conservas fortes.",
-  "description.pickled.pepper": "Pimentas embaladas com calor e faísca de vinagre."
+  "description.pickled.pepper": "Pimentas embaladas com calor e faísca de vinagre.",
+  "building.agingShed": "Galpão de envelhecimento",
+  "description.agingShed": "Envelheça e transforme seus recursos em produtos refinados.",
+  "agingShed.agingRack": "Rack de envelhecimento",
+  "agingShed.fermentationRack": "Rack de fermentação",
+  "agingShed.spiceRack": "Prateleira de especiarias"
 }

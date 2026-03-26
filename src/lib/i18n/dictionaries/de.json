@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tomaten ziehen lassen, bis süß auf sauer trifft.",
   "description.pickled.cabbage": "Knuspriges Blatt, in Salzlake gefaltet und fertig.",
   "description.pickled.onion": "Scharfe Ringe verschmolzen zu kräftigen Konserven.",
-  "description.pickled.pepper": "Paprika voller Hitze und Essigfunken."
+  "description.pickled.pepper": "Paprika voller Hitze und Essigfunken.",
+  "building.agingShed": "Alternder Schuppen",
+  "description.agingShed": "Altern und fermentieren Sie Ihre Ressourcen zu raffinierten Gütern.",
+  "agingShed.agingRack": "Gestell zum Altern",
+  "agingShed.fermentationRack": "Gärregal",
+  "agingShed.spiceRack": "Gewürzregal"
 }

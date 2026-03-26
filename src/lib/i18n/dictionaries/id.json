@@ -8332,5 +8332,10 @@
   "description.pickled.tomato": "Tomat direndam sampai manis bertemu asam.",
   "description.pickled.cabbage": "Kerenyahan berdaun, dilipat dalam air garam dan waktu.",
   "description.pickled.onion": "Cincin tajam melunak menjadi pengawet yang tajam.",
-  "description.pickled.pepper": "Paprika dikemas dengan panas dan percikan cuka."
+  "description.pickled.pepper": "Paprika dikemas dengan panas dan percikan cuka.",
+  "building.agingShed": "Gudang Penuaan",
+  "description.agingShed": "Umur dan fermentasi sumber daya Anda menjadi barang olahan.",
+  "agingShed.agingRack": "Rak Penuaan",
+  "agingShed.fermentationRack": "Rak Fermentasi",
+  "agingShed.spiceRack": "Rak Rempah-rempah"
 }

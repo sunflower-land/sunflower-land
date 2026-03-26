@@ -7862,6 +7862,7 @@
   "building.premiumComposter": "Premium Composter",
   "building.greenhouse": "Greenhouse",
   "building.craftingBox": "Crafting Box",
+  "building.agingShed": "Aging Shed",
   "treasure.clamShell": "Clam Shell",
   "treasure.seaCucumber": "Sea Cucumber",
   "treasure.coral": "Coral",
@@ -8332,5 +8333,9 @@
   "saltHarvest.claimSalt": "Claim Salt ({{count}})",
   "saltHarvest.nextChargeIn": "Next charge in {{time}}",
   "saltHarvest.storedCharges": "Stored Charges: {{count}}/{{max}}",
-  "saltHarvest.availableSaltRakes": "Available Salt Rakes: {{count}}"
+  "saltHarvest.availableSaltRakes": "Available Salt Rakes: {{count}}",
+  "description.agingShed": "Age and ferment your resources into refined goods.",
+  "agingShed.agingRack": "Aging Rack",
+  "agingShed.fermentationRack": "Fermentation Rack",
+  "agingShed.spiceRack": "Spice Rack"
 }
