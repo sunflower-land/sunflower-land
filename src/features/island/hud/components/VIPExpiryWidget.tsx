@@ -6,7 +6,10 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { VIP_TRIAL_PERIOD_MS } from "features/game/lib/vipAccess";
+import {
+  hasLifetimeFarmerBanner,
+  VIP_TRIAL_PERIOD_MS,
+} from "features/game/lib/vipAccess";
 import vipIcon from "assets/icons/vip.webp";
 
 import { secondsToString } from "lib/utils/time";
@@ -36,7 +39,12 @@ export const VIPExpiryWidget: React.FC = () => {
   const now = useNow();
   const { gameService } = useContext(Context);
 
-  const vip = useSelector(gameService, (state) => state.context.state.vip);
+  const gameState = useSelector(gameService, (state) => state.context.state);
+
+  if (hasLifetimeFarmerBanner(gameState)) {
+    return null;
+  }
+  const vip = gameState.vip;
 
   const expiresAt = Math.max(
     vip?.expiresAt ?? 0,

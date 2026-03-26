@@ -26,6 +26,7 @@ import Decimal from "decimal.js-light";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  hasLifetimeFarmerBanner,
   hasVipAccess,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
@@ -67,9 +68,14 @@ const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  if (!state.vip || (!state.vip.trialStartedAt && !state.vip.expiresAt)) {
+  const lifetimeBanner = hasLifetimeFarmerBanner(state);
+  const hasVipTimestampFields = !!(
+    state.vip?.trialStartedAt || state.vip?.expiresAt
+  );
+  if (!lifetimeBanner && (!state.vip || !hasVipTimestampFields)) {
     return null;
   }
+
   const hasVip = hasVipAccess({ game: state, now, type: "full" });
 
   const hasTrial = !hasVip && hasVipAccess({ game: state, now, type: "trial" });
@@ -77,7 +83,7 @@ const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
   if (hasTrial) {
     return (
       <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
-        {`Trial - ${secondsToString((state.vip.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
+        {`Trial - ${secondsToString((state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
       </Label>
     );
   }
@@ -92,13 +98,23 @@ const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
           <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
             {t("vip.access")}
           </Label>
-          {Number(vipExpiresAt) > 0 && (
+          {lifetimeBanner ? (
             <Label
-              type={expiresSoon ? "danger" : "transparent"}
-              icon={SUNNYSIDE.icons.stopwatch}
+              type="success"
+              className="ml-2"
+              icon={SUNNYSIDE.icons.confirm}
             >
-              {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
+              {t("vip.lifetime")}
             </Label>
+          ) : (
+            Number(vipExpiresAt) > 0 && (
+              <Label
+                type={expiresSoon ? "danger" : "transparent"}
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
+              </Label>
+            )
           )}
         </div>
       </>

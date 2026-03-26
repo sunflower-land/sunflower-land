@@ -3,6 +3,11 @@ import { GameState, InventoryItemName } from "../types/game";
 
 export const VIP_TRIAL_PERIOD_MS = 1000 * 60 * 60 * 24 * 7;
 
+export const hasLifetimeFarmerBanner = (game: GameState): boolean => {
+  const quantity = game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
+  return quantity.gt(0);
+};
+
 export const hasVipAccess = ({
   game,
   now = Date.now(),
@@ -19,10 +24,7 @@ export const hasVipAccess = ({
     return true;
   }
 
-  const lifetimeBannerQuantity =
-    game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
-
-  const hasLifetimePass = lifetimeBannerQuantity.gt(0);
+  const hasLifetimePass = hasLifetimeFarmerBanner(game);
 
   const hasValidInGameVIP = !!game.vip?.expiresAt && game.vip?.expiresAt > now;
 

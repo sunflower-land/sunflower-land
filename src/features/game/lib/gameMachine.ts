@@ -99,7 +99,7 @@ import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "lib/object";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { hasVipAccess } from "./vipAccess";
+import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -1320,6 +1320,7 @@ export function startGame(authContext: AuthContext) {
                 const isExpiring =
                   vip &&
                   vip.expiresAt &&
+                  !hasLifetimeFarmerBanner(context.state) &&
                   vip.expiresAt < Date.now() + 3 * 24 * 60 * 60 * 1000 &&
                   // Haven't read since expiry approached
                   (readAt?.getTime() ?? 0) <
@@ -1330,6 +1331,7 @@ export function startGame(authContext: AuthContext) {
                 const hasExpired =
                   vip &&
                   vip.expiresAt &&
+                  !hasLifetimeFarmerBanner(context.state) &&
                   vip.expiresAt < Date.now() &&
                   // Hasn't read since expired
                   (readAt?.getTime() ?? 0) < vip.expiresAt;
