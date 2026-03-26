@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "Peluang 20% untuk hasil +1 Fruit Patch",
   "skill.longPickings.debuff": "+100% waktu pertumbuhan untuk semua buah petak buah lainnya",
   "skill.shortPickings.debuff": "+100% waktu pertumbuhan untuk semua buah petak buah lainnya",
-  "skill.zestyVibes.debuff": "-0,25 hasil untuk semua buah petak buah lainnya"
+  "skill.zestyVibes.debuff": "-0,25 hasil untuk semua buah petak buah lainnya",
+  "unlock.building": "Buka kunci {{building}}",
+  "description.unlockSaltFarm": "Buka peternakan garam Anda untuk mengakses simpul garam dan mulai memproduksi garam.",
+  "description.upgradeSaltFarm": "Tingkatkan peternakan garam Anda untuk membuka lebih banyak node garam.",
+  "saltFarm.unlocksAtLevel": "Membuka di Level {{level}}",
+  "saltFarm.unlockTab": "Membuka",
+  "salt.noActiveHarvestSlots": "Tidak ada slot panen aktif.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Tidak cukup Garam Garam",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "Tidak ada biaya garam yang tersedia",
+  "saltHarvest.startHarvest": "Mulai Panen",
+  "saltHarvest.claimSalt": "Klaim Garam ({{count}})",
+  "saltHarvest.nextChargeIn": "Pengisian berikutnya dalam {{time}}",
+  "saltHarvest.storedCharges": "Biaya Tersimpan: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Garu Garam yang Tersedia: {{count}}"
 }

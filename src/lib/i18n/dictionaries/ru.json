@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% chance of +1 Fruit Patch yield",
   "skill.longPickings.debuff": "+100% growth time for all other fruit patch fruits",
   "skill.shortPickings.debuff": "+100% growth time for all other fruit patch fruits",
-  "skill.zestyVibes.debuff": "-0.25 yield for all other fruit patch fruits"
+  "skill.zestyVibes.debuff": "-0.25 yield for all other fruit patch fruits",
+  "unlock.building": "Unlock {{building}}",
+  "description.unlockSaltFarm": "Unlock your salt farm to access salt nodes and start producing salt.",
+  "description.upgradeSaltFarm": "Upgrade your salt farm to unlock more salt nodes.",
+  "saltFarm.unlocksAtLevel": "Unlocks at Level {{level}}",
+  "saltFarm.unlockTab": "Unlock",
+  "salt.noActiveHarvestSlots": "No active harvest slots.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Not enough Salt Rakes",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "No salt charges available",
+  "saltHarvest.startHarvest": "Start Harvest",
+  "saltHarvest.claimSalt": "Claim Salt ({{count}})",
+  "saltHarvest.nextChargeIn": "Next charge in {{time}}",
+  "saltHarvest.storedCharges": "Stored Charges: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Available Salt Rakes: {{count}}"
 }

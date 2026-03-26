@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% di probabilità di ottenere un rendimento di +1 Fruit Patch",
   "skill.longPickings.debuff": "+100% tempo di crescita per tutti gli altri frutti da orto",
   "skill.shortPickings.debuff": "+100% tempo di crescita per tutti gli altri frutti da orto",
-  "skill.zestyVibes.debuff": "-0,25 resa per tutti gli altri frutti da orto"
+  "skill.zestyVibes.debuff": "-0,25 resa per tutti gli altri frutti da orto",
+  "unlock.building": "Sblocca {{building}}",
+  "description.unlockSaltFarm": "Sblocca la tua salina per accedere ai nodi salini e iniziare a produrre sale.",
+  "description.upgradeSaltFarm": "Aggiorna la tua salina per sbloccare più nodi salini.",
+  "saltFarm.unlocksAtLevel": "Si sblocca al livello {{level}}",
+  "saltFarm.unlockTab": "Sblocca",
+  "salt.noActiveHarvestSlots": "Nessuno slot di raccolta attivo.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Non abbastanza Salt Rakes",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "Nessuna tariffa salina disponibile",
+  "saltHarvest.startHarvest": "Inizia la raccolta",
+  "saltHarvest.claimSalt": "Richiedi Salt ({{count}})",
+  "saltHarvest.nextChargeIn": "Prossimo addebito in {{time}}",
+  "saltHarvest.storedCharges": "Addebiti memorizzati: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Salt Rakes disponibili: {{count}}"
 }

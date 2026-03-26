@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "%20 +1 Meyve Yaması verimi şansı",
   "skill.longPickings.debuff": "Diğer tüm meyve yaması meyveleri için +% 100 büyüme süresi",
   "skill.shortPickings.debuff": "Diğer tüm meyve yaması meyveleri için +% 100 büyüme süresi",
-  "skill.zestyVibes.debuff": "Diğer tüm meyve yaması meyveleri için -0.25 verim"
+  "skill.zestyVibes.debuff": "Diğer tüm meyve yaması meyveleri için -0.25 verim",
+  "unlock.building": "Kilidini aç {{building}}",
+  "description.unlockSaltFarm": "Tuz düğümlerine erişmek ve tuz üretmeye başlamak için tuz çiftliğinizin kilidini açın.",
+  "description.upgradeSaltFarm": "Daha fazla tuz düğümünün kilidini açmak için tuz çiftliğinizi yükseltin.",
+  "saltFarm.unlocksAtLevel": "Seviyede Kilit Açılır {{level}}",
+  "saltFarm.unlockTab": "kilidini aç",
+  "salt.noActiveHarvestSlots": "Aktif hasat yuvası yok.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Yeterli Tuz Tırmığı Yok",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "Tuz ücreti yok",
+  "saltHarvest.startHarvest": "Hasat Başlatın",
+  "saltHarvest.claimSalt": "Tuz Talep Edin ({{count}})",
+  "saltHarvest.nextChargeIn": "{{time}} cinsinden sonraki ücret",
+  "saltHarvest.storedCharges": "Depolanan Ücretler: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Mevcut Tuz Tırmıkları: {{count}}"
 }

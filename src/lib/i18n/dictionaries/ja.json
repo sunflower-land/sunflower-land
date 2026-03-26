@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% の確率で+1フルーツパッチの収量",
   "skill.longPickings.debuff": "他のすべてのフルーツパッチフルーツの成長時間は+100％",
   "skill.shortPickings.debuff": "他のすべてのフルーツパッチフルーツの成長時間は+100％",
-  "skill.zestyVibes.debuff": "他のすべてのフルーツパッチフルーツの収量は-0.25％"
+  "skill.zestyVibes.debuff": "他のすべてのフルーツパッチフルーツの収量は-0.25％",
+  "unlock.building": "{{building}} のロックを解除",
+  "description.unlockSaltFarm": "ソルトファームのロックを解除してソルトノードにアクセスし、ソルトの生産を開始してください。",
+  "description.upgradeSaltFarm": "ソルトファームをアップグレードして、より多くのソルトノードのロックを解除してください。",
+  "saltFarm.unlocksAtLevel": "レベル {{level}} でロック解除",
+  "saltFarm.unlockTab": "ロック解除",
+  "salt.noActiveHarvestSlots": "アクティブなハーベストスロットはありません。",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "ソルトレーキが足りない",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "ソルトチャージはご利用いただけません",
+  "saltHarvest.startHarvest": "収穫を始める",
+  "saltHarvest.claimSalt": "クレームソルト ({{count}})",
+  "saltHarvest.nextChargeIn": "{{time}} での次回のチャージ",
+  "saltHarvest.storedCharges": "保存手数料:{{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "ご利用可能なソルトレーキ:{{count}}"
 }

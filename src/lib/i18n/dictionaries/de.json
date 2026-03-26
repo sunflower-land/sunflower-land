@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% Chance auf einen Ertrag von +1 Fruit Patch",
   "skill.longPickings.debuff": "+100% Wachstumszeit für alle anderen Fruchtbeetfrüchte",
   "skill.shortPickings.debuff": "+100% Wachstumszeit für alle anderen Fruchtbeetfrüchte",
-  "skill.zestyVibes.debuff": "-0,25 Ertrag für alle anderen Fruchtbeet-Früchte"
+  "skill.zestyVibes.debuff": "-0,25 Ertrag für alle anderen Fruchtbeet-Früchte",
+  "unlock.building": "{{building}} entsperren",
+  "description.unlockSaltFarm": "Schalte deine Salzfarm frei, um auf Salzknoten zuzugreifen und mit der Salzproduktion zu beginnen.",
+  "description.upgradeSaltFarm": "Rüste deine Salzfarm auf, um mehr Salzknoten freizuschalten.",
+  "saltFarm.unlocksAtLevel": "Wird auf Stufe {{level}} freigeschaltet",
+  "saltFarm.unlockTab": "Entsperren",
+  "salt.noActiveHarvestSlots": "Keine aktiven Ernteslots.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Nicht genug Salt Rakes",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "Keine Salzgebühren verfügbar",
+  "saltHarvest.startHarvest": "Mit der Ernte beginnen",
+  "saltHarvest.claimSalt": "Salt einfordern ({{count}})",
+  "saltHarvest.nextChargeIn": "Nächste Ladung in {{time}}",
+  "saltHarvest.storedCharges": "Gespeicherte Gebühren: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Verfügbare Salzrechen: {{count}}"
 }

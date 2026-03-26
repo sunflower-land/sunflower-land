@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20 % de chances d'obtenir un rendement de +1 lot de fruits",
   "skill.longPickings.debuff": "Temps de croissance de plus de 100 % pour tous les autres fruits du potager",
   "skill.shortPickings.debuff": "Temps de croissance de plus de 100 % pour tous les autres fruits du potager",
-  "skill.zestyVibes.debuff": "Rendement de -0,25 pour tous les autres fruits du potager"
+  "skill.zestyVibes.debuff": "Rendement de -0,25 pour tous les autres fruits du potager",
+  "unlock.building": "Débloquer {{building}}",
+  "description.unlockSaltFarm": "Déverrouillez votre ferme de sel pour accéder à des nœuds de sel et commencer à produire du sel.",
+  "description.upgradeSaltFarm": "Améliorez votre ferme de sel pour débloquer plus de nœuds de sel.",
+  "saltFarm.unlocksAtLevel": "Débloqué au niveau {{level}}",
+  "saltFarm.unlockTab": "Débloquer",
+  "salt.noActiveHarvestSlots": "Aucun créneau de récolte actif.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "Pas assez de râteaux à sel",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "Aucune taxe sur le sel n'est disponible",
+  "saltHarvest.startHarvest": "Commencer la récolte",
+  "saltHarvest.claimSalt": "Réclamer le sel ({{count}})",
+  "saltHarvest.nextChargeIn": "Prochaine recharge en {{time}}",
+  "saltHarvest.storedCharges": "Frais enregistrés : {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Râteaux à sel disponibles : {{count}}"
 }

@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% 几率获得 +1 个水果补丁",
   "skill.longPickings.debuff": "所有其他水果补丁水果的生长时间 +100%",
   "skill.shortPickings.debuff": "所有其他水果补丁水果的生长时间 +100%",
-  "skill.zestyVibes.debuff": "所有其他水果地水果的产量为 -0.25"
+  "skill.zestyVibes.debuff": "所有其他水果地水果的产量为 -0.25",
+  "unlock.building": "解锁 {{building}}",
+  "description.unlockSaltFarm": "解锁您的盐农场以访问盐节点并开始生产盐。",
+  "description.upgradeSaltFarm": "升级您的盐农场以解锁更多盐节点。",
+  "saltFarm.unlocksAtLevel": "等级 {{level}} 时解锁",
+  "saltFarm.unlockTab": "解锁",
+  "salt.noActiveHarvestSlots": "没有活跃的收获槽。",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "还不够 Salt Rakes",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "不收盐费",
+  "saltHarvest.startHarvest": "开始收获",
+  "saltHarvest.claimSalt": "领取盐 ({{count}})",
+  "saltHarvest.nextChargeIn": "下一次充值将在 {{time}}",
+  "saltHarvest.storedCharges": "存储费用：{{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "可用盐耙：{{count}}"
 }

@@ -8155,5 +8155,18 @@
   "skill.generousOrchard": "20% de probabilidad de obtener un rendimiento de +1 Fruit Patch",
   "skill.longPickings.debuff": "Más del 100% de tiempo de crecimiento para todas las demás frutas de huerto",
   "skill.shortPickings.debuff": "Más del 100% de tiempo de crecimiento para todas las demás frutas de huerto",
-  "skill.zestyVibes.debuff": "Rendimiento de -0,25 para todas las demás frutas de huerto"
+  "skill.zestyVibes.debuff": "Rendimiento de -0,25 para todas las demás frutas de huerto",
+  "unlock.building": "Desbloquear {{building}}",
+  "description.unlockSaltFarm": "Desbloquea tu granja de sal para acceder a los nodos de sal y empezar a producir sal.",
+  "description.upgradeSaltFarm": "Mejora tu granja de sal para desbloquear más nodos de sal.",
+  "saltFarm.unlocksAtLevel": "Se desbloquea en el nivel {{level}}",
+  "saltFarm.unlockTab": "Desbloquear",
+  "salt.noActiveHarvestSlots": "No hay franjas horarias de cosecha activas.",
+  "saltHarvest.blockedReason.notEnoughSaltRakes": "No hay suficientes salitradores",
+  "saltHarvest.blockedReason.noSaltChargesAvailable": "No hay cargos por sal disponibles",
+  "saltHarvest.startHarvest": "Comenzar la cosecha",
+  "saltHarvest.claimSalt": "Reclamar Salt ({{count}})",
+  "saltHarvest.nextChargeIn": "Próxima carga en {{time}}",
+  "saltHarvest.storedCharges": "Cargos almacenados: {{count}}/{{max}}",
+  "saltHarvest.availableSaltRakes": "Salineras disponibles: {{count}}"
 }
