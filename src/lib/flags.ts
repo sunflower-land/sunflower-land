@@ -90,6 +90,8 @@ const FEATURE_FLAGS = {
 
   CHAACS_TEMPLE_BETA: defaultFeatureFlag,
   SALT_FARM: usernameFeatureFlag,
+
+  AGING_SHED: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export const TIME_BASED_FEATURE_FLAGS_DATES = {
