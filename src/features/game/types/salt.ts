@@ -104,6 +104,8 @@ export const SALT_FARM_UPGRADES: Record<
   },
 };
 
+export const SALT_FARM_INITIAL_CHARGES = 3;
+
 /**
  * Returns string ids for salt nodes that the next upgrade will create.
  * Computes `SALT_FARM_UPGRADES[level + 1].nodes - currentNodeCount` and
