@@ -6,7 +6,7 @@ import { getObjectEntries } from "lib/object";
 import {
   getSaltChargeGenerationTime,
   getSaltNodeCoordinates,
-  SALT_FARM_INITIAL_CHARGES,
+  MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
 import { hasFeatureAccess } from "lib/flags";
@@ -69,7 +69,7 @@ export function upgradeSaltFarm({
       copy.saltFarm.nodes[`${currentNodes + i}`] = {
         createdAt,
         salt: {
-          storedCharges: SALT_FARM_INITIAL_CHARGES,
+          storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
           nextChargeAt: createdAt + interval,
         },
         coordinates: {

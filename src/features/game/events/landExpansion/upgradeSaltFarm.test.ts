@@ -4,7 +4,7 @@ import {
   getPendingSaltNodeIdsForUpgrade,
   getSaltChargeGenerationTime,
   SALT_CHARGE_GENERATION_TIME,
-  SALT_FARM_INITIAL_CHARGES,
+  MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_NODE_COORDINATES,
   SaltNode,
 } from "features/game/types/salt";
@@ -114,7 +114,7 @@ describe("upgradeSaltFarm", () => {
     expect(state.saltFarm.nodes["0"]).toMatchObject({
       coordinates: { x: -3, y: -6 },
       salt: {
-        storedCharges: SALT_FARM_INITIAL_CHARGES,
+        storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
         nextChargeAt: now + getSaltChargeGenerationTime({ gameState: state }),
       },
     });
