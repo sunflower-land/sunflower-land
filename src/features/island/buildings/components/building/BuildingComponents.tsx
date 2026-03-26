@@ -41,6 +41,7 @@ import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PetHouse } from "./petHouse/PetHouse";
+import { AgingShed } from "./agingShed/AgingShed";
 
 export interface BuildingProps {
   buildingId: string;
@@ -113,6 +114,7 @@ export const BUILDING_COMPONENTS: Record<
   "Crafting Box": CraftingBox,
   "Pet House": PetHouse,
   "Fish Market": FishMarket,
+  "Aging Shed": AgingShed,
 };
 
 type ReadonlyBuildingArgs = {
@@ -328,6 +330,13 @@ export const READONLY_BUILDINGS: ({
           }}
         />
       </div>
+    ),
+    "Aging Shed": () => (
+      <img
+        src={ITEM_DETAILS["Aging Shed"].image}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 48}px` }}
+      />
     ),
   };
 };
