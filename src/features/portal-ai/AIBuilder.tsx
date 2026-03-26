@@ -94,6 +94,7 @@ export const AIBuilder: React.FC = () => {
   const [versions, setVersions] = useState<
     { versionId: string; lastModified: string }[]
   >([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -524,6 +525,119 @@ export const AIBuilder: React.FC = () => {
     }
   };
 
+  /*
+   * TWO LAYOUTS: This component has a desktop and mobile layout.
+   *
+   * - Desktop (md+): Side-by-side with form/tools on the left and game preview
+   *   on the right. All panels are always visible.
+   *
+   * - Mobile (<md): Game preview fills the screen with the prompt input
+   *   overlaid at the bottom. A slide-up drawer (toggled via a handle) reveals
+   *   additional tools: example prompts, previous versions, and the delete
+   *   button. When modifying either layout, ensure the other still works.
+   */
+
+  // Shared prompt input + action buttons (used in both layouts)
+  const promptSection = (
+    <>
+      <input
+        type="text"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder={
+          hasSavedFarm
+            ? 'Describe modifications (e.g., "add more enemies")'
+            : "Describe a new minigame to generate..."
+        }
+        className="w-full p-2 rounded text-sm border border-gray-300"
+        maxLength={500}
+        disabled={isGenerating}
+      />
+      <div className="flex gap-1">
+        <Button
+          onClick={generateGame}
+          disabled={!prompt.trim() || isGenerating}
+        >
+          {isGenerating
+            ? "Working..."
+            : hasSavedFarm
+              ? "Modify Farm"
+              : "Generate Game"}
+        </Button>
+        {/* Delete button only in desktop; mobile puts it in the drawer */}
+        {hasSavedFarm && (
+          <Button
+            className="hidden md:block"
+            onClick={deleteSavedFarm}
+            disabled={isGenerating}
+          >
+            {"Delete Saved Farm"}
+          </Button>
+        )}
+      </div>
+    </>
+  );
+
+  // Shared status bar
+  const statusBar = status.type !== "hidden" && (
+    <div
+      className={`text-xs p-2 rounded ${
+        status.type === "error"
+          ? "bg-red-100 text-red-800"
+          : status.type === "generating"
+            ? "bg-orange-100 text-orange-800"
+            : status.type === "connecting"
+              ? "bg-blue-100 text-blue-800"
+              : "bg-green-100 text-green-800"
+      }`}
+    >
+      {status.message}
+    </div>
+  );
+
+  // Shared example prompts panel content
+  const examplePromptsContent = (
+    <div className="flex flex-wrap gap-1 mt-1">
+      <span
+        className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full cursor-pointer hover:bg-green-200 font-semibold border border-green-500"
+        onClick={loadTemplateDemo}
+      >
+        {"Template Demo (No AI)"}
+      </span>
+      {EXAMPLE_PROMPTS.map((example) => (
+        <span
+          key={example.label}
+          className="text-xs bg-brown-100 px-2 py-1 rounded-full cursor-pointer hover:bg-brown-200"
+          onClick={() => setPrompt(example.prompt)}
+        >
+          {example.label}
+        </span>
+      ))}
+    </div>
+  );
+
+  // Shared previous versions panel content
+  const versionsContent =
+    versions.length === 0 ? (
+      <p className="text-xs text-gray-500 mt-1">
+        {"No previous versions found."}
+      </p>
+    ) : (
+      <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
+        {versions.map((version) => (
+          <div
+            key={version.versionId}
+            className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
+            onClick={() => loadVersion(version.versionId, version.lastModified)}
+          >
+            <span>{new Date(version.lastModified).toLocaleString()}</span>
+            <span className="underline ml-2 flex-shrink-0">{"Load"}</span>
+          </div>
+        ))}
+      </div>
+    );
+
   return (
     <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
       <OuterPanel className="h-full flex flex-col">
@@ -558,123 +672,43 @@ export const AIBuilder: React.FC = () => {
           />
         </div>
 
-        {/* Main Content */}
-        <div className="flex flex-col lg:flex-row flex-1 min-h-0 gap-1 p-1">
-          {/* Left Side - Form */}
-          <div className="lg:w-1/2 flex flex-col gap-2">
+        {/*
+         * Single content area with responsive behavior.
+         * The game container (ref + id) is rendered ONCE to avoid duplicate
+         * ref/id issues with Phaser mounting.
+         *
+         * - Desktop (md+): flex-row with left form panel and right game panel.
+         * - Mobile (<md): flex-col with game filling available space and
+         *   prompt overlaid at the bottom.
+         */}
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-1 p-1 relative">
+          {/* ===== DESKTOP: Left Side - Form (hidden on mobile) ===== */}
+          <div className="hidden md:flex md:w-1/2 flex-col gap-2">
             <InnerPanel className="flex flex-col gap-2 p-2">
               <Label type="default">{"Describe Your Minigame"}</Label>
-
-              {/* Prompt Input */}
-              <input
-                type="text"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={
-                  hasSavedFarm
-                    ? 'Describe modifications (e.g., "add more enemies", "change the background")'
-                    : "Describe a new minigame to generate..."
-                }
-                className="w-full p-2 rounded text-sm border border-gray-300"
-                maxLength={500}
-                disabled={isGenerating}
-              />
-
-              {/* Action Buttons */}
-              <div className="flex gap-1">
-                <Button
-                  onClick={generateGame}
-                  disabled={!prompt.trim() || isGenerating}
-                >
-                  {isGenerating
-                    ? "Working..."
-                    : hasSavedFarm
-                      ? "Modify Farm"
-                      : "Generate Game"}
-                </Button>
-                {hasSavedFarm && (
-                  <Button onClick={deleteSavedFarm} disabled={isGenerating}>
-                    {"Delete Saved Farm"}
-                  </Button>
-                )}
-              </div>
-
-              {/* Status */}
-              {status.type !== "hidden" && (
-                <div
-                  className={`text-xs p-2 rounded ${
-                    status.type === "error"
-                      ? "bg-red-100 text-red-800"
-                      : status.type === "generating"
-                        ? "bg-orange-100 text-orange-800"
-                        : status.type === "connecting"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-green-100 text-green-800"
-                  }`}
-                >
-                  {status.message}
-                </div>
-              )}
+              {promptSection}
+              {statusBar}
             </InnerPanel>
 
-            {/* Example Prompts */}
             <InnerPanel className="p-2">
               <Label type="default">{"Example Prompts"}</Label>
-              <div className="flex flex-wrap gap-1 mt-1">
-                <span
-                  className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full cursor-pointer hover:bg-green-200 font-semibold border border-green-500"
-                  onClick={loadTemplateDemo}
-                >
-                  {"Template Demo (No AI)"}
-                </span>
-                {EXAMPLE_PROMPTS.map((example) => (
-                  <span
-                    key={example.label}
-                    className="text-xs bg-brown-100 px-2 py-1 rounded-full cursor-pointer hover:bg-brown-200"
-                    onClick={() => setPrompt(example.prompt)}
-                  >
-                    {example.label}
-                  </span>
-                ))}
-              </div>
+              {examplePromptsContent}
             </InnerPanel>
 
-            {/* Previous Versions */}
             <InnerPanel className="p-2">
               <Label type="default">{"Previous Versions"}</Label>
-              {versions.length === 0 ? (
-                <p className="text-xs text-gray-500 mt-1">
-                  {"No previous versions found."}
-                </p>
-              ) : (
-                <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
-                  {versions.map((version) => (
-                    <div
-                      key={version.versionId}
-                      className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
-                      onClick={() =>
-                        loadVersion(version.versionId, version.lastModified)
-                      }
-                    >
-                      <span>
-                        {new Date(version.lastModified).toLocaleString()}
-                      </span>
-                      <span className="underline ml-2 flex-shrink-0">
-                        {"Load"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              {versionsContent}
             </InnerPanel>
           </div>
 
-          {/* Right Side - Game Preview */}
-          <div className="lg:w-1/2 flex flex-col gap-1">
+          {/* ===== Game Preview - single instance, responsive sizing ===== */}
+          <div className="flex-1 md:w-1/2 flex flex-col gap-1 min-h-0">
             <InnerPanel className="flex-1 flex flex-col p-2 min-h-0">
-              <Label type="default">{"Game Preview"}</Label>
-              <div className="flex-1 bg-black rounded overflow-hidden mt-1 flex items-center justify-center min-h-[300px]">
+              {/* Label + helper text only visible on desktop */}
+              <Label type="default" className="hidden md:flex">
+                {"Game Preview"}
+              </Label>
+              <div className="flex-1 bg-black rounded overflow-hidden md:mt-1 flex items-center justify-center min-h-[200px] md:min-h-[300px]">
                 <div
                   id="aiBuilderGame"
                   ref={gameContainerRef}
@@ -683,13 +717,77 @@ export const AIBuilder: React.FC = () => {
                 />
               </div>
               <p
-                className="text-xs text-center mt-1"
-                style={{ color: "#b0a89a" }}
+                className="hidden md:block text-xs text-center mt-1"
+                style={{ color: "#000" }}
               >
                 {"Your generated minigame will appear here"}
               </p>
             </InnerPanel>
           </div>
+
+          {/* ===== MOBILE: Bottom bar - prompt + drawer toggle (hidden on desktop) ===== */}
+          <div className="flex-shrink-0 md:hidden">
+            <InnerPanel className="flex flex-col gap-2 p-2">
+              {statusBar}
+              {promptSection}
+              {/* Drawer toggle */}
+              <button
+                className="w-full flex items-center justify-center gap-1 text-xs py-1 rounded cursor-pointer"
+                style={{ color: "#000" }}
+                onClick={() => setDrawerOpen(!drawerOpen)}
+              >
+                <span
+                  className="inline-block transition-transform"
+                  style={{
+                    transform: drawerOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                >
+                  {"▲"}
+                </span>
+                {drawerOpen ? "Hide Tools" : "More Tools"}
+              </button>
+            </InnerPanel>
+          </div>
+
+          {/* ===== MOBILE: Slide-up drawer overlay (hidden on desktop) ===== */}
+          {drawerOpen && (
+            <>
+              <div
+                className="absolute inset-0 bg-black bg-opacity-50 z-10 md:hidden"
+                onClick={() => setDrawerOpen(false)}
+              />
+              <div className="absolute bottom-0 left-0 right-0 z-20 p-1 pb-2 max-h-[70%] overflow-y-auto md:hidden">
+                <InnerPanel className="flex flex-col gap-2 p-2">
+                  <div className="flex justify-between items-center">
+                    <Label type="default">{"Tools"}</Label>
+                    <button
+                      className="text-xs px-2 py-1 rounded"
+                      style={{ color: "#000" }}
+                      onClick={() => setDrawerOpen(false)}
+                    >
+                      {"Close ✕"}
+                    </button>
+                  </div>
+
+                  <div>
+                    <Label type="default">{"Example Prompts"}</Label>
+                    {examplePromptsContent}
+                  </div>
+
+                  <div>
+                    <Label type="default">{"Previous Versions"}</Label>
+                    {versionsContent}
+                  </div>
+
+                  {hasSavedFarm && (
+                    <Button onClick={deleteSavedFarm} disabled={isGenerating}>
+                      {"Delete Saved Farm"}
+                    </Button>
+                  )}
+                </InnerPanel>
+              </div>
+            </>
+          )}
         </div>
       </OuterPanel>
     </div>
