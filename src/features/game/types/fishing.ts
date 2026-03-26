@@ -69,6 +69,9 @@ export type FishName =
   | "Cobia"
   | "Tilapia";
 
+export type AgedFishName = `Aged ${FishName}`;
+export type PrimeAgedFishName = `Prime Aged ${FishName}`;
+
 export type MarineMarvelName =
   | "Twilight Anglerfish"
   | "Starlight Tuna"
