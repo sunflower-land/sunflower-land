@@ -69,7 +69,8 @@ export type FishName =
   | "Cobia"
   | "Tilapia";
 
-export type AgedFishName = `Aged ${Exclude<FishName, "Blue Marlin">}`;
+export type AgedFishName = `Aged ${FishName}`;
+export type PrimeAgedFishName = `Prime Aged ${FishName}`;
 
 export type MarineMarvelName =
   | "Twilight Anglerfish"

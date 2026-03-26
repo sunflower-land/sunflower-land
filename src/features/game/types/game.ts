@@ -66,6 +66,7 @@ import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
 import {
   AgedFishName,
+  PrimeAgedFishName,
   FishName,
   FishingBait,
   MarineMarvelName,
@@ -642,6 +643,7 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | AgedFishName
+  | PrimeAgedFishName
   | MarineMarvelName
   | OldFishName
   | FlowerName
