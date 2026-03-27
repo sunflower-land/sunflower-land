@@ -23,6 +23,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   itemName: TradeResource;
@@ -39,10 +40,11 @@ type Props = {
 const MAX_SFL = 150;
 const LOCAL_STORAGE_KEY = "resourceOfferInputType";
 
-const _hasReputation = (state: MachineState) =>
+const _hasReputation = (now: number) => (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
 
 export const ResourceOffer: React.FC<Props> = ({
@@ -58,7 +60,8 @@ export const ResourceOffer: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const hasTradeReputation = useSelector(gameService, _hasReputation);
+  const now = useNow();
+  const hasTradeReputation = useSelector(gameService, _hasReputation(now));
   const [pricePerUnit, setPricePerUnit] = useState(0);
   const [inputType, setInputType] = useState<"price" | "pricePerUnit">(
     () =>

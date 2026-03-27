@@ -42,12 +42,15 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const _hasTradeReputation = (state: MachineState) =>
+const _hasTradeReputation = (now: number) => (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
+
 type TradeableListItemProps = {
   authToken: string;
   display: TradeableDisplay;
@@ -76,7 +79,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   /** Number of identical listings to create (1–20). Only for resources */
   const [multiple, setMultiple] = useState(1);
 
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const now = useNow();
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation(now));
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -267,7 +271,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
     let tax = new Decimal(price).mul(MARKETPLACE_TAX);
     if (isResource) {
-      tax = getResourceTax({ game: state }).mul(price);
+      tax = getResourceTax({ game: state, now }).mul(price);
     }
 
     return (

@@ -27,7 +27,6 @@ import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasLifetimeFarmerBanner,
-  hasVipAccess,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
   VipBundle,
@@ -42,13 +41,16 @@ import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { GameState } from "features/game/types/game";
+import { GameState, VIP } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
 const _state = (state: MachineState) => state.context.state;
+const _hasLifetimeFarmerBanner = (state: MachineState) =>
+  hasLifetimeFarmerBanner(state.context.state);
 
 const VIP_NAME: Record<VipBundle, TranslationKeys> = {
   "1_MONTH": "vip.1Month",
@@ -62,23 +64,22 @@ const VIP_ICONS: Record<VipBundle, string> = {
   "2_YEARS": purpleVipIcon,
 };
 
-const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
-  state,
-  now,
-}) => {
+const VIPLabel: React.FC<{
+  state: GameState;
+  now: number;
+  vip: VIP | undefined;
+  hasLifetimeBanner: boolean;
+}> = ({ state, now, vip, hasLifetimeBanner }) => {
   const { t } = useAppTranslation();
 
-  const lifetimeBanner = hasLifetimeFarmerBanner(state);
-  const hasVipTimestampFields = !!(
-    state.vip?.trialStartedAt || state.vip?.expiresAt
-  );
-  if (!lifetimeBanner && (!state.vip || !hasVipTimestampFields)) {
+  const hasVipTimestampFields = !!(vip?.trialStartedAt || vip?.expiresAt);
+  const hasVip = useVipAccess({ game: state, type: "full" });
+  const hasTrialVip = useVipAccess({ game: state, type: "trial" });
+  const hasTrial = !hasVip && hasTrialVip;
+
+  if (!hasLifetimeBanner && (!vip || !hasVipTimestampFields)) {
     return null;
   }
-
-  const hasVip = hasVipAccess({ game: state, now, type: "full" });
-
-  const hasTrial = !hasVip && hasVipAccess({ game: state, now, type: "trial" });
 
   if (hasTrial) {
     return (
@@ -98,7 +99,7 @@ const VIPLabel: React.FC<{ state: GameState; now: number }> = ({
           <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
             {t("vip.access")}
           </Label>
-          {lifetimeBanner ? (
+          {hasLifetimeBanner ? (
             <Label
               type="success"
               className="ml-2"
@@ -139,6 +140,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const now = useNow();
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
+  const hasLifetimeBanner = useSelector(gameService, _hasLifetimeFarmerBanner);
 
   const handlePurchase = () => {
     gameService.send("vip.bought", {
@@ -154,9 +156,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     setSelected(undefined);
   };
 
-  const hasTrial =
-    !hasVipAccess({ game: state, type: "full" }) &&
-    hasVipAccess({ game: state, now, type: "trial" });
+  const hasFullVip = useVipAccess({ game: state, type: "full" });
+  const hasTrialVip = useVipAccess({ game: state, type: "trial" });
+
+  const hasTrial = !hasFullVip && hasTrialVip;
 
   const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
@@ -192,6 +195,15 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               name: t(VIP_NAME[selected as VipBundle]),
             })}
           </p>
+          {hasLifetimeBanner && (
+            <Label
+              type="danger"
+              className="px-1 mb-2"
+              icon={ITEM_DETAILS["Lifetime Farmer Banner"].image}
+            >
+              {t("vip.lifetime.noPurchase")}
+            </Label>
+          )}
           <div className="flex ">
             <Button className="mr-1" onClick={() => setSelected(undefined)}>
               {t("no")}
@@ -199,6 +211,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             <Button
               disabled={
                 hasOneYear ||
+                hasLifetimeBanner ||
                 gemBalance.lt(VIP_PRICES[selected as VipBundle] ?? 0)
               }
               onClick={handlePurchase}
@@ -232,7 +245,12 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           </a>
         </div>
         <p className="text-xs px-1 mt-2 mb-2">{t("season.vip.description")}</p>
-        <VIPLabel state={state} now={now} />
+        <VIPLabel
+          state={state}
+          now={now}
+          vip={vip}
+          hasLifetimeBanner={hasLifetimeBanner}
+        />
 
         <div className="flex mt-3 mb-2 px-1">
           {getKeys(VIP_PRICES).map((name) => (

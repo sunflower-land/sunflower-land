@@ -47,7 +47,7 @@ import { getKeys } from "lib/object";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { HelpInfoPopover } from "./HelpInfoPopover";
 import { CopySvg } from "components/ui/CopyField";
 
@@ -244,7 +244,7 @@ export const PlayerDetails: React.FC<Props> = ({
                     <Label type="warning" icon={socialPointsIcon}>
                       {t("cheer.confirm.socialpoints")}
                     </Label>
-                    {hasVipAccess({
+                    {useVipAccess({
                       game: gameService.getSnapshot().context.state,
                       type: "full",
                     }) && (

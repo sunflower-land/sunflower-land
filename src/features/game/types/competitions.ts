@@ -292,13 +292,15 @@ export const getCompetitionPointsPerTask = ({
   game,
   name,
   task,
+  now,
 }: {
   game: GameState;
   name: CompetitionName;
   task: CompetitionTaskName;
+  now: number;
 }) => {
   let points = COMPETITION_POINTS[name]?.points[task] ?? 0;
-  const hasVIP = hasVipAccess({ game });
+  const hasVIP = hasVipAccess({ game, now });
   if (hasVIP) {
     points += 1;
   }

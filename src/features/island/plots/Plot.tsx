@@ -79,16 +79,23 @@ const selectCropsSold = (state: MachineState) =>
   state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
-export const isSeasonedPlayer = (state: MachineState): boolean => {
-  // - level 60+
-  return (
-    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
-    // - verified (personhood verification)
-    (state.context.verified || isFaceVerified({ game: state.context.state })) &&
-    // - has grower reputation
-    hasReputation({ game: state.context.state, reputation: Reputation.Grower })
-  );
-};
+export const isSeasonedPlayer =
+  (now: number) =>
+  (state: MachineState): boolean => {
+    // - level 60+
+    return (
+      getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
+      // - verified (personhood verification)
+      (state.context.verified ||
+        isFaceVerified({ game: state.context.state })) &&
+      // - has grower reputation
+      hasReputation({
+        game: state.context.state,
+        reputation: Reputation.Grower,
+        now,
+      })
+    );
+  };
 
 interface Props {
   id: string;
@@ -111,7 +118,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
 
@@ -135,6 +141,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const plot = crops[id];
 
   const now = useNow({ live: true });
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer(now));
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =

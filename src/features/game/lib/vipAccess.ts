@@ -10,11 +10,11 @@ export const hasLifetimeFarmerBanner = (game: GameState): boolean => {
 
 export const hasVipAccess = ({
   game,
-  now = Date.now(),
+  now,
   type = "trial",
 }: {
   game: GameState;
-  now?: number;
+  now: number;
   type?: "trial" | "full";
 }): boolean => {
   const hasTrialVIP =
@@ -66,13 +66,15 @@ const EXPANSION_VIP_DISCOUNT_PERCENT = 0.2;
 export const getExpansionCoinCostWithVip = ({
   coins,
   game,
+  now,
 }: {
   coins: number | undefined;
   game: GameState;
+  now: number;
 }): number => {
   const fullCost = coins ?? 0;
   if (fullCost === 0) return 0;
-  if (!hasVipAccess({ game })) return fullCost;
+  if (!hasVipAccess({ game, now })) return fullCost;
   const discount20 = Math.floor(fullCost * EXPANSION_VIP_DISCOUNT_PERCENT);
   const discount = Math.max(EXPANSION_VIP_DISCOUNT_FIXED, discount20);
   return Math.max(0, fullCost - discount);

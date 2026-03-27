@@ -37,11 +37,13 @@ import { MarketplaceSearch } from "../MarketplaceSearch";
 import { EstimatedPrice } from "./EstimatedPrice";
 import { Filters } from "./Filters";
 import { CHAPTERS } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const _hasTradeReputation = (state: MachineState) =>
+const _hasTradeReputation = (now: number) => (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
@@ -88,7 +90,8 @@ export const MarketplaceNavigation: React.FC = () => {
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const now = useNow();
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation(now));
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -98,6 +101,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const listingsLeft = getRemainingTrades({
     game: gameService.getSnapshot().context.state,
+    now,
   });
 
   const goToFlowerDashboard = () => {

@@ -10,7 +10,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -22,6 +21,7 @@ import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
 } from "features/game/types/salt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _node = (id: string) => (state: MachineState) =>
@@ -37,7 +37,7 @@ export const SaltNodeModalContent: React.FC<{
   const game = useSelector(gameService, _state);
   const node = useSelector(gameService, _node(id));
   const now = useNow({ live: true });
-  const isVip = hasVipAccess({ game, now });
+  const isVip = useVipAccess({ game });
 
   const modalState = useMemo(() => {
     if (!node) return undefined;

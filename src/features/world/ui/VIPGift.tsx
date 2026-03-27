@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import React, { useContext, useState } from "react";
 import { Revealed } from "features/game/components/Revealed";
 import { Loading } from "features/auth/components";
@@ -68,7 +68,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
 
   const currentDate = new Date();
 
-  const hasVip = hasVipAccess({ game: gameState.context.state });
+  const hasVip = useVipAccess({ game: gameState.context.state });
   const rewardEntry = MONTHLY_REWARDS_DATES.sort(
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   ).find((key) => {
@@ -82,7 +82,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
         <div className="p-2">
           <div className="flex justify-between items-center pr-8">
             <VIPAccess
-              isVIP={hasVipAccess({ game: gameState.context.state })}
+              isVIP={useVipAccess({ game: gameState.context.state })}
               onUpgrade={() => {
                 onClose();
                 openModal("BUY_BANNER");
@@ -121,7 +121,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
       <div className="p-2">
         <div className="flex justify-between items-center pr-8">
           <VIPAccess
-            isVIP={hasVipAccess({ game: gameState.context.state })}
+            isVIP={useVipAccess({ game: gameState.context.state })}
             onUpgrade={() => {
               onClose();
               openModal("BUY_BANNER");

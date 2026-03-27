@@ -421,8 +421,8 @@ export const ResourceTaxes: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { openModal } = useContext(ModalContext);
   const { gameState } = useGame();
-
-  const tax = getResourceTax({ game: gameState.context.state });
+  const now = useNow();
+  const tax = getResourceTax({ game: gameState.context.state, now });
 
   return (
     <>

@@ -9,7 +9,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Button } from "components/ui/Button";
 import coinsIcon from "assets/icons/coins.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -128,7 +128,7 @@ export const ChapterTracks: React.FC = () => {
     }, 100);
   }, []);
 
-  const hasVip = hasVipAccess({ game: state });
+  const hasVip = useVipAccess({ game: state });
 
   const chapter = getCurrentChapter(now);
   const chapterTicket = getChapterTicket(now);
@@ -504,7 +504,7 @@ export const MilestoneDetails: React.FC<{
     details.track === "premium" ? progress.premium : progress.free;
 
   const needsVip =
-    details.track === "premium" && !hasVipAccess({ game: state });
+    details.track === "premium" && !useVipAccess({ game: state });
   const hasReachedPoints = progress.points >= details.points;
   const canClaim =
     !needsVip &&
@@ -579,7 +579,7 @@ export const ChapterTracksPreview: React.FC = () => {
     | undefined
   >();
 
-  const hasVip = hasVipAccess({ game: state });
+  const hasVip = useVipAccess({ game: state });
 
   const chapter = getCurrentChapter(now);
   const chapterTicket = getChapterTicket(now);

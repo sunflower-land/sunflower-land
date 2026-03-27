@@ -12,8 +12,8 @@ import { isMinigameComplete } from "features/game/events/minigames/claimMinigame
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { PortalLeaderboard } from "./PortalLeaderboard";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 interface Props {
   onClose: () => void;
@@ -30,7 +30,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   const minigame = minigames.games["chicken-rescue"];
   const prize = minigames.prizes["chicken-rescue"];
 
-  const chickenRescueVipCluckCoin = hasVipAccess({ game, type: "full" });
+  const chickenRescueVipCluckCoin = useVipAccess({ game, type: "full" });
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 

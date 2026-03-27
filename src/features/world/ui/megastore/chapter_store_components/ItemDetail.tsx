@@ -223,7 +223,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     }
 
     return sflBalance.greaterThanOrEqualTo(
-      SFLDiscount(state, new Decimal(sfl)),
+      SFLDiscount(state, new Decimal(sfl), now),
     );
   };
 
@@ -451,6 +451,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                           requirement={SFLDiscount(
                             state,
                             new Decimal(item.cost.sfl),
+                            now,
                           )}
                         />
                       </div>

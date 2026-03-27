@@ -10,16 +10,23 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useContext } from "react";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const _isSeedling = (state: MachineState) =>
-  hasReputation({ game: state.context.state, reputation: Reputation.Seedling });
+const _isSeedling = (now: number) => (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Seedling,
+    now,
+  });
 
 export const NoNFT: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
 
-  const isSeedling = useSelector(gameService, _isSeedling);
+  const now = useNow();
+
+  const isSeedling = useSelector(gameService, _isSeedling(now));
 
   const mint = () => {
     gameService.send("nft.assigned", {

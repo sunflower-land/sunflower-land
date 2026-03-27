@@ -73,7 +73,7 @@ const compareGame = (prev: GameState, next: GameState) =>
     (next.bumpkin?.skills["Insta-Chop"] ?? false);
 
 // A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState) =>
+const isSeasonedPlayer = (now: number) => (state: MachineState) =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
@@ -81,6 +81,7 @@ const isSeasonedPlayer = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
 
 interface Props {
@@ -97,8 +98,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
   const harvested = useRef<number>(0);
-
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -144,6 +143,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, game, id);
   const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
   const now = useNow({ live: true, autoEndAt: readyAt });
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer(now));
+
   const timeLeft = getTimeLeft(
     resource.wood.choppedAt,
     TREE_RECOVERY_TIME,

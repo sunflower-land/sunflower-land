@@ -26,12 +26,14 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "lib/object";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _balance = (state: MachineState) => state.context.state.balance;
-const _hasReputation = (state: MachineState) =>
+const _hasReputation = (now: number) => (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
 
@@ -46,7 +48,8 @@ export const MakeOffer: React.FC<{
   const { gameService } = useContext(Context);
 
   const balance = useSelector(gameService, _balance);
-  const hasTradeReputation = useSelector(gameService, _hasReputation);
+  const now = useNow();
+  const hasTradeReputation = useSelector(gameService, _hasReputation(now));
   const usd = useSelector(gameService, _usd);
 
   const [offer, setOffer] = useState(0);

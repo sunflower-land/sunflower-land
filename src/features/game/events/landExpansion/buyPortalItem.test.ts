@@ -3,9 +3,11 @@ import { buyEventShopItem } from "./buyPortalItem";
 import Decimal from "decimal.js-light";
 
 describe("minigameItem.bought", () => {
+  const now = Date.now();
   it("requries minigame has a shop", () => {
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "board-game",
           name: "Bunny Mask",
@@ -30,6 +32,7 @@ describe("minigameItem.bought", () => {
   it("requries shop has item", () => {
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "festival-of-colors-2025",
           name: "Bunny Mask",
@@ -53,6 +56,7 @@ describe("minigameItem.bought", () => {
   it("requries player has flower", () => {
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "festival-of-colors-2025",
           name: "Floating Toy",
@@ -76,6 +80,7 @@ describe("minigameItem.bought", () => {
   it("requries player has ingredients", () => {
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "festival-of-colors-2025",
           name: "Paint Buckets",
@@ -99,6 +104,7 @@ describe("minigameItem.bought", () => {
 
   it("requires player has not already bought collectible", () => {
     const state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Treasure Key",
@@ -121,6 +127,7 @@ describe("minigameItem.bought", () => {
 
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "festival-of-colors-2025",
           name: "Treasure Key",
@@ -133,6 +140,7 @@ describe("minigameItem.bought", () => {
 
   it("requires player has not already bought wearable", () => {
     const state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Paint Splattered Hair",
@@ -155,6 +163,7 @@ describe("minigameItem.bought", () => {
 
     expect(() =>
       buyEventShopItem({
+        createdAt: now,
         action: {
           id: "festival-of-colors-2025",
           name: "Paint Splattered Hair",
@@ -167,6 +176,7 @@ describe("minigameItem.bought", () => {
 
   it("buys a collectible", () => {
     const state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Floating Toy",
@@ -201,6 +211,7 @@ describe("minigameItem.bought", () => {
 
   it("buys a collectible with VIP discount", () => {
     const state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Floating Toy",
@@ -239,6 +250,7 @@ describe("minigameItem.bought", () => {
 
   it("buys a wearable", () => {
     const state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Paint Splattered Hair",
@@ -272,6 +284,7 @@ describe("minigameItem.bought", () => {
   });
   it("buys multiple", () => {
     let state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Paint Splattered Hair",
@@ -294,6 +307,7 @@ describe("minigameItem.bought", () => {
     });
 
     state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Floating Toy",
@@ -303,6 +317,7 @@ describe("minigameItem.bought", () => {
     });
 
     state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Treasure Key",
@@ -312,6 +327,7 @@ describe("minigameItem.bought", () => {
     });
 
     state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Paint Splattered Overalls",
@@ -339,6 +355,7 @@ describe("minigameItem.bought", () => {
 
   it("buys multiple of same item under the max", () => {
     let state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Colors Ticket 2025",
@@ -361,6 +378,7 @@ describe("minigameItem.bought", () => {
     });
 
     state = buyEventShopItem({
+      createdAt: now,
       action: {
         id: "festival-of-colors-2025",
         name: "Colors Ticket 2025",

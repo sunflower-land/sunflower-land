@@ -700,10 +700,11 @@ interface Props {
   npc: NPCName;
 }
 
-const _hasReputation = (state: MachineState) =>
+const _hasReputation = (now: number) => (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
+    now,
   });
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
@@ -762,7 +763,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   };
 
   const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(npc);
-  const hasCropkeeperReputation = useSelector(gameService, _hasReputation);
+  const hasCropkeeperReputation = useSelector(gameService, _hasReputation(now));
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);

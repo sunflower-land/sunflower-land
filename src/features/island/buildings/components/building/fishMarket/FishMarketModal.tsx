@@ -19,7 +19,7 @@ import {
 } from "features/game/types/fishProcessing";
 import { ProcessedResource } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { MAX_FISH_PROCESSING_SLOTS } from "features/game/events/landExpansion/processResource";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -50,7 +50,7 @@ const PROCESSED_ITEMS: ProcessedResource[] = getKeys(
 );
 
 const _isVIP = (state: MachineState) =>
-  hasVipAccess({ game: state.context.state });
+  useVipAccess({ game: state.context.state });
 const _state = (state: MachineState) => state.context.state;
 const _season = (state: MachineState) => state.context.state.season.season;
 

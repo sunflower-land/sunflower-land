@@ -215,6 +215,7 @@ export const CompetitionDetails: React.FC<{
                   game: state,
                   name: competitionName,
                   task: name,
+                  now,
                 });
                 let taskName = name;
                 if (name === "Help 10 Friends") {

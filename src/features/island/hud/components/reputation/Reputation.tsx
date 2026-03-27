@@ -17,7 +17,7 @@ import {
   REPUTATION_TIERS,
 } from "features/game/lib/reputation";
 import { useGame } from "features/game/GameProvider";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import lockIcon from "assets/icons/lock.png";
@@ -34,17 +34,19 @@ import bank from "assets/icons/withdraw.png";
 import bud from "assets/icons/bud.png";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import classNames from "classnames";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const MyReputation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const { gameState } = useGame();
+  const now = useNow();
 
   return (
     <ButtonPanel onClick={() => openModal("REPUTATION")}>
       <div className="flex flex-col">
         <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
-          {`${t("reputation.title")} - ${REPUTATION_NAME[getReputation({ game: gameState.context.state })]}`}
+          {`${t("reputation.title")} - ${REPUTATION_NAME[getReputation({ game: gameState.context.state, now })]}`}
         </Label>
         <p className="text-xs">{t("reputation.description")}</p>
       </div>
@@ -295,8 +297,9 @@ export const ReputationPoints: React.FC = () => {
   const isDiscordVerified = gameState.context.state.discord?.verified;
 
   const ShowDiscordInfoButton = isDiscordConnected && !isDiscordVerified;
+  const now = useNow();
 
-  const points = getReputationPoints({ game: gameState.context.state });
+  const points = getReputationPoints({ game: gameState.context.state, now });
   return (
     <>
       <div className="p-1">
@@ -304,7 +307,7 @@ export const ReputationPoints: React.FC = () => {
           <Label type="default">
             {t("reputation.points.title", {
               name: REPUTATION_NAME[
-                getReputation({ game: gameState.context.state })
+                getReputation({ game: gameState.context.state, now })
               ],
             })}
           </Label>
@@ -322,6 +325,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.SpringIsland({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -332,6 +336,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.Level15({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -342,6 +347,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.DesertIsland({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -352,6 +358,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.VolcanoIsland({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -387,6 +394,7 @@ export const ReputationPoints: React.FC = () => {
               ),
               icon: REPUTATION_TASKS.Discord({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -397,6 +405,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.ProofOfHumanity({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -407,6 +416,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.Level100({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -417,6 +427,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.Bud({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -427,6 +438,7 @@ export const ReputationPoints: React.FC = () => {
               }),
               icon: REPUTATION_TASKS.VIP({
                 game: gameState.context.state,
+                now,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -434,7 +446,7 @@ export const ReputationPoints: React.FC = () => {
           ]}
         />
       </div>
-      {!hasVipAccess({ game: gameState.context.state, type: "full" }) && (
+      {!useVipAccess({ game: gameState.context.state, type: "full" }) && (
         <Button onClick={() => openModal("VIP_ITEMS")}>
           {t("reputation.vip.purchase")}
         </Button>

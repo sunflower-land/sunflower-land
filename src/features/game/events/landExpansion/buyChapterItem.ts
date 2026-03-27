@@ -211,7 +211,7 @@ export function buyChapterItem({
     // Check if player has enough resources
     const { sfl, items } = item.cost;
 
-    const _sfl = SFLDiscount(state, new Decimal(sfl));
+    const _sfl = SFLDiscount(state, new Decimal(sfl), createdAt);
 
     if (copy.balance.lessThan(_sfl)) {
       throw new Error("Insufficient SFL");

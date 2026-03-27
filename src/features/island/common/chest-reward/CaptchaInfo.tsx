@@ -17,6 +17,7 @@ import React, { useContext, useState } from "react";
 import book from "src/assets/icons/tier3_book.webp";
 import infoIcon from "assets/icons/info.webp";
 import bank from "assets/icons/withdraw.png";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const CaptchaInfo: React.FC<{ collectedItem?: InventoryItemName }> = ({
   collectedItem,
@@ -31,9 +32,11 @@ export const CaptchaInfo: React.FC<{ collectedItem?: InventoryItemName }> = ({
 
   const hasRequiedLevel = bumpkinLevel >= 60;
   const isVerified = isFaceVerified({ game: state }) || !!state.verified;
+  const now = useNow();
   const hasRequiedReputation = hasReputation({
     game: state,
     reputation: requiredReputation,
+    now,
   });
 
   const requiredReputationName =

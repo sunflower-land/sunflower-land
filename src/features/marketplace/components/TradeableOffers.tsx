@@ -37,7 +37,7 @@ import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
 import { getMaxPurchases } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -165,7 +165,7 @@ export const TradeableOffers: React.FC<{
 
   const vipIsRequired =
     tradeable?.isVip &&
-    !hasVipAccess({
+    !useVipAccess({
       game: gameService.getSnapshot().context.state,
       type: "full",
     });

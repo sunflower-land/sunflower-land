@@ -25,7 +25,7 @@ import {
 } from "features/game/events/landExpansion/exchangeFLOWER";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 interface Props {
   onClose: () => void;
@@ -155,7 +155,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
     return <FaceRecognition />;
   }
 
-  const isVIP = hasVipAccess({ game: state, type: "full" });
+  const isVIP = useVipAccess({ game: state, type: "full" });
   if (!isVIP) {
     return (
       <div className="p-1">

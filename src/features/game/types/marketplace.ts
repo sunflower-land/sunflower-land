@@ -309,10 +309,16 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   volcano: 0.15,
 };
 
-export function getResourceTax({ game }: { game: GameState }) {
+export function getResourceTax({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}) {
   let tax = new Decimal(ISLAND_RESOURCE_TAXES[game.island.type]);
 
-  if (hasVipAccess({ game })) {
+  if (hasVipAccess({ game, now })) {
     tax = tax.mul(0.5);
   }
 
