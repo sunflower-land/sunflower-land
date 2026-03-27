@@ -18,7 +18,7 @@ export type UpgradeBuildingAction = {
 };
 export type UpgradableBuildingType = Extract<
   BuildingName,
-  AnimalBuildingType | "Water Well" | "Pet House"
+  AnimalBuildingType | "Water Well" | "Pet House" | "Aging Shed"
 >;
 
 type Options = {
@@ -43,7 +43,7 @@ export const BUILDING_UPGRADES: Record<
   Record<number, BuildingUpgradeCost>
 > = {
   "Hen House": {
-    // Level 1 is the default and does not require any upgrades
+    // Default level
     1: {
       coins: 0,
       items: {},
@@ -103,19 +103,19 @@ export const BUILDING_UPGRADES: Record<
       coins: 200,
       items: { Wood: new Decimal(5), Stone: new Decimal(2) },
       requiredLevel: 4,
-      upgradeTime: 60 * 60 * 1000,
+      upgradeTime: 1000 * 60 * 60,
     },
     3: {
       coins: 400,
       items: { Wood: new Decimal(5), Stone: new Decimal(5) },
       requiredLevel: 11,
-      upgradeTime: 60 * 60 * 2 * 1000,
+      upgradeTime: 1000 * 60 * 60 * 2,
     },
     4: {
       coins: 800,
       items: { Wood: new Decimal(10), Stone: new Decimal(10) },
       requiredLevel: 15,
-      upgradeTime: 60 * 60 * 4 * 1000,
+      upgradeTime: 1000 * 60 * 60 * 4,
     },
   },
   "Pet House": {
@@ -154,13 +154,36 @@ export const BUILDING_UPGRADES: Record<
       },
     },
   },
+  "Aging Shed": {
+    1: {
+      coins: 200,
+      items: { Wood: new Decimal(30) },
+    },
+    2: {
+      coins: 30_000,
+      items: { Stone: new Decimal(100), Gold: new Decimal(20) },
+    },
+    3: {
+      coins: 40_000,
+      items: { Wood: new Decimal(500), Stone: new Decimal(500) },
+    },
+    4: {
+      coins: 100_000,
+      items: { Gold: new Decimal(100) },
+    },
+    5: {
+      coins: 200_000,
+      items: { Crimstone: new Decimal(10) },
+    },
+    6: {
+      coins: 1_000_000,
+      items: {},
+    },
+  },
 };
 
 export const makeUpgradableBuildingKey = (
-  buildingName: Extract<
-    BuildingName,
-    "Hen House" | "Barn" | "Water Well" | "Pet House"
-  >,
+  buildingName: UpgradableBuildingType,
 ): UpgradableBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
@@ -176,8 +199,8 @@ export function upgradeBuilding({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildings, bumpkin } = copy;
-    const { experience } = bumpkin;
     const { buildingType } = action;
+    const { experience } = bumpkin;
 
     if (!buildings[buildingType]) {
       throw new Error("Building not found");
@@ -192,6 +215,7 @@ export function upgradeBuilding({
     if (building.level >= getKeys(upgrades).length) {
       throw new Error("Building is at max level");
     }
+
     if (building.upgradeReadyAt && building.upgradeReadyAt > createdAt) {
       throw new Error("Building is still under upgrade");
     }
@@ -227,6 +251,7 @@ export function upgradeBuilding({
 
     // Deduct coins
     copy.coins -= upgradeCost.coins;
+
     copy.farmActivity = trackFarmActivity(
       "Coins Spent",
       copy.farmActivity,

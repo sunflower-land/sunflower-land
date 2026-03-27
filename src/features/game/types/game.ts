@@ -1967,6 +1967,7 @@ export interface GameState {
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
+  agingShed: UpgradableBuilding;
   petHouse: PetHouseBuilding;
 
   craftingBox: {

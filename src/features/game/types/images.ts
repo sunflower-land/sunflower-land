@@ -5770,7 +5770,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("building.craftingBox"),
   },
   "Aging Shed": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.building.fishMarket, // placeholder
     description: translate("description.agingShed"),
     translatedName: translate("building.agingShed"),
   },
