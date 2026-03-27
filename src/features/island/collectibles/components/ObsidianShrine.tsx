@@ -37,7 +37,8 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
 import { PET_SHRINE_DIMENSIONS_STYLES } from "./PetShrine";
-import { isSeasonedPlayer } from "features/island/plots/Plot";
+import { selectGameState, selectVerified } from "features/game/lib/gameMachine";
+import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { FarmActivityName } from "features/game/types/farmActivity";
 
@@ -66,9 +67,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useSelector(gameService, selectGameState);
+  const verified = useSelector(gameService, selectVerified);
   const farmId = useSelector(gameService, (state) => state.context.farmId);
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
+  const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
   const availablePlots = getAvailablePlots(state);
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);

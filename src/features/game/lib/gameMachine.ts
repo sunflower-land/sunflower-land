@@ -837,6 +837,10 @@ export type StateValues = BlockchainState[StateKeys];
 
 export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
+/** Stable selectors for `useSelector` with `@xstate/react` (constant function identity). */
+export const selectGameState = (state: MachineState) => state.context.state;
+export const selectVerified = (state: MachineState) => state.context.verified;
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,

@@ -193,7 +193,7 @@ describe("deliver", () => {
           ...TEST_FARM,
           vip: {
             bundles: [],
-            expiresAt: Date.now() - 1000 * 60,
+            expiresAt: MID_SEASON - 1000 * 60,
           },
           coins: 50,
           delivery: {

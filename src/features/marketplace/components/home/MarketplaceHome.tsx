@@ -23,7 +23,7 @@ import { Button } from "components/ui/Button";
 import {
   getAccountTradedRestrictionSecondsLeft,
   isAccountTradedWithin90Days,
-  MachineState,
+  selectGameState,
 } from "features/game/lib/gameMachine";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -39,12 +39,6 @@ import { Filters } from "./Filters";
 import { CHAPTERS } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 
-const _hasTradeReputation = (now: number) => (state: MachineState) =>
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Cropkeeper,
-    now,
-  });
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
@@ -90,8 +84,13 @@ export const MarketplaceNavigation: React.FC = () => {
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
+  const game = useSelector(gameService, selectGameState);
   const now = useNow();
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation(now));
+  const hasTradeReputation = hasReputation({
+    game,
+    reputation: Reputation.Cropkeeper,
+    now,
+  });
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );

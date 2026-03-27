@@ -34,22 +34,18 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import {
   isAccountTradedWithin90Days,
-  MachineState,
+  selectGameState,
 } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
-import { hasReputation, Reputation } from "features/game/lib/reputation";
+import {
+  hasReputation as checkPlayerReputation,
+  Reputation,
+} from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
-
-const _hasTradeReputation = (now: number) => (state: MachineState) =>
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Cropkeeper,
-    now,
-  });
 
 type TradeableListItemProps = {
   authToken: string;
@@ -79,8 +75,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   /** Number of identical listings to create (1–20). Only for resources */
   const [multiple, setMultiple] = useState(1);
 
+  const game = useSelector(gameService, selectGameState);
   const now = useNow();
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation(now));
+  const hasTradeReputation = checkPlayerReputation({
+    game,
+    reputation: Reputation.Cropkeeper,
+    now,
+  });
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -111,7 +112,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
 
-  const hasReputation = hasTradeReputation || dailyListings < 1;
+  const hasReputationOrDailyQuota = hasTradeReputation || dailyListings < 1;
 
   // Check inventory count
   const getCount = () => {
@@ -346,7 +347,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           })}
         </Label>
 
-        {!hasReputation && (
+        {!hasReputationOrDailyQuota && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
         )}
       </div>
