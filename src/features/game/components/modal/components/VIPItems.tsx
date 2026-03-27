@@ -69,13 +69,13 @@ const VIPLabel: React.FC<{
   now: number;
   vip: VIP | undefined;
   hasLifetimeBanner: boolean;
-}> = ({ state, now, vip, hasLifetimeBanner }) => {
+  hasFullVip: boolean;
+  hasTrialVip: boolean;
+}> = ({ state, now, vip, hasLifetimeBanner, hasFullVip, hasTrialVip }) => {
   const { t } = useAppTranslation();
 
   const hasVipTimestampFields = !!(vip?.trialStartedAt || vip?.expiresAt);
-  const hasVip = useVipAccess({ game: state, type: "full" });
-  const hasTrialVip = useVipAccess({ game: state, type: "trial" });
-  const hasTrial = !hasVip && hasTrialVip;
+  const hasTrial = !hasFullVip && hasTrialVip;
 
   if (!hasLifetimeBanner && (!vip || !hasVipTimestampFields)) {
     return null;
@@ -92,7 +92,7 @@ const VIPLabel: React.FC<{
   const vipExpiresAt = state.vip?.expiresAt ?? 0;
   const expiresSoon = vipExpiresAt < now + 1000 * 60 * 60 * 24 * 7;
 
-  if (hasVip) {
+  if (hasFullVip) {
     return (
       <>
         <div className="flex justify-between my-2">
@@ -250,6 +250,8 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           now={now}
           vip={vip}
           hasLifetimeBanner={hasLifetimeBanner}
+          hasFullVip={hasFullVip}
+          hasTrialVip={hasTrialVip}
         />
 
         <div className="flex mt-3 mb-2 px-1">

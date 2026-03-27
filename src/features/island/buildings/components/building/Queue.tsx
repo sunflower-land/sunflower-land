@@ -37,6 +37,7 @@ export const Queue: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
   const { t } = useTranslation();
   const sortedQueue = [...queue].sort((a, b) => a.readyAt - b.readyAt);
+  const isVIP = useVipAccess({ game: state });
 
   return (
     <div className="mb-2">
@@ -49,7 +50,7 @@ export const Queue: React.FC<Props> = ({
           {t("recipes.queue")}
         </Label>
         <VIPAccess
-          isVIP={useVipAccess({ game: state })}
+          isVIP={isVIP}
           onUpgrade={() => {
             onClose();
             openModal("BUY_BANNER");
