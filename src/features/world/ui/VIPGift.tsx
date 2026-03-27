@@ -68,7 +68,6 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
 
   const currentDate = new Date();
 
-  const hasVip = useVipAccess({ game: gameState.context.state });
   const rewardEntry = MONTHLY_REWARDS_DATES.sort(
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   ).find((key) => {
@@ -76,13 +75,15 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
     return currentDate >= rewardStartDate;
   });
 
+  const isVIP = useVipAccess({ game: gameState.context.state });
+
   if (!rewardEntry) {
     return (
       <>
         <div className="p-2">
           <div className="flex justify-between items-center pr-8">
             <VIPAccess
-              isVIP={useVipAccess({ game: gameState.context.state })}
+              isVIP={isVIP}
               onUpgrade={() => {
                 onClose();
                 openModal("BUY_BANNER");
@@ -121,7 +122,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
       <div className="p-2">
         <div className="flex justify-between items-center pr-8">
           <VIPAccess
-            isVIP={useVipAccess({ game: gameState.context.state })}
+            isVIP={isVIP}
             onUpgrade={() => {
               onClose();
               openModal("BUY_BANNER");
@@ -135,7 +136,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
         </div>
       </div>
       <p className="text-xs mb-2 pl-1">{t("season.vip.claim")}</p>
-      <Button onClick={open} disabled={!hasVip || hasOpened}>
+      <Button onClick={open} disabled={!isVIP || hasOpened}>
         {t("claim")}
       </Button>
     </>

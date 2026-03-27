@@ -150,12 +150,12 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
     state.flower?.history?.[new Date().toISOString().split("T")[0]]
       ?.loveCharmsSpent ?? 0;
   const willExceedDailyLimit = loveCharmsSpent + loveCharms > DAILY_LIMIT;
+  const isVIP = useVipAccess({ game: state, type: "full" });
 
   if (!isFaceVerified({ game: state })) {
     return <FaceRecognition />;
   }
 
-  const isVIP = useVipAccess({ game: state, type: "full" });
   if (!isVIP) {
     return (
       <div className="p-1">

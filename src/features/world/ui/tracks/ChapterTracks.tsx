@@ -496,6 +496,7 @@ export const MilestoneDetails: React.FC<{
   const { gameState, gameService } = useGame();
   const state = gameState.context.state;
   const progress = getTrackProgress({ state, chapter });
+  const hasVip = useVipAccess({ game: state });
   if (!details) return null;
 
   const pointsProgress = Math.min(progress.points, details.points);
@@ -503,8 +504,7 @@ export const MilestoneDetails: React.FC<{
   const claimed =
     details.track === "premium" ? progress.premium : progress.free;
 
-  const needsVip =
-    details.track === "premium" && !useVipAccess({ game: state });
+  const needsVip = details.track === "premium" && !hasVip;
   const hasReachedPoints = progress.points >= details.points;
   const canClaim =
     !needsVip &&

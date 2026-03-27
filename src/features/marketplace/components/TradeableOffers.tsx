@@ -94,7 +94,6 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
-  const myOffersCount = useSelector(gameService, _myOffersCount);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -162,13 +161,9 @@ export const TradeableOffers: React.FC<{
 
   const loading = !tradeable;
   const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
+  const isVIP = useVipAccess({ game: gameService.getSnapshot().context.state });
 
-  const vipIsRequired =
-    tradeable?.isVip &&
-    !useVipAccess({
-      game: gameService.getSnapshot().context.state,
-      type: "full",
-    });
+  const vipIsRequired = tradeable?.isVip && !isVIP;
 
   return (
     <>

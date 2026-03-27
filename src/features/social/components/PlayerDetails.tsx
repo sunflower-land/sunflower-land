@@ -111,6 +111,7 @@ export const PlayerDetails: React.FC<Props> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const { isVisiting, visitedFarmId } = useVisiting();
+  const isVIP = useVipAccess({ game: gameService.getSnapshot().context.state });
 
   const player = data?.data;
 
@@ -244,10 +245,7 @@ export const PlayerDetails: React.FC<Props> = ({
                     <Label type="warning" icon={socialPointsIcon}>
                       {t("cheer.confirm.socialpoints")}
                     </Label>
-                    {useVipAccess({
-                      game: gameService.getSnapshot().context.state,
-                      type: "full",
-                    }) && (
+                    {isVIP && (
                       <Label
                         type="warning"
                         className="mt-0.5"
