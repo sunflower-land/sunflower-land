@@ -22,6 +22,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BoostName } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -60,9 +61,12 @@ export const WithdrawBuds: React.FC<Props> = ({
     setSelected((prev) => prev.filter((bud) => bud !== budId));
   };
 
+  const now = useNow();
+
   const hasAccess = hasReputation({
     game: state,
     reputation: Reputation.Seedling,
+    now,
   });
 
   if (!hasAccess) {

@@ -50,7 +50,7 @@ export function processProcessedResource({
     }
 
     const processingQueue = building.processing ?? [];
-    const availableSlots = hasVipAccess({ game })
+    const availableSlots = hasVipAccess({ game, now: createdAt })
       ? MAX_FISH_PROCESSING_SLOTS
       : 1;
 

@@ -5662,6 +5662,8 @@
   "vip.benefits": "Benefits",
   "vip.oneYear.warning": "You already have 1 year VIP access.",
   "vip.access": "VIP Access",
+  "vip.lifetime": "Lifetime",
+  "vip.lifetime.noPurchase": "You already have lifetime VIP from your Lifetime Farmer Banner.",
   "vip.trial": "Trial",
   "vipExpiry.expired": "VIP expired",
   "vipExpiry.expiring": "VIP expiring",

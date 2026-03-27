@@ -99,7 +99,7 @@ import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "lib/object";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { hasVipAccess } from "./vipAccess";
+import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -837,6 +837,10 @@ export type StateValues = BlockchainState[StateKeys];
 
 export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
+/** Stable selectors for `useSelector` with `@xstate/react` (constant function identity). */
+export const selectGameState = (state: MachineState) => state.context.state;
+export const selectVerified = (state: MachineState) => state.context.verified;
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,
@@ -1306,7 +1310,11 @@ export function startGame(authContext: AuthContext) {
                 // Wow, they haven't seen the VIP promo in 1 month
                 const readAt = getVipRead();
                 if (
-                  !hasVipAccess({ game: context.state, type: "full" }) &&
+                  !hasVipAccess({
+                    game: context.state,
+                    type: "full",
+                    now: Date.now(),
+                  }) &&
                   (!readAt ||
                     readAt.getTime() <
                       Date.now() - 1 * 31 * 24 * 60 * 60 * 1000)
@@ -1320,6 +1328,7 @@ export function startGame(authContext: AuthContext) {
                 const isExpiring =
                   vip &&
                   vip.expiresAt &&
+                  !hasLifetimeFarmerBanner(context.state) &&
                   vip.expiresAt < Date.now() + 3 * 24 * 60 * 60 * 1000 &&
                   // Haven't read since expiry approached
                   (readAt?.getTime() ?? 0) <
@@ -1330,6 +1339,7 @@ export function startGame(authContext: AuthContext) {
                 const hasExpired =
                   vip &&
                   vip.expiresAt &&
+                  !hasLifetimeFarmerBanner(context.state) &&
                   vip.expiresAt < Date.now() &&
                   // Hasn't read since expired
                   (readAt?.getTime() ?? 0) < vip.expiresAt;

@@ -24,6 +24,7 @@ import { useGame } from "features/game/GameProvider";
 import { getResourceTax } from "features/game/types/marketplace";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const LISTING_MULTIPLE_MIN = 1;
 const MAX_LISTINGS_OF_RESOURCE_FOR_BULK = 20;
@@ -102,8 +103,10 @@ export const ResourceList: React.FC<Props> = ({
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
 
+  const now = useNow();
   const tax = getResourceTax({
     game: gameState.context.state,
+    now,
   });
 
   if (gameState.context.state.island.type === "basic") {

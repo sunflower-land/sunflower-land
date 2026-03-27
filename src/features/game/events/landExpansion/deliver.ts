@@ -379,6 +379,7 @@ export function deliverOrder({
     const hasCropkeeperReputation = hasReputation({
       game,
       reputation: Reputation.Cropkeeper,
+      now: createdAt,
     });
 
     const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(

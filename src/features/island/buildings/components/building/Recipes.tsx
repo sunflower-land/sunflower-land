@@ -28,7 +28,7 @@ import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingProduct, InventoryItemName } from "features/game/types/game";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Queue } from "./Queue";
 import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -80,7 +80,7 @@ export const Recipes: React.FC<Props> = ({
   const [showBoosts, setShowBoosts] = useState(false);
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
-  const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+  const availableSlots = useVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
   const now = useNow({ live: true });
 
   const { boostedExp, boostsUsed } = getFoodExpBoost({
@@ -160,7 +160,7 @@ export const Recipes: React.FC<Props> = ({
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
-  const isVIP = hasVipAccess({ game: state });
+  const isVIP = useVipAccess({ game: state });
   const isQueueFull = [...readyRecipes, ...queue].length >= availableSlots;
 
   return (

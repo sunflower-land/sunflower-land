@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
@@ -30,6 +30,7 @@ export const SaltHarvestQueue: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
+  const hasVip = useVipAccess({ game: state });
 
   return (
     <div className="mb-2">
@@ -42,7 +43,7 @@ export const SaltHarvestQueue: React.FC<Props> = ({
           {t("recipes.queue")}
         </Label>
         <VIPAccess
-          isVIP={hasVipAccess({ game: state, now })}
+          isVIP={hasVip}
           onUpgrade={() => {
             onCloseModal();
             openModal("BUY_BANNER");

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -51,7 +51,7 @@ export const CraftingQueue: React.FC<Props> = ({
           {t("crafting.queue")}
         </Label>
         <VIPAccess
-          isVIP={hasVipAccess({ game: state })}
+          isVIP={useVipAccess({ game: state })}
           onUpgrade={() => {
             onClose();
             openModal("BUY_BANNER");

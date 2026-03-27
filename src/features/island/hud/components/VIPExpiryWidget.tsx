@@ -6,11 +6,15 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { VIP_TRIAL_PERIOD_MS } from "features/game/lib/vipAccess";
+import {
+  hasLifetimeFarmerBanner,
+  VIP_TRIAL_PERIOD_MS,
+} from "features/game/lib/vipAccess";
 import vipIcon from "assets/icons/vip.webp";
 
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState } from "features/game/lib/gameMachine";
 
 function acknowledgeVipExpiry() {
   localStorage.setItem("vipExpiryAcknowledged", new Date().toISOString());
@@ -24,6 +28,10 @@ function vipAcknowledgedAt() {
   return new Date(value);
 }
 
+const _hasLifetimeFarmerBanner = (state: MachineState) =>
+  hasLifetimeFarmerBanner(state.context.state);
+const _vip = (state: MachineState) => state.context.state.vip;
+
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
 
@@ -36,7 +44,12 @@ export const VIPExpiryWidget: React.FC = () => {
   const now = useNow();
   const { gameService } = useContext(Context);
 
-  const vip = useSelector(gameService, (state) => state.context.state.vip);
+  const vip = useSelector(gameService, _vip);
+  const hasLifetimeBanner = useSelector(gameService, _hasLifetimeFarmerBanner);
+
+  if (hasLifetimeBanner) {
+    return null;
+  }
 
   const expiresAt = Math.max(
     vip?.expiresAt ?? 0,

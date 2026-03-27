@@ -20,7 +20,12 @@ import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineState,
+  selectGameState,
+  selectVerified,
+} from "features/game/lib/gameMachine";
+import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -30,7 +35,6 @@ import {
   SEASONAL_SEEDS,
   SeedName,
 } from "features/game/types/seeds";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "lib/object";
 import { Transition } from "@headlessui/react";
@@ -41,8 +45,6 @@ import { TsunamiPlot } from "./components/TsunamiPlot";
 import { GreatFreezePlot } from "./components/GreatFreezePlot";
 import { SeasonalSeed } from "./components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
-import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
 
 export function getYieldColour(yieldAmount: number) {
@@ -58,7 +60,6 @@ export function getYieldColour(yieldAmount: number) {
 }
 
 const _crops = (state: MachineState) => state.context.state.crops;
-const _state = (state: MachineState) => state.context.state;
 
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
@@ -77,18 +78,6 @@ const selectPlants = (state: MachineState) =>
 
 const selectCropsSold = (state: MachineState) =>
   state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
-
-// A player that has been vetted and is engaged in the season.
-export const isSeasonedPlayer = (state: MachineState): boolean => {
-  // - level 60+
-  return (
-    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
-    // - verified (personhood verification)
-    (state.context.verified || isFaceVerified({ game: state.context.state })) &&
-    // - has grower reputation
-    hasReputation({ game: state.context.state, reputation: Reputation.Grower })
-  );
-};
 
 interface Props {
   id: string;
@@ -111,7 +100,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
 
@@ -127,7 +115,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const { play: plantAudio } = useSound("plant");
   const { play: harvestAudio } = useSound("harvest");
 
-  const state = useSelector(gameService, _state);
+  const state = useSelector(gameService, selectGameState);
+  const verified = useSelector(gameService, selectVerified);
   const { inventory, waterWell, season } = state;
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
@@ -135,6 +124,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const plot = crops[id];
 
   const now = useNow({ live: true });
+  const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =

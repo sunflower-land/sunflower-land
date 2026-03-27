@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import { selectGameState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useContext } from "react";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-
-const _isSeedling = (state: MachineState) =>
-  hasReputation({ game: state.context.state, reputation: Reputation.Seedling });
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const NoNFT: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
 
-  const isSeedling = useSelector(gameService, _isSeedling);
+  const game = useSelector(gameService, selectGameState);
+  const now = useNow();
+
+  const isSeedling = hasReputation({
+    game,
+    reputation: Reputation.Seedling,
+    now,
+  });
 
   const mint = () => {
     gameService.send("nft.assigned", {

@@ -26,11 +26,11 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import {
-  getExpansionCoinCostWithVip,
-  hasVipAccess,
-} from "features/game/lib/vipAccess";
 import vipIcon from "assets/icons/vip.webp";
+import {
+  useExpansionCoinCostWithVip,
+  useVipAccess,
+} from "lib/utils/hooks/useVipAccess";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -77,11 +77,11 @@ export const ExpansionRequirements: React.FC<Props> = ({
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
   const fullCoinRequirement = requirements.coins ?? 0;
-  const effectiveCoinCost = getExpansionCoinCostWithVip({
+  const effectiveCoinCost = useExpansionCoinCostWithVip({
     coins: requirements.coins,
     game: state,
   });
-  const hasVip = hasVipAccess({ game: state });
+  const hasVip = useVipAccess({ game: state });
   const showVipDiscount =
     !!fullCoinRequirement && hasVip && effectiveCoinCost < fullCoinRequirement;
   const requirementsWithVipCoins = {

@@ -29,7 +29,7 @@ import { ResourceInventory } from "./ResourceInventory";
 import { CraftDetails } from "./CraftDetails";
 import { CraftButton } from "./CraftButton";
 import { CraftTimer } from "./CraftTimer";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useCraftingQueue } from "./useCraftingQueue";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -84,7 +84,7 @@ export const CraftTab: React.FC<Props> = ({
     now,
   } = useCraftingQueue(craftingBox);
 
-  const isVIP = hasVipAccess({ game: state });
+  const isVIP = useVipAccess({ game: state });
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
 

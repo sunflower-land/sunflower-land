@@ -24,6 +24,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { shortAddress } from "lib/utils/shortAddress";
 import withdrawIcon from "assets/icons/withdraw.png";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: (sfl: string, chainId: number) => void;
@@ -50,6 +51,7 @@ export const WithdrawFlower: React.FC<Props> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { balance } = state;
+  const now = useNow();
 
   const tax = getTax({
     amount: typeof amount !== "string" ? amount : new Decimal(0),
@@ -59,6 +61,7 @@ export const WithdrawFlower: React.FC<Props> = ({
   const hasAccess = hasReputation({
     game: state,
     reputation: Reputation.Grower,
+    now,
   });
 
   if (!hasAccess) {

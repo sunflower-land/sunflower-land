@@ -56,7 +56,11 @@ export function buyWearable({
     }
 
     const price =
-      SFLDiscount(stateCopy, new Decimal(wearable.coins)).toNumber() ?? 0;
+      SFLDiscount(
+        stateCopy,
+        new Decimal(wearable.coins),
+        createdAt,
+      ).toNumber() ?? 0;
 
     if (price && stateCopy.coins < price) {
       throw new Error("Insufficient coins");

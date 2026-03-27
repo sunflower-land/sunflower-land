@@ -3,11 +3,15 @@ import { GameState } from "../types/game";
 import { hasVipAccess } from "./vipAccess";
 import { CHAPTERS } from "../types/chapters";
 
-export function SFLDiscount(state: GameState | undefined, sfl: Decimal) {
+export function SFLDiscount(
+  state: GameState | undefined,
+  sfl: Decimal,
+  now: number,
+) {
   if (!state) return sfl;
 
-  if (hasVipAccess({ game: state })) {
-    if (Date.now() > CHAPTERS["Great Bloom"].startDate.getTime()) {
+  if (hasVipAccess({ game: state, now })) {
+    if (now > CHAPTERS["Great Bloom"].startDate.getTime()) {
       // 50% discount
       return sfl.times(0.5);
     } else {

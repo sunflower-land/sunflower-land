@@ -18,6 +18,7 @@ import {
   BlockchainEvent,
   Context as ContextType,
   MachineState,
+  selectGameState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { PurchaseModalContent } from "./PurchaseModalContent";
@@ -29,10 +30,14 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
-import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
-import { hasReputation } from "features/game/lib/reputation";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import {
+  getRemainingTrades,
+  hasReputation,
+  Reputation,
+} from "features/game/lib/reputation";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { TradeableDisplay } from "../lib/tradeables";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -50,11 +55,6 @@ type TradeableHeaderProps = {
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
-const _hasTradeReputation = (state: MachineState) =>
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Cropkeeper,
-  });
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   authToken,
@@ -69,7 +69,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 }) => {
   const { gameService } = useContext(Context);
   const balance = useSelector(gameService, _balance);
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
+  const game = useSelector(gameService, selectGameState);
+  const now = useNow();
+  const hasTradeReputation = hasReputation({
+    game,
+    reputation: Reputation.Cropkeeper,
+    now,
+  });
   const params = useParams();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
@@ -115,12 +121,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
-  const vipIsRequired =
-    tradeable?.isVip &&
-    !hasVipAccess({
-      game: gameService.getSnapshot().context.state,
-      type: "full",
-    });
+  const hasVipAccess = useVipAccess({
+    game: gameService.getSnapshot().context.state,
+    type: "full",
+  });
+
+  const vipIsRequired = tradeable?.isVip && !hasVipAccess;
 
   const isTutorialItem = tradeable?.id === 2129;
 
@@ -286,6 +292,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                       (!hasTradeReputation &&
                         getRemainingTrades({
                           game: gameService.getSnapshot().context.state,
+                          now,
                         }) <= 0) ||
                       limitedTradesLeft <= 0
                     }
@@ -324,6 +331,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   (!hasTradeReputation &&
                     getRemainingTrades({
                       game: gameService.getSnapshot().context.state,
+                      now,
                     }) <= 0) ||
                   limitedTradesLeft <= 0
                 }

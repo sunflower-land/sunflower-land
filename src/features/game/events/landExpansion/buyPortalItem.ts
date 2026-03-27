@@ -22,10 +22,14 @@ export type BuyMinigameItemAction = {
 type Options = {
   state: Readonly<GameState>;
   action: BuyMinigameItemAction;
-  createdAt?: number;
+  createdAt: number;
 };
 
-export function buyEventShopItem({ state, action }: Options): GameState {
+export function buyEventShopItem({
+  state,
+  action,
+  createdAt,
+}: Options): GameState {
   return produce(state, (stateCopy) => {
     const { name } = action;
 
@@ -54,7 +58,7 @@ export function buyEventShopItem({ state, action }: Options): GameState {
     if (sfl) {
       let cost = sfl;
 
-      if (hasVipAccess({ game: stateCopy })) {
+      if (hasVipAccess({ game: stateCopy, now: createdAt })) {
         cost = cost * 0.5;
       }
 

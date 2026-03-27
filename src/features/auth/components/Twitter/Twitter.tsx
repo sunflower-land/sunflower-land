@@ -23,7 +23,7 @@ import { getBumpkinBanner } from "./actions/getBumpkinBanner";
 import { Loading } from "../Loading";
 import { TextInput } from "components/ui/TextInput";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
@@ -46,6 +46,7 @@ const TwitterRewards: React.FC = () => {
   const { t } = useAppTranslation();
 
   const twitter = gameState.context.state.twitter;
+  const isVip = useVipAccess({ game: gameState.context.state });
 
   if (selected) {
     return (
@@ -71,7 +72,10 @@ const TwitterRewards: React.FC = () => {
           (twitter?.tweets?.[key]?.completedAt ?? 0) >
           now - 7 * 24 * 60 * 60 * 1000;
 
-        const rewards = TWITTER_REWARDS[key].items(gameState.context.state);
+        const rewards = TWITTER_REWARDS[key].items(
+          gameState.context.state,
+          now,
+        );
 
         return (
           <ButtonPanel
@@ -107,9 +111,7 @@ const TwitterRewards: React.FC = () => {
       })}
 
       <div className="mb-1 mx-1">
-        {!hasVipAccess({ game: gameState.context.state }) && (
-          <p className="text-xs">{t("twitter.rewards.vip")}</p>
-        )}
+        {!isVip && <p className="text-xs">{t("twitter.rewards.vip")}</p>}
         <span
           className="underline text-xs cursor-pointer "
           onClick={() => {
@@ -275,7 +277,7 @@ const TwitterFarm: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
   const hasCompleted =
     (twitter?.tweets?.FARM?.completedAt ?? 0) > now - 7 * 24 * 60 * 60 * 1000;
 
-  const rewards = TWITTER_REWARDS.FARM.items(gameState.context.state);
+  const rewards = TWITTER_REWARDS.FARM.items(gameState.context.state, now);
 
   return (
     <>
@@ -350,6 +352,7 @@ const TwitterBanner: React.FC<{
   const [authState] = useActor(authService);
   const { gameState } = useGame();
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const [image, setImage] = useState<string>();
 
@@ -395,7 +398,7 @@ const TwitterBanner: React.FC<{
     }
   };
 
-  const rewards = TWITTER_REWARDS[postName].items(gameState.context.state);
+  const rewards = TWITTER_REWARDS[postName].items(gameState.context.state, now);
 
   return (
     <>

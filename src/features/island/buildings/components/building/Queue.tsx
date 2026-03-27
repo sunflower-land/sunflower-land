@@ -5,7 +5,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useTranslation } from "react-i18next";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -37,6 +37,7 @@ export const Queue: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
   const { t } = useTranslation();
   const sortedQueue = [...queue].sort((a, b) => a.readyAt - b.readyAt);
+  const isVIP = useVipAccess({ game: state });
 
   return (
     <div className="mb-2">
@@ -49,7 +50,7 @@ export const Queue: React.FC<Props> = ({
           {t("recipes.queue")}
         </Label>
         <VIPAccess
-          isVIP={hasVipAccess({ game: state })}
+          isVIP={isVIP}
           onUpgrade={() => {
             onClose();
             openModal("BUY_BANNER");

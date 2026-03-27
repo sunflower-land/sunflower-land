@@ -117,7 +117,7 @@ export const ItemsList: React.FC<Props> = ({
 
   const getCurrency = (item: EventStoreItem) => {
     if (item.cost.sfl !== 0)
-      return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
+      return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl), now));
 
     const currency =
       item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
