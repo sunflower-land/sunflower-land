@@ -8337,5 +8337,7 @@
   "description.agingShed": "Age and ferment your resources into refined goods.",
   "agingShed.agingRack": "Aging Rack",
   "agingShed.fermentationRack": "Fermentation Rack",
-  "agingShed.spiceRack": "Spice Rack"
+  "agingShed.spiceRack": "Spice Rack",
+  "vip.lifetime": "Lifetime",
+  "vip.lifetime.noPurchase": "You already have lifetime VIP from your Lifetime Farmer Banner."
 }

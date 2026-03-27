@@ -8337,5 +8337,7 @@
   "description.agingShed": "通过腌制与发酵工艺，将基础资源转化为高级物资。",
   "agingShed.agingRack": "风干架",
   "agingShed.fermentationRack": "发酵架",
-  "agingShed.spiceRack": "香料架"
+  "agingShed.spiceRack": "香料架",
+  "vip.lifetime": "终身",
+  "vip.lifetime.noPurchase": "你已经从你的终身农民旗帜中获得终身VIP。"
 }

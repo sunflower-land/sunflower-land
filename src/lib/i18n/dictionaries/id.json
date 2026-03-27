@@ -8337,5 +8337,7 @@
   "description.agingShed": "Umur dan fermentasi sumber daya Anda menjadi barang olahan.",
   "agingShed.agingRack": "Rak Penuaan",
   "agingShed.fermentationRack": "Rak Fermentasi",
-  "agingShed.spiceRack": "Rak Rempah-rempah"
+  "agingShed.spiceRack": "Rak Rempah-rempah",
+  "vip.lifetime": "Seumur hidup",
+  "vip.lifetime.noPurchase": "Anda sudah memiliki VIP seumur hidup dari Spanduk Petani Seumur Hidup Anda."
 }

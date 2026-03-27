@@ -8337,5 +8337,7 @@
   "description.agingShed": "Envelheça e transforme seus recursos em produtos refinados.",
   "agingShed.agingRack": "Rack de envelhecimento",
   "agingShed.fermentationRack": "Rack de fermentação",
-  "agingShed.spiceRack": "Prateleira de especiarias"
+  "agingShed.spiceRack": "Prateleira de especiarias",
+  "vip.lifetime": "Tempo de vida",
+  "vip.lifetime.noPurchase": "Você já tem VIP vitalício em seu Lifetime Farmer Banner."
 }

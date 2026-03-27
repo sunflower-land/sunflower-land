@@ -8337,5 +8337,7 @@
   "description.agingShed": "資源を熟成させ、発酵させて精製品にします。",
   "agingShed.agingRack": "エージングラック",
   "agingShed.fermentationRack": "発酵ラック",
-  "agingShed.spiceRack": "スパイスラック"
+  "agingShed.spiceRack": "スパイスラック",
+  "vip.lifetime": "ライフタイム",
+  "vip.lifetime.noPurchase": "ライフタイムファーマーバナーからすでにライフタイムVIPを獲得しています。"
 }

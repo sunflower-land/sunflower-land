@@ -8337,5 +8337,7 @@
   "description.agingShed": "Altern und fermentieren Sie Ihre Ressourcen zu raffinierten Gütern.",
   "agingShed.agingRack": "Gestell zum Altern",
   "agingShed.fermentationRack": "Gärregal",
-  "agingShed.spiceRack": "Gewürzregal"
+  "agingShed.spiceRack": "Gewürzregal",
+  "vip.lifetime": "Lebenszeit",
+  "vip.lifetime.noPurchase": "Du hast bereits einen lebenslangen VIP von deinem Lifetime Farmer Banner."
 }

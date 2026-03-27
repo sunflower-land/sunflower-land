@@ -8337,5 +8337,7 @@
   "description.agingShed": "Envejece y fermenta tus recursos para convertirlos en productos refinados.",
   "agingShed.agingRack": "Estante de envejecimiento",
   "agingShed.fermentationRack": "Estante de fermentación",
-  "agingShed.spiceRack": "Estante de especias"
+  "agingShed.spiceRack": "Estante de especias",
+  "vip.lifetime": "De por vida",
+  "vip.lifetime.noPurchase": "Ya tienes VIP de por vida en tu Lifetime Farmer Banner."
 }

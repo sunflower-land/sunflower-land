@@ -8337,5 +8337,7 @@
   "description.agingShed": "Invecchia e trasforma le tue risorse in prodotti raffinati.",
   "agingShed.agingRack": "Rack per invecchiamento",
   "agingShed.fermentationRack": "Rack di fermentazione",
-  "agingShed.spiceRack": "Portaspezie"
+  "agingShed.spiceRack": "Portaspezie",
+  "vip.lifetime": "A vita",
+  "vip.lifetime.noPurchase": "Hai già ottenuto un premio VIP a vita dal tuo Lifetime Farmer Banner."
 }

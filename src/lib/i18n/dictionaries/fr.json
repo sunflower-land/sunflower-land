@@ -8337,5 +8337,7 @@
   "description.agingShed": "Faites vieillir et fermentez vos ressources pour en faire des produits raffinés.",
   "agingShed.agingRack": "Étagère de vieillissement",
   "agingShed.fermentationRack": "Étagère de fermentation",
-  "agingShed.spiceRack": "Étagère à épices"
+  "agingShed.spiceRack": "Étagère à épices",
+  "vip.lifetime": "Durée de vie",
+  "vip.lifetime.noPurchase": "Vous bénéficiez déjà d'un statut VIP à vie grâce à votre bannière Lifetime Farmer."
 }

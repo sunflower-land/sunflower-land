@@ -8337,5 +8337,7 @@
   "description.agingShed": "Kaynaklarınızı rafine ürünlere dönüştürün ve fermente edin.",
   "agingShed.agingRack": "Yaşlanma Rafı",
   "agingShed.fermentationRack": "Fermantasyon Rafı",
-  "agingShed.spiceRack": "Baharat Rafı"
+  "agingShed.spiceRack": "Baharat Rafı",
+  "vip.lifetime": "Ömür boyu",
+  "vip.lifetime.noPurchase": "Lifetime Farmer Banner\"ınızdan ömür boyu VIP\"niz zaten var."
 }
