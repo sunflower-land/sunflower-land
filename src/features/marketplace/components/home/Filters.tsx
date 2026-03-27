@@ -462,6 +462,20 @@ export const Filters: React.FC<{
         ? buildTraitGroups("pets", PET_TRAIT_GROUPS)
         : undefined,
     },
+    // Mini games
+    {
+      icon: SUNNYSIDE.icons.playIcon,
+      label: t("marketplace.minigames"),
+      onClick: () => {
+        setExpandedTraitGroups({});
+        navigateTo({
+          path: "collection",
+          filterParams: "minigames",
+          closeFilters: false,
+        });
+      },
+      isActive: filters === "minigames",
+    },
     {
       icon: SUNNYSIDE.icons.player,
       label: t("marketplace.myProfile"),

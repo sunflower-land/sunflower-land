@@ -37,7 +37,8 @@ export const MakeOffer: React.FC<{
   itemId: number;
   authToken: string;
   onClose: () => void;
-}> = ({ onClose, display, itemId, authToken, floorPrice }) => {
+  minigameSlug?: string;
+}> = ({ onClose, display, itemId, authToken, floorPrice, minigameSlug }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -87,6 +88,9 @@ export const MakeOffer: React.FC<{
         signature,
         quantity: Math.max(1, quantity),
         sfl: offer,
+        ...(display.type === "minigames" && minigameSlug
+          ? { minigameSlug }
+          : {}),
       },
       authToken,
     });

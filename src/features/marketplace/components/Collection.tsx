@@ -44,6 +44,8 @@ import {
 } from "../lib/traitOptions";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
+import { MinigamesLeaderboard } from "./MinigamesLeaderboard";
+import type { Tradeable } from "features/game/types/marketplace";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -88,6 +90,7 @@ export const preloadCollections = (token: string, showLimited: boolean) => {
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
   preload(["pets", token], collectionFetcher);
+  preload(["minigames", token], collectionFetcher);
   if (showLimited === true) preload(["temporary", token], collectionFetcher);
 };
 
@@ -138,7 +141,12 @@ export const Collection: React.FC<{
       ? location.state.route
       : `${location.pathname}${location.search}`;
 
-  if (search && !filters.includes("buds") && !filters.includes("pets")) {
+  if (
+    search &&
+    !filters.includes("buds") &&
+    !filters.includes("pets") &&
+    !filters.includes("minigames")
+  ) {
     filters = "collectibles,wearables,resources";
   }
 
@@ -199,6 +207,14 @@ export const Collection: React.FC<{
     collectionFetcher,
   );
   const {
+    data: minigames,
+    isLoading: isMinigamesLoading,
+    error: minigamesError,
+  } = useSWR(
+    filters.includes("minigames") ? ["minigames", token] : null,
+    collectionFetcher,
+  );
+  const {
     data: limited,
     isLoading: isLimitedLoading,
     error: limitedError,
@@ -214,8 +230,13 @@ export const Collection: React.FC<{
       ...(buds?.items || []),
       ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
+      ...(minigames?.items || []),
     ],
   };
+
+  const isMinigamesOnlyView =
+    filters === "minigames" ||
+    (filters.split(",").length === 1 && filters.includes("minigames"));
 
   if (!filters.includes("resources")) {
     // Sort by floor, then lastSalePrice, then id
@@ -241,7 +262,8 @@ export const Collection: React.FC<{
     isResourcesLoading ||
     isBudsLoading ||
     isLimitedLoading ||
-    isPetsLoading;
+    isPetsLoading ||
+    isMinigamesLoading;
 
   // Errors are handled by the game machine
   if (
@@ -250,7 +272,8 @@ export const Collection: React.FC<{
     resourcesError ||
     budsError ||
     limitedError ||
-    petsError
+    petsError ||
+    minigamesError
   ) {
     throw (
       wearablesError ||
@@ -258,7 +281,8 @@ export const Collection: React.FC<{
       resourcesError ||
       budsError ||
       limitedError ||
-      petsError
+      petsError ||
+      minigamesError
     );
   }
 
@@ -352,6 +376,20 @@ export const Collection: React.FC<{
 
   const items =
     data?.items.filter((item) => {
+      if (item.collection === "minigames") {
+        const row = item as Extract<Tradeable, { collection: "minigames" }>;
+        if (search) {
+          const q = search.toLowerCase();
+          if (
+            !row.currencyName.toLowerCase().includes(q) &&
+            !row.minigameLabel.toLowerCase().includes(q)
+          ) {
+            return false;
+          }
+        }
+        return true;
+      }
+
       const display = getTradeableDisplay({
         id: item.id,
         type: item.collection,
@@ -533,6 +571,17 @@ export const Collection: React.FC<{
       return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
+  if (isMinigamesOnlyView) {
+    const minigameRows = items.filter(
+      (i): i is Extract<Tradeable, { collection: "minigames" }> =>
+        i.collection === "minigames",
+    );
+
+    return (
+      <MinigamesLeaderboard items={minigameRows} onNavigated={onNavigated} />
+    );
+  }
+
   const getRowHeight = () => {
     if (filters === "resources") return 150;
     if (filters.includes("buds") || filters.includes("pets")) return 250;
@@ -615,10 +664,21 @@ export const Collection: React.FC<{
                 state,
                 experience:
                   item.collection === "pets" ? item.experience : undefined,
+                marketplaceItem: item,
               });
 
+              const detailPath =
+                item.collection === "minigames"
+                  ? `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}?minigameSlug=${encodeURIComponent(item.minigameSlug)}`
+                  : `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`;
+
+              const rowKey =
+                item.collection === "minigames"
+                  ? `${item.minigameSlug}-${item.id}`
+                  : String(item.id);
+
               return (
-                <div key={item.id} style={style} className="pr-1 pb-1">
+                <div key={rowKey} style={style} className="pr-1 pb-1">
                   <ListViewCard
                     details={display}
                     price={new Decimal(item.floor)}
@@ -626,15 +686,12 @@ export const Collection: React.FC<{
                     onClick={() => {
                       const scrollPosition =
                         gridRef.current?._outerRef.scrollTop;
-                      navigate(
-                        `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
-                        {
-                          state: {
-                            scrollPosition,
-                            route: backRoute,
-                          },
+                      navigate(detailPath, {
+                        state: {
+                          scrollPosition,
+                          route: backRoute,
                         },
-                      );
+                      });
                       onNavigated?.();
                     }}
                     expiresAt={item.expiresAt}
