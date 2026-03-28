@@ -443,10 +443,17 @@ export class Scene extends BaseScene {
     this.load.audio("giant_spawn", "/world/portal/SFX/giant.wav");
     this.load.audio("barrel", "/world/portal/SFX/barrel.mp3");
     this.load.audio("giant_death", "/world/portal/SFX/giant_death.wav");
+    this.load.audio("cannon", "/world/portal/SFX/cannon.mp3");
+    this.load.audio("dripWalker", "/world/portal/SFX/drip.mp3");
+    this.load.audio("ref", "/world/portal/SFX/ref.wav");
+    this.load.audio("cannon_potato", "/world/portal/SFX/cannon.mp3");
+    this.load.audio("cannon_banana", "/world/portal/SFX/banana.mp3");
+    this.load.audio("cannon_cabbage", "/world/portal/SFX/cabbage.wav");
+    this.load.audio("cannon_apple", "/world/portal/SFX/cabbage.wav");
     // Background
     this.load.audio(
       "backgroundMusic",
-      "/world/portal/music/background-music.mp3",
+      "/world/portal/SFX/background-music.mp3",
     );
   }
 
@@ -475,11 +482,11 @@ export class Scene extends BaseScene {
     this.physics.world.drawDebug = false;
 
     // Background music
-    // this.backgroundMusic = this.sound.add("backgroundMusic", {
-    //   loop: true,
-    //   volume: 0.1,
-    // });
-    // this.backgroundMusic.play();
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
+      loop: true,
+      volume: 0.08,
+    });
+    this.backgroundMusic.play();
   }
 
   update() {
@@ -494,6 +501,7 @@ export class Scene extends BaseScene {
       this.portalService?.send("START");
       this.resetVelocity();
     }
+    this.menaceSkeleton.forEach((skeleton) => skeleton.update());
 
     super.update();
   }
