@@ -12,7 +12,7 @@ import { getWearableImage } from "features/game/lib/getWearableImage";
 import hat_immunity from "public/world/portal/images/prevents_slowing_icon.webp";
 import shoes_immunity from "public/world/portal/images/inverted_control_icon.webp";
 import wings_immunity_icon from "public/world/portal/images/prevents_enlargement_icon.webp";
-import aura_immunity_icon from "public/world/portal/images/prevents_complete_visibility_icon.webp";
+import aura_immunity_icon from "public/world/portal/images/antiRicebunIcon.webp";
 import giantIcon from "public/world/portal/images/giant_icon.gif";
 import sniperIcon from "public/world/portal/images/sniper_icon.gif";
 import menaceIcon from "public/world/portal/images/menaceIcon.gif";
@@ -24,6 +24,7 @@ import cannon from "public/world/portal/images/cannon_icon.png";
 import chest from "public/world/portal/images/chest.png";
 import food from "public/world/portal/images/tomato-splat.gif";
 import auraIcon from "public/world/portal/images/Bumpkin_Glitch_Aura.webp";
+import healthBar_icon from "public/world/portal/images/health_bar_low.webp";
 
 export const PORTAL_NAME = "april-fools";
 export const PORTAL_TOKEN = "April Fools Token 2025";
@@ -187,6 +188,10 @@ export const INSTRUCTIONS: {
   {
     image: auraIcon,
     description: t(`${PORTAL_NAME}.instructions3`),
+  },
+  {
+    image: healthBar_icon,
+    description: t(`${PORTAL_NAME}.instructions4`),
   },
 ];
 

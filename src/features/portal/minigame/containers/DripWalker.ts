@@ -3,7 +3,10 @@ import { BumpkinContainer } from "../Core/BumpkinContainer";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Puddle } from "./Puddle";
 import { createAnimation, onAnimationComplete } from "../lib/Utils";
-import { DRIP_WALKER_CYCLE_DURATION, DRIP_WALKER_POSITIONS } from "../Constants";
+import {
+  DRIP_WALKER_CYCLE_DURATION,
+  DRIP_WALKER_POSITIONS,
+} from "../Constants";
 
 interface Props {
   x: number;
@@ -66,9 +69,9 @@ export class DripWalker extends Phaser.GameObjects.Container {
     this.scene = scene;
     this.speed = speed;
     this.leftBound = leftBound ?? 30;
-    this.rightBound = rightBound ?? ((scene.map?.widthInPixels ?? 600) - 30);
+    this.rightBound = rightBound ?? (scene.map?.widthInPixels ?? 600) - 30;
     this.topBound = topBound ?? 30;
-    this.bottomBound = bottomBound ?? ((scene.map?.heightInPixels ?? 400) - 30);
+    this.bottomBound = bottomBound ?? (scene.map?.heightInPixels ?? 400) - 30;
 
     this.npc = new BumpkinContainer({
       scene,
@@ -84,7 +87,8 @@ export class DripWalker extends Phaser.GameObjects.Container {
     this.npc.setDepth(10);
 
     const spawnScale = Math.max(this.npc.width, this.npc.height) / 20;
-    this.spawn = this.scene.add.sprite(0, 0, "spawn")
+    this.spawn = this.scene.add
+      .sprite(0, 0, "spawn")
       .setDepth(11)
       .setVisible(false)
       .setScale(spawnScale);
@@ -119,7 +123,10 @@ export class DripWalker extends Phaser.GameObjects.Container {
 
   private activate(): void {
     this.isActive = true;
-    const { x, y, side } = DRIP_WALKER_POSITIONS[Math.floor(Math.random() * DRIP_WALKER_POSITIONS.length)];
+    const { x, y, side } =
+      DRIP_WALKER_POSITIONS[
+        Math.floor(Math.random() * DRIP_WALKER_POSITIONS.length)
+      ];
     this.npc.setPosition(x, y);
     side === "left" ? this.npc.faceLeft() : this.npc.faceRight();
     this.spawnAnimation();
@@ -251,20 +258,31 @@ export class DripWalker extends Phaser.GameObjects.Container {
 
       const speed = this.speed;
       switch (this.direction) {
-        case "left": vx = -speed; break;
-        case "right": vx = +speed; break;
-        case "up": vy = -speed; break;
-        case "down": vy = +speed; break;
+        case "left":
+          vx = -speed;
+          break;
+        case "right":
+          vx = +speed;
+          break;
+        case "up":
+          vy = -speed;
+          break;
+        case "down":
+          vy = +speed;
+          break;
       }
 
       const body = this.npc.body as Phaser.Physics.Arcade.Body;
       body.setVelocity(vx, vy);
 
       const isColliding =
-        (this.direction === "left" && (body.blocked.left || body.touching.left)) ||
-        (this.direction === "right" && (body.blocked.right || body.touching.right)) ||
+        (this.direction === "left" &&
+          (body.blocked.left || body.touching.left)) ||
+        (this.direction === "right" &&
+          (body.blocked.right || body.touching.right)) ||
         (this.direction === "up" && (body.blocked.up || body.touching.up)) ||
-        (this.direction === "down" && (body.blocked.down || body.touching.down));
+        (this.direction === "down" &&
+          (body.blocked.down || body.touching.down));
 
       if (isColliding) {
         this.pickNewDirection();
@@ -278,22 +296,34 @@ export class DripWalker extends Phaser.GameObjects.Container {
         this.direction = "left";
         this.npc.faceLeft();
         this.directionTimer = 0;
-        this.directionDuration = Phaser.Math.Between(MIN_DIRECTION_DURATION, MAX_DIRECTION_DURATION);
+        this.directionDuration = Phaser.Math.Between(
+          MIN_DIRECTION_DURATION,
+          MAX_DIRECTION_DURATION,
+        );
       } else if (this.npc.x <= this.leftBound) {
         this.direction = "right";
         this.npc.faceRight();
         this.directionTimer = 0;
-        this.directionDuration = Phaser.Math.Between(MIN_DIRECTION_DURATION, MAX_DIRECTION_DURATION);
+        this.directionDuration = Phaser.Math.Between(
+          MIN_DIRECTION_DURATION,
+          MAX_DIRECTION_DURATION,
+        );
       }
 
       if (this.npc.y >= this.bottomBound) {
         this.direction = "up";
         this.directionTimer = 0;
-        this.directionDuration = Phaser.Math.Between(MIN_DIRECTION_DURATION, MAX_DIRECTION_DURATION);
+        this.directionDuration = Phaser.Math.Between(
+          MIN_DIRECTION_DURATION,
+          MAX_DIRECTION_DURATION,
+        );
       } else if (this.npc.y <= this.topBound) {
         this.direction = "down";
         this.directionTimer = 0;
-        this.directionDuration = Phaser.Math.Between(MIN_DIRECTION_DURATION, MAX_DIRECTION_DURATION);
+        this.directionDuration = Phaser.Math.Between(
+          MIN_DIRECTION_DURATION,
+          MAX_DIRECTION_DURATION,
+        );
       }
 
       this.dropPuddle();
@@ -314,7 +344,9 @@ export class DripWalker extends Phaser.GameObjects.Container {
 
       const tileKey = `${tx},${ty}`;
 
-      const existingIndex = this.activePuddles.findIndex(p => p.tileKey === tileKey);
+      const existingIndex = this.activePuddles.findIndex(
+        (p) => p.tileKey === tileKey,
+      );
       if (existingIndex !== -1) {
         const existing = this.activePuddles.splice(existingIndex, 1)[0];
         existing.puddle.destroy();
@@ -330,6 +362,8 @@ export class DripWalker extends Phaser.GameObjects.Container {
         y: puddleY,
         scene: this.scene,
       });
+
+      this.scene.sound.add("dripWalker", { volume: 0.2 }).play();
 
       this.activePuddles.push({ puddle, tileKey });
 
