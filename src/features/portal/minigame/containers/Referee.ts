@@ -25,8 +25,9 @@ export class Referee extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.scene = scene;
 
-    this.sprite = this.scene.add.sprite(0, 0, "referee")
-      .setScale(REFEREE_SCALE)
+    this.sprite = this.scene.add
+      .sprite(0, 0, "referee")
+      .setScale(REFEREE_SCALE);
     this.add(this.sprite);
     this.setDepth(5);
 
@@ -34,8 +35,14 @@ export class Referee extends Phaser.GameObjects.Container {
 
     scene.physics.add.existing(this);
     const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setSize(this.sprite.width * REFEREE_SCALE, this.sprite.height * REFEREE_SCALE);
-    body.setOffset(-this.sprite.width * REFEREE_SCALE / 2, -this.sprite.height * REFEREE_SCALE / 2);
+    body.setSize(
+      this.sprite.width * REFEREE_SCALE,
+      this.sprite.height * REFEREE_SCALE,
+    );
+    body.setOffset(
+      (-this.sprite.width * REFEREE_SCALE) / 2,
+      (-this.sprite.height * REFEREE_SCALE) / 2,
+    );
 
     this.scene.add.existing(this);
   }
@@ -50,8 +57,9 @@ export class Referee extends Phaser.GameObjects.Container {
       0,
       18,
       10,
-      0
+      0,
     );
+    this.scene.sound.add("ref", { volume: 0.4 }).play();
 
     onAnimationComplete(this.sprite, "referee_yellow_card_action_anim", () => {
       this.sprite?.play("referee_idle_anim", true);
@@ -72,7 +80,7 @@ export class Referee extends Phaser.GameObjects.Container {
     if (isPlayerTarget && this.scene.currentPlayer) {
       targets = [this.scene.currentPlayer];
     } else {
-      const enemies = this.scene.allEnemies.filter(e => e !== this);
+      const enemies = this.scene.allEnemies.filter((e) => e !== this);
       if (enemies.length > 0) {
         targets = enemies;
       } else if (this.scene.currentPlayer) {
@@ -82,8 +90,7 @@ export class Referee extends Phaser.GameObjects.Container {
 
     if (targets.length === 0) return;
 
-
-    targets.forEach(targetObj => {
+    targets.forEach((targetObj) => {
       if (isGrowAndSlow) {
         const newScale = Phaser.Math.Clamp(
           targetObj.scale + REFEREE_EFFECT_SCALE_MODIFIER,
@@ -93,10 +100,12 @@ export class Referee extends Phaser.GameObjects.Container {
         targetObj.setScale(newScale);
 
         if (targetObj === this.scene.currentPlayer) {
-          this.scene.velocity *= (1 - REFEREE_EFFECT_SPEED_MODIFIER);
+          this.scene.velocity *= 1 - REFEREE_EFFECT_SPEED_MODIFIER;
         } else {
           const tweens = this.scene.tweens.getTweensOf(targetObj);
-          tweens.forEach(t => t.setTimeScale(t.timeScale * (1 - REFEREE_EFFECT_SPEED_MODIFIER)));
+          tweens.forEach((t) =>
+            t.setTimeScale(t.timeScale * (1 - REFEREE_EFFECT_SPEED_MODIFIER)),
+          );
         }
       } else {
         const newScale = Phaser.Math.Clamp(
@@ -107,16 +116,18 @@ export class Referee extends Phaser.GameObjects.Container {
         targetObj.setScale(newScale);
 
         if (targetObj === this.scene.currentPlayer) {
-          this.scene.velocity *= (1 + REFEREE_EFFECT_SPEED_MODIFIER);
+          this.scene.velocity *= 1 + REFEREE_EFFECT_SPEED_MODIFIER;
         } else {
           const tweens = this.scene.tweens.getTweensOf(targetObj);
-          tweens.forEach(t => t.setTimeScale(t.timeScale * (1 + REFEREE_EFFECT_SPEED_MODIFIER)));
+          tweens.forEach((t) =>
+            t.setTimeScale(t.timeScale * (1 + REFEREE_EFFECT_SPEED_MODIFIER)),
+          );
         }
       }
     });
 
     this.scene.time.delayedCall(REFEREE_EFFECT_DURATION, () => {
-      targets.forEach(targetObj => {
+      targets.forEach((targetObj) => {
         if (!targetObj || !targetObj.active) return;
 
         if (isGrowAndSlow) {
@@ -128,10 +139,12 @@ export class Referee extends Phaser.GameObjects.Container {
           targetObj.setScale(newScale);
 
           if (targetObj === this.scene.currentPlayer) {
-            this.scene.velocity /= (1 - REFEREE_EFFECT_SPEED_MODIFIER);
+            this.scene.velocity /= 1 - REFEREE_EFFECT_SPEED_MODIFIER;
           } else {
             const tweens = this.scene.tweens.getTweensOf(targetObj);
-            tweens.forEach(t => t.setTimeScale(t.timeScale / (1 - REFEREE_EFFECT_SPEED_MODIFIER)));
+            tweens.forEach((t) =>
+              t.setTimeScale(t.timeScale / (1 - REFEREE_EFFECT_SPEED_MODIFIER)),
+            );
           }
         } else {
           const newScale = Phaser.Math.Clamp(
@@ -142,10 +155,12 @@ export class Referee extends Phaser.GameObjects.Container {
           targetObj.setScale(newScale);
 
           if (targetObj === this.scene.currentPlayer) {
-            this.scene.velocity /= (1 + REFEREE_EFFECT_SPEED_MODIFIER);
+            this.scene.velocity /= 1 + REFEREE_EFFECT_SPEED_MODIFIER;
           } else {
             const tweens = this.scene.tweens.getTweensOf(targetObj);
-            tweens.forEach(t => t.setTimeScale(t.timeScale / (1 + REFEREE_EFFECT_SPEED_MODIFIER)));
+            tweens.forEach((t) =>
+              t.setTimeScale(t.timeScale / (1 + REFEREE_EFFECT_SPEED_MODIFIER)),
+            );
           }
         }
       });

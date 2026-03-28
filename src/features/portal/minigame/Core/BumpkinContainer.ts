@@ -21,7 +21,6 @@ import { KNOWN_IDS } from "features/game/types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { createAnimation, onAnimationComplete } from "../lib/Utils";
 import { Enemy, PlayerFoodType } from "../Types";
-import { Orange } from "../containers/Orange";
 import {
   PLAYER_CANNON_CHARGE_DURATION,
   PLAYER_CANNON_COOLDOWN,
@@ -998,7 +997,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.sprite.anims.play(this.carryNoneAnimationKey as string, true);
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.log("Bumpkin Container: Error playing carryNone animation: ", e);
+        console.log(
+          "Bumpkin Container: Error playing carryNone animation: ",
+          e,
+        );
       }
     }
 
@@ -1021,7 +1023,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.sprite.anims.play(this.carryNoneIdleAnimationKey as string, true);
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.log("Bumpkin Container: Error playing carryNoneIdle animation: ", e);
+        console.log(
+          "Bumpkin Container: Error playing carryNoneIdle animation: ",
+          e,
+        );
       }
     }
 
@@ -1227,14 +1232,17 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   // April Fools 2026
   public get portalService() {
-    return this.scene.registry.get("portalService") as MachineInterpreter | undefined;
+    return this.scene.registry.get("portalService") as
+      | MachineInterpreter
+      | undefined;
   }
 
   public createCannonAnimation(isNPC = false) {
     if (!this.cannonSprite) {
       const yOffset = -10;
       const spriteName = isNPC ? "basket" : "player_cannon_shoot";
-      this.cannonSprite = this.scene.add.sprite(0, yOffset, spriteName)
+      this.cannonSprite = this.scene.add
+        .sprite(0, yOffset, spriteName)
         .setScale(0.9);
       this.add(this.cannonSprite);
 
@@ -1246,7 +1254,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         isNPC ? 0 : 2,
         isNPC ? 1 : 3,
         2,
-        -1
+        -1,
       );
 
       if (!isNPC) {
@@ -1258,7 +1266,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           0,
           3,
           10,
-          0
+          0,
         );
         this.cannonSprite.play("player_cannon_shoot_idle_anim", true);
       }
@@ -1269,7 +1277,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public cycleNextFood(): PlayerFoodType {
     const food = PLAYER_FOOD_CYCLE[this.currentFoodIndex];
-    this.currentFoodIndex = (this.currentFoodIndex + 1) % PLAYER_FOOD_CYCLE.length;
+    this.currentFoodIndex =
+      (this.currentFoodIndex + 1) % PLAYER_FOOD_CYCLE.length;
     return food;
   }
 
@@ -1288,9 +1297,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     const actualType = type || this.cycleNextFood();
 
+    this.scene.sound.add(`cannon_${actualType}`, { volume: 0.2 }).play();
+
     if (actualType === "potato") {
-      const angles = [-Math.PI / 2, (-Math.PI / 2) - (Math.PI / 8), (-Math.PI / 2) + (Math.PI / 8)];
-      angles.forEach(angle => {
+      const angles = [
+        -Math.PI / 2,
+        -Math.PI / 2 - Math.PI / 8,
+        -Math.PI / 2 + Math.PI / 8,
+      ];
+      angles.forEach((angle) => {
         new PlayerFood({
           x: this.x,
           y: this.y - 10,
@@ -1318,9 +1333,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (this.cannonSprite) {
       this.cannonSprite.play("player_cannon_shoot_shoot_anim", true);
-      onAnimationComplete(this.cannonSprite, "player_cannon_shoot_shoot_anim", () => {
-        this.cannonSprite?.play("player_cannon_shoot_idle_anim", true);
-      });
+      onAnimationComplete(
+        this.cannonSprite,
+        "player_cannon_shoot_shoot_anim",
+        () => {
+          this.cannonSprite?.play("player_cannon_shoot_idle_anim", true);
+        },
+      );
     }
   }
 
@@ -1328,11 +1347,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.shootChargeBar?.destroy();
     this.shootChargeBarBorder?.destroy();
 
-    this.shootChargeBar = this.scene.add.graphics()
+    this.shootChargeBar = this.scene.add
+      .graphics()
       .setDepth(2000)
-      .setVisible(false)
+      .setVisible(false);
 
-    this.shootChargeBarBorder = this.scene.add.image(17, -4, "progress_bar_1")
+    this.shootChargeBarBorder = this.scene.add
+      .image(17, -4, "progress_bar_1")
       .setDepth(2000)
       .setScale(0.9, 0.8)
       .setRotation(Math.PI / 2)
@@ -1351,20 +1372,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public isShootCharging() {
-    return this.shootChargeStartedAt !== undefined && !this.shootChargeCompleted;
+    return (
+      this.shootChargeStartedAt !== undefined && !this.shootChargeCompleted
+    );
   }
 
   public updateShootCharge(enemies: Enemy[]) {
-    if (
-      this.shootChargeStartedAt === undefined ||
-      this.shootChargeCompleted
-    ) {
+    if (this.shootChargeStartedAt === undefined || this.shootChargeCompleted) {
       return;
     }
 
     const progress = Phaser.Math.Clamp(
       (this.scene.time.now - this.shootChargeStartedAt) /
-      PLAYER_CANNON_CHARGE_DURATION,
+        PLAYER_CANNON_CHARGE_DURATION,
       0,
       1,
     );
@@ -1476,7 +1496,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.scene.cameras.main.width * 2,
         this.scene.cameras.main.height * 2,
         0x000000,
-        0
+        0,
       );
       blind.setScrollFactor(0);
       blind.setDepth(10000000);
@@ -1495,7 +1515,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           fontSize: "30px",
           fontFamily: "Basic",
           color: "#ffffff",
-        }
+        },
       );
       loadingText.setOrigin(0.5);
       loadingText.setScrollFactor(0);
