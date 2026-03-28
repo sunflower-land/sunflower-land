@@ -32,6 +32,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   private static spawnPositions: { x: number; y: number }[] = [];
   private health_bar: Phaser.GameObjects.Image;
   private health_status: string;
+  private emptyObject?: Phaser.GameObjects.Image;
 
   constructor({ x, y, scene, player }: Props) {
     super(scene, x, y);
@@ -211,14 +212,25 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
 
     const aura = this.player.clothing.aura;
 
+    const worldX = this.player.getWorldTransformMatrix().tx;
+    const worldY = this.player.getWorldTransformMatrix().ty;
+
     if (!aura) {
       this.player.setVisible(false);
+      this.emptyObject?.destroy();
+      this.emptyObject = this.scene.add
+      .image(worldX, worldY, "rice_bun")
+      .setVisible(true);
     } else if (AURA_IMMUNITY.includes(aura)) {
       this.player?.sprite?.setVisible(false);
       this.player?.shadow?.setVisible(false);
       this.player.showAura();
     } else {
       this.player.setVisible(false);
+      this.emptyObject?.destroy();
+      this.emptyObject = this.scene.add
+      .image(worldX, worldY, "rice_bun")
+      .setVisible(true);
     }
 
     this.restorePlayer();
@@ -228,6 +240,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     this.scene.time.delayedCall(DEBUFF_DURATION, () => {
       if (!this.player) return;
 
+      this.emptyObject?.destroy();
+      this.emptyObject = undefined;
+       
       this.player.setVisible(true);
       this.player?.sprite?.setVisible(true);
       this.player?.shadow?.setVisible(true);
@@ -235,6 +250,15 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.isHit = false;
     });
   }
+
+  public update() {
+  if (this.emptyObject && this.player) {
+    const worldX = this.player.getWorldTransformMatrix().tx;
+    const worldY = this.player.getWorldTransformMatrix().ty;
+
+    this.emptyObject.setPosition(worldX, worldY);
+  }
+}
 
   public defeat() {
     if (this.isDefeated || !this.sprite.active) return;
