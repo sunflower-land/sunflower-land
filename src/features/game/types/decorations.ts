@@ -187,7 +187,12 @@ export type EventDecorationName =
   | "Winter Alpaca"
   | "Penguin Surprise"
   | "Frozen Meat"
-  | "Ho Ho oh oh…";
+  | "Ho Ho oh oh…"
+  | "Teeth Toy"
+  | "Fake Treasure"
+  | "Fake Mouse"
+  | "Pet Tree"
+  | "Definitely not a Flower";
 
 export type TileName =
   | "Black Tile"
@@ -1406,6 +1411,26 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Ho Ho oh oh…": {
     width: 2,
+    height: 2,
+  },
+  "Teeth Toy": {
+    width: 2,
+    height: 1,
+  },
+  "Fake Treasure": {
+    width: 2,
+    height: 2,
+  },
+  "Fake Mouse": {
+    width: 1,
+    height: 1,
+  },
+  "Pet Tree": {
+    width: 1,
+    height: 2,
+  },
+  "Definitely not a Flower": {
+    width: 1,
     height: 2,
   },
 };

@@ -1,0 +1,14 @@
+{ "columns":30,
+ "image":"april_fools_island_assets/april_fools_island_tileset.png",
+ "imageheight":336,
+ "imagewidth":480,
+ "margin":0,
+ "name":"april_fools_island_tileset",
+ "spacing":0,
+ "tilecount":630,
+ "tiledversion":"1.11.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}
