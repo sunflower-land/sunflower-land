@@ -26,8 +26,8 @@ export const Leaderboard: React.FC = () => {
       <PortalLeaderboard
         isAccumulator
         name={PORTAL_NAME}
-        startDate={new Date(Date.UTC(2025, 9, 29))}
-        endDate={new Date(Date.UTC(2025, 10, 4))}
+        startDate={new Date(Date.UTC(2026, 3, 5))}
+        endDate={new Date(Date.UTC(2026, 3, 7))}
         farmId={Number(farmId)}
         // formatPoints={(points) => {}}
         jwt={jwt as string}

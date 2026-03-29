@@ -199,10 +199,14 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     if (!this.player) return;
 
     this.scene.physics.add.overlap(this.vege, this.player, () => {
-      this.player?.hurt();
       this.vege.setVisible(false);
       (this.vege.body as Phaser.Physics.Arcade.Body).enable = false;
-      this.handleImmunity();
+      this.player?.setVisible(true);
+      this.player?.sprite?.setVisible(true);
+      this.player?.shadow?.setVisible(true);
+      this.player?.hurt(() => {
+        this.handleImmunity();
+      });
     });
   }
 

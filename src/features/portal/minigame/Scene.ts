@@ -404,6 +404,12 @@ export class Scene extends BaseScene {
     this.load.image("flower", "/world/portal/images/flower.webp");
     this.load.image("bush", "/world/portal/images/bush.webp");
     this.load.image("empty", "/world/portal/images/empty.png");
+    this.load.image("bounty", "/world/portal/images/bounty.png");
+    this.load.image("plant", "/world/portal/images/plant.png");
+    this.load.spritesheet("jester", "/world/portal/images/jester.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
     this.load.spritesheet("spawn", "/world/portal/images/spawn.png", {
       frameWidth: 24,
       frameHeight: 24,

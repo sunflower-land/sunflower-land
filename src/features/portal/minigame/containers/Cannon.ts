@@ -306,11 +306,20 @@ export class Cannon extends Phaser.GameObjects.Container {
   /**
    * Picks a random sprite texture from the available list,
    * applies it to this.sprite, and adjusts this.spawn scale to match.
+   * If the chosen sprite is "jester" (a spritesheet), its looping animation
+   * is created and played. All other sprites are static images.
    */
   private pickRandomSprite(): void {
-    const sprites = ["tree", "rock_1", "rock_2", "flower", "bush", "empty"];
+    const sprites = ["tree", "rock_1", "rock_2", "flower", "bush", "empty", "bounty", "plant", "jester"];
     this.spriteName = sprites[Math.floor(Math.random() * sprites.length)];
     this.sprite.setTexture(this.spriteName);
+
+    if (this.spriteName === "jester") {
+      createAnimation(this.scene, this.sprite, this.spriteName, "idle", 0, 11, 10, -1);
+    } else {
+      this.sprite.anims.stop();
+    }
+
     const spawnScale = Math.max(this.sprite.width, this.sprite.height) / 24;
     this.spawn.setScale(spawnScale);
   }

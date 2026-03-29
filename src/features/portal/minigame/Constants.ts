@@ -40,7 +40,7 @@ export const DEPTH = 1000;
 
 // Attempts
 export const INITIAL_DATE = "2026-04-1"; // YYYY-MM-DD
-export const INITIAL_DATE_LEADERBOARD = "2025-04-02"; // YYYY-MM-DD
+export const INITIAL_DATE_LEADERBOARD = "2026-04-05"; // YYYY-MM-DD
 export const ATTEMPTS_BETA_TESTERS = 100;
 export const UNLIMITED_ATTEMPTS_SFL = 150; // If this value is less than 0, the option disappears
 export const FREE_DAILY_ATTEMPTS = 1;
@@ -66,7 +66,7 @@ export const CANNON_CONFIG: (Position & { side: Side })[] = [
 export const PLAYER_CANNON_COOLDOWN = 500;
 export const PLAYER_CANNON_CHARGE_DURATION = 1200;
 export const PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE = 0.1;
-export const CANNON_COOLDOWN = 30000;
+export const CANNON_COOLDOWN = 15000;
 
 export const CHEST_LEFT_X = 30;
 export const CHEST_RIGHT_X = 900;
@@ -302,7 +302,7 @@ export const IMMUNITY_TOOLTIP: {
   ];
 
 // Panel
-export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
+export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["goldtooth"];
 
 export const MENACE_SKELETON_POSITIONS: Position[] = [
   { x: 320, y: 60 },

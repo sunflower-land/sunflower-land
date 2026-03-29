@@ -221,6 +221,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.createShootChargeBar();
     this.createFakeProjectile();
 
+    // Listen for timer expiration from the React HUD
+    EventBus.once("timer-game-over", () => {
+      this.gameOver();
+    });
+
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on(
         "pointerdown",
@@ -1085,12 +1090,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  public hurt() {
+  public hurt(onComplete?: () => void) {
     if (this.isHurting) return;
     this.isHurting = true;
     this.portalService?.send("LOSE_LIFE");
     this.cannonSprite?.setVisible(false);
-    this.gameOver();
+    if (this.portalService?.state.context.lives === 0) {
+      this.gameOver();
+    }
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.hurtAnimationKey as string) &&
@@ -1102,15 +1109,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           this.isHurting = false;
           this.cannonSprite?.setVisible(true);
           this.carryNoneIdle();
+          onComplete?.();
         });
       } catch (e) {
         this.isHurting = false;
+        onComplete?.();
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing hurt animation: ", e);
       }
     } else {
       this.cannonSprite?.setVisible(true);
       this.isHurting = false;
+      onComplete?.();
     }
   }
 
@@ -1384,7 +1394,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     const progress = Phaser.Math.Clamp(
       (this.scene.time.now - this.shootChargeStartedAt) /
-        PLAYER_CANNON_CHARGE_DURATION,
+      PLAYER_CANNON_CHARGE_DURATION,
       0,
       1,
     );
@@ -1480,50 +1490,48 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
   }
 
-  private gameOver() {
-    if (this.portalService?.state.context.lives === 0) {
-      if ((this.scene as any).createGlitch) {
-        (this.scene as any).createGlitch(GAME_OVER_EFFECT_DURATION);
-      }
-      this.scene.physics.pause();
-
-      const cx = this.scene.cameras.main.width / 2;
-      const cy = this.scene.cameras.main.height / 2;
-
-      const blind = this.scene.add.rectangle(
-        cx,
-        cy,
-        this.scene.cameras.main.width * 2,
-        this.scene.cameras.main.height * 2,
-        0x000000,
-        0,
-      );
-      blind.setScrollFactor(0);
-      blind.setDepth(10000000);
-
-      this.scene.tweens.add({
-        targets: blind,
-        fillAlpha: 0.8,
-        duration: 1000,
-      });
-
-      const loadingText = this.scene.add.text(
-        cx,
-        cy,
-        t("april-fools.loading"),
-        {
-          fontSize: "30px",
-          fontFamily: "Basic",
-          color: "#ffffff",
-        },
-      );
-      loadingText.setOrigin(0.5);
-      loadingText.setScrollFactor(0);
-      loadingText.setDepth(10000001);
-
-      this.scene.time.delayedCall(GAME_OVER_EFFECT_DURATION, () => {
-        this.portalService?.send("GAME_OVER");
-      });
+  public gameOver() {
+    if ((this.scene as any).createGlitch) {
+      (this.scene as any).createGlitch(GAME_OVER_EFFECT_DURATION);
     }
+    this.scene.physics.pause();
+
+    const cx = this.scene.cameras.main.width / 2;
+    const cy = this.scene.cameras.main.height / 2;
+
+    const blind = this.scene.add.rectangle(
+      cx,
+      cy,
+      this.scene.cameras.main.width * 2,
+      this.scene.cameras.main.height * 2,
+      0x000000,
+      0,
+    );
+    blind.setScrollFactor(0);
+    blind.setDepth(10000000);
+
+    this.scene.tweens.add({
+      targets: blind,
+      fillAlpha: 0.8,
+      duration: 1000,
+    });
+
+    const loadingText = this.scene.add.text(
+      cx,
+      cy,
+      t("april-fools.loading"),
+      {
+        fontSize: "30px",
+        fontFamily: "Basic",
+        color: "#ffffff",
+      },
+    );
+    loadingText.setOrigin(0.5);
+    loadingText.setScrollFactor(0);
+    loadingText.setDepth(10000001);
+
+    this.scene.time.delayedCall(GAME_OVER_EFFECT_DURATION, () => {
+      this.portalService?.send("GAME_OVER");
+    });
   }
 }

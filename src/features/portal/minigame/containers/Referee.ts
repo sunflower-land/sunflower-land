@@ -7,6 +7,7 @@ import {
   REFEREE_EFFECT_SCALE_MODIFIER,
   REFEREE_EFFECT_SPEED_MODIFIER,
 } from "../Constants";
+import { translate as t } from "lib/i18n/translate";
 
 interface Props {
   x: number;
@@ -14,7 +15,7 @@ interface Props {
   scene: Scene;
 }
 
-const REFEREE_SCALE = 1.1;
+const REFEREE_SCALE = 1.3;
 
 export class Referee extends Phaser.GameObjects.Container {
   scene: Scene;
@@ -28,7 +29,23 @@ export class Referee extends Phaser.GameObjects.Container {
     this.sprite = this.scene.add
       .sprite(0, 0, "referee")
       .setScale(REFEREE_SCALE);
-    this.add(this.sprite);
+
+    const text = this.scene.add
+      .text(0, -16, t("april-fools.referee"), {
+        fontSize: "18px",
+        fontFamily: "Basic",
+        color: "#FFFFFF",
+        resolution: 10,
+        shadow: {
+          offsetX: 5,
+          offsetY: 5,
+          color: "#000000",
+          blur: 0,
+          fill: true,
+        },
+      }).setOrigin(0.5);
+
+    this.add([this.sprite, text]);
     this.setDepth(5);
 
     createAnimation(this.scene, this.sprite, "referee", "idle", 0, 8, 10, -1);

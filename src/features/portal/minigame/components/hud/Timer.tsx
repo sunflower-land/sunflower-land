@@ -8,6 +8,7 @@ import { Label } from "components/ui/Label";
 import { PortalMachineState } from "../../lib/Machine";
 import { secondsToString } from "lib/utils/time";
 import { GAME_SECONDS } from "../../Constants";
+import { EventBus } from "../../lib/EventBus";
 
 const _endAt = (state: PortalMachineState) => state.context.endAt;
 
@@ -22,7 +23,7 @@ export const Timer: React.FC = () => {
     : Math.max(endAt - Date.now(), 0) / 1000;
 
   if (secondsLeft <= 0) {
-    portalService.send("GAME_OVER");
+    EventBus.emit("timer-game-over");
     return <></>;
   }
 
