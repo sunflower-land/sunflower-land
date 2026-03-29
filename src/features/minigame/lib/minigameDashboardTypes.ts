@@ -1,0 +1,44 @@
+import type { MinigameName } from "features/game/types/minigames";
+import type { MinigameConfig, MinigameRuntimeState } from "./types";
+
+export type MinigameShopItemUi = {
+  id: string;
+  actionId: string;
+  name: string;
+  description: string;
+  listImage: string;
+  price: { token: string; amount: number };
+  /**
+   * When the player has at least 1 of this balance, the row shows a check and
+   * cannot open the buy modal (e.g. one-off chicken unlocks). Omit for repeatable purchases.
+   */
+  ownedBalanceToken?: string;
+};
+
+export type MinigameInventoryItemUi = {
+  token: string;
+  name: string;
+  description: string;
+};
+
+export type MinigameDashboardUi = {
+  headerBalanceToken: string;
+  shopItems: MinigameShopItemUi[];
+  inventoryItems: MinigameInventoryItemUi[];
+  inventoryShortcutTokens: string[];
+  tokenImages: Record<string, string>;
+};
+
+export type MinigameDashboardData = {
+  slug: string;
+  portalName: MinigameName;
+  displayName: string;
+  config: MinigameConfig;
+  state: MinigameRuntimeState;
+  ui: MinigameDashboardUi;
+  productionCollectByStartId: Record<string, string>;
+};
+
+export type FetchMinigameResult =
+  | { ok: true; data: MinigameDashboardData }
+  | { ok: false; error: string };
