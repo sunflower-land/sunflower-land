@@ -46,7 +46,7 @@ export class PlayerFood extends Phaser.GameObjects.Container {
         this.config = PLAYER_FOOD_CONFIG[this.foodType];
 
         this.sprite = this.scene.add.sprite(0, 0, this.config.texture).setScale(this.config.scale);
-        this.setY(this.y - this.sprite.height);
+        this.setY(this.y - (this.sprite.height * this.config.scale) / 2);
         this.add(this.sprite);
         this.setDepth(2000);
 
