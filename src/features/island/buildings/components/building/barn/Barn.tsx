@@ -154,16 +154,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   return (
     <>
       <BuildingImageWrapper name="Barn" onClick={handleClick}>
-        {hasSickAnimals ? (
-          <img
-            src={SUNNYSIDE.icons.expression_stress}
-            className={classNames(
-              "absolute -top-2 -ml-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 7}px` }}
-          />
-        ) : hasHungryAnimals ? (
+        {hasHungryAnimals ? (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={classNames(
@@ -171,6 +162,15 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
               { ready: showAnimations },
             )}
             style={{ width: `${PIXEL_SCALE * 4}px` }}
+          />
+        ) : hasSickAnimals ? (
+          <img
+            src={SUNNYSIDE.icons.expression_stress}
+            className={classNames(
+              "absolute -top-2 -ml-2 left-1/2 transform -translate-x-1/2 z-20",
+              { ready: showAnimations },
+            )}
+            style={{ width: `${PIXEL_SCALE * 7}px` }}
           />
         ) : animalsNeedLove ? (
           <img
