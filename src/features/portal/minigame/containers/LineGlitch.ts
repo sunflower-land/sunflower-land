@@ -44,7 +44,7 @@ export class LineGlitch {
                 this.scene.scale.width,
                 lineHeight,
                 0xffffff
-            ).setAlpha(Phaser.Math.FloatBetween(0.1, 0.4));
+            ).setAlpha(Phaser.Math.FloatBetween(0.1, 0.4)).setDepth(1000);
 
             this.lines.push(line);
         }

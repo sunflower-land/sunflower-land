@@ -12,8 +12,8 @@ const randomYOffset = Math.random() * 20;
 export const SPAWNS: () => SpawnLocation = () => ({
   "april-fools": {
     default: {
-      x: 304,
-      y: 304,
+      x: 490,
+      y: 335,
     },
   },
   love_island: {

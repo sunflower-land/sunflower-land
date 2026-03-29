@@ -17,7 +17,7 @@ export class Puddle extends Phaser.GameObjects.Container {
     const sprite = scene.add.sprite(0, 0, "puddle")
       .setScale(0.9);
     this.add(sprite);
-    this.setDepth(1);
+    this.setDepth(3);
 
     scene.add.existing(this);
     scene.physics.add.existing(this);

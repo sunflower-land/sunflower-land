@@ -433,6 +433,9 @@ export class Scene extends BaseScene {
       },
     );
 
+    // Background images
+    this.load.image("background", "/world/portal/images/background.png");
+
     // SFX
     this.load.audio("spawn", "/world/portal/SFX/spawn.wav");
     this.load.audio("death", "/world/portal/SFX/death.mp3");
@@ -473,8 +476,8 @@ export class Scene extends BaseScene {
     this.initialiseFontFamily();
 
     // Create background elements
+    this.createBackground();
     this.createOcean();
-    this.createShips();
     this.createLumbers();
 
     // Config
@@ -894,6 +897,27 @@ export class Scene extends BaseScene {
     });
   }
 
+  private createBackground() {
+    const cam = this.cameras.main;
+    const zoom = cam.zoom;
+    const worldWidth = cam.width / zoom;
+    const worldHeight = cam.height / zoom;
+    const width = this.map.widthInPixels;
+    const height = this.map.heightInPixels;
+
+    const texture = this.textures.get("background");
+    const source = texture.getSourceImage();
+    const imgHeight = source.height;
+
+    const scale = height / imgHeight;
+
+    this.add
+      .image(width / 2, height / 2, "background")
+      .setOrigin(0.5)
+      .setScale(scale)
+      .setDepth(2);
+  }
+
   private createOcean() {
     const wavesUpTileIndexes = [1356, 1358];
     const wavesCenterTileIndexes = [1228, 1230];
@@ -910,7 +934,7 @@ export class Scene extends BaseScene {
         ? wavesCenterTileIndexes.map((index) => index - 1)
         : wavesCenterTileIndexes;
 
-      layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
+      layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[], i: number) => {
         row.forEach((tile: Phaser.Tilemaps.Tile) => {
           if (tile && upTileIndexes.includes(tile.index)) {
             const worldX = tile.pixelX + layer.x + tile.width / 2;
@@ -918,6 +942,7 @@ export class Scene extends BaseScene {
             const sprite = this.add
               .sprite(worldX, worldY, "waves_up")
               .setOrigin(0.25);
+            if (i === 10) sprite.setDepth(2);
             createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
           }
           if (tile && centerTileIndexes.includes(tile.index)) {
@@ -926,6 +951,7 @@ export class Scene extends BaseScene {
             const sprite = this.add
               .sprite(worldX, worldY, "waves_center")
               .setOrigin(0.25);
+            if (i === 10) sprite.setDepth(2);
             createAnimation(this, sprite, "waves_up", "", 0, 8, 15, -1);
           }
         });
@@ -946,20 +972,6 @@ export class Scene extends BaseScene {
         true,
       );
     }
-  }
-
-  private createShips() {
-    const ground = 578;
-    const layer = this.layers["Ground"];
-    layer.layer.data.forEach((row: Phaser.Tilemaps.Tile[]) => {
-      row.forEach((tile: Phaser.Tilemaps.Tile) => {
-        if (tile && ground === tile.index) {
-          const worldX = tile.pixelX + layer.x + tile.width / 2;
-          const worldY = tile.pixelY + layer.y + tile.height / 2;
-          this.add.sprite(worldX, worldY, "wood").setScale(0.95);
-        }
-      });
-    });
   }
 
   private createLumbers() {

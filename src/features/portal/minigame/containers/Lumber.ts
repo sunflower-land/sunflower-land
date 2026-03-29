@@ -17,9 +17,9 @@ export class Lumber extends Phaser.GameObjects.Container {
 
         this.sprite = this.scene.add.sprite(0, 0, "lumber")
             .setOrigin(0.5)
-            .setScale(1.5);
+            .setScale(1.2, 2.8);
         this.add(this.sprite);
-        this.setDepth(3);
+        this.setDepth(4);
 
         scene.add.existing(this);
     }

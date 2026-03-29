@@ -59,21 +59,20 @@ export const BETA_TESTERS: number[] = [
 // export const BETA_TESTERS: number[] = [];
 
 export const CANNON_CONFIG: (Position & { side: Side })[] = [
-  { x: 160, y: 319, side: "left" },
-  { x: 448, y: 319, side: "right" },
+  { x: 344, y: 327, side: "left" },
+  { x: 650, y: 327, side: "right" },
 ];
 
 export const PLAYER_CANNON_COOLDOWN = 500;
 export const PLAYER_CANNON_CHARGE_DURATION = 1200;
 export const PLAYER_CANNON_REAL_SHOT_APPLE_CHANCE = 0.1;
 export const CANNON_COOLDOWN = 30000;
-export const DRIP_WALKER_CYCLE_DURATION = 30000;
 
-export const CHEST_LEFT_X = 50;
-export const CHEST_RIGHT_X = 560;
-export const CHEST_Y = 195;
+export const CHEST_LEFT_X = 30;
+export const CHEST_RIGHT_X = 900;
+export const CHEST_Y = 215;
 export const CHEST_TRAVEL_DURATION = 10000;
-export const CHEST_SPAWN_INTERVAL = 60000;
+export const CHEST_SPAWN_INTERVAL = 20000;
 
 export const PLAYER_FOOD_CONFIG: Record<PlayerFoodType, PlayerFoodConfig> = {
   cabbage: {
@@ -116,12 +115,12 @@ export const PLAYER_FOOD_CYCLE: PlayerFoodType[] = [
 ];
 
 export const LUMBER_CONFIG: Position[] = [
-  { x: 304, y: 190 },
-  { x: 224, y: 190 },
-  { x: 384, y: 190 },
+  { x: 410, y: 190 },
+  { x: 490, y: 190 },
+  { x: 570, y: 190 },
 ];
 
-export const REFEREE_POSITION: Position = { x: 304, y: 190 };
+export const REFEREE_POSITION: Position = { x: 490, y: 190 };
 export const REFEREE_EFFECT_SCALE_MODIFIER = 0.4;
 export const REFEREE_EFFECT_SPEED_MODIFIER = 0.4;
 export const REFEREE_EFFECT_DURATION = 5000;
@@ -177,42 +176,42 @@ export const INSTRUCTIONS: {
   description: string;
   width?: number;
 }[] = [
-  {
-    image: food,
-    description: t(`${PORTAL_NAME}.instructions1`),
-  },
-  {
-    image: giantIcon,
-    description: t(`${PORTAL_NAME}.instructions2`),
-  },
-  {
-    image: auraIcon,
-    description: t(`${PORTAL_NAME}.instructions3`),
-  },
-  {
-    image: healthBar_icon,
-    description: t(`${PORTAL_NAME}.instructions4`),
-  },
-];
+    {
+      image: food,
+      description: t(`${PORTAL_NAME}.instructions1`),
+    },
+    {
+      image: giantIcon,
+      description: t(`${PORTAL_NAME}.instructions2`),
+    },
+    {
+      image: auraIcon,
+      description: t(`${PORTAL_NAME}.instructions3`),
+    },
+    {
+      image: healthBar_icon,
+      description: t(`${PORTAL_NAME}.instructions4`),
+    },
+  ];
 
 export const RESOURCES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: riceBun,
-    description: t(`${PORTAL_NAME}.resource1`),
-  },
-  {
-    image: cannon,
-    description: t(`${PORTAL_NAME}.resource2`),
-  },
-  {
-    image: chest,
-    description: t(`${PORTAL_NAME}.resource3`),
-  },
-];
+    {
+      image: riceBun,
+      description: t(`${PORTAL_NAME}.resource1`),
+    },
+    {
+      image: cannon,
+      description: t(`${PORTAL_NAME}.resource2`),
+    },
+    {
+      image: chest,
+      description: t(`${PORTAL_NAME}.resource3`),
+    },
+  ];
 
 export const REFEREE: {
   image: string;
@@ -228,50 +227,50 @@ export const IMMUNITY_GUIDE: {
   description: string;
   width?: number;
 }[] = [
-  {
-    image: getWearableImage(`${AURA_IMMUNITY}`),
-    description: t(`${PORTAL_NAME}.aura_immunityDescription`),
-  },
-  {
-    image: getWearableImage(`${WINGS_IMMUNITY}`),
-    description: t(`${PORTAL_NAME}.wings_immunityDescription`),
-  },
-  {
-    image: getWearableImage(`${SHOES_IMMUNITY}`),
-    description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
-  },
-  {
-    image: getWearableImage(`${HAT_IMMUNITY}`),
-    description: t(`${PORTAL_NAME}.hat_immunityDescription`),
-  },
-];
+    {
+      image: getWearableImage(`${AURA_IMMUNITY}`),
+      description: t(`${PORTAL_NAME}.aura_immunityDescription`),
+    },
+    {
+      image: getWearableImage(`${WINGS_IMMUNITY}`),
+      description: t(`${PORTAL_NAME}.wings_immunityDescription`),
+    },
+    {
+      image: getWearableImage(`${SHOES_IMMUNITY}`),
+      description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
+    },
+    {
+      image: getWearableImage(`${HAT_IMMUNITY}`),
+      description: t(`${PORTAL_NAME}.hat_immunityDescription`),
+    },
+  ];
 
 export const ENEMIES_TABLE: {
   image: string;
   description: string;
   width?: number;
 }[] = [
-  {
-    image: giantIcon,
-    description: t(`${PORTAL_NAME}.enemy1`),
-  },
-  {
-    image: sniperIcon,
-    description: t(`${PORTAL_NAME}.enemy2`),
-  },
-  {
-    image: menaceIcon,
-    description: t(`${PORTAL_NAME}.enemy3`),
-  },
-  {
-    image: blastIcon,
-    description: t(`${PORTAL_NAME}.enemy4`),
-  },
-  {
-    image: orangePuddle,
-    description: t(`${PORTAL_NAME}.enemy5`),
-  },
-];
+    {
+      image: giantIcon,
+      description: t(`${PORTAL_NAME}.enemy1`),
+    },
+    {
+      image: sniperIcon,
+      description: t(`${PORTAL_NAME}.enemy2`),
+    },
+    {
+      image: menaceIcon,
+      description: t(`${PORTAL_NAME}.enemy3`),
+    },
+    {
+      image: blastIcon,
+      description: t(`${PORTAL_NAME}.enemy4`),
+    },
+    {
+      image: orangePuddle,
+      description: t(`${PORTAL_NAME}.enemy5`),
+    },
+  ];
 
 export type Immunity_Wearables = "aura" | "wings" | "shoe" | "hat";
 
@@ -280,27 +279,27 @@ export const IMMUNITY_TOOLTIP: {
   image: string;
   description: string;
 }[] = [
-  {
-    id: "aura",
-    image: aura_immunity_icon,
-    description: t(`${PORTAL_NAME}.aura_immunityDescription`),
-  },
-  {
-    id: "wings",
-    image: wings_immunity_icon,
-    description: t(`${PORTAL_NAME}.wings_immunityDescription`),
-  },
-  {
-    id: "shoe",
-    image: shoes_immunity,
-    description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
-  },
-  {
-    id: "hat",
-    image: hat_immunity,
-    description: t(`${PORTAL_NAME}.hat_immunityDescription`),
-  },
-];
+    {
+      id: "aura",
+      image: aura_immunity_icon,
+      description: t(`${PORTAL_NAME}.aura_immunityDescription`),
+    },
+    {
+      id: "wings",
+      image: wings_immunity_icon,
+      description: t(`${PORTAL_NAME}.wings_immunityDescription`),
+    },
+    {
+      id: "shoe",
+      image: shoes_immunity,
+      description: t(`${PORTAL_NAME}.shoes_immunityDescription`),
+    },
+    {
+      id: "hat",
+      image: hat_immunity,
+      description: t(`${PORTAL_NAME}.hat_immunityDescription`),
+    },
+  ];
 
 // Panel
 export const PANEL_NPC_WEARABLES: Equipped = NPC_WEARABLES["elf"];
@@ -316,7 +315,8 @@ export const BLAST_SKELETON_POSITIONS: { x: number; y: number }[] = [
   { x: 340, y: 200 },
 ];
 
+export const DRIP_WALKER_CYCLE_DURATION = 35000;
 export const DRIP_WALKER_POSITIONS: (Position & { side: Side })[] = [
-  { x: 224, y: 140, side: "right" },
-  { x: 385, y: 140, side: "left" },
+  { x: 410, y: 100, side: "right" },
+  { x: 570, y: 100, side: "left" },
 ];

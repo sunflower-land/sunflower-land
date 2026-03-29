@@ -22,7 +22,7 @@ interface Props {
 const WALK_SPEED_DEFAULT = 30;
 const MIN_DIRECTION_DURATION = 1500;
 const MAX_DIRECTION_DURATION = 4000;
-const ENTRY_DROP_Y = 100;
+const ENTRY_DROP_Y = 180;
 
 type WalkDirection = "left" | "right" | "up" | "down";
 
@@ -125,7 +125,7 @@ export class DripWalker extends Phaser.GameObjects.Container {
     this.isActive = true;
     const { x, y, side } =
       DRIP_WALKER_POSITIONS[
-        Math.floor(Math.random() * DRIP_WALKER_POSITIONS.length)
+      Math.floor(Math.random() * DRIP_WALKER_POSITIONS.length)
       ];
     this.npc.setPosition(x, y);
     side === "left" ? this.npc.faceLeft() : this.npc.faceRight();

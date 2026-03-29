@@ -219,8 +219,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.player.setVisible(false);
       this.emptyObject?.destroy();
       this.emptyObject = this.scene.add
-      .image(worldX, worldY, "rice_bun")
-      .setVisible(true);
+        .image(worldX, worldY, "rice_bun")
+        .setVisible(true)
+        .setDepth(5);
     } else if (AURA_IMMUNITY.includes(aura)) {
       this.player?.sprite?.setVisible(false);
       this.player?.shadow?.setVisible(false);
@@ -229,8 +230,9 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
       this.player.setVisible(false);
       this.emptyObject?.destroy();
       this.emptyObject = this.scene.add
-      .image(worldX, worldY, "rice_bun")
-      .setVisible(true);
+        .image(worldX, worldY, "rice_bun")
+        .setVisible(true)
+        .setDepth(5);
     }
 
     this.restorePlayer();
@@ -242,7 +244,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
 
       this.emptyObject?.destroy();
       this.emptyObject = undefined;
-       
+
       this.player.setVisible(true);
       this.player?.sprite?.setVisible(true);
       this.player?.shadow?.setVisible(true);
@@ -252,13 +254,13 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   }
 
   public update() {
-  if (this.emptyObject && this.player) {
-    const worldX = this.player.getWorldTransformMatrix().tx;
-    const worldY = this.player.getWorldTransformMatrix().ty;
+    if (this.emptyObject && this.player) {
+      const worldX = this.player.getWorldTransformMatrix().tx;
+      const worldY = this.player.getWorldTransformMatrix().ty;
 
-    this.emptyObject.setPosition(worldX, worldY);
+      this.emptyObject.setPosition(worldX, worldY);
+    }
   }
-}
 
   public defeat() {
     if (this.isDefeated || !this.sprite.active) return;
