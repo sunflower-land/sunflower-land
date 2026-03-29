@@ -774,7 +774,7 @@ export class Scene extends BaseScene {
   }
 
   private createGiantSkeleton() {
-    const { x, y } = { x: 230, y: 100 };
+    const { x, y } = { x: 350, y: 50 };
     const giantCardboard = new Giant_Skeleton({
       x,
       y,
@@ -785,7 +785,7 @@ export class Scene extends BaseScene {
   }
 
   private createSniperSkeleton() {
-    const { x, y } = { x: 250, y: 20 };
+    const { x, y } = { x: 490, y: 10 };
     const sniperSkeleton = new Sniper_Skeleton({
       x,
       y,

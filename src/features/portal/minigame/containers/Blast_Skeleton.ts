@@ -130,14 +130,14 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     let jumpFrameRate;
 
     switch (true) {
-      case this.player.x < 250:
-      case this.player.x > 350:
+      case this.player.x < 450:
+      case this.player.x > 530:
         jumpFrameRate = 15;
         break;
-      case this.player.y < 310:
+      case this.player.y < 318:
         jumpFrameRate = 8;
         break;
-      case this.player.y > 310:
+      case this.player.y > 318:
         jumpFrameRate = 15;
         break;
       default:
@@ -213,7 +213,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     if (this.isDefeated) return;
     this.scene.time.delayedCall(1000, () => {
       if (!this.player || this.isDefeated) return;
-      const finalX = Phaser.Utils.Array.GetRandom([270, 340]);
+      const finalX = Phaser.Utils.Array.GetRandom([450, 530]);
       this.setPosition(finalX, this.spawnY);
       this.tomatoBomb.setVisible(false);
       this.food.setTexture(`${this.spriteName}_tomato`);
@@ -308,7 +308,7 @@ export class Blast_Skeleton extends Phaser.GameObjects.Container {
     this.isDefeated = false;
     this.isHit = false;
 
-    const finalX = Phaser.Utils.Array.GetRandom([280, 340]);
+    const finalX = Phaser.Utils.Array.GetRandom([450, 530]);
     this.setPosition(finalX / this.scale, this.spawnY);
 
     const randomHS = Phaser.Utils.Array.GetRandom(["full", "half"]);
