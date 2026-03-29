@@ -11,7 +11,7 @@ interface Props {
   player?: BumpkinContainer;
 }
 
-const MOVE_DISTANCE = 90;
+const MOVE_DISTANCE = -50;
 const MIN_BARREL_THROW_DELAY = 4000;
 const MAX_BARREL_THROW_DELAY = 6000;
 const BARREL_RESET_DELAY = 2000;
@@ -89,7 +89,7 @@ export class Giant_Skeleton extends Phaser.GameObjects.Container {
     );
 
     const moveLeft = this.x - MOVE_DISTANCE;
-    const moveRight = 450;
+    const moveRight = 600;
     this.x = moveLeft;
 
     let prevX = this.x;

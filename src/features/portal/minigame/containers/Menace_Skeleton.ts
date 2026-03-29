@@ -94,10 +94,10 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
   }
 
   private static generateSpawnPositions() {
-    const minX = 150;
-    const maxX = 450;
-    const minY = 60;
-    const maxY = 140;
+    const minX = 320;
+    const maxX = 660;
+    const minY = 35;
+    const maxY = 90;
     const gapX = 30;
     const gapY = 30;
 
@@ -138,7 +138,7 @@ export class Menace_Skeleton extends Phaser.GameObjects.Container {
     const { x, y } = this.getRandomPosition();
     this.setPosition(x, y);
 
-    if (y > 100) {
+    if (y > 60) {
       this.setDepth(500);
     } else {
       this.setDepth(10);
