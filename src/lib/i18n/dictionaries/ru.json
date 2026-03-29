@@ -4817,7 +4817,7 @@
   "bedsMigration.status.notPlaced": "Надо поставить",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "bedsMigration.label": "Мои кровати",
-  "farmHand": "Помощника",
+  "farmHand": "Помощник",
   "description.petting.hand": "Гладит животных. Используй, чтобы проявить заботу к своим животным.",
   "description.brush": "Щётка для животных. Используй, чтобы проявить заботу к своим животным.",
   "description.music.box": "Проигрывает музыку для животных. Используй, чтобы проявить заботу к своим животным.",
