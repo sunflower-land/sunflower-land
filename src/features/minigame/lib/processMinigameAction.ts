@@ -45,7 +45,9 @@ function isFixedMintWithDailyCap(
   return "amount" in rule && "dailyCap" in rule && !("min" in rule);
 }
 
-function cloneState(state: MinigameRuntimeState): MinigameRuntimeState {
+export function cloneMinigameRuntimeState(
+  state: MinigameRuntimeState,
+): MinigameRuntimeState {
   return {
     balances: { ...state.balances },
     producing: Object.fromEntries(
@@ -322,7 +324,7 @@ export function processMinigameAction(
     return { ok: false, error: `Unknown action ${input.actionId}` };
   }
 
-  const working = cloneState(state);
+  const working = cloneMinigameRuntimeState(state);
   rolloverDailyMintedIfNeeded(working.dailyMinted, input.now);
 
   const { error, producingId } = runPhases(def, input, working);

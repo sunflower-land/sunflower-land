@@ -1,4 +1,4 @@
-import type { MinigameConfig } from "./types";
+import type { MinigameConfig, MinigameRuntimeState } from "./types";
 
 export type CapBalanceProductionSlot = {
   capToken: string;
@@ -35,6 +35,23 @@ export function extractCapBalanceProductionSlots(
     }
   }
   return slots;
+}
+
+/** Maps each cap-balance token to its active producing job id (if any). */
+export function buildCapJobByCapToken(
+  config: MinigameConfig,
+  collectByStartId: Record<string, string>,
+  runtime: MinigameRuntimeState,
+): Record<string, string | undefined> {
+  const slots = extractCapBalanceProductionSlots(config, collectByStartId);
+  const map: Record<string, string | undefined> = {};
+  for (const s of slots) {
+    const match = Object.entries(runtime.producing).find(
+      ([, job]) => job.capByBalance === s.capToken,
+    );
+    map[s.capToken] = match?.[0];
+  }
+  return map;
 }
 
 export function formatMinigameDuration(ms: number): string {

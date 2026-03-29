@@ -16,14 +16,15 @@ import { InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components/Loading";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
-import type { MinigameName } from "features/game/types/minigames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
-import { portal } from "features/world/ui/community/actions/portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
-import { postMinigameActionRequest } from "./lib/minigameSessionApi";
+import {
+  postMinigameActionedEvent,
+  runtimeStateFromActionResponse,
+} from "./lib/minigameSessionApi";
 import { processMinigameAction } from "./lib/processMinigameAction";
 import type { MinigameProcessResult, MinigameRuntimeState } from "./lib/types";
 import type {
@@ -41,9 +42,11 @@ import { MinigameInventoryModal } from "./components/MinigameInventoryModal";
 import { ChickenRescueBookmatchedBackdrop } from "./components/ChickenRescueBookmatchedBackdrop";
 import { MinigameProductionZone } from "./components/MinigameProductionZone";
 import {
+  buildCapJobByCapToken,
   extractCapBalanceProductionSlots,
   getShopPurchaseProductionPreview,
 } from "./lib/extractProductionSlots";
+import { cloneMinigameRuntimeState } from "./lib/processMinigameAction";
 
 export const MinigameDashboard: React.FC = () => {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -81,10 +84,27 @@ export const MinigameDashboard: React.FC = () => {
   >({});
   const payloadInitRef = useRef(false);
   const runtimeRef = useRef<MinigameRuntimeState | null>(null);
+  const capJobByCapTokenRef = useRef<Record<string, string | undefined>>({});
+  const dashboardMountedRef = useRef(true);
+
+  const [showActionSyncError, setShowActionSyncError] = useState(false);
+  const [actionSyncError, setActionSyncError] = useState<string | null>(null);
+
+  const applyRuntime = useCallback((next: MinigameRuntimeState | null) => {
+    runtimeRef.current = next;
+    setRuntime(next);
+  }, []);
 
   useEffect(() => {
-    runtimeRef.current = runtime;
-  }, [runtime]);
+    dashboardMountedRef.current = true;
+    return () => {
+      dashboardMountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    capJobByCapTokenRef.current = capJobByCapToken;
+  }, [capJobByCapToken]);
 
   useEffect(() => {
     payloadInitRef.current = false;
@@ -95,18 +115,13 @@ export const MinigameDashboard: React.FC = () => {
     if (!payload) return;
     if (payloadInitRef.current) return;
     payloadInitRef.current = true;
-    const slots = extractCapBalanceProductionSlots(
-      payload.config,
-      payload.productionCollectByStartId,
+    setCapJobByCapToken(
+      buildCapJobByCapToken(
+        payload.config,
+        payload.productionCollectByStartId,
+        payload.state,
+      ),
     );
-    const initial: Record<string, string | undefined> = {};
-    for (const s of slots) {
-      const match = Object.entries(payload.state.producing).find(
-        ([, job]) => job.capByBalance === s.capToken,
-      );
-      initial[s.capToken] = match?.[0];
-    }
-    setCapJobByCapToken(initial);
   }, [payload]);
 
   useEffect(() => {
@@ -160,46 +175,58 @@ export const MinigameDashboard: React.FC = () => {
     }): Promise<MinigameProcessResult> => {
       if (!payload) return { ok: false, error: "No session" };
 
+      const prev = runtimeRef.current;
+      if (!prev) return { ok: false, error: "No state" };
+
+      const local = processMinigameAction(payload.config, prev, {
+        ...input,
+        now: Date.now(),
+      });
+      if (!local.ok) return local;
+
       if (!CONFIG.API_URL) {
-        const prev = runtimeRef.current;
-        if (!prev) return { ok: false, error: "No state" };
-        return processMinigameAction(payload.config, prev, {
-          ...input,
-          now: Date.now(),
-        });
+        return local;
       }
 
       if (!userToken || farmId == null) {
         return { ok: false, error: "Sign in to perform this action." };
       }
 
-      try {
-        const { token: portalJwt } = await portal({
-          portalId: slug as MinigameName,
-          token: userToken,
-          farmId,
-        });
-        const data = await postMinigameActionRequest(slug, portalJwt, {
-          action: input.actionId,
-          itemId: input.itemId,
-          amounts: input.amounts,
-        });
-        const next: MinigameRuntimeState = {
-          balances: data.minigame.balances,
-          producing: data.minigame.producing as MinigameRuntimeState["producing"],
-          dailyMinted: data.minigame.dailyMinted,
-          activity: data.minigame.activity,
-          dailyActivity: data.minigame.dailyActivity,
-        };
-        return { ok: true, state: next, producingId: data.producingId };
-      } catch (e) {
-        return {
-          ok: false,
-          error: e instanceof Error ? e.message : "Action failed",
-        };
-      }
+      const snapshotRuntime = cloneMinigameRuntimeState(prev);
+      const snapshotCapJobs = { ...capJobByCapTokenRef.current };
+      const cfg = payload.config;
+      const collectByStartId = payload.productionCollectByStartId;
+
+      void (async () => {
+        try {
+          const data = await postMinigameActionedEvent({
+            farmId,
+            userToken,
+            portalId: payload.portalName,
+            action: input.actionId,
+            itemId: input.itemId,
+            amounts: input.amounts,
+          });
+          const next = runtimeStateFromActionResponse(data.minigame);
+          if (!dashboardMountedRef.current) return;
+          applyRuntime(next);
+          setCapJobByCapToken(
+            buildCapJobByCapToken(cfg, collectByStartId, next),
+          );
+        } catch (e) {
+          if (!dashboardMountedRef.current) return;
+          applyRuntime(snapshotRuntime);
+          setCapJobByCapToken(snapshotCapJobs);
+          setActionSyncError(
+            e instanceof Error ? e.message : "Action failed",
+          );
+          setShowActionSyncError(true);
+        }
+      })();
+
+      return { ok: true, state: local.state, producingId: local.producingId };
     },
-    [payload, userToken, farmId, slug],
+    [payload, userToken, farmId, applyRuntime],
   );
 
   useEffect(() => {
@@ -216,17 +243,17 @@ export const MinigameDashboard: React.FC = () => {
       if (!res.ok) {
         setLoadError(res.error);
         setPayload(null);
-        setRuntime(null);
+        applyRuntime(null);
       } else {
         setPayload(res.data);
-        setRuntime(res.data.state);
+        applyRuntime(res.data.state);
       }
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, [slug, userToken, farmId]);
+  }, [slug, userToken, farmId, applyRuntime]);
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -253,6 +280,11 @@ export const MinigameDashboard: React.FC = () => {
         setShopActionError(null);
         return;
       }
+      if (showActionSyncError) {
+        setShowActionSyncError(false);
+        setActionSyncError(null);
+        return;
+      }
       if (showAdventureConfirm) {
         setShowAdventureConfirm(false);
         return;
@@ -268,6 +300,7 @@ export const MinigameDashboard: React.FC = () => {
     showPortal,
     showMobileShop,
     showShopConfirm,
+    showActionSyncError,
   ]);
 
   const openMobileShopList = useCallback(() => {
@@ -307,22 +340,73 @@ export const MinigameDashboard: React.FC = () => {
     setMobileShopPhase("detail");
   };
 
-  const confirmShopPurchase = async () => {
-    if (!payload || !runtime || !pendingShopItem) return;
-    if (!canAffordShopItem(pendingShopItem, runtime.balances)) return;
-    const result = await runMinigameAction({
+  const confirmShopPurchase = () => {
+    if (!payload || !pendingShopItem) return;
+    const prev = runtimeRef.current;
+    if (!prev) return;
+    if (!canAffordShopItem(pendingShopItem, prev.balances)) return;
+
+    const local = processMinigameAction(payload.config, prev, {
       actionId: pendingShopItem.actionId,
+      now: Date.now(),
     });
-    if (!result.ok) {
-      setShopActionError(result.error);
+    if (!local.ok) {
+      setShopActionError(local.error);
       return;
     }
-    setRuntime(result.state);
+
+    if (!CONFIG.API_URL) {
+      applyRuntime(local.state);
+      setShowShopConfirm(false);
+      setShowMobileShop(false);
+      setMobileShopPhase("list");
+      setPendingShopItem(null);
+      setShopActionError(null);
+      return;
+    }
+
+    if (!userToken || farmId == null) {
+      setShopActionError("Sign in to perform this action.");
+      return;
+    }
+
+    const snapshotRuntime = cloneMinigameRuntimeState(prev);
+    const snapshotCapJobs = { ...capJobByCapTokenRef.current };
+    const cfg = payload.config;
+    const collectByStartId = payload.productionCollectByStartId;
+    const shopActionId = pendingShopItem.actionId;
+
+    applyRuntime(local.state);
     setShowShopConfirm(false);
     setShowMobileShop(false);
     setMobileShopPhase("list");
     setPendingShopItem(null);
     setShopActionError(null);
+
+    void (async () => {
+      try {
+        const data = await postMinigameActionedEvent({
+          farmId,
+          userToken,
+          portalId: payload.portalName,
+          action: shopActionId,
+        });
+        const next = runtimeStateFromActionResponse(data.minigame);
+        if (!dashboardMountedRef.current) return;
+        applyRuntime(next);
+        setCapJobByCapToken(
+          buildCapJobByCapToken(cfg, collectByStartId, next),
+        );
+      } catch (e) {
+        if (!dashboardMountedRef.current) return;
+        applyRuntime(snapshotRuntime);
+        setCapJobByCapToken(snapshotCapJobs);
+        setActionSyncError(
+          e instanceof Error ? e.message : "Action failed",
+        );
+        setShowActionSyncError(true);
+      }
+    })();
   };
 
   const headerToken = payload?.ui.headerBalanceToken ?? "";
@@ -425,7 +509,7 @@ export const MinigameDashboard: React.FC = () => {
               config={payload.config}
               runtime={runtime}
               tokenImages={tokenImages}
-              onRuntimeChange={setRuntime}
+              onRuntimeChange={(next) => applyRuntime(next)}
               capJobByCapToken={capJobByCapToken}
               onCapJobChange={onCapJobChange}
               dispatchAction={runMinigameAction}
@@ -497,6 +581,25 @@ export const MinigameDashboard: React.FC = () => {
         <p className="text-xs mb-2">
           Opens the minigame in fullscreen. You can close it from inside the
           game when you are done.
+        </p>
+      </MinigameConfirmPanel>
+
+      <MinigameConfirmPanel
+        show={showActionSyncError}
+        title="Couldn't save"
+        confirmLabel="OK"
+        onClose={() => {
+          setShowActionSyncError(false);
+          setActionSyncError(null);
+        }}
+        onConfirm={() => {
+          setShowActionSyncError(false);
+          setActionSyncError(null);
+        }}
+      >
+        <p className="mb-2 text-xs text-[#3e2731]">
+          {actionSyncError ??
+            "Something went wrong. Your last action was reverted."}
         </p>
       </MinigameConfirmPanel>
 

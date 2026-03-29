@@ -1,4 +1,7 @@
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
+import { randomID } from "lib/utils/random";
+import type { MinigameRuntimeState } from "./types";
 
 export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
@@ -16,6 +19,18 @@ export type MinigameActionApiResponse = {
   minigame: MinigameSessionApiPayload["minigame"];
   producingId?: string;
 };
+
+export function runtimeStateFromActionResponse(
+  minigame: MinigameActionApiResponse["minigame"],
+): MinigameRuntimeState {
+  return {
+    balances: minigame.balances,
+    producing: minigame.producing as MinigameRuntimeState["producing"],
+    dailyMinted: minigame.dailyMinted,
+    activity: minigame.activity,
+    dailyActivity: minigame.dailyActivity,
+  };
+}
 
 function minigameUrl(portalId: string): string {
   const base = CONFIG.API_URL;
@@ -68,4 +83,83 @@ export async function postMinigameActionRequest(
     );
   }
   return data;
+}
+
+/**
+ * Persists a minigame action via the main game event API (`minigame.actioned`),
+ * same path as `event.ts` / POST `/event/:farmId`.
+ */
+export async function postMinigameActionedEvent(opts: {
+  farmId: number;
+  userToken: string;
+  portalId: string;
+  action: string;
+  itemId?: string;
+  amounts?: Record<string, number>;
+}): Promise<MinigameActionApiResponse> {
+  const base = CONFIG.API_URL;
+  if (!base) throw new Error("API_URL is not configured");
+
+  const eventPayload: {
+    type: "minigame.actioned";
+    portalId: string;
+    action: string;
+    itemId?: string;
+    amounts?: Record<string, number>;
+  } = {
+    type: "minigame.actioned",
+    portalId: opts.portalId,
+    action: opts.action,
+  };
+  if (opts.itemId !== undefined) {
+    eventPayload.itemId = opts.itemId;
+  }
+  if (opts.amounts !== undefined) {
+    eventPayload.amounts = opts.amounts;
+  }
+
+  const response = await fetch(`${base}/event/${opts.farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": randomID(),
+      Authorization: `Bearer ${opts.userToken}`,
+      accept: "application/json",
+      ...((window as { "x-amz-ttl"?: string })["x-amz-ttl"]
+        ? {
+            "X-Amz-TTL": String(
+              (window as { "x-amz-ttl"?: string })["x-amz-ttl"],
+            ),
+          }
+        : {}),
+    },
+    body: JSON.stringify({
+      event: eventPayload,
+      createdAt: new Date().toISOString(),
+    }),
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
+  }
+
+  const body = (await response.json().catch(() => ({}))) as {
+    gameState?: unknown;
+    data?: MinigameActionApiResponse;
+    errorCode?: string;
+  };
+
+  if (response.status === 400) {
+    throw new Error(
+      typeof body.errorCode === "string"
+        ? body.errorCode
+        : ERRORS.EFFECT_SERVER_ERROR,
+    );
+  }
+
+  if (!response.ok || body.data?.minigame == null) {
+    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+  }
+
+  return body.data;
 }
