@@ -44,6 +44,17 @@ const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "chaacs-temple": "chaacs-temple.minigames",
 };
 
+/** Iframe origin/path: `VITE_PORTAL_GAME_URL` when set, else `https://{slug}.sunflower-land.com`. */
+function getMinigameIframeBaseUrl(portalName: MinigameName): string {
+  const fromEnv = CONFIG.PORTAL_GAME_URL?.trim();
+  if (fromEnv) {
+    return fromEnv;
+  }
+
+  const slug = DOMAIN_MAP[portalName] ?? portalName;
+  return `https://${slug}.sunflower-land.com`;
+}
+
 export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -77,15 +88,21 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      const baseUrl = `https://${DOMAIN_MAP[portalName] ?? portalName}.sunflower-land.com`;
-
-      // If testing a local portal, uncomment this line
-      // baseUrl = `http://localhost:3001`;
+      const baseUrl = getMinigameIframeBaseUrl(portalName);
 
       const language = localStorage.getItem("language") || "en";
       const font = getCachedFont();
 
-      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}&font=${font}`;
+      const params = new URLSearchParams();
+      params.set("jwt", token);
+      params.set("network", CONFIG.NETWORK);
+      params.set("language", language);
+      params.set("font", font);
+      if (CONFIG.API_URL) {
+        params.set("apiUrl", CONFIG.API_URL);
+      }
+
+      const url = `${baseUrl}?${params.toString()}`;
 
       setUrl(url);
 
@@ -93,7 +110,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     };
 
     load();
-  }, []);
+  }, [portalName, authState.context.user.rawToken, gameState.context.farmId]);
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {
@@ -284,7 +301,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           </div>,
           document.body,
         )}
-      <Loading className="z-10 left-0 top-0" />
     </>
   );
 };

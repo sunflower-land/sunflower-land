@@ -73,6 +73,9 @@ export const MinigameDashboard: React.FC = () => {
   const [showAdventureConfirm, setShowAdventureConfirm] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
   const [showInventoryModal, setShowInventoryModal] = useState(false);
+  const [inventoryFocusToken, setInventoryFocusToken] = useState<string | null>(
+    null,
+  );
 
   const [showMobileShop, setShowMobileShop] = useState(false);
   const [mobileShopPhase, setMobileShopPhase] = useState<
@@ -86,6 +89,8 @@ export const MinigameDashboard: React.FC = () => {
   const runtimeRef = useRef<MinigameRuntimeState | null>(null);
   const capJobByCapTokenRef = useRef<Record<string, string | undefined>>({});
   const dashboardMountedRef = useRef(true);
+  /** Bumped when the minigame iframe closes so dashboard data is refetched. */
+  const [dashboardReloadKey, setDashboardReloadKey] = useState(0);
 
   const [showActionSyncError, setShowActionSyncError] = useState(false);
   const [actionSyncError, setActionSyncError] = useState<string | null>(null);
@@ -244,16 +249,19 @@ export const MinigameDashboard: React.FC = () => {
         setLoadError(res.error);
         setPayload(null);
         applyRuntime(null);
-      } else {
-        setPayload(res.data);
-        applyRuntime(res.data.state);
+        setLoading(false);
+        return;
       }
+      payloadInitRef.current = false;
+      setLoadError(null);
+      setPayload(res.data);
+      applyRuntime(res.data.state);
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, [slug, userToken, farmId, applyRuntime]);
+  }, [slug, userToken, farmId, applyRuntime, dashboardReloadKey]);
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -308,6 +316,11 @@ export const MinigameDashboard: React.FC = () => {
     setPendingShopItem(null);
     setShowMobileShop(true);
     setMobileShopPhase("list");
+  }, []);
+
+  const openInventory = useCallback((focusToken?: string) => {
+    setInventoryFocusToken(focusToken ?? null);
+    setShowInventoryModal(true);
   }, []);
 
   const onShopItemClick = (item: MinigameShopItemUi) => {
@@ -522,7 +535,7 @@ export const MinigameDashboard: React.FC = () => {
               inventoryItems={payload.ui.inventoryItems}
               balances={runtime.balances}
               tokenImages={tokenImages}
-              onOpenInventory={() => setShowInventoryModal(true)}
+              onOpenInventory={openInventory}
               onOpenShop={hasShop ? openMobileShopList : undefined}
             />
           </div>
@@ -605,10 +618,14 @@ export const MinigameDashboard: React.FC = () => {
 
       <MinigameInventoryModal
         show={showInventoryModal}
-        onClose={() => setShowInventoryModal(false)}
+        onClose={() => {
+          setShowInventoryModal(false);
+          setInventoryFocusToken(null);
+        }}
         inventoryItems={payload.ui.inventoryItems}
         balances={runtime.balances}
         tokenImages={tokenImages}
+        focusToken={inventoryFocusToken}
       />
 
       {hasShop && (
@@ -641,7 +658,10 @@ export const MinigameDashboard: React.FC = () => {
       {showPortal && (
         <Portal
           portalName={payload.portalName}
-          onClose={() => setShowPortal(false)}
+          onClose={() => {
+            setShowPortal(false);
+            setDashboardReloadKey((k) => k + 1);
+          }}
         />
       )}
       </div>

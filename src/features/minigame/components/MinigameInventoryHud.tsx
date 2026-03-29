@@ -15,7 +15,8 @@ type Props = {
   inventoryItems: MinigameInventoryItemUi[];
   balances: Record<string, number>;
   tokenImages: Record<string, string>;
-  onOpenInventory: () => void;
+  /** Open full inventory; pass a token to focus that row when owned. */
+  onOpenInventory: (focusToken?: string) => void;
   /** Shop disc (heart on disc) above the basket; opens the shop modal. */
   onOpenShop?: () => void;
 };
@@ -99,7 +100,7 @@ export const MinigameInventoryHud: React.FC<Props> = ({
             image={getMinigameTokenImage(token, tokenImages)}
             count={new Decimal(balances[token] ?? 0)}
             hideCount={false}
-            onClick={onOpenInventory}
+            onClick={() => onOpenInventory(token)}
           />
         ))}
       </div>

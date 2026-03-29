@@ -60,8 +60,15 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
       data-html2canvas-ignore="true"
       className="fixed inset-safe-area z-[68] flex items-center justify-center p-2"
       style={{ background: "rgb(0 0 0 / 56%)" }}
+      onClick={onClose}
+      role="presentation"
     >
       {view === "list" ? (
+        <div
+          className="max-h-full max-w-full"
+          onClick={(e) => e.stopPropagation()}
+          role="presentation"
+        >
         <CloseButtonPanel
           className="flex max-h-[min(88dvh,32rem)] w-[min(96vw,24rem)] flex-col"
           title="Shop"
@@ -78,7 +85,13 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
             />
           </div>
         </CloseButtonPanel>
+        </div>
       ) : (
+        <div
+          className="max-h-full max-w-full"
+          onClick={(e) => e.stopPropagation()}
+          role="presentation"
+        >
         <CloseButtonPanel
           className="flex w-[min(96vw,24rem)] flex-col"
           title={detailItem!.name}
@@ -100,6 +113,7 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
             </Button>
           </div>
         </CloseButtonPanel>
+        </div>
       )}
     </div>,
     document.body,

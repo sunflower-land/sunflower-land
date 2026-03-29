@@ -5,6 +5,14 @@ const EIGHT_HOURS_MS = 8 * 1000; // 60 * 60 * 1000;
 
 /**
  * Chicken Rescue — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`.
+ *
+ * Balance keys (API-facing) vs player-facing names in the dashboard:
+ * - `Cluckcoin` → Golden Nuggets
+ * - `Coin` → Worms
+ * - `FatChicken` / `LoveChicken` / `AlienChicken` / `RoosterChicken` → all shown as “Wormery” in UI
+ * - `Chook` → Chooks
+ * - `Nugget` → Chicken Feet
+ * - `GoldenChook` → Golden Chook
  */
 export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
   itemIds: {
@@ -35,7 +43,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
     },
     BUY_LOVE_CHICKEN: {
       burn: {
-        Cluckcoin: { amount: 5 },
+        Cluckcoin: { amount: 15 },
       },
       mint: {
         LoveChicken: { amount: 1 },
@@ -43,7 +51,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
     },
     BUY_ALIEN_CHICKEN: {
       burn: {
-        Cluckcoin: { amount: 15 },
+        Cluckcoin: { amount: 100 },
       },
       mint: {
         AlienChicken: { amount: 1 },
@@ -51,7 +59,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
     },
     BUY_ROOSTER_CHICKEN: {
       burn: {
-        Cluckcoin: { amount: 50 },
+        Cluckcoin: { amount: 500 },
       },
       mint: {
         RoosterChicken: { amount: 1 },

@@ -68,14 +68,21 @@ export const MinigameProductionModal: React.FC<Props> = ({
       data-html2canvas-ignore="true"
       className="fixed inset-safe-area z-[70] flex items-center justify-center"
       style={{ background: "rgb(0 0 0 / 56%)" }}
+      onClick={onClose}
+      role="presentation"
     >
+      <div
+        className="max-h-full max-w-full"
+        onClick={(e) => e.stopPropagation()}
+        role="presentation"
+      >
       <CloseButtonPanel className="w-[min(92vw,420px)]" onClose={onClose}>
         <div className="p-1 space-y-2">
           <Label type="default">{title}</Label>
 
           {variant === "start" && (
             <>
-              <p className="text-xs">Start a production run for this chicken.</p>
+              <p className="text-xs">Start a production run for this wormery.</p>
               <p className="text-xs">
                 Duration:{" "}
                 <span className="font-medium">
@@ -89,7 +96,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {requireEntries.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span>
-                          {rule.amount}× {token}
+                          {rule.amount}× {capTokenDisplayName(token)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}
@@ -112,7 +119,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {burnEntries.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span>
-                          {rule.amount}× {token}
+                          {rule.amount}× {capTokenDisplayName(token)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}
@@ -142,12 +149,15 @@ export const MinigameProductionModal: React.FC<Props> = ({
               {job ? (
                 <>
                   <p className="text-xs">
-                    This chicken is producing{" "}
-                    <span className="font-medium">{slot.outputToken}</span>.
+                    This wormery is producing{" "}
+                    <span className="font-medium">
+                      {capTokenDisplayName(slot.outputToken)}
+                    </span>
+                    .
                   </p>
                   {now >= job.completesAt ? (
                     <p className="text-xs text-green-800 font-medium">
-                      Ready to collect — tap the coin above this chicken.
+                      Ready to collect — tap the icon above this wormery.
                     </p>
                   ) : (
                     <p className="text-xs">
@@ -160,7 +170,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                   )}
                 </>
               ) : (
-                <p className="text-xs">No active production for this chicken.</p>
+                <p className="text-xs">No active production for this wormery.</p>
               )}
             </>
           )}
@@ -174,7 +184,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {collectLines.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span className="font-medium text-green-800">
-                          +{rule.amount} {token}
+                          +{rule.amount} {capTokenDisplayName(token)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}
@@ -208,6 +218,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
           )}
         </div>
       </CloseButtonPanel>
+      </div>
     </div>,
     document.body,
   );

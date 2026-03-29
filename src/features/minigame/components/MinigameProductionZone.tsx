@@ -214,7 +214,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                       className="w-full truncate text-left text-xs leading-tight whitespace-nowrap"
                       style={{ color: labelMuted }}
                     >
-                      {t("feed")}
+                      {t("start")}
                     </span> */}
                     <span
                       className="w-full truncate text-left text-sm font-medium leading-tight whitespace-nowrap"
@@ -253,7 +253,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                         openStartModal(slot);
                       }}
                     >
-                      {t("feed")}
+                      {t("start")}
                     </Button>
                   )}
 

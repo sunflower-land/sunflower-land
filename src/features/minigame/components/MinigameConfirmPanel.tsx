@@ -29,16 +29,24 @@ export const MinigameConfirmPanel: React.FC<Props> = ({
       data-html2canvas-ignore="true"
       className="fixed inset-safe-area z-[70] flex items-center justify-center"
       style={{ background: "rgb(0 0 0 / 56%)" }}
+      onClick={onClose}
+      role="presentation"
     >
-      <CloseButtonPanel className="w-[min(92vw,420px)]" onClose={onClose}>
-        <div className="p-1">
-          <h2 className="text-sm mb-2">{title}</h2>
-          {children}
-        </div>
-        <Button disabled={confirmDisabled} onClick={onConfirm}>
-          {confirmLabel}
-        </Button>
-      </CloseButtonPanel>
+      <div
+        className="max-h-full max-w-full"
+        onClick={(e) => e.stopPropagation()}
+        role="presentation"
+      >
+        <CloseButtonPanel className="w-[min(92vw,420px)]" onClose={onClose}>
+          <div className="p-1">
+            <h2 className="text-sm mb-2">{title}</h2>
+            {children}
+          </div>
+          <Button disabled={confirmDisabled} onClick={onConfirm}>
+            {confirmLabel}
+          </Button>
+        </CloseButtonPanel>
+      </div>
     </div>,
     document.body,
   );

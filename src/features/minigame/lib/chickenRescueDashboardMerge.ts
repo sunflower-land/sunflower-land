@@ -15,49 +15,49 @@ export function getChickenRescueDashboardUi(): MinigameDashboardUi {
   const inventoryItems = [
     {
       token: "Cluckcoin",
-      name: "Cluckcoin",
+      name: "Golden Nuggets",
       description:
-        "Premium rescue currency. Spend it in the shop to unlock stronger chickens that earn coins faster.",
+        "Premium currency. Spend it in the shop to unlock better wormeries that produce more worms.",
     },
     {
       token: "Coin",
-      name: "Coins",
+      name: "Worms",
       description:
-        "Earned from feeding your chickens on timers. Used to start standard Chicken Rescue runs.",
+        "Produced on timers from your wormeries. Spend worms to start standard Chicken Rescue runs.",
     },
     {
       token: "FatChicken",
-      name: "Fat Chicken",
+      name: "Wormery",
       description:
-        "Your starter bird. Feed it on a timer to produce coins. Each fat chicken can run one coin job at a time.",
+        "Your starter wormery. Run a timer to produce worms. Each wormery can run one worm job at a time.",
     },
     {
       token: "LoveChicken",
-      name: "Love Chicken",
+      name: "Wormery",
       description:
-        "A mid-tier chicken bought with Cluckcoin. Runs its own timed coin payout lane.",
+        "First shop upgrade. Runs its own timed worm payout alongside your other wormeries.",
     },
     {
       token: "AlienChicken",
-      name: "Alien Chicken",
+      name: "Wormery",
       description:
-        "An exotic hen with a parallel coin drop—stack it with your other chickens for more throughput.",
+        "Second shop upgrade—another parallel worm lane to stack with your other wormeries.",
     },
     {
       token: "RoosterChicken",
-      name: "Rooster",
+      name: "Wormery",
       description:
-        "Top-tier production chicken. The most expensive Cluckcoin unlock, with the strongest idle coin lane.",
+        "Top shop wormery upgrade with the strongest idle worm lane.",
     },
     {
       token: "Chook",
-      name: "Chook",
+      name: "Chooks",
       description:
-        "A reward from winning runs. Collect enough to trade up into rarer items on advanced paths.",
+        "Earned from winning runs. Collect enough to trade up into rarer items on advanced paths.",
     },
     {
       token: "Nugget",
-      name: "Nugget",
+      name: "Chicken Feet",
       description:
         "Crafted from chooks. Gates the advanced minigame—spend wisely before you commit to a run.",
     },
@@ -65,7 +65,7 @@ export function getChickenRescueDashboardUi(): MinigameDashboardUi {
       token: "GoldenChook",
       name: "Golden Chook",
       description:
-        "A rare jackpot drop. Can be exchanged for Cluckcoin when you want to reinvest in the shop.",
+        "A rare jackpot drop. Can be traded for Golden Nuggets when you want to reinvest in the shop.",
     },
   ];
 
@@ -73,45 +73,45 @@ export function getChickenRescueDashboardUi(): MinigameDashboardUi {
     {
       id: "love",
       actionId: "BUY_LOVE_CHICKEN",
-      name: "Love Chicken",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      name: "Wormery",
+      description: "Unlock an extra wormery that produces worms on a timer.",
       listImage: tokenImages.LoveChicken,
-      price: { token: "Cluckcoin", amount: 5 },
+      price: { token: "Cluckcoin", amount: 15 },
       ownedBalanceToken: "LoveChicken",
     },
     {
       id: "alien",
       actionId: "BUY_ALIEN_CHICKEN",
-      name: "Alien Chicken",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      name: "Wormery",
+      description: "Unlock another wormery for parallel worm production.",
       listImage: tokenImages.AlienChicken,
-      price: { token: "Cluckcoin", amount: 15 },
+      price: { token: "Cluckcoin", amount: 100 },
       ownedBalanceToken: "AlienChicken",
     },
     {
       id: "rooster",
       actionId: "BUY_ROOSTER_CHICKEN",
-      name: "Rooster Chicken",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      name: "Wormery",
+      description: "Unlock the top-tier wormery for maximum worm throughput.",
       listImage: tokenImages.RoosterChicken,
-      price: { token: "Cluckcoin", amount: 50 },
+      price: { token: "Cluckcoin", amount: 500 },
       ownedBalanceToken: "RoosterChicken",
     },
     {
       id: "nugget",
       actionId: "BUY_NUGGET",
-      name: "Nugget",
+      name: "Chicken Feet",
       description:
-        "Craft a Nugget from Chooks. Spend Nuggets to enter advanced Chicken Rescue runs for Golden Chook drops.",
+        "Craft Chicken Feet from Chooks. Spend them to enter advanced Chicken Rescue runs for Golden Chook drops.",
       listImage: tokenImages.Nugget,
       price: { token: "Chook", amount: 50 },
     },
     {
       id: "cluckcoin",
       actionId: "BUY_CLUCKCOIN",
-      name: "Cluckcoin",
+      name: "Golden Nuggets",
       description:
-        "Trade a Golden Chook for Cluckcoin. Reinvest in stronger chickens and faster coin lanes.",
+        "Trade a Golden Chook for Golden Nuggets. Reinvest in stronger wormeries and faster worm lanes.",
       listImage: tokenImages.Cluckcoin,
       price: { token: "GoldenChook", amount: 1 },
     },

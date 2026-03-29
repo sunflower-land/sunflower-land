@@ -1,4 +1,7 @@
-import cluckCoinIcon from "assets/icons/cluck_coin.webp";
+import wormery from "assets/buildings/wormery.webp";
+import goldenNugget from "assets/icons/golden_nugget.webp";
+import worm from "assets/icons/worm.png";
+import chickenFeet from "assets/icons/chicken_feet.webp";
 import chookIcon from "assets/icons/chook.webp";
 import goldenChook from "assets/sfts/golden_chook.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,18 +16,18 @@ export function getMinigameTokenImage(
 
   switch (token) {
     case "Cluckcoin":
-      return cluckCoinIcon;
+      return goldenNugget;
     case "Coin":
-      return SUNNYSIDE.ui.coinsImg;
-    case "Chook":
-      return chookIcon;
+      return worm;
     case "FatChicken":
     case "LoveChicken":
     case "AlienChicken":
     case "RoosterChicken":
-      return SUNNYSIDE.resource.chicken;
+      return wormery;
     case "Nugget":
-      return SUNNYSIDE.resource.sand;
+      return chickenFeet;
+    case "Chook":
+      return chookIcon;
     case "GoldenChook":
       return goldenChook;
     default:
