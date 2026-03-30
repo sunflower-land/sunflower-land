@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
 import { InventoryItemName } from "features/game/types/game";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
@@ -20,6 +19,7 @@ import { KNOWN_IDS } from "features/game/types";
 import cheer from "assets/icons/cheer.webp";
 import { CLUTTER, ClutterName } from "features/game/types/clutter";
 import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react/lib/useSelector";
 
 /**
  * The props for FLOWER requirement label. Use this when the item costs FLOWER.
@@ -220,11 +220,7 @@ type Props = (
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
 
   const getIcon = () => {

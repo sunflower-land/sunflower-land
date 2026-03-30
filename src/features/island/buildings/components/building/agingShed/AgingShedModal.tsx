@@ -50,8 +50,13 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ];
 
+  const closeUpgradeTab = () => {
+    setShowUpgradeTab(false);
+    onClose();
+  };
+
   return (
-    <Modal show={isOpen} onHide={onClose}>
+    <Modal show={isOpen} onHide={closeUpgradeTab}>
       <img
         src={SUNNYSIDE.icons.upgrade_disc}
         alt="Upgrade Building"
@@ -64,10 +69,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         onClick={() => setShowUpgradeTab(true)}
       />
       <CloseButtonPanel
-        onClose={() => {
-          onClose();
-          setShowUpgradeTab(false);
-        }}
+        onClose={closeUpgradeTab}
         tabs={showUpgradeTab ? undefined : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -81,7 +83,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
       >
         {showUpgradeTab ? (
           <UpgradeBuildingContent
-            onClose={onClose}
+            onClose={closeUpgradeTab}
             buildingName={"Aging Shed"}
             currentLevel={agingShedLevel}
             nextLevel={nextAgingShedLevel}
