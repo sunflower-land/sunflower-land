@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Стеллаж для ферментации",
   "agingShed.spiceRack": "Полка для специй",
   "vip.lifetime": "Пожизненный",
-  "vip.lifetime.noPurchase": "У тебя уже есть пожизненный VIP благодаря баннеру Lifetime Farmer."
+  "vip.lifetime.noPurchase": "У тебя уже есть пожизненный VIP благодаря баннеру Lifetime Farmer.",
+  "aprilFools.portal.title": "Точно не портал на 1 апреля",
+  "aprilFools.portal.description": "Заходи и отлично проведи время с очень дружелюбными мунсикерами!",
+  "aprilFools.portal.missionObjectives": "Набери нужное количество очков, чтобы получить токены для магазина события!",
+  "description.aprilFoolsToken2026": "Используй это в магазине первоапрельского события, пока оно не закончилось!",
+  "description.aprilFoolsTicket2026": "Держи это, чтобы получить шанс выиграть $FLOWER после окончания первоапрельского события!",
+  "description.teethToy": "Питомец в восторге. Фермеру явно некомфортно.",
+  "description.fakeTreasure": "Древнее искусство разочарования в форме сокровища.",
+  "description.fakeMouse": "Двигается, когда ты не смотришь. Наверное, совпадение.",
+  "description.petTree": "Величественная башня для лазания питомца. Теперь твоя мебель наконец в безопасности. Наверное.",
+  "description.definitelyNotAFlower": "Это не цветок. Хватит спрашивать.",
+  "eventAprilFools.noticeboard.one": "Добро пожаловать на событие от сообщества Sunflower Land на 1 апреля 2026!"
 }
