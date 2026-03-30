@@ -3,7 +3,8 @@ import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
 import { BuildingProduct, Inventory } from "./game";
-import { FishName } from "./fishing";
+import { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
+import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
@@ -142,6 +143,8 @@ export type ConsumableName =
   | CookableName
   | "Pirate Cake"
   | FishName
+  | AgedFishName
+  | PrimeAgedFishName
   | FactionShopFoodName
   | TradeFood
   | InstantProcessedRecipeName;
@@ -1396,10 +1399,37 @@ export const TRADE_FOOD: Record<TradeFood, Consumable> = {
   },
 };
 
+export const AGED_FISH: Record<AgedFishName, Consumable> = Object.fromEntries(
+  Object.entries(FISH).map(([name, fish]) => [
+    `Aged ${name}` as AgedFishName,
+    {
+      name: `Aged ${name}` as AgedFishName,
+      description: `Aged ${name}`,
+      experience: getAgingMaxXP(fish.experience),
+    },
+  ]),
+) as Record<AgedFishName, Consumable>;
+
+export const PRIME_AGED_FISH: Record<PrimeAgedFishName, Consumable> =
+  Object.fromEntries(
+    Object.entries(FISH).map(([name, fish]) => [
+      `Prime Aged ${name}` as PrimeAgedFishName,
+      {
+        name: `Prime Aged ${name}` as PrimeAgedFishName,
+        description: `Prime Aged ${name}`,
+        experience: Math.floor(
+          getAgingMaxXP(fish.experience) * PRIME_AGED_XP_MULTIPLIER,
+        ),
+      },
+    ]),
+  ) as Record<PrimeAgedFishName, Consumable>;
+
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...PIRATE_CAKE,
   ...FISH,
+  ...AGED_FISH,
+  ...PRIME_AGED_FISH,
   ...FACTION_FOOD,
   ...TRADE_FOOD,
 };

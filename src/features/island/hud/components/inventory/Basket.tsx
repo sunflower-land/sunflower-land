@@ -24,6 +24,8 @@ import {
   CONSUMABLES,
   COOKABLES,
   PIRATE_CAKE,
+  PRIME_AGED_FISH,
+  AGED_FISH,
 } from "features/game/types/consumables";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
@@ -213,6 +215,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
+  const agedFish = [...getItems(AGED_FISH), ...getItems(PRIME_AGED_FISH)].sort(
+    (a, b) => a.localeCompare(b),
+  );
   const petResources = getItems(PET_RESOURCES);
 
   const allSeeds = [
@@ -351,6 +356,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Earthworm"].image,
           )}
           {itemsSection(t("fish"), fish, ITEM_DETAILS["Anchovy"].image)}
+          {itemsSection(
+            t("agedFish"),
+            agedFish,
+            ITEM_DETAILS["Aged Anchovy"].image,
+          )}
           {itemsSection(
             t("crustaceans"),
             crustaceans,
