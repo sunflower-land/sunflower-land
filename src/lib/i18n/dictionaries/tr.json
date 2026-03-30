@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Fermantasyon Rafı",
   "agingShed.spiceRack": "Baharat Rafı",
   "vip.lifetime": "Ömür boyu",
-  "vip.lifetime.noPurchase": "Lifetime Farmer Banner\"ınızdan ömür boyu VIP\"niz zaten var."
+  "vip.lifetime.noPurchase": "Lifetime Farmer Banner\"ınızdan ömür boyu VIP\"niz zaten var.",
+  "aprilFools.portal.title": "Kesinlikle bir April Fools Portalı değil",
+  "aprilFools.portal.description": "İçeri girin ve çok arkadaş canlısı Moon Seekers ile iyi vakit geçirin!",
+  "aprilFools.portal.missionObjectives": "Etkinlik mağazası için jeton kazanmak için hedef puanı alın!",
+  "description.aprilFoolsToken2026": "Etkinlik bitmeden bunu April Fools etkinlik mağazasında kullanın!",
+  "description.aprilFoolsTicket2026": "April Fools etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
+  "description.teethToy": "Evcil hayvanınız onu seviyor. Çiftçiniz çok rahatsız.",
+  "description.fakeTreasure": "Hazine biçiminde eski hayal kırıklığı sanatı.",
+  "description.fakeMouse": "Bakmadığınız zaman hareket eder. Muhtemelen tesadüf.",
+  "description.petTree": "Evcil hayvanınız için görkemli bir tırmanma kulesi. Mobilyalarınız nihayet güvende. Muhtemelen.",
+  "description.definitelyNotAFlower": "Çiçek değil. Sormayı bırak.",
+  "eventAprilFools.noticeboard.one": "April Fools 2026 Topluluk Etkinliğine Hoş Geldiniz!"
 }

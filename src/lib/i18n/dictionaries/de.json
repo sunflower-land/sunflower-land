@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Gärregal",
   "agingShed.spiceRack": "Gewürzregal",
   "vip.lifetime": "Lebenszeit",
-  "vip.lifetime.noPurchase": "Du hast bereits einen lebenslangen VIP von deinem Lifetime Farmer Banner."
+  "vip.lifetime.noPurchase": "Du hast bereits einen lebenslangen VIP von deinem Lifetime Farmer Banner.",
+  "aprilFools.portal.title": "Definitiv kein Aprilscherzportal",
+  "aprilFools.portal.description": "Geht rein und habt eine schöne Zeit mit den sehr freundlichen Moonseekers!",
+  "aprilFools.portal.missionObjectives": "Erreiche die Zielpunktzahl, um Marken für den Eventshop zu verdienen!",
+  "description.aprilFoolsToken2026": "Benutzt es im Aprilscherz-Eventshop, bevor das Event endet!",
+  "description.aprilFoolsTicket2026": "Holt das, um nach dem Ende des Aprilscherz-Events $FLOWER zu gewinnen!",
+  "description.teethToy": "Ihr Haustier liebt es. Ihr Landwirt fühlt sich zutiefst unwohl.",
+  "description.fakeTreasure": "Die alte Kunst der Enttäuschung in Schatzform.",
+  "description.fakeMouse": "Bewegt sich, wenn Sie nicht hinschauen. Wahrscheinlich Zufall.",
+  "description.petTree": "Ein majestätischer Kletterturm für Ihr Haustier. Ihre Möbel sind endlich sicher. Wahrscheinlich.",
+  "description.definitelyNotAFlower": "Keine Blume. Hör auf zu fragen.",
+  "eventAprilFools.noticeboard.one": "Willkommen zum April Fools 2026 Community Event!"
 }

@@ -498,11 +498,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Paw Prints Banner": 766,
   "Pet Cookie": 767,
   "Moon Crystal": 768,
+  "Halloween Token 2025": 769,
+  "Holiday Token 2025": 770,
   "Crabs and Traps Banner": 771,
   Floater: 772,
   "Ammonite Shell": 773,
-  "Halloween Token 2025": 769,
-  "Holiday Token 2025": 770,
+  "April Fools Token 2026": 774,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1149,6 +1150,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Penguin Surprise": 2345,
   "Frozen Meat": 2346,
   "Ho Ho oh oh…": 2347,
+
+  //April Fools Event Items
+  "Teeth Toy": 2348,
+  "Fake Treasure": 2349,
+  "Fake Mouse": 2350,
+  "Pet Tree": 2351,
+  "Definitely not a Flower": 2352,
+  "April Fools Ticket 2026": 2353,
 
   // Monument Items
   "Big Orange": 2281,

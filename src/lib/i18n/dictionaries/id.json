@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Rak Fermentasi",
   "agingShed.spiceRack": "Rak Rempah-rempah",
   "vip.lifetime": "Seumur hidup",
-  "vip.lifetime.noPurchase": "Anda sudah memiliki VIP seumur hidup dari Spanduk Petani Seumur Hidup Anda."
+  "vip.lifetime.noPurchase": "Anda sudah memiliki VIP seumur hidup dari Spanduk Petani Seumur Hidup Anda.",
+  "aprilFools.portal.title": "Jelas bukan Portal April Fools",
+  "aprilFools.portal.description": "Masuk dan bersenang-senanglah bersama Moonseeker yang sangat ramah!",
+  "aprilFools.portal.missionObjectives": "Dapatkan skor target untuk mendapatkan token untuk toko acara!",
+  "description.aprilFoolsToken2026": "Gunakan ini di toko acara April Fools sebelum acara berakhir!",
+  "description.aprilFoolsTicket2026": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara April Fools berakhir!",
+  "description.teethToy": "Hewan peliharaan Anda menyukainya. Petani Anda sangat tidak nyaman.",
+  "description.fakeTreasure": "Seni kuno kekecewaan dalam bentuk harta karun.",
+  "description.fakeMouse": "Bergerak saat Anda tidak melihat. Mungkin kebetulan.",
+  "description.petTree": "Menara panjat yang megah untuk hewan peliharaan Anda. Perabotan Anda akhirnya aman. Mungkin.",
+  "description.definitelyNotAFlower": "Bukan bunga. Berhenti bertanya.",
+  "eventAprilFools.noticeboard.one": "Selamat datang di Acara Komunitas April Fools 2026!"
 }

@@ -117,7 +117,8 @@ export type NPCName =
   | "rocket man"
   | "new year pete"
   | "bailey" // weatherman
-  | "neville"; // fish market
+  | "neville" // fish market
+  | "pirate skeleton"; //april fools event portal npc
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   streamer: {
@@ -1312,6 +1313,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Skinning Knife",
     background: "Pumpkin Plaza Background",
     shoes: "Cowboy Boots",
+  },
+  "pirate skeleton": {
+    body: "Moonseeker Potion",
+    hair: "Buzz Cut",
+    pants: "Pirate Pants",
+    hat: "Pirate Hat",
+    shirt: "Striped Blue Shirt",
+    coat: "Pirate General Coat",
+    tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };
 

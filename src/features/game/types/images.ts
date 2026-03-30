@@ -950,6 +950,14 @@ import hoHoOhOh from "assets/sfts/ho_ho_oh_oh.webp";
 import giftTurtle from "assets/sfts/gift_turtle.webp";
 import redNoseReindeer from "assets/sfts/red_nose_reindeer.webp";
 
+import aprilFoolsToken2026 from "assets/icons/april_fools_token_2026.webp";
+import aprilFoolsTicket2026 from "assets/icons/april_fools_ticket_2026.webp";
+import petTree from "assets/sfts/pet_tree.webp";
+import fakeMouse from "assets/sfts/fake_mouse.webp";
+import fakeTreasure from "assets/sfts/fake_treasure.webp";
+import definitelyNotAFlower from "assets/sfts/definitely_not_a_flower.webp";
+import teethToy from "assets/sfts/teeth_toy.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -7342,5 +7350,33 @@ export const ITEM_DETAILS: Items = {
   "Diving Helmet": {
     image: divingHelmet,
     description: translate("description.divingHelmet"),
+  },
+  "April Fools Token 2026": {
+    image: aprilFoolsToken2026,
+    description: translate("description.aprilFoolsToken2026"),
+  },
+  "April Fools Ticket 2026": {
+    image: aprilFoolsTicket2026,
+    description: translate("description.aprilFoolsTicket2026"),
+  },
+  "Teeth Toy": {
+    image: teethToy,
+    description: translate("description.teethToy"),
+  },
+  "Fake Treasure": {
+    image: fakeTreasure,
+    description: translate("description.fakeTreasure"),
+  },
+  "Fake Mouse": {
+    image: fakeMouse,
+    description: translate("description.fakeMouse"),
+  },
+  "Pet Tree": {
+    image: petTree,
+    description: translate("description.petTree"),
+  },
+  "Definitely not a Flower": {
+    image: definitelyNotAFlower,
+    description: translate("description.definitelyNotAFlower"),
   },
 };

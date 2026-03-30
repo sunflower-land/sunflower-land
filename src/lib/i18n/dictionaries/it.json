@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Rack di fermentazione",
   "agingShed.spiceRack": "Portaspezie",
   "vip.lifetime": "A vita",
-  "vip.lifetime.noPurchase": "Hai già ottenuto un premio VIP a vita dal tuo Lifetime Farmer Banner."
+  "vip.lifetime.noPurchase": "Hai già ottenuto un premio VIP a vita dal tuo Lifetime Farmer Banner.",
+  "aprilFools.portal.title": "Sicuramente non è un portale April Fools",
+  "aprilFools.portal.description": "Entra e divertiti con i simpaticissimi Moonseekers!",
+  "aprilFools.portal.missionObjectives": "Ottieni il punteggio obiettivo per guadagnare gettoni per il negozio dell'evento!",
+  "description.aprilFoolsToken2026": "Usalo nel negozio degli eventi April Fools prima che l'evento finisca!",
+  "description.aprilFoolsTicket2026": "Tienilo in mano per avere la possibilità di vincere $FLOWER dopo la fine dell'evento April Fools!",
+  "description.teethToy": "Il tuo animale domestico lo adora. Il tuo agricoltore è profondamente a disagio.",
+  "description.fakeTreasure": "L'antica arte della delusione in forma di tesoro.",
+  "description.fakeMouse": "Si muove quando non guardi. Probabilmente una coincidenza.",
+  "description.petTree": "Una maestosa torre da arrampicata per il tuo animale domestico. I tuoi mobili sono finalmente al sicuro. Probabilmente.",
+  "description.definitelyNotAFlower": "Non un fiore. Smettila di chiedere.",
+  "eventAprilFools.noticeboard.one": "Benvenuto all'evento della community di April Fools 2026!"
 }

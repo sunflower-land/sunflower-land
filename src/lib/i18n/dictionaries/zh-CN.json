@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "发酵架",
   "agingShed.spiceRack": "香料架",
   "vip.lifetime": "终身",
-  "vip.lifetime.noPurchase": "你已经从你的终身农民旗帜中获得终身VIP。"
+  "vip.lifetime.noPurchase": "你已经从你的终身农民旗帜中获得终身VIP。",
+  "aprilFools.portal.title": "绝对不是愚人节传送门",
+  "aprilFools.portal.description": "进去和非常友好的寻月者共度美好时光！",
+  "aprilFools.portal.missionObjectives": "获得目标分数即可为活动商店赚取代币！",
+  "description.aprilFoolsToken2026": "活动结束前，在愚人节活动商店中使用此商品！",
+  "description.aprilFoolsTicket2026": "在愚人节活动结束后，持有此机会赢取 $FLOWER！",
+  "description.teethToy": "你的宠物喜欢它。你的农民非常不舒服。",
+  "description.fakeTreasure": "古老的失望艺术，以宝藏的形式出现。",
+  "description.fakeMouse": "当你不看的时候会移动。可能是巧合。",
+  "description.petTree": "一座雄伟的攀岩塔，专为您的宠物而设。你的家具终于安全了。可能吧。",
+  "description.definitelyNotAFlower": "不是一朵花。别问了。",
+  "eventAprilFools.noticeboard.one": "欢迎来到 2026 年愚人节社区活动！"
 }

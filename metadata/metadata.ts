@@ -15231,6 +15231,86 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "April Fools Token 2026": {
+    description:
+      "Use this in the April Fools event shop before the event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/774.webp",
+    name: "April Fools Token 2026",
+  },
+  "April Fools Ticket 2026": {
+    description:
+      "Hold this for a chance to win $FLOWER after the April Fools event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2353.webp",
+    name: "April Fools Ticket 2026",
+  },
+  "Teeth Toy": {
+    description: "Your pet loves it. Your farmer is deeply uncomfortable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2348.webp",
+    name: "Teeth Toy",
+  },
+  "Fake Treasure": {
+    description: "The ancient art of disappointment in treasure form.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2349.webp",
+    name: "Fake Treasure",
+  },
+  "Fake Mouse": {
+    description: "Moves when you are not looking. Probably coincidence.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2350.webp",
+    name: "Fake Mouse",
+  },
+  "Pet Tree": {
+    description:
+      "A majestic climbing tower for your pet. Your furniture is finally safe. Probably.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2351.webp",
+    name: "Pet Tree",
+  },
+  "Definitely not a Flower": {
+    description: "Not a flower. Stop asking.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2352.webp",
+    name: "Definitely not a Flower",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -21995,5 +22075,130 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/516.png",
     name: "Diamond Snow Aura",
+  },
+  "Neon Noiz Jacket": {
+    description:
+      "Wearing it may cause nearby pixels to start vibing aggressively.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/527.png",
+    name: "Neon Noiz Jacket",
+  },
+  "404 Chic Top": {
+    description:
+      "The server couldn't locate this shirt, but fashion always finds a way.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/528.png",
+    name: "404 Chic Top",
+  },
+  "Neon Noiz Pants": {
+    description: "Warning: May attract moths and questionable dance moves.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/529.png",
+    name: "Neon Noiz Pants",
+  },
+  "404 Chic Skirt": {
+    description: "Stylish enough to crash the village rendering engine.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/530.png",
+    name: "404 Chic Skirt",
+  },
+  "Admin Fools Tools": {
+    description:
+      "Absolutely useless in your hands. Devs insist it's 'for decoration'.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/531.png",
+    name: "Admin Fools Tools",
+  },
+  "Neon Noiz Shoes": {
+    description: "Powered by vibes and unstable pixels.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/532.png",
+    name: "Neon Noiz Shoes",
+  },
+  "404 Chic Boots": {
+    description:
+      "Error 404: Walking animation not found. Somehow still fashionable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/533.png",
+    name: "404 Chic Boots",
+  },
+  "Aether Specs": {
+    description: "See beyond the veil… or at least look like you can.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/534.png",
+    name: "Aether Specs",
+  },
+  "Faulty Barrier Background": {
+    description: "Protects you from absolutely nothing.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/535.png",
+    name: "Faulty Barrier Background",
+  },
+  "Cardboard Wings": {
+    description: "Flight sold separately.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/536.png",
+    name: "Cardboard Wings",
+  },
+  "Glitch Aura": {
+    description: "Not a bug. Definitely a feature.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/537.png",
+    name: "Glitch Aura",
   },
 };

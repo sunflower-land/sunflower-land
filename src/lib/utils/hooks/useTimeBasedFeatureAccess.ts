@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 import {
   TimeBasedFeatureName,
-  TIME_BASED_FEATURE_FLAGS_DATES,
+  TIME_BASED_FEATURE_FLAG_WINDOWS,
   hasTimeBasedFeatureAccess,
 } from "lib/flags";
 import { useNow } from "./useNow";
@@ -13,11 +13,12 @@ export function useTimeBasedFeatureAccess({
   featureName: TimeBasedFeatureName;
   game: GameState;
 }) {
+  const window = TIME_BASED_FEATURE_FLAG_WINDOWS[featureName];
   const now = useNow({
     live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAGS_DATES[featureName].getTime(),
+    autoEndAt: window.end?.getTime() ?? window.start.getTime(),
     intervalMs: 60 * 1000,
   });
 
-  return hasTimeBasedFeatureAccess({ featureName, startTime: now, game });
+  return hasTimeBasedFeatureAccess({ featureName, now, game });
 }

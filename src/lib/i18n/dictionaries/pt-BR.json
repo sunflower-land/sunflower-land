@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Rack de fermentação",
   "agingShed.spiceRack": "Prateleira de especiarias",
   "vip.lifetime": "Tempo de vida",
-  "vip.lifetime.noPurchase": "Você já tem VIP vitalício em seu Lifetime Farmer Banner."
+  "vip.lifetime.noPurchase": "Você já tem VIP vitalício em seu Lifetime Farmer Banner.",
+  "aprilFools.portal.title": "Definitivamente não é um portal do Dia da Mentira",
+  "aprilFools.portal.description": "Entre e divirta-se com os simpáticos Moonseekers!",
+  "aprilFools.portal.missionObjectives": "Obtenha a pontuação alvo para ganhar fichas para a loja de eventos!",
+  "description.aprilFoolsToken2026": "Use isso na loja de eventos do Dia da Mentira antes que o evento termine!",
+  "description.aprilFoolsTicket2026": "Guarde isso para ter a chance de ganhar $FLOWER após o término do evento April Fools!",
+  "description.teethToy": "Seu animal de estimação adora. Seu fazendeiro está profundamente desconfortável.",
+  "description.fakeTreasure": "A antiga arte da decepção em forma de tesouro.",
+  "description.fakeMouse": "Se move quando você não está olhando. Provavelmente coincidência.",
+  "description.petTree": "Uma majestosa torre de escalada para seu animal de estimação. Sua mobília está finalmente segura. Provavelmente.",
+  "description.definitelyNotAFlower": "Não é uma flor. Pare de perguntar.",
+  "eventAprilFools.noticeboard.one": "Bem-vindo ao evento comunitário do Dia da Mentira de 2026!"
 }
