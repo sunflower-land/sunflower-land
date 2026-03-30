@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Se move quando você não está olhando. Provavelmente coincidência.",
   "description.petTree": "Uma majestosa torre de escalada para seu animal de estimação. Sua mobília está finalmente segura. Provavelmente.",
   "description.definitelyNotAFlower": "Não é uma flor. Pare de perguntar.",
-  "eventAprilFools.noticeboard.one": "Bem-vindo ao evento comunitário do Dia da Mentira de 2026!"
+  "eventAprilFools.noticeboard.one": "Bem-vindo ao evento comunitário do Dia da Mentira de 2026!",
+  "upgrade.intro.agingShed": "Olá, Bumpkin! Quer atualizar seu {{building}} para aumentar suas vagas em suas prateleiras de envelhecimento, fermentação e especiarias?",
+  "upgrade.agingShedCapacity": "+1 vaga em prateleiras de envelhecimento, fermentação e especiarias",
+  "upgrade.agingShedCapacity.level5&6": "+1 vaga em prateleiras de envelhecimento e fermentação"
 }

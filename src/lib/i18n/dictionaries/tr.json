@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Bakmadığınız zaman hareket eder. Muhtemelen tesadüf.",
   "description.petTree": "Evcil hayvanınız için görkemli bir tırmanma kulesi. Mobilyalarınız nihayet güvende. Muhtemelen.",
   "description.definitelyNotAFlower": "Çiçek değil. Sormayı bırak.",
-  "eventAprilFools.noticeboard.one": "April Fools 2026 Topluluk Etkinliğine Hoş Geldiniz!"
+  "eventAprilFools.noticeboard.one": "April Fools 2026 Topluluk Etkinliğine Hoş Geldiniz!",
+  "upgrade.intro.agingShed": "Selamlar Bumpkin! Yaşlanma, fermantasyon ve baharat raflarınızdaki yuvalarınızı artırmak için {{building}} 'nizi yükseltmek mi istiyorsunuz?",
+  "upgrade.agingShedCapacity": "Yaşlandırma, fermantasyon ve baharat raflarında +1 yuva",
+  "upgrade.agingShedCapacity.level5&6": "Yaşlanma ve fermantasyon raflarında +1 yuva"
 }

@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Двигается, когда ты не смотришь. Наверное, совпадение.",
   "description.petTree": "Величественная башня для лазания питомца. Теперь твоя мебель наконец в безопасности. Наверное.",
   "description.definitelyNotAFlower": "Это не цветок. Хватит спрашивать.",
-  "eventAprilFools.noticeboard.one": "Добро пожаловать на событие от сообщества Sunflower Land на 1 апреля 2026!"
+  "eventAprilFools.noticeboard.one": "Добро пожаловать на событие от сообщества Sunflower Land на 1 апреля 2026!",
+  "upgrade.intro.agingShed": "Hey there Bumpkin! Looking to upgrade your {{building}} to increase your slots in your aging, fermentation and spice racks?",
+  "upgrade.agingShedCapacity": "+1 slot in aging, fermentation and spice racks",
+  "upgrade.agingShedCapacity.level5&6": "+1 slot in aging and fermentation racks"
 }

@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Si muove quando non guardi. Probabilmente una coincidenza.",
   "description.petTree": "Una maestosa torre da arrampicata per il tuo animale domestico. I tuoi mobili sono finalmente al sicuro. Probabilmente.",
   "description.definitelyNotAFlower": "Non un fiore. Smettila di chiedere.",
-  "eventAprilFools.noticeboard.one": "Benvenuto all'evento della community di April Fools 2026!"
+  "eventAprilFools.noticeboard.one": "Benvenuto all'evento della community di April Fools 2026!",
+  "upgrade.intro.agingShed": "Ehi, Bumpkin! Volete potenziare il vostro {{building}} per aumentare gli spazi negli scaffali per l'invecchiamento, la fermentazione e le spezie?",
+  "upgrade.agingShedCapacity": "+1 posto nelle rastrelliere per invecchiamento, fermentazione e spezie",
+  "upgrade.agingShedCapacity.level5&6": "+1 posto nei rack di affinamento e fermentazione"
 }

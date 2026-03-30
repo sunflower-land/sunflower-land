@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Bergerak saat Anda tidak melihat. Mungkin kebetulan.",
   "description.petTree": "Menara panjat yang megah untuk hewan peliharaan Anda. Perabotan Anda akhirnya aman. Mungkin.",
   "description.definitelyNotAFlower": "Bukan bunga. Berhenti bertanya.",
-  "eventAprilFools.noticeboard.one": "Selamat datang di Acara Komunitas April Fools 2026!"
+  "eventAprilFools.noticeboard.one": "Selamat datang di Acara Komunitas April Fools 2026!",
+  "upgrade.intro.agingShed": "Hei, Bumpkin! Ingin meningkatkan {{building}} Anda untuk meningkatkan slot Anda di rak penuaan, fermentasi, dan rempah-rempah Anda?",
+  "upgrade.agingShedCapacity": "+1 slot di rak penuaan, fermentasi, dan rempah-rempah",
+  "upgrade.agingShedCapacity.level5&6": "+1 slot di rak penuaan dan fermentasi"
 }

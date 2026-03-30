@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "当你不看的时候会移动。可能是巧合。",
   "description.petTree": "一座雄伟的攀岩塔，专为您的宠物而设。你的家具终于安全了。可能吧。",
   "description.definitelyNotAFlower": "不是一朵花。别问了。",
-  "eventAprilFools.noticeboard.one": "欢迎来到 2026 年愚人节社区活动！"
+  "eventAprilFools.noticeboard.one": "欢迎来到 2026 年愚人节社区活动！",
+  "upgrade.intro.agingShed": "嘿 Bumpkin！想升级你的 {{building}} 以增加陈化、发酵和香料架中的空位吗？",
+  "upgrade.agingShedCapacity": "陈化、发酵和香料架上有 +1 个插槽",
+  "upgrade.agingShedCapacity.level5&6": "陈年和发酵架上有 +1 个插槽"
 }

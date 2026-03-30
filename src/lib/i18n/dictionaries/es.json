@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Se mueve cuando no estás mirando. Probablemente sea una coincidencia.",
   "description.petTree": "Una majestuosa torre de escalada para tu mascota. Tus muebles están finalmente a salvo. Probablemente.",
   "description.definitelyNotAFlower": "No es una flor. Deja de preguntar.",
-  "eventAprilFools.noticeboard.one": "¡Bienvenido al evento comunitario de los inocentes de 2026!"
+  "eventAprilFools.noticeboard.one": "¡Bienvenido al evento comunitario de los inocentes de 2026!",
+  "upgrade.intro.agingShed": "¡Hola, Bumpkin! ¿Quieres mejorar tu {{building}} para aumentar tus espacios en las estanterías de envejecimiento, fermentación y especias?",
+  "upgrade.agingShedCapacity": "+1 ranura en estanterías de envejecimiento, fermentación y especias",
+  "upgrade.agingShedCapacity.level5&6": "+1 ranura en estanterías de envejecimiento y fermentación"
 }

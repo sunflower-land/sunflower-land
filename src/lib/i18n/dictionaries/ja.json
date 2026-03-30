@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "見ていないときは動きます。たぶん偶然。",
   "description.petTree": "ペット用の雄大なクライミングタワー。家具がやっと安全になりました。たぶんね",
   "description.definitelyNotAFlower": "花ではありません。聞くのはやめなさい。",
-  "eventAprilFools.noticeboard.one": "エイプリルフール2026コミュニティイベントへようこそ！"
+  "eventAprilFools.noticeboard.one": "エイプリルフール2026コミュニティイベントへようこそ！",
+  "upgrade.intro.agingShed": "やあ、バンプキン！{{building}} をアップグレードして、熟成、発酵、スパイスラックのスロットを増やしたいとお考えですか？",
+  "upgrade.agingShedCapacity": "熟成、発酵、スパイスラックに+1スロット",
+  "upgrade.agingShedCapacity.level5&6": "熟成ラックおよび発酵ラックの+1スロット"
 }

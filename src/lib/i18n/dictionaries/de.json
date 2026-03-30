@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Bewegt sich, wenn Sie nicht hinschauen. Wahrscheinlich Zufall.",
   "description.petTree": "Ein majestätischer Kletterturm für Ihr Haustier. Ihre Möbel sind endlich sicher. Wahrscheinlich.",
   "description.definitelyNotAFlower": "Keine Blume. Hör auf zu fragen.",
-  "eventAprilFools.noticeboard.one": "Willkommen zum April Fools 2026 Community Event!"
+  "eventAprilFools.noticeboard.one": "Willkommen zum April Fools 2026 Community Event!",
+  "upgrade.intro.agingShed": "Hallo Bumpkin! Möchtest du dein {{building}} aufrüsten, um mehr Platz in deinen Reif-, Fermentations- und Gewürzregalen zu haben?",
+  "upgrade.agingShedCapacity": "+1 Steckplatz für Reifung, Gärung und Gewürzregale",
+  "upgrade.agingShedCapacity.level5&6": "+1 Platz in Reifegestellen und Gärregalen"
 }

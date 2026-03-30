@@ -8350,5 +8350,8 @@
   "description.fakeMouse": "Se déplace lorsque vous ne regardez pas. Probablement une coïncidence.",
   "description.petTree": "Une majestueuse tour d'escalade pour votre animal de compagnie. Vos meubles sont enfin en sécurité. Probablement.",
   "description.definitelyNotAFlower": "Ce n'est pas une fleur. Arrête de demander.",
-  "eventAprilFools.noticeboard.one": "Bienvenue à l'événement communautaire April Fools 2026 !"
+  "eventAprilFools.noticeboard.one": "Bienvenue à l'événement communautaire April Fools 2026 !",
+  "upgrade.intro.agingShed": "Salut Bumpkin ! Vous souhaitez améliorer votre {{building}} pour augmenter le nombre de places disponibles dans vos casiers à épices, à fermentation et à vieillissement ?",
+  "upgrade.agingShedCapacity": "+1 emplacement pour les casiers de vieillissement, de fermentation et d'épices",
+  "upgrade.agingShedCapacity.level5&6": "+1 emplacement dans les casiers de vieillissement et de fermentation"
 }
