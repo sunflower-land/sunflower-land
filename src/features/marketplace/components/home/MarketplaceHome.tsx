@@ -23,6 +23,7 @@ import { Button } from "components/ui/Button";
 import {
   getAccountTradedRestrictionSecondsLeft,
   isAccountTradedWithin90Days,
+  MachineState,
   selectGameState,
 } from "features/game/lib/gameMachine";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -39,6 +40,9 @@ import { Filters } from "./Filters";
 import { CHAPTERS } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 
+import { hasFeatureAccess } from "lib/flags";
+
+const _gameState = (state: MachineState) => state.context.state;
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
@@ -73,14 +77,18 @@ export const MarketplaceNavigation: React.FC = () => {
     return () => window.clearTimeout(id);
   }, [hideLimited, crabChapterStartMs]);
 
-  useEffect(() => {
-    const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL) preloadCollections(token, !hideLimited);
-  }, [hideLimited, authState.context.user.rawToken]);
-
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
+  const gameState = useSelector(gameService, _gameState);
+  const showTokenMinigames = hasFeatureAccess(gameState, "TOKEN_MINIGAMES");
+
+  useEffect(() => {
+    const token = authState.context.user.rawToken as string;
+    if (CONFIG.API_URL)
+      preloadCollections(token, !hideLimited, showTokenMinigames);
+  }, [hideLimited, authState.context.user.rawToken, showTokenMinigames]);
+
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
@@ -115,6 +123,7 @@ export const MarketplaceNavigation: React.FC = () => {
             onClose={() => setShowFilters(false)}
             farmId={farmId}
             hideLimited={hideLimited}
+            showTokenMinigames={showTokenMinigames}
           />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
@@ -168,7 +177,11 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters farmId={farmId} hideLimited={hideLimited} />
+              <Filters
+                farmId={farmId}
+                hideLimited={hideLimited}
+                showTokenMinigames={showTokenMinigames}
+              />
             </div>
           </InnerPanel>
 

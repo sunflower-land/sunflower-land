@@ -33,6 +33,8 @@ import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { Button } from "components/ui/Button";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -55,6 +57,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const farmId = useSelector(gameService, _farmId);
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
+  const trades = useSelector(gameService, _trades);
+  const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -72,7 +76,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     mutate: reload,
   } = useSWR(
     collection === "minigames"
-      ? minigameSlug
+      ? minigameSlug && tokenMinigamesAllowed
         ? [collection, id, authState.context.user.rawToken as string, minigameSlug]
         : null
       : [collection, id, authState.context.user.rawToken as string],
@@ -91,6 +95,19 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     },
   );
 
+  if (collection === "minigames" && !tokenMinigamesAllowed) {
+    const isWorldRoute = location.pathname.includes("/world");
+    const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
+    return (
+      <InnerPanel className="m-2 p-4 flex flex-col gap-2">
+        <p className="text-sm">
+          Token minigames are not available for your farm yet.
+        </p>
+        <Button onClick={() => navigate(base)}>Back to marketplace</Button>
+      </InnerPanel>
+    );
+  }
+
   const display = getTradeableDisplay({
     id: Number(id),
     type: collection as CollectionName,
@@ -108,7 +125,6 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const count = tradeable?.balance ?? 0;
 
-  const trades = useSelector(gameService, _trades);
   const currentWeek = getWeekKey({ date: new Date() });
   // Weekly sales count
   const weeklySalesCount =

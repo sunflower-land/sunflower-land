@@ -47,6 +47,8 @@ import {
   getShopPurchaseProductionPreview,
 } from "./lib/extractProductionSlots";
 import { cloneMinigameRuntimeState } from "./lib/processMinigameAction";
+import { hasFeatureAccess } from "lib/flags";
+import { isTokenMinigameDashboardSlug } from "./lib/tokenMinigameDashboardSlugs";
 
 export const MinigameDashboard: React.FC = () => {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -59,6 +61,9 @@ export const MinigameDashboard: React.FC = () => {
   const [authState] = useActor(authService);
   const farmId = gameState.context.farmId;
   const userToken = authState.context.user.rawToken as string | undefined;
+  const tokenMinigamesBlocked =
+    isTokenMinigameDashboardSlug(slug) &&
+    !hasFeatureAccess(gameState.context.state, "TOKEN_MINIGAMES");
 
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -235,6 +240,13 @@ export const MinigameDashboard: React.FC = () => {
   );
 
   useEffect(() => {
+    if (tokenMinigamesBlocked) {
+      setLoading(false);
+      setLoadError(null);
+      setPayload(null);
+      applyRuntime(null);
+      return;
+    }
     let cancelled = false;
     (async () => {
       setLoading(true);
@@ -261,7 +273,14 @@ export const MinigameDashboard: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [slug, userToken, farmId, applyRuntime, dashboardReloadKey]);
+  }, [
+    slug,
+    userToken,
+    farmId,
+    applyRuntime,
+    dashboardReloadKey,
+    tokenMinigamesBlocked,
+  ]);
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -429,6 +448,29 @@ export const MinigameDashboard: React.FC = () => {
       : new Decimal(0);
 
   const isChickenRescue = slug === "chicken-rescue-v2";
+
+  if (tokenMinigamesBlocked) {
+    return (
+      <div
+        className={classNames(
+          "relative min-h-screen flex flex-col items-center justify-center gap-2 p-4",
+          !isChickenRescue && "bg-[#63c74d]",
+        )}
+        style={{
+          paddingTop: safeTop,
+          ...(isChickenRescue ? { backgroundColor: "#8fbc8f" } : {}),
+        }}
+      >
+        {isChickenRescue && <ChickenRescueBookmatchedBackdrop />}
+        <div className="relative z-10 flex flex-col items-center justify-center gap-2">
+          <p className="text-sm text-center text-white px-2">
+            Token minigames are not available for your farm yet.
+          </p>
+          <Button onClick={handleClose}>Go back</Button>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
