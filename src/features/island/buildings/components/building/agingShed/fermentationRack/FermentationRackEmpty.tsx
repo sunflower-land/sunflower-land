@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
+import { DropdownPanel } from "components/ui/DropdownPanel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -96,32 +97,27 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <InnerPanel className="mb-1">
-        <Label type="default" className="text-xs mb-2 ml-1">
-          {selectedGroup
-            ? `${ITEM_DETAILS[selectedGroup.item]?.translatedName ?? String(selectedGroup.item)} x${selectedGroup.amount.toString()}`
-            : t("agingShed.fermentation.selectFermentationOutput")}
-        </Label>
-        <div className="flex flex-wrap gap-1">
-          {groups.map((g) => {
-            const image = ITEM_DETAILS[g.item]?.image;
+      <DropdownPanel
+        options={groups.map((g) => {
+          const title = `${ITEM_DETAILS[g.item]?.translatedName ?? String(g.item)} x${g.amount.toString()}`;
+          const description = ITEM_DETAILS[g.item]?.description;
 
-            return (
-              <div
-                key={g.signature}
-                className="flex flex-col items-center shrink-0 max-w-[76px]"
-              >
-                <Box
-                  image={image}
-                  count={g.amount}
-                  isSelected={selectedSignature === g.signature}
-                  onClick={() => onSelectOutput(g.signature)}
-                />
+          return {
+            value: g.signature,
+            icon: ITEM_DETAILS[g.item]?.image,
+            label: (
+              <div className="flex flex-col gap-1">
+                <p className="text-xs">{title}</p>
+                {description ? <p className="text-xxs">{description}</p> : null}
               </div>
-            );
-          })}
-        </div>
-      </InnerPanel>
+            ),
+          };
+        })}
+        value={selectedSignature}
+        placeholder={t("agingShed.fermentation.selectFermentationOutput")}
+        onChange={onSelectOutput}
+        className="mb-1"
+      />
 
       {selectedGroup && (
         <InnerPanel className="mb-1">

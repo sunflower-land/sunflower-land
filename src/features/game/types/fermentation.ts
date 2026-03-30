@@ -75,8 +75,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Glow: Pickled Radish": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Radish": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -85,8 +85,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Glow: Pickled Zucchini": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Zucchini": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -95,8 +95,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Glow: Pickled Pepper": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Pepper": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -105,8 +105,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Goodie: Pickled Cabbage": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Cabbage": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
@@ -115,8 +115,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Goodie: Pickled Tomato": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Tomato": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
@@ -125,8 +125,8 @@ const STATIC_FERMENTATION_RECIPES = {
   "Greenhouse Goodie: Pickled Onion": {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Pickled Onion": new Decimal(1),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
@@ -135,9 +135,9 @@ const STATIC_FERMENTATION_RECIPES = {
   "Sproutroot Surprise": {
     durationSeconds: 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Sprout Mix": new Decimal(5),
       "Rapid Root": new Decimal(5),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Sproutroot Surprise": new Decimal(5),
@@ -146,9 +146,9 @@ const STATIC_FERMENTATION_RECIPES = {
   "Turbofruit Mix": {
     durationSeconds: 60 * 2,
     ingredients: {
-      "Refined Salt": new Decimal(2),
       "Rapid Root": new Decimal(5),
       "Fruitful Blend": new Decimal(5),
+      "Refined Salt": new Decimal(2),
     },
     outputs: {
       "Turbofruit Mix": new Decimal(5),
