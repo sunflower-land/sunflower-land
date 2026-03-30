@@ -270,40 +270,39 @@ export const AIBuilder: React.FC = () => {
         const sdkFunction = new Function(sunflowerSDK);
         sdkFunction();
 
-        // Execute the scene code
-        const gameFunction = new Function(
-          "Phaser",
-          "window",
-          "document",
-          `
-          let modifiedCode = ${JSON.stringify(phaserScene)}
-            .replace(/parent: ['"]game-container['"]/, 'parent: "aiBuilderGame"')
-            .replace(/scale:\\s*\\{[^}]*\\}/g,
-              'scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, width: 800, height: 600 }');
+        // Intercept the generated config by temporarily proxying Phaser.Game,
+        // then create the game ourselves with the Phaser scene loader directly.
+        let capturedConfig: Phaser.Types.Core.GameConfig | null = null;
+        const OriginalGame = Phaser.Game;
 
-          if (modifiedCode.includes('const game = new Phaser.Game(gameConfig);')) {
-            modifiedCode = modifiedCode.replace(
-              /const game = new Phaser\\.Game\\(gameConfig\\);/,
-              'const game = new Phaser.Game(gameConfig); window.__aiBuilderGame = game;'
-            );
-          } else if (modifiedCode.includes('new Phaser.Game(gameConfig)')) {
-            modifiedCode = modifiedCode.replace(
-              /new Phaser\\.Game\\(gameConfig\\)/,
-              '(function(){ const game = new Phaser.Game(gameConfig); window.__aiBuilderGame = game; return game; })()'
-            );
-          }
+        (Phaser as any).Game = function (config: Phaser.Types.Core.GameConfig) {
+          capturedConfig = config;
+        };
 
-          const result = eval(modifiedCode);
-          return window.__aiBuilderGame;
-          `,
-        );
+        try {
+          const sceneFunction = new Function("Phaser", phaserScene);
+          sceneFunction(Phaser);
+        } finally {
+          (Phaser as any).Game = OriginalGame;
+        }
 
-        const gameResult = gameFunction(
-          (window as any).Phaser,
-          window,
-          document,
-        );
-        currentGameRef.current = gameResult || (window as any).__aiBuilderGame;
+        if (!capturedConfig) {
+          throw new Error("No Phaser game config found in generated code");
+        }
+
+        // Create the game with corrected config, letting Phaser load the scenes
+        const game = new Phaser.Game({
+          ...(capturedConfig as Phaser.Types.Core.GameConfig),
+          parent: "aiBuilderGame",
+          scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: 800,
+            height: 600,
+          },
+        });
+
+        currentGameRef.current = game;
 
         // Setup focus handling after canvas is ready
         setTimeout(() => setupCanvasFocusHandling(), 100);
