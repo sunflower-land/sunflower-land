@@ -1,11 +1,9 @@
-import {
-  INITIAL_AGING_SHED,
-  INITIAL_BUMPKIN,
-  TEST_FARM,
-} from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { GameState } from "features/game/types/game";
 
-export const FERMENTATION_TEST_NOW = Date.now();
+/** Fixed epoch for reproducible fermentation tests. */
+export const FERMENTATION_TEST_NOW = 1_700_000_000_000;
 
 export const placedAgingShedBuildings: GameState["buildings"] = {
   "Aging Shed": [
@@ -24,7 +22,7 @@ export function createFermentationTestState(
     ...TEST_FARM,
     bumpkin: INITIAL_BUMPKIN,
     buildings: placedAgingShedBuildings,
-    agingShed: INITIAL_AGING_SHED,
+    agingShed: createInitialAgingShed(),
     inventory: {},
     ...overrides,
   };

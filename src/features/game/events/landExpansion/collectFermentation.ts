@@ -50,18 +50,11 @@ export function collectFermentation({
     ready.forEach((job) => {
       const recipeDef = getFermentationRecipe(job.recipe);
 
-      game.inventory = getObjectEntries(recipeDef.outputs).reduce(
-        (inventory, [item, amount]) => {
-          const prev = inventory[item] ?? new Decimal(0);
-          const add = amount ?? new Decimal(0);
-
-          return {
-            ...inventory,
-            [item]: prev.add(add),
-          };
-        },
-        game.inventory,
-      );
+      for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
+        const prev = game.inventory[item] ?? new Decimal(0);
+        const add = amount ?? new Decimal(0);
+        game.inventory[item] = prev.add(add);
+      }
 
       const activityName = fermentationCollectedActivity(job.recipe);
 

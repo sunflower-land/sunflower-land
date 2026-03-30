@@ -31,16 +31,7 @@ import {
   WORKBENCH_TOOLS,
   WorkbenchToolName,
 } from "../types/tools";
-import type { AgingShed } from "./agingShed";
-
-export const INITIAL_AGING_SHED: AgingShed = {
-  level: 1,
-  racks: {
-    aging: [],
-    fermentation: [],
-    spice: [],
-  },
-};
+import { createInitialAgingShed } from "./agingShed";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -654,7 +645,7 @@ export const INITIAL_FARM: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   waterWell: { level: 1 },
-  agingShed: INITIAL_AGING_SHED,
+  agingShed: createInitialAgingShed(),
   petHouse: {
     level: 1,
     pets: {},
@@ -992,7 +983,7 @@ export const TEST_FARM: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   waterWell: { level: 1 },
-  agingShed: INITIAL_AGING_SHED,
+  agingShed: createInitialAgingShed(),
   petHouse: {
     level: 1,
     pets: {},
@@ -1179,7 +1170,7 @@ export const EMPTY: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   waterWell: { level: 1 },
-  agingShed: INITIAL_AGING_SHED,
+  agingShed: createInitialAgingShed(),
   petHouse: {
     level: 1,
     pets: {},

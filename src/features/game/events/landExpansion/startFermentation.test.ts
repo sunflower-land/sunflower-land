@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_AGING_SHED } from "features/game/lib/constants";
+import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getFermentationRecipe,
   type FermentationRecipeName,
@@ -13,6 +13,10 @@ import {
 
 const createdAt = FERMENTATION_TEST_NOW;
 
+/** Stable 8-char ids (required on action; mirrors client `crypto.randomUUID().slice(0, 8)`). */
+const TEST_JOB_ID = "a1b2c3d4";
+const TEST_JOB_ID_2 = "b2c3d4e5";
+
 describe("startFermentation", () => {
   it("throws when Aging Shed is not placed", () => {
     expect(() =>
@@ -21,6 +25,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Pickled Radish",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -44,6 +49,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Pickled Radish",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -58,10 +64,10 @@ describe("startFermentation", () => {
       startFermentation({
         state: createFermentationTestState({
           agingShed: {
-            ...INITIAL_AGING_SHED,
+            ...createInitialAgingShed(),
             level: 1,
             racks: {
-              ...INITIAL_AGING_SHED.racks,
+              ...createInitialAgingShed().racks,
               fermentation: [
                 {
                   id: "job-1",
@@ -80,6 +86,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Pickled Zucchini",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -94,10 +101,10 @@ describe("startFermentation", () => {
       startFermentation({
         state: createFermentationTestState({
           agingShed: {
-            ...INITIAL_AGING_SHED,
+            ...createInitialAgingShed(),
             level: 3,
             racks: {
-              ...INITIAL_AGING_SHED.racks,
+              ...createInitialAgingShed().racks,
               fermentation: [
                 {
                   id: "1",
@@ -125,6 +132,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Salt from Seaweed",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -134,7 +142,7 @@ describe("startFermentation", () => {
 
   it("allows two parallel jobs when level is 2", () => {
     let state = createFermentationTestState({
-      agingShed: { ...INITIAL_AGING_SHED, level: 2 },
+      agingShed: { ...createInitialAgingShed(), level: 2 },
       inventory: {
         Radish: new Decimal(20),
         Zucchini: new Decimal(20),
@@ -144,14 +152,22 @@ describe("startFermentation", () => {
 
     state = startFermentation({
       state,
-      action: { type: "fermentation.started", recipe: "Pickled Radish" },
+      action: {
+        type: "fermentation.started",
+        recipe: "Pickled Radish",
+        jobId: TEST_JOB_ID,
+      },
       farmId: 1,
       createdAt,
     });
 
     state = startFermentation({
       state,
-      action: { type: "fermentation.started", recipe: "Pickled Zucchini" },
+      action: {
+        type: "fermentation.started",
+        recipe: "Pickled Zucchini",
+        jobId: TEST_JOB_ID_2,
+      },
       farmId: 1,
       createdAt,
     });
@@ -166,8 +182,9 @@ describe("startFermentation", () => {
     expect(jobs[0].id).not.toEqual(jobs[1].id);
   });
 
-  it("stores an ingredient snapshot on the fermentation job", () => {
+  it("stores action jobId on the fermentation job", () => {
     const recipe: FermentationRecipeName = "Pickled Radish";
+    const jobId = "feedface";
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: {
@@ -175,13 +192,14 @@ describe("startFermentation", () => {
           Salt: new Decimal(50),
         },
       }),
-      action: { type: "fermentation.started", recipe },
+      action: { type: "fermentation.started", recipe, jobId },
       farmId: 1,
       createdAt,
     });
 
     expect(state.agingShed.racks.fermentation).toHaveLength(1);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+    expect(state.agingShed.racks.fermentation[0].id).toEqual(jobId);
   });
 
   it("throws when ingredients are insufficient (crop)", () => {
@@ -193,6 +211,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Pickled Radish",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -209,6 +228,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "Pickled Radish",
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -224,6 +244,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe: "Pickled Radish",
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -245,7 +266,11 @@ describe("startFermentation", () => {
       state: createFermentationTestState({
         inventory: { Tomato: new Decimal(10), "Refined Salt": new Decimal(2) },
       }),
-      action: { type: "fermentation.started", recipe: "Pickled Tomato" },
+      action: {
+        type: "fermentation.started",
+        recipe: "Pickled Tomato",
+        jobId: TEST_JOB_ID,
+      },
       farmId: 1,
       createdAt,
     });
@@ -265,6 +290,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe: "Salt from Seaweed",
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -281,6 +307,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe: "Salt from Old Bottle",
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -301,6 +328,7 @@ describe("startFermentation", () => {
         action: {
           type: "fermentation.started",
           recipe: "not_a_valid_fermentation_recipe" as FermentationRecipeName,
+          jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
@@ -319,6 +347,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe: "Greenhouse Glow: Pickled Radish",
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -343,6 +372,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe: "Sproutroot Surprise",
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -370,6 +400,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe,
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
@@ -406,6 +437,7 @@ describe("startFermentation", () => {
       action: {
         type: "fermentation.started",
         recipe,
+        jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,

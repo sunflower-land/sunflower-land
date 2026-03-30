@@ -1,10 +1,7 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import {
-  INITIAL_AGING_SHED,
-  INITIAL_BUMPKIN,
-  TEST_FARM,
-} from "../../lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
+import { createInitialAgingShed } from "../../lib/agingShed";
 import { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
@@ -626,11 +623,11 @@ describe("Place building", () => {
           ],
         },
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           level: 1,
           upgradeReadyAt,
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "job-1",
@@ -733,9 +730,9 @@ describe("Place building", () => {
           ],
         },
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "job-1",

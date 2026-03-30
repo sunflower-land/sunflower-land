@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_AGING_SHED } from "features/game/lib/constants";
+import { createInitialAgingShed } from "features/game/lib/agingShed";
 import type { FermentationRecipeName } from "features/game/types/fermentation";
 import { getFishNamesByTier } from "features/game/types/fishing";
 import { collectFermentation } from "./collectFermentation";
@@ -40,9 +40,9 @@ describe("collectFermentation", () => {
       collectFermentation({
         state: createFermentationTestState({
           agingShed: {
-            ...INITIAL_AGING_SHED,
+            ...createInitialAgingShed(),
             racks: {
-              ...INITIAL_AGING_SHED.racks,
+              ...createInitialAgingShed().racks,
               fermentation: [
                 {
                   id: "job-1",
@@ -68,10 +68,10 @@ describe("collectFermentation", () => {
     const state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           level: 3,
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "a",
@@ -106,10 +106,10 @@ describe("collectFermentation", () => {
     const state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           level: 2,
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "a",
@@ -145,9 +145,9 @@ describe("collectFermentation", () => {
       state: createFermentationTestState({
         inventory: { Salt: new Decimal(3) },
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "a",
@@ -173,9 +173,9 @@ describe("collectFermentation", () => {
     let state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "a",
@@ -198,9 +198,9 @@ describe("collectFermentation", () => {
       state: {
         ...state,
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "b",
@@ -226,9 +226,9 @@ describe("collectFermentation", () => {
     const state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "x",
@@ -258,9 +258,9 @@ describe("collectFermentation", () => {
     const state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "aged-bait",
@@ -291,9 +291,9 @@ describe("collectFermentation", () => {
     const state = collectFermentation({
       state: createFermentationTestState({
         agingShed: {
-          ...INITIAL_AGING_SHED,
+          ...createInitialAgingShed(),
           racks: {
-            ...INITIAL_AGING_SHED.racks,
+            ...createInitialAgingShed().racks,
             fermentation: [
               {
                 id: "prime-bait",

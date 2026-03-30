@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
+import { v4 as uuidv4 } from "uuid";
 
 import { Box } from "components/ui/Box";
 import { InnerPanel } from "components/ui/Panel";
@@ -188,6 +189,7 @@ export const FermentationRackPanel: React.FC = () => {
     try {
       gameService.send("fermentation.started", {
         recipe: recipeId,
+        jobId: uuidv4().slice(0, 8),
       });
       gameService.send("SAVE");
     } catch (e) {

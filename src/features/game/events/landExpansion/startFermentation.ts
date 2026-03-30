@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { v4 as randomUUID } from "uuid";
 import { translate } from "lib/i18n/translate";
 import type { FermentationJob } from "features/game/lib/agingShed";
 import {
@@ -16,6 +15,8 @@ import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 export type StartFermentationAction = {
   type: "fermentation.started";
   recipe: FermentationRecipeName;
+  /** Client-generated id (same idea as `cropId` in `plant.ts`, often `crypto.randomUUID().slice(0, 8)`). */
+  jobId: string;
 };
 
 type Options = {
@@ -49,27 +50,23 @@ export function startFermentation({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    game.inventory = getObjectEntries(recipeDef.ingredients).reduce(
-      (inventory, [ingredient, amount]) => {
-        const count = inventory[ingredient] ?? new Decimal(0);
-        const need = amount ?? new Decimal(0);
+    for (const [ingredient, amount] of getObjectEntries(
+      recipeDef.ingredients,
+    )) {
+      const count = game.inventory[ingredient] ?? new Decimal(0);
+      const need = amount ?? new Decimal(0);
 
-        if (count.lessThan(need)) {
-          throw new Error(`Insufficient ingredient: ${String(ingredient)}`);
-        }
+      if (count.lessThan(need)) {
+        throw new Error(`Insufficient ingredient: ${String(ingredient)}`);
+      }
 
-        return {
-          ...inventory,
-          [ingredient]: count.sub(need),
-        };
-      },
-      game.inventory,
-    );
+      game.inventory[ingredient] = count.sub(need);
+    }
 
     const readyAt = createdAt + Math.max(0, recipeDef.durationSeconds) * 1000;
 
     const job: FermentationJob = {
-      id: randomUUID(),
+      id: action.jobId,
       recipe: action.recipe,
       startedAt: createdAt,
       readyAt,
