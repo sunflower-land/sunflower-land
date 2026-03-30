@@ -10,13 +10,13 @@ import goldenChook from "assets/sfts/golden_chook.png";
  * Keys align with `CHICKEN_RESCUE_CONFIG.itemIds`.
  */
 export const CHICKEN_RESCUE_MOCK_TOKEN_IMAGES: Record<string, string> = {
-  Cluckcoin: goldenNugget,
-  Coin: worm,
-  FatChicken: wormery,
-  LoveChicken: wormery,
-  AlienChicken: wormery,
-  RoosterChicken: wormery,
+  GoldenNugget: goldenNugget,
+  Worm: worm,
+  Wormery: wormery,
+  Wormery_2: wormery,
+  Wormery_3: wormery,
+  Wormery_4: wormery,
   Chook: chookIcon,
-  Nugget: chickenFeet,
+  ChickenFeet: chickenFeet,
   GoldenChook: goldenChook,
 };

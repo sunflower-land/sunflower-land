@@ -471,13 +471,10 @@ export const Filters: React.FC<{
             label: t("marketplace.minigames"),
             onClick: () => {
               setExpandedTraitGroups({});
-              navigateTo({
-                path: "collection",
-                filterParams: "minigames",
-                closeFilters: false,
-              });
+              navigate(`${baseUrl}/minigames`);
+              onClose?.();
             },
-            isActive: filters === "minigames",
+            isActive: pathname === `${baseUrl}/minigames`,
           },
         ]
       : []),

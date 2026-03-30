@@ -10,7 +10,10 @@ import {
   buildChickenRescueDashboardFromSession,
   getChickenRescueDashboardUi,
 } from "./chickenRescueDashboardMerge";
-import type { FetchMinigameResult, MinigameDashboardData } from "./minigameDashboardTypes";
+import type {
+  FetchMinigameResult,
+  MinigameDashboardData,
+} from "./minigameDashboardTypes";
 import {
   getMinigameSession,
   type MinigameSessionApiPayload,
@@ -24,7 +27,7 @@ async function fetchChickenRescueMock(): Promise<FetchMinigameResult> {
     ...base,
     balances: {
       ...base.balances,
-      Cluckcoin: 1002,
+      GoldenNugget: 1002,
     },
   };
   return {

@@ -11,7 +11,10 @@ export type MintRuleRanged = {
   dailyCap: number;
 };
 
-export type MintRule = MintRuleFixed | MintRuleFixedDailyCapped | MintRuleRanged;
+export type MintRule =
+  | MintRuleFixed
+  | MintRuleFixedDailyCapped
+  | MintRuleRanged;
 
 export type BurnRule = { amount: number };
 
@@ -25,7 +28,7 @@ export type ProduceRule = {
   limit?: number;
   /**
    * Capacity is per lane: only jobs tagged with this same key count toward the cap
-   * (parallel outputs like multiple chickens each producing Coin).
+   * (parallel outputs like multiple wormeries each producing Worm).
    */
   requires?: string;
 };
@@ -91,4 +94,6 @@ export type MinigameProcessFailure = {
   error: string;
 };
 
-export type MinigameProcessResult = MinigameProcessSuccess | MinigameProcessFailure;
+export type MinigameProcessResult =
+  | MinigameProcessSuccess
+  | MinigameProcessFailure;

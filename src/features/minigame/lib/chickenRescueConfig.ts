@@ -6,105 +6,97 @@ const EIGHT_HOURS_MS = 8 * 1000; // 60 * 60 * 1000;
 /**
  * Chicken Rescue v2 — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`
  * (portal / minigame slug `chicken-rescue-v2`).
- *
- * Balance keys (API-facing) vs player-facing names in the dashboard:
- * - `Cluckcoin` → Golden Nuggets
- * - `Coin` → Worms
- * - `FatChicken` / `LoveChicken` / `AlienChicken` / `RoosterChicken` → all shown as “Wormery” in UI
- * - `Chook` → Chooks
- * - `Nugget` → Chicken Feet
- * - `GoldenChook` → Golden Chook
  */
 export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
   itemIds: {
-    Cluckcoin: 0,
-    Coin: 1,
-    FatChicken: 2,
+    GoldenNugget: 0,
+    Worm: 1,
+    Wormery: 2,
     Chook: 3,
-    Nugget: 4,
-    LoveChicken: 5,
-    AlienChicken: 6,
-    RoosterChicken: 7,
+    ChickenFeet: 4,
+    Wormery_2: 5,
+    Wormery_3: 6,
+    Wormery_4: 7,
     GoldenChook: 8,
   },
   actions: {
-    START_FAT_CHICKEN_DROP: {
+    START_WORMERY_DROP: {
       produce: {
-        Coin: {
+        Worm: {
           msToComplete: EIGHT_HOURS_MS,
-          requires: "FatChicken",
+          requires: "Wormery",
         },
       },
     },
-    COLLECT_FAT_CHICKEN: {
+    COLLECT_WORMERY_WORMS: {
       collect: {
-        Coin: { amount: 3 },
+        Worm: { amount: 3 },
       },
     },
-    BUY_LOVE_CHICKEN: {
+    BUY_MOSS_WORMERY: {
       burn: {
-        Cluckcoin: { amount: 15 },
+        GoldenNugget: { amount: 15 },
       },
       mint: {
-        LoveChicken: { amount: 1 },
+        Wormery_2: { amount: 1 },
       },
     },
-    BUY_ALIEN_CHICKEN: {
+    BUY_GLOW_WORMERY: {
       burn: {
-        Cluckcoin: { amount: 100 },
+        GoldenNugget: { amount: 100 },
       },
       mint: {
-        AlienChicken: { amount: 1 },
+        Wormery_3: { amount: 1 },
       },
     },
-    BUY_ROOSTER_CHICKEN: {
+    BUY_GRAND_WORMERY: {
       burn: {
-        Cluckcoin: { amount: 500 },
+        GoldenNugget: { amount: 500 },
       },
       mint: {
-        RoosterChicken: { amount: 1 },
+        Wormery_4: { amount: 1 },
       },
     },
-    START_LOVE_COIN_DROP: {
+    START_MOSS_WORMERY_DROP: {
       produce: {
-        Coin: {
+        Worm: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "LoveChicken",
+          requires: "Wormery_2",
         },
       },
     },
-    COLLECT_LOVE_COINS: {
+    COLLECT_MOSS_WORMERY_WORMS: {
       collect: {
-        Coin: { amount: 3 },
+        Worm: { amount: 3 },
       },
     },
-    START_ALIEN_COIN_DROP: {
+    START_GLOW_WORMERY_DROP: {
       produce: {
-        Coin: {
+        Worm: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "AlienChicken",
+          requires: "Wormery_3",
         },
       },
     },
-    COLLECT_ALIEN_COINS: {
+    COLLECT_GLOW_WORMERY_WORMS: {
       collect: {
-        Coin: { amount: 3 },
+        Worm: { amount: 3 },
       },
     },
-    START_ROOSTER_COIN_DROP: {
+    START_GRAND_WORMERY_DROP: {
       produce: {
-        Coin: {
+        Worm: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "RoosterChicken",
+          requires: "Wormery_4",
         },
       },
     },
-    COLLECT_ROOSTER_COINS: {
+    COLLECT_GRAND_WORMERY_WORMS: {
       collect: {
-        Coin: { amount: 3 },
+        Worm: { amount: 3 },
       },
     },
     START: {
@@ -112,7 +104,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         LIVE_GAME: { amount: 1 },
       },
       burn: {
-        Coin: { amount: 1 },
+        Worm: { amount: 1 },
       },
     },
     LOSE: {
@@ -128,30 +120,30 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         LIVE_GAME: { amount: 1 },
       },
     },
-    BUY_NUGGET: {
+    BUY_WORM_BALL: {
       burn: {
         Chook: { amount: 50 },
       },
       mint: {
-        Nugget: { amount: 1 },
+        ChickenFeet: { amount: 1 },
       },
     },
 
-    BUY_CLUCKCOIN: {
+    BUY_GOLDEN_NUGGET: {
       mint: {
-        Cluckcoin: { amount: 1 },
+        GoldenNugget: { amount: 1 },
       },
       burn: {
         GoldenChook: { amount: 1 },
       },
     },
 
-    BUY_QUEENS: {
+    BUY_WORM_PACK: {
       mint: {
-        Coin: { amount: 5 },
+        Worm: { amount: 5 },
       },
       burn: {
-        Cluckcoin: { amount: 1 },
+        GoldenNugget: { amount: 1 },
       },
     },
     START_ADVANCED_GAME: {
@@ -159,7 +151,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         ADVANCED_GAME: { amount: 1 },
       },
       burn: {
-        Nugget: { amount: 1 },
+        ChickenFeet: { amount: 1 },
       },
     },
     LOSE_ADVANCED_GAME: {
@@ -179,15 +171,15 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
   },
 };
 
-export const CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID =
-  "bootstrap-fat-chicken-coin-0";
+export const CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID =
+  "bootstrap-wormery-worms-0";
 
 /** Links each `requires`-lane start action to its collect action (same as API config). */
 export const CHICKEN_RESCUE_COLLECT_BY_START: Record<string, string> = {
-  START_FAT_CHICKEN_DROP: "COLLECT_FAT_CHICKEN",
-  START_LOVE_COIN_DROP: "COLLECT_LOVE_COINS",
-  START_ALIEN_COIN_DROP: "COLLECT_ALIEN_COINS",
-  START_ROOSTER_COIN_DROP: "COLLECT_ROOSTER_COINS",
+  START_WORMERY_DROP: "COLLECT_WORMERY_WORMS",
+  START_MOSS_WORMERY_DROP: "COLLECT_MOSS_WORMERY_WORMS",
+  START_GLOW_WORMERY_DROP: "COLLECT_GLOW_WORMERY_WORMS",
+  START_GRAND_WORMERY_DROP: "COLLECT_GRAND_WORMERY_WORMS",
 };
 
 export function createChickenRescueInitialState(
@@ -197,12 +189,12 @@ export function createChickenRescueInitialState(
   return {
     ...base,
     balances: {
-      FatChicken: 1,
+      Wormery: 1,
     },
     producing: {
-      [CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID]: {
-        outputToken: "Coin",
-        requires: "FatChicken",
+      [CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID]: {
+        outputToken: "Worm",
+        requires: "Wormery",
         startedAt: now - 1,
         completesAt: now,
       },

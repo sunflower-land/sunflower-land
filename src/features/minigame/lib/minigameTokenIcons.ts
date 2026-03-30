@@ -15,16 +15,16 @@ export function getMinigameTokenImage(
   if (fromPayload) return fromPayload;
 
   switch (token) {
-    case "Cluckcoin":
+    case "GoldenNugget":
       return goldenNugget;
-    case "Coin":
+    case "Worm":
       return worm;
-    case "FatChicken":
-    case "LoveChicken":
-    case "AlienChicken":
-    case "RoosterChicken":
+    case "Wormery":
+    case "Wormery_2":
+    case "Wormery_3":
+    case "Wormery_4":
       return wormery;
-    case "Nugget":
+    case "ChickenFeet":
       return chickenFeet;
     case "Chook":
       return chookIcon;

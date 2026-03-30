@@ -86,7 +86,7 @@ export function getCollectOutputForSlot(
 }
 
 /**
- * For a shop `mint` action (e.g. BUY_LOVE_CHICKEN), returns the timed worm (`Coin`) payout
+ * For a shop `mint` action (e.g. BUY_MOSS_WORMERY), returns the timed `Worm` payout
  * that the new wormery will run (matches production card copy).
  */
 export function getShopPurchaseProductionPreview(

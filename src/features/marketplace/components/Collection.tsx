@@ -1,5 +1,5 @@
 import { Loading } from "features/auth/components";
-import React, { useContext, useEffect, useMemo, useRef } from "react";
+import React, { useContext, useMemo, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor, useSelector } from "@xstate/react";
@@ -44,9 +44,6 @@ import {
 } from "../lib/traitOptions";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
-import { MinigamesLeaderboard } from "./MinigamesLeaderboard";
-import type { Tradeable } from "features/game/types/marketplace";
-import { hasFeatureAccess } from "lib/flags";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -85,17 +82,12 @@ export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
 };
 
-export const preloadCollections = (
-  token: string,
-  showLimited: boolean,
-  showTokenMinigames?: boolean,
-) => {
+export const preloadCollections = (token: string, showLimited: boolean) => {
   preload(["collectibles", token], collectionFetcher);
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
   preload(["pets", token], collectionFetcher);
-  if (showTokenMinigames) preload(["minigames", token], collectionFetcher);
   if (showLimited === true) preload(["temporary", token], collectionFetcher);
 };
 
@@ -108,7 +100,6 @@ export const Collection: React.FC<{
 }> = ({ search, hideLimited, onNavigated }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
@@ -116,27 +107,7 @@ export const Collection: React.FC<{
   // Get query string params
   const [queryParams, setSearchParams] = useSearchParams();
   let filters = queryParams.get("filters") ?? "";
-  const filtersParam = queryParams.get("filters") ?? "";
 
-  useEffect(() => {
-    if (tokenMinigamesAllowed) return;
-    if (!filtersParam.includes("minigames")) return;
-    const parts = filtersParam
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .filter((p) => p !== "minigames");
-    const next =
-      parts.length > 0 ? parts.join(",") : "collectibles,wearables,resources";
-    setSearchParams(
-      (prev) => {
-        const p = new URLSearchParams(prev);
-        p.set("filters", next);
-        return p;
-      },
-      { replace: true },
-    );
-  }, [tokenMinigamesAllowed, filtersParam, setSearchParams]);
   const chapterFilter = queryParams.get("chapter") ?? "";
   const chapterKey = toTraitValueId(chapterFilter);
   const ownershipParam = queryParams.get("ownership") ?? "";
@@ -168,12 +139,7 @@ export const Collection: React.FC<{
       ? location.state.route
       : `${location.pathname}${location.search}`;
 
-  if (
-    search &&
-    !filters.includes("buds") &&
-    !filters.includes("pets") &&
-    (!filters.includes("minigames") || !tokenMinigamesAllowed)
-  ) {
+  if (search && !filters.includes("buds") && !filters.includes("pets")) {
     filters = "collectibles,wearables,resources";
   }
 
@@ -234,16 +200,6 @@ export const Collection: React.FC<{
     collectionFetcher,
   );
   const {
-    data: minigames,
-    isLoading: isMinigamesLoading,
-    error: minigamesError,
-  } = useSWR(
-    filters.includes("minigames") && tokenMinigamesAllowed
-      ? ["minigames", token]
-      : null,
-    collectionFetcher,
-  );
-  const {
     data: limited,
     isLoading: isLimitedLoading,
     error: limitedError,
@@ -259,14 +215,8 @@ export const Collection: React.FC<{
       ...(buds?.items || []),
       ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
-      ...(tokenMinigamesAllowed ? minigames?.items || [] : []),
     ],
   };
-
-  const isMinigamesOnlyView =
-    tokenMinigamesAllowed &&
-    (filters === "minigames" ||
-      (filters.split(",").length === 1 && filters.includes("minigames")));
 
   if (!filters.includes("resources")) {
     // Sort by floor, then lastSalePrice, then id
@@ -292,13 +242,7 @@ export const Collection: React.FC<{
     isResourcesLoading ||
     isBudsLoading ||
     isLimitedLoading ||
-    isPetsLoading ||
-    (filters.includes("minigames") && tokenMinigamesAllowed && isMinigamesLoading);
-
-  const minigamesFetchError =
-    filters.includes("minigames") && tokenMinigamesAllowed
-      ? minigamesError
-      : undefined;
+    isPetsLoading;
 
   // Errors are handled by the game machine
   if (
@@ -307,8 +251,7 @@ export const Collection: React.FC<{
     resourcesError ||
     budsError ||
     limitedError ||
-    petsError ||
-    minigamesFetchError
+    petsError
   ) {
     throw (
       wearablesError ||
@@ -316,8 +259,7 @@ export const Collection: React.FC<{
       resourcesError ||
       budsError ||
       limitedError ||
-      petsError ||
-      minigamesFetchError
+      petsError
     );
   }
 
@@ -411,23 +353,6 @@ export const Collection: React.FC<{
 
   const items =
     data?.items.filter((item) => {
-      if (item.collection === "minigames" && !tokenMinigamesAllowed) {
-        return false;
-      }
-      if (item.collection === "minigames") {
-        const row = item as Extract<Tradeable, { collection: "minigames" }>;
-        if (search) {
-          const q = search.toLowerCase();
-          if (
-            !row.currencyName.toLowerCase().includes(q) &&
-            !row.minigameLabel.toLowerCase().includes(q)
-          ) {
-            return false;
-          }
-        }
-        return true;
-      }
-
       const display = getTradeableDisplay({
         id: item.id,
         type: item.collection,
@@ -609,17 +534,6 @@ export const Collection: React.FC<{
       return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
-  if (isMinigamesOnlyView) {
-    const minigameRows = items.filter(
-      (i): i is Extract<Tradeable, { collection: "minigames" }> =>
-        i.collection === "minigames",
-    );
-
-    return (
-      <MinigamesLeaderboard items={minigameRows} onNavigated={onNavigated} />
-    );
-  }
-
   const getRowHeight = () => {
     if (filters === "resources") return 150;
     if (filters.includes("buds") || filters.includes("pets")) return 250;
@@ -705,15 +619,9 @@ export const Collection: React.FC<{
                 marketplaceItem: item,
               });
 
-              const detailPath =
-                item.collection === "minigames"
-                  ? `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}?minigameSlug=${encodeURIComponent(item.minigameSlug)}`
-                  : `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`;
+              const detailPath = `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`;
 
-              const rowKey =
-                item.collection === "minigames"
-                  ? `${item.minigameSlug}-${item.id}`
-                  : String(item.id);
+              const rowKey = String(item.id);
 
               return (
                 <div key={rowKey} style={style} className="pr-1 pb-1">

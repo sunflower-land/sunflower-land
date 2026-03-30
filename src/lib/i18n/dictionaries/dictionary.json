@@ -2762,6 +2762,7 @@
   "marketplace.minigames.flower": "FLOWER",
   "marketplace.minigames.usd": "USD",
   "marketplace.minigames.missingSlug": "Open this item from the Mini games marketplace; the link must include which game it belongs to.",
+  "marketplace.minigames.notAvailable": "Mini game marketplace trading is not available for your farm yet.",
   "marketplace.filters.applied": "Filters applied",
   "marketplace.filters.clear": "Clear filters",
   "marketplace.youOwn": "You own: {{count}}",

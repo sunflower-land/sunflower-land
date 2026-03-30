@@ -5,6 +5,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
 import { Route, Routes, useNavigate } from "react-router";
 import { Collection, preloadCollections } from "../Collection";
+import { Minigames } from "../Minigames";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "../MarketplaceProfile";
@@ -85,9 +86,8 @@ export const MarketplaceNavigation: React.FC = () => {
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL)
-      preloadCollections(token, !hideLimited, showTokenMinigames);
-  }, [hideLimited, authState.context.user.rawToken, showTokenMinigames]);
+    if (CONFIG.API_URL) preloadCollections(token, !hideLimited);
+  }, [hideLimited, authState.context.user.rawToken]);
 
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
@@ -231,6 +231,7 @@ export const MarketplaceNavigation: React.FC = () => {
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
+              <Route path="/minigames" element={<Minigames />} />
               <Route
                 path="/collection/*"
                 element={<Collection hideLimited={hideLimited} />}

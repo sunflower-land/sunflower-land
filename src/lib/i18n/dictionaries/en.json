@@ -2762,6 +2762,7 @@
   "marketplace.minigames.flower": "FLOWER",
   "marketplace.minigames.usd": "USD",
   "marketplace.minigames.missingSlug": "Open this item from the Mini games marketplace; the link must include which game it belongs to.",
+  "marketplace.minigames.notAvailable": "Mini game marketplace trading is not available for your farm yet.",
   "marketplace.filters.applied": "Filters applied",
   "marketplace.filters.clear": "Clear filters",
   "marketplace.youOwn": "You own: {{count}}",
@@ -8387,5 +8388,6 @@
   "description.fakeMouse": "Moves when you are not looking. Probably coincidence.",
   "description.petTree": "A majestic climbing tower for your pet. Your furniture is finally safe. Probably.",
   "description.definitelyNotAFlower": "Not a flower. Stop asking.",
-  "eventAprilFools.noticeboard.one": "Welcome to the April Fools 2026 Community Event!"
+  "eventAprilFools.noticeboard.one": "Welcome to the April Fools 2026 Community Event!",
+  "agingShed.spiceRack": "Spice Rack"
 }
