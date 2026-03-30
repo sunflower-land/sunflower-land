@@ -1,4 +1,5 @@
 import { CropName, GreenHouseCropName } from "../types/crops";
+import { FermentationBait } from "../types/fishing";
 import { GreenHouseFruitName, PatchFruitName } from "../types/fruits";
 import {
   AnimalResource,
@@ -15,19 +16,37 @@ export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
   "Nightshade Emblem": 200,
 };
 
+export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {
+  "Goblin Emblem": 1,
+  "Sunflorian Emblem": 1,
+  "Bumpkin Emblem": 1,
+  "Nightshade Emblem": 1,
+};
+
 export type TradeResource = Extract<
   InventoryItemName,
   | CropName
   | PatchFruitName
   | GreenHouseFruitName
   | GreenHouseCropName
-  | CommodityName
+  | Exclude<
+      CommodityName,
+      | "Diamond"
+      | "Sunstone"
+      | "Oil"
+      | "Obsidian"
+      | "Refined Salt"
+      | "Wild Mushroom"
+      | "Magic Mushroom"
+      | "Chicken"
+    >
   | AnimalResource
   | FactionEmblem
-  | PetResourceName
+  | Exclude<PetResourceName, "Acorn" | "Fossil Shell">
+  | FermentationBait
 >;
 
-export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
+export const TRADE_LIMITS: Record<TradeResource, number> = {
   // Crops
   Sunflower: 4000,
   Potato: 3000,
@@ -95,9 +114,12 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Ribbon: 100,
   Dewberry: 100,
   Moonfur: 100,
+  "Basic Bait": 10,
+  "Advanced Bait": 10,
+  "Expert Bait": 10,
 };
 
-export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
+export const TRADE_MINIMUMS: Record<TradeResource, number> = {
   Sunflower: 200,
   Potato: 200,
   Rhubarb: 200,
@@ -159,13 +181,11 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Ribbon: 1,
   Dewberry: 1,
   Moonfur: 1,
-};
 
-export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {
-  "Goblin Emblem": 1,
-  "Sunflorian Emblem": 1,
-  "Bumpkin Emblem": 1,
-  "Nightshade Emblem": 1,
+  "Basic Bait": 1,
+  "Advanced Bait": 1,
+  "Expert Bait": 1,
+  ...EMBLEM_TRADE_MINIMUMS,
 };
 
 export const isTradeResource = (
