@@ -23,8 +23,13 @@ type Options = {
   action: NPCRestockAction;
 };
 
+type RestockItem =
+  | typeof SEEDS
+  | typeof WORKBENCH_TOOLS
+  | typeof TREASURE_TOOLS;
+
 type Restock = {
-  restockItem: object;
+  restockItem: RestockItem;
   gemPrice: number;
   shopName: string;
   categoryLabel: {

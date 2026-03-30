@@ -26,7 +26,11 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import { PatchFruitSeedName } from "../types/fruits";
-import { WORKBENCH_TOOLS, WorkbenchToolName } from "../types/tools";
+import {
+  TreasureToolName,
+  WORKBENCH_TOOLS,
+  WorkbenchToolName,
+} from "../types/tools";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -49,29 +53,20 @@ export function isBuildingReady(building: PlacedItem[]) {
 
 export type StockableName = Extract<
   InventoryItemName,
-  | "Axe"
-  | "Pickaxe"
-  | "Stone Pickaxe"
-  | "Iron Pickaxe"
-  | "Gold Pickaxe"
-  | "Oil Drill"
-  | "Rod"
-  | "Sand Shovel"
-  | "Sand Drill"
-  | SeedName
+  WorkbenchToolName | SeedName | TreasureToolName
 >;
 
 export const INITIAL_STOCK = (
   state?: GameState,
 ): Record<StockableName, Decimal> => {
-  const tools = Object.entries(WORKBENCH_TOOLS).reduce(
+  const tools = getObjectEntries(WORKBENCH_TOOLS).reduce(
     (acc, [toolName, tool]) => {
-      if (tool.disabled) return acc;
-
-      return {
-        ...acc,
-        [toolName]: tool.stock,
-      };
+      if (tool.disabled) {
+        acc[toolName] = new Decimal(0);
+        return acc;
+      }
+      acc[toolName] = tool.stock;
+      return acc;
     },
     {} as Record<WorkbenchToolName, Decimal>,
   );
@@ -161,15 +156,19 @@ export const INITIAL_STOCK = (
     seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
   }
 
-  return {
+  const restockables: Record<StockableName, Decimal> = {
     // Tools
     ...tools,
 
-    "Sand Shovel": new Decimal(50),
-    "Sand Drill": new Decimal(10),
     // Seeds
     ...seeds,
+
+    // Treasure Tools
+    "Sand Shovel": new Decimal(50),
+    "Sand Drill": new Decimal(10),
   };
+
+  return restockables;
 };
 
 type InventoryLimit = Partial<Record<SeedName, Decimal>>;
