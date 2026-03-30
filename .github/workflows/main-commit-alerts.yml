@@ -168,6 +168,45 @@ jobs:
             return response.json();
           }
 
+          async function fetchAllBypassRuleSuites() {
+            const headers = {
+              Authorization: `Bearer ${GITHUB_TOKEN}`,
+              Accept: "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "main-commit-alerts",
+            };
+            const baseUrl = `https://api.github.com/repos/${owner}/${repo}/rulesets/rule-suites`;
+            const params = new URLSearchParams({
+              rule_suite_result: "bypass",
+              ref: "refs/heads/main",
+              time_period: "day",
+              per_page: "100",
+            });
+            const all = [];
+            for (let page = 1; page <= 30; page += 1) {
+              params.set("page", String(page));
+              const response = await fetch(`${baseUrl}?${params}`, { headers });
+              if (!response.ok) {
+                const text = await response.text();
+                console.log(`Rule suites API failed: ${response.status} ${text}`);
+                return null;
+              }
+              const batch = await response.json();
+              if (!Array.isArray(batch) || batch.length === 0) {
+                break;
+              }
+              all.push(...batch);
+              if (batch.length < 100) {
+                break;
+              }
+            }
+            return all;
+          }
+
+          function isBypassSuite(suite) {
+            return suite.result === "bypass" || suite.evaluation_result === "bypass";
+          }
+
           async function githubGraphql(query, variables) {
             const response = await fetch("https://api.github.com/graphql", {
               method: "POST",
@@ -389,7 +428,99 @@ jobs:
                     },
                   ],
                   footer: {
-                    text: "Repo-only alert: PR merges that bypass merge rules are not reliably detectable here.",
+                    text: "Direct push only. Merge-rule bypasses are alerted separately when GitHub records a bypass rule suite.",
+                  },
+                  timestamp: new Date().toISOString(),
+                },
+              ],
+            };
+
+            const response = await fetch(DISCORD_MAIN_ALERT_WEBHOOK_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Discord webhook failed: ${response.status} ${await response.text()}`);
+            }
+          }
+
+          async function sendDiscordBypassAlert(metadata, files, summary, suite) {
+            const ruleSuiteId = suite.id != null ? String(suite.id) : "—";
+            const rulesActor = suite.actor_name
+              ? escapeDiscord(suite.actor_name)
+              : escapeDiscord("(unknown)");
+            const pushedAt = suite.pushed_at ? escapeDiscord(suite.pushed_at) : "—";
+
+            const payload = {
+              username: "GitHub Commits Alerts",
+              content: "<@&1260758874189729867>",
+              allowed_mentions: {
+                roles: ["1260758874189729867"],
+              },
+              avatar_url:
+                "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
+              embeds: [
+                {
+                  title: "Rules bypass merge to main",
+                  url: getCommitUrl(metadata.sha),
+                  color: 16098851,
+                  description: truncate(summary, 4000),
+                  fields: [
+                    {
+                      name: "Repository",
+                      value: escapeDiscord(REPOSITORY),
+                      inline: true,
+                    },
+                    {
+                      name: "Commit",
+                      value: `[\`${metadata.sha.slice(0, 7)}\`](${getCommitUrl(metadata.sha)})`,
+                      inline: true,
+                    },
+                    {
+                      name: "Author",
+                      value: escapeDiscord(`${metadata.authorName} <${metadata.authorEmail}>`),
+                      inline: true,
+                    },
+                    {
+                      name: "Rules actor",
+                      value: rulesActor,
+                      inline: true,
+                    },
+                    {
+                      name: "Rule suite",
+                      value: escapeDiscord(`#${ruleSuiteId}`),
+                      inline: true,
+                    },
+                    {
+                      name: "Evaluated at",
+                      value: pushedAt,
+                      inline: true,
+                    },
+                    {
+                      name: "Pushed by",
+                      value: escapeDiscord(PUSH_ACTOR),
+                      inline: true,
+                    },
+                    {
+                      name: "Workflow run",
+                      value: `[Open run](${RUN_URL})`,
+                      inline: true,
+                    },
+                    {
+                      name: "Message",
+                      value: escapeDiscord(truncate(metadata.subject, 1024)),
+                    },
+                    {
+                      name: "Files",
+                      value: escapeDiscord(truncate(files.join("\n") || "No files detected", 1024)),
+                    },
+                  ],
+                  footer: {
+                    text: "Detected via GitHub repository rule suites API (bypass). Legacy branch protection only may not appear here.",
                   },
                   timestamp: new Date().toISOString(),
                 },
@@ -426,6 +557,51 @@ jobs:
                     .split("\n")
                     .filter(Boolean);
 
+            const commitRangeSet = new Set(commitRange);
+
+            let bypassSuites = null;
+            try {
+              bypassSuites = await fetchAllBypassRuleSuites();
+            } catch (error) {
+              console.log(`fetchAllBypassRuleSuites failed: ${error.message}`);
+            }
+
+            let bypassCount = 0;
+            if (bypassSuites && Array.isArray(bypassSuites)) {
+              const seenBypassSha = new Set();
+              for (const suite of bypassSuites) {
+                if (!isBypassSuite(suite) || !suite.after_sha) {
+                  continue;
+                }
+                if (!commitRangeSet.has(suite.after_sha)) {
+                  continue;
+                }
+                if (seenBypassSha.has(suite.after_sha)) {
+                  continue;
+                }
+                seenBypassSha.add(suite.after_sha);
+
+                const metadata = getCommitMetadata(suite.after_sha);
+                if (shouldSkipCommit(metadata)) {
+                  continue;
+                }
+
+                bypassCount += 1;
+
+                const files = getChangedFiles(metadata.sha);
+                const diff = getDiffForSummary(metadata.sha);
+
+                let summary;
+                try {
+                  summary = await summarizeWithAi(metadata, files, diff);
+                } catch (error) {
+                  console.log(`AI summary failed for ${metadata.sha}: ${error.message}`);
+                }
+
+                await sendDiscordBypassAlert(metadata, files, summary || fallbackSummary(metadata, files), suite);
+              }
+            }
+
             const suspiciousCommits = [];
             let skippedBots = 0;
 
@@ -451,8 +627,11 @@ jobs:
               `Processed ${commitRange.length} commit(s).`,
               `Skipped ${skippedBots} known bot commit(s).`,
               `Flagged ${suspiciousCommits.length} direct commit(s) to \`main\`.`,
+              bypassSuites === null
+                ? "Rule suites API unavailable or failed; bypass merges were not checked."
+                : `Rules bypass rule suites matched in this push: ${bypassCount} commit(s).`,
               "",
-              "Note: repo-only automation cannot reliably detect PR merges that bypass merge rules.",
+              "Bypass detection uses GitHub repository rulesets (legacy branch protection only may not emit rule suites).",
             ]);
 
             for (const metadata of suspiciousCommits) {
