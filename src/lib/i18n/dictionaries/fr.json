@@ -8339,5 +8339,16 @@
   "agingShed.fermentationRack": "Étagère de fermentation",
   "agingShed.spiceRack": "Étagère à épices",
   "vip.lifetime": "Durée de vie",
-  "vip.lifetime.noPurchase": "Vous bénéficiez déjà d'un statut VIP à vie grâce à votre bannière Lifetime Farmer."
+  "vip.lifetime.noPurchase": "Vous bénéficiez déjà d'un statut VIP à vie grâce à votre bannière Lifetime Farmer.",
+  "aprilFools.portal.title": "Certainement pas un portail du poisson d'avril",
+  "aprilFools.portal.description": "Entrez et passez un bon moment avec les très sympathiques Moonseekers !",
+  "aprilFools.portal.missionObjectives": "Obtenez le score cible pour gagner des jetons pour la boutique de l'événement !",
+  "description.aprilFoolsToken2026": "Utilisez-le dans la boutique événementielle du poisson d'avril avant la fin de l'événement !",
+  "description.aprilFoolsTicket2026": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement April Fools !",
+  "description.teethToy": "Votre animal de compagnie adore ça. Votre fermier est très mal à l'aise.",
+  "description.fakeTreasure": "L'art ancien de la déception sous forme de trésor.",
+  "description.fakeMouse": "Se déplace lorsque vous ne regardez pas. Probablement une coïncidence.",
+  "description.petTree": "Une majestueuse tour d'escalade pour votre animal de compagnie. Vos meubles sont enfin en sécurité. Probablement.",
+  "description.definitelyNotAFlower": "Ce n'est pas une fleur. Arrête de demander.",
+  "eventAprilFools.noticeboard.one": "Bienvenue à l'événement communautaire April Fools 2026 !"
 }
