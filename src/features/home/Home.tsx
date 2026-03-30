@@ -46,6 +46,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
+import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -245,6 +246,15 @@ export const Home: React.FC = () => {
       );
     }),
   );
+
+  if (bumpkin?.coordinates && bumpkin.location === "home") {
+    const { x, y } = bumpkin.coordinates;
+    mapPlacements.push(
+      <MapPlacement key="bumpkin" x={x} y={y} height={1} width={1}>
+        <PlacedBumpkin location="home" />
+      </MapPlacement>,
+    );
+  }
 
   const bounds = HOME_BOUNDS[island.type];
   const currentBiome = getCurrentBiome(island);
