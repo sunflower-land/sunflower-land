@@ -34,6 +34,7 @@ import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   buildingName: UpgradableBuildingType;
@@ -41,6 +42,7 @@ interface Props {
   nextLevel: number;
   show: boolean;
   onClose: () => void;
+  onBack?: () => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
@@ -50,6 +52,7 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
   currentLevel,
   nextLevel,
   onClose,
+  onBack,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -221,13 +224,23 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
         // If not max level, show upgrade content
         <div className="flex flex-col">
           <div className="p-1">
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.hammer}
-              className="mb-2 ml-1"
-            >
-              {t("upgrade.building", { building: buildingName })}
-            </Label>
+            <div className="flex items-center gap-2">
+              {onBack && (
+                <img
+                  src={SUNNYSIDE.icons.arrow_left}
+                  className="cursor-pointer"
+                  onClick={onBack}
+                  style={{ width: `${PIXEL_SCALE * 11}px` }}
+                />
+              )}
+              <Label
+                type="default"
+                icon={SUNNYSIDE.icons.hammer}
+                className="mb-2 ml-1"
+              >
+                {t("upgrade.building", { building: buildingName })}
+              </Label>
+            </div>
             {isCurrentlyUpgrading && (
               <Label
                 type="info"

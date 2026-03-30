@@ -21,6 +21,7 @@ type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack" | "upgrade";
 export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<AgingShedTabs>("agingRack");
+  const [showUpgradeTab, setShowUpgradeTab] = useState(false);
   const { gameService } = useContext(Context);
   const agingShedLevel = useSelector(
     gameService,
@@ -58,20 +59,21 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
           left: `${0 * PIXEL_SCALE}px`,
           top: `${-20 * PIXEL_SCALE}px`,
         }}
-        onClick={() => setCurrentTab("upgrade")}
+        onClick={() => setShowUpgradeTab(true)}
       />
       <CloseButtonPanel
         onClose={onClose}
-        tabs={tabs}
+        tabs={showUpgradeTab ? undefined : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
       >
-        {currentTab === "upgrade" ? (
+        {showUpgradeTab ? (
           <UpgradeBuildingContent
             onClose={onClose}
             buildingName={"Aging Shed"}
             currentLevel={agingShedLevel}
             nextLevel={nextAgingShedLevel}
+            onBack={() => setShowUpgradeTab(false)}
           />
         ) : (
           <div className="p-2">
