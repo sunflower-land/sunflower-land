@@ -1906,7 +1906,7 @@ export const ITEM_TRADE_TYPES: {
     "Neon Noiz Shoes": "instant",
     "404 Chic Boots": "instant",
     "Aether Specs": "instant",
-    "Faulty Barrier": "instant",
+    "Faulty Barrier Background": "instant",
     "Cardboard Wings": "onchain",
     "Glitch Aura": "onchain",
   },

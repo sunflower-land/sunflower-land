@@ -32,7 +32,7 @@ export type EventWearableName = Extract<
   | "Neon Noiz Shoes"
   | "404 Chic Boots"
   | "Aether Specs"
-  | "Faulty Barrier"
+  | "Faulty Barrier Background"
   | "Cardboard Wings"
   | "Glitch Aura"
 >;
@@ -153,8 +153,8 @@ export const APRIL_FOOLS_EVENT_ITEMS: EventStore = {
   mega: {
     items: [
       {
-        wearable: "Faulty Barrier",
-        cost: APRIL_FOOLS_STORE["Faulty Barrier"].cost,
+        wearable: "Faulty Barrier Background",
+        cost: APRIL_FOOLS_STORE["Faulty Barrier Background"].cost,
       },
       {
         collectible: "Super Totem",

@@ -22168,16 +22168,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/534.png",
     name: "Aether Specs",
   },
-  "Faulty Barrier": {
+  "Faulty Barrier Background": {
     description: "Protects you from absolutely nothing.",
     decimals: 0,
     attributes: [
-      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Part", value: "Background" },
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/535.png",
-    name: "Faulty Barrier",
+    name: "Faulty Barrier Background",
   },
   "Cardboard Wings": {
     description: "Flight sold separately.",
