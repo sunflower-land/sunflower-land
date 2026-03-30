@@ -429,6 +429,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Obsidian: 663,
   "Lava Pit": 664,
   Salt: 665,
+  "Refined Salt": 666,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

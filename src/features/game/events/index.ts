@@ -57,6 +57,14 @@ import {
   collectProcessedResource,
   CollectProcessedResourceAction,
 } from "./landExpansion/collectProcessedResource";
+import {
+  collectFermentation,
+  CollectFermentationAction,
+} from "./landExpansion/collectFermentation";
+import {
+  startFermentation,
+  StartFermentationAction,
+} from "./landExpansion/startFermentation";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -647,6 +655,8 @@ export type PlayingEvent =
   | CancelProcessedResourceAction
   | ProcessProcessedResourceAction
   | CollectProcessedResourceAction
+  | StartFermentationAction
+  | CollectFermentationAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -927,6 +937,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "processedResource.cancelled": cancelProcessedResource,
   "processedResource.processed": processProcessedResource,
   "processedResource.collected": collectProcessedResource,
+  "fermentation.started": startFermentation,
+  "fermentation.collected": collectFermentation,
   "bumpkin.feed": feedBumpkin,
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,

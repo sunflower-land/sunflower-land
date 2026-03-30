@@ -545,6 +545,7 @@ export const ITEM_TRADE_TYPES: {
     Obsidian: "instant",
     "Lava Pit": "instant",
     Salt: "instant",
+    "Refined Salt": "instant",
     Leather: "instant",
     Wool: "instant",
     "Merino Wool": "instant",

@@ -159,6 +159,35 @@ export function placeBuilding({
         }
       }
 
+      if (action.name === "Aging Shed" && !isSecondBuilding) {
+        if (existingBuilding.removedAt) {
+          const downtimeDelta = createdAt - existingBuilding.removedAt;
+          const fermentation = stateCopy.agingShed.racks.fermentation;
+          if (fermentation.length > 0) {
+            stateCopy.agingShed.racks.fermentation = fermentation.map(
+              (job) => ({
+                ...job,
+                startedAt: job.startedAt + downtimeDelta,
+                readyAt: job.readyAt + downtimeDelta,
+              }),
+            );
+          }
+          if (stateCopy.agingShed.upgradeReadyAt !== undefined) {
+            stateCopy.agingShed.upgradeReadyAt += downtimeDelta;
+          }
+        }
+      }
+
+      if (action.name === "Water Well" && !isSecondBuilding) {
+        if (
+          existingBuilding.removedAt &&
+          stateCopy.waterWell.upgradeReadyAt !== undefined
+        ) {
+          const downtimeDelta = createdAt - existingBuilding.removedAt;
+          stateCopy.waterWell.upgradeReadyAt += downtimeDelta;
+        }
+      }
+
       delete existingBuilding.removedAt;
 
       return stateCopy;

@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
+import {
+  INITIAL_AGING_SHED,
+  INITIAL_BUMPKIN,
+  TEST_FARM,
+} from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
@@ -595,6 +599,167 @@ describe("Place building", () => {
 
     expect(state.craftingBox.queue).toEqual([]);
     expect(state.craftingBox.status).toBe("idle");
+  });
+
+  it("shifts aging shed fermentation jobs and upgradeReadyAt by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+    const upgradeReadyAt = dateNow + 500000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...INITIAL_AGING_SHED,
+          level: 1,
+          upgradeReadyAt,
+          racks: {
+            ...INITIAL_AGING_SHED.racks,
+            fermentation: [
+              {
+                id: "job-1",
+                recipe: "Pickled Radish",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.fermentation).toHaveLength(1);
+    expect(state.agingShed.racks.fermentation[0].startedAt).toEqual(
+      jobStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.fermentation[0].readyAt).toEqual(
+      jobReadyAt + downtimeDelta,
+    );
+    expect(state.agingShed.upgradeReadyAt).toEqual(
+      upgradeReadyAt + downtimeDelta,
+    );
+  });
+
+  it("shifts water well upgradeReadyAt by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const upgradeReadyAt = dateNow + 500000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Water Well": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Water Well": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        waterWell: { level: 1, upgradeReadyAt },
+      },
+      action: {
+        type: "building.placed",
+        name: "Water Well",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.waterWell.upgradeReadyAt).toEqual(
+      upgradeReadyAt + downtimeDelta,
+    );
+  });
+
+  it("does not shift aging shed timers when placing a second aging shed instance", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(2),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "first",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+            },
+            {
+              id: "second",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...INITIAL_AGING_SHED,
+          racks: {
+            ...INITIAL_AGING_SHED.racks,
+            fermentation: [
+              {
+                id: "job-1",
+                recipe: "Pickled Radish",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "second",
+        coordinates: { x: 0, y: 4 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.agingShed.racks.fermentation[0].startedAt).toEqual(
+      jobStartedAt,
+    );
+    expect(state.agingShed.racks.fermentation[0].readyAt).toEqual(jobReadyAt);
   });
 
   it("does not adjust the new readyAt for second instance of building", () => {

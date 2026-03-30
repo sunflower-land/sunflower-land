@@ -31,7 +31,8 @@ export type CommodityName =
   | "Sunstone"
   | "Oil"
   | "Obsidian"
-  | "Salt";
+  | "Salt"
+  | "Refined Salt";
 
 export type MushroomName = Extract<
   CommodityName,
@@ -87,6 +88,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   },
   Salt: {
     description: "Harvested from salt nodes",
+  },
+  "Refined Salt": {
+    description: "Processed salt for pickling and advanced recipes",
   },
 };
 

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_AGING_SHED, TEST_FARM } from "features/game/lib/constants";
 import { upgradeBuilding } from "./upgradeBuilding";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
@@ -289,7 +289,7 @@ describe("upgradeBuilding", () => {
           state: {
             ...TEST_FARM,
             buildings: agingShedBuildings,
-            agingShed: { level: 6 },
+            agingShed: { ...INITIAL_AGING_SHED, level: 6 },
             coins: 2_000_000,
           },
           action: {
@@ -306,7 +306,7 @@ describe("upgradeBuilding", () => {
           state: {
             ...TEST_FARM,
             buildings: agingShedBuildings,
-            agingShed: { level: 1 },
+            agingShed: { ...INITIAL_AGING_SHED, level: 1 },
             coins: 29_999,
             inventory: {
               ...TEST_FARM.inventory,
@@ -328,7 +328,7 @@ describe("upgradeBuilding", () => {
           state: {
             ...TEST_FARM,
             buildings: agingShedBuildings,
-            agingShed: { level: 1 },
+            agingShed: { ...INITIAL_AGING_SHED, level: 1 },
             coins: 30_000,
             inventory: {
               ...TEST_FARM.inventory,
@@ -350,7 +350,7 @@ describe("upgradeBuilding", () => {
           state: {
             ...TEST_FARM,
             buildings: agingShedBuildings,
-            agingShed: { level: 1 },
+            agingShed: { ...INITIAL_AGING_SHED, level: 1 },
             coins: 30_000,
             inventory: {
               ...TEST_FARM.inventory,
@@ -445,7 +445,7 @@ describe("upgradeBuilding", () => {
         const state = {
           ...TEST_FARM,
           buildings: agingShedBuildings,
-          agingShed: { level: fromLevel },
+          agingShed: { ...INITIAL_AGING_SHED, level: fromLevel },
           coins: startingCoins,
           inventory: {
             ...TEST_FARM.inventory,
@@ -479,7 +479,7 @@ describe("upgradeBuilding", () => {
           state: {
             ...TEST_FARM,
             buildings: agingShedBuildings,
-            agingShed: { level: 2 },
+            agingShed: { ...INITIAL_AGING_SHED, level: 2 },
             coins: 50_000,
             inventory: {
               ...TEST_FARM.inventory,

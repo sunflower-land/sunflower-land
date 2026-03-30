@@ -1724,6 +1724,11 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Salt.description,
     translatedName: "Salt",
   },
+  "Refined Salt": {
+    image: obsidian,
+    description: COMMODITIES["Refined Salt"].description,
+    translatedName: "Refined Salt",
+  },
   Sunstone: {
     image: sunstone,
     description: COMMODITIES.Sunstone.description,
