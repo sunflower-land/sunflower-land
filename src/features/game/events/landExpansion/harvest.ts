@@ -239,7 +239,7 @@ export function getCropYieldAmount({
   const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
     prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-  if (isBuffActive({ buff: "Power hour", game })) {
+  if (isBuffActive({ buff: "Power hour", game, now: createdAt })) {
     amount += 0.2;
   }
 

@@ -19,7 +19,6 @@ import {
 } from "features/game/types/fishProcessing";
 import { ProcessedResource } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MAX_FISH_PROCESSING_SLOTS } from "features/game/events/landExpansion/processResource";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -32,6 +31,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "lib/object";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 interface Props {
   isOpen: boolean;
@@ -49,8 +49,6 @@ const PROCESSED_ITEMS: ProcessedResource[] = getKeys(
   FISH_PROCESSING_TIME_SECONDS,
 );
 
-const _isVIP = (state: MachineState) =>
-  hasVipAccess({ game: state.context.state });
 const _state = (state: MachineState) => state.context.state;
 const _season = (state: MachineState) => state.context.state.season.season;
 
@@ -68,9 +66,9 @@ export const FishMarketModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
-  const isVIP = useSelector(gameService, _isVIP);
   const state = useSelector(gameService, _state);
   const season = useSelector(gameService, _season);
+  const isVIP = useVipAccess({ game: state });
   const inventory = state.inventory;
 
   const [selected, setSelected] = useState<ProcessedResource>(

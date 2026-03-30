@@ -41,4 +41,5 @@ export const TEAM_USERNAMES = [
   "Craig",
   "Spencer",
   "NoneForSome",
+  "rafael",
 ];

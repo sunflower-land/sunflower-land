@@ -11,13 +11,16 @@ export const TWITTER_HASHTAGS: Record<TwitterPostName, string> = {
 };
 
 export type TwitterReward = {
-  items: (game: GameState) => Partial<Record<InventoryItemName, number>>;
+  items: (
+    game: GameState,
+    now: number,
+  ) => Partial<Record<InventoryItemName, number>>;
 };
 
 export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
   WEEKLY: {
-    items: (game: GameState) => {
-      if (!hasVipAccess({ game })) {
+    items: (game: GameState, now: number) => {
+      if (!hasVipAccess({ game, now })) {
         return { "Bronze Food Box": 1 };
       }
 
@@ -25,8 +28,8 @@ export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
     },
   },
   FARM: {
-    items: (game: GameState) => {
-      if (!hasVipAccess({ game })) {
+    items: (game: GameState, now: number) => {
+      if (!hasVipAccess({ game, now })) {
         return { "Bronze Tool Box": 1 };
       }
 

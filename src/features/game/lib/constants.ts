@@ -696,6 +696,10 @@ export const INITIAL_FARM: GameState = {
   pets: {
     common: {},
   },
+  saltFarm: {
+    level: 0,
+    nodes: {},
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -1031,6 +1035,10 @@ export const TEST_FARM: GameState = {
   pets: {
     common: {},
   },
+  saltFarm: {
+    level: 0,
+    nodes: {},
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1214,5 +1222,9 @@ export const EMPTY: GameState = {
   },
   pets: {
     common: {},
+  },
+  saltFarm: {
+    level: 0,
+    nodes: {},
   },
 };

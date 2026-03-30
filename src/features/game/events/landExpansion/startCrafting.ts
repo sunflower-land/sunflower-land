@@ -112,7 +112,7 @@ export function startCrafting({
       throw new Error("Invalid queue item id");
     }
 
-    const availableSlots = hasVipAccess({ game: copy }) ? 4 : 1;
+    const availableSlots = hasVipAccess({ game: copy, now: createdAt }) ? 4 : 1;
 
     if (effectiveQueue.length >= availableSlots) {
       throw new Error("No available slots");

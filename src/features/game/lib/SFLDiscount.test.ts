@@ -18,7 +18,7 @@ describe("SFLDiscount", () => {
       inventory: { "Dawn Breaker Banner": undefined },
     };
     const sfl = new Decimal(1);
-    const result = SFLDiscount(state, sfl);
+    const result = SFLDiscount(state, sfl, Date.now());
     expect(result).toEqual(new Decimal(1));
   });
 
@@ -33,7 +33,7 @@ describe("SFLDiscount", () => {
       inventory: { "Witches' Eve Banner": undefined },
     };
     const sfl = new Decimal(1);
-    const result = SFLDiscount(state, sfl);
+    const result = SFLDiscount(state, sfl, Date.now());
     expect(result).toEqual(new Decimal(1));
   });
 
@@ -48,7 +48,7 @@ describe("SFLDiscount", () => {
       inventory: { "Witches' Eve Banner": new Decimal(1) },
     };
     const sfl = new Decimal(1);
-    const result = SFLDiscount(state, sfl);
+    const result = SFLDiscount(state, sfl, Date.now());
     expect(result).toEqual(new Decimal(1));
   });
 
@@ -58,7 +58,7 @@ describe("SFLDiscount", () => {
       inventory: { "Lifetime Farmer Banner": new Decimal(1) },
     };
     const sfl = new Decimal(1);
-    const result = SFLDiscount(state, sfl);
+    const result = SFLDiscount(state, sfl, Date.now());
     expect(result).toEqual(new Decimal(0.5));
   });
 });

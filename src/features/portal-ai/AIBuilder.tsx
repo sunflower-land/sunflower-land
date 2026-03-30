@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useCallback,
+  useMemo,
 } from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "@xstate/react";
@@ -18,6 +19,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import * as Phaser from "phaser";
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _playing = (state: MachineState) => state.matches("playing");
 
 interface WebSocketMessage {
   action: string;
@@ -40,6 +42,60 @@ interface ErrorMessage extends WebSocketMessage {
     error: string;
     sessionId?: string;
   };
+}
+
+interface VersionsListMessage extends WebSocketMessage {
+  action: "versionsList";
+  data: {
+    farmId: string;
+    versions: { versionId: string; lastModified: string }[];
+    sessionId: string;
+  };
+}
+
+interface AssetEntry {
+  category: string;
+  name: string;
+  path: string;
+  /** Copy-pasteable reference, e.g. SUNNYSIDE.icons.close */
+  ref: string;
+}
+
+/** Simple fuzzy match: checks if all characters of the query appear in order. */
+function fuzzyMatch(query: string, target: string): boolean {
+  const q = query.toLowerCase();
+  const t = target.toLowerCase();
+  let qi = 0;
+  for (let ti = 0; ti < t.length && qi < q.length; ti++) {
+    if (t[ti] === q[qi]) qi++;
+  }
+  return qi === q.length;
+}
+
+/**
+ * Flatten the global SUNNYSIDE object (set by the asset template) into a
+ * searchable list of entries.
+ */
+function flattenSunnysideAssets(): AssetEntry[] {
+  const sunnyside = (window as any).SUNNYSIDE;
+  if (!sunnyside) return [];
+
+  const entries: AssetEntry[] = [];
+  for (const category of Object.keys(sunnyside)) {
+    const group = sunnyside[category];
+    if (typeof group !== "object" || group === null) continue;
+    for (const name of Object.keys(group)) {
+      const path = group[name];
+      if (typeof path !== "string") continue;
+      entries.push({
+        category,
+        name,
+        path,
+        ref: `SUNNYSIDE.${category}.${name}`,
+      });
+    }
+  }
+  return entries;
 }
 
 const WS_URL = import.meta.env.VITE_AI_PORTAL_WS_URL || "ws://localhost:3001";
@@ -71,6 +127,7 @@ const EXAMPLE_PROMPTS = [
 export const AIBuilder: React.FC = () => {
   const { gameService, fromRoute } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
+  const isPlaying = useSelector(gameService, _playing);
   const navigate = useNavigate();
 
   const [prompt, setPrompt] = useState("");
@@ -80,6 +137,18 @@ export const AIBuilder: React.FC = () => {
   }>({ message: "", type: "hidden" });
   const [hasSavedFarm, setHasSavedFarm] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [versions, setVersions] = useState<
+    { versionId: string; lastModified: string }[]
+  >([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"builder" | "assets">("builder");
+  const [assetSearch, setAssetSearch] = useState("");
+  const [assetCategory, setAssetCategory] = useState<string>("all");
+  const [assetEntries, setAssetEntries] = useState<AssetEntry[]>([]);
+  const [copiedRef, setCopiedRef] = useState<string | null>(null);
+  const [mobileDrawerTab, setMobileDrawerTab] = useState<"tools" | "assets">(
+    "tools",
+  );
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -194,6 +263,9 @@ export const AIBuilder: React.FC = () => {
         const assetsFunction = new Function(sunflowerAssets);
         assetsFunction();
 
+        // Refresh the asset directory after loading
+        setAssetEntries(flattenSunnysideAssets());
+
         // Load SDK into global scope
         const sdkFunction = new Function(sunflowerSDK);
         sdkFunction();
@@ -242,14 +314,35 @@ export const AIBuilder: React.FC = () => {
     [cleanupGame, showStatus, setupCanvasFocusHandling],
   );
 
+  const listVersions = useCallback(() => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+      showStatus("Not connected to server. Please wait...", "error");
+      return;
+    }
+
+    const sid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+    sessionIdRef.current = sid;
+
+    wsRef.current.send(
+      JSON.stringify({
+        action: "listVersions",
+        data: { farmId: String(farmId), sessionId: sid },
+      }),
+    );
+  }, [farmId, showStatus]);
+
   const handleSceneGenerated = useCallback(
     (message: SceneGeneratedMessage) => {
       const { phaserScene, sunflowerAssets, sunflowerSDK } = message.data;
 
       const isLoadedFarm = message.data.sessionId.includes("farm-");
       const isDeleteOperation = message.data.sessionId.includes("delete-");
+      const isVersionLoad = message.data.sessionId.includes("version-");
 
-      if (isDeleteOperation) {
+      if (isVersionLoad) {
+        setHasSavedFarm(true);
+        showStatus("Previous version loaded!", "success");
+      } else if (isDeleteOperation) {
         setHasSavedFarm(false);
         showStatus("Successfully deleted saved farm", "success");
       } else if (isLoadedFarm) {
@@ -271,8 +364,20 @@ export const AIBuilder: React.FC = () => {
       loadSceneDirectly(phaserScene, sunflowerAssets, sunflowerSDK);
       setIsGenerating(false);
       setTimeout(() => hideStatus(), 3000);
+
+      // Refresh versions list after generating/loading
+      if (!isDeleteOperation && !isLoadedFarm) {
+        listVersions();
+      }
     },
-    [farmId, isTemplateCode, loadSceneDirectly, showStatus, hideStatus],
+    [
+      farmId,
+      isTemplateCode,
+      loadSceneDirectly,
+      showStatus,
+      hideStatus,
+      listVersions,
+    ],
   );
 
   const handleError = useCallback(
@@ -283,8 +388,10 @@ export const AIBuilder: React.FC = () => {
     [showStatus],
   );
 
-  // Connect WebSocket
+  // Connect WebSocket once in playing state
   useEffect(() => {
+    if (!isPlaying) return;
+
     // Ensure Phaser is available on window for dynamically generated scenes
     (window as any).Phaser = Phaser;
 
@@ -310,6 +417,15 @@ export const AIBuilder: React.FC = () => {
               data: { farmId: String(farmId), sessionId: sid },
             }),
           );
+
+          // Also fetch version history
+          const versionsSid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+          ws.send(
+            JSON.stringify({
+              action: "listVersions",
+              data: { farmId: String(farmId), sessionId: versionsSid },
+            }),
+          );
         }
       };
 
@@ -318,6 +434,9 @@ export const AIBuilder: React.FC = () => {
         switch (message.action) {
           case "sceneGenerated":
             handleSceneGenerated(message as SceneGeneratedMessage);
+            break;
+          case "versionsList":
+            setVersions((message as VersionsListMessage).data.versions);
             break;
           case "error":
             handleError(message as ErrorMessage);
@@ -341,7 +460,7 @@ export const AIBuilder: React.FC = () => {
       cleanupGame();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isPlaying]);
 
   // Escape to close
   useEffect(() => {
@@ -427,12 +546,266 @@ export const AIBuilder: React.FC = () => {
     );
   }, [showStatus]);
 
+  const loadVersion = useCallback(
+    (versionId: string, lastModified: string) => {
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        showStatus("Not connected to server. Please wait...", "error");
+        return;
+      }
+
+      const sid = `version-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+      sessionIdRef.current = sid;
+      setIsGenerating(true);
+      showStatus(
+        `Loading version from ${new Date(lastModified).toLocaleString()}...`,
+        "generating",
+      );
+
+      wsRef.current.send(
+        JSON.stringify({
+          action: "loadVersion",
+          data: {
+            farmId: String(farmId),
+            versionId,
+            sessionId: sid,
+          },
+        }),
+      );
+    },
+    [farmId, showStatus],
+  );
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
       generateGame();
     }
   };
+
+  // Derive categories and filtered assets from current state
+  const assetCategories = useMemo(
+    () => Array.from(new Set(assetEntries.map((e) => e.category))).sort(),
+    [assetEntries],
+  );
+
+  const filteredAssets = useMemo(() => {
+    let list = assetEntries;
+    if (assetCategory !== "all") {
+      list = list.filter((e) => e.category === assetCategory);
+    }
+    if (assetSearch.trim()) {
+      const q = assetSearch.trim();
+      list = list.filter(
+        (e) =>
+          fuzzyMatch(q, e.name) ||
+          fuzzyMatch(q, e.category) ||
+          fuzzyMatch(q, e.ref),
+      );
+    }
+    return list;
+  }, [assetEntries, assetCategory, assetSearch]);
+
+  const copyAssetRef = useCallback((ref: string) => {
+    navigator.clipboard.writeText(ref).then(() => {
+      setCopiedRef(ref);
+      setTimeout(() => setCopiedRef(null), 1500);
+    });
+  }, []);
+
+  // Shared asset directory content (used in desktop tab and mobile drawer)
+  const assetDirectoryContent = (
+    <div className="flex flex-col gap-2">
+      {/* Search */}
+      <input
+        type="text"
+        value={assetSearch}
+        onChange={(e) => setAssetSearch(e.target.value)}
+        placeholder="Search assets (e.g. chicken, axe, tree)..."
+        className="w-full p-2 rounded text-sm border border-gray-300"
+      />
+
+      {/* Category filter */}
+      <div className="flex flex-wrap gap-1">
+        <span
+          className={`text-xs px-2 py-1 rounded-full cursor-pointer ${
+            assetCategory === "all"
+              ? "bg-blue-200 text-blue-900 font-semibold"
+              : "bg-brown-100 hover:bg-brown-200"
+          }`}
+          onClick={() => setAssetCategory("all")}
+        >
+          {"All"}
+        </span>
+        {assetCategories.map((cat) => (
+          <span
+            key={cat}
+            className={`text-xs px-2 py-1 rounded-full cursor-pointer ${
+              assetCategory === cat
+                ? "bg-blue-200 text-blue-900 font-semibold"
+                : "bg-brown-100 hover:bg-brown-200"
+            }`}
+            onClick={() => setAssetCategory(cat)}
+          >
+            {cat}
+          </span>
+        ))}
+      </div>
+
+      {/* Results */}
+      {assetEntries.length === 0 ? (
+        <p className="text-xs text-gray-500">
+          {"Assets load after a game is generated or loaded."}
+        </p>
+      ) : filteredAssets.length === 0 ? (
+        <p className="text-xs text-gray-500">{"No matching assets found."}</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 max-h-[400px] md:max-h-[calc(100vh-320px)] overflow-y-auto">
+          {filteredAssets.map((asset) => (
+            <div
+              key={asset.ref}
+              className="flex flex-col items-center p-1 rounded bg-brown-100 hover:bg-brown-200 cursor-pointer text-center"
+              onClick={() => copyAssetRef(asset.ref)}
+              title={`Click to copy: ${asset.ref}`}
+            >
+              <img
+                src={asset.path}
+                alt={asset.name}
+                className="w-10 h-10 object-contain"
+                style={{ imageRendering: "pixelated" }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+              <span className="text-[10px] leading-tight mt-1 break-all">
+                {asset.name}
+              </span>
+              <span className="text-[9px] text-gray-500 leading-tight">
+                {asset.category}
+              </span>
+              {copiedRef === asset.ref && (
+                <span className="text-[9px] text-green-700 font-semibold">
+                  {"Copied!"}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  /*
+   * TWO LAYOUTS: This component has a desktop and mobile layout.
+   *
+   * - Desktop (md+): Side-by-side with form/tools on the left and game preview
+   *   on the right. All panels are always visible.
+   *
+   * - Mobile (<md): Game preview fills the screen with the prompt input
+   *   overlaid at the bottom. A slide-up drawer (toggled via a handle) reveals
+   *   additional tools: example prompts, previous versions, and the delete
+   *   button. When modifying either layout, ensure the other still works.
+   */
+
+  // Shared prompt input + action buttons (used in both layouts)
+  const promptSection = (
+    <>
+      <input
+        type="text"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder={
+          hasSavedFarm
+            ? 'Describe modifications (e.g., "add more enemies")'
+            : "Describe a new minigame to generate..."
+        }
+        className="w-full p-2 rounded text-sm border border-gray-300"
+        maxLength={500}
+        disabled={isGenerating}
+      />
+      <div className="flex gap-1">
+        <Button
+          onClick={generateGame}
+          disabled={!prompt.trim() || isGenerating}
+        >
+          {isGenerating
+            ? "Working..."
+            : hasSavedFarm
+              ? "Modify Farm"
+              : "Generate Game"}
+        </Button>
+        {/* Delete button only in desktop; mobile puts it in the drawer */}
+        {hasSavedFarm && (
+          <Button
+            className="hidden md:block"
+            onClick={deleteSavedFarm}
+            disabled={isGenerating}
+          >
+            {"Delete Saved Farm"}
+          </Button>
+        )}
+      </div>
+    </>
+  );
+
+  // Shared status bar
+  const statusBar = status.type !== "hidden" && (
+    <div
+      className={`text-xs p-2 rounded ${
+        status.type === "error"
+          ? "bg-red-100 text-red-800"
+          : status.type === "generating"
+            ? "bg-orange-100 text-orange-800"
+            : status.type === "connecting"
+              ? "bg-blue-100 text-blue-800"
+              : "bg-green-100 text-green-800"
+      }`}
+    >
+      {status.message}
+    </div>
+  );
+
+  // Shared example prompts panel content
+  const examplePromptsContent = (
+    <div className="flex flex-wrap gap-1 mt-1">
+      <span
+        className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full cursor-pointer hover:bg-green-200 font-semibold border border-green-500"
+        onClick={loadTemplateDemo}
+      >
+        {"Template Demo (No AI)"}
+      </span>
+      {EXAMPLE_PROMPTS.map((example) => (
+        <span
+          key={example.label}
+          className="text-xs bg-brown-100 px-2 py-1 rounded-full cursor-pointer hover:bg-brown-200"
+          onClick={() => setPrompt(example.prompt)}
+        >
+          {example.label}
+        </span>
+      ))}
+    </div>
+  );
+
+  // Shared previous versions panel content
+  const versionsContent =
+    versions.length === 0 ? (
+      <p className="text-xs text-gray-500 mt-1">
+        {"No previous versions found."}
+      </p>
+    ) : (
+      <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
+        {versions.map((version) => (
+          <div
+            key={version.versionId}
+            className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
+            onClick={() => loadVersion(version.versionId, version.lastModified)}
+          >
+            <span>{new Date(version.lastModified).toLocaleString()}</span>
+            <span className="underline ml-2 flex-shrink-0">{"Load"}</span>
+          </div>
+        ))}
+      </div>
+    );
 
   return (
     <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
@@ -468,94 +841,77 @@ export const AIBuilder: React.FC = () => {
           />
         </div>
 
-        {/* Main Content */}
-        <div className="flex flex-col lg:flex-row flex-1 min-h-0 gap-1 p-1">
-          {/* Left Side - Form */}
-          <div className="lg:w-1/2 flex flex-col gap-2">
-            <InnerPanel className="flex flex-col gap-2 p-2">
-              <Label type="default">{"Describe Your Minigame"}</Label>
+        {/*
+         * Single content area with responsive behavior.
+         * The game container (ref + id) is rendered ONCE to avoid duplicate
+         * ref/id issues with Phaser mounting.
+         *
+         * - Desktop (md+): flex-row with left form panel and right game panel.
+         * - Mobile (<md): flex-col with game filling available space and
+         *   prompt overlaid at the bottom.
+         */}
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-1 p-1 relative">
+          {/* ===== DESKTOP: Left Side - Tabbed panel (hidden on mobile) ===== */}
+          <div className="hidden md:flex md:w-1/2 flex-col gap-2">
+            {/* Tab bar */}
+            <div className="flex gap-1">
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  activeTab === "builder"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setActiveTab("builder")}
+              >
+                {"Builder"}
+              </span>
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  activeTab === "assets"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setActiveTab("assets")}
+              >
+                {"Assets"}
+              </span>
+            </div>
 
-              {/* Prompt Input */}
-              <input
-                type="text"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={
-                  hasSavedFarm
-                    ? 'Describe modifications (e.g., "add more enemies", "change the background")'
-                    : "Describe a new minigame to generate..."
-                }
-                className="w-full p-2 rounded text-sm border border-gray-300"
-                maxLength={500}
-                disabled={isGenerating}
-              />
+            {/* Tab content */}
+            {activeTab === "builder" ? (
+              <>
+                <InnerPanel className="flex flex-col gap-2 p-2">
+                  <Label type="default">{"Describe Your Minigame"}</Label>
+                  {promptSection}
+                  {statusBar}
+                </InnerPanel>
 
-              {/* Action Buttons */}
-              <div className="flex gap-1">
-                <Button
-                  onClick={generateGame}
-                  disabled={!prompt.trim() || isGenerating}
-                >
-                  {isGenerating
-                    ? "Working..."
-                    : hasSavedFarm
-                      ? "Modify Farm"
-                      : "Generate Game"}
-                </Button>
-                {hasSavedFarm && (
-                  <Button onClick={deleteSavedFarm} disabled={isGenerating}>
-                    {"Delete Saved Farm"}
-                  </Button>
-                )}
-              </div>
+                <InnerPanel className="p-2">
+                  <Label type="default">{"Example Prompts"}</Label>
+                  {examplePromptsContent}
+                </InnerPanel>
 
-              {/* Status */}
-              {status.type !== "hidden" && (
-                <div
-                  className={`text-xs p-2 rounded ${
-                    status.type === "error"
-                      ? "bg-red-100 text-red-800"
-                      : status.type === "generating"
-                        ? "bg-orange-100 text-orange-800"
-                        : status.type === "connecting"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-green-100 text-green-800"
-                  }`}
-                >
-                  {status.message}
-                </div>
-              )}
-            </InnerPanel>
-
-            {/* Example Prompts */}
-            <InnerPanel className="p-2">
-              <Label type="default">{"Example Prompts"}</Label>
-              <div className="flex flex-wrap gap-1 mt-1">
-                <span
-                  className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full cursor-pointer hover:bg-green-200 font-semibold border border-green-500"
-                  onClick={loadTemplateDemo}
-                >
-                  {"Template Demo (No AI)"}
-                </span>
-                {EXAMPLE_PROMPTS.map((example) => (
-                  <span
-                    key={example.label}
-                    className="text-xs bg-brown-100 px-2 py-1 rounded-full cursor-pointer hover:bg-brown-200"
-                    onClick={() => setPrompt(example.prompt)}
-                  >
-                    {example.label}
-                  </span>
-                ))}
-              </div>
-            </InnerPanel>
+                <InnerPanel className="p-2">
+                  <Label type="default">{"Previous Versions"}</Label>
+                  {versionsContent}
+                </InnerPanel>
+              </>
+            ) : (
+              <InnerPanel className="flex flex-col gap-2 p-2">
+                <Label type="default">{"Asset Directory"}</Label>
+                {assetDirectoryContent}
+              </InnerPanel>
+            )}
           </div>
 
-          {/* Right Side - Game Preview */}
-          <div className="lg:w-1/2 flex flex-col gap-1">
+          {/* ===== Game Preview - single instance, responsive sizing ===== */}
+          <div className="flex-1 md:w-1/2 flex flex-col gap-1 min-h-0">
             <InnerPanel className="flex-1 flex flex-col p-2 min-h-0">
-              <Label type="default">{"Game Preview"}</Label>
-              <div className="flex-1 bg-black rounded overflow-hidden mt-1 flex items-center justify-center min-h-[300px]">
+              {/* Label + helper text only visible on desktop */}
+              <Label type="default" className="hidden md:flex">
+                {"Game Preview"}
+              </Label>
+              <div className="flex-1 bg-black rounded overflow-hidden md:mt-1 flex items-center justify-center min-h-[200px] md:min-h-[300px]">
                 <div
                   id="aiBuilderGame"
                   ref={gameContainerRef}
@@ -564,13 +920,112 @@ export const AIBuilder: React.FC = () => {
                 />
               </div>
               <p
-                className="text-xs text-center mt-1"
-                style={{ color: "#b0a89a" }}
+                className="hidden md:block text-xs text-center mt-1"
+                style={{ color: "#000" }}
               >
                 {"Your generated minigame will appear here"}
               </p>
             </InnerPanel>
           </div>
+
+          {/* ===== MOBILE: Bottom bar - prompt + drawer toggle (hidden on desktop) ===== */}
+          <div className="flex-shrink-0 md:hidden">
+            <InnerPanel className="flex flex-col gap-2 p-2">
+              {statusBar}
+              {promptSection}
+              {/* Drawer toggle */}
+              <button
+                className="w-full flex items-center justify-center gap-1 text-xs py-1 rounded cursor-pointer"
+                style={{ color: "#000" }}
+                onClick={() => setDrawerOpen(!drawerOpen)}
+              >
+                <span
+                  className="inline-block transition-transform"
+                  style={{
+                    transform: drawerOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                >
+                  {"▲"}
+                </span>
+                {drawerOpen ? "Hide Tools" : "More Tools"}
+              </button>
+            </InnerPanel>
+          </div>
+
+          {/* ===== MOBILE: Slide-up drawer overlay (hidden on desktop) ===== */}
+          {drawerOpen && (
+            <>
+              <div
+                className="absolute inset-0 bg-black bg-opacity-50 z-10 md:hidden"
+                onClick={() => setDrawerOpen(false)}
+              />
+              <div className="absolute bottom-0 left-0 right-0 z-20 p-1 pb-2 max-h-[70%] overflow-y-auto md:hidden">
+                <InnerPanel className="flex flex-col gap-2 p-2">
+                  {/* Drawer header: tabs + close */}
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-1">
+                      <span
+                        className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                          mobileDrawerTab === "tools"
+                            ? "bg-brown-200 font-semibold"
+                            : "bg-brown-100"
+                        }`}
+                        onClick={() => setMobileDrawerTab("tools")}
+                      >
+                        {"Tools"}
+                      </span>
+                      <span
+                        className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                          mobileDrawerTab === "assets"
+                            ? "bg-brown-200 font-semibold"
+                            : "bg-brown-100"
+                        }`}
+                        onClick={() => setMobileDrawerTab("assets")}
+                      >
+                        {"Assets"}
+                      </span>
+                    </div>
+                    <button
+                      className="text-xs px-2 py-1 rounded"
+                      style={{ color: "#000" }}
+                      onClick={() => setDrawerOpen(false)}
+                    >
+                      {"Close ✕"}
+                    </button>
+                  </div>
+
+                  {/* Tab content */}
+                  {mobileDrawerTab === "tools" ? (
+                    <>
+                      <div>
+                        <Label type="default">{"Example Prompts"}</Label>
+                        {examplePromptsContent}
+                      </div>
+
+                      <div>
+                        <Label type="default">{"Previous Versions"}</Label>
+                        {versionsContent}
+                      </div>
+
+                      {hasSavedFarm && (
+                        <Button
+                          onClick={deleteSavedFarm}
+                          disabled={isGenerating}
+                        >
+                          {"Delete Saved Farm"}
+                        </Button>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      <Label type="default">{"Asset Directory"}</Label>
+                      {assetDirectoryContent}
+                    </div>
+                  )}
+                </InnerPanel>
+              </div>
+            </>
+          )}
         </div>
       </OuterPanel>
     </div>

@@ -24,6 +24,8 @@ import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouet
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { getObjectEntries } from "lib/object";
+import maleIcon from "assets/icons/male_icon.webp";
+import femaleIcon from "assets/icons/female_icon.webp";
 
 const MALE_HAIRSTYLES: BumpkinHair[] = [
   "Basic Hair",
@@ -113,8 +115,8 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
   const finish = () => onSave(equipped);
 
   const GENDERS: Record<Gender, { hair: BumpkinHair[]; icon: string }> = {
-    male: { hair: MALE_HAIRSTYLES, icon: "♂" },
-    female: { hair: FEMALE_HAIRSTYLES, icon: "♀" },
+    male: { hair: MALE_HAIRSTYLES, icon: maleIcon },
+    female: { hair: FEMALE_HAIRSTYLES, icon: femaleIcon },
   };
 
   const selectedPresetIndex = OUTFIT_PRESETS.findIndex(
@@ -141,7 +143,7 @@ export const SignupBumpkinEquip: React.FC<Props> = ({
                   className="cursor-pointer !p-1 flex items-center justify-center hover:img-highlight"
                   onClick={() => switchHairGender(gender)}
                 >
-                  <span className="text-xs leading-none">{icon}</span>
+                  <img src={icon} className="h-4" />
                 </Container>
               );
             })}

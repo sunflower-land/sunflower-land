@@ -32,7 +32,8 @@ export type BuildingName =
   | "Crop Machine"
   | "Barn"
   | "Crafting Box"
-  | "Pet House";
+  | "Pet House"
+  | "Aging Shed";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -484,6 +485,50 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
       constructionSeconds: 2 * 60 * 60,
     },
   ],
+  "Aging Shed": [
+    {
+      unlocksAtLevel: 0,
+      coins: 200,
+      constructionSeconds: 0,
+      ingredients: [{ item: "Wood", amount: new Decimal(30) }],
+    },
+    {
+      unlocksAtLevel: 0,
+      coins: 30000,
+      constructionSeconds: 60 * 60,
+      ingredients: [
+        { item: "Stone", amount: new Decimal(100) },
+        { item: "Gold", amount: new Decimal(20) },
+      ],
+    },
+    {
+      unlocksAtLevel: 0,
+      coins: 40000,
+      constructionSeconds: 60 * 60 * 6,
+      ingredients: [
+        { item: "Wood", amount: new Decimal(500) },
+        { item: "Stone", amount: new Decimal(500) },
+      ],
+    },
+    {
+      unlocksAtLevel: 0,
+      coins: 100000,
+      constructionSeconds: 60 * 60 * 12,
+      ingredients: [{ item: "Gold", amount: new Decimal(100) }],
+    },
+    {
+      unlocksAtLevel: 0,
+      coins: 200000,
+      constructionSeconds: 60 * 60 * 24,
+      ingredients: [{ item: "Crimstone", amount: new Decimal(10) }],
+    },
+    {
+      unlocksAtLevel: 0,
+      coins: 1_000_000,
+      constructionSeconds: 60 * 60,
+      ingredients: [],
+    },
+  ],
 };
 
 export type Dimensions = { width: number; height: number };
@@ -514,6 +559,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 3 },
+  "Aging Shed": { width: 3, height: 3 },
 };
 
 const PROCESSING_BUILDINGS: ProcessingBuildingName[] = ["Fish Market"];

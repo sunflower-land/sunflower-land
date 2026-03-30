@@ -201,7 +201,7 @@ export function cook({
     const ingredients = getCookingRequirements({ state, item });
     const { buildings, bumpkin } = stateCopy;
     const buildingsOfRequiredType = buildings[requiredBuilding];
-    const availableSlots = hasVipAccess({ game: stateCopy })
+    const availableSlots = hasVipAccess({ game: stateCopy, now: createdAt })
       ? MAX_COOKING_SLOTS
       : 1;
 

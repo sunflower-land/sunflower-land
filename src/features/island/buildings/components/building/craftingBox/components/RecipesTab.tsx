@@ -26,7 +26,7 @@ import { getBoostedCraftingTime } from "features/game/events/landExpansion/start
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
@@ -73,7 +73,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const craftingQueue: CraftingQueueItem[] = rawQueue ?? [];
 
-  const isVIP = hasVipAccess({ game: state });
+  const isVIP = useVipAccess({ game: state });
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
   const canAddToQueue = craftingStatus === "crafting" && isVIP && !isQueueFull;

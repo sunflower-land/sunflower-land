@@ -21,17 +21,19 @@ import { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineState,
+  selectGameState,
+  selectVerified,
+} from "features/game/lib/gameMachine";
+import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { useSound } from "lib/utils/hooks/useSound";
-import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
@@ -60,7 +62,6 @@ const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
-const selectGame = (state: MachineState) => state.context.state;
 const selectFarmId = (state: MachineState) => state.context.farmId;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
@@ -71,17 +72,6 @@ const compareGame = (prev: GameState, next: GameState) =>
     isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
   (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
     (next.bumpkin?.skills["Insta-Chop"] ?? false);
-
-// A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState) =>
-  // - level 60+
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
-  // - verified (personhood verification)
-  (state.context.verified || isFaceVerified({ game: state.context.state })) &&
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Cropkeeper,
-  });
 
 interface Props {
   id: string;
@@ -97,8 +87,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
   const harvested = useRef<number>(0);
-
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -122,7 +110,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.trees[id],
     compareResource,
   );
-  const game = useSelector(gameService, selectGame, compareGame);
+  const game = useSelector(gameService, selectGameState, compareGame);
+  const verified = useSelector(gameService, selectVerified);
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -144,6 +133,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, game, id);
   const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
   const now = useNow({ live: true, autoEndAt: readyAt });
+  const isSeasoned = isSeasonedPlayer({ game, verified, now });
+
   const timeLeft = getTimeLeft(
     resource.wood.choppedAt,
     TREE_RECOVERY_TIME,

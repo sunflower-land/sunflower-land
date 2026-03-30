@@ -32,10 +32,6 @@ import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "lib/object";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
-import { isBuffActive } from "features/game/types/buffs";
-import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
-import { useNow } from "lib/utils/hooks/useNow";
 import { PanelTabs } from "features/game/components/CloseablePanel";
 import foodIcon from "assets/food/chicken_drumstick.png";
 import { Equipped } from "features/game/types/bumpkin";
@@ -278,8 +274,8 @@ export const BumpkinInfo: React.FC<{
   readonly,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
   const { bumpkin, inventory } = gameState;
+
   const BADGES = getKeys(LEGACY_BADGE_TREE);
 
   const badges = BADGES.map((badge) => {
@@ -301,11 +297,6 @@ export const BumpkinInfo: React.FC<{
 
     return null;
   }).filter(Boolean);
-
-  const isPowerHourActive = isBuffActive({
-    buff: "Power hour",
-    game: gameState,
-  });
 
   return (
     <div className="flex flex-wrap">
@@ -373,23 +364,6 @@ export const BumpkinInfo: React.FC<{
             </div>
             <div className="flex flex-wrap items-center mt-2">{badges}</div>
           </ButtonPanel>
-        )}
-
-        {isPowerHourActive && (
-          <div className="flex items-center">
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`Power hour`}
-            </Label>
-            <span className="text-xs ml-2">
-              {secondsToString(
-                ((gameState.buffs?.["Power hour"]?.startedAt ?? 0) +
-                  (gameState.buffs?.["Power hour"]?.durationMS ?? 0) -
-                  now) /
-                  1000,
-                { length: "medium" },
-              )}
-            </span>
-          </div>
         )}
 
         <ButtonPanel

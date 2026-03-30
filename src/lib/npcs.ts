@@ -7,6 +7,7 @@ export type NPCName =
   | "felga" // Fruit dash
   | "minewhack" // Mine Whack
   | "memory" // Memory portal
+  | "chaac" // Chaac's Temple portal
   | "digby"
   | "portaller"
   | "gambit"
@@ -116,7 +117,8 @@ export type NPCName =
   | "rocket man"
   | "new year pete"
   | "bailey" // weatherman
-  | "neville"; // fish market
+  | "neville" // fish market
+  | "pirate skeleton"; //april fools event portal npc
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   streamer: {
@@ -203,6 +205,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Bumpkin Boots",
     tool: "Kama",
     hat: "Straw Hat",
+  },
+  chaac: {
+    background: "Farm Background",
+    hair: "Basic Hair",
+    body: "Beige Farmer Potion",
+    shirt: "Striped Blue Shirt",
+    pants: "Bumpkin Pants",
+    shoes: "Bumpkin Boots",
   },
   pharaoh: {
     body: "Light Brown Farmer Potion",
@@ -1303,6 +1313,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Skinning Knife",
     background: "Pumpkin Plaza Background",
     shoes: "Cowboy Boots",
+  },
+  "pirate skeleton": {
+    body: "Moonseeker Potion",
+    hair: "Buzz Cut",
+    pants: "Pirate Pants",
+    hat: "Pirate Hat",
+    shirt: "Striped Blue Shirt",
+    coat: "Pirate General Coat",
+    tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };
 

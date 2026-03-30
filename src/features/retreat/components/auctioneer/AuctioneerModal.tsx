@@ -21,6 +21,7 @@ import { hasReputation } from "features/game/lib/reputation";
 import { Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import choreIcon from "assets/icons/chores.webp";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   gameState: GameState;
@@ -69,9 +70,12 @@ export const AuctioneerModal: React.FC<Props> = ({
     }
   }, [isOpen]);
 
+  const now = useNow();
+
   const hasAuctionAccess = hasReputation({
     game: gameState,
     reputation: Reputation.Grower,
+    now,
   });
 
   if (auctioneerState.matches("idle")) {

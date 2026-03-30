@@ -65,7 +65,7 @@ export const WardrobeWearables: React.FC = () => {
 
   const wearable = STYLIST_WEARABLES[selected] as StylistWearable; // Add type assertion to StylistWearable
 
-  const price = SFLDiscount(state, new Decimal(wearable.coins)).toNumber();
+  const price = SFLDiscount(state, new Decimal(wearable.coins), now).toNumber();
 
   const lessFunds = () => {
     if (!price) return false;

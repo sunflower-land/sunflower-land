@@ -42,6 +42,7 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     const effectiveCoinCost = getExpansionCoinCostWithVip({
       coins: requirements.coins,
       game,
+      now: createdAt,
     });
     if (game.coins < effectiveCoinCost) {
       throw new Error("Insufficient coins");

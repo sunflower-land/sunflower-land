@@ -379,6 +379,7 @@ export function deliverOrder({
     const hasCropkeeperReputation = hasReputation({
       game,
       reputation: Reputation.Cropkeeper,
+      now: createdAt,
     });
 
     const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(
@@ -505,7 +506,7 @@ export function deliverOrder({
         isCoinNPC(order.from) &&
         hasTimeBasedFeatureAccess({
           featureName: "TICKETS_FROM_COIN_NPC",
-          startTime: coinCreatedAt,
+          now: coinCreatedAt,
           game,
         }) &&
         !isCoinTasksFrozen

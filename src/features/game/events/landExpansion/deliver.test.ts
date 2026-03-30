@@ -25,7 +25,15 @@ const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
 
 describe("deliver", () => {
+  let testnetFeatureFlagSpy: jest.SpyInstance;
+
   beforeEach(() => {
+    // Coin NPC chapter points use hasTimeBasedFeatureAccess(TICKETS_FROM_COIN_NPC),
+    // which treats testnet as always past the start date. Use mainnet semantics here
+    // so orders with createdAt: 0 do not hit getCurrentChapter(0).
+    testnetFeatureFlagSpy = jest
+      .spyOn(flagsModule, "testnetFeatureFlag")
+      .mockReturnValue(false);
     jest.useRealTimers();
     const now = new Date().getTime();
     const nowDate = new Date(now).toISOString().split("T")[0];
@@ -45,6 +53,10 @@ describe("deliver", () => {
 
       jest.setSystemTime(new Date(calculatedSystemDate));
     }
+  });
+
+  afterEach(() => {
+    testnetFeatureFlagSpy.mockRestore();
   });
 
   it("requires the order exists", () => {
@@ -193,7 +205,7 @@ describe("deliver", () => {
           ...TEST_FARM,
           vip: {
             bundles: [],
-            expiresAt: Date.now() - 1000 * 60,
+            expiresAt: MID_SEASON - 1000 * 60,
           },
           coins: 50,
           delivery: {

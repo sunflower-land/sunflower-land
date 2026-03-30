@@ -950,6 +950,14 @@ import hoHoOhOh from "assets/sfts/ho_ho_oh_oh.webp";
 import giftTurtle from "assets/sfts/gift_turtle.webp";
 import redNoseReindeer from "assets/sfts/red_nose_reindeer.webp";
 
+import aprilFoolsToken2026 from "assets/icons/april_fools_token_2026.webp";
+import aprilFoolsTicket2026 from "assets/icons/april_fools_ticket_2026.webp";
+import petTree from "assets/sfts/pet_tree.webp";
+import fakeMouse from "assets/sfts/fake_mouse.webp";
+import fakeTreasure from "assets/sfts/fake_treasure.webp";
+import definitelyNotAFlower from "assets/sfts/definitely_not_a_flower.webp";
+import teethToy from "assets/sfts/teeth_toy.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -1161,7 +1169,7 @@ import {
   WAR_BANNERS,
   WAR_TENT_ITEMS,
 } from "./craftables";
-import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS } from "./tools";
+import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
@@ -1711,6 +1719,11 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Obsidian.description,
     translatedName: translate("resource.obsidian"),
   },
+  Salt: {
+    image: obsidian,
+    description: COMMODITIES.Salt.description,
+    translatedName: "Salt",
+  },
   Sunstone: {
     image: sunstone,
     description: COMMODITIES.Sunstone.description,
@@ -1810,6 +1823,11 @@ export const ITEM_DETAILS: Items = {
     image: oilDrill,
     description: TOOLS["Oil Drill"].description,
     translatedName: translate("tool.oilDrill"),
+  },
+  "Salt Rake": {
+    image: SUNNYSIDE.tools.sand_shovel,
+    description: WORKBENCH_TOOLS["Salt Rake"].description,
+    translatedName: "Salt Rake",
   },
   "Crab Pot": {
     image: SUNNYSIDE.tools.crab_pot,
@@ -4168,19 +4186,16 @@ export const ITEM_DETAILS: Items = {
   },
   Angelfish: {
     image: angelFish,
-    howToGetItem: [],
     description: translate("description.angelfish"),
     translatedName: translate("fish.angelfish"),
   },
   Halibut: {
     image: halibut,
-    howToGetItem: [],
     description: translate("description.halibut"),
     translatedName: translate("fish.halibut"),
   },
   Parrotfish: {
     image: parrotFish,
-    howToGetItem: [],
     description: translate("description.parrotFish"),
     translatedName: translate("fish.parrotfish"),
   },
@@ -4231,6 +4246,416 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     description: translate("description.tilapia"),
     translatedName: translate("fish.tilapia"),
+  },
+  "Aged Anchovy": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.anchovy"),
+    translatedName: translate("agedFish.anchovy"),
+  },
+  "Aged Butterflyfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.butterflyfish"),
+    translatedName: translate("agedFish.butterflyfish"),
+  },
+  "Aged Blowfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.blowfish"),
+    translatedName: translate("agedFish.blowfish"),
+  },
+  "Aged Clownfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.clownfish"),
+    translatedName: translate("agedFish.clownfish"),
+  },
+  "Aged Angelfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.angelfish"),
+    translatedName: translate("agedFish.angelfish"),
+  },
+  "Aged Cobia": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.cobia"),
+    translatedName: translate("agedFish.cobia"),
+  },
+  "Aged Halibut": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.halibut"),
+    translatedName: translate("agedFish.halibut"),
+  },
+  "Aged Muskellunge": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.muskellunge"),
+    translatedName: translate("agedFish.muskellunge"),
+  },
+  "Aged Parrotfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.parrotfish"),
+    translatedName: translate("agedFish.parrotfish"),
+  },
+  "Aged Porgy": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.porgy"),
+    translatedName: translate("agedFish.porgy"),
+  },
+  "Aged Sea Bass": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.seaBass"),
+    translatedName: translate("agedFish.seaBass"),
+  },
+  "Aged Tilapia": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.tilapia"),
+    translatedName: translate("agedFish.tilapia"),
+  },
+  "Aged Trout": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.trout"),
+    translatedName: translate("agedFish.trout"),
+  },
+  "Aged Walleye": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.walleye"),
+    translatedName: translate("agedFish.walleye"),
+  },
+  "Aged Weakfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.weakfish"),
+    translatedName: translate("agedFish.weakfish"),
+  },
+  "Aged Rock Blackfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.rockBlackfish"),
+    translatedName: translate("agedFish.rockBlackfish"),
+  },
+  "Aged Sea Horse": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.seaHorse"),
+    translatedName: translate("agedFish.seaHorse"),
+  },
+  "Aged Horse Mackerel": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.horseMackerel"),
+    translatedName: translate("agedFish.horseMackerel"),
+  },
+  "Aged Squid": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.squid"),
+    translatedName: translate("agedFish.squid"),
+  },
+  "Aged Red Snapper": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.redSnapper"),
+    translatedName: translate("agedFish.redSnapper"),
+  },
+  "Aged Moray Eel": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.morayEel"),
+    translatedName: translate("agedFish.morayEel"),
+  },
+  "Aged Olive Flounder": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.oliveFlounder"),
+    translatedName: translate("agedFish.oliveFlounder"),
+  },
+  "Aged Napoleanfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.napoleanfish"),
+    translatedName: translate("agedFish.napoleanfish"),
+  },
+  "Aged Surgeonfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.surgeonfish"),
+    translatedName: translate("agedFish.surgeonfish"),
+  },
+  "Aged Zebra Turkeyfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.zebraTurkeyfish"),
+    translatedName: translate("agedFish.zebraTurkeyfish"),
+  },
+  "Aged Ray": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.ray"),
+    translatedName: translate("agedFish.ray"),
+  },
+  "Aged Hammerhead shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.hammerheadShark"),
+    translatedName: translate("agedFish.hammerheadShark"),
+  },
+  "Aged Barred Knifejaw": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.barredKnifejaw"),
+    translatedName: translate("agedFish.barredKnifejaw"),
+  },
+  "Aged Tuna": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.tuna"),
+    translatedName: translate("agedFish.tuna"),
+  },
+  "Aged Mahi Mahi": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.mahiMahi"),
+    translatedName: translate("agedFish.mahiMahi"),
+  },
+  "Aged Blue Marlin": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.blueMarlin"),
+    translatedName: translate("agedFish.blueMarlin"),
+  },
+  "Aged Oarfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.oarfish"),
+    translatedName: translate("agedFish.oarfish"),
+  },
+  "Aged Football fish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.footballFish"),
+    translatedName: translate("agedFish.footballFish"),
+  },
+  "Aged Sunfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.sunfish"),
+    translatedName: translate("agedFish.sunfish"),
+  },
+  "Aged Coelacanth": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.coelacanth"),
+    translatedName: translate("agedFish.coelacanth"),
+  },
+  "Aged Whale Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.whaleShark"),
+    translatedName: translate("agedFish.whaleShark"),
+  },
+  "Aged Saw Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.sawShark"),
+    translatedName: translate("agedFish.sawShark"),
+  },
+  "Aged White Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agedFish.whiteShark"),
+    translatedName: translate("agedFish.whiteShark"),
+  },
+  "Prime Aged Anchovy": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.anchovy"),
+    translatedName: translate("primeAgedFish.anchovy"),
+  },
+  "Prime Aged Butterflyfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.butterflyfish"),
+    translatedName: translate("primeAgedFish.butterflyfish"),
+  },
+  "Prime Aged Blowfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.blowfish"),
+    translatedName: translate("primeAgedFish.blowfish"),
+  },
+  "Prime Aged Clownfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.clownfish"),
+    translatedName: translate("primeAgedFish.clownfish"),
+  },
+  "Prime Aged Sea Bass": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.seaBass"),
+    translatedName: translate("primeAgedFish.seaBass"),
+  },
+  "Prime Aged Sea Horse": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.seaHorse"),
+    translatedName: translate("primeAgedFish.seaHorse"),
+  },
+  "Prime Aged Horse Mackerel": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.horseMackerel"),
+    translatedName: translate("primeAgedFish.horseMackerel"),
+  },
+  "Prime Aged Halibut": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.halibut"),
+    translatedName: translate("primeAgedFish.halibut"),
+  },
+  "Prime Aged Squid": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.squid"),
+    translatedName: translate("primeAgedFish.squid"),
+  },
+  "Prime Aged Red Snapper": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.redSnapper"),
+    translatedName: translate("primeAgedFish.redSnapper"),
+  },
+  "Prime Aged Moray Eel": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.morayEel"),
+    translatedName: translate("primeAgedFish.morayEel"),
+  },
+  "Prime Aged Olive Flounder": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.oliveFlounder"),
+    translatedName: translate("primeAgedFish.oliveFlounder"),
+  },
+  "Prime Aged Napoleanfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.napoleanfish"),
+    translatedName: translate("primeAgedFish.napoleanfish"),
+  },
+  "Prime Aged Surgeonfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.surgeonfish"),
+    translatedName: translate("primeAgedFish.surgeonfish"),
+  },
+  "Prime Aged Zebra Turkeyfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.zebraTurkeyfish"),
+    translatedName: translate("primeAgedFish.zebraTurkeyfish"),
+  },
+  "Prime Aged Angelfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.angelfish"),
+    translatedName: translate("primeAgedFish.angelfish"),
+  },
+  "Prime Aged Ray": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.ray"),
+    translatedName: translate("primeAgedFish.ray"),
+  },
+  "Prime Aged Hammerhead shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.hammerheadShark"),
+    translatedName: translate("primeAgedFish.hammerheadShark"),
+  },
+  "Prime Aged Barred Knifejaw": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.barredKnifejaw"),
+    translatedName: translate("primeAgedFish.barredKnifejaw"),
+  },
+  "Prime Aged Tuna": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.tuna"),
+    translatedName: translate("primeAgedFish.tuna"),
+  },
+  "Prime Aged Mahi Mahi": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.mahiMahi"),
+    translatedName: translate("primeAgedFish.mahiMahi"),
+  },
+  "Prime Aged Blue Marlin": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.blueMarlin"),
+    translatedName: translate("primeAgedFish.blueMarlin"),
+  },
+  "Prime Aged Oarfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.oarfish"),
+    translatedName: translate("primeAgedFish.oarfish"),
+  },
+  "Prime Aged Football fish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.footballFish"),
+    translatedName: translate("primeAgedFish.footballFish"),
+  },
+  "Prime Aged Sunfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.sunfish"),
+    translatedName: translate("primeAgedFish.sunfish"),
+  },
+  "Prime Aged Coelacanth": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.coelacanth"),
+    translatedName: translate("primeAgedFish.coelacanth"),
+  },
+  "Prime Aged Parrotfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.parrotfish"),
+    translatedName: translate("primeAgedFish.parrotfish"),
+  },
+  "Prime Aged Whale Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.whaleShark"),
+    translatedName: translate("primeAgedFish.whaleShark"),
+  },
+  "Prime Aged Saw Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.sawShark"),
+    translatedName: translate("primeAgedFish.sawShark"),
+  },
+  "Prime Aged White Shark": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.whiteShark"),
+    translatedName: translate("primeAgedFish.whiteShark"),
+  },
+  "Prime Aged Porgy": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.porgy"),
+    translatedName: translate("primeAgedFish.porgy"),
+  },
+  "Prime Aged Muskellunge": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.muskellunge"),
+    translatedName: translate("primeAgedFish.muskellunge"),
+  },
+  "Prime Aged Trout": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.trout"),
+    translatedName: translate("primeAgedFish.trout"),
+  },
+  "Prime Aged Walleye": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.walleye"),
+    translatedName: translate("primeAgedFish.walleye"),
+  },
+  "Prime Aged Weakfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.weakfish"),
+    translatedName: translate("primeAgedFish.weakfish"),
+  },
+  "Prime Aged Rock Blackfish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.rockBlackfish"),
+    translatedName: translate("primeAgedFish.rockBlackfish"),
+  },
+  "Prime Aged Cobia": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.cobia"),
+    translatedName: translate("primeAgedFish.cobia"),
+  },
+  "Prime Aged Tilapia": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.primeAgedFish.tilapia"),
+    translatedName: translate("primeAgedFish.tilapia"),
+  },
+  "Pickled Radish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.radish"),
+    translatedName: translate("pickled.radish"),
+  },
+  "Pickled Zucchini": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.zucchini"),
+    translatedName: translate("pickled.zucchini"),
+  },
+  "Pickled Tomato": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.tomato"),
+    translatedName: translate("pickled.tomato"),
+  },
+  "Pickled Cabbage": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.cabbage"),
+    translatedName: translate("pickled.cabbage"),
+  },
+  "Pickled Onion": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.onion"),
+    translatedName: translate("pickled.onion"),
+  },
+  "Pickled Pepper": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.pickled.pepper"),
+    translatedName: translate("pickled.pepper"),
   },
   Rug: {
     image: SUNNYSIDE.decorations.rug,
@@ -5343,6 +5768,11 @@ export const ITEM_DETAILS: Items = {
     image: craftingBox,
     description: translate("description.craftingBox"),
     translatedName: translate("building.craftingBox"),
+  },
+  "Aging Shed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.agingShed"),
+    translatedName: translate("building.agingShed"),
   },
   "Basic Bed": {
     image: SUNNYSIDE.decorations.bed,
@@ -6920,5 +7350,33 @@ export const ITEM_DETAILS: Items = {
   "Diving Helmet": {
     image: divingHelmet,
     description: translate("description.divingHelmet"),
+  },
+  "April Fools Token 2026": {
+    image: aprilFoolsToken2026,
+    description: translate("description.aprilFoolsToken2026"),
+  },
+  "April Fools Ticket 2026": {
+    image: aprilFoolsTicket2026,
+    description: translate("description.aprilFoolsTicket2026"),
+  },
+  "Teeth Toy": {
+    image: teethToy,
+    description: translate("description.teethToy"),
+  },
+  "Fake Treasure": {
+    image: fakeTreasure,
+    description: translate("description.fakeTreasure"),
+  },
+  "Fake Mouse": {
+    image: fakeMouse,
+    description: translate("description.fakeMouse"),
+  },
+  "Pet Tree": {
+    image: petTree,
+    description: translate("description.petTree"),
+  },
+  "Definitely not a Flower": {
+    image: definitelyNotAFlower,
+    description: translate("description.definitelyNotAFlower"),
   },
 };

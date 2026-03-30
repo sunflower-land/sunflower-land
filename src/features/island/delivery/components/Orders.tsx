@@ -268,7 +268,7 @@ export const DeliveryOrders: React.FC<Props> = ({
       isCoinNPC(previewOrder.from) &&
       hasTimeBasedFeatureAccess({
         featureName: "TICKETS_FROM_COIN_NPC",
-        startTime: previewOrder.createdAt,
+        now: previewOrder.createdAt,
         game: state,
       })
     ) {

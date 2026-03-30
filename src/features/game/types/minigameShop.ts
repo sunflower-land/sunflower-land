@@ -10,7 +10,9 @@ export type EventShopItemName =
   | HalloweenShopItemName
   | HalloweenShopWearableName
   | HolidayShopCollectibleName
-  | HolidayShopWearableName;
+  | HolidayShopWearableName
+  | AprilFoolsShopCollectibleName
+  | AprilFoolsShopWearableName;
 
 export type EasterShopCollectibleName = Extract<
   InventoryItemName,
@@ -79,6 +81,20 @@ export type HolidayShopCollectibleName = Extract<
   | "Ho Ho oh oh…"
 >;
 
+export type AprilFoolsShopCollectibleName = Extract<
+  InventoryItemName,
+  | "Super Totem"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "April Fools Ticket 2026"
+  | "Teeth Toy"
+  | "Fake Treasure"
+  | "Fake Mouse"
+  | "Pet Tree"
+  | "Definitely not a Flower"
+>;
+
 export type EasterShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
@@ -132,6 +148,21 @@ export type HolidayShopWearableName = Extract<
   | "Diamond Snow Aura"
 >;
 
+export type AprilFoolsShopWearableName = Extract<
+  BumpkinItem,
+  | "Neon Noiz Jacket"
+  | "404 Chic Top"
+  | "Neon Noiz Pants"
+  | "404 Chic Skirt"
+  | "Admin Fools Tools"
+  | "Neon Noiz Shoes"
+  | "404 Chic Boots"
+  | "Aether Specs"
+  | "Faulty Barrier Background"
+  | "Cardboard Wings"
+  | "Glitch Aura"
+>;
+
 export type EasterShopItemName =
   | EasterShopCollectibleName
   | EasterShopWearableName;
@@ -147,6 +178,10 @@ export type HalloweenShopItemName =
 export type HolidayShopItemName =
   | HolidayShopCollectibleName
   | HolidayShopWearableName;
+
+export type AprilFoolsShopItemName =
+  | AprilFoolsShopCollectibleName
+  | AprilFoolsShopWearableName;
 
 type EventShopBase = {
   cost: { sfl: number; items: Partial<Record<InventoryItemName, number>> };
@@ -758,6 +793,135 @@ export const HOLIDAY_STORE: MinigameShop<HolidayShopItemName> = {
   },
 };
 
+export const APRIL_FOOLS_STORE: MinigameShop<AprilFoolsShopItemName> = {
+  "April Fools Ticket 2026": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 100 } },
+    max: 100000,
+    type: "collectible",
+    name: "April Fools Ticket 2026",
+  },
+  "Treasure Key": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Treasure Key",
+  },
+  "Rare Key": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Rare Key",
+  },
+  "Luxury Key": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 700 } },
+    max: 1,
+    type: "collectible",
+    name: "Luxury Key",
+  },
+  "Super Totem": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 2000 } },
+    max: 1,
+    type: "collectible",
+    name: "Super Totem",
+  },
+  "Teeth Toy": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Teeth Toy",
+  },
+  "Fake Treasure": {
+    cost: { sfl: 100, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Fake Treasure",
+  },
+  "Fake Mouse": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Fake Mouse",
+  },
+  "Pet Tree": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Pet Tree",
+  },
+  "Definitely not a Flower": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 200 } },
+    max: 1,
+    type: "collectible",
+    name: "Definitely not a Flower",
+  },
+  "Neon Noiz Jacket": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Neon Noiz Jacket",
+  },
+  "404 Chic Top": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "404 Chic Top",
+  },
+  "Neon Noiz Pants": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "Neon Noiz Pants",
+  },
+  "404 Chic Skirt": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "404 Chic Skirt",
+  },
+  "Admin Fools Tools": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 750 } },
+    max: 1,
+    type: "wearable",
+    name: "Admin Fools Tools",
+  },
+  "Neon Noiz Shoes": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 300 } },
+    max: 3,
+    type: "wearable",
+    name: "Neon Noiz Shoes",
+  },
+  "404 Chic Boots": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 300 } },
+    max: 1,
+    type: "wearable",
+    name: "404 Chic Boots",
+  },
+  "Aether Specs": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "Aether Specs",
+  },
+  "Faulty Barrier Background": {
+    cost: { sfl: 0, items: { "April Fools Token 2026": 1000 } },
+    max: 1,
+    type: "wearable",
+    name: "Faulty Barrier Background",
+  },
+  "Cardboard Wings": {
+    cost: { sfl: 300, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Cardboard Wings",
+  },
+  "Glitch Aura": {
+    cost: { sfl: 500, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Glitch Aura",
+  },
+};
+
 export const MINIGAME_SHOP_ITEMS: Partial<
   Record<MinigameName, AnyMinigameShop>
 > = {
@@ -765,4 +929,5 @@ export const MINIGAME_SHOP_ITEMS: Partial<
   "festival-of-colors-2025": FESTIVAL_OF_COLORS_STORE,
   halloween: HALLOWEEN_STORE,
   "holiday-puzzle-2025": HOLIDAY_STORE,
+  "april-fools": APRIL_FOOLS_STORE,
 };

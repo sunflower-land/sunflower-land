@@ -4,6 +4,16 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - ".github/**"
+      - "docs/**"
+      - "**/*.md"
+      - ".husky/**"
+      - "test/**"
+      - "jest.config.js"
+      - "scripts/**"
+      - "_scripts/**"
+      - ".cursor/**"
 
 jobs:
   deploy:

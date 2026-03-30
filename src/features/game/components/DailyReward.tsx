@@ -30,7 +30,8 @@ import { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
 import { getBumpkinLevel } from "../lib/level";
-import { hasVipAccess, getVipDailyBonusItem } from "../lib/vipAccess";
+import { getVipDailyBonusItem } from "../lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
   "default-reward": SUNNYSIDE.icons.expression_confused,
@@ -150,6 +151,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       }).rewards,
     };
   });
+  const hasVip = useVipAccess({ game: gameState });
 
   if (showClaim) {
     const items = rewards[0].reward.reduce(
@@ -165,7 +167,6 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     );
 
     const level = getBumpkinLevel(bumpkinExperience);
-    const hasVip = hasVipAccess({ game: gameState, now });
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {
       items[vipGiftItem] = (items[vipGiftItem] ?? 0) + 1;

@@ -47,7 +47,7 @@ import { getKeys } from "lib/object";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { HelpInfoPopover } from "./HelpInfoPopover";
 import { CopySvg } from "components/ui/CopyField";
 
@@ -111,6 +111,7 @@ export const PlayerDetails: React.FC<Props> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const { isVisiting, visitedFarmId } = useVisiting();
+  const isVIP = useVipAccess({ game: gameService.getSnapshot().context.state });
 
   const player = data?.data;
 
@@ -244,10 +245,7 @@ export const PlayerDetails: React.FC<Props> = ({
                     <Label type="warning" icon={socialPointsIcon}>
                       {t("cheer.confirm.socialpoints")}
                     </Label>
-                    {hasVipAccess({
-                      game: gameService.getSnapshot().context.state,
-                      type: "full",
-                    }) && (
+                    {isVIP && (
                       <Label
                         type="warning"
                         className="mt-0.5"
