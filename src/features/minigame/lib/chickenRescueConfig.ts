@@ -32,8 +32,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
       produce: {
         Coin: {
           msToComplete: EIGHT_HOURS_MS,
-          limit: 999,
-          capByBalance: "FatChicken",
+          requires: "FatChicken",
         },
       },
     },
@@ -71,7 +70,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         Coin: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          capByBalance: "LoveChicken",
+          requires: "LoveChicken",
         },
       },
     },
@@ -85,7 +84,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         Coin: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          capByBalance: "AlienChicken",
+          requires: "AlienChicken",
         },
       },
     },
@@ -99,7 +98,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
         Coin: {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          capByBalance: "RoosterChicken",
+          requires: "RoosterChicken",
         },
       },
     },
@@ -183,7 +182,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
 export const CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID =
   "bootstrap-fat-chicken-coin-0";
 
-/** Links each cap-by-balance start action to its collect action (same as API config). */
+/** Links each `requires`-lane start action to its collect action (same as API config). */
 export const CHICKEN_RESCUE_COLLECT_BY_START: Record<string, string> = {
   START_FAT_CHICKEN_DROP: "COLLECT_FAT_CHICKEN",
   START_LOVE_COIN_DROP: "COLLECT_LOVE_COINS",
@@ -203,7 +202,7 @@ export function createChickenRescueInitialState(
     producing: {
       [CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID]: {
         outputToken: "Coin",
-        capByBalance: "FatChicken",
+        requires: "FatChicken",
         startedAt: now - 1,
         completesAt: now,
       },

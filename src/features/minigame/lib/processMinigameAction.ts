@@ -165,19 +165,18 @@ function applyProduce(
     const activeForOutput = Object.values(producing).filter(
       (p) => p.outputToken === outputToken,
     ).length;
-    if (activeForOutput >= rule.limit) {
+    if (rule.limit !== undefined && activeForOutput >= rule.limit) {
       return { error: `Production limit reached for ${outputToken}` };
     }
-    if (rule.capByBalance !== undefined) {
+    if (rule.requires !== undefined) {
       const activeForLane = Object.values(producing).filter(
         (p) =>
-          p.outputToken === outputToken &&
-          p.capByBalance === rule.capByBalance,
+          p.outputToken === outputToken && p.requires === rule.requires,
       ).length;
-      const cap = getBalance(balances, rule.capByBalance);
+      const cap = getBalance(balances, rule.requires);
       if (activeForLane >= cap) {
         return {
-          error: `Not enough ${rule.capByBalance} capacity for new ${outputToken} production`,
+          error: `Not enough ${rule.requires} capacity for new ${outputToken} production`,
         };
       }
     }
@@ -186,9 +185,7 @@ function applyProduce(
       outputToken,
       startedAt: now,
       completesAt: now + rule.msToComplete,
-      ...(rule.capByBalance !== undefined
-        ? { capByBalance: rule.capByBalance }
-        : {}),
+      ...(rule.requires !== undefined ? { requires: rule.requires } : {}),
     };
     return { producingId: id };
   }

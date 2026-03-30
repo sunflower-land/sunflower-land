@@ -7,11 +7,12 @@ export type CapBalanceProductionSlot = {
   startActionId: string;
   collectActionId: string;
   msToComplete: number;
-  limit: number;
+  /** Global concurrent cap for this output; omitted when the rule has no `limit`. */
+  limit?: number;
 };
 
 /**
- * Finds every `produce` rule with `capByBalance` and pairs it with a collect action
+ * Finds every `produce` rule with `requires` and pairs it with a collect action
  * via `collectByStartId[startActionId] = collectActionId` (per-minigame registry).
  */
 export function extractCapBalanceProductionSlots(
@@ -22,11 +23,11 @@ export function extractCapBalanceProductionSlots(
   for (const [actionId, def] of Object.entries(config.actions)) {
     if (!def.produce) continue;
     for (const [outputToken, rule] of Object.entries(def.produce)) {
-      if (!rule.capByBalance) continue;
+      if (!rule.requires) continue;
       const collectActionId = collectByStartId[actionId];
       if (!collectActionId) continue;
       slots.push({
-        capToken: rule.capByBalance,
+        capToken: rule.requires,
         outputToken,
         startActionId: actionId,
         collectActionId,
@@ -38,7 +39,7 @@ export function extractCapBalanceProductionSlots(
   return slots;
 }
 
-/** Maps each cap-balance token to its active producing job id (if any). */
+/** Maps each `requires` balance token to its active producing job id (if any). */
 export function buildCapJobByCapToken(
   config: MinigameConfig,
   collectByStartId: Record<string, string>,
@@ -48,7 +49,7 @@ export function buildCapJobByCapToken(
   const map: Record<string, string | undefined> = {};
   for (const s of slots) {
     const match = Object.entries(runtime.producing).find(
-      ([, job]) => job.capByBalance === s.capToken,
+      ([, job]) => job.requires === s.capToken,
     );
     map[s.capToken] = match?.[0];
   }

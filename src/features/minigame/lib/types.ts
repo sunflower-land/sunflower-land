@@ -19,12 +19,15 @@ export type RequireRule = { amount: number };
 
 export type ProduceRule = {
   msToComplete: number;
-  limit: number;
+  /**
+   * Max concurrent jobs with this `outputToken` across all lanes. Omit for no global cap.
+   */
+  limit?: number;
   /**
    * Capacity is per lane: only jobs tagged with this same key count toward the cap
    * (parallel outputs like multiple chickens each producing Coin).
    */
-  capByBalance?: string;
+  requires?: string;
 };
 
 export type CollectRule = { amount: number };
@@ -48,8 +51,8 @@ export type ProducingEntry = {
   outputToken: string;
   startedAt: number;
   completesAt: number;
-  /** When set, this job counts only toward that cap lane (see `ProduceRule.capByBalance`). */
-  capByBalance?: string;
+  /** When set, this job counts only toward that cap lane (see `ProduceRule.requires`). */
+  requires?: string;
 };
 
 export type DailyMintBucket = {
