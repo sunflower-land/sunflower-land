@@ -158,7 +158,7 @@ export type AprilFoolsShopWearableName = Extract<
   | "Neon Noiz Shoes"
   | "404 Chic Boots"
   | "Aether Specs"
-  | "Faulty Barrier"
+  | "Faulty Barrier Background"
   | "Cardboard Wings"
   | "Glitch Aura"
 >;
@@ -902,11 +902,11 @@ export const APRIL_FOOLS_STORE: MinigameShop<AprilFoolsShopItemName> = {
     type: "wearable",
     name: "Aether Specs",
   },
-  "Faulty Barrier": {
+  "Faulty Barrier Background": {
     cost: { sfl: 0, items: { "April Fools Token 2026": 1000 } },
     max: 1,
     type: "wearable",
-    name: "Faulty Barrier",
+    name: "Faulty Barrier Background",
   },
   "Cardboard Wings": {
     cost: { sfl: 300, items: {} },

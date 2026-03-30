@@ -20,7 +20,8 @@ export type BumpkinBackground =
   | "Goblin Retreat Background"
   | "Kingdom Background"
   | "Sky Island Background"
-  | "Holiday Feast Background";
+  | "Holiday Feast Background"
+  | "Faulty Barrier Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -548,7 +549,6 @@ export type BumpkinWings =
   | "Slime Wings"
   | "Underworld Stimpack"
   | "Sweet Devil Wings"
-  | "Faulty Barrier"
   | "Cardboard Wings";
 
 export type BumpkinBeard =
@@ -1147,7 +1147,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Neon Noiz Shoes": 532,
   "404 Chic Boots": 533,
   "Aether Specs": 534,
-  "Faulty Barrier": 535,
+  "Faulty Barrier Background": 535,
   "Cardboard Wings": 536,
   "Glitch Aura": 537,
 };
@@ -1745,7 +1745,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Neon Noiz Shoes": "shoes",
   "404 Chic Boots": "shoes",
   "Aether Specs": "hat",
-  "Faulty Barrier": "wings",
+  "Faulty Barrier Background": "wings",
   "Cardboard Wings": "wings",
   "Glitch Aura": "aura",
 };
