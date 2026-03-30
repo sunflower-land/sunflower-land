@@ -33,6 +33,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   buildingName: UpgradableBuildingType;
@@ -40,16 +42,17 @@ interface Props {
   nextLevel: number;
   show: boolean;
   onClose: () => void;
+  onBack?: () => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
 
-export const UpgradeBuildingModal: React.FC<Props> = ({
+export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
   buildingName,
   currentLevel,
   nextLevel,
   onClose,
-  show,
+  onBack,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -134,6 +137,11 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
       return PET_HOUSE_VARIANTS[nextLevel];
     }
 
+    if (buildingName === "Aging Shed") {
+      // TODO: Add aging shed image
+      return ITEM_DETAILS["Aging Shed"].image;
+    }
+
     const biome: LandBiomeName = getCurrentBiome(state.island);
 
     return BARN_IMAGES[biome][state.season.season][nextLevel];
@@ -151,7 +159,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
 
   const capacityIncrease = hasChickenCoopBonus || hasBarnBonus ? 10 : 5;
 
-  const getUpgradeMessage = () => {
+  const getUpgradeLabel = () => {
     if (buildingName === "Water Well") {
       if (nextLevel === 4) {
         return t("upgrade.unlockAllPlots");
@@ -161,38 +169,70 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
     if (buildingName === "Pet House") {
       return t("upgrade.petHouseCapacity");
     }
+    if (buildingName === "Aging Shed") {
+      if (nextLevel >= 5) {
+        return t("upgrade.agingShedCapacity.level5&6");
+      }
+      return t("upgrade.agingShedCapacity");
+    }
     return t("upgrade.capacityIncrease", { amount: capacityIncrease });
   };
 
-  const upgradeMessage = getUpgradeMessage();
+  const upgradeLabel = getUpgradeLabel();
+  function getUpgradeMessage(buildingName: UpgradableBuildingType): string {
+    if (buildingName === "Aging Shed")
+      return t("upgrade.intro.agingShed", { building: buildingName });
+    if (buildingName === "Water Well")
+      return t("upgrade.intro.water.well", { building: buildingName });
+    if (buildingName === "Pet House")
+      return t("upgrade.intro.pet.house", { building: buildingName });
+    if (buildingName === "Barn")
+      return t("upgrade.intro", {
+        building: buildingName,
+        animals: t("upgrade.sheep.cows"),
+      });
+
+    // Hen House
+    return t("upgrade.intro", {
+      building: buildingName,
+      animals: t("upgrade.chickens"),
+    });
+  }
+
+  const upgradeMessage = getUpgradeMessage(buildingName);
 
   return (
-    <Modal show={show} onHide={onClose}>
-      <CloseButtonPanel
-        bumpkinParts={NPC_WEARABLES.blacksmith}
-        onClose={onClose}
-      >
-        {/* Show max level content */}
-        {isMaxLevel || !requirements ? (
-          <div className="flex flex-col">
-            <div className="p-1 mb-2">
-              <Label
-                type="danger"
-                className="ml-1 mb-2"
-                icon={SUNNYSIDE.icons.hammer}
-              >
-                {t("max.level")}
-              </Label>
-              <InlineDialogue
-                message={t("building.isMaxLevel", { building: buildingName })}
-              />
-            </div>
-            <Button onClick={onClose}>{t("close")}</Button>
+    <>
+      {/* Show max level content */}
+      {isMaxLevel || !requirements ? (
+        <div className="flex flex-col">
+          <div className="p-1 mb-2">
+            <Label
+              type="danger"
+              className="ml-1 mb-2"
+              icon={SUNNYSIDE.icons.hammer}
+            >
+              {t("max.level")}
+            </Label>
+            <InlineDialogue
+              message={t("building.isMaxLevel", { building: buildingName })}
+            />
           </div>
-        ) : (
-          // If not max level, show upgrade content
-          <div className="flex flex-col">
-            <div className="p-1">
+          <Button onClick={onClose}>{t("close")}</Button>
+        </div>
+      ) : (
+        // If not max level, show upgrade content
+        <div className="flex flex-col">
+          <div className="p-1">
+            <div className="flex items-center gap-2">
+              {onBack && (
+                <img
+                  src={SUNNYSIDE.icons.arrow_left}
+                  className="cursor-pointer"
+                  onClick={onBack}
+                  style={{ width: `${PIXEL_SCALE * 11}px` }}
+                />
+              )}
               <Label
                 type="default"
                 icon={SUNNYSIDE.icons.hammer}
@@ -200,109 +240,107 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
               >
                 {t("upgrade.building", { building: buildingName })}
               </Label>
-              {isCurrentlyUpgrading && (
-                <Label
-                  type="info"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  className="mb-2 ml-1"
-                >
-                  <span className="flex items-center gap-1">
-                    {t("ready.in")}
-                    <TimerDisplay time={upgradeCountdown} />
-                  </span>
-                </Label>
-              )}
-              <InlineDialogue
-                message={t(
-                  buildingName === "Water Well"
-                    ? "upgrade.intro.water.well"
-                    : buildingName === "Pet House"
-                      ? "upgrade.intro.pet.house"
-                      : "upgrade.intro",
-                  {
-                    building: buildingName,
-                    animals:
-                      buildingName === "Barn"
-                        ? t("upgrade.sheep.cows")
-                        : t("upgrade.chickens"),
-                  },
-                )}
-              />
             </div>
-            <div className="flex flex-col w-full mt-2">
-              <div className="flex flex-wrap justify-between">
-                <Label
-                  type="default"
-                  icon={SUNNYSIDE.icons.basket}
-                  className="ml-2 mb-2"
-                >
-                  {t("requirements")}
-                </Label>
-
-                {requirements.requiredLevel &&
-                  !hasRequiredLevel(requirements) && (
-                    <Label
-                      type="danger"
-                      secondaryIcon={SUNNYSIDE.icons.player}
-                      className="mr-2 mb-2"
-                    >
-                      {t("warning.level.required", {
-                        lvl: requirements.requiredLevel,
-                      })}
-                    </Label>
-                  )}
-              </div>
-              <InnerPanel className="flex flex-wrap gap-2 w-full">
-                {getKeys(requirements.items).map((itemName) => (
-                  <div key={itemName} className="flex-shrink-0 gap-1">
-                    <RequirementLabel
-                      type="item"
-                      item={itemName}
-                      balance={state.inventory[itemName] ?? new Decimal(0)}
-                      requirement={
-                        requirements.items[itemName] ?? new Decimal(0)
-                      }
-                    />
-                  </div>
-                ))}
-                <div className="flex-shrink-0 gap-1">
-                  <RequirementLabel
-                    type="coins"
-                    balance={state.coins}
-                    requirement={requirements.coins}
-                  />
-                </div>
-              </InnerPanel>
-            </div>
+            {isCurrentlyUpgrading && (
+              <Label
+                type="info"
+                icon={SUNNYSIDE.icons.stopwatch}
+                className="mb-2 ml-1"
+              >
+                <span className="flex items-center gap-1">
+                  {t("ready.in")}
+                  <TimerDisplay time={upgradeCountdown} />
+                </span>
+              </Label>
+            )}
+            <InlineDialogue message={upgradeMessage} />
+          </div>
+          <div className="flex flex-col w-full mt-2">
             <div className="flex flex-wrap justify-between">
               <Label
                 type="default"
-                icon={buildingIcon}
-                iconWidth={11}
-                className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}
+                icon={SUNNYSIDE.icons.basket}
+                className="ml-2 mb-2"
               >
-                <span className="pl-1.5">{`${t("upgrade.building.nextLevel")} ${nextLevel}`}</span>
+                {t("requirements")}
               </Label>
-              <Label
-                type="success"
-                secondaryIcon={powerup}
-                className="mr-1 mt-2"
-              >
-                {upgradeMessage}
-              </Label>
+
+              {requirements.requiredLevel &&
+                !hasRequiredLevel(requirements) && (
+                  <Label
+                    type="danger"
+                    secondaryIcon={SUNNYSIDE.icons.player}
+                    className="mr-2 mb-2"
+                  >
+                    {t("warning.level.required", {
+                      lvl: requirements.requiredLevel,
+                    })}
+                  </Label>
+                )}
             </div>
-            <Button
-              className="mt-2"
-              onClick={upgrade}
-              disabled={isCurrentlyUpgrading || !hasRequirements(requirements)}
-            >
-              {isCurrentlyUpgrading
-                ? t("in.progress")
-                : t("upgrade.building", { building: buildingName })}
-            </Button>
+            <InnerPanel className="flex flex-wrap gap-2 w-full">
+              {getKeys(requirements.items).map((itemName) => (
+                <div key={itemName} className="flex-shrink-0 gap-1">
+                  <RequirementLabel
+                    type="item"
+                    item={itemName}
+                    balance={state.inventory[itemName] ?? new Decimal(0)}
+                    requirement={requirements.items[itemName] ?? new Decimal(0)}
+                  />
+                </div>
+              ))}
+              <div className="flex-shrink-0 gap-1">
+                <RequirementLabel
+                  type="coins"
+                  balance={state.coins}
+                  requirement={requirements.coins}
+                />
+              </div>
+            </InnerPanel>
           </div>
-        )}
-      </CloseButtonPanel>
-    </Modal>
+          <div className="flex flex-wrap justify-between">
+            <Label
+              type="default"
+              icon={buildingIcon}
+              iconWidth={11}
+              className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}
+            >
+              <span className="pl-1.5">{`${t("upgrade.building.nextLevel")} ${nextLevel}`}</span>
+            </Label>
+            <Label type="success" secondaryIcon={powerup} className="mr-1 mt-2">
+              {upgradeLabel}
+            </Label>
+          </div>
+          <Button
+            className="mt-2"
+            onClick={upgrade}
+            disabled={isCurrentlyUpgrading || !hasRequirements(requirements)}
+          >
+            {isCurrentlyUpgrading
+              ? t("in.progress")
+              : t("upgrade.building", { building: buildingName })}
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
+
+export const UpgradeBuildingModal: React.FC<Props> = ({
+  buildingName,
+  currentLevel,
+  nextLevel,
+  onClose,
+  show,
+}) => (
+  <Modal show={show} onHide={onClose}>
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.blacksmith} onClose={onClose}>
+      <UpgradeBuildingContent
+        buildingName={buildingName}
+        currentLevel={currentLevel}
+        nextLevel={nextLevel}
+        onClose={onClose}
+      />
+    </CloseButtonPanel>
+  </Modal>
+);

@@ -3,7 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { AgingShedModal } from "./AgingShedModal";
-import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const AgingShed: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ export const AgingShed: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
     <>
       <BuildingImageWrapper name="Aging Shed" onClick={handleClick}>
         <img
-          src={SUNNYSIDE.icons.expression_confused}
+          src={ITEM_DETAILS["Aging Shed"].image}
           className="absolute bottom-0 pointer-events-none"
           style={{ width: `${PIXEL_SCALE * 48}px` }}
         />

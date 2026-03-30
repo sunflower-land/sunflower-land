@@ -644,9 +644,8 @@ export const INITIAL_FARM: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
-  waterWell: {
-    level: 1,
-  },
+  waterWell: { level: 1 },
+  agingShed: { level: 1 },
   petHouse: {
     level: 1,
     pets: {},
@@ -983,9 +982,8 @@ export const TEST_FARM: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
-  waterWell: {
-    level: 1,
-  },
+  waterWell: { level: 1 },
+  agingShed: { level: 1 },
   petHouse: {
     level: 1,
     pets: {},
@@ -1171,9 +1169,8 @@ export const EMPTY: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
-  waterWell: {
-    level: 1,
-  },
+  waterWell: { level: 1 },
+  agingShed: { level: 1 },
   petHouse: {
     level: 1,
     pets: {},
