@@ -61,12 +61,12 @@ export const INITIAL_STOCK = (
 ): Record<StockableName, Decimal> => {
   const tools = getObjectEntries(WORKBENCH_TOOLS).reduce(
     (acc, [toolName, tool]) => {
-      if (tool.disabled) return acc;
-
-      return {
-        ...acc,
-        [toolName]: tool.stock,
-      };
+      if (tool.disabled) {
+        acc[toolName] = new Decimal(0);
+        return acc;
+      }
+      acc[toolName] = tool.stock;
+      return acc;
     },
     {} as Record<WorkbenchToolName, Decimal>,
   );

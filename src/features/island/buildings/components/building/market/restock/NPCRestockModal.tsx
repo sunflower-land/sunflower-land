@@ -65,8 +65,9 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
   };
 
   const { labelText, icon } = categoryLabel;
+  const restockables = INITIAL_STOCK(state);
 
-  const restockItems = getObjectEntries(INITIAL_STOCK(state))
+  const restockItems = getObjectEntries(restockables)
     .filter((item) => item[0] in restockItem)
     .filter(
       ([item]) => item !== "Salt Rake" || hasFeatureAccess(state, "SALT_FARM"),

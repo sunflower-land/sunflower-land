@@ -58,14 +58,15 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
     if (showAnimations) confetti();
     onClose();
   };
+  const restockables = INITIAL_STOCK(state);
 
-  const restockTools = getObjectEntries(INITIAL_STOCK(state))
+  const restockTools = getObjectEntries(restockables)
     .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
     .filter(
       ([item]) => item !== "Salt Rake" || hasFeatureAccess(state, "SALT_FARM"),
     );
 
-  const restockSeeds = getObjectEntries(INITIAL_STOCK(state)).filter(
+  const restockSeeds = getObjectEntries(restockables).filter(
     (item) => item[0] in SEEDS,
   );
 
