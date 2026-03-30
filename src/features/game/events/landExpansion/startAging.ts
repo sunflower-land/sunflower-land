@@ -49,6 +49,10 @@ export function startAging({
     const maxSlots = getAgingSlotCount(game.agingShed.level);
     const queue = game.agingShed.racks.aging;
 
+    if (queue.some((slot) => slot.id === action.slotId)) {
+      throw new Error("Slot already occupied");
+    }
+
     if (queue.length >= maxSlots) {
       throw new Error(translate("error.noAvailableSlots"));
     }
