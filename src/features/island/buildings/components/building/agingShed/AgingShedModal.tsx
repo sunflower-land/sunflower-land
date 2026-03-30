@@ -10,6 +10,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { UpgradeBuildingContent } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { FermentationRackPanel } from "./fermentationRack/FermentationRackPanel";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   isOpen: boolean;
@@ -62,10 +64,20 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         onClick={() => setShowUpgradeTab(true)}
       />
       <CloseButtonPanel
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          setShowUpgradeTab(false);
+        }}
         tabs={showUpgradeTab ? undefined : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
+        container={
+          showUpgradeTab
+            ? undefined
+            : currentTab === "fermentationRack"
+              ? OuterPanel
+              : undefined
+        }
       >
         {showUpgradeTab ? (
           <UpgradeBuildingContent
@@ -75,6 +87,8 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
             nextLevel={nextAgingShedLevel}
             onBack={() => setShowUpgradeTab(false)}
           />
+        ) : currentTab === "fermentationRack" ? (
+          <FermentationRackPanel />
         ) : (
           <div className="p-2">
             <p className="text-sm">{t("coming.soon")}</p>

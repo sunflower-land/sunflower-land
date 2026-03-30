@@ -175,7 +175,7 @@ const STATIC_FERMENTATION_RECIPES = {
 } as const satisfies Record<string, FermentationRecipeDefinition>;
 
 function buildBaitFermentationRecipes(): Record<
-  string,
+  BaitFermentationRecipeName,
   FermentationRecipeDefinition
 > {
   const recipes: Record<string, FermentationRecipeDefinition> = {};
@@ -305,7 +305,7 @@ function buildBaitFermentationRecipes(): Record<
 const BAIT_FERMENTATION_RECIPES = buildBaitFermentationRecipes();
 
 export const FERMENTATION_RECIPES: Record<
-  string,
+  FermentationRecipeName,
   FermentationRecipeDefinition
 > = {
   ...STATIC_FERMENTATION_RECIPES,

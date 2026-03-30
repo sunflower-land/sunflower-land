@@ -166,6 +166,24 @@ describe("startFermentation", () => {
     expect(jobs[0].id).not.toEqual(jobs[1].id);
   });
 
+  it("stores an ingredient snapshot on the fermentation job", () => {
+    const recipe: FermentationRecipeName = "Pickled Radish";
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          Radish: new Decimal(100),
+          Salt: new Decimal(50),
+        },
+      }),
+      action: { type: "fermentation.started", recipe },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.fermentation).toHaveLength(1);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
   it("throws when ingredients are insufficient (crop)", () => {
     expect(() =>
       startFermentation({
