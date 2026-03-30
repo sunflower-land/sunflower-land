@@ -12,12 +12,14 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
+import { useSelector } from "@xstate/react";
 
 const showDebugBorders = false;
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();
@@ -28,11 +30,13 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const [reqLvl, setReqLvl] = useState(1);
 
-  const level = getBumpkinLevel(
-    gameService.getSnapshot().context.state.bumpkin?.experience ?? 0,
-  );
-  const hasFaction = gameService.getSnapshot().context.state.faction;
+  const level = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+  const hasFaction = state.faction;
   const canTeleportToFactionHouse = level >= 7 && hasFaction;
+  const isAprilFoolsEventActive = useTimeBasedFeatureAccess({
+    featureName: "APRIL_FOOLS_EVENT_FLAG",
+    game: state,
+  });
 
   const getFactionHouseRoute = () => {
     switch (hasFaction?.name) {
@@ -396,10 +400,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         )}
       </div>
 
-      {hasFeatureAccess(
-        gameService.getSnapshot().context.state,
-        "APRIL_FOOLS_EVENT_FLAG",
-      ) && (
+      {isAprilFoolsEventActive && (
         <div
           style={{
             width: "35%",
