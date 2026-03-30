@@ -428,7 +428,7 @@ export const MinigameDashboard: React.FC = () => {
       ? new Decimal(runtime.balances[headerToken] ?? 0)
       : new Decimal(0);
 
-  const isChickenRescue = slug === "chicken-rescue";
+  const isChickenRescue = slug === "chicken-rescue-v2";
 
   if (loading) {
     return (

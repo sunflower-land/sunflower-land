@@ -151,9 +151,9 @@ export function buildChickenRescueDashboardFromSession(
   };
 
   return {
-    slug: "chicken-rescue",
-    portalName: "chicken-rescue" as MinigameName,
-    displayName: "Chicken Rescue",
+    slug: "chicken-rescue-v2",
+    portalName: "chicken-rescue-v2" as MinigameName,
+    displayName: "Chicken Rescue v2",
     config,
     state: sessionMinigameToRuntime(session.minigame),
     ui: getChickenRescueDashboardUi(),

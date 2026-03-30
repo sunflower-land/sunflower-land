@@ -4,7 +4,8 @@ import type { MinigameConfig, MinigameRuntimeState } from "./types";
 const EIGHT_HOURS_MS = 8 * 1000; // 60 * 60 * 1000;
 
 /**
- * Chicken Rescue — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`.
+ * Chicken Rescue v2 — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`
+ * (portal / minigame slug `chicken-rescue-v2`).
  *
  * Balance keys (API-facing) vs player-facing names in the dashboard:
  * - `Cluckcoin` → Golden Nuggets

@@ -39,6 +39,8 @@ type PortalPurchase = {
  * For minigames where the key is different to the hosted domain name
  */
 const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
+  /** Tokenized economy build still hosts on the original Chicken Rescue subdomain. */
+  "chicken-rescue-v2": "chicken-rescue",
   "festival-of-colors-2025": "festival-of-colors",
   "april-fools": "halloween",
   "chaacs-temple": "chaacs-temple.minigames",

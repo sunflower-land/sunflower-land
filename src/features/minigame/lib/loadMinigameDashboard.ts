@@ -30,9 +30,9 @@ async function fetchChickenRescueMock(): Promise<FetchMinigameResult> {
   return {
     ok: true,
     data: {
-      slug: "chicken-rescue",
-      portalName: "chicken-rescue",
-      displayName: "Chicken Rescue",
+      slug: "chicken-rescue-v2",
+      portalName: "chicken-rescue-v2",
+      displayName: "Chicken Rescue v2",
       config: CHICKEN_RESCUE_CONFIG,
       state,
       ui: getChickenRescueDashboardUi(),
@@ -62,7 +62,7 @@ export async function loadMinigameDashboard(
   slug: string,
   creds: { userToken: string; farmId: number } | null,
 ): Promise<FetchMinigameResult> {
-  if (slug !== "chicken-rescue") {
+  if (slug !== "chicken-rescue-v2") {
     return { ok: false, error: `Unknown minigame: ${slug}` };
   }
 
