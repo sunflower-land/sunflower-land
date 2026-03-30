@@ -24,7 +24,7 @@ type Options = {
 };
 
 type Restock = {
-  restockItem: object;
+  restockItem: typeof SEEDS | typeof WORKBENCH_TOOLS | typeof TREASURE_TOOLS;
   gemPrice: number;
   shopName: string;
   categoryLabel: {

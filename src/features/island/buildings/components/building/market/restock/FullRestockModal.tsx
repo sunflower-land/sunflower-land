@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -16,6 +16,8 @@ import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { SEEDS } from "features/game/types/seeds";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { getObjectEntries } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -34,11 +36,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const canRestock = state.inventory["Gem"]?.gte(20);
 
@@ -61,11 +59,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
     onClose();
   };
 
-  const restockTools = Object.entries(INITIAL_STOCK(state)).filter(
-    (item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS },
-  );
+  const restockTools = getObjectEntries(INITIAL_STOCK(state))
+    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
+    .filter(
+      ([item]) => item !== "Salt Rake" || hasFeatureAccess(state, "SALT_FARM"),
+    );
 
-  const restockSeeds = Object.entries(INITIAL_STOCK(state)).filter(
+  const restockSeeds = getObjectEntries(INITIAL_STOCK(state)).filter(
     (item) => item[0] in SEEDS,
   );
 

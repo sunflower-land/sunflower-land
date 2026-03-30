@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -18,6 +17,9 @@ import {
   RestockNPC,
 } from "features/game/events/landExpansion/npcRestock";
 import { capitalize } from "lodash";
+import { getObjectEntries } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
+import { useSelector } from "@xstate/react";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -38,11 +40,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
   const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
   const canRestock = state.inventory["Gem"]?.gte(gemPrice);
@@ -53,9 +51,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("npc.restocked", {
-      npc,
-    });
+    gameService.send("npc.restocked", { npc });
 
     gameAnalytics.trackSink({
       currency: "Gem",
@@ -70,9 +66,11 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
 
   const { labelText, icon } = categoryLabel;
 
-  const restockItems = Object.entries(INITIAL_STOCK(state)).filter(
-    (item) => item[0] in restockItem,
-  );
+  const restockItems = getObjectEntries(INITIAL_STOCK(state))
+    .filter((item) => item[0] in restockItem)
+    .filter(
+      ([item]) => item !== "Salt Rake" || hasFeatureAccess(state, "SALT_FARM"),
+    );
 
   return (
     <>
