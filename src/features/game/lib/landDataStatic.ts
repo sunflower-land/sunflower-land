@@ -6,4 +6,10 @@ import { INITIAL_FARM } from "./constants";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   ...INITIAL_FARM,
+  buffs: {
+    "Power hour": {
+      startedAt: Date.now(),
+      durationMS: 1000 * 60 * 60,
+    },
+  },
 };

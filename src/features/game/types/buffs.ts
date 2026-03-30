@@ -2,6 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "./game";
 import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
+import { useNow } from "lib/utils/hooks/useNow";
 
 // 50% faster crops, +0.2 Crops
 export type BuffName = "Power hour";
@@ -14,17 +15,40 @@ export type Buff = {
 export function isBuffActive({
   buff,
   game,
-  now = Date.now(),
+  now,
 }: {
   buff: BuffName;
   game: GameState;
-  now?: number;
+  now: number;
 }) {
   return (
     game.buffs?.[buff]?.startedAt &&
     game.buffs?.[buff].startedAt + game.buffs?.[buff].durationMS > now
   );
 }
+
+export function useActiveBuff({
+  buff,
+  game,
+}: {
+  buff: BuffName;
+  game: GameState;
+}) {
+  const { buffs } = game;
+  const buffData = buffs?.[buff];
+  const buffStartedAt = buffData?.startedAt ?? 0;
+  const buffDurationMS = buffData?.durationMS ?? 0;
+  const buffEndsAt = buffStartedAt + buffDurationMS;
+
+  const now = useNow({ live: true, autoEndAt: buffEndsAt });
+  const isActive = isBuffActive({ buff, game, now });
+
+  return {
+    isActive,
+    remainingTime: buffEndsAt - now,
+  };
+}
+
 export function applyBuff({
   buff,
   game,

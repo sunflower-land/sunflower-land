@@ -12,7 +12,7 @@ import React, { type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import { formatDateRange } from "lib/utils/time";
+import { formatDateRange, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import flowerBed from "assets/flowers/empty_flowerbed.webp";
@@ -32,6 +32,7 @@ import {
   calculateCropTime,
   CROP_MACHINE_PLOTS,
 } from "features/game/events/landExpansion/supplyCropMachine";
+import { useActiveBuff } from "features/game/types/buffs";
 
 /**
  * The props for the details for items.
@@ -164,6 +165,11 @@ export const SeedRequirements: React.FC<Props> = ({
   showBoosts,
 }) => {
   const { t } = useAppTranslation();
+  const { isActive: isPowerHourActive, remainingTime: powerHourRemainingTime } =
+    useActiveBuff({
+      buff: "Power hour",
+      game: gameState,
+    });
 
   const getStock = () => {
     if (!stock) return <></>;
@@ -390,6 +396,15 @@ export const SeedRequirements: React.FC<Props> = ({
           )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
         {getRequirements()}
+        {isPowerHourActive && (
+          <div className="flex flex-col items-center mb-2">
+            <Label type="vibrant" icon={SUNNYSIDE.icons.lightning}>
+              {`Power hour - ${secondsToString(powerHourRemainingTime / 1000, {
+                length: "medium",
+              })}`}
+            </Label>
+          </div>
+        )}
       </div>
       {actionView}
     </div>
