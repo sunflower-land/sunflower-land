@@ -111,7 +111,7 @@ const OrderCard: React.FC<{
       isCoinNPC(order.from) &&
       hasTimeBasedFeatureAccess({
         featureName: "TICKETS_FROM_COIN_NPC",
-        startTime: order.createdAt,
+        now: order.createdAt,
         game,
       })
     ) {

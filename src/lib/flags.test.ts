@@ -52,7 +52,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "TICKETS_FROM_COIN_NPC",
-          startTime: new Date("2026-02-23T23:59:59Z").getTime(),
+          now: new Date("2026-02-23T23:59:59Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
@@ -62,7 +62,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "TICKETS_FROM_COIN_NPC",
-          startTime: new Date("2026-02-24T00:00:00Z").getTime(),
+          now: new Date("2026-02-24T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(true);
@@ -74,7 +74,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-03-15T12:00:00Z").getTime(),
+          now: new Date("2026-03-15T12:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
@@ -84,7 +84,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-03-15T12:00:00Z").getTime(),
+          now: new Date("2026-03-15T12:00:00Z").getTime(),
           game: {
             ...TEST_FARM,
             inventory: {
@@ -100,7 +100,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-04-01T00:00:00Z").getTime(),
+          now: new Date("2026-04-01T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
@@ -110,7 +110,7 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-04-05T12:00:00Z").getTime(),
+          now: new Date("2026-04-05T12:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(true);
@@ -120,31 +120,30 @@ describe("hasTimeBasedFeatureAccess", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-04-08T00:00:00Z").getTime(),
+          now: new Date("2026-04-08T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "APRIL_FOOLS_EVENT_FLAG",
-          startTime: new Date("2026-04-10T00:00:00Z").getTime(),
+          now: new Date("2026-04-10T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
     });
   });
 
-  it("hasFeatureAccess matches hasTimeBasedFeatureAccess for APRIL_FOOLS at mocked wall clock", () => {
+  it("APRIL_FOOLS is true at mocked wall clock during the window", () => {
     jest.useFakeTimers();
     const t = new Date("2026-04-05T12:00:00Z").getTime();
     jest.setSystemTime(t);
-    const game = TEST_FARM;
-    expect(hasFeatureAccess(game, "APRIL_FOOLS_EVENT_FLAG")).toBe(
+    expect(
       hasTimeBasedFeatureAccess({
         featureName: "APRIL_FOOLS_EVENT_FLAG",
-        startTime: t,
-        game,
+        now: t,
+        game: TEST_FARM,
       }),
-    );
+    ).toBe(true);
   });
 });
