@@ -11,6 +11,7 @@ import {
   CHUM_DETAILS,
   Chum,
   FishingBait,
+  normalizeBaitForWormMechanics,
 } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -53,7 +54,10 @@ export const ChumSelection: React.FC<{
         {getKeys(CHUM_AMOUNTS)
           .filter((name) => !!items[name]?.gte(1))
           .filter((name) => {
-            if (bait !== "Red Wiggler" && RARE_CHUM.includes(name)) {
+            if (
+              normalizeBaitForWormMechanics(bait) !== "Red Wiggler" &&
+              RARE_CHUM.includes(name)
+            ) {
               return false;
             }
 

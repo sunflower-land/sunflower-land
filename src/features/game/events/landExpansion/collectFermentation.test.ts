@@ -1,5 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_AGING_SHED } from "features/game/lib/constants";
+import type { FermentationRecipeName } from "features/game/types/fermentation";
+import { getFishNamesByTier } from "features/game/types/fishing";
 import { collectFermentation } from "./collectFermentation";
 import {
   createFermentationTestState,
@@ -44,7 +46,7 @@ describe("collectFermentation", () => {
               fermentation: [
                 {
                   id: "job-1",
-                  recipe: "pickled_radish",
+                  recipe: "Pickled Radish",
                   startedAt: createdAt,
                   readyAt,
                 },
@@ -73,13 +75,13 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "a",
-                recipe: "salt_from_seaweed",
+                recipe: "Salt from Seaweed",
                 startedAt: past,
                 readyAt: past,
               },
               {
                 id: "b",
-                recipe: "pickled_radish",
+                recipe: "Pickled Radish",
                 startedAt: createdAt,
                 readyAt: future,
               },
@@ -95,7 +97,7 @@ describe("collectFermentation", () => {
     expect(state.agingShed.racks.fermentation).toHaveLength(1);
     expect(state.agingShed.racks.fermentation[0].id).toEqual("b");
     expect(state.inventory.Salt?.toNumber()).toEqual(8);
-    expect(state.farmActivity["salt_from_seaweed Fermented"]).toEqual(1);
+    expect(state.farmActivity["Salt from Seaweed Fermented"]).toEqual(1);
   });
 
   it("collects multiple ready jobs at once", () => {
@@ -111,13 +113,13 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "a",
-                recipe: "salt_from_seaweed",
+                recipe: "Salt from Seaweed",
                 startedAt: past,
                 readyAt: past,
               },
               {
                 id: "b",
-                recipe: "salt_from_old_bottle",
+                recipe: "Salt from Old Bottle",
                 startedAt: past,
                 readyAt: past,
               },
@@ -132,8 +134,8 @@ describe("collectFermentation", () => {
 
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
     expect(state.inventory.Salt?.toNumber()).toEqual(16);
-    expect(state.farmActivity["salt_from_seaweed Fermented"]).toEqual(1);
-    expect(state.farmActivity["salt_from_old_bottle Fermented"]).toEqual(1);
+    expect(state.farmActivity["Salt from Seaweed Fermented"]).toEqual(1);
+    expect(state.farmActivity["Salt from Old Bottle Fermented"]).toEqual(1);
   });
 
   it("stacks inventory when collecting output that already exists", () => {
@@ -149,7 +151,7 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "a",
-                recipe: "salt_from_seaweed",
+                recipe: "Salt from Seaweed",
                 startedAt: past,
                 readyAt: past,
               },
@@ -177,7 +179,7 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "a",
-                recipe: "pickled_cabbage",
+                recipe: "Pickled Cabbage",
                 startedAt: past,
                 readyAt: past,
               },
@@ -190,7 +192,7 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.farmActivity["pickled_cabbage Fermented"]).toEqual(1);
+    expect(state.farmActivity["Pickled Cabbage Fermented"]).toEqual(1);
 
     state = collectFermentation({
       state: {
@@ -202,7 +204,7 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "b",
-                recipe: "pickled_cabbage",
+                recipe: "Pickled Cabbage",
                 startedAt: past,
                 readyAt: past,
               },
@@ -215,7 +217,7 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.farmActivity["pickled_cabbage Fermented"]).toEqual(2);
+    expect(state.farmActivity["Pickled Cabbage Fermented"]).toEqual(2);
   });
 
   it("collects pickled radish output", () => {
@@ -230,7 +232,7 @@ describe("collectFermentation", () => {
             fermentation: [
               {
                 id: "x",
-                recipe: "pickled_radish",
+                recipe: "Pickled Radish",
                 startedAt: past,
                 readyAt: past,
               },
@@ -245,5 +247,71 @@ describe("collectFermentation", () => {
 
     expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(1);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
+  });
+
+  it("collecting Basic Bait from Aged fish recipe grants 1 Basic Bait", () => {
+    const past = createdAt - 1;
+    const fishName = getFishNamesByTier("basic")[0];
+    const recipe =
+      `Basic Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...INITIAL_AGING_SHED,
+          racks: {
+            ...INITIAL_AGING_SHED.racks,
+            fermentation: [
+              {
+                id: "aged-bait",
+                recipe,
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Basic Bait"]?.toNumber()).toEqual(1);
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.farmActivity[`${recipe} Fermented`]).toEqual(1);
+  });
+
+  it("collecting Basic Bait from Prime Aged fish recipe grants 3 Basic Bait", () => {
+    const past = createdAt - 1;
+    const fishName = getFishNamesByTier("basic")[0];
+    const recipe =
+      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...INITIAL_AGING_SHED,
+          racks: {
+            ...INITIAL_AGING_SHED.racks,
+            fermentation: [
+              {
+                id: "prime-bait",
+                recipe,
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Basic Bait"]?.toNumber()).toEqual(3);
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.farmActivity[`${recipe} Fermented`]).toEqual(1);
   });
 });

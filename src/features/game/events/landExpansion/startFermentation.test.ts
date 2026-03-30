@@ -1,5 +1,10 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_AGING_SHED } from "features/game/lib/constants";
+import {
+  getFermentationRecipe,
+  type FermentationRecipeName,
+} from "features/game/types/fermentation";
+import { getFishNamesByTier } from "features/game/types/fishing";
 import { startFermentation } from "./startFermentation";
 import {
   createFermentationTestState,
@@ -15,7 +20,7 @@ describe("startFermentation", () => {
         state: createFermentationTestState({ buildings: {} }),
         action: {
           type: "fermentation.started",
-          recipe: "pickled_radish",
+          recipe: "Pickled Radish",
         },
         farmId: 1,
         createdAt,
@@ -38,7 +43,7 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "pickled_radish",
+          recipe: "Pickled Radish",
         },
         farmId: 1,
         createdAt,
@@ -60,7 +65,7 @@ describe("startFermentation", () => {
               fermentation: [
                 {
                   id: "job-1",
-                  recipe: "pickled_radish",
+                  recipe: "Pickled Radish",
                   startedAt: createdAt,
                   readyAt,
                 },
@@ -74,7 +79,7 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "pickled_zucchini",
+          recipe: "Pickled Zucchini",
         },
         farmId: 1,
         createdAt,
@@ -96,19 +101,19 @@ describe("startFermentation", () => {
               fermentation: [
                 {
                   id: "1",
-                  recipe: "salt_from_seaweed",
+                  recipe: "Salt from Seaweed",
                   startedAt: past,
                   readyAt: past,
                 },
                 {
                   id: "2",
-                  recipe: "salt_from_seaweed",
+                  recipe: "Salt from Seaweed",
                   startedAt: past,
                   readyAt: past,
                 },
                 {
                   id: "3",
-                  recipe: "salt_from_seaweed",
+                  recipe: "Salt from Seaweed",
                   startedAt: past,
                   readyAt: past,
                 },
@@ -119,7 +124,7 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "salt_from_seaweed",
+          recipe: "Salt from Seaweed",
         },
         farmId: 1,
         createdAt,
@@ -139,14 +144,14 @@ describe("startFermentation", () => {
 
     state = startFermentation({
       state,
-      action: { type: "fermentation.started", recipe: "pickled_radish" },
+      action: { type: "fermentation.started", recipe: "Pickled Radish" },
       farmId: 1,
       createdAt,
     });
 
     state = startFermentation({
       state,
-      action: { type: "fermentation.started", recipe: "pickled_zucchini" },
+      action: { type: "fermentation.started", recipe: "Pickled Zucchini" },
       farmId: 1,
       createdAt,
     });
@@ -169,7 +174,7 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "pickled_radish",
+          recipe: "Pickled Radish",
         },
         farmId: 1,
         createdAt,
@@ -185,7 +190,7 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "pickled_radish",
+          recipe: "Pickled Radish",
         },
         farmId: 1,
         createdAt,
@@ -200,7 +205,7 @@ describe("startFermentation", () => {
       }),
       action: {
         type: "fermentation.started",
-        recipe: "pickled_radish",
+        recipe: "Pickled Radish",
       },
       farmId: 1,
       createdAt,
@@ -212,7 +217,7 @@ describe("startFermentation", () => {
     const jobs = state.agingShed.racks.fermentation;
 
     expect(jobs).toHaveLength(1);
-    expect(jobs[0].recipe).toEqual("pickled_radish");
+    expect(jobs[0].recipe).toEqual("Pickled Radish");
     expect(jobs[0].startedAt).toEqual(createdAt);
     expect(jobs[0].readyAt).toEqual(createdAt + 60 * 60 * 1000);
   });
@@ -222,7 +227,7 @@ describe("startFermentation", () => {
       state: createFermentationTestState({
         inventory: { Tomato: new Decimal(10), "Refined Salt": new Decimal(2) },
       }),
-      action: { type: "fermentation.started", recipe: "pickled_tomato" },
+      action: { type: "fermentation.started", recipe: "Pickled Tomato" },
       farmId: 1,
       createdAt,
     });
@@ -230,7 +235,7 @@ describe("startFermentation", () => {
     expect(state.inventory.Tomato?.toNumber()).toEqual(0);
     expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
-      "pickled_tomato",
+      "Pickled Tomato",
     );
   });
 
@@ -241,7 +246,7 @@ describe("startFermentation", () => {
       }),
       action: {
         type: "fermentation.started",
-        recipe: "salt_from_seaweed",
+        recipe: "Salt from Seaweed",
       },
       farmId: 1,
       createdAt,
@@ -257,7 +262,7 @@ describe("startFermentation", () => {
       }),
       action: {
         type: "fermentation.started",
-        recipe: "salt_from_old_bottle",
+        recipe: "Salt from Old Bottle",
       },
       farmId: 1,
       createdAt,
@@ -265,7 +270,7 @@ describe("startFermentation", () => {
 
     expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
-      "salt_from_old_bottle",
+      "Salt from Old Bottle",
     );
   });
 
@@ -277,12 +282,119 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          // @ts-expect-error — invalid recipe id for runtime guard
-          recipe: "not_a_valid_fermentation_recipe",
+          recipe: "not_a_valid_fermentation_recipe" as FermentationRecipeName,
         },
         farmId: 1,
         createdAt,
       }),
     ).toThrow("Invalid fermentation recipe");
+  });
+
+  it("starts Greenhouse Glow: Pickled Radish and deducts ingredients", () => {
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          "Refined Salt": new Decimal(2),
+          "Pickled Radish": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe: "Greenhouse Glow: Pickled Radish",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
+      "Greenhouse Glow: Pickled Radish",
+    );
+  });
+
+  it("starts Sproutroot Surprise and deducts ingredients", () => {
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          "Refined Salt": new Decimal(2),
+          "Sprout Mix": new Decimal(5),
+          "Rapid Root": new Decimal(5),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe: "Sproutroot Surprise",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Sprout Mix"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
+      "Sproutroot Surprise",
+    );
+  });
+
+  it("starts Basic Bait recipe for first basic-tier fish (Aged)", () => {
+    const fishName = getFishNamesByTier("basic")[0];
+    const agedFish = `Aged ${fishName}` as const;
+    const recipe =
+      `Basic Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          [agedFish]: new Decimal(1),
+          "Pickled Zucchini": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
+  it("Prime Aged basic bait recipe outputs 3 Basic Bait", () => {
+    const fishName = getFishNamesByTier("basic")[0];
+    const recipe =
+      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+
+    expect(getFermentationRecipe(recipe).outputs["Basic Bait"]).toEqual(
+      new Decimal(3),
+    );
+  });
+
+  it("starts Basic Bait recipe with Prime Aged fish", () => {
+    const fishName = getFishNamesByTier("basic")[0];
+    const primeAgedFish = `Prime Aged ${fishName}` as const;
+    const recipe =
+      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          [primeAgedFish]: new Decimal(1),
+          "Pickled Zucchini": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory[primeAgedFish]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
   });
 });

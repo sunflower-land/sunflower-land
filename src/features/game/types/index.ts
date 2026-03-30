@@ -1471,6 +1471,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Prime Aged Rock Blackfish": 2979,
   "Prime Aged Cobia": 2980,
   "Prime Aged Tilapia": 2981,
+
+  "Greenhouse Glow": 2982,
+  "Greenhouse Goodie": 2983,
+  "Sproutroot Surprise": 2984,
+  "Turbofruit Mix": 2985,
+  "Basic Bait": 2986,
+  "Advanced Bait": 2987,
+  "Expert Bait": 2988,
 };
 
 // The reverse of above

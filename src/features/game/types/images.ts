@@ -4662,6 +4662,41 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.pickled.pepper"),
     translatedName: translate("pickled.pepper"),
   },
+  "Greenhouse Glow": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.greenhouseGlow"),
+    translatedName: translate("greenhouseGlow"),
+  },
+  "Greenhouse Goodie": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.greenhouseGoodie"),
+    translatedName: translate("greenhouseGoodie"),
+  },
+  "Sproutroot Surprise": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.sproutrootSurprise"),
+    translatedName: translate("sproutrootSurprise"),
+  },
+  "Turbofruit Mix": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.turbofruitMix"),
+    translatedName: translate("turbofruitMix"),
+  },
+  "Basic Bait": {
+    image: earthworm,
+    description: translate("description.bait.basicFermented"),
+    translatedName: translate("bait.basicFermented"),
+  },
+  "Advanced Bait": {
+    image: grub,
+    description: translate("description.bait.advancedFermented"),
+    translatedName: translate("bait.advancedFermented"),
+  },
+  "Expert Bait": {
+    image: redWiggler,
+    description: translate("description.bait.expertFermented"),
+    translatedName: translate("bait.expertFermented"),
+  },
   Rug: {
     image: SUNNYSIDE.decorations.rug,
     description: "?",

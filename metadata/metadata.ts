@@ -12975,6 +12975,83 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     name: "Pickled Pepper",
   },
+  "Greenhouse Glow": {
+    description: "A fermented boost for the greenhouse.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2982.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Greenhouse Glow",
+  },
+  "Greenhouse Goodie": {
+    description: "A fermented treat for the greenhouse.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2983.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Greenhouse Goodie",
+  },
+  "Sproutroot Surprise": {
+    description: "Sprout and root mix, fermented to a punchy bite.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2984.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Sproutroot Surprise",
+  },
+  "Turbofruit Mix": {
+    description: "Rapid roots and fruitful blend, turbo-charged by brine.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2985.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Turbofruit Mix",
+  },
+  "Basic Bait": {
+    description: "Fermented bait that behaves like an earthworm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2986.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Basic Bait",
+  },
+  "Advanced Bait": {
+    description: "Fermented bait that behaves like a grub.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2987.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Advanced Bait",
+  },
+  "Expert Bait": {
+    description: "Fermented bait that behaves like a red wiggler.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2988.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    name: "Expert Bait",
+  },
   Timeshard: {
     description: "",
     decimals: 0,
