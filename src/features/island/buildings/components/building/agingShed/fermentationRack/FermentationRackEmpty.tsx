@@ -35,24 +35,6 @@ function getMergedInventory(state: GameState): Inventory {
   };
 }
 
-function getFirstInsufficientIngredient(
-  merged: Inventory,
-  recipeId: FermentationRecipeName,
-): InventoryItemName | undefined {
-  const def = getFermentationRecipe(recipeId);
-
-  for (const [ing, need] of getObjectEntries(def.ingredients)) {
-    const name = ing as InventoryItemName;
-    const have = merged[name] ?? new Decimal(0);
-
-    if (have.lessThan(need ?? new Decimal(0))) {
-      return name;
-    }
-  }
-
-  return undefined;
-}
-
 function getFirstIngredientImage(recipeId: FermentationRecipeName) {
   const def = getFermentationRecipe(recipeId);
   const first = getObjectEntries(def.ingredients)[0];
@@ -107,11 +89,6 @@ export const FermentationRackEmpty: React.FC<Props> = ({
     getMaxFermentationSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
 
-  const insufficientIngredient =
-    recipeId !== undefined
-      ? getFirstInsufficientIngredient(merged, recipeId)
-      : undefined;
-
   // NB: actual Start button disable is controlled by parent via `startDisabled`.
   // These are just used to avoid showing misleading blocks when nothing selected.
   const canShowRequirements =
@@ -119,7 +96,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <Label type="default" className="text-xs mb-2 ml-1">
           {selectedGroup
             ? `${ITEM_DETAILS[selectedGroup.item]?.translatedName ?? String(selectedGroup.item)} x${selectedGroup.amount.toString()}`
@@ -147,7 +124,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
       </InnerPanel>
 
       {selectedGroup && (
-        <InnerPanel className="mb-2">
+        <InnerPanel className="mb-1">
           <Label type="default" className="text-xs mb-2 ml-1">
             {selectedGroup.recipeIds.length > 1
               ? t("agingShed.fermentation.selectIngredients")
@@ -155,7 +132,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           </Label>
 
           {selectedGroup.recipeIds.length > 1 && (
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1 overflow-auto max-h-32 scrollable">
               {selectedGroup.recipeIds.map((id) => {
                 const image = getFirstIngredientImage(id);
 
@@ -178,7 +155,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
           {canShowRequirements && recipeDef && (
             <div
-              className="flex flex-wrap p-2 gap-2 cursor-pointer rounded-sm border border-[#181425]/20 bg-black/5"
+              className="flex flex-wrap p-2 gap-2 cursor-pointer"
               onClick={() => setShowIngredients(!showIngredients)}
             >
               <IngredientsPopover
@@ -204,16 +181,6 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                 waitSeconds={recipeDef.durationSeconds}
               />
             </div>
-          )}
-
-          {recipeId && insufficientIngredient && (
-            <p className="text-xxs px-1 mt-2 opacity-80">
-              {t("agingShed.fermentation.insufficientIngredient", {
-                item:
-                  ITEM_DETAILS[insufficientIngredient]?.translatedName ??
-                  String(insufficientIngredient),
-              })}
-            </p>
           )}
         </InnerPanel>
       )}

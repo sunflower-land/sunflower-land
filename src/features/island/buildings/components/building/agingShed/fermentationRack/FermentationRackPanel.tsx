@@ -221,7 +221,7 @@ export const FermentationRackPanel: React.FC = () => {
 
   return (
     <>
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <Label type="default" className="text-xs mb-2 ml-1">
           {t("agingShed.fermentation.fermentationSlots")}
         </Label>

@@ -15,6 +15,8 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Box } from "components/ui/Box";
 
 type Props = {
   job: FermentationJob;
@@ -57,12 +59,17 @@ export const FermentationRackInProgress: React.FC<Props> = ({
 
   return (
     <>
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <div className="flex justify-between items-start">
+          {outputItem && (
+            <Label type="default" className="text-xs">
+              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${(outputAmount ?? new Decimal(0)).toString()}`}
+            </Label>
+          )}
           <Label
             type={isReady ? "success" : "info"}
             className="ml-1"
-            icon={outputItem ? ITEM_DETAILS[outputItem]?.image : undefined}
+            icon={isReady ? SUNNYSIDE.icons.confirm : SUNNYSIDE.icons.stopwatch}
           >
             {isReady
               ? t("agingShed.fermentation.ready")
@@ -72,46 +79,41 @@ export const FermentationRackInProgress: React.FC<Props> = ({
                 })}`}
           </Label>
         </div>
+        <div className="flex items-center">
+          {outputItem && <Box image={ITEM_DETAILS[outputItem]?.image} />}
+          <div
+            className="flex flex-wrap p-2 gap-2 cursor-pointer items-center"
+            onClick={() => setShowIngredients(!showIngredients)}
+          >
+            <IngredientsPopover
+              show={showIngredients}
+              ingredients={ingredientKeys}
+              onClick={() => setShowIngredients(false)}
+              title={t("ingredients")}
+            />
 
-        <div
-          className="flex flex-wrap p-2 gap-2 cursor-pointer"
-          onClick={() => setShowIngredients(!showIngredients)}
-        >
-          <IngredientsPopover
-            show={showIngredients}
-            ingredients={ingredientKeys}
-            onClick={() => setShowIngredients(false)}
-            title={t("ingredients")}
-          />
+            {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
+              const needDecimal = new Decimal(need ?? 0);
+              const balanceDecimal =
+                state.inventory[itemName] ?? new Decimal(0);
 
-          {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
-            const needDecimal = new Decimal(need ?? 0);
-            const balanceDecimal = state.inventory[itemName] ?? new Decimal(0);
+              return (
+                <RequirementLabel
+                  key={String(itemName)}
+                  type="item"
+                  item={itemName}
+                  balance={balanceDecimal}
+                  requirement={needDecimal}
+                />
+              );
+            })}
 
-            return (
-              <RequirementLabel
-                key={String(itemName)}
-                type="item"
-                item={itemName}
-                balance={balanceDecimal}
-                requirement={needDecimal}
-              />
-            );
-          })}
-
-          <RequirementLabel
-            type="time"
-            waitSeconds={Math.max(0, (job.readyAt - job.startedAt) / 1000)}
-          />
-        </div>
-
-        {outputItem && (
-          <div className="px-2 pb-2">
-            <Label type="default" className="text-xs">
-              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${(outputAmount ?? new Decimal(0)).toString()}`}
-            </Label>
+            <RequirementLabel
+              type="time"
+              waitSeconds={Math.max(0, (job.readyAt - job.startedAt) / 1000)}
+            />
           </div>
-        )}
+        </div>
 
         {collectError && (
           <Label type="danger" className="text-xs mb-2 mx-2">
