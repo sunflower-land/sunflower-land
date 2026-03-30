@@ -76,10 +76,22 @@ function getPrimaryOutputItem(
 export const FermentationRackPanel: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
   const { isVisiting } = useVisiting();
 
   const state = useSelector(gameService, (s) => s.context.state);
+
+  const queue = state.agingShed.racks.fermentation;
+
+  /** Stop ticking when every job is ready (last `readyAt`); no interval when queue is empty. */
+  const fermentationClockEndAt = useMemo(() => {
+    if (queue.length === 0) return undefined;
+    return Math.max(...queue.map((job) => job.readyAt));
+  }, [queue]);
+
+  const now = useNow({
+    live: queue.length > 0,
+    autoEndAt: fermentationClockEndAt,
+  });
 
   const groups = useMemo(() => getFermentationOutputGroups(), []);
 
@@ -97,7 +109,6 @@ export const FermentationRackPanel: React.FC = () => {
   const [collectError, setCollectError] = useState<string | undefined>();
 
   const maxSlots = getMaxFermentationSlots(state.agingShed.level);
-  const queue = state.agingShed.racks.fermentation;
   const slotsFull = queue.length >= maxSlots;
 
   const shedPlaced = hasPlacedAgingShed(state);
