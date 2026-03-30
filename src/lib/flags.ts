@@ -79,9 +79,9 @@ const FEATURE_FLAGS = {
 
   EASTER: () => false,
 
-  HOLIDAYS_EVENT_FLAG: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-12-23T00:00:00Z"))(game) &&
-    Date.now() < new Date("2026-01-05T00:00:00Z").getTime(),
+  APRIL_FOOLS_EVENT_FLAG: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2026-04-01T00:00:00Z"))(game) &&
+    Date.now() < new Date("2026-04-08T00:00:00Z").getTime(),
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 

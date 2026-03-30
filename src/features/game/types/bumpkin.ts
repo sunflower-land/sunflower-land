@@ -148,7 +148,9 @@ export type BumpkinShirt =
   | "Chef Shirt"
   | "Pet Specialist Shirt"
   | "Comfy Xmas Sweater"
-  | "Fish Hook Vest";
+  | "Fish Hook Vest"
+  | "Neon Noiz Jacket"
+  | "404 Chic Top";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -223,7 +225,8 @@ export type BumpkinTool =
   | "Moonseeker Hand Puppet"
   | "Master Chef's Cleaver"
   | "Luna's Crescent"
-  | "Candy Halbred";
+  | "Candy Halbred"
+  | "Admin Fools Tools";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -247,7 +250,9 @@ export type BumpkinShoe =
   | "Desert Merchant Shoes"
   | "Cowboy Boots"
   | "Speed Boots"
-  | "Beast Shoes";
+  | "Beast Shoes"
+  | "Neon Noiz Shoes"
+  | "404 Chic Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -376,7 +381,8 @@ export type BumpkinHat =
   | "Reindeer Mask"
   | "Snowman Mask"
   | "Cool Glasses"
-  | "Fish Hook Hat";
+  | "Fish Hook Hat"
+  | "Aether Specs";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -419,7 +425,9 @@ export type BumpkinPant =
   | "Paint Splattered Overalls"
   | "Pet Specialist Pants"
   | "Comfy Xmas Pants"
-  | "Fish Hook Waders";
+  | "Fish Hook Waders"
+  | "Neon Noiz Pants"
+  | "404 Chic Skirt";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -539,7 +547,9 @@ export type BumpkinWings =
   | "Oracle Syringe"
   | "Slime Wings"
   | "Underworld Stimpack"
-  | "Sweet Devil Wings";
+  | "Sweet Devil Wings"
+  | "Faulty Barrier"
+  | "Cardboard Wings";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -553,7 +563,8 @@ export type BumpkinAura =
   | "Slime Aura"
   | "Wisp Aura"
   | "Diamond Snow Aura"
-  | "Paw Aura";
+  | "Paw Aura"
+  | "Glitch Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -1126,6 +1137,19 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Fish Hook Vest": 524,
   "Fish Hook Waders": 525,
   "Corn Silk Hair": 526,
+
+  // April Fools 2026 Event Wearables
+  "Neon Noiz Jacket": 527,
+  "404 Chic Top": 528,
+  "Neon Noiz Pants": 529,
+  "404 Chic Skirt": 530,
+  "Admin Fools Tools": 531,
+  "Neon Noiz Shoes": 532,
+  "404 Chic Boots": 533,
+  "Aether Specs": 534,
+  "Faulty Barrier": 535,
+  "Cardboard Wings": 536,
+  "Glitch Aura": 537,
 };
 
 // The reverse of above
@@ -1713,6 +1737,17 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Holiday Feast Background": "background",
   "Cozy Reindeer Onesie": "onesie",
   "Diamond Snow Aura": "aura",
+  "Neon Noiz Jacket": "shirt",
+  "404 Chic Top": "shirt",
+  "Neon Noiz Pants": "pants",
+  "404 Chic Skirt": "pants",
+  "Admin Fools Tools": "tool",
+  "Neon Noiz Shoes": "shoes",
+  "404 Chic Boots": "shoes",
+  "Aether Specs": "hat",
+  "Faulty Barrier": "wings",
+  "Cardboard Wings": "wings",
+  "Glitch Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */
