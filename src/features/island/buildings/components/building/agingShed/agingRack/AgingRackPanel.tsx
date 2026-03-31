@@ -161,7 +161,6 @@ export const AgingRackPanel: React.FC = () => {
                 totalDuration > 0 ? (elapsed / totalDuration) * 100 : 100;
               const remainingSec = Math.max(0, (slot.readyAt - now) / 1000);
               const isSelected = effectiveSlotIndex === index;
-              const showProgress = !isSelected;
 
               return (
                 <Box
@@ -176,9 +175,7 @@ export const AgingRackPanel: React.FC = () => {
                     type: "progress",
                     label: ready
                       ? "Ready"
-                      : secondsToString(remainingSec, {
-                          length: "short",
-                        }),
+                      : secondsToString(remainingSec, { length: "short" }),
                   }}
                 />
               );
