@@ -33,6 +33,7 @@ interface SceneGeneratedMessage extends WebSocketMessage {
     phaserScene: string;
     sunflowerAssets: string;
     sunflowerSDK: string;
+    previewUrl?: string;
   };
 }
 
@@ -146,6 +147,7 @@ export const AIBuilder: React.FC = () => {
   const [assetCategory, setAssetCategory] = useState<string>("all");
   const [assetEntries, setAssetEntries] = useState<AssetEntry[]>([]);
   const [copiedRef, setCopiedRef] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"tools" | "assets">(
     "tools",
   );
@@ -332,7 +334,10 @@ export const AIBuilder: React.FC = () => {
 
   const handleSceneGenerated = useCallback(
     (message: SceneGeneratedMessage) => {
-      const { phaserScene, sunflowerAssets, sunflowerSDK } = message.data;
+      const { phaserScene, sunflowerAssets, sunflowerSDK, previewUrl } =
+        message.data;
+
+      setPreviewUrl(previewUrl ?? null);
 
       const isLoadedFarm = message.data.sessionId.includes("farm-");
       const isDeleteOperation = message.data.sessionId.includes("delete-");
@@ -918,12 +923,26 @@ export const AIBuilder: React.FC = () => {
                   style={{ imageRendering: "pixelated" }}
                 />
               </div>
-              <p
-                className="hidden md:block text-xs text-center mt-1"
-                style={{ color: "#000" }}
-              >
-                {"Your generated minigame will appear here"}
-              </p>
+              {previewUrl ? (
+                <p className="text-xs text-center mt-1 truncate">
+                  {"Preview: "}
+                  <a
+                    href={previewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-blue-600"
+                  >
+                    {previewUrl}
+                  </a>
+                </p>
+              ) : (
+                <p
+                  className="hidden md:block text-xs text-center mt-1"
+                  style={{ color: "#000" }}
+                >
+                  {"Your generated minigame will appear here"}
+                </p>
+              )}
             </InnerPanel>
           </div>
 

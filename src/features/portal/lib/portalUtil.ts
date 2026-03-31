@@ -102,6 +102,11 @@ export function authorisePortal() {
 }
 
 export function isValidRedirect(url: string) {
+  // On localhost, accept any redirect URL for development
+  if (window.location.hostname === "localhost") {
+    return true;
+  }
+
   // Define a regular expression for localhost URLs
   const localhostRegex = /^http:\/\/localhost:\d+/;
 
