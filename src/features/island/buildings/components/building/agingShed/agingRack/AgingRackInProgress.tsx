@@ -57,12 +57,7 @@ export const AgingRackInProgress: React.FC<Props> = ({
           </Label>
         </div>
         <div className="flex items-center">
-          {/* TODO: Replace filter tint with dedicated aged fish sprites */}
-          <div
-            style={{ filter: "sepia(0.4) hue-rotate(10deg) brightness(0.9)" }}
-          >
-            <Box image={ITEM_DETAILS[agedName]?.image} />
-          </div>
+          <Box image={ITEM_DETAILS[agedName]?.image} />
           <div className="flex flex-wrap p-2 gap-2 items-center">
             <Label
               type="default"
