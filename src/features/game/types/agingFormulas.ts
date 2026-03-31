@@ -25,7 +25,7 @@ export function getAgingTimeMs(baseXP: number): number {
 
 export function getAgingSlotCount(agingShedLevel: number): number {
   if (agingShedLevel < 1) {
-    return 1;
+    return 0;
   }
 
   return Math.min(agingShedLevel, 6);
