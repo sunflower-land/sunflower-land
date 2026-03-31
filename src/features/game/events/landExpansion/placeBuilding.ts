@@ -9,6 +9,7 @@ import {
 } from "../../types/game";
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
+import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { getReadyAt } from "./startComposter";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -138,7 +139,10 @@ export function placeBuilding({
 
         Object.values(animals).forEach((animal) => {
           if (existingBuilding.removedAt) {
-            const timeOffset = createdAt - existingBuilding.removedAt;
+            const timeOffset = Math.max(
+              0,
+              createdAt - existingBuilding.removedAt,
+            );
             animal.asleepAt = animal.asleepAt + timeOffset;
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;
@@ -150,12 +154,53 @@ export function placeBuilding({
         const { craftingBox } = stateCopy;
         const queue = craftingBox.queue ?? [];
         if (existingBuilding.removedAt && queue.length > 0) {
-          const downtimeDelta = createdAt - existingBuilding.removedAt;
+          const downtimeDelta = Math.max(
+            0,
+            createdAt - existingBuilding.removedAt,
+          );
           stateCopy.craftingBox.queue = queue.map((item) => ({
             ...item,
             startedAt: item.startedAt + downtimeDelta,
             readyAt: item.readyAt + downtimeDelta,
           }));
+        }
+      }
+
+      if (action.name === "Aging Shed" && !isSecondBuilding) {
+        if (existingBuilding.removedAt) {
+          const downtimeDelta = Math.max(
+            0,
+            createdAt - existingBuilding.removedAt,
+          );
+          if (!stateCopy.agingShed.racks) {
+            stateCopy.agingShed.racks = createInitialAgingShed().racks;
+          }
+          const fermentation = stateCopy.agingShed.racks.fermentation;
+          if (fermentation.length > 0) {
+            stateCopy.agingShed.racks.fermentation = fermentation.map(
+              (job) => ({
+                ...job,
+                startedAt: job.startedAt + downtimeDelta,
+                readyAt: job.readyAt + downtimeDelta,
+              }),
+            );
+          }
+          if (stateCopy.agingShed.upgradeReadyAt !== undefined) {
+            stateCopy.agingShed.upgradeReadyAt += downtimeDelta;
+          }
+        }
+      }
+
+      if (action.name === "Water Well" && !isSecondBuilding) {
+        if (
+          existingBuilding.removedAt &&
+          stateCopy.waterWell.upgradeReadyAt !== undefined
+        ) {
+          const downtimeDelta = Math.max(
+            0,
+            createdAt - existingBuilding.removedAt,
+          );
+          stateCopy.waterWell.upgradeReadyAt += downtimeDelta;
         }
       }
 

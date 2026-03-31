@@ -79,7 +79,8 @@ import {
   FlowerSeedName,
   MutantFlowerName,
 } from "./flowers";
-import { PickledItemName } from "./pickled";
+import { FermentationProductName } from "./fermentationProducts";
+import { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
@@ -123,6 +124,7 @@ import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
 import { SaltFarm } from "./salt";
+import type { AgingShed } from "../lib/agingShed";
 
 export type CraftingQueueItem = {
   id: string;
@@ -680,7 +682,8 @@ export type InventoryItemName =
   | PetShopItemName
   | CrustaceanName
   | ChapterRaffleTicket
-  | PickledItemName;
+  | PickledCropName
+  | FermentationProductName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -824,6 +827,9 @@ export type FruitPatch = {
 export type BuildingProduct = {
   name: CookableName | ProcessedResource;
   readyAt: number;
+  /**
+   * @deprecated Use per-item quantity fields instead.
+   */
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
@@ -1967,7 +1973,7 @@ export interface GameState {
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
-  agingShed: UpgradableBuilding;
+  agingShed: AgingShed;
   petHouse: PetHouseBuilding;
 
   craftingBox: {

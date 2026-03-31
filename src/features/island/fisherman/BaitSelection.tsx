@@ -48,11 +48,15 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
   "Grub",
   "Red Wiggler",
+  "Basic Bait",
+  "Advanced Bait",
+  "Expert Bait",
   "Fishing Lure",
   "Fish Flake",
   "Fish Stick",
@@ -349,7 +353,13 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
           </div>
         </InnerPanel>
         <DropdownPanel
-          options={BAIT.map((bait) => ({
+          options={BAIT.filter(
+            (bait) =>
+              (bait !== "Basic Bait" &&
+                bait !== "Advanced Bait" &&
+                bait !== "Expert Bait") ||
+              hasFeatureAccess(state, "AGING_SHED"),
+          ).map((bait) => ({
             value: bait,
             label: (
               <div className="flex flex-col gap-1">

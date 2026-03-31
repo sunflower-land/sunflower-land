@@ -54,6 +54,7 @@ import { ProcessedResource } from "./processedFood";
 import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
 import { BonusName } from "./bonuses";
+import type { FermentationCollectedActivity } from "./fermentation";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -165,6 +166,7 @@ export type FarmActivityName =
   | PlantGreenHouseCropEvent
   | CookEvent
   | ProcessedEvent
+  | FermentationCollectedActivity
   | FedEvent
   | BuyEvent
   | CraftedEvent
