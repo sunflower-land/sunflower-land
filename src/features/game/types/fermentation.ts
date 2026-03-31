@@ -160,7 +160,7 @@ const STATIC_FERMENTATION_RECIPES = {
       Seaweed: new Decimal(1),
     },
     outputs: {
-      Salt: new Decimal(8),
+      Salt: new Decimal(2),
     },
   },
   "Salt from Old Bottle": {
@@ -169,7 +169,7 @@ const STATIC_FERMENTATION_RECIPES = {
       "Old Bottle": new Decimal(1),
     },
     outputs: {
-      Salt: new Decimal(8),
+      Salt: new Decimal(2),
     },
   },
 } as const satisfies Record<string, FermentationRecipeDefinition>;
@@ -192,7 +192,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(1),
+        "Capsule Bait": new Decimal(3),
       },
     };
     recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Zucchini)`] = {
@@ -202,7 +202,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(3),
+        "Capsule Bait": new Decimal(6),
       },
     };
     recipes[`Capsule Bait (Aged ${fish}, Pickled Pepper)`] = {
@@ -212,7 +212,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(1),
+        "Capsule Bait": new Decimal(3),
       },
     };
     recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
@@ -222,7 +222,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(3),
+        "Capsule Bait": new Decimal(6),
       },
     };
   }
@@ -331,7 +331,7 @@ export type FermentationRecipeName =
 
 export const FERMENTATION_RECIPE_IDS: FermentationRecipeName[] = [
   ...getKeys(STATIC_FERMENTATION_RECIPES),
-  ...(Object.keys(BAIT_FERMENTATION_RECIPES) as FermentationRecipeName[]),
+  ...getKeys(BAIT_FERMENTATION_RECIPES),
 ];
 
 export type FermentationCollectedActivity = `${InventoryItemName} Fermented`;

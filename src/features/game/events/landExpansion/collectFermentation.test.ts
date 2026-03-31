@@ -96,8 +96,8 @@ describe("collectFermentation", () => {
 
     expect(state.agingShed.racks.fermentation).toHaveLength(1);
     expect(state.agingShed.racks.fermentation[0].id).toEqual("b");
-    expect(state.inventory.Salt?.toNumber()).toEqual(8);
-    expect(state.farmActivity["Salt Fermented"]).toEqual(1);
+    expect(state.inventory.Salt?.toNumber()).toEqual(2);
+    expect(state.farmActivity["Salt Fermented"]).toEqual(2);
   });
 
   it("collects multiple ready jobs at once", () => {
@@ -133,8 +133,8 @@ describe("collectFermentation", () => {
     });
 
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(16);
-    expect(state.farmActivity["Salt Fermented"]).toEqual(2);
+    expect(state.inventory.Salt?.toNumber()).toEqual(4);
+    expect(state.farmActivity["Salt Fermented"]).toEqual(4);
   });
 
   it("stacks inventory when collecting output that already exists", () => {
@@ -163,7 +163,7 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toEqual(11);
+    expect(state.inventory.Salt?.toNumber()).toEqual(5);
   });
 
   it("increments farm activity each time the same recipe is collected", () => {
@@ -248,7 +248,7 @@ describe("collectFermentation", () => {
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
   });
 
-  it("collecting Capsule Bait from Aged fish recipe grants 1 Capsule Bait", () => {
+  it("collecting Capsule Bait from Aged fish recipe grants 3 Capsule Bait", () => {
     const past = createdAt - 1;
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
@@ -276,12 +276,12 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(1);
+    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(3);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(1);
+    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(3);
   });
 
-  it("collecting Capsule Bait from Prime Aged fish recipe grants 3 Capsule Bait", () => {
+  it("collecting Capsule Bait from Prime Aged fish recipe grants 6 Capsule Bait", () => {
     const past = createdAt - 1;
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
@@ -309,8 +309,8 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(3);
+    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(6);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(1);
+    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
   });
 });

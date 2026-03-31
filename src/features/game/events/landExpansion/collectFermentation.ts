@@ -60,7 +60,7 @@ export function collectFermentation({
         game.farmActivity = trackFarmActivity(
           activityName,
           game.farmActivity,
-          new Decimal(1),
+          new Decimal(add),
         );
       }
     });

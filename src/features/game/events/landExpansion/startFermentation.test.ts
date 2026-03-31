@@ -411,13 +411,13 @@ describe("startFermentation", () => {
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
   });
 
-  it("Prime Aged basic bait recipe outputs 3 Capsule Bait", () => {
+  it("Prime Aged basic bait recipe outputs 6 Capsule Bait", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
       `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     expect(getFermentationRecipe(recipe).outputs["Capsule Bait"]).toEqual(
-      new Decimal(3),
+      new Decimal(6),
     );
   });
 
