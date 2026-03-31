@@ -256,7 +256,7 @@ jobs:
                 "",
                 "AI summary skipped because `OPENAI_API_KEY` is not available to this workflow run.",
               ]);
-              return null;
+              return { risk: null, summary: null };
             }
 
             const response = await fetch("https://api.openai.com/v1/responses", {
@@ -272,7 +272,7 @@ jobs:
                   {
                     role: "system",
                     content:
-                      "You summarize git commits for an internal engineering alert. Reply with 2-4 short markdown bullet points. Be factual, concise, and focus on what changed and likely impact. If the diff looks mechanical or generated, say so. Do not include a heading.",
+                      "You summarize git commits for an internal engineering alert. Your first line must be exactly one of: RISK: LOW, RISK: MEDIUM, or RISK: HIGH — based on the scope, sensitivity, and potential impact of the change. Then add 2-4 short markdown bullet points. Be factual, concise, and focus on what changed and likely impact. If the diff looks mechanical or generated, say so. Do not include a heading.",
                   },
                   {
                     role: "user",
@@ -315,10 +315,14 @@ jobs:
               console.log(
                 `OpenAI response for ${metadata.sha} did not include extractable text. Top-level keys: ${Object.keys(payload).join(", ")}`,
               );
-              return null;
+              return { risk: null, summary: null };
             }
 
-            return summaryText;
+            const riskMatch = summaryText.match(/^RISK:\s*(LOW|MEDIUM|HIGH)\b/i);
+            const risk = riskMatch ? riskMatch[1].toUpperCase() : null;
+            const cleanedSummary = summaryText.replace(/^RISK:\s*(LOW|MEDIUM|HIGH)\s*/i, "").trim();
+
+            return { risk, summary: cleanedSummary };
           }
 
           function fallbackSummary(metadata, files) {
@@ -335,10 +339,23 @@ jobs:
             }
 
             bullets.push("- AI summary unavailable; showing commit metadata instead.");
-            return bullets.join("\n");
+            return { risk: null, summary: bullets.join("\n") };
           }
 
-          async function sendDiscordAlert(metadata, files, summary) {
+          const RISK_COLORS = {
+            LOW: 3066993,
+            MEDIUM: 16776960,
+            HIGH: 15158332,
+          };
+
+          async function sendDiscordAlert(metadata, files, summary, risk) {
+            const embedColor = risk ? (RISK_COLORS[risk] ?? 15158332) : 15158332;
+            const riskField = {
+              name: "Risk Score",
+              value: risk || "UNKNOWN",
+              inline: true,
+            };
+
             const payload = {
               username: "GitHub Commits Alerts",
               content: "<@&1260758874189729867>",
@@ -351,9 +368,10 @@ jobs:
                 {
                   title: "Direct commit to main detected",
                   url: getCommitUrl(metadata.sha),
-                  color: 15158332,
+                  color: embedColor,
                   description: truncate(summary, 4000),
                   fields: [
+                    riskField,
                     {
                       name: "Repository",
                       value: escapeDiscord(REPOSITORY),
@@ -459,14 +477,18 @@ jobs:
               const files = getChangedFiles(metadata.sha);
               const diff = getDiffForSummary(metadata.sha);
 
-              let summary;
+              let result;
               try {
-                summary = await summarizeWithAi(metadata, files, diff);
+                result = await summarizeWithAi(metadata, files, diff);
               } catch (error) {
                 console.log(`AI summary failed for ${metadata.sha}: ${error.message}`);
               }
 
-              await sendDiscordAlert(metadata, files, summary || fallbackSummary(metadata, files));
+              if (!result || !result.summary) {
+                result = fallbackSummary(metadata, files);
+              }
+
+              await sendDiscordAlert(metadata, files, result.summary, result.risk);
             }
           }
 
