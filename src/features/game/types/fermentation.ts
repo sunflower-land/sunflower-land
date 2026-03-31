@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { getKeys } from "lib/object";
-import type { Inventory } from "./game";
+import type { Inventory, InventoryItemName } from "./game";
 import type { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
 import { getFishNamesByTier } from "./fishing";
 
@@ -334,14 +334,7 @@ export const FERMENTATION_RECIPE_IDS: FermentationRecipeName[] = [
   ...(Object.keys(BAIT_FERMENTATION_RECIPES) as FermentationRecipeName[]),
 ];
 
-export type FermentationCollectedActivity =
-  `${FermentationRecipeName} Fermented`;
-
-export function fermentationCollectedActivity(
-  recipe: FermentationRecipeName,
-): FermentationCollectedActivity {
-  return `${recipe} Fermented`;
-}
+export type FermentationCollectedActivity = `${InventoryItemName} Fermented`;
 
 export function isFermentationRecipeName(
   id: string,
