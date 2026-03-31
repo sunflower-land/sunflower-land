@@ -66,7 +66,6 @@ import {
   buyBlockBucks,
   buyBlockBucksMATIC,
 } from "../actions/buyGems";
-import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
@@ -334,7 +333,6 @@ export type BlockchainEvent =
   | SellMarketResourceEvent
   | { type: "REFRESH" }
   | { type: "ACKNOWLEDGE" }
-  | { type: "EXPIRED" }
   | { type: "CONTINUE"; id?: string }
   | { type: "RESET" }
   | { type: "DEPOSIT" }
@@ -1758,38 +1756,6 @@ export function startGame(authContext: AuthContext) {
         playing: {
           id: "playing",
           entry: "clearTransactionId",
-          invoke: {
-            /**
-             * An in game loop that checks if Blockchain becomes out of sync
-             * It is a rare event but it saves a user from making too much progress that would not be synced
-             */
-            src: (context) => (cb) => {
-              const interval = setInterval(
-                async () => {
-                  if (!context.farmAddress) return;
-
-                  const sessionID = await getSessionId(
-                    context.farmId as number,
-                  );
-
-                  if (sessionID !== context.sessionId) {
-                    cb("EXPIRED");
-                  }
-                },
-                1000 * 60 * 2,
-              );
-
-              return () => {
-                clearInterval(interval);
-              };
-            },
-            onError: [
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
           on: {
             ...EFFECT_EVENT_HANDLERS,
             ...PLAYING_GAME_EVENT_HANDLERS,
@@ -1813,12 +1779,6 @@ export function startGame(authContext: AuthContext) {
             },
             REVEAL: {
               target: "revealing",
-            },
-            EXPIRED: {
-              target: "error",
-              actions: assign((_) => ({
-                errorCode: ERRORS.SESSION_EXPIRED as ErrorCode,
-              })),
             },
             RESET: {
               target: "refreshing",

@@ -288,7 +288,7 @@ export const MinigameDashboard: React.FC = () => {
   ]);
 
   const handleClose = useCallback(() => {
-    navigate(-1);
+    navigate("/");
   }, [navigate]);
 
   useEffect(() => {
