@@ -290,9 +290,15 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             authToken={authToken}
             display={display}
             id={id}
+            count={count}
             floorPrice={tradeable?.floor ?? 0}
             highestOffer={highestOffer}
             onClose={onListClose}
+            minigameSlug={
+              tradeable?.collection === "minigames"
+                ? tradeable.minigameSlug
+                : undefined
+            }
           />
         </Panel>
         {isResource && <ResourceTaxes />}

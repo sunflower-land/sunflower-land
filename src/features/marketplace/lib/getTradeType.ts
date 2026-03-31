@@ -1935,6 +1935,7 @@ export const getTradeType = ({
 }) => {
   if (collection === "buds") return "onchain";
   if (collection === "pets") return "onchain";
+  if (collection === "minigames") return "instant";
   if (collection === "wearables") {
     const item = ITEM_NAMES[id];
 

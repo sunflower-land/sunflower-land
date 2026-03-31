@@ -11,11 +11,13 @@ export async function loadTradeable({
   type,
   id,
   token,
+  minigameSlug,
   attempts = 0,
 }: {
   type: CollectionName;
   id: number;
   token: string;
+  minigameSlug?: string;
   attempts?: number;
 }): Promise<TradeableDetails> {
   if (!CONFIG.API_URL)
@@ -37,10 +39,13 @@ export async function loadTradeable({
           dates: {},
         },
       },
-    };
+    } as TradeableDetails;
 
   const url = new URL(`${API_URL}/collection/${type}/${id}`);
   url.searchParams.append("type", type);
+  if (minigameSlug) {
+    url.searchParams.set("minigameSlug", minigameSlug);
+  }
 
   const response = await window.fetch(url.toString(), {
     method: "GET",
@@ -53,7 +58,13 @@ export async function loadTradeable({
   if (response.status === 429) {
     if (attempts < 3) {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      return await loadTradeable({ type, id, token, attempts: attempts + 1 });
+      return await loadTradeable({
+        type,
+        id,
+        token,
+        minigameSlug,
+        attempts: attempts + 1,
+      });
     }
 
     throw new Error(ERRORS.TOO_MANY_REQUESTS);

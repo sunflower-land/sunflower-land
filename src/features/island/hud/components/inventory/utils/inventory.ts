@@ -58,6 +58,7 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
       collectibles: {},
       buds: {},
       pets: {},
+      minigames: {},
     };
   }
 
@@ -79,6 +80,7 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
       collectibles: {},
       buds: {},
       pets: {},
+      minigames: {},
     },
   );
 };

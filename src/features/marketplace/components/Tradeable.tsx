@@ -6,7 +6,12 @@ import {
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor, useSelector } from "@xstate/react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { isMobile } from "mobile-device-detect";
@@ -14,9 +19,6 @@ import { isMobile } from "mobile-device-detect";
 import { SaleHistory } from "./PriceHistory";
 import { TradeableOffers } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
-import { KNOWN_ITEMS } from "features/game/types";
-import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
-import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo, TradeableMobileInfo } from "./TradeableInfo";
 import { MyListings } from "./profile/MyListings";
@@ -27,18 +29,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "lib/object";
 import { tradeToId } from "../lib/offers";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { Button } from "components/ui/Button";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _inventory = (state: MachineState) => state.context.state.inventory;
 const _state = (state: MachineState) => state.context.state;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-const _buds = (state: MachineState) => state.context.state.buds;
-const _pets = (state: MachineState) => state.context.state.pets;
 export const MAX_LIMITED_SALES = 1;
 export const getMaxPurchases = (
   item: MarketplaceTradeableName,
@@ -48,6 +48,7 @@ export const getMaxPurchases = (
 export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   hideLimited,
 }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
@@ -55,66 +56,105 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const farmId = useSelector(gameService, _farmId);
   const authToken = authState.context.user.rawToken as string;
-  const inventory = useSelector(gameService, _inventory);
   const state = useSelector(gameService, _state);
-  const wardrobe = useSelector(gameService, _wardrobe);
-  const buds = useSelector(gameService, _buds);
-  const pets = useSelector(gameService, _pets);
+  const trades = useSelector(gameService, _trades);
+  const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
 
-  const { collection, id } = useParams<{
-    collection: CollectionName;
-    id: string;
+  const params = useParams<{
+    collection?: CollectionName;
+    id?: string;
+    minigameSlug?: string;
   }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const collection: CollectionName | undefined =
+    params.minigameSlug != null &&
+    params.id != null &&
+    params.collection == null
+      ? "minigames"
+      : params.collection;
+
+  const id = params.id;
+
+  const minigameSlug =
+    params.minigameSlug ??
+    (collection === "minigames"
+      ? (searchParams.get("minigameSlug") ?? undefined)
+      : undefined);
 
   const [showListItem, setShowListItem] = useState(false);
-
-  const display = getTradeableDisplay({
-    id: Number(id),
-    type: collection as CollectionName,
-    state,
-  });
-
-  let count = 0;
-
-  if (display.type === "collectibles") {
-    const name = KNOWN_ITEMS[Number(id)];
-
-    if (name in COLLECTIBLES_DIMENSIONS) {
-      count = inventory[name]?.toNumber() ?? 0;
-    } else {
-      count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
-    }
-  }
-
-  if (display.type === "wearables") {
-    const name = ITEM_NAMES[Number(id)];
-    count = wardrobe[name] ?? 0;
-  }
-
-  if (display.type === "buds") {
-    count = buds?.[Number(id)] ? 1 : 0;
-  }
-
-  if (display.type === "pets") {
-    count = pets?.nfts?.[Number(id)] ? 1 : 0;
-  }
 
   const {
     data: tradeable,
     error,
     mutate: reload,
   } = useSWR(
-    [collection, id, authState.context.user.rawToken as string],
-    ([collection, id, token]) =>
-      loadTradeable({
-        type: collection as CollectionName,
-        id: Number(id),
+    collection === "minigames"
+      ? minigameSlug && tokenMinigamesAllowed
+        ? [
+            collection,
+            id,
+            authState.context.user.rawToken as string,
+            minigameSlug,
+          ]
+        : null
+      : [collection, id, authState.context.user.rawToken as string],
+    (
+      key:
+        | readonly [CollectionName, string, string]
+        | readonly [CollectionName, string, string, string],
+    ) => {
+      const [col, itemId, token, slug] = key;
+      return loadTradeable({
+        type: col,
+        id: Number(itemId),
         token,
-      }),
+        minigameSlug: slug,
+      });
+    },
   );
 
-  const trades = useSelector(gameService, _trades);
+  if (!collection || !id) {
+    return (
+      <InnerPanel className="m-2 p-4">
+        <p className="text-sm">{t("marketplace.tradeable.invalidLink")}</p>
+      </InnerPanel>
+    );
+  }
+
+  if (collection === "minigames" && !tokenMinigamesAllowed) {
+    const isWorldRoute = location.pathname.includes("/world");
+    const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
+    return (
+      <InnerPanel className="m-2 p-4 flex flex-col gap-2">
+        <p className="text-sm">
+          {t("minigame.dashboard.tokenMinigamesNotAvailable")}
+        </p>
+        <Button onClick={() => navigate(base)}>
+          {t("marketplace.backToMarketplace")}
+        </Button>
+      </InnerPanel>
+    );
+  }
+
+  const display = getTradeableDisplay({
+    id: Number(id),
+    type: collection as CollectionName,
+    state,
+    tradeableDetails: tradeable ?? undefined,
+  });
+
+  if (collection === "minigames" && !minigameSlug) {
+    return (
+      <InnerPanel className="m-2 p-4">
+        <p className="text-sm">{t("marketplace.minigames.missingSlug")}</p>
+      </InnerPanel>
+    );
+  }
+
+  const count = tradeable?.balance ?? 0;
+
   const currentWeek = getWeekKey({ date: new Date() });
   // Weekly sales count
   const weeklySalesCount =

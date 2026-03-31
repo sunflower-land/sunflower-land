@@ -14,6 +14,11 @@ import { PetNFTName } from "features/game/types/pets";
 import { getPetImageForMarketplace } from "features/island/pets/lib/petShared";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { getBudImage } from "lib/buds/types";
+import type {
+  Tradeable,
+  TradeableDetails,
+} from "features/game/types/marketplace";
+import { resolveMarketplaceMinigameItemImage } from "./resolveMinigameMarketplaceImage";
 
 export type TradeableDisplay = {
   name: MarketplaceTradeableName;
@@ -23,6 +28,8 @@ export type TradeableDisplay = {
   buffs: BuffLabel[];
   experience?: number;
   translatedName?: string;
+  /** Minigame balance token key (e.g. GoldenNugget) for image fallback on load error. */
+  minigameCurrencyKey?: string;
 };
 
 export function getTradeableDisplay({
@@ -30,12 +37,40 @@ export function getTradeableDisplay({
   type,
   state,
   experience,
+  tradeableDetails,
+  marketplaceItem,
 }: {
   id: number;
   type: CollectionName;
   state: GameState;
   experience?: number;
+  /** When loaded, refines minigame labels/currency from API */
+  tradeableDetails?: TradeableDetails | null;
+  /** Marketplace row when browsing collection (before detail fetch) */
+  marketplaceItem?: Tradeable | null;
 }): TradeableDisplay {
+  if (type === "minigames") {
+    const mg =
+      tradeableDetails?.collection === "minigames" ? tradeableDetails : null;
+    const row =
+      marketplaceItem?.collection === "minigames" ? marketplaceItem : null;
+    const currency = mg?.currencyName ?? row?.currencyName ?? String(id);
+    const label = mg?.minigameLabel ?? row?.minigameLabel ?? "";
+    const apiImage = mg?.image ?? row?.image;
+    /** Trades store items under stringified token id (see API getTradeItem). */
+    const name = String(id) as MarketplaceTradeableName;
+
+    return {
+      name,
+      description: label,
+      image: resolveMarketplaceMinigameItemImage(apiImage, currency),
+      minigameCurrencyKey: currency,
+      buffs: [],
+      type,
+      translatedName: label ? `${label} · ${currency}` : currency,
+    };
+  }
+
   if (type === "wearables") {
     const name = ITEM_NAMES[id];
     const details = OPEN_SEA_WEARABLES[name];

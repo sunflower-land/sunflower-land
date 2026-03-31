@@ -20,7 +20,7 @@ export const DEV_MinigameToken: React.FC<ContentComponentProps> = () => {
   const sessionToken = authState.context.user.rawToken as string | undefined;
   const farmId = gameState.context.farmId;
 
-  const [portalId, setPortalId] = useState<MinigameName>("chicken-rescue");
+  const [portalId, setPortalId] = useState<MinigameName>("chicken-rescue-v2");
   const [minigameToken, setMinigameToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

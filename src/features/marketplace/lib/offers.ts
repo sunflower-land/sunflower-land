@@ -40,6 +40,10 @@ export function getItemId({
     return Number(id);
   }
 
+  if (collection === "minigames") {
+    return Number(name);
+  }
+
   if (collection === "wearables") {
     return ITEM_IDS[name as BumpkinItem];
   }

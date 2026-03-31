@@ -14,7 +14,12 @@ export const MARKETPLACE_TAX = 0.1;
 // Give it 15 minutes to resolve (cannot cancel while it is being purchased)
 export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
-export type CollectionName = "collectibles" | "wearables" | "buds" | "pets";
+export type CollectionName =
+  | "collectibles"
+  | "wearables"
+  | "buds"
+  | "pets"
+  | "minigames";
 
 export type Tradeable =
   | {
@@ -24,7 +29,8 @@ export type Tradeable =
       isActive: boolean;
       isVip: boolean;
       supply: number | undefined;
-      collection: Exclude<CollectionName, "pets">;
+      balance?: number;
+      collection: Exclude<CollectionName, "pets" | "minigames">;
       expiresAt?: number;
     }
   | {
@@ -34,9 +40,26 @@ export type Tradeable =
       isActive: boolean;
       isVip: boolean;
       supply: number | undefined;
+      balance?: number;
       collection: Extract<CollectionName, "pets">;
       expiresAt?: number;
       experience?: number;
+    }
+  | {
+      id: number;
+      floor: number;
+      lastSalePrice: number;
+      isActive: boolean;
+      isVip: boolean;
+      supply: number | undefined;
+      collection: "minigames";
+      minigameSlug: string;
+      minigameLabel: string;
+      currencyName: string;
+      /** Relative to `VITE_PRIVATE_IMAGE_URL` or absolute URL (from API). */
+      image?: string;
+      balance?: number;
+      expiresAt?: number;
     };
 
 export type Offer = {

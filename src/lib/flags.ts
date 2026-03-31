@@ -139,6 +139,9 @@ const FEATURE_FLAGS = {
   SALT_FARM: usernameFeatureFlag,
 
   AGING_SHED: usernameFeatureFlag,
+
+  /** Tokenized minigame economy: dashboard, portal API, marketplace minigames row. */
+  TOKEN_MINIGAMES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
