@@ -34,6 +34,11 @@ import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import { AIBuilder } from "features/portal-ai/AIBuilder";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
+import {
+  MinigameEditor,
+  MinigameEditorCreate,
+  MinigameEditorEdit,
+} from "features/minigameEditor/MinigameEditor";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -207,6 +212,18 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/minigame/:slug"
                                   element={<MinigameDashboard />}
+                                />
+                                <Route
+                                  path="/minigame-editor"
+                                  element={<MinigameEditor />}
+                                />
+                                <Route
+                                  path="/minigame-editor/create"
+                                  element={<MinigameEditorCreate />}
+                                />
+                                <Route
+                                  path="/minigame-editor/edit/:slug"
+                                  element={<MinigameEditorEdit />}
                                 />
                                 <Route
                                   path="*"
