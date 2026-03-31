@@ -615,6 +615,83 @@ import weakfish from "assets/fish/weak_fish.png";
 import rockBlackfish from "assets/fish/rock_blackfish.png";
 import cobia from "assets/fish/copia.png";
 import tilapia from "assets/fish/tilapia.png";
+// Generated aged / prime aged fish icons — run `yarn generate:aged-fish-icons` after changing base art
+import fishAgedAnchovy from "assets/fish/aged/generated/aged-anchovy.webp";
+import fishPrimeAgedAnchovy from "assets/fish/aged/generated/prime-aged-anchovy.webp";
+import fishAgedAngelfish from "assets/fish/aged/generated/aged-angelfish.webp";
+import fishPrimeAgedAngelfish from "assets/fish/aged/generated/prime-aged-angelfish.webp";
+import fishAgedBarredKnifejaw from "assets/fish/aged/generated/aged-barred-knifejaw.webp";
+import fishPrimeAgedBarredKnifejaw from "assets/fish/aged/generated/prime-aged-barred-knifejaw.webp";
+import fishAgedBlowfish from "assets/fish/aged/generated/aged-blowfish.webp";
+import fishPrimeAgedBlowfish from "assets/fish/aged/generated/prime-aged-blowfish.webp";
+import fishAgedBlueMarlin from "assets/fish/aged/generated/aged-blue-marlin.webp";
+import fishPrimeAgedBlueMarlin from "assets/fish/aged/generated/prime-aged-blue-marlin.webp";
+import fishAgedButterflyfish from "assets/fish/aged/generated/aged-butterflyfish.webp";
+import fishPrimeAgedButterflyfish from "assets/fish/aged/generated/prime-aged-butterflyfish.webp";
+import fishAgedClownfish from "assets/fish/aged/generated/aged-clownfish.webp";
+import fishPrimeAgedClownfish from "assets/fish/aged/generated/prime-aged-clownfish.webp";
+import fishAgedCobia from "assets/fish/aged/generated/aged-cobia.webp";
+import fishPrimeAgedCobia from "assets/fish/aged/generated/prime-aged-cobia.webp";
+import fishAgedCoelacanth from "assets/fish/aged/generated/aged-coelacanth.webp";
+import fishPrimeAgedCoelacanth from "assets/fish/aged/generated/prime-aged-coelacanth.webp";
+import fishAgedFootballFish from "assets/fish/aged/generated/aged-football-fish.webp";
+import fishPrimeAgedFootballFish from "assets/fish/aged/generated/prime-aged-football-fish.webp";
+import fishAgedHalibut from "assets/fish/aged/generated/aged-halibut.webp";
+import fishPrimeAgedHalibut from "assets/fish/aged/generated/prime-aged-halibut.webp";
+import fishAgedHammerheadShark from "assets/fish/aged/generated/aged-hammerhead-shark.webp";
+import fishPrimeAgedHammerheadShark from "assets/fish/aged/generated/prime-aged-hammerhead-shark.webp";
+import fishAgedHorseMackerel from "assets/fish/aged/generated/aged-horse-mackerel.webp";
+import fishPrimeAgedHorseMackerel from "assets/fish/aged/generated/prime-aged-horse-mackerel.webp";
+import fishAgedMahiMahi from "assets/fish/aged/generated/aged-mahi-mahi.webp";
+import fishPrimeAgedMahiMahi from "assets/fish/aged/generated/prime-aged-mahi-mahi.webp";
+import fishAgedMorayEel from "assets/fish/aged/generated/aged-moray-eel.webp";
+import fishPrimeAgedMorayEel from "assets/fish/aged/generated/prime-aged-moray-eel.webp";
+import fishAgedMuskellunge from "assets/fish/aged/generated/aged-muskellunge.webp";
+import fishPrimeAgedMuskellunge from "assets/fish/aged/generated/prime-aged-muskellunge.webp";
+import fishAgedNapoleanfish from "assets/fish/aged/generated/aged-napoleanfish.webp";
+import fishPrimeAgedNapoleanfish from "assets/fish/aged/generated/prime-aged-napoleanfish.webp";
+import fishAgedOarfish from "assets/fish/aged/generated/aged-oarfish.webp";
+import fishPrimeAgedOarfish from "assets/fish/aged/generated/prime-aged-oarfish.webp";
+import fishAgedOliveFlounder from "assets/fish/aged/generated/aged-olive-flounder.webp";
+import fishPrimeAgedOliveFlounder from "assets/fish/aged/generated/prime-aged-olive-flounder.webp";
+import fishAgedParrotfish from "assets/fish/aged/generated/aged-parrotfish.webp";
+import fishPrimeAgedParrotfish from "assets/fish/aged/generated/prime-aged-parrotfish.webp";
+import fishAgedPorgy from "assets/fish/aged/generated/aged-porgy.webp";
+import fishPrimeAgedPorgy from "assets/fish/aged/generated/prime-aged-porgy.webp";
+import fishAgedRay from "assets/fish/aged/generated/aged-ray.webp";
+import fishPrimeAgedRay from "assets/fish/aged/generated/prime-aged-ray.webp";
+import fishAgedRedSnapper from "assets/fish/aged/generated/aged-red-snapper.webp";
+import fishPrimeAgedRedSnapper from "assets/fish/aged/generated/prime-aged-red-snapper.webp";
+import fishAgedRockBlackfish from "assets/fish/aged/generated/aged-rock-blackfish.webp";
+import fishPrimeAgedRockBlackfish from "assets/fish/aged/generated/prime-aged-rock-blackfish.webp";
+import fishAgedSawShark from "assets/fish/aged/generated/aged-saw-shark.webp";
+import fishPrimeAgedSawShark from "assets/fish/aged/generated/prime-aged-saw-shark.webp";
+import fishAgedSeaBass from "assets/fish/aged/generated/aged-sea-bass.webp";
+import fishPrimeAgedSeaBass from "assets/fish/aged/generated/prime-aged-sea-bass.webp";
+import fishAgedSeaHorse from "assets/fish/aged/generated/aged-sea-horse.webp";
+import fishPrimeAgedSeaHorse from "assets/fish/aged/generated/prime-aged-sea-horse.webp";
+import fishAgedSquid from "assets/fish/aged/generated/aged-squid.webp";
+import fishPrimeAgedSquid from "assets/fish/aged/generated/prime-aged-squid.webp";
+import fishAgedSunfish from "assets/fish/aged/generated/aged-sunfish.webp";
+import fishPrimeAgedSunfish from "assets/fish/aged/generated/prime-aged-sunfish.webp";
+import fishAgedSurgeonfish from "assets/fish/aged/generated/aged-surgeonfish.webp";
+import fishPrimeAgedSurgeonfish from "assets/fish/aged/generated/prime-aged-surgeonfish.webp";
+import fishAgedTilapia from "assets/fish/aged/generated/aged-tilapia.webp";
+import fishPrimeAgedTilapia from "assets/fish/aged/generated/prime-aged-tilapia.webp";
+import fishAgedTrout from "assets/fish/aged/generated/aged-trout.webp";
+import fishPrimeAgedTrout from "assets/fish/aged/generated/prime-aged-trout.webp";
+import fishAgedTuna from "assets/fish/aged/generated/aged-tuna.webp";
+import fishPrimeAgedTuna from "assets/fish/aged/generated/prime-aged-tuna.webp";
+import fishAgedWalleye from "assets/fish/aged/generated/aged-walleye.webp";
+import fishPrimeAgedWalleye from "assets/fish/aged/generated/prime-aged-walleye.webp";
+import fishAgedWeakfish from "assets/fish/aged/generated/aged-weakfish.webp";
+import fishPrimeAgedWeakfish from "assets/fish/aged/generated/prime-aged-weakfish.webp";
+import fishAgedWhaleShark from "assets/fish/aged/generated/aged-whale-shark.webp";
+import fishPrimeAgedWhaleShark from "assets/fish/aged/generated/prime-aged-whale-shark.webp";
+import fishAgedWhiteShark from "assets/fish/aged/generated/aged-white-shark.webp";
+import fishPrimeAgedWhiteShark from "assets/fish/aged/generated/prime-aged-white-shark.webp";
+import fishAgedZebraTurkeyfish from "assets/fish/aged/generated/aged-zebra-turkeyfish.webp";
+import fishPrimeAgedZebraTurkeyfish from "assets/fish/aged/generated/prime-aged-zebra-turkeyfish.webp";
 import superStar from "assets/sfts/starfish_marvel.webp";
 import giantIsopod from "assets/fish/isopod.webp";
 import nautilus from "assets/fish/nautilus.webp";
@@ -4253,382 +4330,382 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("fish.tilapia"),
   },
   "Aged Anchovy": {
-    image: anchovy,
+    image: fishAgedAnchovy,
     description: translate("description.agedFish.anchovy"),
     translatedName: translate("agedFish.anchovy"),
   },
   "Aged Butterflyfish": {
-    image: butterflyfish,
+    image: fishAgedButterflyfish,
     description: translate("description.agedFish.butterflyfish"),
     translatedName: translate("agedFish.butterflyfish"),
   },
   "Aged Blowfish": {
-    image: blowfish,
+    image: fishAgedBlowfish,
     description: translate("description.agedFish.blowfish"),
     translatedName: translate("agedFish.blowfish"),
   },
   "Aged Clownfish": {
-    image: clownfish,
+    image: fishAgedClownfish,
     description: translate("description.agedFish.clownfish"),
     translatedName: translate("agedFish.clownfish"),
   },
   "Aged Angelfish": {
-    image: angelFish,
+    image: fishAgedAngelfish,
     description: translate("description.agedFish.angelfish"),
     translatedName: translate("agedFish.angelfish"),
   },
   "Aged Cobia": {
-    image: cobia,
+    image: fishAgedCobia,
     description: translate("description.agedFish.cobia"),
     translatedName: translate("agedFish.cobia"),
   },
   "Aged Halibut": {
-    image: halibut,
+    image: fishAgedHalibut,
     description: translate("description.agedFish.halibut"),
     translatedName: translate("agedFish.halibut"),
   },
   "Aged Muskellunge": {
-    image: muskellunge,
+    image: fishAgedMuskellunge,
     description: translate("description.agedFish.muskellunge"),
     translatedName: translate("agedFish.muskellunge"),
   },
   "Aged Parrotfish": {
-    image: parrotFish,
+    image: fishAgedParrotfish,
     description: translate("description.agedFish.parrotfish"),
     translatedName: translate("agedFish.parrotfish"),
   },
   "Aged Porgy": {
-    image: porgy,
+    image: fishAgedPorgy,
     description: translate("description.agedFish.porgy"),
     translatedName: translate("agedFish.porgy"),
   },
   "Aged Sea Bass": {
-    image: seaBass,
+    image: fishAgedSeaBass,
     description: translate("description.agedFish.seaBass"),
     translatedName: translate("agedFish.seaBass"),
   },
   "Aged Tilapia": {
-    image: tilapia,
+    image: fishAgedTilapia,
     description: translate("description.agedFish.tilapia"),
     translatedName: translate("agedFish.tilapia"),
   },
   "Aged Trout": {
-    image: trout,
+    image: fishAgedTrout,
     description: translate("description.agedFish.trout"),
     translatedName: translate("agedFish.trout"),
   },
   "Aged Walleye": {
-    image: walleye,
+    image: fishAgedWalleye,
     description: translate("description.agedFish.walleye"),
     translatedName: translate("agedFish.walleye"),
   },
   "Aged Weakfish": {
-    image: weakfish,
+    image: fishAgedWeakfish,
     description: translate("description.agedFish.weakfish"),
     translatedName: translate("agedFish.weakfish"),
   },
   "Aged Rock Blackfish": {
-    image: rockBlackfish,
+    image: fishAgedRockBlackfish,
     description: translate("description.agedFish.rockBlackfish"),
     translatedName: translate("agedFish.rockBlackfish"),
   },
   "Aged Sea Horse": {
-    image: seahorse,
+    image: fishAgedSeaHorse,
     description: translate("description.agedFish.seaHorse"),
     translatedName: translate("agedFish.seaHorse"),
   },
   "Aged Horse Mackerel": {
-    image: horseMackerel,
+    image: fishAgedHorseMackerel,
     description: translate("description.agedFish.horseMackerel"),
     translatedName: translate("agedFish.horseMackerel"),
   },
   "Aged Squid": {
-    image: squid,
+    image: fishAgedSquid,
     description: translate("description.agedFish.squid"),
     translatedName: translate("agedFish.squid"),
   },
   "Aged Red Snapper": {
-    image: redSnapper,
+    image: fishAgedRedSnapper,
     description: translate("description.agedFish.redSnapper"),
     translatedName: translate("agedFish.redSnapper"),
   },
   "Aged Moray Eel": {
-    image: morayEel,
+    image: fishAgedMorayEel,
     description: translate("description.agedFish.morayEel"),
     translatedName: translate("agedFish.morayEel"),
   },
   "Aged Olive Flounder": {
-    image: oliveFlounder,
+    image: fishAgedOliveFlounder,
     description: translate("description.agedFish.oliveFlounder"),
     translatedName: translate("agedFish.oliveFlounder"),
   },
   "Aged Napoleanfish": {
-    image: napoleonfish,
+    image: fishAgedNapoleanfish,
     description: translate("description.agedFish.napoleanfish"),
     translatedName: translate("agedFish.napoleanfish"),
   },
   "Aged Surgeonfish": {
-    image: surgeonfish,
+    image: fishAgedSurgeonfish,
     description: translate("description.agedFish.surgeonfish"),
     translatedName: translate("agedFish.surgeonfish"),
   },
   "Aged Zebra Turkeyfish": {
-    image: zebraTurkeyfish,
+    image: fishAgedZebraTurkeyfish,
     description: translate("description.agedFish.zebraTurkeyfish"),
     translatedName: translate("agedFish.zebraTurkeyfish"),
   },
   "Aged Ray": {
-    image: ray,
+    image: fishAgedRay,
     description: translate("description.agedFish.ray"),
     translatedName: translate("agedFish.ray"),
   },
   "Aged Hammerhead shark": {
-    image: hammerheadShark,
+    image: fishAgedHammerheadShark,
     description: translate("description.agedFish.hammerheadShark"),
     translatedName: translate("agedFish.hammerheadShark"),
   },
   "Aged Barred Knifejaw": {
-    image: barredKnifejaw,
+    image: fishAgedBarredKnifejaw,
     description: translate("description.agedFish.barredKnifejaw"),
     translatedName: translate("agedFish.barredKnifejaw"),
   },
   "Aged Tuna": {
-    image: tuna,
+    image: fishAgedTuna,
     description: translate("description.agedFish.tuna"),
     translatedName: translate("agedFish.tuna"),
   },
   "Aged Mahi Mahi": {
-    image: mahiMahi,
+    image: fishAgedMahiMahi,
     description: translate("description.agedFish.mahiMahi"),
     translatedName: translate("agedFish.mahiMahi"),
   },
   "Aged Blue Marlin": {
-    image: blueMarlin,
+    image: fishAgedBlueMarlin,
     description: translate("description.agedFish.blueMarlin"),
     translatedName: translate("agedFish.blueMarlin"),
   },
   "Aged Oarfish": {
-    image: oarfish,
+    image: fishAgedOarfish,
     description: translate("description.agedFish.oarfish"),
     translatedName: translate("agedFish.oarfish"),
   },
   "Aged Football fish": {
-    image: footballFish,
+    image: fishAgedFootballFish,
     description: translate("description.agedFish.footballFish"),
     translatedName: translate("agedFish.footballFish"),
   },
   "Aged Sunfish": {
-    image: sunfish,
+    image: fishAgedSunfish,
     description: translate("description.agedFish.sunfish"),
     translatedName: translate("agedFish.sunfish"),
   },
   "Aged Coelacanth": {
-    image: coelacanth,
+    image: fishAgedCoelacanth,
     description: translate("description.agedFish.coelacanth"),
     translatedName: translate("agedFish.coelacanth"),
   },
   "Aged Whale Shark": {
-    image: whaleShark,
+    image: fishAgedWhaleShark,
     description: translate("description.agedFish.whaleShark"),
     translatedName: translate("agedFish.whaleShark"),
   },
   "Aged Saw Shark": {
-    image: sawShark,
+    image: fishAgedSawShark,
     description: translate("description.agedFish.sawShark"),
     translatedName: translate("agedFish.sawShark"),
   },
   "Aged White Shark": {
-    image: whiteShark,
+    image: fishAgedWhiteShark,
     description: translate("description.agedFish.whiteShark"),
     translatedName: translate("agedFish.whiteShark"),
   },
   "Prime Aged Anchovy": {
-    image: anchovy,
+    image: fishPrimeAgedAnchovy,
     description: translate("description.primeAgedFish.anchovy"),
     translatedName: translate("primeAgedFish.anchovy"),
   },
   "Prime Aged Butterflyfish": {
-    image: butterflyfish,
+    image: fishPrimeAgedButterflyfish,
     description: translate("description.primeAgedFish.butterflyfish"),
     translatedName: translate("primeAgedFish.butterflyfish"),
   },
   "Prime Aged Blowfish": {
-    image: blowfish,
+    image: fishPrimeAgedBlowfish,
     description: translate("description.primeAgedFish.blowfish"),
     translatedName: translate("primeAgedFish.blowfish"),
   },
   "Prime Aged Clownfish": {
-    image: clownfish,
+    image: fishPrimeAgedClownfish,
     description: translate("description.primeAgedFish.clownfish"),
     translatedName: translate("primeAgedFish.clownfish"),
   },
   "Prime Aged Sea Bass": {
-    image: seaBass,
+    image: fishPrimeAgedSeaBass,
     description: translate("description.primeAgedFish.seaBass"),
     translatedName: translate("primeAgedFish.seaBass"),
   },
   "Prime Aged Sea Horse": {
-    image: seahorse,
+    image: fishPrimeAgedSeaHorse,
     description: translate("description.primeAgedFish.seaHorse"),
     translatedName: translate("primeAgedFish.seaHorse"),
   },
   "Prime Aged Horse Mackerel": {
-    image: horseMackerel,
+    image: fishPrimeAgedHorseMackerel,
     description: translate("description.primeAgedFish.horseMackerel"),
     translatedName: translate("primeAgedFish.horseMackerel"),
   },
   "Prime Aged Halibut": {
-    image: halibut,
+    image: fishPrimeAgedHalibut,
     description: translate("description.primeAgedFish.halibut"),
     translatedName: translate("primeAgedFish.halibut"),
   },
   "Prime Aged Squid": {
-    image: squid,
+    image: fishPrimeAgedSquid,
     description: translate("description.primeAgedFish.squid"),
     translatedName: translate("primeAgedFish.squid"),
   },
   "Prime Aged Red Snapper": {
-    image: redSnapper,
+    image: fishPrimeAgedRedSnapper,
     description: translate("description.primeAgedFish.redSnapper"),
     translatedName: translate("primeAgedFish.redSnapper"),
   },
   "Prime Aged Moray Eel": {
-    image: morayEel,
+    image: fishPrimeAgedMorayEel,
     description: translate("description.primeAgedFish.morayEel"),
     translatedName: translate("primeAgedFish.morayEel"),
   },
   "Prime Aged Olive Flounder": {
-    image: oliveFlounder,
+    image: fishPrimeAgedOliveFlounder,
     description: translate("description.primeAgedFish.oliveFlounder"),
     translatedName: translate("primeAgedFish.oliveFlounder"),
   },
   "Prime Aged Napoleanfish": {
-    image: napoleonfish,
+    image: fishPrimeAgedNapoleanfish,
     description: translate("description.primeAgedFish.napoleanfish"),
     translatedName: translate("primeAgedFish.napoleanfish"),
   },
   "Prime Aged Surgeonfish": {
-    image: surgeonfish,
+    image: fishPrimeAgedSurgeonfish,
     description: translate("description.primeAgedFish.surgeonfish"),
     translatedName: translate("primeAgedFish.surgeonfish"),
   },
   "Prime Aged Zebra Turkeyfish": {
-    image: zebraTurkeyfish,
+    image: fishPrimeAgedZebraTurkeyfish,
     description: translate("description.primeAgedFish.zebraTurkeyfish"),
     translatedName: translate("primeAgedFish.zebraTurkeyfish"),
   },
   "Prime Aged Angelfish": {
-    image: angelFish,
+    image: fishPrimeAgedAngelfish,
     description: translate("description.primeAgedFish.angelfish"),
     translatedName: translate("primeAgedFish.angelfish"),
   },
   "Prime Aged Ray": {
-    image: ray,
+    image: fishPrimeAgedRay,
     description: translate("description.primeAgedFish.ray"),
     translatedName: translate("primeAgedFish.ray"),
   },
   "Prime Aged Hammerhead shark": {
-    image: hammerheadShark,
+    image: fishPrimeAgedHammerheadShark,
     description: translate("description.primeAgedFish.hammerheadShark"),
     translatedName: translate("primeAgedFish.hammerheadShark"),
   },
   "Prime Aged Barred Knifejaw": {
-    image: barredKnifejaw,
+    image: fishPrimeAgedBarredKnifejaw,
     description: translate("description.primeAgedFish.barredKnifejaw"),
     translatedName: translate("primeAgedFish.barredKnifejaw"),
   },
   "Prime Aged Tuna": {
-    image: tuna,
+    image: fishPrimeAgedTuna,
     description: translate("description.primeAgedFish.tuna"),
     translatedName: translate("primeAgedFish.tuna"),
   },
   "Prime Aged Mahi Mahi": {
-    image: mahiMahi,
+    image: fishPrimeAgedMahiMahi,
     description: translate("description.primeAgedFish.mahiMahi"),
     translatedName: translate("primeAgedFish.mahiMahi"),
   },
   "Prime Aged Blue Marlin": {
-    image: blueMarlin,
+    image: fishPrimeAgedBlueMarlin,
     description: translate("description.primeAgedFish.blueMarlin"),
     translatedName: translate("primeAgedFish.blueMarlin"),
   },
   "Prime Aged Oarfish": {
-    image: oarfish,
+    image: fishPrimeAgedOarfish,
     description: translate("description.primeAgedFish.oarfish"),
     translatedName: translate("primeAgedFish.oarfish"),
   },
   "Prime Aged Football fish": {
-    image: footballFish,
+    image: fishPrimeAgedFootballFish,
     description: translate("description.primeAgedFish.footballFish"),
     translatedName: translate("primeAgedFish.footballFish"),
   },
   "Prime Aged Sunfish": {
-    image: sunfish,
+    image: fishPrimeAgedSunfish,
     description: translate("description.primeAgedFish.sunfish"),
     translatedName: translate("primeAgedFish.sunfish"),
   },
   "Prime Aged Coelacanth": {
-    image: coelacanth,
+    image: fishPrimeAgedCoelacanth,
     description: translate("description.primeAgedFish.coelacanth"),
     translatedName: translate("primeAgedFish.coelacanth"),
   },
   "Prime Aged Parrotfish": {
-    image: parrotFish,
+    image: fishPrimeAgedParrotfish,
     description: translate("description.primeAgedFish.parrotfish"),
     translatedName: translate("primeAgedFish.parrotfish"),
   },
   "Prime Aged Whale Shark": {
-    image: whaleShark,
+    image: fishPrimeAgedWhaleShark,
     description: translate("description.primeAgedFish.whaleShark"),
     translatedName: translate("primeAgedFish.whaleShark"),
   },
   "Prime Aged Saw Shark": {
-    image: sawShark,
+    image: fishPrimeAgedSawShark,
     description: translate("description.primeAgedFish.sawShark"),
     translatedName: translate("primeAgedFish.sawShark"),
   },
   "Prime Aged White Shark": {
-    image: whiteShark,
+    image: fishPrimeAgedWhiteShark,
     description: translate("description.primeAgedFish.whiteShark"),
     translatedName: translate("primeAgedFish.whiteShark"),
   },
   "Prime Aged Porgy": {
-    image: porgy,
+    image: fishPrimeAgedPorgy,
     description: translate("description.primeAgedFish.porgy"),
     translatedName: translate("primeAgedFish.porgy"),
   },
   "Prime Aged Muskellunge": {
-    image: muskellunge,
+    image: fishPrimeAgedMuskellunge,
     description: translate("description.primeAgedFish.muskellunge"),
     translatedName: translate("primeAgedFish.muskellunge"),
   },
   "Prime Aged Trout": {
-    image: trout,
+    image: fishPrimeAgedTrout,
     description: translate("description.primeAgedFish.trout"),
     translatedName: translate("primeAgedFish.trout"),
   },
   "Prime Aged Walleye": {
-    image: walleye,
+    image: fishPrimeAgedWalleye,
     description: translate("description.primeAgedFish.walleye"),
     translatedName: translate("primeAgedFish.walleye"),
   },
   "Prime Aged Weakfish": {
-    image: weakfish,
+    image: fishPrimeAgedWeakfish,
     description: translate("description.primeAgedFish.weakfish"),
     translatedName: translate("primeAgedFish.weakfish"),
   },
   "Prime Aged Rock Blackfish": {
-    image: rockBlackfish,
+    image: fishPrimeAgedRockBlackfish,
     description: translate("description.primeAgedFish.rockBlackfish"),
     translatedName: translate("primeAgedFish.rockBlackfish"),
   },
   "Prime Aged Cobia": {
-    image: cobia,
+    image: fishPrimeAgedCobia,
     description: translate("description.primeAgedFish.cobia"),
     translatedName: translate("primeAgedFish.cobia"),
   },
   "Prime Aged Tilapia": {
-    image: tilapia,
+    image: fishPrimeAgedTilapia,
     description: translate("description.primeAgedFish.tilapia"),
     translatedName: translate("primeAgedFish.tilapia"),
   },
