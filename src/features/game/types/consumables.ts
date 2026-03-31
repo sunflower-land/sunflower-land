@@ -8,6 +8,7 @@ import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import { getObjectEntries } from "lib/object";
 
 export const assertCookableName = (
   name: BuildingProduct["name"],
