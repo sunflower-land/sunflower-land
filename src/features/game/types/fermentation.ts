@@ -185,44 +185,44 @@ function buildBaitFermentationRecipes(): Record<
     const aged: AgedFishName = `Aged ${fish}`;
     const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
 
-    recipes[`Garden Bait (Aged ${fish}, Pickled Zucchini)`] = {
+    recipes[`Capsule Bait (Aged ${fish}, Pickled Zucchini)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Garden Bait": new Decimal(1),
+        "Capsule Bait": new Decimal(1),
       },
     };
-    recipes[`Garden Bait (Prime Aged ${fish}, Pickled Zucchini)`] = {
+    recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Zucchini)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Garden Bait": new Decimal(3),
+        "Capsule Bait": new Decimal(3),
       },
     };
-    recipes[`Garden Bait (Aged ${fish}, Pickled Pepper)`] = {
+    recipes[`Capsule Bait (Aged ${fish}, Pickled Pepper)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Garden Bait": new Decimal(1),
+        "Capsule Bait": new Decimal(1),
       },
     };
-    recipes[`Garden Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
+    recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Garden Bait": new Decimal(3),
+        "Capsule Bait": new Decimal(3),
       },
     };
   }
@@ -231,44 +231,44 @@ function buildBaitFermentationRecipes(): Record<
     const aged: AgedFishName = `Aged ${fish}`;
     const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
 
-    recipes[`Crock Bait (Aged ${fish}, Pickled Cabbage)`] = {
+    recipes[`Umbrella Bait (Aged ${fish}, Pickled Cabbage)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Crock Bait": new Decimal(1),
+        "Umbrella Bait": new Decimal(1),
       },
     };
-    recipes[`Crock Bait (Prime Aged ${fish}, Pickled Cabbage)`] = {
+    recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Cabbage)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Crock Bait": new Decimal(3),
+        "Umbrella Bait": new Decimal(3),
       },
     };
-    recipes[`Crock Bait (Aged ${fish}, Pickled Onion)`] = {
+    recipes[`Umbrella Bait (Aged ${fish}, Pickled Onion)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Crock Bait": new Decimal(1),
+        "Umbrella Bait": new Decimal(1),
       },
     };
-    recipes[`Crock Bait (Prime Aged ${fish}, Pickled Onion)`] = {
+    recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Onion)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Crock Bait": new Decimal(3),
+        "Umbrella Bait": new Decimal(3),
       },
     };
   }
@@ -277,24 +277,24 @@ function buildBaitFermentationRecipes(): Record<
     const aged: AgedFishName = `Aged ${fish}`;
     const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
 
-    recipes[`Vine Bait (Aged ${fish}, Pickled Tomato)`] = {
+    recipes[`Crimson Baitfish (Aged ${fish}, Pickled Tomato)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Vine Bait": new Decimal(1),
+        "Crimson Baitfish": new Decimal(1),
       },
     };
-    recipes[`Vine Bait (Prime Aged ${fish}, Pickled Tomato)`] = {
+    recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Tomato)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Vine Bait": new Decimal(3),
+        "Crimson Baitfish": new Decimal(3),
       },
     };
   }
@@ -314,16 +314,16 @@ export const FERMENTATION_RECIPES: Record<
 
 /** Template union keeps `FermentationCollectedActivity` finite (not `${string} Fermented`). */
 export type BaitFermentationRecipeName =
-  | `Garden Bait (Aged ${FishName}, Pickled Zucchini)`
-  | `Garden Bait (Prime Aged ${FishName}, Pickled Zucchini)`
-  | `Garden Bait (Aged ${FishName}, Pickled Pepper)`
-  | `Garden Bait (Prime Aged ${FishName}, Pickled Pepper)`
-  | `Crock Bait (Aged ${FishName}, Pickled Cabbage)`
-  | `Crock Bait (Prime Aged ${FishName}, Pickled Cabbage)`
-  | `Crock Bait (Aged ${FishName}, Pickled Onion)`
-  | `Crock Bait (Prime Aged ${FishName}, Pickled Onion)`
-  | `Vine Bait (Aged ${FishName}, Pickled Tomato)`
-  | `Vine Bait (Prime Aged ${FishName}, Pickled Tomato)`;
+  | `Capsule Bait (Aged ${FishName}, Pickled Zucchini)`
+  | `Capsule Bait (Prime Aged ${FishName}, Pickled Zucchini)`
+  | `Capsule Bait (Aged ${FishName}, Pickled Pepper)`
+  | `Capsule Bait (Prime Aged ${FishName}, Pickled Pepper)`
+  | `Umbrella Bait (Aged ${FishName}, Pickled Cabbage)`
+  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Cabbage)`
+  | `Umbrella Bait (Aged ${FishName}, Pickled Onion)`
+  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Onion)`
+  | `Crimson Baitfish (Aged ${FishName}, Pickled Tomato)`
+  | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Tomato)`;
 
 export type FermentationRecipeName =
   | keyof typeof STATIC_FERMENTATION_RECIPES

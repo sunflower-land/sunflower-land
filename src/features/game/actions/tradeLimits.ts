@@ -114,9 +114,9 @@ export const TRADE_LIMITS: Record<TradeResource, number> = {
   Ribbon: 100,
   Dewberry: 100,
   Moonfur: 100,
-  "Garden Bait": 10,
-  "Crock Bait": 10,
-  "Vine Bait": 10,
+  "Capsule Bait": 10,
+  "Umbrella Bait": 10,
+  "Crimson Baitfish": 10,
 };
 
 export const TRADE_MINIMUMS: Record<TradeResource, number> = {
@@ -182,9 +182,9 @@ export const TRADE_MINIMUMS: Record<TradeResource, number> = {
   Dewberry: 1,
   Moonfur: 1,
 
-  "Garden Bait": 1,
-  "Crock Bait": 1,
-  "Vine Bait": 1,
+  "Capsule Bait": 1,
+  "Umbrella Bait": 1,
+  "Crimson Baitfish": 1,
   ...EMBLEM_TRADE_MINIMUMS,
 };
 

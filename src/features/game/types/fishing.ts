@@ -21,7 +21,10 @@ export type GuaranteedBait =
   | "Fish Stick"
   | "Fish Oil"
   | "Crab Stick";
-export type FermentationBait = "Garden Bait" | "Crock Bait" | "Vine Bait";
+export type FermentationBait =
+  | "Capsule Bait"
+  | "Umbrella Bait"
+  | "Crimson Baitfish";
 export type FishingBait =
   | Worm
   | PurchaseableBait
@@ -655,17 +658,17 @@ export function baitMatchesFishRequirement(
   allowed: FishingBait,
 ): boolean {
   if (selected === allowed) return true;
-  if (allowed === "Earthworm" && selected === "Garden Bait") return true;
-  if (allowed === "Grub" && selected === "Crock Bait") return true;
-  if (allowed === "Red Wiggler" && selected === "Vine Bait") return true;
+  if (allowed === "Earthworm" && selected === "Capsule Bait") return true;
+  if (allowed === "Grub" && selected === "Umbrella Bait") return true;
+  if (allowed === "Red Wiggler" && selected === "Crimson Baitfish") return true;
   return false;
 }
 
 /** Map fermentation bait to worm for attraction / chum logic keyed by worm. */
 export function normalizeBaitForWormMechanics(bait: FishingBait): FishingBait {
-  if (bait === "Garden Bait") return "Earthworm";
-  if (bait === "Crock Bait") return "Grub";
-  if (bait === "Vine Bait") return "Red Wiggler";
+  if (bait === "Capsule Bait") return "Earthworm";
+  if (bait === "Umbrella Bait") return "Grub";
+  if (bait === "Crimson Baitfish") return "Red Wiggler";
   return bait;
 }
 
@@ -674,9 +677,9 @@ export function getFermentationBaitsForFishBaits(
   fishBaits: readonly FishingBait[],
 ): FishingBait[] {
   const extra: FishingBait[] = [];
-  if (fishBaits.includes("Earthworm")) extra.push("Garden Bait");
-  if (fishBaits.includes("Grub")) extra.push("Crock Bait");
-  if (fishBaits.includes("Red Wiggler")) extra.push("Vine Bait");
+  if (fishBaits.includes("Earthworm")) extra.push("Capsule Bait");
+  if (fishBaits.includes("Grub")) extra.push("Umbrella Bait");
+  if (fishBaits.includes("Red Wiggler")) extra.push("Crimson Baitfish");
   return extra;
 }
 
@@ -861,9 +864,9 @@ export const BAIT: Record<FishingBait, true> = {
   "Fish Stick": true,
   "Fish Oil": true,
   "Crab Stick": true,
-  "Garden Bait": true,
-  "Crock Bait": true,
-  "Vine Bait": true,
+  "Capsule Bait": true,
+  "Umbrella Bait": true,
+  "Crimson Baitfish": true,
 };
 
 export type MapPieceFishTrigger = {
