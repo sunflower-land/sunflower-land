@@ -11,6 +11,7 @@ import { UpgradeBuildingContent } from "features/game/expansion/components/Upgra
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { FermentationRackPanel } from "./fermentationRack/FermentationRackPanel";
+import { AgingRackPanel } from "./agingRack/AgingRackPanel";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
@@ -76,7 +77,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         container={
           showUpgradeTab
             ? undefined
-            : currentTab === "fermentationRack"
+            : currentTab === "fermentationRack" || currentTab === "agingRack"
               ? OuterPanel
               : undefined
         }
@@ -89,6 +90,8 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
             nextLevel={nextAgingShedLevel}
             onBack={() => setShowUpgradeTab(false)}
           />
+        ) : currentTab === "agingRack" ? (
+          <AgingRackPanel />
         ) : currentTab === "fermentationRack" ? (
           <FermentationRackPanel />
         ) : (

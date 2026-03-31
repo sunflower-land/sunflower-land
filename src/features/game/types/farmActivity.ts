@@ -55,6 +55,11 @@ import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
 import { BonusName } from "./bonuses";
 import type { FermentationCollectedActivity } from "./fermentation";
+import type { AgedFishName, PrimeAgedFishName } from "./fishing";
+
+export type AgingCollectedActivity =
+  | `${AgedFishName} Collected`
+  | `${PrimeAgedFishName} Collected`;
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -167,6 +172,7 @@ export type FarmActivityName =
   | CookEvent
   | ProcessedEvent
   | FermentationCollectedActivity
+  | AgingCollectedActivity
   | FedEvent
   | BuyEvent
   | CraftedEvent
@@ -250,7 +256,7 @@ export function trackFarmActivity(
   activityName: FarmActivityName,
   farmAnalytics: GameState["farmActivity"],
   amount = new Decimal(1),
-) {
+): GameState["farmActivity"] {
   const previous = { ...farmAnalytics };
   const activityAmount = previous[activityName] ?? 0;
 

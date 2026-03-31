@@ -3,10 +3,12 @@ import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
 import { BuildingProduct, Inventory } from "./game";
-import { FishName } from "./fishing";
+import { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
+import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import { getObjectEntries } from "lib/object";
 
 export const assertCookableName = (
   name: BuildingProduct["name"],
@@ -142,6 +144,8 @@ export type ConsumableName =
   | CookableName
   | "Pirate Cake"
   | FishName
+  | AgedFishName
+  | PrimeAgedFishName
   | FactionShopFoodName
   | TradeFood
   | InstantProcessedRecipeName;
@@ -1396,10 +1400,45 @@ export const TRADE_FOOD: Record<TradeFood, Consumable> = {
   },
 };
 
+export const AGED_FISH: Record<AgedFishName, Consumable> = getObjectEntries(
+  FISH,
+).reduce<Record<AgedFishName, Consumable>>(
+  (acc, [name, fish]) => {
+    const agedFishName: AgedFishName = `Aged ${name}`;
+
+    acc[agedFishName] = {
+      name: agedFishName,
+      description: agedFishName,
+      experience: getAgingMaxXP(fish.experience),
+    };
+
+    return acc;
+  },
+  {} as Record<AgedFishName, Consumable>,
+);
+
+export const PRIME_AGED_FISH: Record<PrimeAgedFishName, Consumable> =
+  getObjectEntries(FISH).reduce<Record<PrimeAgedFishName, Consumable>>(
+    (acc, [name, fish]) => {
+      const primeAgedFishName: PrimeAgedFishName = `Prime Aged ${name}`;
+      acc[primeAgedFishName] = {
+        name: primeAgedFishName,
+        description: primeAgedFishName,
+        experience: Math.floor(
+          getAgingMaxXP(fish.experience) * PRIME_AGED_XP_MULTIPLIER,
+        ),
+      };
+
+      return acc;
+    },
+    {} as Record<PrimeAgedFishName, Consumable>,
+  );
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...PIRATE_CAKE,
   ...FISH,
+  ...AGED_FISH,
+  ...PRIME_AGED_FISH,
   ...FACTION_FOOD,
   ...TRADE_FOOD,
 };

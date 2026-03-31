@@ -65,6 +65,11 @@ import {
   startFermentation,
   StartFermentationAction,
 } from "./landExpansion/startFermentation";
+import { startAging, StartAgingAction } from "./landExpansion/startAging";
+import {
+  collectAgedFish,
+  CollectAgedFishAction,
+} from "./landExpansion/collectAgedFish";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -657,6 +662,8 @@ export type PlayingEvent =
   | CollectProcessedResourceAction
   | StartFermentationAction
   | CollectFermentationAction
+  | StartAgingAction
+  | CollectAgedFishAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -939,6 +946,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "processedResource.collected": collectProcessedResource,
   "fermentation.started": startFermentation,
   "fermentation.collected": collectFermentation,
+  "agingRack.started": startAging,
+  "agingRack.collected": collectAgedFish,
   "bumpkin.feed": feedBumpkin,
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
