@@ -411,6 +411,10 @@ import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
 import fishingLure from "assets/composters/fishing_lure.png";
 
+import capsuleBait from "assets/fish/bait/capsule_bait.webp";
+import umbrellaBait from "assets/fish/bait/umbrella_bait.webp";
+import crimsonBaitfish from "assets/fish/bait/crimson_baitfish.webp";
+
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
 import fruitfulBlend from "assets/composters/fruitful_blend.png";
@@ -4759,18 +4763,18 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.turbofruitMix"),
     translatedName: translate("turbofruitMix"),
   },
-  "Basic Bait": {
-    image: earthworm,
+  "Capsule Bait": {
+    image: capsuleBait,
     description: translate("description.bait.basicFermented"),
     translatedName: translate("bait.basicFermented"),
   },
-  "Advanced Bait": {
-    image: grub,
+  "Umbrella Bait": {
+    image: umbrellaBait,
     description: translate("description.bait.advancedFermented"),
     translatedName: translate("bait.advancedFermented"),
   },
-  "Expert Bait": {
-    image: redWiggler,
+  "Crimson Baitfish": {
+    image: crimsonBaitfish,
     description: translate("description.bait.expertFermented"),
     translatedName: translate("bait.expertFermented"),
   },

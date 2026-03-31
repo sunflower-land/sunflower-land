@@ -13019,7 +13019,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     name: "Turbofruit Mix",
   },
-  "Basic Bait": {
+  "Capsule Bait": {
     description: "Fermented bait that behaves like an earthworm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13028,9 +13028,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "No" },
     ],
-    name: "Basic Bait",
+    name: "Capsule Bait",
   },
-  "Advanced Bait": {
+  "Umbrella Bait": {
     description: "Fermented bait that behaves like a grub.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13039,9 +13039,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "No" },
     ],
-    name: "Advanced Bait",
+    name: "Umbrella Bait",
   },
-  "Expert Bait": {
+  "Crimson Baitfish": {
     description: "Fermented bait that behaves like a red wiggler.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13050,7 +13050,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "No" },
     ],
-    name: "Expert Bait",
+    name: "Crimson Baitfish",
   },
   Timeshard: {
     description: "",

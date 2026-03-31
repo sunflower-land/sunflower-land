@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import {
-  fermentationCollectedActivity,
+  FermentationCollectedActivity,
   getFermentationRecipe,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
@@ -54,15 +54,15 @@ export function collectFermentation({
         const prev = game.inventory[item] ?? new Decimal(0);
         const add = amount ?? new Decimal(0);
         game.inventory[item] = prev.add(add);
+
+        const activityName: FermentationCollectedActivity = `${item} Fermented`;
+
+        game.farmActivity = trackFarmActivity(
+          activityName,
+          game.farmActivity,
+          new Decimal(1),
+        );
       }
-
-      const activityName = fermentationCollectedActivity(job.recipe);
-
-      game.farmActivity = trackFarmActivity(
-        activityName,
-        game.farmActivity,
-        new Decimal(1),
-      );
     });
   });
 }
