@@ -171,19 +171,15 @@ export const AgingRackPanel: React.FC = () => {
                   hideCount
                   isSelected={isSelected}
                   onClick={() => setSelectedSlotIndex(index)}
-                  progress={
-                    ready
-                      ? undefined
-                      : showProgress
-                        ? {
-                            percentage,
-                            type: "progress",
-                            label: secondsToString(remainingSec, {
-                              length: "short",
-                            }),
-                          }
-                        : undefined
-                  }
+                  progress={{
+                    percentage,
+                    type: "progress",
+                    label: ready
+                      ? "Ready"
+                      : secondsToString(remainingSec, {
+                          length: "short",
+                        }),
+                  }}
                 />
               );
             }
