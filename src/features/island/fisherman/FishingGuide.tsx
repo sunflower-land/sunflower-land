@@ -51,11 +51,11 @@ const SEASON_ORDER: TemperateSeasonName[] = [
 
 const BAIT_ORDER: FishingBait[] = [
   "Earthworm",
+  "Garden Bait",
   "Grub",
+  "Crock Bait",
   "Red Wiggler",
-  "Basic Bait",
-  "Advanced Bait",
-  "Expert Bait",
+  "Vine Bait",
   "Fishing Lure",
   "Fish Flake",
   "Fish Stick",

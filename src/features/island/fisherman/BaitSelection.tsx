@@ -54,9 +54,9 @@ const BAIT: FishingBait[] = [
   "Earthworm",
   "Grub",
   "Red Wiggler",
-  "Basic Bait",
-  "Advanced Bait",
-  "Expert Bait",
+  "Garden Bait",
+  "Crock Bait",
+  "Vine Bait",
   "Fishing Lure",
   "Fish Flake",
   "Fish Stick",
@@ -355,9 +355,9 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         <DropdownPanel
           options={BAIT.filter(
             (bait) =>
-              (bait !== "Basic Bait" &&
-                bait !== "Advanced Bait" &&
-                bait !== "Expert Bait") ||
+              (bait !== "Garden Bait" &&
+                bait !== "Crock Bait" &&
+                bait !== "Vine Bait") ||
               hasFeatureAccess(state, "AGING_SHED"),
           ).map((bait) => ({
             value: bait,

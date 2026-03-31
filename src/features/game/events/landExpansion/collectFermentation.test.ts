@@ -249,11 +249,11 @@ describe("collectFermentation", () => {
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
   });
 
-  it("collecting Basic Bait from Aged fish recipe grants 1 Basic Bait", () => {
+  it("collecting Garden Bait from Aged fish recipe grants 1 Garden Bait", () => {
     const past = createdAt - 1;
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
-      `Basic Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Garden Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     const state = collectFermentation({
       state: createFermentationTestState({
@@ -277,16 +277,16 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory["Basic Bait"]?.toNumber()).toEqual(1);
+    expect(state.inventory["Garden Bait"]?.toNumber()).toEqual(1);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
     expect(state.farmActivity[`${recipe} Fermented`]).toEqual(1);
   });
 
-  it("collecting Basic Bait from Prime Aged fish recipe grants 3 Basic Bait", () => {
+  it("collecting Garden Bait from Prime Aged fish recipe grants 3 Garden Bait", () => {
     const past = createdAt - 1;
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
-      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Garden Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     const state = collectFermentation({
       state: createFermentationTestState({
@@ -310,7 +310,7 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory["Basic Bait"]?.toNumber()).toEqual(3);
+    expect(state.inventory["Garden Bait"]?.toNumber()).toEqual(3);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
     expect(state.farmActivity[`${recipe} Fermented`]).toEqual(1);
   });

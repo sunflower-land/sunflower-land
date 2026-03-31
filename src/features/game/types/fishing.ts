@@ -21,7 +21,7 @@ export type GuaranteedBait =
   | "Fish Stick"
   | "Fish Oil"
   | "Crab Stick";
-export type FermentationBait = "Basic Bait" | "Advanced Bait" | "Expert Bait";
+export type FermentationBait = "Garden Bait" | "Crock Bait" | "Vine Bait";
 export type FishingBait =
   | Worm
   | PurchaseableBait
@@ -655,17 +655,17 @@ export function baitMatchesFishRequirement(
   allowed: FishingBait,
 ): boolean {
   if (selected === allowed) return true;
-  if (allowed === "Earthworm" && selected === "Basic Bait") return true;
-  if (allowed === "Grub" && selected === "Advanced Bait") return true;
-  if (allowed === "Red Wiggler" && selected === "Expert Bait") return true;
+  if (allowed === "Earthworm" && selected === "Garden Bait") return true;
+  if (allowed === "Grub" && selected === "Crock Bait") return true;
+  if (allowed === "Red Wiggler" && selected === "Vine Bait") return true;
   return false;
 }
 
 /** Map fermentation bait to worm for attraction / chum logic keyed by worm. */
 export function normalizeBaitForWormMechanics(bait: FishingBait): FishingBait {
-  if (bait === "Basic Bait") return "Earthworm";
-  if (bait === "Advanced Bait") return "Grub";
-  if (bait === "Expert Bait") return "Red Wiggler";
+  if (bait === "Garden Bait") return "Earthworm";
+  if (bait === "Crock Bait") return "Grub";
+  if (bait === "Vine Bait") return "Red Wiggler";
   return bait;
 }
 
@@ -674,9 +674,9 @@ export function getFermentationBaitsForFishBaits(
   fishBaits: readonly FishingBait[],
 ): FishingBait[] {
   const extra: FishingBait[] = [];
-  if (fishBaits.includes("Earthworm")) extra.push("Basic Bait");
-  if (fishBaits.includes("Grub")) extra.push("Advanced Bait");
-  if (fishBaits.includes("Red Wiggler")) extra.push("Expert Bait");
+  if (fishBaits.includes("Earthworm")) extra.push("Garden Bait");
+  if (fishBaits.includes("Grub")) extra.push("Crock Bait");
+  if (fishBaits.includes("Red Wiggler")) extra.push("Vine Bait");
   return extra;
 }
 
@@ -861,9 +861,9 @@ export const BAIT: Record<FishingBait, true> = {
   "Fish Stick": true,
   "Fish Oil": true,
   "Crab Stick": true,
-  "Basic Bait": true,
-  "Advanced Bait": true,
-  "Expert Bait": true,
+  "Garden Bait": true,
+  "Crock Bait": true,
+  "Vine Bait": true,
 };
 
 export type MapPieceFishTrigger = {

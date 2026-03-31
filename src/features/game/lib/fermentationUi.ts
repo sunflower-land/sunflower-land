@@ -51,15 +51,15 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
     return 3;
   }
 
-  if (item === "Basic Bait") {
+  if (item === "Garden Bait") {
     return 4;
   }
 
-  if (item === "Advanced Bait") {
+  if (item === "Crock Bait") {
     return 5;
   }
 
-  if (item === "Expert Bait") {
+  if (item === "Vine Bait") {
     return 6;
   }
 
@@ -68,7 +68,7 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
 
 /**
  * Groups fermentation recipes by output signature `${item}:${amount}` so
- * Basic Bait ×1 and ×3 (Prime Aged) stay separate groups.
+ * Garden Bait ×1 and ×3 (Prime Aged) stay separate groups.
  */
 export function getFermentationOutputGroups(): FermentationOutputGroup[] {
   const bySignature = new Map<string, FermentationRecipeName[]>();

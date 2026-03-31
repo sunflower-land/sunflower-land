@@ -384,11 +384,11 @@ describe("startFermentation", () => {
     );
   });
 
-  it("starts Basic Bait recipe for first basic-tier fish (Aged)", () => {
+  it("starts Garden Bait recipe for first basic-tier fish (Aged)", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const agedFish = `Aged ${fishName}` as const;
     const recipe =
-      `Basic Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Garden Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     const state = startFermentation({
       state: createFermentationTestState({
@@ -411,21 +411,21 @@ describe("startFermentation", () => {
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
   });
 
-  it("Prime Aged basic bait recipe outputs 3 Basic Bait", () => {
+  it("Prime Aged basic bait recipe outputs 3 Garden Bait", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const recipe =
-      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Garden Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
-    expect(getFermentationRecipe(recipe).outputs["Basic Bait"]).toEqual(
+    expect(getFermentationRecipe(recipe).outputs["Garden Bait"]).toEqual(
       new Decimal(3),
     );
   });
 
-  it("starts Basic Bait recipe with Prime Aged fish", () => {
+  it("starts Garden Bait recipe with Prime Aged fish", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const primeAgedFish = `Prime Aged ${fishName}` as const;
     const recipe =
-      `Basic Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Garden Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     const state = startFermentation({
       state: createFermentationTestState({

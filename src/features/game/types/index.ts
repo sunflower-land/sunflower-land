@@ -1476,9 +1476,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Greenhouse Goodie": 2983,
   "Sproutroot Surprise": 2984,
   "Turbofruit Mix": 2985,
-  "Basic Bait": 2986,
-  "Advanced Bait": 2987,
-  "Expert Bait": 2988,
+  "Garden Bait": 2986,
+  "Crock Bait": 2987,
+  "Vine Bait": 2988,
 };
 
 // The reverse of above

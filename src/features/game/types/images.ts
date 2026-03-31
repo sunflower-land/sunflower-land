@@ -4759,17 +4759,17 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.turbofruitMix"),
     translatedName: translate("turbofruitMix"),
   },
-  "Basic Bait": {
+  "Garden Bait": {
     image: earthworm,
     description: translate("description.bait.basicFermented"),
     translatedName: translate("bait.basicFermented"),
   },
-  "Advanced Bait": {
+  "Crock Bait": {
     image: grub,
     description: translate("description.bait.advancedFermented"),
     translatedName: translate("bait.advancedFermented"),
   },
-  "Expert Bait": {
+  "Vine Bait": {
     image: redWiggler,
     description: translate("description.bait.expertFermented"),
     translatedName: translate("bait.expertFermented"),
