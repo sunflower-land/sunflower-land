@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
+import type { MinigameConfig } from "../lib/types";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { capTokenDisplayName } from "../lib/extractProductionSlots";
 import { secondsToString } from "lib/utils/time";
@@ -15,6 +16,7 @@ type ProductionPreview = {
 };
 
 type Props = {
+  config: MinigameConfig;
   item: MinigameShopItemUi;
   shopProductionPreview: ProductionPreview | null;
   tokenImages: Record<string, string>;
@@ -23,6 +25,7 @@ type Props = {
 };
 
 export const MinigameShopDetailBody: React.FC<Props> = ({
+  config,
   item,
   shopProductionPreview,
   tokenImages,
@@ -63,7 +66,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
           />
           <span>
             {shopProductionPreview.amount}{" "}
-            {capTokenDisplayName(shopProductionPreview.outputToken)} /{" "}
+            {capTokenDisplayName(shopProductionPreview.outputToken, config)} /{" "}
             {secondsToString(
               Math.max(
                 0,
@@ -86,7 +89,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
           )}
         >
           {new Decimal(item.price.amount).toString()}{" "}
-          {capTokenDisplayName(item.price.token)}
+          {capTokenDisplayName(item.price.token, config)}
         </span>
         <img
           src={getMinigameTokenImage(item.price.token, tokenImages)}

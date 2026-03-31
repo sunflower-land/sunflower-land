@@ -60,13 +60,28 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const trades = useSelector(gameService, _trades);
   const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
 
-  const { collection, id } = useParams<{
-    collection: CollectionName;
-    id: string;
+  const params = useParams<{
+    collection?: CollectionName;
+    id?: string;
+    minigameSlug?: string;
   }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const minigameSlug = searchParams.get("minigameSlug") ?? undefined;
+
+  const collection: CollectionName | undefined =
+    params.minigameSlug != null &&
+    params.id != null &&
+    params.collection == null
+      ? "minigames"
+      : params.collection;
+
+  const id = params.id;
+
+  const minigameSlug =
+    params.minigameSlug ??
+    (collection === "minigames"
+      ? (searchParams.get("minigameSlug") ?? undefined)
+      : undefined);
 
   const [showListItem, setShowListItem] = useState(false);
 
@@ -94,6 +109,14 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
       });
     },
   );
+
+  if (!collection || !id) {
+    return (
+      <InnerPanel className="m-2 p-4">
+        <p className="text-sm">Invalid marketplace link.</p>
+      </InnerPanel>
+    );
+  }
 
   if (collection === "minigames" && !tokenMinigamesAllowed) {
     const isWorldRoute = location.pathname.includes("/world");

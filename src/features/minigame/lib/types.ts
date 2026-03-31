@@ -35,6 +35,41 @@ export type ProduceRule = {
 
 export type CollectRule = { amount: number };
 
+export type MinigameBalanceItem = {
+  name: string;
+  description: string;
+  image?: string;
+  id?: number;
+  /** Main marketplace currency for this minigame when true. */
+  tradeable?: boolean;
+};
+
+export type MinigameDescriptions = {
+  title?: string;
+  subtitle?: string;
+  welcome?: string;
+  rules?: string;
+};
+
+export type MinigameShopConfigRow = {
+  id: string;
+  actionId: string;
+  name?: string;
+  description?: string;
+  listImageToken?: string;
+  price: { token: string; amount: number };
+  ownedBalanceToken?: string;
+};
+
+export type MinigameDashboardConfig = {
+  displayName: string;
+  headerBalanceToken: string;
+  inventoryShortcutTokens: string[];
+  shop: MinigameShopConfigRow[];
+  productionCollectByStartId: Record<string, string>;
+  visualTheme?: string;
+};
+
 export type MinigameActionDefinition = {
   require?: Record<string, RequireRule>;
   requireBelow?: Record<string, number>;
@@ -47,7 +82,9 @@ export type MinigameActionDefinition = {
 
 export type MinigameConfig = {
   actions: Record<string, MinigameActionDefinition>;
-  itemIds?: Record<string, number>;
+  items?: Record<string, MinigameBalanceItem>;
+  descriptions?: MinigameDescriptions;
+  dashboard?: MinigameDashboardConfig;
 };
 
 export type ProducingEntry = {

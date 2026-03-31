@@ -1,4 +1,4 @@
-import { CHICKEN_RESCUE_TOKEN_DISPLAY } from "./chickenRescueTokenLabels";
+import { tokenDisplayName } from "./minigameConfigHelpers";
 import type { MinigameConfig, MinigameRuntimeState } from "./types";
 
 export type CapBalanceProductionSlot = {
@@ -67,10 +67,11 @@ export function formatMinigameDuration(ms: number): string {
   return `${sec}s`;
 }
 
-export function capTokenDisplayName(capToken: string): string {
-  const mapped = CHICKEN_RESCUE_TOKEN_DISPLAY[capToken];
-  if (mapped) return mapped;
-  return capToken.replace(/([a-z])([A-Z])/g, "$1 $2");
+export function capTokenDisplayName(
+  capToken: string,
+  config: MinigameConfig,
+): string {
+  return tokenDisplayName(config, capToken);
 }
 
 export function getCollectOutputForSlot(
@@ -86,7 +87,7 @@ export function getCollectOutputForSlot(
 }
 
 /**
- * For a shop `mint` action (e.g. BUY_MOSS_WORMERY), returns the timed `Worm` payout
+ * For a shop `mint` action (e.g. BUY_WORMERY_2), returns the timed `Worm` payout
  * that the new wormery will run (matches production card copy).
  */
 export function getShopPurchaseProductionPreview(

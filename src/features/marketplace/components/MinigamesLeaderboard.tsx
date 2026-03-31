@@ -8,6 +8,9 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Tradeable } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
+import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
+import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
+import { resolveMarketplaceMinigameItemImage } from "../lib/resolveMinigameMarketplaceImage";
 
 const _sflUsd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0;
 
@@ -71,7 +74,11 @@ export const MinigamesLeaderboard: React.FC<{
                   className="border-b border-brown-300 hover:bg-brown-200 cursor-pointer"
                   onClick={() => {
                     navigate(
-                      `${base}/minigames/${item.id}?minigameSlug=${encodeURIComponent(item.minigameSlug)}`,
+                      marketplaceMinigameItemPath(
+                        base,
+                        item.minigameSlug,
+                        item.id,
+                      ),
                       {
                         state: { route: backRoute },
                       },
@@ -80,6 +87,22 @@ export const MinigamesLeaderboard: React.FC<{
                   }}
                 >
                   <td className="p-2 text-brown-600">{rank}</td>
+                  <td className="p-1 w-10">
+                    <img
+                      src={resolveMarketplaceMinigameItemImage(
+                        item.image,
+                        item.currencyName,
+                      )}
+                      alt=""
+                      className="h-6 w-6 object-contain mx-auto"
+                      style={{ imageRendering: "pixelated" }}
+                      onError={(e) => {
+                        e.currentTarget.src = getMinigameTokenImage(
+                          item.currencyName,
+                        );
+                      }}
+                    />
+                  </td>
                   <td className="p-2 font-medium">{item.minigameLabel}</td>
                   <td className="p-2">{item.currencyName}</td>
                   <td className="p-2 text-right tabular-nums">

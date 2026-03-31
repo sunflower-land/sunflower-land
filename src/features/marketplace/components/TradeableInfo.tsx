@@ -50,6 +50,7 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -184,6 +185,19 @@ export const TradeableImage: React.FC<{
             bottom: "50%",
           }}
           onLoad={handleImageLoad}
+          onError={(e) => {
+            if (
+              display.type === "minigames" &&
+              display.minigameCurrencyKey
+            ) {
+              const fallback = getMinigameTokenImage(
+                display.minigameCurrencyKey,
+              );
+              if (e.currentTarget.src !== fallback) {
+                e.currentTarget.src = fallback;
+              }
+            }
+          }}
         />
       )}
     </InnerPanel>

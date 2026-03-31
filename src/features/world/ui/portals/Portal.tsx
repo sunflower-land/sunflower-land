@@ -39,8 +39,7 @@ type PortalPurchase = {
  * For minigames where the key is different to the hosted domain name
  */
 const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
-  /** Tokenized economy build still hosts on the original Chicken Rescue subdomain. */
-  "chicken-rescue-v2": "chicken-rescue",
+  /** Chicken Rescue v2 uses its own subdomain (`chicken-rescue-v2.sunflower-land.com`). */
   "festival-of-colors-2025": "festival-of-colors",
   "april-fools": "halloween",
   "chaacs-temple": "chaacs-temple.minigames",
@@ -207,6 +206,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
   if (isComplete) {
     const prize = gameState.context.state.minigames.prizes[portalName];
+
     return (
       <ClaimReward
         onClaim={onClaim}

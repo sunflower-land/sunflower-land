@@ -2,8 +2,8 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
+import type { MinigameConfig } from "../lib/types";
 import { MinigameShopListBody } from "./MinigameShopListBody";
 import { canAffordShopItem } from "../lib/canAffordShopItem";
 import { MinigameShopDetailBody } from "./MinigameShopDetailBody";
@@ -17,6 +17,7 @@ type ProductionPreview = {
 };
 
 type Props = {
+  config: MinigameConfig;
   show: boolean;
   phase: MinigameMobileShopPhase;
   onClose: () => void;
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export const MinigameMobileShopModal: React.FC<Props> = ({
+  config,
   show,
   phase,
   onClose,
@@ -99,15 +101,14 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
           onBack={onBackToList}
         >
           <div className="flex flex-col gap-2 p-1">
-            <InnerPanel className="p-2">
-              <MinigameShopDetailBody
-                item={detailItem!}
-                shopProductionPreview={shopProductionPreview}
-                tokenImages={tokenImages}
-                balances={balances}
-                shopActionError={shopActionError}
-              />
-            </InnerPanel>
+            <MinigameShopDetailBody
+              config={config}
+              item={detailItem!}
+              shopProductionPreview={shopProductionPreview}
+              tokenImages={tokenImages}
+              balances={balances}
+              shopActionError={shopActionError}
+            />
             <Button className="w-full" disabled={!canBuy} onClick={onBuy}>
               Buy
             </Button>

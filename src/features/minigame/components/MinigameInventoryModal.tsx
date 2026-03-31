@@ -3,12 +3,14 @@ import { createPortal } from "react-dom";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
-import { ButtonPanel } from "components/ui/Panel";
+import { Box } from "components/ui/Box";
+import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameInventoryItemUi } from "../lib/minigameDashboardTypes";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
+import { OuterPanel } from "components/ui/Panel";
 
 type Props = {
   show: boolean;
@@ -31,10 +33,10 @@ export const MinigameInventoryModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [selectedToken, setSelectedToken] = useState<string | null>(null);
   const inventoryWasOpenRef = useRef(false);
+  const splitRef = useRef<HTMLDivElement>(null);
 
   const ownedItems = useMemo(
-    () =>
-      inventoryItems.filter((item) => (balances[item.token] ?? 0) > 0),
+    () => inventoryItems.filter((item) => (balances[item.token] ?? 0) > 0),
     [inventoryItems, balances],
   );
 
@@ -69,8 +71,7 @@ export const MinigameInventoryModal: React.FC<Props> = ({
     });
   }, [show, focusToken, inventoryItems, balances]);
 
-  const balanceDecimal = (token: string) =>
-    new Decimal(balances[token] ?? 0);
+  const balanceDecimal = (token: string) => new Decimal(balances[token] ?? 0);
 
   if (!show) return null;
 
@@ -87,111 +88,97 @@ export const MinigameInventoryModal: React.FC<Props> = ({
         onClick={(e) => e.stopPropagation()}
         role="presentation"
       >
-      <CloseButtonPanel
-        className="flex w-[min(96vw,42rem)] max-h-[min(88dvh,36rem)] flex-col"
-        onClose={onClose}
-      >
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-1">
-          {ownedItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-evenly p-2">
-              <img
-                src={SUNNYSIDE.icons.basket}
-                alt=""
-                style={{ width: `${PIXEL_SCALE * 12}px` }}
-              />
-              <span className="mt-2 text-center text-xs">
-                {t("detail.basket.empty")}
-              </span>
-            </div>
-          ) : (
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden md:flex-row md:gap-0">
-              <div className="flex max-h-[40vh] min-h-0 flex-col border-black/20 md:max-h-none md:max-w-[min(44%,220px)] md:shrink-0 md:border-r md:pr-2">
-                <Label
-                  type="default"
-                  icon={SUNNYSIDE.icons.basket}
-                  className="mb-1 shrink-0"
-                >
-                  {t("inventory")}
-                </Label>
-                <div className="scrollable flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden">
-                  {ownedItems.map((item) => (
-                    <ButtonPanel
-                      key={item.token}
-                      className="flex shrink-0 flex-row items-center gap-2 text-left"
-                      selected={item.token === selectedToken}
-                      onClick={() => setSelectedToken(item.token)}
-                    >
+        <CloseButtonPanel
+          className="flex w-[min(96vw,42rem)] max-h-[min(88dvh,36rem)] flex-col"
+          onClose={onClose}
+          container={OuterPanel}
+        >
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-1">
+            {ownedItems.length === 0 ? (
+              <div className="flex flex-col items-center justify-evenly p-2">
+                <img
+                  src={SUNNYSIDE.icons.basket}
+                  alt=""
+                  style={{ width: `${PIXEL_SCALE * 12}px` }}
+                />
+                <span className="mt-2 text-center text-xs">
+                  {t("detail.basket.empty")}
+                </span>
+              </div>
+            ) : (
+              <SplitScreenView
+                divRef={splitRef}
+                tallMobileContent
+                tallDesktopContent
+                wideModal
+                showPanel={!!selectedItem}
+                panel={
+                  selectedItem ? (
+                    <div className="flex flex-col p-1">
                       <div
-                        className="flex shrink-0 items-center justify-center"
+                        className="mx-auto mb-2 flex items-center justify-center"
                         style={{
-                          width: `${PIXEL_SCALE * 12}px`,
-                          height: `${PIXEL_SCALE * 12}px`,
+                          width: `${PIXEL_SCALE * 22}px`,
+                          maxHeight: `${PIXEL_SCALE * 28}px`,
                         }}
                       >
                         <img
                           src={getMinigameTokenImage(
-                            item.token,
+                            selectedItem.token,
                             tokenImages,
                           )}
                           alt=""
-                          className="max-h-full max-w-full object-contain"
+                          className="max-h-full w-full object-contain"
                           style={{ imageRendering: "pixelated" }}
                         />
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="truncate text-sm">{item.name}</div>
-                        <div className="mt-0.5 text-xs tabular-nums text-[#555]">
-                          ×{balanceDecimal(item.token).toString()}
-                        </div>
-                      </div>
-                    </ButtonPanel>
-                  ))}
-                </div>
-              </div>
-
-              <div className="scrollable flex min-h-0 flex-1 flex-col overflow-y-auto px-0 pt-1 md:pl-3 md:pt-0">
-                {selectedItem ? (
-                  <>
-                    <div
-                      className="mx-auto mb-2 flex items-center justify-center"
-                      style={{
-                        width: `${PIXEL_SCALE * 22}px`,
-                        maxHeight: `${PIXEL_SCALE * 28}px`,
-                      }}
-                    >
-                      <img
-                        src={getMinigameTokenImage(
-                          selectedItem.token,
-                          tokenImages,
-                        )}
-                        alt=""
-                        className="max-h-full w-full object-contain"
-                        style={{ imageRendering: "pixelated" }}
-                      />
+                      <p className="mb-1 text-center text-sm font-medium text-[#181425]">
+                        {selectedItem.name}
+                      </p>
+                      <p className="mb-2 whitespace-pre-line text-xs leading-snug text-center text-[#3e2731]">
+                        {selectedItem.description}
+                      </p>
+                      <Label
+                        type="default"
+                        className="text-xs tabular-nums text-[#555] text-center mx-auto"
+                      >
+                        {t("balance")}:{"  "}
+                        <span className="font-medium text-[#181425] ml-1">
+                          {balanceDecimal(selectedItem.token).toString()}
+                        </span>
+                      </Label>
                     </div>
-                    <p className="mb-1 text-center text-sm font-medium">
-                      {selectedItem.name}
-                    </p>
-                    <p className="mb-2 whitespace-pre-line text-xs text-[#3e2731]">
-                      {selectedItem.description}
-                    </p>
-                    <p className="text-xs tabular-nums text-[#555]">
-                      {t("balance")}:{" "}
-                      <span className="font-medium text-[#181425]">
-                        {balanceDecimal(selectedItem.token).toString()}
-                      </span>
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-xs text-[#555]">
-                    Select an item to view details.
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </CloseButtonPanel>
+                  ) : (
+                    <></>
+                  )
+                }
+                content={
+                  <div className="flex w-full flex-col pl-2">
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.basket}
+                      className="mb-2 shrink-0"
+                    >
+                      {t("inventory")}
+                    </Label>
+                    <div className="flex flex-wrap -ml-1.5">
+                      {ownedItems.map((item) => (
+                        <Box
+                          key={item.token}
+                          image={getMinigameTokenImage(item.token, tokenImages)}
+                          count={balanceDecimal(item.token)}
+                          isSelected={item.token === selectedToken}
+                          onClick={() => setSelectedToken(item.token)}
+                          parentDivRef={splitRef}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                }
+              />
+            )}
+          </div>
+        </CloseButtonPanel>
       </div>
     </div>,
     document.body,

@@ -220,7 +220,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                       className="w-full truncate text-left text-sm font-medium leading-tight whitespace-nowrap"
                       style={{ color: labelStrong }}
                     >
-                      {capTokenDisplayName(slot.capToken)}
+                      {capTokenDisplayName(slot.capToken, config)}
                     </span>
                     <div
                       className="flex min-w-0 w-full flex-row flex-nowrap items-center gap-1.5 text-xs leading-tight"
@@ -237,17 +237,17 @@ export const MinigameProductionZone: React.FC<Props> = ({
                       />
                       <span className="min-w-0 text-left leading-snug">
                         {outputPreview.amount}{" "}
-                        {capTokenDisplayName(outputPreview.token)} /{" "}
+                        {capTokenDisplayName(outputPreview.token, config)} /{" "}
                         {produceDurationLabel}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex w-full shrink-0 items-stretch">
+                <div className="flex h-11 w-full shrink-0 flex-col justify-center">
                   {!producing && (
                     <Button
-                      className="!min-h-0 !w-full !flex-1 !p-1 !text-xs"
+                      className="!min-h-9 !w-full !flex-1 !p-1 !text-xs"
                       onClick={(e) => {
                         e.stopPropagation();
                         openStartModal(slot);
@@ -258,7 +258,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                   )}
 
                   {producing && !ready && (
-                    <div className="flex min-h-0 w-full flex-1 flex-row items-center justify-start gap-2">
+                    <div className="flex min-h-9 w-full flex-1 flex-row items-center justify-start gap-2">
                       <ResizableBar
                         type="progress"
                         percentage={progress}
@@ -275,7 +275,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
 
                   {ready && (
                     <Button
-                      className="!min-h-0 !w-full !flex-1 !p-1 !text-xs"
+                      className="!min-h-9 !w-full !flex-1 !p-1 !text-xs"
                       onClick={(e) => {
                         e.stopPropagation();
                         openCollectModal(slot);

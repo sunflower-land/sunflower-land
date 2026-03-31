@@ -56,6 +56,8 @@ export type Tradeable =
       minigameSlug: string;
       minigameLabel: string;
       currencyName: string;
+      /** Relative to `VITE_PRIVATE_IMAGE_URL` or absolute URL (from API). */
+      image?: string;
       balance?: number;
       expiresAt?: number;
     };

@@ -8,6 +8,7 @@ import type { MinigameConfig } from "../lib/types";
 import {
   capTokenDisplayName,
   formatMinigameDuration,
+  getCollectOutputForSlot,
   type CapBalanceProductionSlot,
 } from "../lib/extractProductionSlots";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
@@ -46,7 +47,8 @@ export const MinigameProductionModal: React.FC<Props> = ({
 
   const startDef = config.actions[slot.startActionId];
   const collectDef = config.actions[slot.collectActionId];
-  const title = capTokenDisplayName(slot.capToken);
+  const title = capTokenDisplayName(slot.capToken, config);
+  const slotLabel = capTokenDisplayName(slot.capToken, config);
 
   const burnEntries = startDef?.burn
     ? Object.entries(startDef.burn)
@@ -59,6 +61,8 @@ export const MinigameProductionModal: React.FC<Props> = ({
     collectDef?.collect && variant === "collect"
       ? Object.entries(collectDef.collect)
       : [];
+
+  const startOutputPreview = getCollectOutputForSlot(config, slot);
 
   const remainingMs =
     job && now < job.completesAt ? job.completesAt - now : 0;
@@ -82,13 +86,37 @@ export const MinigameProductionModal: React.FC<Props> = ({
 
           {variant === "start" && (
             <>
-              <p className="text-xs">Start a production run for this wormery.</p>
+              <p className="text-xs">
+                Start a production run for this {slotLabel}.
+              </p>
               <p className="text-xs">
                 Duration:{" "}
                 <span className="font-medium">
                   {formatMinigameDuration(slot.msToComplete)}
                 </span>
               </p>
+              {startOutputPreview && (
+                <div className="mt-2 rounded-sm bg-black/5 p-2">
+                  <p className="mb-1.5 text-[11px] font-medium text-[#3e2731]">
+                    Produces when complete
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <img
+                      src={getMinigameTokenImage(
+                        startOutputPreview.token,
+                        tokenImages,
+                      )}
+                      alt=""
+                      className="h-5 w-5 shrink-0 object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                    <span className="text-xs font-medium text-[#181425]">
+                      {startOutputPreview.amount}{" "}
+                      {capTokenDisplayName(startOutputPreview.token, config)}
+                    </span>
+                  </div>
+                </div>
+              )}
               {requireEntries.length > 0 && (
                 <div className="text-xs">
                   <span className="font-medium">Requires:</span>
@@ -96,7 +124,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {requireEntries.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span>
-                          {rule.amount}× {capTokenDisplayName(token)}
+                          {rule.amount}× {capTokenDisplayName(token, config)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}
@@ -119,7 +147,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {burnEntries.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span>
-                          {rule.amount}× {capTokenDisplayName(token)}
+                          {rule.amount}× {capTokenDisplayName(token, config)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}
@@ -149,15 +177,15 @@ export const MinigameProductionModal: React.FC<Props> = ({
               {job ? (
                 <>
                   <p className="text-xs">
-                    This wormery is producing{" "}
+                    This {slotLabel} is producing{" "}
                     <span className="font-medium">
-                      {capTokenDisplayName(slot.outputToken)}
+                      {capTokenDisplayName(slot.outputToken, config)}
                     </span>
                     .
                   </p>
                   {now >= job.completesAt ? (
                     <p className="text-xs text-green-800 font-medium">
-                      Ready to collect — tap the icon above this wormery.
+                      Ready to collect — tap the icon above this {slotLabel}.
                     </p>
                   ) : (
                     <p className="text-xs">
@@ -170,7 +198,9 @@ export const MinigameProductionModal: React.FC<Props> = ({
                   )}
                 </>
               ) : (
-                <p className="text-xs">No active production for this wormery.</p>
+                <p className="text-xs">
+                  No active production for this {slotLabel}.
+                </p>
               )}
             </>
           )}
@@ -184,7 +214,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {collectLines.map(([token, rule]) => (
                       <li key={token} className="flex items-center gap-1">
                         <span className="font-medium text-green-800">
-                          +{rule.amount} {capTokenDisplayName(token)}
+                          +{rule.amount} {capTokenDisplayName(token, config)}
                         </span>
                         <img
                           src={getMinigameTokenImage(token, tokenImages)}

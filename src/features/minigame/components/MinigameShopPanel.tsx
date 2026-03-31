@@ -20,19 +20,17 @@ export const MinigameShopPanel: React.FC<Props> = ({
   onItemClick,
 }) => {
   return (
-    <OuterPanel className="flex h-full min-h-0 flex-col overflow-hidden">
-      <InnerPanel className="flex min-h-0 flex-1 flex-col gap-1 overflow-hidden">
-        <div className="shrink-0">
-          <Label type="default">Shop</Label>
-        </div>
-        <MinigameShopListBody
-          items={items}
-          balances={balances}
-          tokenImages={tokenImages}
-          highlightedId={highlightedId}
-          onItemClick={onItemClick}
-        />
-      </InnerPanel>
-    </OuterPanel>
+    <InnerPanel className="flex min-h-0 flex-1 flex-col gap-1 overflow-hidden">
+      <div className="shrink-0">
+        <Label type="default">Shop</Label>
+      </div>
+      <MinigameShopListBody
+        items={items}
+        balances={balances}
+        tokenImages={tokenImages}
+        highlightedId={highlightedId}
+        onItemClick={onItemClick}
+      />
+    </InnerPanel>
   );
 };

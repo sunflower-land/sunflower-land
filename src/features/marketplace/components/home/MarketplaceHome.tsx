@@ -231,6 +231,10 @@ export const MarketplaceNavigation: React.FC = () => {
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
+              <Route
+                path="/minigames/:minigameSlug/:id"
+                element={<Tradeable hideLimited={hideLimited} />}
+              />
               <Route path="/minigames" element={<Minigames />} />
               <Route
                 path="/collection/*"

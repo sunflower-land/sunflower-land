@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
-import type { MinigameRuntimeState } from "./types";
+import type { MinigameConfig, MinigameRuntimeState } from "./types";
 
 export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
@@ -13,6 +13,9 @@ export type MinigameSessionApiPayload = {
     dailyMinted: { utcDay: string; minted: Record<string, number> };
   };
   actions: Record<string, unknown>;
+  items?: MinigameConfig["items"];
+  descriptions?: MinigameConfig["descriptions"];
+  dashboard?: MinigameConfig["dashboard"];
 };
 
 export type MinigameActionApiResponse = {

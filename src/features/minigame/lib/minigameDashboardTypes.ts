@@ -27,6 +27,8 @@ export type MinigameDashboardUi = {
   inventoryItems: MinigameInventoryItemUi[];
   inventoryShortcutTokens: string[];
   tokenImages: Record<string, string>;
+  /** When set, dashboard shell can apply a themed backdrop (e.g. `chicken-rescue`). */
+  visualTheme?: string;
 };
 
 export type MinigameDashboardData = {

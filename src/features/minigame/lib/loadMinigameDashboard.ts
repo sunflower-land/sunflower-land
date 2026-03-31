@@ -2,14 +2,11 @@ import type { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { portal } from "features/world/ui/community/actions/portal";
 import {
-  CHICKEN_RESCUE_COLLECT_BY_START,
   CHICKEN_RESCUE_CONFIG,
   createChickenRescueInitialState,
 } from "./chickenRescueConfig";
-import {
-  buildChickenRescueDashboardFromSession,
-  getChickenRescueDashboardUi,
-} from "./chickenRescueDashboardMerge";
+import { buildMinigameDashboardFromApiSession } from "./chickenRescueDashboardMerge";
+import { buildMinigameDashboardData } from "./minigameConfigHelpers";
 import type {
   FetchMinigameResult,
   MinigameDashboardData,
@@ -32,15 +29,12 @@ async function fetchChickenRescueMock(): Promise<FetchMinigameResult> {
   };
   return {
     ok: true,
-    data: {
-      slug: "chicken-rescue-v2",
-      portalName: "chicken-rescue-v2",
-      displayName: "Chicken Rescue v2",
-      config: CHICKEN_RESCUE_CONFIG,
+    data: buildMinigameDashboardData(
+      "chicken-rescue-v2",
+      "chicken-rescue-v2",
+      CHICKEN_RESCUE_CONFIG,
       state,
-      ui: getChickenRescueDashboardUi(),
-      productionCollectByStartId: { ...CHICKEN_RESCUE_COLLECT_BY_START },
-    },
+    ),
   };
 }
 
@@ -89,7 +83,10 @@ export async function loadMinigameDashboard(
 
     const raw = await getMinigameSession(slug, portalJwt);
     assertChickenRescueSession(raw);
-    return { ok: true, data: buildChickenRescueDashboardFromSession(raw) };
+    return {
+      ok: true,
+      data: buildMinigameDashboardFromApiSession(slug, slug as MinigameName, raw),
+    };
   } catch (e) {
     const message = e instanceof Error ? e.message : "Failed to load minigame";
     return { ok: false, error: message };

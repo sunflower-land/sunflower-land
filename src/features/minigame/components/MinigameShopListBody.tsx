@@ -48,7 +48,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
         return (
           <ButtonPanel
             key={item.id}
-            className="flex flex-row items-center gap-2 text-left"
+            className="flex min-h-[3.5rem] flex-row items-center gap-2 py-1.5 text-left"
             selected={item.id === highlightedId}
             disabled={owned}
             onClick={() => {
@@ -57,7 +57,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
             }}
           >
             <div
-              className="flex shrink-0 items-center justify-center"
+              className="flex shrink-0 items-center justify-center self-center"
               style={{
                 width: `${PIXEL_SCALE * 14}px`,
                 maxHeight: `${PIXEL_SCALE * 22}px`,
@@ -70,11 +70,11 @@ export const MinigameShopListBody: React.FC<Props> = ({
                 style={{ imageRendering: "pixelated" }}
               />
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-sm">{item.name}</div>
+            <div className="min-w-0 flex-1 self-center py-0.5">
+              <div className="truncate text-sm leading-snug">{item.name}</div>
               <div
                 className={classNames(
-                  "mt-1 flex items-center gap-1 text-xs",
+                  "mt-1 flex items-center gap-1 text-xs leading-normal",
                   !owned && !canAfford && "font-medium text-red-700",
                 )}
               >

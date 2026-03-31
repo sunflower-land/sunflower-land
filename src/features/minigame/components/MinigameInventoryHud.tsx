@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 import type { MinigameInventoryItemUi } from "../lib/minigameDashboardTypes";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
+import shop from "assets/icons/shop.png";
 
 type Props = {
   shortcutTokens: string[];
@@ -49,22 +50,20 @@ export const MinigameInventoryHud: React.FC<Props> = ({
     >
       {onOpenShop && (
         <RoundButton
-          buttonSize={20}
           className="mb-2"
           onClick={() => {
             button.play();
             onOpenShop();
           }}
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" alt="" />
           <img
-            src={SUNNYSIDE.icons.heart}
+            src={shop}
             alt=""
             className="absolute group-active:translate-y-[2px]"
             style={{
-              top: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              width: `${PIXEL_SCALE * 10}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 14}px`,
               imageRendering: "pixelated",
             }}
           />

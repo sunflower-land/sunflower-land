@@ -11,12 +11,12 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components/Loading";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
@@ -49,6 +49,8 @@ import {
 import { cloneMinigameRuntimeState } from "./lib/processMinigameAction";
 import { hasFeatureAccess } from "lib/flags";
 import { isTokenMinigameDashboardSlug } from "./lib/tokenMinigameDashboardSlugs";
+import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
+import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
 
 export const MinigameDashboard: React.FC = () => {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -83,9 +85,9 @@ export const MinigameDashboard: React.FC = () => {
   );
 
   const [showMobileShop, setShowMobileShop] = useState(false);
-  const [mobileShopPhase, setMobileShopPhase] = useState<
-    "list" | "detail"
-  >("list");
+  const [mobileShopPhase, setMobileShopPhase] = useState<"list" | "detail">(
+    "list",
+  );
 
   const [capJobByCapToken, setCapJobByCapToken] = useState<
     Record<string, string | undefined>
@@ -99,7 +101,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const [showActionSyncError, setShowActionSyncError] = useState(false);
   const [actionSyncError, setActionSyncError] = useState<string | null>(null);
-
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const applyRuntime = useCallback((next: MinigameRuntimeState | null) => {
     runtimeRef.current = next;
     setRuntime(next);
@@ -133,6 +135,14 @@ export const MinigameDashboard: React.FC = () => {
       ),
     );
   }, [payload]);
+
+  /** Welcome modal when lifetime activity is still zero (no actions recorded yet). */
+  useEffect(() => {
+    if (!runtime) return;
+    if ((runtime.activity ?? 0) === 0) {
+      setShowWelcomeModal(true);
+    }
+  }, [slug, runtime?.activity]);
 
   useEffect(() => {
     if (!runtime) return;
@@ -227,9 +237,7 @@ export const MinigameDashboard: React.FC = () => {
           if (!dashboardMountedRef.current) return;
           applyRuntime(snapshotRuntime);
           setCapJobByCapToken(snapshotCapJobs);
-          setActionSyncError(
-            e instanceof Error ? e.message : "Action failed",
-          );
+          setActionSyncError(e instanceof Error ? e.message : "Action failed");
           setShowActionSyncError(true);
         }
       })();
@@ -251,10 +259,7 @@ export const MinigameDashboard: React.FC = () => {
     (async () => {
       setLoading(true);
       setLoadError(null);
-      const creds =
-        userToken && farmId != null
-          ? { userToken, farmId }
-          : null;
+      const creds = userToken && farmId != null ? { userToken, farmId } : null;
       const res = await loadMinigameDashboard(slug, creds);
       if (cancelled) return;
       if (!res.ok) {
@@ -316,6 +321,10 @@ export const MinigameDashboard: React.FC = () => {
         setShowAdventureConfirm(false);
         return;
       }
+      if (showWelcomeModal) {
+        setShowWelcomeModal(false);
+        return;
+      }
       handleClose();
     };
     document.addEventListener("keydown", onKey);
@@ -328,6 +337,7 @@ export const MinigameDashboard: React.FC = () => {
     showMobileShop,
     showShopConfirm,
     showActionSyncError,
+    showWelcomeModal,
   ]);
 
   const openMobileShopList = useCallback(() => {
@@ -426,16 +436,12 @@ export const MinigameDashboard: React.FC = () => {
         const next = runtimeStateFromActionResponse(data.minigame);
         if (!dashboardMountedRef.current) return;
         applyRuntime(next);
-        setCapJobByCapToken(
-          buildCapJobByCapToken(cfg, collectByStartId, next),
-        );
+        setCapJobByCapToken(buildCapJobByCapToken(cfg, collectByStartId, next));
       } catch (e) {
         if (!dashboardMountedRef.current) return;
         applyRuntime(snapshotRuntime);
         setCapJobByCapToken(snapshotCapJobs);
-        setActionSyncError(
-          e instanceof Error ? e.message : "Action failed",
-        );
+        setActionSyncError(e instanceof Error ? e.message : "Action failed");
         setShowActionSyncError(true);
       }
     })();
@@ -447,21 +453,24 @@ export const MinigameDashboard: React.FC = () => {
       ? new Decimal(runtime.balances[headerToken] ?? 0)
       : new Decimal(0);
 
-  const isChickenRescue = slug === "chicken-rescue-v2";
+  const useChickenRescueShell =
+    (payload?.ui.visualTheme ??
+      (slug === "chicken-rescue-v2" ? "chicken-rescue" : "")) ===
+    "chicken-rescue";
 
   if (tokenMinigamesBlocked) {
     return (
       <div
         className={classNames(
           "relative min-h-screen flex flex-col items-center justify-center gap-2 p-4",
-          !isChickenRescue && "bg-[#63c74d]",
+          !useChickenRescueShell && "bg-[#63c74d]",
         )}
         style={{
           paddingTop: safeTop,
-          ...(isChickenRescue ? { backgroundColor: "#8fbc8f" } : {}),
+          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
         }}
       >
-        {isChickenRescue && <ChickenRescueBookmatchedBackdrop />}
+        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white px-2">
             Token minigames are not available for your farm yet.
@@ -477,14 +486,14 @@ export const MinigameDashboard: React.FC = () => {
       <div
         className={classNames(
           "relative min-h-screen flex flex-col items-center justify-center p-4",
-          !isChickenRescue && "bg-[#63c74d]",
+          !useChickenRescueShell && "bg-[#63c74d]",
         )}
         style={{
           paddingTop: safeTop,
-          ...(isChickenRescue ? { backgroundColor: "#8fbc8f" } : {}),
+          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
         }}
       >
-        {isChickenRescue && <ChickenRescueBookmatchedBackdrop />}
+        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-1 items-center justify-center w-full">
           <InnerPanel className="p-4 min-w-[8rem]">
             <Loading className="text-sm text-[#3e2731]" />
@@ -499,14 +508,14 @@ export const MinigameDashboard: React.FC = () => {
       <div
         className={classNames(
           "relative min-h-screen flex flex-col items-center justify-center gap-2 p-4",
-          !isChickenRescue && "bg-[#63c74d]",
+          !useChickenRescueShell && "bg-[#63c74d]",
         )}
         style={{
           paddingTop: safeTop,
-          ...(isChickenRescue ? { backgroundColor: "#8fbc8f" } : {}),
+          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
         }}
       >
-        {isChickenRescue && <ChickenRescueBookmatchedBackdrop />}
+        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white">{loadError}</p>
           <Button onClick={handleClose}>Go back</Button>
@@ -517,195 +526,244 @@ export const MinigameDashboard: React.FC = () => {
 
   const tokenImages = payload.ui.tokenImages;
   const hasShop = payload.ui.shopItems.length > 0;
+  const copy = payload.config.descriptions;
+  const marketPick = getPrimaryTradableMarketplaceItem(payload.config);
 
   return (
     <div
       className={classNames(
         "relative flex flex-col h-screen w-full overflow-hidden",
-        !isChickenRescue && "bg-[#8fbc8f]",
+        !useChickenRescueShell && "bg-[#8fbc8f]",
       )}
       style={{
         paddingTop: safeTop,
-        ...(isChickenRescue ? { backgroundColor: "#8fbc8f" } : {}),
+        ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
       }}
     >
-      {isChickenRescue && <ChickenRescueBookmatchedBackdrop />}
+      {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden">
-      <header className="flex shrink-0 items-center gap-2 bg-[#3d3d3d] px-2 py-2 text-white md:px-3">
-        <h1 className="min-w-0 flex-1 truncate text-center text-sm md:text-left">
-          {payload.displayName}
-        </h1>
-        <Label
-          type="warning"
-          className="shrink-0"
-          secondaryIcon={getMinigameTokenImage(headerToken, tokenImages)}
-        >
-          <span className="tabular-nums">{headerBalance.toString()}</span>
-        </Label>
-      </header>
-
-      <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden md:flex-row md:p-2">
-        {hasShop && (
-          <div className="hidden min-h-0 w-[min(42vw,220px)] shrink-0 md:block">
-            <MinigameShopPanel
-              items={payload.ui.shopItems}
-              balances={runtime.balances}
-              tokenImages={tokenImages}
-              highlightedId={pendingShopItem?.id}
-              onItemClick={onShopItemClick}
-            />
-          </div>
-        )}
-
-        <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-hidden px-2 pt-2 md:px-0 md:pt-0">
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-            <MinigameProductionZone
-              slots={productionSlots}
-              config={payload.config}
-              runtime={runtime}
-              tokenImages={tokenImages}
-              onRuntimeChange={(next) => applyRuntime(next)}
-              capJobByCapToken={capJobByCapToken}
-              onCapJobChange={onCapJobChange}
-              dispatchAction={runMinigameAction}
-            />
+        <div className="relative mb-0.5 flex h-[70px] w-full items-center justify-between bg-black/20 pr-10">
+          <div className="z-10 pl-4 min-w-0">
+            <p className="truncate text-lg text-white text-shadow">
+              {copy?.title ?? payload.displayName}
+            </p>
+            {copy?.subtitle ? (
+              <p className="truncate text-xs text-white text-shadow">
+                {copy.subtitle}
+              </p>
+            ) : null}
           </div>
 
-          <div className="shrink-0 pt-0.5 md:pt-1">
-            <MinigameInventoryHud
-              shortcutTokens={payload.ui.inventoryShortcutTokens}
-              inventoryItems={payload.ui.inventoryItems}
-              balances={runtime.balances}
-              tokenImages={tokenImages}
-              onOpenInventory={openInventory}
-              onOpenShop={hasShop ? openMobileShopList : undefined}
+          <div className="z-10 flex items-center">
+            <img
+              src={getMinigameTokenImage(headerToken, tokenImages)}
+              alt=""
+              className="mr-1 w-8 object-contain"
+              style={{ imageRendering: "pixelated" }}
             />
+            <p className="text-sm text-white tabular-nums">
+              {headerBalance.toString()}
+            </p>
+          </div>
+
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute right-2 flex-none cursor-pointer"
+            onClick={handleClose}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              height: `${PIXEL_SCALE * 11}px`,
+            }}
+            alt=""
+          />
+        </div>
+
+        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden md:flex-row md:p-2">
+          {hasShop && (
+            <div className="hidden min-h-0 w-[min(42vw,220px)] shrink-0 md:flex md:flex-col md:gap-2">
+              <MinigameShopPanel
+                items={payload.ui.shopItems}
+                balances={runtime.balances}
+                tokenImages={tokenImages}
+                highlightedId={pendingShopItem?.id}
+                onItemClick={onShopItemClick}
+              />
+              {marketPick && (
+                <MinigameCurrencyWidget
+                  userToken={userToken}
+                  marketplaceSlug={payload.portalName ?? slug}
+                  marketplaceItemId={marketPick.itemId}
+                  marketplaceItemToken={marketPick.tokenKey}
+                  tokenImages={tokenImages}
+                />
+              )}
+            </div>
+          )}
+
+          <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+              <MinigameProductionZone
+                slots={productionSlots}
+                config={payload.config}
+                runtime={runtime}
+                tokenImages={tokenImages}
+                onRuntimeChange={(next) => applyRuntime(next)}
+                capJobByCapToken={capJobByCapToken}
+                onCapJobChange={onCapJobChange}
+                dispatchAction={runMinigameAction}
+              />
+            </div>
+
+            <div className="shrink-0 pr-0.5 pt-0.5 md:pr-1 md:pt-1">
+              <MinigameInventoryHud
+                shortcutTokens={payload.ui.inventoryShortcutTokens}
+                inventoryItems={payload.ui.inventoryItems}
+                balances={runtime.balances}
+                tokenImages={tokenImages}
+                onOpenInventory={openInventory}
+                onOpenShop={hasShop ? openMobileShopList : undefined}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div
-        className="sticky bottom-0 z-20 shrink-0 border-t border-black/25 bg-[#3d3d3d]/95 p-2 backdrop-blur-sm"
-        style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
-      >
-        <Button
-          className="w-full"
-          onClick={() => setShowAdventureConfirm(true)}
+        <div
+          className="relative z-20 shrink-0 border-t border-black/20 bg-black/10 p-2 backdrop-blur-[2px]"
+          style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
         >
-          Adventure
-        </Button>
-      </div>
+          <Button
+            className="w-full"
+            onClick={() => setShowAdventureConfirm(true)}
+          >
+            Adventure
+          </Button>
+        </div>
 
-      <MinigameConfirmPanel
-        show={showShopConfirm && !!pendingShopItem}
-        title={pendingShopItem?.name ?? "Shop"}
-        confirmLabel="Buy"
-        confirmDisabled={
-          !!pendingShopItem &&
-          !!runtime &&
-          !canAffordShopItem(pendingShopItem, runtime.balances)
-        }
-        onClose={() => {
-          setShowShopConfirm(false);
-          setPendingShopItem(null);
-          setShopActionError(null);
-        }}
-        onConfirm={confirmShopPurchase}
-      >
-        {pendingShopItem && runtime && (
-          <MinigameShopDetailBody
-            item={pendingShopItem}
-            shopProductionPreview={shopProductionPreview}
-            tokenImages={tokenImages}
-            balances={runtime.balances}
-            shopActionError={shopActionError}
-          />
-        )}
-      </MinigameConfirmPanel>
-
-      <MinigameConfirmPanel
-        show={showAdventureConfirm}
-        title="Start adventure?"
-        confirmLabel="Play"
-        onClose={() => setShowAdventureConfirm(false)}
-        onConfirm={() => {
-          setShowAdventureConfirm(false);
-          setShowPortal(true);
-        }}
-      >
-        <p className="text-xs mb-2">
-          Opens the minigame in fullscreen. You can close it from inside the
-          game when you are done.
-        </p>
-      </MinigameConfirmPanel>
-
-      <MinigameConfirmPanel
-        show={showActionSyncError}
-        title="Couldn't save"
-        confirmLabel="OK"
-        onClose={() => {
-          setShowActionSyncError(false);
-          setActionSyncError(null);
-        }}
-        onConfirm={() => {
-          setShowActionSyncError(false);
-          setActionSyncError(null);
-        }}
-      >
-        <p className="mb-2 text-xs text-[#3e2731]">
-          {actionSyncError ??
-            "Something went wrong. Your last action was reverted."}
-        </p>
-      </MinigameConfirmPanel>
-
-      <MinigameInventoryModal
-        show={showInventoryModal}
-        onClose={() => {
-          setShowInventoryModal(false);
-          setInventoryFocusToken(null);
-        }}
-        inventoryItems={payload.ui.inventoryItems}
-        balances={runtime.balances}
-        tokenImages={tokenImages}
-        focusToken={inventoryFocusToken}
-      />
-
-      {hasShop && (
-        <MinigameMobileShopModal
-          show={showMobileShop}
-          phase={mobileShopPhase}
+        <MinigameConfirmPanel
+          show={showShopConfirm && !!pendingShopItem}
+          title={pendingShopItem?.name ?? "Shop"}
+          confirmLabel="Buy"
+          confirmDisabled={
+            !!pendingShopItem &&
+            !!runtime &&
+            !canAffordShopItem(pendingShopItem, runtime.balances)
+          }
           onClose={() => {
-            setShowMobileShop(false);
-            setMobileShopPhase("list");
+            setShowShopConfirm(false);
             setPendingShopItem(null);
             setShopActionError(null);
           }}
-          onBackToList={() => {
-            setMobileShopPhase("list");
-            setPendingShopItem(null);
-            setShopActionError(null);
+          onConfirm={confirmShopPurchase}
+        >
+          {pendingShopItem && runtime && (
+            <MinigameShopDetailBody
+              config={payload.config}
+              item={pendingShopItem}
+              shopProductionPreview={shopProductionPreview}
+              tokenImages={tokenImages}
+              balances={runtime.balances}
+              shopActionError={shopActionError}
+            />
+          )}
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showAdventureConfirm}
+          title="Start adventure?"
+          confirmLabel="Play"
+          onClose={() => setShowAdventureConfirm(false)}
+          onConfirm={() => {
+            setShowAdventureConfirm(false);
+            setShowPortal(true);
           }}
-          items={payload.ui.shopItems}
+        >
+          <p className="text-xs mb-2 whitespace-pre-line">
+            {payload.config.descriptions?.rules ??
+              "Explore the minigame and earn items."}
+          </p>
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showWelcomeModal}
+          title="Welcome"
+          confirmLabel="OK"
+          onClose={() => setShowWelcomeModal(false)}
+          onConfirm={() => setShowWelcomeModal(false)}
+        >
+          <p className="text-xs leading-relaxed whitespace-pre-line text-[#3e2731]">
+            {copy?.welcome ??
+              "Welcome! Check the shop and production timers to get started."}
+          </p>
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showActionSyncError}
+          title="Couldn't save"
+          confirmLabel="OK"
+          onClose={() => {
+            setShowActionSyncError(false);
+            setActionSyncError(null);
+          }}
+          onConfirm={() => {
+            setShowActionSyncError(false);
+            setActionSyncError(null);
+          }}
+        >
+          <p className="mb-2 text-xs text-[#3e2731]">
+            {actionSyncError ??
+              "Something went wrong. Your last action was reverted."}
+          </p>
+        </MinigameConfirmPanel>
+
+        <MinigameInventoryModal
+          show={showInventoryModal}
+          onClose={() => {
+            setShowInventoryModal(false);
+            setInventoryFocusToken(null);
+          }}
+          inventoryItems={payload.ui.inventoryItems}
           balances={runtime.balances}
           tokenImages={tokenImages}
-          highlightedId={pendingShopItem?.id}
-          onListItemClick={onMobileShopListPick}
-          detailItem={pendingShopItem}
-          shopProductionPreview={shopProductionPreview}
-          shopActionError={shopActionError}
-          onBuy={confirmShopPurchase}
+          focusToken={inventoryFocusToken}
         />
-      )}
 
-      {showPortal && (
-        <Portal
-          portalName={payload.portalName}
-          onClose={() => {
-            setShowPortal(false);
-            setDashboardReloadKey((k) => k + 1);
-          }}
-        />
-      )}
+        {hasShop && (
+          <MinigameMobileShopModal
+            config={payload.config}
+            show={showMobileShop}
+            phase={mobileShopPhase}
+            onClose={() => {
+              setShowMobileShop(false);
+              setMobileShopPhase("list");
+              setPendingShopItem(null);
+              setShopActionError(null);
+            }}
+            onBackToList={() => {
+              setMobileShopPhase("list");
+              setPendingShopItem(null);
+              setShopActionError(null);
+            }}
+            items={payload.ui.shopItems}
+            balances={runtime.balances}
+            tokenImages={tokenImages}
+            highlightedId={pendingShopItem?.id}
+            onListItemClick={onMobileShopListPick}
+            detailItem={pendingShopItem}
+            shopProductionPreview={shopProductionPreview}
+            shopActionError={shopActionError}
+            onBuy={confirmShopPurchase}
+          />
+        )}
+
+        {showPortal && (
+          <Portal
+            portalName={payload.portalName}
+            onClose={() => {
+              setShowPortal(false);
+              setDashboardReloadKey((k) => k + 1);
+            }}
+          />
+        )}
       </div>
     </div>
   );

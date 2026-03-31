@@ -44,6 +44,7 @@ import {
 } from "../lib/traitOptions";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
+import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -619,7 +620,15 @@ export const Collection: React.FC<{
                 marketplaceItem: item,
               });
 
-              const detailPath = `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`;
+              const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
+              const detailPath =
+                item.collection === "minigames"
+                  ? marketplaceMinigameItemPath(
+                      marketplaceBase,
+                      item.minigameSlug,
+                      item.id,
+                    )
+                  : `${marketplaceBase}/${item.collection}/${item.id}`;
 
               const rowKey = String(item.id);
 

@@ -588,6 +588,30 @@ img {
     2px 2px 0 black;
 }
 
+.yield-text-lg {
+  color: white;
+  /* text-shadow: 1px 1px black; */
+  font-family: Teeny;
+  font-size: 24px !important;
+  /* paint-order: stroke;
+  -webkit-text-stroke: 3px black; */
+  letter-spacing: 1px;
+
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black;
+}
+
 .yield-text {
   color: white;
   /* text-shadow: 1px 1px black; */
