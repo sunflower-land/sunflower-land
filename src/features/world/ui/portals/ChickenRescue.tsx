@@ -50,7 +50,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName="chicken-rescue-v2" onClose={onClose} />
+        <Portal portalName="chicken-rescue" onClose={onClose} />
       </div>
     );
   }
