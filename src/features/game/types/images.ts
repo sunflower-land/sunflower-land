@@ -245,6 +245,15 @@ import duskberry from "assets/fruit/duskberry/duskberry.webp";
 import lunara from "assets/fruit/lunara/lunara.webp";
 import celestine from "assets/fruit/celestine/celestine.webp";
 import obsidian from "assets/resources/obsidian.webp";
+import salt from "assets/resources/salt.webp";
+import refinedSalt from "assets/resources/refined_salt.webp";
+
+import pickledCabbage from "assets/pickled_crops/pickled_cabbage.webp";
+import pickledOnion from "assets/pickled_crops/pickled_onion.webp";
+import pickledPepper from "assets/pickled_crops/pickled_pepper.webp";
+import pickledRadish from "assets/pickled_crops/pickled_radish.webp";
+import pickledZucchini from "assets/pickled_crops/pickled_zucchini.webp";
+import pickledTomato from "assets/pickled_crops/pickled_tomato.webp";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -1801,12 +1810,12 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.obsidian"),
   },
   Salt: {
-    image: obsidian,
+    image: salt,
     description: COMMODITIES.Salt.description,
     translatedName: "Salt",
   },
   "Refined Salt": {
-    image: obsidian,
+    image: refinedSalt,
     description: COMMODITIES["Refined Salt"].description,
     translatedName: "Refined Salt",
   },
@@ -4714,32 +4723,32 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("primeAgedFish.tilapia"),
   },
   "Pickled Radish": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledRadish,
     description: translate("description.pickled.radish"),
     translatedName: translate("pickled.radish"),
   },
   "Pickled Zucchini": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledZucchini,
     description: translate("description.pickled.zucchini"),
     translatedName: translate("pickled.zucchini"),
   },
   "Pickled Tomato": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledTomato,
     description: translate("description.pickled.tomato"),
     translatedName: translate("pickled.tomato"),
   },
   "Pickled Cabbage": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledCabbage,
     description: translate("description.pickled.cabbage"),
     translatedName: translate("pickled.cabbage"),
   },
   "Pickled Onion": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledOnion,
     description: translate("description.pickled.onion"),
     translatedName: translate("pickled.onion"),
   },
   "Pickled Pepper": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pickledPepper,
     description: translate("description.pickled.pepper"),
     translatedName: translate("pickled.pepper"),
   },
