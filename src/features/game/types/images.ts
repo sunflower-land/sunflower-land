@@ -4772,6 +4772,26 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.turbofruitMix"),
     translatedName: translate("turbofruitMix"),
   },
+  "Salt Lick": {
+    image: goblinsTreat,
+    description: translate("description.saltLick"),
+    translatedName: translate("spiceRack.saltLick"),
+  },
+  "Honey Treat": {
+    image: honey,
+    description: translate("description.honeyTreat"),
+    translatedName: translate("spiceRack.honeyTreat"),
+  },
+  "Spice Base": {
+    image: CROP_LIFECYCLE["Basic Biome"].Pepper.crop,
+    description: translate("description.spiceBase"),
+    translatedName: translate("spiceRack.spiceBase"),
+  },
+  "Spiced Cheese": {
+    image: honeyCheddar,
+    description: translate("description.spicedCheese"),
+    translatedName: translate("spiceRack.spicedCheese"),
+  },
   "Capsule Bait": {
     image: capsuleBait,
     description: translate("description.bait.basicFermented"),

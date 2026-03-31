@@ -12,6 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { FermentationRackPanel } from "./fermentationRack/FermentationRackPanel";
 import { AgingRackPanel } from "./agingRack/AgingRackPanel";
+import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack" | "upgrade";
+type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack";
 
 export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
@@ -74,13 +75,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         tabs={showUpgradeTab ? undefined : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        container={
-          showUpgradeTab
-            ? undefined
-            : currentTab === "fermentationRack" || currentTab === "agingRack"
-              ? OuterPanel
-              : undefined
-        }
+        container={showUpgradeTab ? undefined : OuterPanel}
       >
         {showUpgradeTab ? (
           <UpgradeBuildingContent
@@ -94,6 +89,8 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <AgingRackPanel />
         ) : currentTab === "fermentationRack" ? (
           <FermentationRackPanel />
+        ) : currentTab === "spiceRack" ? (
+          <SpiceRackPanel />
         ) : (
           <div className="p-2">
             <p className="text-sm">{t("coming.soon")}</p>

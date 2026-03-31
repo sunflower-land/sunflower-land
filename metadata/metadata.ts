@@ -2455,6 +2455,53 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Salt Lick": {
+    name: "Salt Lick",
+    description:
+      "A mineral block crafted at the Spice Rack.\n\nFeed effects may be added in a future update.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/667.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Honey Treat": {
+    name: "Honey Treat",
+    description:
+      "A sweet animal treat crafted at the Spice Rack.\n\nFeed effects may be added in a future update.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/668.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Spice Base": {
+    name: "Spice Base",
+    description:
+      "A peppery base for advanced cooking. Crafted at the Spice Rack.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/669.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Spiced Cheese": {
+    name: "Spiced Cheese",
+    description: "Cheese infused with spice base. Crafted at the Spice Rack.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/670.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Green Thumb": {
     name: "Green Thumb",
     description:

@@ -5,6 +5,7 @@ import type {
   FishName,
   PrimeAgedFishName,
 } from "../types/fishing";
+import type { SpiceRackRecipeName } from "../types/spiceRack";
 
 export type FermentationJob = {
   id: string;
@@ -25,16 +26,22 @@ export type AgingCollectResult = {
   primeAged: boolean;
 };
 
+export type SpiceRackJob = {
+  id: string;
+  recipe: SpiceRackRecipeName;
+  startedAt: number;
+  readyAt: number;
+};
+
 export type AgingShed = UpgradableBuilding & {
   racks: {
     aging: AgingRackSlot[];
     fermentation: FermentationJob[];
-    spice: SpiceRackSlot[];
+    spice: SpiceRackJob[];
   };
   lastAgingCollect?: AgingCollectResult[];
 };
 
-export type SpiceRackSlot = Record<string, never>;
 
 /** Fresh aging shed state — call per farm/template to avoid shared nested array aliasing. */
 export function createInitialAgingShed(): AgingShed {

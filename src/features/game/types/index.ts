@@ -430,6 +430,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lava Pit": 664,
   Salt: 665,
   "Refined Salt": 666,
+  "Salt Lick": 667,
+  "Honey Treat": 668,
+  "Spice Base": 669,
+  "Spiced Cheese": 670,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

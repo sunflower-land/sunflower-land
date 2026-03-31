@@ -80,6 +80,7 @@ import {
   MutantFlowerName,
 } from "./flowers";
 import { FermentationProductName } from "./fermentationProducts";
+import { SpiceRackProductName } from "./spiceRackProducts";
 import { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
@@ -683,7 +684,8 @@ export type InventoryItemName =
   | CrustaceanName
   | ChapterRaffleTicket
   | PickledCropName
-  | FermentationProductName;
+  | FermentationProductName
+  | SpiceRackProductName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

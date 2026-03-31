@@ -193,6 +193,14 @@ export function placeBuilding({
               readyAt: slot.readyAt + downtimeDelta,
             }));
           }
+          const spice = stateCopy.agingShed.racks.spice;
+          if (spice.length > 0) {
+            stateCopy.agingShed.racks.spice = spice.map((job) => ({
+              ...job,
+              startedAt: job.startedAt + downtimeDelta,
+              readyAt: job.readyAt + downtimeDelta,
+            }));
+          }
           if (stateCopy.agingShed.upgradeReadyAt !== undefined) {
             stateCopy.agingShed.upgradeReadyAt += downtimeDelta;
           }

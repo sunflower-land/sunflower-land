@@ -661,6 +661,64 @@ describe("Place building", () => {
     );
   });
 
+  it("shifts aging shed spice rack jobs by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 1,
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "spice-1",
+                recipe: "Refined Salt",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.spice).toHaveLength(1);
+    expect(state.agingShed.racks.spice[0].startedAt).toEqual(
+      jobStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.spice[0].readyAt).toEqual(
+      jobReadyAt + downtimeDelta,
+    );
+  });
+
   it("shifts water well upgradeReadyAt by downtime when re-placing", () => {
     const removedAt = dateNow - 120000;
     const upgradeReadyAt = dateNow + 500000;
