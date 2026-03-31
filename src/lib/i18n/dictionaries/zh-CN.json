@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "豆芽和根混合物，发酵成强劲的口感。",
   "turbofruitMix": "涡轮果混合物",
   "description.turbofruitMix": "快速生根，富有成效的混合物，由盐水涡轮增压。",
-  "bait.basicFermented": "基本诱饵",
   "description.bait.basicFermented": "在钓鱼时就像蚯蚓一样。",
-  "bait.advancedFermented": "高级诱饵",
   "description.bait.advancedFermented": "就像钓鱼的grub一样起作用。",
-  "bait.expertFermented": "专家诱饵",
   "description.bait.expertFermented": "就像钓鱼的红色摇摆器一样起作用。",
   "agingShed.fermentation.fermentationSlots": "发酵槽",
   "agingShed.fermentation.selectFermentationOutput": "选择发酵输出",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "在 {{time}} 中准备就绪。",
   "minigame.dashboard.production.noActive": "这个 {{building}} 没有活跃的产量。",
   "minigame.dashboard.production.collectYour": "收集您的作品：",
-  "minigame.dashboard.production.nothingToCollect": "没什么可收集的。"
+  "minigame.dashboard.production.nothingToCollect": "没什么可收集的。",
+  "bait.basicFermented": "胶囊诱饵",
+  "bait.advancedFermented": "雨伞诱饵",
+  "bait.expertFermented": "深红诱饵鱼"
 }

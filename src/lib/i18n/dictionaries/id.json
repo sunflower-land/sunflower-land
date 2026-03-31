@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Campuran tunas dan akar, difermentasi hingga gigitan yang tajam.",
   "turbofruitMix": "Campuran Turbofruit",
   "description.turbofruitMix": "Akar yang cepat dan campuran yang bermanfaat, diisi turbo oleh air garam.",
-  "bait.basicFermented": "Umpan Dasar",
   "description.bait.basicFermented": "Bekerja seperti cacing tanah untuk memancing.",
-  "bait.advancedFermented": "Umpan Tingkat Lanjut",
   "description.bait.advancedFermented": "Bekerja seperti belatung untuk memancing.",
-  "bait.expertFermented": "Umpan Ahli",
   "description.bait.expertFermented": "Bekerja seperti wiggler merah untuk memancing.",
   "agingShed.fermentation.fermentationSlots": "Slot Fermentasi",
   "agingShed.fermentation.selectFermentationOutput": "Pilih Output Fermentasi",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Siap di {{time}}.",
   "minigame.dashboard.production.noActive": "Tidak ada produksi aktif untuk ini {{building}}.",
   "minigame.dashboard.production.collectYour": "Kumpulkan produksi Anda:",
-  "minigame.dashboard.production.nothingToCollect": "Tidak ada yang bisa dikumpulkan."
+  "minigame.dashboard.production.nothingToCollect": "Tidak ada yang bisa dikumpulkan.",
+  "bait.basicFermented": "Umpan Kapsul",
+  "bait.advancedFermented": "Umpan Payung",
+  "bait.expertFermented": "Ikan Umpan Merah"
 }

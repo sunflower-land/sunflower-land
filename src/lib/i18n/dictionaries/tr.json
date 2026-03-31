@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Filiz ve kök karışımı, keskin bir ısırığa kadar fermente edilir.",
   "turbofruitMix": "Turbofruit Karışımı",
   "description.turbofruitMix": "Hızlı kökler ve verimli karışım, tuzlu su ile turbo şarjlı.",
-  "bait.basicFermented": "Temel Yem",
   "description.bait.basicFermented": "Balıkçılık için solucan gibi çalışır.",
-  "bait.advancedFermented": "Gelişmiş Yem",
   "description.bait.advancedFermented": "Balıkçılık için kurtçuk gibi çalışır.",
-  "bait.expertFermented": "Uzman Yem",
   "description.bait.expertFermented": "Balıkçılık için kırmızı bir kıvırcık gibi çalışır.",
   "agingShed.fermentation.fermentationSlots": "Fermantasyon Yuvaları",
   "agingShed.fermentation.selectFermentationOutput": "Fermantasyon Çıktısını Seçin",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "{{time}} içinde hazır.",
   "minigame.dashboard.production.noActive": "Bunun için aktif üretim yok {{building}}.",
   "minigame.dashboard.production.collectYour": "Üretiminizi toplayın:",
-  "minigame.dashboard.production.nothingToCollect": "Toplanacak bir şey yok."
+  "minigame.dashboard.production.nothingToCollect": "Toplanacak bir şey yok.",
+  "bait.basicFermented": "Kapsül Yemi",
+  "bait.advancedFermented": "Şemsiye Yemi",
+  "bait.expertFermented": "Kızıl Yem Balığı"
 }

@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Sprout and root mix, fermented to a punchy bite.",
   "turbofruitMix": "Turbofruit Mix",
   "description.turbofruitMix": "Rapid roots and fruitful blend, turbo-charged by brine.",
-  "bait.basicFermented": "Basic Bait",
   "description.bait.basicFermented": "Works like an earthworm for fishing.",
-  "bait.advancedFermented": "Advanced Bait",
   "description.bait.advancedFermented": "Works like a grub for fishing.",
-  "bait.expertFermented": "Expert Bait",
   "description.bait.expertFermented": "Works like a red wiggler for fishing.",
   "agingShed.fermentation.fermentationSlots": "Fermentation Slots",
   "agingShed.fermentation.selectFermentationOutput": "Select Fermentation Output",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Ready in {{time}}.",
   "minigame.dashboard.production.noActive": "No active production for this {{building}}.",
   "minigame.dashboard.production.collectYour": "Collect your production:",
-  "minigame.dashboard.production.nothingToCollect": "Nothing to collect."
+  "minigame.dashboard.production.nothingToCollect": "Nothing to collect.",
+  "bait.basicFermented": "Capsule Bait",
+  "bait.advancedFermented": "Umbrella Bait",
+  "bait.expertFermented": "Crimson Baitfish"
 }

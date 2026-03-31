@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "スプラウトと根を混ぜて、発酵させてパンチのある食感に仕上げました。",
   "turbofruitMix": "ターボフルーツミックス",
   "description.turbofruitMix": "根が速く、実りの多いブレンド。塩水でターボチャージされています。",
-  "bait.basicFermented": "ベーシックベイト",
   "description.bait.basicFermented": "釣りのミミズのように働きます。",
-  "bait.advancedFermented": "アドバンスベイト",
   "description.bait.advancedFermented": "釣りの幼虫のような働きをします。",
-  "bait.expertFermented": "エキスパートベイト",
   "description.bait.expertFermented": "釣り用の赤いウィグラーのように機能します。",
   "agingShed.fermentation.fermentationSlots": "発酵スロット",
   "agingShed.fermentation.selectFermentationOutput": "発酵アウトプットの選択",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "{{time}} で準備完了です。",
   "minigame.dashboard.production.noActive": "この {{building}} にはアクティブなプロダクションはありません。",
   "minigame.dashboard.production.collectYour": "作品を集めよう:",
-  "minigame.dashboard.production.nothingToCollect": "収集するものはありません。"
+  "minigame.dashboard.production.nothingToCollect": "収集するものはありません。",
+  "bait.basicFermented": "カプセルベイト",
+  "bait.advancedFermented": "アンブレラベイト",
+  "bait.expertFermented": "クリムゾン・ベイトフィッシュ"
 }

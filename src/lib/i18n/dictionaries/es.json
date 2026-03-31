@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Mezcla de brotes y raíces, fermentada hasta obtener un toque fuerte.",
   "turbofruitMix": "Mezcla Turbofruit",
   "description.turbofruitMix": "Raíces rápidas y una mezcla fructífera, impulsada por la salmuera.",
-  "bait.basicFermented": "Cebo básico",
   "description.bait.basicFermented": "Funciona como una lombriz de tierra para pescar.",
-  "bait.advancedFermented": "Cebo avanzado",
   "description.bait.advancedFermented": "Funciona como comida para pescar.",
-  "bait.expertFermented": "Cebo experto",
   "description.bait.expertFermented": "Funciona como un meneador rojo para pescar.",
   "agingShed.fermentation.fermentationSlots": "Ranuras de fermentación",
   "agingShed.fermentation.selectFermentationOutput": "Seleccione la salida de fermentación",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Listo en {{time}}.",
   "minigame.dashboard.production.noActive": "No hay producción activa para este {{building}}.",
   "minigame.dashboard.production.collectYour": "Reúne tu producción:",
-  "minigame.dashboard.production.nothingToCollect": "No hay nada que coleccionar."
+  "minigame.dashboard.production.nothingToCollect": "No hay nada que coleccionar.",
+  "bait.basicFermented": "Cebo en cápsulas",
+  "bait.advancedFermented": "Cebo para paraguas",
+  "bait.expertFermented": "Cebo carmesí"
 }

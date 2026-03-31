@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Mélange de pousses et de racines, fermenté jusqu'à obtenir une bouchée percutante.",
   "turbofruitMix": "Mélange de turbofruits",
   "description.turbofruitMix": "Racines rapides et mélange fructueux, suralimenté par la saumure.",
-  "bait.basicFermented": "Appât de base",
   "description.bait.basicFermented": "Fonctionne comme un ver de terre pour la pêche.",
-  "bait.advancedFermented": "Appât avancé",
   "description.bait.advancedFermented": "Fonctionne comme un ver pour la pêche.",
-  "bait.expertFermented": "Appât Expert",
   "description.bait.expertFermented": "Fonctionne comme un wiggler rouge pour la pêche.",
   "agingShed.fermentation.fermentationSlots": "Fentes de fermentation",
   "agingShed.fermentation.selectFermentationOutput": "Sélectionnez la sortie de fermentation",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Prêt en {{time}}.",
   "minigame.dashboard.production.noActive": "Aucune production active pour ce {{building}}.",
   "minigame.dashboard.production.collectYour": "Collectez votre production :",
-  "minigame.dashboard.production.nothingToCollect": "Rien à collectionner."
+  "minigame.dashboard.production.nothingToCollect": "Rien à collectionner.",
+  "bait.basicFermented": "Appât à capsules",
+  "bait.advancedFermented": "Appât pour parapluies",
+  "bait.expertFermented": "Poisson-appât pourpre"
 }

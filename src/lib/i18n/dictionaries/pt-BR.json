@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Mistura de brotos e raízes, fermentada até obter um toque forte.",
   "turbofruitMix": "Mistura de turbofrutas",
   "description.turbofruitMix": "Raízes rápidas e mistura frutífera, turbinada pela salmoura.",
-  "bait.basicFermented": "Isca básica",
   "description.bait.basicFermented": "Funciona como uma minhoca para pescar.",
-  "bait.advancedFermented": "Isca avançada",
   "description.bait.advancedFermented": "Funciona como uma larva para pescar.",
-  "bait.expertFermented": "Isca especializada",
   "description.bait.expertFermented": "Funciona como um agitador vermelho para pescar.",
   "agingShed.fermentation.fermentationSlots": "Slots de fermentação",
   "agingShed.fermentation.selectFermentationOutput": "Selecione a saída de fermentação",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Pronto em {{time}}.",
   "minigame.dashboard.production.noActive": "Nenhuma produção ativa para isso {{building}}.",
   "minigame.dashboard.production.collectYour": "Colete sua produção:",
-  "minigame.dashboard.production.nothingToCollect": "Nada para coletar."
+  "minigame.dashboard.production.nothingToCollect": "Nada para coletar.",
+  "bait.basicFermented": "Isca em cápsula",
+  "bait.advancedFermented": "Isca de guarda-chuva",
+  "bait.expertFermented": "Crimson Baitfish"
 }

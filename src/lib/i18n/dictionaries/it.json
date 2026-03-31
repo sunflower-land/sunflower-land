@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Miscela di germogli e radici, fermentata fino a ottenere un morso incisivo.",
   "turbofruitMix": "Miscela Turbofruit",
   "description.turbofruitMix": "Radici rapide e miscela fruttuosa, potenziata dalla salamoia.",
-  "bait.basicFermented": "Esca base",
   "description.bait.basicFermented": "Funziona come un lombrico per la pesca.",
-  "bait.advancedFermented": "Esca avanzata",
   "description.bait.advancedFermented": "Funziona come una larva per la pesca.",
-  "bait.expertFermented": "Esca esperta",
   "description.bait.expertFermented": "Funziona come un wiggler rosso per la pesca.",
   "agingShed.fermentation.fermentationSlots": "Slot di fermentazione",
   "agingShed.fermentation.selectFermentationOutput": "Seleziona l'uscita di fermentazione",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Pronto in {{time}}.",
   "minigame.dashboard.production.noActive": "Nessuna produzione attiva per questo {{building}}.",
   "minigame.dashboard.production.collectYour": "Raccogli la tua produzione:",
-  "minigame.dashboard.production.nothingToCollect": "Niente da collezionare."
+  "minigame.dashboard.production.nothingToCollect": "Niente da collezionare.",
+  "bait.basicFermented": "Capsule Bait",
+  "bait.advancedFermented": "Ombrello Bait",
+  "bait.expertFermented": "Pesce esca cremisi"
 }

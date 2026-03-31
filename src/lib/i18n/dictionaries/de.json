@@ -8362,11 +8362,8 @@
   "description.sproutrootSurprise": "Mischung aus Sprossen und Wurzeln, fermentiert zu einem kräftigen Biss.",
   "turbofruitMix": "Turbofruit-Mischung",
   "description.turbofruitMix": "Schnelle Wurzeln und eine fruchtbare Mischung, die durch Salzlake beschleunigt wird.",
-  "bait.basicFermented": "Einfacher Köder",
   "description.bait.basicFermented": "Funktioniert wie ein Regenwurm zum Angeln.",
-  "bait.advancedFermented": "Fortgeschrittener Köder",
   "description.bait.advancedFermented": "Wirkt wie ein Engerling zum Angeln.",
-  "bait.expertFermented": "Expertenköder",
   "description.bait.expertFermented": "Funktioniert wie ein roter Wiggler zum Angeln.",
   "agingShed.fermentation.fermentationSlots": "Fermentationsschlitze",
   "agingShed.fermentation.selectFermentationOutput": "Fermentationsleistung wählen",
@@ -8419,5 +8416,8 @@
   "minigame.dashboard.production.readyIn": "Bereit in {{time}}.",
   "minigame.dashboard.production.noActive": "Keine aktive Produktion für dieses {{building}}.",
   "minigame.dashboard.production.collectYour": "Sammle deine Produktion:",
-  "minigame.dashboard.production.nothingToCollect": "Nichts zum Sammeln."
+  "minigame.dashboard.production.nothingToCollect": "Nichts zum Sammeln.",
+  "bait.basicFermented": "Kapselköder",
+  "bait.advancedFermented": "Regenschirmköder",
+  "bait.expertFermented": "Purpurroter Köderfisch"
 }
