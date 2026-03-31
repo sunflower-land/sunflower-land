@@ -1,4 +1,3 @@
-import { CONFIG } from "lib/config";
 import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
 
 /**
@@ -9,9 +8,8 @@ export function resolveMarketplaceMinigameItemImage(
   apiImage: string | undefined,
   currencyName: string,
 ): string {
-  if (apiImage?.startsWith("http")) return apiImage;
-  if (apiImage && CONFIG.PROTECTED_IMAGE_URL) {
-    return `${CONFIG.PROTECTED_IMAGE_URL.replace(/\/$/, "")}/${apiImage.replace(/^\//, "")}`;
-  }
-  return getMinigameTokenImage(currencyName);
+  return getMinigameTokenImage(
+    currencyName,
+    apiImage ? { [currencyName]: apiImage } : undefined,
+  );
 }

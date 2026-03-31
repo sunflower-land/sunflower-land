@@ -1,14 +1,22 @@
-import wormery from "assets/buildings/wormery.webp";
-import goldenNugget from "assets/icons/golden_nugget.webp";
-import worm from "assets/icons/worm.png";
-import chickenFeet from "assets/icons/chicken_feet.webp";
-import chookIcon from "assets/icons/chook.webp";
-import goldenChook from "assets/sfts/golden_chook.png";
 import { emptyMinigameState } from "./processMinigameAction";
 import type { MinigameConfig, MinigameRuntimeState } from "./types";
 
 const SEVEN_HOURS_MS = 7 * 60 * 60 * 1000;
 const EIGHT_HOURS_MS = 8 * 60 * 60 * 1000;
+
+/** Same relative paths as `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`. */
+const CR = "minigames/chicken-rescue-v2";
+const CHICKEN_RESCUE_ITEM_IMAGES = {
+  GoldenNugget: `${CR}/golden_nugget.webp`,
+  Worm: `${CR}/worm.png`,
+  Wormery: `${CR}/wormery.webp`,
+  Chook: `${CR}/chook.webp`,
+  ChickenFeet: `${CR}/chicken_feet.webp`,
+  Wormery_2: `${CR}/wormery.webp`,
+  Wormery_3: `${CR}/wormery.webp`,
+  Wormery_4: `${CR}/wormery.webp`,
+  GoldenChook: `${CR}/golden_chook.png`,
+} as const;
 
 /** @deprecated Prefer `CHICKEN_RESCUE_CONFIG.dashboard.productionCollectByStartId`. */
 export const CHICKEN_RESCUE_COLLECT_BY_START: Record<string, string> = {
@@ -27,7 +35,7 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
       name: "Golden Nuggets",
       description:
         "Premium currency. Spend it in the shop to unlock better wormeries that produce more worms.",
-      image: goldenNugget,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.GoldenNugget,
       id: 0,
       tradeable: true,
     },
@@ -35,53 +43,53 @@ export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
       name: "Worm",
       description:
         "Produced on timers from your wormeries. Spend worms to start standard Chicken Rescue runs.",
-      image: worm,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Worm,
       id: 1,
     },
     Wormery: {
       name: "Wormery",
       description:
         "Your starter wormery. Run a timer to produce worms. Each wormery can run one worm job at a time.",
-      image: wormery,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery,
       id: 2,
     },
     Chook: {
       name: "Chooks",
       description:
         "Earned from winning runs. Collect enough to trade up into rarer items on advanced paths.",
-      image: chookIcon,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Chook,
       id: 3,
     },
     ChickenFeet: {
       name: "Chicken Feet",
       description:
         "Crafted from chooks. Gates the advanced minigame—spend wisely before you commit to a run.",
-      image: chickenFeet,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.ChickenFeet,
       id: 4,
     },
     Wormery_2: {
       name: "Wormery 2",
       description: "Wormery 2. Collect worms from an 8-hour timer.",
-      image: wormery,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_2,
       id: 5,
     },
     Wormery_3: {
       name: "Wormery 3",
       description: "Wormery 3. Collect worms from an 8-hour timer.",
-      image: wormery,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_3,
       id: 6,
     },
     Wormery_4: {
       name: "Wormery 4",
       description: "Wormery 4. Collect worms from an 8-hour timer.",
-      image: wormery,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_4,
       id: 7,
     },
     GoldenChook: {
       name: "Golden Chook",
       description:
         "A rare jackpot drop. Can be traded for Golden Nuggets when you want to reinvest in the shop.",
-      image: goldenChook,
+      image: CHICKEN_RESCUE_ITEM_IMAGES.GoldenChook,
       id: 8,
     },
   },

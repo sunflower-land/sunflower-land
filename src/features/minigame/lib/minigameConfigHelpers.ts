@@ -37,8 +37,6 @@ export function resolveTokenImageUrl(
   token: string,
   tokenImages: Record<string, string>,
 ): string {
-  const direct = tokenImages[token];
-  if (direct) return direct;
   return getMinigameTokenImage(token, tokenImages);
 }
 

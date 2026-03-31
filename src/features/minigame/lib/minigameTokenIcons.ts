@@ -5,15 +5,10 @@ import chickenFeet from "assets/icons/chicken_feet.webp";
 import chookIcon from "assets/icons/chook.webp";
 import goldenChook from "assets/sfts/golden_chook.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
+import { resolveMinigameCdnImageUrl } from "./resolveMinigameCdnImageUrl";
 
-/** Default icons when the minigame payload does not supply `tokenImages`. */
-export function getMinigameTokenImage(
-  token: string,
-  overrides?: Record<string, string> | null,
-): string {
-  const fromPayload = overrides?.[token];
-  if (fromPayload) return fromPayload;
-
+function bundledMinigameTokenImage(token: string): string {
   switch (token) {
     case "GoldenNugget":
       return goldenNugget;
@@ -33,4 +28,27 @@ export function getMinigameTokenImage(
     default:
       return SUNNYSIDE.ui.coins;
   }
+}
+
+/**
+ * Resolves `items[token].image` from the session (CDN-relative, absolute, or
+ * bundled `/...` URL) and falls back to bundled icons when the payload omits a
+ * path or `VITE_PRIVATE_IMAGE_URL` is unset for relative CDN paths.
+ */
+export function getMinigameTokenImage(
+  token: string,
+  overrides?: Record<string, string> | null,
+): string {
+  const fromPayload = overrides?.[token];
+  if (fromPayload) {
+    const needsBundledFallback =
+      !fromPayload.startsWith("http") &&
+      !fromPayload.startsWith("/") &&
+      !CONFIG.PROTECTED_IMAGE_URL;
+    if (needsBundledFallback) {
+      return bundledMinigameTokenImage(token);
+    }
+    return resolveMinigameCdnImageUrl(fromPayload);
+  }
+  return bundledMinigameTokenImage(token);
 }
