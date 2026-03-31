@@ -7,6 +7,7 @@ export type {
   MinigameInventoryItemUi,
   MinigameShopItemUi,
   FetchMinigameResult,
+  MinigameLoadError,
 } from "../minigameDashboardTypes";
 
 export { loadMinigameDashboard as fetchMinigame } from "../loadMinigameDashboard";

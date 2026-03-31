@@ -57,7 +57,9 @@ export async function getMinigameSession(
   };
   if (!res.ok) {
     throw new Error(
-      typeof body.error === "string" ? body.error : `Load failed (${res.status})`,
+      typeof body.error === "string"
+        ? body.error
+        : `Load failed (${res.status})`,
     );
   }
   return body as MinigameSessionApiPayload;
@@ -77,12 +79,16 @@ export async function postMinigameActionRequest(
     },
     body: JSON.stringify(body),
   });
-  const data = (await res.json().catch(() => ({}))) as MinigameActionApiResponse & {
+  const data = (await res
+    .json()
+    .catch(() => ({}))) as MinigameActionApiResponse & {
     error?: string;
   };
   if (!res.ok) {
     throw new Error(
-      typeof data.error === "string" ? data.error : `Action failed (${res.status})`,
+      typeof data.error === "string"
+        ? data.error
+        : `Action failed (${res.status})`,
     );
   }
   return data;

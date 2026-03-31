@@ -1,6 +1,7 @@
 import React from "react";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
 import { MinigameShopListBody } from "./MinigameShopListBody";
 
@@ -19,10 +20,11 @@ export const MinigameShopPanel: React.FC<Props> = ({
   highlightedId,
   onItemClick,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <InnerPanel className="flex min-h-0 flex-1 flex-col gap-1 overflow-hidden">
       <div className="shrink-0">
-        <Label type="default">Shop</Label>
+        <Label type="default">{t("minigame.dashboard.shop")}</Label>
       </div>
       <MinigameShopListBody
         items={items}

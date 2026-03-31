@@ -42,7 +42,10 @@ export function resolveTokenImageUrl(
   return getMinigameTokenImage(token, tokenImages);
 }
 
-export function tokenDisplayName(config: MinigameConfig, token: string): string {
+export function tokenDisplayName(
+  config: MinigameConfig,
+  token: string,
+): string {
   const named = config.items?.[token]?.name;
   if (named) return named;
   return token.replace(/([a-z])([A-Z])/g, "$1 $2");
@@ -84,8 +87,7 @@ function buildShopItems(
       id: row.id,
       actionId: row.actionId,
       name: row.name ?? itemForMint?.name ?? mintKey,
-      description:
-        row.description ?? itemForMint?.description ?? "",
+      description: row.description ?? itemForMint?.description ?? "",
       listImage: resolveTokenImageUrl(imageToken, tokenImages),
       price: row.price,
       ownedBalanceToken: row.ownedBalanceToken,

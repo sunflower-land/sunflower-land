@@ -92,7 +92,12 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   } = useSWR(
     collection === "minigames"
       ? minigameSlug && tokenMinigamesAllowed
-        ? [collection, id, authState.context.user.rawToken as string, minigameSlug]
+        ? [
+            collection,
+            id,
+            authState.context.user.rawToken as string,
+            minigameSlug,
+          ]
         : null
       : [collection, id, authState.context.user.rawToken as string],
     (
@@ -113,7 +118,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   if (!collection || !id) {
     return (
       <InnerPanel className="m-2 p-4">
-        <p className="text-sm">Invalid marketplace link.</p>
+        <p className="text-sm">{t("marketplace.tradeable.invalidLink")}</p>
       </InnerPanel>
     );
   }
@@ -124,9 +129,11 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     return (
       <InnerPanel className="m-2 p-4 flex flex-col gap-2">
         <p className="text-sm">
-          Token minigames are not available for your farm yet.
+          {t("minigame.dashboard.tokenMinigamesNotAvailable")}
         </p>
-        <Button onClick={() => navigate(base)}>Back to marketplace</Button>
+        <Button onClick={() => navigate(base)}>
+          {t("marketplace.backToMarketplace")}
+        </Button>
       </InnerPanel>
     );
   }

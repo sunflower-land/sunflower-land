@@ -79,8 +79,7 @@ export const ChickenRescueBookmatchedBackdrop: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+          background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
         }}
       />
     </div>

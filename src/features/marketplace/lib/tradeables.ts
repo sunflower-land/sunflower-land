@@ -14,7 +14,10 @@ import { PetNFTName } from "features/game/types/pets";
 import { getPetImageForMarketplace } from "features/island/pets/lib/petShared";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { getBudImage } from "lib/buds/types";
-import type { Tradeable, TradeableDetails } from "features/game/types/marketplace";
+import type {
+  Tradeable,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { resolveMarketplaceMinigameItemImage } from "./resolveMinigameMarketplaceImage";
 
 export type TradeableDisplay = {
@@ -51,8 +54,7 @@ export function getTradeableDisplay({
       tradeableDetails?.collection === "minigames" ? tradeableDetails : null;
     const row =
       marketplaceItem?.collection === "minigames" ? marketplaceItem : null;
-    const currency =
-      mg?.currencyName ?? row?.currencyName ?? String(id);
+    const currency = mg?.currencyName ?? row?.currencyName ?? String(id);
     const label = mg?.minigameLabel ?? row?.minigameLabel ?? "";
     const apiImage = mg?.image ?? row?.image;
     /** Trades store items under stringified token id (see API getTradeItem). */

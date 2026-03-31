@@ -8,6 +8,7 @@ import { collectionFetcher } from "features/marketplace/components/Collection";
 import type { Tradeable } from "features/game/types/marketplace";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { marketplaceMinigameItemPath } from "features/marketplace/lib/minigameTradePath";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   userToken?: string;
@@ -24,6 +25,7 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
   marketplaceItemToken,
   tokenImages,
 }) => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const isWorldRoute = location.pathname.includes("/world");
@@ -58,6 +60,8 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
 
   const showPriceLoading = Boolean(swrKey) && isLoading && !data && !error;
 
+  const priceDisplay = `$${new Decimal(marketRow?.floor ?? 0).toFixed(4)}`;
+
   return (
     <InnerPanel className="rounded-sm p-1">
       <div className="flex items-center justify-between pr-1">
@@ -76,7 +80,7 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
               />
             ) : (
               <span className="text-sm tabular-nums leading-none">
-                ${new Decimal(marketRow?.floor ?? 0).toFixed(4)}
+                {priceDisplay}
               </span>
             )}
           </span>
@@ -94,7 +98,7 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
           }
         }}
       >
-        Buy on marketplace
+        {t("minigame.dashboard.buyOnMarketplace")}
       </span>
     </InnerPanel>
   );

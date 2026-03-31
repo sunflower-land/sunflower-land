@@ -51,11 +51,14 @@ import { hasFeatureAccess } from "lib/flags";
 import { isTokenMinigameDashboardSlug } from "./lib/tokenMinigameDashboardSlugs";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
 
 export const MinigameDashboard: React.FC = () => {
   const { slug = "" } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const safeTop = useSafeAreaPaddingTop(12);
+  const { t } = useAppTranslation();
 
   const { gameService } = useContext(GameContext);
   const [gameState] = useActor(gameService);
@@ -68,7 +71,7 @@ export const MinigameDashboard: React.FC = () => {
     !hasFeatureAccess(gameState.context.state, "TOKEN_MINIGAMES");
 
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<MinigameLoadError | null>(null);
   const [payload, setPayload] = useState<MinigameDashboardData | null>(null);
   const [runtime, setRuntime] = useState<MinigameRuntimeState | null>(null);
 
@@ -80,6 +83,8 @@ export const MinigameDashboard: React.FC = () => {
   const [showAdventureConfirm, setShowAdventureConfirm] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
   const [showInventoryModal, setShowInventoryModal] = useState(false);
+  /** Bumps when opening inventory so the modal remounts with fresh selection state. */
+  const [inventoryModalKey, setInventoryModalKey] = useState(0);
   const [inventoryFocusToken, setInventoryFocusToken] = useState<string | null>(
     null,
   );
@@ -120,43 +125,52 @@ export const MinigameDashboard: React.FC = () => {
 
   useEffect(() => {
     payloadInitRef.current = false;
-    setCapJobByCapToken({});
+    queueMicrotask(() => {
+      setCapJobByCapToken({});
+    });
   }, [slug]);
 
   useEffect(() => {
     if (!payload) return;
     if (payloadInitRef.current) return;
     payloadInitRef.current = true;
-    setCapJobByCapToken(
-      buildCapJobByCapToken(
-        payload.config,
-        payload.productionCollectByStartId,
-        payload.state,
-      ),
-    );
+    queueMicrotask(() => {
+      setCapJobByCapToken(
+        buildCapJobByCapToken(
+          payload.config,
+          payload.productionCollectByStartId,
+          payload.state,
+        ),
+      );
+    });
   }, [payload]);
 
   /** Welcome modal when lifetime activity is still zero (no actions recorded yet). */
   useEffect(() => {
     if (!runtime) return;
     if ((runtime.activity ?? 0) === 0) {
-      setShowWelcomeModal(true);
+      queueMicrotask(() => {
+        setShowWelcomeModal(true);
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- use activity primitive, not full runtime object
   }, [slug, runtime?.activity]);
 
   useEffect(() => {
     if (!runtime) return;
-    setCapJobByCapToken((prev) => {
-      let changed = false;
-      const next = { ...prev };
-      for (const key of Object.keys(next)) {
-        const id = next[key];
-        if (id && !runtime.producing[id]) {
-          next[key] = undefined;
-          changed = true;
+    queueMicrotask(() => {
+      setCapJobByCapToken((prev) => {
+        let changed = false;
+        const next = { ...prev };
+        for (const key of Object.keys(next)) {
+          const id = next[key];
+          if (id && !runtime.producing[id]) {
+            next[key] = undefined;
+            changed = true;
+          }
         }
-      }
-      return changed ? next : prev;
+        return changed ? next : prev;
+      });
     });
   }, [runtime]);
 
@@ -193,10 +207,12 @@ export const MinigameDashboard: React.FC = () => {
       itemId?: string;
       amounts?: Record<string, number>;
     }): Promise<MinigameProcessResult> => {
-      if (!payload) return { ok: false, error: "No session" };
+      if (!payload)
+        return { ok: false, error: t("minigame.dashboard.error.noSession") };
 
       const prev = runtimeRef.current;
-      if (!prev) return { ok: false, error: "No state" };
+      if (!prev)
+        return { ok: false, error: t("minigame.dashboard.error.noState") };
 
       const local = processMinigameAction(payload.config, prev, {
         ...input,
@@ -209,7 +225,7 @@ export const MinigameDashboard: React.FC = () => {
       }
 
       if (!userToken || farmId == null) {
-        return { ok: false, error: "Sign in to perform this action." };
+        return { ok: false, error: t("minigame.dashboard.signInToAction") };
       }
 
       const snapshotRuntime = cloneMinigameRuntimeState(prev);
@@ -237,22 +253,22 @@ export const MinigameDashboard: React.FC = () => {
           if (!dashboardMountedRef.current) return;
           applyRuntime(snapshotRuntime);
           setCapJobByCapToken(snapshotCapJobs);
-          setActionSyncError(e instanceof Error ? e.message : "Action failed");
+          setActionSyncError(
+            e instanceof Error
+              ? e.message
+              : t("minigame.dashboard.actionFailed"),
+          );
           setShowActionSyncError(true);
         }
       })();
 
       return { ok: true, state: local.state, producingId: local.producingId };
     },
-    [payload, userToken, farmId, applyRuntime],
+    [payload, userToken, farmId, applyRuntime, t],
   );
 
   useEffect(() => {
     if (tokenMinigamesBlocked) {
-      setLoading(false);
-      setLoadError(null);
-      setPayload(null);
-      applyRuntime(null);
       return;
     }
     let cancelled = false;
@@ -349,6 +365,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const openInventory = useCallback((focusToken?: string) => {
     setInventoryFocusToken(focusToken ?? null);
+    setInventoryModalKey((k) => k + 1);
     setShowInventoryModal(true);
   }, []);
 
@@ -408,7 +425,7 @@ export const MinigameDashboard: React.FC = () => {
     }
 
     if (!userToken || farmId == null) {
-      setShopActionError("Sign in to perform this action.");
+      setShopActionError(t("minigame.dashboard.signInToAction"));
       return;
     }
 
@@ -441,7 +458,9 @@ export const MinigameDashboard: React.FC = () => {
         if (!dashboardMountedRef.current) return;
         applyRuntime(snapshotRuntime);
         setCapJobByCapToken(snapshotCapJobs);
-        setActionSyncError(e instanceof Error ? e.message : "Action failed");
+        setActionSyncError(
+          e instanceof Error ? e.message : t("minigame.dashboard.actionFailed"),
+        );
         setShowActionSyncError(true);
       }
     })();
@@ -458,6 +477,15 @@ export const MinigameDashboard: React.FC = () => {
       (slug === "chicken-rescue-v2" ? "chicken-rescue" : "")) ===
     "chicken-rescue";
 
+  const loadErrorText =
+    loadError === null
+      ? null
+      : loadError.kind === "message"
+        ? loadError.text
+        : loadError.kind === "unknown_minigame"
+          ? t("minigame.dashboard.unknownMinigame", { slug: loadError.slug })
+          : t("minigame.dashboard.signInToLoad");
+
   if (tokenMinigamesBlocked) {
     return (
       <div
@@ -473,9 +501,11 @@ export const MinigameDashboard: React.FC = () => {
         {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white px-2">
-            Token minigames are not available for your farm yet.
+            {t("minigame.dashboard.tokenMinigamesNotAvailable")}
           </p>
-          <Button onClick={handleClose}>Go back</Button>
+          <Button onClick={handleClose}>
+            {t("minigame.dashboard.goBack")}
+          </Button>
         </div>
       </div>
     );
@@ -517,8 +547,10 @@ export const MinigameDashboard: React.FC = () => {
       >
         {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
-          <p className="text-sm text-center text-white">{loadError}</p>
-          <Button onClick={handleClose}>Go back</Button>
+          <p className="text-sm text-center text-white">{loadErrorText}</p>
+          <Button onClick={handleClose}>
+            {t("minigame.dashboard.goBack")}
+          </Button>
         </div>
       </div>
     );
@@ -635,14 +667,14 @@ export const MinigameDashboard: React.FC = () => {
             className="w-full"
             onClick={() => setShowAdventureConfirm(true)}
           >
-            Adventure
+            {t("minigame.dashboard.adventure")}
           </Button>
         </div>
 
         <MinigameConfirmPanel
           show={showShopConfirm && !!pendingShopItem}
-          title={pendingShopItem?.name ?? "Shop"}
-          confirmLabel="Buy"
+          title={pendingShopItem?.name ?? t("minigame.dashboard.shop")}
+          confirmLabel={t("buy")}
           confirmDisabled={
             !!pendingShopItem &&
             !!runtime &&
@@ -669,8 +701,8 @@ export const MinigameDashboard: React.FC = () => {
 
         <MinigameConfirmPanel
           show={showAdventureConfirm}
-          title="Start adventure?"
-          confirmLabel="Play"
+          title={t("minigame.dashboard.startAdventureTitle")}
+          confirmLabel={t("minigame.dashboard.play")}
           onClose={() => setShowAdventureConfirm(false)}
           onConfirm={() => {
             setShowAdventureConfirm(false);
@@ -679,27 +711,26 @@ export const MinigameDashboard: React.FC = () => {
         >
           <p className="text-xs mb-2 whitespace-pre-line">
             {payload.config.descriptions?.rules ??
-              "Explore the minigame and earn items."}
+              t("minigame.dashboard.rulesFallback")}
           </p>
         </MinigameConfirmPanel>
 
         <MinigameConfirmPanel
           show={showWelcomeModal}
-          title="Welcome"
-          confirmLabel="OK"
+          title={t("welcome.label")}
+          confirmLabel={t("ok")}
           onClose={() => setShowWelcomeModal(false)}
           onConfirm={() => setShowWelcomeModal(false)}
         >
           <p className="text-xs leading-relaxed whitespace-pre-line text-[#3e2731]">
-            {copy?.welcome ??
-              "Welcome! Check the shop and production timers to get started."}
+            {copy?.welcome ?? t("minigame.dashboard.welcomeFallback")}
           </p>
         </MinigameConfirmPanel>
 
         <MinigameConfirmPanel
           show={showActionSyncError}
-          title="Couldn't save"
-          confirmLabel="OK"
+          title={t("minigame.dashboard.saveFailedTitle")}
+          confirmLabel={t("ok")}
           onClose={() => {
             setShowActionSyncError(false);
             setActionSyncError(null);
@@ -710,12 +741,12 @@ export const MinigameDashboard: React.FC = () => {
           }}
         >
           <p className="mb-2 text-xs text-[#3e2731]">
-            {actionSyncError ??
-              "Something went wrong. Your last action was reverted."}
+            {actionSyncError ?? t("minigame.dashboard.saveFailedFallback")}
           </p>
         </MinigameConfirmPanel>
 
         <MinigameInventoryModal
+          key={inventoryModalKey}
           show={showInventoryModal}
           onClose={() => {
             setShowInventoryModal(false);

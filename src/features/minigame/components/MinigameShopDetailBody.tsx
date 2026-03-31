@@ -8,6 +8,7 @@ import { capTokenDisplayName } from "../lib/extractProductionSlots";
 import { secondsToString } from "lib/utils/time";
 import { canAffordShopItem } from "../lib/canAffordShopItem";
 import Decimal from "decimal.js-light";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type ProductionPreview = {
   outputToken: string;
@@ -32,6 +33,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
   balances,
   shopActionError,
 }) => {
+  const { t } = useAppTranslation();
   const canAfford = canAffordShopItem(item, balances);
   return (
     <>
@@ -66,7 +68,8 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
           />
           <span>
             {shopProductionPreview.amount}{" "}
-            {capTokenDisplayName(shopProductionPreview.outputToken, config)} /{" "}
+            {capTokenDisplayName(shopProductionPreview.outputToken, config)}
+            {" / "}
             {secondsToString(
               Math.max(
                 0,
@@ -81,7 +84,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
         </div>
       )}
       <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
-        <span>Price:</span>
+        <span>{t("minigame.dashboard.priceLabel")}</span>
         <span
           className={classNames(
             "tabular-nums font-medium",

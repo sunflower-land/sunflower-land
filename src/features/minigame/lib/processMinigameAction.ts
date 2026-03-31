@@ -51,10 +51,7 @@ export function cloneMinigameRuntimeState(
   return {
     balances: { ...state.balances },
     producing: Object.fromEntries(
-      Object.entries(state.producing).map(([id, entry]) => [
-        id,
-        { ...entry },
-      ]),
+      Object.entries(state.producing).map(([id, entry]) => [id, { ...entry }]),
     ),
     dailyMinted: {
       utcDay: state.dailyMinted.utcDay,
@@ -170,8 +167,7 @@ function applyProduce(
     }
     if (rule.requires !== undefined) {
       const activeForLane = Object.values(producing).filter(
-        (p) =>
-          p.outputToken === outputToken && p.requires === rule.requires,
+        (p) => p.outputToken === outputToken && p.requires === rule.requires,
       ).length;
       const cap = getBalance(balances, rule.requires);
       if (activeForLane >= cap) {
@@ -334,7 +330,9 @@ export function processMinigameAction(
   return { ok: true, state: working, producingId };
 }
 
-export function emptyMinigameState(now: number = Date.now()): MinigameRuntimeState {
+export function emptyMinigameState(
+  now: number = Date.now(),
+): MinigameRuntimeState {
   const day = utcCalendarDay(now);
   return {
     balances: {},

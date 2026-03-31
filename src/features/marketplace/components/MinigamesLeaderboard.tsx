@@ -44,7 +44,9 @@ export const MinigamesLeaderboard: React.FC<{
   if (sorted.length === 0) {
     return (
       <InnerPanel className="h-full flex items-center justify-center p-4">
-        <p className="text-sm text-center">{t("marketplace.minigames.empty")}</p>
+        <p className="text-sm text-center">
+          {t("marketplace.minigames.empty")}
+        </p>
       </InnerPanel>
     );
   }
@@ -55,11 +57,19 @@ export const MinigamesLeaderboard: React.FC<{
         <table className="w-full text-xs border-collapse">
           <thead>
             <tr className="border-b border-brown-400 bg-brown-300">
-              <th className="text-left p-2 w-10">#</th>
-              <th className="text-left p-2">{t("marketplace.minigames.game")}</th>
-              <th className="text-left p-2">{t("marketplace.minigames.currency")}</th>
-              <th className="text-right p-2">{t("marketplace.minigames.flower")}</th>
-              <th className="text-right p-2">{t("marketplace.minigames.usd")}</th>
+              <th className="text-left p-2 w-10">{"#"}</th>
+              <th className="text-left p-2">
+                {t("marketplace.minigames.game")}
+              </th>
+              <th className="text-left p-2">
+                {t("marketplace.minigames.currency")}
+              </th>
+              <th className="text-right p-2">
+                {t("marketplace.minigames.flower")}
+              </th>
+              <th className="text-right p-2">
+                {t("marketplace.minigames.usd")}
+              </th>
               <th className="w-8 p-1" aria-hidden />
             </tr>
           </thead>

@@ -516,8 +516,7 @@ function createPlacementEventHandlers(
   );
 }
 
-const PLACEMENT_EVENT_HANDLERS =
-  createPlacementEventHandlers(true);
+const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(true);
 
 const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
   createPlacementEventHandlers(false);

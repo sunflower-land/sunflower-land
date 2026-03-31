@@ -60,7 +60,7 @@ export async function loadMinigameDashboard(
   creds: { userToken: string; farmId: number } | null,
 ): Promise<FetchMinigameResult> {
   if (slug !== "chicken-rescue-v2") {
-    return { ok: false, error: `Unknown minigame: ${slug}` };
+    return { ok: false, error: { kind: "unknown_minigame", slug } };
   }
 
   if (!CONFIG.API_URL) {
@@ -68,10 +68,7 @@ export async function loadMinigameDashboard(
   }
 
   if (!creds?.userToken || creds.farmId == null || Number.isNaN(creds.farmId)) {
-    return {
-      ok: false,
-      error: "Sign in and open your farm to load this minigame.",
-    };
+    return { ok: false, error: { kind: "sign_in_required" } };
   }
 
   try {
@@ -85,10 +82,14 @@ export async function loadMinigameDashboard(
     assertChickenRescueSession(raw);
     return {
       ok: true,
-      data: buildMinigameDashboardFromApiSession(slug, slug as MinigameName, raw),
+      data: buildMinigameDashboardFromApiSession(
+        slug,
+        slug as MinigameName,
+        raw,
+      ),
     };
   } catch (e) {
     const message = e instanceof Error ? e.message : "Failed to load minigame";
-    return { ok: false, error: message };
+    return { ok: false, error: { kind: "message", text: message } };
   }
 }

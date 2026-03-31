@@ -186,10 +186,7 @@ export const TradeableImage: React.FC<{
           }}
           onLoad={handleImageLoad}
           onError={(e) => {
-            if (
-              display.type === "minigames" &&
-              display.minigameCurrencyKey
-            ) {
+            if (display.type === "minigames" && display.minigameCurrencyKey) {
               const fallback = getMinigameTokenImage(
                 display.minigameCurrencyKey,
               );

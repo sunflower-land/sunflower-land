@@ -180,8 +180,6 @@ export const MinigameProductionZone: React.FC<Props> = ({
             : ready
               ? "success"
               : "formula";
-          const labelMuted =
-            panelType === "default" ? "#3e2731" : "rgba(255,255,255,0.82)";
           const labelStrong = panelType === "default" ? "#181425" : "#ffffff";
 
           return (
@@ -237,7 +235,8 @@ export const MinigameProductionZone: React.FC<Props> = ({
                       />
                       <span className="min-w-0 text-left leading-snug">
                         {outputPreview.amount}{" "}
-                        {capTokenDisplayName(outputPreview.token, config)} /{" "}
+                        {capTokenDisplayName(outputPreview.token, config)}
+                        {" / "}
                         {produceDurationLabel}
                       </span>
                     </div>

@@ -41,6 +41,12 @@ export type MinigameDashboardData = {
   productionCollectByStartId: Record<string, string>;
 };
 
+/** User-facing load failure; translate in the dashboard with `useAppTranslation`. */
+export type MinigameLoadError =
+  | { kind: "unknown_minigame"; slug: string }
+  | { kind: "sign_in_required" }
+  | { kind: "message"; text: string };
+
 export type FetchMinigameResult =
   | { ok: true; data: MinigameDashboardData }
-  | { ok: false; error: string };
+  | { ok: false; error: MinigameLoadError };

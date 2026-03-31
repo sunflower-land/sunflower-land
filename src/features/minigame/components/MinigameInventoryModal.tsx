@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -31,8 +31,7 @@ export const MinigameInventoryModal: React.FC<Props> = ({
   focusToken = null,
 }) => {
   const { t } = useAppTranslation();
-  const [selectedToken, setSelectedToken] = useState<string | null>(null);
-  const inventoryWasOpenRef = useRef(false);
+  const [userPick, setUserPick] = useState<string | null>(null);
   const splitRef = useRef<HTMLDivElement>(null);
 
   const ownedItems = useMemo(
@@ -40,36 +39,26 @@ export const MinigameInventoryModal: React.FC<Props> = ({
     [inventoryItems, balances],
   );
 
+  const canonicalSelection = useMemo(() => {
+    if (ownedItems.length === 0) return null;
+    if (focusToken && ownedItems.some((i) => i.token === focusToken)) {
+      return focusToken;
+    }
+    return ownedItems[0].token;
+  }, [ownedItems, focusToken]);
+
+  const selectedToken = useMemo(() => {
+    if (ownedItems.length === 0) return null;
+    if (userPick && ownedItems.some((i) => i.token === userPick)) {
+      return userPick;
+    }
+    return canonicalSelection;
+  }, [ownedItems, userPick, canonicalSelection]);
+
   const selectedItem = useMemo(
     () => inventoryItems.find((i) => i.token === selectedToken) ?? null,
     [inventoryItems, selectedToken],
   );
-
-  useEffect(() => {
-    if (!show) {
-      inventoryWasOpenRef.current = false;
-      return;
-    }
-
-    const owned = inventoryItems.filter(
-      (item) => (balances[item.token] ?? 0) > 0,
-    );
-
-    if (!inventoryWasOpenRef.current) {
-      inventoryWasOpenRef.current = true;
-      if (owned.length === 0) setSelectedToken(null);
-      else if (focusToken && owned.some((i) => i.token === focusToken))
-        setSelectedToken(focusToken);
-      else setSelectedToken(owned[0].token);
-      return;
-    }
-
-    setSelectedToken((prev) => {
-      if (owned.length === 0) return null;
-      if (prev && owned.some((i) => i.token === prev)) return prev;
-      return owned[0].token;
-    });
-  }, [show, focusToken, inventoryItems, balances]);
 
   const balanceDecimal = (token: string) => new Decimal(balances[token] ?? 0);
 
@@ -142,7 +131,9 @@ export const MinigameInventoryModal: React.FC<Props> = ({
                         type="default"
                         className="text-xs tabular-nums text-[#555] text-center mx-auto"
                       >
-                        {t("balance")}:{"  "}
+                        {t("balance")}
+                        {":"}
+                        {"  "}
                         <span className="font-medium text-[#181425] ml-1">
                           {balanceDecimal(selectedItem.token).toString()}
                         </span>
@@ -168,7 +159,7 @@ export const MinigameInventoryModal: React.FC<Props> = ({
                           image={getMinigameTokenImage(item.token, tokenImages)}
                           count={balanceDecimal(item.token)}
                           isSelected={item.token === selectedToken}
-                          onClick={() => setSelectedToken(item.token)}
+                          onClick={() => setUserPick(item.token)}
                           parentDivRef={splitRef}
                         />
                       ))}

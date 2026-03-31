@@ -1,5 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
@@ -49,13 +50,14 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
   shopActionError,
   onBuy,
 }) => {
+  const { t } = useAppTranslation();
+
   if (!show) return null;
 
   const view =
     phase === "detail" && detailItem ? ("detail" as const) : ("list" as const);
 
-  const canBuy =
-    detailItem != null && canAffordShopItem(detailItem, balances);
+  const canBuy = detailItem != null && canAffordShopItem(detailItem, balances);
 
   return createPortal(
     <div
@@ -71,22 +73,22 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
           onClick={(e) => e.stopPropagation()}
           role="presentation"
         >
-        <CloseButtonPanel
-          className="flex max-h-[min(88dvh,32rem)] w-[min(96vw,24rem)] flex-col"
-          title="Shop"
-          onClose={onClose}
-        >
-          <div className="flex min-h-0 max-h-[min(72dvh,26rem)] flex-col gap-1 p-1">
-            <MinigameShopListBody
-              items={items}
-              balances={balances}
-              tokenImages={tokenImages}
-              highlightedId={highlightedId}
-              onItemClick={onListItemClick}
-              className="flex max-h-full min-h-0 flex-col gap-1 overflow-y-auto"
-            />
-          </div>
-        </CloseButtonPanel>
+          <CloseButtonPanel
+            className="flex max-h-[min(88dvh,32rem)] w-[min(96vw,24rem)] flex-col"
+            title={t("minigame.dashboard.shop")}
+            onClose={onClose}
+          >
+            <div className="flex min-h-0 max-h-[min(72dvh,26rem)] flex-col gap-1 p-1">
+              <MinigameShopListBody
+                items={items}
+                balances={balances}
+                tokenImages={tokenImages}
+                highlightedId={highlightedId}
+                onItemClick={onListItemClick}
+                className="flex max-h-full min-h-0 flex-col gap-1 overflow-y-auto"
+              />
+            </div>
+          </CloseButtonPanel>
         </div>
       ) : (
         <div
@@ -94,26 +96,26 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
           onClick={(e) => e.stopPropagation()}
           role="presentation"
         >
-        <CloseButtonPanel
-          className="flex w-[min(96vw,24rem)] flex-col"
-          title={detailItem!.name}
-          onClose={onClose}
-          onBack={onBackToList}
-        >
-          <div className="flex flex-col gap-2 p-1">
-            <MinigameShopDetailBody
-              config={config}
-              item={detailItem!}
-              shopProductionPreview={shopProductionPreview}
-              tokenImages={tokenImages}
-              balances={balances}
-              shopActionError={shopActionError}
-            />
-            <Button className="w-full" disabled={!canBuy} onClick={onBuy}>
-              Buy
-            </Button>
-          </div>
-        </CloseButtonPanel>
+          <CloseButtonPanel
+            className="flex w-[min(96vw,24rem)] flex-col"
+            title={detailItem!.name}
+            onClose={onClose}
+            onBack={onBackToList}
+          >
+            <div className="flex flex-col gap-2 p-1">
+              <MinigameShopDetailBody
+                config={config}
+                item={detailItem!}
+                shopProductionPreview={shopProductionPreview}
+                tokenImages={tokenImages}
+                balances={balances}
+                shopActionError={shopActionError}
+              />
+              <Button className="w-full" disabled={!canBuy} onClick={onBuy}>
+                {t("buy")}
+              </Button>
+            </div>
+          </CloseButtonPanel>
         </div>
       )}
     </div>,
