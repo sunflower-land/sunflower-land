@@ -185,6 +185,14 @@ export function placeBuilding({
               }),
             );
           }
+          const aging = stateCopy.agingShed.racks.aging;
+          if (aging.length > 0) {
+            stateCopy.agingShed.racks.aging = aging.map((slot) => ({
+              ...slot,
+              startedAt: slot.startedAt + downtimeDelta,
+              readyAt: slot.readyAt + downtimeDelta,
+            }));
+          }
           if (stateCopy.agingShed.upgradeReadyAt !== undefined) {
             stateCopy.agingShed.upgradeReadyAt += downtimeDelta;
           }
