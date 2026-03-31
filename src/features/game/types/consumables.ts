@@ -1399,31 +1399,39 @@ export const TRADE_FOOD: Record<TradeFood, Consumable> = {
   },
 };
 
-export const AGED_FISH: Record<AgedFishName, Consumable> = Object.fromEntries(
-  Object.entries(FISH).map(([name, fish]) => [
-    `Aged ${name}` as AgedFishName,
-    {
-      name: `Aged ${name}` as AgedFishName,
-      description: `Aged ${name}`,
+export const AGED_FISH: Record<AgedFishName, Consumable> = getObjectEntries(
+  FISH,
+).reduce<Record<AgedFishName, Consumable>>(
+  (acc, [name, fish]) => {
+    const agedFishName: AgedFishName = `Aged ${name}`;
+
+    acc[agedFishName] = {
+      name: agedFishName,
+      description: agedFishName,
       experience: getAgingMaxXP(fish.experience),
-    },
-  ]),
-) as Record<AgedFishName, Consumable>;
+    };
+
+    return acc;
+  },
+  {} as Record<AgedFishName, Consumable>,
+);
 
 export const PRIME_AGED_FISH: Record<PrimeAgedFishName, Consumable> =
-  Object.fromEntries(
-    Object.entries(FISH).map(([name, fish]) => [
-      `Prime Aged ${name}` as PrimeAgedFishName,
-      {
-        name: `Prime Aged ${name}` as PrimeAgedFishName,
-        description: `Prime Aged ${name}`,
+  getObjectEntries(FISH).reduce<Record<PrimeAgedFishName, Consumable>>(
+    (acc, [name, fish]) => {
+      const primeAgedFishName: PrimeAgedFishName = `Prime Aged ${name}`;
+      acc[primeAgedFishName] = {
+        name: primeAgedFishName,
+        description: primeAgedFishName,
         experience: Math.floor(
           getAgingMaxXP(fish.experience) * PRIME_AGED_XP_MULTIPLIER,
         ),
-      },
-    ]),
-  ) as Record<PrimeAgedFishName, Consumable>;
+      };
 
+      return acc;
+    },
+    {} as Record<PrimeAgedFishName, Consumable>,
+  );
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...PIRATE_CAKE,
