@@ -16,6 +16,7 @@ export type MinigameSessionApiPayload = {
   items?: MinigameConfig["items"];
   descriptions?: MinigameConfig["descriptions"];
   dashboard?: MinigameConfig["dashboard"];
+  playUrl?: MinigameConfig["playUrl"];
 };
 
 export type MinigameActionApiResponse = {

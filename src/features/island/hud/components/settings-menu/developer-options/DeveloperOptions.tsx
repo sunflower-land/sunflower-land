@@ -8,6 +8,15 @@ import { CONFIG } from "lib/config";
 import { Context as GameContext } from "features/game/GameProvider";
 import { hasFeatureAccess } from "lib/flags";
 
+const isLocalHost =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
+
+/** Portal JWT helper is only for amoy, Vite dev, or localhost. */
+const showMinigameTokenEntry =
+  CONFIG.NETWORK === "amoy" || import.meta.env.DEV || isLocalHost;
+
 export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
@@ -26,12 +35,14 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("apiKey")}>
         <span>{t("share.apiKey")}</span>
       </Button>
-      <Button
-        className="p-1 mb-1"
-        onClick={() => onSubMenuClick("minigameToken")}
-      >
-        <span>{"Generate minigame token"}</span>
-      </Button>
+      {showMinigameTokenEntry && (
+        <Button
+          className="p-1 mb-1"
+          onClick={() => onSubMenuClick("minigameToken")}
+        >
+          <span>{"Generate minigame token"}</span>
+        </Button>
+      )}
       {hasFeatureAccess(
         gameService.getSnapshot()?.context?.state,
         "AIRDROP_PLAYER",

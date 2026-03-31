@@ -789,6 +789,7 @@ export const MinigameDashboard: React.FC = () => {
         {showPortal && (
           <Portal
             portalName={payload.portalName}
+            playUrl={payload.playUrl}
             onClose={() => {
               setShowPortal(false);
               setDashboardReloadKey((k) => k + 1);

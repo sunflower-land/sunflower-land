@@ -142,5 +142,6 @@ export function buildMinigameDashboardData(
     state,
     ui: buildUi(config, dash),
     productionCollectByStartId: { ...dash.productionCollectByStartId },
+    playUrl: config.playUrl,
   };
 }

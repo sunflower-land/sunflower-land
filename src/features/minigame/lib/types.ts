@@ -85,6 +85,8 @@ export type MinigameConfig = {
   items?: Record<string, MinigameBalanceItem>;
   descriptions?: MinigameDescriptions;
   dashboard?: MinigameDashboardConfig;
+  /** Canonical iframe origin from API; overridden by `VITE_PORTAL_GAME_URL` when set. */
+  playUrl?: string;
 };
 
 export type ProducingEntry = {

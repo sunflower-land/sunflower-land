@@ -29,6 +29,7 @@ export function buildMinigameDashboardFromApiSession(
     items: session.items,
     descriptions: session.descriptions,
     dashboard: session.dashboard,
+    playUrl: session.playUrl,
   };
 
   if (!config.dashboard) {

@@ -39,6 +39,8 @@ export type MinigameDashboardData = {
   state: MinigameRuntimeState;
   ui: MinigameDashboardUi;
   productionCollectByStartId: Record<string, string>;
+  /** Iframe base from API; `Portal` uses `VITE_PORTAL_GAME_URL` instead when set. */
+  playUrl?: string;
 };
 
 /** User-facing load failure; translate in the dashboard with `useAppTranslation`. */

@@ -30,6 +30,7 @@ export const CHICKEN_RESCUE_COLLECT_BY_START: Record<string, string> = {
  * Chicken Rescue v2 — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`.
  */
 export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
+  playUrl: "https://chicken-rescue-v2.minigames.sunflower-land.com",
   items: {
     GoldenNugget: {
       name: "Golden Nuggets",
