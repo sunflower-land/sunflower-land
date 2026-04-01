@@ -11,6 +11,7 @@ import {
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { hasFeatureAccess } from "lib/flags";
 
 export type StartFermentationAction = {
   type: "fermentation.started";
@@ -32,6 +33,10 @@ export function startFermentation({
   createdAt = Date.now(),
   farmId: _farmId,
 }: Options): GameState {
+  if (!hasFeatureAccess(state, "AGING_SHED")) {
+    throw new Error("Aging Shed not enabled");
+  }
+
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
       throw new Error(translate("error.requiredBuildingNotExist"));

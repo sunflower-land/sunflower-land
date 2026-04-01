@@ -14,6 +14,7 @@ import { FermentationRackPanel } from "./fermentationRack/FermentationRackPanel"
 import { AgingRackPanel } from "./agingRack/AgingRackPanel";
 import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isOpen: boolean;
@@ -30,6 +31,9 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const agingShedLevel = useSelector(
     gameService,
     (state) => state.context.state.agingShed.level,
+  );
+  const hasAgingShedAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "AGING_SHED"),
   );
 
   const nextAgingShedLevel = agingShedLevel + 1;
@@ -72,12 +76,18 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
       />
       <CloseButtonPanel
         onClose={closeUpgradeTab}
-        tabs={showUpgradeTab ? undefined : tabs}
+        tabs={showUpgradeTab || !hasAgingShedAccess ? undefined : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        container={showUpgradeTab ? undefined : OuterPanel}
+        container={
+          showUpgradeTab || !hasAgingShedAccess ? undefined : OuterPanel
+        }
       >
-        {showUpgradeTab ? (
+        {!hasAgingShedAccess ? (
+          <div className="p-2">
+            <p className="text-sm">{t("coming.soon")}</p>
+          </div>
+        ) : showUpgradeTab ? (
           <UpgradeBuildingContent
             onClose={closeUpgradeTab}
             buildingName={"Aging Shed"}
@@ -89,12 +99,8 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <AgingRackPanel />
         ) : currentTab === "fermentationRack" ? (
           <FermentationRackPanel />
-        ) : currentTab === "spiceRack" ? (
-          <SpiceRackPanel />
         ) : (
-          <div className="p-2">
-            <p className="text-sm">{t("coming.soon")}</p>
-          </div>
+          <SpiceRackPanel />
         )}
       </CloseButtonPanel>
     </Modal>
