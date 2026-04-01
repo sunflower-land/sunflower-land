@@ -3,7 +3,6 @@ import { InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import type { EditorFormState, ItemForm } from "../lib/types";
-import { SectionHeader } from "../components/SectionHeader";
 import { ItemCard } from "../components/ItemCard";
 
 export const ItemsTab: React.FC<{
@@ -36,12 +35,6 @@ export const ItemsTab: React.FC<{
         onConfirm={confirmDeleteItem}
         confirmButtonLabel="Remove Item"
       />
-
-      <div className="flex items-center justify-between mb-1">
-        <SectionHeader type="warning">
-          {form.items.length} Item{form.items.length !== 1 ? "s" : ""} Defined
-        </SectionHeader>
-      </div>
 
       {form.items.length === 0 && (
         <InnerPanel className="p-4 text-center">

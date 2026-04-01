@@ -20,7 +20,7 @@ import { ActionsTab } from "./tabs/ActionsTab";
 const TABS: { id: EditorTab; icon: string; name: string }[] = [
   { id: "basics", icon: SUNNYSIDE.icons.expression_chat, name: "Basics" },
   { id: "items", icon: SUNNYSIDE.icons.basket, name: "Items" },
-  { id: "actions", icon: SUNNYSIDE.icons.lightning, name: "Actions" },
+  { id: "actions", icon: SUNNYSIDE.icons.lightning, name: "Rules" },
 ];
 
 export const MinigameEditorForm: React.FC<{

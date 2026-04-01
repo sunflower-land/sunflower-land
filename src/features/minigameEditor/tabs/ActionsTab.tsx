@@ -12,7 +12,6 @@ import {
   EMPTY_BURN_ROW,
   getActionTypeLabel,
 } from "../lib/types";
-import { SectionHeader } from "../components/SectionHeader";
 import { RewardCard } from "../components/RewardCard";
 import { CraftCard } from "../components/CraftCard";
 import { BurnCard } from "../components/BurnCard";
@@ -130,7 +129,7 @@ export const ActionsTab: React.FC<{
         onHide={() => setShowActionTypeModal(false)}
       >
         <Panel className="p-3 space-y-3">
-          <span className="text-sm">What action would you like to create?</span>
+          <span className="text-sm">What rule would you like to create?</span>
           <div className="space-y-2">
             {ACTION_TYPE_OPTIONS.map((opt) => (
               <ButtonPanel
@@ -159,25 +158,18 @@ export const ActionsTab: React.FC<{
         show={actionToDelete !== null}
         onHide={() => setActionToDelete(null)}
         messages={[
-          "Are you sure you want to remove this action?",
-          "This action cannot be undone.",
+          "Are you sure you want to remove this rule?",
+          "This cannot be undone.",
         ]}
         onCancel={() => setActionToDelete(null)}
         onConfirm={confirmDeleteAction}
-        confirmButtonLabel="Remove Action"
+        confirmButtonLabel="Remove Rule"
       />
-
-      <div className="flex items-center justify-between mb-1">
-        <SectionHeader type="vibrant">
-          {form.actions.length} Action{form.actions.length !== 1 ? "s" : ""}{" "}
-          Defined
-        </SectionHeader>
-      </div>
 
       {form.actions.length === 0 && (
         <InnerPanel className="p-4 text-center">
           <p className="text-xs opacity-60 mb-2">
-            No actions yet. Actions define the game mechanics: what tokens are
+            No rules yet. Rules define the game mechanics: what tokens are
             minted, burned, required, or produced.
           </p>
         </InnerPanel>
@@ -189,7 +181,7 @@ export const ActionsTab: React.FC<{
       </div>
 
       <Button onClick={() => setShowActionTypeModal(true)}>
-        <span className="text-xs">+ Add Action</span>
+        <span className="text-xs">+ Add Rule</span>
       </Button>
     </div>
   );
