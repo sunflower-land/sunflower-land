@@ -17,15 +17,10 @@ export type CollectSpiceRackAction = {
 type Options = {
   state: Readonly<GameState>;
   action: CollectSpiceRackAction;
-  createdAt?: number;
-  farmId: number;
+  createdAt: number;
 };
 
-export function collectSpiceRack({
-  state,
-  createdAt = Date.now(),
-  farmId: _farmId,
-}: Options): GameState {
+export function collectSpiceRack({ state, createdAt }: Options): GameState {
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
       throw new Error(translate("error.requiredBuildingNotExist"));

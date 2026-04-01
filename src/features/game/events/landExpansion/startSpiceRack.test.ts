@@ -21,7 +21,6 @@ describe("startSpiceRack", () => {
           recipe: "Refined Salt",
           jobId: TEST_JOB_ID,
         },
-        farmId: 1,
         createdAt,
       }),
     ).toThrow(`Required building does not exist`);
@@ -57,7 +56,6 @@ describe("startSpiceRack", () => {
           recipe: "Salt Lick",
           jobId: TEST_JOB_ID,
         },
-        farmId: 1,
         createdAt,
       }),
     ).toThrow("No available slots");
@@ -76,7 +74,6 @@ describe("startSpiceRack", () => {
         recipe: "Refined Salt",
         jobId: TEST_JOB_ID,
       },
-      farmId: 1,
       createdAt,
     });
 
@@ -97,7 +94,6 @@ describe("startSpiceRack", () => {
           recipe: "not_a_valid_recipe" as SpiceRackRecipeName,
           jobId: TEST_JOB_ID,
         },
-        farmId: 1,
         createdAt,
       }),
     ).toThrow("Invalid spice rack recipe");
@@ -119,7 +115,6 @@ describe("startSpiceRack", () => {
         recipe,
         jobId: TEST_JOB_ID,
       },
-      farmId: 1,
       createdAt,
     });
 

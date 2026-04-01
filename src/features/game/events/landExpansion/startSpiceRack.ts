@@ -22,15 +22,13 @@ export type StartSpiceRackAction = {
 type Options = {
   state: Readonly<GameState>;
   action: StartSpiceRackAction;
-  createdAt?: number;
-  farmId: number;
+  createdAt: number;
 };
 
 export function startSpiceRack({
   state,
   action,
-  createdAt = Date.now(),
-  farmId: _farmId,
+  createdAt,
 }: Options): GameState {
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
