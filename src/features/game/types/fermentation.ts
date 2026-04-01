@@ -238,7 +238,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(1),
+        "Umbrella Bait": new Decimal(3),
       },
     };
     recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Cabbage)`] = {
@@ -248,7 +248,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(3),
+        "Umbrella Bait": new Decimal(6),
       },
     };
     recipes[`Umbrella Bait (Aged ${fish}, Pickled Onion)`] = {
@@ -258,7 +258,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(1),
+        "Umbrella Bait": new Decimal(3),
       },
     };
     recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Onion)`] = {
@@ -268,7 +268,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(3),
+        "Umbrella Bait": new Decimal(6),
       },
     };
   }
@@ -284,7 +284,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(1),
+        "Crimson Baitfish": new Decimal(3),
       },
     };
     recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Tomato)`] = {
@@ -294,7 +294,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(3),
+        "Crimson Baitfish": new Decimal(6),
       },
     };
   }
@@ -325,8 +325,11 @@ export type BaitFermentationRecipeName =
   | `Crimson Baitfish (Aged ${FishName}, Pickled Tomato)`
   | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Tomato)`;
 
+export type StaticFermentationRecipeName =
+  keyof typeof STATIC_FERMENTATION_RECIPES;
+
 export type FermentationRecipeName =
-  | keyof typeof STATIC_FERMENTATION_RECIPES
+  | StaticFermentationRecipeName
   | BaitFermentationRecipeName;
 
 export const FERMENTATION_RECIPE_IDS: FermentationRecipeName[] = [
