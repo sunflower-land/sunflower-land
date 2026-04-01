@@ -18,6 +18,8 @@ export type FermentationOutputGroup = {
   /** Set when every variant yields the same amount; omitted when yields differ (e.g. aged vs prime bait). */
   amount?: Decimal;
   recipeIds: FermentationRecipeName[];
+  /** Primary output amount per variant; same order as `recipeIds`. */
+  outputQuantities: Decimal[];
 };
 
 function getPrimaryOutput(
@@ -69,9 +71,30 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
 }
 
 /**
+ * Resolves a persisted output key to the current group. Supports legacy keys of the
+ * form `item:amount` from when each yield was a separate dropdown row.
+ */
+export function findFermentationGroupByStoredSignature(
+  groups: FermentationOutputGroup[],
+  storedSignature: string,
+): FermentationOutputGroup | undefined {
+  const exact = groups.find((g) => g.signature === storedSignature);
+  if (exact) {
+    return exact;
+  }
+
+  const colon = storedSignature.lastIndexOf(":");
+  if (colon <= 0) {
+    return undefined;
+  }
+
+  const itemOnly = storedSignature.slice(0, colon);
+  return groups.find((g) => g.signature === itemOnly);
+}
+
+/**
  * Groups fermentation recipes by output item so all variants (e.g. aged vs prime
- * bait yields) share one dropdown row; use {@link getFermentationRecipeOutputQuantity}
- * per recipe for exact yields on variant selection.
+ * bait yields) share one dropdown row. Per-variant yields are on {@link FermentationOutputGroup.outputQuantities}.
  */
 export function getFermentationOutputGroups(): FermentationOutputGroup[] {
   const byOutputItem = new Map<string, FermentationRecipeName[]>();
@@ -96,12 +119,12 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
       formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b)),
     );
 
-    const outputAmounts = sortedIds.map(
+    const outputQuantities = sortedIds.map(
       (id) => getPrimaryOutput(getFermentationRecipe(id).outputs)[1],
     );
-    const firstAmt = outputAmounts[0];
+    const firstAmt = outputQuantities[0];
     const uniformAmount =
-      firstAmt !== undefined && outputAmounts.every((q) => q.eq(firstAmt))
+      firstAmt !== undefined && outputQuantities.every((q) => q.eq(firstAmt))
         ? firstAmt
         : undefined;
 
@@ -110,6 +133,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
       item,
       amount: uniformAmount,
       recipeIds: sortedIds,
+      outputQuantities,
     });
   }
 
@@ -127,15 +151,6 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
 
 function ingredientDisplayName(name: InventoryItemName): string {
   return ITEM_DETAILS[name]?.translatedName ?? String(name);
-}
-
-/** Primary output quantity for a fermentation recipe (single-output recipes only). */
-export function getFermentationRecipeOutputQuantity(
-  recipeId: FermentationRecipeName,
-): Decimal {
-  const def = getFermentationRecipe(recipeId);
-  const [, amount] = getPrimaryOutput(def.outputs);
-  return amount;
 }
 
 /** Human-readable ingredients + duration for a fermentation recipe variant. */

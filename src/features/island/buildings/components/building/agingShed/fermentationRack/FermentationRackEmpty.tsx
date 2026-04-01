@@ -9,10 +9,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
-import {
-  getFermentationOutputGroups,
-  getFermentationRecipeOutputQuantity,
-} from "features/game/lib/fermentationUi";
+import { getFermentationOutputGroups } from "features/game/lib/fermentationUi";
 import {
   getFermentationRecipe,
   getMaxFermentationSlots,
@@ -134,10 +131,10 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
           {selectedGroup.recipeIds.length > 1 && (
             <div className="flex flex-wrap gap-1 overflow-auto max-h-32 scrollable">
-              {selectedGroup.recipeIds.map((id) => {
+              {selectedGroup.recipeIds.map((id, index) => {
                 const image = getFirstIngredientImage(id);
                 const yieldQty =
-                  getFermentationRecipeOutputQuantity(id).toString();
+                  selectedGroup.outputQuantities[index].toString();
 
                 return (
                   <div
