@@ -144,8 +144,8 @@ export const FermentationRackPanel: React.FC = () => {
     setStartError(undefined);
     setSelectedSignature(sig);
 
-    const g = groups.find((x) => x.signature === sig);
-    if (!g) {
+    const group = groups.find((group) => group.signature === sig);
+    if (!group) {
       return;
     }
 
@@ -153,8 +153,8 @@ export const FermentationRackPanel: React.FC = () => {
       localStorage.setItem(OUTPUT_STORAGE_KEY, sig);
     }
 
-    if (g.recipeIds.length === 1) {
-      setSelectedRecipeId(g.recipeIds[0]);
+    if (group.recipeIds.length === 1) {
+      setSelectedRecipeId(group.recipeIds[0]);
       return;
     }
 
@@ -165,7 +165,7 @@ export const FermentationRackPanel: React.FC = () => {
           ) as FermentationRecipeName | null)
         : null;
 
-    if (stored && g.recipeIds.includes(stored)) {
+    if (stored && group.recipeIds.includes(stored)) {
       setSelectedRecipeId(stored);
     } else {
       setSelectedRecipeId(undefined);
