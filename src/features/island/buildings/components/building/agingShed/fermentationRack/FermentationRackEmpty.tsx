@@ -99,7 +99,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
     <>
       <DropdownPanel
         options={groups.map((g) => {
-          const title = `${ITEM_DETAILS[g.item]?.translatedName ?? String(g.item)} x${g.amount.toString()}`;
+          const name = ITEM_DETAILS[g.item]?.translatedName ?? String(g.item);
+          const title =
+            g.amount !== undefined ? `${name} x${g.amount.toString()}` : name;
           const description = ITEM_DETAILS[g.item]?.description;
 
           return {
@@ -129,8 +131,10 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
           {selectedGroup.recipeIds.length > 1 && (
             <div className="flex flex-wrap gap-1 overflow-auto max-h-32 scrollable">
-              {selectedGroup.recipeIds.map((id) => {
+              {selectedGroup.recipeIds.map((id, index) => {
                 const image = getFirstIngredientImage(id);
+                const yieldQty =
+                  selectedGroup.outputQuantities[index].toString();
 
                 return (
                   <div
@@ -143,6 +147,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       isSelected={recipeId === id}
                       onClick={() => onSelectVariant(id)}
                     />
+                    <span className="text-xxs text-center leading-tight mt-0.5 px-0.5">
+                      {`x${yieldQty}`}
+                    </span>
                   </div>
                 );
               })}

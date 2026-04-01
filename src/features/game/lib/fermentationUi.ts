@@ -12,10 +12,14 @@ import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 
 export type FermentationOutputGroup = {
+  /** Stable id for selection (output item name). */
   signature: string;
   item: InventoryItemName;
-  amount: Decimal;
+  /** Set when every variant yields the same amount; omitted when yields differ (e.g. aged vs prime bait). */
+  amount?: Decimal;
   recipeIds: FermentationRecipeName[];
+  /** Primary output amount per variant; same order as `recipeIds`. */
+  outputQuantities: Decimal[];
 };
 
 function getPrimaryOutput(
@@ -67,37 +71,69 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
 }
 
 /**
- * Groups fermentation recipes by output signature `${item}:${amount}` so
- * Capsule Bait ×1 and ×3 (Prime Aged) stay separate groups.
+ * Resolves a persisted output key to the current group. Supports legacy keys of the
+ * form `item:amount` from when each yield was a separate dropdown row.
+ */
+export function findFermentationGroupByStoredSignature(
+  groups: FermentationOutputGroup[],
+  storedSignature: string,
+): FermentationOutputGroup | undefined {
+  const exact = groups.find((g) => g.signature === storedSignature);
+  if (exact) {
+    return exact;
+  }
+
+  const colon = storedSignature.lastIndexOf(":");
+  if (colon <= 0) {
+    return undefined;
+  }
+
+  const itemOnly = storedSignature.slice(0, colon);
+  return groups.find((g) => g.signature === itemOnly);
+}
+
+/**
+ * Groups fermentation recipes by output item so all variants (e.g. aged vs prime
+ * bait yields) share one dropdown row. Per-variant yields are on {@link FermentationOutputGroup.outputQuantities}.
  */
 export function getFermentationOutputGroups(): FermentationOutputGroup[] {
-  const bySignature = new Map<string, FermentationRecipeName[]>();
+  const byOutputItem = new Map<string, FermentationRecipeName[]>();
 
   for (const recipeId of FERMENTATION_RECIPE_IDS) {
     const def = FERMENTATION_RECIPES[recipeId];
-    const [item, amount] = getPrimaryOutput(def.outputs);
-    const signature = `${item}:${amount.toString()}`;
+    const [item] = getPrimaryOutput(def.outputs);
+    const signature = String(item);
 
-    const list = bySignature.get(signature) ?? [];
+    const list = byOutputItem.get(signature) ?? [];
     list.push(recipeId);
-    bySignature.set(signature, list);
+    byOutputItem.set(signature, list);
   }
 
   const groups: FermentationOutputGroup[] = [];
 
-  for (const [signature, recipeIds] of bySignature) {
+  for (const [signature, recipeIds] of byOutputItem) {
     const def = getFermentationRecipe(recipeIds[0]);
-    const [item, amount] = getPrimaryOutput(def.outputs);
+    const [item] = getPrimaryOutput(def.outputs);
 
     const sortedIds = [...recipeIds].sort((a, b) =>
       formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b)),
     );
 
+    const outputQuantities = sortedIds.map(
+      (id) => getPrimaryOutput(getFermentationRecipe(id).outputs)[1],
+    );
+    const firstAmt = outputQuantities[0];
+    const uniformAmount =
+      firstAmt !== undefined && outputQuantities.every((q) => q.eq(firstAmt))
+        ? firstAmt
+        : undefined;
+
     groups.push({
       signature,
       item,
-      amount,
+      amount: uniformAmount,
       recipeIds: sortedIds,
+      outputQuantities,
     });
   }
 
@@ -107,12 +143,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
       return tier;
     }
 
-    const nameCmp = String(a.item).localeCompare(String(b.item));
-    if (nameCmp !== 0) {
-      return nameCmp;
-    }
-
-    return a.amount.comparedTo(b.amount);
+    return String(a.item).localeCompare(String(b.item));
   });
 
   return groups;

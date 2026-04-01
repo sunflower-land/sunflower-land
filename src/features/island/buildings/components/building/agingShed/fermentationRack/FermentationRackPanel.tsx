@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -9,7 +9,11 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
-import { getFermentationOutputGroups } from "features/game/lib/fermentationUi";
+import {
+  findFermentationGroupByStoredSignature,
+  getFermentationOutputGroups,
+  type FermentationOutputGroup,
+} from "features/game/lib/fermentationUi";
 import {
   getFermentationRecipe,
   getMaxFermentationSlots,
@@ -35,6 +39,53 @@ import { FermentationRackInProgress } from "./FermentationRackInProgress";
 
 const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
 const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
+
+function getInitialFermentationSelection(groups: FermentationOutputGroup[]): {
+  signature: string | undefined;
+  recipeId: FermentationRecipeName | undefined;
+} {
+  if (typeof window === "undefined") {
+    return { signature: undefined, recipeId: undefined };
+  }
+
+  const raw = localStorage.getItem(OUTPUT_STORAGE_KEY);
+  if (!raw) {
+    return { signature: undefined, recipeId: undefined };
+  }
+
+  const group = findFermentationGroupByStoredSignature(groups, raw);
+  if (!group) {
+    localStorage.removeItem(OUTPUT_STORAGE_KEY);
+    return { signature: undefined, recipeId: undefined };
+  }
+
+  if (group.signature !== raw) {
+    localStorage.setItem(OUTPUT_STORAGE_KEY, group.signature);
+  }
+
+  const storedRecipe = localStorage.getItem(
+    RECIPE_STORAGE_KEY,
+  ) as FermentationRecipeName | null;
+
+  if (group.recipeIds.length === 1) {
+    return {
+      signature: group.signature,
+      recipeId: group.recipeIds[0],
+    };
+  }
+
+  if (storedRecipe && group.recipeIds.includes(storedRecipe)) {
+    return {
+      signature: group.signature,
+      recipeId: storedRecipe,
+    };
+  }
+
+  return {
+    signature: group.signature,
+    recipeId: undefined,
+  };
+}
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -95,6 +146,10 @@ export const FermentationRackPanel: React.FC = () => {
   });
 
   const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const initialOutputSelection = useMemo(
+    () => getInitialFermentationSelection(groups),
+    [groups],
+  );
 
   /** `null` = no explicit tap yet: UI uses first empty slot (see `effectiveSlotIndex`). */
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
@@ -102,10 +157,10 @@ export const FermentationRackPanel: React.FC = () => {
   );
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
-  >();
+  >(initialOutputSelection.signature);
   const [selectedRecipeId, setSelectedRecipeId] = useState<
     FermentationRecipeName | undefined
-  >();
+  >(initialOutputSelection.recipeId);
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
 
@@ -114,7 +169,7 @@ export const FermentationRackPanel: React.FC = () => {
 
   const shedPlaced = hasPlacedAgingShed(state);
 
-  const merged = useMemo(() => getMergedInventory(state), [state]);
+  const merged = getMergedInventory(state);
 
   const insufficientIngredient =
     selectedRecipeId !== undefined
@@ -140,37 +195,58 @@ export const FermentationRackPanel: React.FC = () => {
 
   const selectedJob = queue[effectiveSlotIndex];
 
-  const handleOutputChange = (sig: string) => {
-    setStartError(undefined);
-    setSelectedSignature(sig);
+  const applyOutputGroupSelection = useCallback(
+    (group: FermentationOutputGroup) => {
+      setSelectedSignature(group.signature);
+      if (typeof window !== "undefined") {
+        localStorage.setItem(OUTPUT_STORAGE_KEY, group.signature);
+      }
 
-    const g = groups.find((x) => x.signature === sig);
-    if (!g) {
-      return;
-    }
+      if (group.recipeIds.length === 1) {
+        setSelectedRecipeId(group.recipeIds[0]);
+        return;
+      }
 
-    if (typeof window !== "undefined") {
-      localStorage.setItem(OUTPUT_STORAGE_KEY, sig);
-    }
+      const stored =
+        typeof window !== "undefined"
+          ? (localStorage.getItem(
+              RECIPE_STORAGE_KEY,
+            ) as FermentationRecipeName | null)
+          : null;
 
-    if (g.recipeIds.length === 1) {
-      setSelectedRecipeId(g.recipeIds[0]);
-      return;
-    }
+      if (stored && group.recipeIds.includes(stored)) {
+        setSelectedRecipeId(stored);
+      } else {
+        setSelectedRecipeId(undefined);
+      }
+    },
+    [],
+  );
 
-    const stored =
-      typeof window !== "undefined"
-        ? (localStorage.getItem(
-            RECIPE_STORAGE_KEY,
-          ) as FermentationRecipeName | null)
-        : null;
+  const handleOutputChange = useCallback(
+    (sig: string) => {
+      setStartError(undefined);
 
-    if (stored && g.recipeIds.includes(stored)) {
-      setSelectedRecipeId(stored);
-    } else {
-      setSelectedRecipeId(undefined);
-    }
-  };
+      const group = findFermentationGroupByStoredSignature(groups, sig);
+      if (!group) {
+        if (typeof window !== "undefined") {
+          localStorage.removeItem(OUTPUT_STORAGE_KEY);
+        }
+
+        const fallback = groups[0];
+        if (fallback) {
+          applyOutputGroupSelection(fallback);
+        } else {
+          setSelectedSignature(undefined);
+          setSelectedRecipeId(undefined);
+        }
+        return;
+      }
+
+      applyOutputGroupSelection(group);
+    },
+    [applyOutputGroupSelection, groups],
+  );
 
   const selectVariant = (recipeId: FermentationRecipeName) => {
     setStartError(undefined);
