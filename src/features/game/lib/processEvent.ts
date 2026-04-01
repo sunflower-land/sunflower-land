@@ -57,6 +57,10 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Mootant: new Decimal(5),
   "Frozen Sheep": new Decimal(5),
   "Summer Chicken": new Decimal(5),
+  "Anemone Flower": new Decimal(5),
+  "Squid Chicken": new Decimal(5),
+  "Mermaid Cow": new Decimal(5),
+  "Mermaid Sheep": new Decimal(5),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
