@@ -45,6 +45,15 @@ interface ErrorMessage extends WebSocketMessage {
   };
 }
 
+interface GenerationProgressMessage extends WebSocketMessage {
+  action: "generationProgress";
+  data: {
+    sessionId: string;
+    tokensGenerated: number;
+    status: "streaming" | "compiling";
+  };
+}
+
 interface VersionsListMessage extends WebSocketMessage {
   action: "versionsList";
   data: {
@@ -398,6 +407,31 @@ export const AIBuilder: React.FC = () => {
     [showStatus],
   );
 
+  const handleGenerationProgress = useCallback(
+    (message: GenerationProgressMessage) => {
+      const { sessionId, tokensGenerated, status } = message.data;
+
+      // Ignore progress for stale sessions
+      if (sessionId !== sessionIdRef.current) return;
+
+      if (status === "compiling") {
+        showStatus("Compiling your scene...", "generating");
+        return;
+      }
+
+      if (tokensGenerated < 500) {
+        showStatus("Thinking about your game...", "generating");
+      } else if (tokensGenerated < 1500) {
+        showStatus("Building the scene...", "generating");
+      } else if (tokensGenerated < 3000) {
+        showStatus("Adding the details...", "generating");
+      } else {
+        showStatus("Almost there...", "generating");
+      }
+    },
+    [showStatus],
+  );
+
   // Connect WebSocket once in playing state, with automatic reconnection
   useEffect(() => {
     if (!isPlaying) return;
@@ -458,6 +492,9 @@ export const AIBuilder: React.FC = () => {
               break;
             case "error":
               handleError(message as ErrorMessage);
+              break;
+            case "generationProgress":
+              handleGenerationProgress(message as GenerationProgressMessage);
               break;
           }
         };
