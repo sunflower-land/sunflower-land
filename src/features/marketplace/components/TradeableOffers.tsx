@@ -176,7 +176,7 @@ export const TradeableOffers: React.FC<{
             floorPrice={tradeable?.floor ?? 0}
             onClose={() => setShowMakeOffer(false)}
             minigameSlug={
-              tradeable?.collection === "minigames"
+              tradeable?.collection === "economies"
                 ? tradeable.minigameSlug
                 : undefined
             }

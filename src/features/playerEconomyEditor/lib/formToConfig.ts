@@ -1,10 +1,10 @@
 import type {
   BurnRule,
   CollectRule,
-  MinigameConfig,
-  MinigameActionDefinition,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyConfig,
+  GeneratorRecipeRule,
   MintRule,
-  ProduceRule,
 } from "features/minigame/lib/types";
 
 import type { ActionForm, EditorFormState, ItemForm } from "./types";
@@ -31,8 +31,8 @@ function buildTokenRemap(items: ItemForm[]): Map<string, string> {
 function rowToDefinition(
   row: ActionForm,
   norm: (t: string) => string,
-): MinigameActionDefinition {
-  const def: MinigameActionDefinition = {};
+): PlayerEconomyActionDefinition {
+  const def: PlayerEconomyActionDefinition = {};
 
   if (row.actionType !== "shop") {
     if (row.actionType === "custom") {
@@ -177,7 +177,7 @@ function rowToDefinition(
         if (lm) tok = norm(lm.token);
       }
       if (!tok) return map;
-      const rule: ProduceRule = {
+      const rule: GeneratorRecipeRule = {
         msToComplete: Math.max(0, p.msToComplete || 0),
       };
       if (p.limit !== undefined && p.limit > 0) rule.limit = p.limit;
@@ -186,7 +186,7 @@ function rowToDefinition(
       map[tok] = rule;
       return map;
     },
-    {} as Record<string, ProduceRule>,
+    {} as Record<string, GeneratorRecipeRule>,
   );
   if (Object.keys(produce).length) def.produce = produce;
 
@@ -219,7 +219,7 @@ function rowToDefinition(
   return def;
 }
 
-function isDefinitionEmpty(def: MinigameActionDefinition): boolean {
+function isDefinitionEmpty(def: PlayerEconomyActionDefinition): boolean {
   return (
     Object.keys(def).filter((k) => k !== "type" && k !== "editorRuleKind")
       .length === 0
@@ -236,8 +236,8 @@ function hasLinkedCollect(row: ActionForm): boolean {
 function buildActionsFromForm(
   rows: ActionForm[],
   norm: (t: string) => string,
-): MinigameConfig["actions"] {
-  const actions: MinigameConfig["actions"] = {};
+): PlayerEconomyConfig["actions"] {
+  const actions: PlayerEconomyConfig["actions"] = {};
   let nextId = 1;
 
   for (const row of rows) {
@@ -266,7 +266,7 @@ function buildActionsFromForm(
       if (Object.keys(collectMap).length) {
         def.collect = collectMap;
         if (def.produce) {
-          const nextProduce: Record<string, ProduceRule> = {};
+          const nextProduce: Record<string, GeneratorRecipeRule> = {};
           for (const [out, r] of Object.entries(def.produce)) {
             const { msToComplete: _drop, ...rest } = r;
             nextProduce[out] = rest;
@@ -282,7 +282,7 @@ function buildActionsFromForm(
   return actions;
 }
 
-export function formToConfig(form: EditorFormState): MinigameConfig {
+export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
   const normToken = buildTokenRemap(form.items);
   const norm = (t: string) => {
     const s = t.trim();
@@ -310,10 +310,10 @@ export function formToConfig(form: EditorFormState): MinigameConfig {
       };
       return acc;
     },
-    {} as NonNullable<MinigameConfig["items"]>,
+    {} as NonNullable<PlayerEconomyConfig["items"]>,
   );
 
-  const config: MinigameConfig = {
+  const config: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(items).length ? { items } : {}),
     descriptions: {

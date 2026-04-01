@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Zurück zum Marktplatz",
   "minigame.dashboard.shop": "Geschäft",
   "minigame.dashboard.goBack": "Geh zurück",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "Token-Minispiele sind für deine Farm noch nicht verfügbar.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "Token-Minispiele sind für deine Farm noch nicht verfügbar.",
   "minigame.dashboard.signInToAction": "Melden Sie sich an, um diese Aktion auszuführen.",
   "minigame.dashboard.signInToLoad": "Melde dich an und öffne deine Farm, um dieses Minispiel zu laden.",
   "minigame.dashboard.unknownMinigame": "Unbekanntes Minispiel: {{slug}}",

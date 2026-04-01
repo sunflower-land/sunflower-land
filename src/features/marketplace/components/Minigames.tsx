@@ -18,18 +18,18 @@ const _state = (state: MachineState) => state.context.state;
 export const Minigames: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
+  const playerEconomiesAllowed = hasFeatureAccess(state, "PLAYER_ECONOMIES");
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
   const token = authState.context.user.rawToken as string;
 
   const { data, isLoading, error } = useSWR(
-    tokenMinigamesAllowed && CONFIG.API_URL ? ["minigames", token] : null,
+    playerEconomiesAllowed && CONFIG.API_URL ? ["economies", token] : null,
     collectionFetcher,
   );
 
-  if (!tokenMinigamesAllowed) {
+  if (!playerEconomiesAllowed) {
     return (
       <InnerPanel className="h-full flex items-center justify-center p-4">
         <p className="text-sm text-center">
@@ -50,8 +50,8 @@ export const Minigames: React.FC = () => {
   }
 
   const items = (data?.items ?? []).filter(
-    (i): i is Extract<Tradeable, { collection: "minigames" }> =>
-      i.collection === "minigames",
+    (i): i is Extract<Tradeable, { collection: "economies" }> =>
+      i.collection === "economies",
   );
 
   return <MinigamesLeaderboard items={items} />;

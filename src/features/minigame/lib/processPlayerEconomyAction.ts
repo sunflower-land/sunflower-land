@@ -4,13 +4,13 @@ import {
   CollectRule,
   DailyActionUsesBucket,
   DailyMintBucket,
-  MinigameActionDefinition,
-  MinigameConfig,
-  MinigameProcessInput,
-  MinigameProcessResult,
-  MinigameRuntimeState,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyConfig,
+  PlayerEconomyProcessInput,
+  PlayerEconomyProcessResult,
+  PlayerEconomyRuntimeState,
   MintRule,
-  ProduceRule,
+  GeneratorRecipeRule,
   RequireRule,
 } from "./types";
 
@@ -47,15 +47,15 @@ function isFixedMintWithDailyCap(
   return "amount" in rule && "dailyCap" in rule && !("min" in rule);
 }
 
-export function cloneMinigameRuntimeState(
-  state: MinigameRuntimeState,
-): MinigameRuntimeState {
+export function clonePlayerEconomyRuntimeState(
+  state: PlayerEconomyRuntimeState,
+): PlayerEconomyRuntimeState {
   const uses = state.dailyActionUses;
   const purchases = state.purchaseCounts;
   return {
     balances: { ...state.balances },
-    producing: Object.fromEntries(
-      Object.entries(state.producing).map(([id, entry]) => [id, { ...entry }]),
+    generating: Object.fromEntries(
+      Object.entries(state.generating).map(([id, entry]) => [id, { ...entry }]),
     ),
     dailyMinted: {
       utcDay: state.dailyMinted.utcDay,
@@ -81,7 +81,7 @@ export function cloneMinigameRuntimeState(
 }
 
 function recordSuccessfulMinigameAction(
-  state: MinigameRuntimeState,
+  state: PlayerEconomyRuntimeState,
   now: number,
 ): void {
   const today = utcCalendarDay(now);
@@ -187,21 +187,21 @@ function newProducingJobId(): string {
 
 function applyProduce(
   balances: Record<string, number>,
-  producing: MinigameRuntimeState["producing"],
-  produce: Record<string, ProduceRule> | undefined,
+  generating: PlayerEconomyRuntimeState["generating"],
+  produce: Record<string, GeneratorRecipeRule> | undefined,
   collect: Record<string, CollectRule> | undefined,
   now: number,
-): { error?: string; producingId?: string } {
+): { error?: string; generatorJobId?: string } {
   if (!produce) return {};
   for (const [outputToken, rule] of Object.entries(produce)) {
-    const activeForOutput = Object.values(producing).filter(
+    const activeForOutput = Object.values(generating).filter(
       (p) => p.outputToken === outputToken,
     ).length;
     if (rule.limit !== undefined && activeForOutput >= rule.limit) {
       return { error: `Production limit reached for ${outputToken}` };
     }
     if (rule.requires !== undefined) {
-      const activeForLane = Object.values(producing).filter(
+      const activeForLane = Object.values(generating).filter(
         (p) => p.outputToken === outputToken && p.requires === rule.requires,
       ).length;
       const cap = getBalance(balances, rule.requires);
@@ -213,13 +213,13 @@ function applyProduce(
     }
     const id = newProducingJobId();
     const durationMs = resolveProduceDurationMs(outputToken, rule, collect);
-    producing[id] = {
+    generating[id] = {
       outputToken,
       startedAt: now,
       completesAt: now + durationMs,
       ...(rule.requires !== undefined ? { requires: rule.requires } : {}),
     };
-    return { producingId: id };
+    return { generatorJobId: id };
   }
   return {};
 }
@@ -267,7 +267,7 @@ function applyMint(
 
 function applyCollect(
   balances: Record<string, number>,
-  producing: MinigameRuntimeState["producing"],
+  generating: PlayerEconomyRuntimeState["generating"],
   collect: Record<string, CollectRule> | undefined,
   itemId: string | undefined,
   now: number,
@@ -276,7 +276,7 @@ function applyCollect(
   if (!itemId) {
     return "itemId is required for collect";
   }
-  const job = producing[itemId];
+  const job = generating[itemId];
   if (!job) {
     return "Unknown production id";
   }
@@ -293,12 +293,12 @@ function applyCollect(
     }
     balances[token] = getBalance(balances, token) + rule.amount;
   }
-  delete producing[itemId];
+  delete generating[itemId];
   return undefined;
 }
 
 function rolloverDailyActionUsesIfNeeded(
-  bucket: MinigameRuntimeState["dailyActionUses"] | undefined,
+  bucket: PlayerEconomyRuntimeState["dailyActionUses"] | undefined,
   now: number,
 ): DailyActionUsesBucket {
   const today = utcCalendarDay(now);
@@ -309,9 +309,9 @@ function rolloverDailyActionUsesIfNeeded(
 }
 
 function checkPurchaseLimit(
-  def: MinigameActionDefinition,
+  def: PlayerEconomyActionDefinition,
   actionId: string,
-  purchaseCounts: MinigameRuntimeState["purchaseCounts"],
+  purchaseCounts: PlayerEconomyRuntimeState["purchaseCounts"],
   itemId: string | undefined,
 ): string | undefined {
   if (itemId?.trim()) return undefined;
@@ -326,8 +326,8 @@ function checkPurchaseLimit(
 }
 
 function incrementPurchaseCountIfNeeded(
-  state: MinigameRuntimeState,
-  def: MinigameActionDefinition,
+  state: PlayerEconomyRuntimeState,
+  def: PlayerEconomyActionDefinition,
   actionId: string,
   itemId: string | undefined,
 ): void {
@@ -342,9 +342,9 @@ function incrementPurchaseCountIfNeeded(
 }
 
 function checkMaxUsesPerDay(
-  def: MinigameActionDefinition,
+  def: PlayerEconomyActionDefinition,
   actionId: string,
-  dailyActionUses: MinigameRuntimeState["dailyActionUses"],
+  dailyActionUses: PlayerEconomyRuntimeState["dailyActionUses"],
   now: number,
 ): string | undefined {
   const cap = def.maxUsesPerDay;
@@ -358,10 +358,10 @@ function checkMaxUsesPerDay(
 }
 
 function runPhases(
-  def: MinigameActionDefinition,
-  input: MinigameProcessInput,
-  working: MinigameRuntimeState,
-): { error?: string; producingId?: string } {
+  def: PlayerEconomyActionDefinition,
+  input: PlayerEconomyProcessInput,
+  working: PlayerEconomyRuntimeState,
+): { error?: string; generatorJobId?: string } {
   const hasProduce = Object.keys(def.produce ?? {}).length > 0;
   const hasCollect = Object.keys(def.collect ?? {}).length > 0;
   const itemId = input.itemId?.trim();
@@ -373,7 +373,7 @@ function runPhases(
     }
     const errCollect = applyCollect(
       working.balances,
-      working.producing,
+      working.generating,
       def.collect,
       itemId,
       input.now,
@@ -400,7 +400,7 @@ function runPhases(
 
   const prod = applyProduce(
     working.balances,
-    working.producing,
+    working.generating,
     def.produce,
     def.collect,
     input.now,
@@ -416,20 +416,20 @@ function runPhases(
   );
   if (errMint) return { error: errMint };
 
-  return { producingId: prod.producingId };
+  return { generatorJobId: prod.generatorJobId };
 }
 
-export function processMinigameAction(
-  config: MinigameConfig,
-  state: MinigameRuntimeState,
-  input: MinigameProcessInput,
-): MinigameProcessResult {
+export function processPlayerEconomyAction(
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
+  input: PlayerEconomyProcessInput,
+): PlayerEconomyProcessResult {
   const def = config.actions[input.actionId];
   if (!def) {
     return { ok: false, error: `Unknown action ${input.actionId}` };
   }
 
-  const working = cloneMinigameRuntimeState(state);
+  const working = clonePlayerEconomyRuntimeState(state);
   rolloverDailyMintedIfNeeded(working.dailyMinted, input.now);
 
   const errCap = checkMaxUsesPerDay(
@@ -452,7 +452,7 @@ export function processMinigameAction(
     return { ok: false, error: errPurchaseLimit };
   }
 
-  const { error, producingId } = runPhases(def, input, working);
+  const { error, generatorJobId } = runPhases(def, input, working);
   if (error) {
     return { ok: false, error };
   }
@@ -471,16 +471,16 @@ export function processMinigameAction(
 
   incrementPurchaseCountIfNeeded(working, def, input.actionId, input.itemId);
 
-  return { ok: true, state: working, producingId };
+  return { ok: true, state: working, generatorJobId };
 }
 
-export function emptyMinigameState(
+export function emptyPlayerEconomyState(
   now: number = Date.now(),
-): MinigameRuntimeState {
+): PlayerEconomyRuntimeState {
   const day = utcCalendarDay(now);
   return {
     balances: {},
-    producing: {},
+    generating: {},
     dailyMinted: { utcDay: day, minted: {} },
     activity: 0,
     dailyActivity: { date: day, count: 0 },

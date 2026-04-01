@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
-import type { MinigameConfig } from "../lib/types";
+import type { PlayerEconomyConfig } from "../lib/types";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { capTokenDisplayName } from "../lib/extractProductionSlots";
 import { secondsToString } from "lib/utils/time";
@@ -18,7 +18,7 @@ type ProductionPreview = {
 };
 
 type Props = {
-  config: MinigameConfig;
+  config: PlayerEconomyConfig;
   item: MinigameShopItemUi;
   shopProductionPreview: ProductionPreview | null;
   tokenImages: Record<string, string>;

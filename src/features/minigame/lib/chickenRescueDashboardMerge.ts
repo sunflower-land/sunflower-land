@@ -1,21 +1,21 @@
 import type { MinigameName } from "features/game/types/minigames";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 import type { MinigameSessionApiPayload } from "./minigameSessionApi";
 import type { MinigameDashboardData } from "./minigameDashboardTypes";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
 import {
-  migrateLegacyMinigameConfigFields,
-  type MinigameConfigWithLegacy,
+  migrateLegacyPlayerEconomyConfigFields,
+  type PlayerEconomyConfigWithLegacy,
 } from "./minigameConfigMigration";
-import { utcCalendarDay } from "./processMinigameAction";
+import { utcCalendarDay } from "./processPlayerEconomyAction";
 
-function sessionMinigameToRuntime(
-  m: MinigameSessionApiPayload["minigame"],
-): MinigameRuntimeState {
+function sessionPlayerEconomyToRuntime(
+  m: MinigameSessionApiPayload["playerEconomy"],
+): PlayerEconomyRuntimeState {
   const day = utcCalendarDay(Date.now());
   return {
     balances: m.balances,
-    producing: m.producing as MinigameRuntimeState["producing"],
+    generating: m.generating as PlayerEconomyRuntimeState["generating"],
     dailyMinted: m.dailyMinted,
     activity: m.activity,
     dailyActivity: m.dailyActivity,
@@ -24,7 +24,7 @@ function sessionMinigameToRuntime(
 }
 
 /**
- * Builds dashboard data from `GET /portal/:portalId/minigame` JSON (full config from API).
+ * Builds dashboard data from `GET /portal/:portalId/player-economy` JSON (full config from API).
  */
 export function buildMinigameDashboardFromApiSession(
   slug: string,
@@ -32,7 +32,7 @@ export function buildMinigameDashboardFromApiSession(
   session: MinigameSessionApiPayload,
 ): MinigameDashboardData {
   const raw = {
-    actions: session.actions as MinigameConfig["actions"],
+    actions: session.actions as PlayerEconomyConfig["actions"],
     items: session.items,
     descriptions: session.descriptions,
     visualTheme: session.visualTheme,
@@ -43,12 +43,12 @@ export function buildMinigameDashboardFromApiSession(
       : {}),
     ...(session.dashboard ? { dashboard: session.dashboard } : {}),
   };
-  const config = migrateLegacyMinigameConfigFields(raw as MinigameConfigWithLegacy);
+  const config = migrateLegacyPlayerEconomyConfigFields(raw as PlayerEconomyConfigWithLegacy);
 
   return buildMinigameDashboardData(
     slug,
     portalName,
     config,
-    sessionMinigameToRuntime(session.minigame),
+    sessionPlayerEconomyToRuntime(session.playerEconomy),
   );
 }

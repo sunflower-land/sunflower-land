@@ -1,9 +1,9 @@
 import type { MinigameName } from "features/game/types/minigames";
 import type {
   BurnRule,
-  MinigameActionDefinition,
-  MinigameConfig,
-  MinigameRuntimeState,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyConfig,
+  PlayerEconomyRuntimeState,
 } from "./types";
 
 /** Human-readable burn cost for dashboard copy (fixed or range). */
@@ -21,7 +21,7 @@ import type {
   MinigameShopItemUi,
 } from "./minigameDashboardTypes";
 import { getMinigameTokenImage } from "./minigameTokenIcons";
-import { migrateLegacyMinigameConfigFields } from "./minigameConfigMigration";
+import { migrateLegacyPlayerEconomyConfigFields } from "./minigameConfigMigration";
 
 /**
  * When the persisted minigame has no balance entry for a token yet, use
@@ -29,7 +29,7 @@ import { migrateLegacyMinigameConfigFields } from "./minigameConfigMigration";
  * (many APIs omit keys until first write).
  */
 export function mergeInitialBalancesFromConfig(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
 ): Record<string, number> {
   const out = { ...balances };
@@ -46,9 +46,9 @@ export function mergeInitialBalancesFromConfig(
 }
 
 export function mergeRuntimeWithInitialBalances(
-  config: MinigameConfig,
-  state: MinigameRuntimeState,
-): MinigameRuntimeState {
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
+): PlayerEconomyRuntimeState {
   return {
     ...state,
     balances: mergeInitialBalancesFromConfig(config, state.balances),
@@ -56,7 +56,7 @@ export function mergeRuntimeWithInitialBalances(
 }
 
 export function primaryMintTokenKey(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   actionId: string,
 ): string {
   const mint = config.actions[actionId]?.mint;
@@ -66,7 +66,7 @@ export function primaryMintTokenKey(
 }
 
 export function buildTokenImageMap(
-  items: MinigameConfig["items"],
+  items: PlayerEconomyConfig["items"],
 ): Record<string, string> {
   const out: Record<string, string> = {};
   if (!items) return out;
@@ -84,7 +84,7 @@ export function resolveTokenImageUrl(
 }
 
 export function tokenDisplayName(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   token: string,
 ): string {
   const named = config.items?.[token]?.name;
@@ -98,7 +98,7 @@ export type TradableMarketplacePick = { tokenKey: string; itemId: number };
  * Marketplace row: prefers token with `id === 0`, else lowest numeric `items[token].id`.
  */
 export function getPrimaryTradableMarketplaceItem(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): TradableMarketplacePick | null {
   const items = config.items;
   if (!items) return null;
@@ -128,14 +128,14 @@ function burnRulePriceAmount(rule: BurnRule): number {
   return rule.amount;
 }
 
-function isProduceOnly(def: MinigameActionDefinition): boolean {
+function isProduceOnly(def: PlayerEconomyActionDefinition): boolean {
   const p = def.produce && Object.keys(def.produce).length > 0;
   const m = def.mint && Object.keys(def.mint).length > 0;
   const b = def.burn && Object.keys(def.burn).length > 0;
   return Boolean(p && !m && !b);
 }
 
-function isCollectOnly(def: MinigameActionDefinition): boolean {
+function isCollectOnly(def: PlayerEconomyActionDefinition): boolean {
   const c = def.collect && Object.keys(def.collect).length > 0;
   const m = def.mint && Object.keys(def.mint).length > 0;
   const b = def.burn && Object.keys(def.burn).length > 0;
@@ -147,7 +147,7 @@ function isCollectOnly(def: MinigameActionDefinition): boolean {
  * Derive shop rows from purchasable / claimable actions (`burn`+`mint`, `require`+`mint`, or free `mint`).
  */
 export function deriveShopItemsFromConfig(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   tokenImages: Record<string, string>,
 ): MinigameShopItemUi[] {
   const out: MinigameShopItemUi[] = [];
@@ -221,7 +221,7 @@ export function deriveShopItemsFromConfig(
 }
 
 function buildInventoryItems(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): MinigameInventoryItemUi[] {
   const items = config.items;
   if (!items) return [];
@@ -236,7 +236,7 @@ function buildInventoryItems(
 }
 
 function inventoryShortcutTokensFromProduction(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): string[] {
   const items = config.items ?? {};
   const out: string[] = [];
@@ -259,7 +259,7 @@ function enrichShopItemsWithPurchaseProgress(
 }
 
 function buildUi(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   headerBalanceToken: string,
   visualTheme: string | undefined,
   purchaseCounts: Record<string, number> | undefined,
@@ -281,10 +281,10 @@ function buildUi(
 export function buildMinigameDashboardData(
   slug: string,
   portalName: MinigameName,
-  config: MinigameConfig,
-  state: MinigameRuntimeState,
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
 ): MinigameDashboardData {
-  const normalized = migrateLegacyMinigameConfigFields(config);
+  const normalized = migrateLegacyPlayerEconomyConfigFields(config);
 
   const displayName = normalized.descriptions?.title?.trim() || slug;
 

@@ -1,43 +1,52 @@
-import type { MinigameConfig } from "features/minigame/lib/types";
+import type { PlayerEconomyConfig } from "features/minigame/lib/types";
 import {
-  migrateLegacyMinigameConfigFields,
-  type MinigameConfigWithLegacy,
+  migrateLegacyPlayerEconomyConfigFields,
+  type PlayerEconomyConfigWithLegacy,
 } from "features/minigame/lib/minigameConfigMigration";
-import type { MinigameConfigRow } from "./types";
+import type { PlayerEconomyConfigRow } from "./types";
 
 /** POST /event/:farmId body.event */
-export type MinigameEditorClientEvent =
-  | { type: "minigame.created"; slug: string; config?: MinigameConfig }
-  | { type: "minigame.edited"; slug: string; config: MinigameConfig }
-  | { type: "minigame.removed"; slug: string };
+export type PlayerEconomyEditorClientEvent =
+  | { type: "playerEconomy.created"; slug: string; config?: PlayerEconomyConfig }
+  | { type: "playerEconomy.edited"; slug: string; config: PlayerEconomyConfig }
+  | { type: "playerEconomy.removed"; slug: string };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
-export type MinigameEditorEventResult = {
+export type PlayerEconomyEditorEventResult = {
   gameState?: unknown;
   data?: unknown;
   /** When API echoes the saved document */
-  savedConfig?: MinigameConfig;
-  savedRow?: MinigameConfigRow;
+  savedConfig?: PlayerEconomyConfig;
+  savedRow?: PlayerEconomyConfigRow;
 };
 
-export function getMinigameEditorDataType(): string {
+export function getPlayerEconomyEditorDataType(): string {
   return (
-    (import.meta.env.VITE_MINIGAME_EDITOR_DATA_TYPE as string | undefined)?.trim() ||
-    "minigame-editor"
+    (import.meta.env.VITE_PLAYER_ECONOMY_EDITOR_DATA_TYPE as string | undefined)
+      ?.trim() ||
+    (import.meta.env.VITE_MINIGAME_EDITOR_DATA_TYPE as string | undefined)
+      ?.trim() ||
+    "player-economy-editor"
   );
 }
 
-export function getMinigameEditorUploadDataType(): string {
+export function getPlayerEconomyEditorUploadDataType(): string {
   return (
-    (import.meta.env.VITE_MINIGAME_EDITOR_UPLOAD_DATA_TYPE as string | undefined)?.trim() ||
-    "minigameEditorUpload"
+    (
+      import.meta.env
+        .VITE_PLAYER_ECONOMY_EDITOR_UPLOAD_DATA_TYPE as string | undefined
+    )?.trim() ||
+    (import.meta.env.VITE_MINIGAME_EDITOR_UPLOAD_DATA_TYPE as
+      | string
+      | undefined)?.trim() ||
+    "playerEconomyEditorUpload"
   );
 }
 
-export function ensureMinigameConfig(raw: unknown): MinigameConfig {
+export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
   const base =
     raw && typeof raw === "object"
-      ? (raw as Partial<MinigameConfigWithLegacy>)
+      ? (raw as Partial<PlayerEconomyConfigWithLegacy>)
       : {};
 
   const actions =
@@ -54,7 +63,7 @@ export function ensureMinigameConfig(raw: unknown): MinigameConfig {
       ? base.items
       : undefined;
 
-  const input: MinigameConfigWithLegacy = {
+  const input: PlayerEconomyConfigWithLegacy = {
     actions,
     ...(items ? { items } : {}),
     ...(base.descriptions ? { descriptions: base.descriptions } : {}),
@@ -67,10 +76,10 @@ export function ensureMinigameConfig(raw: unknown): MinigameConfig {
     ...(base.dashboard ? { dashboard: base.dashboard } : {}),
   };
 
-  return migrateLegacyMinigameConfigFields(input);
+  return migrateLegacyPlayerEconomyConfigFields(input);
 }
 
-export function toMinigameConfigRow(raw: unknown): MinigameConfigRow | null {
+export function toPlayerEconomyConfigRow(raw: unknown): PlayerEconomyConfigRow | null {
   if (!raw || typeof raw !== "object") return null;
   const r = raw as Record<string, unknown>;
   if (typeof r.slug !== "string" || !r.slug.trim()) return null;
@@ -85,15 +94,15 @@ export function toMinigameConfigRow(raw: unknown): MinigameConfigRow | null {
       typeof r.updatedAt === "string"
         ? r.updatedAt
         : new Date().toISOString(),
-    config: ensureMinigameConfig(r.config),
+    config: ensurePlayerEconomyConfig(r.config),
   };
 }
 
-export function parseMinigameEditorListBody(body: unknown): MinigameConfigRow[] {
+export function parsePlayerEconomyEditorListBody(body: unknown): PlayerEconomyConfigRow[] {
   if (Array.isArray(body)) {
     return body
-      .map((x) => toMinigameConfigRow(x))
-      .filter((x): x is MinigameConfigRow => x != null);
+      .map((x) => toPlayerEconomyConfigRow(x))
+      .filter((x): x is PlayerEconomyConfigRow => x != null);
   }
   if (body && typeof body === "object") {
     const o = body as Record<string, unknown>;
@@ -101,8 +110,8 @@ export function parseMinigameEditorListBody(body: unknown): MinigameConfigRow[] 
       o.data ?? o.minigameConfigs ?? o.configs ?? o.rows ?? o.items;
     if (Array.isArray(inner)) {
       return inner
-        .map((x) => toMinigameConfigRow(x))
-        .filter((x): x is MinigameConfigRow => x != null);
+        .map((x) => toPlayerEconomyConfigRow(x))
+        .filter((x): x is PlayerEconomyConfigRow => x != null);
     }
   }
   return [];
@@ -110,16 +119,20 @@ export function parseMinigameEditorListBody(body: unknown): MinigameConfigRow[] 
 
 export function extractSavedEditorFromEventData(
   data: unknown,
-): Pick<MinigameEditorEventResult, "savedConfig" | "savedRow"> {
+): Pick<PlayerEconomyEditorEventResult, "savedConfig" | "savedRow"> {
   if (!data || typeof data !== "object") return {};
   const d = data as Record<string, unknown>;
   const rowRaw =
-    d.minigameEditorRow ?? d.minigameConfigRow ?? d.editorRow ?? d.row;
-  const row = toMinigameConfigRow(rowRaw) ?? undefined;
+    d.playerEconomyEditorRow ??
+    d.minigameEditorRow ??
+    d.minigameConfigRow ??
+    d.editorRow ??
+    d.row;
+  const row = toPlayerEconomyConfigRow(rowRaw) ?? undefined;
   const configRaw = d.config ?? d.minigameConfig;
   const config =
     configRaw !== undefined && configRaw !== null
-      ? ensureMinigameConfig(configRaw)
+      ? ensurePlayerEconomyConfig(configRaw)
       : row?.config;
   return {
     savedRow: row,

@@ -19,7 +19,7 @@ export type CollectionName =
   | "wearables"
   | "buds"
   | "pets"
-  | "minigames";
+  | "economies";
 
 export type Tradeable =
   | {
@@ -30,7 +30,7 @@ export type Tradeable =
       isVip: boolean;
       supply: number | undefined;
       balance?: number;
-      collection: Exclude<CollectionName, "pets" | "minigames">;
+      collection: Exclude<CollectionName, "pets" | "economies">;
       expiresAt?: number;
     }
   | {
@@ -52,7 +52,7 @@ export type Tradeable =
       isActive: boolean;
       isVip: boolean;
       supply: number | undefined;
-      collection: "minigames";
+      collection: "economies";
       minigameSlug: string;
       minigameLabel: string;
       currencyName: string;

@@ -15,7 +15,7 @@ import { fallbackDisplayNameForMinigameCurrencyKey } from "../lib/minigameMarket
 
 const _sflUsd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0;
 
-type Row = Tradeable & { collection: "minigames" };
+type Row = Tradeable & { collection: "economies" };
 
 export const MinigamesLeaderboard: React.FC<{
   items: Row[];

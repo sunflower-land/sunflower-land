@@ -11,9 +11,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type {
-  MinigameConfig,
-  MinigameProcessResult,
-  MinigameRuntimeState,
+  PlayerEconomyConfig,
+  PlayerEconomyProcessResult,
+  PlayerEconomyRuntimeState,
 } from "../lib/types";
 import type {
   CapBalanceProductionSlot,
@@ -31,10 +31,10 @@ import { MinigameGeneratorRecipesModal } from "./MinigameGeneratorRecipesModal";
 
 type Props = {
   entries: GeneratorProductionEntry[];
-  config: MinigameConfig;
-  runtime: MinigameRuntimeState;
+  config: PlayerEconomyConfig;
+  runtime: PlayerEconomyRuntimeState;
   tokenImages: Record<string, string>;
-  onRuntimeChange: (next: MinigameRuntimeState) => void;
+  onRuntimeChange: (next: PlayerEconomyRuntimeState) => void;
   capJobByRecipeKey: Record<string, string | undefined>;
   onRecipeJobChange: (
     slot: CapBalanceProductionSlot,
@@ -44,7 +44,7 @@ type Props = {
     actionId: string;
     itemId?: string;
     amounts?: Record<string, number>;
-  }) => Promise<MinigameProcessResult>;
+  }) => Promise<PlayerEconomyProcessResult>;
 };
 
 export const MinigameProductionZone: React.FC<Props> = ({
@@ -115,8 +115,8 @@ export const MinigameProductionZone: React.FC<Props> = ({
         return false;
       }
       onRuntimeChange(result.state);
-      if (result.producingId) {
-        onRecipeJobChange(slot, result.producingId);
+      if (result.generatorJobId) {
+        onRecipeJobChange(slot, result.generatorJobId);
       }
       return true;
     },
@@ -208,7 +208,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                   if (!isProductionSlotConfigured(slot)) return null;
                   const k = recipeJobKey(slot);
                   const jobId = capJobByRecipeKey[k];
-                  const job = jobId ? runtime.producing[jobId] : undefined;
+                  const job = jobId ? runtime.generating[jobId] : undefined;
                   if (!job || now >= job.completesAt) return null;
                   const denom = job.completesAt - job.startedAt;
                   const progress =
@@ -235,7 +235,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                   if (!isProductionSlotConfigured(slot)) return null;
                   const k = recipeJobKey(slot);
                   const jobId = capJobByRecipeKey[k];
-                  const job = jobId ? runtime.producing[jobId] : undefined;
+                  const job = jobId ? runtime.generating[jobId] : undefined;
                   if (!job || now < job.completesAt) return null;
                   const out =
                     getCollectOutputForSlot(config, slot) ??

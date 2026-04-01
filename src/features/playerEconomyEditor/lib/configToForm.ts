@@ -3,18 +3,18 @@ import {
   resolveProduceDurationMs,
 } from "features/minigame/lib/resolveProduceDuration";
 import {
-  migrateLegacyMinigameConfigFields,
-  type MinigameConfigWithLegacy,
+  migrateLegacyPlayerEconomyConfigFields,
+  type PlayerEconomyConfigWithLegacy,
 } from "features/minigame/lib/minigameConfigMigration";
 import type {
   BurnRule,
   CollectRule,
-  MinigameConfig,
-  MinigameActionDefinition,
-  MinigameBalanceItem,
-  MinigameEditorActionType,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyBalanceItem,
+  PlayerEconomyConfig,
+  PlayerEconomyEditorActionType,
+  GeneratorRecipeRule,
   MintRule,
-  ProduceRule,
 } from "features/minigame/lib/types";
 
 import type {
@@ -93,7 +93,7 @@ function isPlainFixedBurn(rule: BurnRule): boolean {
   );
 }
 
-function inferActionType(def: MinigameActionDefinition): ActionType {
+function inferActionType(def: PlayerEconomyActionDefinition): ActionType {
   if (Object.keys(def.produce ?? {}).length > 0) return "produce";
 
   const mint = def.mint ?? {};
@@ -126,14 +126,14 @@ function inferActionType(def: MinigameActionDefinition): ActionType {
   return "shop";
 }
 
-type DefWithLegacyEditor = MinigameActionDefinition & {
+type DefWithLegacyEditor = PlayerEconomyActionDefinition & {
   /** Pre-rename persisted field; still read for older saved configs. */
-  editorRuleKind?: MinigameEditorActionType;
+  editorRuleKind?: PlayerEconomyEditorActionType;
 };
 
 function readPersistedEditorCardType(
-  def: MinigameActionDefinition,
-): MinigameEditorActionType | undefined {
+  def: PlayerEconomyActionDefinition,
+): PlayerEconomyEditorActionType | undefined {
   const d = def as DefWithLegacyEditor;
   if (d.type === "shop" || d.type === "generator" || d.type === "custom") {
     return d.type;
@@ -149,7 +149,7 @@ function readPersistedEditorCardType(
 }
 
 /** Prefer persisted `type` (and legacy `editorRuleKind`) so Generate rules never mis-merge as shop/custom. */
-function resolveActionType(def: MinigameActionDefinition): ActionType {
+function resolveActionType(def: PlayerEconomyActionDefinition): ActionType {
   const k = readPersistedEditorCardType(def);
   if (k === "generator") return "produce";
   if (k === "shop") return "shop";
@@ -197,7 +197,7 @@ function burnToCustomRows(b: Record<string, BurnRule>): CustomBurnRowForm[] {
 
 function actionEntryToForm(
   id: string,
-  def: MinigameActionDefinition,
+  def: PlayerEconomyActionDefinition,
 ): ActionForm {
   const at = resolveActionType(def);
   const customMint = at === "custom" ? mintToCustomRows(def.mint ?? {}) : [];
@@ -254,7 +254,7 @@ function actionEntryToForm(
       const entries = Object.entries(def.produce ?? {});
       if (entries.length > 0) {
         return entries.map(([key, rule]) => {
-          const r = rule as ProduceRule;
+          const r = rule as GeneratorRecipeRule;
           return {
             token: key,
             msToComplete: resolveProduceDurationMs(key, r, def.collect),
@@ -266,7 +266,7 @@ function actionEntryToForm(
       /** Legacy/broken saves: generator + inline collect but no `produce` (output lived only in collect). */
       if (at === "produce" && Object.keys(def.collect ?? {}).length === 1) {
         const outTok = Object.keys(def.collect ?? {})[0]!;
-        const r: ProduceRule = {};
+        const r: GeneratorRecipeRule = {};
         return [
           {
             token: outTok,
@@ -313,7 +313,7 @@ function collectRowsToLinkedMintForms(
 }
 
 function buildProductionCollectMapFromActions(
-  actions: Record<string, MinigameActionDefinition>,
+  actions: Record<string, PlayerEconomyActionDefinition>,
 ): Record<string, string> {
   const m: Record<string, string> = {};
   for (const [actionId, def] of Object.entries(actions)) {
@@ -372,7 +372,7 @@ function mergeProduceCollectPairs(
 
 /** Every collect action id referenced by a `produce.collectActionId` link. */
 function collectActionIdsTargetedByGenerators(
-  actions: Record<string, MinigameActionDefinition>,
+  actions: Record<string, PlayerEconomyActionDefinition>,
 ): Set<string> {
   const out = new Set<string>();
   for (const def of Object.values(actions)) {
@@ -390,7 +390,7 @@ function collectActionIdsTargetedByGenerators(
  */
 function isLinkedCollectOnlyAction(
   actionId: string,
-  def: MinigameActionDefinition,
+  def: PlayerEconomyActionDefinition,
   targetedIds: Set<string>,
 ): boolean {
   if (!targetedIds.has(actionId)) return false;
@@ -409,7 +409,7 @@ function isLinkedCollectOnlyAction(
  */
 function repairGenerateLinkedCollect(
   forms: ActionForm[],
-  actions: Record<string, MinigameActionDefinition>,
+  actions: Record<string, PlayerEconomyActionDefinition>,
 ): ActionForm[] {
   return forms.map((f) => {
     if (f.actionType !== "produce") return f;
@@ -454,7 +454,7 @@ function repairGenerateLinkedCollect(
 
 function filterEditorRuleCards(
   merged: ActionForm[],
-  actions: Record<string, MinigameActionDefinition>,
+  actions: Record<string, PlayerEconomyActionDefinition>,
   targetedCollectIds: Set<string>,
 ): ActionForm[] {
   return merged.filter((form) => {
@@ -466,16 +466,16 @@ function filterEditorRuleCards(
 
 export function configToForm(
   slug: string,
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): EditorFormState {
-  const cfg = migrateLegacyMinigameConfigFields(config as MinigameConfigWithLegacy);
+  const cfg = migrateLegacyPlayerEconomyConfigFields(config as PlayerEconomyConfigWithLegacy);
 
   const sortedActionEntries = Object.entries(
     cfg.actions ?? {},
   ).sort(([a], [b]) => sortConfigKeys(a, b));
 
   const rawForms = sortedActionEntries.map(([id, value]) =>
-    actionEntryToForm(id, value as MinigameActionDefinition),
+    actionEntryToForm(id, value as PlayerEconomyActionDefinition),
   );
 
   const prodMap = buildProductionCollectMapFromActions(cfg.actions ?? {});
@@ -495,7 +495,7 @@ export function configToForm(
   );
 
   const items: ItemForm[] = sortedItemEntries.map(([entryKey, v]) => {
-    const item = v as MinigameBalanceItem;
+    const item = v as PlayerEconomyBalanceItem;
     const numericEntry = /^\d+$/.test(entryKey);
     const id =
       item.id !== undefined

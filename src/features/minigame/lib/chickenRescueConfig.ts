@@ -1,5 +1,5 @@
-import { emptyMinigameState } from "./processMinigameAction";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import { emptyPlayerEconomyState } from "./processPlayerEconomyAction";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
 const SEVEN_HOURS_MS = 7 * 60 * 60 * 1000;
 const EIGHT_HOURS_MS = 8 * 60 * 60 * 1000;
@@ -21,7 +21,7 @@ const CHICKEN_RESCUE_ITEM_IMAGES = {
 /**
  * Chicken Rescue v2 — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`.
  */
-export const CHICKEN_RESCUE_CONFIG: MinigameConfig = {
+export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
   playUrl: "https://chicken-rescue-v2.minigames.sunflower-land.com",
   items: {
     GoldenNugget: {
@@ -267,14 +267,14 @@ export const CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID =
 
 export function createChickenRescueInitialState(
   now: number,
-): MinigameRuntimeState {
-  const base = emptyMinigameState(now);
+): PlayerEconomyRuntimeState {
+  const base = emptyPlayerEconomyState(now);
   return {
     ...base,
     balances: {
       Wormery: 1,
     },
-    producing: {
+    generating: {
       [CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID]: {
         outputToken: "Worm",
         requires: "Wormery",

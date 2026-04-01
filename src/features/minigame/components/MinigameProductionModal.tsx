@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import type { BurnRule, MinigameConfig } from "../lib/types";
+import type { BurnRule, PlayerEconomyConfig } from "../lib/types";
 import {
   capTokenDisplayName,
   formatMinigameDuration,
@@ -13,7 +13,7 @@ import {
 } from "../lib/extractProductionSlots";
 import { formatBurnRuleForDisplay } from "../lib/minigameConfigHelpers";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
-import type { ProducingEntry } from "../lib/types";
+import type { GeneratorJob } from "../lib/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Variant = "start" | "producing" | "collect";
@@ -22,8 +22,8 @@ type Props = {
   show: boolean;
   variant: Variant;
   slot: CapBalanceProductionSlot | null;
-  config: MinigameConfig;
-  job: ProducingEntry | null;
+  config: PlayerEconomyConfig;
+  job: GeneratorJob | null;
   now: number;
   startError: string | null;
   tokenImages: Record<string, string>;

@@ -20,7 +20,7 @@ export type BurnRule = { amount: number } | { min: number; max: number };
 
 export type RequireRule = { amount: number };
 
-export type ProduceRule = {
+export type GeneratorRecipeRule = {
   /**
    * Milliseconds until the job completes. Optional when the same action’s `collect[token].seconds`
    * defines duration (editor Generate + linked collect).
@@ -32,7 +32,7 @@ export type ProduceRule = {
   limit?: number;
   /**
    * Capacity is per lane: only jobs tagged with this same key count toward the cap
-   * (parallel outputs like multiple wormeries each producing Worm).
+   * (parallel outputs like multiple wormeries each generating Worm).
    */
   requires?: string;
   /**
@@ -48,7 +48,7 @@ export type CollectRule = {
   seconds?: number;
 };
 
-export type MinigameBalanceItem = {
+export type PlayerEconomyBalanceItem = {
   name: string;
   description: string;
   image?: string;
@@ -64,7 +64,7 @@ export type MinigameBalanceItem = {
   initialBalance?: number;
 };
 
-export type MinigameDescriptions = {
+export type PlayerEconomyDescriptions = {
   title?: string;
   subtitle?: string;
   welcome?: string;
@@ -72,14 +72,14 @@ export type MinigameDescriptions = {
 };
 
 /** Persisted by the minigame editor so Rules tab cards round-trip after save/load. */
-export type MinigameEditorActionType = "shop" | "generator" | "custom";
+export type PlayerEconomyEditorActionType = "shop" | "generator" | "custom";
 
-export type MinigameActionDefinition = {
+export type PlayerEconomyActionDefinition = {
   /**
    * Which editor rule card this action came from (`generator` = Generate).
    * Ignored at runtime by the minigame engine.
    */
-  type?: MinigameEditorActionType;
+  type?: PlayerEconomyEditorActionType;
   /**
    * When false, this action is omitted from the derived in-game shop.
    * Default true when omitted (backward compatible).
@@ -97,25 +97,25 @@ export type MinigameActionDefinition = {
   requireAbsent?: string[];
   mint?: Record<string, MintRule>;
   burn?: Record<string, BurnRule>;
-  produce?: Record<string, ProduceRule>;
+  produce?: Record<string, GeneratorRecipeRule>;
   collect?: Record<string, CollectRule>;
 };
 
-export type MinigameConfig = {
-  actions: Record<string, MinigameActionDefinition>;
-  items?: Record<string, MinigameBalanceItem>;
-  descriptions?: MinigameDescriptions;
+export type PlayerEconomyConfig = {
+  actions: Record<string, PlayerEconomyActionDefinition>;
+  items?: Record<string, PlayerEconomyBalanceItem>;
+  descriptions?: PlayerEconomyDescriptions;
   /** Optional themed shell (e.g. bookmatched backdrop). */
   visualTheme?: string;
   /** Canonical iframe origin from API; overridden by `VITE_PORTAL_GAME_URL` when set. */
   playUrl?: string;
 };
 
-export type ProducingEntry = {
+export type GeneratorJob = {
   outputToken: string;
   startedAt: number;
   completesAt: number;
-  /** When set, this job counts only toward that cap lane (see `ProduceRule.requires`). */
+  /** When set, this job counts only toward that cap lane (see `GeneratorRecipeRule.requires`). */
   requires?: string;
 };
 
@@ -124,7 +124,7 @@ export type DailyMintBucket = {
   minted: Record<string, number>;
 };
 
-export type MinigameDailyActivity = {
+export type PlayerEconomyDailyActivity = {
   date: string;
   count: number;
 };
@@ -134,18 +134,18 @@ export type DailyActionUsesBucket = {
   byAction: Record<string, number>;
 };
 
-export type MinigameRuntimeState = {
+export type PlayerEconomyRuntimeState = {
   balances: Record<string, number>;
-  producing: Record<string, ProducingEntry>;
+  generating: Record<string, GeneratorJob>;
   dailyMinted: DailyMintBucket;
   activity: number;
-  dailyActivity: MinigameDailyActivity;
+  dailyActivity: PlayerEconomyDailyActivity;
   dailyActionUses?: DailyActionUsesBucket;
   /** Per-action purchase counts when `purchaseLimit` is used on shop rules. */
   purchaseCounts?: Record<string, number>;
 };
 
-export type MinigameProcessInput = {
+export type PlayerEconomyProcessInput = {
   actionId: string;
   itemId?: string;
   /** Ranged mint and ranged burn amounts (token key → integer). */
@@ -153,17 +153,17 @@ export type MinigameProcessInput = {
   now: number;
 };
 
-export type MinigameProcessSuccess = {
+export type PlayerEconomyProcessSuccess = {
   ok: true;
-  state: MinigameRuntimeState;
-  producingId?: string;
+  state: PlayerEconomyRuntimeState;
+  generatorJobId?: string;
 };
 
-export type MinigameProcessFailure = {
+export type PlayerEconomyProcessFailure = {
   ok: false;
   error: string;
 };
 
-export type MinigameProcessResult =
-  | MinigameProcessSuccess
-  | MinigameProcessFailure;
+export type PlayerEconomyProcessResult =
+  | PlayerEconomyProcessSuccess
+  | PlayerEconomyProcessFailure;

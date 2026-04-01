@@ -32,7 +32,7 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
 
   const swrKey =
     userToken && CONFIG.API_URL && marketplaceItemId > 0
-      ? (["minigames", userToken] as [string, string])
+      ? (["economies", userToken] as [string, string])
       : null;
 
   const { data, isLoading, error } = useSWR(swrKey, collectionFetcher);
@@ -41,10 +41,10 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
     const items = (data?.items ?? []) as Tradeable[];
     return items.find(
       (item) =>
-        item.collection === "minigames" &&
+        item.collection === "economies" &&
         item.minigameSlug === marketplaceSlug &&
         item.id === marketplaceItemId,
-    ) as Extract<Tradeable, { collection: "minigames" }> | undefined;
+    ) as Extract<Tradeable, { collection: "economies" }> | undefined;
   }, [data?.items, marketplaceSlug, marketplaceItemId]);
 
   const openTrade = () => {

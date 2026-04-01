@@ -22,11 +22,14 @@ import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
 import {
-  postMinigameActionedEvent,
+  postPlayerEconomyActionedEvent,
   runtimeStateFromActionResponse,
 } from "./lib/minigameSessionApi";
-import { processMinigameAction } from "./lib/processMinigameAction";
-import type { MinigameProcessResult, MinigameRuntimeState } from "./lib/types";
+import { processPlayerEconomyAction } from "./lib/processPlayerEconomyAction";
+import type {
+  PlayerEconomyProcessResult,
+  PlayerEconomyRuntimeState,
+} from "./lib/types";
 import type {
   MinigameDashboardData,
   MinigameShopItemUi,
@@ -51,9 +54,9 @@ import {
   recipeJobKey,
   type CapBalanceProductionSlot,
 } from "./lib/extractProductionSlots";
-import { cloneMinigameRuntimeState } from "./lib/processMinigameAction";
+import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
 import { hasFeatureAccess } from "lib/flags";
-import { isTokenMinigameDashboardSlug } from "./lib/tokenMinigameDashboardSlugs";
+import { isPlayerEconomyDashboardSlug } from "./lib/playerEconomyDashboardSlugs";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import {
   getPrimaryTradableMarketplaceItem,
@@ -74,14 +77,17 @@ export const MinigameDashboard: React.FC = () => {
   const [authState] = useActor(authService);
   const farmId = gameState.context.farmId;
   const userToken = authState.context.user.rawToken as string | undefined;
-  const tokenMinigamesBlocked =
-    isTokenMinigameDashboardSlug(slug) &&
-    !hasFeatureAccess(gameState.context.state, "TOKEN_MINIGAMES");
+  const playerEconomiesBlocked = !hasFeatureAccess(
+    gameState.context.state,
+    "PLAYER_ECONOMIES",
+  );
 
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MinigameLoadError | null>(null);
   const [payload, setPayload] = useState<MinigameDashboardData | null>(null);
-  const [runtime, setRuntime] = useState<MinigameRuntimeState | null>(null);
+  const [runtime, setRuntime] = useState<PlayerEconomyRuntimeState | null>(
+    null,
+  );
 
   const [pendingShopItem, setPendingShopItem] =
     useState<MinigameShopItemUi | null>(null);
@@ -106,7 +112,7 @@ export const MinigameDashboard: React.FC = () => {
     Record<string, string | undefined>
   >({});
   const payloadInitRef = useRef(false);
-  const runtimeRef = useRef<MinigameRuntimeState | null>(null);
+  const runtimeRef = useRef<PlayerEconomyRuntimeState | null>(null);
   const capJobByRecipeKeyRef = useRef<Record<string, string | undefined>>({});
   /** Bumped when each minigame POST starts; stale responses must not overwrite newer optimistic state. */
   const minigameRemoteActionSeqRef = useRef(0);
@@ -117,7 +123,7 @@ export const MinigameDashboard: React.FC = () => {
   const [showActionSyncError, setShowActionSyncError] = useState(false);
   const [actionSyncError, setActionSyncError] = useState<string | null>(null);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const applyRuntime = useCallback((next: MinigameRuntimeState | null) => {
+  const applyRuntime = useCallback((next: PlayerEconomyRuntimeState | null) => {
     runtimeRef.current = next;
     setRuntime(next);
   }, []);
@@ -170,7 +176,7 @@ export const MinigameDashboard: React.FC = () => {
         const next = { ...prev };
         for (const key of Object.keys(next)) {
           const id = next[key];
-          if (id && !runtime.producing[id]) {
+          if (id && !runtime.generating[id]) {
             next[key] = undefined;
             changed = true;
           }
@@ -206,7 +212,7 @@ export const MinigameDashboard: React.FC = () => {
       actionId: string;
       itemId?: string;
       amounts?: Record<string, number>;
-    }): Promise<MinigameProcessResult> => {
+    }): Promise<PlayerEconomyProcessResult> => {
       if (!payload)
         return { ok: false, error: t("minigame.dashboard.error.noSession") };
 
@@ -214,7 +220,7 @@ export const MinigameDashboard: React.FC = () => {
       if (!prev)
         return { ok: false, error: t("minigame.dashboard.error.noState") };
 
-      const local = processMinigameAction(payload.config, prev, {
+      const local = processPlayerEconomyAction(payload.config, prev, {
         ...input,
         now: Date.now(),
       });
@@ -228,14 +234,14 @@ export const MinigameDashboard: React.FC = () => {
         return { ok: false, error: t("minigame.dashboard.signInToAction") };
       }
 
-      const snapshotRuntime = cloneMinigameRuntimeState(prev);
+      const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
       const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
       const cfg = payload.config;
 
       void (async () => {
         const remoteSeq = ++minigameRemoteActionSeqRef.current;
         try {
-          const data = await postMinigameActionedEvent({
+          const data = await postPlayerEconomyActionedEvent({
             farmId,
             userToken,
             portalId: payload.portalName,
@@ -243,7 +249,7 @@ export const MinigameDashboard: React.FC = () => {
             itemId: input.itemId,
             amounts: input.amounts,
           });
-          const next = runtimeStateFromActionResponse(data.minigame);
+          const next = runtimeStateFromActionResponse(data.playerEconomy);
           if (!dashboardMountedRef.current) return;
           if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
           applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
@@ -262,13 +268,17 @@ export const MinigameDashboard: React.FC = () => {
         }
       })();
 
-      return { ok: true, state: local.state, producingId: local.producingId };
+      return {
+        ok: true,
+        state: local.state,
+        generatorJobId: local.generatorJobId,
+      };
     },
     [payload, userToken, farmId, applyRuntime, t],
   );
 
   useEffect(() => {
-    if (tokenMinigamesBlocked) {
+    if (playerEconomiesBlocked) {
       return;
     }
     let cancelled = false;
@@ -300,7 +310,7 @@ export const MinigameDashboard: React.FC = () => {
     farmId,
     applyRuntime,
     dashboardReloadKey,
-    tokenMinigamesBlocked,
+    playerEconomiesBlocked,
   ]);
 
   const handleClose = useCallback(() => {
@@ -403,7 +413,7 @@ export const MinigameDashboard: React.FC = () => {
     if (!prev) return;
     if (!canAttemptShopPurchase(pendingShopItem, prev.balances)) return;
 
-    const local = processMinigameAction(payload.config, prev, {
+    const local = processPlayerEconomyAction(payload.config, prev, {
       actionId: pendingShopItem.actionId,
       now: Date.now(),
     });
@@ -427,7 +437,7 @@ export const MinigameDashboard: React.FC = () => {
       return;
     }
 
-    const snapshotRuntime = cloneMinigameRuntimeState(prev);
+    const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
     const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
     const cfg = payload.config;
     const shopActionId = pendingShopItem.actionId;
@@ -442,13 +452,13 @@ export const MinigameDashboard: React.FC = () => {
     void (async () => {
       const remoteSeq = ++minigameRemoteActionSeqRef.current;
       try {
-        const data = await postMinigameActionedEvent({
+        const data = await postPlayerEconomyActionedEvent({
           farmId,
           userToken,
           portalId: payload.portalName,
           action: shopActionId,
         });
-        const next = runtimeStateFromActionResponse(data.minigame);
+        const next = runtimeStateFromActionResponse(data.playerEconomy);
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
         applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
@@ -482,11 +492,13 @@ export const MinigameDashboard: React.FC = () => {
       ? null
       : loadError.kind === "message"
         ? loadError.text
-        : loadError.kind === "unknown_minigame"
-          ? t("minigame.dashboard.unknownMinigame", { slug: loadError.slug })
+        : loadError.kind === "unknown_player_economy"
+          ? t("minigame.dashboard.unknownPlayerEconomy", {
+              slug: loadError.slug,
+            })
           : t("minigame.dashboard.signInToLoad");
 
-  if (tokenMinigamesBlocked) {
+  if (playerEconomiesBlocked) {
     return (
       <div
         className={classNames(
@@ -501,7 +513,7 @@ export const MinigameDashboard: React.FC = () => {
         {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white px-2">
-            {t("minigame.dashboard.tokenMinigamesNotAvailable")}
+            {t("minigame.dashboard.playerEconomiesNotAvailable")}
           </p>
           <Button onClick={handleClose}>
             {t("minigame.dashboard.goBack")}

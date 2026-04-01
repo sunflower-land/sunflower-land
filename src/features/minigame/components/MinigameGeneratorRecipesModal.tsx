@@ -8,8 +8,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type {
   BurnRule,
-  MinigameConfig,
-  MinigameRuntimeState,
+  PlayerEconomyConfig,
+  PlayerEconomyRuntimeState,
 } from "../lib/types";
 import { formatBurnRuleForDisplay } from "../lib/minigameConfigHelpers";
 import {
@@ -34,8 +34,8 @@ type Props = {
   show: boolean;
   capToken: string;
   recipes: CapBalanceProductionSlot[];
-  config: MinigameConfig;
-  runtime: MinigameRuntimeState;
+  config: PlayerEconomyConfig;
+  runtime: PlayerEconomyRuntimeState;
   now: number;
   tokenImages: Record<string, string>;
   capJobByRecipeKey: Record<string, string | undefined>;
@@ -112,10 +112,10 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
               {recipes.map((slot) => {
                 const key = recipeJobKey(slot);
                 const jobId = capJobByRecipeKey[key];
-                const job = jobId ? runtime.producing[jobId] : undefined;
-                const producing = !!job;
-                const ready = producing && now >= job!.completesAt;
-                const busy = producing && !ready;
+                const job = jobId ? runtime.generating[jobId] : undefined;
+                const generating = !!job;
+                const ready = generating && now >= job!.completesAt;
+                const busy = generating && !ready;
                 const starting = startingRecipeKey === key;
                 const collecting = collectingRecipeKey === key;
 
@@ -152,14 +152,14 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                   : [];
 
                 const clickable =
-                  (!producing && !starting) || (ready && !collecting);
+                  (!generating && !starting) || (ready && !collecting);
                 const onCardClick = () => {
                   if (starting || collecting) return;
                   if (ready) {
                     onRecipeCollect(slot);
                     return;
                   }
-                  if (!producing) {
+                  if (!generating) {
                     onRecipeStart(slot);
                   }
                 };
@@ -259,7 +259,7 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                           {t("minigame.dashboard.production.tapToCollect")}
                         </p>
                       ) : null}
-                      {!producing && !starting ? (
+                      {!generating && !starting ? (
                         <p className="text-[10px] font-medium opacity-75">
                           {t("minigame.dashboard.production.tapToStart")}
                         </p>

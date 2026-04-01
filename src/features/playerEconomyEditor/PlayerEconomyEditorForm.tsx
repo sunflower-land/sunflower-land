@@ -52,7 +52,7 @@ const TABS: { id: EditorTab; icon: string; name: string }[] = [
   { id: "actions", icon: SUNNYSIDE.icons.lightning, name: "Rules" },
 ];
 
-export const MinigameEditorForm: React.FC<{
+export const PlayerEconomyEditorForm: React.FC<{
   mode: "create" | "edit";
   initial: EditorFormState;
   saving: boolean;
@@ -62,11 +62,11 @@ export const MinigameEditorForm: React.FC<{
 }> = ({ mode, initial, saving, error, onSave, onBack }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState<EditorFormState>(initial);
-  /** Baseline for unsafe (unsaved) checks; updated after successful save. */
+  /** Baseline for unsaved-change checks; updated after successful save. */
   const [dirtyBaseline, setDirtyBaseline] = useState<EditorFormState>(initial);
   const [activeTab, setActiveTab] = useState<EditorTab>("basics");
   const [savedFlash, setSavedFlash] = useState(false);
-  const [previewUnsafeModalOpen, setPreviewUnsafeModalOpen] = useState(false);
+  const [previewUnsavedModalOpen, setPreviewUnsavedModalOpen] = useState(false);
   const formRef = useRef(form);
   const { requestItemImageUploadUrl } = useEditorApi();
 
@@ -98,21 +98,21 @@ export const MinigameEditorForm: React.FC<{
   const goToPreview = () => {
     const slug = formRef.current.slug.trim();
     if (!slug) return;
-    navigate(`/minigame/${encodeURIComponent(slug)}`);
+    navigate(`/economy/${encodeURIComponent(slug)}`);
   };
 
   const handlePreviewClick = () => {
     const slug = form.slug.trim();
     if (!slug) return;
     if (isEditorFormDirty(form, dirtyBaseline)) {
-      setPreviewUnsafeModalOpen(true);
+      setPreviewUnsavedModalOpen(true);
       return;
     }
     goToPreview();
   };
 
-  const confirmPreviewWithUnsafeChanges = () => {
-    setPreviewUnsafeModalOpen(false);
+  const confirmPreviewWithUnsavedChanges = () => {
+    setPreviewUnsavedModalOpen(false);
     goToPreview();
   };
 
@@ -361,13 +361,14 @@ export const MinigameEditorForm: React.FC<{
         <div className="flex gap-1">
           <Button
             type="button"
+            className="flex-[1] min-w-0 shrink"
             disabled={!form.slug.trim()}
             onClick={handlePreviewClick}
           >
             {"Preview"}
           </Button>
           <Button
-            className="flex-1"
+            className="flex-[2] min-w-0"
             disabled={saving}
             onClick={() => void handleSave()}
           >
@@ -381,24 +382,24 @@ export const MinigameEditorForm: React.FC<{
       </div>
 
       <Modal
-        show={previewUnsafeModalOpen}
-        onHide={() => setPreviewUnsafeModalOpen(false)}
+        show={previewUnsavedModalOpen}
+        onHide={() => setPreviewUnsavedModalOpen(false)}
       >
         <Panel>
           <div className="p-2 space-y-3">
             <p className="text-xs">
-              {"You have unsafe changes. Would you like to continue?"}
+              {"You have unsaved changes. Would you like to continue?"}
             </p>
             <div className="flex gap-1">
               <Button
                 className="flex-1"
-                onClick={() => setPreviewUnsafeModalOpen(false)}
+                onClick={() => setPreviewUnsavedModalOpen(false)}
               >
                 {"Cancel"}
               </Button>
               <Button
                 className="flex-1"
-                onClick={confirmPreviewWithUnsafeChanges}
+                onClick={confirmPreviewWithUnsavedChanges}
               >
                 {"Continue"}
               </Button>

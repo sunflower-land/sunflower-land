@@ -14,10 +14,10 @@ function assertChickenRescueSession(
   if (
     body === null ||
     typeof body !== "object" ||
-    !("minigame" in body) ||
+    !("playerEconomy" in body) ||
     !("actions" in body)
   ) {
-    throw new Error("Invalid minigame session response");
+    throw new Error("Invalid player economy session response");
   }
 }
 
@@ -46,16 +46,16 @@ export async function loadMinigameDashboard(
     const raw = await getMinigameSession(slug, portalJwt);
     assertChickenRescueSession(raw);
     const state = {
-      balances: raw.minigame.balances,
-      producing: raw.minigame.producing as Record<string, any>,
-      activity: raw.minigame.activity,
-      dailyActivity: raw.minigame.dailyActivity,
-      dailyMinted: raw.minigame.dailyMinted,
-      ...(raw.minigame.dailyActionUses
-        ? { dailyActionUses: raw.minigame.dailyActionUses }
+      balances: raw.playerEconomy.balances,
+      generating: raw.playerEconomy.generating as Record<string, any>,
+      activity: raw.playerEconomy.activity,
+      dailyActivity: raw.playerEconomy.dailyActivity,
+      dailyMinted: raw.playerEconomy.dailyMinted,
+      ...(raw.playerEconomy.dailyActionUses
+        ? { dailyActionUses: raw.playerEconomy.dailyActionUses }
         : {}),
-      ...(raw.minigame.purchaseCounts != null
-        ? { purchaseCounts: { ...raw.minigame.purchaseCounts } }
+      ...(raw.playerEconomy.purchaseCounts != null
+        ? { purchaseCounts: { ...raw.playerEconomy.purchaseCounts } }
         : {}),
     };
     const config = {

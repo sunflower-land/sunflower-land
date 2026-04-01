@@ -1,4 +1,4 @@
-import type { CollectRule, ProduceRule } from "./types";
+import type { CollectRule, GeneratorRecipeRule } from "./types";
 
 /**
  * Coerce persisted/API values (numbers or numeric strings) to whole seconds.
@@ -17,7 +17,7 @@ export function parseCollectRuleSeconds(raw: unknown): number | undefined {
  */
 export function resolveProduceDurationMs(
   outputToken: string,
-  produceRule: ProduceRule,
+  produceRule: GeneratorRecipeRule,
   collect: Record<string, CollectRule> | undefined,
 ): number {
   const secDirect = parseCollectRuleSeconds(collect?.[outputToken]?.seconds);

@@ -7,19 +7,19 @@ import { TextInput } from "components/ui/TextInput";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import type { MinigameConfigRow, EditorFormState } from "./lib/types";
+import type { PlayerEconomyConfigRow, EditorFormState } from "./lib/types";
 import { EMPTY_FORM } from "./lib/types";
 import { useEditorApi } from "./lib/useEditorApi";
 import { formToConfig } from "./lib/formToConfig";
 import { configToForm } from "./lib/configToForm";
-import { MinigameEditorForm } from "./MinigameEditorForm";
+import { PlayerEconomyEditorForm } from "./PlayerEconomyEditorForm";
 
 /* ─── List view ────────────────────────────────────────────────── */
 
-export const MinigameEditor: React.FC = () => {
+export const PlayerEconomyEditor: React.FC = () => {
   const navigate = useNavigate();
   const { loadRows, submitEvent } = useEditorApi();
-  const [rows, setRows] = useState<MinigameConfigRow[]>([]);
+  const [rows, setRows] = useState<PlayerEconomyConfigRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -59,8 +59,8 @@ export const MinigameEditor: React.FC = () => {
     setCreating(true);
     setCreateError(null);
     try {
-      await submitEvent({ type: "minigame.created", slug });
-      navigate(`/minigame-editor/edit/${slug}`);
+      await submitEvent({ type: "playerEconomy.created", slug });
+      navigate(`/player-economy-editor/edit/${slug}`);
     } catch (e) {
       setCreateError(
         e instanceof Error ? e.message : "Failed to create minigame",
@@ -75,7 +75,7 @@ export const MinigameEditor: React.FC = () => {
       <Panel className="p-3">
         <div className="flex items-center gap-2 mb-3">
           <Label type="vibrant" icon={SUNNYSIDE.icons.hammer}>
-            Minigame Editor
+            Player economy editor
           </Label>
         </div>
 
@@ -102,7 +102,7 @@ export const MinigameEditor: React.FC = () => {
           {rows.map((row) => (
             <ButtonPanel
               key={row.slug}
-              onClick={() => navigate(`/minigame-editor/edit/${row.slug}`)}
+              onClick={() => navigate(`/player-economy-editor/edit/${row.slug}`)}
               className="p-2"
             >
               <div className="flex items-center justify-between">
@@ -187,7 +187,7 @@ export const MinigameEditor: React.FC = () => {
 
 /* ─── Create view ──────────────────────────────────────────────── */
 
-export const MinigameEditorCreate: React.FC = () => {
+export const PlayerEconomyEditorCreate: React.FC = () => {
   const navigate = useNavigate();
   const { submitEvent } = useEditorApi();
   const [saving, setSaving] = useState(false);
@@ -200,7 +200,7 @@ export const MinigameEditorCreate: React.FC = () => {
       const slug = form.slug.trim();
       if (!slug) throw new Error("Slug is required");
       await submitEvent({
-        type: "minigame.created",
+        type: "playerEconomy.created",
         slug,
         config: formToConfig(form),
       });
@@ -216,13 +216,13 @@ export const MinigameEditorCreate: React.FC = () => {
 
   return (
     <div className="h-full overflow-hidden p-2">
-      <MinigameEditorForm
+      <PlayerEconomyEditorForm
         mode="create"
         initial={EMPTY_FORM}
         saving={saving}
         error={error}
         onSave={onSave}
-        onBack={() => navigate("/minigame-editor")}
+        onBack={() => navigate("/player-economy-editor")}
       />
     </div>
   );
@@ -230,7 +230,7 @@ export const MinigameEditorCreate: React.FC = () => {
 
 /* ─── Edit view ────────────────────────────────────────────────── */
 
-export const MinigameEditorEdit: React.FC = () => {
+export const PlayerEconomyEditorEdit: React.FC = () => {
   const navigate = useNavigate();
   const { slug = "" } = useParams<{ slug: string }>();
   const { loadRows, submitEvent } = useEditorApi();
@@ -268,7 +268,7 @@ export const MinigameEditorEdit: React.FC = () => {
     setError(null);
     try {
       await submitEvent({
-        type: "minigame.edited",
+        type: "playerEconomy.edited",
         slug,
         config: formToConfig(form),
       });
@@ -297,7 +297,7 @@ export const MinigameEditorEdit: React.FC = () => {
       <div className="p-2 space-y-2">
         <Panel className="p-3 space-y-2">
           {error && <Label type="danger">{error}</Label>}
-          <Button onClick={() => navigate("/minigame-editor")}>
+          <Button onClick={() => navigate("/player-economy-editor")}>
             Back to List
           </Button>
         </Panel>
@@ -307,13 +307,13 @@ export const MinigameEditorEdit: React.FC = () => {
 
   return (
     <div className="h-full overflow-hidden p-2">
-      <MinigameEditorForm
+      <PlayerEconomyEditorForm
         mode="edit"
         initial={initial}
         saving={saving}
         error={error}
         onSave={onSave}
-        onBack={() => navigate("/minigame-editor")}
+        onBack={() => navigate("/player-economy-editor")}
       />
     </div>
   );

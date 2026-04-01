@@ -9,10 +9,10 @@ import { ContentComponentProps } from "../GameOptions";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
-import { TOKEN_MINIGAME_DASHBOARD_SLUGS } from "features/minigame/lib/tokenMinigameDashboardSlugs";
+import { PLAYER_ECONOMY_DASHBOARD_SLUGS } from "features/minigame/lib/playerEconomyDashboardSlugs";
 
-const ECONOMY_MINIGAME_LABELS: Record<
-  (typeof TOKEN_MINIGAME_DASHBOARD_SLUGS)[number],
+const PLAYER_ECONOMY_PORTAL_LABELS: Record<
+  (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number],
   string
 > = {
   "chicken-rescue-v2": "Chicken Rescue V2",
@@ -40,14 +40,14 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
   const [showPortalAIOverlay, setShowPortalAIOverlay] = useState(false);
   const [showEconomyMinigamesOverlay, setShowEconomyMinigamesOverlay] =
     useState(false);
-  const [economyMinigameSlug, setEconomyMinigameSlug] = useState<
-    (typeof TOKEN_MINIGAME_DASHBOARD_SLUGS)[number]
-  >(TOKEN_MINIGAME_DASHBOARD_SLUGS[0]);
+  const [economyPortalSlug, setEconomyPortalSlug] = useState<
+    (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number]
+  >(PLAYER_ECONOMY_DASHBOARD_SLUGS[0]);
 
   const hasAIBuilderAccess = AI_BUILDER_FARM_IDS.includes(farmId ?? 0);
-  const hasEconomyMinigamesAccess = hasFeatureAccess(
+  const hasPlayerEconomiesAccess = hasFeatureAccess(
     gameState,
-    "TOKEN_MINIGAMES",
+    "PLAYER_ECONOMIES",
   );
 
   const handleOpenAIBuilder = () => {
@@ -61,7 +61,7 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
     setShowEconomyMinigamesOverlay(false);
     onClose();
     setFromRoute(window.location.hash.replace("#", "") || "/");
-    navigate(`/minigame/${economyMinigameSlug}`);
+    navigate(`/minigame/${economyPortalSlug}`);
   };
 
   return (
@@ -72,30 +72,30 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       >
         <InnerPanel className="w-full shadow">
           <div className="mb-2">
-            <Label type="default">{"Economy minigames"}</Label>
+            <Label type="default">{"Player economies"}</Label>
           </div>
 
           <p className="text-sm mb-3">
             {
-              "Choose a tokenized minigame and open its dashboard (beta testers only)."
+              "Choose a portal and open its player economy dashboard (beta testers only)."
             }
           </p>
 
           <div className="flex flex-col gap-1 mb-3">
-            <Label type="default">{"Minigame"}</Label>
+            <Label type="default">{"Portal"}</Label>
             <select
               className="text-sm p-1 border-2 border-gray-400 rounded bg-white"
-              value={economyMinigameSlug}
+              value={economyPortalSlug}
               onChange={(e) =>
-                setEconomyMinigameSlug(
+                setEconomyPortalSlug(
                   e.target
-                    .value as (typeof TOKEN_MINIGAME_DASHBOARD_SLUGS)[number],
+                    .value as (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number],
                 )
               }
             >
-              {TOKEN_MINIGAME_DASHBOARD_SLUGS.map((slug) => (
+              {PLAYER_ECONOMY_DASHBOARD_SLUGS.map((slug) => (
                 <option key={slug} value={slug}>
-                  {ECONOMY_MINIGAME_LABELS[slug]}
+                  {PLAYER_ECONOMY_PORTAL_LABELS[slug]}
                 </option>
               ))}
             </select>
@@ -147,12 +147,12 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       </ModalOverlay>
 
       <div className="grid grid-cols-1 gap-1 min-h-[240px] content-start">
-        {hasEconomyMinigamesAccess && (
+        {hasPlayerEconomiesAccess && (
           <Button
             className="self-start"
             onClick={() => setShowEconomyMinigamesOverlay(true)}
           >
-            <span>{"Economy minigames"}</span>
+            <span>{"Player economies"}</span>
           </Button>
         )}
         <Button

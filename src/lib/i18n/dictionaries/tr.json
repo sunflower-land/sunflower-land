@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Marketplace sayfasına geri dön",
   "minigame.dashboard.shop": "Dükkan",
   "minigame.dashboard.goBack": "Geri dön",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "Token mini oyunları çiftliğiniz için henüz mevcut değil.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "Token mini oyunları çiftliğiniz için henüz mevcut değil.",
   "minigame.dashboard.signInToAction": "Bu işlemi gerçekleştirmek için oturum açın.",
   "minigame.dashboard.signInToLoad": "Bu mini oyunu yüklemek için oturum açın ve çiftliğinizi açın.",
   "minigame.dashboard.unknownMinigame": "Bilinmeyen mini oyun: {{slug}}",

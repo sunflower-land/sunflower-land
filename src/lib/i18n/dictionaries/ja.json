@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "マーケットプレイスに戻る",
   "minigame.dashboard.shop": "ショップ",
   "minigame.dashboard.goBack": "戻る",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "あなたの農場ではトークンのミニゲームはまだご利用いただけません。",
+  "minigame.dashboard.playerEconomiesNotAvailable": "あなたの農場ではトークンのミニゲームはまだご利用いただけません。",
   "minigame.dashboard.signInToAction": "このアクションを実行するにはログインしてください。",
   "minigame.dashboard.signInToLoad": "サインインしてファームを開き、このミニゲームをロードしてください。",
   "minigame.dashboard.unknownMinigame": "不明なミニゲーム:{{slug}}",

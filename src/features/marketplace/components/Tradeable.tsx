@@ -58,7 +58,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
   const trades = useSelector(gameService, _trades);
-  const tokenMinigamesAllowed = hasFeatureAccess(state, "TOKEN_MINIGAMES");
+  const playerEconomiesAllowed = hasFeatureAccess(state, "PLAYER_ECONOMIES");
 
   const params = useParams<{
     collection?: CollectionName;
@@ -72,14 +72,14 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     params.minigameSlug != null &&
     params.id != null &&
     params.collection == null
-      ? "minigames"
+      ? "economies"
       : params.collection;
 
   const id = params.id;
 
   const minigameSlug =
     params.minigameSlug ??
-    (collection === "minigames"
+    (collection === "economies"
       ? (searchParams.get("minigameSlug") ?? undefined)
       : undefined);
 
@@ -90,8 +90,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     error,
     mutate: reload,
   } = useSWR(
-    collection === "minigames"
-      ? minigameSlug && tokenMinigamesAllowed
+    collection === "economies"
+      ? minigameSlug && playerEconomiesAllowed
         ? [
             collection,
             id,
@@ -123,13 +123,13 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     );
   }
 
-  if (collection === "minigames" && !tokenMinigamesAllowed) {
+  if (collection === "economies" && !playerEconomiesAllowed) {
     const isWorldRoute = location.pathname.includes("/world");
     const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
     return (
       <InnerPanel className="m-2 p-4 flex flex-col gap-2">
         <p className="text-sm">
-          {t("minigame.dashboard.tokenMinigamesNotAvailable")}
+          {t("minigame.dashboard.playerEconomiesNotAvailable")}
         </p>
         <Button onClick={() => navigate(base)}>
           {t("marketplace.backToMarketplace")}
@@ -145,7 +145,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     tradeableDetails: tradeable ?? undefined,
   });
 
-  if (collection === "minigames" && !minigameSlug) {
+  if (collection === "economies" && !minigameSlug) {
     return (
       <InnerPanel className="m-2 p-4">
         <p className="text-sm">{t("marketplace.minigames.missingSlug")}</p>

@@ -1,6 +1,6 @@
 import { tokenDisplayName } from "./minigameConfigHelpers";
 import { resolveProduceDurationMs } from "./resolveProduceDuration";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
 export type CapBalanceProductionSlot = {
   capToken: string;
@@ -18,7 +18,7 @@ export type GeneratorProductionEntry = {
   recipes: CapBalanceProductionSlot[];
 };
 
-/** Stable key for mapping runtime `producing` jobs to dashboard recipe rows. */
+/** Stable key for mapping runtime `generating` jobs to dashboard recipe rows. */
 export function recipeJobKey(slot: CapBalanceProductionSlot): string {
   return `${slot.startActionId}|${slot.outputToken}`;
 }
@@ -28,7 +28,7 @@ export function recipeJobKey(slot: CapBalanceProductionSlot): string {
  * same action (`collectActionId` is set to that action id) or legacy `collectActionId` on the rule.
  */
 /** Production UI only lists lanes whose cap token is an item with `generator: true`. */
-export function isGeneratorCapToken(config: MinigameConfig, token: string): boolean {
+export function isGeneratorCapToken(config: PlayerEconomyConfig, token: string): boolean {
   return config.items?.[token]?.generator === true;
 }
 
@@ -37,7 +37,7 @@ export function isProductionSlotConfigured(slot: CapBalanceProductionSlot): bool
 }
 
 export function extractCapBalanceProductionSlots(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): CapBalanceProductionSlot[] {
   const slots: CapBalanceProductionSlot[] = [];
   for (const [actionId, def] of Object.entries(config.actions)) {
@@ -73,7 +73,7 @@ export function extractCapBalanceProductionSlots(
  * recipes that use that token as `requires`. Generators with no rules have `recipes: []`.
  */
 export function getProductionZoneEntries(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): GeneratorProductionEntry[] {
   const ruleSlots = extractCapBalanceProductionSlots(config).filter((s) =>
     isGeneratorCapToken(config, s.capToken),
@@ -105,17 +105,17 @@ export function getProductionZoneEntries(
     }));
 }
 
-/** Maps each recipe (`startActionId|outputToken`) to its active producing job id. */
+/** Maps each recipe (`startActionId|outputToken`) to its active generating job id. */
 export function buildCapJobByRecipeKey(
-  config: MinigameConfig,
-  runtime: MinigameRuntimeState,
+  config: PlayerEconomyConfig,
+  runtime: PlayerEconomyRuntimeState,
 ): Record<string, string | undefined> {
   const map: Record<string, string | undefined> = {};
   for (const entry of getProductionZoneEntries(config)) {
     for (const slot of entry.recipes) {
       if (!isProductionSlotConfigured(slot)) continue;
       const key = recipeJobKey(slot);
-      const match = Object.entries(runtime.producing).find(
+      const match = Object.entries(runtime.generating).find(
         ([, job]) =>
           job.requires === slot.capToken && job.outputToken === slot.outputToken,
       );
@@ -138,13 +138,13 @@ export function formatMinigameDuration(ms: number): string {
 
 export function capTokenDisplayName(
   capToken: string,
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): string {
   return tokenDisplayName(config, capToken);
 }
 
 export function getCollectOutputForSlot(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   slot: CapBalanceProductionSlot,
 ): { token: string; amount: number } | null {
   const collect = config.actions[slot.collectActionId]?.collect;
@@ -160,7 +160,7 @@ export function getCollectOutputForSlot(
  * that the new wormery will run (matches production card copy).
  */
 export function getShopPurchaseProductionPreview(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   shopActionId: string,
 ): { outputToken: string; amount: number; rateDenominatorMs: number } | null {
   const mint = config.actions[shopActionId]?.mint;

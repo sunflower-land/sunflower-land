@@ -1,5 +1,5 @@
 import type { MinigameName } from "features/game/types/minigames";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
 export type MinigameShopItemUi = {
   id: string;
@@ -39,8 +39,8 @@ export type MinigameDashboardData = {
   slug: string;
   portalName: MinigameName;
   displayName: string;
-  config: MinigameConfig;
-  state: MinigameRuntimeState;
+  config: PlayerEconomyConfig;
+  state: PlayerEconomyRuntimeState;
   ui: MinigameDashboardUi;
   /** Iframe base from API; `Portal` uses `VITE_PORTAL_GAME_URL` instead when set. */
   playUrl?: string;
@@ -48,7 +48,7 @@ export type MinigameDashboardData = {
 
 /** User-facing load failure; translate in the dashboard with `useAppTranslation`. */
 export type MinigameLoadError =
-  | { kind: "unknown_minigame"; slug: string }
+  | { kind: "unknown_player_economy"; slug: string }
   | { kind: "sign_in_required" }
   | { kind: "message"; text: string };
 

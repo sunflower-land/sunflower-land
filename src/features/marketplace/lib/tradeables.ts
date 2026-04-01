@@ -50,11 +50,11 @@ export function getTradeableDisplay({
   /** Marketplace row when browsing collection (before detail fetch) */
   marketplaceItem?: Tradeable | null;
 }): TradeableDisplay {
-  if (type === "minigames") {
+  if (type === "economies") {
     const mg =
-      tradeableDetails?.collection === "minigames" ? tradeableDetails : null;
+      tradeableDetails?.collection === "economies" ? tradeableDetails : null;
     const row =
-      marketplaceItem?.collection === "minigames" ? marketplaceItem : null;
+      marketplaceItem?.collection === "economies" ? marketplaceItem : null;
     const currency = mg?.currencyName ?? row?.currencyName ?? String(id);
     const label = mg?.minigameLabel ?? row?.minigameLabel ?? "";
     const apiImage = mg?.image ?? row?.image;

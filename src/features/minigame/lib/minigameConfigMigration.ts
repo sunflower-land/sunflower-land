@@ -1,11 +1,11 @@
 import type {
-  MinigameActionDefinition,
-  MinigameBalanceItem,
-  MinigameConfig,
-  ProduceRule,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyBalanceItem,
+  PlayerEconomyConfig,
+  GeneratorRecipeRule,
 } from "./types";
 
-export type MinigameConfigWithLegacy = MinigameConfig & {
+export type PlayerEconomyConfigWithLegacy = PlayerEconomyConfig & {
   initialBalances?: Record<string, number>;
   productionCollectByStartId?: Record<string, string>;
   dashboard?: {
@@ -16,21 +16,21 @@ export type MinigameConfigWithLegacy = MinigameConfig & {
 
 /** Maps legacy `producer` JSON to `generator` and drops the old key. */
 function normalizeItemGeneratorFromLegacy(
-  item: MinigameBalanceItem,
-): MinigameBalanceItem {
+  item: PlayerEconomyBalanceItem,
+): PlayerEconomyBalanceItem {
   const record = { ...(item as unknown as Record<string, unknown>) };
   const legacyProducer = record.producer === true;
   delete record.producer;
-  const base = record as unknown as MinigameBalanceItem;
+  const base = record as unknown as PlayerEconomyBalanceItem;
   if (base.generator !== undefined) return base;
   if (legacyProducer) return { ...base, generator: true };
   return base;
 }
 
-export function migrateLegacyMinigameConfigFields(
-  input: MinigameConfigWithLegacy,
-): MinigameConfig {
-  const items: Record<string, MinigameBalanceItem> = {};
+export function migrateLegacyPlayerEconomyConfigFields(
+  input: PlayerEconomyConfigWithLegacy,
+): PlayerEconomyConfig {
+  const items: Record<string, PlayerEconomyBalanceItem> = {};
   for (const [k, v] of Object.entries(input.items ?? {})) {
     items[k] = normalizeItemGeneratorFromLegacy(v);
   }
@@ -39,14 +39,14 @@ export function migrateLegacyMinigameConfigFields(
     for (const [k, v] of Object.entries(input.initialBalances)) {
       if (typeof v !== "number" || !Number.isFinite(v) || v <= 0) continue;
       const cur = items[k];
-      const base: MinigameBalanceItem = cur ?? { name: k, description: "" };
+      const base: PlayerEconomyBalanceItem = cur ?? { name: k, description: "" };
       if (base.initialBalance === undefined) {
         items[k] = { ...base, initialBalance: Math.floor(v) };
       }
     }
   }
 
-  const actions: Record<string, MinigameActionDefinition> = {
+  const actions: Record<string, PlayerEconomyActionDefinition> = {
     ...input.actions,
   };
 
@@ -58,7 +58,7 @@ export function migrateLegacyMinigameConfigFields(
   for (const [startId, collectId] of Object.entries(prodMap)) {
     const def = actions[startId];
     if (!def?.produce) continue;
-    const nextProduce: Record<string, ProduceRule> = {};
+    const nextProduce: Record<string, GeneratorRecipeRule> = {};
     for (const [out, rule] of Object.entries(def.produce)) {
       if (rule.requires && rule.collectActionId === undefined) {
         nextProduce[out] = { ...rule, collectActionId: collectId };
@@ -71,12 +71,12 @@ export function migrateLegacyMinigameConfigFields(
 
   const visualTheme = input.visualTheme ?? input.dashboard?.visualTheme;
 
-  const itemsWithGeneratorInference = inferGeneratorFlagsFromProduceRules(
+  const itemsWithGeneratorInference = inferGeneratorFlagsFromGeneratorRecipeRules(
     items,
     actions,
   );
 
-  const out: MinigameConfig = {
+  const out: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(itemsWithGeneratorInference).length > 0
       ? { items: itemsWithGeneratorInference }
@@ -90,10 +90,10 @@ export function migrateLegacyMinigameConfigFields(
 }
 
 /** Tokens used as produce `requires` are treated as generators when the flag was omitted (legacy configs). */
-function inferGeneratorFlagsFromProduceRules(
-  items: Record<string, MinigameBalanceItem>,
-  actions: Record<string, MinigameActionDefinition>,
-): Record<string, MinigameBalanceItem> {
+function inferGeneratorFlagsFromGeneratorRecipeRules(
+  items: Record<string, PlayerEconomyBalanceItem>,
+  actions: Record<string, PlayerEconomyActionDefinition>,
+): Record<string, PlayerEconomyBalanceItem> {
   const out = { ...items };
   for (const def of Object.values(actions)) {
     if (!def.produce) continue;

@@ -4,7 +4,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
-import type { MinigameConfig } from "../lib/types";
+import type { PlayerEconomyConfig } from "../lib/types";
 import { MinigameShopListBody } from "./MinigameShopListBody";
 import { canAttemptShopPurchase } from "../lib/minigameShopAvailability";
 import { MinigameShopDetailBody } from "./MinigameShopDetailBody";
@@ -18,7 +18,7 @@ type ProductionPreview = {
 };
 
 type Props = {
-  config: MinigameConfig;
+  config: PlayerEconomyConfig;
   show: boolean;
   phase: MinigameMobileShopPhase;
   onClose: () => void;

@@ -40,8 +40,6 @@ export const ActionsTab: React.FC<{
 }> = ({ form, onUpdateAction, onAddAction, onDeleteAction }) => {
   const [showActionTypeModal, setShowActionTypeModal] = useState(false);
   const [actionToDelete, setActionToDelete] = useState<number | null>(null);
-  const hasMinigameUrl = form.playUrl.trim().length > 0;
-
   const itemKeys = form.items
     .filter((item) => item.id !== undefined && !item.deleted)
     .map((item) => String(item.id));
@@ -65,8 +63,6 @@ export const ActionsTab: React.FC<{
   );
 
   const addActionOfType = (type: ActionType) => {
-    if (type === "custom" && !hasMinigameUrl) return;
-
     const base: ActionForm = {
       actionType: type,
       id: "",
@@ -167,49 +163,26 @@ export const ActionsTab: React.FC<{
       >
         <Panel className="p-3 space-y-3">
           <span className="text-sm">What rule would you like to create?</span>
-          {!hasMinigameUrl ? (
-            <p className="text-xs text-[#674544]/80">
-              Custom rules are for iframe minigames — set a minigame URL on the
-              Basics tab first.
-            </p>
-          ) : null}
           <div className="space-y-2">
-            {ACTION_TYPE_OPTIONS.map((opt) => {
-              const customLocked = opt.type === "custom" && !hasMinigameUrl;
-              return (
-                <ButtonPanel
-                  key={opt.type}
-                  disabled={customLocked}
-                  title={
-                    customLocked
-                      ? "Add a minigame URL on the Basics tab to use Custom rules."
-                      : undefined
-                  }
-                  onClick={() => addActionOfType(opt.type)}
-                  className="p-2"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={SUNNYSIDE.icons[opt.iconKey]}
-                      className="w-6 shrink-0"
-                      style={{ imageRendering: "pixelated" }}
-                      alt=""
-                    />
-                    <span className="text-sm flex-1 text-center">
-                      {opt.label}
-                    </span>
-                    {customLocked ? (
-                      <img
-                        src={SUNNYSIDE.icons.lock}
-                        className="w-5 shrink-0"
-                        style={{ imageRendering: "pixelated" }}
-                        alt=""
-                      />
-                    ) : null}
-                  </div>
-                </ButtonPanel>
-              );
-            })}
+            {ACTION_TYPE_OPTIONS.map((opt) => (
+              <ButtonPanel
+                key={opt.type}
+                onClick={() => addActionOfType(opt.type)}
+                className="p-2"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={SUNNYSIDE.icons[opt.iconKey]}
+                    className="w-6 shrink-0"
+                    style={{ imageRendering: "pixelated" }}
+                    alt=""
+                  />
+                  <span className="text-sm flex-1 text-center">
+                    {opt.label}
+                  </span>
+                </div>
+              </ButtonPanel>
+            ))}
           </div>
         </Panel>
       </Modal>

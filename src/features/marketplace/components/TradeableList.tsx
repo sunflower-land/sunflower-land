@@ -158,7 +158,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         signature,
         quantity: Math.max(1, quantity),
         multiple,
-        ...(display.type === "minigames" && minigameSlug
+        ...(display.type === "economies" && minigameSlug
           ? { minigameSlug }
           : {}),
       },

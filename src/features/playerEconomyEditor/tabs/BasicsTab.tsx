@@ -26,13 +26,6 @@ export const BasicsTab: React.FC<{
           className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
         />
       </FieldRow>
-      <FieldRow label="Play URL">
-        <TextInput
-          value={form.playUrl}
-          onValueChange={(playUrl) => onChange({ playUrl })}
-          placeholder="https://my-game.minigames.sunflower-land.com"
-        />
-      </FieldRow>
     </InnerPanel>
 
     {/* Descriptions */}

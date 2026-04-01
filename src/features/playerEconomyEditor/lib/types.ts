@@ -1,11 +1,11 @@
-import type { MinigameConfig } from "features/minigame/lib/types";
+import type { PlayerEconomyConfig } from "features/minigame/lib/types";
 
 /* ─── API row ─────────────────────────────────────────────────── */
 
-export type MinigameConfigRow = {
+export type PlayerEconomyConfigRow = {
   slug: string;
   farmId: number;
-  config: MinigameConfig;
+  config: PlayerEconomyConfig;
   createdAt: string;
   updatedAt: string;
 };
