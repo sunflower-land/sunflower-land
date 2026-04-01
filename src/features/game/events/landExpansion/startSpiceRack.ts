@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { translate } from "lib/i18n/translate";
 import type { SpiceRackJob } from "features/game/lib/agingShed";
 import {
   getSpiceRackRecipe,
@@ -32,7 +31,7 @@ export function startSpiceRack({
 }: Options): GameState {
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
-      throw new Error(translate("error.requiredBuildingNotExist"));
+      throw new Error("Required building does not exist");
     }
 
     if (!isSpiceRackRecipeName(action.recipe)) {
@@ -44,8 +43,12 @@ export function startSpiceRack({
     const maxSlots = getMaxSpiceRackSlots(game.agingShed.level);
     const queue = game.agingShed.racks.spice;
 
+    if (queue.some((job) => job.id === action.jobId)) {
+      throw new Error("Job already exists");
+    }
+
     if (queue.length >= maxSlots) {
-      throw new Error(translate("error.noAvailableSlots"));
+      throw new Error("No available slots");
     }
 
     for (const [ingredient, amount] of getObjectEntries(

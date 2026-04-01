@@ -80,9 +80,8 @@ export function spiceRackCollectedActivity(
 }
 
 export function isSpiceRackRecipeName(id: string): id is SpiceRackRecipeName {
-  return id in SPICE_RACK_RECIPES;
+  return Object.prototype.hasOwnProperty.call(SPICE_RACK_RECIPES, id);
 }
-
 export function getSpiceRackRecipe(
   name: SpiceRackRecipeName,
 ): SpiceRackRecipeDefinition {

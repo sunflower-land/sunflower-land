@@ -1,4 +1,23 @@
-import { getMaxSpiceRackSlots } from "features/game/types/spiceRack";
+import {
+  getMaxSpiceRackSlots,
+  isSpiceRackRecipeName,
+} from "features/game/types/spiceRack";
+
+describe("isSpiceRackRecipeName", () => {
+  it("rejects Object.prototype keys such as toString", () => {
+    expect(isSpiceRackRecipeName("toString")).toBe(false);
+    expect(isSpiceRackRecipeName("hasOwnProperty")).toBe(false);
+  });
+
+  it("accepts real recipe ids", () => {
+    expect(isSpiceRackRecipeName("Refined Salt")).toBe(true);
+    expect(isSpiceRackRecipeName("Spiced Cheese")).toBe(true);
+  });
+
+  it("rejects unknown strings", () => {
+    expect(isSpiceRackRecipeName("not_a_recipe")).toBe(false);
+  });
+});
 
 describe("getMaxSpiceRackSlots", () => {
   it("returns 1 for non-positive levels", () => {

@@ -83,6 +83,40 @@ describe("startSpiceRack", () => {
     expect(state.agingShed.racks.spice[0].id).toEqual(TEST_JOB_ID);
   });
 
+  it("throws when jobId is already queued", () => {
+    const base = createFermentationTestState({
+      agingShed: { ...createInitialAgingShed(), level: 2 },
+      inventory: {
+        Salt: new Decimal(20),
+      },
+    });
+
+    const afterFirst = startSpiceRack({
+      state: base,
+      action: {
+        type: "spiceRack.started",
+        recipe: "Refined Salt",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+    expect(afterFirst.inventory.Salt?.toNumber()).toEqual(10);
+    expect(afterFirst.agingShed.racks.spice).toHaveLength(1);
+
+    expect(() =>
+      startSpiceRack({
+        state: afterFirst,
+        action: {
+          type: "spiceRack.started",
+          recipe: "Refined Salt",
+          jobId: TEST_JOB_ID,
+        },
+        createdAt,
+      }),
+    ).toThrow("Job already exists");
+  });
+
   it("throws on invalid recipe id", () => {
     expect(() =>
       startSpiceRack({
