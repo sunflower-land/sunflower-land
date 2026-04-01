@@ -1,0 +1,83 @@
+import React from "react";
+import { InnerPanel } from "components/ui/Panel";
+import { TextInput } from "components/ui/TextInput";
+import { SUNNYSIDE } from "assets/sunnyside";
+import type { EditorFormState } from "../lib/types";
+import { SectionHeader } from "../components/SectionHeader";
+import { FieldRow } from "../components/FieldRow";
+
+export const BasicsTab: React.FC<{
+  form: EditorFormState;
+  mode: "create" | "edit";
+  onChange: (next: Partial<EditorFormState>) => void;
+}> = ({ form, mode, onChange }) => (
+  <div className="space-y-3">
+    {/* Game Identity */}
+    <InnerPanel className="p-3 space-y-2">
+      <SectionHeader type="info" icon={SUNNYSIDE.icons.player}>
+        Game Identity
+      </SectionHeader>
+      <FieldRow
+        label="Slug"
+        hint={
+          mode === "edit"
+            ? "Cannot be changed after creation"
+            : "Unique identifier (lowercase, dashes)"
+        }
+      >
+        <TextInput
+          value={form.slug}
+          onValueChange={(slug) => onChange({ slug })}
+          maxLength={60}
+          placeholder="my-cool-minigame"
+          className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
+        />
+      </FieldRow>
+      <FieldRow label="Play URL" hint="The iframe URL that hosts your game">
+        <TextInput
+          value={form.playUrl}
+          onValueChange={(playUrl) => onChange({ playUrl })}
+          placeholder="https://my-game.minigames.sunflower-land.com"
+        />
+      </FieldRow>
+    </InnerPanel>
+
+    {/* Descriptions */}
+    <InnerPanel className="p-3 space-y-2">
+      <SectionHeader type="info" icon={SUNNYSIDE.icons.expression_chat}>
+        Descriptions
+      </SectionHeader>
+      <FieldRow label="Title" hint="Main display name for your minigame">
+        <TextInput
+          value={form.descriptionTitle}
+          onValueChange={(v) => onChange({ descriptionTitle: v })}
+          placeholder="My Awesome Game"
+        />
+      </FieldRow>
+      <FieldRow label="Subtitle">
+        <TextInput
+          value={form.descriptionSubtitle}
+          onValueChange={(v) => onChange({ descriptionSubtitle: v })}
+          placeholder="A short tagline"
+        />
+      </FieldRow>
+      <FieldRow
+        label="Welcome Message"
+        hint="Shown when a player first opens your game"
+      >
+        <TextInput
+          value={form.descriptionWelcome}
+          onValueChange={(v) => onChange({ descriptionWelcome: v })}
+          placeholder="Welcome to the adventure..."
+        />
+      </FieldRow>
+      <FieldRow label="Rules" hint="Explain how to play">
+        <TextInput
+          value={form.descriptionRules}
+          onValueChange={(v) => onChange({ descriptionRules: v })}
+          placeholder="Click to collect, earn points..."
+        />
+      </FieldRow>
+    </InnerPanel>
+  </div>
+);
