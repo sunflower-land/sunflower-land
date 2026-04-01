@@ -403,6 +403,9 @@ import tofuScramble from "assets/food/tofu_scramble.png";
 import glazedCarrots from "assets/food/glazed_carrots.webp";
 import caponata from "assets/food/caponata.webp";
 import paella from "assets/food/paella.webp";
+import saltLick from "assets/food/salt_lick.webp";
+import honeyTreat from "assets/food/honey_treat.webp";
+import spiceBase from "assets/food/spice_base.webp";
 
 import goblinKey from "assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "assets/sfts/quest/sunflower_key.png";
@@ -4773,17 +4776,17 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("turbofruitMix"),
   },
   "Salt Lick": {
-    image: goblinsTreat,
+    image: saltLick,
     description: translate("description.saltLick"),
     translatedName: translate("spiceRack.saltLick"),
   },
   "Honey Treat": {
-    image: honey,
+    image: honeyTreat,
     description: translate("description.honeyTreat"),
     translatedName: translate("spiceRack.honeyTreat"),
   },
   "Spice Base": {
-    image: CROP_LIFECYCLE["Basic Biome"].Pepper.crop,
+    image: spiceBase,
     description: translate("description.spiceBase"),
     translatedName: translate("spiceRack.spiceBase"),
   },
