@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from "react";
 import Decimal from "decimal.js-light";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
@@ -36,11 +36,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const recipeDef = useMemo(() => getSpiceRackRecipe(job.recipe), [job.recipe]);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];

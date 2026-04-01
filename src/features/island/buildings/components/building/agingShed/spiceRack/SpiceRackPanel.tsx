@@ -17,27 +17,13 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
-import type {
-  GameState,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  getBasketItems,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
+import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import { SpiceRackEmpty } from "./SpiceRackEmpty";
 import { SpiceRackInProgress } from "./SpiceRackInProgress";
-
-function getMergedInventory(state: GameState): Inventory {
-  return {
-    ...getBasketItems(state.inventory),
-    ...getChestItems(state),
-  };
-}
 
 function getPrimaryOutputItem(
   recipeId: SpiceRackRecipeName,
@@ -103,7 +89,7 @@ export const SpiceRackPanel: React.FC = () => {
 
   const shedPlaced = hasPlacedAgingShed(state);
 
-  const merged = useMemo(() => getMergedInventory(state), [state]);
+  const merged = useMemo(() => mergeBasketAndChestInventory(state), [state]);
 
   const insufficientIngredient =
     selectedRecipeId !== undefined

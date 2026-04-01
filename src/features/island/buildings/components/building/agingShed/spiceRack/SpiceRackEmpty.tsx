@@ -14,26 +14,12 @@ import {
   SPICE_RACK_RECIPE_IDS,
   type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
-import type {
-  GameState,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  getBasketItems,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
+import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
-
-function getMergedInventory(state: GameState): Inventory {
-  return {
-    ...getBasketItems(state.inventory),
-    ...getChestItems(state),
-  };
-}
 
 function getPrimaryOutputItem(
   recipeId: SpiceRackRecipeName,
@@ -74,7 +60,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
     : undefined;
-  const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
+  const merged = useMemo(
+    () => mergeBasketAndChestInventory(gameState),
+    [gameState],
+  );
 
   const ingredientKeys: InventoryItemName[] = recipeDef
     ? (getObjectEntries(recipeDef.ingredients).map(([name]) => name) as
@@ -94,34 +83,28 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     !slotsFull &&
     !isVisiting;
 
-  const dropdownOptions = useMemo(
-    () =>
-      SPICE_RACK_RECIPE_IDS.map((recipeId) => {
-        const def = getSpiceRackRecipe(recipeId);
-        const outputItem = getPrimaryOutputItem(recipeId);
-        const outEntry = getObjectEntries(def.outputs)[0];
-        const amt = outEntry?.[1] ?? new Decimal(0);
-        const title = `${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${amt.toString()}`;
-        const description = ITEM_DETAILS[outputItem]?.description;
-
-        return {
-          value: recipeId,
-          icon: ITEM_DETAILS[outputItem]?.image,
-          label: (
-            <div className="flex flex-col gap-1">
-              <p className="text-xs">{title}</p>
-              {description ? <p className="text-xxs">{description}</p> : null}
-            </div>
-          ),
-        };
-      }),
-    [],
-  );
-
   return (
     <>
       <DropdownPanel
-        options={dropdownOptions}
+        options={SPICE_RACK_RECIPE_IDS.map((recipeId) => {
+          const def = getSpiceRackRecipe(recipeId);
+          const outputItem = getPrimaryOutputItem(recipeId);
+          const outEntry = getObjectEntries(def.outputs)[0];
+          const amt = outEntry?.[1] ?? new Decimal(0);
+          const title = `${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${amt.toString()}`;
+          const description = ITEM_DETAILS[outputItem]?.description;
+
+          return {
+            value: recipeId,
+            icon: ITEM_DETAILS[outputItem]?.image,
+            label: (
+              <div className="flex flex-col gap-1">
+                <p className="text-xs">{title}</p>
+                {description ? <p className="text-xxs">{description}</p> : null}
+              </div>
+            ),
+          };
+        })}
         value={selectedRecipeId}
         placeholder={t("agingShed.spice.selectRecipe")}
         onChange={(value) => onSelectRecipe(value as SpiceRackRecipeName)}

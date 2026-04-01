@@ -214,6 +214,19 @@ export const getChestItems = (state: GameState): Inventory => {
   return availableItems;
 };
 
+/** Sums quantities per item (e.g. when combining basket and chest availability). */
+export function mergeInventories(a: Inventory, b: Inventory): Inventory {
+  const merged: Inventory = { ...a };
+  for (const [item, amount] of getObjectEntries(b)) {
+    const prev = merged[item] ?? new Decimal(0);
+    merged[item] = prev.add(amount ?? new Decimal(0));
+  }
+  return merged;
+}
+
+export const mergeBasketAndChestInventory = (state: GameState): Inventory =>
+  mergeInventories(getBasketItems(state.inventory), getChestItems(state));
+
 /**
  * True when the player has at least one placeable chest item and has not
  * placed any collectibles yet (used to show "place your first item" helper).
