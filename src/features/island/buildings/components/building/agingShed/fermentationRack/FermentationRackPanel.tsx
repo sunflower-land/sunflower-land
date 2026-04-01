@@ -40,53 +40,6 @@ import { FermentationRackInProgress } from "./FermentationRackInProgress";
 const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
 const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
 
-function getInitialFermentationSelection(groups: FermentationOutputGroup[]): {
-  signature: string | undefined;
-  recipeId: FermentationRecipeName | undefined;
-} {
-  if (typeof window === "undefined") {
-    return { signature: undefined, recipeId: undefined };
-  }
-
-  const raw = localStorage.getItem(OUTPUT_STORAGE_KEY);
-  if (!raw) {
-    return { signature: undefined, recipeId: undefined };
-  }
-
-  const group = findFermentationGroupByStoredSignature(groups, raw);
-  if (!group) {
-    localStorage.removeItem(OUTPUT_STORAGE_KEY);
-    return { signature: undefined, recipeId: undefined };
-  }
-
-  if (group.signature !== raw) {
-    localStorage.setItem(OUTPUT_STORAGE_KEY, group.signature);
-  }
-
-  const storedRecipe = localStorage.getItem(
-    RECIPE_STORAGE_KEY,
-  ) as FermentationRecipeName | null;
-
-  if (group.recipeIds.length === 1) {
-    return {
-      signature: group.signature,
-      recipeId: group.recipeIds[0],
-    };
-  }
-
-  if (storedRecipe && group.recipeIds.includes(storedRecipe)) {
-    return {
-      signature: group.signature,
-      recipeId: storedRecipe,
-    };
-  }
-
-  return {
-    signature: group.signature,
-    recipeId: undefined,
-  };
-}
-
 function getMergedInventory(state: GameState): Inventory {
   return {
     ...getBasketItems(state.inventory),
@@ -146,10 +99,6 @@ export const FermentationRackPanel: React.FC = () => {
   });
 
   const groups = useMemo(() => getFermentationOutputGroups(), []);
-  const initialOutputSelection = useMemo(
-    () => getInitialFermentationSelection(groups),
-    [groups],
-  );
 
   /** `null` = no explicit tap yet: UI uses first empty slot (see `effectiveSlotIndex`). */
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
@@ -157,10 +106,10 @@ export const FermentationRackPanel: React.FC = () => {
   );
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
-  >(initialOutputSelection.signature);
+  >(undefined);
   const [selectedRecipeId, setSelectedRecipeId] = useState<
     FermentationRecipeName | undefined
-  >(initialOutputSelection.recipeId);
+  >(undefined);
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
 
