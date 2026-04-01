@@ -157,6 +157,12 @@ export const AIBuilder: React.FC = () => {
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const currentGameRef = useRef<any>(null);
   const hasLoadedFarmRef = useRef(false);
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const reconnectAttemptsRef = useRef(0);
+  const maxReconnectAttempts = 10;
+  const isUnmountingRef = useRef(false);
 
   const handleClose = useCallback(() => {
     fromRoute ? navigate(fromRoute) : navigate("/");
@@ -392,74 +398,117 @@ export const AIBuilder: React.FC = () => {
     [showStatus],
   );
 
-  // Connect WebSocket once in playing state
+  // Connect WebSocket once in playing state, with automatic reconnection
   useEffect(() => {
     if (!isPlaying) return;
 
     // Ensure Phaser is available on window for dynamically generated scenes
     (window as any).Phaser = Phaser;
+    isUnmountingRef.current = false;
 
-    showStatus("Connecting to game server...", "connecting");
+    const connectWebSocket = () => {
+      if (isUnmountingRef.current) return;
 
-    try {
-      const ws = new WebSocket(WS_URL);
-      wsRef.current = ws;
+      showStatus("Connecting to game server...", "connecting");
 
-      ws.onopen = () => {
-        showStatus("Connected! Ready to generate games.", "success");
-        setTimeout(() => hideStatus(), 3000);
+      try {
+        const ws = new WebSocket(WS_URL);
+        wsRef.current = ws;
 
-        // Auto-load saved farm on connect
-        if (farmId && !hasLoadedFarmRef.current) {
-          hasLoadedFarmRef.current = true;
-          const sid = `farm-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-          sessionIdRef.current = sid;
-          showStatus(`Loading saved game for farm ${farmId}...`, "generating");
-          ws.send(
-            JSON.stringify({
-              action: "loadSavedFarm",
-              data: { farmId: String(farmId), sessionId: sid },
-            }),
-          );
+        ws.onopen = () => {
+          reconnectAttemptsRef.current = 0;
+          showStatus("Connected! Ready to generate games.", "success");
+          setTimeout(() => hideStatus(), 3000);
 
-          // Also fetch version history
-          const versionsSid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-          ws.send(
-            JSON.stringify({
-              action: "listVersions",
-              data: { farmId: String(farmId), sessionId: versionsSid },
-            }),
-          );
+          // Auto-load saved farm on connect
+          if (farmId && !hasLoadedFarmRef.current) {
+            hasLoadedFarmRef.current = true;
+            const sid = `farm-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+            sessionIdRef.current = sid;
+            showStatus(
+              `Loading saved game for farm ${farmId}...`,
+              "generating",
+            );
+            ws.send(
+              JSON.stringify({
+                action: "loadSavedFarm",
+                data: { farmId: String(farmId), sessionId: sid },
+              }),
+            );
+
+            // Also fetch version history
+            const versionsSid = `versions-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+            ws.send(
+              JSON.stringify({
+                action: "listVersions",
+                data: { farmId: String(farmId), sessionId: versionsSid },
+              }),
+            );
+          }
+        };
+
+        ws.onmessage = (event) => {
+          const message: WebSocketMessage = JSON.parse(event.data);
+          switch (message.action) {
+            case "sceneGenerated":
+              handleSceneGenerated(message as SceneGeneratedMessage);
+              break;
+            case "versionsList":
+              setVersions((message as VersionsListMessage).data.versions);
+              break;
+            case "error":
+              handleError(message as ErrorMessage);
+              break;
+          }
+        };
+
+        ws.onclose = () => {
+          if (isUnmountingRef.current) return;
+          scheduleReconnect();
+        };
+
+        ws.onerror = () => {
+          // onclose will fire after onerror, so reconnection is handled there
+        };
+      } catch {
+        if (!isUnmountingRef.current) {
+          scheduleReconnect();
         }
-      };
+      }
+    };
 
-      ws.onmessage = (event) => {
-        const message: WebSocketMessage = JSON.parse(event.data);
-        switch (message.action) {
-          case "sceneGenerated":
-            handleSceneGenerated(message as SceneGeneratedMessage);
-            break;
-          case "versionsList":
-            setVersions((message as VersionsListMessage).data.versions);
-            break;
-          case "error":
-            handleError(message as ErrorMessage);
-            break;
-        }
-      };
+    const scheduleReconnect = () => {
+      if (isUnmountingRef.current) return;
 
-      ws.onclose = () => {
-        showStatus("Disconnected from server.", "error");
-      };
+      const attempts = reconnectAttemptsRef.current;
+      if (attempts >= maxReconnectAttempts) {
+        showStatus(
+          "Unable to connect to server. Please refresh the page.",
+          "error",
+        );
+        return;
+      }
 
-      ws.onerror = () => {
-        showStatus("Connection error. Please refresh the page.", "error");
-      };
-    } catch {
-      showStatus("Failed to connect to server.", "error");
-    }
+      // Exponential backoff: 1s, 2s, 4s, 8s, ... capped at 30s
+      const delay = Math.min(1000 * Math.pow(2, attempts), 30000);
+      reconnectAttemptsRef.current = attempts + 1;
+
+      showStatus(
+        `Disconnected. Reconnecting in ${Math.round(delay / 1000)}s... (attempt ${attempts + 1}/${maxReconnectAttempts})`,
+        "connecting",
+      );
+
+      reconnectTimeoutRef.current = setTimeout(connectWebSocket, delay);
+    };
+
+    connectWebSocket();
 
     return () => {
+      isUnmountingRef.current = true;
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
       wsRef.current?.close();
       cleanupGame();
     };
@@ -625,7 +674,7 @@ export const AIBuilder: React.FC = () => {
         value={assetSearch}
         onChange={(e) => setAssetSearch(e.target.value)}
         placeholder="Search assets (e.g. chicken, axe, tree)..."
-        className="w-full p-2 rounded text-sm border border-gray-300"
+        className="w-full p-2 rounded text-sm"
       />
 
       {/* Category filter */}
