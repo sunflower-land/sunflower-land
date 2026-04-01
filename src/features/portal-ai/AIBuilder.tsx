@@ -278,21 +278,24 @@ export const AIBuilder: React.FC = () => {
         const sdkFunction = new Function(sunflowerSDK);
         sdkFunction();
 
-        // Intercept the generated config by temporarily proxying Phaser.Game,
-        // then create the game ourselves with the Phaser scene loader directly.
+        // Intercept the generated config by passing a Phaser proxy whose Game
+        // constructor captures config (ESM forbids mutating namespace imports).
         let capturedConfig: Phaser.Types.Core.GameConfig | null = null;
-        const OriginalGame = Phaser.Game;
+        const phaserForScene = new Proxy(Phaser as object, {
+          get(target, prop, receiver) {
+            if (prop === "Game") {
+              return function GameCapture(
+                config: Phaser.Types.Core.GameConfig,
+              ) {
+                capturedConfig = config;
+              };
+            }
+            return Reflect.get(target, prop, receiver);
+          },
+        }) as typeof Phaser;
 
-        (Phaser as any).Game = function (config: Phaser.Types.Core.GameConfig) {
-          capturedConfig = config;
-        };
-
-        try {
-          const sceneFunction = new Function("Phaser", phaserScene);
-          sceneFunction(Phaser);
-        } finally {
-          (Phaser as any).Game = OriginalGame;
-        }
+        const sceneFunction = new Function("Phaser", phaserScene);
+        sceneFunction(phaserForScene);
 
         if (!capturedConfig) {
           throw new Error("No Phaser game config found in generated code");
