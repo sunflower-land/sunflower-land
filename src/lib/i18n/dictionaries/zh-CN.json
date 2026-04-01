@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "升级 Aging Shed 即可解锁",
   "agingShed.agingRack.insufficientSalt": "盐不够",
   "agingShed.agingRack.insufficientFish": "还不够 {{item}}",
-  "agedFish": "陈年鱼"
+  "agedFish": "陈年鱼",
+  "spiceRack.saltLick": "撒盐",
+  "description.saltLick": "动物专用矿物块。在香料架上制作。",
+  "spiceRack.honeyTreat": "蜂蜜零食",
+  "description.honeyTreat": "动物的甜食。在香料架上制作。",
+  "spiceRack.spiceBase": "香料基地",
+  "description.spiceBase": "一种可提升食谱体验的胡椒味基料。在香料架上制作。",
+  "spiceRack.spicedCheese": "五香奶酪",
+  "description.spicedCheese": "奶酪注入了香料基底。在香料架上制作。",
+  "agingShed.spice.spiceSlots": "香料老虎机",
+  "agingShed.spice.selectRecipe": "选择食谱",
+  "agingShed.spice.requirementsTitle": "食材",
+  "agingShed.spice.start": "开始",
+  "agingShed.spice.collect": "收集",
+  "agingShed.spice.ready": "准备好了",
+  "agingShed.spice.insufficientIngredient": "还不够 {{item}}"
 }

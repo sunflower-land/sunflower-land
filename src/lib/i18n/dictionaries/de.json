@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Verbessere Aging Shed zum Freischalten",
   "agingShed.agingRack.insufficientSalt": "Nicht genug Salz",
   "agingShed.agingRack.insufficientFish": "Nicht genug {{item}}",
-  "agedFish": "Alter Fisch"
+  "agedFish": "Alter Fisch",
+  "spiceRack.saltLick": "Salzleck",
+  "description.saltLick": "Ein Mineralblock für Tiere. Hergestellt im Spice Rack.",
+  "spiceRack.honeyTreat": "Leckerei mit Honig",
+  "description.honeyTreat": "Ein süßer Leckerbissen für Tiere. Hergestellt im Spice Rack.",
+  "spiceRack.spiceBase": "Gewürzbasis",
+  "description.spiceBase": "Eine pfeffrige Basis für ein intensiveres Rezepterlebnis. Hergestellt im Spice Rack.",
+  "spiceRack.spicedCheese": "Gewürzter Käse",
+  "description.spicedCheese": "Käse mit Gewürzbasis. Hergestellt im Spice Rack.",
+  "agingShed.spice.spiceSlots": "Gewürzspielautomaten",
+  "agingShed.spice.selectRecipe": "Wählen Sie ein Rezept",
+  "agingShed.spice.requirementsTitle": "Inhaltsstoffe",
+  "agingShed.spice.start": "Starten",
+  "agingShed.spice.collect": "Sammle",
+  "agingShed.spice.ready": "Bereit",
+  "agingShed.spice.insufficientIngredient": "Nicht genug {{item}}"
 }

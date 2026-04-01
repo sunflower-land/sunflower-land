@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Mejora Aging Shed para desbloquear",
   "agingShed.agingRack.insufficientSalt": "No hay suficiente sal",
   "agingShed.agingRack.insufficientFish": "No es suficiente {{item}}",
-  "agedFish": "Pescado envejecido"
+  "agedFish": "Pescado envejecido",
+  "spiceRack.saltLick": "Salt Lick",
+  "description.saltLick": "Bloque mineral para animales. Hecho a mano en el Spice Rack.",
+  "spiceRack.honeyTreat": "Golosina de miel",
+  "description.honeyTreat": "Un dulce regalo para los animales. Hecho a mano en el Spice Rack.",
+  "spiceRack.spiceBase": "Base de especias",
+  "description.spiceBase": "Una base picante para mejorar la experiencia con las recetas. Elaborado en el Spice Rack.",
+  "spiceRack.spicedCheese": "Queso especiado",
+  "description.spicedCheese": "Queso con una base de especias. Hecho a mano en el Spice Rack.",
+  "agingShed.spice.spiceSlots": "Tragamonedas Spice",
+  "agingShed.spice.selectRecipe": "Selecciona la receta",
+  "agingShed.spice.requirementsTitle": "Ingredientes",
+  "agingShed.spice.start": "Comenzar",
+  "agingShed.spice.collect": "Colecciona",
+  "agingShed.spice.ready": "Listo",
+  "agingShed.spice.insufficientIngredient": "No es suficiente {{item}}"
 }

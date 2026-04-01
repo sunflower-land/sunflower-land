@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Upgrade Aging Shed to unlock",
   "agingShed.agingRack.insufficientSalt": "Not enough Salt",
   "agingShed.agingRack.insufficientFish": "Not enough {{item}}",
-  "agedFish": "Aged Fish"
+  "agedFish": "Aged Fish",
+  "spiceRack.saltLick": "Salt Lick",
+  "description.saltLick": "A mineral block for animals. Crafted at the Spice Rack.",
+  "spiceRack.honeyTreat": "Honey Treat",
+  "description.honeyTreat": "A sweet treat for animals. Crafted at the Spice Rack.",
+  "spiceRack.spiceBase": "Spice Base",
+  "description.spiceBase": "A peppery base for boosting recipe experience. Crafted at the Spice Rack.",
+  "spiceRack.spicedCheese": "Spiced Cheese",
+  "description.spicedCheese": "Cheese infused with spice base. Crafted at the Spice Rack.",
+  "agingShed.spice.spiceSlots": "Spice Slots",
+  "agingShed.spice.selectRecipe": "Select recipe",
+  "agingShed.spice.requirementsTitle": "Ingredients",
+  "agingShed.spice.start": "Start",
+  "agingShed.spice.collect": "Collect",
+  "agingShed.spice.ready": "Ready",
+  "agingShed.spice.insufficientIngredient": "Not enough {{item}}"
 }

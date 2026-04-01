@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Améliorez Aging Shed pour le débloquer",
   "agingShed.agingRack.insufficientSalt": "Pas assez de sel",
   "agingShed.agingRack.insufficientFish": "Pas assez {{item}}",
-  "agedFish": "Poisson vieilli"
+  "agedFish": "Poisson vieilli",
+  "spiceRack.saltLick": "Salt Lick",
+  "description.saltLick": "Un bloc minéral pour animaux. Fabriqué au Spice Rack.",
+  "spiceRack.honeyTreat": "Friandise au miel",
+  "description.honeyTreat": "Une friandise sucrée pour les animaux. Fabriqué au Spice Rack.",
+  "spiceRack.spiceBase": "Base d'épices",
+  "description.spiceBase": "Une base poivrée pour améliorer l'expérience des recettes. Fabriqué au Spice Rack.",
+  "spiceRack.spicedCheese": "Fromage épicé",
+  "description.spicedCheese": "Fromage infusé à base d'épices. Fabriqué au Spice Rack.",
+  "agingShed.spice.spiceSlots": "Machines à sous Spice",
+  "agingShed.spice.selectRecipe": "Sélectionnez une recette",
+  "agingShed.spice.requirementsTitle": "Ingrédients",
+  "agingShed.spice.start": "Démarrer",
+  "agingShed.spice.collect": "Collecter",
+  "agingShed.spice.ready": "Prêt",
+  "agingShed.spice.insufficientIngredient": "Pas assez {{item}}"
 }

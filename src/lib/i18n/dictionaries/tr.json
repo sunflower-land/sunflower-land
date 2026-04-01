@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Kilidini açmak için Yaşlanma Kulübesini yükseltin",
   "agingShed.agingRack.insufficientSalt": "Yeterli Tuz Yok",
   "agingShed.agingRack.insufficientFish": "Yeterli değil {{item}}",
-  "agedFish": "Yaşlı Balık"
+  "agedFish": "Yaşlı Balık",
+  "spiceRack.saltLick": "Tuz yalama",
+  "description.saltLick": "Hayvanlar için bir mineral blok. Baharat Rafında hazırlanmış.",
+  "spiceRack.honeyTreat": "Bal İkramı",
+  "description.honeyTreat": "Hayvanlar için tatlı bir ikram. Baharat Rafında hazırlanmış.",
+  "spiceRack.spiceBase": "Baharat Tabanı",
+  "description.spiceBase": "Tarif deneyimini artırmak için biberli bir baz. Baharat Rafında hazırlanmış.",
+  "spiceRack.spicedCheese": "Baharatlı Peynir",
+  "description.spicedCheese": "Baharat tabanı ile demlenmiş peynir. Baharat Rafında hazırlanmış.",
+  "agingShed.spice.spiceSlots": "Baharat Slotları",
+  "agingShed.spice.selectRecipe": "Tarif seç",
+  "agingShed.spice.requirementsTitle": "Malzemeler",
+  "agingShed.spice.start": "Başlat",
+  "agingShed.spice.collect": "Toplayın",
+  "agingShed.spice.ready": "Hazır",
+  "agingShed.spice.insufficientIngredient": "Yeterli değil {{item}}"
 }

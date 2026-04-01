@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Aggiorna Aging Shed per sbloccare",
   "agingShed.agingRack.insufficientSalt": "Sale insufficiente",
   "agingShed.agingRack.insufficientFish": "Insufficiente {{item}}",
-  "agedFish": "Pesce stagionato"
+  "agedFish": "Pesce stagionato",
+  "spiceRack.saltLick": "Salt Lick",
+  "description.saltLick": "Un blocco minerale per animali. Realizzato allo Spice Rack.",
+  "spiceRack.honeyTreat": "Dolcetto al miele",
+  "description.honeyTreat": "Una dolce delizia per gli animali. Realizzato allo Spice Rack.",
+  "spiceRack.spiceBase": "Base per spezie",
+  "description.spiceBase": "Una base pepata per migliorare l'esperienza delle ricette. Realizzato presso lo Spice Rack.",
+  "spiceRack.spicedCheese": "Formaggio speziato",
+  "description.spicedCheese": "Formaggio infuso con base di spezie. Realizzato presso lo Spice Rack.",
+  "agingShed.spice.spiceSlots": "Slot Spice",
+  "agingShed.spice.selectRecipe": "Seleziona la ricetta",
+  "agingShed.spice.requirementsTitle": "ingredienti",
+  "agingShed.spice.start": "Inizio",
+  "agingShed.spice.collect": "Raccogli",
+  "agingShed.spice.ready": "Pronto",
+  "agingShed.spice.insufficientIngredient": "Insufficiente {{item}}"
 }

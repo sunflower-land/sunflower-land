@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "エイジングシェッドをアップグレードしてロック解除",
   "agingShed.agingRack.insufficientSalt": "塩分が足りない",
   "agingShed.agingRack.insufficientFish": "足りません {{item}}",
-  "agedFish": "熟成魚"
+  "agedFish": "熟成魚",
+  "spiceRack.saltLick": "ソルトリック",
+  "description.saltLick": "動物用のミネラルブロック。スパイスラックで作られています。",
+  "spiceRack.honeyTreat": "ハニートリート",
+  "description.honeyTreat": "動物向けの甘いおやつ。スパイスラックで作られています。",
+  "spiceRack.spiceBase": "スパイスベース",
+  "description.spiceBase": "レシピ体験を盛り上げるペッパーベース。スパイスラックで作りました。",
+  "spiceRack.spicedCheese": "スパイスチーズ",
+  "description.spicedCheese": "スパイスベースが入ったチーズ。スパイスラックで作りました。",
+  "agingShed.spice.spiceSlots": "スパイススロット",
+  "agingShed.spice.selectRecipe": "レシピを選択",
+  "agingShed.spice.requirementsTitle": "原材料",
+  "agingShed.spice.start": "[開始]",
+  "agingShed.spice.collect": "収集",
+  "agingShed.spice.ready": "準備完了",
+  "agingShed.spice.insufficientIngredient": "足りません {{item}}"
 }

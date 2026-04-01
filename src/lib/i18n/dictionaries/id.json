@@ -8430,5 +8430,20 @@
   "agingShed.agingRack.slotLocked": "Tingkatkan Aging Shed untuk membuka kunci",
   "agingShed.agingRack.insufficientSalt": "Garam tidak cukup",
   "agingShed.agingRack.insufficientFish": "Tidak cukup {{item}}",
-  "agedFish": "Ikan Tua"
+  "agedFish": "Ikan Tua",
+  "spiceRack.saltLick": "Jilat Garam",
+  "description.saltLick": "Blok mineral untuk hewan. Dibuat di Rak Rempah.",
+  "spiceRack.honeyTreat": "Suguhan Madu",
+  "description.honeyTreat": "Suguhan manis untuk hewan. Dibuat di Rak Rempah.",
+  "spiceRack.spiceBase": "Basis Rempah-rempah",
+  "description.spiceBase": "Basis pedas untuk meningkatkan pengalaman resep. Dibuat di Rak Rempah.",
+  "spiceRack.spicedCheese": "Keju Berbumbu",
+  "description.spicedCheese": "Keju diresapi dengan bumbu dasar. Dibuat di Rak Rempah-rempah.",
+  "agingShed.spice.spiceSlots": "Slot Rempah-rempah",
+  "agingShed.spice.selectRecipe": "Pilih resep",
+  "agingShed.spice.requirementsTitle": "Bahan",
+  "agingShed.spice.start": "Mulai",
+  "agingShed.spice.collect": "Mengumpulkan",
+  "agingShed.spice.ready": "Siap",
+  "agingShed.spice.insufficientIngredient": "Tidak cukup {{item}}"
 }
