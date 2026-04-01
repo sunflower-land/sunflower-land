@@ -55,6 +55,7 @@ import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
 import { BonusName } from "./bonuses";
 import type { FermentationCollectedActivity } from "./fermentation";
+import type { SpiceRackCollectedActivity } from "./spiceRack";
 import type { AgedFishName, PrimeAgedFishName } from "./fishing";
 
 export type AgingCollectedActivity =
@@ -173,6 +174,7 @@ export type FarmActivityName =
   | ProcessedEvent
   | FermentationCollectedActivity
   | AgingCollectedActivity
+  | SpiceRackCollectedActivity
   | FedEvent
   | BuyEvent
   | CraftedEvent

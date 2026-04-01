@@ -403,6 +403,9 @@ import tofuScramble from "assets/food/tofu_scramble.png";
 import glazedCarrots from "assets/food/glazed_carrots.webp";
 import caponata from "assets/food/caponata.webp";
 import paella from "assets/food/paella.webp";
+import saltLick from "assets/food/salt_lick.webp";
+import honeyTreat from "assets/food/honey_treat.webp";
+import spiceBase from "assets/food/spice_base.webp";
 
 import goblinKey from "assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "assets/sfts/quest/sunflower_key.png";
@@ -4771,6 +4774,26 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.turbofruitMix"),
     translatedName: translate("turbofruitMix"),
+  },
+  "Salt Lick": {
+    image: saltLick,
+    description: translate("description.saltLick"),
+    translatedName: translate("spiceRack.saltLick"),
+  },
+  "Honey Treat": {
+    image: honeyTreat,
+    description: translate("description.honeyTreat"),
+    translatedName: translate("spiceRack.honeyTreat"),
+  },
+  "Spice Base": {
+    image: spiceBase,
+    description: translate("description.spiceBase"),
+    translatedName: translate("spiceRack.spiceBase"),
+  },
+  "Spiced Cheese": {
+    image: honeyCheddar,
+    description: translate("description.spicedCheese"),
+    translatedName: translate("spiceRack.spicedCheese"),
   },
   "Capsule Bait": {
     image: capsuleBait,

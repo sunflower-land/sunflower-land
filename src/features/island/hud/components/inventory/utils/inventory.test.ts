@@ -5,6 +5,7 @@ import {
   getBasketItems,
   getChestItemCount,
   getChestItems,
+  mergeInventories,
   requiresChestCount,
 } from "./inventory";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
@@ -268,5 +269,25 @@ describe("getChestItemCount", () => {
 
     const chest = getChestItems(state);
     expect(getChestItemCount(state, "Fire Pit")).toEqual(chest["Fire Pit"]);
+  });
+});
+
+describe("mergeInventories", () => {
+  it("sums quantities when the same item appears in both maps", () => {
+    expect(
+      mergeInventories({ Wheat: new Decimal(2) }, { Wheat: new Decimal(3) }),
+    ).toEqual({ Wheat: new Decimal(5) });
+  });
+
+  it("includes keys from both maps without overlap", () => {
+    expect(
+      mergeInventories(
+        { Wheat: new Decimal(1) },
+        { Sunflower: new Decimal(2) },
+      ),
+    ).toEqual({
+      Wheat: new Decimal(1),
+      Sunflower: new Decimal(2),
+    });
   });
 });

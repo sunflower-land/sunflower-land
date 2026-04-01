@@ -32,6 +32,7 @@ import { WORKBENCH_MONUMENTS } from "../types/monuments";
 import { getKeys } from "lib/object";
 import { PICKLED_CROPS } from "../types/pickled";
 import { FERMENTATION_PRODUCTS } from "../types/fermentationProducts";
+import { SPICE_RACK_PRODUCTS } from "../types/spiceRackProducts";
 
 export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Mark",
@@ -76,6 +77,7 @@ export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   ...CRUSTACEANS,
   ...PICKLED_CROPS,
   ...FERMENTATION_PRODUCTS,
+  ...SPICE_RACK_PRODUCTS,
   "Cheer",
   "Obsidian Shrine",
   "Time Warp Totem",
