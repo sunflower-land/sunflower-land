@@ -204,9 +204,11 @@ export const MinigameEditorCreate: React.FC = () => {
         slug,
         config: formToConfig(form),
       });
-      navigate("/minigame-editor");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to create minigame");
+      const message =
+        e instanceof Error ? e.message : "Failed to create minigame";
+      setError(message);
+      throw e;
     } finally {
       setSaving(false);
     }
@@ -270,9 +272,11 @@ export const MinigameEditorEdit: React.FC = () => {
         slug,
         config: formToConfig(form),
       });
-      navigate("/minigame-editor");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to update minigame");
+      const message =
+        e instanceof Error ? e.message : "Failed to update minigame";
+      setError(message);
+      throw e;
     } finally {
       setSaving(false);
     }

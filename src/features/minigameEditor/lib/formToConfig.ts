@@ -1,144 +1,312 @@
 import type {
+  BurnRule,
+  CollectRule,
   MinigameConfig,
   MinigameActionDefinition,
-  MinigameShopConfigRow,
+  MintRule,
   ProduceRule,
 } from "features/minigame/lib/types";
 
-import type { EditorFormState } from "./types";
+import type { ActionForm, EditorFormState, ItemForm } from "./types";
 
-export function formToConfig(form: EditorFormState): MinigameConfig {
-  const actions = form.actions.reduce(
-    (acc, row) => {
-      if (!row.id.trim()) return acc;
+const CUSTOM_MINT_UNCAPPED_DAILY = 999_999_999;
 
-      const def: MinigameActionDefinition = {};
+function normalizeGeneratorRequires(raw: unknown): string {
+  if (raw === undefined || raw === null) return "";
+  return String(raw).trim();
+}
 
-      // Require
+function buildTokenRemap(items: ItemForm[]): Map<string, string> {
+  const m = new Map<string, string>();
+  for (const it of items) {
+    if (it.deleted) continue;
+    if (it.id === undefined) continue;
+    const sid = String(it.id);
+    m.set(sid, sid);
+    if (it.key.trim()) m.set(it.key.trim(), sid);
+  }
+  return m;
+}
+
+function rowToDefinition(
+  row: ActionForm,
+  norm: (t: string) => string,
+): MinigameActionDefinition {
+  const def: MinigameActionDefinition = {};
+
+  if (row.actionType !== "shop") {
+    if (row.actionType === "custom") {
+      const first = row.require[0];
+      const tok = first ? norm(first.token) : "";
+      if (tok) {
+        def.require = { [tok]: { amount: 1 } };
+      }
+    } else {
       const require = row.require.reduce(
         (map, t) => {
-          if (!t.token.trim()) return map;
-          map[t.token.trim()] = { amount: Math.max(0, t.amount || 0) };
+          const tok = norm(t.token);
+          if (!tok) return map;
+          map[tok] = { amount: Math.max(0, t.amount || 0) };
           return map;
         },
         {} as Record<string, { amount: number }>,
       );
       if (Object.keys(require).length) def.require = require;
+    }
+  }
 
-      // RequireBelow
-      const requireBelow = row.requireBelow.reduce(
-        (map, t) => {
-          if (!t.token.trim()) return map;
-          map[t.token.trim()] = Math.max(0, t.amount || 0);
-          return map;
-        },
-        {} as Record<string, number>,
-      );
-      if (Object.keys(requireBelow).length) def.requireBelow = requireBelow;
-
-      // RequireAbsent
-      const requireAbsent = row.requireAbsent.filter((s) => s.trim());
-      if (requireAbsent.length) def.requireAbsent = requireAbsent;
-
-      // Burn
-      const burn = row.burn.reduce(
-        (map, t) => {
-          if (!t.token.trim()) return map;
-          map[t.token.trim()] = { amount: Math.max(0, t.amount || 0) };
-          return map;
-        },
-        {} as Record<string, { amount: number }>,
-      );
-      if (Object.keys(burn).length) def.burn = burn;
-
-      // Mint (supports union types)
-      const mint = row.mint.reduce(
-        (map, t) => {
-          if (!t.token.trim()) return map;
-          if (t.type === "ranged") {
-            map[t.token.trim()] = {
-              min: Math.max(0, t.min || 0),
-              max: Math.max(0, t.max || 0),
-              dailyCap: Math.max(0, t.dailyCap || 0),
-            };
-          } else if (t.type === "fixedCapped") {
-            map[t.token.trim()] = {
-              amount: Math.max(0, t.amount || 0),
-              dailyCap: Math.max(0, t.dailyCap || 0),
-            };
-          } else {
-            map[t.token.trim()] = { amount: Math.max(0, t.amount || 0) };
-          }
-          return map;
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        {} as Record<string, any>,
-      );
-      if (Object.keys(mint).length) def.mint = mint;
-
-      // Produce
-      const produce = row.produce.reduce(
-        (map, p) => {
-          if (!p.token.trim()) return map;
-          const rule: ProduceRule = {
-            msToComplete: Math.max(0, p.msToComplete || 0),
-          };
-          if (p.limit !== undefined && p.limit > 0) rule.limit = p.limit;
-          if (p.requires?.trim()) rule.requires = p.requires.trim();
-          map[p.token.trim()] = rule;
-          return map;
-        },
-        {} as Record<string, ProduceRule>,
-      );
-      if (Object.keys(produce).length) def.produce = produce;
-
-      // Collect
-      const collect = row.collect.reduce(
-        (map, c) => {
-          if (!c.token.trim()) return map;
-          map[c.token.trim()] = { amount: Math.max(0, c.amount || 0) };
-          return map;
-        },
-        {} as Record<string, { amount: number }>,
-      );
-      if (Object.keys(collect).length) def.collect = collect;
-
-      acc[row.id.trim()] = def;
-
-      // For produce actions, emit the linked collect action as a separate action
-      if (
-        row.actionType === "produce" &&
-        row.linkedCollectId?.trim() &&
-        row.linkedCollectMint?.length
-      ) {
-        const collectDef: MinigameActionDefinition = {};
-        const collectMint = row.linkedCollectMint.reduce(
-          (map, t) => {
-            if (!t.token.trim()) return map;
-            map[t.token.trim()] = { amount: Math.max(0, t.amount || 0) };
-            return map;
-          },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          {} as Record<string, any>,
-        );
-        if (Object.keys(collectMint).length) collectDef.mint = collectMint;
-        acc[row.linkedCollectId.trim()] = collectDef;
-      }
-
-      return acc;
+  const requireBelow = row.requireBelow.reduce(
+    (map, t) => {
+      const tok = norm(t.token);
+      if (!tok) return map;
+      map[tok] = Math.max(0, t.amount || 0);
+      return map;
     },
-    {} as MinigameConfig["actions"],
+    {} as Record<string, number>,
   );
+  if (Object.keys(requireBelow).length) def.requireBelow = requireBelow;
+
+  const requireAbsent = row.requireAbsent
+    .map((s) => norm(s))
+    .filter(Boolean);
+  if (requireAbsent.length) def.requireAbsent = requireAbsent;
+
+  if (row.actionType === "custom") {
+    const customBurn = row.customBurn.reduce(
+      (map, r) => {
+        const tok = norm(r.token);
+        if (!tok) return map;
+        const min = Math.max(0, Math.floor(r.min || 0));
+        const max = Math.max(0, Math.floor(r.max || 0));
+        if (max < min) return map;
+        if (min === max) {
+          map[tok] = { amount: min };
+        } else {
+          map[tok] = { min, max };
+        }
+        return map;
+      },
+      {} as Record<string, BurnRule>,
+    );
+    if (Object.keys(customBurn).length) def.burn = customBurn;
+
+    const customMint = row.customMint.reduce(
+      (map, r) => {
+        const tok = norm(r.token);
+        if (!tok) return map;
+        const min = Math.max(0, Math.floor(r.min || 0));
+        const max = Math.max(0, Math.floor(r.max || 0));
+        const dailyCap = Math.max(0, Math.floor(r.dailyCap || 0));
+        if (max < min) return map;
+        if (min === max && dailyCap <= 0) {
+          map[tok] = { amount: min };
+        } else {
+          map[tok] = {
+            min,
+            max,
+            dailyCap:
+              dailyCap > 0 ? dailyCap : CUSTOM_MINT_UNCAPPED_DAILY,
+          } as MintRule;
+        }
+        return map;
+      },
+      {} as Record<string, MintRule>,
+    );
+    if (Object.keys(customMint).length) def.mint = customMint;
+
+    def.showInShop = false;
+    const cap = row.customDailyUsesCap ?? 0;
+    if (cap > 0) {
+      def.maxUsesPerDay = Math.max(0, Math.floor(cap));
+    }
+  } else {
+    const burn = row.burn.reduce(
+      (map, t) => {
+        const tok = norm(t.token);
+        if (!tok) return map;
+        map[tok] = { amount: Math.max(0, t.amount || 0) };
+        return map;
+      },
+      {} as Record<string, { amount: number }>,
+    );
+    if (Object.keys(burn).length) def.burn = burn;
+
+    const mint = row.mint.reduce(
+      (map, t) => {
+        const tok = norm(t.token);
+        if (!tok) return map;
+        if (t.type === "ranged") {
+          map[tok] = {
+            min: Math.max(0, t.min || 0),
+            max: Math.max(0, t.max || 0),
+            dailyCap: Math.max(0, t.dailyCap || 0),
+          };
+        } else if (t.type === "fixedCapped") {
+          map[tok] = {
+            amount: Math.max(0, t.amount || 0),
+            dailyCap: Math.max(0, t.dailyCap || 0),
+          };
+        } else {
+          map[tok] = { amount: Math.max(0, t.amount || 0) };
+        }
+        return map;
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {} as Record<string, any>,
+    );
+    if (Object.keys(mint).length) {
+      if (row.actionType === "shop") {
+        const key = Object.keys(mint)[0];
+        def.mint = { [key]: mint[key] };
+      } else {
+        def.mint = mint;
+      }
+    }
+  }
+
+  const produce = row.produce.reduce(
+    (map, p, idx) => {
+      let tok = norm(p.token);
+      if (
+        !tok &&
+        row.actionType === "produce" &&
+        idx === 0 &&
+        row.linkedCollectMint
+      ) {
+        const lm = row.linkedCollectMint.find((m) => norm(m.token.trim()));
+        if (lm) tok = norm(lm.token);
+      }
+      if (!tok) return map;
+      const rule: ProduceRule = {
+        msToComplete: Math.max(0, p.msToComplete || 0),
+      };
+      if (p.limit !== undefined && p.limit > 0) rule.limit = p.limit;
+      const reqStr = normalizeGeneratorRequires(p.requires);
+      if (reqStr) rule.requires = norm(reqStr);
+      map[tok] = rule;
+      return map;
+    },
+    {} as Record<string, ProduceRule>,
+  );
+  if (Object.keys(produce).length) def.produce = produce;
+
+  const collect = row.collect.reduce(
+    (map, c) => {
+      const tok = norm(c.token);
+      if (!tok) return map;
+      const entry: CollectRule = { amount: Math.max(0, c.amount || 0) };
+      if (c.seconds !== undefined) {
+        entry.seconds = Math.max(0, Math.floor(c.seconds));
+      }
+      map[tok] = entry;
+      return map;
+    },
+    {} as Record<string, CollectRule>,
+  );
+  if (Object.keys(collect).length) def.collect = collect;
+
+  if (row.actionType === "shop" && row.showInShop === false) {
+    def.showInShop = false;
+  }
+
+  const shopLim = Math.max(0, Math.floor(row.shopPurchaseLimit ?? 0));
+  if (row.actionType === "shop" && shopLim > 0) {
+    def.purchaseLimit = shopLim;
+  }
+
+  def.type = row.actionType === "produce" ? "generator" : row.actionType;
+
+  return def;
+}
+
+function isDefinitionEmpty(def: MinigameActionDefinition): boolean {
+  return (
+    Object.keys(def).filter((k) => k !== "type" && k !== "editorRuleKind")
+      .length === 0
+  );
+}
+
+function hasLinkedCollect(row: ActionForm): boolean {
+  return (
+    row.actionType === "produce" &&
+    (row.linkedCollectMint?.some((m) => m.token.trim()) ?? false)
+  );
+}
+
+function buildActionsFromForm(
+  rows: ActionForm[],
+  norm: (t: string) => string,
+): MinigameConfig["actions"] {
+  const actions: MinigameConfig["actions"] = {};
+  let nextId = 1;
+
+  for (const row of rows) {
+    const def = rowToDefinition(row, norm);
+    if (isDefinitionEmpty(def)) continue;
+
+    const primaryId = String(nextId++);
+
+    if (hasLinkedCollect(row)) {
+      const seconds = Math.max(
+        0,
+        Math.floor((row.produce[0]?.msToComplete ?? 0) / 1000),
+      );
+      const collectMap = (row.linkedCollectMint ?? []).reduce(
+        (map, t) => {
+          const tok = norm(t.token);
+          if (!tok) return map;
+          map[tok] = {
+            amount: Math.max(0, t.amount || 0),
+            seconds,
+          };
+          return map;
+        },
+        {} as Record<string, CollectRule>,
+      );
+      if (Object.keys(collectMap).length) {
+        def.collect = collectMap;
+        if (def.produce) {
+          const nextProduce: Record<string, ProduceRule> = {};
+          for (const [out, r] of Object.entries(def.produce)) {
+            const { msToComplete: _drop, ...rest } = r;
+            nextProduce[out] = rest;
+          }
+          def.produce = nextProduce;
+        }
+      }
+    }
+
+    actions[primaryId] = def;
+  }
+
+  return actions;
+}
+
+export function formToConfig(form: EditorFormState): MinigameConfig {
+  const normToken = buildTokenRemap(form.items);
+  const norm = (t: string) => {
+    const s = t.trim();
+    return normToken.get(s) ?? s;
+  };
+
+  const actions = buildActionsFromForm(form.actions, norm);
 
   const items = form.items.reduce(
     (acc, item) => {
-      if (!item.key.trim()) return acc;
-      acc[item.key.trim()] = {
+      if (item.deleted) return acc;
+      if (item.id === undefined) return acc;
+      const k = String(item.id);
+      const init = item.initialBalance ?? 0;
+      acc[k] = {
         name: item.name,
         description: item.description,
         ...(item.image.trim() ? { image: item.image.trim() } : {}),
-        ...(item.id !== undefined ? { id: item.id } : {}),
+        id: item.id,
         ...(item.tradeable ? { tradeable: true } : {}),
+        ...(item.generator ? { generator: true } : {}),
+        ...(init > 0
+          ? { initialBalance: Math.max(0, Math.floor(init)) }
+          : {}),
       };
       return acc;
     },
@@ -156,52 +324,6 @@ export function formToConfig(form: EditorFormState): MinigameConfig {
     },
     ...(form.playUrl.trim() ? { playUrl: form.playUrl.trim() } : {}),
   };
-
-  // Dashboard
-  if (form.dashboard.enabled && form.dashboard.displayName.trim()) {
-    const shopRows: MinigameShopConfigRow[] = form.dashboard.shop
-      .filter((s) => s.id.trim() && s.actionId.trim())
-      .map((s) => ({
-        id: s.id.trim(),
-        actionId: s.actionId.trim(),
-        ...(s.name.trim() ? { name: s.name.trim() } : {}),
-        ...(s.description.trim() ? { description: s.description.trim() } : {}),
-        ...(s.listImageToken.trim()
-          ? { listImageToken: s.listImageToken.trim() }
-          : {}),
-        price: {
-          token: s.priceToken.trim(),
-          amount: Math.max(0, s.priceAmount || 0),
-        },
-        ...(s.ownedBalanceToken.trim()
-          ? { ownedBalanceToken: s.ownedBalanceToken.trim() }
-          : {}),
-      }));
-
-    const prodCollect = form.dashboard.productionCollectByStartId.reduce(
-      (map, entry) => {
-        if (entry.startId.trim() && entry.collectId.trim()) {
-          map[entry.startId.trim()] = entry.collectId.trim();
-        }
-        return map;
-      },
-      {} as Record<string, string>,
-    );
-
-    config.dashboard = {
-      displayName: form.dashboard.displayName.trim(),
-      headerBalanceToken: form.dashboard.headerBalanceToken.trim(),
-      inventoryShortcutTokens: form.dashboard.inventoryShortcutTokens
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      shop: shopRows,
-      productionCollectByStartId: prodCollect,
-      ...(form.dashboard.visualTheme.trim()
-        ? { visualTheme: form.dashboard.visualTheme.trim() }
-        : {}),
-    };
-  }
 
   return config;
 }

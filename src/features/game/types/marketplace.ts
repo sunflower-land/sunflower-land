@@ -56,6 +56,10 @@ export type Tradeable =
       minigameSlug: string;
       minigameLabel: string;
       currencyName: string;
+      /** From API: `items[currencyName].name` (human-readable marketplace label). */
+      currencyDisplayName?: string;
+      /** From API: `items[currencyName].description`. */
+      currencyDescription?: string;
       /** Relative to `VITE_PRIVATE_IMAGE_URL` or absolute URL (from API). */
       image?: string;
       balance?: number;

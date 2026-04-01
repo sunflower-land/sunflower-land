@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { OuterPanel } from "components/ui/Panel";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CONFIG } from "lib/config";
 
 import type {
   EditorFormState,
@@ -16,6 +19,32 @@ import type {
 import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { ActionsTab } from "./tabs/ActionsTab";
+import { useEditorApi } from "./lib/useEditorApi";
+
+function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
+  return {
+    slug: state.slug,
+    playUrl: state.playUrl,
+    descriptionTitle: state.descriptionTitle,
+    descriptionSubtitle: state.descriptionSubtitle,
+    descriptionWelcome: state.descriptionWelcome,
+    descriptionRules: state.descriptionRules,
+    items: state.items.map(
+      ({ imageUploading: _u, uploadError: _e, ...item }) => item,
+    ),
+    actions: state.actions,
+  };
+}
+
+function isEditorFormDirty(
+  form: EditorFormState,
+  baseline: EditorFormState,
+): boolean {
+  return (
+    JSON.stringify(normalizeEditorFormForDirtyCheck(form)) !==
+    JSON.stringify(normalizeEditorFormForDirtyCheck(baseline))
+  );
+}
 
 const TABS: { id: EditorTab; icon: string; name: string }[] = [
   { id: "basics", icon: SUNNYSIDE.icons.expression_chat, name: "Basics" },
@@ -28,15 +57,64 @@ export const MinigameEditorForm: React.FC<{
   initial: EditorFormState;
   saving: boolean;
   error: string | null;
-  onSave: (form: EditorFormState) => void;
+  onSave: (form: EditorFormState) => Promise<void>;
   onBack: () => void;
 }> = ({ mode, initial, saving, error, onSave, onBack }) => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<EditorFormState>(initial);
+  /** Baseline for unsafe (unsaved) checks; updated after successful save. */
+  const [dirtyBaseline, setDirtyBaseline] = useState<EditorFormState>(initial);
   const [activeTab, setActiveTab] = useState<EditorTab>("basics");
+  const [savedFlash, setSavedFlash] = useState(false);
+  const [previewUnsafeModalOpen, setPreviewUnsafeModalOpen] = useState(false);
+  const formRef = useRef(form);
+  const { requestItemImageUploadUrl } = useEditorApi();
+
+  useEffect(() => {
+    formRef.current = form;
+  }, [form]);
 
   useEffect(() => {
     setForm(initial);
+    setDirtyBaseline(structuredClone(initial));
   }, [initial]);
+
+  useEffect(() => {
+    if (!savedFlash) return;
+    const id = window.setTimeout(() => setSavedFlash(false), 2600);
+    return () => window.clearTimeout(id);
+  }, [savedFlash]);
+
+  const handleSave = async () => {
+    try {
+      await onSave(form);
+      setSavedFlash(true);
+      setDirtyBaseline(structuredClone(form));
+    } catch {
+      /* error surfaced via `error` prop from parent */
+    }
+  };
+
+  const goToPreview = () => {
+    const slug = formRef.current.slug.trim();
+    if (!slug) return;
+    navigate(`/minigame/${encodeURIComponent(slug)}`);
+  };
+
+  const handlePreviewClick = () => {
+    const slug = form.slug.trim();
+    if (!slug) return;
+    if (isEditorFormDirty(form, dirtyBaseline)) {
+      setPreviewUnsafeModalOpen(true);
+      return;
+    }
+    goToPreview();
+  };
+
+  const confirmPreviewWithUnsafeChanges = () => {
+    setPreviewUnsafeModalOpen(false);
+    goToPreview();
+  };
 
   /* ── Helpers for child callbacks ─── */
 
@@ -51,26 +129,34 @@ export const MinigameEditorForm: React.FC<{
     });
 
   const addItem = () =>
-    setForm((prev) => ({
-      ...prev,
-      items: [
-        ...prev.items,
-        {
-          key: "",
-          name: "",
-          description: "",
-          image: "",
-          tradeable: false,
-          presignedPutUrl: "",
-        },
-      ],
-    }));
+    setForm((prev) => {
+      const nextId =
+        prev.items.reduce((m, i) => Math.max(m, i.id ?? -1), -1) + 1;
+      return {
+        ...prev,
+        items: [
+          ...prev.items,
+          {
+            key: String(nextId),
+            name: "",
+            description: "",
+            image: "",
+            id: nextId,
+            tradeable: false,
+            generator: false,
+            initialBalance: 0,
+          },
+        ],
+      };
+    });
 
   const deleteItem = (index: number) =>
-    setForm((prev) => ({
-      ...prev,
-      items: prev.items.filter((_, i) => i !== index),
-    }));
+    setForm((prev) => {
+      const items = [...prev.items];
+      if (index < 0 || index >= items.length) return prev;
+      items[index] = { ...items[index], deleted: true };
+      return { ...prev, items };
+    });
 
   const uploadImage = async (index: number, file: File) => {
     const objectUrl = URL.createObjectURL(file);
@@ -88,12 +174,38 @@ export const MinigameEditorForm: React.FC<{
       throw new Error("Image must be 64x64 pixels or smaller");
     }
 
-    const item = form.items[index];
-    if (!item.presignedPutUrl.trim()) {
-      throw new Error("Add a pre-signed S3 PUT URL first");
+    const current = formRef.current;
+    const item = current.items[index];
+    const slug = current.slug.trim();
+
+    if (!CONFIG.API_URL) {
+      throw new Error(
+        "Image upload needs the live API. Use a build where the game points at the API, or deploy the minigame editor against staging/production.",
+      );
     }
 
-    const response = await fetch(item.presignedPutUrl.trim(), {
+    if (!slug) {
+      throw new Error(
+        "Set your minigame slug in Basics before uploading images.",
+      );
+    }
+    if (item.id === undefined) {
+      throw new Error(
+        "This item has no ID in the config. Remove it and add a new item, then upload again.",
+      );
+    }
+
+    const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+    const presign = await requestItemImageUploadUrl({
+      slug,
+      itemId: item.id,
+      contentType: file.type || "image/png",
+      extension: extMatch?.[1],
+    });
+    const putUrl = presign.presignedPutUrl;
+    const publicUrlOverride = presign.publicUrl;
+
+    const response = await fetch(putUrl, {
       method: "PUT",
       headers: { "Content-Type": file.type || "image/png" },
       body: file,
@@ -103,24 +215,31 @@ export const MinigameEditorForm: React.FC<{
     }
 
     const publicUrl =
-      item.presignedPutUrl.split("?")[0] ?? item.presignedPutUrl;
+      (publicUrlOverride && publicUrlOverride.trim()) ||
+      putUrl.split("?")[0] ||
+      putUrl;
     setForm((prev) => {
       const items = [...prev.items];
       items[index] = {
         ...items[index],
         image: publicUrl,
+        imageUploading: false,
         uploadError: undefined,
       };
       return { ...prev, items };
     });
   };
 
-  const handleUploadImage = (index: number, file: File) => {
-    void uploadImage(index, file).catch((err) => {
+  const handleUploadImage = async (index: number, file: File) => {
+    updateItem(index, { imageUploading: true, uploadError: undefined });
+    try {
+      await uploadImage(index, file);
+    } catch (err) {
       updateItem(index, {
+        imageUploading: false,
         uploadError: err instanceof Error ? err.message : "Upload failed",
       });
-    });
+    }
   };
 
   const updateAction = (index: number, next: Partial<ActionForm>) =>
@@ -199,9 +318,10 @@ export const MinigameEditorForm: React.FC<{
               </Tab>
             ))}
           </div>
-          {/* Back button */}
+          {/* Close (exit editor) */}
           <img
-            src={SUNNYSIDE.icons.arrow_left}
+            src={SUNNYSIDE.icons.close}
+            alt=""
             className="flex-none cursor-pointer float-right hover:brightness-90"
             onClick={onBack}
             style={{
@@ -221,20 +341,71 @@ export const MinigameEditorForm: React.FC<{
       </OuterPanel>
 
       {/* Sticky footer with save + error */}
-      <div className="mt-1">
+      <div className="mt-1 space-y-1">
+        {savedFlash && (
+          <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-sm bg-[#286c4e]/90 border border-[#1e4d38]">
+            <img
+              src={SUNNYSIDE.icons.confirm}
+              alt=""
+              className="w-4 h-4 flex-shrink-0"
+              style={{ imageRendering: "pixelated" }}
+            />
+            <span className="text-xs text-white">{"Saved"}</span>
+          </div>
+        )}
         {error && (
           <Label type="danger" className="mb-1">
             {error}
           </Label>
         )}
-        <Button disabled={saving} onClick={() => onSave(form)}>
-          {saving
-            ? "Saving..."
-            : mode === "create"
-              ? "Create Minigame"
-              : "Save Changes"}
-        </Button>
+        <div className="flex gap-1">
+          <Button
+            type="button"
+            disabled={!form.slug.trim()}
+            onClick={handlePreviewClick}
+          >
+            {"Preview"}
+          </Button>
+          <Button
+            className="flex-1"
+            disabled={saving}
+            onClick={() => void handleSave()}
+          >
+            {saving
+              ? "Saving..."
+              : mode === "create"
+                ? "Create Minigame"
+                : "Save Changes"}
+          </Button>
+        </div>
       </div>
+
+      <Modal
+        show={previewUnsafeModalOpen}
+        onHide={() => setPreviewUnsafeModalOpen(false)}
+      >
+        <Panel>
+          <div className="p-2 space-y-3">
+            <p className="text-xs">
+              {"You have unsafe changes. Would you like to continue?"}
+            </p>
+            <div className="flex gap-1">
+              <Button
+                className="flex-1"
+                onClick={() => setPreviewUnsafeModalOpen(false)}
+              >
+                {"Cancel"}
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={confirmPreviewWithUnsafeChanges}
+              >
+                {"Continue"}
+              </Button>
+            </div>
+          </div>
+        </Panel>
+      </Modal>
     </div>
   );
 };

@@ -2,9 +2,7 @@ import type { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { portal } from "features/world/ui/community/actions/portal";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
-import type {
-  FetchMinigameResult,
-} from "./minigameDashboardTypes";
+import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
   getMinigameSession,
   type MinigameSessionApiPayload,
@@ -31,7 +29,8 @@ export async function loadMinigameDashboard(
   slug: string,
   creds: { userToken: string; farmId: number } | null,
 ): Promise<FetchMinigameResult> {
-  if (!CONFIG.API_URL) return { ok: false, error: { kind: "sign_in_required" } };
+  if (!CONFIG.API_URL)
+    return { ok: false, error: { kind: "sign_in_required" } };
 
   if (!creds?.userToken || creds.farmId == null || Number.isNaN(creds.farmId)) {
     return { ok: false, error: { kind: "sign_in_required" } };
@@ -52,17 +51,33 @@ export async function loadMinigameDashboard(
       activity: raw.minigame.activity,
       dailyActivity: raw.minigame.dailyActivity,
       dailyMinted: raw.minigame.dailyMinted,
+      ...(raw.minigame.dailyActionUses
+        ? { dailyActionUses: raw.minigame.dailyActionUses }
+        : {}),
+      ...(raw.minigame.purchaseCounts != null
+        ? { purchaseCounts: { ...raw.minigame.purchaseCounts } }
+        : {}),
     };
     const config = {
       actions: raw.actions as Record<string, any>,
       items: raw.items,
       descriptions: raw.descriptions,
-      dashboard: raw.dashboard,
+      visualTheme: raw.visualTheme,
       playUrl: raw.playUrl,
+      ...(raw.initialBalances ? { initialBalances: raw.initialBalances } : {}),
+      ...(raw.productionCollectByStartId
+        ? { productionCollectByStartId: raw.productionCollectByStartId }
+        : {}),
+      ...(raw.dashboard ? { dashboard: raw.dashboard } : {}),
     };
     return {
       ok: true,
-      data: buildMinigameDashboardData(slug, slug as MinigameName, config, state),
+      data: buildMinigameDashboardData(
+        slug,
+        slug as MinigameName,
+        config,
+        state,
+      ),
     };
   } catch (e) {
     const message = e instanceof Error ? e.message : "Failed to load minigame";

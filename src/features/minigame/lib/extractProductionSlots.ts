@@ -1,4 +1,5 @@
 import { tokenDisplayName } from "./minigameConfigHelpers";
+import { resolveProduceDurationMs } from "./resolveProduceDuration";
 import type { MinigameConfig, MinigameRuntimeState } from "./types";
 
 export type CapBalanceProductionSlot = {
@@ -11,27 +12,55 @@ export type CapBalanceProductionSlot = {
   limit?: number;
 };
 
+/** One generator (kitchen, wormery, …) and every produce recipe that uses it as `requires`. */
+export type GeneratorProductionEntry = {
+  capToken: string;
+  recipes: CapBalanceProductionSlot[];
+};
+
+/** Stable key for mapping runtime `producing` jobs to dashboard recipe rows. */
+export function recipeJobKey(slot: CapBalanceProductionSlot): string {
+  return `${slot.startActionId}|${slot.outputToken}`;
+}
+
 /**
- * Finds every `produce` rule with `requires` and pairs it with a collect action
- * via `collectByStartId[startActionId] = collectActionId` (per-minigame registry).
+ * Finds every `produce` rule with `requires` and a collect target: either `collect` on the
+ * same action (`collectActionId` is set to that action id) or legacy `collectActionId` on the rule.
  */
+/** Production UI only lists lanes whose cap token is an item with `generator: true`. */
+export function isGeneratorCapToken(config: MinigameConfig, token: string): boolean {
+  return config.items?.[token]?.generator === true;
+}
+
+export function isProductionSlotConfigured(slot: CapBalanceProductionSlot): boolean {
+  return Boolean(slot.startActionId && slot.collectActionId);
+}
+
 export function extractCapBalanceProductionSlots(
   config: MinigameConfig,
-  collectByStartId: Record<string, string>,
 ): CapBalanceProductionSlot[] {
   const slots: CapBalanceProductionSlot[] = [];
   for (const [actionId, def] of Object.entries(config.actions)) {
     if (!def.produce) continue;
+    const inlineCollect =
+      def.collect !== undefined && Object.keys(def.collect).length > 0;
     for (const [outputToken, rule] of Object.entries(def.produce)) {
-      if (!rule.requires) continue;
-      const collectActionId = collectByStartId[actionId];
+      const requires = rule.requires?.trim();
+      if (!requires) continue;
+      const collectActionId = inlineCollect
+        ? actionId
+        : rule.collectActionId?.trim();
       if (!collectActionId) continue;
       slots.push({
-        capToken: rule.requires,
+        capToken: requires,
         outputToken,
         startActionId: actionId,
         collectActionId,
-        msToComplete: rule.msToComplete,
+        msToComplete: resolveProduceDurationMs(
+          outputToken,
+          rule,
+          def.collect,
+        ),
         limit: rule.limit,
       });
     }
@@ -39,19 +68,59 @@ export function extractCapBalanceProductionSlots(
   return slots;
 }
 
-/** Maps each `requires` balance token to its active producing job id (if any). */
-export function buildCapJobByCapToken(
+/**
+ * Dashboard production zone: every item with `generator: true`, grouped with all produce
+ * recipes that use that token as `requires`. Generators with no rules have `recipes: []`.
+ */
+export function getProductionZoneEntries(
   config: MinigameConfig,
-  collectByStartId: Record<string, string>,
+): GeneratorProductionEntry[] {
+  const ruleSlots = extractCapBalanceProductionSlots(config).filter((s) =>
+    isGeneratorCapToken(config, s.capToken),
+  );
+  const byCap = new Map<string, CapBalanceProductionSlot[]>();
+  for (const s of ruleSlots) {
+    const list = byCap.get(s.capToken) ?? [];
+    list.push(s);
+    byCap.set(s.capToken, list);
+  }
+  for (const [, list] of byCap) {
+    list.sort((a, b) => {
+      const o = a.outputToken.localeCompare(b.outputToken);
+      if (o !== 0) return o;
+      return a.startActionId.localeCompare(b.startActionId);
+    });
+  }
+  const tokens = new Set<string>([
+    ...byCap.keys(),
+    ...Object.entries(config.items ?? {})
+      .filter(([, m]) => m.generator === true)
+      .map(([t]) => t),
+  ]);
+  return Array.from(tokens)
+    .sort((a, b) => a.localeCompare(b))
+    .map((capToken) => ({
+      capToken,
+      recipes: byCap.get(capToken) ?? [],
+    }));
+}
+
+/** Maps each recipe (`startActionId|outputToken`) to its active producing job id. */
+export function buildCapJobByRecipeKey(
+  config: MinigameConfig,
   runtime: MinigameRuntimeState,
 ): Record<string, string | undefined> {
-  const slots = extractCapBalanceProductionSlots(config, collectByStartId);
   const map: Record<string, string | undefined> = {};
-  for (const s of slots) {
-    const match = Object.entries(runtime.producing).find(
-      ([, job]) => job.requires === s.capToken,
-    );
-    map[s.capToken] = match?.[0];
+  for (const entry of getProductionZoneEntries(config)) {
+    for (const slot of entry.recipes) {
+      if (!isProductionSlotConfigured(slot)) continue;
+      const key = recipeJobKey(slot);
+      const match = Object.entries(runtime.producing).find(
+        ([, job]) =>
+          job.requires === slot.capToken && job.outputToken === slot.outputToken,
+      );
+      map[key] = match?.[0];
+    }
   }
   return map;
 }
@@ -92,15 +161,17 @@ export function getCollectOutputForSlot(
  */
 export function getShopPurchaseProductionPreview(
   config: MinigameConfig,
-  collectByStartId: Record<string, string>,
   shopActionId: string,
 ): { outputToken: string; amount: number; rateDenominatorMs: number } | null {
   const mint = config.actions[shopActionId]?.mint;
   if (!mint) return null;
   const mintedTokens = Object.keys(mint);
   if (!mintedTokens.length) return null;
-  const slots = extractCapBalanceProductionSlots(config, collectByStartId);
-  const slot = slots.find((s) => mintedTokens.includes(s.capToken));
+  const slots = extractCapBalanceProductionSlots(config);
+  const slot = slots.find(
+    (s) =>
+      mintedTokens.includes(s.capToken) && isGeneratorCapToken(config, s.capToken),
+  );
   if (!slot) return null;
   const out = getCollectOutputForSlot(config, slot);
   if (!out) return null;

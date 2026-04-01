@@ -7,15 +7,7 @@ import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import Decimal from "decimal.js-light";
 import { canAffordShopItem } from "../lib/canAffordShopItem";
-
-export function isShopItemOwned(
-  item: MinigameShopItemUi,
-  balances: Record<string, number>,
-): boolean {
-  const key = item.ownedBalanceToken;
-  if (!key) return false;
-  return (balances[key] ?? 0) >= 1;
-}
+import { isShopItemBoughtOrDisabled } from "../lib/minigameShopAvailability";
 
 type Props = {
   items: MinigameShopItemUi[];
@@ -43,16 +35,16 @@ export const MinigameShopListBody: React.FC<Props> = ({
       }
     >
       {items.map((item) => {
-        const owned = isShopItemOwned(item, balances);
+        const boughtOrCapped = isShopItemBoughtOrDisabled(item, balances);
         const canAfford = canAffordShopItem(item, balances);
         return (
           <ButtonPanel
             key={item.id}
             className="flex min-h-[3.5rem] flex-row items-center gap-2 py-1.5 text-left"
             selected={item.id === highlightedId}
-            disabled={owned}
+            disabled={boughtOrCapped}
             onClick={() => {
-              if (owned) return;
+              if (boughtOrCapped) return;
               onItemClick(item);
             }}
           >
@@ -75,7 +67,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
               <div
                 className={classNames(
                   "mt-1 flex items-center gap-1 text-xs leading-normal",
-                  !owned && !canAfford && "font-medium text-red-700",
+                  !boughtOrCapped && !canAfford && "font-medium text-red-700",
                 )}
               >
                 <span>{new Decimal(item.price.amount).toString()}</span>
@@ -90,7 +82,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
                 />
               </div>
             </div>
-            {owned && (
+            {boughtOrCapped && (
               <img
                 src={SUNNYSIDE.icons.confirm}
                 alt=""

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { InnerPanel, Panel, ButtonPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -10,13 +10,27 @@ import {
   ACTION_TYPE_OPTIONS,
   EMPTY_MINT_ROW,
   EMPTY_BURN_ROW,
+  EMPTY_CUSTOM_MINT_ROW,
+  EMPTY_CUSTOM_BURN_ROW,
   getActionTypeLabel,
 } from "../lib/types";
-import { RewardCard } from "../components/RewardCard";
-import { CraftCard } from "../components/CraftCard";
-import { BurnCard } from "../components/BurnCard";
+import { ShopCard } from "../components/ShopCard";
+import { CustomCard } from "../components/CustomCard";
 import { ProduceCard } from "../components/ProduceCard";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
+/** 1-based index into the saved action id sequence (produce + linked collect uses two slots). */
+function ruleSequenceStart(actions: ActionForm[], beforeIndex: number): number {
+  let n = 1;
+  for (let i = 0; i < beforeIndex; i++) {
+    const p = actions[i];
+    const hasLinked =
+      p.actionType === "produce" &&
+      (p.linkedCollectMint?.some((m) => m.token.trim()) ?? false);
+    n += hasLinked ? 2 : 1;
+  }
+  return n;
+}
 
 export const ActionsTab: React.FC<{
   form: EditorFormState;
@@ -26,15 +40,38 @@ export const ActionsTab: React.FC<{
 }> = ({ form, onUpdateAction, onAddAction, onDeleteAction }) => {
   const [showActionTypeModal, setShowActionTypeModal] = useState(false);
   const [actionToDelete, setActionToDelete] = useState<number | null>(null);
+  const hasMinigameUrl = form.playUrl.trim().length > 0;
 
   const itemKeys = form.items
-    .map((item) => item.key || item.name)
-    .filter(Boolean);
+    .filter((item) => item.id !== undefined && !item.deleted)
+    .map((item) => String(item.id));
+
+  const generatorItemKeys = form.items
+    .filter(
+      (item) => item.id !== undefined && !item.deleted && item.generator,
+    )
+    .map((item) => String(item.id));
+
+  const getItemOptionLabel = useCallback(
+    (idStr: string) => {
+      const item = form.items.find(
+        (i) => String(i.id) === idStr && !i.deleted,
+      );
+      if (!item || item.id === undefined) return idStr;
+      const name = item.name.trim() || "Unnamed";
+      return `${name} - #${item.id}`;
+    },
+    [form.items],
+  );
 
   const addActionOfType = (type: ActionType) => {
+    if (type === "custom" && !hasMinigameUrl) return;
+
     const base: ActionForm = {
       actionType: type,
       id: "",
+      showInShop: true,
+      shopPurchaseLimit: 0,
       mint: [],
       burn: [],
       require: [],
@@ -42,23 +79,26 @@ export const ActionsTab: React.FC<{
       requireAbsent: [],
       produce: [],
       collect: [],
+      customMint: [],
+      customBurn: [],
+      customDailyUsesCap: 0,
     };
 
     switch (type) {
-      case "reward":
-        base.mint = [{ ...EMPTY_MINT_ROW }];
-        break;
-      case "craft":
+      case "shop":
         base.mint = [{ ...EMPTY_MINT_ROW }];
         base.burn = [{ ...EMPTY_BURN_ROW }];
         break;
-      case "burn":
-        base.burn = [{ ...EMPTY_BURN_ROW }];
+      case "custom":
+        base.customMint = [{ ...EMPTY_CUSTOM_MINT_ROW }];
+        base.customBurn = [{ ...EMPTY_CUSTOM_BURN_ROW }];
+        base.require = [{ token: "", amount: 1 }];
         break;
       case "produce":
-        base.produce = [{ token: "", msToComplete: 0, limit: undefined }];
+        base.produce = [
+          { token: "", msToComplete: 0, limit: undefined, requires: "" },
+        ];
         base.burn = [{ ...EMPTY_BURN_ROW }];
-        base.linkedCollectId = "";
         base.linkedCollectMint = [{ ...EMPTY_MINT_ROW }];
         break;
     }
@@ -73,27 +113,24 @@ export const ActionsTab: React.FC<{
     setActionToDelete(null);
   };
 
-  const getTypeIndex = (action: ActionForm) =>
-    form.actions.filter((a) => a.actionType === action.actionType).indexOf(action);
-
   const renderCard = (action: ActionForm, index: number) => {
-    const typeIndex = getTypeIndex(action);
+    const ruleSeq = ruleSequenceStart(form.actions, index);
     const commonProps = {
       action,
       index,
-      typeIndex,
+      ruleSequenceStart: ruleSeq,
       itemKeys,
+      generatorItemKeys,
+      getItemOptionLabel,
       onUpdate: (next: Partial<ActionForm>) => onUpdateAction(index, next),
       onDelete: () => setActionToDelete(index),
     };
 
     switch (action.actionType) {
-      case "reward":
-        return <RewardCard key={`action-${index}`} {...commonProps} />;
-      case "craft":
-        return <CraftCard key={`action-${index}`} {...commonProps} />;
-      case "burn":
-        return <BurnCard key={`action-${index}`} {...commonProps} />;
+      case "shop":
+        return <ShopCard key={`action-${index}`} {...commonProps} />;
+      case "custom":
+        return <CustomCard key={`action-${index}`} {...commonProps} />;
       case "produce":
         return <ProduceCard key={`action-${index}`} {...commonProps} />;
       default:
@@ -101,7 +138,7 @@ export const ActionsTab: React.FC<{
           <InnerPanel key={`action-${index}`} className="p-3 space-y-2">
             <div className="flex items-center justify-between">
               <Label type="default">
-                {`${getActionTypeLabel(action.actionType)} - #${String(typeIndex + 1).padStart(3, "0")}`}
+                {`${getActionTypeLabel(action.actionType)} - #${String(ruleSequenceStart(form.actions, index)).padStart(3, "0")}`}
               </Label>
               <img
                 src={SUNNYSIDE.icons.close}
@@ -130,25 +167,49 @@ export const ActionsTab: React.FC<{
       >
         <Panel className="p-3 space-y-3">
           <span className="text-sm">What rule would you like to create?</span>
+          {!hasMinigameUrl ? (
+            <p className="text-xs text-[#674544]/80">
+              Custom rules are for iframe minigames — set a minigame URL on the
+              Basics tab first.
+            </p>
+          ) : null}
           <div className="space-y-2">
-            {ACTION_TYPE_OPTIONS.map((opt) => (
-              <ButtonPanel
-                key={opt.type}
-                onClick={() => addActionOfType(opt.type)}
-                className="p-2"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={SUNNYSIDE.icons[opt.iconKey]}
-                    className="w-6"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                  <span className="text-sm flex-1 text-center">
-                    {opt.label}
-                  </span>
-                </div>
-              </ButtonPanel>
-            ))}
+            {ACTION_TYPE_OPTIONS.map((opt) => {
+              const customLocked = opt.type === "custom" && !hasMinigameUrl;
+              return (
+                <ButtonPanel
+                  key={opt.type}
+                  disabled={customLocked}
+                  title={
+                    customLocked
+                      ? "Add a minigame URL on the Basics tab to use Custom rules."
+                      : undefined
+                  }
+                  onClick={() => addActionOfType(opt.type)}
+                  className="p-2"
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={SUNNYSIDE.icons[opt.iconKey]}
+                      className="w-6 shrink-0"
+                      style={{ imageRendering: "pixelated" }}
+                      alt=""
+                    />
+                    <span className="text-sm flex-1 text-center">
+                      {opt.label}
+                    </span>
+                    {customLocked ? (
+                      <img
+                        src={SUNNYSIDE.icons.lock}
+                        className="w-5 shrink-0"
+                        style={{ imageRendering: "pixelated" }}
+                        alt=""
+                      />
+                    ) : null}
+                  </div>
+                </ButtonPanel>
+              );
+            })}
           </div>
         </Panel>
       </Modal>
@@ -176,7 +237,7 @@ export const ActionsTab: React.FC<{
       )}
 
       {/* Responsive grid: 1 col mobile, 3 cols desktop */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {form.actions.map((action, index) => renderCard(action, index))}
       </div>
 

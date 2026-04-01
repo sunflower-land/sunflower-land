@@ -10,10 +10,12 @@ export const ItemsTab: React.FC<{
   onUpdateItem: (index: number, next: Partial<ItemForm>) => void;
   onAddItem: () => void;
   onDeleteItem: (index: number) => void;
-  onUploadImage: (index: number, file: File) => void;
+  onUploadImage: (index: number, file: File) => void | Promise<void>;
 }> = ({ form, onUpdateItem, onAddItem, onDeleteItem, onUploadImage }) => {
   const fileRefs = useRef<Record<number, HTMLInputElement | null>>({});
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+
+  const visibleItemCount = form.items.filter((i) => !i.deleted).length;
 
   const confirmDeleteItem = () => {
     if (itemToDelete === null) return;
@@ -28,15 +30,15 @@ export const ItemsTab: React.FC<{
         show={itemToDelete !== null}
         onHide={() => setItemToDelete(null)}
         messages={[
-          `Are you sure you want to remove "${form.items[itemToDelete ?? 0]?.name || form.items[itemToDelete ?? 0]?.key || `Item ${(itemToDelete ?? 0) + 1}`}"?`,
-          "This action cannot be undone.",
+          `Hide "${form.items[itemToDelete ?? 0]?.name || form.items[itemToDelete ?? 0]?.key || `Item ${(itemToDelete ?? 0) + 1}`}" from the editor?`,
+          "It will not appear in lists or saved config, but its ID stays reserved so new items keep sequential numbering.",
         ]}
         onCancel={() => setItemToDelete(null)}
         onConfirm={confirmDeleteItem}
-        confirmButtonLabel="Remove Item"
+        confirmButtonLabel="Hide item"
       />
 
-      {form.items.length === 0 && (
+      {visibleItemCount === 0 && (
         <InnerPanel className="p-4 text-center">
           <p className="text-xs opacity-60 mb-2">
             No items yet. Items are the tokens and collectibles in your
@@ -46,20 +48,28 @@ export const ItemsTab: React.FC<{
       )}
 
       {/* Responsive grid: 1 col mobile, 3 cols desktop */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {form.items.map((item, index) => (
-          <ItemCard
-            key={`item-${index}`}
-            item={item}
-            index={index}
-            fileRef={{ current: fileRefs.current[index] ?? null } as React.RefObject<HTMLInputElement | null>}
-            onUpdate={(next) => onUpdateItem(index, next)}
-            onDelete={() => setItemToDelete(index)}
-            onUpload={(file) => {
-              onUploadImage(index, file);
-            }}
-          />
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {form.items.map((item, index) =>
+          item.deleted ? null : (
+            <ItemCard
+              key={
+                item.id !== undefined ? `item-${item.id}` : `item-idx-${index}`
+              }
+              item={item}
+              index={index}
+              fileRef={
+                {
+                  current: fileRefs.current[index] ?? null,
+                } as React.RefObject<HTMLInputElement | null>
+              }
+              onUpdate={(next) => onUpdateItem(index, next)}
+              onDelete={() => setItemToDelete(index)}
+              onUpload={(file) => {
+                void onUploadImage(index, file);
+              }}
+            />
+          ),
+        )}
       </div>
 
       <Button onClick={onAddItem}>

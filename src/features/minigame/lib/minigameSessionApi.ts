@@ -11,12 +11,24 @@ export type MinigameSessionApiPayload = {
     activity: number;
     dailyActivity: { date: string; count: number };
     dailyMinted: { utcDay: string; minted: Record<string, number> };
+    dailyActionUses?: {
+      utcDay: string;
+      byAction: Record<string, number>;
+    };
+    purchaseCounts?: Record<string, number>;
   };
   actions: Record<string, unknown>;
   items?: MinigameConfig["items"];
   descriptions?: MinigameConfig["descriptions"];
-  dashboard?: MinigameConfig["dashboard"];
+  visualTheme?: MinigameConfig["visualTheme"];
   playUrl?: MinigameConfig["playUrl"];
+  /** Legacy keys; merged in `migrateLegacyMinigameConfigFields` when loading the dashboard. */
+  initialBalances?: Record<string, number>;
+  productionCollectByStartId?: Record<string, string>;
+  dashboard?: {
+    productionCollectByStartId?: Record<string, string>;
+    visualTheme?: string;
+  };
 };
 
 export type MinigameActionApiResponse = {
@@ -33,6 +45,12 @@ export function runtimeStateFromActionResponse(
     dailyMinted: minigame.dailyMinted,
     activity: minigame.activity,
     dailyActivity: minigame.dailyActivity,
+    ...(minigame.dailyActionUses
+      ? { dailyActionUses: minigame.dailyActionUses }
+      : {}),
+    ...(minigame.purchaseCounts != null
+      ? { purchaseCounts: { ...minigame.purchaseCounts } }
+      : {}),
   };
 }
 

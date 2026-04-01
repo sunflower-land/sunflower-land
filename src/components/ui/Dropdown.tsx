@@ -16,6 +16,8 @@ interface DropdownProps {
   placeholder?: string;
   maxHeight?: number;
   showSearch?: boolean;
+  /** Display text per option value (e.g. name + id); stored `value` stays the raw option string. */
+  getOptionLabel?: (value: string) => string;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -28,7 +30,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
   placeholder = "Select an option",
   maxHeight = 14,
   showSearch = false,
+  getOptionLabel,
 }) => {
+  const labelFor = (v: string) => getOptionLabel?.(v) ?? v;
   const isControlled = value !== undefined;
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -93,12 +97,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  const q = searchTerm.toLowerCase();
   const filteredOptions = options
-    .filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((option) => {
+      if (!q) return true;
+      const lbl = labelFor(option).toLowerCase();
+      return lbl.includes(q) || option.toLowerCase().includes(q);
+    })
     .sort((a, b) => {
-      // If option matches searchTerm exactly (case insensitive), put it first
-      if (a.toLowerCase() === searchTerm.toLowerCase()) return -1;
-      if (b.toLowerCase() === searchTerm.toLowerCase()) return 1;
+      if (a.toLowerCase() === q || labelFor(a).toLowerCase() === q) return -1;
+      if (b.toLowerCase() === q || labelFor(b).toLowerCase() === q) return 1;
       return 0;
     });
 
@@ -133,7 +141,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
         {showSearch ? (
           <input
             type="text"
-            value={isOpen ? searchTerm : selectedValue || ""}
+            value={
+              isOpen
+                ? searchTerm
+                : selectedValue
+                  ? labelFor(selectedValue)
+                  : ""
+            }
             onChange={handleInputChange}
             onClick={handleInputClick}
             onFocus={() => setIsFocused(true)}
@@ -144,7 +158,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           />
         ) : (
           <span onClick={() => !disabled && setIsOpen(!isOpen)}>
-            {selectedValue || placeholder}
+            {selectedValue ? labelFor(selectedValue) : placeholder}
           </span>
         )}
         <img
@@ -188,7 +202,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 )}
                 onClick={() => handleChange(option)}
               >
-                {option}
+                {labelFor(option)}
               </div>
             ))}
             {filteredOptions.length === 0 && (

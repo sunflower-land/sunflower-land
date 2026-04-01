@@ -16,12 +16,16 @@ export type MintRule =
   | MintRuleFixedDailyCapped
   | MintRuleRanged;
 
-export type BurnRule = { amount: number };
+export type BurnRule = { amount: number } | { min: number; max: number };
 
 export type RequireRule = { amount: number };
 
 export type ProduceRule = {
-  msToComplete: number;
+  /**
+   * Milliseconds until the job completes. Optional when the same action’s `collect[token].seconds`
+   * defines duration (editor Generate + linked collect).
+   */
+  msToComplete?: number;
   /**
    * Max concurrent jobs with this `outputToken` across all lanes. Omit for no global cap.
    */
@@ -31,9 +35,18 @@ export type ProduceRule = {
    * (parallel outputs like multiple wormeries each producing Worm).
    */
   requires?: string;
+  /**
+   * Legacy: id of a separate action whose `collect` completes this job. Omit when the
+   * same action defines `collect` (unified start + collect with `itemId`).
+   */
+  collectActionId?: string;
 };
 
-export type CollectRule = { amount: number };
+export type CollectRule = {
+  amount: number;
+  /** Seconds until this output can be collected (generator / timed production). */
+  seconds?: number;
+};
 
 export type MinigameBalanceItem = {
   name: string;
@@ -42,6 +55,13 @@ export type MinigameBalanceItem = {
   id?: number;
   /** Main marketplace currency for this minigame when true. */
   tradeable?: boolean;
+  /**
+   * When true, this balance item can be selected as the produce rule "requires" token
+   * and appears in the dashboard production zone when the player owns it.
+   */
+  generator?: boolean;
+  /** Starting balance for new farms (no persisted minigame doc yet). */
+  initialBalance?: number;
 };
 
 export type MinigameDescriptions = {
@@ -51,26 +71,27 @@ export type MinigameDescriptions = {
   rules?: string;
 };
 
-export type MinigameShopConfigRow = {
-  id: string;
-  actionId: string;
-  name?: string;
-  description?: string;
-  listImageToken?: string;
-  price: { token: string; amount: number };
-  ownedBalanceToken?: string;
-};
-
-export type MinigameDashboardConfig = {
-  displayName: string;
-  headerBalanceToken: string;
-  inventoryShortcutTokens: string[];
-  shop: MinigameShopConfigRow[];
-  productionCollectByStartId: Record<string, string>;
-  visualTheme?: string;
-};
+/** Persisted by the minigame editor so Rules tab cards round-trip after save/load. */
+export type MinigameEditorActionType = "shop" | "generator" | "custom";
 
 export type MinigameActionDefinition = {
+  /**
+   * Which editor rule card this action came from (`generator` = Generate).
+   * Ignored at runtime by the minigame engine.
+   */
+  type?: MinigameEditorActionType;
+  /**
+   * When false, this action is omitted from the derived in-game shop.
+   * Default true when omitted (backward compatible).
+   */
+  showInShop?: boolean;
+  /** Max successful invocations per UTC day (advanced / iframe minigames). */
+  maxUsesPerDay?: number;
+  /**
+   * Max lifetime purchases of this action per farm (shop). Non-collect invocations only.
+   * Omit or ≤0 for unlimited.
+   */
+  purchaseLimit?: number;
   require?: Record<string, RequireRule>;
   requireBelow?: Record<string, number>;
   requireAbsent?: string[];
@@ -84,7 +105,8 @@ export type MinigameConfig = {
   actions: Record<string, MinigameActionDefinition>;
   items?: Record<string, MinigameBalanceItem>;
   descriptions?: MinigameDescriptions;
-  dashboard?: MinigameDashboardConfig;
+  /** Optional themed shell (e.g. bookmatched backdrop). */
+  visualTheme?: string;
   /** Canonical iframe origin from API; overridden by `VITE_PORTAL_GAME_URL` when set. */
   playUrl?: string;
 };
@@ -107,17 +129,26 @@ export type MinigameDailyActivity = {
   count: number;
 };
 
+export type DailyActionUsesBucket = {
+  utcDay: string;
+  byAction: Record<string, number>;
+};
+
 export type MinigameRuntimeState = {
   balances: Record<string, number>;
   producing: Record<string, ProducingEntry>;
   dailyMinted: DailyMintBucket;
   activity: number;
   dailyActivity: MinigameDailyActivity;
+  dailyActionUses?: DailyActionUsesBucket;
+  /** Per-action purchase counts when `purchaseLimit` is used on shop rules. */
+  purchaseCounts?: Record<string, number>;
 };
 
 export type MinigameProcessInput = {
   actionId: string;
   itemId?: string;
+  /** Ranged mint and ranged burn amounts (token key → integer). */
   amounts?: Record<string, number>;
   now: number;
 };

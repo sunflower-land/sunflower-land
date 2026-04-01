@@ -17,14 +17,7 @@ export const BasicsTab: React.FC<{
       <SectionHeader type="info" icon={SUNNYSIDE.icons.player}>
         Game Identity
       </SectionHeader>
-      <FieldRow
-        label="Slug"
-        hint={
-          mode === "edit"
-            ? "Cannot be changed after creation"
-            : "Unique identifier (lowercase, dashes)"
-        }
-      >
+      <FieldRow label="Slug">
         <TextInput
           value={form.slug}
           onValueChange={(slug) => onChange({ slug })}
@@ -33,7 +26,7 @@ export const BasicsTab: React.FC<{
           className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
         />
       </FieldRow>
-      <FieldRow label="Play URL" hint="The iframe URL that hosts your game">
+      <FieldRow label="Play URL">
         <TextInput
           value={form.playUrl}
           onValueChange={(playUrl) => onChange({ playUrl })}
@@ -47,7 +40,7 @@ export const BasicsTab: React.FC<{
       <SectionHeader type="info" icon={SUNNYSIDE.icons.expression_chat}>
         Descriptions
       </SectionHeader>
-      <FieldRow label="Title" hint="Main display name for your minigame">
+      <FieldRow label="Title">
         <TextInput
           value={form.descriptionTitle}
           onValueChange={(v) => onChange({ descriptionTitle: v })}
@@ -61,17 +54,14 @@ export const BasicsTab: React.FC<{
           placeholder="A short tagline"
         />
       </FieldRow>
-      <FieldRow
-        label="Welcome Message"
-        hint="Shown when a player first opens your game"
-      >
+      <FieldRow label="Welcome Message">
         <TextInput
           value={form.descriptionWelcome}
           onValueChange={(v) => onChange({ descriptionWelcome: v })}
           placeholder="Welcome to the adventure..."
         />
       </FieldRow>
-      <FieldRow label="Rules" hint="Explain how to play">
+      <FieldRow label="Rules">
         <TextInput
           value={form.descriptionRules}
           onValueChange={(v) => onChange({ descriptionRules: v })}

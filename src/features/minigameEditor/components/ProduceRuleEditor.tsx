@@ -21,15 +21,15 @@ export const ProduceRuleEditor: React.FC<{
 
   return (
     <div className="space-y-1">
-      <Label type="vibrant">Produce</Label>
+      <Label type="vibrant">Generate</Label>
       {rows.length === 0 && (
-        <p className="text-[10px] italic opacity-50 ml-1">No produce rules</p>
+        <p className="text-[10px] italic opacity-50 ml-1">No generate rules</p>
       )}
       {rows.map((row, index) => (
         <InnerPanel key={`produce-${index}`} className="p-2 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] opacity-70">
-              Produce {index + 1}
+              Generate {index + 1}
             </span>
             <Button
               variant="secondary"
@@ -70,7 +70,7 @@ export const ProduceRuleEditor: React.FC<{
               />
             </FieldRow>
           </div>
-          <FieldRow label="Requires (lane key)" hint="Optional capacity lane">
+          <FieldRow label="Requires">
             <TextInput
               value={row.requires ?? ""}
               onValueChange={(value) => setRow(index, { requires: value })}
@@ -82,10 +82,13 @@ export const ProduceRuleEditor: React.FC<{
       <Button
         variant="secondary"
         onClick={() =>
-          onChange([...rows, { token: "", msToComplete: 0, limit: undefined }])
+          onChange([
+            ...rows,
+            { token: "", msToComplete: 0, limit: undefined, requires: "" },
+          ])
         }
       >
-        <span className="text-xs">+ Add Produce Rule</span>
+        <span className="text-xs">+ Add Generate Rule</span>
       </Button>
     </div>
   );
