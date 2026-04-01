@@ -94,7 +94,7 @@ export const FermentationRackPanel: React.FC = () => {
     autoEndAt: fermentationClockEndAt,
   });
 
-  const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const groups = getFermentationOutputGroups();
 
   /** `null` = no explicit tap yet: UI uses first empty slot (see `effectiveSlotIndex`). */
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
@@ -114,7 +114,7 @@ export const FermentationRackPanel: React.FC = () => {
 
   const shedPlaced = hasPlacedAgingShed(state);
 
-  const merged = useMemo(() => getMergedInventory(state), [state]);
+  const merged = getMergedInventory(state);
 
   const insufficientIngredient =
     selectedRecipeId !== undefined
