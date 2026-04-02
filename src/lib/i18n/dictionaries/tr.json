@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "Yeni konum",
   "raffle.newLocationDescription": "Aylık çekilişler artık Müzayede alanında bulunabilir. Aylık tomurcuk çekilişine girmek için Ödül biletlerini kullanmaya devam edebilirsiniz.",
   "description.nautilus.boost": "+5 günlük balıkçılık makarası",
-  "description.crimstoneSpikesHair.boost": "Bedava kızıl taşı madeni",
   "description.pawAura.boost": "Evcil hayvanları ücretsiz besleyin",
   "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)",
   "landTools": "Arazi Araçları",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Başlat",
   "agingShed.spice.collect": "Toplayın",
   "agingShed.spice.ready": "Hazır",
-  "agingShed.spice.insufficientIngredient": "Yeterli değil {{item}}"
+  "agingShed.spice.insufficientIngredient": "Yeterli değil {{item}}",
+  "description.crimstoneSpikesHair.boost": "Altın Kazma olmadan maden kırmızısı taşı"
 }

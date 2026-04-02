@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "Nouvel emplacement",
   "raffle.newLocationDescription": "Les tirages au sort mensuels se trouvent désormais dans la zone des ventes aux enchères. Vous pouvez continuer à utiliser les tickets pour participer à la tombola mensuelle.",
   "description.nautilus.boost": "+5 moulinets de pêche quotidiens",
-  "description.crimstoneSpikesHair.boost": "Mine Crimstone gratuitement",
   "description.pawAura.boost": "Nourrissez les animaux gratuitement",
   "description.beastShoes.boost": "XP pour animaux de compagnie +100/+250 (moyen/difficile)",
   "landTools": "Outils terrestres",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Démarrer",
   "agingShed.spice.collect": "Collecter",
   "agingShed.spice.ready": "Prêt",
-  "agingShed.spice.insufficientIngredient": "Pas assez {{item}}"
+  "agingShed.spice.insufficientIngredient": "Pas assez {{item}}",
+  "description.crimstoneSpikesHair.boost": "Minez Crimstone sans pioches en or"
 }

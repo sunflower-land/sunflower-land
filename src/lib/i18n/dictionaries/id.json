@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "Lokasi baru",
   "raffle.newLocationDescription": "Undian bulanan sekarang dapat ditemukan di area Lelang. Anda dapat terus menggunakan tiket Hadiah untuk mengikuti undian bud bulanan.",
   "description.nautilus.boost": "+5 gulungan memancing harian",
-  "description.crimstoneSpikesHair.boost": "Mine crimstone gratis",
   "description.pawAura.boost": "Beri makan hewan peliharaan secara gratis",
   "description.beastShoes.boost": "Hewan Peliharaan XP +100/+250 (Sedang/Keras)",
   "landTools": "Alat Tanah",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Mulai",
   "agingShed.spice.collect": "Mengumpulkan",
   "agingShed.spice.ready": "Siap",
-  "agingShed.spice.insufficientIngredient": "Tidak cukup {{item}}"
+  "agingShed.spice.insufficientIngredient": "Tidak cukup {{item}}",
+  "description.crimstoneSpikesHair.boost": "Batu merah tambang tanpa beliung emas"
 }

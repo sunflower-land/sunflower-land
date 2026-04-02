@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "新しい場所",
   "raffle.newLocationDescription": "毎月のラッフルがオークションエリアに表示されるようになりました。引き続き賞品チケットを使用して、毎月のバドラッフルに参加できます。",
   "description.nautilus.boost": "+5 デイリーフィッシングリール",
-  "description.crimstoneSpikesHair.boost": "クリムストーンを無料で採掘",
   "description.pawAura.boost": "ペットに無料で餌をやる",
   "description.beastShoes.boost": "ペット経験値 +100/+250 (中型/ハード)",
   "landTools": "ランドツール",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "[開始]",
   "agingShed.spice.collect": "収集",
   "agingShed.spice.ready": "準備完了",
-  "agingShed.spice.insufficientIngredient": "足りません {{item}}"
+  "agingShed.spice.insufficientIngredient": "足りません {{item}}",
+  "description.crimstoneSpikesHair.boost": "ゴールドツルハシを使わずにクリムストーンを採掘"
 }

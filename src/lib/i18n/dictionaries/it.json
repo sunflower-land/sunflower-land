@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "Nuova sede",
   "raffle.newLocationDescription": "Le lotterie mensili si trovano ora nell'area Aste. Puoi continuare a utilizzare i biglietti premio per partecipare alla lotteria mensile con offerte.",
   "description.nautilus.boost": "+5 mulinelli da pesca giornalieri",
-  "description.crimstoneSpikesHair.boost": "Il mio crimstone è gratuito",
   "description.pawAura.boost": "Dai da mangiare agli animali domestici gratis",
   "description.beastShoes.boost": "XP per animali domestici +100/+250 (medio/duro)",
   "landTools": "Attrezzi terrestri",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Inizio",
   "agingShed.spice.collect": "Raccogli",
   "agingShed.spice.ready": "Pronto",
-  "agingShed.spice.insufficientIngredient": "Insufficiente {{item}}"
+  "agingShed.spice.insufficientIngredient": "Insufficiente {{item}}",
+  "description.crimstoneSpikesHair.boost": "Il mio crespino senza picconi dorati"
 }

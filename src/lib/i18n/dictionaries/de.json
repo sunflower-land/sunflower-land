@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "Neuer Standort",
   "raffle.newLocationDescription": "Die monatlichen Verlosungen sind jetzt im Auktionsbereich zu finden. Sie können weiterhin Preiskarten verwenden, um an der monatlichen Knospenverlosung teilzunehmen.",
   "description.nautilus.boost": "+5 tägliche Angelrollen",
-  "description.crimstoneSpikesHair.boost": "Minen Sie Crimstone kostenlos",
   "description.pawAura.boost": "Füttern Sie Haustiere kostenlos",
   "description.beastShoes.boost": "Tier-EP +100/+250 (mittel/schwer)",
   "landTools": "Landwerkzeuge",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Starten",
   "agingShed.spice.collect": "Sammle",
   "agingShed.spice.ready": "Bereit",
-  "agingShed.spice.insufficientIngredient": "Nicht genug {{item}}"
+  "agingShed.spice.insufficientIngredient": "Nicht genug {{item}}",
+  "description.crimstoneSpikesHair.boost": "Minen Sie Purpur ohne Goldspitzhacken"
 }

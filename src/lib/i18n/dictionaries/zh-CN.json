@@ -7890,7 +7890,6 @@
   "raffle.newLocation": "新地点",
   "raffle.newLocationDescription": "每月抽奖现已移至拍卖行。你可以继续凭奖券参与每月的蕾芽抽奖。",
   "description.nautilus.boost": "+5 每日钓鱼次数",
-  "description.crimstoneSpikesHair.boost": "无需金稿即可开采猩红石脉",
   "description.pawAura.boost": "无需食物即可喂食宠物",
   "description.beastShoes.boost": "宠物经验值 +100/+250（中等食物/高等食物）",
   "landTools": "陆地工具",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "开始",
   "agingShed.spice.collect": "收集",
   "agingShed.spice.ready": "准备好了",
-  "agingShed.spice.insufficientIngredient": "还不够 {{item}}"
+  "agingShed.spice.insufficientIngredient": "还不够 {{item}}",
+  "description.crimstoneSpikesHair.boost": "在没有金镐的情况下开采猩红石"
 }

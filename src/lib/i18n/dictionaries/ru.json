@@ -7913,7 +7913,6 @@
   "description.cornSilkHair.boost": "+2 кукуруза",
   "raffle.newLocation": "Новое расположение",
   "raffle.newLocationDescription": "Ежемесячные розыгрыши теперь находятся в разделе аукциона. Ты по-прежнему можешь использовать билеты для участия в ежемесячном розыгрыше бадов.",
-  "description.crimstoneSpikesHair.boost": "Бесплатная добыча кримстоуна",
   "description.pawAura.boost": "Бесплатное кормление питомцев",
   "description.beastShoes.boost": "+100/+250 XP для питомца за среднюю/сложную еду",
   "landTools": "Инструменты для ресурсов суши",
@@ -8445,5 +8444,6 @@
   "agingShed.spice.start": "Start",
   "agingShed.spice.collect": "Collect",
   "agingShed.spice.ready": "Ready",
-  "agingShed.spice.insufficientIngredient": "Not enough {{item}}"
+  "agingShed.spice.insufficientIngredient": "Not enough {{item}}",
+  "description.crimstoneSpikesHair.boost": "Mine crimstone without Gold Pickaxes"
 }
