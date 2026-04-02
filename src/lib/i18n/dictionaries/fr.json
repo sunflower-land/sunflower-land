@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Retour à la place de marché",
   "minigame.dashboard.shop": "Boutique",
   "minigame.dashboard.goBack": "Retournez",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "Les mini-jeux à jetons ne sont pas encore disponibles pour votre ferme.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "Les mini-jeux à jetons ne sont pas encore disponibles pour votre ferme.",
   "minigame.dashboard.signInToAction": "Connectez-vous pour effectuer cette action.",
   "minigame.dashboard.signInToLoad": "Connectez-vous et ouvrez votre ferme pour charger ce mini-jeu.",
   "minigame.dashboard.unknownMinigame": "Mini-jeu inconnu : {{slug}}",

@@ -1,42 +1,12 @@
 import type { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { portal } from "features/world/ui/community/actions/portal";
-import {
-  CHICKEN_RESCUE_CONFIG,
-  createChickenRescueInitialState,
-} from "./chickenRescueConfig";
-import { buildMinigameDashboardFromApiSession } from "./chickenRescueDashboardMerge";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
-import type {
-  FetchMinigameResult,
-  MinigameDashboardData,
-} from "./minigameDashboardTypes";
+import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
   getMinigameSession,
   type MinigameSessionApiPayload,
 } from "./minigameSessionApi";
-
-async function fetchChickenRescueMock(): Promise<FetchMinigameResult> {
-  await new Promise((r) => setTimeout(r, 120));
-  const now = Date.now();
-  const base = createChickenRescueInitialState(now);
-  const state: MinigameDashboardData["state"] = {
-    ...base,
-    balances: {
-      ...base.balances,
-      GoldenNugget: 1002,
-    },
-  };
-  return {
-    ok: true,
-    data: buildMinigameDashboardData(
-      "chicken-rescue-v2",
-      "chicken-rescue-v2",
-      CHICKEN_RESCUE_CONFIG,
-      state,
-    ),
-  };
-}
 
 function assertChickenRescueSession(
   body: unknown,
@@ -44,10 +14,10 @@ function assertChickenRescueSession(
   if (
     body === null ||
     typeof body !== "object" ||
-    !("minigame" in body) ||
+    !("playerEconomy" in body) ||
     !("actions" in body)
   ) {
-    throw new Error("Invalid minigame session response");
+    throw new Error("Invalid player economy session response");
   }
 }
 
@@ -59,13 +29,8 @@ export async function loadMinigameDashboard(
   slug: string,
   creds: { userToken: string; farmId: number } | null,
 ): Promise<FetchMinigameResult> {
-  if (slug !== "chicken-rescue-v2") {
-    return { ok: false, error: { kind: "unknown_minigame", slug } };
-  }
-
-  if (!CONFIG.API_URL) {
-    return fetchChickenRescueMock();
-  }
+  if (!CONFIG.API_URL)
+    return { ok: false, error: { kind: "sign_in_required" } };
 
   if (!creds?.userToken || creds.farmId == null || Number.isNaN(creds.farmId)) {
     return { ok: false, error: { kind: "sign_in_required" } };
@@ -80,12 +45,38 @@ export async function loadMinigameDashboard(
 
     const raw = await getMinigameSession(slug, portalJwt);
     assertChickenRescueSession(raw);
+    const state = {
+      balances: raw.playerEconomy.balances,
+      generating: raw.playerEconomy.generating as Record<string, any>,
+      activity: raw.playerEconomy.activity,
+      dailyActivity: raw.playerEconomy.dailyActivity,
+      dailyMinted: raw.playerEconomy.dailyMinted,
+      ...(raw.playerEconomy.dailyActionUses
+        ? { dailyActionUses: raw.playerEconomy.dailyActionUses }
+        : {}),
+      ...(raw.playerEconomy.purchaseCounts != null
+        ? { purchaseCounts: { ...raw.playerEconomy.purchaseCounts } }
+        : {}),
+    };
+    const config = {
+      actions: raw.actions as Record<string, any>,
+      items: raw.items,
+      descriptions: raw.descriptions,
+      visualTheme: raw.visualTheme,
+      playUrl: raw.playUrl,
+      ...(raw.initialBalances ? { initialBalances: raw.initialBalances } : {}),
+      ...(raw.productionCollectByStartId
+        ? { productionCollectByStartId: raw.productionCollectByStartId }
+        : {}),
+      ...(raw.dashboard ? { dashboard: raw.dashboard } : {}),
+    };
     return {
       ok: true,
-      data: buildMinigameDashboardFromApiSession(
+      data: buildMinigameDashboardData(
         slug,
         slug as MinigameName,
-        raw,
+        config,
+        state,
       ),
     };
   } catch (e) {

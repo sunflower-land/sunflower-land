@@ -1,5 +1,5 @@
 import type { MinigameName } from "features/game/types/minigames";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
 export type MinigameShopItemUi = {
   id: string;
@@ -13,6 +13,10 @@ export type MinigameShopItemUi = {
    * cannot open the buy modal (e.g. one-off chicken unlocks). Omit for repeatable purchases.
    */
   ownedBalanceToken?: string;
+  /** Max lifetime purchases per farm when set on the shop rule (`purchaseLimit` in config). */
+  purchaseLimit?: number;
+  /** Successful purchases recorded for this action (from runtime `purchaseCounts`). */
+  purchasesSoFar?: number;
 };
 
 export type MinigameInventoryItemUi = {
@@ -35,17 +39,16 @@ export type MinigameDashboardData = {
   slug: string;
   portalName: MinigameName;
   displayName: string;
-  config: MinigameConfig;
-  state: MinigameRuntimeState;
+  config: PlayerEconomyConfig;
+  state: PlayerEconomyRuntimeState;
   ui: MinigameDashboardUi;
-  productionCollectByStartId: Record<string, string>;
   /** Iframe base from API; `Portal` uses `VITE_PORTAL_GAME_URL` instead when set. */
   playUrl?: string;
 };
 
 /** User-facing load failure; translate in the dashboard with `useAppTranslation`. */
 export type MinigameLoadError =
-  | { kind: "unknown_minigame"; slug: string }
+  | { kind: "unknown_player_economy"; slug: string }
   | { kind: "sign_in_required" }
   | { kind: "message"; text: string };
 

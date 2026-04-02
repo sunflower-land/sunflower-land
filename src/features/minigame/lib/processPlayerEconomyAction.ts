@@ -1,14 +1,16 @@
+import { resolveProduceDurationMs } from "./resolveProduceDuration";
 import {
   BurnRule,
   CollectRule,
+  DailyActionUsesBucket,
   DailyMintBucket,
-  MinigameActionDefinition,
-  MinigameConfig,
-  MinigameProcessInput,
-  MinigameProcessResult,
-  MinigameRuntimeState,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyConfig,
+  PlayerEconomyProcessInput,
+  PlayerEconomyProcessResult,
+  PlayerEconomyRuntimeState,
   MintRule,
-  ProduceRule,
+  GeneratorRecipeRule,
   RequireRule,
 } from "./types";
 
@@ -45,13 +47,15 @@ function isFixedMintWithDailyCap(
   return "amount" in rule && "dailyCap" in rule && !("min" in rule);
 }
 
-export function cloneMinigameRuntimeState(
-  state: MinigameRuntimeState,
-): MinigameRuntimeState {
+export function clonePlayerEconomyRuntimeState(
+  state: PlayerEconomyRuntimeState,
+): PlayerEconomyRuntimeState {
+  const uses = state.dailyActionUses;
+  const purchases = state.purchaseCounts;
   return {
     balances: { ...state.balances },
-    producing: Object.fromEntries(
-      Object.entries(state.producing).map(([id, entry]) => [id, { ...entry }]),
+    generating: Object.fromEntries(
+      Object.entries(state.generating).map(([id, entry]) => [id, { ...entry }]),
     ),
     dailyMinted: {
       utcDay: state.dailyMinted.utcDay,
@@ -62,11 +66,22 @@ export function cloneMinigameRuntimeState(
       date: state.dailyActivity.date,
       count: state.dailyActivity.count,
     },
+    ...(uses
+      ? {
+          dailyActionUses: {
+            utcDay: uses.utcDay,
+            byAction: { ...uses.byAction },
+          },
+        }
+      : {}),
+    ...(purchases && Object.keys(purchases).length > 0
+      ? { purchaseCounts: { ...purchases } }
+      : {}),
   };
 }
 
 function recordSuccessfulMinigameAction(
-  state: MinigameRuntimeState,
+  state: PlayerEconomyRuntimeState,
   now: number,
 ): void {
   const today = utcCalendarDay(now);
@@ -124,19 +139,38 @@ function applyRequireAbsent(
   return undefined;
 }
 
+function isRangedBurn(rule: BurnRule): rule is { min: number; max: number } {
+  return "min" in rule && "max" in rule;
+}
+
 function applyBurns(
   balances: Record<string, number>,
   burn: Record<string, BurnRule> | undefined,
+  amounts: Record<string, number> | undefined,
 ): string | undefined {
   if (!burn) return undefined;
   for (const [token, rule] of Object.entries(burn)) {
     const have = getBalance(balances, token);
-    if (have < rule.amount) {
+    let sub: number;
+    if (isRangedBurn(rule)) {
+      const passed = amounts?.[token];
+      if (passed === undefined || !Number.isInteger(passed)) {
+        return `Missing or invalid burn amount for ${token}`;
+      }
+      if (passed < rule.min || passed > rule.max) {
+        return `Burn for ${token} must be between ${rule.min} and ${rule.max}`;
+      }
+      sub = passed;
+    } else {
+      sub = rule.amount;
+    }
+    if (have < sub) {
       return `Insufficient ${token}`;
     }
   }
   for (const [token, rule] of Object.entries(burn)) {
-    balances[token] = getBalance(balances, token) - rule.amount;
+    const sub = isRangedBurn(rule) ? (amounts?.[token] as number) : rule.amount;
+    balances[token] = getBalance(balances, token) - sub;
     if (balances[token] === 0) {
       delete balances[token];
     }
@@ -153,20 +187,21 @@ function newProducingJobId(): string {
 
 function applyProduce(
   balances: Record<string, number>,
-  producing: MinigameRuntimeState["producing"],
-  produce: Record<string, ProduceRule> | undefined,
+  generating: PlayerEconomyRuntimeState["generating"],
+  produce: Record<string, GeneratorRecipeRule> | undefined,
+  collect: Record<string, CollectRule> | undefined,
   now: number,
-): { error?: string; producingId?: string } {
+): { error?: string; generatorJobId?: string } {
   if (!produce) return {};
   for (const [outputToken, rule] of Object.entries(produce)) {
-    const activeForOutput = Object.values(producing).filter(
+    const activeForOutput = Object.values(generating).filter(
       (p) => p.outputToken === outputToken,
     ).length;
     if (rule.limit !== undefined && activeForOutput >= rule.limit) {
       return { error: `Production limit reached for ${outputToken}` };
     }
     if (rule.requires !== undefined) {
-      const activeForLane = Object.values(producing).filter(
+      const activeForLane = Object.values(generating).filter(
         (p) => p.outputToken === outputToken && p.requires === rule.requires,
       ).length;
       const cap = getBalance(balances, rule.requires);
@@ -177,13 +212,14 @@ function applyProduce(
       }
     }
     const id = newProducingJobId();
-    producing[id] = {
+    const durationMs = resolveProduceDurationMs(outputToken, rule, collect);
+    generating[id] = {
       outputToken,
       startedAt: now,
-      completesAt: now + rule.msToComplete,
+      completesAt: now + durationMs,
       ...(rule.requires !== undefined ? { requires: rule.requires } : {}),
     };
-    return { producingId: id };
+    return { generatorJobId: id };
   }
   return {};
 }
@@ -231,7 +267,7 @@ function applyMint(
 
 function applyCollect(
   balances: Record<string, number>,
-  producing: MinigameRuntimeState["producing"],
+  generating: PlayerEconomyRuntimeState["generating"],
   collect: Record<string, CollectRule> | undefined,
   itemId: string | undefined,
   now: number,
@@ -240,7 +276,7 @@ function applyCollect(
   if (!itemId) {
     return "itemId is required for collect";
   }
-  const job = producing[itemId];
+  const job = generating[itemId];
   if (!job) {
     return "Unknown production id";
   }
@@ -257,15 +293,99 @@ function applyCollect(
     }
     balances[token] = getBalance(balances, token) + rule.amount;
   }
-  delete producing[itemId];
+  delete generating[itemId];
+  return undefined;
+}
+
+function rolloverDailyActionUsesIfNeeded(
+  bucket: PlayerEconomyRuntimeState["dailyActionUses"] | undefined,
+  now: number,
+): DailyActionUsesBucket {
+  const today = utcCalendarDay(now);
+  if (!bucket || bucket.utcDay !== today) {
+    return { utcDay: today, byAction: {} };
+  }
+  return { utcDay: bucket.utcDay, byAction: { ...bucket.byAction } };
+}
+
+function checkPurchaseLimit(
+  def: PlayerEconomyActionDefinition,
+  actionId: string,
+  purchaseCounts: PlayerEconomyRuntimeState["purchaseCounts"],
+  itemId: string | undefined,
+): string | undefined {
+  if (itemId?.trim()) return undefined;
+  const cap = def.purchaseLimit;
+  if (cap === undefined || !Number.isFinite(cap) || cap <= 0) return undefined;
+  const limit = Math.floor(cap);
+  const used = purchaseCounts?.[actionId] ?? 0;
+  if (used >= limit) {
+    return "Purchase limit reached";
+  }
+  return undefined;
+}
+
+function incrementPurchaseCountIfNeeded(
+  state: PlayerEconomyRuntimeState,
+  def: PlayerEconomyActionDefinition,
+  actionId: string,
+  itemId: string | undefined,
+): void {
+  if (itemId?.trim()) return;
+  const cap = def.purchaseLimit;
+  if (cap === undefined || !Number.isFinite(cap) || cap <= 0) return;
+  const prev = state.purchaseCounts ?? {};
+  state.purchaseCounts = {
+    ...prev,
+    [actionId]: (prev[actionId] ?? 0) + 1,
+  };
+}
+
+function checkMaxUsesPerDay(
+  def: PlayerEconomyActionDefinition,
+  actionId: string,
+  dailyActionUses: PlayerEconomyRuntimeState["dailyActionUses"],
+  now: number,
+): string | undefined {
+  const cap = def.maxUsesPerDay;
+  if (cap === undefined || cap <= 0) return undefined;
+  const bucket = rolloverDailyActionUsesIfNeeded(dailyActionUses, now);
+  const used = bucket.byAction[actionId] ?? 0;
+  if (used >= cap) {
+    return "Daily limit reached for this action";
+  }
   return undefined;
 }
 
 function runPhases(
-  def: MinigameActionDefinition,
-  input: MinigameProcessInput,
-  working: MinigameRuntimeState,
-): { error?: string; producingId?: string } {
+  def: PlayerEconomyActionDefinition,
+  input: PlayerEconomyProcessInput,
+  working: PlayerEconomyRuntimeState,
+): { error?: string; generatorJobId?: string } {
+  const hasProduce = Object.keys(def.produce ?? {}).length > 0;
+  const hasCollect = Object.keys(def.collect ?? {}).length > 0;
+  const itemId = input.itemId?.trim();
+
+  /** With `itemId`, only the collect phase runs (same action id as start for unified configs). */
+  if (itemId) {
+    if (!hasCollect) {
+      return { error: "itemId is not valid for this action" };
+    }
+    const errCollect = applyCollect(
+      working.balances,
+      working.generating,
+      def.collect,
+      itemId,
+      input.now,
+    );
+    if (errCollect) return { error: errCollect };
+    return {};
+  }
+
+  if (hasCollect && !hasProduce) {
+    return { error: "itemId is required for collect" };
+  }
+
   const errRequire = applyRequire(working.balances, def.require);
   if (errRequire) return { error: errRequire };
 
@@ -275,13 +395,14 @@ function runPhases(
   const errAbsent = applyRequireAbsent(working.balances, def.requireAbsent);
   if (errAbsent) return { error: errAbsent };
 
-  const errBurn = applyBurns(working.balances, def.burn);
+  const errBurn = applyBurns(working.balances, def.burn, input.amounts);
   if (errBurn) return { error: errBurn };
 
   const prod = applyProduce(
     working.balances,
-    working.producing,
+    working.generating,
     def.produce,
+    def.collect,
     input.now,
   );
   if (prod.error) return { error: prod.error };
@@ -295,50 +416,75 @@ function runPhases(
   );
   if (errMint) return { error: errMint };
 
-  const errCollect = applyCollect(
-    working.balances,
-    working.producing,
-    def.collect,
-    input.itemId,
-    input.now,
-  );
-  if (errCollect) return { error: errCollect };
-
-  return { producingId: prod.producingId };
+  return { generatorJobId: prod.generatorJobId };
 }
 
-export function processMinigameAction(
-  config: MinigameConfig,
-  state: MinigameRuntimeState,
-  input: MinigameProcessInput,
-): MinigameProcessResult {
+export function processPlayerEconomyAction(
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
+  input: PlayerEconomyProcessInput,
+): PlayerEconomyProcessResult {
   const def = config.actions[input.actionId];
   if (!def) {
     return { ok: false, error: `Unknown action ${input.actionId}` };
   }
 
-  const working = cloneMinigameRuntimeState(state);
+  const working = clonePlayerEconomyRuntimeState(state);
   rolloverDailyMintedIfNeeded(working.dailyMinted, input.now);
 
-  const { error, producingId } = runPhases(def, input, working);
+  const errCap = checkMaxUsesPerDay(
+    def,
+    input.actionId,
+    working.dailyActionUses,
+    input.now,
+  );
+  if (errCap) {
+    return { ok: false, error: errCap };
+  }
+
+  const errPurchaseLimit = checkPurchaseLimit(
+    def,
+    input.actionId,
+    working.purchaseCounts,
+    input.itemId,
+  );
+  if (errPurchaseLimit) {
+    return { ok: false, error: errPurchaseLimit };
+  }
+
+  const { error, generatorJobId } = runPhases(def, input, working);
   if (error) {
     return { ok: false, error };
   }
 
   recordSuccessfulMinigameAction(working, input.now);
 
-  return { ok: true, state: working, producingId };
+  if (def.maxUsesPerDay !== undefined && def.maxUsesPerDay > 0) {
+    const rolled = rolloverDailyActionUsesIfNeeded(
+      working.dailyActionUses,
+      input.now,
+    );
+    const id = input.actionId;
+    rolled.byAction[id] = (rolled.byAction[id] ?? 0) + 1;
+    working.dailyActionUses = rolled;
+  }
+
+  incrementPurchaseCountIfNeeded(working, def, input.actionId, input.itemId);
+
+  return { ok: true, state: working, generatorJobId };
 }
 
-export function emptyMinigameState(
+export function emptyPlayerEconomyState(
   now: number = Date.now(),
-): MinigameRuntimeState {
+): PlayerEconomyRuntimeState {
   const day = utcCalendarDay(now);
   return {
     balances: {},
-    producing: {},
+    generating: {},
     dailyMinted: { utcDay: day, minted: {} },
     activity: 0,
     dailyActivity: { date: day, count: 0 },
+    dailyActionUses: { utcDay: day, byAction: {} },
+    purchaseCounts: {},
   };
 }

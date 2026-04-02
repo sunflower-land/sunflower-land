@@ -1,9 +1,19 @@
 import type { MinigameName } from "features/game/types/minigames";
 import type {
-  MinigameConfig,
-  MinigameDashboardConfig,
-  MinigameRuntimeState,
+  BurnRule,
+  PlayerEconomyActionDefinition,
+  PlayerEconomyConfig,
+  PlayerEconomyRuntimeState,
 } from "./types";
+
+/** Human-readable burn cost for dashboard copy (fixed or range). */
+export function formatBurnRuleForDisplay(rule: BurnRule): string {
+  if ("min" in rule && "max" in rule) {
+    if (rule.min === rule.max) return String(rule.min);
+    return `${rule.min}–${rule.max}`;
+  }
+  return String(rule.amount);
+}
 import type {
   MinigameDashboardData,
   MinigameDashboardUi,
@@ -11,9 +21,42 @@ import type {
   MinigameShopItemUi,
 } from "./minigameDashboardTypes";
 import { getMinigameTokenImage } from "./minigameTokenIcons";
+import { migrateLegacyPlayerEconomyConfigFields } from "./minigameConfigMigration";
+
+/**
+ * When the persisted minigame has no balance entry for a token yet, use
+ * `items[token].initialBalance` from config so the dashboard matches “starting inventory”
+ * (many APIs omit keys until first write).
+ */
+export function mergeInitialBalancesFromConfig(
+  config: PlayerEconomyConfig,
+  balances: Record<string, number>,
+): Record<string, number> {
+  const out = { ...balances };
+  const items = config.items ?? {};
+  for (const [token, meta] of Object.entries(items)) {
+    const init = meta.initialBalance;
+    if (typeof init !== "number" || !Number.isFinite(init) || init <= 0)
+      continue;
+    if (!(token in out)) {
+      out[token] = Math.max(0, Math.floor(init));
+    }
+  }
+  return out;
+}
+
+export function mergeRuntimeWithInitialBalances(
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
+): PlayerEconomyRuntimeState {
+  return {
+    ...state,
+    balances: mergeInitialBalancesFromConfig(config, state.balances),
+  };
+}
 
 export function primaryMintTokenKey(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   actionId: string,
 ): string {
   const mint = config.actions[actionId]?.mint;
@@ -23,7 +66,7 @@ export function primaryMintTokenKey(
 }
 
 export function buildTokenImageMap(
-  items: MinigameConfig["items"],
+  items: PlayerEconomyConfig["items"],
 ): Record<string, string> {
   const out: Record<string, string> = {};
   if (!items) return out;
@@ -41,7 +84,7 @@ export function resolveTokenImageUrl(
 }
 
 export function tokenDisplayName(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
   token: string,
 ): string {
   const named = config.items?.[token]?.name;
@@ -55,7 +98,7 @@ export type TradableMarketplacePick = { tokenKey: string; itemId: number };
  * Marketplace row: prefers token with `id === 0`, else lowest numeric `items[token].id`.
  */
 export function getPrimaryTradableMarketplaceItem(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): TradableMarketplacePick | null {
   const items = config.items;
   if (!items) return null;
@@ -72,29 +115,113 @@ export function getPrimaryTradableMarketplaceItem(
   return { tokenKey, itemId };
 }
 
-function buildShopItems(
-  config: MinigameConfig,
-  dash: MinigameDashboardConfig,
+function firstRecordEntry<T>(
+  r: Record<string, T> | undefined,
+): [string, T] | undefined {
+  if (!r) return undefined;
+  const e = Object.entries(r);
+  return e[0];
+}
+
+function burnRulePriceAmount(rule: BurnRule): number {
+  if ("min" in rule && "max" in rule) return rule.max;
+  return rule.amount;
+}
+
+function isProduceOnly(def: PlayerEconomyActionDefinition): boolean {
+  const p = def.produce && Object.keys(def.produce).length > 0;
+  const m = def.mint && Object.keys(def.mint).length > 0;
+  const b = def.burn && Object.keys(def.burn).length > 0;
+  return Boolean(p && !m && !b);
+}
+
+function isCollectOnly(def: PlayerEconomyActionDefinition): boolean {
+  const c = def.collect && Object.keys(def.collect).length > 0;
+  const m = def.mint && Object.keys(def.mint).length > 0;
+  const b = def.burn && Object.keys(def.burn).length > 0;
+  const p = def.produce && Object.keys(def.produce).length > 0;
+  return Boolean(c && !m && !b && !p);
+}
+
+/**
+ * Derive shop rows from purchasable / claimable actions (`burn`+`mint`, `require`+`mint`, or free `mint`).
+ */
+export function deriveShopItemsFromConfig(
+  config: PlayerEconomyConfig,
   tokenImages: Record<string, string>,
 ): MinigameShopItemUi[] {
-  return dash.shop.map((row) => {
-    const mintKey = primaryMintTokenKey(config, row.actionId);
-    const imageToken = row.listImageToken ?? mintKey;
+  const out: MinigameShopItemUi[] = [];
+
+  const entries = Object.entries(config.actions).sort(([a], [b]) =>
+    a.localeCompare(b),
+  );
+
+  for (const [actionId, def] of entries) {
+    if (def.showInShop === false) continue;
+    if (isProduceOnly(def)) continue;
+    if (isCollectOnly(def)) continue;
+
+    const mint = def.mint;
+    const burn = def.burn;
+    const req = def.require;
+
+    if (!mint || Object.keys(mint).length === 0) {
+      continue;
+    }
+
+    let priceToken: string;
+    let priceAmount: number;
+
+    if (burn && Object.keys(burn).length) {
+      const be = firstRecordEntry(burn);
+      if (!be) continue;
+      priceToken = be[0];
+      priceAmount = burnRulePriceAmount(be[1] as BurnRule);
+    } else if (req && Object.keys(req).length) {
+      const re = firstRecordEntry(req);
+      if (!re) continue;
+      priceToken = re[0];
+      priceAmount = re[1].amount;
+    } else {
+      const me = firstRecordEntry(mint);
+      if (!me) continue;
+      priceToken = me[0];
+      priceAmount = 0;
+    }
+
+    const mintKey = primaryMintTokenKey(config, actionId);
+    const imageToken = mintKey || priceToken;
     const itemForMint = mintKey ? config.items?.[mintKey] : undefined;
-    return {
-      id: row.id,
-      actionId: row.actionId,
-      name: row.name ?? itemForMint?.name ?? mintKey,
-      description: row.description ?? itemForMint?.description ?? "",
+
+    let ownedBalanceToken: string | undefined;
+    if (burn && mint && Object.keys(mint).length === 1) {
+      ownedBalanceToken = Object.keys(mint)[0];
+    }
+
+    const purchaseLimit =
+      typeof def.purchaseLimit === "number" &&
+      Number.isFinite(def.purchaseLimit) &&
+      def.purchaseLimit > 0
+        ? Math.floor(def.purchaseLimit)
+        : undefined;
+
+    out.push({
+      id: actionId,
+      actionId,
+      name: itemForMint?.name ?? (mintKey || priceToken),
+      description: itemForMint?.description ?? "",
       listImage: resolveTokenImageUrl(imageToken, tokenImages),
-      price: row.price,
-      ownedBalanceToken: row.ownedBalanceToken,
-    };
-  });
+      price: { token: priceToken, amount: priceAmount },
+      ...(ownedBalanceToken ? { ownedBalanceToken } : {}),
+      ...(purchaseLimit !== undefined ? { purchaseLimit } : {}),
+    });
+  }
+
+  return out;
 }
 
 function buildInventoryItems(
-  config: MinigameConfig,
+  config: PlayerEconomyConfig,
 ): MinigameInventoryItemUi[] {
   const items = config.items;
   if (!items) return [];
@@ -108,40 +235,78 @@ function buildInventoryItems(
     .sort((a, b) => a.token.localeCompare(b.token));
 }
 
+function inventoryShortcutTokensFromProduction(
+  config: PlayerEconomyConfig,
+): string[] {
+  const items = config.items ?? {};
+  const out: string[] = [];
+  for (const [token, meta] of Object.entries(items)) {
+    if (meta.generator === true) out.push(token);
+  }
+  return out.sort((a, b) => a.localeCompare(b));
+}
+
+function enrichShopItemsWithPurchaseProgress(
+  items: MinigameShopItemUi[],
+  purchaseCounts: Record<string, number> | undefined,
+): MinigameShopItemUi[] {
+  const c = purchaseCounts ?? {};
+  return items.map((item) =>
+    item.purchaseLimit != null && item.purchaseLimit > 0
+      ? { ...item, purchasesSoFar: c[item.actionId] ?? 0 }
+      : item,
+  );
+}
+
 function buildUi(
-  config: MinigameConfig,
-  dash: MinigameDashboardConfig,
+  config: PlayerEconomyConfig,
+  headerBalanceToken: string,
+  visualTheme: string | undefined,
+  purchaseCounts: Record<string, number> | undefined,
 ): MinigameDashboardUi {
   const tokenImages = buildTokenImageMap(config.items);
   return {
-    headerBalanceToken: dash.headerBalanceToken,
-    shopItems: buildShopItems(config, dash, tokenImages),
+    headerBalanceToken,
+    shopItems: enrichShopItemsWithPurchaseProgress(
+      deriveShopItemsFromConfig(config, tokenImages),
+      purchaseCounts,
+    ),
     inventoryItems: buildInventoryItems(config),
-    inventoryShortcutTokens: [...dash.inventoryShortcutTokens],
+    inventoryShortcutTokens: inventoryShortcutTokensFromProduction(config),
     tokenImages,
-    visualTheme: dash.visualTheme,
+    visualTheme,
   };
 }
 
 export function buildMinigameDashboardData(
   slug: string,
   portalName: MinigameName,
-  config: MinigameConfig,
-  state: MinigameRuntimeState,
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
 ): MinigameDashboardData {
-  const dash = config.dashboard;
-  if (!dash) {
-    throw new Error("Minigame config is missing dashboard");
-  }
+  const normalized = migrateLegacyPlayerEconomyConfigFields(config);
+
+  const displayName = normalized.descriptions?.title?.trim() || slug;
+
+  const headerBalanceToken =
+    getPrimaryTradableMarketplaceItem(normalized)?.tokenKey ?? "";
+
+  const visualTheme = normalized.visualTheme;
+
+  const mergedState = mergeRuntimeWithInitialBalances(normalized, state);
 
   return {
     slug,
     portalName,
-    displayName: dash.displayName,
-    config,
-    state,
-    ui: buildUi(config, dash),
-    productionCollectByStartId: { ...dash.productionCollectByStartId },
-    playUrl: config.playUrl,
+    displayName,
+    config: normalized,
+    state: mergedState,
+    ui: buildUi(
+      normalized,
+      headerBalanceToken,
+      visualTheme,
+      mergedState.purchaseCounts,
+    ),
+    playUrl: normalized.playUrl,
   };
 }

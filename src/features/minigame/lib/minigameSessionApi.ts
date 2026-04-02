@@ -1,52 +1,68 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
 export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
-  minigame: {
+  playerEconomy: {
     balances: Record<string, number>;
-    producing: Record<string, unknown>;
+    generating: Record<string, unknown>;
     activity: number;
     dailyActivity: { date: string; count: number };
     dailyMinted: { utcDay: string; minted: Record<string, number> };
+    dailyActionUses?: {
+      utcDay: string;
+      byAction: Record<string, number>;
+    };
+    purchaseCounts?: Record<string, number>;
   };
   actions: Record<string, unknown>;
-  items?: MinigameConfig["items"];
-  descriptions?: MinigameConfig["descriptions"];
-  dashboard?: MinigameConfig["dashboard"];
-  playUrl?: MinigameConfig["playUrl"];
+  items?: PlayerEconomyConfig["items"];
+  descriptions?: PlayerEconomyConfig["descriptions"];
+  visualTheme?: PlayerEconomyConfig["visualTheme"];
+  playUrl?: PlayerEconomyConfig["playUrl"];
+  /** Legacy keys; merged in `migrateLegacyPlayerEconomyConfigFields` when loading the dashboard. */
+  initialBalances?: Record<string, number>;
+  productionCollectByStartId?: Record<string, string>;
+  dashboard?: {
+    productionCollectByStartId?: Record<string, string>;
+    visualTheme?: string;
+  };
 };
 
 export type MinigameActionApiResponse = {
-  minigame: MinigameSessionApiPayload["minigame"];
-  producingId?: string;
+  playerEconomy: MinigameSessionApiPayload["playerEconomy"];
+  generatorJobId?: string;
 };
 
 export function runtimeStateFromActionResponse(
-  minigame: MinigameActionApiResponse["minigame"],
-): MinigameRuntimeState {
+  pe: MinigameActionApiResponse["playerEconomy"],
+): PlayerEconomyRuntimeState {
   return {
-    balances: minigame.balances,
-    producing: minigame.producing as MinigameRuntimeState["producing"],
-    dailyMinted: minigame.dailyMinted,
-    activity: minigame.activity,
-    dailyActivity: minigame.dailyActivity,
+    balances: pe.balances,
+    generating: pe.generating as PlayerEconomyRuntimeState["generating"],
+    dailyMinted: pe.dailyMinted,
+    activity: pe.activity,
+    dailyActivity: pe.dailyActivity,
+    ...(pe.dailyActionUses ? { dailyActionUses: pe.dailyActionUses } : {}),
+    ...(pe.purchaseCounts != null
+      ? { purchaseCounts: { ...pe.purchaseCounts } }
+      : {}),
   };
 }
 
-function minigameUrl(portalId: string): string {
+function playerEconomyUrl(portalId: string): string {
   const base = CONFIG.API_URL;
   if (!base) throw new Error("API_URL is not configured");
-  return `${base}/portal/${encodeURIComponent(portalId)}/minigame`;
+  return `${base}/portal/${encodeURIComponent(portalId)}/player-economy`;
 }
 
 export async function getMinigameSession(
   portalId: string,
   portalJwt: string,
 ): Promise<MinigameSessionApiPayload> {
-  const res = await fetch(minigameUrl(portalId), {
+  const res = await fetch(playerEconomyUrl(portalId), {
     method: "GET",
     headers: {
       Authorization: `Bearer ${portalJwt}`,
@@ -66,12 +82,12 @@ export async function getMinigameSession(
   return body as MinigameSessionApiPayload;
 }
 
-export async function postMinigameActionRequest(
+export async function postPlayerEconomyActionRequest(
   portalId: string,
   portalJwt: string,
   body: { action: string; itemId?: string; amounts?: Record<string, number> },
 ): Promise<MinigameActionApiResponse> {
-  const res = await fetch(minigameUrl(portalId), {
+  const res = await fetch(`${playerEconomyUrl(portalId)}/action`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${portalJwt}`,
@@ -96,10 +112,10 @@ export async function postMinigameActionRequest(
 }
 
 /**
- * Persists a minigame action via the main game event API (`minigame.actioned`),
+ * Persists a player economy action via the main game event API (`playerEconomy.actioned`),
  * same path as `event.ts` / POST `/event/:farmId`.
  */
-export async function postMinigameActionedEvent(opts: {
+export async function postPlayerEconomyActionedEvent(opts: {
   farmId: number;
   userToken: string;
   portalId: string;
@@ -111,13 +127,13 @@ export async function postMinigameActionedEvent(opts: {
   if (!base) throw new Error("API_URL is not configured");
 
   const eventPayload: {
-    type: "minigame.actioned";
+    type: "playerEconomy.actioned";
     portalId: string;
     action: string;
     itemId?: string;
     amounts?: Record<string, number>;
   } = {
-    type: "minigame.actioned",
+    type: "playerEconomy.actioned",
     portalId: opts.portalId,
     action: opts.action,
   };
@@ -167,7 +183,7 @@ export async function postMinigameActionedEvent(opts: {
     );
   }
 
-  if (!response.ok || body.data?.minigame == null) {
+  if (!response.ok || body.data?.playerEconomy == null) {
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 

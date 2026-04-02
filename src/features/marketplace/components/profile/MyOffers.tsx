@@ -6,7 +6,8 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "lib/object";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { getItemId, tradeToId } from "../../lib/offers";
+import { tradeToId } from "../../lib/offers";
+import { CollectionName } from "features/game/types/marketplace";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
@@ -29,7 +30,22 @@ const _authToken = (state: AuthMachineState) =>
 
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
-  const params = useParams();
+  const params = useParams<{
+    collection?: CollectionName | "minigames";
+    id?: string;
+    minigameSlug?: string;
+  }>();
+
+  const routeCollection: CollectionName | undefined =
+    params.minigameSlug != null &&
+    params.id != null &&
+    params.collection == null
+      ? "economies"
+      : params.collection === "minigames"
+        ? "economies"
+        : params.collection;
+
+  const routeMinigameSlug = params.minigameSlug;
   const isWorldRoute = useLocation().pathname.includes("/world");
 
   const { gameService } = useContext(Context);
@@ -46,19 +62,27 @@ export const MyOffers: React.FC = () => {
   const offers = trades.offers ?? {};
 
   const filteredOffers =
-    params.id && params.collection
+    params.id && routeCollection
       ? Object.fromEntries(
           Object.entries(offers).filter(([_, offer]) => {
-            const offerItemName = getKeys(
-              offer.items ?? {},
-            )[0] as InventoryItemName;
-            const offerItemId = getItemId({
-              name: offerItemName,
-              collection: offer.collection,
+            const offerItemId = tradeToId({
+              details: {
+                collection: offer.collection,
+                items: offer.items,
+              },
             });
+            const offerCollection = offer.collection as string;
+            if (routeCollection === "economies") {
+              return (
+                (offerCollection === "economies" ||
+                  offerCollection === "minigames") &&
+                offer.minigameSlug === routeMinigameSlug &&
+                offerItemId === Number(params.id)
+              );
+            }
             return (
-              offerItemId === Number(params.id) &&
-              offer.collection === params.collection
+              offer.collection === routeCollection &&
+              offerItemId === Number(params.id)
             );
           }),
         )
@@ -202,11 +226,21 @@ export const MyOffers: React.FC = () => {
                       isResource={isResource}
                       onCancel={() => setRemoveId(id)}
                       fee={0}
-                      onRowClick={() =>
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
-                        )
-                      }
+                      onRowClick={() => {
+                        const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
+                        const offerCol = offer.collection as string;
+                        if (
+                          (offerCol === "economies" ||
+                            offerCol === "minigames") &&
+                          offer.minigameSlug
+                        ) {
+                          navigate(
+                            `${base}/economies/${offer.minigameSlug}/${itemId}`,
+                          );
+                          return;
+                        }
+                        navigate(`${base}/${details.type}/${itemId}`);
+                      }}
                       onClaim={() => setClaimId(id)}
                     />
                   );

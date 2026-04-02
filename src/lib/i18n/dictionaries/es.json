@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Volver al mercado",
   "minigame.dashboard.shop": "Tienda",
   "minigame.dashboard.goBack": "Regresar",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "Los minijuegos de fichas aún no están disponibles para tu granja.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "Los minijuegos de fichas aún no están disponibles para tu granja.",
   "minigame.dashboard.signInToAction": "Inicia sesión para realizar esta acción.",
   "minigame.dashboard.signInToLoad": "Inicia sesión y abre tu granja para cargar este minijuego.",
   "minigame.dashboard.unknownMinigame": "Minijuego desconocido: {{slug}}",

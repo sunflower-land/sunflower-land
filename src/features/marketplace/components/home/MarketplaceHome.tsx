@@ -3,7 +3,13 @@ import { InnerPanel } from "components/ui/Panel";
 import filterIcon from "assets/icons/filter_icon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
-import { Route, Routes, useNavigate } from "react-router";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router";
 import { Collection, preloadCollections } from "../Collection";
 import { Minigames } from "../Minigames";
 import { Modal } from "components/ui/Modal";
@@ -44,6 +50,15 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
 
 const _gameState = (state: MachineState) => state.context.state;
+
+function LegacyMarketplaceMinigamesPathRedirect() {
+  const location = useLocation();
+  const to = location.pathname
+    .replace("/minigames/", "/economies/")
+    .replace(/\/minigames$/, "/economies");
+  return <Navigate to={`${to}${location.search}${location.hash}`} replace />;
+}
+
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
@@ -82,7 +97,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _gameState);
-  const showTokenMinigames = hasFeatureAccess(gameState, "TOKEN_MINIGAMES");
+  const showPlayerEconomies = hasFeatureAccess(gameState, "PLAYER_ECONOMIES");
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
@@ -123,7 +138,7 @@ export const MarketplaceNavigation: React.FC = () => {
             onClose={() => setShowFilters(false)}
             farmId={farmId}
             hideLimited={hideLimited}
-            showTokenMinigames={showTokenMinigames}
+            showPlayerEconomies={showPlayerEconomies}
           />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
@@ -180,7 +195,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <Filters
                 farmId={farmId}
                 hideLimited={hideLimited}
-                showTokenMinigames={showTokenMinigames}
+                showPlayerEconomies={showPlayerEconomies}
               />
             </div>
           </InnerPanel>
@@ -232,10 +247,18 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route
-                path="/minigames/:minigameSlug/:id"
+                path="/economies/:minigameSlug/:id"
                 element={<Tradeable hideLimited={hideLimited} />}
               />
-              <Route path="/minigames" element={<Minigames />} />
+              <Route path="/economies" element={<Minigames />} />
+              <Route
+                path="/minigames/:minigameSlug/:id"
+                element={<LegacyMarketplaceMinigamesPathRedirect />}
+              />
+              <Route
+                path="/minigames"
+                element={<LegacyMarketplaceMinigamesPathRedirect />}
+              />
               <Route
                 path="/collection/*"
                 element={<Collection hideLimited={hideLimited} />}

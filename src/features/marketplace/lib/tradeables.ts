@@ -19,6 +19,7 @@ import type {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { resolveMarketplaceMinigameItemImage } from "./resolveMinigameMarketplaceImage";
+import { fallbackDisplayNameForMinigameCurrencyKey } from "./minigameMarketplaceCopy";
 
 export type TradeableDisplay = {
   name: MarketplaceTradeableName;
@@ -49,25 +50,33 @@ export function getTradeableDisplay({
   /** Marketplace row when browsing collection (before detail fetch) */
   marketplaceItem?: Tradeable | null;
 }): TradeableDisplay {
-  if (type === "minigames") {
+  if (type === "economies") {
     const mg =
-      tradeableDetails?.collection === "minigames" ? tradeableDetails : null;
+      tradeableDetails?.collection === "economies" ? tradeableDetails : null;
     const row =
-      marketplaceItem?.collection === "minigames" ? marketplaceItem : null;
+      marketplaceItem?.collection === "economies" ? marketplaceItem : null;
     const currency = mg?.currencyName ?? row?.currencyName ?? String(id);
     const label = mg?.minigameLabel ?? row?.minigameLabel ?? "";
     const apiImage = mg?.image ?? row?.image;
+    const explicitDisplay =
+      mg?.currencyDisplayName?.trim() ?? row?.currencyDisplayName?.trim();
+    const readableCurrency =
+      explicitDisplay || fallbackDisplayNameForMinigameCurrencyKey(currency);
+    const itemDescription =
+      mg?.currencyDescription?.trim() ?? row?.currencyDescription?.trim() ?? "";
     /** Trades store items under stringified token id (see API getTradeItem). */
     const name = String(id) as MarketplaceTradeableName;
 
     return {
       name,
-      description: label,
+      description: itemDescription,
       image: resolveMarketplaceMinigameItemImage(apiImage, currency),
       minigameCurrencyKey: currency,
       buffs: [],
       type,
-      translatedName: label ? `${label} · ${currency}` : currency,
+      translatedName: label
+        ? `${label} · ${readableCurrency}`
+        : readableCurrency,
     };
   }
 

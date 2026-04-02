@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Kembali ke pasar",
   "minigame.dashboard.shop": "Toko",
   "minigame.dashboard.goBack": "Kembali",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "Minigame Token belum tersedia untuk peternakan Anda.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "Minigame Token belum tersedia untuk peternakan Anda.",
   "minigame.dashboard.signInToAction": "Masuk untuk melakukan tindakan ini.",
   "minigame.dashboard.signInToLoad": "Masuk dan buka peternakan Anda untuk memuat minigame ini.",
   "minigame.dashboard.unknownMinigame": "Minigame tidak dikenal: {{slug}}",

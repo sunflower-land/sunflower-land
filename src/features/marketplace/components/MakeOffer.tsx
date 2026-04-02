@@ -88,7 +88,7 @@ export const MakeOffer: React.FC<{
         signature,
         quantity: Math.max(1, quantity),
         sfl: offer,
-        ...(display.type === "minigames" && minigameSlug
+        ...(display.type === "economies" && minigameSlug
           ? { minigameSlug }
           : {}),
       },

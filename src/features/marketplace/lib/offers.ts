@@ -40,7 +40,7 @@ export function getItemId({
     return Number(id);
   }
 
-  if (collection === "minigames") {
+  if (collection === "economies") {
     return Number(name);
   }
 

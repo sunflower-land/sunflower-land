@@ -4,9 +4,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
-import type { MinigameConfig } from "../lib/types";
+import type { PlayerEconomyConfig } from "../lib/types";
 import { MinigameShopListBody } from "./MinigameShopListBody";
-import { canAffordShopItem } from "../lib/canAffordShopItem";
+import { canAttemptShopPurchase } from "../lib/minigameShopAvailability";
 import { MinigameShopDetailBody } from "./MinigameShopDetailBody";
 
 export type MinigameMobileShopPhase = "list" | "detail";
@@ -18,7 +18,7 @@ type ProductionPreview = {
 };
 
 type Props = {
-  config: MinigameConfig;
+  config: PlayerEconomyConfig;
   show: boolean;
   phase: MinigameMobileShopPhase;
   onClose: () => void;
@@ -57,7 +57,8 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
   const view =
     phase === "detail" && detailItem ? ("detail" as const) : ("list" as const);
 
-  const canBuy = detailItem != null && canAffordShopItem(detailItem, balances);
+  const canBuy =
+    detailItem != null && canAttemptShopPurchase(detailItem, balances);
 
   return createPortal(
     <div

@@ -11,10 +11,11 @@ import Decimal from "decimal.js-light";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
 import { resolveMarketplaceMinigameItemImage } from "../lib/resolveMinigameMarketplaceImage";
+import { fallbackDisplayNameForMinigameCurrencyKey } from "../lib/minigameMarketplaceCopy";
 
 const _sflUsd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0;
 
-type Row = Tradeable & { collection: "minigames" };
+type Row = Tradeable & { collection: "economies" };
 
 export const MinigamesLeaderboard: React.FC<{
   items: Row[];
@@ -77,6 +78,9 @@ export const MinigamesLeaderboard: React.FC<{
             {sorted.map((item, index) => {
               const rank = index + 1;
               const usd = sflUsd > 0 ? item.floor * sflUsd : 0;
+              const currencyLabel =
+                item.currencyDisplayName?.trim() ||
+                fallbackDisplayNameForMinigameCurrencyKey(item.currencyName);
 
               return (
                 <tr
@@ -114,7 +118,7 @@ export const MinigamesLeaderboard: React.FC<{
                     />
                   </td>
                   <td className="p-2 font-medium">{item.minigameLabel}</td>
-                  <td className="p-2">{item.currencyName}</td>
+                  <td className="p-2">{currencyLabel}</td>
                   <td className="p-2 text-right tabular-nums">
                     {new Decimal(item.floor).toFixed(2)}
                   </td>

@@ -8353,7 +8353,7 @@
   "marketplace.backToMarketplace": "Torna al marketplace",
   "minigame.dashboard.shop": "Negozio",
   "minigame.dashboard.goBack": "Torna indietro",
-  "minigame.dashboard.tokenMinigamesNotAvailable": "I minigiochi con gettoni non sono ancora disponibili per la tua fattoria.",
+  "minigame.dashboard.playerEconomiesNotAvailable": "I minigiochi con gettoni non sono ancora disponibili per la tua fattoria.",
   "minigame.dashboard.signInToAction": "Accedi per eseguire questa azione.",
   "minigame.dashboard.signInToLoad": "Accedi e apri la tua fattoria per caricare questo minigioco.",
   "minigame.dashboard.unknownMinigame": "Minigioco sconosciuto: {{slug}}",

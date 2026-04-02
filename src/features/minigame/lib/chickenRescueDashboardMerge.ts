@@ -1,45 +1,58 @@
 import type { MinigameName } from "features/game/types/minigames";
-import type { MinigameConfig, MinigameRuntimeState } from "./types";
+import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 import type { MinigameSessionApiPayload } from "./minigameSessionApi";
 import type { MinigameDashboardData } from "./minigameDashboardTypes";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
+import {
+  migrateLegacyPlayerEconomyConfigFields,
+  type PlayerEconomyConfigWithLegacy,
+} from "./minigameConfigMigration";
+import { utcCalendarDay } from "./processPlayerEconomyAction";
 
-function sessionMinigameToRuntime(
-  m: MinigameSessionApiPayload["minigame"],
-): MinigameRuntimeState {
+function sessionPlayerEconomyToRuntime(
+  m: MinigameSessionApiPayload["playerEconomy"],
+): PlayerEconomyRuntimeState {
+  const day = utcCalendarDay(Date.now());
   return {
     balances: m.balances,
-    producing: m.producing as MinigameRuntimeState["producing"],
+    generating: m.generating as PlayerEconomyRuntimeState["generating"],
     dailyMinted: m.dailyMinted,
     activity: m.activity,
     dailyActivity: m.dailyActivity,
+    dailyActionUses: m.dailyActionUses ?? { utcDay: day, byAction: {} },
   };
 }
 
 /**
- * Builds dashboard data from `GET /portal/:portalId/minigame` JSON (full config from API).
+ * Builds dashboard data from `GET /portal/:portalId/player-economy` JSON (full config from API).
  */
 export function buildMinigameDashboardFromApiSession(
   slug: string,
   portalName: MinigameName,
   session: MinigameSessionApiPayload,
 ): MinigameDashboardData {
-  const config: MinigameConfig = {
-    actions: session.actions as MinigameConfig["actions"],
+  const raw = {
+    actions: session.actions as PlayerEconomyConfig["actions"],
     items: session.items,
     descriptions: session.descriptions,
-    dashboard: session.dashboard,
+    visualTheme: session.visualTheme,
     playUrl: session.playUrl,
+    ...(session.initialBalances
+      ? { initialBalances: session.initialBalances }
+      : {}),
+    ...(session.productionCollectByStartId
+      ? { productionCollectByStartId: session.productionCollectByStartId }
+      : {}),
+    ...(session.dashboard ? { dashboard: session.dashboard } : {}),
   };
-
-  if (!config.dashboard) {
-    throw new Error("Minigame API response is missing dashboard config");
-  }
+  const config = migrateLegacyPlayerEconomyConfigFields(
+    raw as PlayerEconomyConfigWithLegacy,
+  );
 
   return buildMinigameDashboardData(
     slug,
     portalName,
     config,
-    sessionMinigameToRuntime(session.minigame),
+    sessionPlayerEconomyToRuntime(session.playerEconomy),
   );
 }

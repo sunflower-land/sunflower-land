@@ -140,7 +140,9 @@ const FEATURE_FLAGS = {
 
   AGING_SHED: usernameFeatureFlag,
 
-  /** Tokenized minigame economy: dashboard, portal API, marketplace minigames row. */
+  /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
+  PLAYER_ECONOMIES: defaultFeatureFlag,
+  /** @deprecated Use PLAYER_ECONOMIES */
   TOKEN_MINIGAMES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

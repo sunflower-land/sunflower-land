@@ -22,17 +22,23 @@ import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
 import {
-  postMinigameActionedEvent,
+  postPlayerEconomyActionedEvent,
   runtimeStateFromActionResponse,
 } from "./lib/minigameSessionApi";
-import { processMinigameAction } from "./lib/processMinigameAction";
-import type { MinigameProcessResult, MinigameRuntimeState } from "./lib/types";
+import { processPlayerEconomyAction } from "./lib/processPlayerEconomyAction";
+import type {
+  PlayerEconomyProcessResult,
+  PlayerEconomyRuntimeState,
+} from "./lib/types";
 import type {
   MinigameDashboardData,
   MinigameShopItemUi,
 } from "./lib/minigameDashboardTypes";
 import { getMinigameTokenImage } from "./lib/minigameTokenIcons";
-import { canAffordShopItem } from "./lib/canAffordShopItem";
+import {
+  canAttemptShopPurchase,
+  isShopItemBoughtOrDisabled,
+} from "./lib/minigameShopAvailability";
 import { MinigameShopPanel } from "./components/MinigameShopPanel";
 import { MinigameShopDetailBody } from "./components/MinigameShopDetailBody";
 import { MinigameMobileShopModal } from "./components/MinigameMobileShopModal";
@@ -42,15 +48,19 @@ import { MinigameInventoryModal } from "./components/MinigameInventoryModal";
 import { ChickenRescueBookmatchedBackdrop } from "./components/ChickenRescueBookmatchedBackdrop";
 import { MinigameProductionZone } from "./components/MinigameProductionZone";
 import {
-  buildCapJobByCapToken,
-  extractCapBalanceProductionSlots,
+  buildCapJobByRecipeKey,
+  getProductionZoneEntries,
   getShopPurchaseProductionPreview,
+  recipeJobKey,
+  type CapBalanceProductionSlot,
 } from "./lib/extractProductionSlots";
-import { cloneMinigameRuntimeState } from "./lib/processMinigameAction";
+import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
 import { hasFeatureAccess } from "lib/flags";
-import { isTokenMinigameDashboardSlug } from "./lib/tokenMinigameDashboardSlugs";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
-import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
+import {
+  getPrimaryTradableMarketplaceItem,
+  mergeRuntimeWithInitialBalances,
+} from "./lib/minigameConfigHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
 
@@ -66,14 +76,17 @@ export const MinigameDashboard: React.FC = () => {
   const [authState] = useActor(authService);
   const farmId = gameState.context.farmId;
   const userToken = authState.context.user.rawToken as string | undefined;
-  const tokenMinigamesBlocked =
-    isTokenMinigameDashboardSlug(slug) &&
-    !hasFeatureAccess(gameState.context.state, "TOKEN_MINIGAMES");
+  const playerEconomiesBlocked = !hasFeatureAccess(
+    gameState.context.state,
+    "PLAYER_ECONOMIES",
+  );
 
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MinigameLoadError | null>(null);
   const [payload, setPayload] = useState<MinigameDashboardData | null>(null);
-  const [runtime, setRuntime] = useState<MinigameRuntimeState | null>(null);
+  const [runtime, setRuntime] = useState<PlayerEconomyRuntimeState | null>(
+    null,
+  );
 
   const [pendingShopItem, setPendingShopItem] =
     useState<MinigameShopItemUi | null>(null);
@@ -94,12 +107,14 @@ export const MinigameDashboard: React.FC = () => {
     "list",
   );
 
-  const [capJobByCapToken, setCapJobByCapToken] = useState<
+  const [capJobByRecipeKey, setCapJobByRecipeKey] = useState<
     Record<string, string | undefined>
   >({});
   const payloadInitRef = useRef(false);
-  const runtimeRef = useRef<MinigameRuntimeState | null>(null);
-  const capJobByCapTokenRef = useRef<Record<string, string | undefined>>({});
+  const runtimeRef = useRef<PlayerEconomyRuntimeState | null>(null);
+  const capJobByRecipeKeyRef = useRef<Record<string, string | undefined>>({});
+  /** Bumped when each minigame POST starts; stale responses must not overwrite newer optimistic state. */
+  const minigameRemoteActionSeqRef = useRef(0);
   const dashboardMountedRef = useRef(true);
   /** Bumped when the minigame iframe closes so dashboard data is refetched. */
   const [dashboardReloadKey, setDashboardReloadKey] = useState(0);
@@ -107,7 +122,7 @@ export const MinigameDashboard: React.FC = () => {
   const [showActionSyncError, setShowActionSyncError] = useState(false);
   const [actionSyncError, setActionSyncError] = useState<string | null>(null);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const applyRuntime = useCallback((next: MinigameRuntimeState | null) => {
+  const applyRuntime = useCallback((next: PlayerEconomyRuntimeState | null) => {
     runtimeRef.current = next;
     setRuntime(next);
   }, []);
@@ -120,13 +135,13 @@ export const MinigameDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    capJobByCapTokenRef.current = capJobByCapToken;
-  }, [capJobByCapToken]);
+    capJobByRecipeKeyRef.current = capJobByRecipeKey;
+  }, [capJobByRecipeKey]);
 
   useEffect(() => {
     payloadInitRef.current = false;
     queueMicrotask(() => {
-      setCapJobByCapToken({});
+      setCapJobByRecipeKey({});
     });
   }, [slug]);
 
@@ -135,12 +150,8 @@ export const MinigameDashboard: React.FC = () => {
     if (payloadInitRef.current) return;
     payloadInitRef.current = true;
     queueMicrotask(() => {
-      setCapJobByCapToken(
-        buildCapJobByCapToken(
-          payload.config,
-          payload.productionCollectByStartId,
-          payload.state,
-        ),
+      setCapJobByRecipeKey(
+        buildCapJobByRecipeKey(payload.config, payload.state),
       );
     });
   }, [payload]);
@@ -159,12 +170,12 @@ export const MinigameDashboard: React.FC = () => {
   useEffect(() => {
     if (!runtime) return;
     queueMicrotask(() => {
-      setCapJobByCapToken((prev) => {
+      setCapJobByRecipeKey((prev) => {
         let changed = false;
         const next = { ...prev };
         for (const key of Object.keys(next)) {
           const id = next[key];
-          if (id && !runtime.producing[id]) {
+          if (id && !runtime.generating[id]) {
             next[key] = undefined;
             changed = true;
           }
@@ -174,14 +185,8 @@ export const MinigameDashboard: React.FC = () => {
     });
   }, [runtime]);
 
-  const productionSlots = useMemo(
-    () =>
-      payload
-        ? extractCapBalanceProductionSlots(
-            payload.config,
-            payload.productionCollectByStartId,
-          )
-        : [],
+  const productionEntries = useMemo(
+    () => (payload ? getProductionZoneEntries(payload.config) : []),
     [payload],
   );
 
@@ -189,14 +194,14 @@ export const MinigameDashboard: React.FC = () => {
     if (!payload || !pendingShopItem) return null;
     return getShopPurchaseProductionPreview(
       payload.config,
-      payload.productionCollectByStartId,
       pendingShopItem.actionId,
     );
   }, [payload, pendingShopItem]);
 
-  const onCapJobChange = useCallback(
-    (capToken: string, jobId: string | undefined) => {
-      setCapJobByCapToken((prev) => ({ ...prev, [capToken]: jobId }));
+  const onRecipeJobChange = useCallback(
+    (slot: CapBalanceProductionSlot, jobId: string | undefined) => {
+      const key = recipeJobKey(slot);
+      setCapJobByRecipeKey((prev) => ({ ...prev, [key]: jobId }));
     },
     [],
   );
@@ -206,7 +211,7 @@ export const MinigameDashboard: React.FC = () => {
       actionId: string;
       itemId?: string;
       amounts?: Record<string, number>;
-    }): Promise<MinigameProcessResult> => {
+    }): Promise<PlayerEconomyProcessResult> => {
       if (!payload)
         return { ok: false, error: t("minigame.dashboard.error.noSession") };
 
@@ -214,7 +219,7 @@ export const MinigameDashboard: React.FC = () => {
       if (!prev)
         return { ok: false, error: t("minigame.dashboard.error.noState") };
 
-      const local = processMinigameAction(payload.config, prev, {
+      const local = processPlayerEconomyAction(payload.config, prev, {
         ...input,
         now: Date.now(),
       });
@@ -228,14 +233,14 @@ export const MinigameDashboard: React.FC = () => {
         return { ok: false, error: t("minigame.dashboard.signInToAction") };
       }
 
-      const snapshotRuntime = cloneMinigameRuntimeState(prev);
-      const snapshotCapJobs = { ...capJobByCapTokenRef.current };
+      const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
+      const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
       const cfg = payload.config;
-      const collectByStartId = payload.productionCollectByStartId;
 
       void (async () => {
+        const remoteSeq = ++minigameRemoteActionSeqRef.current;
         try {
-          const data = await postMinigameActionedEvent({
+          const data = await postPlayerEconomyActionedEvent({
             farmId,
             userToken,
             portalId: payload.portalName,
@@ -243,16 +248,16 @@ export const MinigameDashboard: React.FC = () => {
             itemId: input.itemId,
             amounts: input.amounts,
           });
-          const next = runtimeStateFromActionResponse(data.minigame);
+          const next = runtimeStateFromActionResponse(data.playerEconomy);
           if (!dashboardMountedRef.current) return;
-          applyRuntime(next);
-          setCapJobByCapToken(
-            buildCapJobByCapToken(cfg, collectByStartId, next),
-          );
+          if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
+          applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
+          setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
         } catch (e) {
           if (!dashboardMountedRef.current) return;
+          if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
           applyRuntime(snapshotRuntime);
-          setCapJobByCapToken(snapshotCapJobs);
+          setCapJobByRecipeKey(snapshotCapJobs);
           setActionSyncError(
             e instanceof Error
               ? e.message
@@ -262,13 +267,17 @@ export const MinigameDashboard: React.FC = () => {
         }
       })();
 
-      return { ok: true, state: local.state, producingId: local.producingId };
+      return {
+        ok: true,
+        state: local.state,
+        generatorJobId: local.generatorJobId,
+      };
     },
     [payload, userToken, farmId, applyRuntime, t],
   );
 
   useEffect(() => {
-    if (tokenMinigamesBlocked) {
+    if (playerEconomiesBlocked) {
       return;
     }
     let cancelled = false;
@@ -300,7 +309,7 @@ export const MinigameDashboard: React.FC = () => {
     farmId,
     applyRuntime,
     dashboardReloadKey,
-    tokenMinigamesBlocked,
+    playerEconomiesBlocked,
   ]);
 
   const handleClose = useCallback(() => {
@@ -371,8 +380,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onShopItemClick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    const lockKey = item.ownedBalanceToken;
-    if (lockKey && (runtime.balances[lockKey] ?? 0) >= 1) {
+    if (isShopItemBoughtOrDisabled(item, runtime.balances)) {
       return;
     }
     setShopActionError(null);
@@ -390,8 +398,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onMobileShopListPick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    const lockKey = item.ownedBalanceToken;
-    if (lockKey && (runtime.balances[lockKey] ?? 0) >= 1) {
+    if (isShopItemBoughtOrDisabled(item, runtime.balances)) {
       return;
     }
     setShopActionError(null);
@@ -403,9 +410,9 @@ export const MinigameDashboard: React.FC = () => {
     if (!payload || !pendingShopItem) return;
     const prev = runtimeRef.current;
     if (!prev) return;
-    if (!canAffordShopItem(pendingShopItem, prev.balances)) return;
+    if (!canAttemptShopPurchase(pendingShopItem, prev.balances)) return;
 
-    const local = processMinigameAction(payload.config, prev, {
+    const local = processPlayerEconomyAction(payload.config, prev, {
       actionId: pendingShopItem.actionId,
       now: Date.now(),
     });
@@ -429,10 +436,9 @@ export const MinigameDashboard: React.FC = () => {
       return;
     }
 
-    const snapshotRuntime = cloneMinigameRuntimeState(prev);
-    const snapshotCapJobs = { ...capJobByCapTokenRef.current };
+    const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
+    const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
     const cfg = payload.config;
-    const collectByStartId = payload.productionCollectByStartId;
     const shopActionId = pendingShopItem.actionId;
 
     applyRuntime(local.state);
@@ -443,21 +449,24 @@ export const MinigameDashboard: React.FC = () => {
     setShopActionError(null);
 
     void (async () => {
+      const remoteSeq = ++minigameRemoteActionSeqRef.current;
       try {
-        const data = await postMinigameActionedEvent({
+        const data = await postPlayerEconomyActionedEvent({
           farmId,
           userToken,
           portalId: payload.portalName,
           action: shopActionId,
         });
-        const next = runtimeStateFromActionResponse(data.minigame);
+        const next = runtimeStateFromActionResponse(data.playerEconomy);
         if (!dashboardMountedRef.current) return;
-        applyRuntime(next);
-        setCapJobByCapToken(buildCapJobByCapToken(cfg, collectByStartId, next));
+        if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
+        applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
+        setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
       } catch (e) {
         if (!dashboardMountedRef.current) return;
+        if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
         applyRuntime(snapshotRuntime);
-        setCapJobByCapToken(snapshotCapJobs);
+        setCapJobByRecipeKey(snapshotCapJobs);
         setActionSyncError(
           e instanceof Error ? e.message : t("minigame.dashboard.actionFailed"),
         );
@@ -482,11 +491,13 @@ export const MinigameDashboard: React.FC = () => {
       ? null
       : loadError.kind === "message"
         ? loadError.text
-        : loadError.kind === "unknown_minigame"
-          ? t("minigame.dashboard.unknownMinigame", { slug: loadError.slug })
+        : loadError.kind === "unknown_player_economy"
+          ? t("minigame.dashboard.unknownPlayerEconomy", {
+              slug: loadError.slug,
+            })
           : t("minigame.dashboard.signInToLoad");
 
-  if (tokenMinigamesBlocked) {
+  if (playerEconomiesBlocked) {
     return (
       <div
         className={classNames(
@@ -501,7 +512,7 @@ export const MinigameDashboard: React.FC = () => {
         {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white px-2">
-            {t("minigame.dashboard.tokenMinigamesNotAvailable")}
+            {t("minigame.dashboard.playerEconomiesNotAvailable")}
           </p>
           <Button onClick={handleClose}>
             {t("minigame.dashboard.goBack")}
@@ -635,13 +646,13 @@ export const MinigameDashboard: React.FC = () => {
           <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
               <MinigameProductionZone
-                slots={productionSlots}
+                entries={productionEntries}
                 config={payload.config}
                 runtime={runtime}
                 tokenImages={tokenImages}
                 onRuntimeChange={(next) => applyRuntime(next)}
-                capJobByCapToken={capJobByCapToken}
-                onCapJobChange={onCapJobChange}
+                capJobByRecipeKey={capJobByRecipeKey}
+                onRecipeJobChange={onRecipeJobChange}
                 dispatchAction={runMinigameAction}
               />
             </div>
@@ -678,7 +689,7 @@ export const MinigameDashboard: React.FC = () => {
           confirmDisabled={
             !!pendingShopItem &&
             !!runtime &&
-            !canAffordShopItem(pendingShopItem, runtime.balances)
+            !canAttemptShopPurchase(pendingShopItem, runtime.balances)
           }
           onClose={() => {
             setShowShopConfirm(false);

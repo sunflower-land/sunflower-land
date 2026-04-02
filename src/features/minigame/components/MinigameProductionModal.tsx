@@ -4,15 +4,16 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import type { MinigameConfig } from "../lib/types";
+import type { BurnRule, PlayerEconomyConfig } from "../lib/types";
 import {
   capTokenDisplayName,
   formatMinigameDuration,
   getCollectOutputForSlot,
   type CapBalanceProductionSlot,
 } from "../lib/extractProductionSlots";
+import { formatBurnRuleForDisplay } from "../lib/minigameConfigHelpers";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
-import type { ProducingEntry } from "../lib/types";
+import type { GeneratorJob } from "../lib/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Variant = "start" | "producing" | "collect";
@@ -21,8 +22,8 @@ type Props = {
   show: boolean;
   variant: Variant;
   slot: CapBalanceProductionSlot | null;
-  config: MinigameConfig;
-  job: ProducingEntry | null;
+  config: PlayerEconomyConfig;
+  job: GeneratorJob | null;
   now: number;
   startError: string | null;
   tokenImages: Record<string, string>;
@@ -157,7 +158,7 @@ export const MinigameProductionModal: React.FC<Props> = ({
                       {burnEntries.map(([token, rule]) => (
                         <li key={token} className="flex items-center gap-1">
                           <span>
-                            {rule.amount}
+                            {formatBurnRuleForDisplay(rule as BurnRule)}
                             {"\u00d7 "}
                             {capTokenDisplayName(token, config)}
                           </span>

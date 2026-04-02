@@ -622,7 +622,7 @@ export const Collection: React.FC<{
 
               const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
               const detailPath =
-                item.collection === "minigames"
+                item.collection === "economies"
                   ? marketplaceMinigameItemPath(
                       marketplaceBase,
                       item.minigameSlug,
