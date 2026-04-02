@@ -36,8 +36,6 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     hasFeatureAccess(state.context.state, "AGING_SHED"),
   );
 
-  const nextAgingShedLevel = agingShedLevel + 1;
-
   const tabs: PanelTabs<AgingShedTabs>[] = [
     {
       id: "agingRack",
@@ -83,26 +81,68 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
           showUpgradeTab || !hasAgingShedAccess ? undefined : OuterPanel
         }
       >
-        {!hasAgingShedAccess ? (
-          <div className="p-2">
-            <p className="text-sm">{t("coming.soon")}</p>
-          </div>
-        ) : showUpgradeTab ? (
-          <UpgradeBuildingContent
-            onClose={closeUpgradeTab}
-            buildingName={"Aging Shed"}
-            currentLevel={agingShedLevel}
-            nextLevel={nextAgingShedLevel}
-            onBack={() => setShowUpgradeTab(false)}
-          />
-        ) : currentTab === "agingRack" ? (
-          <AgingRackPanel />
-        ) : currentTab === "fermentationRack" ? (
-          <FermentationRackPanel />
-        ) : (
-          <SpiceRackPanel />
-        )}
+        <AgedShedPanel
+          agingShedLevel={agingShedLevel}
+          hasAgingShedAccess={hasAgingShedAccess}
+          setShowUpgradeTab={setShowUpgradeTab}
+          closeUpgradeTab={closeUpgradeTab}
+          showUpgradeTab={showUpgradeTab}
+          currentTab={currentTab}
+        />
       </CloseButtonPanel>
     </Modal>
   );
+};
+
+const AgedShedPanel: React.FC<{
+  agingShedLevel: number;
+  hasAgingShedAccess: boolean;
+  setShowUpgradeTab: React.Dispatch<React.SetStateAction<boolean>>;
+  closeUpgradeTab: () => void;
+  showUpgradeTab: boolean;
+  currentTab: AgingShedTabs;
+}> = ({
+  agingShedLevel,
+  hasAgingShedAccess,
+  setShowUpgradeTab,
+  closeUpgradeTab,
+  showUpgradeTab,
+  currentTab,
+}) => {
+  const { t } = useAppTranslation();
+  const nextAgingShedLevel = agingShedLevel + 1;
+
+  if (!hasAgingShedAccess) {
+    return (
+      <div className="p-2">
+        <p className="text-sm">{t("coming.soon")}</p>
+      </div>
+    );
+  }
+
+  if (showUpgradeTab) {
+    return (
+      <UpgradeBuildingContent
+        onClose={closeUpgradeTab}
+        buildingName={"Aging Shed"}
+        currentLevel={agingShedLevel}
+        nextLevel={nextAgingShedLevel}
+        onBack={() => setShowUpgradeTab(false)}
+      />
+    );
+  }
+
+  if (currentTab === "agingRack") {
+    return <AgingRackPanel />;
+  }
+
+  if (currentTab === "fermentationRack") {
+    return <FermentationRackPanel />;
+  }
+
+  if (currentTab === "spiceRack") {
+    return <SpiceRackPanel />;
+  }
+
+  return null;
 };

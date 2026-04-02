@@ -17,7 +17,7 @@ const usernameFeatureFlag = (game: GameState) => {
   );
 };
 
-const defaultFeatureFlag = ({ inventory }: GameState) =>
+const betaFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
@@ -47,11 +47,11 @@ const betaTimePeriodFeatureFlag =
   (game: GameState) =>
   (now: number) => {
     if (end === null) {
-      return defaultFeatureFlag(game) || now > start.getTime();
+      return betaFeatureFlag(game) || now > start.getTime();
     }
 
     return (
-      (defaultFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
+      (betaFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
     );
   };
 
@@ -114,16 +114,16 @@ export function hasTimeBasedFeatureAccess({
  */
 const FEATURE_FLAGS = {
   // For testing
-  JEST_TEST: defaultFeatureFlag,
+  JEST_TEST: betaFeatureFlag,
 
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
-  HOARDING_CHECK: defaultFeatureFlag,
+  HOARDING_CHECK: betaFeatureFlag,
   STREAMER_HAT: (game) =>
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
-  FACE_RECOGNITION_TEST: defaultFeatureFlag,
+  FACE_RECOGNITION_TEST: betaFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
   LEAGUES: () => false,
@@ -135,15 +135,15 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  CHAACS_TEMPLE_BETA: defaultFeatureFlag,
-  SALT_FARM: usernameFeatureFlag,
+  CHAACS_TEMPLE_BETA: betaFeatureFlag,
+  SALT_FARM: betaFeatureFlag,
 
-  AGING_SHED: usernameFeatureFlag,
+  AGING_SHED: betaFeatureFlag,
 
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
-  PLAYER_ECONOMIES: defaultFeatureFlag,
+  PLAYER_ECONOMIES: betaFeatureFlag,
   /** @deprecated Use PLAYER_ECONOMIES */
-  TOKEN_MINIGAMES: defaultFeatureFlag,
+  TOKEN_MINIGAMES: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
