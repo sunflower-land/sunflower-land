@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "オープンエコノミーダッシュボード",
   "marketplace.economies.leaderboardTitle": "エコノミー通貨（フラワーフロア別）",
   "minigame.dashboard.adventureNotConfiguredTitle": "アドベンチャー",
-  "minigame.dashboard.adventureNotConfiguredBody": "このエコノミー向けのカスタムアドベンチャーはまだ設定されていません。エコノミーエディターにプレイ URL を追加してゲームをリンクしてください。"
+  "minigame.dashboard.adventureNotConfiguredBody": "このエコノミー向けのカスタムアドベンチャーはまだ設定されていません。エコノミーエディターにプレイ URL を追加してゲームをリンクしてください。",
+  "pickledCrops": "ピクルス作物",
+  "spices": "スパイス"
 }

@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "Panel de economía abierta",
   "marketplace.economies.leaderboardTitle": "Divisas económicas (por piso FLOWER)",
   "minigame.dashboard.adventureNotConfiguredTitle": "Aventura",
-  "minigame.dashboard.adventureNotConfiguredBody": "Aún no se ha creado ninguna aventura personalizada para esta economía. Añade una URL de juego en el editor económico para vincular tu juego."
+  "minigame.dashboard.adventureNotConfiguredBody": "Aún no se ha creado ninguna aventura personalizada para esta economía. Añade una URL de juego en el editor económico para vincular tu juego.",
+  "pickledCrops": "Cultivos en escabeche",
+  "spices": "Especias"
 }
