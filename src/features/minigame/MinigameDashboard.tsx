@@ -187,8 +187,11 @@ export const MinigameDashboard: React.FC = () => {
   }, [runtime]);
 
   const productionEntries = useMemo(
-    () => (payload ? getProductionZoneEntries(payload.config) : []),
-    [payload],
+    () =>
+      payload && runtime
+        ? getProductionZoneEntries(payload.config, runtime)
+        : [],
+    [payload, runtime],
   );
 
   const shopProductionPreview = useMemo(() => {

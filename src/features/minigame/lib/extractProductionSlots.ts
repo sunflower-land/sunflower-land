@@ -35,6 +35,20 @@ export function isGeneratorCapToken(
   return config.items?.[token]?.generator === true;
 }
 
+/**
+ * Dashboard shows a generator only when the player has at least one of that cap item,
+ * or already has production running on it (so they can collect after edge balance changes).
+ */
+export function playerControlsGeneratorCap(
+  runtime: PlayerEconomyRuntimeState,
+  capToken: string,
+): boolean {
+  if ((runtime.balances[capToken] ?? 0) > 0) return true;
+  return Object.values(runtime.generating).some(
+    (job) => job.requires === capToken,
+  );
+}
+
 export function isProductionSlotConfigured(
   slot: CapBalanceProductionSlot,
 ): boolean {
@@ -70,11 +84,13 @@ export function extractCapBalanceProductionSlots(
 }
 
 /**
- * Dashboard production zone: every item with `generator: true`, grouped with all produce
- * recipes that use that token as `requires`. Generators with no rules have `recipes: []`.
+ * Dashboard production zone: generator items the player controls ({@link playerControlsGeneratorCap}),
+ * grouped with produce recipes that use that token as `requires`. Generators with no rules yet
+ * still appear once owned (`recipes: []`).
  */
 export function getProductionZoneEntries(
   config: PlayerEconomyConfig,
+  runtime: PlayerEconomyRuntimeState,
 ): GeneratorProductionEntry[] {
   const ruleSlots = extractCapBalanceProductionSlots(config).filter((s) =>
     isGeneratorCapToken(config, s.capToken),
@@ -103,7 +119,8 @@ export function getProductionZoneEntries(
     .map((capToken) => ({
       capToken,
       recipes: byCap.get(capToken) ?? [],
-    }));
+    }))
+    .filter((e) => playerControlsGeneratorCap(runtime, e.capToken));
 }
 
 /** Maps each recipe (`startActionId|outputToken`) to its active generating job id. */
@@ -112,7 +129,7 @@ export function buildCapJobByRecipeKey(
   runtime: PlayerEconomyRuntimeState,
 ): Record<string, string | undefined> {
   const map: Record<string, string | undefined> = {};
-  for (const entry of getProductionZoneEntries(config)) {
+  for (const entry of getProductionZoneEntries(config, runtime)) {
     for (const slot of entry.recipes) {
       if (!isProductionSlotConfigured(slot)) continue;
       const key = recipeJobKey(slot);
