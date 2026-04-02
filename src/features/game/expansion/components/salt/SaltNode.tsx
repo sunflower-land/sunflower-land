@@ -7,6 +7,10 @@ import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  getSaltChargeGenerationTime,
+  getStoredSaltCharges,
+} from "features/game/types/salt";
 import { SaltNodeModalPanel } from "./SaltNodeModalPanel";
 
 interface Props {
@@ -17,11 +21,20 @@ interface Props {
 const _node = (id: string) => (state: MachineState) =>
   state.context.state.saltFarm.nodes[id];
 
+const _gameState = (state: MachineState) => state.context.state;
+
 export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   const { gameService, showAnimations } = useContext(Context);
   const node = useSelector(gameService, _node(id));
+  const gameState = useSelector(gameService, _gameState);
   const now = useNow({ live: true });
   const [showModal, setShowModal] = useState(false);
+
+  const hasUnstartedStoredCharges = useMemo(() => {
+    if (!node) return false;
+    const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
+    return getStoredSaltCharges(node, now, { chargeIntervalMs }) > 0;
+  }, [node, now, gameState]);
 
   const readySlots = useMemo(() => {
     if (!node?.salt.harvesting?.slots) return 0;
@@ -37,7 +50,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
         className="w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => !visiting && setShowModal(true)}
       >
-        {readySlots > 0 && (
+        {(hasUnstartedStoredCharges || readySlots > 0) && (
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
             <img
               src={SUNNYSIDE.icons.expression_alerted}
