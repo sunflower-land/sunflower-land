@@ -2834,6 +2834,7 @@
   "marketplace.minigames.usd": "USD",
   "marketplace.minigames.missingSlug": "Open this item from the Player economies marketplace; the link must include which game it belongs to.",
   "marketplace.economies.openDashboard": "Open economy dashboard",
+  "marketplace.economies.leaderboardTitle": "Economy currencies (by FLOWER floor)",
   "marketplace.minigames.notAvailable": "Player economy marketplace trading is not available for your farm yet.",
   "marketplace.tradeable.invalidLink": "Invalid marketplace link.",
   "marketplace.backToMarketplace": "Back to marketplace",

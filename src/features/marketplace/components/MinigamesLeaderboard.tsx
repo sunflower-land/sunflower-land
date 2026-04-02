@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router";
+import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -20,7 +21,21 @@ type Row = Tradeable & { collection: "economies" };
 export const MinigamesLeaderboard: React.FC<{
   items: Row[];
   onNavigated?: () => void;
-}> = ({ items, onNavigated }) => {
+  /** When set, this economy + item row is visually highlighted (e.g. on detail page). */
+  highlightEconomy?: string;
+  highlightItemId?: number;
+  /** Merges into the outer panel; default fills parent height. */
+  panelClassName?: string;
+  /** Optional heading above the table (e.g. on detail page). */
+  title?: React.ReactNode;
+}> = ({
+  items,
+  onNavigated,
+  highlightEconomy,
+  highlightItemId,
+  panelClassName,
+  title,
+}) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,9 +57,14 @@ export const MinigamesLeaderboard: React.FC<{
       ? location.state.route
       : `${location.pathname}${location.search}`;
 
+  const panelBase = classNames(
+    "flex flex-col overflow-hidden min-h-0",
+    panelClassName ?? "h-full",
+  );
+
   if (sorted.length === 0) {
     return (
-      <InnerPanel className="h-full flex items-center justify-center p-4">
+      <InnerPanel className={classNames(panelBase, "justify-center p-4")}>
         <p className="text-sm text-center">
           {t("marketplace.minigames.empty")}
         </p>
@@ -53,12 +73,18 @@ export const MinigamesLeaderboard: React.FC<{
   }
 
   return (
-    <InnerPanel className="h-full flex flex-col overflow-hidden">
-      <div className="overflow-x-auto scrollable flex-1">
+    <InnerPanel className={panelBase}>
+      {title ? (
+        <div className="shrink-0 border-b border-brown-400 bg-brown-200 px-2 py-1.5 text-xs font-medium text-brown-800">
+          {title}
+        </div>
+      ) : null}
+      <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto scrollable">
         <table className="w-full text-xs border-collapse">
           <thead>
             <tr className="border-b border-brown-400 bg-brown-300">
               <th className="text-left p-2 w-10">{"#"}</th>
+              <th className="p-2 w-10" aria-hidden />
               <th className="text-left p-2">
                 {t("marketplace.minigames.game")}
               </th>
@@ -81,12 +107,21 @@ export const MinigamesLeaderboard: React.FC<{
               const currencyLabel =
                 item.currencyDisplayName?.trim() ||
                 fallbackDisplayNameForMinigameCurrencyKey(item.currencyName);
+              const isCurrent =
+                highlightEconomy != null &&
+                highlightItemId != null &&
+                item.economy === highlightEconomy &&
+                item.id === highlightItemId;
 
               return (
                 <tr
                   key={`${item.economy}-${item.id}`}
-                  className="border-b border-brown-300 hover:bg-brown-200 cursor-pointer"
+                  className={classNames(
+                    "border-b border-brown-300 hover:bg-brown-200 cursor-pointer",
+                    isCurrent && "bg-amber-200/80",
+                  )}
                   onClick={() => {
+                    if (isCurrent) return;
                     navigate(
                       marketplaceMinigameItemPath(base, item.economy, item.id),
                       {

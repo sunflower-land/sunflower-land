@@ -54,5 +54,14 @@ export const Minigames: React.FC = () => {
       i.collection === "economies",
   );
 
-  return <MinigamesLeaderboard items={items} />;
+  return (
+    <div className="flex h-full min-h-0 flex-col gap-1">
+      <p className="shrink-0 px-1 text-xs font-medium text-brown-800">
+        {t("marketplace.economies.leaderboardTitle")}
+      </p>
+      <div className="min-h-0 flex-1">
+        <MinigamesLeaderboard items={items} />
+      </div>
+    </div>
+  );
 };
