@@ -8,7 +8,7 @@ import { getCollectionName } from "./getCollectionName";
 function listingCollectionAsName(
   collection: TradeListing["collection"],
 ): CollectionName {
-  return collection === "minigames" ? "economies" : collection;
+  return collection;
 }
 
 function isPlayerEconomyTradeListing(listing: TradeListing): boolean {
