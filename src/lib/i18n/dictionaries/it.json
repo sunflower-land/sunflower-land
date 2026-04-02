@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "Pannello di controllo Open Economy",
   "marketplace.economies.leaderboardTitle": "Valute economiche (per piano FLOWER)",
   "minigame.dashboard.adventureNotConfiguredTitle": "Avventura",
-  "minigame.dashboard.adventureNotConfiguredBody": "Nessuna avventura personalizzata è ancora impostata per questa economia. Aggiungi un URL di gioco nell'editor economico per collegare il tuo gioco."
+  "minigame.dashboard.adventureNotConfiguredBody": "Nessuna avventura personalizzata è ancora impostata per questa economia. Aggiungi un URL di gioco nell'editor economico per collegare il tuo gioco.",
+  "pickledCrops": "Colture in salamoia",
+  "spices": "Spezie"
 }

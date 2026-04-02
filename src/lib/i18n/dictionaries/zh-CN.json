@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "开放经济仪表板",
   "marketplace.economies.leaderboardTitle": "经济货币（按FLOWER底线划分）",
   "minigame.dashboard.adventureNotConfiguredTitle": "冒险",
-  "minigame.dashboard.adventureNotConfiguredBody": "目前还没有为这个经济体设置任何自定义冒险游戏。在经济编辑器中添加游戏网址以关联您的游戏。"
+  "minigame.dashboard.adventureNotConfiguredBody": "目前还没有为这个经济体设置任何自定义冒险游戏。在经济编辑器中添加游戏网址以关联您的游戏。",
+  "pickledCrops": "腌制的农作物",
+  "spices": "香料"
 }

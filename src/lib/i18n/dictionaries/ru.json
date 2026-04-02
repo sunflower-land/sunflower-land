@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "Open economy dashboard",
   "marketplace.economies.leaderboardTitle": "Economy currencies (by FLOWER floor)",
   "minigame.dashboard.adventureNotConfiguredTitle": "Adventure",
-  "minigame.dashboard.adventureNotConfiguredBody": "No custom Adventure is set up yet for this economy. Add a play URL in the economy editor to link your game."
+  "minigame.dashboard.adventureNotConfiguredBody": "No custom Adventure is set up yet for this economy. Add a play URL in the economy editor to link your game.",
+  "pickledCrops": "Pickled Crops",
+  "spices": "Spices"
 }

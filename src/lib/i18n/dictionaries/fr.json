@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "Tableau de bord de l'économie ouverte",
   "marketplace.economies.leaderboardTitle": "Devises économiques (par étage FLOWER)",
   "minigame.dashboard.adventureNotConfiguredTitle": "Aventure",
-  "minigame.dashboard.adventureNotConfiguredBody": "Aucune aventure personnalisée n'est encore configurée pour cette économie. Ajoutez une URL de jeu dans l'éditeur économique pour associer votre jeu."
+  "minigame.dashboard.adventureNotConfiguredBody": "Aucune aventure personnalisée n'est encore configurée pour cette économie. Ajoutez une URL de jeu dans l'éditeur économique pour associer votre jeu.",
+  "pickledCrops": "Cultures marinées",
+  "spices": "Épices"
 }

@@ -8531,5 +8531,7 @@
   "marketplace.economies.openDashboard": "Economy-Dashboard öffnen",
   "marketplace.economies.leaderboardTitle": "Wirtschaftswährungen (von FLOWER Floor)",
   "minigame.dashboard.adventureNotConfiguredTitle": "Abenteuer",
-  "minigame.dashboard.adventureNotConfiguredBody": "Für diese Wirtschaft wurde noch kein benutzerdefiniertes Abenteuer eingerichtet. Füge im Economy-Editor eine Play-URL hinzu, um dein Spiel zu verlinken."
+  "minigame.dashboard.adventureNotConfiguredBody": "Für diese Wirtschaft wurde noch kein benutzerdefiniertes Abenteuer eingerichtet. Füge im Economy-Editor eine Play-URL hinzu, um dein Spiel zu verlinken.",
+  "pickledCrops": "Eingelegte Pflanzen",
+  "spices": "Gewürze"
 }
