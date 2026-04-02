@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import type { EditorFormState, ItemForm } from "../lib/types";
 import { ItemCard } from "../components/ItemCard";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ItemsTab: React.FC<{
   form: EditorFormState;
@@ -12,7 +13,7 @@ export const ItemsTab: React.FC<{
   onDeleteItem: (index: number) => void;
   onUploadImage: (index: number, file: File) => void | Promise<void>;
 }> = ({ form, onUpdateItem, onAddItem, onDeleteItem, onUploadImage }) => {
-  const fileRefs = useRef<Record<number, HTMLInputElement | null>>({});
+  const { t } = useAppTranslation();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
 
   const visibleItemCount = form.items.filter((i) => !i.deleted).length;
@@ -41,8 +42,7 @@ export const ItemsTab: React.FC<{
       {visibleItemCount === 0 && (
         <InnerPanel className="p-4 text-center">
           <p className="text-xs opacity-60 mb-2">
-            No items yet. Items are the tokens and collectibles in your
-            minigame.
+            {t("playerEconomyEditor.items.empty")}
           </p>
         </InnerPanel>
       )}
@@ -57,11 +57,6 @@ export const ItemsTab: React.FC<{
               }
               item={item}
               index={index}
-              fileRef={
-                {
-                  current: fileRefs.current[index] ?? null,
-                } as React.RefObject<HTMLInputElement | null>
-              }
               onUpdate={(next) => onUpdateItem(index, next)}
               onDelete={() => setItemToDelete(index)}
               onUpload={(file) => {
@@ -73,7 +68,9 @@ export const ItemsTab: React.FC<{
       </div>
 
       <Button onClick={onAddItem}>
-        <span className="text-xs">+ Add Item</span>
+        <span className="text-xs">
+          {t("playerEconomyEditor.items.addItem")}
+        </span>
       </Button>
     </div>
   );

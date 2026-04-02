@@ -201,14 +201,33 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     }
   };
 
-  const hasListings = getKeys(trades.listings ?? {}).some(
-    (listing) =>
-      tradeToId({ details: trades.listings![listing] }) === Number(id),
-  );
+  const hasListings = getKeys(trades.listings ?? {}).some((listingId) => {
+    const listing = trades.listings![listingId];
+    const listingItemId = tradeToId({ details: listing });
+    const lc = listing.collection as string;
+    if (collection === "economies") {
+      return (
+        (lc === "economies" || lc === "minigames") &&
+        listing.minigameSlug === minigameSlug &&
+        listingItemId === Number(id)
+      );
+    }
+    return listing.collection === collection && listingItemId === Number(id);
+  });
 
-  const hasOffers = getKeys(trades.offers ?? {}).some(
-    (offer) => tradeToId({ details: trades.offers![offer] }) === Number(id),
-  );
+  const hasOffers = getKeys(trades.offers ?? {}).some((offerId) => {
+    const offer = trades.offers![offerId];
+    const offerItemId = tradeToId({ details: offer });
+    const oc = offer.collection as string;
+    if (collection === "economies") {
+      return (
+        (oc === "economies" || oc === "minigames") &&
+        offer.minigameSlug === minigameSlug &&
+        offerItemId === Number(id)
+      );
+    }
+    return offer.collection === collection && offerItemId === Number(id);
+  });
 
   const marketPrice = getMarketPrice({ tradeable });
 

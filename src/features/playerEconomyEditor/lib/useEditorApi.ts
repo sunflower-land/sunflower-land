@@ -5,7 +5,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
-import type { PlayerEconomyConfig } from "features/minigame/lib/types";
 import type { PlayerEconomyConfigRow } from "./types";
 import {
   ensurePlayerEconomyConfig,
@@ -52,9 +51,7 @@ const MOCK_ROWS: PlayerEconomyConfigRow[] = [
 
 let mockStore = [...MOCK_ROWS];
 
-function eventHeaders(
-  token: string,
-): Record<string, string> {
+function eventHeaders(token: string): Record<string, string> {
   const h: Record<string, string> = {
     "content-type": "application/json;charset=UTF-8",
     "X-Transaction-ID": randomID(),
@@ -169,7 +166,10 @@ export function useEditorApi() {
           updatedAt: now,
           config,
         });
-        return { savedConfig: config, savedRow: mockStore[mockStore.length - 1] };
+        return {
+          savedConfig: config,
+          savedRow: mockStore[mockStore.length - 1],
+        };
       }
 
       if (ev.type === "playerEconomy.edited" && ev.slug) {
@@ -294,7 +294,9 @@ export function useEditorApi() {
 
     const root = raw as Record<string, unknown>;
     const o =
-      root.data !== undefined && typeof root.data === "object" && root.data !== null
+      root.data !== undefined &&
+      typeof root.data === "object" &&
+      root.data !== null
         ? (root.data as Record<string, unknown>)
         : root;
     const presignedPutUrl =

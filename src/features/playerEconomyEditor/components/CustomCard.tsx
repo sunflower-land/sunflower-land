@@ -9,6 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { ActionForm } from "../lib/types";
 import { CustomMintRowList, CustomBurnRowList } from "./ActionRowList";
 import { FieldRow } from "./FieldRow";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CUSTOM_REQUIRE_PLACEHOLDER: ActionForm["require"][number] = {
   token: "",
@@ -32,6 +33,7 @@ export const CustomCard: React.FC<{
   onUpdate,
   onDelete,
 }) => {
+  const { t } = useAppTranslation();
   useLayoutEffect(() => {
     if (action.require.length === 0) {
       onUpdate({ require: [{ ...CUSTOM_REQUIRE_PLACEHOLDER }] });
@@ -67,11 +69,11 @@ export const CustomCard: React.FC<{
       </div>
 
       <p className="text-xs opacity-80 bg-[#1a3d2e]/60 border border-[#286c4e]/50 rounded px-2 py-1.5">
-        Use custom rules carefully in your minigame code
+        {t("playerEconomyEditor.custom.hint")}
       </p>
 
       <div className="space-y-2">
-        <Label type="default">Mint</Label>
+        <Label type="default">{t("playerEconomyEditor.custom.mint")}</Label>
         <CustomMintRowList
           rows={action.customMint}
           itemKeys={itemKeys}
@@ -79,12 +81,12 @@ export const CustomCard: React.FC<{
           onChange={(customMint) => onUpdate({ customMint })}
         />
         <p className="text-[10px] opacity-60">
-          Your game can determine how much to mint
+          {t("playerEconomyEditor.custom.mintHint")}
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label type="default">Burn</Label>
+        <Label type="default">{t("playerEconomyEditor.custom.burn")}</Label>
         <CustomBurnRowList
           rows={action.customBurn}
           itemKeys={itemKeys}
@@ -92,14 +94,14 @@ export const CustomCard: React.FC<{
           onChange={(customBurn) => onUpdate({ customBurn })}
         />
         <p className="text-[10px] opacity-60">
-          Your game decides how much to burn
+          {t("playerEconomyEditor.custom.burnHint")}
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label type="default">Requires</Label>
+        <Label type="default">{t("playerEconomyEditor.custom.requires")}</Label>
         <p className="text-[10px] opacity-60 -mt-1">
-          Player must have at least 1 of the selected item (not consumed).
+          {t("playerEconomyEditor.custom.requiresHint")}
         </p>
         <FieldRow label="Item">
           <Dropdown
@@ -129,7 +131,7 @@ export const CustomCard: React.FC<{
         />
       </FieldRow>
       <p className="text-[10px] opacity-60 -mt-1 ml-1">
-        Max times this action can succeed per UTC day (0 = unlimited).
+        {t("playerEconomyEditor.custom.dailyCapHint")}
       </p>
     </InnerPanel>
   );

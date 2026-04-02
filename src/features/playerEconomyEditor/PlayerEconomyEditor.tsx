@@ -13,10 +13,12 @@ import { useEditorApi } from "./lib/useEditorApi";
 import { formToConfig } from "./lib/formToConfig";
 import { configToForm } from "./lib/configToForm";
 import { PlayerEconomyEditorForm } from "./PlayerEconomyEditorForm";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /* ─── List view ────────────────────────────────────────────────── */
 
 export const PlayerEconomyEditor: React.FC = () => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { loadRows, submitEvent } = useEditorApi();
   const [rows, setRows] = useState<PlayerEconomyConfigRow[]>([]);
@@ -75,13 +77,15 @@ export const PlayerEconomyEditor: React.FC = () => {
       <Panel className="p-3">
         <div className="flex items-center gap-2 mb-3">
           <Label type="vibrant" icon={SUNNYSIDE.icons.hammer}>
-            Player economy editor
+            {t("playerEconomyEditor.title")}
           </Label>
         </div>
 
         {loading && (
           <InnerPanel className="p-3 text-center">
-            <p className="text-xs animate-pulse">Loading your minigames...</p>
+            <p className="text-xs animate-pulse">
+              {t("playerEconomyEditor.loadingMinigames")}
+            </p>
           </InnerPanel>
         )}
 
@@ -90,10 +94,10 @@ export const PlayerEconomyEditor: React.FC = () => {
         {!loading && rows.length === 0 && (
           <InnerPanel className="p-4 text-center">
             <p className="text-xs opacity-60 mb-1">
-              You haven't created any minigames yet.
+              {t("playerEconomyEditor.emptyList.line1")}
             </p>
             <p className="text-[10px] opacity-40">
-              Create your first one to get started!
+              {t("playerEconomyEditor.emptyList.line2")}
             </p>
           </InnerPanel>
         )}
@@ -102,14 +106,17 @@ export const PlayerEconomyEditor: React.FC = () => {
           {rows.map((row) => (
             <ButtonPanel
               key={row.slug}
-              onClick={() => navigate(`/player-economy-editor/edit/${row.slug}`)}
+              onClick={() =>
+                navigate(`/player-economy-editor/edit/${row.slug}`)
+              }
               className="p-2"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-sm font-bold">{row.slug}</div>
                   <div className="text-[10px] opacity-60">
-                    Updated: {new Date(row.updatedAt).toLocaleDateString()}
+                    {t("playerEconomyEditor.updated")}{" "}
+                    {new Date(row.updatedAt).toLocaleDateString()}
                   </div>
                 </div>
                 <img
@@ -132,7 +139,7 @@ export const PlayerEconomyEditor: React.FC = () => {
             setCreateError(null);
           }}
         >
-          <span className="text-sm">+ Create New Minigame</span>
+          <span className="text-sm">{t("playerEconomyEditor.createNew")}</span>
         </Button>
       </div>
 
@@ -144,7 +151,7 @@ export const PlayerEconomyEditor: React.FC = () => {
           <div className="p-2">
             <div className="flex items-center justify-between mb-3">
               <Label type="default" icon={SUNNYSIDE.icons.plus}>
-                Create Minigame
+                {t("playerEconomyEditor.modal.createTitle")}
               </Label>
               <img
                 src={SUNNYSIDE.icons.close}
@@ -155,7 +162,7 @@ export const PlayerEconomyEditor: React.FC = () => {
             </div>
 
             <p className="text-xs mb-2">
-              Enter a unique slug for your minigame.
+              {t("playerEconomyEditor.modal.slugHint")}
             </p>
 
             <TextInput
@@ -176,7 +183,9 @@ export const PlayerEconomyEditor: React.FC = () => {
               disabled={creating || !createSlug.trim()}
               onClick={handleCreate}
             >
-              {creating ? "Creating..." : "Create"}
+              {creating
+                ? t("playerEconomyEditor.creating")
+                : t("playerEconomyEditor.create")}
             </Button>
           </div>
         </Panel>
@@ -231,6 +240,7 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
 /* ─── Edit view ────────────────────────────────────────────────── */
 
 export const PlayerEconomyEditorEdit: React.FC = () => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { slug = "" } = useParams<{ slug: string }>();
   const { loadRows, submitEvent } = useEditorApi();
@@ -286,7 +296,9 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
     return (
       <div className="p-2">
         <Panel className="p-3 text-center">
-          <p className="text-xs animate-pulse">Loading minigame...</p>
+          <p className="text-xs animate-pulse">
+            {t("playerEconomyEditor.loadingEdit")}
+          </p>
         </Panel>
       </div>
     );
@@ -298,7 +310,7 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
         <Panel className="p-3 space-y-2">
           {error && <Label type="danger">{error}</Label>}
           <Button onClick={() => navigate("/player-economy-editor")}>
-            Back to List
+            {t("playerEconomyEditor.backToList")}
           </Button>
         </Panel>
       </div>

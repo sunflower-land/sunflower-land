@@ -7,7 +7,11 @@ import type { PlayerEconomyConfigRow } from "./types";
 
 /** POST /event/:farmId body.event */
 export type PlayerEconomyEditorClientEvent =
-  | { type: "playerEconomy.created"; slug: string; config?: PlayerEconomyConfig }
+  | {
+      type: "playerEconomy.created";
+      slug: string;
+      config?: PlayerEconomyConfig;
+    }
   | { type: "playerEconomy.edited"; slug: string; config: PlayerEconomyConfig }
   | { type: "playerEconomy.removed"; slug: string };
 
@@ -22,10 +26,12 @@ export type PlayerEconomyEditorEventResult = {
 
 export function getPlayerEconomyEditorDataType(): string {
   return (
-    (import.meta.env.VITE_PLAYER_ECONOMY_EDITOR_DATA_TYPE as string | undefined)
-      ?.trim() ||
-    (import.meta.env.VITE_MINIGAME_EDITOR_DATA_TYPE as string | undefined)
-      ?.trim() ||
+    (
+      import.meta.env.VITE_PLAYER_ECONOMY_EDITOR_DATA_TYPE as string | undefined
+    )?.trim() ||
+    (
+      import.meta.env.VITE_MINIGAME_EDITOR_DATA_TYPE as string | undefined
+    )?.trim() ||
     "player-economy-editor"
   );
 }
@@ -33,12 +39,15 @@ export function getPlayerEconomyEditorDataType(): string {
 export function getPlayerEconomyEditorUploadDataType(): string {
   return (
     (
-      import.meta.env
-        .VITE_PLAYER_ECONOMY_EDITOR_UPLOAD_DATA_TYPE as string | undefined
+      import.meta.env.VITE_PLAYER_ECONOMY_EDITOR_UPLOAD_DATA_TYPE as
+        | string
+        | undefined
     )?.trim() ||
-    (import.meta.env.VITE_MINIGAME_EDITOR_UPLOAD_DATA_TYPE as
-      | string
-      | undefined)?.trim() ||
+    (
+      import.meta.env.VITE_MINIGAME_EDITOR_UPLOAD_DATA_TYPE as
+        | string
+        | undefined
+    )?.trim() ||
     "playerEconomyEditorUpload"
   );
 }
@@ -57,9 +66,7 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
       : {};
 
   const items =
-    base.items &&
-    typeof base.items === "object" &&
-    !Array.isArray(base.items)
+    base.items && typeof base.items === "object" && !Array.isArray(base.items)
       ? base.items
       : undefined;
 
@@ -79,7 +86,9 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
   return migrateLegacyPlayerEconomyConfigFields(input);
 }
 
-export function toPlayerEconomyConfigRow(raw: unknown): PlayerEconomyConfigRow | null {
+export function toPlayerEconomyConfigRow(
+  raw: unknown,
+): PlayerEconomyConfigRow | null {
   if (!raw || typeof raw !== "object") return null;
   const r = raw as Record<string, unknown>;
   if (typeof r.slug !== "string" || !r.slug.trim()) return null;
@@ -87,18 +96,16 @@ export function toPlayerEconomyConfigRow(raw: unknown): PlayerEconomyConfigRow |
     slug: r.slug.trim(),
     farmId: Number(r.farmId ?? 0),
     createdAt:
-      typeof r.createdAt === "string"
-        ? r.createdAt
-        : new Date().toISOString(),
+      typeof r.createdAt === "string" ? r.createdAt : new Date().toISOString(),
     updatedAt:
-      typeof r.updatedAt === "string"
-        ? r.updatedAt
-        : new Date().toISOString(),
+      typeof r.updatedAt === "string" ? r.updatedAt : new Date().toISOString(),
     config: ensurePlayerEconomyConfig(r.config),
   };
 }
 
-export function parsePlayerEconomyEditorListBody(body: unknown): PlayerEconomyConfigRow[] {
+export function parsePlayerEconomyEditorListBody(
+  body: unknown,
+): PlayerEconomyConfigRow[] {
   if (Array.isArray(body)) {
     return body
       .map((x) => toPlayerEconomyConfigRow(x))
@@ -106,8 +113,7 @@ export function parsePlayerEconomyEditorListBody(body: unknown): PlayerEconomyCo
   }
   if (body && typeof body === "object") {
     const o = body as Record<string, unknown>;
-    const inner =
-      o.data ?? o.minigameConfigs ?? o.configs ?? o.rows ?? o.items;
+    const inner = o.data ?? o.minigameConfigs ?? o.configs ?? o.rows ?? o.items;
     if (Array.isArray(inner)) {
       return inner
         .map((x) => toPlayerEconomyConfigRow(x))

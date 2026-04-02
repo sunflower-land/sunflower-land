@@ -8,11 +8,13 @@ import { NumberInput } from "components/ui/NumberInput";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { ProduceRuleForm } from "../lib/types";
 import { FieldRow } from "./FieldRow";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ProduceRuleEditor: React.FC<{
   rows: ProduceRuleForm[];
   onChange: (rows: ProduceRuleForm[]) => void;
 }> = ({ rows, onChange }) => {
+  const { t } = useAppTranslation();
   const setRow = (index: number, next: Partial<ProduceRuleForm>) => {
     const copy = [...rows];
     copy[index] = { ...copy[index], ...next };
@@ -21,15 +23,19 @@ export const ProduceRuleEditor: React.FC<{
 
   return (
     <div className="space-y-1">
-      <Label type="vibrant">Generate</Label>
+      <Label type="vibrant">{t("playerEconomyEditor.produceRule.title")}</Label>
       {rows.length === 0 && (
-        <p className="text-[10px] italic opacity-50 ml-1">No generate rules</p>
+        <p className="text-[10px] italic opacity-50 ml-1">
+          {t("playerEconomyEditor.produceRule.empty")}
+        </p>
       )}
       {rows.map((row, index) => (
         <InnerPanel key={`produce-${index}`} className="p-2 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] opacity-70">
-              Generate {index + 1}
+              {t("playerEconomyEditor.produceRule.rowLabel", {
+                n: index + 1,
+              })}
             </span>
             <Button
               variant="secondary"
@@ -88,7 +94,9 @@ export const ProduceRuleEditor: React.FC<{
           ])
         }
       >
-        <span className="text-xs">+ Add Generate Rule</span>
+        <span className="text-xs">
+          {t("playerEconomyEditor.produceRule.add")}
+        </span>
       </Button>
     </div>
   );

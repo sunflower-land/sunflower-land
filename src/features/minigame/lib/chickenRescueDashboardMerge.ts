@@ -37,13 +37,17 @@ export function buildMinigameDashboardFromApiSession(
     descriptions: session.descriptions,
     visualTheme: session.visualTheme,
     playUrl: session.playUrl,
-    ...(session.initialBalances ? { initialBalances: session.initialBalances } : {}),
+    ...(session.initialBalances
+      ? { initialBalances: session.initialBalances }
+      : {}),
     ...(session.productionCollectByStartId
       ? { productionCollectByStartId: session.productionCollectByStartId }
       : {}),
     ...(session.dashboard ? { dashboard: session.dashboard } : {}),
   };
-  const config = migrateLegacyPlayerEconomyConfigFields(raw as PlayerEconomyConfigWithLegacy);
+  const config = migrateLegacyPlayerEconomyConfigFields(
+    raw as PlayerEconomyConfigWithLegacy,
+  );
 
   return buildMinigameDashboardData(
     slug,

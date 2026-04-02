@@ -142,11 +142,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <input
             type="text"
             value={
-              isOpen
-                ? searchTerm
-                : selectedValue
-                  ? labelFor(selectedValue)
-                  : ""
+              isOpen ? searchTerm : selectedValue ? labelFor(selectedValue) : ""
             }
             onChange={handleInputChange}
             onClick={handleInputClick}

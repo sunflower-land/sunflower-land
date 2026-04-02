@@ -6,6 +6,7 @@ import { TextInput } from "components/ui/TextInput";
 import { NumberInput } from "components/ui/NumberInput";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { TokenAmount } from "../lib/types";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TokenAmountEditor: React.FC<{
   title: string;
@@ -22,6 +23,7 @@ export const TokenAmountEditor: React.FC<{
   onChange,
   amountLabel = "Amt",
 }) => {
+  const { t } = useAppTranslation();
   const setRow = (index: number, next: Partial<TokenAmount>) => {
     const copy = [...rows];
     copy[index] = { ...copy[index], ...next };
@@ -34,7 +36,9 @@ export const TokenAmountEditor: React.FC<{
         {title}
       </Label>
       {rows.length === 0 && (
-        <p className="text-[10px] italic opacity-50 ml-1">No entries yet</p>
+        <p className="text-[10px] italic opacity-50 ml-1">
+          {t("playerEconomyEditor.tokenAmount.noEntries")}
+        </p>
       )}
       {rows.map((row, index) => (
         <div
@@ -79,7 +83,9 @@ export const TokenAmountEditor: React.FC<{
         variant="secondary"
         onClick={() => onChange([...rows, { token: "", amount: 0 }])}
       >
-        <span className="text-xs">+ Add {title}</span>
+        <span className="text-xs">
+          {t("playerEconomyEditor.tokenAmount.add", { title })}
+        </span>
       </Button>
     </div>
   );

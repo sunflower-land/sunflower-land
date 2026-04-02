@@ -39,7 +39,10 @@ export function migrateLegacyPlayerEconomyConfigFields(
     for (const [k, v] of Object.entries(input.initialBalances)) {
       if (typeof v !== "number" || !Number.isFinite(v) || v <= 0) continue;
       const cur = items[k];
-      const base: PlayerEconomyBalanceItem = cur ?? { name: k, description: "" };
+      const base: PlayerEconomyBalanceItem = cur ?? {
+        name: k,
+        description: "",
+      };
       if (base.initialBalance === undefined) {
         items[k] = { ...base, initialBalance: Math.floor(v) };
       }
@@ -71,10 +74,8 @@ export function migrateLegacyPlayerEconomyConfigFields(
 
   const visualTheme = input.visualTheme ?? input.dashboard?.visualTheme;
 
-  const itemsWithGeneratorInference = inferGeneratorFlagsFromGeneratorRecipeRules(
-    items,
-    actions,
-  );
+  const itemsWithGeneratorInference =
+    inferGeneratorFlagsFromGeneratorRecipeRules(items, actions);
 
   const out: PlayerEconomyConfig = {
     actions,

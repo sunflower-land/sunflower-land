@@ -9,6 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { ActionForm, ProduceRuleForm, MintRuleForm } from "../lib/types";
 import { FieldRow } from "./FieldRow";
 import { BurnRowList, MintRowList } from "./ActionRowList";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ProduceCard: React.FC<{
   action: ActionForm;
@@ -30,6 +31,7 @@ export const ProduceCard: React.FC<{
   onUpdate,
   onDelete,
 }) => {
+  const { t } = useAppTranslation();
   useLayoutEffect(() => {
     const p = action.produce[0];
     if (p && p.requires === undefined) {
@@ -87,7 +89,7 @@ export const ProduceCard: React.FC<{
       </div>
 
       <p className="text-xs opacity-70">
-        Allow players to generate items over time.
+        {t("playerEconomyEditor.produce.intro")}
       </p>
 
       {/* Required cap item (full width) — dashboard shows this production lane when the player has ≥1 */}
@@ -103,15 +105,15 @@ export const ProduceCard: React.FC<{
           />
         </FieldRow>
         <p className="text-[10px] opacity-60">
-          Only items with &quot;Is Generator?&quot; enabled appear here. Players see this
-          production when they own at least one of that item (e.g. a wormery). It is not
-          consumed to start the timer.
+          {t("playerEconomyEditor.produce.generatorHint")}
         </p>
       </div>
 
       {/* Ingredients (burn) section */}
       <div className="space-y-2">
-        <Label type="default">Ingredients</Label>
+        <Label type="default">
+          {t("playerEconomyEditor.produce.ingredients")}
+        </Label>
         <BurnRowList
           rows={action.burn}
           itemKeys={itemKeys}
@@ -125,9 +127,7 @@ export const ProduceCard: React.FC<{
           <NumberInput
             value={
               new Decimal(
-                produceRule.msToComplete
-                  ? produceRule.msToComplete / 1000
-                  : 0,
+                produceRule.msToComplete ? produceRule.msToComplete / 1000 : 0,
               )
             }
             maxDecimalPlaces={0}

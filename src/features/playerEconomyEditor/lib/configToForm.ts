@@ -280,9 +280,7 @@ function actionEntryToForm(
     })(),
     collect: Object.entries(def.collect ?? {}).map(([key, rule]) => {
       const r = rule as CollectRule;
-      const sec = parseCollectRuleSeconds(
-        (r as { seconds?: unknown }).seconds,
-      );
+      const sec = parseCollectRuleSeconds((r as { seconds?: unknown }).seconds);
       return {
         token: key,
         amount: r.amount,
@@ -351,11 +349,7 @@ function mergeProduceCollectPairs(
     const collectId = byStart[a.id];
     const cForm = collectId ? formById.get(collectId) : undefined;
 
-    if (
-      collectId &&
-      cForm &&
-      a.actionType === "produce"
-    ) {
+    if (collectId && cForm && a.actionType === "produce") {
       out.push({
         ...a,
         linkedCollectId: collectId,
@@ -430,8 +424,9 @@ function repairGenerateLinkedCollect(
       };
     }
     if (!def?.produce) return f;
-    const collectId = Object.values(def.produce).find((r) => r.collectActionId)
-      ?.collectActionId;
+    const collectId = Object.values(def.produce).find(
+      (r) => r.collectActionId,
+    )?.collectActionId;
     if (!collectId?.trim()) return f;
     const collectDef = actions[collectId];
     const collectMap = collectDef?.collect ?? {};
@@ -468,11 +463,13 @@ export function configToForm(
   slug: string,
   config: PlayerEconomyConfig,
 ): EditorFormState {
-  const cfg = migrateLegacyPlayerEconomyConfigFields(config as PlayerEconomyConfigWithLegacy);
+  const cfg = migrateLegacyPlayerEconomyConfigFields(
+    config as PlayerEconomyConfigWithLegacy,
+  );
 
-  const sortedActionEntries = Object.entries(
-    cfg.actions ?? {},
-  ).sort(([a], [b]) => sortConfigKeys(a, b));
+  const sortedActionEntries = Object.entries(cfg.actions ?? {}).sort(
+    ([a], [b]) => sortConfigKeys(a, b),
+  );
 
   const rawForms = sortedActionEntries.map(([id, value]) =>
     actionEntryToForm(id, value as PlayerEconomyActionDefinition),

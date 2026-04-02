@@ -56,7 +56,6 @@ import {
 } from "./lib/extractProductionSlots";
 import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
 import { hasFeatureAccess } from "lib/flags";
-import { isPlayerEconomyDashboardSlug } from "./lib/playerEconomyDashboardSlugs";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import {
   getPrimaryTradableMarketplaceItem,

@@ -3,7 +3,13 @@ import { InnerPanel } from "components/ui/Panel";
 import filterIcon from "assets/icons/filter_icon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router";
 import { Collection, preloadCollections } from "../Collection";
 import { Minigames } from "../Minigames";
 import { Modal } from "components/ui/Modal";
@@ -47,17 +53,10 @@ const _gameState = (state: MachineState) => state.context.state;
 
 function LegacyMarketplaceMinigamesPathRedirect() {
   const location = useLocation();
-  const to =
-    location.pathname.replace("/minigames/", "/economies/").replace(
-      /\/minigames$/,
-      "/economies",
-    );
-  return (
-    <Navigate
-      to={`${to}${location.search}${location.hash}`}
-      replace
-    />
-  );
+  const to = location.pathname
+    .replace("/minigames/", "/economies/")
+    .replace(/\/minigames$/, "/economies");
+  return <Navigate to={`${to}${location.search}${location.hash}`} replace />;
 }
 
 export const MarketplaceNavigation: React.FC = () => {

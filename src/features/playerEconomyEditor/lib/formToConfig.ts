@@ -66,9 +66,7 @@ function rowToDefinition(
   );
   if (Object.keys(requireBelow).length) def.requireBelow = requireBelow;
 
-  const requireAbsent = row.requireAbsent
-    .map((s) => norm(s))
-    .filter(Boolean);
+  const requireAbsent = row.requireAbsent.map((s) => norm(s)).filter(Boolean);
   if (requireAbsent.length) def.requireAbsent = requireAbsent;
 
   if (row.actionType === "custom") {
@@ -104,8 +102,7 @@ function rowToDefinition(
           map[tok] = {
             min,
             max,
-            dailyCap:
-              dailyCap > 0 ? dailyCap : CUSTOM_MINT_UNCAPPED_DAILY,
+            dailyCap: dailyCap > 0 ? dailyCap : CUSTOM_MINT_UNCAPPED_DAILY,
           } as MintRule;
         }
         return map;
@@ -304,9 +301,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
         id: item.id,
         ...(item.tradeable ? { tradeable: true } : {}),
         ...(item.generator ? { generator: true } : {}),
-        ...(init > 0
-          ? { initialBalance: Math.max(0, Math.floor(init)) }
-          : {}),
+        ...(init > 0 ? { initialBalance: Math.max(0, Math.floor(init)) } : {}),
       };
       return acc;
     },

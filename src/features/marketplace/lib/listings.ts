@@ -2,10 +2,26 @@ import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
 import { InventoryItemName, TradeListing } from "features/game/types/game";
+import { CollectionName } from "features/game/types/marketplace";
 import { getCollectionName } from "./getCollectionName";
+
+function listingCollectionAsName(
+  collection: TradeListing["collection"],
+): CollectionName {
+  return collection === "minigames" ? "economies" : collection;
+}
+
+function isPlayerEconomyTradeListing(listing: TradeListing): boolean {
+  const c = listing.collection as string;
+  return c === "economies" || c === "minigames";
+}
 
 export function getListingItem({ listing }: { listing: TradeListing }): number {
   const name = getKeys(listing.items ?? {})[0]; // Currently only one item supported
+
+  if (isPlayerEconomyTradeListing(listing)) {
+    return Number(name);
+  }
 
   const collection = getCollectionName(name);
 
@@ -29,6 +45,10 @@ export function getListingItem({ listing }: { listing: TradeListing }): number {
 }
 
 export function getListingCollection({ listing }: { listing: TradeListing }) {
+  if (isPlayerEconomyTradeListing(listing)) {
+    return listingCollectionAsName(listing.collection);
+  }
+
   const name = getKeys(listing.items ?? {})[0]; // Currently only one item supported
 
   return getCollectionName(name);

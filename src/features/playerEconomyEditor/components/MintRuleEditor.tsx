@@ -8,11 +8,13 @@ import { NumberInput } from "components/ui/NumberInput";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { MintRuleForm } from "../lib/types";
 import { FieldRow } from "./FieldRow";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MintRuleEditor: React.FC<{
   rows: MintRuleForm[];
   onChange: (rows: MintRuleForm[]) => void;
 }> = ({ rows, onChange }) => {
+  const { t } = useAppTranslation();
   const setRow = (index: number, next: Partial<MintRuleForm>) => {
     const copy = [...rows];
     copy[index] = { ...copy[index], ...next };
@@ -22,16 +24,18 @@ export const MintRuleEditor: React.FC<{
   return (
     <div className="space-y-1">
       <Label type="success" icon={SUNNYSIDE.icons.plant}>
-        Mint
+        {t("playerEconomyEditor.mintRule.title")}
       </Label>
       {rows.length === 0 && (
-        <p className="text-[10px] italic opacity-50 ml-1">No mint rules</p>
+        <p className="text-[10px] italic opacity-50 ml-1">
+          {t("playerEconomyEditor.mintRule.empty")}
+        </p>
       )}
       {rows.map((row, index) => (
         <InnerPanel key={`mint-${index}`} className="p-2 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] opacity-70">
-              Mint Rule {index + 1}
+              {t("playerEconomyEditor.mintRule.ruleLabel", { n: index + 1 })}
             </span>
             <Button
               variant="secondary"
@@ -83,9 +87,7 @@ export const MintRuleEditor: React.FC<{
                 <NumberInput
                   value={new Decimal(row.amount)}
                   maxDecimalPlaces={2}
-                  onValueChange={(v) =>
-                    setRow(index, { amount: v.toNumber() })
-                  }
+                  onValueChange={(v) => setRow(index, { amount: v.toNumber() })}
                 />
               </FieldRow>
               <FieldRow label="Daily Cap">
@@ -144,7 +146,7 @@ export const MintRuleEditor: React.FC<{
           ])
         }
       >
-        <span className="text-xs">+ Add Mint Rule</span>
+        <span className="text-xs">{t("playerEconomyEditor.mintRule.add")}</span>
       </Button>
     </div>
   );

@@ -18,6 +18,7 @@ import { ShopCard } from "../components/ShopCard";
 import { CustomCard } from "../components/CustomCard";
 import { ProduceCard } from "../components/ProduceCard";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /** 1-based index into the saved action id sequence (produce + linked collect uses two slots). */
 function ruleSequenceStart(actions: ActionForm[], beforeIndex: number): number {
@@ -38,6 +39,7 @@ export const ActionsTab: React.FC<{
   onAddAction: (action: ActionForm) => void;
   onDeleteAction: (index: number) => void;
 }> = ({ form, onUpdateAction, onAddAction, onDeleteAction }) => {
+  const { t } = useAppTranslation();
   const [showActionTypeModal, setShowActionTypeModal] = useState(false);
   const [actionToDelete, setActionToDelete] = useState<number | null>(null);
   const itemKeys = form.items
@@ -45,16 +47,12 @@ export const ActionsTab: React.FC<{
     .map((item) => String(item.id));
 
   const generatorItemKeys = form.items
-    .filter(
-      (item) => item.id !== undefined && !item.deleted && item.generator,
-    )
+    .filter((item) => item.id !== undefined && !item.deleted && item.generator)
     .map((item) => String(item.id));
 
   const getItemOptionLabel = useCallback(
     (idStr: string) => {
-      const item = form.items.find(
-        (i) => String(i.id) === idStr && !i.deleted,
-      );
+      const item = form.items.find((i) => String(i.id) === idStr && !i.deleted);
       if (!item || item.id === undefined) return idStr;
       const name = item.name.trim() || "Unnamed";
       return `${name} - #${item.id}`;
@@ -147,7 +145,9 @@ export const ActionsTab: React.FC<{
               />
             </div>
             <p className="text-xs opacity-50 italic">
-              {getActionTypeLabel(action.actionType)} editor coming soon...
+              {t("playerEconomyEditor.actions.editorSoon", {
+                type: getActionTypeLabel(action.actionType),
+              })}
             </p>
           </InnerPanel>
         );
@@ -162,7 +162,9 @@ export const ActionsTab: React.FC<{
         onHide={() => setShowActionTypeModal(false)}
       >
         <Panel className="p-3 space-y-3">
-          <span className="text-sm">What rule would you like to create?</span>
+          <span className="text-sm">
+            {t("playerEconomyEditor.actions.modalPrompt")}
+          </span>
           <div className="space-y-2">
             {ACTION_TYPE_OPTIONS.map((opt) => (
               <ButtonPanel
@@ -203,8 +205,7 @@ export const ActionsTab: React.FC<{
       {form.actions.length === 0 && (
         <InnerPanel className="p-4 text-center">
           <p className="text-xs opacity-60 mb-2">
-            No rules yet. Rules define the game mechanics: what tokens are
-            minted, burned, required, or produced.
+            {t("playerEconomyEditor.actions.empty")}
           </p>
         </InnerPanel>
       )}
@@ -215,7 +216,9 @@ export const ActionsTab: React.FC<{
       </div>
 
       <Button onClick={() => setShowActionTypeModal(true)}>
-        <span className="text-xs">+ Add Rule</span>
+        <span className="text-xs">
+          {t("playerEconomyEditor.actions.addRule")}
+        </span>
       </Button>
     </div>
   );

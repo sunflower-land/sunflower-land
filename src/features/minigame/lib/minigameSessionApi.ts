@@ -45,9 +45,7 @@ export function runtimeStateFromActionResponse(
     dailyMinted: pe.dailyMinted,
     activity: pe.activity,
     dailyActivity: pe.dailyActivity,
-    ...(pe.dailyActionUses
-      ? { dailyActionUses: pe.dailyActionUses }
-      : {}),
+    ...(pe.dailyActionUses ? { dailyActionUses: pe.dailyActionUses } : {}),
     ...(pe.purchaseCounts != null
       ? { purchaseCounts: { ...pe.purchaseCounts } }
       : {}),

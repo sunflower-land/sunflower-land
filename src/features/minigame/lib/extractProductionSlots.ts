@@ -28,11 +28,16 @@ export function recipeJobKey(slot: CapBalanceProductionSlot): string {
  * same action (`collectActionId` is set to that action id) or legacy `collectActionId` on the rule.
  */
 /** Production UI only lists lanes whose cap token is an item with `generator: true`. */
-export function isGeneratorCapToken(config: PlayerEconomyConfig, token: string): boolean {
+export function isGeneratorCapToken(
+  config: PlayerEconomyConfig,
+  token: string,
+): boolean {
   return config.items?.[token]?.generator === true;
 }
 
-export function isProductionSlotConfigured(slot: CapBalanceProductionSlot): boolean {
+export function isProductionSlotConfigured(
+  slot: CapBalanceProductionSlot,
+): boolean {
   return Boolean(slot.startActionId && slot.collectActionId);
 }
 
@@ -56,11 +61,7 @@ export function extractCapBalanceProductionSlots(
         outputToken,
         startActionId: actionId,
         collectActionId,
-        msToComplete: resolveProduceDurationMs(
-          outputToken,
-          rule,
-          def.collect,
-        ),
+        msToComplete: resolveProduceDurationMs(outputToken, rule, def.collect),
         limit: rule.limit,
       });
     }
@@ -117,7 +118,8 @@ export function buildCapJobByRecipeKey(
       const key = recipeJobKey(slot);
       const match = Object.entries(runtime.generating).find(
         ([, job]) =>
-          job.requires === slot.capToken && job.outputToken === slot.outputToken,
+          job.requires === slot.capToken &&
+          job.outputToken === slot.outputToken,
       );
       map[key] = match?.[0];
     }
@@ -170,7 +172,8 @@ export function getShopPurchaseProductionPreview(
   const slots = extractCapBalanceProductionSlots(config);
   const slot = slots.find(
     (s) =>
-      mintedTokens.includes(s.capToken) && isGeneratorCapToken(config, s.capToken),
+      mintedTokens.includes(s.capToken) &&
+      isGeneratorCapToken(config, s.capToken),
   );
   if (!slot) return null;
   const out = getCollectOutputForSlot(config, slot);
