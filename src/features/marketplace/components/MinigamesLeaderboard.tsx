@@ -84,15 +84,11 @@ export const MinigamesLeaderboard: React.FC<{
 
               return (
                 <tr
-                  key={`${item.minigameSlug}-${item.id}`}
+                  key={`${item.economy}-${item.id}`}
                   className="border-b border-brown-300 hover:bg-brown-200 cursor-pointer"
                   onClick={() => {
                     navigate(
-                      marketplaceMinigameItemPath(
-                        base,
-                        item.minigameSlug,
-                        item.id,
-                      ),
+                      marketplaceMinigameItemPath(base, item.economy, item.id),
                       {
                         state: { route: backRoute },
                       },
@@ -117,7 +113,7 @@ export const MinigamesLeaderboard: React.FC<{
                       }}
                     />
                   </td>
-                  <td className="p-2 font-medium">{item.minigameLabel}</td>
+                  <td className="p-2 font-medium">{item.economyLabel}</td>
                   <td className="p-2">{currencyLabel}</td>
                   <td className="p-2 text-right tabular-nums">
                     {new Decimal(item.floor).toFixed(2)}

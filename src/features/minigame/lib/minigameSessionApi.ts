@@ -22,6 +22,7 @@ export type MinigameSessionApiPayload = {
   descriptions?: PlayerEconomyConfig["descriptions"];
   visualTheme?: PlayerEconomyConfig["visualTheme"];
   playUrl?: PlayerEconomyConfig["playUrl"];
+  mainCurrencyToken?: PlayerEconomyConfig["mainCurrencyToken"];
   /** Legacy keys; merged in `migrateLegacyPlayerEconomyConfigFields` when loading the dashboard. */
   initialBalances?: Record<string, number>;
   productionCollectByStartId?: Record<string, string>;

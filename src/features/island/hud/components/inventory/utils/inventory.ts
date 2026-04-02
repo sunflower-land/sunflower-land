@@ -68,11 +68,8 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
 
       getObjectEntries(listing.items).forEach(([itemName, quantity]) => {
         const amount = quantity ?? 0;
-        const rawCollection = listing.collection ?? getCollectionName(itemName);
-        const collection: CollectionName =
-          (rawCollection as string) === "minigames"
-            ? "economies"
-            : rawCollection;
+        const collection: CollectionName = (listing.collection ??
+          getCollectionName(itemName)) as CollectionName;
 
         acc[collection][itemName] = (acc[collection][itemName] ?? 0) + amount;
       });

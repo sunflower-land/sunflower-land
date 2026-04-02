@@ -94,6 +94,7 @@ export const MinigameDashboard: React.FC = () => {
   const [shopActionError, setShopActionError] = useState<string | null>(null);
 
   const [showAdventureConfirm, setShowAdventureConfirm] = useState(false);
+  const [showAdventureNoLink, setShowAdventureNoLink] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
   const [showInventoryModal, setShowInventoryModal] = useState(false);
   /** Bumps when opening inventory so the modal remounts with fresh selection state. */
@@ -342,6 +343,10 @@ export const MinigameDashboard: React.FC = () => {
         setActionSyncError(null);
         return;
       }
+      if (showAdventureNoLink) {
+        setShowAdventureNoLink(false);
+        return;
+      }
       if (showAdventureConfirm) {
         setShowAdventureConfirm(false);
         return;
@@ -356,6 +361,7 @@ export const MinigameDashboard: React.FC = () => {
     return () => document.removeEventListener("keydown", onKey);
   }, [
     handleClose,
+    showAdventureNoLink,
     showAdventureConfirm,
     showInventoryModal,
     showPortal,
@@ -571,6 +577,7 @@ export const MinigameDashboard: React.FC = () => {
   const hasShop = payload.ui.shopItems.length > 0;
   const copy = payload.config.descriptions;
   const marketPick = getPrimaryTradableMarketplaceItem(payload.config);
+  const hasCustomAdventureLink = Boolean(payload.config.playUrl?.trim());
 
   return (
     <div
@@ -676,7 +683,13 @@ export const MinigameDashboard: React.FC = () => {
         >
           <Button
             className="w-full"
-            onClick={() => setShowAdventureConfirm(true)}
+            onClick={() => {
+              if (hasCustomAdventureLink) {
+                setShowAdventureConfirm(true);
+              } else {
+                setShowAdventureNoLink(true);
+              }
+            }}
           >
             {t("minigame.dashboard.adventure")}
           </Button>
@@ -708,6 +721,18 @@ export const MinigameDashboard: React.FC = () => {
               shopActionError={shopActionError}
             />
           )}
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showAdventureNoLink}
+          title={t("minigame.dashboard.adventureNotConfiguredTitle")}
+          confirmLabel={t("ok")}
+          onClose={() => setShowAdventureNoLink(false)}
+          onConfirm={() => setShowAdventureNoLink(false)}
+        >
+          <p className="text-xs mb-2 whitespace-pre-line text-[#3e2731]">
+            {t("minigame.dashboard.adventureNotConfiguredBody")}
+          </p>
         </MinigameConfirmPanel>
 
         <MinigameConfirmPanel

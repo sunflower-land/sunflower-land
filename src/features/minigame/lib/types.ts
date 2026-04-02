@@ -109,6 +109,11 @@ export type PlayerEconomyConfig = {
   visualTheme?: string;
   /** Canonical iframe origin from API; overridden by `VITE_PORTAL_GAME_URL` when set. */
   playUrl?: string;
+  /**
+   * Balance token key (`items` record key) for dashboard HUD + price widget.
+   * Must match an item with `tradeable: true` and a numeric `id`. Omit to auto-pick (id 0, else lowest id).
+   */
+  mainCurrencyToken?: string;
 };
 
 export type GeneratorJob = {

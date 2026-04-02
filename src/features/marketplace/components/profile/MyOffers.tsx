@@ -31,21 +31,17 @@ const _authToken = (state: AuthMachineState) =>
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams<{
-    collection?: CollectionName | "minigames";
+    collection?: CollectionName;
     id?: string;
-    minigameSlug?: string;
+    economy?: string;
   }>();
 
   const routeCollection: CollectionName | undefined =
-    params.minigameSlug != null &&
-    params.id != null &&
-    params.collection == null
+    params.economy != null && params.id != null && params.collection == null
       ? "economies"
-      : params.collection === "minigames"
-        ? "economies"
-        : params.collection;
+      : params.collection;
 
-  const routeMinigameSlug = params.minigameSlug;
+  const routeEconomy = params.economy;
   const isWorldRoute = useLocation().pathname.includes("/world");
 
   const { gameService } = useContext(Context);
@@ -74,9 +70,8 @@ export const MyOffers: React.FC = () => {
             const offerCollection = offer.collection as string;
             if (routeCollection === "economies") {
               return (
-                (offerCollection === "economies" ||
-                  offerCollection === "minigames") &&
-                offer.minigameSlug === routeMinigameSlug &&
+                offerCollection === "economies" &&
+                offer.economy === routeEconomy &&
                 offerItemId === Number(params.id)
               );
             }
@@ -229,13 +224,9 @@ export const MyOffers: React.FC = () => {
                       onRowClick={() => {
                         const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
                         const offerCol = offer.collection as string;
-                        if (
-                          (offerCol === "economies" ||
-                            offerCol === "minigames") &&
-                          offer.minigameSlug
-                        ) {
+                        if (offerCol === "economies" && offer.economy) {
                           navigate(
-                            `${base}/economies/${offer.minigameSlug}/${itemId}`,
+                            `${base}/economies/${offer.economy}/${itemId}`,
                           );
                           return;
                         }

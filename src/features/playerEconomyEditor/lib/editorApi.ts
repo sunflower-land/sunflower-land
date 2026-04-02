@@ -32,7 +32,7 @@ export function getPlayerEconomyEditorDataType(): string {
     (
       import.meta.env.VITE_MINIGAME_EDITOR_DATA_TYPE as string | undefined
     )?.trim() ||
-    "player-economy-editor"
+    "economy-editor"
   );
 }
 
@@ -48,7 +48,7 @@ export function getPlayerEconomyEditorUploadDataType(): string {
         | string
         | undefined
     )?.trim() ||
-    "playerEconomyEditorUpload"
+    "economyEditorUpload"
   );
 }
 
@@ -76,6 +76,10 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
     ...(base.descriptions ? { descriptions: base.descriptions } : {}),
     ...(base.visualTheme ? { visualTheme: base.visualTheme } : {}),
     ...(base.playUrl ? { playUrl: base.playUrl } : {}),
+    ...(typeof base.mainCurrencyToken === "string" &&
+    base.mainCurrencyToken.trim()
+      ? { mainCurrencyToken: base.mainCurrencyToken.trim() }
+      : {}),
     ...(base.initialBalances ? { initialBalances: base.initialBalances } : {}),
     ...(base.productionCollectByStartId
       ? { productionCollectByStartId: base.productionCollectByStartId }

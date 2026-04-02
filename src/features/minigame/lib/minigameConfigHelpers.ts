@@ -94,19 +94,38 @@ export function tokenDisplayName(
 
 export type TradableMarketplacePick = { tokenKey: string; itemId: number };
 
+function tradeableMarketplacePairs(
+  config: PlayerEconomyConfig,
+): [string, number][] {
+  const items = config.items;
+  if (!items) return [];
+  return Object.entries(items)
+    .filter(
+      ([, v]) =>
+        v &&
+        v.tradeable === true &&
+        typeof v.id === "number" &&
+        Number.isFinite(v.id),
+    )
+    .map(([k, v]) => [k, v.id as number] as const);
+}
+
 /**
- * Marketplace row: prefers token with `id === 0`, else lowest numeric `items[token].id`.
+ * HUD + marketplace price widget: uses `mainCurrencyToken` when set and valid;
+ * otherwise prefers `id === 0`, else lowest numeric id among `tradeable` items.
  */
 export function getPrimaryTradableMarketplaceItem(
   config: PlayerEconomyConfig,
 ): TradableMarketplacePick | null {
-  const items = config.items;
-  if (!items) return null;
-  const pairs: [string, number][] = [];
-  for (const [k, v] of Object.entries(items)) {
-    if (v && typeof v.id === "number") pairs.push([k, v.id]);
-  }
+  const pairs = tradeableMarketplacePairs(config);
   if (pairs.length === 0) return null;
+
+  const explicit = config.mainCurrencyToken?.trim();
+  if (explicit) {
+    const hit = pairs.find(([k]) => k === explicit);
+    if (hit) return { tokenKey: hit[0], itemId: hit[1] };
+  }
+
   const atZero = pairs.find(([, id]) => id === 0);
   if (atZero) return { tokenKey: atZero[0], itemId: 0 };
   const [tokenKey, itemId] = pairs.reduce((best, cur) =>

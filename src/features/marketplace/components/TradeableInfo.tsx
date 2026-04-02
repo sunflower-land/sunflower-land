@@ -251,6 +251,18 @@ export const TradeableDescription: React.FC<{
           </Label>
           <div className="flex flex-col space-y-1">
             <p className="text-xs mb-1">{display.description}</p>
+            {display.type === "economies" &&
+              tradeable?.collection === "economies" &&
+              tradeable.economy && (
+                <p className="text-xs mb-1">
+                  <a
+                    className="underline text-blue-700"
+                    href={`#/economy/${encodeURIComponent(tradeable.economy)}`}
+                  >
+                    {t("marketplace.economies.openDashboard")}
+                  </a>
+                </p>
+              )}
             <div className="flex flex-col space-y-1">
               {isWearable ? (
                 <div className="flex items-center space-x-1">

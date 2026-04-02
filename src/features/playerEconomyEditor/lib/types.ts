@@ -110,6 +110,8 @@ export type ActionForm = {
 export type EditorFormState = {
   slug: string;
   playUrl: string;
+  /** `items` token key (`String(id)`); empty = auto primary currency among tradeable items. */
+  mainCurrencyToken: string;
   descriptionTitle: string;
   descriptionSubtitle: string;
   descriptionWelcome: string;
@@ -125,6 +127,7 @@ export type EditorTab = "basics" | "items" | "actions";
 export const EMPTY_FORM: EditorFormState = {
   slug: "",
   playUrl: "",
+  mainCurrencyToken: "",
   descriptionTitle: "",
   descriptionSubtitle: "",
   descriptionWelcome: "",

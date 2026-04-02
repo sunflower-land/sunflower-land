@@ -18,8 +18,11 @@ import type {
   Tradeable,
   TradeableDetails,
 } from "features/game/types/marketplace";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { resolveMarketplaceMinigameItemImage } from "./resolveMinigameMarketplaceImage";
 import { fallbackDisplayNameForMinigameCurrencyKey } from "./minigameMarketplaceCopy";
+
+const UNKNOWN_TRADEABLE_IMAGE = SUNNYSIDE.icons.expression_confused;
 
 export type TradeableDisplay = {
   name: MarketplaceTradeableName;
@@ -56,7 +59,7 @@ export function getTradeableDisplay({
     const row =
       marketplaceItem?.collection === "economies" ? marketplaceItem : null;
     const currency = mg?.currencyName ?? row?.currencyName ?? String(id);
-    const label = mg?.minigameLabel ?? row?.minigameLabel ?? "";
+    const label = mg?.economyLabel ?? row?.economyLabel ?? "";
     const apiImage = mg?.image ?? row?.image;
     const explicitDisplay =
       mg?.currencyDisplayName?.trim() ?? row?.currencyDisplayName?.trim();
@@ -82,7 +85,18 @@ export function getTradeableDisplay({
 
   if (type === "wearables") {
     const name = ITEM_NAMES[id];
-    const details = OPEN_SEA_WEARABLES[name];
+    const details = name ? OPEN_SEA_WEARABLES[name] : undefined;
+    if (!name || !details) {
+      const fallback = `#${id}` as MarketplaceTradeableName;
+      return {
+        name: fallback,
+        description: "",
+        image: UNKNOWN_TRADEABLE_IMAGE,
+        buffs: [],
+        type,
+        translatedName: fallback,
+      };
+    }
 
     return {
       name,
@@ -120,7 +134,18 @@ export function getTradeableDisplay({
 
   // Collectibles + Resources
   const name = KNOWN_ITEMS[id];
-  const details = ITEM_DETAILS[name];
+  const details = name ? ITEM_DETAILS[name] : undefined;
+  if (!name || !details) {
+    const fallback = `#${id}` as MarketplaceTradeableName;
+    return {
+      name: fallback,
+      translatedName: fallback,
+      description: "",
+      image: UNKNOWN_TRADEABLE_IMAGE,
+      buffs: [],
+      type,
+    };
+  }
 
   return {
     name,

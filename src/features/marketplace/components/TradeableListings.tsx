@@ -294,9 +294,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             floorPrice={tradeable?.floor ?? 0}
             highestOffer={highestOffer}
             onClose={onListClose}
-            minigameSlug={
+            economy={
               tradeable?.collection === "economies"
-                ? tradeable.minigameSlug
+                ? tradeable.economy
                 : undefined
             }
           />

@@ -37,6 +37,9 @@ export function buildMinigameDashboardFromApiSession(
     descriptions: session.descriptions,
     visualTheme: session.visualTheme,
     playUrl: session.playUrl,
+    ...(session.mainCurrencyToken
+      ? { mainCurrencyToken: session.mainCurrencyToken }
+      : {}),
     ...(session.initialBalances
       ? { initialBalances: session.initialBalances }
       : {}),

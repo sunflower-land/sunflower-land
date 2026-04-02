@@ -85,6 +85,9 @@ export function migrateLegacyPlayerEconomyConfigFields(
     ...(input.descriptions ? { descriptions: input.descriptions } : {}),
     ...(visualTheme ? { visualTheme } : {}),
     ...(input.playUrl ? { playUrl: input.playUrl } : {}),
+    ...(input.mainCurrencyToken?.trim()
+      ? { mainCurrencyToken: input.mainCurrencyToken.trim() }
+      : {}),
   };
 
   return out;

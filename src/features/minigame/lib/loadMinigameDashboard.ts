@@ -64,6 +64,9 @@ export async function loadMinigameDashboard(
       descriptions: raw.descriptions,
       visualTheme: raw.visualTheme,
       playUrl: raw.playUrl,
+      ...(raw.mainCurrencyToken
+        ? { mainCurrencyToken: raw.mainCurrencyToken }
+        : {}),
       ...(raw.initialBalances ? { initialBalances: raw.initialBalances } : {}),
       ...(raw.productionCollectByStartId
         ? { productionCollectByStartId: raw.productionCollectByStartId }

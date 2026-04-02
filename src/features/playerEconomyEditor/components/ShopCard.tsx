@@ -8,6 +8,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import { EMPTY_BURN_ROW, EMPTY_MINT_ROW, type ActionForm } from "../lib/types";
 import { MintRowList, BurnRowList } from "./ActionRowList";
 import { FieldRow } from "./FieldRow";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ShopCard: React.FC<{
   action: ActionForm;
@@ -26,6 +27,8 @@ export const ShopCard: React.FC<{
   onUpdate,
   onDelete,
 }) => {
+  const { t } = useAppTranslation();
+
   useLayoutEffect(() => {
     const patch: Partial<ActionForm> = {};
     if (action.burn.length === 0) {
@@ -59,9 +62,7 @@ export const ShopCard: React.FC<{
       </div>
 
       <p className="text-xs opacity-70">
-        {
-          "Exchange and unlock items. These rules appear in the minigame shop by default."
-        }
+        {t("playerEconomyEditor.shopCard.intro")}
       </p>
 
       <div className="space-y-2">

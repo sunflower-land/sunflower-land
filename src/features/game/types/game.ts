@@ -1317,7 +1317,7 @@ export type TradeListing = {
   tax?: number; // Defaults to 10% of the sfl
   createdAt: number;
   collection: CollectionName;
-  minigameSlug?: string;
+  economy?: string;
   boughtAt?: number;
   buyerId?: number;
   signature?: string;
@@ -1334,7 +1334,7 @@ export type TradeOffer = {
   sfl: number;
   tax?: number; // Defaults to 10% of the sfl
   collection: CollectionName;
-  minigameSlug?: string;
+  economy?: string;
   createdAt: number;
   fulfilledAt?: number;
   fulfilledById?: number;
