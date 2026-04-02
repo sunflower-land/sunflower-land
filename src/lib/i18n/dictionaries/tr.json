@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Macera",
   "minigame.dashboard.adventureNotConfiguredBody": "Bu ekonomi için henüz özel bir Macera kurulmadı. Oyununuzu bağlamak için ekonomi düzenleyicisine bir oyun URL'si ekleyin.",
   "pickledCrops": "Turşu Bitkileri",
-  "spices": "Baharatlar"
+  "spices": "Baharatlar",
+  "playerEconomyEditor.basics.gameUrlLabel": "Oyun URL'si",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "Bu ekonomi için portal iframe'e yüklenen URL. Yapı varsayılanını kullanmak için boş bırakın (örn. VITE_PORTAL_GAME_URL)."
 }

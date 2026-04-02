@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Aventure",
   "minigame.dashboard.adventureNotConfiguredBody": "Aucune aventure personnalisée n'est encore configurée pour cette économie. Ajoutez une URL de jeu dans l'éditeur économique pour associer votre jeu.",
   "pickledCrops": "Cultures marinées",
-  "spices": "Épices"
+  "spices": "Épices",
+  "playerEconomyEditor.basics.gameUrlLabel": "URL du jeu",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL chargée dans l'iframe du portail pour cette économie. Laissez ce champ vide pour utiliser la configuration par défaut (par exemple VITE_PORTAL_GAME_URL)."
 }

@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Petualangan",
   "minigame.dashboard.adventureNotConfiguredBody": "Belum ada Petualangan khusus yang disiapkan untuk ekonomi ini. Tambahkan URL bermain di editor ekonomi untuk menautkan game Anda.",
   "pickledCrops": "Tanaman Acar",
-  "spices": "Rempah-rempah"
+  "spices": "Rempah-rempah",
+  "playerEconomyEditor.basics.gameUrlLabel": "URL permainan",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL dimuat di portal iframe untuk ekonomi ini. Biarkan kosong untuk menggunakan default build (misalnya VITE_PORTAL_GAME_URL)."
 }

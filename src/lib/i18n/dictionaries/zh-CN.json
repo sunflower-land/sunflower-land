@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "冒险",
   "minigame.dashboard.adventureNotConfiguredBody": "目前还没有为这个经济体设置任何自定义冒险游戏。在经济编辑器中添加游戏网址以关联您的游戏。",
   "pickledCrops": "腌制的农作物",
-  "spices": "香料"
+  "spices": "香料",
+  "playerEconomyEditor.basics.gameUrlLabel": "游戏网址",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "该经济体的网址已加载到门户网站iframe中。留空以使用编译默认值（例如 VITE_PORTAL_GAME_URL）。"
 }

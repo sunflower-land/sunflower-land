@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "アドベンチャー",
   "minigame.dashboard.adventureNotConfiguredBody": "このエコノミー向けのカスタムアドベンチャーはまだ設定されていません。エコノミーエディターにプレイ URL を追加してゲームをリンクしてください。",
   "pickledCrops": "ピクルス作物",
-  "spices": "スパイス"
+  "spices": "スパイス",
+  "playerEconomyEditor.basics.gameUrlLabel": "ゲームの URL",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "このエコノミーのポータル iframe に URL が読み込まれました。ビルドのデフォルト (例:VITE_PORTAL_GAME_URL) を使用するには空白のままにします。"
 }

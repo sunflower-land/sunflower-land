@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Adventure",
   "minigame.dashboard.adventureNotConfiguredBody": "No custom Adventure is set up yet for this economy. Add a play URL in the economy editor to link your game.",
   "pickledCrops": "Pickled Crops",
-  "spices": "Spices"
+  "spices": "Spices",
+  "playerEconomyEditor.basics.gameUrlLabel": "Game URL",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL loaded in the portal iframe for this economy. Leave blank to use the build default (e.g. VITE_PORTAL_GAME_URL)."
 }

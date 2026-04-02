@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Aventura",
   "minigame.dashboard.adventureNotConfiguredBody": "Aún no se ha creado ninguna aventura personalizada para esta economía. Añade una URL de juego en el editor económico para vincular tu juego.",
   "pickledCrops": "Cultivos en escabeche",
-  "spices": "Especias"
+  "spices": "Especias",
+  "playerEconomyEditor.basics.gameUrlLabel": "URL del juego",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL cargada en el iframe del portal para esta economía. Déjelo en blanco para usar la compilación predeterminada (por ejemplo, VITE_PORTAL_GAME_URL)."
 }
