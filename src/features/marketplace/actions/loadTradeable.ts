@@ -11,13 +11,13 @@ export async function loadTradeable({
   type,
   id,
   token,
-  minigameSlug,
+  economy,
   attempts = 0,
 }: {
   type: CollectionName;
   id: number;
   token: string;
-  minigameSlug?: string;
+  economy?: string;
   attempts?: number;
 }): Promise<TradeableDetails> {
   if (!CONFIG.API_URL)
@@ -43,8 +43,8 @@ export async function loadTradeable({
 
   const url = new URL(`${API_URL}/collection/${type}/${id}`);
   url.searchParams.append("type", type);
-  if (minigameSlug) {
-    url.searchParams.set("minigameSlug", minigameSlug);
+  if (economy) {
+    url.searchParams.set("economy", economy);
   }
 
   const response = await window.fetch(url.toString(), {
@@ -62,7 +62,7 @@ export async function loadTradeable({
         type,
         id,
         token,
-        minigameSlug,
+        economy,
         attempts: attempts + 1,
       });
     }

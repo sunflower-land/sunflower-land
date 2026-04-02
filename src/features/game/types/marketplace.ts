@@ -53,8 +53,8 @@ export type Tradeable =
       isVip: boolean;
       supply: number | undefined;
       collection: "economies";
-      minigameSlug: string;
-      minigameLabel: string;
+      economy: string;
+      economyLabel: string;
       currencyName: string;
       /** From API: `items[currencyName].name` (human-readable marketplace label). */
       currencyDisplayName?: string;

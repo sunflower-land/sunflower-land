@@ -20,11 +20,13 @@ import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { ActionsTab } from "./tabs/ActionsTab";
 import { useEditorApi } from "./lib/useEditorApi";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
   return {
     slug: state.slug,
     playUrl: state.playUrl,
+    mainCurrencyToken: state.mainCurrencyToken,
     descriptionTitle: state.descriptionTitle,
     descriptionSubtitle: state.descriptionSubtitle,
     descriptionWelcome: state.descriptionWelcome,
@@ -60,6 +62,7 @@ export const PlayerEconomyEditorForm: React.FC<{
   onSave: (form: EditorFormState) => Promise<void>;
   onBack: () => void;
 }> = ({ mode, initial, saving, error, onSave, onBack }) => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const [form, setForm] = useState<EditorFormState>(initial);
   /** Baseline for unsaved-change checks; updated after successful save. */
@@ -179,15 +182,11 @@ export const PlayerEconomyEditorForm: React.FC<{
     const slug = current.slug.trim();
 
     if (!CONFIG.API_URL) {
-      throw new Error(
-        "Image upload needs the live API. Use a build where the game points at the API, or deploy the minigame editor against staging/production.",
-      );
+      throw new Error(t("playerEconomyEditor.error.imageUploadNeedsApi"));
     }
 
     if (!slug) {
-      throw new Error(
-        "Set your minigame slug in Basics before uploading images.",
-      );
+      throw new Error(t("playerEconomyEditor.error.slugBeforeImageUpload"));
     }
     if (item.id === undefined) {
       throw new Error(
@@ -350,7 +349,9 @@ export const PlayerEconomyEditorForm: React.FC<{
               className="w-4 h-4 flex-shrink-0"
               style={{ imageRendering: "pixelated" }}
             />
-            <span className="text-xs text-white">{"Saved"}</span>
+            <span className="text-xs text-white">
+              {t("playerEconomyEditor.footer.saved")}
+            </span>
           </div>
         )}
         {error && (
@@ -365,7 +366,7 @@ export const PlayerEconomyEditorForm: React.FC<{
             disabled={!form.slug.trim()}
             onClick={handlePreviewClick}
           >
-            {"Preview"}
+            {t("playerEconomyEditor.footer.preview")}
           </Button>
           <Button
             className="flex-[2] min-w-0"
@@ -373,10 +374,10 @@ export const PlayerEconomyEditorForm: React.FC<{
             onClick={() => void handleSave()}
           >
             {saving
-              ? "Saving..."
+              ? t("playerEconomyEditor.footer.saving")
               : mode === "create"
-                ? "Create Minigame"
-                : "Save Changes"}
+                ? t("playerEconomyEditor.footer.createEconomy")
+                : t("playerEconomyEditor.footer.saveChanges")}
           </Button>
         </div>
       </div>
@@ -388,20 +389,20 @@ export const PlayerEconomyEditorForm: React.FC<{
         <Panel>
           <div className="p-2 space-y-3">
             <p className="text-xs">
-              {"You have unsaved changes. Would you like to continue?"}
+              {t("playerEconomyEditor.unsavedPreview.body")}
             </p>
             <div className="flex gap-1">
               <Button
                 className="flex-1"
                 onClick={() => setPreviewUnsavedModalOpen(false)}
               >
-                {"Cancel"}
+                {t("playerEconomyEditor.unsavedPreview.cancel")}
               </Button>
               <Button
                 className="flex-1"
                 onClick={confirmPreviewWithUnsavedChanges}
               >
-                {"Continue"}
+                {t("playerEconomyEditor.unsavedPreview.continue")}
               </Button>
             </div>
           </div>

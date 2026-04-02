@@ -12,8 +12,7 @@ function listingCollectionAsName(
 }
 
 function isPlayerEconomyTradeListing(listing: TradeListing): boolean {
-  const c = listing.collection as string;
-  return c === "economies" || c === "minigames";
+  return listing.collection === "economies";
 }
 
 export function getListingItem({ listing }: { listing: TradeListing }): number {

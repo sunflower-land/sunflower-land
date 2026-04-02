@@ -63,24 +63,22 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const params = useParams<{
     collection?: CollectionName;
     id?: string;
-    minigameSlug?: string;
+    economy?: string;
   }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const collection: CollectionName | undefined =
-    params.minigameSlug != null &&
-    params.id != null &&
-    params.collection == null
+    params.economy != null && params.id != null && params.collection == null
       ? "economies"
       : params.collection;
 
   const id = params.id;
 
-  const minigameSlug =
-    params.minigameSlug ??
+  const economy =
+    params.economy ??
     (collection === "economies"
-      ? (searchParams.get("minigameSlug") ?? undefined)
+      ? (searchParams.get("economy") ?? undefined)
       : undefined);
 
   const [showListItem, setShowListItem] = useState(false);
@@ -91,13 +89,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     mutate: reload,
   } = useSWR(
     collection === "economies"
-      ? minigameSlug && playerEconomiesAllowed
-        ? [
-            collection,
-            id,
-            authState.context.user.rawToken as string,
-            minigameSlug,
-          ]
+      ? economy && playerEconomiesAllowed
+        ? [collection, id, authState.context.user.rawToken as string, economy]
         : null
       : [collection, id, authState.context.user.rawToken as string],
     (
@@ -105,12 +98,20 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
         | readonly [CollectionName, string, string]
         | readonly [CollectionName, string, string, string],
     ) => {
-      const [col, itemId, token, slug] = key;
+      if (key.length === 4) {
+        const [col, itemId, token, economySlug] = key;
+        return loadTradeable({
+          type: col,
+          id: Number(itemId),
+          token,
+          economy: economySlug,
+        });
+      }
+      const [col, itemId, token] = key;
       return loadTradeable({
         type: col,
         id: Number(itemId),
         token,
-        minigameSlug: slug,
       });
     },
   );
@@ -145,7 +146,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     tradeableDetails: tradeable ?? undefined,
   });
 
-  if (collection === "economies" && !minigameSlug) {
+  if (collection === "economies" && !economy) {
     return (
       <InnerPanel className="m-2 p-4">
         <p className="text-sm">{t("marketplace.minigames.missingSlug")}</p>
@@ -207,8 +208,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     const lc = listing.collection as string;
     if (collection === "economies") {
       return (
-        (lc === "economies" || lc === "minigames") &&
-        listing.minigameSlug === minigameSlug &&
+        lc === "economies" &&
+        listing.economy === economy &&
         listingItemId === Number(id)
       );
     }
@@ -221,8 +222,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     const oc = offer.collection as string;
     if (collection === "economies") {
       return (
-        (oc === "economies" || oc === "minigames") &&
-        offer.minigameSlug === minigameSlug &&
+        oc === "economies" &&
+        offer.economy === economy &&
         offerItemId === Number(id)
       );
     }

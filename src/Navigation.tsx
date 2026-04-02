@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { Routes, Route, HashRouter, Navigate, useParams } from "react-router";
+import { Routes, Route, HashRouter } from "react-router";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -39,11 +39,6 @@ import {
   PlayerEconomyEditorCreate,
   PlayerEconomyEditorEdit,
 } from "features/playerEconomyEditor/PlayerEconomyEditor";
-
-function LegacyPlayerEconomyEditorEditRedirect() {
-  const { slug } = useParams<{ slug: string }>();
-  return <Navigate to={`/player-economy-editor/edit/${slug ?? ""}`} replace />;
-}
 
 // Lazy load routes
 const World = lazy(() =>
@@ -219,39 +214,15 @@ export const Navigation: React.FC = () => {
                                   element={<MinigameDashboard />}
                                 />
                                 <Route
-                                  path="/minigame-editor"
-                                  element={
-                                    <Navigate
-                                      to="/player-economy-editor"
-                                      replace
-                                    />
-                                  }
-                                />
-                                <Route
-                                  path="/minigame-editor/create"
-                                  element={
-                                    <Navigate
-                                      to="/player-economy-editor/create"
-                                      replace
-                                    />
-                                  }
-                                />
-                                <Route
-                                  path="/minigame-editor/edit/:slug"
-                                  element={
-                                    <LegacyPlayerEconomyEditorEditRedirect />
-                                  }
-                                />
-                                <Route
-                                  path="/player-economy-editor"
+                                  path="/economy-editor"
                                   element={<PlayerEconomyEditor />}
                                 />
                                 <Route
-                                  path="/player-economy-editor/create"
+                                  path="/economy-editor/create"
                                   element={<PlayerEconomyEditorCreate />}
                                 />
                                 <Route
-                                  path="/player-economy-editor/edit/:slug"
+                                  path="/economy-editor/edit/:slug"
                                   element={<PlayerEconomyEditorEdit />}
                                 />
                                 <Route

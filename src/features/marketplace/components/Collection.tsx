@@ -625,7 +625,7 @@ export const Collection: React.FC<{
                 item.collection === "economies"
                   ? marketplaceMinigameItemPath(
                       marketplaceBase,
-                      item.minigameSlug,
+                      item.economy,
                       item.id,
                     )
                   : `${marketplaceBase}/${item.collection}/${item.id}`;

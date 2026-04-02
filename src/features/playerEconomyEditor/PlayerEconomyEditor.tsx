@@ -41,7 +41,11 @@ export const PlayerEconomyEditor: React.FC = () => {
         setRows(data);
       } catch (e) {
         if (!mounted) return;
-        setError(e instanceof Error ? e.message : "Failed to load");
+        setError(
+          e instanceof Error
+            ? e.message
+            : t("playerEconomyEditor.error.loadList"),
+        );
       } finally {
         if (mounted) setLoading(false);
       }
@@ -55,17 +59,17 @@ export const PlayerEconomyEditor: React.FC = () => {
   const handleCreate = async () => {
     const slug = createSlug.trim();
     if (!slug) {
-      setCreateError("Slug is required");
+      setCreateError(t("playerEconomyEditor.error.slugRequired"));
       return;
     }
     setCreating(true);
     setCreateError(null);
     try {
       await submitEvent({ type: "playerEconomy.created", slug });
-      navigate(`/player-economy-editor/edit/${slug}`);
+      navigate(`/economy-editor/edit/${slug}`);
     } catch (e) {
       setCreateError(
-        e instanceof Error ? e.message : "Failed to create minigame",
+        e instanceof Error ? e.message : t("playerEconomyEditor.error.create"),
       );
     } finally {
       setCreating(false);
@@ -106,9 +110,7 @@ export const PlayerEconomyEditor: React.FC = () => {
           {rows.map((row) => (
             <ButtonPanel
               key={row.slug}
-              onClick={() =>
-                navigate(`/player-economy-editor/edit/${row.slug}`)
-              }
+              onClick={() => navigate(`/economy-editor/edit/${row.slug}`)}
               className="p-2"
             >
               <div className="flex items-center justify-between">
@@ -197,6 +199,7 @@ export const PlayerEconomyEditor: React.FC = () => {
 /* ─── Create view ──────────────────────────────────────────────── */
 
 export const PlayerEconomyEditorCreate: React.FC = () => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { submitEvent } = useEditorApi();
   const [saving, setSaving] = useState(false);
@@ -207,7 +210,7 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
     setError(null);
     try {
       const slug = form.slug.trim();
-      if (!slug) throw new Error("Slug is required");
+      if (!slug) throw new Error(t("playerEconomyEditor.error.slugRequired"));
       await submitEvent({
         type: "playerEconomy.created",
         slug,
@@ -215,7 +218,7 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
       });
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : "Failed to create minigame";
+        e instanceof Error ? e.message : t("playerEconomyEditor.error.create");
       setError(message);
       throw e;
     } finally {
@@ -231,7 +234,7 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
         saving={saving}
         error={error}
         onSave={onSave}
-        onBack={() => navigate("/player-economy-editor")}
+        onBack={() => navigate("/economy-editor")}
       />
     </div>
   );
@@ -257,12 +260,16 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
       try {
         const rows = await loadRows();
         const row = rows.find((entry) => entry.slug === slug);
-        if (!row) throw new Error("Minigame not found");
+        if (!row) throw new Error(t("playerEconomyEditor.error.notFound"));
         if (!mounted) return;
         setInitial(configToForm(row.slug, row.config));
       } catch (e) {
         if (!mounted) return;
-        setError(e instanceof Error ? e.message : "Failed to load minigame");
+        setError(
+          e instanceof Error
+            ? e.message
+            : t("playerEconomyEditor.error.loadEdit"),
+        );
       } finally {
         if (mounted) setLoading(false);
       }
@@ -284,7 +291,7 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
       });
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : "Failed to update minigame";
+        e instanceof Error ? e.message : t("playerEconomyEditor.error.update");
       setError(message);
       throw e;
     } finally {
@@ -309,7 +316,7 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
       <div className="p-2 space-y-2">
         <Panel className="p-3 space-y-2">
           {error && <Label type="danger">{error}</Label>}
-          <Button onClick={() => navigate("/player-economy-editor")}>
+          <Button onClick={() => navigate("/economy-editor")}>
             {t("playerEconomyEditor.backToList")}
           </Button>
         </Panel>
@@ -325,7 +332,7 @@ export const PlayerEconomyEditorEdit: React.FC = () => {
         saving={saving}
         error={error}
         onSave={onSave}
-        onBack={() => navigate("/player-economy-editor")}
+        onBack={() => navigate("/economy-editor")}
       />
     </div>
   );

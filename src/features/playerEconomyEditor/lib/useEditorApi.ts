@@ -20,13 +20,13 @@ import {
 
 const MOCK_ROWS: PlayerEconomyConfigRow[] = [
   {
-    slug: "demo-minigame",
+    slug: "demo-economy",
     farmId: 1,
     createdAt: new Date("2026-03-18").toISOString(),
     updatedAt: new Date("2026-03-20").toISOString(),
     config: {
       descriptions: {
-        title: "Demo Minigame",
+        title: "Demo economy",
         subtitle: "Try the editor",
         welcome: "Welcome!",
         rules: "Have fun.",
@@ -249,7 +249,7 @@ export function useEditorApi() {
   ): Promise<PresignResult> => {
     if (isMock) {
       throw new Error(
-        "Image upload needs VITE_API_URL and a playerEconomyEditorUpload data handler, or paste a pre-signed PUT URL on the item.",
+        "Image upload needs VITE_API_URL and an economyEditorUpload data handler, or paste a pre-signed PUT URL on the item.",
       );
     }
 

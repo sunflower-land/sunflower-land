@@ -308,6 +308,13 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
     {} as NonNullable<PlayerEconomyConfig["items"]>,
   );
 
+  const tradeableKeys = new Set(
+    form.items
+      .filter((i) => !i.deleted && i.tradeable && i.id !== undefined)
+      .map((i) => String(i.id)),
+  );
+  const mct = form.mainCurrencyToken.trim();
+
   const config: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(items).length ? { items } : {}),
@@ -318,6 +325,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
       rules: form.descriptionRules || undefined,
     },
     ...(form.playUrl.trim() ? { playUrl: form.playUrl.trim() } : {}),
+    ...(mct && tradeableKeys.has(mct) ? { mainCurrencyToken: mct } : {}),
   };
 
   return config;

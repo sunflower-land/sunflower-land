@@ -9,14 +9,6 @@ import { ContentComponentProps } from "../GameOptions";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
-import { PLAYER_ECONOMY_DASHBOARD_SLUGS } from "features/minigame/lib/playerEconomyDashboardSlugs";
-
-const PLAYER_ECONOMY_PORTAL_LABELS: Record<
-  (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number],
-  string
-> = {
-  "chicken-rescue-v2": "Chicken Rescue V2",
-};
 
 const PORTAL_AI_FORM_URL =
   "https://docs.google.com/forms/d/19kA1K2py4gowO3xOiueMdNYjkNbr7itWpeYkPOScsDY";
@@ -38,11 +30,6 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
   const navigate = useNavigate();
 
   const [showPortalAIOverlay, setShowPortalAIOverlay] = useState(false);
-  const [showEconomyMinigamesOverlay, setShowEconomyMinigamesOverlay] =
-    useState(false);
-  const [economyPortalSlug, setEconomyPortalSlug] = useState<
-    (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number]
-  >(PLAYER_ECONOMY_DASHBOARD_SLUGS[0]);
 
   const hasAIBuilderAccess = AI_BUILDER_FARM_IDS.includes(farmId ?? 0);
   const hasPlayerEconomiesAccess = hasFeatureAccess(
@@ -57,56 +44,14 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
     navigate("/ai-builder");
   };
 
-  const handleStartEconomyMinigame = () => {
-    setShowEconomyMinigamesOverlay(false);
+  const handleOpenEconomyEditor = () => {
     onClose();
     setFromRoute(window.location.hash.replace("#", "") || "/");
-    navigate(`/minigame/${economyPortalSlug}`);
+    navigate("/economy-editor");
   };
 
   return (
     <>
-      <ModalOverlay
-        show={showEconomyMinigamesOverlay}
-        onBackdropClick={() => setShowEconomyMinigamesOverlay(false)}
-      >
-        <InnerPanel className="w-full shadow">
-          <div className="mb-2">
-            <Label type="default">{"Player economies"}</Label>
-          </div>
-
-          <p className="text-sm mb-3">
-            {
-              "Choose a portal and open its player economy dashboard (beta testers only)."
-            }
-          </p>
-
-          <div className="flex flex-col gap-1 mb-3">
-            <Label type="default">{"Portal"}</Label>
-            <select
-              className="text-sm p-1 border-2 border-gray-400 rounded bg-white"
-              value={economyPortalSlug}
-              onChange={(e) =>
-                setEconomyPortalSlug(
-                  e.target
-                    .value as (typeof PLAYER_ECONOMY_DASHBOARD_SLUGS)[number],
-                )
-              }
-            >
-              {PLAYER_ECONOMY_DASHBOARD_SLUGS.map((slug) => (
-                <option key={slug} value={slug}>
-                  {PLAYER_ECONOMY_PORTAL_LABELS[slug]}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <Button className="mt-auto" onClick={handleStartEconomyMinigame}>
-            {"Start"}
-          </Button>
-        </InnerPanel>
-      </ModalOverlay>
-
       <ModalOverlay
         show={showPortalAIOverlay}
         onBackdropClick={() => setShowPortalAIOverlay(false)}
@@ -148,11 +93,8 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
 
       <div className="grid grid-cols-1 gap-1 min-h-[240px] content-start">
         {hasPlayerEconomiesAccess && (
-          <Button
-            className="self-start"
-            onClick={() => setShowEconomyMinigamesOverlay(true)}
-          >
-            <span>{"Player economies"}</span>
+          <Button className="self-start" onClick={handleOpenEconomyEditor}>
+            <span>{"Economy editor"}</span>
           </Button>
         )}
         <Button

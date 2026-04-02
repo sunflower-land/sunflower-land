@@ -31,7 +31,11 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
   const isWorldRoute = location.pathname.includes("/world");
 
   const swrKey =
-    userToken && CONFIG.API_URL && marketplaceItemId > 0
+    userToken &&
+    CONFIG.API_URL &&
+    typeof marketplaceItemId === "number" &&
+    Number.isFinite(marketplaceItemId) &&
+    marketplaceItemId >= 0
       ? (["economies", userToken] as [string, string])
       : null;
 
@@ -42,7 +46,7 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
     return items.find(
       (item) =>
         item.collection === "economies" &&
-        item.minigameSlug === marketplaceSlug &&
+        item.economy === marketplaceSlug &&
         item.id === marketplaceItemId,
     ) as Extract<Tradeable, { collection: "economies" }> | undefined;
   }, [data?.items, marketplaceSlug, marketplaceItemId]);

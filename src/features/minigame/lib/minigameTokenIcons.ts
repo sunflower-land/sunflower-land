@@ -26,7 +26,7 @@ function bundledMinigameTokenImage(token: string): string {
     case "GoldenChook":
       return goldenChook;
     default:
-      return SUNNYSIDE.ui.coins;
+      return SUNNYSIDE.icons.expression_confused;
   }
 }
 

@@ -4,8 +4,8 @@
  */
 export function marketplaceMinigameItemPath(
   marketplaceBase: string,
-  minigameSlug: string,
+  economy: string,
   itemId: number | string,
 ): string {
-  return `${marketplaceBase}/economies/${encodeURIComponent(minigameSlug)}/${itemId}`;
+  return `${marketplaceBase}/economies/${encodeURIComponent(economy)}/${itemId}`;
 }

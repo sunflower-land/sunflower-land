@@ -53,7 +53,7 @@ type TradeableListItemProps = {
   floorPrice: number;
   highestOffer: number;
   onClose: () => void;
-  minigameSlug?: string;
+  economy?: string;
 };
 
 export const TradeableListItem: React.FC<TradeableListItemProps> = ({
@@ -64,7 +64,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   floorPrice,
   highestOffer,
   onClose,
-  minigameSlug,
+  economy,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -158,9 +158,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         signature,
         quantity: Math.max(1, quantity),
         multiple,
-        ...(display.type === "economies" && minigameSlug
-          ? { minigameSlug }
-          : {}),
+        ...(display.type === "economies" && economy ? { economy } : {}),
       },
       authToken,
     });

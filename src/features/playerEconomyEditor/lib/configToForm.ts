@@ -518,9 +518,17 @@ export function configToForm(
     };
   });
 
+  const tradeableItemKeys = new Set(
+    items.filter((i) => i.tradeable && i.id !== undefined).map((i) => i.key),
+  );
+  const rawMain = cfg.mainCurrencyToken?.trim() ?? "";
+  const mainCurrencyToken =
+    rawMain && tradeableItemKeys.has(rawMain) ? rawMain : "";
+
   return {
     slug,
     playUrl: cfg.playUrl ?? "",
+    mainCurrencyToken,
     descriptionTitle: cfg.descriptions?.title ?? "",
     descriptionSubtitle: cfg.descriptions?.subtitle ?? "",
     descriptionWelcome: cfg.descriptions?.welcome ?? "",
