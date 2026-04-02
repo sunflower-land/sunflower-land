@@ -77,6 +77,18 @@ export const BasicsTab: React.FC<{
             />
           )}
         </FieldRow>
+        <FieldRow label={t("playerEconomyEditor.basics.gameUrlLabel")}>
+          <div className="space-y-1 w-full">
+            <TextInput
+              value={form.playUrl}
+              onValueChange={(playUrl) => onChange({ playUrl })}
+              placeholder={t("playerEconomyEditor.basics.gameUrlPlaceholder")}
+            />
+            <p className="text-[10px] opacity-60 leading-snug">
+              {t("playerEconomyEditor.basics.gameUrlHint")}
+            </p>
+          </div>
+        </FieldRow>
       </InnerPanel>
 
       {/* Descriptions */}

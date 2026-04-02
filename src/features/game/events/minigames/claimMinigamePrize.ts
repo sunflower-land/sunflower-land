@@ -7,7 +7,6 @@ import { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export function isMinigameComplete({
   minigames,
@@ -129,14 +128,6 @@ export function claimMinigamePrize({
         ...leaderboard,
         score: leaderboard.score + prize.items.Mark,
       };
-    }
-
-    if (
-      action.id === "chicken-rescue" &&
-      hasVipAccess({ game, type: "full", now: createdAt })
-    ) {
-      const cluck = game.inventory.CluckCoin ?? new Decimal(0);
-      game.inventory.CluckCoin = cluck.add(1);
     }
 
     return game;
