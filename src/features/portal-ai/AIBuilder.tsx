@@ -163,6 +163,7 @@ export const AIBuilder: React.FC = () => {
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
+  const currentVersionIdRef = useRef<string | null>(null);
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const currentGameRef = useRef<any>(null);
   const hasLoadedFarmRef = useRef(false);
@@ -355,15 +356,17 @@ export const AIBuilder: React.FC = () => {
       setPreviewUrl(previewUrl ?? null);
 
       const isLoadedFarm = message.data.sessionId.includes("farm-");
-      const isDeleteOperation = message.data.sessionId.includes("delete-");
+      const isDeleteOperation =
+        message.data.sessionId.includes("delete-version-");
       const isVersionLoad = message.data.sessionId.includes("version-");
 
-      if (isVersionLoad) {
+      if (isDeleteOperation) {
+        setHasSavedFarm(false);
+        currentVersionIdRef.current = null;
+        showStatus("All versions deleted — showing template", "success");
+      } else if (isVersionLoad) {
         setHasSavedFarm(true);
         showStatus("Previous version loaded!", "success");
-      } else if (isDeleteOperation) {
-        setHasSavedFarm(false);
-        showStatus("Successfully deleted saved farm", "success");
       } else if (isLoadedFarm) {
         const saved = !isTemplateCode(phaserScene);
         setHasSavedFarm(saved);
@@ -487,9 +490,15 @@ export const AIBuilder: React.FC = () => {
             case "sceneGenerated":
               handleSceneGenerated(message as SceneGeneratedMessage);
               break;
-            case "versionsList":
-              setVersions((message as VersionsListMessage).data.versions);
+            case "versionsList": {
+              const versionsList = (message as VersionsListMessage).data
+                .versions;
+              setVersions(versionsList);
+              if (!currentVersionIdRef.current && versionsList.length > 0) {
+                currentVersionIdRef.current = versionsList[0].versionId;
+              }
               break;
+            }
             case "error":
               handleError(message as ErrorMessage);
               break;
@@ -585,37 +594,43 @@ export const AIBuilder: React.FC = () => {
         data: {
           farmId: String(farmId),
           prompt: prompt.trim(),
+          versionId: currentVersionIdRef.current || undefined,
           sessionId: sid,
         },
       }),
     );
   }, [prompt, farmId, hasSavedFarm, showStatus]);
 
-  const deleteSavedFarm = useCallback(() => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-      showStatus("Not connected to server. Please wait...", "error");
-      return;
-    }
-    if (
-      !window.confirm(
-        "Are you sure you want to delete the saved farm? This action cannot be undone.",
-      )
-    ) {
-      return;
-    }
+  const deleteVersion = useCallback(
+    (versionId: string, lastModified: string) => {
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        showStatus("Not connected to server. Please wait...", "error");
+        return;
+      }
+      if (
+        !window.confirm(
+          `Delete version from ${new Date(lastModified).toLocaleString()}?`,
+        )
+      ) {
+        return;
+      }
 
-    const sid = `delete-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-    sessionIdRef.current = sid;
-    setIsGenerating(true);
-    showStatus("Deleting saved farm...", "generating");
+      const sid = `delete-version-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+      sessionIdRef.current = sid;
 
-    wsRef.current.send(
-      JSON.stringify({
-        action: "deleteSavedFarm",
-        data: { farmId: String(farmId), sessionId: sid },
-      }),
-    );
-  }, [farmId, showStatus]);
+      wsRef.current.send(
+        JSON.stringify({
+          action: "deleteVersion",
+          data: {
+            farmId: String(farmId),
+            versionId,
+            sessionId: sid,
+          },
+        }),
+      );
+    },
+    [farmId, showStatus],
+  );
 
   const loadTemplateDemo = useCallback(() => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
@@ -645,6 +660,7 @@ export const AIBuilder: React.FC = () => {
 
       const sid = `version-${farmId}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
       sessionIdRef.current = sid;
+      currentVersionIdRef.current = versionId;
       setIsGenerating(true);
       showStatus(
         `Loading version from ${new Date(lastModified).toLocaleString()}...`,
@@ -824,16 +840,6 @@ export const AIBuilder: React.FC = () => {
               ? "Modify Farm"
               : "Generate Game"}
         </Button>
-        {/* Delete button only in desktop; mobile puts it in the drawer */}
-        {hasSavedFarm && (
-          <Button
-            className="hidden md:block"
-            onClick={deleteSavedFarm}
-            disabled={isGenerating}
-          >
-            {"Delete Saved Farm"}
-          </Button>
-        )}
       </div>
     </>
   );
@@ -887,11 +893,34 @@ export const AIBuilder: React.FC = () => {
         {versions.map((version) => (
           <div
             key={version.versionId}
-            className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded cursor-pointer hover:bg-brown-200"
-            onClick={() => loadVersion(version.versionId, version.lastModified)}
+            className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded"
           >
-            <span>{new Date(version.lastModified).toLocaleString()}</span>
-            <span className="underline ml-2 flex-shrink-0">{"Load"}</span>
+            <span
+              className="cursor-pointer hover:underline flex-1"
+              onClick={() =>
+                loadVersion(version.versionId, version.lastModified)
+              }
+            >
+              {new Date(version.lastModified).toLocaleString()}
+            </span>
+            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+              <span
+                className="underline cursor-pointer"
+                onClick={() =>
+                  loadVersion(version.versionId, version.lastModified)
+                }
+              >
+                {"Load"}
+              </span>
+              <span
+                className="cursor-pointer hover:text-red-600 px-1"
+                onClick={() =>
+                  deleteVersion(version.versionId, version.lastModified)
+                }
+              >
+                {"\u00d7"}
+              </span>
+            </div>
           </div>
         ))}
       </div>
@@ -1110,15 +1139,6 @@ export const AIBuilder: React.FC = () => {
                         <Label type="default">{"Previous Versions"}</Label>
                         {versionsContent}
                       </div>
-
-                      {hasSavedFarm && (
-                        <Button
-                          onClick={deleteSavedFarm}
-                          disabled={isGenerating}
-                        >
-                          {"Delete Saved Farm"}
-                        </Button>
-                      )}
                     </>
                   ) : (
                     <div>

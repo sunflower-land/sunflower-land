@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Abenteuer",
   "minigame.dashboard.adventureNotConfiguredBody": "Für diese Wirtschaft wurde noch kein benutzerdefiniertes Abenteuer eingerichtet. Füge im Economy-Editor eine Play-URL hinzu, um dein Spiel zu verlinken.",
   "pickledCrops": "Eingelegte Pflanzen",
-  "spices": "Gewürze"
+  "spices": "Gewürze",
+  "playerEconomyEditor.basics.gameUrlLabel": "URL des Spiels",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL, die in den Portal-Iframe für diese Wirtschaft geladen wurde. Lassen Sie das Feld leer, um den Build-Standard zu verwenden (z. B. VITE_PORTAL_GAME_URL)."
 }

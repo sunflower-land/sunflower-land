@@ -8533,5 +8533,8 @@
   "minigame.dashboard.adventureNotConfiguredTitle": "Avventura",
   "minigame.dashboard.adventureNotConfiguredBody": "Nessuna avventura personalizzata è ancora impostata per questa economia. Aggiungi un URL di gioco nell'editor economico per collegare il tuo gioco.",
   "pickledCrops": "Colture in salamoia",
-  "spices": "Spezie"
+  "spices": "Spezie",
+  "playerEconomyEditor.basics.gameUrlLabel": "URL del gioco",
+  "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
+  "playerEconomyEditor.basics.gameUrlHint": "URL caricato nell'iframe del portale per questa economia. Lascia vuoto per utilizzare l'impostazione predefinita della build (ad esempio VITE_PORTAL_GAME_URL)."
 }
