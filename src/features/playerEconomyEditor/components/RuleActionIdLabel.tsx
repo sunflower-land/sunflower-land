@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import {
-  sanitizeActionId,
-  uniquifyActionId,
-} from "../lib/actionIdHelpers";
+import { sanitizeActionId, uniquifyActionId } from "../lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function PencilGlyph() {
@@ -40,10 +37,6 @@ export const RuleActionIdLabel: React.FC<Props> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!editing) setDraft(actionId);
-  }, [actionId, editing]);
-
-  useEffect(() => {
     if (editing) inputRef.current?.focus();
   }, [editing]);
 
@@ -52,9 +45,7 @@ export const RuleActionIdLabel: React.FC<Props> = ({
     const peerSet = new Set(
       peerIds.map((s) => s.trim()).filter((s) => s.length > 0),
     );
-    const next = cleaned
-      ? uniquifyActionId(cleaned, peerSet)
-      : actionId;
+    const next = cleaned ? uniquifyActionId(cleaned, peerSet) : actionId;
     if (next !== actionId) onCommit(next);
     setEditing(false);
   };

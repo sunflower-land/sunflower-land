@@ -346,7 +346,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                           alt=""
                           draggable={false}
                         />
-                        <span className="yield-text ml-1">+1</span>
+                        <span className="yield-text ml-1">{"+1"}</span>
                       </div>
                     ) : null,
                   )}

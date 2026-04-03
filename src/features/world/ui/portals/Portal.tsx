@@ -98,8 +98,14 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
    */
   const rawTokenRef = useRef(authState.context.user.rawToken);
   const farmIdRef = useRef(gameState.context.farmId);
-  rawTokenRef.current = authState.context.user.rawToken;
-  farmIdRef.current = gameState.context.farmId;
+
+  const rawToken = authState.context.user.rawToken;
+  const farmId = gameState.context.farmId;
+
+  useEffect(() => {
+    rawTokenRef.current = rawToken;
+    farmIdRef.current = farmId;
+  }, [rawToken, farmId]);
 
   useEffect(() => {
     const load = async () => {
@@ -130,18 +136,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
       }
 
       const nextUrl = `${baseUrl}?${params.toString()}`;
-
-      if (
-        portalName === "chicken-rescue" ||
-        portalName === "chicken-rescue-v2"
-      ) {
-        console.log("[SFL-portal-debug] iframe URL ready", {
-          portalName,
-          playUrl: playUrl ?? null,
-          baseUrl,
-          loading: false,
-        });
-      }
 
       setUrl(nextUrl);
 

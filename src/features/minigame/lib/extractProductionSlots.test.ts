@@ -37,9 +37,9 @@ describe("getProductionZoneEntries", () => {
     const runtime = mergeRuntimeWithInitialBalances(config, runtimeBase);
     const entries = getProductionZoneEntries(config, runtime);
     expect(entries.map((e) => e.capToken)).toContain("5");
-    expect(entries.find((e) => e.capToken === "5")?.recipes.length).toBeGreaterThan(
-      0,
-    );
+    expect(
+      entries.find((e) => e.capToken === "5")?.recipes.length,
+    ).toBeGreaterThan(0);
   });
 
   it("lists owned wormery when generator is a string boolean from the API", () => {

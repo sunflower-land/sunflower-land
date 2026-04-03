@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "../lib/minigameTokenIcons";
@@ -15,7 +15,7 @@ type Props = Omit<
  * Renders raster art at `naturalWidth|Height * PIXEL_SCALE` CSS px (same convention as land / HUD).
  * Reads intrinsic dimensions on load so CDN and bundled assets both scale correctly.
  */
-export const MinigameScaledSpriteImg: React.FC<Props> = ({
+const MinigameScaledSpriteImgInner: React.FC<Props> = ({
   src,
   alt = "",
   className,
@@ -27,16 +27,9 @@ export const MinigameScaledSpriteImg: React.FC<Props> = ({
   const [srcPx, setSrcPx] = useState<{ w: number; h: number } | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
 
-  useEffect(() => {
-    setLoadFailed(false);
-    setSrcPx(null);
-  }, [src]);
-
   const trimmed = typeof src === "string" ? src.trim() : "";
   const displaySrc =
-    loadFailed || !trimmed
-      ? MINIGAME_TOKEN_IMAGE_FALLBACK
-      : String(src ?? "");
+    loadFailed || !trimmed ? MINIGAME_TOKEN_IMAGE_FALLBACK : String(src ?? "");
 
   const onLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const { naturalWidth, naturalHeight } = e.currentTarget;
@@ -81,3 +74,8 @@ export const MinigameScaledSpriteImg: React.FC<Props> = ({
     />
   );
 };
+
+/** Remounts when `src` changes so load/size state resets without an effect. */
+export const MinigameScaledSpriteImg: React.FC<Props> = (props) => (
+  <MinigameScaledSpriteImgInner key={String(props.src ?? "")} {...props} />
+);

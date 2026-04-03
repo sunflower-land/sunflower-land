@@ -145,7 +145,7 @@ export const ProduceCard: React.FC<{
 
       {/* Linked Collect section */}
       <div className="space-y-2">
-        <Label type="default">Collect</Label>
+        <Label type="default">{"Collect"}</Label>
         <MintRowList
           rows={collectMint}
           itemKeys={itemKeys}

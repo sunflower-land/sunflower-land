@@ -24,9 +24,7 @@ export function suggestNextActionId(
   existingIds: Iterable<string>,
 ): string {
   const prefix = PREFIX[type];
-  const set = new Set(
-    Array.from(existingIds, (s) => s.trim()).filter(Boolean),
-  );
+  const set = new Set(Array.from(existingIds, (s) => s.trim()).filter(Boolean));
   for (let i = 1; i < 10_000; i++) {
     const cand = `${prefix}_${String(i).padStart(3, "0")}`;
     if (!set.has(cand)) return cand;
