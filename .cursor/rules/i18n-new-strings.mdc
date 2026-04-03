@@ -1,0 +1,23 @@
+---
+description: Add new i18n strings only in dictionary.json; locale JSON files are CI-maintained
+alwaysApply: true
+---
+
+# Internationalization — new strings
+
+When adding **new** user-facing copy or translation keys:
+
+1. Add the key and **English source text** only in `src/lib/i18n/dictionaries/dictionary.json`.
+2. **Do not** add the same key to `en.json`, `es.json`, `fr.json`, `de.json`, or any other file under `src/lib/i18n/dictionaries/` except `dictionary.json`.
+
+Other locale files are updated automatically by the translation pipeline in CI/CD after changes land. Manually editing them for new keys is redundant and can conflict with automation.
+
+Use `useAppTranslation` / `translate()` as documented in `src/lib/i18n/dictionaries/LANGUAGES.md`.
+
+```typescript
+// After adding "myFeature.title": "Hello" to dictionary.json
+const { t } = useAppTranslation();
+return <p>{t("myFeature.title")}</p>;
+```
+
+**Exception:** If you are deliberately fixing or adjusting an **existing** entry in a specific locale file per team process, that is separate from adding new keys—follow whatever your PR review requires.

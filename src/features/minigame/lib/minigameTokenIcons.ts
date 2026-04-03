@@ -1,54 +1,23 @@
-import wormery from "assets/buildings/wormery.webp";
-import goldenNugget from "assets/icons/golden_nugget.webp";
-import worm from "assets/icons/worm.png";
-import chickenFeet from "assets/icons/chicken_feet.webp";
-import chookIcon from "assets/icons/chook.webp";
-import goldenChook from "assets/sfts/golden_chook.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CONFIG } from "lib/config";
 import { resolveMinigameCdnImageUrl } from "./resolveMinigameCdnImageUrl";
 
-function bundledMinigameTokenImage(token: string): string {
-  switch (token) {
-    case "GoldenNugget":
-      return goldenNugget;
-    case "Worm":
-      return worm;
-    case "Wormery":
-    case "Wormery_2":
-    case "Wormery_3":
-    case "Wormery_4":
-      return wormery;
-    case "ChickenFeet":
-      return chickenFeet;
-    case "Chook":
-      return chookIcon;
-    case "GoldenChook":
-      return goldenChook;
-    default:
-      return SUNNYSIDE.icons.expression_confused;
-  }
-}
+/** When `items[token].image` is missing or unusable (e.g. load error). */
+export const MINIGAME_TOKEN_IMAGE_FALLBACK =
+  SUNNYSIDE.icons.expression_confused;
 
 /**
- * Resolves `items[token].image` from the session (CDN-relative, absolute, or
- * bundled `/...` URL) and falls back to bundled icons when the payload omits a
- * path or `VITE_PRIVATE_IMAGE_URL` is unset for relative CDN paths.
+ * URL for a minigame balance token: always from `items[token].image` in `overrides`
+ * (session / config). Relative paths are joined with `VITE_PRIVATE_IMAGE_URL` when set.
+ * No bundled per-token art — use {@link MINIGAME_TOKEN_IMAGE_FALLBACK} if there is no item image.
  */
 export function getMinigameTokenImage(
   token: string,
   overrides?: Record<string, string> | null,
 ): string {
-  const fromPayload = overrides?.[token];
-  if (fromPayload) {
-    const needsBundledFallback =
-      !fromPayload.startsWith("http") &&
-      !fromPayload.startsWith("/") &&
-      !CONFIG.PROTECTED_IMAGE_URL;
-    if (needsBundledFallback) {
-      return bundledMinigameTokenImage(token);
-    }
-    return resolveMinigameCdnImageUrl(fromPayload);
+  const raw = overrides?.[token]?.trim();
+  if (!raw) {
+    return MINIGAME_TOKEN_IMAGE_FALLBACK;
   }
-  return bundledMinigameTokenImage(token);
+  const resolved = resolveMinigameCdnImageUrl(raw).trim();
+  return resolved.length > 0 ? resolved : MINIGAME_TOKEN_IMAGE_FALLBACK;
 }

@@ -7,6 +7,8 @@ export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
   playerEconomy: {
     balances: Record<string, number>;
+    /** Some API deployments mirror economy `items` here instead of the top-level `items` field. */
+    items?: PlayerEconomyConfig["items"];
     generating: Record<string, unknown>;
     activity: number;
     dailyActivity: { date: string; count: number };
@@ -31,6 +33,23 @@ export type MinigameSessionApiPayload = {
     visualTheme?: string;
   };
 };
+
+/** Merges top-level `items` with optional `playerEconomy.items` mirror from the API. */
+export function resolvePlayerEconomySessionItems(
+  raw: MinigameSessionApiPayload,
+): PlayerEconomyConfig["items"] | undefined {
+  if (raw.items != null) return raw.items;
+  const pe = raw.playerEconomy;
+  if (
+    pe &&
+    typeof pe === "object" &&
+    "items" in pe &&
+    (pe as { items?: PlayerEconomyConfig["items"] }).items != null
+  ) {
+    return (pe as { items?: PlayerEconomyConfig["items"] }).items;
+  }
+  return undefined;
+}
 
 export type MinigameActionApiResponse = {
   playerEconomy: MinigameSessionApiPayload["playerEconomy"];

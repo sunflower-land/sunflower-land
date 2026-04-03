@@ -14,16 +14,53 @@ export type PlayerEconomyConfigWithLegacy = PlayerEconomyConfig & {
   };
 };
 
+/**
+ * APIs may serialize booleans as strings (`"true"` / `"1"`). Returns `undefined` if unknown.
+ */
+function parseBooleanishFlag(v: unknown): boolean | undefined {
+  if (v === true || v === 1) return true;
+  if (v === false || v === 0) return false;
+  if (typeof v === "string") {
+    const s = v.trim().toLowerCase();
+    if (["true", "1", "yes"].includes(s)) return true;
+    if (["false", "0", "no"].includes(s)) return false;
+  }
+  return undefined;
+}
+
+/** True when an item is a generator cap (APIs may send booleans as strings or omit the flag). */
+export function isGeneratorBalanceItem(
+  item: PlayerEconomyBalanceItem | undefined,
+): boolean {
+  return parseBooleanishFlag(item?.generator) === true;
+}
+
+function coercePositiveInt(v: unknown): number | undefined {
+  if (typeof v === "number" && Number.isFinite(v) && v > 0)
+    return Math.floor(v);
+  const n = Number(v);
+  if (Number.isFinite(n) && n > 0) return Math.floor(n);
+  return undefined;
+}
+
 /** Maps legacy `producer` JSON to `generator` and drops the old key. */
 function normalizeItemGeneratorFromLegacy(
   item: PlayerEconomyBalanceItem,
 ): PlayerEconomyBalanceItem {
   const record = { ...(item as unknown as Record<string, unknown>) };
-  const legacyProducer = record.producer === true;
+  const legacyProducer = parseBooleanishFlag(record.producer) === true;
   delete record.producer;
+
+  const genParsed = parseBooleanishFlag(record.generator);
+  delete record.generator;
+
   const base = record as unknown as PlayerEconomyBalanceItem;
-  if (base.generator !== undefined) return base;
-  if (legacyProducer) return { ...base, generator: true };
+
+  let generator: boolean | undefined = genParsed;
+  if (legacyProducer) generator = true;
+
+  if (generator === true) return { ...base, generator: true };
+  if (generator === false) return { ...base, generator: false };
   return base;
 }
 
@@ -37,14 +74,15 @@ export function migrateLegacyPlayerEconomyConfigFields(
 
   if (input.initialBalances) {
     for (const [k, v] of Object.entries(input.initialBalances)) {
-      if (typeof v !== "number" || !Number.isFinite(v) || v <= 0) continue;
+      const amt = coercePositiveInt(v);
+      if (amt == null) continue;
       const cur = items[k];
       const base: PlayerEconomyBalanceItem = cur ?? {
         name: k,
         description: "",
       };
       if (base.initialBalance === undefined) {
-        items[k] = { ...base, initialBalance: Math.floor(v) };
+        items[k] = { ...base, initialBalance: amt };
       }
     }
   }
@@ -93,7 +131,10 @@ export function migrateLegacyPlayerEconomyConfigFields(
   return out;
 }
 
-/** Tokens used as produce `requires` are treated as generators when the flag was omitted (legacy configs). */
+/**
+ * Tokens used as produce `requires` are generators. Sets `generator: true` when missing
+ * (APIs often omit `items[requires]` entirely, or omit the flag while `generator: true` lives only on the item record).
+ */
 function inferGeneratorFlagsFromGeneratorRecipeRules(
   items: Record<string, PlayerEconomyBalanceItem>,
   actions: Record<string, PlayerEconomyActionDefinition>,
@@ -102,10 +143,18 @@ function inferGeneratorFlagsFromGeneratorRecipeRules(
   for (const def of Object.values(actions)) {
     if (!def.produce) continue;
     for (const rule of Object.values(def.produce)) {
-      const req = rule.requires?.trim();
+      const rawReq = rule.requires;
+      const req =
+        typeof rawReq === "string"
+          ? rawReq.trim()
+          : String(rawReq ?? "").trim();
       if (!req) continue;
       const cur = out[req];
-      if (cur && cur.generator === undefined) {
+      if (!cur) {
+        out[req] = { name: req, description: "", generator: true };
+      } else {
+        // Any token used as produce `requires` is a generator building; editor/API mistakes
+        // (`generator: false` or string booleans) must not hide it from the production zone.
         out[req] = { ...cur, generator: true };
       }
     }

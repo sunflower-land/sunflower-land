@@ -91,6 +91,22 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
 
   const { t } = useAppTranslation();
 
+  /**
+   * Parent auth/farm context updates often (token refresh, SAVE, etc.). Those must not
+   * re-run iframe URL construction or the `src` change reloads the embedded minigame.
+   * The minigame persists JWT in sessionStorage after first load (`chicken-rescue-v2` url.ts).
+   */
+  const rawTokenRef = useRef(authState.context.user.rawToken);
+  const farmIdRef = useRef(gameState.context.farmId);
+
+  const rawToken = authState.context.user.rawToken;
+  const farmId = gameState.context.farmId;
+
+  useEffect(() => {
+    rawTokenRef.current = rawToken;
+    farmIdRef.current = farmId;
+  }, [rawToken, farmId]);
+
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -99,8 +115,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
       if (CONFIG.API_URL) {
         const { token: portalToken } = await portal({
           portalId: portalName,
-          token: authState.context.user.rawToken as string,
-          farmId: gameState.context.farmId,
+          token: rawTokenRef.current as string,
+          farmId: farmIdRef.current,
         });
         token = portalToken;
       }
@@ -119,20 +135,15 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
         params.set("apiUrl", CONFIG.API_URL);
       }
 
-      const url = `${baseUrl}?${params.toString()}`;
+      const nextUrl = `${baseUrl}?${params.toString()}`;
 
-      setUrl(url);
+      setUrl(nextUrl);
 
       setLoading(false);
     };
 
     load();
-  }, [
-    portalName,
-    playUrl,
-    authState.context.user.rawToken,
-    gameState.context.farmId,
-  ]);
+  }, [portalName, playUrl]);
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {

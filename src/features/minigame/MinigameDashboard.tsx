@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useActor } from "@xstate/react";
-import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
@@ -16,6 +15,8 @@ import { Loading } from "features/auth/components/Loading";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import checkeredBg from "assets/land/checkered_bg.webp";
+import { minigameDashboardBackdropStyle } from "./lib/minigameBoardPixels";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
@@ -45,7 +46,6 @@ import { MinigameMobileShopModal } from "./components/MinigameMobileShopModal";
 import { MinigameInventoryHud } from "./components/MinigameInventoryHud";
 import { MinigameConfirmPanel } from "./components/MinigameConfirmPanel";
 import { MinigameInventoryModal } from "./components/MinigameInventoryModal";
-import { ChickenRescueBookmatchedBackdrop } from "./components/ChickenRescueBookmatchedBackdrop";
 import { MinigameProductionZone } from "./components/MinigameProductionZone";
 import {
   buildCapJobByRecipeKey,
@@ -63,6 +63,16 @@ import {
 } from "./lib/minigameConfigHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
+
+function MinigameDashboardBackdrop() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-0"
+      style={minigameDashboardBackdropStyle(checkeredBg)}
+    />
+  );
+}
 
 export const MinigameDashboard: React.FC = () => {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -490,11 +500,6 @@ export const MinigameDashboard: React.FC = () => {
       ? new Decimal(runtime.balances[headerToken] ?? 0)
       : new Decimal(0);
 
-  const useChickenRescueShell =
-    (payload?.ui.visualTheme ??
-      (slug === "chicken-rescue-v2" ? "chicken-rescue" : "")) ===
-    "chicken-rescue";
-
   const loadErrorText =
     loadError === null
       ? null
@@ -509,16 +514,10 @@ export const MinigameDashboard: React.FC = () => {
   if (playerEconomiesBlocked) {
     return (
       <div
-        className={classNames(
-          "relative min-h-screen flex flex-col items-center justify-center gap-2 p-4",
-          !useChickenRescueShell && "bg-[#63c74d]",
-        )}
-        style={{
-          paddingTop: safeTop,
-          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
-        }}
+        className="relative flex min-h-screen flex-col items-center justify-center gap-2 p-4"
+        style={{ paddingTop: safeTop }}
       >
-        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
+        <MinigameDashboardBackdrop />
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white px-2">
             {t("minigame.dashboard.playerEconomiesNotAvailable")}
@@ -531,20 +530,16 @@ export const MinigameDashboard: React.FC = () => {
     );
   }
 
-  if (loading) {
+  // While the adventure iframe is open, keep rendering the dashboard shell + Portal so
+  // background refetches (token rotation, etc.) do not unmount the iframe and reload it.
+  if (loading && !showPortal) {
     return (
       <div
-        className={classNames(
-          "relative min-h-screen flex flex-col items-center justify-center p-4",
-          !useChickenRescueShell && "bg-[#63c74d]",
-        )}
-        style={{
-          paddingTop: safeTop,
-          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
-        }}
+        className="relative flex min-h-screen flex-col items-center justify-center p-4"
+        style={{ paddingTop: safeTop }}
       >
-        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
-        <div className="relative z-10 flex flex-1 items-center justify-center w-full">
+        <MinigameDashboardBackdrop />
+        <div className="relative z-10 flex w-full flex-1 items-center justify-center">
           <InnerPanel className="p-4 min-w-[8rem]">
             <Loading className="text-sm text-[#3e2731]" />
           </InnerPanel>
@@ -556,16 +551,10 @@ export const MinigameDashboard: React.FC = () => {
   if (loadError || !payload || !runtime) {
     return (
       <div
-        className={classNames(
-          "relative min-h-screen flex flex-col items-center justify-center gap-2 p-4",
-          !useChickenRescueShell && "bg-[#63c74d]",
-        )}
-        style={{
-          paddingTop: safeTop,
-          ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
-        }}
+        className="relative flex min-h-screen flex-col items-center justify-center gap-2 p-4"
+        style={{ paddingTop: safeTop }}
       >
-        {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
+        <MinigameDashboardBackdrop />
         <div className="relative z-10 flex flex-col items-center justify-center gap-2">
           <p className="text-sm text-center text-white">{loadErrorText}</p>
           <Button onClick={handleClose}>
@@ -584,16 +573,10 @@ export const MinigameDashboard: React.FC = () => {
 
   return (
     <div
-      className={classNames(
-        "relative flex flex-col h-screen w-full overflow-hidden",
-        !useChickenRescueShell && "bg-[#8fbc8f]",
-      )}
-      style={{
-        paddingTop: safeTop,
-        ...(useChickenRescueShell ? { backgroundColor: "#8fbc8f" } : {}),
-      }}
+      className="relative flex h-screen w-full flex-col overflow-hidden"
+      style={{ paddingTop: safeTop }}
     >
-      {useChickenRescueShell && <ChickenRescueBookmatchedBackdrop />}
+      <MinigameDashboardBackdrop />
       <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="relative mb-0.5 flex h-[70px] w-full items-center justify-between bg-black/20 pr-10">
           <div className="z-10 pl-4 min-w-0">

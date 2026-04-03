@@ -32,7 +32,7 @@ export type TradeableDisplay = {
   buffs: BuffLabel[];
   experience?: number;
   translatedName?: string;
-  /** Minigame balance token key (e.g. GoldenNugget) for image fallback on load error. */
+  /** Minigame balance token key for placeholder on image load error when type is economies. */
   minigameCurrencyKey?: string;
 };
 

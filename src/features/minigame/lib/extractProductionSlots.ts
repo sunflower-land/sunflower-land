@@ -1,4 +1,5 @@
 import { tokenDisplayName } from "./minigameConfigHelpers";
+import { isGeneratorBalanceItem } from "./minigameConfigMigration";
 import { resolveProduceDurationMs } from "./resolveProduceDuration";
 import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 
@@ -32,18 +33,30 @@ export function isGeneratorCapToken(
   config: PlayerEconomyConfig,
   token: string,
 ): boolean {
-  return config.items?.[token]?.generator === true;
+  return isGeneratorBalanceItem(config.items?.[token]);
 }
 
 /**
  * Dashboard shows a generator only when the player has at least one of that cap item,
  * or already has production running on it (so they can collect after edge balance changes).
  */
+function balanceForToken(
+  balances: Record<string, number>,
+  token: string,
+): number {
+  const v = balances[token];
+  if (typeof v === "number" && Number.isFinite(v)) {
+    return Math.max(0, Math.floor(v));
+  }
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0;
+}
+
 export function playerControlsGeneratorCap(
   runtime: PlayerEconomyRuntimeState,
   capToken: string,
 ): boolean {
-  if ((runtime.balances[capToken] ?? 0) > 0) return true;
+  if (balanceForToken(runtime.balances, capToken) > 0) return true;
   return Object.values(runtime.generating).some(
     (job) => job.requires === capToken,
   );
@@ -64,7 +77,11 @@ export function extractCapBalanceProductionSlots(
     const inlineCollect =
       def.collect !== undefined && Object.keys(def.collect).length > 0;
     for (const [outputToken, rule] of Object.entries(def.produce)) {
-      const requires = rule.requires?.trim();
+      const rawReq = rule.requires;
+      const requires =
+        typeof rawReq === "string"
+          ? rawReq.trim()
+          : String(rawReq ?? "").trim();
       if (!requires) continue;
       const collectActionId = inlineCollect
         ? actionId
@@ -111,7 +128,7 @@ export function getProductionZoneEntries(
   const tokens = new Set<string>([
     ...byCap.keys(),
     ...Object.entries(config.items ?? {})
-      .filter(([, m]) => m.generator === true)
+      .filter(([, m]) => isGeneratorBalanceItem(m))
       .map(([t]) => t),
   ]);
   return Array.from(tokens)

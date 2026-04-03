@@ -259,11 +259,6 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                           {t("minigame.dashboard.production.tapToCollect")}
                         </p>
                       ) : null}
-                      {!generating && !starting ? (
-                        <p className="text-[10px] font-medium opacity-75">
-                          {t("minigame.dashboard.production.tapToStart")}
-                        </p>
-                      ) : null}
                     </div>
                   </div>
                 );

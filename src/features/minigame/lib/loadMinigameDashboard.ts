@@ -2,9 +2,11 @@ import type { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { portal } from "features/world/ui/community/actions/portal";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
+import { getLocalMinigameDashboardMock } from "./localMinigameDashboardMock";
 import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
   getMinigameSession,
+  resolvePlayerEconomySessionItems,
   type MinigameSessionApiPayload,
 } from "./minigameSessionApi";
 
@@ -23,14 +25,15 @@ function assertChickenRescueSession(
 
 /**
  * Loads dashboard data: calls the portal minigame API when `CONFIG.API_URL` is set
- * and credentials are provided; otherwise uses the local Chicken Rescue mock.
+ * and credentials are provided; otherwise returns a hard-coded local mock.
  */
 export async function loadMinigameDashboard(
   slug: string,
   creds: { userToken: string; farmId: number } | null,
 ): Promise<FetchMinigameResult> {
-  if (!CONFIG.API_URL)
-    return { ok: false, error: { kind: "sign_in_required" } };
+  if (!CONFIG.API_URL) {
+    return { ok: true, data: getLocalMinigameDashboardMock(slug) };
+  }
 
   if (!creds?.userToken || creds.farmId == null || Number.isNaN(creds.farmId)) {
     return { ok: false, error: { kind: "sign_in_required" } };
@@ -45,6 +48,7 @@ export async function loadMinigameDashboard(
 
     const raw = await getMinigameSession(slug, portalJwt);
     assertChickenRescueSession(raw);
+
     const state = {
       balances: raw.playerEconomy.balances,
       generating: raw.playerEconomy.generating as Record<string, any>,
@@ -60,7 +64,7 @@ export async function loadMinigameDashboard(
     };
     const config = {
       actions: raw.actions as Record<string, any>,
-      items: raw.items,
+      items: resolvePlayerEconomySessionItems(raw),
       descriptions: raw.descriptions,
       visualTheme: raw.visualTheme,
       playUrl: raw.playUrl,

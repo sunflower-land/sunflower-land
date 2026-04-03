@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { InnerPanel, Panel, ButtonPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -17,31 +16,33 @@ import {
 import { ShopCard } from "../components/ShopCard";
 import { CustomCard } from "../components/CustomCard";
 import { ProduceCard } from "../components/ProduceCard";
+import { RuleActionIdLabel } from "../components/RuleActionIdLabel";
+import { suggestNextActionId } from "../lib/actionIdHelpers";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-/** 1-based index into the saved action id sequence (produce + linked collect uses two slots). */
-function ruleSequenceStart(actions: ActionForm[], beforeIndex: number): number {
-  let n = 1;
-  for (let i = 0; i < beforeIndex; i++) {
-    const p = actions[i];
-    const hasLinked =
-      p.actionType === "produce" &&
-      (p.linkedCollectMint?.some((m) => m.token.trim()) ?? false);
-    n += hasLinked ? 2 : 1;
-  }
-  return n;
-}
 
 export const ActionsTab: React.FC<{
   form: EditorFormState;
   onUpdateAction: (index: number, next: Partial<ActionForm>) => void;
   onAddAction: (action: ActionForm) => void;
   onDeleteAction: (index: number) => void;
-}> = ({ form, onUpdateAction, onAddAction, onDeleteAction }) => {
+  patchEmptyActionIds: () => void;
+}> = ({
+  form,
+  onUpdateAction,
+  onAddAction,
+  onDeleteAction,
+  patchEmptyActionIds,
+}) => {
   const { t } = useAppTranslation();
   const [showActionTypeModal, setShowActionTypeModal] = useState(false);
   const [actionToDelete, setActionToDelete] = useState<number | null>(null);
+  const actionIdSignature = form.actions.map((a) => a.id).join("\0");
+
+  useLayoutEffect(() => {
+    if (!form.actions.some((a) => !a.id.trim())) return;
+    patchEmptyActionIds();
+  }, [actionIdSignature, patchEmptyActionIds]);
   const itemKeys = form.items
     .filter((item) => item.id !== undefined && !item.deleted)
     .map((item) => String(item.id));
@@ -61,9 +62,12 @@ export const ActionsTab: React.FC<{
   );
 
   const addActionOfType = (type: ActionType) => {
+    const existing = new Set(
+      form.actions.map((a) => a.id.trim()).filter(Boolean),
+    );
     const base: ActionForm = {
       actionType: type,
-      id: "",
+      id: suggestNextActionId(type, existing),
       showInShop: true,
       shopPurchaseLimit: 0,
       mint: [],
@@ -107,12 +111,16 @@ export const ActionsTab: React.FC<{
     setActionToDelete(null);
   };
 
+  const peerIdsFor = (index: number) =>
+    form.actions
+      .map((a, i) => (i === index ? null : a.id.trim()))
+      .filter((s): s is string => Boolean(s));
+
   const renderCard = (action: ActionForm, index: number) => {
-    const ruleSeq = ruleSequenceStart(form.actions, index);
     const commonProps = {
       action,
       index,
-      ruleSequenceStart: ruleSeq,
+      peerIds: peerIdsFor(index),
       itemKeys,
       generatorItemKeys,
       getItemOptionLabel,
@@ -130,13 +138,20 @@ export const ActionsTab: React.FC<{
       default:
         return (
           <InnerPanel key={`action-${index}`} className="p-3 space-y-2">
-            <div className="flex items-center justify-between">
-              <Label type="default">
-                {`${getActionTypeLabel(action.actionType)} - #${String(ruleSequenceStart(form.actions, index)).padStart(3, "0")}`}
-              </Label>
+            <div className="flex items-center justify-between gap-1">
+              <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                <span className="text-[10px] opacity-60">
+                  {getActionTypeLabel(action.actionType)}
+                </span>
+                <RuleActionIdLabel
+                  actionId={action.id}
+                  peerIds={peerIdsFor(index)}
+                  onCommit={(id) => onUpdateAction(index, { id })}
+                />
+              </div>
               <img
                 src={SUNNYSIDE.icons.close}
-                className="cursor-pointer hover:brightness-75"
+                className="cursor-pointer hover:brightness-75 shrink-0"
                 onClick={() => setActionToDelete(index)}
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,

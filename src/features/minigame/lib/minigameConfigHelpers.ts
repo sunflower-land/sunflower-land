@@ -21,23 +21,41 @@ import type {
   MinigameShopItemUi,
 } from "./minigameDashboardTypes";
 import { getMinigameTokenImage } from "./minigameTokenIcons";
-import { migrateLegacyPlayerEconomyConfigFields } from "./minigameConfigMigration";
+import {
+  isGeneratorBalanceItem,
+  migrateLegacyPlayerEconomyConfigFields,
+} from "./minigameConfigMigration";
 
 /**
  * When the persisted minigame has no balance entry for a token yet, use
  * `items[token].initialBalance` from config so the dashboard matches “starting inventory”
  * (many APIs omit keys until first write).
  */
+function coerceBalanceValue(v: unknown): number {
+  if (typeof v === "number" && Number.isFinite(v)) {
+    return Math.max(0, Math.floor(v));
+  }
+  const n = Number(v);
+  if (Number.isFinite(n)) return Math.max(0, Math.floor(n));
+  return 0;
+}
+
 export function mergeInitialBalancesFromConfig(
   config: PlayerEconomyConfig,
   balances: Record<string, number>,
 ): Record<string, number> {
-  const out = { ...balances };
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(balances)) {
+    out[k] = coerceBalanceValue(v);
+  }
   const items = config.items ?? {};
   for (const [token, meta] of Object.entries(items)) {
-    const init = meta.initialBalance;
-    if (typeof init !== "number" || !Number.isFinite(init) || init <= 0)
-      continue;
+    const initRaw = meta.initialBalance;
+    const init =
+      typeof initRaw === "number" && Number.isFinite(initRaw)
+        ? initRaw
+        : Number(initRaw);
+    if (!Number.isFinite(init) || init <= 0) continue;
     if (!(token in out)) {
       out[token] = Math.max(0, Math.floor(init));
     }
@@ -71,7 +89,8 @@ export function buildTokenImageMap(
   const out: Record<string, string> = {};
   if (!items) return out;
   for (const [key, v] of Object.entries(items)) {
-    if (v.image && v.image.length > 0) out[key] = v.image;
+    const img = v.image?.trim();
+    if (img) out[key] = img;
   }
   return out;
 }
@@ -260,7 +279,7 @@ function inventoryShortcutTokensFromProduction(
   const items = config.items ?? {};
   const out: string[] = [];
   for (const [token, meta] of Object.entries(items)) {
-    if (meta.generator === true) out.push(token);
+    if (isGeneratorBalanceItem(meta)) out.push(token);
   }
   return out.sort((a, b) => a.localeCompare(b));
 }

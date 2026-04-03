@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo } from "react";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
+import { RuleActionIdLabel } from "./RuleActionIdLabel";
 import { NumberInput } from "components/ui/NumberInput";
 import { Dropdown } from "components/ui/Dropdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -14,7 +15,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const ProduceCard: React.FC<{
   action: ActionForm;
   index: number;
-  ruleSequenceStart: number;
+  peerIds: string[];
   itemKeys: string[];
   /** Items marked as generators — only these appear in Requires item. */
   generatorItemKeys: string[];
@@ -24,7 +25,7 @@ export const ProduceCard: React.FC<{
 }> = ({
   action,
   index,
-  ruleSequenceStart,
+  peerIds,
   itemKeys,
   generatorItemKeys,
   getItemOptionLabel,
@@ -68,18 +69,19 @@ export const ProduceCard: React.FC<{
   };
 
   const collectMint = action.linkedCollectMint ?? [];
-  const hasCollectMint = collectMint.some((m) => m.token.trim());
 
   return (
     <InnerPanel key={`action-${index}`} className="p-3 space-y-3">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <Label type="default">
-          {`Generate - #${String(ruleSequenceStart).padStart(3, "0")}`}
-        </Label>
+      <div className="flex items-center justify-between gap-1">
+        <RuleActionIdLabel
+          actionId={action.id}
+          peerIds={peerIds}
+          onCommit={(id) => onUpdate({ id })}
+        />
         <img
           src={SUNNYSIDE.icons.close}
-          className="cursor-pointer hover:brightness-75"
+          className="cursor-pointer hover:brightness-75 shrink-0"
           onClick={onDelete}
           style={{
             width: `${PIXEL_SCALE * 11}px`,
@@ -143,11 +145,7 @@ export const ProduceCard: React.FC<{
 
       {/* Linked Collect section */}
       <div className="space-y-2">
-        <Label type="default">
-          {hasCollectMint
-            ? `Collect - #${String(ruleSequenceStart + 1).padStart(3, "0")}`
-            : "Collect"}
-        </Label>
+        <Label type="default">{"Collect"}</Label>
         <MintRowList
           rows={collectMint}
           itemKeys={itemKeys}

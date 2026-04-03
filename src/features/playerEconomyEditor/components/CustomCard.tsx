@@ -2,6 +2,7 @@ import React, { useLayoutEffect } from "react";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
+import { RuleActionIdLabel } from "./RuleActionIdLabel";
 import { NumberInput } from "components/ui/NumberInput";
 import { Dropdown } from "components/ui/Dropdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -19,7 +20,7 @@ const CUSTOM_REQUIRE_PLACEHOLDER: ActionForm["require"][number] = {
 export const CustomCard: React.FC<{
   action: ActionForm;
   index: number;
-  ruleSequenceStart: number;
+  peerIds: string[];
   itemKeys: string[];
   getItemOptionLabel?: (itemId: string) => string;
   onUpdate: (next: Partial<ActionForm>) => void;
@@ -27,7 +28,7 @@ export const CustomCard: React.FC<{
 }> = ({
   action,
   index,
-  ruleSequenceStart,
+  peerIds,
   itemKeys,
   getItemOptionLabel,
   onUpdate,
@@ -53,13 +54,15 @@ export const CustomCard: React.FC<{
 
   return (
     <InnerPanel key={`action-${index}`} className="p-3 space-y-3">
-      <div className="flex items-center justify-between">
-        <Label type="default">
-          {`Custom - #${String(ruleSequenceStart).padStart(3, "0")}`}
-        </Label>
+      <div className="flex items-center justify-between gap-1">
+        <RuleActionIdLabel
+          actionId={action.id}
+          peerIds={peerIds}
+          onCommit={(id) => onUpdate({ id })}
+        />
         <img
           src={SUNNYSIDE.icons.close}
-          className="cursor-pointer hover:brightness-75"
+          className="cursor-pointer hover:brightness-75 shrink-0"
           onClick={onDelete}
           style={{
             width: `${PIXEL_SCALE * 11}px`,
