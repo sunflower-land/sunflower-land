@@ -8499,7 +8499,6 @@
   "minigame.dashboard.production.openRecipesAria": "レシピを開く",
   "minigame.dashboard.production.chooseRecipe": "生産するものを選択してください。",
   "minigame.dashboard.production.whatToProduce": "何を制作したいですか？",
-  "minigame.dashboard.production.tapToStart": "タップして制作を開始します。",
   "minigame.dashboard.production.tapToCollect": "タップして集めます。",
   "minigame.dashboard.production.viewTimer": "タイマーを表示",
   "minigame.dashboard.production.recipesSummary": "{{count}} レシピ",
@@ -8536,5 +8535,8 @@
   "spices": "スパイス",
   "playerEconomyEditor.basics.gameUrlLabel": "ゲームの URL",
   "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
-  "playerEconomyEditor.basics.gameUrlHint": "このエコノミーのポータル iframe に URL が読み込まれました。ビルドのデフォルト (例:VITE_PORTAL_GAME_URL) を使用するには空白のままにします。"
+  "playerEconomyEditor.basics.gameUrlHint": "このエコノミーのポータル iframe に URL が読み込まれました。ビルドのデフォルト (例:VITE_PORTAL_GAME_URL) を使用するには空白のままにします。",
+  "playerEconomyEditor.actions.actionIdInputAria": "アクション ID",
+  "playerEconomyEditor.actions.editActionIdAria": "アクション ID を編集",
+  "minigame.dashboard.production.collectFromBuildingAria": "準備完了品を集める"
 }

@@ -8499,7 +8499,6 @@
   "minigame.dashboard.production.openRecipesAria": "Recettes ouvertes",
   "minigame.dashboard.production.chooseRecipe": "Choisissez ce que vous voulez produire.",
   "minigame.dashboard.production.whatToProduce": "Qu'aimerais-tu produire ?",
-  "minigame.dashboard.production.tapToStart": "Touchez pour démarrer la production.",
   "minigame.dashboard.production.tapToCollect": "Touchez pour collecter.",
   "minigame.dashboard.production.viewTimer": "Afficher le chronomètre",
   "minigame.dashboard.production.recipesSummary": "{{count}} recettes",
@@ -8536,5 +8535,8 @@
   "spices": "Épices",
   "playerEconomyEditor.basics.gameUrlLabel": "URL du jeu",
   "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
-  "playerEconomyEditor.basics.gameUrlHint": "URL chargée dans l'iframe du portail pour cette économie. Laissez ce champ vide pour utiliser la configuration par défaut (par exemple VITE_PORTAL_GAME_URL)."
+  "playerEconomyEditor.basics.gameUrlHint": "URL chargée dans l'iframe du portail pour cette économie. Laissez ce champ vide pour utiliser la configuration par défaut (par exemple VITE_PORTAL_GAME_URL).",
+  "playerEconomyEditor.actions.actionIdInputAria": "Identifiant de l'action",
+  "playerEconomyEditor.actions.editActionIdAria": "Modifier l'identifiant de l'action",
+  "minigame.dashboard.production.collectFromBuildingAria": "Collectez l'article prêt"
 }

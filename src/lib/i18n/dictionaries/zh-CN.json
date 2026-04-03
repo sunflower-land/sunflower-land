@@ -8499,7 +8499,6 @@
   "minigame.dashboard.production.openRecipesAria": "打开食谱",
   "minigame.dashboard.production.chooseRecipe": "选择要生产的内容。",
   "minigame.dashboard.production.whatToProduce": "你想生产什么？",
-  "minigame.dashboard.production.tapToStart": "点按即可开始制作。",
   "minigame.dashboard.production.tapToCollect": "点按即可收集。",
   "minigame.dashboard.production.viewTimer": "查看计时器",
   "minigame.dashboard.production.recipesSummary": "{{count}} 食谱",
@@ -8536,5 +8535,8 @@
   "spices": "香料",
   "playerEconomyEditor.basics.gameUrlLabel": "游戏网址",
   "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
-  "playerEconomyEditor.basics.gameUrlHint": "该经济体的网址已加载到门户网站iframe中。留空以使用编译默认值（例如 VITE_PORTAL_GAME_URL）。"
+  "playerEconomyEditor.basics.gameUrlHint": "该经济体的网址已加载到门户网站iframe中。留空以使用编译默认值（例如 VITE_PORTAL_GAME_URL）。",
+  "playerEconomyEditor.actions.actionIdInputAria": "动作 ID",
+  "playerEconomyEditor.actions.editActionIdAria": "编辑操作 ID",
+  "minigame.dashboard.production.collectFromBuildingAria": "收集准备好的物品"
 }
