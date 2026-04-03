@@ -5,10 +5,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { ButtonPanel, ColorPanel, InnerPanel } from "components/ui/Panel";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type {
   PlayerEconomyConfig,
@@ -20,7 +18,6 @@ import type {
   GeneratorProductionEntry,
 } from "../lib/extractProductionSlots";
 import {
-  capTokenDisplayName,
   getCollectOutputForSlot,
   isProductionSlotConfigured,
   recipeJobKey,
@@ -28,6 +25,9 @@ import {
 import { secondsToString } from "lib/utils/time";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { MinigameGeneratorRecipesModal } from "./MinigameGeneratorRecipesModal";
+import { MinigameScaledSpriteImg } from "./MinigameScaledSpriteImg";
+import { Box } from "components/ui/Box";
+import Decimal from "decimal.js-light";
 
 type Props = {
   entries: GeneratorProductionEntry[];
@@ -128,7 +128,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
     setStartingRecipeKey(key);
     setStartError(null);
     try {
-      const ok = await runStartProduction(slot);
+      await runStartProduction(slot);
     } finally {
       setStartingRecipeKey(null);
     }
@@ -180,25 +180,16 @@ export const MinigameProductionZone: React.FC<Props> = ({
 
   return (
     <>
-      <div className="grid h-full min-h-0 w-full auto-rows-min grid-cols-1 gap-2 overflow-y-auto p-2 md:grid-cols-3">
+      <div
+        className="relative z-10 flex h-full min-h-0 w-full flex-col items-start overflow-y-auto overflow-x-auto"
+        style={{
+          gap: GRID_WIDTH_PX,
+          padding: GRID_WIDTH_PX,
+        }}
+      >
         {entries.map((entry) => {
           const { capToken, recipes } = entry;
           const configured = recipes.some((r) => isProductionSlotConfigured(r));
-          const itemMeta = config.items?.[capToken];
-          const placeholderBlurb =
-            itemMeta?.description?.trim() ||
-            t("minigame.dashboard.production.noRuleConfigured");
-
-          const firstRecipe = recipes[0];
-          const singleOut =
-            recipes.length === 1 &&
-            firstRecipe &&
-            isProductionSlotConfigured(firstRecipe)
-              ? (getCollectOutputForSlot(config, firstRecipe) ??
-                (firstRecipe.outputToken
-                  ? { token: firstRecipe.outputToken, amount: 1 }
-                  : null))
-              : null;
 
           const labelStrong = "#181425";
 
@@ -250,229 +241,128 @@ export const MinigameProductionZone: React.FC<Props> = ({
           const hasInlineProduction =
             producingRuns.length > 0 || readyToCollectRuns.length > 0;
 
-          const iconBoxBorder = Math.max(1, Math.floor(PIXEL_SCALE / 2));
+          const hasReadyToCollect = readyToCollectRuns.length > 0;
+
+          const isCollectingHere =
+            collectingRecipeKey != null &&
+            recipes.some((slot) => {
+              if (!isProductionSlotConfigured(slot)) return false;
+              return recipeJobKey(slot) === collectingRecipeKey;
+            });
 
           const openRecipesForCap = () => {
             setInlineCollectError(null);
             setRecipesModalCapToken(capToken);
           };
 
+          const generatorSrc = getMinigameTokenImage(capToken, tokenImages);
+
+          const onBuildingClick = () => {
+            if (!configured || isCollectingHere) return;
+            if (hasReadyToCollect) {
+              const first = readyToCollectRuns[0];
+              if (first) void handleCollectSlot(first.slot, capToken);
+              return;
+            }
+            openRecipesForCap();
+          };
+
           return (
-            <div key={capToken} className="min-w-0 w-full">
-              <ColorPanel
-                type="default"
-                className={`relative flex w-full flex-col gap-2 p-2 text-left${
+            <div
+              key={capToken}
+              className="flex flex-col items-start"
+              // style={{ gap: GRID_WIDTH_PX / 2 }}
+            >
+              <button
+                type="button"
+                className={
                   configured
-                    ? " cursor-pointer hover:brightness-[0.98] active:brightness-95"
-                    : ""
-                }`}
-                role={configured ? "button" : undefined}
-                tabIndex={configured ? 0 : undefined}
+                    ? "cursor-pointer border-0 bg-transparent p-0 transition-[filter] hover:brightness-95 active:brightness-90"
+                    : "cursor-default border-0 bg-transparent p-0 opacity-75"
+                }
                 aria-label={
                   configured
-                    ? t("minigame.dashboard.production.openRecipesAria")
+                    ? hasReadyToCollect
+                      ? t(
+                          "minigame.dashboard.production.collectFromBuildingAria",
+                        )
+                      : t("minigame.dashboard.production.openRecipesAria")
                     : undefined
                 }
-                onClick={
-                  configured
-                    ? () => {
-                        openRecipesForCap();
-                      }
-                    : undefined
-                }
-                onKeyDown={
-                  configured
-                    ? (e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          openRecipesForCap();
-                        }
-                      }
-                    : undefined
-                }
+                disabled={!configured || isCollectingHere}
+                onClick={configured ? onBuildingClick : undefined}
               >
-                {configured ? (
-                  <img
-                    src={SUNNYSIDE.icons.chevron_right}
-                    alt=""
-                    className="pointer-events-none absolute z-[1] opacity-80"
-                    style={{
-                      top: `${PIXEL_SCALE * 2}px`,
-                      right: `${PIXEL_SCALE * 2}px`,
-                      width: `${PIXEL_SCALE * 5}px`,
-                      height: `${PIXEL_SCALE * 5}px`,
-                      imageRendering: "pixelated",
-                    }}
-                  />
-                ) : null}
-                <div className="flex min-h-0 w-full flex-row gap-2 pr-7">
-                  <div className="flex h-24 w-24 shrink-0 items-center justify-center">
-                    <img
-                      src={getMinigameTokenImage(capToken, tokenImages)}
-                      alt=""
-                      className="h-full max-w-full object-contain"
-                      style={{ imageRendering: "pixelated" }}
-                    />
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col justify-center gap-2">
-                    <span
-                      className="w-full truncate text-left text-sm font-medium leading-tight whitespace-nowrap"
-                      style={{ color: labelStrong }}
+                <MinigameScaledSpriteImg
+                  key={generatorSrc}
+                  src={generatorSrc}
+                  alt=""
+                  className="pointer-events-none"
+                  draggable={false}
+                />
+              </button>
+
+              {configured && hasInlineProduction ? (
+                <div className="flex w-full min-w-0 max-w-sm flex-col gap-2">
+                  {producingRuns.map(({ k, progress, remainingMs, out }) => (
+                    <div
+                      key={k}
+                      className="flex w-full min-w-0 flex-row items-center"
                     >
-                      {capTokenDisplayName(capToken, config)}
-                    </span>
-                    {!configured ? (
-                      <span
-                        className="line-clamp-3 text-left text-[10px] leading-snug opacity-80"
-                        style={{ color: labelStrong }}
-                      >
-                        {placeholderBlurb}
-                      </span>
-                    ) : hasInlineProduction ? (
-                      <div className="flex min-w-0 flex-col gap-2">
-                        <div className="flex min-w-0 flex-row flex-wrap items-end gap-3">
-                          {producingRuns.map(
-                            ({ k, progress, remainingMs, out }) => (
-                              <InnerPanel
-                                key={k}
-                                className="flex w-max max-w-full flex-col gap-1 p-1.5"
-                              >
-                                <div className="flex flex-row flex-nowrap items-center gap-1.5">
-                                  <div
-                                    className="flex shrink-0 items-center justify-center"
-                                    style={{
-                                      width: PIXEL_SCALE * 9,
-                                      height: PIXEL_SCALE * 9,
-                                      border: `${iconBoxBorder}px solid ${labelStrong}`,
-                                      backgroundColor: "#e8dcc8",
-                                      borderRadius: 2,
-                                      imageRendering: "pixelated",
-                                    }}
-                                  >
-                                    {out ? (
-                                      <img
-                                        src={getMinigameTokenImage(
-                                          out.token,
-                                          tokenImages,
-                                        )}
-                                        alt=""
-                                        className="max-h-[78%] max-w-[78%] object-contain"
-                                        style={{
-                                          imageRendering: "pixelated",
-                                        }}
-                                      />
-                                    ) : null}
-                                  </div>
-                                  <span
-                                    className="text-[10px] font-medium tabular-nums leading-none"
-                                    style={{ color: labelStrong }}
-                                  >
-                                    {durationShort(remainingMs)}
-                                  </span>
-                                </div>
-                                <ResizableBar
-                                  type="progress"
-                                  percentage={progress}
-                                  outerDimensions={{ width: 22, height: 7 }}
-                                />
-                              </InnerPanel>
-                            ),
-                          )}
-                          {readyToCollectRuns.map(({ k, slot, out }) => (
-                            <ButtonPanel
-                              key={`ready-${k}`}
-                              variant="card"
-                              className="flex w-max max-w-full flex-row flex-nowrap items-center gap-1.5 px-2 py-1.5"
-                              disabled={collectingRecipeKey === k}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                void handleCollectSlot(slot, capToken);
-                              }}
-                            >
-                              <div
-                                className="flex shrink-0 items-center justify-center"
-                                style={{
-                                  width: PIXEL_SCALE * 9,
-                                  height: PIXEL_SCALE * 9,
-                                  border: `${iconBoxBorder}px solid ${labelStrong}`,
-                                  backgroundColor: "#e8dcc8",
-                                  borderRadius: 2,
-                                  imageRendering: "pixelated",
-                                }}
-                              >
-                                {out ? (
-                                  <img
-                                    src={getMinigameTokenImage(
-                                      out.token,
-                                      tokenImages,
-                                    )}
-                                    alt=""
-                                    className="max-h-[78%] max-w-[78%] object-contain"
-                                    style={{
-                                      imageRendering: "pixelated",
-                                    }}
-                                  />
-                                ) : null}
-                              </div>
-                              <span
-                                className="text-xs font-medium leading-tight"
-                                style={{ color: labelStrong }}
-                              >
-                                {t("collect")}
-                              </span>
-                            </ButtonPanel>
-                          ))}
-                        </div>
-                        {inlineCollectError?.capToken === capToken ? (
-                          <p className="text-[10px] leading-snug text-red-700">
-                            {inlineCollectError.message}
-                          </p>
-                        ) : null}
-                      </div>
-                    ) : singleOut ? (
-                      <div
-                        className="flex min-w-0 w-full flex-row flex-nowrap items-center gap-1.5 text-xs leading-tight"
-                        style={{ color: labelStrong }}
-                      >
-                        <img
-                          src={getMinigameTokenImage(
-                            singleOut.token,
-                            tokenImages,
-                          )}
-                          alt=""
-                          className="h-4 w-4 shrink-0 object-contain"
-                          style={{ imageRendering: "pixelated" }}
+                      <Box
+                        count={new Decimal(out?.amount ?? 0)}
+                        image={getMinigameTokenImage(
+                          out?.token ?? "",
+                          tokenImages,
+                        )}
+                      />
+                      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <ResizableBar
+                          type="progress"
+                          percentage={progress}
+                          outerDimensions={{ width: 18, height: 7 }}
                         />
-                        <span className="min-w-0 text-left leading-snug">
-                          {singleOut.amount}{" "}
-                          {capTokenDisplayName(singleOut.token, config)}
-                          {" / "}
-                          {durationShort(firstRecipe?.msToComplete ?? 0)}
+                        <span
+                          className="text-xs  tabular-nums leading-none"
+                          style={{ color: labelStrong }}
+                        >
+                          {durationShort(remainingMs)}
                         </span>
                       </div>
-                    ) : (
-                      <span
-                        className="text-left text-[10px] leading-snug opacity-80"
-                        style={{ color: labelStrong }}
+                    </div>
+                  ))}
+                  {readyToCollectRuns.map(({ k, out }) =>
+                    out ? (
+                      <div
+                        key={`ready-${k}`}
+                        className="animate-bounce shrink-0 img-highlight flex items-center"
+                        style={{
+                          imageRendering: "pixelated",
+                        }}
+                        aria-hidden
                       >
-                        {recipes.length === 1
-                          ? t(
-                              "minigame.dashboard.production.recipesSummarySingular",
-                            )
-                          : t("minigame.dashboard.production.recipesSummary", {
-                              count: recipes.length,
-                            })}
-                      </span>
-                    )}
-                  </div>
+                        <MinigameScaledSpriteImg
+                          key={getMinigameTokenImage(out.token, tokenImages)}
+                          src={getMinigameTokenImage(out.token, tokenImages)}
+                          alt=""
+                          draggable={false}
+                        />
+                        <span className="yield-text ml-1">+1</span>
+                      </div>
+                    ) : null,
+                  )}
+                  {inlineCollectError?.capToken === capToken ? (
+                    <p className="text-[10px] leading-snug text-red-700">
+                      {inlineCollectError.message}
+                    </p>
+                  ) : null}
                 </div>
-              </ColorPanel>
+              ) : null}
             </div>
           );
         })}
       </div>
 
-      {recipesModalEntry && recipesModalEntry.recipes.length > 0 && (
+      {recipesModalEntry ? (
         <MinigameGeneratorRecipesModal
           show={recipesModalCapToken !== null}
           capToken={recipesModalEntry.capToken}
@@ -496,7 +386,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
             });
           }}
         />
-      )}
+      ) : null}
     </>
   );
 };

@@ -43,6 +43,9 @@ cache
 #ide Settings
 /.idea
 /.vscode
-/.cursor
+# Cursor: keep shared agent rules; ignore local IDE/chat state
+/.cursor/*
+!/.cursor/rules/
+!/.cursor/rules/**
 
 /*.json
