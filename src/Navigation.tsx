@@ -237,8 +237,9 @@ export const Navigation: React.FC = () => {
                     </PWAInstallProvider>
                   ) : (
                     <div
-                      className="h-full w-full relative overflow-hidden"
                       style={{
+                        width: "100vw",
+                        height: "100vh",
                         position: "relative",
                         overflow: "hidden",
                         backgroundColor: "#63c74d",
@@ -246,19 +247,9 @@ export const Navigation: React.FC = () => {
                         backgroundRepeat: "repeat",
                         backgroundSize: `${PIXEL_SCALE * 64}px`,
                         imageRendering: "pixelated",
+                        filter: "brightness(0.7)",
                       }}
                     >
-                      <div
-                        className="w-full h-full absolute inset-0"
-                        style={{
-                          backgroundColor: "#63c74d",
-                          backgroundImage: `url(${SUNNYSIDE.brand.greenBg})`,
-                          backgroundRepeat: "repeat",
-                          backgroundSize: `${PIXEL_SCALE * 64}px`,
-                          imageRendering: "pixelated",
-                          filter: "brightness(0.7)",
-                        }}
-                      />
                       <img
                         src={SUNNYSIDE.brand.landing}
                         alt="Landing image"
