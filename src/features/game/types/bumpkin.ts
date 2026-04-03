@@ -1745,7 +1745,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Neon Noiz Shoes": "shoes",
   "404 Chic Boots": "shoes",
   "Aether Specs": "hat",
-  "Faulty Barrier Background": "wings",
+  "Faulty Barrier Background": "background",
   "Cardboard Wings": "wings",
   "Glitch Aura": "aura",
 };
