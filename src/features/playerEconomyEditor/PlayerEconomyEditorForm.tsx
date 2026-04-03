@@ -110,7 +110,9 @@ export const PlayerEconomyEditorForm: React.FC = () => {
   };
 
   const goToPreview = () => {
-    const slug = formRef.current.slug.trim();
+    const cur = formRef.current;
+    if (!cur) return;
+    const slug = cur.slug.trim();
     if (!slug) return;
     navigate(`/economy/${encodeURIComponent(slug)}`);
   };
@@ -187,6 +189,9 @@ export const PlayerEconomyEditorForm: React.FC = () => {
     }
 
     const current = formRef.current;
+    if (!current) {
+      throw new Error("Editor form is not ready");
+    }
     const item = current.items[index];
     const slug = current.slug.trim();
 
