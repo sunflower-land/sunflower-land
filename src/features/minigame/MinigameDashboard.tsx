@@ -399,7 +399,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onShopItemClick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    if (isShopItemBoughtOrDisabled(item, runtime.balances)) {
+    if (isShopItemBoughtOrDisabled(item)) {
       return;
     }
     setShopActionError(null);
@@ -417,7 +417,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onMobileShopListPick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    if (isShopItemBoughtOrDisabled(item, runtime.balances)) {
+    if (isShopItemBoughtOrDisabled(item)) {
       return;
     }
     setShopActionError(null);

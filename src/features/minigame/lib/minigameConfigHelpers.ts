@@ -207,34 +207,28 @@ export function deriveShopItemsFromConfig(
       continue;
     }
 
-    let priceToken: string;
-    let priceAmount: number;
+    let prices: { token: string; amount: number }[];
 
     if (burn && Object.keys(burn).length) {
-      const be = firstRecordEntry(burn);
-      if (!be) continue;
-      priceToken = be[0];
-      priceAmount = burnRulePriceAmount(be[1] as BurnRule);
+      prices = Object.entries(burn)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([token, rule]) => ({
+          token,
+          amount: burnRulePriceAmount(rule as BurnRule),
+        }));
     } else if (req && Object.keys(req).length) {
-      const re = firstRecordEntry(req);
-      if (!re) continue;
-      priceToken = re[0];
-      priceAmount = re[1].amount;
+      prices = Object.entries(req)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([token, rule]) => ({ token, amount: rule.amount }));
     } else {
       const me = firstRecordEntry(mint);
       if (!me) continue;
-      priceToken = me[0];
-      priceAmount = 0;
+      prices = [{ token: me[0], amount: 0 }];
     }
 
     const mintKey = primaryMintTokenKey(config, actionId);
-    const imageToken = mintKey || priceToken;
+    const imageToken = mintKey || prices[0]?.token || "";
     const itemForMint = mintKey ? config.items?.[mintKey] : undefined;
-
-    let ownedBalanceToken: string | undefined;
-    if (burn && mint && Object.keys(mint).length === 1) {
-      ownedBalanceToken = Object.keys(mint)[0];
-    }
 
     const purchaseLimit =
       typeof def.purchaseLimit === "number" &&
@@ -246,11 +240,10 @@ export function deriveShopItemsFromConfig(
     out.push({
       id: actionId,
       actionId,
-      name: itemForMint?.name ?? (mintKey || priceToken),
+      name: itemForMint?.name ?? (mintKey || prices[0]?.token || ""),
       description: itemForMint?.description ?? "",
       listImage: resolveTokenImageUrl(imageToken, tokenImages),
-      price: { token: priceToken, amount: priceAmount },
-      ...(ownedBalanceToken ? { ownedBalanceToken } : {}),
+      prices,
       ...(purchaseLimit !== undefined ? { purchaseLimit } : {}),
     });
   }
@@ -264,12 +257,15 @@ function buildInventoryItems(
   const items = config.items;
   if (!items) return [];
   return Object.entries(items)
-    .filter(([, v]) => v.name && v.description)
-    .map(([token, v]) => ({
-      token,
-      name: v.name,
-      description: v.description,
-    }))
+    .map(([token, v]) => {
+      const name = v.name?.trim();
+      const description = v.description?.trim() ?? "";
+      return {
+        token,
+        name: name || token,
+        description,
+      };
+    })
     .sort((a, b) => a.token.localeCompare(b.token));
 }
 

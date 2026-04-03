@@ -34,26 +34,34 @@ export const MinigameInventoryModal: React.FC<Props> = ({
   const [userPick, setUserPick] = useState<string | null>(null);
   const splitRef = useRef<HTMLDivElement>(null);
 
-  const ownedItems = useMemo(
-    () => inventoryItems.filter((item) => (balances[item.token] ?? 0) > 0),
-    [inventoryItems, balances],
-  );
+  /** All economy items; tokens you own (positive balance) are listed first. */
+  const sortedInventoryRows = useMemo(() => {
+    const bal = (t: string) => balances[t] ?? 0;
+    return [...inventoryItems].sort((a, b) => {
+      const ownedDiff = (bal(b.token) > 0 ? 1 : 0) - (bal(a.token) > 0 ? 1 : 0);
+      if (ownedDiff !== 0) return ownedDiff;
+      return a.token.localeCompare(b.token);
+    });
+  }, [inventoryItems, balances]);
 
   const canonicalSelection = useMemo(() => {
-    if (ownedItems.length === 0) return null;
-    if (focusToken && ownedItems.some((i) => i.token === focusToken)) {
+    if (sortedInventoryRows.length === 0) return null;
+    if (focusToken && sortedInventoryRows.some((i) => i.token === focusToken)) {
       return focusToken;
     }
-    return ownedItems[0].token;
-  }, [ownedItems, focusToken]);
+    const firstOwned = sortedInventoryRows.find(
+      (i) => (balances[i.token] ?? 0) > 0,
+    );
+    return firstOwned?.token ?? sortedInventoryRows[0].token;
+  }, [sortedInventoryRows, focusToken, balances]);
 
   const selectedToken = useMemo(() => {
-    if (ownedItems.length === 0) return null;
-    if (userPick && ownedItems.some((i) => i.token === userPick)) {
+    if (sortedInventoryRows.length === 0) return null;
+    if (userPick && sortedInventoryRows.some((i) => i.token === userPick)) {
       return userPick;
     }
     return canonicalSelection;
-  }, [ownedItems, userPick, canonicalSelection]);
+  }, [sortedInventoryRows, userPick, canonicalSelection]);
 
   const selectedItem = useMemo(
     () => inventoryItems.find((i) => i.token === selectedToken) ?? null,
@@ -83,7 +91,7 @@ export const MinigameInventoryModal: React.FC<Props> = ({
           container={OuterPanel}
         >
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-1">
-            {ownedItems.length === 0 ? (
+            {inventoryItems.length === 0 ? (
               <div className="flex flex-col items-center justify-evenly p-2">
                 <img
                   src={SUNNYSIDE.icons.basket}
@@ -124,9 +132,11 @@ export const MinigameInventoryModal: React.FC<Props> = ({
                       <p className="mb-1 text-center text-sm font-medium text-[#181425]">
                         {selectedItem.name}
                       </p>
-                      <p className="mb-2 whitespace-pre-line text-xs leading-snug text-center text-[#3e2731]">
-                        {selectedItem.description}
-                      </p>
+                      {selectedItem.description ? (
+                        <p className="mb-2 whitespace-pre-line text-xs leading-snug text-center text-[#3e2731]">
+                          {selectedItem.description}
+                        </p>
+                      ) : null}
                       <Label
                         type="default"
                         className="text-xs tabular-nums text-[#555] text-center mx-auto"
@@ -153,7 +163,7 @@ export const MinigameInventoryModal: React.FC<Props> = ({
                       {t("inventory")}
                     </Label>
                     <div className="flex flex-wrap -ml-1.5">
-                      {ownedItems.map((item) => (
+                      {sortedInventoryRows.map((item) => (
                         <Box
                           key={item.token}
                           image={getMinigameTokenImage(item.token, tokenImages)}

@@ -1,15 +1,6 @@
 import type { MinigameShopItemUi } from "./minigameDashboardTypes";
 import { canAffordShopItem } from "./canAffordShopItem";
 
-export function isShopItemOwned(
-  item: MinigameShopItemUi,
-  balances: Record<string, number>,
-): boolean {
-  const key = item.ownedBalanceToken;
-  if (!key) return false;
-  return (balances[key] ?? 0) >= 1;
-}
-
 export function isShopItemPurchaseLimitedOut(
   item: MinigameShopItemUi,
 ): boolean {
@@ -18,12 +9,9 @@ export function isShopItemPurchaseLimitedOut(
   return (item.purchasesSoFar ?? 0) >= cap;
 }
 
-/** Row is locked (checkmark): balance-based “owned” or lifetime purchase cap reached. */
-export function isShopItemBoughtOrDisabled(
-  item: MinigameShopItemUi,
-  balances: Record<string, number>,
-): boolean {
-  return isShopItemOwned(item, balances) || isShopItemPurchaseLimitedOut(item);
+/** Row is locked (checkmark) only when the rule has a purchase limit and it is exhausted. */
+export function isShopItemBoughtOrDisabled(item: MinigameShopItemUi): boolean {
+  return isShopItemPurchaseLimitedOut(item);
 }
 
 export function canAttemptShopPurchase(

@@ -7,12 +7,8 @@ export type MinigameShopItemUi = {
   name: string;
   description: string;
   listImage: string;
-  price: { token: string; amount: number };
-  /**
-   * When the player has at least 1 of this balance, the row shows a check and
-   * cannot open the buy modal (e.g. one-off chicken unlocks). Omit for repeatable purchases.
-   */
-  ownedBalanceToken?: string;
+  /** Cost lines: all burn tokens, all require tokens, or one free-mint line (amount 0). */
+  prices: { token: string; amount: number }[];
   /** Max lifetime purchases per farm when set on the shop rule (`purchaseLimit` in config). */
   purchaseLimit?: number;
   /** Successful purchases recorded for this action (from runtime `purchaseCounts`). */

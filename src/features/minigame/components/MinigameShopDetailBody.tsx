@@ -6,7 +6,7 @@ import type { PlayerEconomyConfig } from "../lib/types";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { capTokenDisplayName } from "../lib/extractProductionSlots";
 import { secondsToString } from "lib/utils/time";
-import { canAffordShopItem } from "../lib/canAffordShopItem";
+import { canAffordShopPriceLine } from "../lib/canAffordShopItem";
 import { isShopItemPurchaseLimitedOut } from "../lib/minigameShopAvailability";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -35,7 +35,6 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
   shopActionError,
 }) => {
   const { t } = useAppTranslation();
-  const canAfford = canAffordShopItem(item, balances);
   const purchaseCapped = isShopItemPurchaseLimitedOut(item);
   return (
     <>
@@ -85,26 +84,39 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
           </span>
         </div>
       )}
-      <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
+      <div className="mb-2 flex flex-col gap-1.5 text-xs">
         <span>{t("minigame.dashboard.priceLabel")}</span>
-        <span
-          className={classNames(
-            "tabular-nums font-medium",
-            !canAfford && "text-red-700",
-          )}
-        >
-          {new Decimal(item.price.amount).toString()}{" "}
-          {capTokenDisplayName(item.price.token, config)}
-        </span>
-        <img
-          src={getMinigameTokenImage(item.price.token, tokenImages)}
-          alt=""
-          style={{
-            width: `${PIXEL_SCALE * 5}px`,
-            height: `${PIXEL_SCALE * 5}px`,
-            imageRendering: "pixelated",
-          }}
-        />
+        <div className="flex flex-col gap-1">
+          {item.prices.map((line) => {
+            const lineOk =
+              purchaseCapped || canAffordShopPriceLine(balances, line);
+            return (
+              <div
+                key={line.token}
+                className="flex flex-wrap items-center gap-2"
+              >
+                <span
+                  className={classNames(
+                    "tabular-nums font-medium",
+                    !lineOk && "text-red-700",
+                  )}
+                >
+                  {new Decimal(line.amount).toString()}{" "}
+                  {capTokenDisplayName(line.token, config)}
+                </span>
+                <img
+                  src={getMinigameTokenImage(line.token, tokenImages)}
+                  alt=""
+                  style={{
+                    width: `${PIXEL_SCALE * 5}px`,
+                    height: `${PIXEL_SCALE * 5}px`,
+                    imageRendering: "pixelated",
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
       {purchaseCapped && (
         <p className="mb-2 text-xs text-[#3e2731]">

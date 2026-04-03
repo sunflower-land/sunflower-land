@@ -6,7 +6,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import Decimal from "decimal.js-light";
-import { canAffordShopItem } from "../lib/canAffordShopItem";
+import {
+  canAffordShopItem,
+  canAffordShopPriceLine,
+} from "../lib/canAffordShopItem";
 import { isShopItemBoughtOrDisabled } from "../lib/minigameShopAvailability";
 
 type Props = {
@@ -35,7 +38,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
       }
     >
       {items.map((item) => {
-        const boughtOrCapped = isShopItemBoughtOrDisabled(item, balances);
+        const boughtOrCapped = isShopItemBoughtOrDisabled(item);
         const canAfford = canAffordShopItem(item, balances);
         return (
           <ButtonPanel
@@ -66,20 +69,39 @@ export const MinigameShopListBody: React.FC<Props> = ({
               <div className="truncate text-sm leading-snug">{item.name}</div>
               <div
                 className={classNames(
-                  "mt-1 flex items-center gap-1 text-xs leading-normal",
-                  !boughtOrCapped && !canAfford && "font-medium text-red-700",
+                  "mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs leading-normal",
+                  !boughtOrCapped && !canAfford && "font-medium",
                 )}
               >
-                <span>{new Decimal(item.price.amount).toString()}</span>
-                <img
-                  src={getMinigameTokenImage(item.price.token, tokenImages)}
-                  alt=""
-                  style={{
-                    width: `${PIXEL_SCALE * 5}px`,
-                    height: `${PIXEL_SCALE * 5}px`,
-                    imageRendering: "pixelated",
-                  }}
-                />
+                {item.prices.map((line, idx) => {
+                  const lineOk =
+                    boughtOrCapped || canAffordShopPriceLine(balances, line);
+                  return (
+                    <React.Fragment key={`${item.id}-${line.token}-${idx}`}>
+                      {idx > 0 ? (
+                        <span className="text-[10px] opacity-60" aria-hidden>
+                          {"+"}
+                        </span>
+                      ) : null}
+                      <span
+                        className={classNames(
+                          !boughtOrCapped && !lineOk && "text-red-700",
+                        )}
+                      >
+                        {new Decimal(line.amount).toString()}
+                      </span>
+                      <img
+                        src={getMinigameTokenImage(line.token, tokenImages)}
+                        alt=""
+                        style={{
+                          width: `${PIXEL_SCALE * 5}px`,
+                          height: `${PIXEL_SCALE * 5}px`,
+                          imageRendering: "pixelated",
+                        }}
+                      />
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </div>
             {boughtOrCapped && (

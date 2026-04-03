@@ -14,6 +14,13 @@ import {
   RequireRule,
 } from "./types";
 
+/** User-facing label for a balance token; uses `items[token].name` when present. */
+function itemDisplayName(config: PlayerEconomyConfig, token: string): string {
+  const name = config.items?.[token]?.name?.trim();
+  if (name) return name;
+  return token;
+}
+
 export function utcCalendarDay(now: number): string {
   return new Date(now).toISOString().slice(0, 10);
 }
@@ -101,39 +108,43 @@ function getBalance(balances: Record<string, number>, token: string): number {
 }
 
 function applyRequire(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   require: Record<string, RequireRule> | undefined,
 ): string | undefined {
   if (!require) return undefined;
   for (const [token, rule] of Object.entries(require)) {
     if (getBalance(balances, token) < rule.amount) {
-      return `Requires at least ${rule.amount} ${token}`;
+      const label = itemDisplayName(config, token);
+      return `Requires at least ${rule.amount} ${label}`;
     }
   }
   return undefined;
 }
 
 function applyRequireBelow(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   requireBelow: Record<string, number> | undefined,
 ): string | undefined {
   if (!requireBelow) return undefined;
   for (const [token, maxExclusive] of Object.entries(requireBelow)) {
     if (getBalance(balances, token) >= maxExclusive) {
-      return `${token} is at or above the allowed maximum`;
+      return `${itemDisplayName(config, token)} is at or above the allowed maximum`;
     }
   }
   return undefined;
 }
 
 function applyRequireAbsent(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   absent: string[] | undefined,
 ): string | undefined {
   if (!absent?.length) return undefined;
   for (const token of absent) {
     if (getBalance(balances, token) > 0) {
-      return `${token} already acquired`;
+      return `${itemDisplayName(config, token)} already acquired`;
     }
   }
   return undefined;
@@ -144,28 +155,30 @@ function isRangedBurn(rule: BurnRule): rule is { min: number; max: number } {
 }
 
 function applyBurns(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   burn: Record<string, BurnRule> | undefined,
   amounts: Record<string, number> | undefined,
 ): string | undefined {
   if (!burn) return undefined;
   for (const [token, rule] of Object.entries(burn)) {
+    const label = itemDisplayName(config, token);
     const have = getBalance(balances, token);
     let sub: number;
     if (isRangedBurn(rule)) {
       const passed = amounts?.[token];
       if (passed === undefined || !Number.isInteger(passed)) {
-        return `Missing or invalid burn amount for ${token}`;
+        return `Missing or invalid burn amount for ${label}`;
       }
       if (passed < rule.min || passed > rule.max) {
-        return `Burn for ${token} must be between ${rule.min} and ${rule.max}`;
+        return `Burn for ${label} must be between ${rule.min} and ${rule.max}`;
       }
       sub = passed;
     } else {
       sub = rule.amount;
     }
     if (have < sub) {
-      return `Insufficient ${token}`;
+      return `Insufficient ${label}`;
     }
   }
   for (const [token, rule] of Object.entries(burn)) {
@@ -186,6 +199,7 @@ function newProducingJobId(): string {
 }
 
 function applyProduce(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   generating: PlayerEconomyRuntimeState["generating"],
   produce: Record<string, GeneratorRecipeRule> | undefined,
@@ -194,20 +208,23 @@ function applyProduce(
 ): { error?: string; generatorJobId?: string } {
   if (!produce) return {};
   for (const [outputToken, rule] of Object.entries(produce)) {
+    const outLabel = itemDisplayName(config, outputToken);
     const activeForOutput = Object.values(generating).filter(
       (p) => p.outputToken === outputToken,
     ).length;
     if (rule.limit !== undefined && activeForOutput >= rule.limit) {
-      return { error: `Production limit reached for ${outputToken}` };
+      return { error: `Production limit reached for ${outLabel}` };
     }
     if (rule.requires !== undefined) {
+      const reqKey = String(rule.requires).trim();
+      const reqLabel = itemDisplayName(config, reqKey);
       const activeForLane = Object.values(generating).filter(
         (p) => p.outputToken === outputToken && p.requires === rule.requires,
       ).length;
-      const cap = getBalance(balances, rule.requires);
+      const cap = getBalance(balances, reqKey);
       if (activeForLane >= cap) {
         return {
-          error: `Not enough ${rule.requires} capacity for new ${outputToken} production`,
+          error: `Not enough ${reqLabel} capacity for new ${outLabel} production`,
         };
       }
     }
@@ -225,6 +242,7 @@ function applyProduce(
 }
 
 function applyMint(
+  config: PlayerEconomyConfig,
   balances: Record<string, number>,
   bucket: DailyMintBucket,
   mint: Record<string, MintRule> | undefined,
@@ -233,19 +251,20 @@ function applyMint(
 ): string | undefined {
   if (!mint) return undefined;
   for (const [token, rule] of Object.entries(mint)) {
+    const label = itemDisplayName(config, token);
     let add: number;
     if (isRangedMint(rule)) {
       const passed = amounts?.[token];
       if (passed === undefined || !Number.isInteger(passed)) {
-        return `Missing or invalid mint amount for ${token}`;
+        return `Missing or invalid mint amount for ${label}`;
       }
       if (passed < rule.min || passed > rule.max) {
-        return `Amount for ${token} must be between ${rule.min} and ${rule.max}`;
+        return `Amount for ${label} must be between ${rule.min} and ${rule.max}`;
       }
       const key = dailyMintSubKey(actionId, token);
       const used = bucket.minted[key] ?? 0;
       if (used + passed > rule.dailyCap) {
-        return `Daily cap exceeded for ${token} on action ${actionId}`;
+        return `Daily cap exceeded for ${label}`;
       }
       bucket.minted[key] = used + passed;
       add = passed;
@@ -253,7 +272,7 @@ function applyMint(
       const key = dailyMintSubKey(actionId, token);
       const used = bucket.minted[key] ?? 0;
       if (used + rule.amount > rule.dailyCap) {
-        return `Daily cap exceeded for ${token} on action ${actionId}`;
+        return `Daily cap exceeded for ${label}`;
       }
       bucket.minted[key] = used + rule.amount;
       add = rule.amount;
@@ -358,6 +377,7 @@ function checkMaxUsesPerDay(
 }
 
 function runPhases(
+  config: PlayerEconomyConfig,
   def: PlayerEconomyActionDefinition,
   input: PlayerEconomyProcessInput,
   working: PlayerEconomyRuntimeState,
@@ -386,19 +406,28 @@ function runPhases(
     return { error: "itemId is required for collect" };
   }
 
-  const errRequire = applyRequire(working.balances, def.require);
+  const errRequire = applyRequire(config, working.balances, def.require);
   if (errRequire) return { error: errRequire };
 
-  const errBelow = applyRequireBelow(working.balances, def.requireBelow);
+  const errBelow = applyRequireBelow(
+    config,
+    working.balances,
+    def.requireBelow,
+  );
   if (errBelow) return { error: errBelow };
 
-  const errAbsent = applyRequireAbsent(working.balances, def.requireAbsent);
+  const errAbsent = applyRequireAbsent(
+    config,
+    working.balances,
+    def.requireAbsent,
+  );
   if (errAbsent) return { error: errAbsent };
 
-  const errBurn = applyBurns(working.balances, def.burn, input.amounts);
+  const errBurn = applyBurns(config, working.balances, def.burn, input.amounts);
   if (errBurn) return { error: errBurn };
 
   const prod = applyProduce(
+    config,
     working.balances,
     working.generating,
     def.produce,
@@ -408,6 +437,7 @@ function runPhases(
   if (prod.error) return { error: prod.error };
 
   const errMint = applyMint(
+    config,
     working.balances,
     working.dailyMinted,
     def.mint,
@@ -452,7 +482,7 @@ export function processPlayerEconomyAction(
     return { ok: false, error: errPurchaseLimit };
   }
 
-  const { error, generatorJobId } = runPhases(def, input, working);
+  const { error, generatorJobId } = runPhases(config, def, input, working);
   if (error) {
     return { ok: false, error };
   }
