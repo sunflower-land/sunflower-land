@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -20,6 +20,7 @@ import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { ActionsTab } from "./tabs/ActionsTab";
 import { useEditorApi } from "./lib/useEditorApi";
+import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
@@ -251,6 +252,22 @@ export const PlayerEconomyEditorForm: React.FC<{
   const addAction = (action: ActionForm) =>
     setForm((prev) => ({ ...prev, actions: [...prev.actions, action] }));
 
+  const patchEmptyActionIds = useCallback(() => {
+    setForm((prev) => {
+      if (!prev.actions.some((a) => !a.id.trim())) return prev;
+      const used = new Set(
+        prev.actions.map((a) => a.id.trim()).filter(Boolean),
+      );
+      const actions = prev.actions.map((a) => {
+        if (a.id.trim()) return a;
+        const id = suggestNextActionId(a.actionType, used);
+        used.add(id);
+        return { ...a, id };
+      });
+      return { ...prev, actions };
+    });
+  }, []);
+
   const deleteAction = (index: number) =>
     setForm((prev) => ({
       ...prev,
@@ -280,6 +297,7 @@ export const PlayerEconomyEditorForm: React.FC<{
             onUpdateAction={updateAction}
             onAddAction={addAction}
             onDeleteAction={deleteAction}
+            patchEmptyActionIds={patchEmptyActionIds}
           />
         );
     }

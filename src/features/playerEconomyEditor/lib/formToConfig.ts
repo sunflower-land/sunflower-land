@@ -8,6 +8,11 @@ import type {
 } from "features/minigame/lib/types";
 
 import type { ActionForm, EditorFormState, ItemForm } from "./types";
+import {
+  sanitizeActionId,
+  suggestNextActionId,
+  uniquifyActionId,
+} from "./actionIdHelpers";
 
 const CUSTOM_MINT_UNCAPPED_DAILY = 999_999_999;
 
@@ -235,13 +240,19 @@ function buildActionsFromForm(
   norm: (t: string) => string,
 ): PlayerEconomyConfig["actions"] {
   const actions: PlayerEconomyConfig["actions"] = {};
-  let nextId = 1;
+  const usedKeys = new Set<string>();
 
   for (const row of rows) {
     const def = rowToDefinition(row, norm);
     if (isDefinitionEmpty(def)) continue;
 
-    const primaryId = String(nextId++);
+    let primaryId = sanitizeActionId(row.id);
+    if (!primaryId) {
+      primaryId = suggestNextActionId(row.actionType, usedKeys);
+    } else {
+      primaryId = uniquifyActionId(primaryId, usedKeys);
+    }
+    usedKeys.add(primaryId);
 
     if (hasLinkedCollect(row)) {
       const seconds = Math.max(

@@ -2820,6 +2820,8 @@
   "playerEconomyEditor.actions.modalPrompt": "What rule would you like to create?",
   "playerEconomyEditor.actions.empty": "No rules yet. Rules define the game mechanics: what tokens are minted, burned, required, or produced.",
   "playerEconomyEditor.actions.addRule": "+ Add Rule",
+  "playerEconomyEditor.actions.actionIdInputAria": "Action id",
+  "playerEconomyEditor.actions.editActionIdAria": "Edit action id",
   "playerEconomyEditor.basics.gameIdentity": "Game Identity",
   "playerEconomyEditor.basics.descriptions": "Descriptions",
   "playerEconomyEditor.basics.slugLabel": "Economy slug",

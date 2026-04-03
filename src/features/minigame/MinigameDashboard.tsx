@@ -531,7 +531,9 @@ export const MinigameDashboard: React.FC = () => {
     );
   }
 
-  if (loading) {
+  // While the adventure iframe is open, keep rendering the dashboard shell + Portal so
+  // background refetches (token rotation, etc.) do not unmount the iframe and reload it.
+  if (loading && !showPortal) {
     return (
       <div
         className={classNames(

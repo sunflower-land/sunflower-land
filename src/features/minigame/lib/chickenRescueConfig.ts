@@ -172,7 +172,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
         "4": { amount: 3 },
       },
     },
-    START: {
+    START_GAME: {
       showInShop: false,
       mint: {
         LIVE_GAME: { amount: 1 },
@@ -181,13 +181,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
         "4": { amount: 1 },
       },
     },
-    LOSE: {
-      showInShop: false,
-      burn: {
-        LIVE_GAME: { amount: 1 },
-      },
-    },
-    WIN: {
+    GAMEOVER: {
       showInShop: false,
       mint: {
         "1": { min: 0, max: 100, dailyCap: 1000 },
@@ -231,13 +225,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
         "3": { amount: 1 },
       },
     },
-    LOSE_ADVANCED_GAME: {
-      showInShop: false,
-      burn: {
-        ADVANCED_GAME: { amount: 1 },
-      },
-    },
-    WIN_ADVANCED_GAME: {
+    ADVANCED_GAMEOVER: {
       showInShop: false,
       mint: {
         "1": { min: 0, max: 100, dailyCap: 1000 },
