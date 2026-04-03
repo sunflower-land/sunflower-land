@@ -7,12 +7,10 @@ import { TextInput } from "components/ui/TextInput";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import type { PlayerEconomyConfigRow, EditorFormState } from "./lib/types";
-import { EMPTY_FORM } from "./lib/types";
+import type { PlayerEconomyConfigRow } from "./lib/types";
 import { useEditorApi } from "./lib/useEditorApi";
-import { formToConfig } from "./lib/formToConfig";
-import { configToForm } from "./lib/configToForm";
-import { PlayerEconomyEditorForm } from "./PlayerEconomyEditorForm";
+import { PlayerEconomyEditorSessionProvider } from "./PlayerEconomyEditorSessionContext";
+import { PlayerEconomyEditorSessionView } from "./PlayerEconomyEditorSessionView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /* ─── List view ────────────────────────────────────────────────── */
@@ -199,43 +197,11 @@ export const PlayerEconomyEditor: React.FC = () => {
 /* ─── Create view ──────────────────────────────────────────────── */
 
 export const PlayerEconomyEditorCreate: React.FC = () => {
-  const { t } = useAppTranslation();
-  const navigate = useNavigate();
-  const { submitEvent } = useEditorApi();
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const onSave = async (form: EditorFormState) => {
-    setSaving(true);
-    setError(null);
-    try {
-      const slug = form.slug.trim();
-      if (!slug) throw new Error(t("playerEconomyEditor.error.slugRequired"));
-      await submitEvent({
-        type: "playerEconomy.created",
-        slug,
-        config: formToConfig(form),
-      });
-    } catch (e) {
-      const message =
-        e instanceof Error ? e.message : t("playerEconomyEditor.error.create");
-      setError(message);
-      throw e;
-    } finally {
-      setSaving(false);
-    }
-  };
-
   return (
     <div className="h-full overflow-hidden p-2">
-      <PlayerEconomyEditorForm
-        mode="create"
-        initial={EMPTY_FORM}
-        saving={saving}
-        error={error}
-        onSave={onSave}
-        onBack={() => navigate("/economy-editor")}
-      />
+      <PlayerEconomyEditorSessionProvider mode="create" slug="">
+        <PlayerEconomyEditorSessionView />
+      </PlayerEconomyEditorSessionProvider>
     </div>
   );
 };
@@ -243,97 +209,13 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
 /* ─── Edit view ────────────────────────────────────────────────── */
 
 export const PlayerEconomyEditorEdit: React.FC = () => {
-  const { t } = useAppTranslation();
-  const navigate = useNavigate();
   const { slug = "" } = useParams<{ slug: string }>();
-  const { loadRows, submitEvent } = useEditorApi();
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [initial, setInitial] = useState<EditorFormState | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    const load = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const rows = await loadRows();
-        const row = rows.find((entry) => entry.slug === slug);
-        if (!row) throw new Error(t("playerEconomyEditor.error.notFound"));
-        if (!mounted) return;
-        setInitial(configToForm(row.slug, row.config));
-      } catch (e) {
-        if (!mounted) return;
-        setError(
-          e instanceof Error
-            ? e.message
-            : t("playerEconomyEditor.error.loadEdit"),
-        );
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-    if (slug) void load();
-    return () => {
-      mounted = false;
-    };
-  }, [loadRows, slug]);
-
-  const onSave = async (form: EditorFormState) => {
-    setSaving(true);
-    setError(null);
-    try {
-      await submitEvent({
-        type: "playerEconomy.edited",
-        slug,
-        config: formToConfig(form),
-      });
-    } catch (e) {
-      const message =
-        e instanceof Error ? e.message : t("playerEconomyEditor.error.update");
-      setError(message);
-      throw e;
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="p-2">
-        <Panel className="p-3 text-center">
-          <p className="text-xs animate-pulse">
-            {t("playerEconomyEditor.loadingEdit")}
-          </p>
-        </Panel>
-      </div>
-    );
-  }
-
-  if (!initial) {
-    return (
-      <div className="p-2 space-y-2">
-        <Panel className="p-3 space-y-2">
-          {error && <Label type="danger">{error}</Label>}
-          <Button onClick={() => navigate("/economy-editor")}>
-            {t("playerEconomyEditor.backToList")}
-          </Button>
-        </Panel>
-      </div>
-    );
-  }
 
   return (
     <div className="h-full overflow-hidden p-2">
-      <PlayerEconomyEditorForm
-        mode="edit"
-        initial={initial}
-        saving={saving}
-        error={error}
-        onSave={onSave}
-        onBack={() => navigate("/economy-editor")}
-      />
+      <PlayerEconomyEditorSessionProvider key={slug} mode="edit" slug={slug}>
+        <PlayerEconomyEditorSessionView />
+      </PlayerEconomyEditorSessionProvider>
     </div>
   );
 };

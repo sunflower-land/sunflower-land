@@ -19,9 +19,9 @@ import type {
 import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { ActionsTab } from "./tabs/ActionsTab";
-import { useEditorApi } from "./lib/useEditorApi";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { usePlayerEconomyEditorSession } from "./PlayerEconomyEditorSessionContext";
 
 function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
   return {
@@ -55,48 +55,58 @@ const TABS: { id: EditorTab; icon: string; name: string }[] = [
   { id: "actions", icon: SUNNYSIDE.icons.lightning, name: "Rules" },
 ];
 
-export const PlayerEconomyEditorForm: React.FC<{
-  mode: "create" | "edit";
-  initial: EditorFormState;
-  saving: boolean;
-  error: string | null;
-  onSave: (form: EditorFormState) => Promise<void>;
-  onBack: () => void;
-}> = ({ mode, initial, saving, error, onSave, onBack }) => {
+export const PlayerEconomyEditorForm: React.FC = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const [form, setForm] = useState<EditorFormState>(initial);
-  /** Baseline for unsaved-change checks; updated after successful save. */
-  const [dirtyBaseline, setDirtyBaseline] = useState<EditorFormState>(initial);
-  const [activeTab, setActiveTab] = useState<EditorTab>("basics");
-  const [savedFlash, setSavedFlash] = useState(false);
-  const [previewUnsavedModalOpen, setPreviewUnsavedModalOpen] = useState(false);
+  const {
+    state,
+    updateForm,
+    setActiveTab,
+    setPreviewUnsavedOpen,
+    commitSaveLocalAndQueueSync,
+    requestItemImageUploadUrl,
+  } = usePlayerEconomyEditorSession();
+
+  const form = state.form;
+  const baseline = state.baseline;
+  const activeTab = state.activeTab;
+  const savedFlash = state.savedFlash;
+  const mode = state.mode;
+
+  const [saveValidationError, setSaveValidationError] = useState<string | null>(
+    null,
+  );
   const formRef = useRef(form);
-  const { requestItemImageUploadUrl } = useEditorApi();
 
   useEffect(() => {
     formRef.current = form;
   }, [form]);
 
-  useEffect(() => {
-    setForm(initial);
-    setDirtyBaseline(structuredClone(initial));
-  }, [initial]);
+  const patchEmptyActionIds = useCallback(() => {
+    updateForm((prev) => {
+      if (!prev.actions.some((a) => !a.id.trim())) return prev;
+      const used = new Set(
+        prev.actions.map((a) => a.id.trim()).filter(Boolean),
+      );
+      const actions = prev.actions.map((a) => {
+        if (a.id.trim()) return a;
+        const id = suggestNextActionId(a.actionType, used);
+        used.add(id);
+        return { ...a, id };
+      });
+      return { ...prev, actions };
+    });
+  }, [updateForm]);
 
-  useEffect(() => {
-    if (!savedFlash) return;
-    const id = window.setTimeout(() => setSavedFlash(false), 2600);
-    return () => window.clearTimeout(id);
-  }, [savedFlash]);
+  if (!form || !baseline) return null;
 
-  const handleSave = async () => {
-    try {
-      await onSave(form);
-      setSavedFlash(true);
-      setDirtyBaseline(structuredClone(form));
-    } catch {
-      /* error surfaced via `error` prop from parent */
+  const handleSave = () => {
+    setSaveValidationError(null);
+    if (!form.slug.trim()) {
+      setSaveValidationError(t("playerEconomyEditor.error.slugRequired"));
+      return;
     }
+    commitSaveLocalAndQueueSync(form);
   };
 
   const goToPreview = () => {
@@ -106,34 +116,32 @@ export const PlayerEconomyEditorForm: React.FC<{
   };
 
   const handlePreviewClick = () => {
-    const slug = form.slug.trim();
-    if (!slug) return;
-    if (isEditorFormDirty(form, dirtyBaseline)) {
-      setPreviewUnsavedModalOpen(true);
+    const s = form.slug.trim();
+    if (!s) return;
+    if (isEditorFormDirty(form, baseline)) {
+      setPreviewUnsavedOpen(true);
       return;
     }
     goToPreview();
   };
 
   const confirmPreviewWithUnsavedChanges = () => {
-    setPreviewUnsavedModalOpen(false);
+    setPreviewUnsavedOpen(false);
     goToPreview();
   };
 
-  /* ── Helpers for child callbacks ─── */
-
-  const updateForm = (next: Partial<EditorFormState>) =>
-    setForm((prev) => ({ ...prev, ...next }));
+  const patchForm = (next: Partial<EditorFormState>) =>
+    updateForm((prev) => ({ ...prev, ...next }));
 
   const updateItem = (index: number, next: Partial<ItemForm>) =>
-    setForm((prev) => {
+    updateForm((prev) => {
       const items = [...prev.items];
       items[index] = { ...items[index], ...next };
       return { ...prev, items };
     });
 
   const addItem = () =>
-    setForm((prev) => {
+    updateForm((prev) => {
       const nextId =
         prev.items.reduce((m, i) => Math.max(m, i.id ?? -1), -1) + 1;
       return {
@@ -155,7 +163,7 @@ export const PlayerEconomyEditorForm: React.FC<{
     });
 
   const deleteItem = (index: number) =>
-    setForm((prev) => {
+    updateForm((prev) => {
       const items = [...prev.items];
       if (index < 0 || index >= items.length) return prev;
       items[index] = { ...items[index], deleted: true };
@@ -218,7 +226,7 @@ export const PlayerEconomyEditorForm: React.FC<{
       (publicUrlOverride && publicUrlOverride.trim()) ||
       putUrl.split("?")[0] ||
       putUrl;
-    setForm((prev) => {
+    updateForm((prev) => {
       const items = [...prev.items];
       items[index] = {
         ...items[index],
@@ -243,43 +251,25 @@ export const PlayerEconomyEditorForm: React.FC<{
   };
 
   const updateAction = (index: number, next: Partial<ActionForm>) =>
-    setForm((prev) => {
+    updateForm((prev) => {
       const actions = [...prev.actions];
       actions[index] = { ...actions[index], ...next };
       return { ...prev, actions };
     });
 
   const addAction = (action: ActionForm) =>
-    setForm((prev) => ({ ...prev, actions: [...prev.actions, action] }));
-
-  const patchEmptyActionIds = useCallback(() => {
-    setForm((prev) => {
-      if (!prev.actions.some((a) => !a.id.trim())) return prev;
-      const used = new Set(
-        prev.actions.map((a) => a.id.trim()).filter(Boolean),
-      );
-      const actions = prev.actions.map((a) => {
-        if (a.id.trim()) return a;
-        const id = suggestNextActionId(a.actionType, used);
-        used.add(id);
-        return { ...a, id };
-      });
-      return { ...prev, actions };
-    });
-  }, []);
+    updateForm((prev) => ({ ...prev, actions: [...prev.actions, action] }));
 
   const deleteAction = (index: number) =>
-    setForm((prev) => ({
+    updateForm((prev) => ({
       ...prev,
       actions: prev.actions.filter((_, i) => i !== index),
     }));
 
-  /* ── Tab content ─── */
-
   const renderTabContent = () => {
     switch (activeTab) {
       case "basics":
-        return <BasicsTab form={form} mode={mode} onChange={updateForm} />;
+        return <BasicsTab form={form} mode={mode} onChange={patchForm} />;
       case "items":
         return (
           <ItemsTab
@@ -305,12 +295,10 @@ export const PlayerEconomyEditorForm: React.FC<{
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header with tabs */}
       <OuterPanel
         hasTabs
         className="flex-1 overflow-hidden flex flex-col relative"
       >
-        {/* Tab bar */}
         <div
           className="absolute flex"
           style={{
@@ -335,12 +323,11 @@ export const PlayerEconomyEditorForm: React.FC<{
               </Tab>
             ))}
           </div>
-          {/* Close (exit editor) */}
           <img
             src={SUNNYSIDE.icons.close}
             alt=""
             className="flex-none cursor-pointer float-right hover:brightness-90"
-            onClick={onBack}
+            onClick={() => navigate("/economy-editor")}
             style={{
               width: `${PIXEL_SCALE * 11}px`,
               height: `${PIXEL_SCALE * 11}px`,
@@ -351,13 +338,11 @@ export const PlayerEconomyEditorForm: React.FC<{
           />
         </div>
 
-        {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto scrollable p-2 pb-20">
           {renderTabContent()}
         </div>
       </OuterPanel>
 
-      {/* Sticky footer with save + error */}
       <div className="mt-1 space-y-1">
         {savedFlash && (
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-sm bg-[#286c4e]/90 border border-[#1e4d38]">
@@ -372,9 +357,9 @@ export const PlayerEconomyEditorForm: React.FC<{
             </span>
           </div>
         )}
-        {error && (
+        {saveValidationError && (
           <Label type="danger" className="mb-1">
-            {error}
+            {saveValidationError}
           </Label>
         )}
         <div className="flex gap-1">
@@ -386,23 +371,17 @@ export const PlayerEconomyEditorForm: React.FC<{
           >
             {t("playerEconomyEditor.footer.preview")}
           </Button>
-          <Button
-            className="flex-[2] min-w-0"
-            disabled={saving}
-            onClick={() => void handleSave()}
-          >
-            {saving
-              ? t("playerEconomyEditor.footer.saving")
-              : mode === "create"
-                ? t("playerEconomyEditor.footer.createEconomy")
-                : t("playerEconomyEditor.footer.saveChanges")}
+          <Button className="flex-[2] min-w-0" onClick={handleSave}>
+            {mode === "create"
+              ? t("playerEconomyEditor.footer.createEconomy")
+              : t("playerEconomyEditor.footer.saveChanges")}
           </Button>
         </div>
       </div>
 
       <Modal
-        show={previewUnsavedModalOpen}
-        onHide={() => setPreviewUnsavedModalOpen(false)}
+        show={state.previewUnsavedOpen}
+        onHide={() => setPreviewUnsavedOpen(false)}
       >
         <Panel>
           <div className="p-2 space-y-3">
@@ -412,7 +391,7 @@ export const PlayerEconomyEditorForm: React.FC<{
             <div className="flex gap-1">
               <Button
                 className="flex-1"
-                onClick={() => setPreviewUnsavedModalOpen(false)}
+                onClick={() => setPreviewUnsavedOpen(false)}
               >
                 {t("playerEconomyEditor.unsavedPreview.cancel")}
               </Button>
