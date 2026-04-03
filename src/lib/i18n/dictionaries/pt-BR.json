@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "URL carregada no iframe do portal para essa economia. Deixe em branco para usar o padrão de compilação (por exemplo, VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "ID da ação",
   "playerEconomyEditor.actions.editActionIdAria": "Editar ID da ação",
-  "minigame.dashboard.production.collectFromBuildingAria": "Colete o item pronto"
+  "minigame.dashboard.production.collectFromBuildingAria": "Colete o item pronto",
+  "playerEconomyEditor.syncError.title": "Não foi possível sincronizar com o servidor",
+  "playerEconomyEditor.syncError.hint": "Suas edições mais recentes são mantidas nesta página. Atualize para recarregar do servidor.",
+  "playerEconomyEditor.syncError.refresh": "Atualizar página"
 }

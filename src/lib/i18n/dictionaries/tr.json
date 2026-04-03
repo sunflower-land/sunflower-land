@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "Bu ekonomi için portal iframe'e yüklenen URL. Yapı varsayılanını kullanmak için boş bırakın (örn. VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "Eylem kimliği",
   "playerEconomyEditor.actions.editActionIdAria": "Eylem kimliğini düzenle",
-  "minigame.dashboard.production.collectFromBuildingAria": "Hazır öğeyi topla"
+  "minigame.dashboard.production.collectFromBuildingAria": "Hazır öğeyi topla",
+  "playerEconomyEditor.syncError.title": "Sunucuya senkronize edilemedi",
+  "playerEconomyEditor.syncError.hint": "En son düzenlemeleriniz bu sayfada tutulur. Sunucudan yeniden yüklemek için yenileyin.",
+  "playerEconomyEditor.syncError.refresh": "Sayfayı yenile"
 }

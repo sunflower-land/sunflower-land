@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "このエコノミーのポータル iframe に URL が読み込まれました。ビルドのデフォルト (例:VITE_PORTAL_GAME_URL) を使用するには空白のままにします。",
   "playerEconomyEditor.actions.actionIdInputAria": "アクション ID",
   "playerEconomyEditor.actions.editActionIdAria": "アクション ID を編集",
-  "minigame.dashboard.production.collectFromBuildingAria": "準備完了品を集める"
+  "minigame.dashboard.production.collectFromBuildingAria": "準備完了品を集める",
+  "playerEconomyEditor.syncError.title": "サーバーと同期できませんでした",
+  "playerEconomyEditor.syncError.hint": "最新の編集内容はこのページに保存されます。更新してサーバーから再読み込みしてください。",
+  "playerEconomyEditor.syncError.refresh": "ページを更新"
 }

@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "URL caricato nell'iframe del portale per questa economia. Lascia vuoto per utilizzare l'impostazione predefinita della build (ad esempio VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "ID azione",
   "playerEconomyEditor.actions.editActionIdAria": "Modifica l'id dell'azione",
-  "minigame.dashboard.production.collectFromBuildingAria": "Raccogli l'oggetto pronto"
+  "minigame.dashboard.production.collectFromBuildingAria": "Raccogli l'oggetto pronto",
+  "playerEconomyEditor.syncError.title": "Impossibile sincronizzare con il server",
+  "playerEconomyEditor.syncError.hint": "Le tue ultime modifiche vengono conservate in questa pagina. Aggiorna per ricaricare dal server.",
+  "playerEconomyEditor.syncError.refresh": "Aggiorna pagina"
 }

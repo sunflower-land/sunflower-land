@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "URL, die in den Portal-Iframe für diese Wirtschaft geladen wurde. Lassen Sie das Feld leer, um den Build-Standard zu verwenden (z. B. VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "Aktions-ID",
   "playerEconomyEditor.actions.editActionIdAria": "Aktions-ID bearbeiten",
-  "minigame.dashboard.production.collectFromBuildingAria": "Sammle den fertigen Artikel"
+  "minigame.dashboard.production.collectFromBuildingAria": "Sammle den fertigen Artikel",
+  "playerEconomyEditor.syncError.title": "Konnte nicht mit dem Server synchronisiert werden",
+  "playerEconomyEditor.syncError.hint": "Ihre letzten Änderungen werden auf dieser Seite gespeichert. Aktualisieren Sie, um vom Server neu zu laden.",
+  "playerEconomyEditor.syncError.refresh": "Seite aktualisieren"
 }

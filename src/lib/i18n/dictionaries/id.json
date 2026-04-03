@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "URL dimuat di portal iframe untuk ekonomi ini. Biarkan kosong untuk menggunakan default build (misalnya VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "ID tindakan",
   "playerEconomyEditor.actions.editActionIdAria": "Edit id tindakan",
-  "minigame.dashboard.production.collectFromBuildingAria": "Kumpulkan barang siap pakai"
+  "minigame.dashboard.production.collectFromBuildingAria": "Kumpulkan barang siap pakai",
+  "playerEconomyEditor.syncError.title": "Tidak dapat menyinkronkan ke server",
+  "playerEconomyEditor.syncError.hint": "Suntingan terbaru Anda disimpan di halaman ini. Refresh untuk memuat ulang dari server.",
+  "playerEconomyEditor.syncError.refresh": "Segarkan halaman"
 }
