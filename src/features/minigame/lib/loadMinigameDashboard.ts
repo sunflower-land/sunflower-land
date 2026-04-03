@@ -6,6 +6,7 @@ import { getLocalMinigameDashboardMock } from "./localMinigameDashboardMock";
 import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
   getMinigameSession,
+  resolvePlayerEconomySessionItems,
   type MinigameSessionApiPayload,
 } from "./minigameSessionApi";
 
@@ -47,6 +48,7 @@ export async function loadMinigameDashboard(
 
     const raw = await getMinigameSession(slug, portalJwt);
     assertChickenRescueSession(raw);
+
     const state = {
       balances: raw.playerEconomy.balances,
       generating: raw.playerEconomy.generating as Record<string, any>,
@@ -62,7 +64,7 @@ export async function loadMinigameDashboard(
     };
     const config = {
       actions: raw.actions as Record<string, any>,
-      items: raw.items,
+      items: resolvePlayerEconomySessionItems(raw),
       descriptions: raw.descriptions,
       visualTheme: raw.visualTheme,
       playUrl: raw.playUrl,

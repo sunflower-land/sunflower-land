@@ -1,6 +1,9 @@
 import type { MinigameName } from "features/game/types/minigames";
 import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
-import type { MinigameSessionApiPayload } from "./minigameSessionApi";
+import {
+  resolvePlayerEconomySessionItems,
+  type MinigameSessionApiPayload,
+} from "./minigameSessionApi";
 import type { MinigameDashboardData } from "./minigameDashboardTypes";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
 import {
@@ -33,7 +36,7 @@ export function buildMinigameDashboardFromApiSession(
 ): MinigameDashboardData {
   const raw = {
     actions: session.actions as PlayerEconomyConfig["actions"],
-    items: session.items,
+    items: resolvePlayerEconomySessionItems(session),
     descriptions: session.descriptions,
     visualTheme: session.visualTheme,
     playUrl: session.playUrl,

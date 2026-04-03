@@ -15,8 +15,9 @@ export function getMinigameTokenImage(
   overrides?: Record<string, string> | null,
 ): string {
   const raw = overrides?.[token]?.trim();
-  if (raw) {
-    return resolveMinigameCdnImageUrl(raw);
+  if (!raw) {
+    return MINIGAME_TOKEN_IMAGE_FALLBACK;
   }
-  return MINIGAME_TOKEN_IMAGE_FALLBACK;
+  const resolved = resolveMinigameCdnImageUrl(raw).trim();
+  return resolved.length > 0 ? resolved : MINIGAME_TOKEN_IMAGE_FALLBACK;
 }
