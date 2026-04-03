@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "URL loaded in the portal iframe for this economy. Leave blank to use the build default (e.g. VITE_PORTAL_GAME_URL).",
   "playerEconomyEditor.actions.actionIdInputAria": "Action id",
   "playerEconomyEditor.actions.editActionIdAria": "Edit action id",
-  "minigame.dashboard.production.collectFromBuildingAria": "Collect ready item"
+  "minigame.dashboard.production.collectFromBuildingAria": "Collect ready item",
+  "playerEconomyEditor.syncError.title": "Could not sync to server",
+  "playerEconomyEditor.syncError.hint": "Your latest edits are kept on this page. Refresh to reload from the server.",
+  "playerEconomyEditor.syncError.refresh": "Refresh page"
 }

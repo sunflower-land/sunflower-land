@@ -8538,5 +8538,8 @@
   "playerEconomyEditor.basics.gameUrlHint": "该经济体的网址已加载到门户网站iframe中。留空以使用编译默认值（例如 VITE_PORTAL_GAME_URL）。",
   "playerEconomyEditor.actions.actionIdInputAria": "动作 ID",
   "playerEconomyEditor.actions.editActionIdAria": "编辑操作 ID",
-  "minigame.dashboard.production.collectFromBuildingAria": "收集准备好的物品"
+  "minigame.dashboard.production.collectFromBuildingAria": "收集准备好的物品",
+  "playerEconomyEditor.syncError.title": "无法同步到服务器",
+  "playerEconomyEditor.syncError.hint": "您的最新编辑保留在此页面上。刷新以从服务器重新加载。",
+  "playerEconomyEditor.syncError.refresh": "刷新页面"
 }
