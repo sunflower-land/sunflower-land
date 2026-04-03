@@ -8499,7 +8499,6 @@
   "minigame.dashboard.production.openRecipesAria": "Açık tarifler",
   "minigame.dashboard.production.chooseRecipe": "Ne üreteceğinizi seçin.",
   "minigame.dashboard.production.whatToProduce": "Ne üretmek istersiniz?",
-  "minigame.dashboard.production.tapToStart": "Üretime başlamak için dokunun.",
   "minigame.dashboard.production.tapToCollect": "Toplamak için dokunun.",
   "minigame.dashboard.production.viewTimer": "Zamanlayıcıyı görüntüle",
   "minigame.dashboard.production.recipesSummary": "{{count}} tarifler",
@@ -8536,5 +8535,8 @@
   "spices": "Baharatlar",
   "playerEconomyEditor.basics.gameUrlLabel": "Oyun URL'si",
   "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
-  "playerEconomyEditor.basics.gameUrlHint": "Bu ekonomi için portal iframe'e yüklenen URL. Yapı varsayılanını kullanmak için boş bırakın (örn. VITE_PORTAL_GAME_URL)."
+  "playerEconomyEditor.basics.gameUrlHint": "Bu ekonomi için portal iframe'e yüklenen URL. Yapı varsayılanını kullanmak için boş bırakın (örn. VITE_PORTAL_GAME_URL).",
+  "playerEconomyEditor.actions.actionIdInputAria": "Eylem kimliği",
+  "playerEconomyEditor.actions.editActionIdAria": "Eylem kimliğini düzenle",
+  "minigame.dashboard.production.collectFromBuildingAria": "Hazır öğeyi topla"
 }

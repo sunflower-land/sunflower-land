@@ -8499,7 +8499,6 @@
   "minigame.dashboard.production.openRecipesAria": "Buka resep",
   "minigame.dashboard.production.chooseRecipe": "Pilih apa yang akan diproduksi.",
   "minigame.dashboard.production.whatToProduce": "Apa yang ingin Anda hasilkan?",
-  "minigame.dashboard.production.tapToStart": "Ketuk untuk memulai produksi.",
   "minigame.dashboard.production.tapToCollect": "Ketuk untuk mengumpulkan.",
   "minigame.dashboard.production.viewTimer": "Lihat pengatur waktu",
   "minigame.dashboard.production.recipesSummary": "{{count}} resep",
@@ -8536,5 +8535,8 @@
   "spices": "Rempah-rempah",
   "playerEconomyEditor.basics.gameUrlLabel": "URL permainan",
   "playerEconomyEditor.basics.gameUrlPlaceholder": "https://example.com/your-game",
-  "playerEconomyEditor.basics.gameUrlHint": "URL dimuat di portal iframe untuk ekonomi ini. Biarkan kosong untuk menggunakan default build (misalnya VITE_PORTAL_GAME_URL)."
+  "playerEconomyEditor.basics.gameUrlHint": "URL dimuat di portal iframe untuk ekonomi ini. Biarkan kosong untuk menggunakan default build (misalnya VITE_PORTAL_GAME_URL).",
+  "playerEconomyEditor.actions.actionIdInputAria": "ID tindakan",
+  "playerEconomyEditor.actions.editActionIdAria": "Edit id tindakan",
+  "minigame.dashboard.production.collectFromBuildingAria": "Kumpulkan barang siap pakai"
 }
