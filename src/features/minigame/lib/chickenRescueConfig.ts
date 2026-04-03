@@ -4,91 +4,79 @@ import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 const SEVEN_HOURS_MS = 7 * 60 * 60 * 1000;
 const EIGHT_HOURS_MS = 8 * 60 * 60 * 1000;
 
-/** Same relative paths as `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`. */
-const CR = "minigames/chicken-rescue-v2";
-const CHICKEN_RESCUE_ITEM_IMAGES = {
-  GoldenNugget: `${CR}/golden_nugget.webp`,
-  Worm: `${CR}/worm.png`,
-  Wormery: `${CR}/wormery.webp`,
-  Chook: `${CR}/chook.webp`,
-  ChickenFeet: `${CR}/chicken_feet.webp`,
-  Wormery_2: `${CR}/wormery.webp`,
-  Wormery_3: `${CR}/wormery.webp`,
-  Wormery_4: `${CR}/wormery.webp`,
-  GoldenChook: `${CR}/golden_chook.png`,
-} as const;
+/** Editor / CDN assets (matches DB-backed `chicken-rescue-v2` items). */
+const CR_ASSETS =
+  "https://hannigan-minigame-editor-assets.s3.us-east-1.amazonaws.com/minigames/chicken-rescue-v2/items";
 
 /**
- * Chicken Rescue v2 — mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts`.
+ * Chicken Rescue v2 — local fallback config; production uses DB-backed config with the same
+ * item keys (`"0"`…`"8"`) and ids.
  */
 export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
   playUrl: "https://chicken-rescue-v2.minigames.sunflower-land.com",
+  mainCurrencyToken: "0",
   items: {
-    GoldenNugget: {
-      name: "Golden Nuggets",
-      description:
-        "Premium currency. Spend it in the shop to unlock better wormeries that produce more worms.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.GoldenNugget,
+    "0": {
+      name: "Golden Nugget",
+      description: "A suspicious nugget - used to upgrade your Chook Empire",
+      image: `${CR_ASSETS}/0.webp`,
       id: 0,
       tradeable: true,
     },
-    Worm: {
-      name: "Worm",
-      description:
-        "Produced on timers from your wormeries. Spend worms to start standard Chicken Rescue runs.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Worm,
+    "1": {
+      name: "Chook",
+      description: "A cheeky chook found in adventure mode",
+      image: `${CR_ASSETS}/1.webp`,
       id: 1,
     },
-    Wormery: {
-      name: "Wormery",
-      description:
-        "Your starter wormery. Run a timer to produce worms. Each wormery can run one worm job at a time.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery,
+    "2": {
+      name: "Golden Chook",
+      description: "A rare chook found in advanced adventures.",
+      image: `${CR_ASSETS}/2.webp`,
       id: 2,
-      initialBalance: 1,
-      generator: true,
     },
-    Chook: {
-      name: "Chooks",
-      description:
-        "Earned from winning runs. Collect enough to trade up into rarer items on advanced paths.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Chook,
-      id: 3,
-    },
-    ChickenFeet: {
+    "3": {
       name: "Chicken Feet",
       description:
-        "Crafted from chooks. Gates the advanced minigame—spend wisely before you commit to a run.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.ChickenFeet,
-      id: 4,
+        "A lucky pair of feet - this is sure to attract Golden Chooks!",
+      image: `${CR_ASSETS}/3.webp`,
+      id: 3,
     },
-    Wormery_2: {
-      name: "Wormery 2",
-      description: "Wormery 2. Collect worms from an 8-hour timer.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_2,
+    "4": {
+      name: "Worm",
+      description: "A tasty worm that Chooks love!",
+      image: `${CR_ASSETS}/4.png`,
+      id: 4,
+      initialBalance: 3,
+    },
+    "5": {
+      name: "Wormery",
+      description: "A basic wormery that produces worms",
+      image: `${CR_ASSETS}/5.webp`,
       id: 5,
       generator: true,
+      initialBalance: 1,
     },
-    Wormery_3: {
-      name: "Wormery 3",
-      description: "Wormery 3. Collect worms from an 8-hour timer.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_3,
+    "6": {
+      name: "Refined Wormery",
+      description: "A more advanced wormery",
+      image: `${CR_ASSETS}/6.webp`,
       id: 6,
       generator: true,
     },
-    Wormery_4: {
-      name: "Wormery 4",
-      description: "Wormery 4. Collect worms from an 8-hour timer.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.Wormery_4,
+    "7": {
+      name: "Primal Wormery",
+      description: "A magical wormery that produces even more worms",
+      image: `${CR_ASSETS}/7.webp`,
       id: 7,
       generator: true,
     },
-    GoldenChook: {
-      name: "Golden Chook",
-      description:
-        "A rare jackpot drop. Can be traded for Golden Nuggets when you want to reinvest in the shop.",
-      image: CHICKEN_RESCUE_ITEM_IMAGES.GoldenChook,
+    "8": {
+      name: "Mythic Wormery",
+      description: "It's worm's galore!",
+      image: `${CR_ASSETS}/8.webp`,
       id: 8,
+      generator: true,
     },
   },
   descriptions: {
@@ -103,85 +91,85 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
   actions: {
     START_WORMERY_DROP: {
       produce: {
-        Worm: {
+        "4": {
           msToComplete: SEVEN_HOURS_MS,
-          requires: "Wormery",
+          requires: "5",
           collectActionId: "COLLECT_WORMERY_WORMS",
         },
       },
     },
     COLLECT_WORMERY_WORMS: {
       collect: {
-        Worm: { amount: 3 },
+        "4": { amount: 3 },
       },
     },
     BUY_WORMERY_2: {
       burn: {
-        GoldenNugget: { amount: 15 },
+        "0": { amount: 15 },
       },
       mint: {
-        Wormery_2: { amount: 1 },
+        "6": { amount: 1 },
       },
     },
     BUY_WORMERY_3: {
       burn: {
-        GoldenNugget: { amount: 100 },
+        "0": { amount: 100 },
       },
       mint: {
-        Wormery_3: { amount: 1 },
+        "7": { amount: 1 },
       },
     },
     BUY_WORMERY_4: {
       burn: {
-        GoldenNugget: { amount: 500 },
+        "0": { amount: 500 },
       },
       mint: {
-        Wormery_4: { amount: 1 },
+        "8": { amount: 1 },
       },
     },
     START_WORMERY_2_DROP: {
       produce: {
-        Worm: {
+        "4": {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "Wormery_2",
+          requires: "6",
           collectActionId: "COLLECT_WORMERY_2_WORMS",
         },
       },
     },
     COLLECT_WORMERY_2_WORMS: {
       collect: {
-        Worm: { amount: 3 },
+        "4": { amount: 3 },
       },
     },
     START_WORMERY_3_DROP: {
       produce: {
-        Worm: {
+        "4": {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "Wormery_3",
+          requires: "7",
           collectActionId: "COLLECT_WORMERY_3_WORMS",
         },
       },
     },
     COLLECT_WORMERY_3_WORMS: {
       collect: {
-        Worm: { amount: 3 },
+        "4": { amount: 3 },
       },
     },
     START_WORMERY_4_DROP: {
       produce: {
-        Worm: {
+        "4": {
           msToComplete: EIGHT_HOURS_MS,
           limit: 999,
-          requires: "Wormery_4",
+          requires: "8",
           collectActionId: "COLLECT_WORMERY_4_WORMS",
         },
       },
     },
     COLLECT_WORMERY_4_WORMS: {
       collect: {
-        Worm: { amount: 3 },
+        "4": { amount: 3 },
       },
     },
     START: {
@@ -190,7 +178,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
         LIVE_GAME: { amount: 1 },
       },
       burn: {
-        Worm: { amount: 1 },
+        "4": { amount: 1 },
       },
     },
     LOSE: {
@@ -202,7 +190,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
     WIN: {
       showInShop: false,
       mint: {
-        Chook: { min: 0, max: 100, dailyCap: 1000 },
+        "1": { min: 0, max: 100, dailyCap: 1000 },
       },
       burn: {
         LIVE_GAME: { amount: 1 },
@@ -210,28 +198,28 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
     },
     BUY_WORM_BALL: {
       burn: {
-        Chook: { amount: 50 },
+        "1": { amount: 50 },
       },
       mint: {
-        ChickenFeet: { amount: 1 },
+        "3": { amount: 1 },
       },
     },
 
     BUY_GOLDEN_NUGGET: {
       mint: {
-        GoldenNugget: { amount: 1 },
+        "0": { amount: 1 },
       },
       burn: {
-        GoldenChook: { amount: 1 },
+        "2": { amount: 1 },
       },
     },
 
     BUY_WORM_PACK: {
       mint: {
-        Worm: { amount: 5 },
+        "4": { amount: 5 },
       },
       burn: {
-        GoldenNugget: { amount: 1 },
+        "0": { amount: 1 },
       },
     },
     START_ADVANCED_GAME: {
@@ -240,7 +228,7 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
         ADVANCED_GAME: { amount: 1 },
       },
       burn: {
-        ChickenFeet: { amount: 1 },
+        "3": { amount: 1 },
       },
     },
     LOSE_ADVANCED_GAME: {
@@ -252,8 +240,8 @@ export const CHICKEN_RESCUE_CONFIG: PlayerEconomyConfig = {
     WIN_ADVANCED_GAME: {
       showInShop: false,
       mint: {
-        Chook: { min: 0, max: 100, dailyCap: 1000 },
-        GoldenChook: { min: 0, max: 3, dailyCap: 300 },
+        "1": { min: 0, max: 100, dailyCap: 1000 },
+        "2": { min: 0, max: 3, dailyCap: 300 },
       },
       burn: {
         ADVANCED_GAME: { amount: 1 },
@@ -272,12 +260,12 @@ export function createChickenRescueInitialState(
   return {
     ...base,
     balances: {
-      Wormery: 1,
+      "5": 1,
     },
     generating: {
       [CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID]: {
-        outputToken: "Worm",
-        requires: "Wormery",
+        outputToken: "4",
+        requires: "5",
         startedAt: now - 1,
         completesAt: now,
       },

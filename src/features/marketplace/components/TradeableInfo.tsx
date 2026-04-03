@@ -50,7 +50,7 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
-import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
+import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "features/minigame/lib/minigameTokenIcons";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -174,11 +174,10 @@ export const TradeableImage: React.FC<{
           if (
             display.type === "economies" &&
             display.minigameCurrencyKey &&
-            imageSrc !== getMinigameTokenImage(display.minigameCurrencyKey)
+            imageSrc !== MINIGAME_TOKEN_IMAGE_FALLBACK
           ) {
-            const fb = getMinigameTokenImage(display.minigameCurrencyKey);
-            setImageSrc(fb);
-            e.currentTarget.src = fb;
+            setImageSrc(MINIGAME_TOKEN_IMAGE_FALLBACK);
+            e.currentTarget.src = MINIGAME_TOKEN_IMAGE_FALLBACK;
             return;
           }
           // Swap to the fallback only once to avoid infinite error loops.
@@ -202,11 +201,8 @@ export const TradeableImage: React.FC<{
           onLoad={handleImageLoad}
           onError={(e) => {
             if (display.type === "economies" && display.minigameCurrencyKey) {
-              const fallback = getMinigameTokenImage(
-                display.minigameCurrencyKey,
-              );
-              if (e.currentTarget.src !== fallback) {
-                e.currentTarget.src = fallback;
+              if (e.currentTarget.src !== MINIGAME_TOKEN_IMAGE_FALLBACK) {
+                e.currentTarget.src = MINIGAME_TOKEN_IMAGE_FALLBACK;
               }
             }
           }}

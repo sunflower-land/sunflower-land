@@ -10,7 +10,7 @@ import { Tradeable } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
-import { getMinigameTokenImage } from "features/minigame/lib/minigameTokenIcons";
+import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "features/minigame/lib/minigameTokenIcons";
 import { resolveMarketplaceMinigameItemImage } from "../lib/resolveMinigameMarketplaceImage";
 import { fallbackDisplayNameForMinigameCurrencyKey } from "../lib/minigameMarketplaceCopy";
 
@@ -142,9 +142,7 @@ export const MinigamesLeaderboard: React.FC<{
                       className="h-6 w-6 object-contain mx-auto"
                       style={{ imageRendering: "pixelated" }}
                       onError={(e) => {
-                        e.currentTarget.src = getMinigameTokenImage(
-                          item.currencyName,
-                        );
+                        e.currentTarget.src = MINIGAME_TOKEN_IMAGE_FALLBACK;
                       }}
                     />
                   </td>
