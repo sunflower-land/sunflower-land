@@ -21,6 +21,10 @@ export type MintRuleForm = {
   dailyCap: number;
   min: number;
   max: number;
+  /**
+   * Generate → Collect rows only: drop chance 0–100 (default 100). Ignored for shop mint rows.
+   */
+  collectChance?: number;
 };
 
 /** Custom rule: mint row with min / max / per-token daily cap. */
@@ -51,6 +55,8 @@ export type CollectRuleForm = {
   amount: number;
   /** Seconds until collect (mirrors saved `collect[token].seconds`). */
   seconds?: number;
+  /** 0–100; default 100 when omitted. */
+  chance?: number;
 };
 
 export type ItemForm = {
@@ -143,6 +149,7 @@ export const EMPTY_MINT_ROW: MintRuleForm = {
   dailyCap: 0,
   min: 0,
   max: 0,
+  collectChance: 100,
 };
 
 export const EMPTY_CUSTOM_MINT_ROW: CustomMintRowForm = {

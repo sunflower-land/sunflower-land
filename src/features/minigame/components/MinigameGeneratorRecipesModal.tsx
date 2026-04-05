@@ -15,6 +15,7 @@ import { formatBurnRuleForDisplay } from "../lib/minigameConfigHelpers";
 import {
   capTokenDisplayName,
   formatMinigameDuration,
+  getCollectDropOddsForSlot,
   getCollectOutputForSlot,
   recipeJobKey,
   type CapBalanceProductionSlot,
@@ -24,6 +25,61 @@ import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const INK = "#181425";
+
+/** Pink "?" with black outline (pixel HUD style). */
+const MYSTERY_Q_SHADOW =
+  "-1px -1px 0 #181425,1px -1px 0 #181425,-1px 1px 0 #181425,1px 1px 0 #181425,-2px 0 0 #181425,2px 0 0 #181425,0 -2px 0 #181425,0 2px 0 #181425";
+
+function MysteryCollectThumbnail({
+  tokens,
+  tokenImages,
+}: {
+  tokens: string[];
+  tokenImages: Record<string, string>;
+}) {
+  const box = PIXEL_SCALE * 15;
+  return (
+    <div
+      className="relative shrink-0 overflow-hidden rounded-sm"
+      style={{
+        width: box,
+        height: box,
+        background: "rgb(0 0 0 / 8%)",
+      }}
+      aria-hidden
+    >
+      <div className="absolute inset-0 z-0 flex flex-wrap content-center items-center justify-center p-0.5">
+        {tokens.map((token, i) => (
+          <img
+            key={`${token}-${i}`}
+            src={getMinigameTokenImage(token, tokenImages)}
+            alt=""
+            className="object-contain opacity-[0.92]"
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
+              height: `${PIXEL_SCALE * 6}px`,
+              imageRendering: "pixelated",
+              margin: `${PIXEL_SCALE * -0.5}px`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none">
+        <span
+          className="select-none font-bold leading-none"
+          style={{
+            fontFamily: "Teeny, monospace",
+            fontSize: `${PIXEL_SCALE * 9}px`,
+            color: "#f06078",
+            textShadow: MYSTERY_Q_SHADOW,
+          }}
+        >
+          {`?`}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 const iconSm = {
   height: `${PIXEL_SCALE * 6}px`,
@@ -42,6 +98,8 @@ type Props = {
   startError?: string | null;
   startingRecipeKey?: string | null;
   collectingRecipeKey?: string | null;
+  /** Block recipe taps while a collect reveal modal is open. */
+  interactionLocked?: boolean;
   onClose: () => void;
   onRecipeStart: (slot: CapBalanceProductionSlot) => void;
   onRecipeCollect: (slot: CapBalanceProductionSlot) => void;
@@ -59,6 +117,7 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
   startError = null,
   startingRecipeKey = null,
   collectingRecipeKey = null,
+  interactionLocked = false,
   onClose,
   onRecipeStart,
   onRecipeCollect,
@@ -151,10 +210,14 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                   ? Object.entries(startDef.require)
                   : [];
 
+                const dropOdds = getCollectDropOddsForSlot(config, slot);
+                const isMysteryCollect = Boolean(dropOdds?.length);
+
                 const clickable =
-                  (!generating && !starting) || (ready && !collecting);
+                  !interactionLocked &&
+                  ((!generating && !starting) || (ready && !collecting));
                 const onCardClick = () => {
-                  if (starting || collecting) return;
+                  if (interactionLocked || starting || collecting) return;
                   if (ready) {
                     onRecipeCollect(slot);
                     return;
@@ -165,8 +228,23 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                 };
 
                 const cardBody = (
-                  <div className="flex flex-row items-start gap-3">
-                    {out ? (
+                  <div
+                    className="flex flex-row items-start gap-3 rounded-sm"
+                    style={
+                      isMysteryCollect
+                        ? {
+                            background: "#e6d5bc",
+                            padding: `${PIXEL_SCALE}px`,
+                          }
+                        : undefined
+                    }
+                  >
+                    {isMysteryCollect && dropOdds ? (
+                      <MysteryCollectThumbnail
+                        tokens={dropOdds.map((r) => r.token)}
+                        tokenImages={tokenImages}
+                      />
+                    ) : out ? (
                       <div
                         className="flex shrink-0 items-center justify-center"
                         style={{
@@ -187,7 +265,9 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                         className="text-base  leading-tight"
                         style={{ color: INK }}
                       >
-                        {recipeTitle}
+                        {isMysteryCollect
+                          ? t("minigame.dashboard.production.mysteryDropTitle")
+                          : recipeTitle}
                       </p>
 
                       {busy ? (
@@ -275,7 +355,7 @@ export const MinigameGeneratorRecipesModal: React.FC<Props> = ({
                   <ButtonPanel
                     key={key}
                     variant="card"
-                    disabled={starting || collecting}
+                    disabled={interactionLocked || starting || collecting}
                     className="flex flex-col !items-stretch p-2 text-left"
                     onClick={() => {
                       if (clickable) onCardClick();

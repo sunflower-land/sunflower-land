@@ -1,7 +1,11 @@
 import { tokenDisplayName } from "./minigameConfigHelpers";
 import { isGeneratorBalanceItem } from "./minigameConfigMigration";
 import { resolveProduceDurationMs } from "./resolveProduceDuration";
-import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
+import type {
+  CollectRule,
+  PlayerEconomyConfig,
+  PlayerEconomyRuntimeState,
+} from "./types";
 
 export type CapBalanceProductionSlot = {
   capToken: string;
@@ -179,6 +183,102 @@ export function capTokenDisplayName(
   return tokenDisplayName(config, capToken);
 }
 
+export function getCollectRuleForSlot(
+  config: PlayerEconomyConfig,
+  slot: CapBalanceProductionSlot,
+): CollectRule | null {
+  const collect = config.actions[slot.collectActionId]?.collect;
+  if (!collect) return null;
+  const byOutput = collect[slot.outputToken];
+  if (byOutput) return byOutput;
+  const entries = Object.entries(collect);
+  if (!entries.length) return null;
+  return entries[0][1];
+}
+
+/** True when collect is not guaranteed (client shows "?" while producing). */
+export function isChanceBasedCollectRule(
+  rule: CollectRule | null | undefined,
+): boolean {
+  if (!rule) return false;
+  const c = rule.chance;
+  if (typeof c !== "number" || !Number.isFinite(c)) return false;
+  return c < 100;
+}
+
+/**
+ * True when collect always grants a single known row: one collect entry and no sub-100% chance roll.
+ * Multi-row weighted picks and Bernoulli single rows are not deterministic for yield display.
+ */
+export function isDeterministicCollectYield(
+  config: PlayerEconomyConfig,
+  slot: CapBalanceProductionSlot,
+): boolean {
+  const collect = config.actions[slot.collectActionId]?.collect;
+  if (!collect) return false;
+  const keys = Object.keys(collect);
+  if (keys.length !== 1) return false;
+  const rule = collect[keys[0]];
+  if (!rule) return false;
+  return !isChanceBasedCollectRule(rule);
+}
+
+/**
+ * Collect uses a chance roll and/or multiple configured reward rows — show a reveal modal after claim.
+ */
+export function shouldShowCollectRevealModal(
+  config: PlayerEconomyConfig,
+  slot: CapBalanceProductionSlot,
+): boolean {
+  const collect = config.actions[slot.collectActionId]?.collect;
+  if (!collect) return false;
+  if (Object.keys(collect).length > 1) return true;
+  return isChanceBasedCollectRule(getCollectRuleForSlot(config, slot));
+}
+
+export type CollectDropOddsRow = {
+  token: string;
+  amount: number;
+  /** Share of the weighted pick, 0–100 (sums to ~100; float). */
+  percent: number;
+};
+
+/**
+ * When an action's `collect` has multiple token rows, `chance` is a relative weight;
+ * returns normalized percentages for UI (same weights as server multi-row collect).
+ */
+export function getCollectDropOddsForAction(
+  collect: Record<string, CollectRule> | undefined,
+): CollectDropOddsRow[] | null {
+  if (!collect) return null;
+  const entries = Object.entries(collect);
+  if (entries.length < 2) return null;
+  const weights = entries.map(([, r]) => {
+    if (r.chance === undefined) return 100;
+    const c = Number(r.chance);
+    if (!Number.isFinite(c)) return 100;
+    return Math.max(0, Math.floor(c));
+  });
+  let sum = weights.reduce((a, b) => a + b, 0);
+  const use = sum > 0 ? weights : weights.map(() => 1);
+  sum = use.reduce((a, b) => a + b, 0);
+  if (sum <= 0) return null;
+  return entries.map(([token, rule], i) => ({
+    token,
+    amount: rule.amount,
+    percent: (100 * use[i]) / sum,
+  }));
+}
+
+export function getCollectDropOddsForSlot(
+  config: PlayerEconomyConfig,
+  slot: CapBalanceProductionSlot,
+): CollectDropOddsRow[] | null {
+  return getCollectDropOddsForAction(
+    config.actions[slot.collectActionId]?.collect,
+  );
+}
+
 export function getCollectOutputForSlot(
   config: PlayerEconomyConfig,
   slot: CapBalanceProductionSlot,
@@ -187,6 +287,10 @@ export function getCollectOutputForSlot(
   if (!collect) return null;
   const entries = Object.entries(collect);
   if (!entries.length) return null;
+  const direct = collect[slot.outputToken];
+  if (direct) {
+    return { token: slot.outputToken, amount: direct.amount };
+  }
   const [token, rule] = entries[0];
   return { token, amount: rule.amount };
 }

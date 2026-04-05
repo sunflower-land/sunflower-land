@@ -141,9 +141,9 @@ const FEATURE_FLAGS = {
   AGING_SHED: betaFeatureFlag,
 
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
-  PLAYER_ECONOMIES: betaFeatureFlag,
+  PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */
-  TOKEN_MINIGAMES: betaFeatureFlag,
+  TOKEN_MINIGAMES: (game) => !!game.settings.economiesEnabled,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

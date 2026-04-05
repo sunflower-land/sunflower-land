@@ -1807,6 +1807,7 @@ export interface GameState {
       setAt?: number;
     };
     network?: NetworkName;
+    economiesEnabled?: boolean;
   };
   coins: number;
   balance: Decimal;

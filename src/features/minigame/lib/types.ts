@@ -46,6 +46,12 @@ export type CollectRule = {
   amount: number;
   /** Seconds until this output can be collected (generator / timed production). */
   seconds?: number;
+  /**
+   * One collect row: probability (0–100) that `amount` is granted. Omit or 100 = always.
+   * Multiple collect rows: relative weight for one weighted pick; one row always grants.
+   * Server is authoritative; the client may mock rolls locally.
+   */
+  chance?: number;
 };
 
 export type PlayerEconomyBalanceItem = {
@@ -158,10 +164,16 @@ export type PlayerEconomyProcessInput = {
   now: number;
 };
 
+export type PlayerEconomyCollectGrant = {
+  token: string;
+  amount: number;
+};
+
 export type PlayerEconomyProcessSuccess = {
   ok: true;
   state: PlayerEconomyRuntimeState;
   generatorJobId?: string;
+  collectGrants?: PlayerEconomyCollectGrant[];
 };
 
 export type PlayerEconomyProcessFailure = {

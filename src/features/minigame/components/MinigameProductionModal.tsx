@@ -8,13 +8,22 @@ import type { BurnRule, PlayerEconomyConfig } from "../lib/types";
 import {
   capTokenDisplayName,
   formatMinigameDuration,
+  getCollectDropOddsForSlot,
   getCollectOutputForSlot,
+  getCollectRuleForSlot,
+  isChanceBasedCollectRule,
   type CapBalanceProductionSlot,
 } from "../lib/extractProductionSlots";
 import { formatBurnRuleForDisplay } from "../lib/minigameConfigHelpers";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import type { GeneratorJob } from "../lib/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+function formatDropOddsPercent(p: number): string {
+  const rounded = Math.round(p * 10) / 10;
+  if (Number.isInteger(rounded)) return String(rounded);
+  return rounded.toFixed(1);
+}
 
 type Variant = "start" | "producing" | "collect";
 
@@ -65,6 +74,13 @@ export const MinigameProductionModal: React.FC<Props> = ({
       : [];
 
   const startOutputPreview = getCollectOutputForSlot(config, slot);
+  const startCollectRule = getCollectRuleForSlot(config, slot);
+  const startOutputChancePlaceholder =
+    isChanceBasedCollectRule(startCollectRule);
+  const startDropOdds = getCollectDropOddsForSlot(config, slot);
+  const dropOddsPercentByToken = startDropOdds
+    ? new Map(startDropOdds.map((r) => [r.token, r.percent]))
+    : null;
 
   const remainingMs = job && now < job.completesAt ? job.completesAt - now : 0;
 
@@ -98,27 +114,64 @@ export const MinigameProductionModal: React.FC<Props> = ({
                     {formatMinigameDuration(slot.msToComplete)}
                   </span>
                 </p>
-                {startOutputPreview && (
+                {startDropOdds ? (
                   <div className="mt-2 rounded-sm bg-black/5 p-2">
                     <p className="mb-1.5 text-[11px] font-medium text-[#3e2731]">
-                      {t("minigame.dashboard.production.producesWhenComplete")}
+                      {t("minigame.dashboard.production.dropOddsTitle")}
                     </p>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <img
-                        src={getMinigameTokenImage(
-                          startOutputPreview.token,
-                          tokenImages,
-                        )}
-                        alt=""
-                        className="h-5 w-5 shrink-0 object-contain"
-                        style={{ imageRendering: "pixelated" }}
-                      />
-                      <span className="text-xs font-medium text-[#181425]">
-                        {startOutputPreview.amount}{" "}
-                        {capTokenDisplayName(startOutputPreview.token, config)}
-                      </span>
-                    </div>
+                    <ul className="space-y-1.5">
+                      {startDropOdds.map((row) => (
+                        <li
+                          key={row.token}
+                          className="flex flex-wrap items-center gap-2"
+                        >
+                          <img
+                            src={getMinigameTokenImage(row.token, tokenImages)}
+                            alt=""
+                            className="h-5 w-5 shrink-0 object-contain"
+                            style={{ imageRendering: "pixelated" }}
+                          />
+                          <span className="text-xs font-medium text-[#181425]">
+                            {t("minigame.dashboard.production.dropOddsLine", {
+                              percent: formatDropOddsPercent(row.percent),
+                              amount: row.amount,
+                              name: capTokenDisplayName(row.token, config),
+                            })}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                ) : (
+                  startOutputPreview && (
+                    <div className="mt-2 rounded-sm bg-black/5 p-2">
+                      <p className="mb-1.5 text-[11px] font-medium text-[#3e2731]">
+                        {t(
+                          "minigame.dashboard.production.producesWhenComplete",
+                        )}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <img
+                          src={getMinigameTokenImage(
+                            startOutputPreview.token,
+                            tokenImages,
+                          )}
+                          alt=""
+                          className="h-5 w-5 shrink-0 object-contain"
+                          style={{ imageRendering: "pixelated" }}
+                        />
+                        <span className="text-xs font-medium text-[#181425]">
+                          {startOutputChancePlaceholder
+                            ? "?"
+                            : startOutputPreview.amount}{" "}
+                          {capTokenDisplayName(
+                            startOutputPreview.token,
+                            config,
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  )
                 )}
                 {requireEntries.length > 0 && (
                   <div className="text-xs">
@@ -229,23 +282,34 @@ export const MinigameProductionModal: React.FC<Props> = ({
                       {t("minigame.dashboard.production.collectYour")}
                     </p>
                     <ul className="text-xs space-y-1">
-                      {collectLines.map(([token, rule]) => (
-                        <li key={token} className="flex items-center gap-1">
-                          <span className="font-medium text-green-800">
-                            {`+${rule.amount} `}
-                            {capTokenDisplayName(token, config)}
-                          </span>
-                          <img
-                            src={getMinigameTokenImage(token, tokenImages)}
-                            alt=""
-                            style={{
-                              width: `${PIXEL_SCALE * 5}px`,
-                              height: `${PIXEL_SCALE * 5}px`,
-                              imageRendering: "pixelated",
-                            }}
-                          />
-                        </li>
-                      ))}
+                      {collectLines.map(([token, rule]) => {
+                        const pct = dropOddsPercentByToken?.get(token);
+                        return (
+                          <li key={token} className="flex items-center gap-1">
+                            <img
+                              src={getMinigameTokenImage(token, tokenImages)}
+                              alt=""
+                              style={{
+                                width: `${PIXEL_SCALE * 5}px`,
+                                height: `${PIXEL_SCALE * 5}px`,
+                                imageRendering: "pixelated",
+                              }}
+                            />
+                            <span className="font-medium text-green-800">
+                              {pct !== undefined
+                                ? t(
+                                    "minigame.dashboard.production.dropOddsLine",
+                                    {
+                                      percent: formatDropOddsPercent(pct),
+                                      amount: rule.amount,
+                                      name: capTokenDisplayName(token, config),
+                                    },
+                                  )
+                                : `+${rule.amount} ${capTokenDisplayName(token, config)}`}
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </>
                 ) : (

@@ -7,14 +7,16 @@ const Switch: React.FC<{
   onChange: () => void;
   label: string;
   className?: string;
-}> = ({ checked, onChange, label, className }) => {
+  disabled?: boolean;
+}> = ({ checked, onChange, label, className, disabled }) => {
   return (
     <div
       className={classNames(
-        "flex items-center justify-between w-full cursor-pointer h-8",
+        "flex items-center justify-between w-full h-8",
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
         className,
       )}
-      onClick={onChange}
+      onClick={disabled ? undefined : onChange}
     >
       <span className="text-sm">{label}</span>
       {checked && (

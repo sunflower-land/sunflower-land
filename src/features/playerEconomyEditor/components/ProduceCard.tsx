@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { ActionForm, ProduceRuleForm, MintRuleForm } from "../lib/types";
 import { FieldRow } from "./FieldRow";
-import { BurnRowList, MintRowList } from "./ActionRowList";
+import { BurnRowList, GeneratorCollectRowList } from "./ActionRowList";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ProduceCard: React.FC<{
@@ -146,7 +146,7 @@ export const ProduceCard: React.FC<{
       {/* Linked Collect section */}
       <div className="space-y-2">
         <Label type="default">{"Collect"}</Label>
-        <MintRowList
+        <GeneratorCollectRowList
           rows={collectMint}
           itemKeys={itemKeys}
           getItemOptionLabel={getItemOptionLabel}

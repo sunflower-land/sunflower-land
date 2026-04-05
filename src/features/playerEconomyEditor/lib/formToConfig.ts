@@ -16,6 +16,17 @@ import {
 
 const CUSTOM_MINT_UNCAPPED_DAILY = 999_999_999;
 
+/** 0–100 for form fields; values ≥100 omit `chance` on saved collect rules. */
+function formChanceToSavedCollect(
+  raw: number | undefined | null,
+): number | undefined {
+  if (raw === undefined || raw === null) return undefined;
+  const n = Math.round(Number(raw));
+  if (!Number.isFinite(n)) return undefined;
+  const c = Math.max(0, Math.min(100, n));
+  return c >= 100 ? undefined : c;
+}
+
 function normalizeGeneratorRequires(raw: unknown): string {
   if (raw === undefined || raw === null) return "";
   return String(raw).trim();
@@ -200,6 +211,8 @@ function rowToDefinition(
       if (c.seconds !== undefined) {
         entry.seconds = Math.max(0, Math.floor(c.seconds));
       }
+      const ch = formChanceToSavedCollect(c.chance);
+      if (ch !== undefined) entry.chance = ch;
       map[tok] = entry;
       return map;
     },
@@ -263,10 +276,13 @@ function buildActionsFromForm(
         (map, t) => {
           const tok = norm(t.token);
           if (!tok) return map;
-          map[tok] = {
+          const entry: CollectRule = {
             amount: Math.max(0, t.amount || 0),
             seconds,
           };
+          const ch = formChanceToSavedCollect(t.collectChance);
+          if (ch !== undefined) entry.chance = ch;
+          map[tok] = entry;
           return map;
         },
         {} as Record<string, CollectRule>,
