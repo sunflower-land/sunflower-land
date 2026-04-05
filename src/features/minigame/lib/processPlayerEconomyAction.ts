@@ -284,36 +284,90 @@ function applyMint(
   return undefined;
 }
 
+/**
+ * Temporary client roll until collect outcomes are resolved server-side.
+ */
+function resolvedCollectGrantAmount(rule: CollectRule): number {
+  const chance = rule.chance;
+  if (chance === undefined || !Number.isFinite(chance) || chance >= 100) {
+    return rule.amount;
+  }
+  if (chance <= 0) return 0;
+  return Math.random() * 100 < chance ? rule.amount : 0;
+}
+
+function collectRowWeightsForMultiCollect(
+  entries: [string, CollectRule][],
+): number[] {
+  return entries.map(([, r]) => {
+    if (r.chance === undefined) return 100;
+    const c = Number(r.chance);
+    if (!Number.isFinite(c)) return 100;
+    return c;
+  });
+}
+
+function pickWeightedCollectIndexClient(weights: number[]): number {
+  const w = weights.map((x) => {
+    const n = Number(x);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(0, Math.floor(n));
+  });
+  let sum = w.reduce((a, b) => a + b, 0);
+  const use = sum > 0 ? w : w.map(() => 1);
+  sum = use.reduce((a, b) => a + b, 0);
+  const roll = Math.floor(Math.random() * sum);
+  let acc = 0;
+  for (let i = 0; i < use.length; i++) {
+    acc += use[i];
+    if (roll < acc) return i;
+  }
+  return use.length - 1;
+}
+
 function applyCollect(
   balances: Record<string, number>,
   generating: PlayerEconomyRuntimeState["generating"],
   collect: Record<string, CollectRule> | undefined,
   itemId: string | undefined,
   now: number,
-): string | undefined {
-  if (!collect) return undefined;
+): { error: string } | { grants: { token: string; amount: number }[] } {
+  if (!collect) {
+    return { error: "Collect is not configured for this action" };
+  }
   if (!itemId) {
-    return "itemId is required for collect";
+    return { error: "itemId is required for collect" };
   }
   const job = generating[itemId];
   if (!job) {
-    return "Unknown production id";
+    return { error: "Unknown production id" };
   }
   if (now < job.completesAt) {
-    return "Production not complete yet";
+    return { error: "Production not complete yet" };
   }
-  const collectTokens = Object.keys(collect);
-  if (!collectTokens.includes(job.outputToken)) {
-    return "Production output does not match this action";
+  const entries = Object.entries(collect);
+  if (entries.length === 0) {
+    return { error: "Collect is not configured for this action" };
   }
-  for (const [token, rule] of Object.entries(collect)) {
+
+  if (entries.length === 1) {
+    const [token, rule] = entries[0];
     if (token !== job.outputToken) {
-      continue;
+      return { error: "Production output does not match this action" };
     }
-    balances[token] = getBalance(balances, token) + rule.amount;
+    const grant = resolvedCollectGrantAmount(rule);
+    balances[token] = getBalance(balances, token) + grant;
+    delete generating[itemId];
+    return { grants: [{ token, amount: grant }] };
   }
+
+  const weights = collectRowWeightsForMultiCollect(entries);
+  const idx = pickWeightedCollectIndexClient(weights);
+  const [token, rule] = entries[idx];
+  const grant = rule.amount;
+  balances[token] = getBalance(balances, token) + grant;
   delete generating[itemId];
-  return undefined;
+  return { grants: [{ token, amount: grant }] };
 }
 
 function rolloverDailyActionUsesIfNeeded(
@@ -381,7 +435,11 @@ function runPhases(
   def: PlayerEconomyActionDefinition,
   input: PlayerEconomyProcessInput,
   working: PlayerEconomyRuntimeState,
-): { error?: string; generatorJobId?: string } {
+): {
+  error?: string;
+  generatorJobId?: string;
+  collectGrants?: { token: string; amount: number }[];
+} {
   const hasProduce = Object.keys(def.produce ?? {}).length > 0;
   const hasCollect = Object.keys(def.collect ?? {}).length > 0;
   const itemId = input.itemId?.trim();
@@ -391,15 +449,17 @@ function runPhases(
     if (!hasCollect) {
       return { error: "itemId is not valid for this action" };
     }
-    const errCollect = applyCollect(
+    const collectResult = applyCollect(
       working.balances,
       working.generating,
       def.collect,
       itemId,
       input.now,
     );
-    if (errCollect) return { error: errCollect };
-    return {};
+    if ("error" in collectResult) {
+      return { error: collectResult.error };
+    }
+    return { collectGrants: collectResult.grants };
   }
 
   if (hasCollect && !hasProduce) {
@@ -482,7 +542,12 @@ export function processPlayerEconomyAction(
     return { ok: false, error: errPurchaseLimit };
   }
 
-  const { error, generatorJobId } = runPhases(config, def, input, working);
+  const { error, generatorJobId, collectGrants } = runPhases(
+    config,
+    def,
+    input,
+    working,
+  );
   if (error) {
     return { ok: false, error };
   }
@@ -501,7 +566,12 @@ export function processPlayerEconomyAction(
 
   incrementPurchaseCountIfNeeded(working, def, input.actionId, input.itemId);
 
-  return { ok: true, state: working, generatorJobId };
+  return {
+    ok: true,
+    state: working,
+    generatorJobId,
+    ...(collectGrants !== undefined ? { collectGrants } : {}),
+  };
 }
 
 export function emptyPlayerEconomyState(

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type {
   PlayerEconomyConfig,
@@ -19,12 +19,16 @@ import type {
 } from "../lib/extractProductionSlots";
 import {
   getCollectOutputForSlot,
+  isDeterministicCollectYield,
   isProductionSlotConfigured,
   recipeJobKey,
+  shouldShowCollectRevealModal,
 } from "../lib/extractProductionSlots";
 import { secondsToString } from "lib/utils/time";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { MinigameGeneratorRecipesModal } from "./MinigameGeneratorRecipesModal";
+import { MinigameCollectRevealModal } from "./MinigameCollectRevealModal";
+import type { PlayerEconomyCollectGrant } from "../lib/types";
 import { MinigameScaledSpriteImg } from "./MinigameScaledSpriteImg";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
@@ -44,6 +48,7 @@ type Props = {
     actionId: string;
     itemId?: string;
     amounts?: Record<string, number>;
+    syncCollectWithServer?: boolean;
   }) => Promise<PlayerEconomyProcessResult>;
 };
 
@@ -72,6 +77,12 @@ export const MinigameProductionZone: React.FC<Props> = ({
   const [inlineCollectError, setInlineCollectError] = useState<{
     capToken: string;
     message: string;
+  } | null>(null);
+  const [collectReveal, setCollectReveal] = useState<{
+    phase: "loading" | "result" | "error";
+    grants: PlayerEconomyCollectGrant[] | null;
+    errorMessage: string | null;
+    closeRecipesWhenDone: boolean;
   } | null>(null);
   const latestDispatchRef = useRef(dispatchAction);
   latestDispatchRef.current = dispatchAction;
@@ -138,22 +149,43 @@ export const MinigameProductionZone: React.FC<Props> = ({
     async (
       slot: CapBalanceProductionSlot,
       capToken: string,
-      opts?: { useModalError?: boolean; closeRecipesOnSuccess?: boolean },
+      opts?: {
+        useModalError?: boolean;
+        closeRecipesOnSuccess?: boolean;
+        closeRecipesAfterReveal?: boolean;
+      },
     ) => {
       if (!isProductionSlotConfigured(slot)) return;
       const k = recipeJobKey(slot);
       const jobId = capJobByRecipeKey[k];
       if (!jobId) return;
+      const useReveal = shouldShowCollectRevealModal(config, slot);
       setCollectingRecipeKey(k);
+      if (useReveal) {
+        setCollectReveal({
+          phase: "loading",
+          grants: null,
+          errorMessage: null,
+          closeRecipesWhenDone: opts?.closeRecipesAfterReveal ?? false,
+        });
+      }
       setInlineCollectError(null);
       setStartError(null);
       try {
         const result = await latestDispatchRef.current({
           actionId: slot.collectActionId,
           itemId: jobId,
+          syncCollectWithServer: useReveal,
         });
         if (!result.ok) {
-          if (opts?.useModalError) {
+          if (useReveal) {
+            setCollectReveal({
+              phase: "error",
+              grants: null,
+              errorMessage: result.error,
+              closeRecipesWhenDone: opts?.closeRecipesAfterReveal ?? false,
+            });
+          } else if (opts?.useModalError) {
             setStartError(result.error);
           } else {
             setInlineCollectError({ capToken, message: result.error });
@@ -162,15 +194,37 @@ export const MinigameProductionZone: React.FC<Props> = ({
         }
         onRuntimeChange(result.state);
         onRecipeJobChange(slot, undefined);
-        if (opts?.closeRecipesOnSuccess) {
+        if (useReveal) {
+          setCollectReveal({
+            phase: "result",
+            grants: result.collectGrants ?? [],
+            errorMessage: null,
+            closeRecipesWhenDone: opts?.closeRecipesAfterReveal ?? false,
+          });
+        } else if (opts?.closeRecipesOnSuccess) {
           closeRecipesModal();
         }
       } finally {
         setCollectingRecipeKey(null);
       }
     },
-    [capJobByRecipeKey, closeRecipesModal, onRecipeJobChange, onRuntimeChange],
+    [
+      capJobByRecipeKey,
+      closeRecipesModal,
+      config,
+      onRecipeJobChange,
+      onRuntimeChange,
+    ],
   );
+
+  const dismissCollectReveal = useCallback(() => {
+    setCollectReveal((prev) => {
+      if (prev?.phase === "result" && prev.closeRecipesWhenDone) {
+        closeRecipesModal();
+      }
+      return null;
+    });
+  }, [closeRecipesModal]);
 
   const durationShort = (ms: number) =>
     secondsToString(Math.max(0, Math.floor(ms / 1000)), {
@@ -215,7 +269,11 @@ export const MinigameProductionZone: React.FC<Props> = ({
                     (slot.outputToken
                       ? { token: slot.outputToken, amount: 1 }
                       : null);
-                  return { k, progress, remainingMs, out };
+                  const yieldUnknown = !isDeterministicCollectYield(
+                    config,
+                    slot,
+                  );
+                  return { k, progress, remainingMs, out, yieldUnknown };
                 })
                 .filter((x): x is NonNullable<typeof x> => x != null)
             : [];
@@ -249,6 +307,8 @@ export const MinigameProductionZone: React.FC<Props> = ({
               if (!isProductionSlotConfigured(slot)) return false;
               return recipeJobKey(slot) === collectingRecipeKey;
             });
+
+          const collectRevealOpen = collectReveal != null;
 
           const openRecipesForCap = () => {
             setInlineCollectError(null);
@@ -289,7 +349,7 @@ export const MinigameProductionZone: React.FC<Props> = ({
                       : t("minigame.dashboard.production.openRecipesAria")
                     : undefined
                 }
-                disabled={!configured || isCollectingHere}
+                disabled={!configured || isCollectingHere || collectRevealOpen}
                 onClick={configured ? onBuildingClick : undefined}
               >
                 <MinigameScaledSpriteImg
@@ -303,34 +363,50 @@ export const MinigameProductionZone: React.FC<Props> = ({
 
               {configured && hasInlineProduction ? (
                 <div className="flex w-full min-w-0 max-w-sm flex-col gap-2">
-                  {producingRuns.map(({ k, progress, remainingMs, out }) => (
-                    <div
-                      key={k}
-                      className="flex w-full min-w-0 flex-row items-center"
-                    >
-                      <Box
-                        count={new Decimal(out?.amount ?? 0)}
-                        image={getMinigameTokenImage(
-                          out?.token ?? "",
-                          tokenImages,
-                        )}
-                      />
-                      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                        <ResizableBar
-                          type="progress"
-                          percentage={progress}
-                          outerDimensions={{ width: 18, height: 7 }}
-                        />
-                        <span
-                          className="text-xs  tabular-nums leading-none"
-                          style={{ color: labelStrong }}
-                        >
-                          {durationShort(remainingMs)}
-                        </span>
+                  {producingRuns.map(
+                    ({ k, progress, remainingMs, out, yieldUnknown }) => (
+                      <div
+                        key={k}
+                        className="flex w-full min-w-0 flex-row items-center"
+                      >
+                        <div className="relative shrink-0">
+                          <Box
+                            hideCount={yieldUnknown}
+                            count={new Decimal(out?.amount ?? 0)}
+                            image={getMinigameTokenImage(
+                              out?.token ?? "",
+                              tokenImages,
+                            )}
+                          />
+                          {yieldUnknown ? (
+                            <span
+                              className="pointer-events-none absolute z-[12] text-[11px] font-bold leading-none yield-text"
+                              style={{
+                                right: `${PIXEL_SCALE * -5}px`,
+                                top: `${PIXEL_SCALE * -5}px`,
+                              }}
+                            >
+                              {"?"}
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                          <ResizableBar
+                            type="progress"
+                            percentage={progress}
+                            outerDimensions={{ width: 18, height: 7 }}
+                          />
+                          <span
+                            className="text-xs  tabular-nums leading-none"
+                            style={{ color: labelStrong }}
+                          >
+                            {durationShort(remainingMs)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                  {readyToCollectRuns.map(({ k, out }) =>
+                    ),
+                  )}
+                  {readyToCollectRuns.map(({ k, slot, out }) =>
                     out ? (
                       <div
                         key={`ready-${k}`}
@@ -346,7 +422,11 @@ export const MinigameProductionZone: React.FC<Props> = ({
                           alt=""
                           draggable={false}
                         />
-                        <span className="yield-text ml-1">{"+1"}</span>
+                        <span className="yield-text ml-1">
+                          {isDeterministicCollectYield(config, slot)
+                            ? `+${out.amount}`
+                            : "?"}
+                        </span>
                       </div>
                     ) : null,
                   )}
@@ -379,12 +459,26 @@ export const MinigameProductionZone: React.FC<Props> = ({
           onRecipeStart={(slot) => {
             void handleRecipeStartImmediate(slot);
           }}
+          interactionLocked={collectReveal != null}
           onRecipeCollect={(slot) => {
             void handleCollectSlot(slot, recipesModalEntry.capToken, {
               useModalError: true,
               closeRecipesOnSuccess: false,
+              closeRecipesAfterReveal: true,
             });
           }}
+        />
+      ) : null}
+
+      {collectReveal ? (
+        <MinigameCollectRevealModal
+          show
+          phase={collectReveal.phase}
+          grants={collectReveal.grants}
+          errorMessage={collectReveal.errorMessage}
+          config={config}
+          tokenImages={tokenImages}
+          onDismiss={dismissCollectReveal}
         />
       ) : null}
     </>

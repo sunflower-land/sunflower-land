@@ -155,6 +155,99 @@ export const MintRowList: React.FC<{
   />
 );
 
+/** Generate card linked collect: Item, Amount, Chance (%). */
+export const GeneratorCollectRowList: React.FC<{
+  rows: MintRuleForm[];
+  itemKeys: string[];
+  getItemOptionLabel?: (itemId: string) => string;
+  onChange: (rows: MintRuleForm[]) => void;
+  minRows?: number;
+  maxRows?: number;
+}> = ({
+  rows,
+  itemKeys,
+  getItemOptionLabel,
+  onChange,
+  minRows = 0,
+  maxRows,
+}) => {
+  const canRemoveRow = rows.length > (minRows > 0 ? minRows : 1);
+  const canAddRow = maxRows === undefined || rows.length < maxRows;
+
+  return (
+    <>
+      {rows.map((row, idx) => (
+        <div key={idx} className="flex items-center gap-1">
+          <div className="flex-1 grid grid-cols-3 gap-1">
+            <FieldRow label="Item">
+              <Dropdown
+                options={itemKeys}
+                value={row.token || undefined}
+                onChange={(v) => {
+                  const updated = [...rows];
+                  updated[idx] = { ...updated[idx], token: v };
+                  onChange(updated);
+                }}
+                placeholder="Select item"
+                showSearch
+                getOptionLabel={getItemOptionLabel}
+              />
+            </FieldRow>
+            <FieldRow label="Amount">
+              <NumberInput
+                value={new Decimal(row.amount || 0)}
+                maxDecimalPlaces={2}
+                onValueChange={(v) => {
+                  const updated = [...rows];
+                  updated[idx] = { ...updated[idx], amount: v.toNumber() };
+                  onChange(updated);
+                }}
+              />
+            </FieldRow>
+            <FieldRow label="Chance %">
+              <NumberInput
+                value={new Decimal(row.collectChance ?? 100)}
+                maxDecimalPlaces={0}
+                onValueChange={(v) => {
+                  const updated = [...rows];
+                  const n = Math.max(
+                    0,
+                    Math.min(100, Math.round(v.toNumber())),
+                  );
+                  updated[idx] = { ...updated[idx], collectChance: n };
+                  onChange(updated);
+                }}
+              />
+            </FieldRow>
+          </div>
+          {canRemoveRow && (
+            <img
+              src={SUNNYSIDE.icons.cancel}
+              className="cursor-pointer hover:brightness-75 mt-5"
+              onClick={() => onChange(rows.filter((_, i) => i !== idx))}
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+                imageRendering: "pixelated",
+              }}
+            />
+          )}
+          {idx === rows.length - 1 && canAddRow && (
+            <img
+              src={SUNNYSIDE.icons.plus}
+              className="cursor-pointer hover:brightness-90 mt-5"
+              onClick={() => onChange([...rows, { ...EMPTY_MINT_ROW }])}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                imageRendering: "pixelated",
+              }}
+            />
+          )}
+        </div>
+      ))}
+    </>
+  );
+};
+
 export const BurnRowList: React.FC<{
   rows: TokenAmount[];
   itemKeys: string[];

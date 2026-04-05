@@ -24,6 +24,7 @@ import { Portal } from "features/world/ui/portals/Portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
 import {
   postPlayerEconomyActionedEvent,
+  resolveServerProduceJobId,
   runtimeStateFromActionResponse,
 } from "./lib/minigameSessionApi";
 import { processPlayerEconomyAction } from "./lib/processPlayerEconomyAction";
@@ -60,6 +61,8 @@ import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import {
   getPrimaryTradableMarketplaceItem,
   mergeRuntimeWithInitialBalances,
+  remapCapJobRecipeKeys,
+  replaceGeneratingJobId,
 } from "./lib/minigameConfigHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
@@ -225,6 +228,11 @@ export const MinigameDashboard: React.FC = () => {
       actionId: string;
       itemId?: string;
       amounts?: Record<string, number>;
+      /**
+       * Collect only: wait for the server and apply full runtime + grants (random / reveal).
+       * Omit or false → optimistic UI; POST runs in the background.
+       */
+      syncCollectWithServer?: boolean;
     }): Promise<PlayerEconomyProcessResult> => {
       if (!payload)
         return { ok: false, error: t("minigame.dashboard.error.noSession") };
@@ -234,7 +242,9 @@ export const MinigameDashboard: React.FC = () => {
         return { ok: false, error: t("minigame.dashboard.error.noState") };
 
       const local = processPlayerEconomyAction(payload.config, prev, {
-        ...input,
+        actionId: input.actionId,
+        itemId: input.itemId,
+        amounts: input.amounts,
         now: Date.now(),
       });
       if (!local.ok) return local;
@@ -247,9 +257,45 @@ export const MinigameDashboard: React.FC = () => {
         return { ok: false, error: t("minigame.dashboard.signInToAction") };
       }
 
+      const cfg = payload.config;
+      const isCollect = Boolean(input.itemId?.trim());
+      const awaitRevealCollect =
+        isCollect && input.syncCollectWithServer === true;
+
+      if (awaitRevealCollect) {
+        try {
+          const data = await postPlayerEconomyActionedEvent({
+            farmId,
+            userToken,
+            portalId: payload.portalName,
+            action: input.actionId,
+            itemId: input.itemId,
+            amounts: input.amounts,
+          });
+          const next = runtimeStateFromActionResponse(data.playerEconomy);
+          const merged = mergeRuntimeWithInitialBalances(cfg, next);
+          if (dashboardMountedRef.current) {
+            applyRuntime(merged);
+            setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
+          }
+          return {
+            ok: true,
+            state: merged,
+            collectGrants: data.collectGrants ?? local.collectGrants ?? [],
+          };
+        } catch (e) {
+          return {
+            ok: false,
+            error:
+              e instanceof Error
+                ? e.message
+                : t("minigame.dashboard.actionFailed"),
+          };
+        }
+      }
+
       const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
       const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
-      const cfg = payload.config;
 
       void (async () => {
         const remoteSeq = ++minigameRemoteActionSeqRef.current;
@@ -262,11 +308,36 @@ export const MinigameDashboard: React.FC = () => {
             itemId: input.itemId,
             amounts: input.amounts,
           });
-          const next = runtimeStateFromActionResponse(data.playerEconomy);
           if (!dashboardMountedRef.current) return;
           if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
-          applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
-          setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
+
+          if (isCollect) {
+            return;
+          }
+
+          const clientJobId = local.generatorJobId;
+          const serverJobId = resolveServerProduceJobId(
+            snapshotRuntime.generating,
+            data,
+            clientJobId,
+          );
+          if (clientJobId && serverJobId && serverJobId !== clientJobId) {
+            setRuntime((prevRt) => {
+              if (!prevRt) return prevRt;
+              if (!prevRt.generating[clientJobId]) return prevRt;
+              const patched = replaceGeneratingJobId(
+                prevRt,
+                clientJobId,
+                serverJobId,
+              );
+              const merged = mergeRuntimeWithInitialBalances(cfg, patched);
+              runtimeRef.current = merged;
+              return merged;
+            });
+            setCapJobByRecipeKey((prevMap) =>
+              remapCapJobRecipeKeys(prevMap, clientJobId, serverJobId),
+            );
+          }
         } catch (e) {
           if (!dashboardMountedRef.current) return;
           if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
@@ -284,7 +355,12 @@ export const MinigameDashboard: React.FC = () => {
       return {
         ok: true,
         state: local.state,
-        generatorJobId: local.generatorJobId,
+        ...(local.generatorJobId !== undefined
+          ? { generatorJobId: local.generatorJobId }
+          : {}),
+        ...(local.collectGrants !== undefined
+          ? { collectGrants: local.collectGrants }
+          : {}),
       };
     },
     [payload, userToken, farmId, applyRuntime, t],
@@ -470,17 +546,14 @@ export const MinigameDashboard: React.FC = () => {
     void (async () => {
       const remoteSeq = ++minigameRemoteActionSeqRef.current;
       try {
-        const data = await postPlayerEconomyActionedEvent({
+        await postPlayerEconomyActionedEvent({
           farmId,
           userToken,
           portalId: payload.portalName,
           action: shopActionId,
         });
-        const next = runtimeStateFromActionResponse(data.playerEconomy);
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
-        applyRuntime(mergeRuntimeWithInitialBalances(cfg, next));
-        setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
       } catch (e) {
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;

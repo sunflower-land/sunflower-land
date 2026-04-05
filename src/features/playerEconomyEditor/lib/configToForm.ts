@@ -31,6 +31,14 @@ import { EMPTY_MINT_ROW } from "./types";
 /** Match formToConfig sentinel for “no per-token daily cap” in the editor. */
 const CUSTOM_MINT_UNCAPPED = 999_999_999;
 
+function collectChancePercentFromRule(rule: {
+  chance?: number;
+}): number | undefined {
+  const c = rule.chance;
+  if (typeof c !== "number" || !Number.isFinite(c)) return undefined;
+  return Math.max(0, Math.min(100, Math.round(c)));
+}
+
 function normalizeProduceRequiresForForm(raw: unknown): string {
   if (raw === undefined || raw === null) return "";
   return String(raw).trim();
@@ -281,10 +289,12 @@ function actionEntryToForm(
     collect: Object.entries(def.collect ?? {}).map(([key, rule]) => {
       const r = rule as CollectRule;
       const sec = parseCollectRuleSeconds((r as { seconds?: unknown }).seconds);
+      const ch = collectChancePercentFromRule(r);
       return {
         token: key,
         amount: r.amount,
         ...(sec !== undefined ? { seconds: sec } : {}),
+        ...(ch !== undefined && ch < 100 ? { chance: ch } : {}),
       };
     }),
     customMint,
@@ -304,6 +314,10 @@ function collectRowsToLinkedMintForms(
       dailyCap: 0,
       min: 0,
       max: 0,
+      collectChance:
+        typeof c.chance === "number" && Number.isFinite(c.chance)
+          ? Math.max(0, Math.min(100, Math.round(c.chance)))
+          : 100,
     }));
   }
   if (cForm.mint.length > 0) return cForm.mint;
@@ -413,14 +427,18 @@ function repairGenerateLinkedCollect(
     if (inlineCollect && def.collect) {
       return {
         ...f,
-        linkedCollectMint: Object.entries(def.collect).map(([key, rule]) => ({
-          token: key,
-          type: "fixed" as const,
-          amount: (rule as { amount: number }).amount,
-          dailyCap: 0,
-          min: 0,
-          max: 0,
-        })),
+        linkedCollectMint: Object.entries(def.collect).map(([key, rule]) => {
+          const r = rule as CollectRule;
+          return {
+            token: key,
+            type: "fixed" as const,
+            amount: r.amount,
+            dailyCap: 0,
+            min: 0,
+            max: 0,
+            collectChance: collectChancePercentFromRule(r) ?? 100,
+          };
+        }),
       };
     }
     if (!def?.produce) return f;
@@ -435,14 +453,18 @@ function repairGenerateLinkedCollect(
     return {
       ...f,
       linkedCollectId: collectId,
-      linkedCollectMint: entries.map(([key, rule]) => ({
-        token: key,
-        type: "fixed" as const,
-        amount: (rule as { amount: number }).amount,
-        dailyCap: 0,
-        min: 0,
-        max: 0,
-      })),
+      linkedCollectMint: entries.map(([key, rule]) => {
+        const r = rule as CollectRule;
+        return {
+          token: key,
+          type: "fixed" as const,
+          amount: r.amount,
+          dailyCap: 0,
+          min: 0,
+          max: 0,
+          collectChance: collectChancePercentFromRule(r) ?? 100,
+        };
+      }),
     };
   });
 }

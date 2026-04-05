@@ -59,6 +59,7 @@ import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
+import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { DEV_MinigameToken } from "./developer-options/DEV_MinigameToken";
 
 export interface ContentComponentProps {
@@ -289,6 +290,7 @@ export type SettingMenuId =
   | "general"
   | "plaza"
   | "experiments"
+  | "economyEditor"
   | "admin"
   | "faceRecognition"
   // Blockchain Settings
@@ -354,6 +356,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Experiments",
     parent: "amoy",
     content: ExperimentsSettings,
+  },
+  economyEditor: {
+    title: translate("gameOptions.experiments.economyEditor"),
+    parent: "experiments",
+    content: EconomyEditorExperimentSettings,
   },
 
   // Blockchain Settings

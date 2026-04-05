@@ -8,7 +8,7 @@ import { Label } from "components/ui/Label";
 import { ContentComponentProps } from "../GameOptions";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const PORTAL_AI_FORM_URL =
   "https://docs.google.com/forms/d/19kA1K2py4gowO3xOiueMdNYjkNbr7itWpeYkPOScsDY";
@@ -19,35 +19,25 @@ const AI_BUILDER_FARM_IDS = [
 ];
 
 const _farmId = (state: MachineState) => state.context.farmId;
-const _gameState = (state: MachineState) => state.context.state;
 
 export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
   onClose,
+  onSubMenuClick,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService, setFromRoute } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
-  const gameState = useSelector(gameService, _gameState);
   const navigate = useNavigate();
 
   const [showPortalAIOverlay, setShowPortalAIOverlay] = useState(false);
 
   const hasAIBuilderAccess = AI_BUILDER_FARM_IDS.includes(farmId ?? 0);
-  const hasPlayerEconomiesAccess = hasFeatureAccess(
-    gameState,
-    "PLAYER_ECONOMIES",
-  );
 
   const handleOpenAIBuilder = () => {
     setShowPortalAIOverlay(false);
     onClose();
     setFromRoute(window.location.hash.replace("#", "") || "/");
     navigate("/ai-builder");
-  };
-
-  const handleOpenEconomyEditor = () => {
-    onClose();
-    setFromRoute(window.location.hash.replace("#", "") || "/");
-    navigate("/economy-editor");
   };
 
   return (
@@ -92,11 +82,12 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       </ModalOverlay>
 
       <div className="grid grid-cols-1 gap-1 min-h-[240px] content-start">
-        {hasPlayerEconomiesAccess && (
-          <Button className="self-start" onClick={handleOpenEconomyEditor}>
-            <span>{"Economy editor"}</span>
-          </Button>
-        )}
+        <Button
+          className="self-start"
+          onClick={() => onSubMenuClick("economyEditor")}
+        >
+          <span>{t("gameOptions.experiments.economyEditor")}</span>
+        </Button>
         <Button
           className="self-start"
           onClick={() => setShowPortalAIOverlay(true)}

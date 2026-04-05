@@ -54,7 +54,30 @@ export function resolvePlayerEconomySessionItems(
 export type MinigameActionApiResponse = {
   playerEconomy: MinigameSessionApiPayload["playerEconomy"];
   generatorJobId?: string;
+  collectGrants?: { token: string; amount: number }[];
 };
+
+/**
+ * After optimistic produce, map the client UUID to the server's job id without replacing
+ * the rest of runtime (avoids HUD jumps). Uses `generatorJobId` when present, else the
+ * single new key in `playerEconomy.generating` vs the pre-action snapshot.
+ */
+export function resolveServerProduceJobId(
+  snapshotGenerating: PlayerEconomyRuntimeState["generating"],
+  data: MinigameActionApiResponse,
+  clientJobId: string | undefined,
+): string | undefined {
+  if (!clientJobId) return undefined;
+  const direct = data.generatorJobId;
+  if (typeof direct === "string" && direct !== clientJobId) return direct;
+
+  const serverGen = data.playerEconomy
+    .generating as PlayerEconomyRuntimeState["generating"];
+  const snapKeys = new Set(Object.keys(snapshotGenerating));
+  const newcomers = Object.keys(serverGen).filter((k) => !snapKeys.has(k));
+  if (newcomers.length === 1) return newcomers[0];
+  return undefined;
+}
 
 export function runtimeStateFromActionResponse(
   pe: MinigameActionApiResponse["playerEconomy"],

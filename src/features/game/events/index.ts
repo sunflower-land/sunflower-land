@@ -488,6 +488,10 @@ import {
   UpdateNetworkAction,
 } from "./landExpansion/updateNetwork";
 import {
+  updateEconomiesEnabled,
+  EconomiesEnabledAction,
+} from "./updateEconomiesEnabled";
+import {
   acknowledgeRewardBox,
   AcknowledgeRewardBoxAction,
 } from "./landExpansion/acknowledgeRewardBox";
@@ -782,6 +786,7 @@ export type PlayingEvent =
   | ExchangeFlowerAction
   | BuyFloatingShopItemAction
   | UpdateNetworkAction
+  | EconomiesEnabledAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
@@ -1063,6 +1068,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "exchange.flower": exchangeFlower,
   "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,
+  "economies.enabled": updateEconomiesEnabled,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
