@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Raccogli l'oggetto pronto",
   "playerEconomyEditor.syncError.title": "Impossibile sincronizzare con il server",
   "playerEconomyEditor.syncError.hint": "Le tue ultime modifiche vengono conservate in questa pagina. Aggiorna per ricaricare dal server.",
-  "playerEconomyEditor.syncError.refresh": "Aggiorna pagina"
+  "playerEconomyEditor.syncError.refresh": "Aggiorna pagina",
+  "gameOptions.generalSettings.playerEconomies": "Economie dei giocatori",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Attiva le funzionalità sperimentali per l'economia dei giocatori: dashboard dei token, editor di economia e inserzioni di minigiochi sul mercato. Puoi disattivarlo in qualsiasi momento.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Abilita le economie dei giocatori",
+  "gameOptions.experiments.economyEditor": "Redattore di economia",
+  "gameOptions.experiments.openEconomyEditor": "Editor di economia aperta",
+  "gameOptions.experiments.economyEditorDisclaimer": "Solo funzionalità sperimentale. I dati e i progressi possono essere ripristinati o persi senza preavviso. Abilitando questa opzione o utilizzando l'editor economico, accettate questi rischi e procedete a vostro rischio.",
+  "minigame.dashboard.production.dropOddsTitle": "Possibilità di ricompensa (ne ottieni una quando raccogli)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? Goccia",
+  "minigame.dashboard.production.collectResolving": "Apertura della tua ricompensa",
+  "minigame.dashboard.production.collectResolvingHint": "Resisti, lo stiamo confermando sul server.",
+  "minigame.dashboard.production.collectYouWon": "Hai ricevuto",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "No {{name}} questa volta, meglio la prossima corsa.",
+  "minigame.dashboard.production.collectDone": "Bello!"
 }

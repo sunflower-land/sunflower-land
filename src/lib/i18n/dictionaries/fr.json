@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Collectez l'article prêt",
   "playerEconomyEditor.syncError.title": "Impossible de synchroniser avec le serveur",
   "playerEconomyEditor.syncError.hint": "Vos dernières modifications sont conservées sur cette page. Actualisez pour recharger depuis le serveur.",
-  "playerEconomyEditor.syncError.refresh": "Actualiser la page"
+  "playerEconomyEditor.syncError.refresh": "Actualiser la page",
+  "gameOptions.generalSettings.playerEconomies": "Économies des joueurs",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Activez les fonctionnalités expérimentales de l'économie des joueurs : tableaux de bord à jetons, éditeur économique et listes de mini-jeux sur la place de marché. Vous pouvez le désactiver à tout moment.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Favoriser l'économie des joueurs",
+  "gameOptions.experiments.economyEditor": "Rédacteur économique",
+  "gameOptions.experiments.openEconomyEditor": "Éditeur d'économie ouverte",
+  "gameOptions.experiments.economyEditorDisclaimer": "Fonctionnalité expérimentale uniquement. Les données et la progression peuvent être réinitialisées ou perdues sans préavis. En activant cette option ou en utilisant l'éditeur économique, vous acceptez ces risques et vous agissez à vos risques et périls.",
+  "minigame.dashboard.production.dropOddsTitle": "Chances de récompenses (vous en obtenez une lorsque vous la collectez)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}} % — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "? ? ? Déposer",
+  "minigame.dashboard.production.collectResolving": "Ouverture de votre récompense",
+  "minigame.dashboard.production.collectResolvingHint": "Attendez, nous sommes en train de le confirmer sur le serveur.",
+  "minigame.dashboard.production.collectYouWon": "Vous avez reçu",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "Non {{name}} cette fois. Bonne chance pour la prochaine course.",
+  "minigame.dashboard.production.collectDone": "Sympa !"
 }

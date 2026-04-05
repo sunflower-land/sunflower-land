@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Kumpulkan barang siap pakai",
   "playerEconomyEditor.syncError.title": "Tidak dapat menyinkronkan ke server",
   "playerEconomyEditor.syncError.hint": "Suntingan terbaru Anda disimpan di halaman ini. Refresh untuk memuat ulang dari server.",
-  "playerEconomyEditor.syncError.refresh": "Segarkan halaman"
+  "playerEconomyEditor.syncError.refresh": "Segarkan halaman",
+  "gameOptions.generalSettings.playerEconomies": "Ekonomi pemain",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Aktifkan fitur ekonomi pemain eksperimental: dasbor token, editor ekonomi, dan daftar minigame di pasar. Anda dapat mematikannya kapan saja.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Aktifkan ekonomi pemain",
+  "gameOptions.experiments.economyEditor": "Editor ekonomi",
+  "gameOptions.experiments.openEconomyEditor": "Editor ekonomi terbuka",
+  "gameOptions.experiments.economyEditorDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini atau menggunakan editor ekonomi, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri.",
+  "minigame.dashboard.production.dropOddsTitle": "Peluang hadiah (Anda mendapatkannya saat Anda mengumpulkan)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? Jatuhkan",
+  "minigame.dashboard.production.collectResolving": "Membuka hadiah Anda",
+  "minigame.dashboard.production.collectResolvingHint": "Tunggu sebentar — kami mengkonfirmasi ini di server.",
+  "minigame.dashboard.production.collectYouWon": "Anda menerima",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "Tidak ada {{name}} kali ini — semoga sukses lari berikutnya.",
+  "minigame.dashboard.production.collectDone": "Bagus!"
 }

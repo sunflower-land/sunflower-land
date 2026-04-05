@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "收集准备好的物品",
   "playerEconomyEditor.syncError.title": "无法同步到服务器",
   "playerEconomyEditor.syncError.hint": "您的最新编辑保留在此页面上。刷新以从服务器重新加载。",
-  "playerEconomyEditor.syncError.refresh": "刷新页面"
+  "playerEconomyEditor.syncError.refresh": "刷新页面",
+  "gameOptions.generalSettings.playerEconomies": "玩家经济",
+  "gameOptions.generalSettings.playerEconomiesDescription": "开启实验性玩家经济功能：代币仪表盘、经济编辑器和市场中的小游戏列表。你可以随时将其关闭。",
+  "gameOptions.generalSettings.playerEconomiesToggle": "启用玩家经济",
+  "gameOptions.experiments.economyEditor": "经济编辑",
+  "gameOptions.experiments.openEconomyEditor": "开放经济编辑",
+  "gameOptions.experiments.economyEditorDisclaimer": "仅限实验功能。数据和进度可能会被重置或丢失，恕不另行通知。通过启用此功能或使用经济编辑器，您接受这些风险，并自担风险。",
+  "minigame.dashboard.production.dropOddsTitle": "奖励机会（收集时获得一次）",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "？？掉落",
+  "minigame.dashboard.production.collectResolving": "开启奖励",
+  "minigame.dashboard.production.collectResolvingHint": "等一下 — 我们正在服务器上确认这一点。",
+  "minigame.dashboard.production.collectYouWon": "你收到了",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "这次不是 {{name}} ——下次跑步好运。",
+  "minigame.dashboard.production.collectDone": "太棒了！"
 }

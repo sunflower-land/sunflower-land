@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Sammle den fertigen Artikel",
   "playerEconomyEditor.syncError.title": "Konnte nicht mit dem Server synchronisiert werden",
   "playerEconomyEditor.syncError.hint": "Ihre letzten Änderungen werden auf dieser Seite gespeichert. Aktualisieren Sie, um vom Server neu zu laden.",
-  "playerEconomyEditor.syncError.refresh": "Seite aktualisieren"
+  "playerEconomyEditor.syncError.refresh": "Seite aktualisieren",
+  "gameOptions.generalSettings.playerEconomies": "Ökonomien der Spieler",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Aktiviere experimentelle Funktionen für die Spielerökonomie: Token-Dashboards, den Wirtschaftseditor und Angebote von Minispielen auf dem Marktplatz. Du kannst das jederzeit ausschalten.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Ermöglichen Sie Spielerökonomien",
+  "gameOptions.experiments.economyEditor": "Wirtschaftsredakteur",
+  "gameOptions.experiments.openEconomyEditor": "Open Economy-Editor",
+  "gameOptions.experiments.economyEditorDisclaimer": "Nur experimentelle Funktion. Daten und Fortschritt können ohne vorherige Ankündigung zurückgesetzt werden oder verloren gehen. Wenn Sie dies aktivieren oder den Wirtschaftseditor verwenden, akzeptieren Sie diese Risiken und fahren auf eigenes Risiko fort.",
+  "minigame.dashboard.production.dropOddsTitle": "Prämienchancen (du bekommst eine, wenn du sammelst)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? Fallenlassen",
+  "minigame.dashboard.production.collectResolving": "Deine Belohnung öffnen",
+  "minigame.dashboard.production.collectResolvingHint": "Bleib dran — wir bestätigen das auf dem Server.",
+  "minigame.dashboard.production.collectYouWon": "Du hast erhalten",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "Diesmal nicht {{name}} — viel Glück beim nächsten Lauf.",
+  "minigame.dashboard.production.collectDone": "Nett!"
 }

@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Recoge el artículo listo",
   "playerEconomyEditor.syncError.title": "No se pudo sincronizar con el servidor",
   "playerEconomyEditor.syncError.hint": "Las últimas modificaciones se guardan en esta página. Actualiza para volver a cargarlo desde el servidor.",
-  "playerEconomyEditor.syncError.refresh": "Actualizar página"
+  "playerEconomyEditor.syncError.refresh": "Actualizar página",
+  "gameOptions.generalSettings.playerEconomies": "Economías de jugadores",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Activa las funciones experimentales de economía del jugador: paneles de fichas, el editor de economía y listados de minijuegos en el mercado. Puedes desactivarlo en cualquier momento.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Permita las economías de los jugadores",
+  "gameOptions.experiments.economyEditor": "Editor de economía",
+  "gameOptions.experiments.openEconomyEditor": "Editor de economía abierta",
+  "gameOptions.experiments.economyEditorDisclaimer": "Solo función experimental. Los datos y el progreso pueden restablecerse o perderse sin previo aviso. Al habilitar esta opción o utilizar el editor económico, usted acepta estos riesgos y procede bajo su propia responsabilidad.",
+  "minigame.dashboard.production.dropOddsTitle": "Posibilidades de recompensa (obtienes una cuando la recolectas)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? Caída",
+  "minigame.dashboard.production.collectResolving": "Abrir tu recompensa",
+  "minigame.dashboard.production.collectResolvingHint": "Espera, estamos confirmando esto en el servidor.",
+  "minigame.dashboard.production.collectYouWon": "Recibiste",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "No {{name}} esta vez, mejor suerte en la próxima carrera.",
+  "minigame.dashboard.production.collectDone": "¡Bonito!"
 }

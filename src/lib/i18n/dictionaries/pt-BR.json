@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Colete o item pronto",
   "playerEconomyEditor.syncError.title": "Não foi possível sincronizar com o servidor",
   "playerEconomyEditor.syncError.hint": "Suas edições mais recentes são mantidas nesta página. Atualize para recarregar do servidor.",
-  "playerEconomyEditor.syncError.refresh": "Atualizar página"
+  "playerEconomyEditor.syncError.refresh": "Atualizar página",
+  "gameOptions.generalSettings.playerEconomies": "Economias dos jogadores",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Ative os recursos experimentais de economia de jogadores: painéis de tokens, editor de economia e listagens de minijogos no mercado. Você pode desligar isso a qualquer momento.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Habilite a economia dos jogadores",
+  "gameOptions.experiments.economyEditor": "Editor de economia",
+  "gameOptions.experiments.openEconomyEditor": "Editor de economia aberta",
+  "gameOptions.experiments.economyEditorDisclaimer": "Somente recurso experimental. Os dados e o progresso podem ser redefinidos ou perdidos sem aviso prévio. Ao habilitar isso ou usar o editor de economia, você aceita esses riscos e procede por sua própria conta e risco.",
+  "minigame.dashboard.production.dropOddsTitle": "Chances de recompensa (você ganha uma ao coletar)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? Soltar",
+  "minigame.dashboard.production.collectResolving": "Abrindo sua recompensa",
+  "minigame.dashboard.production.collectResolvingHint": "Espere aí — estamos confirmando isso no servidor.",
+  "minigame.dashboard.production.collectYouWon": "Você recebeu",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "Não {{name}} desta vez — melhor sorte na próxima corrida.",
+  "minigame.dashboard.production.collectDone": "Agradável!"
 }

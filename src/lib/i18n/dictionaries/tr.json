@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "Hazır öğeyi topla",
   "playerEconomyEditor.syncError.title": "Sunucuya senkronize edilemedi",
   "playerEconomyEditor.syncError.hint": "En son düzenlemeleriniz bu sayfada tutulur. Sunucudan yeniden yüklemek için yenileyin.",
-  "playerEconomyEditor.syncError.refresh": "Sayfayı yenile"
+  "playerEconomyEditor.syncError.refresh": "Sayfayı yenile",
+  "gameOptions.generalSettings.playerEconomies": "Oyuncu ekonomileri",
+  "gameOptions.generalSettings.playerEconomiesDescription": "Deneysel oyuncu ekonomisi özelliklerini açın: jeton gösterge panoları, ekonomi editörü ve pazardaki mini oyun listeleri. Bunu istediğiniz zaman kapatabilirsiniz.",
+  "gameOptions.generalSettings.playerEconomiesToggle": "Oyuncu ekonomilerini etkinleştir",
+  "gameOptions.experiments.economyEditor": "Ekonomi editörü",
+  "gameOptions.experiments.openEconomyEditor": "Açık ekonomi editörü",
+  "gameOptions.experiments.economyEditorDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek veya ekonomi düzenleyicisini kullanarak bu riskleri kabul eder ve kendi sorumluluğunuzda ilerlersiniz.",
+  "minigame.dashboard.production.dropOddsTitle": "Ödül şansı (topladığınızda bir tane alırsınız)",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}} %— + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "??? düşürmek",
+  "minigame.dashboard.production.collectResolving": "Ödülünüzü açma",
+  "minigame.dashboard.production.collectResolvingHint": "Sıkı bekleyin - bunu sunucuda onaylıyoruz.",
+  "minigame.dashboard.production.collectYouWon": "Aldın",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "Hayır {{name}} bu sefer - bir sonraki koşuda iyi şanslar.",
+  "minigame.dashboard.production.collectDone": "Güzel!"
 }

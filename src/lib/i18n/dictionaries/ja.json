@@ -8541,5 +8541,20 @@
   "minigame.dashboard.production.collectFromBuildingAria": "準備完了品を集める",
   "playerEconomyEditor.syncError.title": "サーバーと同期できませんでした",
   "playerEconomyEditor.syncError.hint": "最新の編集内容はこのページに保存されます。更新してサーバーから再読み込みしてください。",
-  "playerEconomyEditor.syncError.refresh": "ページを更新"
+  "playerEconomyEditor.syncError.refresh": "ページを更新",
+  "gameOptions.generalSettings.playerEconomies": "プレイヤーエコノミー",
+  "gameOptions.generalSettings.playerEconomiesDescription": "トークンダッシュボード、エコノミーエディター、マーケットプレイスのミニゲームリストなど、実験的なプレイヤーエコノミー機能を有効にします。この機能はいつでもオフにできます。",
+  "gameOptions.generalSettings.playerEconomiesToggle": "プレイヤーエコノミーを有効にする",
+  "gameOptions.experiments.economyEditor": "エコノミーエディター",
+  "gameOptions.experiments.openEconomyEditor": "オープンエコノミーエディター",
+  "gameOptions.experiments.economyEditorDisclaimer": "実験的機能のみ。データや進行状況は予告なしにリセットまたは失われる可能性があります。これを有効にするか、エコノミーエディターを使用することにより、これらのリスクを受け入れ、自己責任で続行することになります。",
+  "minigame.dashboard.production.dropOddsTitle": "報酬チャンス（集めると獲得できます）",
+  "minigame.dashboard.production.dropOddsLine": "{{percent}}% — + {{amount}} {{name}}",
+  "minigame.dashboard.production.mysteryDropTitle": "???ドロップ",
+  "minigame.dashboard.production.collectResolving": "リワードを開く",
+  "minigame.dashboard.production.collectResolvingHint": "しばらくお待ちください。サーバー上で確認中です。",
+  "minigame.dashboard.production.collectYouWon": "受け取りました",
+  "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
+  "minigame.dashboard.production.collectReceivedNothing": "今回は {{name}} はありません。次回の実行で頑張ってください。",
+  "minigame.dashboard.production.collectDone": "いいね!"
 }
