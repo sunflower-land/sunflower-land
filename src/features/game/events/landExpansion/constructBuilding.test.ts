@@ -38,90 +38,44 @@ describe("Construct building", () => {
           },
         },
       }),
-    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+    ).toThrow("You do not meet the land requirements");
   });
 
-  it("does not construct if max building limit is reached", () => {
-    expect(() =>
-      constructBuilding({
-        state: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[20],
-          },
-          inventory: {
-            "Water Well": new Decimal(4),
-            "Basic Land": new Decimal(20),
-          },
-          buildings: {
-            "Water Well": [
-              {
-                coordinates: { x: 1, y: 1 },
-                createdAt: Date.now(),
-                readyAt: Date.now() + 30 * 1000,
-                id: "1",
-              },
-              {
-                coordinates: { x: 3, y: 3 },
-                createdAt: Date.now(),
-                readyAt: Date.now() + 30 * 1000,
-                id: "2",
-              },
-              {
-                coordinates: { x: 1, y: 3 },
-                createdAt: Date.now(),
-                readyAt: Date.now() + 30 * 1000,
-                id: "3",
-              },
-              {
-                coordinates: { x: 3, y: 1 },
-                createdAt: Date.now(),
-                readyAt: Date.now() + 30 * 1000,
-                id: "4",
-              },
-            ],
-          },
+  it("constructs multiple Water Wells", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        coins: 1000,
+        inventory: {
+          Wood: new Decimal(20),
+          Stone: new Decimal(15),
+          "Basic Land": new Decimal(10),
         },
-        action: {
-          id: "123",
-          type: "building.constructed",
-          name: "Water Well",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
+        bumpkin: { ...INITIAL_BUMPKIN, experience: LEVEL_EXPERIENCE[8] },
+        buildings: {
+          "Water Well": [
+            {
+              coordinates: { x: 3, y: 3 },
+              createdAt: Date.now(),
+              readyAt: Date.now() + 30 * 1000,
+              id: "1",
+            },
+          ],
         },
-      }),
-    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
-  });
+      },
+      action: {
+        id: "123",
+        type: "building.constructed",
+        name: "Water Well",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+      },
+      createdAt: 0,
+    });
 
-  it("does not construct if max building limit is reached in inventory", () => {
-    expect(() =>
-      constructBuilding({
-        state: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[20],
-          },
-          inventory: {
-            "Water Well": new Decimal(4),
-            "Basic Land": new Decimal(20),
-          },
-          buildings: {},
-        },
-        action: {
-          id: "123",
-          type: "building.constructed",
-          name: "Water Well",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      }),
-    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+    expect(state.buildings["Water Well"]).toHaveLength(2);
   });
 
   it("does not construct if not enough SFL", () => {
@@ -133,6 +87,7 @@ describe("Construct building", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[20],
           },
+          coins: 0,
           inventory: {
             Wood: new Decimal(100),
             Stone: new Decimal(100),
@@ -145,8 +100,8 @@ describe("Construct building", () => {
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
-            x: 0,
-            y: 0,
+            x: 1,
+            y: 2,
           },
         },
       }),
@@ -174,8 +129,8 @@ describe("Construct building", () => {
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
-            x: 0,
-            y: 0,
+            x: 1,
+            y: 2,
           },
         },
       }),
@@ -183,7 +138,7 @@ describe("Construct building", () => {
   });
 
   it("constructs building", () => {
-    const waterWell = BUILDINGS["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"];
     const initialWood = new Decimal(100);
     const initialStone = new Decimal(101);
     const initialCoins = 1000;
@@ -207,8 +162,8 @@ describe("Construct building", () => {
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 2,
         },
       },
     });
@@ -247,8 +202,8 @@ describe("Construct building", () => {
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 2,
         },
       },
     });
@@ -314,7 +269,7 @@ describe("Construct building", () => {
       ],
     };
 
-    const waterWell = BUILDINGS["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"];
     const createdAt = Date.now();
 
     const state = constructBuilding({
@@ -339,8 +294,8 @@ describe("Construct building", () => {
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
-          x: 1,
-          y: 2,
+          x: 5,
+          y: 5,
         },
       },
       createdAt,
@@ -357,8 +312,8 @@ describe("Construct building", () => {
         {
           id: "123",
           coordinates: {
-            x: 1,
-            y: 2,
+            x: 5,
+            y: 5,
           },
           createdAt,
           readyAt: createdAt + waterWell.constructionSeconds * 1000,
@@ -484,7 +439,7 @@ describe("Construct building", () => {
       action: {
         type: "building.constructed",
         id: "123",
-        name: "Barn",
+        name: "Hen House",
         coordinates: {
           x: 1,
           y: 1,
@@ -511,14 +466,15 @@ describe("Construct building", () => {
           Gold: new Decimal(10),
           "Basic Land": new Decimal(10),
         },
+        island: { type: "desert" },
       },
       action: {
         id: "123",
         type: "building.constructed",
         name: "Barn",
         coordinates: {
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 2,
         },
       },
       createdAt: dateNow,

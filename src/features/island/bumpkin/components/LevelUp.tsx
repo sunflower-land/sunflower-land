@@ -69,13 +69,13 @@ function generateUnlockLabels(): Record<
         });
 
       const buildings = getKeys(BUILDINGS)
-        .filter((name) =>
-          BUILDINGS[name].find(
-            (b) =>
-              EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
-              level,
-          ),
-        )
+        .filter((name) => {
+          const b = BUILDINGS[name];
+          return (
+            EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
+            level
+          );
+        })
         .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
       const bonus = BONUS_UNLOCKS[level] ?? [];
