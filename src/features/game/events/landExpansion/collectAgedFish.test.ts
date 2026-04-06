@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { collectAgedFish } from "./collectAgedFish";
 import {
@@ -117,5 +118,22 @@ describe("collectAgedFish", () => {
       state.farmActivity["Prime Aged Anchovy Collected"] ?? 0;
 
     expect(agedActivity + primeActivity).toBeGreaterThanOrEqual(1);
+  });
+
+  it("applies Ager skill to grant 2 items per slot", () => {
+    const past = createdAt - 1;
+    const state = collectAgedFish({
+      state: stateWithAgingSlots([{ fish: "Anchovy", readyAt: past }], {
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+      }),
+      action: { type: "agingRack.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    const aged = state.inventory["Aged Anchovy"]?.toNumber() ?? 0;
+    const prime = state.inventory["Prime Aged Anchovy"]?.toNumber() ?? 0;
+
+    expect(aged + prime).toBe(2);
   });
 });

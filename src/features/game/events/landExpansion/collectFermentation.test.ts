@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import type { FermentationRecipeName } from "features/game/types/fermentation";
 import { getFishNamesByTier } from "features/game/types/fishing";
@@ -312,5 +313,34 @@ describe("collectFermentation", () => {
     expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(6);
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
     expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
+  });
+
+  it("applies Ager skill to grant +1 output", () => {
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "ager-test",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(2);
   });
 });

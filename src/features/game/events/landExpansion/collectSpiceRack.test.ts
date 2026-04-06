@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { getSpiceRackRecipe } from "features/game/types/spiceRack";
 import { collectSpiceRack } from "./collectSpiceRack";
@@ -127,5 +128,34 @@ describe("collectSpiceRack", () => {
 
     expect(state.agingShed.racks.spice).toHaveLength(0);
     expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+  });
+
+  it("applies Ager skill to grant +1 output", () => {
+    const past = createdAt - 1;
+
+    const state = collectSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "ager-test",
+                recipe: "Salt Lick",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "spiceRack.collected" },
+      createdAt,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(2);
   });
 });

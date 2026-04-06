@@ -368,4 +368,26 @@ describe("craftTool", () => {
 
     expect(state.inventory["Mariner Pot"]).toEqual(new Decimal(1));
   });
+
+  it("Salt Rakes cost 15% less coins with Cheap Rakes skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(10) },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Cheap Rakes": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Salt Rake",
+      },
+    });
+
+    expect(state.coins).toEqual(83);
+  });
 });

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getFermentationRecipe,
@@ -446,5 +447,42 @@ describe("startFermentation", () => {
     expect(state.inventory[primeAgedFish]?.toNumber()).toEqual(0);
     expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
+  it("applies Ager skill to double ingredient costs", () => {
+    const state = startFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        inventory: { Radish: new Decimal(20), Salt: new Decimal(10) },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe: "Pickled Radish",
+        jobId: "ager-test",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory.Radish?.toNumber()).toBe(0);
+    expect(state.inventory.Salt?.toNumber()).toBe(0);
+  });
+
+  it("throws when Ager doubles cost beyond available ingredients", () => {
+    expect(() =>
+      startFermentation({
+        state: createFermentationTestState({
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+          inventory: { Radish: new Decimal(10), Salt: new Decimal(5) },
+        }),
+        action: {
+          type: "fermentation.started",
+          recipe: "Pickled Radish",
+          jobId: "ager-fail",
+        },
+        farmId: 1,
+        createdAt,
+      }),
+    ).toThrow("Insufficient ingredient");
   });
 });
