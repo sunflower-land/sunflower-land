@@ -196,17 +196,16 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {[...getValidBuildings(state)].map((name: BuildingName) => {
-            const isLocked =
-              getBumpkinLevel(bumpkin.experience ?? 0) <
-              BUILDINGS[name].unlocksAtLevel;
+            const blueprint = BUILDINGS[name];
+            const inventoryCount = inventory[name] || new Decimal(0);
+            const isLocked = bumpkinLevel < blueprint.unlocksAtLevel;
 
             let secondaryIcon = undefined;
             if (isLocked) {
               secondaryIcon = SUNNYSIDE.icons.lock;
             }
-            const buildingInInventory = inventory[name] || new Decimal(0);
 
-            if (buildingInInventory.greaterThanOrEqualTo(1)) {
+            if (inventoryCount.greaterThanOrEqualTo(1)) {
               secondaryIcon = SUNNYSIDE.icons.confirm;
             }
 
