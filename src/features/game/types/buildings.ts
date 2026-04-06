@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CollectibleName } from "./craftables";
-import { InventoryItemName, IslandType } from "./game";
+import { Inventory, InventoryItemName, IslandType } from "./game";
 import { ResourceName } from "./resources";
 import { getKeys } from "lib/object";
 
@@ -44,7 +44,7 @@ export type Ingredient = {
 
 export type BuildingBluePrint = {
   unlocksAtLevel: number;
-  ingredients: Ingredient[];
+  ingredients: Inventory;
   coins: number;
   constructionSeconds: number;
   requiredIsland?: IslandType;
@@ -63,374 +63,221 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 30,
-    ingredients: [],
+    ingredients: {},
   },
   Mansion: {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 30,
-    ingredients: [],
+    ingredients: {},
   },
   House: {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 30,
-    ingredients: [],
+    ingredients: {},
   },
   Manor: {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 30,
-    ingredients: [],
+    ingredients: {},
   },
   Market: {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 30,
-    ingredients: [],
+    ingredients: {},
   },
   "Fire Pit": {
     unlocksAtLevel: Infinity,
     coins: 0,
     constructionSeconds: 0,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(3),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(2),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(3),
+      Stone: new Decimal(2),
+    },
   },
   Workbench: {
     unlocksAtLevel: Infinity,
     coins: 5,
     constructionSeconds: 60 * 1,
-    ingredients: [],
+    ingredients: {},
   },
   Tent: {
     unlocksAtLevel: Infinity,
     coins: 20,
     constructionSeconds: 60 * 60,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(50),
+    },
   },
   "Water Well": {
     unlocksAtLevel: 2,
     coins: 100,
     constructionSeconds: 60 * 5,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(5),
+    },
   },
   Kitchen: {
     unlocksAtLevel: 5,
     coins: 10,
     constructionSeconds: 60 * 30,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(30),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(30),
+      Stone: new Decimal(5),
+    },
   },
   Barn: {
     unlocksAtLevel: 30,
     coins: 200,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(150),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(10),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(150),
+      Iron: new Decimal(10),
+      Gold: new Decimal(10),
+    },
   },
   "Fish Market": {
     unlocksAtLevel: 10,
     coins: 0,
     constructionSeconds: 60 * 60,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(50),
+      Iron: new Decimal(10),
+      Gold: new Decimal(5),
+    },
   },
   "Hen House": {
     unlocksAtLevel: 6,
     coins: 100,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(30),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(30),
+      Iron: new Decimal(5),
+      Gold: new Decimal(5),
+    },
   },
   Bakery: {
     unlocksAtLevel: 8,
     coins: 200,
     constructionSeconds: 60 * 60 * 4,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(20),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(50),
+      Stone: new Decimal(20),
+      Gold: new Decimal(5),
+    },
   },
   Deli: {
     unlocksAtLevel: 16,
     coins: 300,
     constructionSeconds: 60 * 60 * 12,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(10),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(50),
+      Stone: new Decimal(50),
+      Gold: new Decimal(10),
+    },
   },
   "Smoothie Shack": {
     unlocksAtLevel: 23,
     coins: 0,
     constructionSeconds: 60 * 60 * 12,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(10),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(25),
+      Stone: new Decimal(25),
+      Iron: new Decimal(10),
+    },
   },
   Toolshed: {
     unlocksAtLevel: 25,
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(30),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Axe",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Pickaxe",
-        amount: new Decimal(50),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(500),
+      Iron: new Decimal(30),
+      Gold: new Decimal(25),
+      Axe: new Decimal(100),
+      Pickaxe: new Decimal(50),
+    },
   },
   Warehouse: {
     unlocksAtLevel: 20,
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(250),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(150),
-      },
-      {
-        item: "Potato",
-        amount: new Decimal(5000),
-      },
-      {
-        item: "Pumpkin",
-        amount: new Decimal(2000),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Kale",
-        amount: new Decimal(100),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(250),
+      Stone: new Decimal(150),
+      Potato: new Decimal(5000),
+      Pumpkin: new Decimal(2000),
+      Wheat: new Decimal(500),
+      Kale: new Decimal(100),
+    },
   },
   "Compost Bin": {
     unlocksAtLevel: 7,
     coins: 0,
     constructionSeconds: 60 * 60,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(5),
+      Stone: new Decimal(5),
+    },
   },
   "Turbo Composter": {
     unlocksAtLevel: 12,
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(25),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(50),
+      Stone: new Decimal(25),
+    },
   },
   "Premium Composter": {
     unlocksAtLevel: 18,
     coins: 0,
     constructionSeconds: 60 * 60 * 4,
-    ingredients: [
-      {
-        item: "Gold",
-        amount: new Decimal(50),
-      },
-    ],
+    ingredients: {
+      Gold: new Decimal(50),
+    },
   },
   Greenhouse: {
     unlocksAtLevel: 46,
     coins: 4800,
     constructionSeconds: 60 * 60 * 4,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Crimstone",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Oil",
-        amount: new Decimal(100),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(500),
+      Stone: new Decimal(100),
+      Crimstone: new Decimal(25),
+      Oil: new Decimal(100),
+    },
     requiredIsland: "desert",
   },
   "Crop Machine": {
     unlocksAtLevel: 35,
     coins: 8000,
     constructionSeconds: 60 * 60 * 2,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(1250),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(125),
-      },
-      {
-        item: "Crimstone",
-        amount: new Decimal(50),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(1250),
+      Iron: new Decimal(125),
+      Crimstone: new Decimal(50),
+    },
     requiredIsland: "desert",
   },
   "Crafting Box": {
     unlocksAtLevel: 6,
     coins: 0,
     constructionSeconds: 60 * 60,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(5),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(100),
+      Stone: new Decimal(5),
+    },
   },
   "Pet House": {
     unlocksAtLevel: 0,
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(200),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(100),
-      },
-    ],
+    ingredients: {
+      Wood: new Decimal(200),
+      Stone: new Decimal(100),
+    },
     coins: 5000,
     constructionSeconds: 2 * 60 * 60,
   },
@@ -438,7 +285,9 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     unlocksAtLevel: 0,
     coins: 200,
     constructionSeconds: 0,
-    ingredients: [{ item: "Wood", amount: new Decimal(30) }],
+    ingredients: {
+      Wood: new Decimal(30),
+    },
   },
 };
 

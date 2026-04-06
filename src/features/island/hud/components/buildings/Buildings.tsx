@@ -27,6 +27,7 @@ import { MachineInterpreter } from "features/game/expansion/placeable/landscapin
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { getObjectEntries } from "lib/object";
 
 interface Props {
   onClose: () => void;
@@ -91,29 +92,18 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const buildingsInInventory = inventory[selectedName] || new Decimal(0);
   const isAlreadyCrafted = buildingsInInventory.greaterThanOrEqualTo(1);
 
-  const ingredients = buildingBlueprint.ingredients.reduce(
-    (acc, ingredient) => ({
-      ...acc,
-      [ingredient.item]: new Decimal(ingredient.amount),
-    }),
-    {},
-  );
-
   const { coins, ingredients: buildingIngredients } = buildingBlueprint;
 
   const lessIngredients = () =>
-    buildingIngredients.some((ingredient) =>
-      ingredient.amount?.greaterThan(inventory[ingredient.item] || 0),
+    getObjectEntries(buildingIngredients).some(([ingredient, amount]) =>
+      amount?.greaterThan(inventory[ingredient] || 0),
     );
 
   const craft = () => {
     landscapingMachine.send("SELECT", {
       action: "building.constructed",
       placeable: { name: selectedName },
-      requirements: {
-        coins,
-        ingredients,
-      },
+      requirements: { coins, ingredients: buildingIngredients },
     });
 
     onClose();
@@ -182,13 +172,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           })}
           requirements={{
             coins,
-            resources: buildingBlueprint.ingredients.reduce(
-              (acc, ingredient) => ({
-                ...acc,
-                [ingredient.item]: new Decimal(ingredient.amount),
-              }),
-              {},
-            ),
+            resources: buildingIngredients,
           }}
           actionView={getAction()}
         />

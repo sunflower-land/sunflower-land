@@ -6,6 +6,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { getObjectEntries } from "lib/object";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -63,20 +64,22 @@ export function constructBuilding({
 
     let missingIngredients: string[] = [];
 
-    const inventoryMinusIngredients = buildingToConstruct.ingredients.reduce(
-      (inventory, ingredient) => {
-        const count = inventory[ingredient.item] || new Decimal(0);
+    const inventoryMinusIngredients = getObjectEntries(
+      buildingToConstruct.ingredients,
+    ).reduce(
+      (inventory, [ingredient, amount]) => {
+        const count = inventory[ingredient] || new Decimal(0);
+        const required = new Decimal(amount ?? 0);
 
-        if (count.lessThan(ingredient.amount)) {
-          missingIngredients = [...missingIngredients, ingredient.item];
+        if (count.lessThan(required)) {
+          missingIngredients = [...missingIngredients, ingredient];
         }
 
-        return {
-          ...inventory,
-          [ingredient.item]: count.sub(ingredient.amount),
-        };
+        inventory[ingredient] = count.sub(required);
+
+        return inventory;
       },
-      stateCopy.inventory,
+      { ...stateCopy.inventory },
     );
 
     if (missingIngredients.length > 0) {
@@ -109,7 +112,7 @@ export function constructBuilding({
       stateCopy.farmActivity,
       new Decimal(buildingToConstruct.coins),
     );
-    stateCopy.inventory = inventoryMinusIngredients;
+    stateCopy.inventory = { ...inventoryMinusIngredients };
     stateCopy.inventory[action.name] = buildingInventory.add(1);
     stateCopy.buildings[action.name] = [...placed, newBuilding];
 

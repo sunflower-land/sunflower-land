@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { BUILDINGS, Ingredient } from "features/game/types/buildings";
+import { BUILDINGS } from "features/game/types/buildings";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
@@ -38,7 +38,7 @@ describe("Construct building", () => {
           },
         },
       }),
-    ).toThrow("You do not meet the land requirements");
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
   it("constructs multiple Water Wells", () => {
@@ -173,11 +173,11 @@ describe("Construct building", () => {
 
     const { ingredients } = waterWell;
 
-    const { amount: woodRequired } = ingredients.find(
-      ({ item }) => item === "Wood",
-    ) as Ingredient;
+    const woodRequired = ingredients.Wood ?? new Decimal(0);
 
-    expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
+    expect(state.inventory.Wood).toEqual(
+      initialWood.minus(new Decimal(woodRequired)),
+    );
     expect(state.coins).toEqual(initialCoins - waterWell.coins);
   });
 
