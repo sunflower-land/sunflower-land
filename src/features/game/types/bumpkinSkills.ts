@@ -126,7 +126,8 @@ export type BumpkinRevampSkillTree =
   | "Cooking"
   | "Bees & Flowers"
   | "Machinery"
-  | "Compost";
+  | "Compost"
+  | "Salt";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -3229,6 +3230,122 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+  },
+
+  // Salt - Tier 1
+  "Cheap Rakes": {
+    name: "Cheap Rakes",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cheapRakes"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+        boostedItemIcon: ITEM_DETAILS["Salt Rake"].image,
+      },
+    },
+  },
+  "Speedy Aging": {
+    name: "Speedy Aging",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.speedyAging"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+  },
+  "Salty Seas": {
+    name: "Salty Seas",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.saltySeas"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Salt"].image,
+      },
+    },
+  },
+
+  // Salt - Tier 2
+  "Fish Smoking": {
+    name: "Fish Smoking",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishSmoking"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
+  },
+  Refiner: {
+    name: "Refiner",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.refiner"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+  },
+
+  // Salt - Tier 3
+  Ager: {
+    name: "Ager",
+    tree: "Salt",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.ager.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.ager.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
   },
 } satisfies Record<string, BumpkinSkillRevamp>;
 

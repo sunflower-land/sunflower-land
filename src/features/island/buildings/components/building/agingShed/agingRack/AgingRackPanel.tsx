@@ -10,11 +10,11 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
+import { getAgingSlotCount, getFishBaseXP } from "features/game/types/aging";
 import {
-  getAgingSaltCost,
-  getAgingSlotCount,
-  getFishBaseXP,
-} from "features/game/types/aging";
+  getBoostedAgingFishCost,
+  getBoostedAgingSaltCost,
+} from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import type { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -74,14 +74,16 @@ export const AgingRackPanel: React.FC = () => {
 
   const selectedSlot = queue[effectiveSlotIndex];
 
+  const skills = state.bumpkin.skills;
+  const fishCost = getBoostedAgingFishCost(skills);
   const saltNeeded = selectedFish
-    ? getAgingSaltCost(getFishBaseXP(selectedFish))
+    ? getBoostedAgingSaltCost(getFishBaseXP(selectedFish), skills)
     : undefined;
   const hasSalt = saltNeeded
     ? (merged["Salt"] ?? new Decimal(0)).gte(saltNeeded)
     : false;
   const hasFish = selectedFish
-    ? (merged[selectedFish] ?? new Decimal(0)).gte(1)
+    ? (merged[selectedFish] ?? new Decimal(0)).gte(fishCost)
     : false;
 
   const canStart =
@@ -210,6 +212,7 @@ export const AgingRackPanel: React.FC = () => {
           canCollect={canCollect}
           collectError={collectError}
           onCollect={handleCollect}
+          skills={skills}
         />
       ) : (
         <AgingRackEmpty

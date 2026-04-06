@@ -11,6 +11,10 @@ import type { FermentationJob } from "features/game/lib/agingShed";
 import { getFermentationRecipe } from "features/game/types/fermentation";
 import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getAgingInputMultiplier,
+  getAgingOutputBonus,
+} from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getObjectEntries } from "lib/object";
@@ -42,13 +46,16 @@ export const FermentationRackInProgress: React.FC<Props> = ({
     },
   ] = useActor(gameService);
 
+  const skills = state.bumpkin.skills;
   const recipeDef = useMemo(
     () => getFermentationRecipe(job.recipe),
     [job.recipe],
   );
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0] as InventoryItemName | undefined;
-  const outputAmount = outputEntry?.[1];
+  const outputAmount = (outputEntry?.[1] ?? new Decimal(0)).add(
+    getAgingOutputBonus(skills),
+  );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
   const isReady = timeRemainingMs <= 0;
@@ -63,7 +70,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
         <div className="flex justify-between items-start">
           {outputItem && (
             <Label type="default" className="text-xs">
-              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${(outputAmount ?? new Decimal(0)).toString()}`}
+              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${outputAmount.toString()}`}
             </Label>
           )}
           <Label
@@ -93,7 +100,9 @@ export const FermentationRackInProgress: React.FC<Props> = ({
             />
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
-              const needDecimal = new Decimal(need ?? 0);
+              const needDecimal = new Decimal(need ?? 0).mul(
+                getAgingInputMultiplier(skills),
+              );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);
 

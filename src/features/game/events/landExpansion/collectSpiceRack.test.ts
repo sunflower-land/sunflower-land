@@ -17,6 +17,7 @@ describe("collectSpiceRack", () => {
         state: createFermentationTestState({ buildings: {} }),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow("Required building does not exist");
   });
@@ -27,6 +28,7 @@ describe("collectSpiceRack", () => {
         state: createFermentationTestState(),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow(`Building is not cooking anything`);
   });
@@ -54,6 +56,7 @@ describe("collectSpiceRack", () => {
         }),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow(`No recipes are ready`);
   });
@@ -88,6 +91,7 @@ describe("collectSpiceRack", () => {
       }),
       action: { type: "spiceRack.collected" },
       createdAt,
+      farmId: 1,
     });
 
     expect(state.agingShed.racks.spice).toHaveLength(1);
@@ -118,6 +122,7 @@ describe("collectSpiceRack", () => {
       state,
       action: { type: "spiceRack.collected" },
       createdAt: readyAt,
+      farmId: 1,
     });
 
     expect(state.agingShed.racks.spice).toHaveLength(0);

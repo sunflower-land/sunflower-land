@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { KNOWN_IDS } from "features/game/types";
-import { PRIME_AGED_BASE_CHANCE } from "features/game/types/aging";
+import {
+  getAgingOutputBonus,
+  getPrimeAgedChance,
+} from "features/game/types/agingFormulas";
 import type { AgingCollectResult } from "features/game/lib/agingShed";
 import type {
   AgedFishName,
@@ -55,6 +58,8 @@ export function collectAgedFish({
       (slot) => slot.readyAt > createdAt,
     );
 
+    const skills = game.bumpkin.skills;
+    const outputAmount = 1 + getAgingOutputBonus(skills);
     const results: AgingCollectResult[] = [];
 
     ready.forEach((slot) => {
@@ -69,7 +74,7 @@ export function collectAgedFish({
         farmId,
         itemId: KNOWN_IDS[agedName],
         counter,
-        chance: PRIME_AGED_BASE_CHANCE * 100,
+        chance: getPrimeAgedChance(skills),
         criticalHitName: primeAgedName,
       });
 
@@ -77,7 +82,7 @@ export function collectAgedFish({
 
       game.inventory[outputName] = (
         game.inventory[outputName] ?? new Decimal(0)
-      ).add(1);
+      ).add(outputAmount);
 
       game.farmActivity = trackFarmActivity(
         `${outputName} Collected`,

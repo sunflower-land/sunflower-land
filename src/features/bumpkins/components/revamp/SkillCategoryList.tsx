@@ -45,6 +45,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
   Machinery: ITEM_DETAILS["Crop Machine"].image,
   Compost: ITEM_DETAILS["Premium Composter"].image,
+  Salt: ITEM_DETAILS["Salt"].image,
 };
 
 const _state = (state: MachineState) => state.context.state;

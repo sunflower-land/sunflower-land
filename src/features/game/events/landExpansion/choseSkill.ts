@@ -99,6 +99,11 @@ export const SKILL_POINTS_PER_TIER: Record<
     2: 2,
     3: 5,
   },
+  Salt: {
+    1: 0,
+    2: 2,
+    3: 4,
+  },
 };
 
 export const getUnlockedTierForTree = (

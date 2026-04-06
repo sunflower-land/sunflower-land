@@ -132,12 +132,15 @@ export const SALT_CHARGE_GENERATION_TIME = 1000 * 60 * 60 * 7; // 7 hours per ch
  * Starts from `SALT_CHARGE_GENERATION_TIME` and applies multiplicative
  */
 export function getSaltChargeGenerationTime({
-  // To be used for future boosts
-  gameState: _gameState,
+  gameState,
 }: {
   gameState: GameState;
 }): number {
-  const chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
+  let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
+
+  if (gameState.bumpkin?.skills["Salty Seas"]) {
+    chargeGenerationTimeMs *= 0.9;
+  }
 
   return chargeGenerationTimeMs;
 }

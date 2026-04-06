@@ -7,6 +7,7 @@ import {
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
+import { getAgingOutputBonus } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 
@@ -47,12 +48,14 @@ export function collectFermentation({
       (job) => job.readyAt > createdAt,
     );
 
+    const outputBonus = getAgingOutputBonus(game.bumpkin.skills);
+
     ready.forEach((job) => {
       const recipeDef = getFermentationRecipe(job.recipe);
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        const add = amount ?? new Decimal(0);
+        const add = (amount ?? new Decimal(0)).add(outputBonus);
         game.inventory[item] = prev.add(add);
 
         const activityName: FermentationCollectedActivity = `${item} Fermented`;

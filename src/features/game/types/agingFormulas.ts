@@ -1,3 +1,5 @@
+import type { Skills } from "./game";
+
 export const PRIME_AGED_XP_MULTIPLIER = 1.3;
 export const PRIME_AGED_BASE_CHANCE = 0.1;
 
@@ -29,4 +31,43 @@ export function getAgingSlotCount(agingShedLevel: number): number {
   }
 
   return Math.min(agingShedLevel, 6);
+}
+
+export function getBoostedAgingTimeMs(baseXP: number, skills: Skills): number {
+  let timeMs = getAgingTimeMs(baseXP);
+  if (skills["Speedy Aging"]) {
+    timeMs *= 0.9;
+  }
+  return timeMs;
+}
+
+export function getPrimeAgedChance(skills: Skills): number {
+  let chance = PRIME_AGED_BASE_CHANCE * 100;
+  if (skills["Fish Smoking"]) {
+    chance *= 2;
+  }
+  return chance;
+}
+
+export function getAgingInputMultiplier(skills: Skills): number {
+  return skills["Ager"] ? 2 : 1;
+}
+
+export function getAgingOutputBonus(skills: Skills): number {
+  return skills["Ager"] ? 1 : 0;
+}
+
+export function getBoostedAgingSaltCost(
+  baseXP: number,
+  skills: Skills,
+): number {
+  return getAgingSaltCost(baseXP) * getAgingInputMultiplier(skills);
+}
+
+export function getBoostedAgingFishCost(skills: Skills): number {
+  return 1 * getAgingInputMultiplier(skills);
+}
+
+export function getRefinedSaltChance(skills: Skills): number {
+  return skills["Refiner"] ? 15 : 0;
 }

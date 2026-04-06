@@ -11,6 +11,11 @@ import type { SpiceRackJob } from "features/game/lib/agingShed";
 import { getSpiceRackRecipe } from "features/game/types/spiceRack";
 import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getAgingInputMultiplier,
+  getAgingOutputBonus,
+  getRefinedSaltChance,
+} from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getObjectEntries } from "lib/object";
@@ -38,10 +43,13 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
+  const skills = state.bumpkin.skills;
   const recipeDef = useMemo(() => getSpiceRackRecipe(job.recipe), [job.recipe]);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0] as InventoryItemName | undefined;
-  const outputAmount = outputEntry?.[1];
+  const outputAmount = (outputEntry?.[1] ?? new Decimal(0)).add(
+    getAgingOutputBonus(skills),
+  );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
   const isReady = timeRemainingMs <= 0;
@@ -56,7 +64,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
         <div className="flex justify-between items-start">
           {outputItem && (
             <Label type="default" className="text-xs">
-              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${(outputAmount ?? new Decimal(0)).toString()}`}
+              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${outputAmount.toString()}`}
             </Label>
           )}
           <Label
@@ -86,7 +94,9 @@ export const SpiceRackInProgress: React.FC<Props> = ({
             />
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
-              const needDecimal = new Decimal(need ?? 0);
+              const needDecimal = new Decimal(need ?? 0).mul(
+                getAgingInputMultiplier(skills),
+              );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);
 
@@ -107,6 +117,12 @@ export const SpiceRackInProgress: React.FC<Props> = ({
             />
           </div>
         </div>
+
+        {getRefinedSaltChance(skills) > 0 && (
+          <Label type="vibrant" className="text-xxs mx-2 mb-1">
+            {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+          </Label>
+        )}
 
         {collectError && (
           <Label type="danger" className="text-xs mb-2 mx-2">
