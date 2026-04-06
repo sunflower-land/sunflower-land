@@ -1170,7 +1170,6 @@
   "description.bigBanana": "Большое банановое растение - с помощью друзей оно может вырасти еще больше!",
   "description.farmerMonument": "Памятник фермерам Sunflower Land.",
   "description.woodcutterMonument": "Памятник дровосекам Sunflower Land.",
-  "description.minerMonument": "Памятник рудокопам Sunflower Land.",
   "description.teamworkMonument": "Памятник командной работе в Sunflower Land, был доступен в главе «Вместе лучше».",
   "description.basicCookingPot": "Простая кастрюля для приготовления пищи.",
   "description.expertCookingPot": "Профессиональная кастрюля для приготовления пищи.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "You received",
   "minigame.dashboard.production.collectGrantLine": "+{{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "No {{name}} this time — better luck next run.",
-  "minigame.dashboard.production.collectDone": "Nice!"
+  "minigame.dashboard.production.collectDone": "Nice!",
+  "description.minerMonument": "A monument to the miners of Sunflower Land."
 }

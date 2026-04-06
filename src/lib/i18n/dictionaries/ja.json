@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "{{amount}} オブシディアンの {{project}} をインスタで育ててもよろしいですか",
   "description.farmerMonument": "ひまわりランドの農家の記念碑。",
   "description.woodcutterMonument": "サンフラワーランドのウッドカッターのモニュメント。",
-  "description.minerMonument": "サンフラワーランドのウッドカッターのモニュメント。",
   "description.teamworkMonument": "サンフラワーランドのチームワークを称えるモニュメントで、「ベター・トゥギャザー」チャプターで入手可能。",
   "description.basicCookingPot": "ベーシックなクッキングポットです。",
   "description.expertCookingPot": "熟練のクッキングポット。",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "受け取りました",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "今回は {{name}} はありません。次回の実行で頑張ってください。",
-  "minigame.dashboard.production.collectDone": "いいね!"
+  "minigame.dashboard.production.collectDone": "いいね!",
+  "description.minerMonument": "サンフラワーランドの鉱山労働者の記念碑。"
 }

@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "Bist du sicher, dass du {{project}} für {{amount}} Obsidian insta-grow machen willst",
   "description.farmerMonument": "Ein Denkmal für die Bauern von Sunflower Land.",
   "description.woodcutterMonument": "Ein Denkmal für die Holzfäller von Sunflower Land.",
-  "description.minerMonument": "Ein Denkmal für die Holzfäller von Sunflower Land.",
   "description.teamworkMonument": "Ein Denkmal für die Teamarbeit von Sunflower Land, verfügbar im Kapitel Better Together.",
   "description.basicCookingPot": "Ein einfacher Kochtopf.",
   "description.expertCookingPot": "Ein erfahrener Kochtopf.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "Du hast erhalten",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Diesmal nicht {{name}} — viel Glück beim nächsten Lauf.",
-  "minigame.dashboard.production.collectDone": "Nett!"
+  "minigame.dashboard.production.collectDone": "Nett!",
+  "description.minerMonument": "Ein Denkmal für die Minenarbeiter von Sunflower Land."
 }

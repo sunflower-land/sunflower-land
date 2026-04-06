@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "Tem certeza de que deseja aumentar instantaneamente o {{project}} para {{amount}} Obsidian",
   "description.farmerMonument": "Um monumento aos fazendeiros da Terra dos Girassóis.",
   "description.woodcutterMonument": "Um monumento aos lenhadores de Sunflower Land.",
-  "description.minerMonument": "Um monumento aos lenhadores de Sunflower Land.",
   "description.teamworkMonument": "Um monumento ao trabalho em equipe da Sunflower Land, disponível durante o capítulo Better Together.",
   "description.basicCookingPot": "Uma panela básica.",
   "description.expertCookingPot": "Uma panela especializada.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "Você recebeu",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Não {{name}} desta vez — melhor sorte na próxima corrida.",
-  "minigame.dashboard.production.collectDone": "Agradável!"
+  "minigame.dashboard.production.collectDone": "Agradável!",
+  "description.minerMonument": "Um monumento aos mineiros de Sunflower Land."
 }

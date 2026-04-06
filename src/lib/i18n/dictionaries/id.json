@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "Apakah Anda yakin ingin menumbuhkan {{project}} untuk {{amount}} Obsidian",
   "description.farmerMonument": "Sebuah monumen untuk para petani Tanah Bunga Matahari.",
   "description.woodcutterMonument": "Sebuah monumen untuk para penebang kayu Sunflower Land.",
-  "description.minerMonument": "Sebuah monumen untuk para penebang kayu Sunflower Land.",
   "description.teamworkMonument": "Sebuah monumen untuk kerja tim Sunflower Land, tersedia selama chapter Better Together.",
   "description.basicCookingPot": "Panci memasak dasar.",
   "description.expertCookingPot": "Panci memasak ahli.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "Anda menerima",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Tidak ada {{name}} kali ini — semoga sukses lari berikutnya.",
-  "minigame.dashboard.production.collectDone": "Bagus!"
+  "minigame.dashboard.production.collectDone": "Bagus!",
+  "description.minerMonument": "Sebuah monumen untuk para penambang Sunflower Land."
 }

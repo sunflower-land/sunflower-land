@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "Êtes-vous sûr de vouloir augmenter instantanément le {{project}} pour {{amount}} Obsidian",
   "description.farmerMonument": "Un monument dédié aux agriculteurs de Sunflower Land.",
   "description.woodcutterMonument": "Un monument dédié aux bûcherons de Sunflower Land.",
-  "description.minerMonument": "Un monument dédié aux bûcherons de Sunflower Land.",
   "description.teamworkMonument": "Un monument au travail d'équipe de Sunflower Land, disponible pendant le chapitre Better Together.",
   "description.basicCookingPot": "Une marmite de base.",
   "description.expertCookingPot": "Une marmite experte.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "Vous avez reçu",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Non {{name}} cette fois. Bonne chance pour la prochaine course.",
-  "minigame.dashboard.production.collectDone": "Sympa !"
+  "minigame.dashboard.production.collectDone": "Sympa !",
+  "description.minerMonument": "Un monument dédié aux mineurs de Sunflower Land."
 }

@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "你确定要花费 {{amount}} 黑曜石让 {{project}} 立即成长吗？",
   "description.farmerMonument": "献给 Sunflower Land 农民的纪念碑。",
   "description.woodcutterMonument": "献给 Sunflower Land 伐木工的纪念碑。",
-  "description.minerMonument": "献给 Sunflower Land 矿工的纪念碑。",
   "description.teamworkMonument": "献给 Sunflower Land 团队合作的纪念碑，限于“同心协力”章节中获得。",
   "description.basicCookingPot": "普通的烹饪锅。",
   "description.expertCookingPot": "专家级烹饪锅。",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "你收到了",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "这次不是 {{name}} ——下次跑步好运。",
-  "minigame.dashboard.production.collectDone": "太棒了！"
+  "minigame.dashboard.production.collectDone": "太棒了！",
+  "description.minerMonument": "向日葵地矿工纪念碑。"
 }

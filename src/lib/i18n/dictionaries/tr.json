@@ -6229,7 +6229,6 @@
   "instaGrow.confirmation": "{{amount}} Obsidiyen'i {{project}} için büyütmek istediğinizden emin misiniz?",
   "description.farmerMonument": "Ayçiçeği Toprakları çiftçilerine bir anıt.",
   "description.woodcutterMonument": "Ayçiçeği Ülkesinin oduncuları için bir anıt.",
-  "description.minerMonument": "Ayçiçeği Ülkesinin oduncuları için bir anıt.",
   "description.teamworkMonument": "Birlikte Daha İyi bölümünde bulunan Ayçiçeği Ülkesinin ekip çalışmasının bir anıtı.",
   "description.basicCookingPot": "Temel bir pişirme kabı.",
   "description.expertCookingPot": "Uzman bir pişirme kabı.",
@@ -8556,5 +8555,6 @@
   "minigame.dashboard.production.collectYouWon": "Aldın",
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Hayır {{name}} bu sefer - bir sonraki koşuda iyi şanslar.",
-  "minigame.dashboard.production.collectDone": "Güzel!"
+  "minigame.dashboard.production.collectDone": "Güzel!",
+  "description.minerMonument": "Ayçiçeği Ülkesi madencileri için bir anıt."
 }
