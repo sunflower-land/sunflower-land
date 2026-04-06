@@ -15,6 +15,7 @@ import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 import {
   makeUpgradableBuildingKey,
@@ -25,16 +26,11 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
-import { GameState, IslandType } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
 }
-
-const blueprintSortKey = (name: BuildingName): number => {
-  const u = BUILDINGS[name].unlocksAtLevel;
-  return u === Infinity ? 9999 : u;
-};
 
 const getValidBuildings = (state: GameState): BuildingName[] => {
   const UNSORTED_BUILDINGS: BuildingName[] = [
@@ -60,9 +56,11 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
       : []),
   ];
 
-  return [...UNSORTED_BUILDINGS].sort(
-    (a, b) => blueprintSortKey(a) - blueprintSortKey(b),
+  const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
+    (a, b) => BUILDINGS[a].unlocksAtLevel - BUILDINGS[b].unlocksAtLevel,
   );
+
+  return VALID_BUILDINGS;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -87,17 +85,13 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const collectibles = useSelector(gameService, _collectibles);
   const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
-  const blueprint = BUILDINGS[selectedName];
+  const buildingBlueprint = BUILDINGS[selectedName];
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience ?? 0);
-  const isUnlockedByLevel =
-    blueprint.unlocksAtLevel === Infinity ||
-    bumpkinLevel >= blueprint.unlocksAtLevel;
-  const nextLockedLevel =
-    !isUnlockedByLevel && blueprint.unlocksAtLevel !== Infinity
-      ? blueprint.unlocksAtLevel
-      : undefined;
+  const buildingUnlockLevel = buildingBlueprint.unlocksAtLevel;
+  const buildingsInInventory = inventory[selectedName] || new Decimal(0);
+  const isAlreadyCrafted = buildingsInInventory.greaterThanOrEqualTo(1);
 
-  const ingredients = blueprint.ingredients.reduce(
+  const ingredients = buildingBlueprint.ingredients.reduce(
     (acc, ingredient) => ({
       ...acc,
       [ingredient.item]: new Decimal(ingredient.amount),
@@ -105,13 +99,10 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     {},
   );
 
-  const { coins } = blueprint;
-
-  const buildingsInInventory = inventory[selectedName] || new Decimal(0);
-  const isAlreadyCrafted = buildingsInInventory.greaterThanOrEqualTo(1);
+  const { coins, ingredients: buildingIngredients } = buildingBlueprint;
 
   const lessIngredients = () =>
-    blueprint.ingredients.some((ingredient) =>
+    buildingIngredients.some((ingredient) =>
       ingredient.amount?.greaterThan(inventory[ingredient.item] || 0),
     );
 
@@ -129,32 +120,35 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   };
 
   const getAction = () => {
-    if (!hasRequiredIslandExpansion(island.type, blueprint.requiredIsland)) {
+    if (
+      !hasRequiredIslandExpansion(island.type, buildingBlueprint.requiredIsland)
+    ) {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
             islandType:
-              blueprint.requiredIsland === "spring"
+              buildingBlueprint.requiredIsland === "spring"
                 ? "Petal Paradise"
                 : t("islandupgrade.otherIsland", {
-                    island: capitalize(blueprint.requiredIsland as IslandType),
+                    island: capitalize(
+                      buildingBlueprint.requiredIsland as IslandType,
+                    ),
                   }),
           })}
         </Label>
       );
     }
 
-    if (nextLockedLevel !== undefined) {
+    if (bumpkinLevel < buildingUnlockLevel)
       return (
         <div className="flex flex-col w-full justify-center">
           <div className="flex items-center justify-center ">
             <Label type="danger" icon={SUNNYSIDE.icons.player}>
-              {t("warning.level.required", { lvl: nextLockedLevel })}
+              {t("warning.level.required", { lvl: buildingUnlockLevel })}
             </Label>
           </div>
         </div>
       );
-    }
 
     if (isAlreadyCrafted) {
       return (
@@ -188,7 +182,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           })}
           requirements={{
             coins,
-            resources: blueprint.ingredients.reduce(
+            resources: buildingBlueprint.ingredients.reduce(
               (acc, ingredient) => ({
                 ...acc,
                 [ingredient.item]: new Decimal(ingredient.amount),
@@ -202,17 +196,17 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {[...getValidBuildings(state)].map((name: BuildingName) => {
-            const b = BUILDINGS[name];
             const isLocked =
-              b.unlocksAtLevel !== Infinity &&
-              getBumpkinLevel(bumpkin.experience ?? 0) < b.unlocksAtLevel;
+              getBumpkinLevel(bumpkin.experience ?? 0) <
+              BUILDINGS[name].unlocksAtLevel;
 
             let secondaryIcon = undefined;
             if (isLocked) {
               secondaryIcon = SUNNYSIDE.icons.lock;
             }
+            const buildingInInventory = inventory[name] || new Decimal(0);
 
-            if (inventory[name]?.greaterThanOrEqualTo(1)) {
+            if (buildingInInventory.greaterThanOrEqualTo(1)) {
               secondaryIcon = SUNNYSIDE.icons.confirm;
             }
 
