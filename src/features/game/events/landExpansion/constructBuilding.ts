@@ -1,21 +1,17 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
-  BuildingName,
-  BUILDINGS,
-  BUILDINGS_DIMENSIONS,
-} from "../../types/buildings";
+import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
-  NOT_ENOUGH_COINS = "Insufficient Coins",
-  NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient: ",
+  MAX_BUILDINGS_REACHED = "Building limit reached for your bumpkin level!",
+  NOT_ENOUGH_COINS = "Insufficient Coins!",
+  NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient! Missing: ",
 }
 
 export type ConstructBuildingAction = {
@@ -37,15 +33,26 @@ export function constructBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin, buildings, coins } = stateCopy;
+    const { bumpkin, coins } = stateCopy;
 
-    const building = BUILDINGS[action.name];
+    const buildingToConstruct = BUILDINGS[action.name];
 
     if (bumpkin === undefined) {
       throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
     }
 
-    const requiredIsland = building.requiredIsland;
+    const allowedBuildings =
+      getBumpkinLevel(bumpkin.experience) >= buildingToConstruct.unlocksAtLevel;
+
+    if (!allowedBuildings) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+    }
+
+    if (coins < buildingToConstruct.coins) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
+    }
+
+    const requiredIsland = buildingToConstruct.requiredIsland;
 
     if (
       requiredIsland &&
@@ -54,44 +61,14 @@ export function constructBuilding({
       throw new Error("You do not have the required island expansion");
     }
 
-    const placed = buildings[action.name] || [];
+    let missingIngredients: string[] = [];
 
-    if (
-      building.unlocksAtLevel !== Infinity &&
-      getBumpkinLevel(bumpkin.experience) < building.unlocksAtLevel
-    ) {
-      throw new Error("You do not meet the land requirements");
-    }
-
-    const dimensions = BUILDINGS_DIMENSIONS[action.name];
-    const collides = detectCollision({
-      state: stateCopy,
-      position: {
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        height: dimensions.height,
-        width: dimensions.width,
-      },
-      location: "farm",
-      name: action.name,
-    });
-
-    if (collides) {
-      throw new Error("Building collides");
-    }
-
-    if (coins < building.coins) {
-      throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
-    }
-
-    const inventoryMinusIngredients = building.ingredients.reduce(
+    const inventoryMinusIngredients = buildingToConstruct.ingredients.reduce(
       (inventory, ingredient) => {
         const count = inventory[ingredient.item] || new Decimal(0);
 
         if (count.lessThan(ingredient.amount)) {
-          throw new Error(
-            `${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}${ingredient.item}`,
-          );
+          missingIngredients = [...missingIngredients, ingredient.item];
         }
 
         return {
@@ -102,14 +79,23 @@ export function constructBuilding({
       stateCopy.inventory,
     );
 
+    if (missingIngredients.length > 0) {
+      throw new Error(
+        `${
+          CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
+        }${missingIngredients.join(", ")}`,
+      );
+    }
+
     const buildingInventory =
       stateCopy.inventory[action.name] || new Decimal(0);
+    const placed = stateCopy.buildings[action.name] || [];
 
     const newBuilding: PlacedItem = {
       id: action.id,
       createdAt: createdAt,
       coordinates: action.coordinates,
-      readyAt: createdAt + building.constructionSeconds * 1000,
+      readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
     };
 
     stateCopy.farmActivity = trackFarmActivity(
@@ -117,11 +103,11 @@ export function constructBuilding({
       stateCopy.farmActivity,
     );
 
-    stateCopy.coins = stateCopy.coins - building.coins;
+    stateCopy.coins = coins - buildingToConstruct.coins;
     stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
       stateCopy.farmActivity,
-      new Decimal(building.coins),
+      new Decimal(buildingToConstruct.coins),
     );
     stateCopy.inventory = inventoryMinusIngredients;
     stateCopy.inventory[action.name] = buildingInventory.add(1);
