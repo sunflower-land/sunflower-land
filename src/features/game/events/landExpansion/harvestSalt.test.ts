@@ -75,9 +75,10 @@ describe("harvestSalt", () => {
       createdAt: now,
     });
 
-    expect(state.inventory["Salt Rake"]).toEqual(new Decimal(3));
-    expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD * 2));
+    expect(state.inventory["Salt Rake"]).toEqual(new Decimal(2));
+    expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD * 3));
     expect(state.saltFarm.nodes["0"].salt.harvesting).toBeUndefined();
+    expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(0);
   });
 
   it("preserves cooldown boundary when harvesting a non-full node", () => {
