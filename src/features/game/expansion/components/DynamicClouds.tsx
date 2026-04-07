@@ -122,7 +122,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
         />
       ))}
 
-      {CLOUDS[4].map((cloud, i) => (
+      {/* {CLOUDS[4].map((cloud, i) => (
         <img
           key={`cloud4-${i}`}
           src={SUNNYSIDE.land.cloud4}
@@ -135,7 +135,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
             width: CLOUD_DIMENSIONS[4].width * X_SCALE,
           }}
         />
-      ))}
+      ))} */}
 
       {CLOUDS[5].map((cloud, i) => (
         <img
