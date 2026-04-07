@@ -308,7 +308,7 @@ describe("upgradeBuilding", () => {
             ...TEST_FARM,
             buildings: agingShedBuildings,
             agingShed: { ...createInitialAgingShed(), level: 1 },
-            coins: 29_999,
+            coins: 2_999,
             inventory: {
               ...TEST_FARM.inventory,
               Stone: new Decimal(100),
@@ -330,7 +330,7 @@ describe("upgradeBuilding", () => {
             ...TEST_FARM,
             buildings: agingShedBuildings,
             agingShed: { ...createInitialAgingShed(), level: 1 },
-            coins: 30_000,
+            coins: 3_000,
             inventory: {
               ...TEST_FARM.inventory,
               Stone: new Decimal(99),
@@ -352,7 +352,7 @@ describe("upgradeBuilding", () => {
             ...TEST_FARM,
             buildings: agingShedBuildings,
             agingShed: { ...createInitialAgingShed(), level: 1 },
-            coins: 30_000,
+            coins: 3_000,
             inventory: {
               ...TEST_FARM.inventory,
               Stone: new Decimal(100),
@@ -372,8 +372,8 @@ describe("upgradeBuilding", () => {
         name: "1 → 2",
         fromLevel: 1,
         toLevel: 2,
-        coinCost: 30_000,
-        startingCoins: 35_000,
+        coinCost: 3_000,
+        startingCoins: 8_000,
         inventory: {
           Stone: new Decimal(101),
           Gold: new Decimal(21),
@@ -387,8 +387,8 @@ describe("upgradeBuilding", () => {
         name: "2 → 3",
         fromLevel: 2,
         toLevel: 3,
-        coinCost: 40_000,
-        startingCoins: 45_000,
+        coinCost: 4_000,
+        startingCoins: 9_000,
         inventory: {
           Wood: new Decimal(501),
           Stone: new Decimal(501),
@@ -402,8 +402,8 @@ describe("upgradeBuilding", () => {
         name: "3 → 4",
         fromLevel: 3,
         toLevel: 4,
-        coinCost: 100_000,
-        startingCoins: 105_000,
+        coinCost: 10_000,
+        startingCoins: 15_000,
         inventory: {
           Gold: new Decimal(101),
         },
@@ -415,8 +415,8 @@ describe("upgradeBuilding", () => {
         name: "4 → 5",
         fromLevel: 4,
         toLevel: 5,
-        coinCost: 200_000,
-        startingCoins: 205_000,
+        coinCost: 20_000,
+        startingCoins: 25_000,
         inventory: {
           Crimstone: new Decimal(11),
         },
@@ -428,8 +428,8 @@ describe("upgradeBuilding", () => {
         name: "5 → 6",
         fromLevel: 5,
         toLevel: 6,
-        coinCost: 1_000_000,
-        startingCoins: 1_005_000,
+        coinCost: 100_000,
+        startingCoins: 105_000,
         inventory: {},
         expectedInventory: {},
       },
@@ -470,7 +470,7 @@ describe("upgradeBuilding", () => {
             result.inventory[item as keyof typeof result.inventory],
           ).toEqual(expected);
         });
-        expect(result.agingShed.upgradeReadyAt).toBeUndefined();
+        expect(result.agingShed.upgradeReadyAt).toBeDefined();
       },
     );
 

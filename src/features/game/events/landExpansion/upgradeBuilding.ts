@@ -160,24 +160,29 @@ export const BUILDING_UPGRADES: Record<
       items: { Wood: new Decimal(30) },
     },
     2: {
-      coins: 30_000,
+      coins: 3_000,
       items: { Stone: new Decimal(100), Gold: new Decimal(20) },
+      upgradeTime: 1000 * 60 * 60,
     },
     3: {
-      coins: 40_000,
+      coins: 4_000,
       items: { Wood: new Decimal(500), Stone: new Decimal(500) },
+      upgradeTime: 1000 * 60 * 60 * 6,
     },
     4: {
-      coins: 100_000,
+      coins: 10_000,
       items: { Gold: new Decimal(100) },
+      upgradeTime: 1000 * 60 * 60 * 12,
     },
     5: {
-      coins: 200_000,
+      coins: 20_000,
       items: { Crimstone: new Decimal(10) },
+      upgradeTime: 1000 * 60 * 60 * 24,
     },
     6: {
-      coins: 1_000_000,
+      coins: 100_000,
       items: {},
+      upgradeTime: 1000 * 60 * 60,
     },
   },
 };

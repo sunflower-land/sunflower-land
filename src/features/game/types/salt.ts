@@ -77,21 +77,21 @@ export const SALT_FARM_UPGRADES: Record<
   3: {
     nodes: 4,
     upgradeCost: {
-      coins: 40_000,
+      coins: 4_000,
       items: {
         Wood: new Decimal(500),
         Gold: new Decimal(40),
-        Salt: new Decimal(2_000),
+        Salt: new Decimal(200),
       },
     },
   },
   4: {
     nodes: 6,
     upgradeCost: {
-      coins: 120_000,
+      coins: 12_000,
       items: {
         Gold: new Decimal(100),
-        Salt: new Decimal(10_000),
+        Salt: new Decimal(1_000),
       },
     },
   },
