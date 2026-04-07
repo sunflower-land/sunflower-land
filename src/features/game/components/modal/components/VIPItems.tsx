@@ -158,7 +158,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
     const isFirstVip = !vip?.bundles?.length;
     const hasPriorPurchase =
-      purchases.length > 0 || !!state.farmActivity["Gems Purchased"];
+      (purchases?.length ?? 0) > 0 || !!state.farmActivity["Gems Purchased"];
 
     if (isFirstVip && hasPriorPurchase) {
       gameAnalytics.trackMilestone({
@@ -167,13 +167,14 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     }
 
     if (isFirstVip) {
+      const DAY_MS = 24 * 60 * 60 * 1000;
       const accountAgeMs = Date.now() - state.createdAt;
-      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+      const sevenDaysMs = 7 * DAY_MS;
 
       if (accountAgeMs < sevenDaysMs) {
         const dayBucket = Math.min(
           6,
-          Math.floor(accountAgeMs / (24 * 60 * 60 * 1000)),
+          Math.max(0, Math.floor(accountAgeMs / DAY_MS)),
         );
         const tag = hasPriorPurchase ? "HasStarterPack" : "NoStarterPack";
         gameAnalytics.trackMilestone({
