@@ -684,7 +684,7 @@ export const AIBuilder: React.FC = () => {
   );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       generateGame();
     }
@@ -817,19 +817,23 @@ export const AIBuilder: React.FC = () => {
   // Shared prompt input + action buttons (used in both layouts)
   const promptSection = (
     <>
-      <input
-        type="text"
+      <textarea
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => {
+          setPrompt(e.target.value);
+          e.target.style.height = "auto";
+          e.target.style.height = `${e.target.scrollHeight}px`;
+        }}
         onKeyDown={handleKeyDown}
         placeholder={
           hasSavedFarm
             ? 'Describe modifications (e.g., "add more enemies")'
             : "Describe a new minigame to generate..."
         }
-        className="w-full p-2 rounded text-sm border border-gray-300"
+        className="w-full p-2 rounded text-sm border border-gray-300 resize-none overflow-hidden"
         maxLength={500}
         disabled={isGenerating}
+        rows={2}
       />
       <div className="flex gap-1">
         <Button
