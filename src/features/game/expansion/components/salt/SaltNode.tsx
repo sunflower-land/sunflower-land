@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -29,14 +29,13 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   const inventory = useSelector(gameService, _inventory);
   const now = useNow({ live: true });
 
-  const storedCharges = useMemo(() => {
-    if (!node) return 0;
-    const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
-    return getStoredSaltCharges(node, now, { chargeIntervalMs });
-  }, [node, now, gameState]);
   const availableRakes = Math.floor(inventory["Salt Rake"]?.toNumber() ?? 0);
 
   if (!node) return null;
+
+  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
+
+  const storedCharges = getStoredSaltCharges(node, now, { chargeIntervalMs });
 
   const saltNodeSprite = getSaltNodeSprite(storedCharges);
 

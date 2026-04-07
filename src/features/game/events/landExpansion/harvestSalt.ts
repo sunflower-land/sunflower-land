@@ -52,19 +52,21 @@ export function harvestSalt({
       throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_CHARGES);
     }
 
-    const availableRakes = copy.inventory["Salt Rake"] ?? new Decimal(0);
-    if (availableRakes.lt(1)) {
-      throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
-    }
-
     const legacyReadySlots =
       syncedNode.salt.harvesting?.slots.filter(
         (slot) => slot.readyAt <= createdAt,
       ).length ?? 0;
+    const shouldConsumeRake = legacyReadySlots === 0;
+    const availableRakes = copy.inventory["Salt Rake"] ?? new Decimal(0);
+    if (shouldConsumeRake && availableRakes.lt(1)) {
+      throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
+    }
     const legacySalt = legacyReadySlots * BASE_SALT_YIELD;
 
     const saltInInventory = copy.inventory["Salt"] ?? new Decimal(0);
-    copy.inventory["Salt Rake"] = availableRakes.sub(1);
+    if (shouldConsumeRake) {
+      copy.inventory["Salt Rake"] = availableRakes.sub(1);
+    }
     copy.inventory["Salt"] = saltInInventory.add(BASE_SALT_YIELD + legacySalt);
 
     const syncedNextChargeAt = syncedNode.salt.nextChargeAt;

@@ -72,6 +72,7 @@ describe("harvestSalt", () => {
       createdAt: now,
     });
 
+    expect(state.inventory["Salt Rake"]).toEqual(new Decimal(3));
     expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD * 2));
     expect(state.saltFarm.nodes["0"].salt.harvesting).toBeUndefined();
   });
