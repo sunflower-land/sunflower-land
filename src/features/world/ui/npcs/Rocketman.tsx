@@ -211,7 +211,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
 
   const isOutOfRange =
     loveCharmsSpent >= DAILY_LIMIT ||
-    loveCharms < 50 ||
+    loveCharms < EXCHANGE_FLOWER_PRICE ||
     willExceedDailyLimit ||
     loveCharmCount.lt(loveCharms);
 
@@ -272,7 +272,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
         <Label type="danger">
           {willExceedDailyLimit || loveCharmsSpent >= DAILY_LIMIT
             ? t("flower.exchange.error.max")
-            : loveCharms < 50
+            : loveCharms < EXCHANGE_FLOWER_PRICE
               ? t("flower.exchange.error.min")
               : loveCharmCount.lt(loveCharms)
                 ? t("flower.exchange.error.balance")

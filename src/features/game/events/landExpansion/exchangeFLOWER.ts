@@ -5,7 +5,7 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
-export const EXCHANGE_FLOWER_PRICE = 50;
+export const EXCHANGE_FLOWER_PRICE = 80;
 export const DAILY_LIMIT = 10000;
 
 export type ExchangeFlowerAction = {
