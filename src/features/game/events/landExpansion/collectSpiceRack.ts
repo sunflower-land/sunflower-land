@@ -8,13 +8,9 @@ import {
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
-import {
-  getAgingOutputBonus,
-  getRefinedSaltChance,
-} from "features/game/types/agingFormulas";
+import { getAgingOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
-import { prngChance } from "lib/prng";
 
 export type CollectSpiceRackAction = {
   type: "spiceRack.collected";
@@ -51,29 +47,20 @@ export function collectSpiceRack({
 
     game.agingShed.racks.spice = queue.filter((job) => job.readyAt > createdAt);
 
-    const skills = game.bumpkin.skills;
-    const outputBonus = getAgingOutputBonus(skills);
-    const refinerChance = getRefinedSaltChance(skills);
+    const { skills } = game.bumpkin;
 
     ready.forEach((job) => {
       const recipeDef = getSpiceRackRecipe(job.recipe);
+      const counter =
+        game.farmActivity[spiceRackCollectedActivity(job.recipe)] ?? 0;
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        let add = (amount ?? new Decimal(0)).add(outputBonus);
-
-        if (item === "Refined Salt" && refinerChance > 0) {
-          const counter =
-            game.farmActivity[spiceRackCollectedActivity("Refined Salt")] ?? 0;
-          const isBonus = prngChance({
-            farmId,
-            itemId: KNOWN_IDS["Refined Salt"],
-            counter,
-            chance: refinerChance,
-            criticalHitName: "Refined Salt",
-          });
-          if (isBonus) add = add.add(1);
-        }
+        const add = getAgingOutput(skills, amount ?? new Decimal(0), item, {
+          farmId,
+          itemId: KNOWN_IDS[item],
+          counter,
+        });
 
         game.inventory[item] = prev.add(add);
       }

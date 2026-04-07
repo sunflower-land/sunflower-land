@@ -3,7 +3,7 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { KNOWN_IDS } from "features/game/types";
 import {
-  getAgingOutputBonus,
+  getAgingOutput,
   getPrimeAgedChance,
 } from "features/game/types/agingFormulas";
 import type { AgingCollectResult } from "features/game/lib/agingShed";
@@ -59,7 +59,6 @@ export function collectAgedFish({
     );
 
     const skills = game.bumpkin.skills;
-    const outputAmount = 1 + getAgingOutputBonus(skills);
     const results: AgingCollectResult[] = [];
 
     ready.forEach((slot) => {
@@ -69,6 +68,12 @@ export function collectAgedFish({
       const counter =
         (game.farmActivity[`${agedName} Collected`] ?? 0) +
         (game.farmActivity[`${primeAgedName} Collected`] ?? 0);
+
+      const outputAmount = getAgingOutput(skills, new Decimal(1), slot.fish, {
+        farmId,
+        itemId: KNOWN_IDS[slot.fish],
+        counter,
+      });
 
       const isPrime = prngChance({
         farmId,
