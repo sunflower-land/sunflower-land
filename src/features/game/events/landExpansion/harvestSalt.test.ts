@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { BASE_SALT_YIELD } from "features/game/types/salt";
+import {
+  BASE_SALT_YIELD,
+  SALT_CHARGE_GENERATION_TIME,
+} from "features/game/types/salt";
 import { HARVEST_SALT_ERRORS, harvestSalt } from "./harvestSalt";
 
 const now = Date.now();
@@ -75,6 +78,74 @@ describe("harvestSalt", () => {
     expect(state.inventory["Salt Rake"]).toEqual(new Decimal(3));
     expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD * 2));
     expect(state.saltFarm.nodes["0"].salt.harvesting).toBeUndefined();
+  });
+
+  it("preserves cooldown boundary when harvesting a non-full node", () => {
+    const preservedBoundary = now + 10_000;
+
+    const state = harvestSalt({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Salt: new Decimal(0),
+          "Salt Rake": new Decimal(2),
+        },
+        saltFarm: {
+          ...INITIAL_FARM.saltFarm,
+          nodes: {
+            "0": {
+              createdAt: now - 1000,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                storedCharges: 2,
+                nextChargeAt: preservedBoundary,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "saltHarvest.harvested", id: "0" },
+      createdAt: now,
+    });
+
+    expect(state.saltFarm.nodes["0"].salt.nextChargeAt).toEqual(
+      preservedBoundary,
+    );
+  });
+
+  it("resets cooldown from harvest time when harvesting a full node", () => {
+    const previousBoundary = now + 10_000;
+
+    const state = harvestSalt({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Salt: new Decimal(0),
+          "Salt Rake": new Decimal(2),
+        },
+        saltFarm: {
+          ...INITIAL_FARM.saltFarm,
+          nodes: {
+            "0": {
+              createdAt: now - 1000,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                storedCharges: 3,
+                nextChargeAt: previousBoundary,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "saltHarvest.harvested", id: "0" },
+      createdAt: now,
+    });
+
+    expect(state.saltFarm.nodes["0"].salt.nextChargeAt).toEqual(
+      now + SALT_CHARGE_GENERATION_TIME,
+    );
   });
 
   it("throws when there are no charges to consume", () => {

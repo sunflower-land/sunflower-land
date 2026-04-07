@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
   BASE_SALT_YIELD,
+  MAX_STORED_SALT_CHARGES_PER_NODE,
   getSaltChargeGenerationTime,
   getStoredSaltCharges,
   materializeSaltRegen,
@@ -69,10 +70,15 @@ export function harvestSalt({
     }
     copy.inventory["Salt"] = saltInInventory.add(BASE_SALT_YIELD + legacySalt);
 
+    const wasFullBeforeHarvest =
+      storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE;
     const syncedNextChargeAt = syncedNode.salt.nextChargeAt;
-    const nextChargeAt = Number.isFinite(syncedNextChargeAt)
+    const baselineNextChargeAt = Number.isFinite(syncedNextChargeAt)
       ? syncedNextChargeAt
       : createdAt + interval;
+    const nextChargeAt = wasFullBeforeHarvest
+      ? createdAt + interval
+      : baselineNextChargeAt;
 
     const draftSalt = {
       ...syncedNode.salt,
