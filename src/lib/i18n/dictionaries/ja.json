@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "今回は {{name}} はありません。次回の実行で頑張ってください。",
   "minigame.dashboard.production.collectDone": "いいね!",
-  "description.minerMonument": "サンフラワーランドの鉱山労働者の記念碑。"
+  "description.minerMonument": "サンフラワーランドの鉱山労働者の記念碑。",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "すべての経済 (マーケットプレイス) を表示",
+  "playerEconomyEditor.basics.customMinigamesSupported": "カスタムミニゲームをサポート",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "上記のスラッグを設定すると、ホストミニゲームが有効になります。",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "クライアントカスタムゲームがあり、それをSunflower Landにデプロイしたい場合は、Codersチャットに連絡してください。",
+  "marketplace.economies.tradingSectionTitle": "取引 (取引量)",
+  "marketplace.economies.minigamesSectionTitle": "ミニゲーム (プレイヤー別)",
+  "marketplace.economies.volume": "ボリューム",
+  "marketplace.economies.players": "プレイヤー",
+  "marketplace.economies.playNow": "今すぐプレイ",
+  "marketplace.economies.minigamesPlayableEmpty": "プレイURLのあるミニゲームはまだありません。"
 }

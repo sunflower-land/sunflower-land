@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Hayır {{name}} bu sefer - bir sonraki koşuda iyi şanslar.",
   "minigame.dashboard.production.collectDone": "Güzel!",
-  "description.minerMonument": "Ayçiçeği Ülkesi madencileri için bir anıt."
+  "description.minerMonument": "Ayçiçeği Ülkesi madencileri için bir anıt.",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "Tüm ekonomileri görüntüle (pazar yeri)",
+  "playerEconomyEditor.basics.customMinigamesSupported": "Özel mini oyunlar desteklenir",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "Barındırılan mini oyunları etkinleştirmek için yukarıya bir slug ayarlayın.",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "Özel bir istemci oyununuz varsa ve onu Sunflower Land'e dağıtmak istiyorsanız Coders sohbetinden ulaşın.",
+  "marketplace.economies.tradingSectionTitle": "Ticaret (hacme göre)",
+  "marketplace.economies.minigamesSectionTitle": "Mini oyunlar (oyuncular tarafından)",
+  "marketplace.economies.volume": "Hacim",
+  "marketplace.economies.players": "Oyuncular",
+  "marketplace.economies.playNow": "Şimdi oyna",
+  "marketplace.economies.minigamesPlayableEmpty": "Henüz oynatma URL'si olan mini oyun yok."
 }

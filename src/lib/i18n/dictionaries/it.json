@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "No {{name}} questa volta, meglio la prossima corsa.",
   "minigame.dashboard.production.collectDone": "Bello!",
-  "description.minerMonument": "Un monumento ai minatori di Sunflower Land."
+  "description.minerMonument": "Un monumento ai minatori di Sunflower Land.",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "Visualizza tutte le economie (marketplace)",
+  "playerEconomyEditor.basics.customMinigamesSupported": "Minigiochi personalizzati supportati",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "Imposta uno slug qui sopra per abilitare i minigiochi ospitati.",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "Contatta la chat di Coders se hai un gioco personalizzato per il cliente e vuoi distribuirlo in Sunflower Land.",
+  "marketplace.economies.tradingSectionTitle": "Negoziazione (per volume)",
+  "marketplace.economies.minigamesSectionTitle": "Minigiochi (per giocatori)",
+  "marketplace.economies.volume": "Volume",
+  "marketplace.economies.players": "Giocatori",
+  "marketplace.economies.playNow": "Gioca ora",
+  "marketplace.economies.minigamesPlayableEmpty": "Non ci sono ancora minigiochi con un URL di gioco."
 }
