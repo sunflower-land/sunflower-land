@@ -222,17 +222,17 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
       ) : (
         <div className="flex flex-col gap-1">
           <InnerPanel className="p-1">
-            <div className="flex items-start gap-2">
-              {onBack && (
-                <img
-                  src={SUNNYSIDE.icons.arrow_left}
-                  className="cursor-pointer flex-shrink-0"
-                  onClick={onBack}
-                  style={{ width: `${PIXEL_SCALE * 11}px` }}
-                  alt=""
-                />
-              )}
-              <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex flex-col items-start">
+              <div className="flex items-start gap-2">
+                {onBack && (
+                  <img
+                    src={SUNNYSIDE.icons.arrow_left}
+                    className="cursor-pointer flex-shrink-0"
+                    onClick={onBack}
+                    style={{ width: `${PIXEL_SCALE * 11}px` }}
+                    alt="Back"
+                  />
+                )}
                 <Label
                   type="default"
                   icon={SUNNYSIDE.icons.hammer}
@@ -240,6 +240,9 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
                 >
                   {t("upgrade.building", { building: buildingName })}
                 </Label>
+              </div>
+
+              <div className="flex flex-col flex-1 min-w-0">
                 {isCurrentlyUpgrading && (
                   <Label
                     type="info"
