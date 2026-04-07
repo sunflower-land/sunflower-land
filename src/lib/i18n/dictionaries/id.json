@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Tidak ada {{name}} kali ini — semoga sukses lari berikutnya.",
   "minigame.dashboard.production.collectDone": "Bagus!",
-  "description.minerMonument": "Sebuah monumen untuk para penambang Sunflower Land."
+  "description.minerMonument": "Sebuah monumen untuk para penambang Sunflower Land.",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "Lihat semua ekonomi (marketplace)",
+  "playerEconomyEditor.basics.customMinigamesSupported": "Minigame khusus didukung",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "Atur slug di atas untuk mengaktifkan minigame yang dihosting.",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "Hubungi obrolan Coders jika Anda memiliki game khusus klien dan ingin menyebarkannya ke Sunflower Land.",
+  "marketplace.economies.tradingSectionTitle": "Perdagangan (berdasarkan volume)",
+  "marketplace.economies.minigamesSectionTitle": "Minigame (oleh pemain)",
+  "marketplace.economies.volume": "Volume",
+  "marketplace.economies.players": "Pemain",
+  "marketplace.economies.playNow": "Mainkan sekarang",
+  "marketplace.economies.minigamesPlayableEmpty": "Belum ada minigame dengan URL play."
 }

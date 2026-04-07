@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "这次不是 {{name}} ——下次跑步好运。",
   "minigame.dashboard.production.collectDone": "太棒了！",
-  "description.minerMonument": "向日葵地矿工纪念碑。"
+  "description.minerMonument": "向日葵地矿工纪念碑。",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "查看所有经济体（市场）",
+  "playerEconomyEditor.basics.customMinigamesSupported": "支持自定义小游戏",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "在上方设置一个 slug 以启用托管小游戏。",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "如果你有客户自定义游戏并想将其部署到向日葵乐园，请通过 Coders 聊天室联系我们。",
+  "marketplace.economies.tradingSectionTitle": "交易（按交易量计算）",
+  "marketplace.economies.minigamesSectionTitle": "迷你游戏（由玩家创作）",
+  "marketplace.economies.volume": "音量",
+  "marketplace.economies.players": "玩家",
+  "marketplace.economies.playNow": "立即播放",
+  "marketplace.economies.minigamesPlayableEmpty": "还没有带有播放网址的迷你游戏。"
 }

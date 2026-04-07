@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectGrantLine": "+ {{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "Diesmal nicht {{name}} — viel Glück beim nächsten Lauf.",
   "minigame.dashboard.production.collectDone": "Nett!",
-  "description.minerMonument": "Ein Denkmal für die Minenarbeiter von Sunflower Land."
+  "description.minerMonument": "Ein Denkmal für die Minenarbeiter von Sunflower Land.",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "Alle Volkswirtschaften anzeigen (Marktplatz)",
+  "playerEconomyEditor.basics.customMinigamesSupported": "Benutzerdefinierte Minispiele werden unterstützt",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "Setze oben einen Slug, um gehostete Minispiele zu aktivieren.",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "Kontaktiere uns im Coders-Chat, wenn du ein benutzerdefiniertes Client-Spiel hast und es in Sunflower Land einsetzen möchtest.",
+  "marketplace.economies.tradingSectionTitle": "Handel (nach Volumen)",
+  "marketplace.economies.minigamesSectionTitle": "Minispiele (von Spielern)",
+  "marketplace.economies.volume": "Volumen",
+  "marketplace.economies.players": "Spieler",
+  "marketplace.economies.playNow": "Spiele jetzt",
+  "marketplace.economies.minigamesPlayableEmpty": "Noch keine Minispiele mit einer Play-URL."
 }

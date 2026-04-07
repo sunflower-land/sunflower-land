@@ -8556,5 +8556,15 @@
   "minigame.dashboard.production.collectYouWon": "Ты получил",
   "minigame.dashboard.production.collectGrantLine": "+{{amount}} {{name}}",
   "minigame.dashboard.production.collectReceivedNothing": "В этот раз без {{name}} - повезёт в следующий раз",
-  "minigame.dashboard.production.collectDone": "Отлично!"
+  "minigame.dashboard.production.collectDone": "Отлично!",
+  "playerEconomyEditor.viewAllEconomiesMarketplace": "View all economies (marketplace)",
+  "playerEconomyEditor.basics.customMinigamesSupported": "Custom minigames supported",
+  "playerEconomyEditor.basics.setSlugFirstForHosted": "Set a slug above to enable hosted minigames.",
+  "playerEconomyEditor.basics.customMinigamesDeployHint": "Reach out on Coders chat if you have a client custom game and want to deploy it into Sunflower Land.",
+  "marketplace.economies.tradingSectionTitle": "Trading (by volume)",
+  "marketplace.economies.minigamesSectionTitle": "Minigames (by players)",
+  "marketplace.economies.volume": "Volume",
+  "marketplace.economies.players": "Players",
+  "marketplace.economies.playNow": "Play now",
+  "marketplace.economies.minigamesPlayableEmpty": "No minigames with a play URL yet."
 }
