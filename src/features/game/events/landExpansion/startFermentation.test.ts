@@ -146,7 +146,7 @@ describe("startFermentation", () => {
       agingShed: { ...createInitialAgingShed(), level: 2 },
       inventory: {
         Radish: new Decimal(20),
-        Zucchini: new Decimal(20),
+        Zucchini: new Decimal(40),
         Salt: new Decimal(20),
       },
     });
@@ -262,10 +262,10 @@ describe("startFermentation", () => {
     expect(jobs[0].readyAt).toEqual(createdAt + 60 * 60 * 1000);
   });
 
-  it("queues pickled tomato with 2 refined salt", () => {
+  it("queues pickled tomato with salt", () => {
     const state = startFermentation({
       state: createFermentationTestState({
-        inventory: { Tomato: new Decimal(10), "Refined Salt": new Decimal(2) },
+        inventory: { Tomato: new Decimal(10), Salt: new Decimal(5) },
       }),
       action: {
         type: "fermentation.started",
@@ -277,7 +277,7 @@ describe("startFermentation", () => {
     });
 
     expect(state.inventory.Tomato?.toNumber()).toEqual(0);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
+    expect(state.inventory.Salt?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
       "Pickled Tomato",
     );
@@ -341,7 +341,7 @@ describe("startFermentation", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: {
-          "Refined Salt": new Decimal(2),
+          Salt: new Decimal(2),
           "Pickled Radish": new Decimal(1),
         },
       }),
@@ -354,7 +354,7 @@ describe("startFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
+    expect(state.inventory.Salt?.toNumber()).toEqual(0);
     expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
       "Greenhouse Glow: Pickled Radish",

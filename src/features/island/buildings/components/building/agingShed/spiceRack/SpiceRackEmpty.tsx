@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import Decimal from "decimal.js-light";
 
+import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -16,7 +16,6 @@ import {
 } from "features/game/types/spiceRack";
 import {
   getAgingInputMultiplier,
-  getAgingOutputBonus,
   getRefinedSaltChance,
 } from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -91,33 +90,34 @@ export const SpiceRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <DropdownPanel
-        options={SPICE_RACK_RECIPE_IDS.map((recipeId) => {
-          const def = getSpiceRackRecipe(recipeId);
-          const outputItem = getPrimaryOutputItem(recipeId);
-          const outEntry = getObjectEntries(def.outputs)[0];
-          const amt = (outEntry?.[1] ?? new Decimal(0)).add(
-            getAgingOutputBonus(skills),
-          );
-          const title = `${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${amt.toString()}`;
-          const description = ITEM_DETAILS[outputItem]?.description;
+      <InnerPanel className="mb-1">
+        <Label
+          type={selectedRecipeId ? "info" : "default"}
+          className="text-xs mb-2 ml-1"
+          icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
+        >
+          {selectedRecipeId ?? t("agingShed.spice.selectRecipe")}
+        </Label>
+        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
+          {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
+            const outputItem = getPrimaryOutputItem(recipeId);
 
-          return {
-            value: recipeId,
-            icon: ITEM_DETAILS[outputItem]?.image,
-            label: (
-              <div className="flex flex-col gap-1">
-                <p className="text-xs">{title}</p>
-                {description ? <p className="text-xxs">{description}</p> : null}
+            return (
+              <div
+                key={recipeId}
+                className="flex flex-col items-center shrink-0 max-w-[72px]"
+              >
+                <Box
+                  image={ITEM_DETAILS[outputItem]?.image}
+                  hideCount
+                  isSelected={selectedRecipeId === recipeId}
+                  onClick={() => onSelectRecipe(recipeId)}
+                />
               </div>
-            ),
-          };
-        })}
-        value={selectedRecipeId}
-        placeholder={t("agingShed.spice.selectRecipe")}
-        onChange={(value) => onSelectRecipe(value as SpiceRackRecipeName)}
-        className="mb-1"
-      />
+            );
+          })}
+        </div>
+      </InnerPanel>
 
       {selectedRecipeId && recipeDef && (
         <InnerPanel className="mb-1">

@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Decimal from "decimal.js-light";
 
+import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -53,16 +53,13 @@ export const AgingRackEmpty: React.FC<Props> = ({
   startError,
 }) => {
   const { t } = useAppTranslation();
-  const [showIngredients, setShowIngredients] = useState(false);
   const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
 
   const skills = gameState.bumpkin.skills;
 
   const fishOptions = useMemo(() => {
     return Object.entries(merged)
-      .filter(
-        ([name, qty]) => isFishName(name) && qty !== undefined && qty.gte(1),
-      )
+      .filter(([name, qty]) => isFishName(name) && (qty?.gte(1) ?? false))
       .map(([name]) => {
         const fish = name as FishName;
         const baseXP = getFishBaseXP(fish);
@@ -71,16 +68,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
         return {
           value: fish,
           icon: ITEM_DETAILS[fish]?.image,
-          label: (
-            <div className="flex flex-col gap-1">
-              <p className="text-xs">
-                {ITEM_DETAILS[fish]?.translatedName ?? fish}
-              </p>
-              <p className="text-xxs">
-                {`${saltCost} Salt · ${secondsToString(timeMs / 1000, { length: "short" })}`}
-              </p>
-            </div>
-          ),
+          detail: `${saltCost} Salt · ${secondsToString(timeMs / 1000, { length: "medium" })}`,
         };
       });
   }, [merged, skills]);
@@ -95,23 +83,41 @@ export const AgingRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <DropdownPanel
-        options={fishOptions}
-        value={selectedFish}
-        placeholder={t("agingShed.agingRack.selectFish")}
-        onChange={(fish) => onSelectFish(fish as FishName)}
-        className="mb-1"
-      />
+      <InnerPanel className="mb-1">
+        <Label
+          type={selectedFish ? "info" : "default"}
+          className="text-xs mb-2 ml-1"
+          icon={selectedFish && ITEM_DETAILS[selectedFish]?.image}
+        >
+          {selectedFish ?? t("agingShed.agingRack.selectFish")}
+        </Label>
+        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
+          {fishOptions.map((opt) => {
+            const fish = opt.value as FishName;
+
+            return (
+              <div
+                key={fish}
+                className="flex flex-col items-center shrink-0 max-w-[72px]"
+              >
+                <Box
+                  image={opt.icon}
+                  hideCount
+                  isSelected={selectedFish === fish}
+                  onClick={() => onSelectFish(fish)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </InnerPanel>
 
       {selectedFish && recipeDef && (
         <InnerPanel className="mb-1">
           <Label type="default" className="text-xs mb-2 ml-1">
             {t("agingShed.agingRack.requirements")}
           </Label>
-          <div
-            className="flex flex-wrap p-2 gap-2 cursor-pointer"
-            onClick={() => setShowIngredients(!showIngredients)}
-          >
+          <div className="flex flex-wrap p-2 gap-2">
             <RequirementLabel
               type="item"
               item={"Salt" as InventoryItemName}

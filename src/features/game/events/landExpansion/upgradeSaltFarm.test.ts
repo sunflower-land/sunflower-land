@@ -159,11 +159,11 @@ describe("upgradeSaltFarm", () => {
       createdAt: now,
     });
 
-    expect(state.coins).toBe(60_000);
+    expect(state.coins).toBe(96_000);
     expect(state.inventory.Wood).toEqual(new Decimal(500));
     expect(state.inventory.Gold).toEqual(new Decimal(160));
-    expect(state.inventory.Salt).toEqual(new Decimal(18_000));
-    expect(state.farmActivity["Coins Spent"]).toBe(40_000);
+    expect(state.inventory.Salt).toEqual(new Decimal(19_800));
+    expect(state.farmActivity["Coins Spent"]).toBe(4_000);
     expect(state.saltFarm.level).toBe(3);
     expect(Object.keys(state.saltFarm.nodes)).toHaveLength(4);
     expect(state.saltFarm.nodes["2"].coordinates).toEqual({ x: -5, y: -6 });
@@ -197,21 +197,21 @@ describe("upgradeSaltFarm", () => {
         fromLevel: 2,
         initialNodes: 2,
         expectedNodes: 4,
-        coinsCost: 40_000,
+        coinsCost: 4_000,
         expectedInventory: {
           Wood: new Decimal(500),
           Gold: new Decimal(960),
-          Salt: new Decimal(18_000),
+          Salt: new Decimal(19_800),
         },
       },
       {
         fromLevel: 3,
         initialNodes: 4,
         expectedNodes: 6,
-        coinsCost: 120_000,
+        coinsCost: 12_000,
         expectedInventory: {
           Gold: new Decimal(900),
-          Salt: new Decimal(10_000),
+          Salt: new Decimal(19_000),
         },
       },
     ];

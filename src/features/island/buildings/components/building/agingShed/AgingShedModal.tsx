@@ -15,13 +15,14 @@ import { AgingRackPanel } from "./agingRack/AgingRackPanel";
 import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack";
+type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack" | "upgrade";
 
 export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
@@ -54,6 +55,14 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ];
 
+  const upgradeTab: PanelTabs<AgingShedTabs>[] = [
+    {
+      id: "upgrade",
+      name: t("upgrade"),
+      icon: ITEM_DETAILS.Hammer.image,
+    },
+  ];
+
   const closeUpgradeTab = () => {
     setShowUpgradeTab(false);
     onClose();
@@ -72,14 +81,16 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         }}
         onClick={() => setShowUpgradeTab(true)}
       />
-      <CloseButtonPanel
+      <CloseButtonPanel<AgingShedTabs>
         onClose={closeUpgradeTab}
-        tabs={showUpgradeTab || !hasAgingShedAccess ? undefined : tabs}
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        container={
-          showUpgradeTab || !hasAgingShedAccess ? undefined : OuterPanel
+        tabs={
+          !hasAgingShedAccess ? undefined : showUpgradeTab ? upgradeTab : tabs
         }
+        currentTab={
+          showUpgradeTab && hasAgingShedAccess ? "upgrade" : currentTab
+        }
+        setCurrentTab={showUpgradeTab ? undefined : setCurrentTab}
+        container={hasAgingShedAccess ? OuterPanel : undefined}
       >
         <AgedShedPanel
           agingShedLevel={agingShedLevel}
@@ -124,7 +135,7 @@ const AgedShedPanel: React.FC<{
     return (
       <UpgradeBuildingContent
         onClose={closeUpgradeTab}
-        buildingName={"Aging Shed"}
+        buildingName="Aging Shed"
         currentLevel={agingShedLevel}
         nextLevel={nextAgingShedLevel}
         onBack={() => setShowUpgradeTab(false)}

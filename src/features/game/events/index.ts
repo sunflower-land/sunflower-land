@@ -436,14 +436,7 @@ import {
   CollectLavaPitAction,
 } from "./landExpansion/collectLavaPit";
 import { startLavaPit, StartLavaPitAction } from "./landExpansion/startLavaPit";
-import {
-  startSaltHarvest,
-  StartSaltHarvestAction,
-} from "./landExpansion/startSaltHarvest";
-import {
-  claimSaltHarvest,
-  ClaimSaltHarvestAction,
-} from "./landExpansion/claimSaltHarvest";
+import { harvestSalt, HarvestSaltAction } from "./landExpansion/harvestSalt";
 import { placeLavaPit, PlaceLavaPitAction } from "./landExpansion/placeLavaPit";
 import { moveLavaPit, MoveLavaPitAction } from "./landExpansion/moveLavaPit";
 import { buyResource, ResourceBoughtAction } from "./landExpansion/buyResource";
@@ -777,8 +770,7 @@ export type PlayingEvent =
   | AcknowledgeCalendarEventAction
   | CollectLavaPitAction
   | StartLavaPitAction
-  | StartSaltHarvestAction
-  | ClaimSaltHarvestAction
+  | HarvestSaltAction
   | UpgradeSaltFarmAction
   | CancelQueuedRecipeAction
   | AcknowledgeOnChainAirdropAction
@@ -1059,8 +1051,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
-  "saltHarvest.started": startSaltHarvest,
-  "saltHarvest.claimed": claimSaltHarvest,
+  "salt.harvested": harvestSalt,
   "saltFarm.upgraded": upgradeSaltFarm,
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,

@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { UpgradeSaltFarm } from "./UpgradeSaltFarm";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -32,6 +33,7 @@ export const UpgradeSaltFarmModalPanel: React.FC<Props> = ({ onClose }) => {
         },
       ]}
       currentTab="upgradeSaltFarm"
+      container={OuterPanel}
     >
       <UpgradeSaltFarm />
     </CloseButtonPanel>

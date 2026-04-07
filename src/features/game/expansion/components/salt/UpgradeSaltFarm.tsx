@@ -72,24 +72,20 @@ export const UpgradeSaltFarm: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="p-1">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.hammer}
-          className="mb-2 ml-1"
-        >
+    <div className="flex flex-col gap-1">
+      <InnerPanel className="p-1">
+        <Label type="default" icon={SUNNYSIDE.icons.hammer} className="ml-1">
           {isUnlockingSaltFarm
             ? t("unlock.building", { building: "Salt Farm" })
             : t("upgrade.building", { building: "Salt Farm" })}
         </Label>
-        <p className="text-sm">
+        <p className="text-sm p-1">
           {isUnlockingSaltFarm
             ? t("description.unlockSaltFarm")
             : t("description.upgradeSaltFarm")}
         </p>
-      </div>
-      <div className="flex flex-col w-full mt-2">
+      </InnerPanel>
+      <InnerPanel className="flex flex-col w-full">
         <div className="flex flex-wrap justify-between">
           <Label
             type="default"
@@ -99,7 +95,7 @@ export const UpgradeSaltFarm: React.FC = () => {
             {t("requirements")}
           </Label>
         </div>
-        <InnerPanel className="flex flex-wrap gap-2 w-full">
+        <div className="flex flex-wrap gap-2 w-full">
           {getKeys(requirements.items).map((itemName) => (
             <div key={itemName} className="flex-shrink-0 gap-1">
               <RequirementLabel
@@ -117,14 +113,14 @@ export const UpgradeSaltFarm: React.FC = () => {
               requirement={requirements.coins}
             />
           </div>
-        </InnerPanel>
-      </div>
-      <div className="flex flex-wrap justify-between">
+        </div>
+      </InnerPanel>
+      <InnerPanel className="flex flex-wrap justify-between">
         <Label
           type="default"
           icon={ITEM_DETAILS.Salt.image}
           iconWidth={11}
-          className="ml-1.5 mt-2"
+          className="ml-1.5"
         >
           <span className="pl-1.5">
             {isUnlockingSaltFarm
@@ -132,13 +128,13 @@ export const UpgradeSaltFarm: React.FC = () => {
               : `${t("upgrade.building.nextLevel")} ${nextLevel}`}
           </span>
         </Label>
-        <Label type="success" secondaryIcon={powerup} className="mr-1 mt-2">
+        <Label type="success" secondaryIcon={powerup} className="mr-1">
           {nodesToAdd > 0
             ? `+${nodesToAdd} salt node${nodesToAdd === 1 ? "" : "s"}`
             : t("upgrade.building.nextLevel")}
         </Label>
-      </div>
-      <Button className="mt-2" onClick={upgrade} disabled={!hasRequirements()}>
+      </InnerPanel>
+      <Button onClick={upgrade} disabled={!hasRequirements()}>
         {isUnlockingSaltFarm
           ? t("unlock.building", { building: "Salt Farm" })
           : t("upgrade.building", { building: "Salt Farm" })}
