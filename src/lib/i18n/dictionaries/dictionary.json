@@ -8544,7 +8544,7 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "No salt charges available",
   "saltHarvest.startHarvest": "Start Harvest",
   "saltHarvest.claimSalt": "Claim Salt ({{count}})",
-  "saltHarvest.nextChargeIn": "Next charge in {{time}}",
+  "saltHarvest.nextChargeIn": "Next charge in:",
   "saltHarvest.storedCharges": "Stored Charges: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Available Salt Rakes: {{count}}",
   "description.agingShed": "Age and ferment your resources into refined goods.",
