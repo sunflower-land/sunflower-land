@@ -92,7 +92,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
           if (canHarvest) {
             setNextChargePanelOpen(false);
             setNoRakesPanelOpen(false);
-            gameService.send("saltHarvest.harvested", { id });
+            gameService.send("salt.harvested", { id });
             return;
           }
 

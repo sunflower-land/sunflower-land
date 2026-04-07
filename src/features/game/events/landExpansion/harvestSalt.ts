@@ -19,7 +19,7 @@ export enum HARVEST_SALT_ERRORS {
 }
 
 export type HarvestSaltAction = {
-  type: "saltHarvest.harvested";
+  type: "salt.harvested";
   id: string;
 };
 

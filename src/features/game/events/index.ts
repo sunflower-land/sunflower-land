@@ -1051,7 +1051,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
-  "saltHarvest.harvested": harvestSalt,
+  "salt.harvested": harvestSalt,
   "saltFarm.upgraded": upgradeSaltFarm,
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,

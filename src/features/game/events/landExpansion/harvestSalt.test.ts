@@ -32,7 +32,7 @@ describe("harvestSalt", () => {
           },
         },
       },
-      action: { type: "saltHarvest.harvested", id: "0" },
+      action: { type: "salt.harvested", id: "0" },
       createdAt: now,
     });
 
@@ -71,7 +71,7 @@ describe("harvestSalt", () => {
           },
         },
       },
-      action: { type: "saltHarvest.harvested", id: "0" },
+      action: { type: "salt.harvested", id: "0" },
       createdAt: now,
     });
 
@@ -105,7 +105,7 @@ describe("harvestSalt", () => {
           },
         },
       },
-      action: { type: "saltHarvest.harvested", id: "0" },
+      action: { type: "salt.harvested", id: "0" },
       createdAt: now,
     });
 
@@ -139,7 +139,7 @@ describe("harvestSalt", () => {
           },
         },
       },
-      action: { type: "saltHarvest.harvested", id: "0" },
+      action: { type: "salt.harvested", id: "0" },
       createdAt: now,
     });
 
@@ -171,7 +171,7 @@ describe("harvestSalt", () => {
             },
           },
         },
-        action: { type: "saltHarvest.harvested", id: "0" },
+        action: { type: "salt.harvested", id: "0" },
         createdAt: now,
       }),
     ).toThrow(HARVEST_SALT_ERRORS.NOT_ENOUGH_CHARGES);
