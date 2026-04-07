@@ -126,7 +126,7 @@ export type EditorFormState = {
   actions: ActionForm[];
 };
 
-export type EditorTab = "basics" | "items" | "actions";
+export type EditorTab = "basics" | "items" | "actions" | "json";
 
 /* ─── Empty defaults ──────────────────────────────────────────── */
 

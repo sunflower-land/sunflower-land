@@ -19,6 +19,7 @@ import type {
 import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { ActionsTab } from "./tabs/ActionsTab";
+import { JsonTab } from "./tabs/JsonTab";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { usePlayerEconomyEditorSession } from "./PlayerEconomyEditorSessionContext";
@@ -49,10 +50,11 @@ function isEditorFormDirty(
   );
 }
 
-const TABS: { id: EditorTab; icon: string; name: string }[] = [
-  { id: "basics", icon: SUNNYSIDE.icons.expression_chat, name: "Basics" },
-  { id: "items", icon: SUNNYSIDE.icons.basket, name: "Items" },
-  { id: "actions", icon: SUNNYSIDE.icons.lightning, name: "Rules" },
+const TAB_DEFS: { id: EditorTab; icon: string }[] = [
+  { id: "basics", icon: SUNNYSIDE.icons.expression_chat },
+  { id: "items", icon: SUNNYSIDE.icons.basket },
+  { id: "actions", icon: SUNNYSIDE.icons.lightning },
+  { id: "json", icon: SUNNYSIDE.icons.expand },
 ];
 
 export const PlayerEconomyEditorForm: React.FC = () => {
@@ -295,6 +297,8 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             patchEmptyActionIds={patchEmptyActionIds}
           />
         );
+      case "json":
+        return <JsonTab form={form} />;
     }
   };
 
@@ -313,7 +317,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
           }}
         >
           <div className="flex overflow-x-auto scrollbar-hide mr-auto">
-            {TABS.map((tab, index) => (
+            {TAB_DEFS.map((tab, index) => (
               <Tab
                 key={tab.id}
                 isFirstTab={index === 0}
@@ -323,7 +327,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
               >
                 <SquareIcon icon={tab.icon} width={7} />
                 <span className="text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap">
-                  {tab.name}
+                  {t(`playerEconomyEditor.tab.${tab.id}`)}
                 </span>
               </Tab>
             ))}
