@@ -46,6 +46,9 @@ export const MinigamesLeaderboard: React.FC<{
   const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
 
   const sorted = [...items].sort((a, b) => {
+    const volA = a.volume ?? 0;
+    const volB = b.volume ?? 0;
+    if (volB !== volA) return volB - volA;
     if (a.floor === b.floor) return a.id - b.id;
     if (a.floor === 0) return 1;
     if (b.floor === 0) return -1;
@@ -90,6 +93,9 @@ export const MinigamesLeaderboard: React.FC<{
               </th>
               <th className="text-left p-2">
                 {t("marketplace.minigames.currency")}
+              </th>
+              <th className="text-right p-2">
+                {t("marketplace.economies.volume")}
               </th>
               <th className="text-right p-2">
                 {t("marketplace.minigames.flower")}
@@ -148,6 +154,9 @@ export const MinigamesLeaderboard: React.FC<{
                   </td>
                   <td className="p-2 font-medium">{item.economyLabel}</td>
                   <td className="p-2">{currencyLabel}</td>
+                  <td className="p-2 text-right tabular-nums text-brown-700">
+                    {new Decimal(item.volume ?? 0).toFixed(2)}
+                  </td>
                   <td className="p-2 text-right tabular-nums">
                     {new Decimal(item.floor).toFixed(2)}
                   </td>

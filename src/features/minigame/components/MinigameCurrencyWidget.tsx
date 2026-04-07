@@ -4,7 +4,10 @@ import useSWR from "swr";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { CONFIG } from "lib/config";
-import { collectionFetcher } from "features/marketplace/components/Collection";
+import {
+  marketplaceEconomiesPageFetcher,
+  marketplaceEconomiesPageSwrKey,
+} from "features/marketplace/actions/loadEconomiesMarketplaceData";
 import type { Tradeable } from "features/game/types/marketplace";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { marketplaceMinigameItemPath } from "features/marketplace/lib/minigameTradePath";
@@ -36,10 +39,13 @@ export const MinigameCurrencyWidget: React.FC<Props> = ({
     typeof marketplaceItemId === "number" &&
     Number.isFinite(marketplaceItemId) &&
     marketplaceItemId >= 0
-      ? (["economies", userToken] as [string, string])
+      ? marketplaceEconomiesPageSwrKey(userToken)
       : null;
 
-  const { data, isLoading, error } = useSWR(swrKey, collectionFetcher);
+  const { data, isLoading, error } = useSWR(
+    swrKey,
+    marketplaceEconomiesPageFetcher,
+  );
 
   const marketRow = useMemo(() => {
     const items = (data?.items ?? []) as Tradeable[];
