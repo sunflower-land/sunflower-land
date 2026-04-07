@@ -1387,6 +1387,11 @@ export const ITEM_TRADE_TYPES: {
     "Fake Mouse": "instant",
     "Pet Tree": "instant",
     "Definitely not a Flower": "instant",
+    "Bumpkin Rug": "instant",
+    "Goblin Rug": "instant",
+    "Pet Rug": "instant",
+    "Jester in a box": "instant",
+    "The Sunflower Man Statue": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",

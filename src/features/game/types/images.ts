@@ -1050,6 +1050,11 @@ import fakeMouse from "assets/sfts/fake_mouse.webp";
 import fakeTreasure from "assets/sfts/fake_treasure.webp";
 import definitelyNotAFlower from "assets/sfts/definitely_not_a_flower.webp";
 import teethToy from "assets/sfts/teeth_toy.webp";
+import bumpkinRug from "assets/sfts/bumpkin_rug.webp";
+import goblinRug from "assets/sfts/goblin_rug.webp";
+import petRug from "assets/sfts/pet_rug.webp";
+import jesterInABox from "assets/sfts/jester_in_a_box.webp";
+import theSunflowerManStatue from "assets/sfts/the_sunflower_man_statue.webp";
 
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
@@ -7531,5 +7536,25 @@ export const ITEM_DETAILS: Items = {
   "Definitely not a Flower": {
     image: definitelyNotAFlower,
     description: translate("description.definitelyNotAFlower"),
+  },
+  "Bumpkin Rug": {
+    image: bumpkinRug,
+    description: translate("description.bumpkinRug"),
+  },
+  "Goblin Rug": {
+    image: goblinRug,
+    description: translate("description.goblinRug"),
+  },
+  "Pet Rug": {
+    image: petRug,
+    description: translate("description.petRug"),
+  },
+  "Jester in a box": {
+    image: jesterInABox,
+    description: translate("description.jesterInABox"),
+  },
+  "The Sunflower Man Statue": {
+    image: theSunflowerManStatue,
+    description: translate("description.theSunflowerManStatue"),
   },
 };

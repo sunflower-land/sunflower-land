@@ -15447,6 +15447,59 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2352.webp",
     name: "Definitely not a Flower",
   },
+  "Bumpkin Rug": {
+    description: "A friendly Bumpkin face for your floor.",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2354.webp",
+    name: "Bumpkin Rug",
+  },
+  "Goblin Rug": {
+    description: "Still looks a little mischievous.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2355.webp",
+    name: "Goblin Rug",
+  },
+  "Pet Rug": {
+    description: "Too cute to step on. Almost.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2356.webp",
+    name: "Pet Rug",
+  },
+  "Jester in a box": {
+    description: "Wind it up and prepare for chaos.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2357.webp",
+    name: "Jester in a box",
+  },
+  "The Sunflower Man Statue": {
+    description:
+      "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2358.webp",
+    name: "The Sunflower Man Statue",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
