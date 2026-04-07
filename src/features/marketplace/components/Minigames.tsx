@@ -1,6 +1,5 @@
 import { Loading } from "features/auth/components";
 import React, { useContext } from "react";
-import { collectionFetcher } from "./Collection";
 import useSWR from "swr";
 import { CONFIG } from "lib/config";
 import * as Auth from "features/auth/lib/Provider";
@@ -10,7 +9,11 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { MinigamesLeaderboard } from "./MinigamesLeaderboard";
-import type { Tradeable } from "features/game/types/marketplace";
+import { EconomyMinigamesPlayerLeaderboard } from "./EconomyMinigamesPlayerLeaderboard";
+import {
+  marketplaceEconomiesPageFetcher,
+  marketplaceEconomiesPageSwrKey,
+} from "../actions/loadEconomiesMarketplaceData";
 import { useTranslation } from "react-i18next";
 
 const _state = (state: MachineState) => state.context.state;
@@ -24,9 +27,14 @@ export const Minigames: React.FC = () => {
   const { t } = useTranslation();
   const token = authState.context.user.rawToken as string;
 
+  const swrKey =
+    playerEconomiesAllowed && CONFIG.API_URL
+      ? marketplaceEconomiesPageSwrKey(token)
+      : null;
+
   const { data, isLoading, error } = useSWR(
-    playerEconomiesAllowed && CONFIG.API_URL ? ["economies", token] : null,
-    collectionFetcher,
+    swrKey,
+    marketplaceEconomiesPageFetcher,
   );
 
   if (!playerEconomiesAllowed) {
@@ -49,18 +57,32 @@ export const Minigames: React.FC = () => {
     );
   }
 
-  const items = (data?.items ?? []).filter(
-    (i): i is Extract<Tradeable, { collection: "economies" }> =>
-      i.collection === "economies",
-  );
+  const items = data?.items ?? [];
+  const minigameRanks = data?.economyMinigameRanks ?? [];
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-1">
-      <p className="shrink-0 px-1 text-xs font-medium text-brown-800">
-        {t("marketplace.economies.leaderboardTitle")}
-      </p>
-      <div className="min-h-0 flex-1">
-        <MinigamesLeaderboard items={items} />
+    <div className="flex h-full min-h-0 flex-col gap-2">
+      <div className="flex min-h-0 flex-1 flex-col gap-1">
+        <p className="shrink-0 px-1 text-xs font-medium text-brown-800">
+          {t("marketplace.economies.tradingSectionTitle")}
+        </p>
+        <div className="min-h-0 flex-1">
+          <MinigamesLeaderboard
+            items={items}
+            panelClassName="h-full max-h-full"
+          />
+        </div>
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col gap-1">
+        <p className="shrink-0 px-1 text-xs font-medium text-brown-800">
+          {t("marketplace.economies.minigamesSectionTitle")}
+        </p>
+        <div className="min-h-0 flex-1">
+          <EconomyMinigamesPlayerLeaderboard
+            ranks={minigameRanks}
+            panelClassName="h-full max-h-full"
+          />
+        </div>
       </div>
     </div>
   );

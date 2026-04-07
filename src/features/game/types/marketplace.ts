@@ -64,7 +64,17 @@ export type Tradeable =
       image?: string;
       balance?: number;
       expiresAt?: number;
+      /** Lifetime FLOWER volume (marketplace activity); omitted on older API responses. */
+      volume?: number;
     };
+
+export type EconomyMinigameRank = {
+  economy: string;
+  economyLabel: string;
+  playerCount: number;
+  marketplaceItemId: number | null;
+  image?: string;
+};
 
 export type Offer = {
   tradeId: string;
