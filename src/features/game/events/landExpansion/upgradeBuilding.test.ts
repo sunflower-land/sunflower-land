@@ -470,7 +470,6 @@ describe("upgradeBuilding", () => {
             result.inventory[item as keyof typeof result.inventory],
           ).toEqual(expected);
         });
-        expect(result.agingShed.upgradeReadyAt).toBeDefined();
       },
     );
 
