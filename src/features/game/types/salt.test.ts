@@ -1,11 +1,3 @@
-jest.mock("lib/flags", () => ({
-  hasFeatureAccess: jest.fn(),
-}));
-
-jest.mock("../lib/wearables", () => ({
-  isWearableActive: jest.fn().mockReturnValue(false),
-}));
-
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
@@ -14,22 +6,9 @@ import {
   type Salt,
   type SaltNode,
 } from "./salt";
-import { hasFeatureAccess } from "lib/flags";
-
-const mockHasFeatureAccess = hasFeatureAccess as jest.MockedFunction<
-  typeof hasFeatureAccess
->;
 
 describe("salt nextChargeAt regen", () => {
   const t0 = 1_000_000_000_000;
-
-  beforeEach(() => {
-    mockHasFeatureAccess.mockImplementation((game, featureName) =>
-      jest
-        .requireActual<typeof import("lib/flags")>("lib/flags")
-        .hasFeatureAccess(game, featureName),
-    );
-  });
 
   function nodeFrom(salt: Salt): SaltNode {
     return {
@@ -60,6 +39,15 @@ describe("salt nextChargeAt regen", () => {
     expect(out.nextChargeAt).toBe(t0 + SALT_CHARGE_GENERATION_TIME);
   });
 
+  it("clamps stored charges when persisted value is above max", () => {
+    const salt: Salt = {
+      storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE + 10,
+      nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
+    };
+    const out = materializeSaltRegen(salt, t0);
+    expect(out.storedCharges).toBe(MAX_STORED_SALT_CHARGES_PER_NODE);
+  });
+
   it("does not shorten an in-flight wait when a shorter boost interval is used only for later segments", () => {
     const half = SALT_CHARGE_GENERATION_TIME / 2;
     const salt: Salt = {
@@ -81,21 +69,5 @@ describe("salt nextChargeAt regen", () => {
     expect(afterGrant.salt.nextChargeAt).toBe(
       t0 + SALT_CHARGE_GENERATION_TIME + half,
     );
-  });
-
-  it("keeps regen scheduling when stored is 3 but display is below max (unclaimed ready)", () => {
-    const salt: Salt = {
-      storedCharges: 3,
-      nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
-      harvesting: {
-        slots: [
-          { startedAt: t0 - 1000, readyAt: t0 - 1 },
-          { startedAt: t0 - 1000, readyAt: t0 - 2 },
-        ],
-      },
-    };
-    const out = materializeSaltRegen(salt, t0);
-    expect(out.nextChargeAt).toBeDefined();
-    expect(out.storedCharges).toBeGreaterThanOrEqual(3);
   });
 });

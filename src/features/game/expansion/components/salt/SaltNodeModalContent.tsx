@@ -14,14 +14,8 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getSaltModalState, SaltModalState } from "./getSaltModalState";
-import { SaltHarvestInProgress } from "./SaltHarvestInProgress";
-import { SaltHarvestQueue } from "./SaltHarvestQueue";
-import {
-  BASE_SALT_YIELD,
-  MAX_STORED_SALT_CHARGES_PER_NODE,
-} from "features/game/types/salt";
+import { MAX_STORED_SALT_CHARGES_PER_NODE } from "features/game/types/salt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _node = (id: string) => (state: MachineState) =>
@@ -31,13 +25,12 @@ const _state = (state: MachineState) => state.context.state;
 export const SaltNodeModalContent: React.FC<{
   id: string;
   onClose: () => void;
-}> = ({ id, onClose }) => {
+}> = ({ id, onClose: _onClose }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
   const game = useSelector(gameService, _state);
   const node = useSelector(gameService, _node(id));
   const now = useNow({ live: true });
-  const isVip = useVipAccess({ game });
 
   const modalState = useMemo(() => {
     if (!node) return undefined;
@@ -47,9 +40,8 @@ export const SaltNodeModalContent: React.FC<{
       gameState: game,
       now,
       saltRakes: inventory["Salt Rake"],
-      isVip,
     });
-  }, [node, game, now, inventory, isVip]);
+  }, [node, game, now, inventory]);
 
   if (!node || !modalState) {
     return (
@@ -64,8 +56,6 @@ export const SaltNodeModalContent: React.FC<{
       modalState={modalState}
       gameService={gameService}
       id={id}
-      now={now}
-      onClose={onClose}
     />
   );
 };
@@ -74,36 +64,21 @@ const SaltNodeContent: React.FC<{
   modalState: SaltModalState;
   gameService: MachineInterpreter;
   id: string;
-  now: number;
-  onClose: () => void;
-}> = ({ modalState, gameService, id, now, onClose }) => {
+}> = ({ modalState, gameService, id }) => {
   const { t } = useAppTranslation();
   const {
     canStart,
-    canClaim,
     blockedReason,
-    primaryAction,
     regenerationState,
     nextChargeInSeconds,
-    readySlots,
     storedCharges,
-    inProgressDisplaySlot,
-    queueGridSlots,
-    queueGridCapacity,
     availableSaltRakes,
   } = modalState;
 
-  const sendStart = () => {
+  const sendHarvest = () => {
     if (!canStart) return;
-    gameService.send("saltHarvest.started", { id });
+    gameService.send("saltHarvest.harvested", { id });
   };
-
-  const sendClaim = () => {
-    if (!canClaim) return;
-    gameService.send("saltHarvest.claimed", { id });
-  };
-
-  const readyCount = readySlots.length * BASE_SALT_YIELD;
 
   return (
     <>
@@ -151,28 +126,9 @@ const SaltNodeContent: React.FC<{
           </div>
         </div>
         <div className="mt-2">
-          {inProgressDisplaySlot && (
-            <SaltHarvestInProgress slot={inProgressDisplaySlot} />
-          )}
-
-          <SaltHarvestQueue
-            queueGridSlots={queueGridSlots}
-            queueGridCapacity={queueGridCapacity}
-            now={now}
-            onCloseModal={onClose}
-          />
-
-          {primaryAction === "claim" && (
-            <Button onClick={sendClaim}>
-              {t("saltHarvest.claimSalt", { count: readyCount })}
-            </Button>
-          )}
-
-          {primaryAction !== "claim" && (
-            <Button disabled={!canStart} onClick={sendStart}>
-              {t("saltHarvest.startHarvest")}
-            </Button>
-          )}
+          <Button disabled={!canStart} onClick={sendHarvest}>
+            {t("saltHarvest.startHarvest")}
+          </Button>
 
           {!canStart && blockedReason && (
             <Label type="danger" className="mt-1">

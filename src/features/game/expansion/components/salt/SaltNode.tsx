@@ -36,12 +36,6 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
     return getStoredSaltCharges(node, now, { chargeIntervalMs }) > 0;
   }, [node, now, gameState]);
 
-  const readySlots = useMemo(() => {
-    if (!node?.salt.harvesting?.slots) return 0;
-    return node.salt.harvesting.slots.filter((slot) => slot.readyAt <= now)
-      .length;
-  }, [node, now]);
-
   if (!node) return null;
 
   return (
@@ -50,7 +44,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
         className="w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => !visiting && setShowModal(true)}
       >
-        {(hasUnstartedStoredCharges || readySlots > 0) && (
+        {hasUnstartedStoredCharges && (
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
             <img
               src={SUNNYSIDE.icons.expression_alerted}
