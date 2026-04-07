@@ -58,7 +58,7 @@ interface VersionsListMessage extends WebSocketMessage {
   action: "versionsList";
   data: {
     farmId: string;
-    versions: { versionId: string; lastModified: string }[];
+    versions: { versionId: string; lastModified: string; prompt?: string }[];
     sessionId: string;
   };
 }
@@ -148,8 +148,11 @@ export const AIBuilder: React.FC = () => {
   const [hasSavedFarm, setHasSavedFarm] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [versions, setVersions] = useState<
-    { versionId: string; lastModified: string }[]
+    { versionId: string; lastModified: string; prompt?: string }[]
   >([]);
+  const [expandedVersionId, setExpandedVersionId] = useState<string | null>(
+    null,
+  );
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"builder" | "assets">("builder");
   const [assetSearch, setAssetSearch] = useState("");
@@ -686,6 +689,18 @@ export const AIBuilder: React.FC = () => {
     [farmId, showStatus],
   );
 
+  // When versions change, check if the currently loaded version was deleted
+  useEffect(() => {
+    if (
+      currentVersionIdRef.current &&
+      versions.length > 0 &&
+      !versions.some((v) => v.versionId === currentVersionIdRef.current)
+    ) {
+      const latest = versions[0];
+      loadVersion(latest.versionId, latest.lastModified);
+    }
+  }, [versions, loadVersion]);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -899,39 +914,55 @@ export const AIBuilder: React.FC = () => {
       </p>
     ) : (
       <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto mt-1">
-        {versions.map((version) => (
-          <div
-            key={version.versionId}
-            className="flex justify-between items-center text-xs bg-brown-100 px-2 py-1 rounded"
-          >
-            <span
-              className="cursor-pointer hover:underline flex-1"
-              onClick={() =>
-                loadVersion(version.versionId, version.lastModified)
-              }
+        {versions.map((version) => {
+          const isExpanded = expandedVersionId === version.versionId;
+          const title =
+            version.prompt || new Date(version.lastModified).toLocaleString();
+          return (
+            <div
+              key={version.versionId}
+              className="text-xs bg-brown-100 px-2 py-1 rounded"
             >
-              {new Date(version.lastModified).toLocaleString()}
-            </span>
-            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-              <span
-                className="underline cursor-pointer"
-                onClick={() =>
-                  loadVersion(version.versionId, version.lastModified)
-                }
-              >
-                {"Load"}
-              </span>
-              <span
-                className="cursor-pointer hover:text-red-600 px-1"
-                onClick={() =>
-                  deleteVersion(version.versionId, version.lastModified)
-                }
-              >
-                {"\u00d7"}
-              </span>
+              <div className="flex justify-between items-center">
+                <span
+                  className="cursor-pointer hover:underline flex-1 min-w-0"
+                  onClick={() =>
+                    setExpandedVersionId(isExpanded ? null : version.versionId)
+                  }
+                >
+                  {isExpanded ? (
+                    <span>{title}</span>
+                  ) : (
+                    <span className="block truncate">{title}</span>
+                  )}
+                </span>
+                <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={() =>
+                      loadVersion(version.versionId, version.lastModified)
+                    }
+                  >
+                    {"Load"}
+                  </span>
+                  <span
+                    className="cursor-pointer hover:text-red-600 px-1"
+                    onClick={() =>
+                      deleteVersion(version.versionId, version.lastModified)
+                    }
+                  >
+                    {"\u00d7"}
+                  </span>
+                </div>
+              </div>
+              {isExpanded && (
+                <div className="text-[10px] mt-1" style={{ color: "#666" }}>
+                  {new Date(version.lastModified).toLocaleString()}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
 
