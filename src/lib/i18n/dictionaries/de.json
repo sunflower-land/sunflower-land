@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "Bitte fordern Sie Ihren Marketplace-Kauf an und versuchen Sie es erneut.",
   "marketplaceListingNotClaimed.label": "Kauf auf dem Marktplatz",
   "rocketman.flower.exchange": "$FLOWER Exchange kommt bald!",
-  "rocketman.flower.exchange.two": "Du kannst 50 Liebeszauber gegen 1 $FLOWER eintauschen.",
   "flower.exchange.title": "$FLOWER tauschen",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Liebeszauber",
   "flower.exchange.confirm": "Möchten Sie den folgenden Austausch wirklich durchführen?",
-  "flower.exchange.error.min": "Du kannst nicht weniger als 50 Liebeszauber eintauschen",
   "flower.exchange.error.balance": "Du hast nicht genug Liebeszauber, um sie gegen $FLOWER einzutauschen",
   "flower.exchange.button": "Umtausch",
   "flower.exchange.youWillReceive": "Sie erhalten:",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "Nächstes Aufladen:",
   "agingShed.agingRack": "Altern",
   "agingShed.fermentationRack": "Fermentation",
-  "agingShed.spiceRack": "Gewürz"
+  "agingShed.spiceRack": "Gewürz",
+  "rocketman.flower.exchange.two": "Du kannst 80 Liebeszauber gegen 1 $FLOWER eintauschen.",
+  "flower.exchange.error.min": "Du kannst nicht weniger als 80 Liebeszauber eintauschen"
 }

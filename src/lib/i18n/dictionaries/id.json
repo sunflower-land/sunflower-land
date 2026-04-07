@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "Harap klaim pembelian pasar Anda dan coba lagi.",
   "marketplaceListingNotClaimed.label": "Pembelian di pasar",
   "rocketman.flower.exchange": "$FLOWER Exchange akan segera hadir!",
-  "rocketman.flower.exchange.two": "Anda akan dapat menukar 50 Love Charms dengan 1 $FLOWER.",
   "flower.exchange.title": "Kurs mata uang $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Pesona Cinta",
   "flower.exchange.confirm": "Apakah Anda yakin ingin melakukan pertukaran berikut?",
-  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari 50 Pesona Cinta",
   "flower.exchange.error.balance": "Anda tidak memiliki cukup pesona cinta untuk ditukar dengan $FLOWER",
   "flower.exchange.button": "Pertukaran",
   "flower.exchange.youWillReceive": "Anda akan menerima:",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "Pengisian berikutnya di:",
   "agingShed.agingRack": "Penuaan",
   "agingShed.fermentationRack": "Fermentasi",
-  "agingShed.spiceRack": "Rempah-rempah"
+  "agingShed.spiceRack": "Rempah-rempah",
+  "rocketman.flower.exchange.two": "Anda akan dapat menukar 80 Love Charms dengan 1 $FLOWER.",
+  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari 80 Pesona Cinta"
 }

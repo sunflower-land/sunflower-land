@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "请申领您在商城购买的商品，然后重试。",
   "marketplaceListingNotClaimed.label": "市场购买",
   "rocketman.flower.exchange": "$FLOWER 兑换即将上线！",
-  "rocketman.flower.exchange.two": "你可以用 50 个爱心护符兑换 1 枚 $FLOWER。",
   "flower.exchange.title": "兑换 $FLOWER",
   "flower.exchange.price": "1 枚 $FLOWER = {{exchangeRate}} 个爱心护符",
   "flower.exchange.confirm": "您确定要进行以下交换吗？",
-  "flower.exchange.error.min": "你不能兑换少于 50 个爱心护符",
   "flower.exchange.error.balance": "你没有足够的爱心护符来兑换 $FLOWER",
   "flower.exchange.button": "兑换",
   "flower.exchange.youWillReceive": "您将收到：",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "下次充电：",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "发酵",
-  "agingShed.spiceRack": "香料"
+  "agingShed.spiceRack": "香料",
+  "rocketman.flower.exchange.two": "你可以用 80 个爱情护身符兑换 1 美元 FLOWER。",
+  "flower.exchange.error.min": "你不能兑换少于 80 个 Love Charms"
 }

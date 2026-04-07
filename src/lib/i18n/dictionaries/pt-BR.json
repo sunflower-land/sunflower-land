@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "Solicite sua compra no Marketplace e tente novamente.",
   "marketplaceListingNotClaimed.label": "Compra no mercado",
   "rocketman.flower.exchange": "$FLOWER Exchange está chegando em breve!",
-  "rocketman.flower.exchange.two": "Você poderá trocar 50 Love Charms por 1 $FLOWER.",
   "flower.exchange.title": "Trocar $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Amuletos amorosos",
   "flower.exchange.confirm": "Tem certeza de que deseja realizar a seguinte troca?",
-  "flower.exchange.error.min": "Você não pode trocar menos de 50 amuletos amorosos",
   "flower.exchange.error.balance": "Você não tem Love Charms suficientes para trocar por $FLOWER",
   "flower.exchange.button": "Câmbio",
   "flower.exchange.youWillReceive": "Você receberá:",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "Próxima cobrança em:",
   "agingShed.agingRack": "envelhecimento",
   "agingShed.fermentationRack": "Fermentação",
-  "agingShed.spiceRack": "Especiaria"
+  "agingShed.spiceRack": "Especiaria",
+  "rocketman.flower.exchange.two": "Você poderá trocar 80 Love Charms por 1$ FLOWER.",
+  "flower.exchange.error.min": "Você não pode trocar menos de 80 amuletos amorosos"
 }

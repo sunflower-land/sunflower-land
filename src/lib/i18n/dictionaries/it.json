@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "Richiedi l'acquisto effettuato sul marketplace e riprova.",
   "marketplaceListingNotClaimed.label": "Acquisto sul mercato",
   "rocketman.flower.exchange": "$FLOWER Exchange è in arrivo!",
-  "rocketman.flower.exchange.two": "Potrai scambiare 50 Love Charms per 1 $FLOWER.",
   "flower.exchange.title": "Scambia $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Love Charms",
   "flower.exchange.confirm": "Sei sicuro di voler effettuare il seguente scambio?",
-  "flower.exchange.error.min": "Non puoi scambiare meno di 50 Love Charms",
   "flower.exchange.error.balance": "Non hai abbastanza ciondoli d'amore da scambiare con $FLOWER",
   "flower.exchange.button": "Scambio",
   "flower.exchange.youWillReceive": "Riceverai:",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "Prossima ricarica in:",
   "agingShed.agingRack": "L'invecchiamento",
   "agingShed.fermentationRack": "Fermentazione",
-  "agingShed.spiceRack": "Spezia"
+  "agingShed.spiceRack": "Spezia",
+  "rocketman.flower.exchange.two": "Potrai scambiare 80 Love Charms per 1 $FLOWER.",
+  "flower.exchange.error.min": "Non puoi scambiare meno di 80 Love Charms"
 }

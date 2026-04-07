@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "マーケットプレイスでの購入を申請して、もう一度試してください。",
   "marketplaceListingNotClaimed.label": "マーケットプレイスでの購入",
   "rocketman.flower.exchange": "$FLOWERエクスチェンジはもうすぐです！",
-  "rocketman.flower.exchange.two": "50個のラブチャームを1$FLOWERと交換できます。",
   "flower.exchange.title": "$フラワーを交換",
   "flower.exchange.price": "1 $フラワー = {{exchangeRate}} ラブチャーム",
   "flower.exchange.confirm": "次の交換を行ってもよろしいですか？",
-  "flower.exchange.error.min": "50個以下のラブチャームは交換できません",
   "flower.exchange.error.balance": "$FLOWERと交換するのに十分なラブチャームがありません",
   "flower.exchange.button": "交換",
   "flower.exchange.youWillReceive": "以下をお届けします。",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "発酵",
-  "agingShed.spiceRack": "スパイス"
+  "agingShed.spiceRack": "スパイス",
+  "rocketman.flower.exchange.two": "80個のラブチャームを1$FLOWERと交換できます。",
+  "flower.exchange.error.min": "80個以下のラブチャームは交換できません"
 }

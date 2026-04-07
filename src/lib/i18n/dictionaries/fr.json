@@ -5403,11 +5403,9 @@
   "marketplaceListingNotClaimed": "Réclamez votre achat sur le site de vente et réessayez.",
   "marketplaceListingNotClaimed.label": "Achat sur le marché",
   "rocketman.flower.exchange": "$FLOWER Exchange arrive bientôt !",
-  "rocketman.flower.exchange.two": "Vous pourrez échanger 50 Love Charms contre 1 $FLOWER.",
   "flower.exchange.title": "Échangez $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Breloques d'amour",
   "flower.exchange.confirm": "Êtes-vous sûr de vouloir effectuer l'échange suivant ?",
-  "flower.exchange.error.min": "Vous ne pouvez pas échanger moins de 50 Love Charms",
   "flower.exchange.error.balance": "Vous n'avez pas assez de Love Charms à échanger contre des $FLOWER",
   "flower.exchange.button": "Échange",
   "flower.exchange.youWillReceive": "Vous recevrez :",
@@ -8591,5 +8589,7 @@
   "saltHarvest.nextChargeIn": "Prochaine recharge dans :",
   "agingShed.agingRack": "Vieillissement",
   "agingShed.fermentationRack": "Fermentation",
-  "agingShed.spiceRack": "Épice"
+  "agingShed.spiceRack": "Épice",
+  "rocketman.flower.exchange.two": "Vous pourrez échanger 80 Love Charms contre 1 $FLOWER.",
+  "flower.exchange.error.min": "Vous ne pouvez pas échanger moins de 80 Love Charms"
 }
