@@ -381,6 +381,8 @@ export const AIBuilder: React.FC = () => {
       } else {
         showStatus("Game generated successfully!", "success");
         setHasSavedFarm(true);
+        // Clear so the upcoming versionsList response auto-selects the new latest
+        currentVersionIdRef.current = null;
       }
 
       loadSceneDirectly(phaserScene, sunflowerAssets, sunflowerSDK);
