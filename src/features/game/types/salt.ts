@@ -138,7 +138,7 @@ export function getSaltChargeGenerationTime({
   return chargeGenerationTimeMs;
 }
 
-export const BASE_SALT_YIELD = 5; // 5 salt per rake
+export const BASE_SALT_YIELD = 10; // 10 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
 /** Clamps `value` to `[0, MAX_STORED_SALT_CHARGES_PER_NODE]`. */
