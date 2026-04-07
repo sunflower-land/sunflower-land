@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "Nessuna tariffa salina disponibile",
   "saltHarvest.startHarvest": "Inizia la raccolta",
   "saltHarvest.claimSalt": "Richiedi Salt ({{count}})",
-  "saltHarvest.nextChargeIn": "Prossimo addebito in {{time}}",
   "saltHarvest.storedCharges": "Addebiti memorizzati: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Salt Rakes disponibili: {{count}}",
   "agedFish.anchovy": "Acciughe stagionate",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "Peperoni confezionati con calore e scintilla di aceto.",
   "building.agingShed": "Capannone per anziani",
   "description.agingShed": "Invecchia e trasforma le tue risorse in prodotti raffinati.",
-  "agingShed.agingRack": "Rack per invecchiamento",
-  "agingShed.fermentationRack": "Rack di fermentazione",
-  "agingShed.spiceRack": "Portaspezie",
   "vip.lifetime": "A vita",
   "vip.lifetime.noPurchase": "Hai già ottenuto un premio VIP a vita dal tuo Lifetime Farmer Banner.",
   "aprilFools.portal.title": "Sicuramente non è un portale April Fools",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Possibilità doppia: Aged Fish diventa Prime Aged",
   "skill.refiner": "15% di possibilità di ottenere +1 sale raffinato",
   "skill.ager.buff": "+1 uscita da Aging/Fermentation/Spice Rack",
-  "skill.ager.debuff": "Sono necessari 2x ingredienti di input"
+  "skill.ager.debuff": "Sono necessari 2x ingredienti di input",
+  "saltHarvest.nextChargeIn": "Prossima ricarica in:",
+  "agingShed.agingRack": "L'invecchiamento",
+  "agingShed.fermentationRack": "Fermentazione",
+  "agingShed.spiceRack": "Spezia"
 }

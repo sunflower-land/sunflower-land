@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "No hay cargos por sal disponibles",
   "saltHarvest.startHarvest": "Comenzar la cosecha",
   "saltHarvest.claimSalt": "Reclamar Salt ({{count}})",
-  "saltHarvest.nextChargeIn": "Próxima carga en {{time}}",
   "saltHarvest.storedCharges": "Cargos almacenados: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Salineras disponibles: {{count}}",
   "agedFish.anchovy": "Anchoa añejada",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "Pimientos llenos de picante y chispa de vinagre.",
   "building.agingShed": "Cobertizo envejecido",
   "description.agingShed": "Envejece y fermenta tus recursos para convertirlos en productos refinados.",
-  "agingShed.agingRack": "Estante de envejecimiento",
-  "agingShed.fermentationRack": "Estante de fermentación",
-  "agingShed.spiceRack": "Estante de especias",
   "vip.lifetime": "De por vida",
   "vip.lifetime.noPurchase": "Ya tienes VIP de por vida en tu Lifetime Farmer Banner.",
   "aprilFools.portal.title": "Definitivamente no es un portal de April Fools",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Doble probabilidad de que Aged Fish pase a ser Prime Aged",
   "skill.refiner": "15% de probabilidad de obtener +1 de sal refinada",
   "skill.ager.buff": "+1 salida del estante de añejamiento, fermentación y especias",
-  "skill.ager.debuff": "Se requieren 2 veces más ingredientes de entrada"
+  "skill.ager.debuff": "Se requieren 2 veces más ingredientes de entrada",
+  "saltHarvest.nextChargeIn": "Próxima carga en:",
+  "agingShed.agingRack": "Envejecimiento",
+  "agingShed.fermentationRack": "Fermentación",
+  "agingShed.spiceRack": "Especia"
 }

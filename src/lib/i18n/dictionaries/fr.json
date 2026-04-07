@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "Aucune taxe sur le sel n'est disponible",
   "saltHarvest.startHarvest": "Commencer la récolte",
   "saltHarvest.claimSalt": "Réclamer le sel ({{count}})",
-  "saltHarvest.nextChargeIn": "Prochaine recharge en {{time}}",
   "saltHarvest.storedCharges": "Frais enregistrés : {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Râteaux à sel disponibles : {{count}}",
   "agedFish.anchovy": "Anchois vieilli",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "Poivrons remplis de chaleur et d'étincelles de vinaigre.",
   "building.agingShed": "Cabanon pour personnes âgées",
   "description.agingShed": "Faites vieillir et fermentez vos ressources pour en faire des produits raffinés.",
-  "agingShed.agingRack": "Étagère de vieillissement",
-  "agingShed.fermentationRack": "Étagère de fermentation",
-  "agingShed.spiceRack": "Étagère à épices",
   "vip.lifetime": "Durée de vie",
   "vip.lifetime.noPurchase": "Vous bénéficiez déjà d'un statut VIP à vie grâce à votre bannière Lifetime Farmer.",
   "aprilFools.portal.title": "Certainement pas un portail du poisson d'avril",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Deux fois plus de chances que Aged Fish devienne Prime Aged",
   "skill.refiner": "15 % de chances d'obtenir +1 sel raffiné",
   "skill.ager.buff": "+1 sortie de l'étagère à épices, à la fermentation et au vieillissement",
-  "skill.ager.debuff": "2 ingrédients d'entrée requis"
+  "skill.ager.debuff": "2 ingrédients d'entrée requis",
+  "saltHarvest.nextChargeIn": "Prochaine recharge dans :",
+  "agingShed.agingRack": "Vieillissement",
+  "agingShed.fermentationRack": "Fermentation",
+  "agingShed.spiceRack": "Épice"
 }

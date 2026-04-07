@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "Keine Salzgebühren verfügbar",
   "saltHarvest.startHarvest": "Mit der Ernte beginnen",
   "saltHarvest.claimSalt": "Salt einfordern ({{count}})",
-  "saltHarvest.nextChargeIn": "Nächste Ladung in {{time}}",
   "saltHarvest.storedCharges": "Gespeicherte Gebühren: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Verfügbare Salzrechen: {{count}}",
   "agedFish.anchovy": "Gealterte Sardellen",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "Paprika voller Hitze und Essigfunken.",
   "building.agingShed": "Alternder Schuppen",
   "description.agingShed": "Altern und fermentieren Sie Ihre Ressourcen zu raffinierten Gütern.",
-  "agingShed.agingRack": "Gestell zum Altern",
-  "agingShed.fermentationRack": "Gärregal",
-  "agingShed.spiceRack": "Gewürzregal",
   "vip.lifetime": "Lebenszeit",
   "vip.lifetime.noPurchase": "Du hast bereits einen lebenslangen VIP von deinem Lifetime Farmer Banner.",
   "aprilFools.portal.title": "Definitiv kein Aprilscherzportal",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Doppelte Chance: Aus Aged Fish wird Prime Aged",
   "skill.refiner": "15% Chance, +1 raffiniertes Salz zu erhalten",
   "skill.ager.buff": "+1 Leistung beim Reifen/Fermentieren/Gewürzregal",
-  "skill.ager.debuff": "2x Inputzutaten erforderlich"
+  "skill.ager.debuff": "2x Inputzutaten erforderlich",
+  "saltHarvest.nextChargeIn": "Nächstes Aufladen:",
+  "agingShed.agingRack": "Altern",
+  "agingShed.fermentationRack": "Fermentation",
+  "agingShed.spiceRack": "Gewürz"
 }

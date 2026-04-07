@@ -8165,7 +8165,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "Нет доступных зарядов соли",
   "saltHarvest.startHarvest": "Начать добычу",
   "saltHarvest.claimSalt": "Забрать соль ({{count}})",
-  "saltHarvest.nextChargeIn": "Следующий заряд через {{time}}",
   "saltHarvest.storedCharges": "Зарядов: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Доступно соляных грабель: {{count}}",
   "agedFish.anchovy": "Выдержанный анчоус",
@@ -8334,9 +8333,6 @@
   "description.pickled.pepper": "Перец с остротой и яркой уксусной искрой.",
   "building.agingShed": "Сарай выдержки",
   "description.agingShed": "Выдерживай и ферментируй ресурсы, превращая их в ценные продукты.",
-  "agingShed.agingRack": "Выдержка",
-  "agingShed.fermentationRack": "Ферментация",
-  "agingShed.spiceRack": "Специи",
   "vip.lifetime": "Пожизненный",
   "vip.lifetime.noPurchase": "У тебя уже есть пожизненный VIP благодаря баннеру Lifetime Farmer.",
   "aprilFools.portal.title": "Точно не портал на 1 апреля",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
   "skill.ager.buff": "+1 output from Aging/Fermentation/Spice Rack",
-  "skill.ager.debuff": "2x input ingredients required"
+  "skill.ager.debuff": "2x input ingredients required",
+  "saltHarvest.nextChargeIn": "Next charge in:",
+  "agingShed.agingRack": "Aging",
+  "agingShed.fermentationRack": "Fermentation",
+  "agingShed.spiceRack": "Spice"
 }

@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "暂无可用开采次数",
   "saltHarvest.startHarvest": "开始开采",
   "saltHarvest.claimSalt": "收取海盐 ({{count}})",
-  "saltHarvest.nextChargeIn": "下次恢复：{{time}}",
   "saltHarvest.storedCharges": "储备开采次数：{{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "可用盐耙：{{count}}",
   "agedFish.anchovy": "腌凤尾鱼",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "火辣的性格与清醋的激荡，被完美封存在了这小小的罐子中。",
   "building.agingShed": "腌制坊",
   "description.agingShed": "通过腌制与发酵工艺，将基础资源转化为高级物资。",
-  "agingShed.agingRack": "风干架",
-  "agingShed.fermentationRack": "发酵架",
-  "agingShed.spiceRack": "香料架",
   "vip.lifetime": "终身",
   "vip.lifetime.noPurchase": "你已经从你的终身农民旗帜中获得终身VIP。",
   "aprilFools.portal.title": "绝对不是愚人节传送门",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "陈年鱼变成 Prime Ated Ated",
   "skill.refiner": "15% 几率获得 +1 精制盐",
   "skill.ager.buff": "陈酿/发酵/香料架输出 +1",
-  "skill.ager.debuff": "需要 2 倍的输入原料"
+  "skill.ager.debuff": "需要 2 倍的输入原料",
+  "saltHarvest.nextChargeIn": "下次充电：",
+  "agingShed.agingRack": "老化",
+  "agingShed.fermentationRack": "发酵",
+  "agingShed.spiceRack": "香料"
 }

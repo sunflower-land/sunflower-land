@@ -8161,7 +8161,6 @@
   "saltHarvest.blockedReason.noSaltChargesAvailable": "Tuz ücreti yok",
   "saltHarvest.startHarvest": "Hasat Başlatın",
   "saltHarvest.claimSalt": "Tuz Talep Edin ({{count}})",
-  "saltHarvest.nextChargeIn": "{{time}} cinsinden sonraki ücret",
   "saltHarvest.storedCharges": "Depolanan Ücretler: {{count}}/{{max}}",
   "saltHarvest.availableSaltRakes": "Mevcut Tuz Tırmıkları: {{count}}",
   "agedFish.anchovy": "Yaşlı hamsi",
@@ -8294,9 +8293,6 @@
   "description.pickled.pepper": "Isı ve sirke kıvılcımı ile dolu biberler.",
   "building.agingShed": "Yaşlanma Kulübesi",
   "description.agingShed": "Kaynaklarınızı rafine ürünlere dönüştürün ve fermente edin.",
-  "agingShed.agingRack": "Yaşlanma Rafı",
-  "agingShed.fermentationRack": "Fermantasyon Rafı",
-  "agingShed.spiceRack": "Baharat Rafı",
   "vip.lifetime": "Ömür boyu",
   "vip.lifetime.noPurchase": "Lifetime Farmer Banner\"ınızdan ömür boyu VIP\"niz zaten var.",
   "aprilFools.portal.title": "Kesinlikle bir April Fools Portalı değil",
@@ -8591,5 +8587,9 @@
   "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
   "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
   "skill.ager.buff": "Yaşlanma/Fermantasyon/Baharat Rafından +1 çıktı",
-  "skill.ager.debuff": "2x giriş bileşenleri gerekli"
+  "skill.ager.debuff": "2x giriş bileşenleri gerekli",
+  "saltHarvest.nextChargeIn": "Bir sonraki şarj:",
+  "agingShed.agingRack": "Yaşlanma",
+  "agingShed.fermentationRack": "Fermantasyon",
+  "agingShed.spiceRack": "Baharat"
 }
