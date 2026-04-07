@@ -124,7 +124,7 @@ const AgedShedPanel: React.FC<{
     return (
       <UpgradeBuildingContent
         onClose={closeUpgradeTab}
-        buildingName={"Aging Shed"}
+        buildingName="Aging Shed"
         currentLevel={agingShedLevel}
         nextLevel={nextAgingShedLevel}
         onBack={() => setShowUpgradeTab(false)}

@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -102,29 +101,33 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <DropdownPanel
-        options={groups.map((g) => {
-          const name = ITEM_DETAILS[g.item]?.translatedName ?? String(g.item);
-          const title =
-            g.amount !== undefined ? `${name} x${g.amount.toString()}` : name;
-          const description = ITEM_DETAILS[g.item]?.description;
-
-          return {
-            value: g.signature,
-            icon: ITEM_DETAILS[g.item]?.image,
-            label: (
-              <div className="flex flex-col gap-1">
-                <p className="text-xs">{title}</p>
-                {description ? <p className="text-xxs">{description}</p> : null}
+      <InnerPanel className="mb-1">
+        <Label
+          type={selectedGroup ? "info" : "default"}
+          className="text-xs mb-2 ml-1"
+          icon={selectedGroup && ITEM_DETAILS[selectedGroup.item]?.image}
+        >
+          {selectedGroup?.item ??
+            t("agingShed.fermentation.selectFermentationOutput")}
+        </Label>
+        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
+          {groups.map((g) => {
+            return (
+              <div
+                key={g.signature}
+                className="flex flex-col items-center shrink-0 max-w-[72px]"
+              >
+                <Box
+                  image={ITEM_DETAILS[g.item]?.image}
+                  hideCount
+                  isSelected={selectedSignature === g.signature}
+                  onClick={() => onSelectOutput(g.signature)}
+                />
               </div>
-            ),
-          };
-        })}
-        value={selectedSignature}
-        placeholder={t("agingShed.fermentation.selectFermentationOutput")}
-        onChange={onSelectOutput}
-        className="mb-1"
-      />
+            );
+          })}
+        </div>
+      </InnerPanel>
 
       {selectedGroup && (
         <InnerPanel className="mb-1">
@@ -135,7 +138,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           </Label>
 
           {selectedGroup.recipeIds.length > 1 && (
-            <div className="flex flex-wrap gap-1 overflow-auto max-h-32 scrollable">
+            <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
               {selectedGroup.recipeIds.map((id, index) => {
                 const image = getFirstIngredientImage(id);
                 const yieldQty = selectedGroup.outputQuantities[index]
