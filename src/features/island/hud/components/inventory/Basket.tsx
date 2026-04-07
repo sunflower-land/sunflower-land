@@ -177,8 +177,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   };
 
   const getItems = <T extends string | number | symbol, K>(
-    items: Record<T, K>,
-  ) => {
+    items: Record<T, K> | T[],
+  ): T[] => {
+    if (Array.isArray(items)) {
+      return items.filter((item) => item in basketMap);
+    }
+
     return getKeys(items).filter((item) => item in basketMap);
   };
 
@@ -216,8 +220,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const pirateCake = getItems(PIRATE_CAKE);
 
   const fertilisers = getItems(FERTILISERS);
-  const fermentationProducts = FERMENTATION_PRODUCTS;
-  const pickledCrops: PickledCropName[] = [...PICKLED_CROPS];
+  const fermentationProducts = getItems([...FERMENTATION_PRODUCTS]);
+  const pickledCrops: PickledCropName[] = getItems([...PICKLED_CROPS]);
   const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
   const treasure = getItems(SELLABLE_TREASURES);
@@ -226,12 +230,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruitCompost = getItems(FRUIT_COMPOST);
   const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
-  const fermentedBaits: FermentationBait[] = [
+  const fermentedBaits: FermentationBait[] = getItems([
     "Capsule Bait",
     "Umbrella Bait",
     "Crimson Baitfish",
-  ];
-  const spices: SpiceRackProductName[] = [...SPICE_RACK_PRODUCTS];
+  ]);
+  const spices: SpiceRackProductName[] = getItems([...SPICE_RACK_PRODUCTS]);
   const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
   const agedFish = [...getItems(AGED_FISH), ...getItems(PRIME_AGED_FISH)].sort(
     (a, b) => a.localeCompare(b),
