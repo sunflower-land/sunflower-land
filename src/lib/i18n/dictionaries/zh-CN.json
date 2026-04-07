@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "已复制",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "登录生成令牌。",
   "playerEconomyEditor.basics.portalJwtNoFarm": "首先在游戏中加载你的农场。",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "无法获取令牌。"
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "无法获取令牌。",
+  "skill.cheapRakes": "Salt Rake硬币成本可享受15％的折扣",
+  "skill.speedyAging": "老化机架速度加快 10%",
+  "skill.saltySeas": "补充盐分的速度加快 10%",
+  "skill.fishSmoking": "陈年鱼变成 Prime Ated Ated",
+  "skill.refiner": "15% 几率获得 +1 精制盐",
+  "skill.ager.buff": "陈酿/发酵/香料架输出 +1",
+  "skill.ager.debuff": "需要 2 倍的输入原料"
 }

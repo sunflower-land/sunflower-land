@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Copié",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Connectez-vous pour générer un jeton.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Chargez d'abord votre ferme dans le jeu.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossible de récupérer le jeton."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossible de récupérer le jeton.",
+  "skill.cheapRakes": "15 % de réduction sur le prix des pièces Salt Rake",
+  "skill.speedyAging": "Vitesse de vieillissement 10 % plus rapide",
+  "skill.saltySeas": "Reconstitution de la charge en sel 10 % plus rapide",
+  "skill.fishSmoking": "Deux fois plus de chances que Aged Fish devienne Prime Aged",
+  "skill.refiner": "15 % de chances d'obtenir +1 sel raffiné",
+  "skill.ager.buff": "+1 sortie de l'étagère à épices, à la fermentation et au vieillissement",
+  "skill.ager.debuff": "2 ingrédients d'entrée requis"
 }

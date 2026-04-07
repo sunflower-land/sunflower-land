@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Disalin",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Masuk untuk menghasilkan token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Muat peternakan Anda di game terlebih dahulu.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Tidak dapat mengambil token."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Tidak dapat mengambil token.",
+  "skill.cheapRakes": "Diskon 15% untuk biaya koin Salt Rake",
+  "skill.speedyAging": "Kecepatan Rak Penuaan 10% lebih cepat",
+  "skill.saltySeas": "Pengisian kembali garam 10% lebih cepat",
+  "skill.fishSmoking": "Peluang dua kali lipat Ikan Aged menjadi Prime Aged",
+  "skill.refiner": "15% kesempatan untuk mendapatkan +1 Garam Halus",
+  "skill.ager.buff": "+1 output dari Rak Penuaan/Fermentasi/Rempah-rempah",
+  "skill.ager.debuff": "Diperlukan 2x bahan masukan"
 }

@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Kopiert",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Melden Sie sich an, um ein Token zu generieren.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Lade zuerst deine Farm ins Spiel.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Das Token konnte nicht abgerufen werden."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Das Token konnte nicht abgerufen werden.",
+  "skill.cheapRakes": "15% Rabatt auf die Kosten für Salt Rake-Münzen",
+  "skill.speedyAging": "10% schnellere Aging Rack-Geschwindigkeit",
+  "skill.saltySeas": "10% schnelleres Auffüllen der Salzladung",
+  "skill.fishSmoking": "Doppelte Chance: Aus Aged Fish wird Prime Aged",
+  "skill.refiner": "15% Chance, +1 raffiniertes Salz zu erhalten",
+  "skill.ager.buff": "+1 Leistung beim Reifen/Fermentieren/Gewürzregal",
+  "skill.ager.debuff": "2x Inputzutaten erforderlich"
 }

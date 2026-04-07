@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Kopyalandı",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Bir belirteç oluşturmak için oturum açın.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Önce çiftliğinizi oyuna yükleyin.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Belirteç alınamadı."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Belirteç alınamadı.",
+  "skill.cheapRakes": "Salt Rake jeton maliyetinde %15 indirim",
+  "skill.speedyAging": "%10 daha hızlı Yaşlanma Rafı hızı",
+  "skill.saltySeas": "%10 daha hızlı tuz şarjı ikmali",
+  "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
+  "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
+  "skill.ager.buff": "Yaşlanma/Fermantasyon/Baharat Rafından +1 çıktı",
+  "skill.ager.debuff": "2x giriş bileşenleri gerekli"
 }

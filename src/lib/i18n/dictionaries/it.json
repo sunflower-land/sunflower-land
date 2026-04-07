@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Copiato",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Accedi per generare un token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carica prima la tua fattoria nel gioco.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossibile recuperare il token."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossibile recuperare il token.",
+  "skill.cheapRakes": "15% di sconto sul costo delle monete Salt Rake",
+  "skill.speedyAging": "Velocità Aging Rack più veloce del 10%",
+  "skill.saltySeas": "Rifornimento della carica di sale più veloce del 10%",
+  "skill.fishSmoking": "Possibilità doppia: Aged Fish diventa Prime Aged",
+  "skill.refiner": "15% di possibilità di ottenere +1 sale raffinato",
+  "skill.ager.buff": "+1 uscita da Aging/Fermentation/Spice Rack",
+  "skill.ager.debuff": "Sono necessari 2x ingredienti di input"
 }

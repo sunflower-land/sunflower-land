@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Copiado",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Faça login para gerar um token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carregue sua fazenda no jogo primeiro.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Não foi possível obter o token."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Não foi possível obter o token.",
+  "skill.cheapRakes": "15% de desconto no custo da moeda Salt Rake",
+  "skill.speedyAging": "Velocidade 10% mais rápida do Aging Rack",
+  "skill.saltySeas": "Reabastecimento de carga de sal 10% mais rápido",
+  "skill.fishSmoking": "Chance dobrada de Peixe Envelhecido se tornar Prime Aged",
+  "skill.refiner": "15% de chance de obter +1 sal refinado",
+  "skill.ager.buff": "+1 produção do Aging/Fermentation/Spice Rack",
+  "skill.ager.debuff": "São necessários 2x os ingredientes de entrada"
 }

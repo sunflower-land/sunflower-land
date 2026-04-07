@@ -8584,5 +8584,12 @@
   "playerEconomyEditor.basics.portalJwtCopied": "Copied",
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Sign in to generate a token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Load your farm in the game first.",
-  "playerEconomyEditor.basics.portalJwtFetchFailed": "Could not fetch token."
+  "playerEconomyEditor.basics.portalJwtFetchFailed": "Could not fetch token.",
+  "skill.cheapRakes": "15% off Salt Rake coin cost",
+  "skill.speedyAging": "10% faster Aging Rack speed",
+  "skill.saltySeas": "10% faster salt charge replenishment",
+  "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
+  "skill.refiner": "15% chance to get +1 Refined Salt",
+  "skill.ager.buff": "+1 output from Aging/Fermentation/Spice Rack",
+  "skill.ager.debuff": "2x input ingredients required"
 }
