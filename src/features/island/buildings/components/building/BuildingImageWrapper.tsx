@@ -24,8 +24,7 @@ import { useVisiting } from "lib/utils/visitUtils";
  * @param onClick on click event
  */
 interface Props {
-  name: string;
-  index?: number;
+  name: BuildingName;
   ready?: boolean;
   nonInteractible?: boolean;
   onClick?: () => void;
@@ -36,7 +35,6 @@ const _bumpkinLevel = (state: MachineState) =>
 
 export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
   name,
-  index,
   nonInteractible,
   ready,
   onClick,
@@ -49,14 +47,14 @@ export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
 
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
-  const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
-    name as BuildingName,
-    index ?? 0,
-  );
+  const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(name);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
   const { t } = useAppTranslation();
 
-  const getHandleDisabledOnClick = (name: string, nonInteractible: boolean) =>
+  const getHandleDisabledOnClick = (
+    name: BuildingName,
+    nonInteractible: boolean,
+  ) =>
     function handleDisabledOnClick() {
       if (nonInteractible) return;
 

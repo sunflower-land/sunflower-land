@@ -27,6 +27,7 @@ import { MachineInterpreter } from "features/game/expansion/placeable/landscapin
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { getObjectEntries } from "lib/object";
 
 interface Props {
   onClose: () => void;
@@ -57,9 +58,7 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
   ];
 
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
-    (a, b) =>
-      BUILDINGS[a as BuildingName][0].unlocksAtLevel -
-      BUILDINGS[b as BuildingName][0].unlocksAtLevel,
+    (a, b) => BUILDINGS[a].unlocksAtLevel - BUILDINGS[b].unlocksAtLevel,
   );
 
   return VALID_BUILDINGS;
@@ -87,49 +86,24 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const collectibles = useSelector(gameService, _collectibles);
   const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
-  const buildingBlueprints = BUILDINGS[selectedName];
-  const buildingUnlockLevels = buildingBlueprints.map(
-    ({ unlocksAtLevel }) => unlocksAtLevel,
-  );
+  const buildingBlueprint = BUILDINGS[selectedName];
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience ?? 0);
+  const buildingUnlockLevel = buildingBlueprint.unlocksAtLevel;
   const buildingsInInventory = inventory[selectedName] || new Decimal(0);
-  // Some buildings have multiple blueprints, so we need to check if the next blueprint is available else fallback to the first one
-  const nextBlueprintIndex = buildingBlueprints[buildingsInInventory.toNumber()]
-    ? buildingsInInventory.toNumber()
-    : 0;
-  const numOfBuildingAllowed = buildingUnlockLevels.filter(
-    (level) => getBumpkinLevel(bumpkin.experience ?? 0) >= level,
-  ).length;
-  const nextLockedLevel = buildingUnlockLevels.find(
-    (level) => getBumpkinLevel(bumpkin.experience ?? 0) < level,
-  );
+  const isAlreadyCrafted = buildingsInInventory.greaterThanOrEqualTo(1);
 
-  const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(
-    BUILDINGS[selectedName].length,
-  );
-
-  const ingredients = buildingBlueprints[0].ingredients.reduce(
-    (acc, ingredient) => ({
-      ...acc,
-      [ingredient.item]: new Decimal(ingredient.amount),
-    }),
-    {},
-  );
-
-  const { coins } = buildingBlueprints[nextBlueprintIndex];
+  const { coins, ingredients: buildingIngredients } = buildingBlueprint;
 
   const lessIngredients = () =>
-    buildingBlueprints[nextBlueprintIndex].ingredients.some((ingredient) =>
-      ingredient.amount?.greaterThan(inventory[ingredient.item] || 0),
+    getObjectEntries(buildingIngredients).some(([ingredient, amount]) =>
+      amount?.greaterThan(inventory[ingredient] || 0),
     );
 
   const craft = () => {
     landscapingMachine.send("SELECT", {
       action: "building.constructed",
       placeable: { name: selectedName },
-      requirements: {
-        coins,
-        ingredients,
-      },
+      requirements: { coins, ingredients: buildingIngredients },
     });
 
     onClose();
@@ -137,21 +111,17 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
 
   const getAction = () => {
     if (
-      !hasRequiredIslandExpansion(
-        island.type,
-        buildingBlueprints[nextBlueprintIndex].requiredIsland,
-      )
+      !hasRequiredIslandExpansion(island.type, buildingBlueprint.requiredIsland)
     ) {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
             islandType:
-              buildingBlueprints[nextBlueprintIndex].requiredIsland === "spring"
+              buildingBlueprint.requiredIsland === "spring"
                 ? "Petal Paradise"
                 : t("islandupgrade.otherIsland", {
                     island: capitalize(
-                      buildingBlueprints[nextBlueprintIndex]
-                        .requiredIsland as IslandType,
+                      buildingBlueprint.requiredIsland as IslandType,
                     ),
                   }),
           })}
@@ -159,15 +129,12 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    const hasMaxNumberOfBuildings =
-      buildingsInInventory.gte(numOfBuildingAllowed);
-    // Hasn't unlocked the first
-    if (nextLockedLevel && hasMaxNumberOfBuildings)
+    if (bumpkinLevel < buildingUnlockLevel)
       return (
         <div className="flex flex-col w-full justify-center">
           <div className="flex items-center justify-center ">
             <Label type="danger" icon={SUNNYSIDE.icons.player}>
-              {t("warning.level.required", { lvl: nextLockedLevel })}
+              {t("warning.level.required", { lvl: buildingUnlockLevel })}
             </Label>
           </div>
         </div>
@@ -205,15 +172,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           })}
           requirements={{
             coins,
-            resources: buildingBlueprints[
-              nextBlueprintIndex
-            ].ingredients.reduce(
-              (acc, ingredient) => ({
-                ...acc,
-                [ingredient.item]: new Decimal(ingredient.amount),
-              }),
-              {},
-            ),
+            resources: buildingIngredients,
           }}
           actionView={getAction()}
         />
@@ -221,21 +180,16 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {[...getValidBuildings(state)].map((name: BuildingName) => {
-            const blueprints = BUILDINGS[name];
+            const blueprint = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
-            const nextIndex = blueprints[inventoryCount.toNumber()]
-              ? inventoryCount.toNumber()
-              : 0;
-            const isLocked =
-              getBumpkinLevel(bumpkin.experience ?? 0) <
-              BUILDINGS[name][nextIndex].unlocksAtLevel;
+            const isLocked = bumpkinLevel < blueprint.unlocksAtLevel;
 
             let secondaryIcon = undefined;
             if (isLocked) {
               secondaryIcon = SUNNYSIDE.icons.lock;
             }
 
-            if (inventory[name]?.greaterThanOrEqualTo(BUILDINGS[name].length)) {
+            if (inventoryCount.greaterThanOrEqualTo(1)) {
               secondaryIcon = SUNNYSIDE.icons.confirm;
             }
 

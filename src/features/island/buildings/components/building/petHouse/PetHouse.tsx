@@ -66,7 +66,7 @@ export const PetHouse: React.FC = () => {
 
   return (
     <div className="absolute h-full w-full">
-      <BuildingImageWrapper name="PetHouse" onClick={handlePetHouseClick}>
+      <BuildingImageWrapper name="Pet House" onClick={handlePetHouseClick}>
         <img
           src={PET_HOUSE_VARIANTS[level]}
           className="absolute pointer-events-none"
