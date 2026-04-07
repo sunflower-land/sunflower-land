@@ -17,7 +17,7 @@ describe("exchangeFlower", () => {
             bundles: [],
           },
         },
-        action: { type: "exchange.flower", amount: 50 },
+        action: { type: "exchange.flower", amount: 80 },
         createdAt,
       }),
     ).toThrow("Face verification required");
@@ -43,7 +43,7 @@ describe("exchangeFlower", () => {
             bundles: [],
           },
         },
-        action: { type: "exchange.flower", amount: 50 },
+        action: { type: "exchange.flower", amount: 80 },
         createdAt,
       }),
     ).toThrow("Insufficient Love Charms");
@@ -103,6 +103,6 @@ describe("exchangeFlower", () => {
       action: { type: "exchange.flower", amount: 500 },
       createdAt,
     });
-    expect(state.balance).toEqual(new Decimal(10));
+    expect(state.balance).toEqual(new Decimal(6.25));
   });
 });
