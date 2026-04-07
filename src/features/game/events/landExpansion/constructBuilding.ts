@@ -10,9 +10,10 @@ import { getObjectEntries } from "lib/object";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
-  MAX_BUILDINGS_REACHED = "Building limit reached for your bumpkin level!",
+  BUILDING_ALREADY_BUILT = "Building already built!",
+  BUMPKIN_LEVEL_NOT_MET = "You do not meet the land requirements",
   NOT_ENOUGH_COINS = "Insufficient Coins!",
-  NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient! Missing: ",
+  NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient: ",
 }
 
 export type ConstructBuildingAction = {
@@ -34,19 +35,21 @@ export function constructBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin, coins } = stateCopy;
+    const { bumpkin, coins, buildings } = stateCopy;
+
+    const hasBuiltBuilding = (buildings[action.name] || []).length > 0;
+
+    if (hasBuiltBuilding) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.BUILDING_ALREADY_BUILT);
+    }
 
     const buildingToConstruct = BUILDINGS[action.name];
 
-    if (bumpkin === undefined) {
-      throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
-    }
-
-    const allowedBuildings =
+    const hasReachedUnlockRequirement =
       getBumpkinLevel(bumpkin.experience) >= buildingToConstruct.unlocksAtLevel;
 
-    if (!allowedBuildings) {
-      throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+    if (!hasReachedUnlockRequirement) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.BUMPKIN_LEVEL_NOT_MET);
     }
 
     if (coins < buildingToConstruct.coins) {
@@ -62,8 +65,6 @@ export function constructBuilding({
       throw new Error("You do not have the required island expansion");
     }
 
-    let missingIngredients: string[] = [];
-
     const inventoryMinusIngredients = getObjectEntries(
       buildingToConstruct.ingredients,
     ).reduce(
@@ -72,23 +73,13 @@ export function constructBuilding({
         const required = new Decimal(amount ?? 0);
 
         if (count.lessThan(required)) {
-          missingIngredients = [...missingIngredients, ingredient];
+          throw new Error(`Insufficient ingredient: ${ingredient}`);
         }
-
         inventory[ingredient] = count.sub(required);
-
         return inventory;
       },
       { ...stateCopy.inventory },
     );
-
-    if (missingIngredients.length > 0) {
-      throw new Error(
-        `${
-          CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
-        }${missingIngredients.join(", ")}`,
-      );
-    }
 
     const buildingInventory =
       stateCopy.inventory[action.name] || new Decimal(0);
