@@ -74,11 +74,7 @@ export const UpgradeSaltFarm: React.FC = () => {
   return (
     <div className="flex flex-col gap-1">
       <InnerPanel className="p-1">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.hammer}
-          className="mb-2 ml-1"
-        >
+        <Label type="default" icon={SUNNYSIDE.icons.hammer} className="ml-1">
           {isUnlockingSaltFarm
             ? t("unlock.building", { building: "Salt Farm" })
             : t("upgrade.building", { building: "Salt Farm" })}
