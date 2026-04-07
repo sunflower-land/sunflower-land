@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Panel, InnerPanel, ButtonPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -18,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const PlayerEconomyEditor: React.FC = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { loadRows, submitEvent } = useEditorApi();
   const [rows, setRows] = useState<PlayerEconomyConfigRow[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -77,10 +78,25 @@ export const PlayerEconomyEditor: React.FC = () => {
   return (
     <div className="p-2 pb-16 space-y-2 relative h-full">
       <Panel className="p-3">
-        <div className="flex items-center gap-2 mb-3">
-          <Label type="vibrant" icon={SUNNYSIDE.icons.hammer}>
-            {t("playerEconomyEditor.title")}
-          </Label>
+        <div className="flex flex-col gap-2 mb-3">
+          <div className="flex items-center gap-2">
+            <Label type="vibrant" icon={SUNNYSIDE.icons.hammer}>
+              {t("playerEconomyEditor.title")}
+            </Label>
+          </div>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              const base = pathname.includes("/world")
+                ? "/world/marketplace"
+                : "/marketplace";
+              navigate(`${base}/economies`);
+            }}
+          >
+            <span className="text-sm">
+              {t("playerEconomyEditor.viewAllEconomiesMarketplace")}
+            </span>
+          </Button>
         </div>
 
         {loading && (
