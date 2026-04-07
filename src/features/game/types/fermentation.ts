@@ -25,7 +25,7 @@ const STATIC_FERMENTATION_RECIPES = {
   "Pickled Zucchini": {
     durationSeconds: 60 * 60,
     ingredients: {
-      Zucchini: new Decimal(10),
+      Zucchini: new Decimal(40),
       Salt: new Decimal(5),
     },
     outputs: {
@@ -36,7 +36,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60,
     ingredients: {
       Tomato: new Decimal(10),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(5),
     },
     outputs: {
       "Pickled Tomato": new Decimal(1),
@@ -45,7 +45,7 @@ const STATIC_FERMENTATION_RECIPES = {
   "Pickled Cabbage": {
     durationSeconds: 60 * 60,
     ingredients: {
-      Cabbage: new Decimal(10),
+      Cabbage: new Decimal(20),
       Salt: new Decimal(5),
     },
     outputs: {
@@ -76,7 +76,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Radish": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -86,7 +86,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Zucchini": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -96,7 +96,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Pepper": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Glow": new Decimal(1),
@@ -106,7 +106,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Cabbage": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
@@ -116,7 +116,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Tomato": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
@@ -126,7 +126,7 @@ const STATIC_FERMENTATION_RECIPES = {
     durationSeconds: 60 * 60 * 2,
     ingredients: {
       "Pickled Onion": new Decimal(1),
-      "Refined Salt": new Decimal(2),
+      Salt: new Decimal(2),
     },
     outputs: {
       "Greenhouse Goodie": new Decimal(1),
