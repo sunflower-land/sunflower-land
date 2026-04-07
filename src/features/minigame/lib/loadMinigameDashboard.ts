@@ -41,7 +41,7 @@ export async function loadMinigameDashboard(
 
   try {
     const { token: portalJwt } = await portal({
-      portalId: slug as MinigameName,
+      portalId: slug,
       token: creds.userToken,
       farmId: creds.farmId,
     });

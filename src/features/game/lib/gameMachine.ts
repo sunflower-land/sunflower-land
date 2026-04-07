@@ -80,7 +80,6 @@ import {
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
-import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
@@ -1112,9 +1111,8 @@ export function startGame(authContext: AuthContext) {
           id: "portalling",
           invoke: {
             src: async (context) => {
-              const portalId = portalName as MinigameName;
               const { token } = await portal({
-                portalId,
+                portalId: portalName as string,
                 token: authContext.user.rawToken as string,
                 farmId: context.farmId,
               });
