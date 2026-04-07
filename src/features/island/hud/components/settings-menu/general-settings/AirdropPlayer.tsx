@@ -468,7 +468,7 @@ export const AirdropPlayer: React.FC<
       setValue: setCoins,
       maxDecimalPlaces: 0,
       icon: coinsIcon,
-      maxValue: 10000,
+      maxValue: 100_000,
       allowNegative: true,
     },
     Gems: {
@@ -476,7 +476,7 @@ export const AirdropPlayer: React.FC<
       setValue: setGems,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
-      maxValue: 10000,
+      maxValue: 100_000,
       allowNegative: true,
     },
     "Love Charm": {
@@ -484,7 +484,7 @@ export const AirdropPlayer: React.FC<
       setValue: setLoveCharm,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
-      maxValue: 10000,
+      maxValue: 100_000,
       allowNegative: true,
     },
     VIP: {
