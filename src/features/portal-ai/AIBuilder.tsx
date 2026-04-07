@@ -160,6 +160,9 @@ export const AIBuilder: React.FC = () => {
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"tools" | "assets">(
     "tools",
   );
+  const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">(
+    "desktop",
+  );
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -1031,18 +1034,48 @@ export const AIBuilder: React.FC = () => {
 
           {/* ===== Game Preview - single instance, responsive sizing ===== */}
           <div className="flex-1 md:w-1/2 flex flex-col gap-1 min-h-0">
-            <InnerPanel className="flex-1 flex flex-col p-2 min-h-0">
-              {/* Label + helper text only visible on desktop */}
-              <Label type="default" className="hidden md:flex">
-                {"Game Preview"}
-              </Label>
-              <div className="flex-1 bg-black rounded overflow-hidden md:mt-1 flex items-center justify-center min-h-[200px] md:min-h-[300px]">
+            {/* Aspect ratio tabs - desktop only */}
+            <div className="hidden md:flex gap-1">
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  previewMode === "desktop"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setPreviewMode("desktop")}
+              >
+                {"Desktop"}
+              </span>
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  previewMode === "mobile"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setPreviewMode("mobile")}
+              >
+                {"Mobile"}
+              </span>
+            </div>
+            <InnerPanel className="flex-1 flex flex-col p-2 min-h-0 overflow-hidden">
+              <div className="flex-1 flex items-center justify-center min-h-0">
                 <div
-                  id="aiBuilderGame"
-                  ref={gameContainerRef}
-                  className="w-full h-full flex items-center justify-center"
-                  style={{ imageRendering: "pixelated" }}
-                />
+                  className="bg-black rounded overflow-hidden"
+                  style={{
+                    aspectRatio: previewMode === "mobile" ? "9 / 16" : "16 / 9",
+                    maxHeight: "100%",
+                    maxWidth: "100%",
+                    width: previewMode === "mobile" ? "auto" : "100%",
+                    height: previewMode === "mobile" ? "100%" : "auto",
+                  }}
+                >
+                  <div
+                    id="aiBuilderGame"
+                    ref={gameContainerRef}
+                    className="w-full h-full flex items-center justify-center"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </div>
               </div>
               {previewUrl ? (
                 <p className="text-xs text-center mt-1 truncate">
