@@ -45,7 +45,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
   Machinery: ITEM_DETAILS["Crop Machine"].image,
   Compost: ITEM_DETAILS["Premium Composter"].image,
-  Salt: ITEM_DETAILS["Salt"].image,
+  Aging: ITEM_DETAILS["Salt"].image,
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -132,8 +132,11 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
-          if (getRevampSkillTreeCategoriesByIsland(islandType).length <= 0)
-            return;
+          const categories = getRevampSkillTreeCategoriesByIsland(
+            islandType,
+            state,
+          );
+          if (categories.length <= 0) return;
 
           return (
             <div key={islandType} className="flex flex-col items-stretch">
@@ -160,45 +163,43 @@ export const SkillCategoryList: React.FC<{
                 )}
               </div>
               <div className="grid grid-cols-2 gap-1">
-                {getRevampSkillTreeCategoriesByIsland(islandType).map(
-                  (category) => {
-                    const skills = getRevampSkills(category);
-                    const icon = SKILL_TREE_ICONS[skills[0].tree];
-                    const skillsAcquiredInCategoryCount = getKeys({
-                      ...bumpkin?.skills,
-                    }).filter((acquiredSkillName) =>
-                      skills.find((skill) => skill.name === acquiredSkillName),
-                    ).length;
+                {categories.map((category) => {
+                  const skills = getRevampSkills(category);
+                  const icon = SKILL_TREE_ICONS[skills[0].tree];
+                  const skillsAcquiredInCategoryCount = getKeys({
+                    ...bumpkin?.skills,
+                  }).filter((acquiredSkillName) =>
+                    skills.find((skill) => skill.name === acquiredSkillName),
+                  ).length;
 
-                    return (
-                      <div key={category}>
-                        <ButtonPanel
-                          disabled={!hasUnlockedIslandCategory}
-                          onClick={
-                            hasUnlockedIslandCategory
-                              ? () => onClick(category)
-                              : undefined
-                          }
-                          className={classNames(
-                            `flex relative items-center mb-1 hover:bg-brown-200`,
-                            { "cursor-pointer": hasUnlockedIslandCategory },
-                          )}
+                  return (
+                    <div key={category}>
+                      <ButtonPanel
+                        disabled={!hasUnlockedIslandCategory}
+                        onClick={
+                          hasUnlockedIslandCategory
+                            ? () => onClick(category)
+                            : undefined
+                        }
+                        className={classNames(
+                          `flex relative items-center mb-1 hover:bg-brown-200`,
+                          { "cursor-pointer": hasUnlockedIslandCategory },
+                        )}
+                      >
+                        <Label
+                          type="default"
+                          className="px-1 text-xxs absolute -top-3 -right-1"
                         >
-                          <Label
-                            type="default"
-                            className="px-1 text-xxs absolute -top-3 -right-1"
-                          >
-                            {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
-                          </Label>
-                          <div className="flex gap-2 justify-center items-center">
-                            <SquareIcon icon={icon} width={14} />
-                            <span className="text-sm">{category}</span>
-                          </div>
-                        </ButtonPanel>
-                      </div>
-                    );
-                  },
-                )}
+                          {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
+                        </Label>
+                        <div className="flex gap-2 justify-center items-center">
+                          <SquareIcon icon={icon} width={14} />
+                          <span className="text-sm">{category}</span>
+                        </div>
+                      </ButtonPanel>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );

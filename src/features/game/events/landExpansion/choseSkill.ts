@@ -99,7 +99,7 @@ export const SKILL_POINTS_PER_TIER: Record<
     2: 2,
     3: 5,
   },
-  Salt: {
+  Aging: {
     1: 0,
     2: 2,
     3: 4,
@@ -170,6 +170,10 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
 
     if (disabled) {
       throw new Error("This skill is disabled");
+    }
+
+    if (tree === "Aging" && !hasFeatureAccess(stateCopy, "SALT_SKILLS")) {
+      throw new Error("This skill is not available yet");
     }
 
     if (bumpkinHasSkill) {
