@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
+import classNames from "classnames";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -32,7 +34,9 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   const node = useSelector(gameService, _node(id));
   const gameState = useSelector(gameService, _gameState);
   const inventory = useSelector(gameService, _inventory);
-  const [showNextChargePanel, setShowNextChargePanel] = useState(false);
+  /** User toggled; actual visibility is gated below so we never need effects to “sync close”. */
+  const [nextChargePanelOpen, setNextChargePanelOpen] = useState(false);
+  const [noRakesPanelOpen, setNoRakesPanelOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const now = useNow({ live: true });
 
@@ -53,25 +57,22 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
       })
     : 0;
 
-  useEffect(() => {
-    if (storedCharges > 0) {
-      setTimeout(() => {
-        setShowNextChargePanel(false);
-      }, 0);
-    }
-  }, [storedCharges]);
+  const showNextChargePanel = nextChargePanelOpen && storedCharges === 0;
+  const showNoRakesPanel =
+    noRakesPanelOpen && !visiting && storedCharges > 0 && availableRakes === 0;
 
   useEffect(() => {
-    if (!showNextChargePanel) return;
+    if (!nextChargePanelOpen && !noRakesPanelOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (rootRef.current?.contains(event.target as Node)) return;
-      setShowNextChargePanel(false);
+      setNextChargePanelOpen(false);
+      setNoRakesPanelOpen(false);
     };
 
     document.addEventListener("mousedown", onPointerDown, true);
     return () => document.removeEventListener("mousedown", onPointerDown, true);
-  }, [showNextChargePanel]);
+  }, [nextChargePanelOpen, noRakesPanelOpen]);
 
   if (!node) return null;
 
@@ -89,28 +90,56 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
         className="w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => {
           if (canHarvest) {
-            setShowNextChargePanel(false);
+            setNextChargePanelOpen(false);
+            setNoRakesPanelOpen(false);
             gameService.send("saltHarvest.harvested", { id });
             return;
           }
 
           if (storedCharges === 0) {
-            setShowNextChargePanel((open) => !open);
+            setNoRakesPanelOpen(false);
+            setNextChargePanelOpen((open) => !open);
+            return;
+          }
+
+          if (!visiting && availableRakes === 0) {
+            setNextChargePanelOpen(false);
+            setNoRakesPanelOpen((open) => !open);
           }
         }}
       >
-        {storedCharges === 0 && (
+        {(storedCharges === 0 ||
+          (!visiting && storedCharges > 0 && availableRakes === 0)) && (
           <div
             className="flex justify-center absolute w-full pointer-events-none z-30"
             style={{
               top: `${PIXEL_SCALE * -10}px`,
             }}
           >
-            <TimeLeftPanel
-              text={t("saltHarvest.nextChargeIn")}
-              timeLeft={nextChargeInSeconds}
-              showTimeLeft={showNextChargePanel}
-            />
+            {storedCharges === 0 && (
+              <TimeLeftPanel
+                text={t("saltHarvest.nextChargeIn")}
+                timeLeft={nextChargeInSeconds}
+                showTimeLeft={showNextChargePanel}
+              />
+            )}
+            {!visiting && storedCharges > 0 && availableRakes === 0 && (
+              <InnerPanel
+                className={classNames(
+                  "absolute transition-opacity whitespace-nowrap w-fit z-50 pointer-events-none",
+                  {
+                    "opacity-100": showNoRakesPanel,
+                    "opacity-0": !showNoRakesPanel,
+                  },
+                )}
+              >
+                <div className="flex flex-col text-xxs p-1">
+                  <span className="flex-1">
+                    {t("saltHarvest.blockedReason.notEnoughSaltRakes")}
+                  </span>
+                </div>
+              </InnerPanel>
+            )}
           </div>
         )}
         {storedCharges > 0 && (
