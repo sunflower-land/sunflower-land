@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import type { SpiceRackRecipeName } from "features/game/types/spiceRack";
 import { getSpiceRackRecipe } from "features/game/types/spiceRack";
@@ -155,5 +156,41 @@ describe("startSpiceRack", () => {
     expect(state.agingShed.racks.spice[0].readyAt).toEqual(
       createdAt + def.durationSeconds * 1000,
     );
+  });
+
+  it("applies Ager skill to double ingredient costs", () => {
+    const state = startSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: { ...createInitialAgingShed(), level: 2 },
+        inventory: { Salt: new Decimal(20) },
+      }),
+      action: {
+        type: "spiceRack.started",
+        recipe: "Refined Salt",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+    expect(state.inventory.Salt?.toNumber()).toEqual(0);
+  });
+
+  it("throws when Ager doubles cost beyond available ingredients", () => {
+    expect(() =>
+      startSpiceRack({
+        state: createFermentationTestState({
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+          agingShed: { ...createInitialAgingShed(), level: 2 },
+          inventory: { Salt: new Decimal(10) },
+        }),
+        action: {
+          type: "spiceRack.started",
+          recipe: "Refined Salt",
+          jobId: TEST_JOB_ID,
+        },
+        createdAt,
+      }),
+    ).toThrow("Insufficient ingredient");
   });
 });

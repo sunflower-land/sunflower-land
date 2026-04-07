@@ -9,6 +9,7 @@ import {
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
+import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -56,11 +57,13 @@ export function startSpiceRack({
       throw new Error("No available slots");
     }
 
+    const inputMultiplier = getAgingInputMultiplier(game.bumpkin.skills);
+
     for (const [ingredient, amount] of getObjectEntries(
       recipeDef.ingredients,
     )) {
       const count = game.inventory[ingredient] ?? new Decimal(0);
-      const need = amount ?? new Decimal(0);
+      const need = (amount ?? new Decimal(0)).mul(inputMultiplier);
 
       if (count.lessThan(need)) {
         throw new Error(`Insufficient ingredient: ${String(ingredient)}`);

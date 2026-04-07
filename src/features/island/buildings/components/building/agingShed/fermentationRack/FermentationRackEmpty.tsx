@@ -25,6 +25,10 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
+import {
+  getAgingInputMultiplier,
+  getAgingOutputBonus,
+} from "features/game/types/agingFormulas";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -77,6 +81,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   const recipeId = selectedRecipeId;
   const recipeDef = recipeId ? getFermentationRecipe(recipeId) : undefined;
+  const skills = gameState.bumpkin.skills;
   const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
 
   const ingredientKeys: InventoryItemName[] = recipeDef
@@ -133,8 +138,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
             <div className="flex flex-wrap gap-1 overflow-auto max-h-32 scrollable">
               {selectedGroup.recipeIds.map((id, index) => {
                 const image = getFirstIngredientImage(id);
-                const yieldQty =
-                  selectedGroup.outputQuantities[index].toString();
+                const yieldQty = selectedGroup.outputQuantities[index]
+                  .add(getAgingOutputBonus(skills))
+                  .toString();
 
                 return (
                   <div
@@ -175,7 +181,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                     balance={
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
-                    requirement={need ?? new Decimal(0)}
+                    requirement={(need ?? new Decimal(0)).mul(
+                      getAgingInputMultiplier(skills),
+                    )}
                   />
                 ),
               )}

@@ -14,6 +14,11 @@ import {
   SPICE_RACK_RECIPE_IDS,
   type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
+import {
+  getAgingInputMultiplier,
+  getAgingOutputBonus,
+  getRefinedSaltChance,
+} from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
@@ -56,6 +61,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
+  const skills = gameState.bumpkin.skills;
 
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
@@ -90,7 +96,9 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           const def = getSpiceRackRecipe(recipeId);
           const outputItem = getPrimaryOutputItem(recipeId);
           const outEntry = getObjectEntries(def.outputs)[0];
-          const amt = outEntry?.[1] ?? new Decimal(0);
+          const amt = (outEntry?.[1] ?? new Decimal(0)).add(
+            getAgingOutputBonus(skills),
+          );
           const title = `${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${amt.toString()}`;
           const description = ITEM_DETAILS[outputItem]?.description;
 
@@ -136,7 +144,9 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                     balance={
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
-                    requirement={need ?? new Decimal(0)}
+                    requirement={(need ?? new Decimal(0)).mul(
+                      getAgingInputMultiplier(skills),
+                    )}
                   />
                 ),
               )}
@@ -145,6 +155,12 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                 waitSeconds={recipeDef.durationSeconds}
               />
             </div>
+          )}
+
+          {canShowRequirements && getRefinedSaltChance(skills) > 0 && (
+            <Label type="vibrant" className="text-xxs mx-2 mb-1">
+              {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+            </Label>
           )}
         </InnerPanel>
       )}

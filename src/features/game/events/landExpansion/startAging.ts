@@ -3,12 +3,15 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import type { AgingRackSlot } from "features/game/lib/agingShed";
 import {
-  getAgingSaltCost,
   getAgingSlotCount,
-  getAgingTimeMs,
   getFishBaseXP,
   isFishName,
 } from "features/game/types/aging";
+import {
+  getBoostedAgingFishCost,
+  getBoostedAgingSaltCost,
+  getBoostedAgingTimeMs,
+} from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
@@ -57,26 +60,29 @@ export function startAging({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
+    const skills = game.bumpkin.skills;
+    const baseXP = getFishBaseXP(action.fish);
+    const fishCost = getBoostedAgingFishCost(skills);
+    const saltCost = getBoostedAgingSaltCost(baseXP, skills);
+
     const fishCount = game.inventory[action.fish] ?? new Decimal(0);
-    if (fishCount.lessThan(1)) {
+    if (fishCount.lessThan(fishCost)) {
       throw new Error("Insufficient fish");
     }
 
-    const baseXP = getFishBaseXP(action.fish);
-    const saltCost = getAgingSaltCost(baseXP);
     const saltCount = game.inventory["Salt"] ?? new Decimal(0);
     if (saltCount.lessThan(saltCost)) {
       throw new Error("Insufficient Salt");
     }
 
-    game.inventory[action.fish] = fishCount.sub(1);
+    game.inventory[action.fish] = fishCount.sub(fishCost);
     game.inventory["Salt"] = saltCount.sub(saltCost);
 
     const slot: AgingRackSlot = {
       id: action.slotId,
       fish: action.fish,
       startedAt: createdAt,
-      readyAt: createdAt + getAgingTimeMs(baseXP),
+      readyAt: createdAt + getBoostedAgingTimeMs(baseXP, skills),
     };
 
     game.agingShed.racks.aging = [...queue, slot];

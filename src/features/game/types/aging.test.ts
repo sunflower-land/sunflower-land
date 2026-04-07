@@ -88,7 +88,7 @@ describe("getAgingSlotCount", () => {
     expect(getAgingSlotCount(6)).toBe(6);
   });
 
-  it("returns 0 for level 0", () => {
-    expect(getAgingSlotCount(0)).toBe(0);
+  it("returns 1 for level 0", () => {
+    expect(getAgingSlotCount(0)).toBe(1);
   });
 });

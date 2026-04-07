@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
+import { getAgingSaltCost, getFishBaseXP } from "features/game/types/aging";
+import { getAgingTimeMs } from "features/game/types/agingFormulas";
 import { startAging } from "./startAging";
 import {
   createFermentationTestState,
@@ -198,5 +201,63 @@ describe("startAging", () => {
     });
 
     expect(state.agingShed.racks.aging).toHaveLength(2);
+  });
+
+  it("applies Speedy Aging skill to reduce readyAt by 10%", () => {
+    const state = startAging({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Speedy Aging": 1 } },
+        inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
+      }),
+      action: {
+        type: "agingRack.started",
+        fish: "Anchovy",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    const baseTime = getAgingTimeMs(getFishBaseXP("Anchovy"));
+    const slot = state.agingShed.racks.aging[0];
+    expect(slot.readyAt).toBe(createdAt + baseTime * 0.9);
+  });
+
+  it("applies Ager skill to double salt and fish cost", () => {
+    const state = startAging({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        inventory: { Anchovy: new Decimal(5), Salt: new Decimal(100) },
+      }),
+      action: {
+        type: "agingRack.started",
+        fish: "Anchovy",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    const baseSaltCost = getAgingSaltCost(getFishBaseXP("Anchovy"));
+    expect(state.inventory.Salt?.toNumber()).toBe(100 - baseSaltCost * 2);
+    expect(state.inventory.Anchovy?.toNumber()).toBe(3);
+  });
+
+  it("throws when Ager requires 2 fish but only 1 available", () => {
+    expect(() =>
+      startAging({
+        state: createFermentationTestState({
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+          inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
+        }),
+        action: {
+          type: "agingRack.started",
+          fish: "Anchovy",
+          slotId: TEST_SLOT_ID,
+        },
+        farmId: 1,
+        createdAt,
+      }),
+    ).toThrow("Insufficient fish");
   });
 });

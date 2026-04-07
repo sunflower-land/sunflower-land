@@ -6,12 +6,12 @@ import { DropdownPanel } from "components/ui/DropdownPanel";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { getFishBaseXP, isFishName } from "features/game/types/aging";
 import {
-  getAgingSaltCost,
-  getAgingTimeMs,
-  getFishBaseXP,
-  isFishName,
-} from "features/game/types/aging";
+  getBoostedAgingFishCost,
+  getBoostedAgingSaltCost,
+  getBoostedAgingTimeMs,
+} from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import type {
   GameState,
@@ -56,6 +56,8 @@ export const AgingRackEmpty: React.FC<Props> = ({
   const [showIngredients, setShowIngredients] = useState(false);
   const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
 
+  const skills = gameState.bumpkin.skills;
+
   const fishOptions = useMemo(() => {
     return Object.entries(merged)
       .filter(
@@ -64,8 +66,8 @@ export const AgingRackEmpty: React.FC<Props> = ({
       .map(([name]) => {
         const fish = name as FishName;
         const baseXP = getFishBaseXP(fish);
-        const saltCost = getAgingSaltCost(baseXP);
-        const timeMs = getAgingTimeMs(baseXP);
+        const saltCost = getBoostedAgingSaltCost(baseXP, skills);
+        const timeMs = getBoostedAgingTimeMs(baseXP, skills);
         return {
           value: fish,
           icon: ITEM_DETAILS[fish]?.image,
@@ -81,12 +83,13 @@ export const AgingRackEmpty: React.FC<Props> = ({
           ),
         };
       });
-  }, [merged]);
+  }, [merged, skills]);
 
   const recipeDef = selectedFish
     ? {
-        saltCost: getAgingSaltCost(getFishBaseXP(selectedFish)),
-        timeMs: getAgingTimeMs(getFishBaseXP(selectedFish)),
+        saltCost: getBoostedAgingSaltCost(getFishBaseXP(selectedFish), skills),
+        fishCost: getBoostedAgingFishCost(skills),
+        timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), skills),
       }
     : undefined;
 
@@ -119,7 +122,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
               type="item"
               item={selectedFish as InventoryItemName}
               balance={merged[selectedFish] ?? new Decimal(0)}
-              requirement={new Decimal(1)}
+              requirement={new Decimal(recipeDef.fishCost)}
             />
             <RequirementLabel
               type="time"

@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
-import { getSpiceRackRecipe } from "features/game/types/spiceRack";
+import {
+  getSpiceRackRecipe,
+  spiceRackCollectedActivity,
+} from "features/game/types/spiceRack";
 import { collectSpiceRack } from "./collectSpiceRack";
 import { startSpiceRack } from "./startSpiceRack";
 import {
@@ -17,6 +21,7 @@ describe("collectSpiceRack", () => {
         state: createFermentationTestState({ buildings: {} }),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow("Required building does not exist");
   });
@@ -27,6 +32,7 @@ describe("collectSpiceRack", () => {
         state: createFermentationTestState(),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow(`Building is not cooking anything`);
   });
@@ -54,6 +60,7 @@ describe("collectSpiceRack", () => {
         }),
         action: { type: "spiceRack.collected" },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow(`No recipes are ready`);
   });
@@ -88,6 +95,7 @@ describe("collectSpiceRack", () => {
       }),
       action: { type: "spiceRack.collected" },
       createdAt,
+      farmId: 1,
     });
 
     expect(state.agingShed.racks.spice).toHaveLength(1);
@@ -118,9 +126,158 @@ describe("collectSpiceRack", () => {
       state,
       action: { type: "spiceRack.collected" },
       createdAt: readyAt,
+      farmId: 1,
     });
 
     expect(state.agingShed.racks.spice).toHaveLength(0);
     expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+  });
+
+  it("applies Ager skill to grant +1 output", () => {
+    const past = createdAt - 1;
+
+    const state = collectSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "ager-test",
+                recipe: "Salt Lick",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "spiceRack.collected" },
+      createdAt,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(2);
+  });
+
+  describe("Refiner skill (Refined Salt output)", () => {
+    const past = createdAt - 1;
+    const refinedRecipeActivity = spiceRackCollectedActivity("Refined Salt");
+
+    it("does not grant Refiner bonus without the skill at a hit counter", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: "refiner-miss-skill",
+                  recipe: "Refined Salt",
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+          farmActivity: { [refinedRecipeActivity]: 4 },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+    });
+
+    it("grants +1 Refined Salt on PRNG hit (counter 4) with Refiner", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Refiner: 1 } },
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: "refiner-hit",
+                  recipe: "Refined Salt",
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+          farmActivity: { [refinedRecipeActivity]: 4 },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(2);
+    });
+
+    it("does not grant Refiner +1 on PRNG miss (counter 0) with Refiner", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Refiner: 1 } },
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: "refiner-miss-roll",
+                  recipe: "Refined Salt",
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+          farmActivity: { [refinedRecipeActivity]: 0 },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+    });
+
+    it("stacks Ager + Refiner bonus on PRNG hit", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: { Ager: 1, Refiner: 1 },
+          },
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: "ager-refiner-hit",
+                  recipe: "Refined Salt",
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+          farmActivity: { [refinedRecipeActivity]: 4 },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(3);
+    });
   });
 });

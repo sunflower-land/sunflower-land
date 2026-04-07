@@ -140,6 +140,8 @@ const FEATURE_FLAGS = {
 
   AGING_SHED: betaFeatureFlag,
 
+  SALT_SKILLS: testnetFeatureFlag,
+
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */
