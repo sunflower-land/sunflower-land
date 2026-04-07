@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { Modal } from "components/ui/Modal";
-import { Box } from "components/ui/Box";
 import add from "assets/icons/plus.png";
+import saltNodeEmpty from "assets/buildings/salt/salt_node_empty.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { UpgradeSaltFarmModalPanel } from "./UpgradeSaltFarmModalPanel";
 
 interface Props {
@@ -17,13 +18,21 @@ export const SaltNodePlaceholder: React.FC<Props> = ({ visiting }) => {
       <div
         className={classNames(
           "relative flex h-full w-full items-center justify-center",
+          !visiting && "cursor-pointer hover:img-highlight",
         )}
+        onClick={() => {
+          if (visiting) return;
+          setShowModal(true);
+        }}
       >
-        <Box
-          image={add}
-          disabled={visiting}
-          onClick={() => setShowModal(true)}
-          className="cursor-pointer hover:img-highlight"
+        <img src={saltNodeEmpty} width={PIXEL_SCALE * 18} />
+        <img
+          src={add}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            top: `${PIXEL_SCALE * 10}px`,
+          }}
         />
       </div>
 
