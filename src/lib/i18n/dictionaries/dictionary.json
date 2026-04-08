@@ -8573,6 +8573,7 @@
   "agingShed.fermentation.ready": "Ready",
   "agingShed.fermentation.timeRemaining": "{{time}} left",
   "agingShed.fermentation.slotsUsed": "Slots: {{used}}/{{max}}",
+  "agingShed.fermentation.instantSlot": "Instant",
   "agingShed.fermentation.insufficientIngredient": "Not enough {{item}}",
   "agingShed.spice.spiceSlots": "Spice Slots",
   "agingShed.spice.selectRecipe": "Select recipe",
@@ -8598,5 +8599,4 @@
   "description.petRug": "Too cute to step on. Almost.",
   "description.jesterInABox": "Wind it up and prepare for chaos.",
   "description.theSunflowerManStatue": "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it."
-
 }

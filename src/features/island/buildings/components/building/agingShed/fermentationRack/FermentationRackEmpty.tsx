@@ -11,7 +11,6 @@ import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlaced
 import { getFermentationOutputGroups } from "features/game/lib/fermentationUi";
 import {
   getFermentationRecipe,
-  getMaxFermentationSlots,
   type FermentationRecipeName,
 } from "features/game/types/fermentation";
 import type {
@@ -86,21 +85,12 @@ export const FermentationRackEmpty: React.FC<Props> = ({
         | [])
     : [];
 
-  const slotsFull =
-    gameState.agingShed.racks.fermentation.length >=
-    getMaxFermentationSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
-
-  const instantRecipe = recipeDef?.durationSeconds === 0;
 
   // NB: actual Start button disable is controlled by parent via `startDisabled`.
   // These are just used to avoid showing misleading blocks when nothing selected.
   const canShowRequirements =
-    !!recipeId &&
-    !!recipeDef &&
-    shedPlaced &&
-    (!slotsFull || instantRecipe) &&
-    !isVisiting;
+    !!recipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity =
     recipeId && selectedGroup?.item
