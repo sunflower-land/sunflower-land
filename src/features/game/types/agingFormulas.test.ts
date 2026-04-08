@@ -4,6 +4,9 @@ import { prngChance } from "lib/prng";
 import type { Skills } from "./game";
 import {
   getAgingOutput,
+  getAgingSaltCost,
+  getBoostedAgingFishCost,
+  getBoostedAgingSaltCost,
   getPrimeAgedChance,
   getRefinedSaltChance,
 } from "./agingFormulas";
@@ -133,5 +136,31 @@ describe("getAgingOutput", () => {
         }).toNumber(),
       ).toBe(4);
     });
+  });
+});
+
+describe("getBoostedAgingFishCost", () => {
+  it("requires 1 fish without Ager", () => {
+    expect(getBoostedAgingFishCost({} as Skills)).toBe(1);
+  });
+
+  it("requires 2 fish with Ager (Aging Rack)", () => {
+    expect(getBoostedAgingFishCost({ Ager: 1 } as Skills)).toBe(2);
+  });
+});
+
+describe("getBoostedAgingSaltCost", () => {
+  const baseXP = 60;
+
+  it("matches base salt cost without Ager", () => {
+    const base = getAgingSaltCost(baseXP);
+    expect(getBoostedAgingSaltCost(baseXP, {} as Skills)).toBe(base);
+  });
+
+  it("doubles salt cost with Ager (Aging Rack)", () => {
+    const base = getAgingSaltCost(baseXP);
+    expect(getBoostedAgingSaltCost(baseXP, { Ager: 1 } as Skills)).toBe(
+      base * 2,
+    );
   });
 });

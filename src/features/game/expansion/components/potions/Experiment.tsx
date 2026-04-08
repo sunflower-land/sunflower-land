@@ -254,7 +254,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
                     <UiBox
                       hideCount={true}
                       image={
-                        multiplier === val ? SUNNYSIDE.icons.confirm : null
+                        multiplier === val ? SUNNYSIDE.icons.confirm : undefined
                       }
                       onClick={() => setMultiplier(val)}
                     />

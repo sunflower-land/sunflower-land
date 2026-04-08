@@ -17,6 +17,7 @@ import type {
   GameState,
   Inventory,
   InventoryItemName,
+  Skills,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -24,6 +25,7 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -40,6 +42,25 @@ function getFirstIngredientImage(recipeId: FermentationRecipeName) {
   const first = getObjectEntries(def.ingredients)[0];
   const name = first?.[0] as InventoryItemName | undefined;
   return name ? ITEM_DETAILS[name]?.image : undefined;
+}
+
+function hasEnoughFermentationIngredients(
+  merged: Inventory,
+  recipeId: FermentationRecipeName,
+  skills: Skills,
+): boolean {
+  const def = getFermentationRecipe(recipeId);
+  const inputMultiplier = getAgingInputMultiplier(skills);
+
+  for (const [ingredient, amount] of getObjectEntries(def.ingredients)) {
+    const have = merged[ingredient as InventoryItemName] ?? new Decimal(0);
+    const need = (amount ?? new Decimal(0)).mul(inputMultiplier);
+    if (have.lessThan(need)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 type Props = {
@@ -151,6 +172,11 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       hideCount
                       isSelected={recipeId === id}
                       onClick={() => onSelectVariant(id)}
+                      secondaryImage={
+                        hasEnoughFermentationIngredients(merged, id, skills)
+                          ? SUNNYSIDE.icons.confirm
+                          : SUNNYSIDE.icons.cancel
+                      }
                     />
                   </div>
                 );

@@ -17,6 +17,7 @@ import type {
   GameState,
   Inventory,
   InventoryItemName,
+  Skills,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -25,12 +26,27 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
+import { getObjectEntries } from "lib/object";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
     ...getBasketItems(state.inventory),
     ...getChestItems(state),
   };
+}
+
+function hasEnoughAgingIngredients(
+  merged: Inventory,
+  fishName: FishName,
+  skills: Skills,
+): boolean {
+  const baseXP = getFishBaseXP(fishName);
+  const saltCost = getBoostedAgingSaltCost(baseXP, skills);
+  const fishCost = getBoostedAgingFishCost(skills);
+  return (
+    (merged["Salt"]?.gte(saltCost) && merged[fishName]?.gte(fishCost)) ?? false
+  );
 }
 
 type Props = {
@@ -58,16 +74,25 @@ export const AgingRackEmpty: React.FC<Props> = ({
   const skills = gameState.bumpkin.skills;
 
   const fishOptions = useMemo(() => {
-    return Object.entries(merged)
-      .filter(([name, qty]) => isFishName(name) && (qty?.gte(1) ?? false))
-      .map(([name]) => {
-        const fish = name as FishName;
-        const baseXP = getFishBaseXP(fish);
+    return getObjectEntries(merged)
+      .filter((entry): entry is [FishName, Decimal | undefined] => {
+        const [name, qty] = entry;
+        return isFishName(name) && (qty?.gte(1) ?? false);
+      })
+      .sort((a, b) => {
+        // Sort by duration
+        const durationA = getBoostedAgingTimeMs(getFishBaseXP(a[0]), skills);
+        const durationB = getBoostedAgingTimeMs(getFishBaseXP(b[0]), skills);
+        return durationA - durationB;
+      })
+
+      .map(([fishName]) => {
+        const baseXP = getFishBaseXP(fishName);
         const saltCost = getBoostedAgingSaltCost(baseXP, skills);
         const timeMs = getBoostedAgingTimeMs(baseXP, skills);
         return {
-          value: fish,
-          icon: ITEM_DETAILS[fish]?.image,
+          value: fishName,
+          icon: ITEM_DETAILS[fishName]?.image,
           detail: `${saltCost} Salt · ${secondsToString(timeMs / 1000, { length: "medium" })}`,
         };
       });
@@ -93,18 +118,23 @@ export const AgingRackEmpty: React.FC<Props> = ({
         </Label>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {fishOptions.map((opt) => {
-            const fish = opt.value as FishName;
+            const fishName = opt.value;
 
             return (
               <div
-                key={fish}
+                key={fishName}
                 className="flex flex-col items-center shrink-0 max-w-[72px]"
               >
                 <Box
                   image={opt.icon}
                   hideCount
-                  isSelected={selectedFish === fish}
-                  onClick={() => onSelectFish(fish)}
+                  isSelected={selectedFish === fishName}
+                  onClick={() => onSelectFish(fishName)}
+                  secondaryImage={
+                    hasEnoughAgingIngredients(merged, fishName, skills)
+                      ? SUNNYSIDE.icons.confirm
+                      : SUNNYSIDE.icons.cancel
+                  }
                 />
               </div>
             );

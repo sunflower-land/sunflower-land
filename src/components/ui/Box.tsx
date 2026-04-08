@@ -19,8 +19,8 @@ const INNER_CANVAS_WIDTH = 13.7;
 
 export interface BoxProps {
   hideCount?: boolean;
-  image?: any;
-  secondaryImage?: any;
+  image?: string;
+  secondaryImage?: string;
   isSelected?: boolean;
   count?: Decimal;
   countLabelType?: LabelType;

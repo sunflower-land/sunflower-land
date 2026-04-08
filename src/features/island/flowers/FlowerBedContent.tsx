@@ -262,7 +262,9 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                     isSelected={seed === name}
                     disabled={!isInSeason(name)}
                     secondaryImage={
-                      seasons(name).length < 4 && SEASON_ICONS[seasons(name)[0]]
+                      seasons(name).length < 4
+                        ? SEASON_ICONS[seasons(name)[0]]
+                        : undefined
                     }
                   />
                 ))}
