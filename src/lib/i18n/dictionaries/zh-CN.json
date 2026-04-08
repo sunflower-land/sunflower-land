@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "失败",
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html 已为该游戏部署。",
   "playerEconomyEditor.siteUpload.lastUploaded": "上次上传时间：{{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "这个子弹的存储空间中还没有 index.html。在站点根目录上传一个包含 index.html 的文件夹。"
+  "playerEconomyEditor.siteUpload.noIndexYet": "这个子弹的存储空间中还没有 index.html。在站点根目录上传一个包含 index.html 的文件夹。",
+  "agingShed.fermentation.instantSlot": "即时"
 }

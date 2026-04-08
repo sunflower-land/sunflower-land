@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "Gagal",
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html digunakan untuk game ini.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Terakhir diunggah: {{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "Belum ada index.html dalam penyimpanan untuk siput ini. Unggah folder yang menyertakan index.html di root situs."
+  "playerEconomyEditor.siteUpload.noIndexYet": "Belum ada index.html dalam penyimpanan untuk siput ini. Unggah folder yang menyertakan index.html di root situs.",
+  "agingShed.fermentation.instantSlot": "Instan"
 }

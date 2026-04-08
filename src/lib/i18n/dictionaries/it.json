@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "Fallito",
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html è distribuito per questo gioco.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Ultimo caricamento: {{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "Nessun index.html ancora in memoria per questo slug. Carica una cartella che includa index.html nella cartella principale del sito."
+  "playerEconomyEditor.siteUpload.noIndexYet": "Nessun index.html ancora in memoria per questo slug. Carica una cartella che includa index.html nella cartella principale del sito.",
+  "agingShed.fermentation.instantSlot": "Istantaneo"
 }

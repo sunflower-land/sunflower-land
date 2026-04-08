@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "Failed",
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html is deployed for this game.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Last uploaded: {{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "No index.html in storage yet for this slug. Upload a folder that includes index.html at the site root."
+  "playerEconomyEditor.siteUpload.noIndexYet": "No index.html in storage yet for this slug. Upload a folder that includes index.html at the site root.",
+  "agingShed.fermentation.instantSlot": "Instant"
 }

@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "Falló",
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html está desplegado para este juego.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Subido por última vez: {{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "Aún no hay ningún archivo index.html almacenado para este slug. Cargue una carpeta que incluya index.html en la raíz del sitio."
+  "playerEconomyEditor.siteUpload.noIndexYet": "Aún no hay ningún archivo index.html almacenado para este slug. Cargue una carpeta que incluya index.html en la raíz del sitio.",
+  "agingShed.fermentation.instantSlot": "Al instante"
 }

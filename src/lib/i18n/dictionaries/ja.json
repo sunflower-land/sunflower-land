@@ -8615,5 +8615,6 @@
   "playerEconomyEditor.siteUpload.status.error": "失敗",
   "playerEconomyEditor.siteUpload.indexDeployed": "このゲームでは index.html がデプロイされています。",
   "playerEconomyEditor.siteUpload.lastUploaded": "最終アップロード:{{time}}",
-  "playerEconomyEditor.siteUpload.noIndexYet": "このスラッグ用の index.html はまだストレージにありません。サイトルートに index.html を含むフォルダーをアップロードします。"
+  "playerEconomyEditor.siteUpload.noIndexYet": "このスラッグ用の index.html はまだストレージにありません。サイトルートに index.html を含むフォルダーをアップロードします。",
+  "agingShed.fermentation.instantSlot": "インスタント"
 }
