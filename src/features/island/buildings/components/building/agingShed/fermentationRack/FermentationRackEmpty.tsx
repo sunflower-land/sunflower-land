@@ -118,8 +118,8 @@ export const FermentationRackEmpty: React.FC<Props> = ({
               >
                 <Box
                   image={ITEM_DETAILS[g.item]?.image}
-                  hideCount
                   isSelected={selectedSignature === g.signature}
+                  count={gameState.inventory[g.item]}
                   onClick={() => onSelectOutput(g.signature)}
                 />
               </div>

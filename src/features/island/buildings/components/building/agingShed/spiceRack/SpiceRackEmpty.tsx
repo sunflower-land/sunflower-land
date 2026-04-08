@@ -109,8 +109,8 @@ export const SpiceRackEmpty: React.FC<Props> = ({
               >
                 <Box
                   image={ITEM_DETAILS[outputItem]?.image}
-                  hideCount
                   isSelected={selectedRecipeId === recipeId}
+                  count={gameState.inventory[outputItem]}
                   onClick={() => onSelectRecipe(recipeId)}
                 />
               </div>

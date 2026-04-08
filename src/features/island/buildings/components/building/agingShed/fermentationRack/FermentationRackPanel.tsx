@@ -150,13 +150,22 @@ export const FermentationRackPanel: React.FC = () => {
 
   const effectiveSelection = selectedSlotIndex ?? defaultSlotSelection;
 
-  const isInstantSlotSelected = effectiveSelection === "instant";
+  /** Instant lane is only shown when every real fermentation slot is in use. */
+  const isInstantSlotSelected = slotsFull && effectiveSelection === "instant";
 
   const effectiveQueueSlotIndex = useMemo(() => {
     if (isInstantSlotSelected) return 0;
-    const idx = effectiveSelection as number;
+    const idx =
+      typeof effectiveSelection === "number"
+        ? effectiveSelection
+        : firstEmptySlotIndex;
     return Math.min(Math.max(idx, 0), Math.max(0, maxSlots - 1));
-  }, [effectiveSelection, isInstantSlotSelected, maxSlots]);
+  }, [
+    isInstantSlotSelected,
+    effectiveSelection,
+    firstEmptySlotIndex,
+    maxSlots,
+  ]);
 
   const selectedJob = isInstantSlotSelected
     ? undefined
@@ -337,17 +346,19 @@ export const FermentationRackPanel: React.FC = () => {
               </div>
             );
           })}
-          <div className="flex flex-col items-center max-w-[72px]">
-            <Box
-              disabled={false}
-              hideCount
-              isSelected={isInstantSlotSelected}
-              onClick={() => setSelectedSlotIndex("instant")}
-            />
-            <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
-              {t("agingShed.fermentation.instantSlot")}
-            </span>
-          </div>
+          {slotsFull && (
+            <div className="flex flex-col items-center max-w-[72px]">
+              <Box
+                disabled={false}
+                hideCount
+                isSelected={isInstantSlotSelected}
+                onClick={() => setSelectedSlotIndex("instant")}
+              />
+              <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
+                {t("agingShed.fermentation.instantSlot")}
+              </span>
+            </div>
+          )}
         </div>
       </InnerPanel>
 
