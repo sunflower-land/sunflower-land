@@ -102,6 +102,11 @@ export const FermentationRackEmpty: React.FC<Props> = ({
     (!slotsFull || instantRecipe) &&
     !isVisiting;
 
+  const recipeOutputQuantity =
+    recipeId && selectedGroup?.item
+      ? getFermentationRecipe(recipeId).outputs[selectedGroup.item]
+      : undefined;
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -110,8 +115,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           className="text-xs mb-2 ml-1"
           icon={selectedGroup && ITEM_DETAILS[selectedGroup.item]?.image}
         >
-          {selectedGroup?.item ??
-            t("agingShed.fermentation.selectFermentationOutput")}
+          {selectedGroup
+            ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+            : t("agingShed.fermentation.selectFermentationOutput")}
         </Label>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {groups.map((g) => {
