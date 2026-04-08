@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% Waktu Tidur Sapi",
   "playerEconomyEditor.error.loadList": "Gagal memuat ekonomi",
   "playerEconomyEditor.error.slugRequired": "Siput diperlukan",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Gagal menciptakan ekonomi",
   "playerEconomyEditor.error.notFound": "Ekonomi tidak ditemukan",
   "playerEconomyEditor.error.loadEdit": "Gagal memuat ekonomi",

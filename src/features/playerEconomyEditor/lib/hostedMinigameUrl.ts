@@ -3,7 +3,7 @@ export const HOSTED_MINIGAMES_SUNFLOWER_LAND_SUFFIX =
   ".minigames.sunflower-land.com";
 
 export function canonicalHostedMinigamePlayUrl(slug: string): string {
-  const s = slug.trim();
+  const s = slug.trim().toLowerCase();
   if (!s) return "";
   return `https://${s}${HOSTED_MINIGAMES_SUNFLOWER_LAND_SUFFIX}`;
 }

@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% Schlafzeit der Kuh",
   "playerEconomyEditor.error.loadList": "Volkswirtschaften konnten nicht geladen werden",
   "playerEconomyEditor.error.slugRequired": "Schnecke ist erforderlich",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Es ist nicht gelungen, Wirtschaft zu schaffen",
   "playerEconomyEditor.error.notFound": "Wirtschaft wurde nicht gefunden",
   "playerEconomyEditor.error.loadEdit": "Economy konnte nicht geladen werden",

@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% do tempo de sono da vaca",
   "playerEconomyEditor.error.loadList": "Falha ao carregar economias",
   "playerEconomyEditor.error.slugRequired": "O Slug é obrigatório",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Falhou em criar economia",
   "playerEconomyEditor.error.notFound": "Economia não encontrada",
   "playerEconomyEditor.error.loadEdit": "Falha ao carregar a economia",

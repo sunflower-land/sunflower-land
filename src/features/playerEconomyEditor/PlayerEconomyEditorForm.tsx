@@ -23,6 +23,7 @@ import { JsonTab } from "./tabs/JsonTab";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { usePlayerEconomyEditorSession } from "./PlayerEconomyEditorSessionContext";
+import { isValidPlayerEconomySlug } from "./lib/playerEconomySlug";
 
 function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
   return {
@@ -106,6 +107,10 @@ export const PlayerEconomyEditorForm: React.FC = () => {
     setSaveValidationError(null);
     if (!form.slug.trim()) {
       setSaveValidationError(t("playerEconomyEditor.error.slugRequired"));
+      return;
+    }
+    if (mode === "create" && !isValidPlayerEconomySlug(form.slug)) {
+      setSaveValidationError(t("playerEconomyEditor.error.slugInvalid"));
       return;
     }
     commitSaveLocalAndQueueSync(form);

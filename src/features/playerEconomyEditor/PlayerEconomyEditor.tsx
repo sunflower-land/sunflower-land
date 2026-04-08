@@ -12,6 +12,10 @@ import { useEditorApi } from "./lib/useEditorApi";
 import { PlayerEconomyEditorSessionProvider } from "./PlayerEconomyEditorSessionContext";
 import { PlayerEconomyEditorSessionView } from "./PlayerEconomyEditorSessionView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  isValidPlayerEconomySlug,
+  normalizePlayerEconomySlugInput,
+} from "./lib/playerEconomySlug";
 
 /* ─── List view ────────────────────────────────────────────────── */
 
@@ -56,9 +60,13 @@ export const PlayerEconomyEditor: React.FC = () => {
   }, [loadRows]);
 
   const handleCreate = async () => {
-    const slug = createSlug.trim();
+    const slug = normalizePlayerEconomySlugInput(createSlug);
     if (!slug) {
       setCreateError(t("playerEconomyEditor.error.slugRequired"));
+      return;
+    }
+    if (!isValidPlayerEconomySlug(slug)) {
+      setCreateError(t("playerEconomyEditor.error.slugInvalid"));
       return;
     }
     setCreating(true);
@@ -183,9 +191,9 @@ export const PlayerEconomyEditor: React.FC = () => {
 
             <TextInput
               value={createSlug}
-              onValueChange={setCreateSlug}
+              onValueChange={(v) => setCreateSlug(v.toLowerCase())}
               placeholder="e.g. my-awesome-game"
-              maxLength={50}
+              maxLength={63}
             />
 
             {createError && (

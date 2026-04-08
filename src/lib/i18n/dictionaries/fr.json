@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25 % de temps de sommeil des vaches",
   "playerEconomyEditor.error.loadList": "Impossible de charger les économies",
   "playerEconomyEditor.error.slugRequired": "Une limace est requise",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Échec de la création d'une économie",
   "playerEconomyEditor.error.notFound": "Économie introuvable",
   "playerEconomyEditor.error.loadEdit": "Impossible de charger l'économie",

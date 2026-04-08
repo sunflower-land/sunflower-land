@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% de tiempo de sueño de las vacas",
   "playerEconomyEditor.error.loadList": "No se pudieron cargar economías",
   "playerEconomyEditor.error.slugRequired": "Se requiere una babosa",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "No logró crear economía",
   "playerEconomyEditor.error.notFound": "No se encontró la economía",
   "playerEconomyEditor.error.loadEdit": "No se pudo cargar la economía",

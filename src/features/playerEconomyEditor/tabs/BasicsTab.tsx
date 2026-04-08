@@ -157,8 +157,12 @@ export const BasicsTab: React.FC<{
         <FieldRow label={t("playerEconomyEditor.basics.slugLabel")}>
           <TextInput
             value={form.slug}
-            onValueChange={(slug) => onChange({ slug })}
-            maxLength={60}
+            onValueChange={(slug) =>
+              onChange({
+                slug: mode === "create" ? slug.toLowerCase() : slug,
+              })
+            }
+            maxLength={63}
             placeholder={t("playerEconomyEditor.basics.slugPlaceholder")}
             className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
           />

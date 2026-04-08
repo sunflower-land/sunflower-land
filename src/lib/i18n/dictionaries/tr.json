@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% İnek Uyku Süresi",
   "playerEconomyEditor.error.loadList": "Ekonomiler yüklenemedi",
   "playerEconomyEditor.error.slugRequired": "Sümüklü böcek gereklidir",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Ekonomi yaratılamadı",
   "playerEconomyEditor.error.notFound": "Ekonomi bulunamadı",
   "playerEconomyEditor.error.loadEdit": "Ekonomi yüklenemedi",
