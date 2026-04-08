@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "ようこそ!ショップに行き、冒険に出てプレイして報酬を獲得してください。",
   "minigame.dashboard.trophy.title": "トロフィーセクション",
   "minigame.dashboard.trophy.body": "ジェネレーターとタイムプロダクションが各ミニゲーム内で実行されるようになりました。アドベンチャーをプレイしてゲームを進め、アイテムを獲得し、コレクションを充実させましょう。アンロックしたトロフィーやマイルストーンは、時間が経つにつれてここに表示されます。",
-  "skill.ager.debuff": "エージングシェッドインプット×2（食材、魚、塩）"
+  "skill.ager.debuff": "エージングシェッドインプット×2（食材、魚、塩）",
+  "compost.sproutrootSurprise": "スプラウトルートサプライズは、区画からの収穫量を+0.2増加させ、区画からの作物の成長時間を50％短縮します",
+  "compost.sproutrootSurpriseBoosted": "スプラウトルートサプライズは、区画からの収穫量を+0.4増加させ、区画からの作物の成長時間を50％短縮します",
+  "compost.turbofruitMix": "Turbofruit Mixは、フルーツパッチの成長時間を20％短縮します（樹木の成長中または補充中に塗布した場合の残り時間を含む）。",
+  "compost.greenhouseGlow": "Greenhouse Glowは、温室作物の成長時間を20％短縮します（栽培途中に適用した場合の残り時間を含む）。",
+  "compost.greenhouseGoodie": "温室グッディは温室作物の収穫量を+0.2増加させます。",
+  "guide.compost.fruitGrowthTime": "-20% フルーツパッチの成長時間",
+  "fertiliser.sproutrootSurprise": "スプラウトサプライズ",
+  "fertiliser.turbofruitMix": "ターボフルーツミックス"
 }

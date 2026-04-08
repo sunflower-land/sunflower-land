@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "Bienvenue ! Visitez la boutique, puis lancez-vous dans l'aventure pour jouer et gagner des récompenses.",
   "minigame.dashboard.trophy.title": "Section des trophées",
   "minigame.dashboard.trophy.body": "Les générateurs et la production chronométrée fonctionnent désormais dans chaque mini-jeu. Jouez à l'aventure pour progresser, gagner des objets et compléter votre collection : les trophées et les jalons que vous débloquerez apparaîtront ici au fil du temps.",
-  "skill.ager.debuff": "2× Entrées Aging Shed (ingrédients, poisson et sel)"
+  "skill.ager.debuff": "2× Entrées Aging Shed (ingrédients, poisson et sel)",
+  "compost.sproutrootSurprise": "Sproutroot Surprise augmente le rendement de vos cultures sur les parcelles de +0,2 % et réduit le temps de croissance des cultures sur les parcelles de 50 %",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise augmente le rendement de vos cultures sur les parcelles de +0,4 % et réduit le temps de croissance des cultures sur les parcelles de 50 %",
+  "compost.turbofruitMix": "Turbofruit Mix réduit le temps de croissance des parcelles fruitières de 20 % (y compris le temps restant lorsqu'il est appliqué pendant la croissance ou le renouvellement de l'arbre).",
+  "compost.greenhouseGlow": "Greenhouse Glow réduit le temps de croissance des cultures en serre de 20 % (y compris le temps restant lorsqu'il est appliqué à mi-croissance).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie augmente le rendement des cultures en serre de +0,2.",
+  "guide.compost.fruitGrowthTime": "-20 % Temps de croissance des parcelles fruitières",
+  "fertiliser.sproutrootSurprise": "Surprise aux racines germées",
+  "fertiliser.turbofruitMix": "Mélange de turbofruits"
 }

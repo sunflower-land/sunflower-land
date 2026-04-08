@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "Selamat datang! Kunjungi toko, lalu pergilah ke petualangan untuk bermain dan mendapatkan hadiah.",
   "minigame.dashboard.trophy.title": "Bagian trofi",
   "minigame.dashboard.trophy.body": "Generator dan produksi berjangka waktu sekarang berjalan di dalam setiap minigame. Mainkan petualangan untuk maju, dapatkan item, dan isi koleksi Anda — piala dan tonggak sejarah yang Anda buka akan muncul di sini seiring waktu.",
-  "skill.ager.debuff": "2× Input Aging Shed (bahan, ikan & garam)"
+  "skill.ager.debuff": "2× Input Aging Shed (bahan, ikan & garam)",
+  "compost.sproutrootSurprise": "Sproutroot Surprise meningkatkan hasil panen Anda dari plot sebesar +0,2 dan mengurangi waktu pertumbuhan tanaman dari plot hingga 50%",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise meningkatkan hasil panen Anda dari plot sebesar +0,4 dan mengurangi waktu pertumbuhan tanaman dari plot hingga 50%",
+  "compost.turbofruitMix": "Campuran Turbofruit mengurangi waktu pertumbuhan petak buah sebesar 20% (termasuk sisa waktu saat diterapkan saat pohon tumbuh atau diisi ulang).",
+  "compost.greenhouseGlow": "Greenhouse Glow mengurangi waktu pertumbuhan tanaman rumah kaca sebesar 20% (termasuk waktu yang tersisa saat diterapkan di tengah pertumbuhan).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie meningkatkan hasil tanaman rumah kaca sebesar +0,2.",
+  "guide.compost.fruitGrowthTime": "-20% Waktu Pertumbuhan Petak Buah",
+  "fertiliser.sproutrootSurprise": "Kejutan Sproutroot",
+  "fertiliser.turbofruitMix": "Campuran Turbofruit"
 }

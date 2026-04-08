@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "Bem-vindo! Visite a loja e entre na aventura para jogar e ganhar recompensas.",
   "minigame.dashboard.trophy.title": "Seção de troféus",
   "minigame.dashboard.trophy.body": "Geradores e produção cronometrada agora funcionam dentro de cada minijogo. Jogue a aventura para progredir, ganhar itens e preencher sua coleção — troféus e marcos que você desbloquear aparecerão aqui com o tempo.",
-  "skill.ager.debuff": "2 × Insumos do Aging Shed (ingredientes, peixe e sal)"
+  "skill.ager.debuff": "2 × Insumos do Aging Shed (ingredientes, peixe e sal)",
+  "compost.sproutrootSurprise": "O Sproutroot Surprise aumenta o rendimento das plantações em +0,2 e reduz o tempo de crescimento das parcelas em 50%",
+  "compost.sproutrootSurpriseBoosted": "O Sproutroot Surprise aumenta o rendimento das plantações em +0,4 e reduz o tempo de crescimento das parcelas em 50%",
+  "compost.turbofruitMix": "O Turbofruit Mix reduz o tempo de crescimento do canteiro de frutas em 20% (incluindo o tempo restante quando aplicado enquanto uma árvore está crescendo ou se reabastecendo).",
+  "compost.greenhouseGlow": "O Greenhouse Glow reduz o tempo de crescimento da cultura em estufa em 20% (incluindo o tempo restante quando aplicado no meio do crescimento).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie aumenta o rendimento das culturas em estufa em +0,2.",
+  "guide.compost.fruitGrowthTime": "-20% de tempo de crescimento do canteiro de frutas",
+  "fertiliser.sproutrootSurprise": "Surpresa do Sproutroot",
+  "fertiliser.turbofruitMix": "Mistura de turbofrutas"
 }

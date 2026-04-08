@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "欢迎！访问商店，然后进入冒险之旅玩游戏并获得奖励。",
   "minigame.dashboard.trophy.title": "奖杯部分",
   "minigame.dashboard.trophy.body": "生成器和定时制作现在可以在每个小游戏中运行。玩冒险以取得进展，获得物品，填满收藏品——随着时间的推移，你解锁的奖杯和里程碑将出现在这里。",
-  "skill.ager.debuff": "2× Aging Shed 输入（食材、鱼和盐）"
+  "skill.ager.debuff": "2× Aging Shed 输入（食材、鱼和盐）",
+  "compost.sproutrootSurprise": "Sproutroot Surprise 可将您的地块作物产量提高 +0.2，并将地块的作物生长时间缩短 50%",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise 可将您的地块作物产量提高 +0.4，并将地块的作物生长时间缩短 50%",
+  "compost.turbofruitMix": "Turbofruit Mix 可将水果补丁的生长时间缩短20％（包括在树木生长或补水时使用的剩余时间）。",
+  "compost.greenhouseGlow": "Greenhouse Glow 将温室作物的生长时间缩短了 20%（包括生长中期施用的剩余时间）。",
+  "compost.greenhouseGoodie": "Greenhouse Goodie 将温室作物产量提高了 +0.2。",
+  "guide.compost.fruitGrowthTime": "-20% 水果补丁生长时间",
+  "fertiliser.sproutrootSurprise": "Sproutroot 惊喜",
+  "fertiliser.turbofruitMix": "涡轮果混合物"
 }

@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "¡Bienvenido! Visita la tienda y lánzate a la aventura para jugar y conseguir recompensas.",
   "minigame.dashboard.trophy.title": "Sección de trofeos",
   "minigame.dashboard.trophy.body": "Los generadores y la producción cronometrada ahora funcionan dentro de cada minijuego. Participa en la aventura para progresar, conseguir objetos y completar tu colección. Los trofeos e hitos que desbloquees irán apareciendo aquí con el tiempo.",
-  "skill.ager.debuff": "2 x insumos de Aging Shed (ingredientes, pescado y sal)"
+  "skill.ager.debuff": "2 x insumos de Aging Shed (ingredientes, pescado y sal)",
+  "compost.sproutrootSurprise": "Sproutroot Surprise aumenta el rendimiento de tus cultivos en un +0,2% y reduce el tiempo de crecimiento de los cultivos en las parcelas en un 50%",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise aumenta el rendimiento de tus cultivos en un +0,4 y reduce el tiempo de crecimiento de los cultivos en las parcelas en un 50%",
+  "compost.turbofruitMix": "Turbofruit Mix reduce el tiempo de crecimiento de los huertos frutales en un 20% (incluido el tiempo restante cuando se aplica mientras el árbol crece o se repone).",
+  "compost.greenhouseGlow": "Greenhouse Glow reduce el tiempo de crecimiento de los cultivos en invernadero en un 20% (incluido el tiempo restante cuando se aplica a mitad del cultivo).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie aumenta el rendimiento de los cultivos de invernadero en un +0,2.",
+  "guide.compost.fruitGrowthTime": "-20% de tiempo de crecimiento de los huertos frutales",
+  "fertiliser.sproutrootSurprise": "Sorpresa de Sproutroot",
+  "fertiliser.turbofruitMix": "Mezcla Turbofruit"
 }

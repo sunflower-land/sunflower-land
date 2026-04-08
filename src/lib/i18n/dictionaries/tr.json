@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "Hoşgeldin Mağazayı ziyaret edin, ardından oynamak ve ödüller kazanmak için maceraya gidin.",
   "minigame.dashboard.trophy.title": "Kupa bölümü",
   "minigame.dashboard.trophy.body": "Jeneratörler ve zamanlanmış üretim artık her mini oyunun içinde çalışıyor. İlerlemek için macerayı oynayın, öğeler kazanın ve koleksiyonunuzu doldurun - kilidini açtığınız kupalar ve kilometre taşları zamanla burada görünecek.",
-  "skill.ager.debuff": "2× Yaşlanma Kulübesi girişi (malzemeler, balık ve tuz)"
+  "skill.ager.debuff": "2× Yaşlanma Kulübesi girişi (malzemeler, balık ve tuz)",
+  "compost.sproutrootSurprise": "Sproutroot Surprise, arazilerdeki mahsul veriminizi +0,2 artırır ve arazilerden mahsul büyüme süresini %50 azaltır",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise, arazilerdeki mahsul veriminizi +0.4 artırır ve arazilerden mahsul büyüme süresini %50 azaltır",
+  "compost.turbofruitMix": "Turbofruit Mix, meyve yaması büyüme süresini %20 azaltır (bir ağaç büyürken veya yenilenirken uygulandığında kalan süre dahil).",
+  "compost.greenhouseGlow": "Greenhouse Glow, sera mahsulünün büyüme süresini %20 azaltır (büyümenin ortasında uygulandığında kalan süre dahil).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie, sera mahsulü verimini +0.2 artırır.",
+  "guide.compost.fruitGrowthTime": "-20% Meyve Yaması Büyüme Süresi",
+  "fertiliser.sproutrootSurprise": "Sproutroot Sürprizi",
+  "fertiliser.turbofruitMix": "Turbofruit Karışımı"
 }

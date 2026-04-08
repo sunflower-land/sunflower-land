@@ -8593,5 +8593,13 @@
   "minigame.dashboard.welcomeFallback": "Willkommen! Besuche den Shop und begib dich dann ins Abenteuer, um zu spielen und Belohnungen zu verdienen.",
   "minigame.dashboard.trophy.title": "Sektion Trophäen",
   "minigame.dashboard.trophy.body": "Generatoren und zeitgesteuerte Produktion laufen jetzt in jedem Minispiel. Spiele das Abenteuer, um voranzukommen, Gegenstände zu verdienen und deine Sammlung zu vervollständigen — Trophäen und Meilensteine, die du freischaltest, werden hier im Laufe der Zeit auftauchen.",
-  "skill.ager.debuff": "2 × Aging Shed Inputs (Zutaten, Fisch und Salz)"
+  "skill.ager.debuff": "2 × Aging Shed Inputs (Zutaten, Fisch und Salz)",
+  "compost.sproutrootSurprise": "Sproutroot Surprise erhöht den Ernteertrag von Parzellen um +0,2 und reduziert die Wachstumszeit der Pflanzen auf Parzellen um 50%",
+  "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise erhöht den Ernteertrag von Parzellen um +0,4 und reduziert die Wachstumszeit der Pflanzen auf Parzellen um 50%",
+  "compost.turbofruitMix": "Turbofruit Mix reduziert die Wachstumszeit von Fruchtflecken um 20% (einschließlich der verbleibenden Zeit, wenn es aufgetragen wird, während ein Baum wächst oder sich regeneriert).",
+  "compost.greenhouseGlow": "Greenhouse Glow reduziert die Wachstumszeit der Gewächshauspflanzen um 20% (einschließlich der verbleibenden Zeit, wenn sie in der Mitte des Wachstums aufgetragen wird).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie erhöht den Ernteertrag im Gewächshaus um +0,2.",
+  "guide.compost.fruitGrowthTime": "-20% Wachstumszeit des Fruchtbeetes",
+  "fertiliser.sproutrootSurprise": "Sproutroot-Überraschung",
+  "fertiliser.turbofruitMix": "Turbofruit-Mischung"
 }
