@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
@@ -34,10 +34,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   const node = useSelector(gameService, _node(id));
   const gameState = useSelector(gameService, _gameState);
   const inventory = useSelector(gameService, _inventory);
-  /** User toggled; actual visibility is gated below so we never need effects to “sync close”. */
-  const [nextChargePanelOpen, setNextChargePanelOpen] = useState(false);
-  const [noRakesPanelOpen, setNoRakesPanelOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
+  const [showInfoPanel, setShowInfoPanel] = useState(false);
   const now = useNow({ live: true });
 
   const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
@@ -57,22 +54,9 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
       })
     : 0;
 
-  const showNextChargePanel = nextChargePanelOpen && storedCharges === 0;
+  const showNextChargePanel = showInfoPanel && storedCharges === 0;
   const showNoRakesPanel =
-    noRakesPanelOpen && !visiting && storedCharges > 0 && availableRakes === 0;
-
-  useEffect(() => {
-    if (!nextChargePanelOpen && !noRakesPanelOpen) return;
-
-    const onPointerDown = (event: MouseEvent) => {
-      if (rootRef.current?.contains(event.target as Node)) return;
-      setNextChargePanelOpen(false);
-      setNoRakesPanelOpen(false);
-    };
-
-    document.addEventListener("mousedown", onPointerDown, true);
-    return () => document.removeEventListener("mousedown", onPointerDown, true);
-  }, [nextChargePanelOpen, noRakesPanelOpen]);
+    showInfoPanel && !visiting && storedCharges > 0 && availableRakes === 0;
 
   if (!node) return null;
 
@@ -85,26 +69,14 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
   });
 
   return (
-    <div ref={rootRef} className="relative w-full h-full">
+    <div className="relative w-full h-full">
       <div
         className="w-full h-full cursor-pointer hover:img-highlight"
+        onMouseEnter={() => setShowInfoPanel(true)}
+        onMouseLeave={() => setShowInfoPanel(false)}
         onClick={() => {
           if (canHarvest) {
-            setNextChargePanelOpen(false);
-            setNoRakesPanelOpen(false);
             gameService.send("salt.harvested", { id });
-            return;
-          }
-
-          if (storedCharges === 0) {
-            setNoRakesPanelOpen(false);
-            setNextChargePanelOpen((open) => !open);
-            return;
-          }
-
-          if (!visiting && availableRakes === 0) {
-            setNextChargePanelOpen(false);
-            setNoRakesPanelOpen((open) => !open);
           }
         }}
       >
