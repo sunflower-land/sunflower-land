@@ -1,15 +1,17 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
-  BASE_SALT_YIELD,
   MAX_STORED_SALT_CHARGES_PER_NODE,
   getSaltChargeGenerationTime,
+  getSaltYieldPerRake,
   getStoredSaltCharges,
   materializeSaltRegen,
   syncSaltNode,
 } from "features/game/types/salt";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -27,12 +29,14 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestSaltAction;
   createdAt?: number;
+  farmId: number;
 };
 
 export function harvestSalt({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   if (!hasFeatureAccess(state, "SALT_FARM")) {
     throw new Error(HARVEST_SALT_ERRORS.SALT_FARM_NOT_ENABLED);
@@ -58,11 +62,12 @@ export function harvestSalt({
     if (availableRakes.lt(1)) {
       throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
     }
-    const legacySalt = legacyReadySlots * BASE_SALT_YIELD;
+    const saltPerRake = getSaltYieldPerRake(copy);
+    const legacySalt = legacyReadySlots * saltPerRake;
 
     const saltInInventory = copy.inventory["Salt"] ?? new Decimal(0);
     copy.inventory["Salt Rake"] = availableRakes.sub(1);
-    copy.inventory["Salt"] = saltInInventory.add(BASE_SALT_YIELD + legacySalt);
+    copy.inventory["Salt"] = saltInInventory.add(saltPerRake + legacySalt);
 
     const wasFullBeforeHarvest =
       storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE;
@@ -87,5 +92,27 @@ export function harvestSalt({
       ...syncedNode,
       salt: finalizedSalt,
     };
+
+    if (copy.bumpkin?.skills["Sea Blessed"]) {
+      const seaBlessedHit = prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: (copy.inventory["Salt"] ?? new Decimal(0)).toNumber(),
+        chance: 5,
+        criticalHitName: "Sea Blessed",
+      });
+
+      if (seaBlessedHit) {
+        const rechargeInterval = getSaltChargeGenerationTime({
+          gameState: copy,
+        });
+        for (const nodeId of Object.keys(copy.saltFarm.nodes)) {
+          copy.saltFarm.nodes[nodeId].salt.storedCharges =
+            MAX_STORED_SALT_CHARGES_PER_NODE;
+          copy.saltFarm.nodes[nodeId].salt.nextChargeAt =
+            createdAt + rechargeInterval;
+        }
+      }
+    }
   });
 }

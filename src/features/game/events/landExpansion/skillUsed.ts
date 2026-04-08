@@ -29,6 +29,11 @@ import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
+import {
+  getSaltChargeGenerationTime,
+  getStoredSaltCharges,
+  MAX_STORED_SALT_CHARGES_PER_NODE,
+} from "features/game/types/salt";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -209,6 +214,24 @@ function useBarnyardRouse({
       animal.awakeAt = createdAt;
     });
   });
+
+  return game;
+}
+
+function useSaltSurge({
+  game,
+  createdAt = Date.now(),
+}: {
+  game: GameState;
+  createdAt?: number;
+}): GameState {
+  const interval = getSaltChargeGenerationTime({ gameState: game });
+
+  for (const nodeId of Object.keys(game.saltFarm.nodes)) {
+    game.saltFarm.nodes[nodeId].salt.storedCharges =
+      MAX_STORED_SALT_CHARGES_PER_NODE;
+    game.saltFarm.nodes[nodeId].salt.nextChargeAt = createdAt + interval;
+  }
 
   return game;
 }
@@ -418,6 +441,24 @@ export function powerSkillDisabledConditions({
           reason: translate("powerSkills.reason.animalsNotAsleep"),
         };
       }
+      break;
+    }
+
+    case "Salt Surge": {
+      const { nodes } = state.saltFarm;
+      if (
+        Object.values(nodes).every(
+          (node) =>
+            getStoredSaltCharges(node, createdAt) ===
+            MAX_STORED_SALT_CHARGES_PER_NODE,
+        )
+      ) {
+        return {
+          disabled: true,
+          reason: "All salt nodes are already fully charged",
+        };
+      }
+      break;
     }
   }
   return { disabled: false };
@@ -515,6 +556,10 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
 
     if (skill === "Barnyard Rouse") {
       stateCopy = useBarnyardRouse({ game: stateCopy, createdAt });
+    }
+
+    if (skill === "Salt Surge") {
+      stateCopy = useSaltSurge({ game: stateCopy, createdAt });
     }
 
     if (items) {

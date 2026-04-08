@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   BASE_SALT_YIELD,
+  MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
 } from "features/game/types/salt";
 import { HARVEST_SALT_ERRORS, harvestSalt } from "./harvestSalt";
@@ -34,6 +35,7 @@ describe("harvestSalt", () => {
       },
       action: { type: "salt.harvested", id: "0" },
       createdAt: now,
+      farmId: 1,
     });
 
     expect(state.inventory["Salt Rake"]).toEqual(new Decimal(1));
@@ -73,6 +75,7 @@ describe("harvestSalt", () => {
       },
       action: { type: "salt.harvested", id: "0" },
       createdAt: now,
+      farmId: 1,
     });
 
     expect(state.inventory["Salt Rake"]).toEqual(new Decimal(2));
@@ -108,6 +111,7 @@ describe("harvestSalt", () => {
       },
       action: { type: "salt.harvested", id: "0" },
       createdAt: now,
+      farmId: 1,
     });
 
     expect(state.saltFarm.nodes["0"].salt.nextChargeAt).toEqual(
@@ -142,6 +146,7 @@ describe("harvestSalt", () => {
       },
       action: { type: "salt.harvested", id: "0" },
       createdAt: now,
+      farmId: 1,
     });
 
     expect(state.saltFarm.nodes["0"].salt.nextChargeAt).toEqual(
@@ -174,7 +179,159 @@ describe("harvestSalt", () => {
         },
         action: { type: "salt.harvested", id: "0" },
         createdAt: now,
+        farmId: 1,
       }),
     ).toThrow(HARVEST_SALT_ERRORS.NOT_ENOUGH_CHARGES);
+  });
+
+  it("grants +2 salt per harvest with Wide Rakes skill", () => {
+    const state = harvestSalt({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Salt: new Decimal(0),
+          "Salt Rake": new Decimal(2),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Wide Rakes": 1 },
+        },
+        saltFarm: {
+          ...INITIAL_FARM.saltFarm,
+          nodes: {
+            "0": {
+              createdAt: now - 1000,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                storedCharges: 2,
+                nextChargeAt: now + 10_000,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "salt.harvested", id: "0" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD + 2));
+    expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(1);
+  });
+
+  describe("Sea Blessed", () => {
+    it("does not recharge all nodes without the skill", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                coordinates: { x: 0, y: 0 },
+                salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
+              },
+              "1": {
+                createdAt: now - 1000,
+                coordinates: { x: 1, y: 0 },
+                salt: { storedCharges: 0, nextChargeAt: now + 10_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(0);
+    });
+
+    it("recharges all nodes on PRNG hit with Sea Blessed", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(34),
+            "Salt Rake": new Decimal(1),
+          },
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Sea Blessed": 1 },
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                coordinates: { x: 0, y: 0 },
+                salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
+              },
+              "1": {
+                createdAt: now - 1000,
+                coordinates: { x: 1, y: 0 },
+                salt: { storedCharges: 0, nextChargeAt: now + 50_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(
+        MAX_STORED_SALT_CHARGES_PER_NODE,
+      );
+      expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(
+        MAX_STORED_SALT_CHARGES_PER_NODE,
+      );
+    });
+
+    it("does not recharge on PRNG miss with Sea Blessed", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Sea Blessed": 1 },
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                coordinates: { x: 0, y: 0 },
+                salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
+              },
+              "1": {
+                createdAt: now - 1000,
+                coordinates: { x: 1, y: 0 },
+                salt: { storedCharges: 0, nextChargeAt: now + 50_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(0);
+      expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(0);
+    });
   });
 });

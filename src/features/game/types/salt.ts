@@ -141,6 +141,16 @@ export function getSaltChargeGenerationTime({
 export const BASE_SALT_YIELD = 10; // 10 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
+export function getSaltYieldPerRake(gameState: GameState): number {
+  let saltYield = BASE_SALT_YIELD;
+
+  if (gameState.bumpkin?.skills["Wide Rakes"]) {
+    saltYield += 2;
+  }
+
+  return saltYield;
+}
+
 /** Clamps `value` to `[0, MAX_STORED_SALT_CHARGES_PER_NODE]`. */
 function clampStoredCharges(value: number): number {
   return Math.max(0, Math.min(value, MAX_STORED_SALT_CHARGES_PER_NODE));
