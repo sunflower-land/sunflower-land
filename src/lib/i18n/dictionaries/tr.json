@@ -8616,5 +8616,10 @@
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html bu oyun için dağıtılmıştır.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Son Yüklenme Zamanı: {{time}}",
   "playerEconomyEditor.siteUpload.noIndexYet": "Bu sümüklü böcek için henüz depoda index.html yok. Site kökünde index.html içeren bir klasör yükleyin.",
-  "agingShed.fermentation.instantSlot": "Anında"
+  "agingShed.fermentation.instantSlot": "Anında",
+  "playerEconomyEditor.siteUpload.playUrlTitle": "URL'yi Oynat",
+  "playerEconomyEditor.siteUpload.playUrlJwtHint": "Eklemek için yukarıdaki JWT Oluştur'u kullanın? jwt=... böylece oyununuz mini oyunlar API'sini sizin gibi çağırabilir.",
+  "playerEconomyEditor.siteUpload.openPlayUrl": "Oyunu aç",
+  "playerEconomyEditor.siteUpload.copyPlayUrl": "URL'yi kopyala",
+  "playerEconomyEditor.siteUpload.playUrlCopied": "Kopyalandı"
 }

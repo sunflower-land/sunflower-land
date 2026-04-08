@@ -8616,5 +8616,10 @@
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html 已为该游戏部署。",
   "playerEconomyEditor.siteUpload.lastUploaded": "上次上传时间：{{time}}",
   "playerEconomyEditor.siteUpload.noIndexYet": "这个子弹的存储空间中还没有 index.html。在站点根目录上传一个包含 index.html 的文件夹。",
-  "agingShed.fermentation.instantSlot": "即时"
+  "agingShed.fermentation.instantSlot": "即时",
+  "playerEconomyEditor.siteUpload.playUrlTitle": "播放网址",
+  "playerEconomyEditor.siteUpload.playUrlJwtHint": "使用上面的 Generate JWT 来添加？jwt=... 这样你的游戏就可以像你一样调用小游戏API。",
+  "playerEconomyEditor.siteUpload.openPlayUrl": "打开游戏",
+  "playerEconomyEditor.siteUpload.copyPlayUrl": "复制网址",
+  "playerEconomyEditor.siteUpload.playUrlCopied": "已复制"
 }

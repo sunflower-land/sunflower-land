@@ -8616,5 +8616,10 @@
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html is deployed for this game.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Last uploaded: {{time}}",
   "playerEconomyEditor.siteUpload.noIndexYet": "No index.html in storage yet for this slug. Upload a folder that includes index.html at the site root.",
-  "agingShed.fermentation.instantSlot": "Instant"
+  "agingShed.fermentation.instantSlot": "Instant",
+  "playerEconomyEditor.siteUpload.playUrlTitle": "Play URL",
+  "playerEconomyEditor.siteUpload.playUrlJwtHint": "Use Generate JWT above to add ?jwt=… so your game can call the minigames API as you.",
+  "playerEconomyEditor.siteUpload.openPlayUrl": "Open game",
+  "playerEconomyEditor.siteUpload.copyPlayUrl": "Copy URL",
+  "playerEconomyEditor.siteUpload.playUrlCopied": "Copied"
 }
