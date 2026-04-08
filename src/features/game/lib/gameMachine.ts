@@ -464,7 +464,7 @@ const PLAYING_GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(PLAYING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
-      ...playingEventHandler(eventName, { immediateSave: true }),
+      ...playingEventHandler(eventName), // previously true, set to false for now
     }),
     {},
   );
@@ -515,7 +515,7 @@ function createPlacementEventHandlers(
   );
 }
 
-const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(true);
+const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(false); // previously true, set to false for now
 
 const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
   createPlacementEventHandlers(false);
