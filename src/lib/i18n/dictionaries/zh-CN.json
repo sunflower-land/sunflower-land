@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% 奶牛睡眠时间",
   "playerEconomyEditor.error.loadList": "未能加载经济体",
   "playerEconomyEditor.error.slugRequired": "必须有 Slug",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "未能创造经济",
   "playerEconomyEditor.error.notFound": "找不到经济舱",
   "playerEconomyEditor.error.loadEdit": "加载经济失败",

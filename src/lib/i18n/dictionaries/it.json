@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "-25% del tempo di sonno delle mucche",
   "playerEconomyEditor.error.loadList": "Impossibile caricare le economie",
   "playerEconomyEditor.error.slugRequired": "È richiesto lo slug",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Non è riuscito a creare economia",
   "playerEconomyEditor.error.notFound": "Economia non trovata",
   "playerEconomyEditor.error.loadEdit": "Caricamento dell'economia non riuscito",

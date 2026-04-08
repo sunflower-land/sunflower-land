@@ -8500,6 +8500,7 @@
   "description.mammoth.boost": "牛の睡眠時間 -25%",
   "playerEconomyEditor.error.loadList": "エコノミーを読み込めませんでした",
   "playerEconomyEditor.error.slugRequired": "スラッグが必要です",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "経済を創造できなかった",
   "playerEconomyEditor.error.notFound": "エコノミーが見つかりません",
   "playerEconomyEditor.error.loadEdit": "エコノミーを読み込めませんでした",

@@ -17,6 +17,8 @@ import {
   canonicalHostedMinigamePlayUrl,
   looksLikeMinigamesSunflowerLandUrl,
 } from "../lib/hostedMinigameUrl";
+import { EconomySiteFilesUpload } from "../components/EconomySiteFilesUpload";
+import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
 
 const MAIN_CURRENCY_AUTO_VALUE = "__main_currency_auto__";
 
@@ -26,6 +28,8 @@ export const BasicsTab: React.FC<{
   onChange: (next: Partial<EditorFormState>) => void;
 }> = ({ form, mode, onChange }) => {
   const { t } = useAppTranslation();
+  const { state: editorSession, refreshHostedSiteMetadata } =
+    usePlayerEconomyEditorSession();
   const { authState } = useAuth();
   const { gameState } = useGame();
 
@@ -153,8 +157,12 @@ export const BasicsTab: React.FC<{
         <FieldRow label={t("playerEconomyEditor.basics.slugLabel")}>
           <TextInput
             value={form.slug}
-            onValueChange={(slug) => onChange({ slug })}
-            maxLength={60}
+            onValueChange={(slug) =>
+              onChange({
+                slug: mode === "create" ? slug.toLowerCase() : slug,
+              })
+            }
+            maxLength={63}
             placeholder={t("playerEconomyEditor.basics.slugPlaceholder")}
             className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
           />
@@ -250,6 +258,12 @@ export const BasicsTab: React.FC<{
                   </div>
                 ) : null}
               </div>
+              <EconomySiteFilesUpload
+                slug={form.slug}
+                mode={mode}
+                hostedSiteIndex={editorSession.hostedSiteIndex}
+                onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
+              />
             </>
           ) : null}
         </div>

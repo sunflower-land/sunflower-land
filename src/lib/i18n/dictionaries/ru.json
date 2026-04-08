@@ -8501,6 +8501,7 @@
   "minigame.dashboard.production.recipesSummarySingular": "1 рецепт",
   "playerEconomyEditor.error.loadList": "Не удалось загрузить экономики",
   "playerEconomyEditor.error.slugRequired": "Slug обязателен",
+  "playerEconomyEditor.error.slugInvalid": "Use 1–63 characters: lowercase letters, digits, and hyphens only; cannot start or end with a hyphen.",
   "playerEconomyEditor.error.create": "Не удалось создать экономику",
   "playerEconomyEditor.error.notFound": "Экономика не найдена",
   "playerEconomyEditor.error.loadEdit": "Не удалось загрузить экономику",
