@@ -177,6 +177,11 @@ export const AIBuilder: React.FC = () => {
     null,
   );
   const reconnectAttemptsRef = useRef(0);
+  const lastSceneRef = useRef<{
+    phaserScene: string;
+    sunflowerAssets: string;
+    sunflowerSDK: string;
+  } | null>(null);
   const maxReconnectAttempts = 10;
   const isUnmountingRef = useRef(false);
 
@@ -281,6 +286,7 @@ export const AIBuilder: React.FC = () => {
   const loadSceneDirectly = useCallback(
     (phaserScene: string, sunflowerAssets: string, sunflowerSDK: string) => {
       try {
+        lastSceneRef.current = { phaserScene, sunflowerAssets, sunflowerSDK };
         cleanupGame();
 
         // Load asset definitions into global scope
@@ -294,39 +300,34 @@ export const AIBuilder: React.FC = () => {
         const sdkFunction = new Function(sunflowerSDK);
         sdkFunction();
 
-        // Intercept the generated config by temporarily proxying Phaser.Game,
-        // then create the game ourselves with the Phaser scene loader directly.
-        let capturedConfig: Phaser.Types.Core.GameConfig | null = null;
-        const OriginalGame = Phaser.Game;
+        // Execute the scene code, capturing the game instance.
+        // The generated code already creates a Phaser.Game with parent "game-container".
+        let modifiedCode = phaserScene;
 
-        (Phaser as any).Game = function (config: Phaser.Types.Core.GameConfig) {
-          capturedConfig = config;
-        };
-
-        try {
-          const sceneFunction = new Function("Phaser", phaserScene);
-          sceneFunction(Phaser);
-        } finally {
-          (Phaser as any).Game = OriginalGame;
+        // Capture the game instance on window so we can track it
+        modifiedCode = modifiedCode.replace(
+          /const game = new Phaser\.Game\(gameConfig\);/,
+          "const game = new Phaser.Game(gameConfig); window.currentPhaserGame = game;",
+        );
+        if (!modifiedCode.includes("window.currentPhaserGame")) {
+          modifiedCode = modifiedCode.replace(
+            /new Phaser\.Game\(gameConfig\)/,
+            "(function(){ const game = new Phaser.Game(gameConfig); window.currentPhaserGame = game; return game; })()",
+          );
         }
 
-        if (!capturedConfig) {
-          throw new Error("No Phaser game config found in generated code");
-        }
+        const gameFunction = new Function(
+          "Phaser",
+          "window",
+          "document",
+          `
+          ${modifiedCode}
+          return window.currentPhaserGame;
+        `,
+        );
 
-        // Create the game with corrected config, letting Phaser load the scenes
-        const game = new Phaser.Game({
-          ...(capturedConfig as Phaser.Types.Core.GameConfig),
-          parent: "aiBuilderGame",
-          scale: {
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
-            width: 800,
-            height: 600,
-          },
-        });
-
-        currentGameRef.current = game;
+        const game = gameFunction(Phaser, window, document);
+        currentGameRef.current = game || (window as any).currentPhaserGame;
 
         // Setup focus handling after canvas is ready
         setTimeout(() => setupCanvasFocusHandling(), 100);
@@ -336,6 +337,15 @@ export const AIBuilder: React.FC = () => {
     },
     [cleanupGame, showStatus, setupCanvasFocusHandling],
   );
+
+  // Reload the scene when switching between desktop/mobile preview
+  useEffect(() => {
+    if (lastSceneRef.current) {
+      const { phaserScene, sunflowerAssets, sunflowerSDK } =
+        lastSceneRef.current;
+      loadSceneDirectly(phaserScene, sunflowerAssets, sunflowerSDK);
+    }
+  }, [previewMode, loadSceneDirectly]);
 
   const listVersions = useCallback(() => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
@@ -365,6 +375,7 @@ export const AIBuilder: React.FC = () => {
       const isDeleteOperation =
         message.data.sessionId.includes("delete-version-");
       const isVersionLoad = message.data.sessionId.includes("version-");
+      const isTemplateDemo = message.data.sessionId.includes("template-demo-");
 
       if (isDeleteOperation) {
         setHasSavedFarm(false);
@@ -373,12 +384,17 @@ export const AIBuilder: React.FC = () => {
       } else if (isVersionLoad) {
         setHasSavedFarm(true);
         showStatus("Previous version loaded!", "success");
+      } else if (isTemplateDemo) {
+        setHasSavedFarm(true);
+        currentVersionIdRef.current = "template";
+        showStatus("Template loaded!", "success");
       } else if (isLoadedFarm) {
         const saved = !isTemplateCode(phaserScene);
         setHasSavedFarm(saved);
         if (saved) {
           showStatus(`Loaded saved farm ${farmId}`, "success");
         } else {
+          currentVersionIdRef.current = "template";
           showStatus(
             `No saved game for farm ${farmId} - showing template`,
             "success",
@@ -693,6 +709,7 @@ export const AIBuilder: React.FC = () => {
   useEffect(() => {
     if (
       currentVersionIdRef.current &&
+      currentVersionIdRef.current !== "template" &&
       versions.length > 0 &&
       !versions.some((v) => v.versionId === currentVersionIdRef.current)
     ) {
@@ -1101,7 +1118,7 @@ export const AIBuilder: React.FC = () => {
                   }}
                 >
                   <div
-                    id="aiBuilderGame"
+                    id="game-container"
                     ref={gameContainerRef}
                     className="w-full h-full flex items-center justify-center"
                     style={{ imageRendering: "pixelated" }}
