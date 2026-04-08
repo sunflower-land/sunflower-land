@@ -5928,7 +5928,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("building.craftingBox"),
   },
   "Aging Shed": {
-    image: SUNNYSIDE.building.fishMarket, // placeholder
+    image: SUNNYSIDE.building.agingShed1,
     description: translate("description.agingShed"),
     translatedName: translate("building.agingShed"),
   },
