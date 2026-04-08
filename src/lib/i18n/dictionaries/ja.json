@@ -8555,7 +8555,6 @@
   "skill.fishSmoking": "熟成魚がプライムエイジになる確率が2倍になる",
   "skill.refiner": "15% の確率で精製塩1個を獲得できる",
   "skill.ager.buff": "熟成/発酵/スパイスラックからの+1出力",
-  "skill.ager.debuff": "2倍のインプット材料が必要",
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "発酵",
@@ -8593,5 +8592,6 @@
   "playerEconomyEditor.siteUpload.playUrlCopied": "コピーされました",
   "minigame.dashboard.welcomeFallback": "ようこそ!ショップに行き、冒険に出てプレイして報酬を獲得してください。",
   "minigame.dashboard.trophy.title": "トロフィーセクション",
-  "minigame.dashboard.trophy.body": "ジェネレーターとタイムプロダクションが各ミニゲーム内で実行されるようになりました。アドベンチャーをプレイしてゲームを進め、アイテムを獲得し、コレクションを充実させましょう。アンロックしたトロフィーやマイルストーンは、時間が経つにつれてここに表示されます。"
+  "minigame.dashboard.trophy.body": "ジェネレーターとタイムプロダクションが各ミニゲーム内で実行されるようになりました。アドベンチャーをプレイしてゲームを進め、アイテムを獲得し、コレクションを充実させましょう。アンロックしたトロフィーやマイルストーンは、時間が経つにつれてここに表示されます。",
+  "skill.ager.debuff": "エージングシェッドインプット×2（食材、魚、塩）"
 }

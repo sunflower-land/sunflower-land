@@ -8555,7 +8555,6 @@
   "skill.fishSmoking": "Possibilità doppia: Aged Fish diventa Prime Aged",
   "skill.refiner": "15% di possibilità di ottenere +1 sale raffinato",
   "skill.ager.buff": "+1 uscita da Aging/Fermentation/Spice Rack",
-  "skill.ager.debuff": "Sono necessari 2x ingredienti di input",
   "saltHarvest.nextChargeIn": "Prossima ricarica in:",
   "agingShed.agingRack": "L'invecchiamento",
   "agingShed.fermentationRack": "Fermentazione",
@@ -8593,5 +8592,6 @@
   "playerEconomyEditor.siteUpload.playUrlCopied": "Copiato",
   "minigame.dashboard.welcomeFallback": "Benvenuto! Visita il negozio, poi parti all'avventura per giocare e guadagnare ricompense.",
   "minigame.dashboard.trophy.title": "Sezione trofei",
-  "minigame.dashboard.trophy.body": "I generatori e la produzione a tempo ora vengono eseguiti all'interno di ogni minigioco. Gioca all'avventura per progredire, guadagnare oggetti e completare la tua collezione: i trofei e i traguardi che sbloccherai verranno visualizzati qui col tempo."
+  "minigame.dashboard.trophy.body": "I generatori e la produzione a tempo ora vengono eseguiti all'interno di ogni minigioco. Gioca all'avventura per progredire, guadagnare oggetti e completare la tua collezione: i trofei e i traguardi che sbloccherai verranno visualizzati qui col tempo.",
+  "skill.ager.debuff": "2× Input Aging Shed (ingredienti, pesce e sale)"
 }

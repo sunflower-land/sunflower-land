@@ -4728,7 +4728,7 @@
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
   "skill.ager.buff": "+1 output from Aging/Fermentation/Spice Rack",
-  "skill.ager.debuff": "2x input ingredients required",
+  "skill.ager.debuff": "2× Aging Shed inputs (ingredients, fish & salt)",
   "skillReset.skillsReset": "Skills Reset",
   "skillReset.free": "Free Reset",
   "skillReset.gems": "Gem Reset",

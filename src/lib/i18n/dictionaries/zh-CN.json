@@ -8555,7 +8555,6 @@
   "skill.fishSmoking": "陈年鱼变成 Prime Ated Ated",
   "skill.refiner": "15% 几率获得 +1 精制盐",
   "skill.ager.buff": "陈酿/发酵/香料架输出 +1",
-  "skill.ager.debuff": "需要 2 倍的输入原料",
   "saltHarvest.nextChargeIn": "下次充电：",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "发酵",
@@ -8593,5 +8592,6 @@
   "playerEconomyEditor.siteUpload.playUrlCopied": "已复制",
   "minigame.dashboard.welcomeFallback": "欢迎！访问商店，然后进入冒险之旅玩游戏并获得奖励。",
   "minigame.dashboard.trophy.title": "奖杯部分",
-  "minigame.dashboard.trophy.body": "生成器和定时制作现在可以在每个小游戏中运行。玩冒险以取得进展，获得物品，填满收藏品——随着时间的推移，你解锁的奖杯和里程碑将出现在这里。"
+  "minigame.dashboard.trophy.body": "生成器和定时制作现在可以在每个小游戏中运行。玩冒险以取得进展，获得物品，填满收藏品——随着时间的推移，你解锁的奖杯和里程碑将出现在这里。",
+  "skill.ager.debuff": "2× Aging Shed 输入（食材、鱼和盐）"
 }

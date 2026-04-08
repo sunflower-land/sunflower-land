@@ -8555,7 +8555,6 @@
   "skill.fishSmoking": "Chance dobrada de Peixe Envelhecido se tornar Prime Aged",
   "skill.refiner": "15% de chance de obter +1 sal refinado",
   "skill.ager.buff": "+1 produção do Aging/Fermentation/Spice Rack",
-  "skill.ager.debuff": "São necessários 2x os ingredientes de entrada",
   "saltHarvest.nextChargeIn": "Próxima cobrança em:",
   "agingShed.agingRack": "envelhecimento",
   "agingShed.fermentationRack": "Fermentação",
@@ -8593,5 +8592,6 @@
   "playerEconomyEditor.siteUpload.playUrlCopied": "Copiado",
   "minigame.dashboard.welcomeFallback": "Bem-vindo! Visite a loja e entre na aventura para jogar e ganhar recompensas.",
   "minigame.dashboard.trophy.title": "Seção de troféus",
-  "minigame.dashboard.trophy.body": "Geradores e produção cronometrada agora funcionam dentro de cada minijogo. Jogue a aventura para progredir, ganhar itens e preencher sua coleção — troféus e marcos que você desbloquear aparecerão aqui com o tempo."
+  "minigame.dashboard.trophy.body": "Geradores e produção cronometrada agora funcionam dentro de cada minijogo. Jogue a aventura para progredir, ganhar itens e preencher sua coleção — troféus e marcos que você desbloquear aparecerão aqui com o tempo.",
+  "skill.ager.debuff": "2 × Insumos do Aging Shed (ingredientes, peixe e sal)"
 }

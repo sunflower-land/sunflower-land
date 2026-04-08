@@ -8555,7 +8555,6 @@
   "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
   "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
   "skill.ager.buff": "Yaşlanma/Fermantasyon/Baharat Rafından +1 çıktı",
-  "skill.ager.debuff": "2x giriş bileşenleri gerekli",
   "saltHarvest.nextChargeIn": "Bir sonraki şarj:",
   "agingShed.agingRack": "Yaşlanma",
   "agingShed.fermentationRack": "Fermantasyon",
@@ -8593,5 +8592,6 @@
   "playerEconomyEditor.siteUpload.playUrlCopied": "Kopyalandı",
   "minigame.dashboard.welcomeFallback": "Hoşgeldin Mağazayı ziyaret edin, ardından oynamak ve ödüller kazanmak için maceraya gidin.",
   "minigame.dashboard.trophy.title": "Kupa bölümü",
-  "minigame.dashboard.trophy.body": "Jeneratörler ve zamanlanmış üretim artık her mini oyunun içinde çalışıyor. İlerlemek için macerayı oynayın, öğeler kazanın ve koleksiyonunuzu doldurun - kilidini açtığınız kupalar ve kilometre taşları zamanla burada görünecek."
+  "minigame.dashboard.trophy.body": "Jeneratörler ve zamanlanmış üretim artık her mini oyunun içinde çalışıyor. İlerlemek için macerayı oynayın, öğeler kazanın ve koleksiyonunuzu doldurun - kilidini açtığınız kupalar ve kilometre taşları zamanla burada görünecek.",
+  "skill.ager.debuff": "2× Yaşlanma Kulübesi girişi (malzemeler, balık ve tuz)"
 }
