@@ -2,13 +2,13 @@ import Decimal from "decimal.js-light";
 import { prngChance } from "lib/prng";
 import type { InventoryItemName, Skills } from "./game";
 
-const BAIT_ITEMS = new Set([
+const BAIT_ITEMS = new Set<InventoryItemName>([
   "Capsule Bait",
   "Umbrella Bait",
   "Crimson Baitfish",
 ]);
 
-export function isBaitItem(item: string): boolean {
+export function isBaitItem(item: InventoryItemName): boolean {
   return BAIT_ITEMS.has(item);
 }
 

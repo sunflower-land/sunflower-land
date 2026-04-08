@@ -2,10 +2,12 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
+  SEA_BLESSED_CHANCE,
   getSaltChargeGenerationTime,
   getSaltYieldPerRake,
   getStoredSaltCharges,
   materializeSaltRegen,
+  rechargeAllSaltNodes,
   syncSaltNode,
 } from "features/game/types/salt";
 import { produce } from "immer";
@@ -102,20 +104,12 @@ export function harvestSalt({
         farmId,
         itemId: KNOWN_IDS["Salt"],
         counter: saltHarvestCount,
-        chance: 5,
+        chance: SEA_BLESSED_CHANCE,
         criticalHitName: "Sea Blessed",
       });
 
       if (seaBlessedHit) {
-        const rechargeInterval = getSaltChargeGenerationTime({
-          gameState: copy,
-        });
-        for (const nodeId of Object.keys(copy.saltFarm.nodes)) {
-          copy.saltFarm.nodes[nodeId].salt.storedCharges =
-            MAX_STORED_SALT_CHARGES_PER_NODE;
-          copy.saltFarm.nodes[nodeId].salt.nextChargeAt =
-            createdAt + rechargeInterval;
-        }
+        rechargeAllSaltNodes(copy, createdAt);
       }
     }
   });

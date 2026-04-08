@@ -30,9 +30,9 @@ import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
 import {
-  getSaltChargeGenerationTime,
   getStoredSaltCharges,
   MAX_STORED_SALT_CHARGES_PER_NODE,
+  rechargeAllSaltNodes,
 } from "features/game/types/salt";
 
 export type SkillUseAction = {
@@ -225,15 +225,7 @@ function useSaltSurge({
   game: GameState;
   createdAt?: number;
 }): GameState {
-  const interval = getSaltChargeGenerationTime({ gameState: game });
-
-  for (const nodeId of Object.keys(game.saltFarm.nodes)) {
-    game.saltFarm.nodes[nodeId].salt.storedCharges =
-      MAX_STORED_SALT_CHARGES_PER_NODE;
-    game.saltFarm.nodes[nodeId].salt.nextChargeAt = createdAt + interval;
-  }
-
-  return game;
+  return rechargeAllSaltNodes(game, createdAt);
 }
 
 export function getSkillCooldown({
