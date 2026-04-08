@@ -155,8 +155,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     });
 
     const isFirstVip = !vip?.bundles?.length;
-    const boughtStarterPack =
-      !!state.farmActivity["Starter Pack Purchased"];
+    const boughtStarterPack = !!state.farmActivity["Starter Pack Purchased"];
 
     if (isFirstVip && boughtStarterPack) {
       gameAnalytics.trackMilestone({
