@@ -29,7 +29,7 @@ import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
-import { adminFeatureFlag, hasTimeBasedFeatureAccess } from "lib/flags";
+import { adminFeatureFlag } from "lib/flags";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -87,13 +87,6 @@ const SCENE_ACCESS: Partial<
   nightshade_house: (game) => game.faction?.name === "nightshades",
   love_island: (game) =>
     !!getActiveFloatingIsland({ state: game }) || !!adminFeatureFlag(game),
-  april_fools_island: (game, now) => {
-    return hasTimeBasedFeatureAccess({
-      featureName: "APRIL_FOOLS_EVENT_FLAG",
-      game,
-      now,
-    });
-  },
   infernos: (game) => {
     const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
     return level >= 30;

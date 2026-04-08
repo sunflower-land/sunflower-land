@@ -192,7 +192,12 @@ export type EventDecorationName =
   | "Fake Treasure"
   | "Fake Mouse"
   | "Pet Tree"
-  | "Definitely not a Flower";
+  | "Definitely not a Flower"
+  | "Bumpkin Rug"
+  | "Goblin Rug"
+  | "Pet Rug"
+  | "Jester in a box"
+  | "The Sunflower Man Statue";
 
 export type TileName =
   | "Black Tile"
@@ -1431,6 +1436,26 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Definitely not a Flower": {
     width: 1,
+    height: 2,
+  },
+  "Bumpkin Rug": {
+    width: 2,
+    height: 2,
+  },
+  "Goblin Rug": {
+    width: 2,
+    height: 2,
+  },
+  "Pet Rug": {
+    width: 2,
+    height: 2,
+  },
+  "Jester in a box": {
+    width: 2,
+    height: 2,
+  },
+  "The Sunflower Man Statue": {
+    width: 2,
     height: 2,
   },
 };
