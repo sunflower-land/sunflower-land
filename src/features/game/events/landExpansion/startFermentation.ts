@@ -49,11 +49,12 @@ export function startFermentation({
     }
 
     const recipeDef = getFermentationRecipe(action.recipe);
+    const durationSeconds = Math.max(0, recipeDef.durationSeconds);
 
     const maxSlots = getMaxFermentationSlots(game.agingShed.level);
     const queue = game.agingShed.racks.fermentation;
 
-    if (recipeDef.durationSeconds > 0 && queue.length >= maxSlots) {
+    if (durationSeconds > 0 && queue.length >= maxSlots) {
       throw new Error(translate("error.noAvailableSlots"));
     }
 
@@ -72,12 +73,12 @@ export function startFermentation({
       game.inventory[ingredient] = count.sub(need);
     }
 
-    if (recipeDef.durationSeconds === 0) {
+    if (durationSeconds === 0) {
       grantFermentationRecipeOutputs(game, action.recipe, farmId);
       return;
     }
 
-    const readyAt = createdAt + Math.max(0, recipeDef.durationSeconds) * 1000;
+    const readyAt = createdAt + durationSeconds * 1000;
 
     const job: FermentationJob = {
       id: action.jobId,

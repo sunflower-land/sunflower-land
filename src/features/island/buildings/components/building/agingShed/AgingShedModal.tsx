@@ -70,8 +70,11 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const isAgingShedMaxLevel =
-    agingShedLevel >= getKeys(BUILDING_UPGRADES["Aging Shed"]).length;
+  const maxAgingShedLevel = Math.max(
+    1,
+    ...getKeys(BUILDING_UPGRADES["Aging Shed"]).map(Number),
+  );
+  const isAgingShedMaxLevel = agingShedLevel >= maxAgingShedLevel;
 
   return (
     <Modal show={isOpen} onHide={closeUpgradeTab}>

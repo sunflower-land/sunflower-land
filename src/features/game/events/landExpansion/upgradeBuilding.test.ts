@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
-import { upgradeBuilding } from "./upgradeBuilding";
+import {
+  BUILDING_UPGRADES,
+  getMaxBuildingUpgradeLevel,
+  upgradeBuilding,
+} from "./upgradeBuilding";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 describe("upgradeBuilding", () => {
@@ -494,5 +498,37 @@ describe("upgradeBuilding", () => {
         }),
       ).toThrow("Insufficient Wood for upgrade");
     });
+  });
+});
+
+describe("getMaxBuildingUpgradeLevel", () => {
+  it("uses the largest numeric tier key, not the number of entries", () => {
+    expect(
+      getMaxBuildingUpgradeLevel({
+        2: { coins: 0, items: {} },
+        3: { coins: 0, items: {} },
+      }),
+    ).toBe(3);
+  });
+
+  it("handles sparse numeric keys (max key can exceed entry count)", () => {
+    expect(
+      getMaxBuildingUpgradeLevel({
+        2: { coins: 0, items: {} },
+        5: { coins: 0, items: {} },
+      }),
+    ).toBe(5);
+  });
+
+  it("returns 1 when only tier 1 is defined", () => {
+    expect(getMaxBuildingUpgradeLevel({ 1: { coins: 0, items: {} } })).toBe(1);
+  });
+
+  it("matches Aging Shed max tier in BUILDING_UPGRADES", () => {
+    expect(getMaxBuildingUpgradeLevel(BUILDING_UPGRADES["Aging Shed"])).toBe(6);
+  });
+
+  it("matches Hen House max tier in BUILDING_UPGRADES", () => {
+    expect(getMaxBuildingUpgradeLevel(BUILDING_UPGRADES["Hen House"])).toBe(3);
   });
 });
