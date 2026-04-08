@@ -8616,5 +8616,10 @@
   "playerEconomyEditor.siteUpload.indexDeployed": "index.html está desplegado para este juego.",
   "playerEconomyEditor.siteUpload.lastUploaded": "Subido por última vez: {{time}}",
   "playerEconomyEditor.siteUpload.noIndexYet": "Aún no hay ningún archivo index.html almacenado para este slug. Cargue una carpeta que incluya index.html en la raíz del sitio.",
-  "agingShed.fermentation.instantSlot": "Al instante"
+  "agingShed.fermentation.instantSlot": "Al instante",
+  "playerEconomyEditor.siteUpload.playUrlTitle": "URL de reproducción",
+  "playerEconomyEditor.siteUpload.playUrlJwtHint": "¿Usa Generate JWT arriba para agregar? jwt=... para que tu juego pueda llamar a la API de minijuegos como tú.",
+  "playerEconomyEditor.siteUpload.openPlayUrl": "Juego abierto",
+  "playerEconomyEditor.siteUpload.copyPlayUrl": "Copiar URL",
+  "playerEconomyEditor.siteUpload.playUrlCopied": "Copiado"
 }

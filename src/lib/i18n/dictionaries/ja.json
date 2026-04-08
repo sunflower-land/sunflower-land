@@ -8616,5 +8616,10 @@
   "playerEconomyEditor.siteUpload.indexDeployed": "このゲームでは index.html がデプロイされています。",
   "playerEconomyEditor.siteUpload.lastUploaded": "最終アップロード:{{time}}",
   "playerEconomyEditor.siteUpload.noIndexYet": "このスラッグ用の index.html はまだストレージにありません。サイトルートに index.html を含むフォルダーをアップロードします。",
-  "agingShed.fermentation.instantSlot": "インスタント"
+  "agingShed.fermentation.instantSlot": "インスタント",
+  "playerEconomyEditor.siteUpload.playUrlTitle": "URL を再生",
+  "playerEconomyEditor.siteUpload.playUrlJwtHint": "上記の「JWTを生成」を使用して追加しますか？jwt=... そうすればあなたのゲームがミニゲーム API をあなたと同じように呼び出すことができます。",
+  "playerEconomyEditor.siteUpload.openPlayUrl": "オープンゲーム",
+  "playerEconomyEditor.siteUpload.copyPlayUrl": "URL をコピー",
+  "playerEconomyEditor.siteUpload.playUrlCopied": "コピーされました"
 }
