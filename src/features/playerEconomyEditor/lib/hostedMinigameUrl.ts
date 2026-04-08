@@ -1,14 +1,34 @@
-/** Canonical iframe origin for player-economy minigames hosted on Sunflower Land. */
-export const HOSTED_MINIGAMES_SUNFLOWER_LAND_SUFFIX =
-  ".minigames.sunflower-land.com";
+/** Hostname suffix for UGC economy game sites (`{slug}.economies.sunflower-land.com`), matching API `ECONOMIES_SITE_HOST_SUFFIX`. */
+export const HOSTED_ECONOMY_SITE_HOST_SUFFIX = "economies.sunflower-land.com";
 
+/**
+ * Canonical origin for player-economy hosted games, matching API `economyHostedSiteStoragePrefix`.
+ */
 export function canonicalHostedMinigamePlayUrl(slug: string): string {
   const s = slug.trim().toLowerCase();
   if (!s) return "";
-  return `https://${s}${HOSTED_MINIGAMES_SUNFLOWER_LAND_SUFFIX}`;
+  return `https://${s}.${HOSTED_ECONOMY_SITE_HOST_SUFFIX}`;
 }
 
+/** True if URL looks like a Sunflower Land hosted economy/minigames site (legacy or current host). */
 export function looksLikeMinigamesSunflowerLandUrl(url: string): boolean {
   const t = url.trim();
-  return /^https:\/\/[^/]+\.minigames\.sunflower-land\.com\/?$/i.test(t);
+  return /^https:\/\/[^/]+\.(economies|minigames)\.sunflower-land\.com\/?$/i.test(
+    t,
+  );
+}
+
+/**
+ * URL to open the hosted economy game. When `jwt` is set, appends `?jwt=` for portal API auth
+ * (same pattern as the in-game iframe).
+ */
+export function hostedEconomyPlayUrlWithJwt(
+  slug: string,
+  jwt?: string,
+): string {
+  const base = canonicalHostedMinigamePlayUrl(slug);
+  if (!base) return "";
+  const token = jwt?.trim();
+  if (!token) return `${base}/`;
+  return `${base}/?jwt=${encodeURIComponent(token)}`;
 }

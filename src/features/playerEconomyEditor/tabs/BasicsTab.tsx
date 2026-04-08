@@ -262,6 +262,7 @@ export const BasicsTab: React.FC<{
                 slug={form.slug}
                 mode={mode}
                 hostedSiteIndex={editorSession.hostedSiteIndex}
+                portalJwt={portalJwt}
                 onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
               />
             </>
