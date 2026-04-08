@@ -24,6 +24,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
 import powerup from "assets/icons/level_up.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getKeys } from "lib/object";
@@ -119,7 +120,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const hasAxes = HasAxes(inventory, game);
 
   const plantTree = async (item?: InventoryItemName) => {
-    if (item === "Fruitful Blend" && !fertiliser) {
+    if (
+      (item === "Fruitful Blend" || item === "Turbofruit Mix") &&
+      !fertiliser
+    ) {
       fertilise();
       return;
     }
@@ -247,12 +251,23 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         />
 
         {/* Fertiliser */}
-        {!!fertiliser && (
+        {fertiliser?.name === "Fruitful Blend" && (
           <img
             className="absolute z-10 pointer-events-none"
             src={powerup}
             style={{
               width: `${PIXEL_SCALE * 5}px`,
+              bottom: `${PIXEL_SCALE * 16}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
+        {fertiliser?.name === "Turbofruit Mix" && (
+          <img
+            className="absolute z-10 pointer-events-none"
+            src={SUNNYSIDE.icons.stopwatch}
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
               bottom: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 2}px`,
             }}

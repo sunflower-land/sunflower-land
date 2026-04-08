@@ -376,7 +376,10 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Broccoli Hat", value: "x0.5" });
   }
 
-  if (plot?.fertiliser?.name === "Rapid Root") {
+  if (
+    plot?.fertiliser?.name === "Rapid Root" ||
+    plot?.fertiliser?.name === "Sproutroot Surprise"
+  ) {
     seconds = seconds * 0.5;
   }
 

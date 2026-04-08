@@ -5,7 +5,7 @@ import {
   PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
-import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
+import { getFruitPatchTime, getPlantedAt, plantFruit } from "./fruitPlanted";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -177,6 +177,40 @@ describe("fruitPlanted", () => {
           plantedAt: expect.any(Number),
         }),
       }),
+    );
+  });
+
+  it("plants with Turbofruit Mix fertiliser on the patch", () => {
+    const seedAmount = new Decimal(5);
+    const patchIndex = "1";
+    const gameWithBumpkin = { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN };
+    const { plantedAt: expectedPlantedAt } = getPlantedAt(
+      "Apple Seed",
+      gameWithBumpkin,
+      dateNow,
+      "Turbofruit Mix",
+    );
+    const state = plantFruit({
+      state: {
+        ...gameWithBumpkin,
+        inventory: { "Apple Seed": seedAmount },
+        fruitPatches: {
+          ...GAME_STATE.fruitPatches,
+          1: {
+            ...GAME_STATE.fruitPatches[1],
+            fertiliser: { name: "Turbofruit Mix", fertilisedAt: dateNow },
+          },
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+    expect(state.fruitPatches[patchIndex].fruit?.plantedAt).toEqual(
+      expectedPlantedAt,
     );
   });
 
@@ -661,6 +695,36 @@ describe("fruitPlanted", () => {
 });
 
 describe("getFruitTime", () => {
+  it("applies 20% growth time reduction with Turbofruit Mix on the patch", () => {
+    const seed = "Apple Seed";
+    const { seconds: base } = getFruitPatchTime(seed, TEST_FARM);
+    const { seconds: withTurbo } = getFruitPatchTime(
+      seed,
+      TEST_FARM,
+      "Turbofruit Mix",
+    );
+    expect(withTurbo / base).toBeCloseTo(0.8, 5);
+  });
+
+  it("getPlantedAt accounts for Turbofruit Mix fertiliser", () => {
+    const seed = "Apple Seed";
+    const { plantedAt } = getPlantedAt(
+      seed,
+      TEST_FARM,
+      dateNow,
+      "Turbofruit Mix",
+    );
+    const baseSeconds = getFruitPatchTime(seed, TEST_FARM).seconds;
+    const boostedSeconds = getFruitPatchTime(
+      seed,
+      TEST_FARM,
+      "Turbofruit Mix",
+    ).seconds;
+    const offset = PATCH_FRUIT_SEEDS[seed].plantSeconds - boostedSeconds;
+    expect(plantedAt).toEqual(dateNow - offset * 1000);
+    expect(boostedSeconds).toBeCloseTo(baseSeconds * 0.8, 5);
+  });
+
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
     const seed = "Orange Seed";
     const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;

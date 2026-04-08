@@ -279,6 +279,10 @@ import {
   PlantGreenhouseAction,
 } from "./landExpansion/plantGreenhouse";
 import {
+  fertiliseGreenhouse,
+  FertiliseGreenhouseAction,
+} from "./landExpansion/fertiliseGreenhouse";
+import {
   oilGreenhouse,
   OilGreenhouseAction,
 } from "./landExpansion/oilGreenHouse";
@@ -649,6 +653,7 @@ export type PlayingEvent =
   | OilGreenhouseAction
   | HarvestGreenhouseAction
   | PlantGreenhouseAction
+  | FertiliseGreenhouseAction
   | LandExpansionPlantAction
   | LandExpansionFertiliseCropAction
   | LandExpansionRemoveCropAction
@@ -926,6 +931,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
+  "greenhouse.fertilised": fertiliseGreenhouse,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,

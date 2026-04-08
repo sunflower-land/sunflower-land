@@ -863,6 +863,21 @@ describe("plant", () => {
       expect(time).toEqual(30 * 60);
     });
 
+    it("plants a carrot fertilised with Sproutroot Surprise", () => {
+      const { time } = getCropPlotTime({
+        crop: "Carrot",
+        game: FARM_WITH_PLOTS,
+
+        plot: {
+          ...plot,
+          fertiliser: { fertilisedAt: 100, name: "Sproutroot Surprise" },
+        },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(30 * 60);
+    });
+
     it("when Bumpkin has Carrot Amulet equipped it reduces 20% the harvest time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",

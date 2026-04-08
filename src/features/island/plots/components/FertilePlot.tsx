@@ -193,6 +193,30 @@ export const FertilePlot: React.FC<Props> = ({
           }}
         />
       )}
+      {fertiliser?.name === "Sproutroot Surprise" && (
+        <>
+          <img
+            key={`${fertiliser.name}-yield`}
+            className="absolute z-10 pointer-events-none"
+            src={powerup}
+            style={{
+              width: `${PIXEL_SCALE * 5}px`,
+              bottom: `${PIXEL_SCALE * 9}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+          <img
+            key={`${fertiliser.name}-speed`}
+            className="absolute z-10 pointer-events-none"
+            src={SUNNYSIDE.icons.stopwatch}
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
+              bottom: `${PIXEL_SCALE * 9}px`,
+              right: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+        </>
+      )}
 
       {/* Bee Swarm */}
       {plot.beeSwarm && (

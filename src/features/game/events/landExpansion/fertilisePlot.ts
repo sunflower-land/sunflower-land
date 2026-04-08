@@ -46,7 +46,7 @@ const getPlantedAt = (
   const timeToHarvest = cropDetails.harvestSeconds * 1000;
   const harvestTime = plantedAt + timeToHarvest;
   const timeReduction = (harvestTime - fertilisedAt) / 2;
-  if (fertiliser === "Rapid Root") {
+  if (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") {
     return { newPlantedAt: plantedAt - timeReduction, timeReduction };
   }
 
@@ -78,7 +78,10 @@ export function applyFertiliserToPlot({
 
   const cropDetails = CROPS[crop.name];
 
-  if (fertiliser === "Rapid Root" && cropDetails) {
+  if (
+    (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") &&
+    cropDetails
+  ) {
     const { newPlantedAt, timeReduction } = getPlantedAt(
       fertiliser,
       crop.plantedAt,

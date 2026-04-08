@@ -278,4 +278,34 @@ describe("fertiliseCrop", () => {
     });
     expect(gameState.crops[0].crop?.boostedTime).toEqual(10 * 1000);
   });
+
+  it("adds to the boosted time in plots when Sproutroot Surprise is used", () => {
+    const sunflowerPlantedAt = dateNow - 40 * 1000;
+    const gameState = fertilisePlot({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          ...inventory,
+          "Sproutroot Surprise": new Decimal(5),
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: sunflowerPlantedAt,
+              boostedTime: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "plot.fertilised",
+        plotID: "0",
+        fertiliser: "Sproutroot Surprise",
+      },
+      createdAt: dateNow,
+    });
+    expect(gameState.crops[0].crop?.boostedTime).toEqual(10 * 1000);
+  });
 });

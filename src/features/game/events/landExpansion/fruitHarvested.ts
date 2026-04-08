@@ -339,7 +339,7 @@ export function harvestFruit({
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
     const { plantedAt: newPlantedAt, boostsUsed: fruitPlantedBoostsUsed } =
-      getPlantedAt(seed, stateCopy, createdAt);
+      getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
     delete patch.fruit.amount;
     patch.fruit.harvestedAt = newPlantedAt;
 
