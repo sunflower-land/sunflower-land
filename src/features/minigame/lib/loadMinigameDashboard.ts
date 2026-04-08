@@ -24,7 +24,7 @@ function assertChickenRescueSession(
 }
 
 /**
- * Loads dashboard data: calls the portal minigame API when `CONFIG.API_URL` is set
+ * Loads dashboard data: calls `GET /data?type=economy.loaded` when `CONFIG.API_URL` is set
  * and credentials are provided; otherwise returns a hard-coded local mock.
  */
 export async function loadMinigameDashboard(
@@ -46,7 +46,7 @@ export async function loadMinigameDashboard(
       farmId: creds.farmId,
     });
 
-    const raw = await getMinigameSession(slug, portalJwt);
+    const raw = await getMinigameSession(slug, portalJwt, creds.farmId);
     assertChickenRescueSession(raw);
 
     const state = {

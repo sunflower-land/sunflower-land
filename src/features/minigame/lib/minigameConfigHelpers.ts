@@ -73,38 +73,6 @@ export function mergeRuntimeWithInitialBalances(
   };
 }
 
-/** Remap a generator job to the server id while keeping the same timing (avoids progress bar jumps). */
-export function replaceGeneratingJobId(
-  state: PlayerEconomyRuntimeState,
-  fromId: string,
-  toId: string,
-): PlayerEconomyRuntimeState {
-  if (fromId === toId) return state;
-  const job = state.generating[fromId];
-  if (!job) return state;
-  const generating = { ...state.generating };
-  delete generating[fromId];
-  generating[toId] = { ...job };
-  return { ...state, generating };
-}
-
-export function remapCapJobRecipeKeys(
-  map: Record<string, string | undefined>,
-  fromId: string,
-  toId: string,
-): Record<string, string | undefined> {
-  if (fromId === toId) return map;
-  let changed = false;
-  const next = { ...map };
-  for (const k of Object.keys(next)) {
-    if (next[k] === fromId) {
-      next[k] = toId;
-      changed = true;
-    }
-  }
-  return changed ? next : map;
-}
-
 export function primaryMintTokenKey(
   config: PlayerEconomyConfig,
   actionId: string,

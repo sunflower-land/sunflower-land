@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
-import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
+import type { PlayerEconomyConfig } from "./types";
 
 export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
@@ -57,72 +57,70 @@ export type MinigameActionApiResponse = {
   collectGrants?: { token: string; amount: number }[];
 };
 
-/**
- * After optimistic produce, map the client UUID to the server's job id without replacing
- * the rest of runtime (avoids HUD jumps). Uses `generatorJobId` when present, else the
- * single new key in `playerEconomy.generating` vs the pre-action snapshot.
- */
-export function resolveServerProduceJobId(
-  snapshotGenerating: PlayerEconomyRuntimeState["generating"],
-  data: MinigameActionApiResponse,
-  clientJobId: string | undefined,
-): string | undefined {
-  if (!clientJobId) return undefined;
-  const direct = data.generatorJobId;
-  if (typeof direct === "string" && direct !== clientJobId) return direct;
-
-  const serverGen = data.playerEconomy
-    .generating as PlayerEconomyRuntimeState["generating"];
-  const snapKeys = new Set(Object.keys(snapshotGenerating));
-  const newcomers = Object.keys(serverGen).filter((k) => !snapKeys.has(k));
-  if (newcomers.length === 1) return newcomers[0];
-  return undefined;
-}
-
-export function runtimeStateFromActionResponse(
-  pe: MinigameActionApiResponse["playerEconomy"],
-): PlayerEconomyRuntimeState {
-  return {
-    balances: pe.balances,
-    generating: pe.generating as PlayerEconomyRuntimeState["generating"],
-    dailyMinted: pe.dailyMinted,
-    activity: pe.activity,
-    dailyActivity: pe.dailyActivity,
-    ...(pe.dailyActionUses ? { dailyActionUses: pe.dailyActionUses } : {}),
-    ...(pe.purchaseCounts != null
-      ? { purchaseCounts: { ...pe.purchaseCounts } }
-      : {}),
-  };
-}
-
 function playerEconomyUrl(portalId: string): string {
   const base = CONFIG.API_URL;
   if (!base) throw new Error("API_URL is not configured");
   return `${base}/portal/${encodeURIComponent(portalId)}/player-economy`;
 }
 
+/** Response shape from `GET /data?type=economy.loaded&farmId&portalId` (`sunflowerland/data` handler). */
+type EconomyLoadedHandlerResult =
+  | { status: "ok"; data: MinigameSessionApiPayload }
+  | { status: "unknown_player_economy" }
+  | { status: "farm_not_found" }
+  | { status: "feature_disabled" };
+
+function economyLoadedQueryUrl(portalId: string, farmId: number): string {
+  const base = CONFIG.API_URL;
+  if (!base) throw new Error("API_URL is not configured");
+  const params = new URLSearchParams({
+    type: "economy.loaded",
+    farmId: String(farmId),
+    portalId,
+  });
+  return `${base}/data?${params.toString()}`;
+}
+
 export async function getMinigameSession(
   portalId: string,
   portalJwt: string,
+  farmId: number,
 ): Promise<MinigameSessionApiPayload> {
-  const res = await fetch(playerEconomyUrl(portalId), {
+  const res = await fetch(economyLoadedQueryUrl(portalId, farmId), {
     method: "GET",
     headers: {
       Authorization: `Bearer ${portalJwt}`,
       Accept: "application/json",
     },
   });
-  const body = (await res.json().catch(() => ({}))) as {
+  const json = (await res.json().catch(() => ({}))) as {
+    data?: EconomyLoadedHandlerResult;
     error?: string;
   };
   if (!res.ok) {
     throw new Error(
-      typeof body.error === "string"
-        ? body.error
+      typeof json.error === "string"
+        ? json.error
         : `Load failed (${res.status})`,
     );
   }
-  return body as MinigameSessionApiPayload;
+  const payload = json.data;
+  if (!payload || typeof payload !== "object" || !("status" in payload)) {
+    throw new Error("Invalid player economy response");
+  }
+  if (payload.status === "unknown_player_economy") {
+    throw new Error("Unknown player economy");
+  }
+  if (payload.status === "farm_not_found") {
+    throw new Error("Farm not found");
+  }
+  if (payload.status === "feature_disabled") {
+    throw new Error("Player economies are not enabled for this farm");
+  }
+  if (payload.status !== "ok" || payload.data == null) {
+    throw new Error("Load failed");
+  }
+  return payload.data;
 }
 
 export async function postPlayerEconomyActionRequest(

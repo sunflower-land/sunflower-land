@@ -27,7 +27,7 @@ function sessionPlayerEconomyToRuntime(
 }
 
 /**
- * Builds dashboard data from `GET /portal/:portalId/player-economy` JSON (full config from API).
+ * Builds dashboard data from `GET /data?type=economy.loaded&farmId&portalId` session JSON (full config from API).
  */
 export function buildMinigameDashboardFromApiSession(
   slug: string,

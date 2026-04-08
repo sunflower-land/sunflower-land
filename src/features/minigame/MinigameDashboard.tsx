@@ -2,7 +2,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -22,16 +21,9 @@ import { CONFIG } from "lib/config";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
-import {
-  postPlayerEconomyActionedEvent,
-  resolveServerProduceJobId,
-  runtimeStateFromActionResponse,
-} from "./lib/minigameSessionApi";
+import { postPlayerEconomyActionedEvent } from "./lib/minigameSessionApi";
 import { processPlayerEconomyAction } from "./lib/processPlayerEconomyAction";
-import type {
-  PlayerEconomyProcessResult,
-  PlayerEconomyRuntimeState,
-} from "./lib/types";
+import type { PlayerEconomyRuntimeState } from "./lib/types";
 import type {
   MinigameDashboardData,
   MinigameShopItemUi,
@@ -47,23 +39,11 @@ import { MinigameMobileShopModal } from "./components/MinigameMobileShopModal";
 import { MinigameInventoryHud } from "./components/MinigameInventoryHud";
 import { MinigameConfirmPanel } from "./components/MinigameConfirmPanel";
 import { MinigameInventoryModal } from "./components/MinigameInventoryModal";
-import { MinigameProductionZone } from "./components/MinigameProductionZone";
-import {
-  buildCapJobByRecipeKey,
-  getProductionZoneEntries,
-  getShopPurchaseProductionPreview,
-  recipeJobKey,
-  type CapBalanceProductionSlot,
-} from "./lib/extractProductionSlots";
+import { MinigameTrophySection } from "./components/MinigameTrophySection";
 import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
 import { hasFeatureAccess } from "lib/flags";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
-import {
-  getPrimaryTradableMarketplaceItem,
-  mergeRuntimeWithInitialBalances,
-  remapCapJobRecipeKeys,
-  replaceGeneratingJobId,
-} from "./lib/minigameConfigHelpers";
+import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
 
@@ -121,12 +101,7 @@ export const MinigameDashboard: React.FC = () => {
     "list",
   );
 
-  const [capJobByRecipeKey, setCapJobByRecipeKey] = useState<
-    Record<string, string | undefined>
-  >({});
-  const payloadInitRef = useRef(false);
   const runtimeRef = useRef<PlayerEconomyRuntimeState | null>(null);
-  const capJobByRecipeKeyRef = useRef<Record<string, string | undefined>>({});
   /** Bumped when each minigame POST starts; stale responses must not overwrite newer optimistic state. */
   const minigameRemoteActionSeqRef = useRef(0);
   const dashboardMountedRef = useRef(true);
@@ -148,28 +123,6 @@ export const MinigameDashboard: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    capJobByRecipeKeyRef.current = capJobByRecipeKey;
-  }, [capJobByRecipeKey]);
-
-  useEffect(() => {
-    payloadInitRef.current = false;
-    queueMicrotask(() => {
-      setCapJobByRecipeKey({});
-    });
-  }, [slug]);
-
-  useEffect(() => {
-    if (!payload) return;
-    if (payloadInitRef.current) return;
-    payloadInitRef.current = true;
-    queueMicrotask(() => {
-      setCapJobByRecipeKey(
-        buildCapJobByRecipeKey(payload.config, payload.state),
-      );
-    });
-  }, [payload]);
-
   /** Welcome modal when lifetime activity is still zero (no actions recorded yet). */
   useEffect(() => {
     if (!runtime) return;
@@ -180,191 +133,6 @@ export const MinigameDashboard: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- use activity primitive, not full runtime object
   }, [slug, runtime?.activity]);
-
-  useEffect(() => {
-    if (!runtime) return;
-    queueMicrotask(() => {
-      setCapJobByRecipeKey((prev) => {
-        let changed = false;
-        const next = { ...prev };
-        for (const key of Object.keys(next)) {
-          const id = next[key];
-          if (id && !runtime.generating[id]) {
-            next[key] = undefined;
-            changed = true;
-          }
-        }
-        return changed ? next : prev;
-      });
-    });
-  }, [runtime]);
-
-  const productionEntries = useMemo(
-    () =>
-      payload && runtime
-        ? getProductionZoneEntries(payload.config, runtime)
-        : [],
-    [payload, runtime],
-  );
-
-  const shopProductionPreview = useMemo(() => {
-    if (!payload || !pendingShopItem) return null;
-    return getShopPurchaseProductionPreview(
-      payload.config,
-      pendingShopItem.actionId,
-    );
-  }, [payload, pendingShopItem]);
-
-  const onRecipeJobChange = useCallback(
-    (slot: CapBalanceProductionSlot, jobId: string | undefined) => {
-      const key = recipeJobKey(slot);
-      setCapJobByRecipeKey((prev) => ({ ...prev, [key]: jobId }));
-    },
-    [],
-  );
-
-  const runMinigameAction = useCallback(
-    async (input: {
-      actionId: string;
-      itemId?: string;
-      amounts?: Record<string, number>;
-      /**
-       * Collect only: wait for the server and apply full runtime + grants (random / reveal).
-       * Omit or false → optimistic UI; POST runs in the background.
-       */
-      syncCollectWithServer?: boolean;
-    }): Promise<PlayerEconomyProcessResult> => {
-      if (!payload)
-        return { ok: false, error: t("minigame.dashboard.error.noSession") };
-
-      const prev = runtimeRef.current;
-      if (!prev)
-        return { ok: false, error: t("minigame.dashboard.error.noState") };
-
-      const local = processPlayerEconomyAction(payload.config, prev, {
-        actionId: input.actionId,
-        itemId: input.itemId,
-        amounts: input.amounts,
-        now: Date.now(),
-      });
-      if (!local.ok) return local;
-
-      if (!CONFIG.API_URL) {
-        return local;
-      }
-
-      if (!userToken || farmId == null) {
-        return { ok: false, error: t("minigame.dashboard.signInToAction") };
-      }
-
-      const cfg = payload.config;
-      const isCollect = Boolean(input.itemId?.trim());
-      const awaitRevealCollect =
-        isCollect && input.syncCollectWithServer === true;
-
-      if (awaitRevealCollect) {
-        try {
-          const data = await postPlayerEconomyActionedEvent({
-            farmId,
-            userToken,
-            portalId: payload.portalName,
-            action: input.actionId,
-            itemId: input.itemId,
-            amounts: input.amounts,
-          });
-          const next = runtimeStateFromActionResponse(data.playerEconomy);
-          const merged = mergeRuntimeWithInitialBalances(cfg, next);
-          if (dashboardMountedRef.current) {
-            applyRuntime(merged);
-            setCapJobByRecipeKey(buildCapJobByRecipeKey(cfg, next));
-          }
-          return {
-            ok: true,
-            state: merged,
-            collectGrants: data.collectGrants ?? local.collectGrants ?? [],
-          };
-        } catch (e) {
-          return {
-            ok: false,
-            error:
-              e instanceof Error
-                ? e.message
-                : t("minigame.dashboard.actionFailed"),
-          };
-        }
-      }
-
-      const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
-      const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
-
-      void (async () => {
-        const remoteSeq = ++minigameRemoteActionSeqRef.current;
-        try {
-          const data = await postPlayerEconomyActionedEvent({
-            farmId,
-            userToken,
-            portalId: payload.portalName,
-            action: input.actionId,
-            itemId: input.itemId,
-            amounts: input.amounts,
-          });
-          if (!dashboardMountedRef.current) return;
-          if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
-
-          if (isCollect) {
-            return;
-          }
-
-          const clientJobId = local.generatorJobId;
-          const serverJobId = resolveServerProduceJobId(
-            snapshotRuntime.generating,
-            data,
-            clientJobId,
-          );
-          if (clientJobId && serverJobId && serverJobId !== clientJobId) {
-            setRuntime((prevRt) => {
-              if (!prevRt) return prevRt;
-              if (!prevRt.generating[clientJobId]) return prevRt;
-              const patched = replaceGeneratingJobId(
-                prevRt,
-                clientJobId,
-                serverJobId,
-              );
-              const merged = mergeRuntimeWithInitialBalances(cfg, patched);
-              runtimeRef.current = merged;
-              return merged;
-            });
-            setCapJobByRecipeKey((prevMap) =>
-              remapCapJobRecipeKeys(prevMap, clientJobId, serverJobId),
-            );
-          }
-        } catch (e) {
-          if (!dashboardMountedRef.current) return;
-          if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
-          applyRuntime(snapshotRuntime);
-          setCapJobByRecipeKey(snapshotCapJobs);
-          setActionSyncError(
-            e instanceof Error
-              ? e.message
-              : t("minigame.dashboard.actionFailed"),
-          );
-          setShowActionSyncError(true);
-        }
-      })();
-
-      return {
-        ok: true,
-        state: local.state,
-        ...(local.generatorJobId !== undefined
-          ? { generatorJobId: local.generatorJobId }
-          : {}),
-        ...(local.collectGrants !== undefined
-          ? { collectGrants: local.collectGrants }
-          : {}),
-      };
-    },
-    [payload, userToken, farmId, applyRuntime, t],
-  );
 
   useEffect(() => {
     if (playerEconomiesBlocked) {
@@ -384,7 +152,6 @@ export const MinigameDashboard: React.FC = () => {
         setLoading(false);
         return;
       }
-      payloadInitRef.current = false;
       setLoadError(null);
       setPayload(res.data);
       applyRuntime(res.data.state);
@@ -532,8 +299,6 @@ export const MinigameDashboard: React.FC = () => {
     }
 
     const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
-    const snapshotCapJobs = { ...capJobByRecipeKeyRef.current };
-    const cfg = payload.config;
     const shopActionId = pendingShopItem.actionId;
 
     applyRuntime(local.state);
@@ -558,7 +323,6 @@ export const MinigameDashboard: React.FC = () => {
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
         applyRuntime(snapshotRuntime);
-        setCapJobByRecipeKey(snapshotCapJobs);
         setActionSyncError(
           e instanceof Error ? e.message : t("minigame.dashboard.actionFailed"),
         );
@@ -711,16 +475,7 @@ export const MinigameDashboard: React.FC = () => {
 
           <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <MinigameProductionZone
-                entries={productionEntries}
-                config={payload.config}
-                runtime={runtime}
-                tokenImages={tokenImages}
-                onRuntimeChange={(next) => applyRuntime(next)}
-                capJobByRecipeKey={capJobByRecipeKey}
-                onRecipeJobChange={onRecipeJobChange}
-                dispatchAction={runMinigameAction}
-              />
+              <MinigameTrophySection />
             </div>
 
             <div className="shrink-0 pr-0.5 pt-0.5 md:pr-1 md:pt-1">
@@ -774,7 +529,6 @@ export const MinigameDashboard: React.FC = () => {
             <MinigameShopDetailBody
               config={payload.config}
               item={pendingShopItem}
-              shopProductionPreview={shopProductionPreview}
               tokenImages={tokenImages}
               balances={runtime.balances}
               shopActionError={shopActionError}
@@ -875,7 +629,6 @@ export const MinigameDashboard: React.FC = () => {
             highlightedId={pendingShopItem?.id}
             onListItemClick={onMobileShopListPick}
             detailItem={pendingShopItem}
-            shopProductionPreview={shopProductionPreview}
             shopActionError={shopActionError}
             onBuy={confirmShopPurchase}
           />

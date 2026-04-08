@@ -4,23 +4,15 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { MinigameShopItemUi } from "../lib/minigameDashboardTypes";
 import type { PlayerEconomyConfig } from "../lib/types";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
-import { capTokenDisplayName } from "../lib/extractProductionSlots";
-import { secondsToString } from "lib/utils/time";
+import { tokenDisplayName } from "../lib/minigameConfigHelpers";
 import { canAffordShopPriceLine } from "../lib/canAffordShopItem";
 import { isShopItemPurchaseLimitedOut } from "../lib/minigameShopAvailability";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-type ProductionPreview = {
-  outputToken: string;
-  amount: number;
-  rateDenominatorMs: number;
-};
-
 type Props = {
   config: PlayerEconomyConfig;
   item: MinigameShopItemUi;
-  shopProductionPreview: ProductionPreview | null;
   tokenImages: Record<string, string>;
   balances: Record<string, number>;
   shopActionError: string | null;
@@ -29,7 +21,6 @@ type Props = {
 export const MinigameShopDetailBody: React.FC<Props> = ({
   config,
   item,
-  shopProductionPreview,
   tokenImages,
   balances,
   shopActionError,
@@ -53,37 +44,6 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
         />
       </div>
       <p className="mb-2 whitespace-pre-line text-xs">{item.description}</p>
-      {shopProductionPreview && (
-        <div
-          className="mb-2 flex w-full min-w-0 flex-row flex-nowrap items-center justify-start gap-1.5 text-xs leading-tight"
-          style={{ color: "#181425" }}
-        >
-          <img
-            src={getMinigameTokenImage(
-              shopProductionPreview.outputToken,
-              tokenImages,
-            )}
-            alt=""
-            className="h-4 w-4 shrink-0 object-contain"
-            style={{ imageRendering: "pixelated" }}
-          />
-          <span>
-            {shopProductionPreview.amount}{" "}
-            {capTokenDisplayName(shopProductionPreview.outputToken, config)}
-            {" / "}
-            {secondsToString(
-              Math.max(
-                0,
-                Math.floor(shopProductionPreview.rateDenominatorMs / 1000),
-              ),
-              {
-                length: "short",
-                removeTrailingZeros: true,
-              },
-            )}
-          </span>
-        </div>
-      )}
       <div className="mb-2 flex flex-col gap-1.5 text-xs">
         <span>{t("minigame.dashboard.priceLabel")}</span>
         <div className="flex flex-col gap-1">
@@ -102,7 +62,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
                   )}
                 >
                   {new Decimal(line.amount).toString()}{" "}
-                  {capTokenDisplayName(line.token, config)}
+                  {tokenDisplayName(config, line.token)}
                 </span>
                 <img
                   src={getMinigameTokenImage(line.token, tokenImages)}

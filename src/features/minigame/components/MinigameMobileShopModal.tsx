@@ -11,12 +11,6 @@ import { MinigameShopDetailBody } from "./MinigameShopDetailBody";
 
 export type MinigameMobileShopPhase = "list" | "detail";
 
-type ProductionPreview = {
-  outputToken: string;
-  amount: number;
-  rateDenominatorMs: number;
-};
-
 type Props = {
   config: PlayerEconomyConfig;
   show: boolean;
@@ -29,7 +23,6 @@ type Props = {
   highlightedId?: string | null;
   onListItemClick: (item: MinigameShopItemUi) => void;
   detailItem: MinigameShopItemUi | null;
-  shopProductionPreview: ProductionPreview | null;
   shopActionError: string | null;
   onBuy: () => void;
 };
@@ -46,7 +39,6 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
   highlightedId,
   onListItemClick,
   detailItem,
-  shopProductionPreview,
   shopActionError,
   onBuy,
 }) => {
@@ -107,7 +99,6 @@ export const MinigameMobileShopModal: React.FC<Props> = ({
               <MinigameShopDetailBody
                 config={config}
                 item={detailItem!}
-                shopProductionPreview={shopProductionPreview}
                 tokenImages={tokenImages}
                 balances={balances}
                 shopActionError={shopActionError}
