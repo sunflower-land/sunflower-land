@@ -17,6 +17,7 @@ import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { isFullMoonBerry } from "./seedBought";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { FruitCompostName } from "features/game/types/composters";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -66,6 +67,7 @@ export function getPlantedAt(
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
   createdAt: number,
+  fruitPatchFertiliser?: FruitCompostName,
 ): { plantedAt: number; boostsUsed: { name: BoostName; value: string }[] } {
   if (!patchFruitSeedName) return { plantedAt: createdAt, boostsUsed: [] };
 
@@ -73,6 +75,7 @@ export function getPlantedAt(
   const { seconds: boostedTime, boostsUsed } = getFruitPatchTime(
     patchFruitSeedName,
     game,
+    fruitPatchFertiliser,
   );
 
   const offset = fruitTime - boostedTime;
@@ -122,6 +125,7 @@ export function getFruitTime({ game }: { game: GameState }): {
 export const getFruitPatchTime = (
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
+  fruitPatchFertiliser?: FruitCompostName,
 ): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
   let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
@@ -235,6 +239,11 @@ export const getFruitPatchTime = (
     boostsUsed.push({ name: "Toucan Shrine", value: "x0.75" });
   }
 
+  if (fruitPatchFertiliser === "Turbofruit Mix") {
+    seconds *= 0.8;
+    boostsUsed.push({ name: "Turbofruit Mix", value: "x0.8" });
+  }
+
   return { seconds, boostsUsed };
 };
 
@@ -315,6 +324,7 @@ export function plantFruit({
       action.seed,
       stateCopy,
       createdAt,
+      patch.fertiliser?.name,
     );
     patch.fruit = {
       name: fruitName,

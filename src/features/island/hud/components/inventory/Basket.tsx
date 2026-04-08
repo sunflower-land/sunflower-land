@@ -347,12 +347,14 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
           {itemsSection(
             t("fertilisers"),
-            [
-              ...cropCompost,
-              ...fruitCompost,
-              ...fertilisers,
-              ...fermentationProducts,
-            ],
+            Array.from(
+              new Set([
+                ...cropCompost,
+                ...fruitCompost,
+                ...fertilisers,
+                ...fermentationProducts,
+              ]),
+            ),
             ITEM_DETAILS["Rapid Root"].image,
           )}
           {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}

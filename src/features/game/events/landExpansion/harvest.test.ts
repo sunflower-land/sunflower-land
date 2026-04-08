@@ -367,6 +367,82 @@ describe("harvest", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(1.4));
   });
 
+  it("harvests a buffed amount when Sproutroot Surprise is applied", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+            },
+            fertiliser: {
+              name: "Sproutroot Surprise",
+              fertilisedAt: dateNow - 2 * 60 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+  });
+
+  it("harvests with Knowledge Crab when Sproutroot Surprise is applied", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+            },
+            fertiliser: {
+              name: "Sproutroot Surprise",
+              fertilisedAt: dateNow - 2 * 60 * 1000,
+            },
+          },
+        },
+        collectibles: {
+          "Knowledge Crab": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              readyAt: dateNow - 2 * 60 * 1000,
+              createdAt: dateNow - 2 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1.4));
+  });
+
   it("collects item rewards", () => {
     const { crops } = GAME_STATE;
     const plot = (crops as Record<number, CropPlot>)[0];

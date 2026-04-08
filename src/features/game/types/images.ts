@@ -4771,14 +4771,20 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("greenhouseGoodie"),
   },
   "Sproutroot Surprise": {
+    boostedDescriptions: [
+      {
+        name: "Knowledge Crab",
+        description: translate("compost.sproutrootSurpriseBoosted"),
+      },
+    ],
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.sproutrootSurprise"),
-    translatedName: translate("sproutrootSurprise"),
+    description: translate("compost.sproutrootSurprise"),
+    translatedName: translate("fertiliser.sproutrootSurprise"),
   },
   "Turbofruit Mix": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.turbofruitMix"),
-    translatedName: translate("turbofruitMix"),
+    description: translate("compost.turbofruitMix"),
+    translatedName: translate("fertiliser.turbofruitMix"),
   },
   "Salt Lick": {
     image: saltLick,

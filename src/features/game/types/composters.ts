@@ -3,8 +3,11 @@ import { translate } from "lib/i18n/translate";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";
 
-export type FruitCompostName = "Fruitful Blend";
-export type CropCompostName = "Sprout Mix" | "Rapid Root";
+export type FruitCompostName = "Fruitful Blend" | "Turbofruit Mix";
+export type CropCompostName =
+  | "Sprout Mix"
+  | "Rapid Root"
+  | "Sproutroot Surprise";
 
 export type CompostName = FruitCompostName | CropCompostName;
 
@@ -30,6 +33,9 @@ export const FRUIT_COMPOST: Record<FruitCompostName, { description: string }> =
     "Fruitful Blend": {
       description: translate("compost.fruitfulBlend"),
     },
+    "Turbofruit Mix": {
+      description: translate("compost.turbofruitMix"),
+    },
   };
 
 export const CROP_COMPOST: Record<
@@ -50,6 +56,15 @@ export const CROP_COMPOST: Record<
   },
   "Rapid Root": {
     description: translate("compost.rapidRoot"),
+  },
+  "Sproutroot Surprise": {
+    description: translate("compost.sproutrootSurprise"),
+    boostedDescriptions: [
+      {
+        name: "Knowledge Crab",
+        description: translate("compost.sproutrootSurpriseBoosted"),
+      },
+    ],
   },
 };
 

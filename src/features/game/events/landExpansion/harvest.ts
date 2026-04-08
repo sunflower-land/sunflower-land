@@ -377,9 +377,13 @@ export function getCropYieldAmount({
     boostsUsed.push({ name: "Giant Kale", value: "+2" });
   }
 
-  if (plot?.fertiliser?.name === "Sprout Mix") {
+  const sproutMixYieldFertiliser = plot?.fertiliser?.name;
+  if (
+    sproutMixYieldFertiliser === "Sprout Mix" ||
+    sproutMixYieldFertiliser === "Sproutroot Surprise"
+  ) {
     amount += 0.2;
-    boostsUsed.push({ name: "Sprout Mix", value: "+0.2" });
+    boostsUsed.push({ name: sproutMixYieldFertiliser, value: "+0.2" });
     if (isCollectibleBuilt({ name: "Knowledge Crab", game })) {
       amount += 0.2;
       boostsUsed.push({ name: "Knowledge Crab", value: "+0.2" });

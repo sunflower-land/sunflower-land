@@ -212,6 +212,45 @@ const FertiliserLabel: React.FC<{
     );
   }
 
+  if (fertiliser === "Sproutroot Surprise") {
+    return (
+      <div className="flex flex-col gap-1">
+        <Label
+          icon={powerup}
+          secondaryIcon={SUNNYSIDE.icons.plant}
+          type="success"
+          className="text-xs whitespace-pre-line"
+        >
+          {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
+            ? "+0.4"
+            : "+0.2"}{" "}
+          {t("crops")}
+        </Label>
+        <Label
+          icon={SUNNYSIDE.icons.stopwatch}
+          secondaryIcon={SUNNYSIDE.icons.plant}
+          type="info"
+          className="text-xs whitespace-pre-line"
+        >
+          {t("guide.compost.cropGrowthTime")}
+        </Label>
+      </div>
+    );
+  }
+
+  if (fertiliser === "Turbofruit Mix") {
+    return (
+      <Label
+        icon={SUNNYSIDE.icons.stopwatch}
+        secondaryIcon={ITEM_DETAILS.Apple.image}
+        type="info"
+        className="text-xs whitespace-pre-line"
+      >
+        {t("guide.compost.fruitGrowthTime")}
+      </Label>
+    );
+  }
+
   return null;
 };
 
