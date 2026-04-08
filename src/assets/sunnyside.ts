@@ -503,6 +503,9 @@ export const SUNNYSIDE = {
     petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,
     petHouse2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_blue.webp`,
     petHouse3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_purple.webp`,
+    agingShed1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/aging_shed_1.webp`,
+    agingShed2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/aging_shed_2.webp`,
+    agingShed3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/aging_shed_3.webp`,
 
     //DESERT
     desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/fire_pit.webp`,

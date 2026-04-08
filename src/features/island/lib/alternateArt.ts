@@ -393,3 +393,9 @@ export const PET_HOUSE_VARIANTS: Record<number, string> = {
   2: SUNNYSIDE.building.petHouse2,
   3: SUNNYSIDE.building.petHouse3,
 };
+
+export const AGING_SHED_VARIANTS: Record<number, string> = {
+  1: SUNNYSIDE.building.agingShed1,
+  2: SUNNYSIDE.building.agingShed2,
+  3: SUNNYSIDE.building.agingShed3,
+};

@@ -11,7 +11,6 @@ import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlaced
 import { getFermentationOutputGroups } from "features/game/lib/fermentationUi";
 import {
   getFermentationRecipe,
-  getMaxFermentationSlots,
   type FermentationRecipeName,
 } from "features/game/types/fermentation";
 import type {
@@ -24,10 +23,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import {
-  getAgingInputMultiplier,
-  getAgingOutputBonus,
-} from "features/game/types/agingFormulas";
+import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -89,15 +85,17 @@ export const FermentationRackEmpty: React.FC<Props> = ({
         | [])
     : [];
 
-  const slotsFull =
-    gameState.agingShed.racks.fermentation.length >=
-    getMaxFermentationSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
 
   // NB: actual Start button disable is controlled by parent via `startDisabled`.
   // These are just used to avoid showing misleading blocks when nothing selected.
   const canShowRequirements =
-    !!recipeId && !!recipeDef && shedPlaced && !slotsFull && !isVisiting;
+    !!recipeId && !!recipeDef && shedPlaced && !isVisiting;
+
+  const recipeOutputQuantity =
+    recipeId && selectedGroup?.item
+      ? getFermentationRecipe(recipeId).outputs[selectedGroup.item]
+      : undefined;
 
   return (
     <>
@@ -107,8 +105,9 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           className="text-xs mb-2 ml-1"
           icon={selectedGroup && ITEM_DETAILS[selectedGroup.item]?.image}
         >
-          {selectedGroup?.item ??
-            t("agingShed.fermentation.selectFermentationOutput")}
+          {selectedGroup
+            ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+            : t("agingShed.fermentation.selectFermentationOutput")}
         </Label>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {groups.map((g) => {
@@ -119,8 +118,8 @@ export const FermentationRackEmpty: React.FC<Props> = ({
               >
                 <Box
                   image={ITEM_DETAILS[g.item]?.image}
-                  hideCount
                   isSelected={selectedSignature === g.signature}
+                  count={gameState.inventory[g.item]}
                   onClick={() => onSelectOutput(g.signature)}
                 />
               </div>
@@ -139,11 +138,8 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
           {selectedGroup.recipeIds.length > 1 && (
             <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-              {selectedGroup.recipeIds.map((id, index) => {
+              {selectedGroup.recipeIds.map((id) => {
                 const image = getFirstIngredientImage(id);
-                const yieldQty = selectedGroup.outputQuantities[index]
-                  .add(getAgingOutputBonus(skills))
-                  .toString();
 
                 return (
                   <div
@@ -156,9 +152,6 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       isSelected={recipeId === id}
                       onClick={() => onSelectVariant(id)}
                     />
-                    <span className="text-xxs text-center leading-tight mt-0.5 px-0.5">
-                      {`x${yieldQty}`}
-                    </span>
                   </div>
                 );
               })}

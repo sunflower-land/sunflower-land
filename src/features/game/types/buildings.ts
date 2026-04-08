@@ -319,7 +319,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 3 },
-  "Aging Shed": { width: 3, height: 3 },
+  "Aging Shed": { width: 3, height: 2 },
 };
 
 export function getUnlockedBuildings(level: number): BuildingName[] {
