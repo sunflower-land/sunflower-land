@@ -95,8 +95,9 @@ describe("startFermentation", () => {
     ).toThrow("No available slots");
   });
 
-  it("throws when rack is full at level 3 with three jobs including one ready but uncollected", () => {
+  it("throws when rack is full at level 3 and starting a timed recipe", () => {
     const past = createdAt - 1;
+    const future = createdAt + 60 * 60 * 1000;
 
     expect(() =>
       startFermentation({
@@ -109,30 +110,30 @@ describe("startFermentation", () => {
               fermentation: [
                 {
                   id: "1",
-                  recipe: "Salt from Seaweed",
+                  recipe: "Pickled Radish",
                   startedAt: past,
-                  readyAt: past,
+                  readyAt: future,
                 },
                 {
                   id: "2",
-                  recipe: "Salt from Seaweed",
+                  recipe: "Pickled Radish",
                   startedAt: past,
-                  readyAt: past,
+                  readyAt: future,
                 },
                 {
                   id: "3",
-                  recipe: "Salt from Seaweed",
+                  recipe: "Pickled Radish",
                   startedAt: past,
-                  readyAt: past,
+                  readyAt: future,
                 },
               ],
             },
           },
-          inventory: { Seaweed: new Decimal(1) },
+          inventory: { Tomato: new Decimal(10), Salt: new Decimal(5) },
         }),
         action: {
           type: "fermentation.started",
-          recipe: "Salt from Seaweed",
+          recipe: "Pickled Tomato",
           jobId: TEST_JOB_ID,
         },
         farmId: 1,
@@ -283,7 +284,7 @@ describe("startFermentation", () => {
     );
   });
 
-  it("instant salt recipe has readyAt equal to createdAt", () => {
+  it("instant salt recipe grants output without enqueueing", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: { Seaweed: new Decimal(1) },
@@ -297,10 +298,12 @@ describe("startFermentation", () => {
       createdAt,
     });
 
-    expect(state.agingShed.racks.fermentation[0].readyAt).toEqual(createdAt);
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.inventory.Seaweed?.toNumber()).toEqual(0);
+    expect(state.inventory.Salt?.toNumber()).toEqual(2);
   });
 
-  it("starts salt_from_old_bottle and deducts bottle", () => {
+  it("starts salt_from_old_bottle and deducts bottle without using a slot", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: { "Old Bottle": new Decimal(1) },
@@ -315,9 +318,61 @@ describe("startFermentation", () => {
     });
 
     expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
-      "Salt from Old Bottle",
+    expect(state.inventory.Salt?.toNumber()).toEqual(2);
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+  });
+
+  it("allows zero-duration recipe when fermentation rack is full", () => {
+    const past = createdAt - 1;
+    const future = createdAt + 60 * 60 * 1000;
+    const newJobId = "instant01";
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 3,
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "1",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: future,
+              },
+              {
+                id: "2",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: future,
+              },
+              {
+                id: "3",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: future,
+              },
+            ],
+          },
+        },
+        inventory: { "Old Bottle": new Decimal(1) },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe: "Salt from Old Bottle",
+        jobId: newJobId,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.fermentation).toHaveLength(3);
+    expect(state.agingShed.racks.fermentation.map((j) => j.id)).not.toContain(
+      newJobId,
     );
+    expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
+    expect(state.inventory.Salt?.toNumber()).toEqual(2);
   });
 
   it("exercises runtime recipe guard when type is widened", () => {

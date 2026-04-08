@@ -40,6 +40,9 @@ import { FermentationRackInProgress } from "./FermentationRackInProgress";
 const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
 const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
 
+/** UI-only slot for 0s recipes; does not use a server fermentation queue slot. */
+type FermentationSlotSelection = number | "instant" | null;
+
 function getMergedInventory(state: GameState): Inventory {
   return {
     ...getBasketItems(state.inventory),
@@ -100,10 +103,9 @@ export const FermentationRackPanel: React.FC = () => {
 
   const groups = useMemo(() => getFermentationOutputGroups(), []);
 
-  /** `null` = no explicit tap yet: UI uses first empty slot (see `effectiveSlotIndex`). */
-  const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
-    null,
-  );
+  /** `null` = no explicit tap yet: UI uses default (first empty slot, or instant when rack is full). */
+  const [selectedSlotIndex, setSelectedSlotIndex] =
+    useState<FermentationSlotSelection>(null);
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
   >(undefined);
@@ -125,11 +127,15 @@ export const FermentationRackPanel: React.FC = () => {
       ? getFirstInsufficientIngredient(merged, selectedRecipeId)
       : undefined;
 
+  const isInstantRecipe =
+    selectedRecipeId !== undefined &&
+    getFermentationRecipe(selectedRecipeId).durationSeconds === 0;
+
   const canStart =
     !isVisiting &&
     shedPlaced &&
     selectedRecipeId !== undefined &&
-    !slotsFull &&
+    (!slotsFull || isInstantRecipe) &&
     insufficientIngredient === undefined;
 
   const readyJobs = queue.filter((job) => job.readyAt <= now);
@@ -137,12 +143,33 @@ export const FermentationRackPanel: React.FC = () => {
 
   const firstEmptySlotIndex = Math.min(queue.length, Math.max(0, maxSlots - 1));
 
-  const effectiveSlotIndex = useMemo(() => {
-    const base = selectedSlotIndex ?? firstEmptySlotIndex;
-    return Math.min(Math.max(base, 0), Math.max(0, maxSlots - 1));
-  }, [selectedSlotIndex, firstEmptySlotIndex, maxSlots]);
+  const defaultSlotSelection = useMemo((): number | "instant" => {
+    if (queue.length >= maxSlots) return "instant";
+    return firstEmptySlotIndex;
+  }, [queue.length, maxSlots, firstEmptySlotIndex]);
 
-  const selectedJob = queue[effectiveSlotIndex];
+  const effectiveSelection = selectedSlotIndex ?? defaultSlotSelection;
+
+  /** Instant lane is only shown when every real fermentation slot is in use. */
+  const isInstantSlotSelected = slotsFull && effectiveSelection === "instant";
+
+  const effectiveQueueSlotIndex = useMemo(() => {
+    if (isInstantSlotSelected) return 0;
+    const idx =
+      typeof effectiveSelection === "number"
+        ? effectiveSelection
+        : firstEmptySlotIndex;
+    return Math.min(Math.max(idx, 0), Math.max(0, maxSlots - 1));
+  }, [
+    isInstantSlotSelected,
+    effectiveSelection,
+    firstEmptySlotIndex,
+    maxSlots,
+  ]);
+
+  const selectedJob = isInstantSlotSelected
+    ? undefined
+    : queue[effectiveQueueSlotIndex];
 
   const applyOutputGroupSelection = useCallback(
     (group: FermentationOutputGroup) => {
@@ -242,7 +269,7 @@ export const FermentationRackPanel: React.FC = () => {
       return t("error.requiredBuildingNotExist");
     }
 
-    if (slotsFull) {
+    if (slotsFull && selectedRecipeId !== undefined && !isInstantRecipe) {
       return t("error.noAvailableSlots");
     }
 
@@ -283,7 +310,10 @@ export const FermentationRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={effectiveSlotIndex === index}
+                    isSelected={
+                      !isInstantSlotSelected &&
+                      effectiveQueueSlotIndex === index
+                    }
                     onClick={() => setSelectedSlotIndex(index)}
                   />
                   <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
@@ -306,7 +336,9 @@ export const FermentationRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={effectiveSlotIndex === index}
+                  isSelected={
+                    !isInstantSlotSelected && effectiveQueueSlotIndex === index
+                  }
                   onClick={() => setSelectedSlotIndex(index)}
                 >
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
@@ -314,6 +346,19 @@ export const FermentationRackPanel: React.FC = () => {
               </div>
             );
           })}
+          {slotsFull && (
+            <div className="flex flex-col items-center max-w-[72px]">
+              <Box
+                disabled={false}
+                hideCount
+                isSelected={isInstantSlotSelected}
+                onClick={() => setSelectedSlotIndex("instant")}
+              />
+              <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
+                {t("agingShed.fermentation.instantSlot")}
+              </span>
+            </div>
+          )}
         </div>
       </InnerPanel>
 

@@ -12,6 +12,7 @@ import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
 import { hasFeatureAccess } from "lib/flags";
 
 export type StartFermentationAction = {
@@ -32,7 +33,7 @@ export function startFermentation({
   state,
   action,
   createdAt = Date.now(),
-  farmId: _farmId,
+  farmId,
 }: Options): GameState {
   if (!hasFeatureAccess(state, "AGING_SHED")) {
     throw new Error("Aging Shed not enabled");
@@ -48,11 +49,12 @@ export function startFermentation({
     }
 
     const recipeDef = getFermentationRecipe(action.recipe);
+    const durationSeconds = Math.max(0, recipeDef.durationSeconds);
 
     const maxSlots = getMaxFermentationSlots(game.agingShed.level);
     const queue = game.agingShed.racks.fermentation;
 
-    if (queue.length >= maxSlots) {
+    if (durationSeconds > 0 && queue.length >= maxSlots) {
       throw new Error(translate("error.noAvailableSlots"));
     }
 
@@ -71,7 +73,12 @@ export function startFermentation({
       game.inventory[ingredient] = count.sub(need);
     }
 
-    const readyAt = createdAt + Math.max(0, recipeDef.durationSeconds) * 1000;
+    if (durationSeconds === 0) {
+      grantFermentationRecipeOutputs(game, action.recipe, farmId);
+      return;
+    }
+
+    const readyAt = createdAt + durationSeconds * 1000;
 
     const job: FermentationJob = {
       id: action.jobId,

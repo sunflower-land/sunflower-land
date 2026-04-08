@@ -8597,6 +8597,7 @@
   "agingShed.fermentation.ready": "Ready",
   "agingShed.fermentation.timeRemaining": "{{time}} left",
   "agingShed.fermentation.slotsUsed": "Slots: {{used}}/{{max}}",
+  "agingShed.fermentation.instantSlot": "Instant",
   "agingShed.fermentation.insufficientIngredient": "Not enough {{item}}",
   "agingShed.spice.spiceSlots": "Spice Slots",
   "agingShed.spice.selectRecipe": "Select recipe",

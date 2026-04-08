@@ -1,16 +1,8 @@
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
-import {
-  FermentationCollectedActivity,
-  getFermentationRecipe,
-} from "features/game/types/fermentation";
-import { getObjectEntries } from "lib/object";
-import { KNOWN_IDS } from "features/game/types";
-import { GameState } from "features/game/types/game";
-import { getAgingOutput } from "features/game/types/agingFormulas";
-import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
+import { GameState } from "features/game/types/game";
 
 export type CollectFermentationAction = {
   type: "fermentation.collected";
@@ -50,30 +42,7 @@ export function collectFermentation({
     );
 
     ready.forEach((job) => {
-      const recipeDef = getFermentationRecipe(job.recipe);
-
-      for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
-        const prev = game.inventory[item] ?? new Decimal(0);
-        const add = getAgingOutput(
-          game.bumpkin.skills,
-          amount ?? new Decimal(0),
-          item,
-          {
-            farmId,
-            itemId: KNOWN_IDS[item],
-            counter: game.farmActivity[`${item} Fermented`] ?? 0,
-          },
-        );
-        game.inventory[item] = prev.add(add);
-
-        const activityName: FermentationCollectedActivity = `${item} Fermented`;
-
-        game.farmActivity = trackFarmActivity(
-          activityName,
-          game.farmActivity,
-          new Decimal(add),
-        );
-      }
+      grantFermentationRecipeOutputs(game, job.recipe, farmId);
     });
   });
 }

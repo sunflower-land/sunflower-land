@@ -192,6 +192,12 @@ export const makeUpgradableBuildingKey = (
     .replace(/\s+/g, "") as UpgradableBuildingKey;
 };
 
+export function getMaxBuildingUpgradeLevel(
+  upgrades: Record<number, BuildingUpgradeCost>,
+): number {
+  return Math.max(1, ...getKeys(upgrades).map(Number));
+}
+
 export function upgradeBuilding({
   state,
   action,
@@ -212,7 +218,7 @@ export function upgradeBuilding({
 
     const upgrades = BUILDING_UPGRADES[buildingType];
 
-    if (building.level >= getKeys(upgrades).length) {
+    if (building.level >= getMaxBuildingUpgradeLevel(upgrades)) {
       throw new Error("Building is at max level");
     }
 
