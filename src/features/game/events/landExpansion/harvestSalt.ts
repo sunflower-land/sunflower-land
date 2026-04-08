@@ -12,6 +12,7 @@ import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -93,11 +94,14 @@ export function harvestSalt({
       salt: finalizedSalt,
     };
 
+    const saltHarvestCount = copy.farmActivity["Salt Harvested"] ?? 0;
+    copy.farmActivity = trackFarmActivity("Salt Harvested", copy.farmActivity);
+
     if (copy.bumpkin?.skills["Sea Blessed"]) {
       const seaBlessedHit = prngChance({
         farmId,
         itemId: KNOWN_IDS["Salt"],
-        counter: (copy.inventory["Salt"] ?? new Decimal(0)).toNumber(),
+        counter: saltHarvestCount,
         chance: 5,
         criticalHitName: "Sea Blessed",
       });

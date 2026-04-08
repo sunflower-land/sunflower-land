@@ -4733,7 +4733,7 @@
   "skill.saltySeas": "10% faster salt charge replenishment",
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
-  "skill.ager.buff": "+1 output from Aging Racks",
+  "skill.ager.buff": "+1 output from Aging Shed Racks",
   "skill.ager.debuff": "2× Aging Shed inputs (ingredients, fish & salt)",
   "skill.wideRakes": "+2 Salt per harvest",
   "skill.seaBlessed": "5% chance to recharge all Salt Nodes on harvest",

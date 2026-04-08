@@ -260,12 +260,16 @@ describe("harvestSalt", () => {
           ...INITIAL_FARM,
           inventory: {
             ...INITIAL_FARM.inventory,
-            Salt: new Decimal(34),
+            Salt: new Decimal(0),
             "Salt Rake": new Decimal(1),
           },
           bumpkin: {
             ...INITIAL_FARM.bumpkin,
             skills: { "Sea Blessed": 1 },
+          },
+          farmActivity: {
+            ...INITIAL_FARM.farmActivity,
+            "Salt Harvested": 44,
           },
           saltFarm: {
             ...INITIAL_FARM.saltFarm,
