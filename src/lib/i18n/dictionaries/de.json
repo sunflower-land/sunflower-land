@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermentation",
   "agingShed.spiceRack": "Gewürz",
   "rocketman.flower.exchange.two": "Du kannst 80 Liebeszauber gegen 1 $FLOWER eintauschen.",
-  "flower.exchange.error.min": "Du kannst nicht weniger als 80 Liebeszauber eintauschen"
+  "flower.exchange.error.min": "Du kannst nicht weniger als 80 Liebeszauber eintauschen",
+  "description.bumpkinRug": "Ein freundliches Bumpkin-Gesicht für Ihren Boden.",
+  "description.goblinRug": "Sieht immer noch ein bisschen boshaft aus.",
+  "description.petRug": "Zu süß, um darauf zu treten. Fast.",
+  "description.jesterInABox": "Wickeln Sie es auf und bereiten Sie sich auf das Chaos vor.",
+  "description.theSunflowerManStatue": "Geschichten besagen, dass diese Statue von einem Helden der Legende stammt. Ich glaube, jemand fand es einfach lustig und hat es geschafft."
 }

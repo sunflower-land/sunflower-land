@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermentasi",
   "agingShed.spiceRack": "Rempah-rempah",
   "rocketman.flower.exchange.two": "Anda akan dapat menukar 80 Love Charms dengan 1 $FLOWER.",
-  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari 80 Pesona Cinta"
+  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari 80 Pesona Cinta",
+  "description.bumpkinRug": "Wajah Bumpkin yang ramah untuk lantai Anda.",
+  "description.goblinRug": "Masih terlihat sedikit nakal.",
+  "description.petRug": "Terlalu lucu untuk diinjak. Hampir.",
+  "description.jesterInABox": "Putuskan dan bersiaplah untuk kekacauan.",
+  "description.theSunflowerManStatue": "Cerita mengatakan patung ini berasal dari pahlawan legenda. Saya pikir seseorang hanya berpikir itu lucu dan membuatnya."
 }

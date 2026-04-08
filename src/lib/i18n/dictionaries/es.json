@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermentación",
   "agingShed.spiceRack": "Especia",
   "rocketman.flower.exchange.two": "Podrás cambiar 80 amuletos de amor por 1 $FLOWER.",
-  "flower.exchange.error.min": "No puedes intercambiar menos de 80 amuletos de amor"
+  "flower.exchange.error.min": "No puedes intercambiar menos de 80 amuletos de amor",
+  "description.bumpkinRug": "Una cara amistosa de Bumpkin para tu suelo.",
+  "description.goblinRug": "Aún parece un poco travieso.",
+  "description.petRug": "Demasiado linda para pisarla. Casi.",
+  "description.jesterInABox": "Termine y prepárese para el caos.",
+  "description.theSunflowerManStatue": "Las historias dicen que esta estatua es de un héroe de la leyenda. Creo que alguien pensó que era gracioso y lo hizo."
 }

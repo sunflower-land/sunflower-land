@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermentação",
   "agingShed.spiceRack": "Especiaria",
   "rocketman.flower.exchange.two": "Você poderá trocar 80 Love Charms por 1$ FLOWER.",
-  "flower.exchange.error.min": "Você não pode trocar menos de 80 amuletos amorosos"
+  "flower.exchange.error.min": "Você não pode trocar menos de 80 amuletos amorosos",
+  "description.bumpkinRug": "Uma cara amigável de caipira para seu chão.",
+  "description.goblinRug": "Ainda parece um pouco travesso.",
+  "description.petRug": "Muito fofo para pisar. Quase.",
+  "description.jesterInABox": "Encerre-o e prepare-se para o caos.",
+  "description.theSunflowerManStatue": "As histórias dizem que esta estátua é de um herói da lenda. Acho que alguém achou que era engraçado e fez isso."
 }

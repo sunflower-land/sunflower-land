@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "发酵",
   "agingShed.spiceRack": "香料",
   "rocketman.flower.exchange.two": "你可以用 80 个爱情护身符兑换 1 美元 FLOWER。",
-  "flower.exchange.error.min": "你不能兑换少于 80 个 Love Charms"
+  "flower.exchange.error.min": "你不能兑换少于 80 个 Love Charms",
+  "description.bumpkinRug": "一张友好的Bumpkin面孔，适合您的地板。",
+  "description.goblinRug": "看起来还是有点调皮。",
+  "description.petRug": "太可爱了，没法踩踏。差不多。",
+  "description.jesterInABox": "把它收起来，为混乱做准备。",
+  "description.theSunflowerManStatue": "故事说这座雕像来自传说中的一位英雄。我想有人只是觉得这很有趣然后成功了。"
 }

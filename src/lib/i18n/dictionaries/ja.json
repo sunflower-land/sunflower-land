@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "発酵",
   "agingShed.spiceRack": "スパイス",
   "rocketman.flower.exchange.two": "80個のラブチャームを1$FLOWERと交換できます。",
-  "flower.exchange.error.min": "80個以下のラブチャームは交換できません"
+  "flower.exchange.error.min": "80個以下のラブチャームは交換できません",
+  "description.bumpkinRug": "床に優しいバンプキンフェイス。",
+  "description.goblinRug": "まだちょっといたずらっぽく見えます。",
+  "description.petRug": "可愛すぎて踏みきれません。ほぼ。",
+  "description.jesterInABox": "まとめて混乱に備えましょう。",
+  "description.theSunflowerManStatue": "この像は伝説の英雄の像だそうです。誰かが面白いと思って作ったんだと思う。"
 }

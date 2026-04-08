@@ -8591,5 +8591,10 @@
   "description.petTree": "A majestic climbing tower for your pet. Your furniture is finally safe. Probably.",
   "description.definitelyNotAFlower": "Not a flower. Stop asking.",
   "eventAprilFools.noticeboard.one": "Welcome to the April Fools 2026 Community Event!",
-  "agedFish": "Aged Fish"
+  "agedFish": "Aged Fish",
+  "description.bumpkinRug": "A friendly Bumpkin face for your floor.",
+  "description.goblinRug": "Still looks a little mischievous.",
+  "description.petRug": "Too cute to step on. Almost.",
+  "description.jesterInABox": "Wind it up and prepare for chaos.",
+  "description.theSunflowerManStatue": "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it."
 }

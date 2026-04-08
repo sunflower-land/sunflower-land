@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermantasyon",
   "agingShed.spiceRack": "Baharat",
   "rocketman.flower.exchange.two": "80 Aşk Tılsımı 1 $FLOWER karşılığında değiştirebileceksiniz.",
-  "flower.exchange.error.min": "80'den az Aşk Tılsımı takas edemezsin"
+  "flower.exchange.error.min": "80'den az Aşk Tılsımı takas edemezsin",
+  "description.bumpkinRug": "Zemininiz için dost canlısı bir Bumpkin yüzü.",
+  "description.goblinRug": "Hala biraz yaramaz görünüyor.",
+  "description.petRug": "Üzerine basmak için çok sevimli. Neredeyse.",
+  "description.jesterInABox": "Sarın ve kaosa hazırlanın.",
+  "description.theSunflowerManStatue": "Hikayeler, bu heykelin efsanenin bir kahramanından olduğunu söylüyor. Sanırım birisi komik olduğunu düşündü ve yaptı."
 }

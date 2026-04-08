@@ -8591,5 +8591,10 @@
   "agingShed.fermentationRack": "Fermentazione",
   "agingShed.spiceRack": "Spezia",
   "rocketman.flower.exchange.two": "Potrai scambiare 80 Love Charms per 1 $FLOWER.",
-  "flower.exchange.error.min": "Non puoi scambiare meno di 80 Love Charms"
+  "flower.exchange.error.min": "Non puoi scambiare meno di 80 Love Charms",
+  "description.bumpkinRug": "Una simpatica faccia Bumpkin per il tuo pavimento.",
+  "description.goblinRug": "Sembra ancora un po' malizioso.",
+  "description.petRug": "Troppo carino per calpestarlo. Quasi.",
+  "description.jesterInABox": "Finiscila e preparati al caos.",
+  "description.theSunflowerManStatue": "Le storie dicono che questa statua è di un eroe della leggenda. Penso che qualcuno l'abbia semplicemente trovata divertente e l'abbia fatta."
 }
