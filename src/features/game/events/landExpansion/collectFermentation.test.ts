@@ -167,6 +167,66 @@ describe("collectFermentation", () => {
     expect(state.inventory.Salt?.toNumber()).toEqual(5);
   });
 
+  it("collects retired Greenhouse Glow: Pickled Radish jobs still in the queue", () => {
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "legacy-glow",
+                recipe: "Greenhouse Glow: Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.inventory["Greenhouse Glow"]?.toNumber()).toEqual(1);
+    expect(state.farmActivity["Greenhouse Glow Fermented"]).toEqual(1);
+  });
+
+  it("collects retired Greenhouse Goodie: Pickled Tomato jobs still in the queue", () => {
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "legacy-goodie",
+                recipe: "Greenhouse Goodie: Pickled Tomato",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.inventory["Greenhouse Goodie"]?.toNumber()).toEqual(1);
+    expect(state.farmActivity["Greenhouse Goodie Fermented"]).toEqual(1);
+  });
+
   it("increments farm activity each time the same recipe is collected", () => {
     const past = createdAt - 1;
 

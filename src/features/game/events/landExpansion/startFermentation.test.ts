@@ -392,27 +392,67 @@ describe("startFermentation", () => {
     ).toThrow("Invalid fermentation recipe");
   });
 
-  it("starts Greenhouse Glow: Pickled Radish and deducts ingredients", () => {
+  it("rejects retired Greenhouse Glow variants so they cannot be started", () => {
+    expect(() =>
+      startFermentation({
+        state: createFermentationTestState({
+          inventory: {
+            Salt: new Decimal(2),
+            "Pickled Radish": new Decimal(1),
+          },
+        }),
+        action: {
+          type: "fermentation.started",
+          recipe: "Greenhouse Glow: Pickled Radish",
+          jobId: TEST_JOB_ID,
+        },
+        farmId: 1,
+        createdAt,
+      }),
+    ).toThrow("This fermentation recipe is no longer available.");
+  });
+
+  it("rejects retired Greenhouse Goodie variants so they cannot be started", () => {
+    expect(() =>
+      startFermentation({
+        state: createFermentationTestState({
+          inventory: {
+            "Refined Salt": new Decimal(2),
+            "Pickled Cabbage": new Decimal(1),
+          },
+        }),
+        action: {
+          type: "fermentation.started",
+          recipe: "Greenhouse Goodie: Pickled Cabbage",
+          jobId: TEST_JOB_ID,
+        },
+        farmId: 1,
+        createdAt,
+      }),
+    ).toThrow("This fermentation recipe is no longer available.");
+  });
+
+  it("starts Greenhouse Glow: Pickled Zucchini and deducts ingredients", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: {
-          Salt: new Decimal(2),
-          "Pickled Radish": new Decimal(1),
+          "Refined Salt": new Decimal(2),
+          "Pickled Zucchini": new Decimal(1),
         },
       }),
       action: {
         type: "fermentation.started",
-        recipe: "Greenhouse Glow: Pickled Radish",
+        recipe: "Greenhouse Glow: Pickled Zucchini",
         jobId: TEST_JOB_ID,
       },
       farmId: 1,
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(0);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
-      "Greenhouse Glow: Pickled Radish",
+      "Greenhouse Glow: Pickled Zucchini",
     );
   });
 

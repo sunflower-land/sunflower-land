@@ -6,6 +6,7 @@ import {
   getFermentationRecipe,
   getMaxFermentationSlots,
   isFermentationRecipeName,
+  isStartableFermentationRecipeName,
   type FermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
@@ -46,6 +47,10 @@ export function startFermentation({
 
     if (!isFermentationRecipeName(action.recipe)) {
       throw new Error("Invalid fermentation recipe");
+    }
+
+    if (!isStartableFermentationRecipeName(action.recipe)) {
+      throw new Error("This fermentation recipe is no longer available.");
     }
 
     const recipeDef = getFermentationRecipe(action.recipe);
