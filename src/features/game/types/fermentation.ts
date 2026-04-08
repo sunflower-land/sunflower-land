@@ -4,12 +4,47 @@ import { getKeys } from "lib/object";
 import type { Inventory, InventoryItemName } from "./game";
 import type { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
 import { getFishNamesByTier } from "./fishing";
+import { PickledCropName } from "./pickled";
 
 export type FermentationRecipeDefinition = {
   durationSeconds: number;
   ingredients: Inventory;
   outputs: Inventory;
 };
+
+const GREENHOUSE_FERMENT_DURATION_SEC = 60 * 60 * 2;
+
+function greenhouseGlowRecipe(
+  pickle: PickledCropName,
+  salt: "Salt" | "Refined Salt",
+): FermentationRecipeDefinition {
+  return {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      [pickle]: new Decimal(1),
+      [salt]: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  };
+}
+
+function greenhouseGoodieRecipe(
+  pickle: PickledCropName,
+  salt: "Salt" | "Refined Salt",
+): FermentationRecipeDefinition {
+  return {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      [pickle]: new Decimal(1),
+      [salt]: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  };
+}
 
 const STATIC_FERMENTATION_RECIPES = {
   "Pickled Radish": {
@@ -72,66 +107,30 @@ const STATIC_FERMENTATION_RECIPES = {
       "Pickled Pepper": new Decimal(1),
     },
   },
-  "Greenhouse Glow: Pickled Tomato": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Tomato": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  },
-  "Greenhouse Glow: Pickled Zucchini": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Zucchini": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  },
-  "Greenhouse Glow: Pickled Cabbage": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Cabbage": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  },
-  "Greenhouse Goodie: Pickled Radish": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Radish": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  },
-  "Greenhouse Goodie: Pickled Pepper": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Pepper": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  },
-  "Greenhouse Goodie: Pickled Onion": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Onion": new Decimal(1),
-      "Refined Salt": new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  },
+  "Greenhouse Glow: Pickled Tomato": greenhouseGlowRecipe(
+    "Pickled Tomato",
+    "Refined Salt",
+  ),
+  "Greenhouse Glow: Pickled Zucchini": greenhouseGlowRecipe(
+    "Pickled Zucchini",
+    "Refined Salt",
+  ),
+  "Greenhouse Glow: Pickled Cabbage": greenhouseGlowRecipe(
+    "Pickled Cabbage",
+    "Refined Salt",
+  ),
+  "Greenhouse Goodie: Pickled Radish": greenhouseGoodieRecipe(
+    "Pickled Radish",
+    "Refined Salt",
+  ),
+  "Greenhouse Goodie: Pickled Pepper": greenhouseGoodieRecipe(
+    "Pickled Pepper",
+    "Refined Salt",
+  ),
+  "Greenhouse Goodie: Pickled Onion": greenhouseGoodieRecipe(
+    "Pickled Onion",
+    "Refined Salt",
+  ),
   "Sproutroot Surprise": {
     durationSeconds: 60 * 2,
     ingredients: {
@@ -180,46 +179,22 @@ const STATIC_FERMENTATION_RECIPES = {
  * can still be collected.
  */
 const LEGACY_FERMENTATION_RECIPES = {
-  "Greenhouse Glow: Pickled Radish": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Radish": new Decimal(1),
-      Salt: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  },
-  "Greenhouse Glow: Pickled Pepper": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Pepper": new Decimal(1),
-      Salt: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  },
-  "Greenhouse Goodie: Pickled Cabbage": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Cabbage": new Decimal(1),
-      Salt: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  },
-  "Greenhouse Goodie: Pickled Tomato": {
-    durationSeconds: 60 * 60 * 2,
-    ingredients: {
-      "Pickled Tomato": new Decimal(1),
-      Salt: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  },
+  "Greenhouse Glow: Pickled Radish": greenhouseGlowRecipe(
+    "Pickled Radish",
+    "Salt",
+  ),
+  "Greenhouse Glow: Pickled Pepper": greenhouseGlowRecipe(
+    "Pickled Pepper",
+    "Salt",
+  ),
+  "Greenhouse Goodie: Pickled Cabbage": greenhouseGoodieRecipe(
+    "Pickled Cabbage",
+    "Salt",
+  ),
+  "Greenhouse Goodie: Pickled Tomato": greenhouseGoodieRecipe(
+    "Pickled Tomato",
+    "Salt",
+  ),
 } as const satisfies Record<string, FermentationRecipeDefinition>;
 
 function buildBaitFermentationRecipes(): Record<
@@ -380,10 +355,23 @@ export type StaticFermentationRecipeName =
 export type LegacyFermentationRecipeName =
   keyof typeof LEGACY_FERMENTATION_RECIPES;
 
+export const LEGACY_FERMENTATION_RECIPE_IDS: LegacyFermentationRecipeName[] =
+  getKeys(LEGACY_FERMENTATION_RECIPES);
+
 /** Recipes that may be chosen when starting a new fermentation job. */
 export type StartableFermentationRecipeName =
   | StaticFermentationRecipeName
   | BaitFermentationRecipeName;
+
+/** Startable greenhouse glow / goodie variants (locked by tests). */
+export const GREENHOUSE_FERMENTATION_STARTABLE_IDS = [
+  "Greenhouse Glow: Pickled Tomato",
+  "Greenhouse Glow: Pickled Zucchini",
+  "Greenhouse Glow: Pickled Cabbage",
+  "Greenhouse Goodie: Pickled Radish",
+  "Greenhouse Goodie: Pickled Pepper",
+  "Greenhouse Goodie: Pickled Onion",
+] as const satisfies readonly StartableFermentationRecipeName[];
 
 export type FermentationRecipeName =
   | StartableFermentationRecipeName

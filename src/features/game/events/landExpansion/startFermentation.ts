@@ -7,7 +7,7 @@ import {
   getMaxFermentationSlots,
   isFermentationRecipeName,
   isStartableFermentationRecipeName,
-  type FermentationRecipeName,
+  type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
@@ -18,7 +18,7 @@ import { hasFeatureAccess } from "lib/flags";
 
 export type StartFermentationAction = {
   type: "fermentation.started";
-  recipe: FermentationRecipeName;
+  recipe: StartableFermentationRecipeName;
   /** Client-generated id (same idea as `cropId` in `plant.ts`, often `crypto.randomUUID().slice(0, 8)`). */
   jobId: string;
 };

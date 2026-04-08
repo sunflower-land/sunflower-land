@@ -3,8 +3,13 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getFermentationRecipe,
+  GREENHOUSE_FERMENTATION_STARTABLE_IDS,
+  LEGACY_FERMENTATION_RECIPE_IDS,
   type FermentationRecipeName,
+  type LegacyFermentationRecipeName,
+  type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
+import { getObjectEntries } from "lib/object";
 import { getFishNamesByTier } from "features/game/types/fishing";
 import { startFermentation } from "./startFermentation";
 import {
@@ -383,7 +388,8 @@ describe("startFermentation", () => {
         }),
         action: {
           type: "fermentation.started",
-          recipe: "not_a_valid_fermentation_recipe" as FermentationRecipeName,
+          recipe:
+            "not_a_valid_fermentation_recipe" as StartableFermentationRecipeName,
           jobId: TEST_JOB_ID,
         },
         farmId: 1,
@@ -392,69 +398,58 @@ describe("startFermentation", () => {
     ).toThrow("Invalid fermentation recipe");
   });
 
-  it("rejects retired Greenhouse Glow variants so they cannot be started", () => {
-    expect(() =>
-      startFermentation({
-        state: createFermentationTestState({
-          inventory: {
-            Salt: new Decimal(2),
-            "Pickled Radish": new Decimal(1),
+  it.each(LEGACY_FERMENTATION_RECIPE_IDS)(
+    "rejects legacy fermentation recipe so it cannot be started (%s)",
+    (recipeId: LegacyFermentationRecipeName) => {
+      const def = getFermentationRecipe(recipeId);
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      expect(() =>
+        startFermentation({
+          state: createFermentationTestState({ inventory }),
+          action: {
+            type: "fermentation.started",
+            recipe: recipeId as StartableFermentationRecipeName,
+            jobId: TEST_JOB_ID,
           },
+          farmId: 1,
+          createdAt,
         }),
+      ).toThrow("This fermentation recipe is no longer available.");
+    },
+  );
+
+  it.each([...GREENHOUSE_FERMENTATION_STARTABLE_IDS])(
+    "starts %s with Refined Salt and deducts all ingredients",
+    (recipeId) => {
+      const def = getFermentationRecipe(recipeId);
+      expect(def.ingredients["Refined Salt"]?.eq(2)).toBe(true);
+
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      const state = startFermentation({
+        state: createFermentationTestState({ inventory }),
         action: {
           type: "fermentation.started",
-          recipe: "Greenhouse Glow: Pickled Radish",
+          recipe: recipeId,
           jobId: TEST_JOB_ID,
         },
         farmId: 1,
         createdAt,
-      }),
-    ).toThrow("This fermentation recipe is no longer available.");
-  });
+      });
 
-  it("rejects retired Greenhouse Goodie variants so they cannot be started", () => {
-    expect(() =>
-      startFermentation({
-        state: createFermentationTestState({
-          inventory: {
-            "Refined Salt": new Decimal(2),
-            "Pickled Cabbage": new Decimal(1),
-          },
-        }),
-        action: {
-          type: "fermentation.started",
-          recipe: "Greenhouse Goodie: Pickled Cabbage",
-          jobId: TEST_JOB_ID,
-        },
-        farmId: 1,
-        createdAt,
-      }),
-    ).toThrow("This fermentation recipe is no longer available.");
-  });
-
-  it("starts Greenhouse Glow: Pickled Zucchini and deducts ingredients", () => {
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          "Refined Salt": new Decimal(2),
-          "Pickled Zucchini": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe: "Greenhouse Glow: Pickled Zucchini",
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
-      "Greenhouse Glow: Pickled Zucchini",
-    );
-  });
+      for (const [ing] of getObjectEntries(def.ingredients)) {
+        expect(state.inventory[ing]?.toNumber() ?? 0).toEqual(0);
+      }
+      expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipeId);
+    },
+  );
 
   it("starts Sproutroot Surprise and deducts ingredients", () => {
     const state = startFermentation({
@@ -484,7 +479,7 @@ describe("startFermentation", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const agedFish = `Aged ${fishName}` as const;
     const recipe =
-      `Capsule Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Capsule Bait (Aged ${fishName}, Pickled Zucchini)` as StartableFermentationRecipeName;
 
     const state = startFermentation({
       state: createFermentationTestState({
@@ -521,7 +516,7 @@ describe("startFermentation", () => {
     const fishName = getFishNamesByTier("basic")[0];
     const primeAgedFish = `Prime Aged ${fishName}` as const;
     const recipe =
-      `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+      `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as StartableFermentationRecipeName;
 
     const state = startFermentation({
       state: createFermentationTestState({
