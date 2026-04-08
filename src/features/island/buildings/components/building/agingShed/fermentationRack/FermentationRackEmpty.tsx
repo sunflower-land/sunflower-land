@@ -24,10 +24,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import {
-  getAgingInputMultiplier,
-  getAgingOutputBonus,
-} from "features/game/types/agingFormulas";
+import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -94,10 +91,16 @@ export const FermentationRackEmpty: React.FC<Props> = ({
     getMaxFermentationSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
 
+  const instantRecipe = recipeDef?.durationSeconds === 0;
+
   // NB: actual Start button disable is controlled by parent via `startDisabled`.
   // These are just used to avoid showing misleading blocks when nothing selected.
   const canShowRequirements =
-    !!recipeId && !!recipeDef && shedPlaced && !slotsFull && !isVisiting;
+    !!recipeId &&
+    !!recipeDef &&
+    shedPlaced &&
+    (!slotsFull || instantRecipe) &&
+    !isVisiting;
 
   return (
     <>
@@ -139,11 +142,8 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
           {selectedGroup.recipeIds.length > 1 && (
             <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-              {selectedGroup.recipeIds.map((id, index) => {
+              {selectedGroup.recipeIds.map((id) => {
                 const image = getFirstIngredientImage(id);
-                const yieldQty = selectedGroup.outputQuantities[index]
-                  .add(getAgingOutputBonus(skills))
-                  .toString();
 
                 return (
                   <div
@@ -156,9 +156,6 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       isSelected={recipeId === id}
                       onClick={() => onSelectVariant(id)}
                     />
-                    <span className="text-xxs text-center leading-tight mt-0.5 px-0.5">
-                      {`x${yieldQty}`}
-                    </span>
                   </div>
                 );
               })}

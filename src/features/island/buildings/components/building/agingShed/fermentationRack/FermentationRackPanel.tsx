@@ -125,11 +125,15 @@ export const FermentationRackPanel: React.FC = () => {
       ? getFirstInsufficientIngredient(merged, selectedRecipeId)
       : undefined;
 
+  const isInstantRecipe =
+    selectedRecipeId !== undefined &&
+    getFermentationRecipe(selectedRecipeId).durationSeconds === 0;
+
   const canStart =
     !isVisiting &&
     shedPlaced &&
     selectedRecipeId !== undefined &&
-    !slotsFull &&
+    (!slotsFull || isInstantRecipe) &&
     insufficientIngredient === undefined;
 
   const readyJobs = queue.filter((job) => job.readyAt <= now);
@@ -242,7 +246,7 @@ export const FermentationRackPanel: React.FC = () => {
       return t("error.requiredBuildingNotExist");
     }
 
-    if (slotsFull) {
+    if (slotsFull && !isInstantRecipe) {
       return t("error.noAvailableSlots");
     }
 
