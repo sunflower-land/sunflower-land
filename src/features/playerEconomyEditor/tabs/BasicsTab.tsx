@@ -17,6 +17,8 @@ import {
   canonicalHostedMinigamePlayUrl,
   looksLikeMinigamesSunflowerLandUrl,
 } from "../lib/hostedMinigameUrl";
+import { EconomySiteFilesUpload } from "../components/EconomySiteFilesUpload";
+import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
 
 const MAIN_CURRENCY_AUTO_VALUE = "__main_currency_auto__";
 
@@ -26,6 +28,8 @@ export const BasicsTab: React.FC<{
   onChange: (next: Partial<EditorFormState>) => void;
 }> = ({ form, mode, onChange }) => {
   const { t } = useAppTranslation();
+  const { state: editorSession, refreshHostedSiteMetadata } =
+    usePlayerEconomyEditorSession();
   const { authState } = useAuth();
   const { gameState } = useGame();
 
@@ -250,6 +254,12 @@ export const BasicsTab: React.FC<{
                   </div>
                 ) : null}
               </div>
+              <EconomySiteFilesUpload
+                slug={form.slug}
+                mode={mode}
+                hostedSiteIndex={editorSession.hostedSiteIndex}
+                onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
+              />
             </>
           ) : null}
         </div>

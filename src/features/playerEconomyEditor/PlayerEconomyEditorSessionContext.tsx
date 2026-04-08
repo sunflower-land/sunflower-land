@@ -13,7 +13,11 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import type { EditorFormState, EditorTab } from "./lib/types";
+import type {
+  EditorFormState,
+  EditorTab,
+  HostedMinigameSiteIndexInfo,
+} from "./lib/types";
 import { EMPTY_FORM } from "./lib/types";
 import { configToForm } from "./lib/configToForm";
 import { formToConfig } from "./lib/formToConfig";
@@ -28,6 +32,8 @@ export type PlayerEconomyEditorSessionState = {
   form: EditorFormState | null;
   /** Last explicitly saved snapshot (dirty detection). */
   baseline: EditorFormState | null;
+  /** S3 `index.html` for hosted minigame site; from economy-editor list API. */
+  hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
   loadError: string | null;
   syncError: string | null;
   savedFlash: boolean;
@@ -36,8 +42,16 @@ export type PlayerEconomyEditorSessionState = {
 };
 
 export type PlayerEconomyEditorSessionAction =
-  | { type: "LOAD_OK"; form: EditorFormState }
+  | {
+      type: "LOAD_OK";
+      form: EditorFormState;
+      hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
+    }
   | { type: "LOAD_FAIL"; message: string }
+  | {
+      type: "SET_HOSTED_SITE_INDEX";
+      hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
+    }
   | { type: "UPDATE_FORM"; update: (prev: EditorFormState) => EditorFormState }
   | { type: "SET_TAB"; tab: EditorTab }
   | { type: "COMMIT_SAVE_LOCAL"; form: EditorFormState }
@@ -58,6 +72,7 @@ function sessionInit(
       slug: "",
       form: f,
       baseline: structuredClone(f),
+      hostedSiteIndex: null,
       loadError: null,
       syncError: null,
       savedFlash: false,
@@ -71,6 +86,7 @@ function sessionInit(
     slug,
     form: null,
     baseline: null,
+    hostedSiteIndex: null,
     loadError: null,
     syncError: null,
     savedFlash: false,
@@ -90,14 +106,18 @@ function sessionReducer(
         phase: "ready",
         form: action.form,
         baseline: structuredClone(action.form),
+        hostedSiteIndex: action.hostedSiteIndex,
         loadError: null,
       };
+    case "SET_HOSTED_SITE_INDEX":
+      return { ...state, hostedSiteIndex: action.hostedSiteIndex };
     case "LOAD_FAIL":
       return {
         ...state,
         phase: "failed",
         form: null,
         baseline: null,
+        hostedSiteIndex: null,
         loadError: action.message,
       };
     case "UPDATE_FORM": {
@@ -143,6 +163,11 @@ export type PlayerEconomyEditorSessionContextValue = {
   requestItemImageUploadUrl: ReturnType<
     typeof useEditorApi
   >["requestItemImageUploadUrl"];
+  prepareEconomySiteUploads: ReturnType<
+    typeof useEditorApi
+  >["prepareEconomySiteUploads"];
+  /** Re-fetch list row metadata (e.g. S3 `index.html` last modified) without touching the form. */
+  refreshHostedSiteMetadata: () => Promise<void>;
 };
 
 const PlayerEconomyEditorSessionContext =
@@ -160,7 +185,12 @@ export function PlayerEconomyEditorSessionProvider({
   children,
 }: ProviderProps) {
   const { t } = useAppTranslation();
-  const { loadRows, submitEvent, requestItemImageUploadUrl } = useEditorApi();
+  const {
+    loadRows,
+    submitEvent,
+    requestItemImageUploadUrl,
+    prepareEconomySiteUploads,
+  } = useEditorApi();
   const [state, dispatch] = useReducer(
     sessionReducer,
     { mode, slug },
@@ -185,7 +215,11 @@ export function PlayerEconomyEditorSessionProvider({
           });
           return;
         }
-        dispatch({ type: "LOAD_OK", form: configToForm(slug, row.config) });
+        dispatch({
+          type: "LOAD_OK",
+          form: configToForm(slug, row.config),
+          hostedSiteIndex: row.hostedSiteIndex ?? null,
+        });
       } catch (e) {
         if (cancelled || gen !== loadGenRef.current) return;
         dispatch({
@@ -225,6 +259,20 @@ export function PlayerEconomyEditorSessionProvider({
   const setPreviewUnsavedOpen = useCallback((open: boolean) => {
     dispatch({ type: "SET_PREVIEW_UNSAVED", open });
   }, []);
+
+  const refreshHostedSiteMetadata = useCallback(async () => {
+    if (mode !== "edit" || !slug.trim()) return;
+    try {
+      const rows = await loadRows();
+      const row = rows.find((r) => r.slug === slug.trim());
+      dispatch({
+        type: "SET_HOSTED_SITE_INDEX",
+        hostedSiteIndex: row?.hostedSiteIndex ?? null,
+      });
+    } catch {
+      // ignore — editor form stays usable
+    }
+  }, [mode, slug, loadRows]);
 
   const commitSaveLocalAndQueueSync = useCallback(
     (form: EditorFormState) => {
@@ -267,6 +315,8 @@ export function PlayerEconomyEditorSessionProvider({
       setPreviewUnsavedOpen,
       commitSaveLocalAndQueueSync,
       requestItemImageUploadUrl,
+      prepareEconomySiteUploads,
+      refreshHostedSiteMetadata,
     }),
     [
       state,
@@ -275,6 +325,8 @@ export function PlayerEconomyEditorSessionProvider({
       setPreviewUnsavedOpen,
       commitSaveLocalAndQueueSync,
       requestItemImageUploadUrl,
+      prepareEconomySiteUploads,
+      refreshHostedSiteMetadata,
     ],
   );
 

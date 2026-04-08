@@ -51,6 +51,15 @@ const MOCK_ROWS: PlayerEconomyConfigRow[] = [
 
 let mockStore = [...MOCK_ROWS];
 
+export type EconomySitePresignedUpload = {
+  path: string;
+  key: string;
+  presignedPutUrl: string;
+  publicUrl: string;
+  /** Use this header on PUT (matches the presigned Content-Type). */
+  contentType: string;
+};
+
 function eventHeaders(token: string): Record<string, string> {
   const h: Record<string, string> = {
     "content-type": "application/json;charset=UTF-8",
@@ -320,7 +329,99 @@ export function useEditorApi() {
     return { presignedPutUrl, publicUrl };
   };
 
-  return { loadRows, submitEvent, requestItemImageUploadUrl };
+  const prepareEconomySiteUploads = useCallback(
+    async (
+      slug: string,
+      files: { path: string; contentType: string; file: File }[],
+    ): Promise<EconomySitePresignedUpload[]> => {
+      if (isMock) {
+        throw new Error(
+          "Site file upload requires VITE_API_URL and the economy.prepare-upload event on the API.",
+        );
+      }
+
+      if (!token) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      if (!files.length) {
+        return [];
+      }
+
+      const response = await fetch(`${CONFIG.API_URL}/event/${farmId}`, {
+        method: "POST",
+        headers: eventHeaders(token),
+        body: JSON.stringify({
+          event: {
+            type: "economy.prepare-upload",
+            slug: slug.trim(),
+            files: files.map(({ path, contentType }) => ({
+              path,
+              contentType,
+            })),
+          },
+          createdAt: new Date().toISOString(),
+        }),
+      });
+
+      if (response.status === 429) {
+        throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
+      }
+
+      if (response.status === 401) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      const body = (await response.json().catch(() => ({}))) as {
+        data?: { uploads?: unknown };
+        errorCode?: string;
+        error?: string;
+      };
+
+      if (response.status === 400) {
+        throw new Error(
+          typeof body.error === "string" && body.error
+            ? body.error
+            : (body.errorCode ?? ERRORS.EFFECT_BAD_REQUEST),
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(body.errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
+      }
+
+      const rawUploads = body.data?.uploads;
+      if (!Array.isArray(rawUploads)) {
+        throw new Error("Prepare-upload response missing uploads array.");
+      }
+
+      return rawUploads.map((u, i) => {
+        const o = u as Record<string, unknown>;
+        const path =
+          typeof o.path === "string" ? o.path : (files[i]?.path ?? "");
+        const key = typeof o.key === "string" ? o.key : path;
+        const presignedPutUrl =
+          typeof o.presignedPutUrl === "string" ? o.presignedPutUrl : "";
+        const publicUrl = typeof o.publicUrl === "string" ? o.publicUrl : "";
+        if (!presignedPutUrl) {
+          throw new Error(`Missing presigned URL for "${path}"`);
+        }
+        const contentType =
+          typeof o.contentType === "string" && o.contentType
+            ? o.contentType
+            : "application/octet-stream";
+        return { path, key, presignedPutUrl, publicUrl, contentType };
+      });
+    },
+    [isMock, token, farmId],
+  );
+
+  return {
+    loadRows,
+    submitEvent,
+    requestItemImageUploadUrl,
+    prepareEconomySiteUploads,
+  };
 }
 
 export type { PlayerEconomyEditorClientEvent, PlayerEconomyEditorEventResult };

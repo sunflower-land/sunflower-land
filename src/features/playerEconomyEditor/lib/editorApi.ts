@@ -13,7 +13,12 @@ export type PlayerEconomyEditorClientEvent =
       config?: PlayerEconomyConfig;
     }
   | { type: "playerEconomy.edited"; slug: string; config: PlayerEconomyConfig }
-  | { type: "playerEconomy.removed"; slug: string };
+  | { type: "playerEconomy.removed"; slug: string }
+  | {
+      type: "economy.prepare-upload";
+      slug: string;
+      files: { path: string; contentType: string }[];
+    };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
 export type PlayerEconomyEditorEventResult = {
@@ -90,12 +95,34 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
   return migrateLegacyPlayerEconomyConfigFields(input);
 }
 
+function parseHostedSiteIndexObject(
+  raw: unknown,
+): PlayerEconomyConfigRow["hostedSiteIndex"] {
+  if (raw === null) return null;
+  if (!raw || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+  const bucket = typeof o.bucket === "string" ? o.bucket.trim() : "";
+  const key = typeof o.key === "string" ? o.key.trim() : "";
+  const lastModified =
+    typeof o.lastModified === "string" ? o.lastModified.trim() : "";
+  if (!bucket || !key || !lastModified) return null;
+  return { bucket, key, lastModified };
+}
+
 export function toPlayerEconomyConfigRow(
   raw: unknown,
 ): PlayerEconomyConfigRow | null {
   if (!raw || typeof raw !== "object") return null;
   const r = raw as Record<string, unknown>;
   if (typeof r.slug !== "string" || !r.slug.trim()) return null;
+
+  let hostedSiteIndex: PlayerEconomyConfigRow["hostedSiteIndex"] = undefined;
+  if ("hostedSiteIndex" in r) {
+    const v = r.hostedSiteIndex;
+    hostedSiteIndex =
+      v === null ? null : (parseHostedSiteIndexObject(v) ?? null);
+  }
+
   return {
     slug: r.slug.trim(),
     farmId: Number(r.farmId ?? 0),
@@ -104,6 +131,7 @@ export function toPlayerEconomyConfigRow(
     updatedAt:
       typeof r.updatedAt === "string" ? r.updatedAt : new Date().toISOString(),
     config: ensurePlayerEconomyConfig(r.config),
+    ...(hostedSiteIndex !== undefined ? { hostedSiteIndex } : {}),
   };
 }
 

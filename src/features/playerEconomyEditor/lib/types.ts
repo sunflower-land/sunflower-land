@@ -2,12 +2,20 @@ import type { PlayerEconomyConfig } from "features/minigame/lib/types";
 
 /* ─── API row ─────────────────────────────────────────────────── */
 
+/** S3 location + timestamp for hosted minigame `index.html` (economy-editor list API). */
+export type HostedMinigameSiteIndexInfo = {
+  bucket: string;
+  key: string;
+  lastModified: string;
+};
+
 export type PlayerEconomyConfigRow = {
   slug: string;
   farmId: number;
   config: PlayerEconomyConfig;
   createdAt: string;
   updatedAt: string;
+  hostedSiteIndex?: HostedMinigameSiteIndexInfo | null;
 };
 
 /* ─── Form primitives ─────────────────────────────────────────── */
