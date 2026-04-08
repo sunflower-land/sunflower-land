@@ -51,7 +51,6 @@ const _vip = (state: MachineState) => state.context.state.vip;
 const _state = (state: MachineState) => state.context.state;
 const _hasLifetimeFarmerBanner = (state: MachineState) =>
   hasLifetimeFarmerBanner(state.context.state);
-const _purchases = (state: MachineState) => state.context.purchases;
 
 const VIP_NAME: Record<VipBundle, TranslationKeys> = {
   "1_MONTH": "vip.1Month",
@@ -142,7 +141,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
   const hasLifetimeBanner = useSelector(gameService, _hasLifetimeFarmerBanner);
-  const purchases = useSelector(gameService, _purchases);
 
   const handlePurchase = () => {
     gameService.send("vip.bought", {
@@ -157,10 +155,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     });
 
     const isFirstVip = !vip?.bundles?.length;
-    const hasPriorPurchase =
-      (purchases?.length ?? 0) > 0 || !!state.farmActivity["Gems Purchased"];
+    const boughtStarterPack =
+      !!state.farmActivity["Starter Pack Purchased"];
 
-    if (isFirstVip && hasPriorPurchase) {
+    if (isFirstVip && boughtStarterPack) {
       gameAnalytics.trackMilestone({
         event: "VIP:Conversion:StarterPack",
       });
@@ -176,7 +174,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           6,
           Math.max(0, Math.floor(accountAgeMs / DAY_MS)),
         );
-        const tag = hasPriorPurchase ? "HasStarterPack" : "NoStarterPack";
+        const tag = boughtStarterPack ? "HasStarterPack" : "NoStarterPack";
         gameAnalytics.trackMilestone({
           event: `VIP:Conversion:NewUser:Day${dayBucket}:${tag}`,
         });
