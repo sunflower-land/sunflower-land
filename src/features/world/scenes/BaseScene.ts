@@ -313,6 +313,11 @@ export abstract class BaseScene extends Phaser.Scene {
   };
 
   preload() {
+    this.load.spritesheet("love_aura", "world/love_aura.png", {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
+
     if (this.options.map?.json) {
       const json = {
         ...this.options.map.json,
