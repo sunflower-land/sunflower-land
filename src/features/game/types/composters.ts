@@ -9,6 +9,8 @@ export type CropCompostName =
   | "Rapid Root"
   | "Sproutroot Surprise";
 
+export type GreenhouseCompostName = "Greenhouse Glow" | "Greenhouse Goodie";
+
 export type CompostName = FruitCompostName | CropCompostName;
 
 export type ComposterName =
@@ -65,6 +67,18 @@ export const CROP_COMPOST: Record<
         description: translate("compost.sproutrootSurpriseBoosted"),
       },
     ],
+  },
+};
+
+export const GREENHOUSE_COMPOST: Record<
+  GreenhouseCompostName,
+  { description: string }
+> = {
+  "Greenhouse Glow": {
+    description: translate("compost.greenhouseGlow"),
+  },
+  "Greenhouse Goodie": {
+    description: translate("compost.greenhouseGoodie"),
   },
 };
 

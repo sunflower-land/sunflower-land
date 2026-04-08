@@ -182,6 +182,48 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1].plant).toBeUndefined();
   });
+
+  it("clears fertiliser on harvest", () => {
+    const state = harvestGreenHouse({
+      farmId: 1,
+      action: {
+        type: "greenhouse.harvested",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+              fertiliser: {
+                name: "Greenhouse Goodie",
+                fertilisedAt: 1,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(state.greenhouse.pots[1].plant).toBeUndefined();
+    expect(state.greenhouse.pots[1].fertiliser).toBeUndefined();
+  });
+
   it("tracks analytics", () => {
     const state = harvestGreenHouse({
       action: {

@@ -1,4 +1,5 @@
 import { BoostName, GameState } from "features/game/types/game";
+import { GreenhouseCompostName } from "features/game/types/composters";
 
 import {
   GREENHOUSE_CROPS,
@@ -80,9 +81,15 @@ type GetPlantedAtArgs = {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
+  greenhouseFertiliser?: GreenhouseCompostName;
 };
 
-function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
+function getPlantedAt({
+  crop,
+  game,
+  createdAt,
+  greenhouseFertiliser,
+}: GetPlantedAtArgs): {
   plantedAt: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
@@ -93,6 +100,7 @@ function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
   const { seconds: boostedTime, boostsUsed } = getGreenhouseCropTime({
     crop,
     game,
+    greenhouseFertiliser,
   });
 
   const offset = cropTime - boostedTime;
@@ -103,9 +111,11 @@ function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
 export const getGreenhouseCropTime = ({
   crop,
   game,
+  greenhouseFertiliser,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
+  greenhouseFertiliser?: GreenhouseCompostName;
 }): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -155,6 +165,11 @@ export const getGreenhouseCropTime = ({
   if (crop === "Grape" && game.bumpkin.skills["Vine Velocity"]) {
     seconds *= 0.9;
     boostsUsed.push({ name: "Vine Velocity", value: "x0.9" });
+  }
+
+  if (greenhouseFertiliser === "Greenhouse Glow") {
+    seconds *= 0.8;
+    boostsUsed.push({ name: "Greenhouse Glow", value: "x0.8" });
   }
 
   return { seconds, boostsUsed };
@@ -251,9 +266,10 @@ export function plantGreenhouse({
       createdAt,
       crop: plantName,
       game,
+      greenhouseFertiliser: pot.fertiliser?.name,
     });
-    // Plants
     game.greenhouse.pots[potId] = {
+      ...pot,
       plant: {
         name: plantName,
         plantedAt,

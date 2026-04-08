@@ -857,6 +857,8 @@
   "compost.sproutrootSurprise": "Sproutroot Surprise increases your crop yield from plots by +0.2 and reduces crop growth time from plots by 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise increases your crop yield from plots by +0.4 and reduces crop growth time from plots by 50%",
   "compost.turbofruitMix": "Turbofruit Mix reduces fruit patch growth time by 20% (including remaining time when applied while a tree is growing or replenishing).",
+  "compost.greenhouseGlow": "Greenhouse Glow reduces greenhouse crop growth time by 20% (including remaining time when applied mid-grow).",
+  "compost.greenhouseGoodie": "Greenhouse Goodie increases greenhouse crop yield by +0.2.",
   "composter.compostBin": "Compost Bin details...",
   "composter.turboComposter": "Turbo Composter details...",
   "composter.premiumComposter": "Premium Composter details...",

@@ -26,6 +26,7 @@ import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
+import { GreenhouseCompostName } from "features/game/types/composters";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
@@ -53,11 +54,13 @@ export function getGreenhouseCropYieldAmount({
   game,
   createdAt,
   prngArgs,
+  fertiliser,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
   prngArgs: { farmId: number; counter: number };
+  fertiliser?: GreenhouseCompostName;
 }): { amount: number; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -139,6 +142,11 @@ export function getGreenhouseCropYieldAmount({
     boostsUsed.push({ name: "Greasy Plants", value: "+1" });
   }
 
+  if (fertiliser === "Greenhouse Goodie") {
+    amount += 0.2;
+    boostsUsed.push({ name: "Greenhouse Goodie", value: "+0.2" });
+  }
+
   return { amount, boostsUsed };
 }
 
@@ -190,14 +198,25 @@ export function harvestGreenHouse({
 
     // Harvests Crop
     const counter = game.farmActivity[`${pot.plant.name} Harvested`] ?? 0;
-    const { amount: greenhouseProduce, boostsUsed } = pot.plant.amount
+    const { amount: baseProduce, boostsUsed: baseBoosts } = pot.plant.amount
       ? { amount: pot.plant.amount, boostsUsed: [] }
       : getGreenhouseCropYieldAmount({
           crop: pot.plant.name,
           game,
           createdAt,
           prngArgs: { farmId, counter },
+          fertiliser: pot.fertiliser?.name,
         });
+
+    let greenhouseProduce = baseProduce;
+    const boostsUsed = [...baseBoosts];
+    if (
+      pot.fertiliser?.name === "Greenhouse Goodie" &&
+      pot.plant.amount !== undefined
+    ) {
+      greenhouseProduce += 0.2;
+      boostsUsed.push({ name: "Greenhouse Goodie", value: "+0.2" });
+    }
 
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);
     game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);
@@ -213,8 +232,8 @@ export function harvestGreenHouse({
       createdAt,
     });
 
-    // Clears Pot
     delete pot.plant;
+    delete pot.fertiliser;
 
     return game;
   });
