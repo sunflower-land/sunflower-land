@@ -15,14 +15,12 @@ import {
   GreenHouseFruitName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruit,
   PatchFruitName,
 } from "features/game/types/fruits";
 import {
   BoostName,
   CriticalHitName,
   GameState,
-  PlantedFruit,
 } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
@@ -51,22 +49,7 @@ type Options = {
   farmId: number;
 };
 
-export const isFruitReadyToHarvest = (
-  createdAt: number,
-  plantedFruit: PlantedFruit,
-  fruitDetails: PatchFruit,
-) => {
-  const { seed } = PATCH_FRUIT[fruitDetails.name];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
-
-  return (
-    createdAt -
-      (plantedFruit.harvestedAt
-        ? plantedFruit.harvestedAt
-        : plantedFruit.plantedAt) >=
-    plantSeconds * 1000
-  );
-};
+export { isFruitReadyToHarvest } from "./fruitPatchReadiness";
 
 type FruitYield = {
   name: GreenHouseFruitName | PatchFruitName;
@@ -338,6 +321,9 @@ export function harvestFruit({
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
+    // Patch fertiliser persists across harvests (not consumed here). Passing it into
+    // getPlantedAt applies Turbofruit Mix (×0.8) to replenishment timing for every
+    // remaining harvest, same lifecycle intent as Fruitful Blend on yield.
     const { plantedAt: newPlantedAt, boostsUsed: fruitPlantedBoostsUsed } =
       getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
     delete patch.fruit.amount;

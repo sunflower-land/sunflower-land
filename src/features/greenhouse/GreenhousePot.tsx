@@ -47,7 +47,10 @@ import {
   GREENHOUSE_COMPOST,
   GreenhouseCompostName,
 } from "features/game/types/composters";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  GreenhouseFertiliser,
+  InventoryItemName,
+} from "features/game/types/game";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -81,6 +84,42 @@ interface Props {
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
+
+const GreenhousePotFertiliserBadges: React.FC<{
+  fertiliser?: GreenhouseFertiliser;
+}> = ({ fertiliser }) => {
+  const name = fertiliser?.name;
+  if (!name) return null;
+
+  return (
+    <>
+      {name === "Greenhouse Goodie" && (
+        <img
+          src={powerup}
+          alt=""
+          className="absolute z-10 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+      {name === "Greenhouse Glow" && (
+        <img
+          src={SUNNYSIDE.icons.stopwatch}
+          alt=""
+          className="absolute z-10 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+    </>
+  );
+};
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const {
@@ -247,30 +286,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           </Label>
         </Transition>
 
-        {potFertiliser?.name === "Greenhouse Goodie" && (
-          <img
-            src={powerup}
-            alt=""
-            className="absolute z-10 pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 5}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 0}px`,
-            }}
-          />
-        )}
-        {potFertiliser?.name === "Greenhouse Glow" && (
-          <img
-            src={SUNNYSIDE.icons.stopwatch}
-            alt=""
-            className="absolute z-10 pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 6}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 0}px`,
-            }}
-          />
-        )}
+        <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
         <img
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"
@@ -338,30 +354,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   return (
     <div className="relative" style={{ width: `${PIXEL_SCALE * 28}px` }}>
-      {potFertiliser?.name === "Greenhouse Goodie" && (
-        <img
-          src={powerup}
-          alt=""
-          className="absolute z-10 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 5}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      )}
-      {potFertiliser?.name === "Greenhouse Glow" && (
-        <img
-          src={SUNNYSIDE.icons.stopwatch}
-          alt=""
-          className="absolute z-10 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 6}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      )}
+      <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
       <img
         src={PLANT_STAGES[pot.plant.name][stage]}
         className="cursor-pointer hover:img-highlight"

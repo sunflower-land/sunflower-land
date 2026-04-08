@@ -6,15 +6,7 @@ import {
 import { BoostName, GameState, PlantedFruit } from "features/game/types/game";
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { produce } from "immer";
-
-function isFruitPatchReadyToHarvest(
-  now: number,
-  fruit: PlantedFruit,
-  plantSeconds: number,
-): boolean {
-  const cycleMs = plantSeconds * 1000;
-  return now - fruit.plantedAt >= cycleMs && now - fruit.harvestedAt >= cycleMs;
-}
+import { isFruitReadyToHarvest } from "./fruitPatchReadiness";
 
 /** Shifts plantedAt/harvestedAt so remaining time is multiplied by 0.8 (−20%), matching getFruitPatchTime. */
 function applyTurbofruitMixToRemainingGrowTime(
@@ -119,7 +111,9 @@ export function fertiliseFruitPatch({
       const { seed } = PATCH_FRUIT[nextFruit.name];
       const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
-      if (isFruitPatchReadyToHarvest(createdAt, nextFruit, plantSeconds)) {
+      if (
+        isFruitReadyToHarvest(createdAt, nextFruit, PATCH_FRUIT[nextFruit.name])
+      ) {
         throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
       }
 

@@ -5,10 +5,7 @@ import {
 } from "features/game/types/composters";
 import { GameState, GreenhousePlant } from "features/game/types/game";
 import { produce } from "immer";
-import {
-  getReadyAt,
-  GREENHOUSE_CROP_TIME_SECONDS,
-} from "features/game/events/landExpansion/harvestGreenHouse";
+import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { MAX_POTS } from "./plantGreenhouse";
 
 /** Shifts plantedAt so remaining grow time is multiplied by 0.8 (−20%), matching Turbofruit / Greenhouse Glow rules. */
@@ -16,8 +13,10 @@ function applyGreenhouseGlowToRemainingGrowTime(
   plant: GreenhousePlant,
   now: number,
 ): GreenhousePlant {
-  const cycleMs = GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000;
-  const readyAt = plant.plantedAt + cycleMs;
+  const readyAt = getReadyAt({
+    plant: plant.name,
+    createdAt: plant.plantedAt,
+  });
   if (now < readyAt) {
     const timeReduction = (readyAt - now) * 0.2;
     return { ...plant, plantedAt: plant.plantedAt - timeReduction };

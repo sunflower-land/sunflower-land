@@ -1,5 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { harvestGreenHouse } from "./harvestGreenHouse";
+import { fertiliseGreenhouse } from "./fertiliseGreenhouse";
+import { harvestGreenHouse, getReadyAt } from "./harvestGreenHouse";
+import { plantGreenhouse } from "./plantGreenhouse";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
@@ -7,6 +9,27 @@ const farm: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
 };
+
+const greenhouseFarm = (): GameState => ({
+  ...farm,
+  inventory: {
+    ...farm.inventory,
+    "Rice Seed": new Decimal(5),
+    "Greenhouse Goodie": new Decimal(10),
+  },
+  greenhouse: { oil: 50, pots: {} },
+  buildings: {
+    ...farm.buildings,
+    Greenhouse: [
+      {
+        coordinates: { x: 0, y: 0 },
+        id: "1",
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ],
+  },
+});
 
 describe("plantGreenhouse", () => {
   it("requires greenhouse exists", () => {
@@ -222,6 +245,122 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1].plant).toBeUndefined();
     expect(state.greenhouse.pots[1].fertiliser).toBeUndefined();
+  });
+
+  it("adds Greenhouse Goodie +0.2 when plant has preset amount", () => {
+    const plantedAt = Date.now() - 72 * 60 * 60 * 1000;
+    const greenhouseBuilding = [
+      {
+        coordinates: { x: 0, y: 0 },
+        id: "1",
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ] as const;
+
+    const withoutGoodie = harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt,
+                amount: 5,
+              },
+            },
+          },
+        },
+        buildings: { ...farm.buildings, Greenhouse: [...greenhouseBuilding] },
+      },
+    });
+
+    const withGoodie = harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt,
+                amount: 5,
+              },
+              fertiliser: { name: "Greenhouse Goodie", fertilisedAt: 1 },
+            },
+          },
+        },
+        buildings: { ...farm.buildings, Greenhouse: [...greenhouseBuilding] },
+      },
+    });
+
+    expect(withoutGoodie.inventory.Rice).toEqual(new Decimal(5));
+    expect(withGoodie.inventory.Rice).toEqual(new Decimal(5.2));
+  });
+
+  it("same Rice yield when Greenhouse Goodie applied before vs after planting", () => {
+    const t0 = 20_000_000_000_000;
+
+    let beforePlant = fertiliseGreenhouse({
+      state: greenhouseFarm(),
+      action: {
+        type: "greenhouse.fertilised",
+        id: 1,
+        fertiliser: "Greenhouse Goodie",
+      },
+      createdAt: t0,
+    });
+    beforePlant = plantGreenhouse({
+      state: beforePlant,
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      createdAt: t0 + 1,
+    });
+    const plantedAtBefore = beforePlant.greenhouse.pots[1].plant!.plantedAt;
+    const harvestAtBefore = getReadyAt({
+      plant: "Rice",
+      createdAt: plantedAtBefore,
+    });
+    beforePlant = harvestGreenHouse({
+      state: beforePlant,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: harvestAtBefore,
+      farmId: 1,
+    });
+
+    let afterPlant = plantGreenhouse({
+      state: greenhouseFarm(),
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      createdAt: t0 + 1,
+    });
+    afterPlant = fertiliseGreenhouse({
+      state: afterPlant,
+      action: {
+        type: "greenhouse.fertilised",
+        id: 1,
+        fertiliser: "Greenhouse Goodie",
+      },
+      createdAt: t0 + 2,
+    });
+    const plantedAtAfter = afterPlant.greenhouse.pots[1].plant!.plantedAt;
+    const harvestAtAfter = getReadyAt({
+      plant: "Rice",
+      createdAt: plantedAtAfter,
+    });
+    afterPlant = harvestGreenHouse({
+      state: afterPlant,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: harvestAtAfter,
+      farmId: 1,
+    });
+
+    expect(beforePlant.inventory.Rice).toEqual(afterPlant.inventory.Rice);
   });
 
   it("tracks analytics", () => {
