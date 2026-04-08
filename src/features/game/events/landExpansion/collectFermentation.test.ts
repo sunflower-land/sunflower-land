@@ -1,8 +1,15 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
-import type { FermentationRecipeName } from "features/game/types/fermentation";
+import {
+  getFermentationRecipe,
+  LEGACY_FERMENTATION_RECIPE_IDS,
+  type FermentationCollectedActivity,
+  type FermentationRecipeName,
+  type LegacyFermentationRecipeName,
+} from "features/game/types/fermentation";
 import { getFishNamesByTier } from "features/game/types/fishing";
+import { getObjectEntries } from "lib/object";
 import { collectFermentation } from "./collectFermentation";
 import {
   createFermentationTestState,
@@ -166,6 +173,46 @@ describe("collectFermentation", () => {
 
     expect(state.inventory.Salt?.toNumber()).toEqual(5);
   });
+
+  it.each(LEGACY_FERMENTATION_RECIPE_IDS)(
+    "collects retired fermentation job still in the queue (%s)",
+    (recipeId: LegacyFermentationRecipeName) => {
+      const past = createdAt - 1;
+      const def = getFermentationRecipe(recipeId);
+      const outputEntries = getObjectEntries(def.outputs);
+      expect(outputEntries).toHaveLength(1);
+      const [outputItem, outputQty] = outputEntries[0]!;
+      expect(outputQty?.eq(1)).toBe(true);
+
+      const state = collectFermentation({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              fermentation: [
+                {
+                  id: `legacy-${recipeId}`,
+                  recipe: recipeId,
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+        }),
+        action: { type: "fermentation.collected" },
+        farmId: 1,
+        createdAt,
+      });
+
+      expect(state.agingShed.racks.fermentation).toHaveLength(0);
+      expect(state.inventory[outputItem]?.toNumber()).toEqual(1);
+      const activityName =
+        `${String(outputItem)} Fermented` as FermentationCollectedActivity;
+      expect(state.farmActivity[activityName]).toEqual(1);
+    },
+  );
 
   it("increments farm activity each time the same recipe is collected", () => {
     const past = createdAt - 1;

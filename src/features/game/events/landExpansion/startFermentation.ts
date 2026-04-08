@@ -6,7 +6,8 @@ import {
   getFermentationRecipe,
   getMaxFermentationSlots,
   isFermentationRecipeName,
-  type FermentationRecipeName,
+  isStartableFermentationRecipeName,
+  type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
@@ -17,7 +18,7 @@ import { hasFeatureAccess } from "lib/flags";
 
 export type StartFermentationAction = {
   type: "fermentation.started";
-  recipe: FermentationRecipeName;
+  recipe: StartableFermentationRecipeName;
   /** Client-generated id (same idea as `cropId` in `plant.ts`, often `crypto.randomUUID().slice(0, 8)`). */
   jobId: string;
 };
@@ -46,6 +47,10 @@ export function startFermentation({
 
     if (!isFermentationRecipeName(action.recipe)) {
       throw new Error("Invalid fermentation recipe");
+    }
+
+    if (!isStartableFermentationRecipeName(action.recipe)) {
+      throw new Error("This fermentation recipe is no longer available.");
     }
 
     const recipeDef = getFermentationRecipe(action.recipe);
