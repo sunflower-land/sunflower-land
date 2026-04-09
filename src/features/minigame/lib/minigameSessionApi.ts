@@ -11,8 +11,9 @@ export type MinigameSessionApiPayload = {
     items?: PlayerEconomyConfig["items"];
     generating: Record<string, unknown>;
     activity: number;
-    dailyActivity: { date: string; count: number };
-    dailyMinted: { utcDay: string; minted: Record<string, number> };
+    /** Present on current API; omitted on older deployments until upgraded. */
+    dailyActivity?: { date: string; count: number };
+    dailyMinted?: { utcDay: string; minted: Record<string, number> };
     dailyActionUses?: {
       utcDay: string;
       byAction: Record<string, number>;

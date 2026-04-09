@@ -2,6 +2,7 @@ import type { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { portal } from "features/world/ui/community/actions/portal";
 import { buildMinigameDashboardData } from "./minigameConfigHelpers";
+import { utcCalendarDay } from "./processPlayerEconomyAction";
 import { getLocalMinigameDashboardMock } from "./localMinigameDashboardMock";
 import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
@@ -49,17 +50,17 @@ export async function loadMinigameDashboard(
     const raw = await getMinigameSession(slug, portalJwt, creds.farmId);
     assertChickenRescueSession(raw);
 
+    const pe = raw.playerEconomy;
+    const day = utcCalendarDay(Date.now());
     const state = {
-      balances: raw.playerEconomy.balances,
-      generating: raw.playerEconomy.generating as Record<string, any>,
-      activity: raw.playerEconomy.activity,
-      dailyActivity: raw.playerEconomy.dailyActivity,
-      dailyMinted: raw.playerEconomy.dailyMinted,
-      ...(raw.playerEconomy.dailyActionUses
-        ? { dailyActionUses: raw.playerEconomy.dailyActionUses }
-        : {}),
-      ...(raw.playerEconomy.purchaseCounts != null
-        ? { purchaseCounts: { ...raw.playerEconomy.purchaseCounts } }
+      balances: pe.balances,
+      generating: pe.generating as Record<string, any>,
+      activity: pe.activity,
+      dailyActivity: pe.dailyActivity ?? { date: day, count: 0 },
+      dailyMinted: pe.dailyMinted ?? { utcDay: day, minted: {} },
+      ...(pe.dailyActionUses ? { dailyActionUses: pe.dailyActionUses } : {}),
+      ...(pe.purchaseCounts != null
+        ? { purchaseCounts: { ...pe.purchaseCounts } }
         : {}),
     };
     const config = {

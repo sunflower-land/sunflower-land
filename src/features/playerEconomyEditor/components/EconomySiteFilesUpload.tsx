@@ -8,10 +8,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SectionHeader } from "./SectionHeader";
 import type { HostedMinigameSiteIndexInfo } from "../lib/types";
 import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
-import {
-  hostedEconomyPlayUrlWithJwt,
-  HOSTED_ECONOMY_SITE_HOST_SUFFIX,
-} from "../lib/hostedMinigameUrl";
+import { HOSTED_ECONOMY_SITE_HOST_SUFFIX } from "../lib/hostedMinigameUrl";
 
 function formatSiteIndexTime(iso: string): string {
   const d = new Date(iso);
@@ -171,10 +168,20 @@ export const EconomySiteFilesUpload: React.FC<{
   slug: string;
   mode: "create" | "edit";
   hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
-  /** Portal JWT from “Generate token”; included in the play URL when set. */
-  portalJwt?: string;
   onAfterIndexUpload?: () => void;
-}> = ({ slug, mode, hostedSiteIndex, portalJwt, onAfterIndexUpload }) => {
+  /** Opens hosted game in a new tab (fetches portal JWT + same query params as in-game portal). */
+  onPlayGame?: () => void;
+  playGameLoading?: boolean;
+  playGameError?: string | null;
+}> = ({
+  slug,
+  mode,
+  hostedSiteIndex,
+  onAfterIndexUpload,
+  onPlayGame,
+  playGameLoading = false,
+  playGameError = null,
+}) => {
   const { t } = useAppTranslation();
   const folderInputId = useId();
   const folderInputRef = useRef<HTMLInputElement>(null);
@@ -183,7 +190,6 @@ export const EconomySiteFilesUpload: React.FC<{
   const [batchError, setBatchError] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [recentIndexUpload, setRecentIndexUpload] = useState(false);
-  const [playUrlCopied, setPlayUrlCopied] = useState(false);
 
   const slugTrim = slug.trim();
 
@@ -286,26 +292,7 @@ export const EconomySiteFilesUpload: React.FC<{
     [prepareEconomySiteUploads, setRow, slugTrim, t, onAfterIndexUpload],
   );
 
-  const playUrl = slugTrim
-    ? hostedEconomyPlayUrlWithJwt(slugTrim, portalJwt)
-    : "";
   const showPlaySection = Boolean(hostedSiteIndex) || recentIndexUpload;
-
-  const copyPlayUrl = useCallback(async () => {
-    if (!playUrl) return;
-    try {
-      await navigator.clipboard.writeText(playUrl);
-      setPlayUrlCopied(true);
-      window.setTimeout(() => setPlayUrlCopied(false), 2000);
-    } catch {
-      setPlayUrlCopied(false);
-    }
-  }, [playUrl]);
-
-  const openPlayUrl = useCallback(() => {
-    if (!playUrl) return;
-    window.open(playUrl, "_blank", "noopener,noreferrer");
-  }, [playUrl]);
 
   const onPickFolder = useCallback(
     (list: FileList | null) => {
@@ -414,44 +401,27 @@ export const EconomySiteFilesUpload: React.FC<{
         </p>
       )}
 
-      {showPlaySection && playUrl ? (
+      {showPlaySection ? (
         <div className="space-y-2 rounded-sm bg-black/25 border border-[#3e2731]/40 px-2 py-2 ml-0.5">
-          <p className="text-[10px] font-medium text-amber-100/95">
-            {t("playerEconomyEditor.siteUpload.playUrlTitle")}
-          </p>
-          <p
-            className="text-[10px] font-mono text-amber-100/90 break-all leading-snug select-all"
-            title={playUrl}
-          >
-            {playUrl}
-          </p>
-          {!portalJwt?.trim() ? (
-            <p className="text-[9px] opacity-70 leading-snug">
-              {t("playerEconomyEditor.siteUpload.playUrlJwtHint")}
-            </p>
+          {playGameError ? (
+            <Label type="danger" className="block text-xs">
+              {playGameError}
+            </Label>
           ) : null}
-          <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              className="w-full sm:w-auto"
-              onClick={() => openPlayUrl()}
-            >
-              <span className="text-sm">
-                {t("playerEconomyEditor.siteUpload.openPlayUrl")}
-              </span>
-            </Button>
-            <Button
-              type="button"
-              className="w-full sm:w-auto"
-              onClick={() => void copyPlayUrl()}
-            >
-              <span className="text-sm">
-                {playUrlCopied
-                  ? t("playerEconomyEditor.siteUpload.playUrlCopied")
-                  : t("playerEconomyEditor.siteUpload.copyPlayUrl")}
-              </span>
-            </Button>
-          </div>
+          <Button
+            type="button"
+            className="w-full sm:w-auto"
+            disabled={
+              !hasApi || playGameLoading || typeof onPlayGame !== "function"
+            }
+            onClick={() => onPlayGame?.()}
+          >
+            <span className="text-sm">
+              {playGameLoading
+                ? t("playerEconomyEditor.siteUpload.playGameLoading")
+                : t("playerEconomyEditor.siteUpload.playGame")}
+            </span>
+          </Button>
         </div>
       ) : null}
 
@@ -478,7 +448,7 @@ export const EconomySiteFilesUpload: React.FC<{
         <span className="text-sm">
           {isRunning
             ? t("playerEconomyEditor.siteUpload.working")
-            : t("playerEconomyEditor.siteUpload.chooseFolder")}
+            : t("playerEconomyEditor.siteUpload.uploadFolder")}
         </span>
       </Button>
 

@@ -17,18 +17,3 @@ export function looksLikeMinigamesSunflowerLandUrl(url: string): boolean {
     t,
   );
 }
-
-/**
- * URL to open the hosted economy game. When `jwt` is set, appends `?jwt=` for portal API auth
- * (same pattern as the in-game iframe).
- */
-export function hostedEconomyPlayUrlWithJwt(
-  slug: string,
-  jwt?: string,
-): string {
-  const base = canonicalHostedMinigamePlayUrl(slug);
-  if (!base) return "";
-  const token = jwt?.trim();
-  if (!token) return `${base}/`;
-  return `${base}/?jwt=${encodeURIComponent(token)}`;
-}

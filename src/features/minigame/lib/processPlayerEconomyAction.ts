@@ -78,27 +78,34 @@ function mintFixedAmountWithOptionalChance(
 export function clonePlayerEconomyRuntimeState(
   state: PlayerEconomyRuntimeState,
 ): PlayerEconomyRuntimeState {
+  const now = Date.now();
+  const day = utcCalendarDay(now);
+  const dm = state.dailyMinted ?? { utcDay: day, minted: {} };
+  const da = state.dailyActivity ?? { date: day, count: 0 };
   const uses = state.dailyActionUses;
   const purchases = state.purchaseCounts;
   return {
     balances: { ...state.balances },
     generating: Object.fromEntries(
-      Object.entries(state.generating).map(([id, entry]) => [id, { ...entry }]),
+      Object.entries(state.generating ?? {}).map(([id, entry]) => [
+        id,
+        { ...entry },
+      ]),
     ),
     dailyMinted: {
-      utcDay: state.dailyMinted.utcDay,
-      minted: { ...state.dailyMinted.minted },
+      utcDay: dm.utcDay,
+      minted: { ...(dm.minted ?? {}) },
     },
-    activity: state.activity,
+    activity: state.activity ?? 0,
     dailyActivity: {
-      date: state.dailyActivity.date,
-      count: state.dailyActivity.count,
+      date: da.date,
+      count: da.count,
     },
-    ...(uses
+    ...(uses && typeof uses.utcDay === "string"
       ? {
           dailyActionUses: {
             utcDay: uses.utcDay,
-            byAction: { ...uses.byAction },
+            byAction: { ...(uses.byAction ?? {}) },
           },
         }
       : {}),

@@ -19,10 +19,13 @@ function sessionPlayerEconomyToRuntime(
   return {
     balances: m.balances,
     generating: m.generating as PlayerEconomyRuntimeState["generating"],
-    dailyMinted: m.dailyMinted,
+    dailyMinted: m.dailyMinted ?? { utcDay: day, minted: {} },
     activity: m.activity,
-    dailyActivity: m.dailyActivity,
+    dailyActivity: m.dailyActivity ?? { date: day, count: 0 },
     dailyActionUses: m.dailyActionUses ?? { utcDay: day, byAction: {} },
+    ...(m.purchaseCounts != null
+      ? { purchaseCounts: { ...m.purchaseCounts } }
+      : {}),
   };
 }
 
