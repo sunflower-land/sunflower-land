@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Objets",
   "playerEconomyEditor.tab.actions": "Règles",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "Voici les règles et actions personnalisées prises en charge par votre mini-jeu. Utilisez-les dans votre mini-jeu personnalisé.",
   "playerEconomyEditor.jsonTab.copy": "Copier le JSON",
   "playerEconomyEditor.jsonTab.copied": "Copié !",
   "playerEconomyEditor.jsonTab.aria": "Configuration économique JSON (lecture seule)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Quelques secondes pour produire",
   "playerEconomyEditor.custom.collectDropsTitle": "Collectez des récompenses (chance)",
   "playerEconomyEditor.custom.collectDropsHint": "Lorsque le chronomètre est terminé, chaque ligne peut lancer sa chance (0 à 100 %). Sur plusieurs lignes, choisissez-en une en fonction du poids. 100 % = accordez toujours ce montant.",
-  "playerEconomyEditor.custom.mintChanceHint": "0 à 100 %. Lorsque le temps d'attente est nul, la chance se présente lorsque l'action est exécutée. Lorsque le temps d'attente est défini, la chance augmente lorsque le joueur collecte."
+  "playerEconomyEditor.custom.mintChanceHint": "0 à 100 %. Lorsque le temps d'attente est nul, la chance se présente lorsque l'action est exécutée. Lorsque le temps d'attente est défini, la chance augmente lorsque le joueur collecte.",
+  "playerEconomyEditor.jsonTab.intro": "L'exportation correspond aux attentes de l'API. Téléchargez un fichier JSON pour charger une configuration que vous avez créée dans un jeu ou un outil, puis utilisez Enregistrer pour publier.",
+  "playerEconomyEditor.jsonTab.upload": "Charger un fichier JSON",
+  "playerEconomyEditor.jsonTab.uploadAria": "Choisissez le fichier JSON économique à importer",
+  "playerEconomyEditor.jsonTab.uploadHint": "L'importation remplace l'état actuel de l'éditeur (éléments, règles, descriptions). Votre économie est maintenue dans Basics. Cliquez sur Enregistrer pour synchroniser avec le serveur.",
+  "playerEconomyEditor.jsonTab.importApplied": "Importé. Cliquez sur Enregistrer pour publier.",
+  "playerEconomyEditor.jsonTab.importError": "Impossible de lire ce fichier comme une configuration JSON valide.",
+  "playerEconomyEditor.jsonTab.importReadError": "Impossible de lire le fichier."
 }

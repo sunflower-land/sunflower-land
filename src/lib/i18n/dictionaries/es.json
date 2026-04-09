@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Artículos",
   "playerEconomyEditor.tab.actions": "Reglas",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "Estas son las reglas y acciones personalizadas que admite tu minijuego. Utilízalos en tu minijuego personalizado.",
   "playerEconomyEditor.jsonTab.copy": "Copiar JSON",
   "playerEconomyEditor.jsonTab.copied": "¡Copiado!",
   "playerEconomyEditor.jsonTab.aria": "Configuración económica JSON (solo lectura)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Segundos para producir",
   "playerEconomyEditor.custom.collectDropsTitle": "Recoge recompensas (oportunidad)",
   "playerEconomyEditor.custom.collectDropsHint": "Cuando termine el tiempo, cada fila tendrá su probabilidad (0— 100%). Varias filas eligen una por su peso. 100% = siempre se otorga esa cantidad.",
-  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Si el tiempo de espera es 0, la probabilidad aumenta cuando se ejecuta la acción. Con el tiempo de espera establecido, la oportunidad se presenta cuando el jugador la acumula."
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Si el tiempo de espera es 0, la probabilidad aumenta cuando se ejecuta la acción. Con el tiempo de espera establecido, la oportunidad se presenta cuando el jugador la acumula.",
+  "playerEconomyEditor.jsonTab.intro": "La exportación coincide con lo que espera la API. Sube un archivo JSON para cargar una configuración que hayas creado en un juego o una herramienta y, a continuación, utiliza Guardar para publicarla.",
+  "playerEconomyEditor.jsonTab.upload": "Cargar archivo JSON",
+  "playerEconomyEditor.jsonTab.uploadAria": "Elija un archivo JSON económico para importar",
+  "playerEconomyEditor.jsonTab.uploadHint": "La importación reemplaza el estado actual del editor (elementos, reglas, descripciones). Tu posición económica en Basics se mantiene. Haz clic en Guardar para sincronizarlo con el servidor.",
+  "playerEconomyEditor.jsonTab.importApplied": "Importado. Haz clic en Guardar para publicar.",
+  "playerEconomyEditor.jsonTab.importError": "No se pudo leer ese archivo como una configuración JSON válida.",
+  "playerEconomyEditor.jsonTab.importReadError": "No se ha podido leer el archivo."
 }

@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "アイテム",
   "playerEconomyEditor.tab.actions": "ルール",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "ミニゲームがサポートするカスタムルールとアクションは次のとおりです。これらをカスタムミニゲーム内で使用してください。",
   "playerEconomyEditor.jsonTab.copy": "JSON をコピー",
   "playerEconomyEditor.jsonTab.copied": "コピーされました！",
   "playerEconomyEditor.jsonTab.aria": "エコノミー設定 JSON (読み取り専用)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "数秒で制作完了",
   "playerEconomyEditor.custom.collectDropsTitle": "報酬を集める (チャンス)",
   "playerEconomyEditor.custom.collectDropsHint": "タイマーが終了すると、各行の確率が上がります (0 ～ 100%)。複数の行が 1 つを重み付けして選択します。100% = 常にその量を割り当てます。",
-  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。待機時間が 0 の場合、アクションが実行されるとチャンスが訪れます。待機時間を設定すると、プレイヤーが回収した時点でチャンスが回ります。"
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。待機時間が 0 の場合、アクションが実行されるとチャンスが訪れます。待機時間を設定すると、プレイヤーが回収した時点でチャンスが回ります。",
+  "playerEconomyEditor.jsonTab.intro": "エクスポートは API が期待するものと一致します。JSON ファイルをアップロードしてゲームやツールで構築した設定を読み込み、[保存] を使用して公開します。",
+  "playerEconomyEditor.jsonTab.upload": "JSON ファイルをアップロード",
+  "playerEconomyEditor.jsonTab.uploadAria": "インポートするエコノミー JSON ファイルを選択",
+  "playerEconomyEditor.jsonTab.uploadHint": "インポートは、現在のエディターの状態 (項目、ルール、説明) を置き換えます。ベーシックのエコノミースラッグはそのまま残ります。[保存] をクリックしてサーバーに同期します。",
+  "playerEconomyEditor.jsonTab.importApplied": "輸入品。[保存] をクリックして公開します。",
+  "playerEconomyEditor.jsonTab.importError": "そのファイルを有効な JSON 設定として読み取ることができませんでした。",
+  "playerEconomyEditor.jsonTab.importReadError": "ファイルを読み込めませんでした。"
 }

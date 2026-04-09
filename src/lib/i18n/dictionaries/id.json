@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Barang",
   "playerEconomyEditor.tab.actions": "Aturan",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "Berikut adalah aturan dan tindakan khusus yang didukung minigame Anda. Gunakan ini di dalam minigame kustom Anda.",
   "playerEconomyEditor.jsonTab.copy": "Salin JSON",
   "playerEconomyEditor.jsonTab.copied": "Disalin!",
   "playerEconomyEditor.jsonTab.aria": "Konfigurasi ekonomi JSON (hanya baca)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Detik untuk menghasilkan",
   "playerEconomyEditor.custom.collectDropsTitle": "Kumpulkan hadiah (kesempatan)",
   "playerEconomyEditor.custom.collectDropsHint": "Ketika timer selesai, setiap baris dapat menggulung kesempatannya (0-100%). Beberapa baris pilih satu berdasarkan berat. 100% = selalu berikan jumlah itu.",
-  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Dengan waktu tunggu 0, peluang bergulir saat aksi berjalan. Dengan waktu tunggu yang ditetapkan, peluang bergulir saat pemain mengumpulkan."
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Dengan waktu tunggu 0, peluang bergulir saat aksi berjalan. Dengan waktu tunggu yang ditetapkan, peluang bergulir saat pemain mengumpulkan.",
+  "playerEconomyEditor.jsonTab.intro": "Ekspor sesuai dengan apa yang diharapkan API. Unggah file JSON untuk memuat konfigurasi yang Anda buat di game atau alat, lalu gunakan Simpan untuk menerbitkan.",
+  "playerEconomyEditor.jsonTab.upload": "Unggah File JSON",
+  "playerEconomyEditor.jsonTab.uploadAria": "Pilih file JSON ekonomi untuk diimpor",
+  "playerEconomyEditor.jsonTab.uploadHint": "Impor menggantikan status editor saat ini (item, aturan, deskripsi). Siput ekonomi Anda di Dasar disimpan. Klik Simpan untuk menyinkronkan ke server.",
+  "playerEconomyEditor.jsonTab.importApplied": "Diimpor. Klik Simpan untuk menerbitkan.",
+  "playerEconomyEditor.jsonTab.importError": "Tidak dapat membaca file itu sebagai konfigurasi JSON yang valid.",
+  "playerEconomyEditor.jsonTab.importReadError": "Tidak dapat membaca file."
 }

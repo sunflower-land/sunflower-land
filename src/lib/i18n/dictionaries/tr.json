@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Öğeler",
   "playerEconomyEditor.tab.actions": "Kuralları",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "İşte mini oyununuzun desteklediği özel kurallar ve eylemler. Bunları özel mini oyununuzun içinde kullanın.",
   "playerEconomyEditor.jsonTab.copy": "JSON'u kopyala",
   "playerEconomyEditor.jsonTab.copied": "Kopyalandı!",
   "playerEconomyEditor.jsonTab.aria": "Ekonomi yapılandırması JSON (salt okunur)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Üretilecek Saniyeler",
   "playerEconomyEditor.custom.collectDropsTitle": "Ödüller topla (şans)",
   "playerEconomyEditor.custom.collectDropsHint": "Zamanlayıcı bittiğinde, her satır şansını artırabilir (%0-100). Birden çok satır ağırlığa göre birini seçer. %100 = her zaman bu miktarı verin.",
-  "playerEconomyEditor.custom.mintChanceHint": "%0— %100. Bekleme süresi 0 olduğunda, eylem çalıştığında şans artar. Bekleme süresi ayarlandığında, oyuncu topladığında şans artar."
+  "playerEconomyEditor.custom.mintChanceHint": "%0— %100. Bekleme süresi 0 olduğunda, eylem çalıştığında şans artar. Bekleme süresi ayarlandığında, oyuncu topladığında şans artar.",
+  "playerEconomyEditor.jsonTab.intro": "Dışa aktarma, API'nin beklediği ile eşleşir. Bir oyunda veya araçta oluşturduğunuz bir yapılandırmayı yüklemek için bir JSON dosyası yükleyin, ardından yayınlamak için Kaydet'i kullanın.",
+  "playerEconomyEditor.jsonTab.upload": "JSON Dosyasını Yükle",
+  "playerEconomyEditor.jsonTab.uploadAria": "İçe aktarılacak ekonomi JSON dosyasını seçin",
+  "playerEconomyEditor.jsonTab.uploadHint": "İçe aktarma, geçerli editör durumunu (öğeler, kurallar, açıklamalar) değiştirir. Basics\"teki ekonomi sümüklükleriniz korunuyor. Sunucuyla senkronize etmek için Kaydet'i tıklatın.",
+  "playerEconomyEditor.jsonTab.importApplied": "İthal. Yayınlamak için Kaydet'e tıklayın.",
+  "playerEconomyEditor.jsonTab.importError": "Bu dosya geçerli JSON yapılandırması olarak okunamadı.",
+  "playerEconomyEditor.jsonTab.importReadError": "Dosya okunamadı."
 }

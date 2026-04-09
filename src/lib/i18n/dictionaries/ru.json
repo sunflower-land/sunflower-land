@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Items",
   "playerEconomyEditor.tab.actions": "Rules",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "Here are the custom rules and actions that your minigame supports. Use these inside of your custom minigame.",
   "playerEconomyEditor.jsonTab.copy": "Copy JSON",
   "playerEconomyEditor.jsonTab.copied": "Copied!",
   "playerEconomyEditor.jsonTab.aria": "Economy config JSON (read only)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Seconds to produce",
   "playerEconomyEditor.custom.collectDropsTitle": "Collect rewards (chance)",
   "playerEconomyEditor.custom.collectDropsHint": "When the timer finishes, each row can roll its chance (0–100%). Multiple rows pick one by weight. 100% = always grant that amount.",
-  "playerEconomyEditor.custom.mintChanceHint": "0–100%. With wait time 0, chance rolls when the action runs. With wait time set, chance rolls when the player collects."
+  "playerEconomyEditor.custom.mintChanceHint": "0–100%. With wait time 0, chance rolls when the action runs. With wait time set, chance rolls when the player collects.",
+  "playerEconomyEditor.jsonTab.intro": "Export matches what the API expects. Upload a JSON file to load a config you built in a game or tool, then use Save to publish.",
+  "playerEconomyEditor.jsonTab.upload": "Upload JSON file",
+  "playerEconomyEditor.jsonTab.uploadAria": "Choose economy JSON file to import",
+  "playerEconomyEditor.jsonTab.uploadHint": "Import replaces the current editor state (items, rules, descriptions). Your economy slug in Basics is kept. Click Save to sync to the server.",
+  "playerEconomyEditor.jsonTab.importApplied": "Imported. Click Save to publish.",
+  "playerEconomyEditor.jsonTab.importError": "Could not read that file as valid JSON config.",
+  "playerEconomyEditor.jsonTab.importReadError": "Could not read the file."
 }
