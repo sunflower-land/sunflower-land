@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "URL'yi kopyala",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Kopyalandı",
   "minigame.dashboard.welcomeFallback": "Hoşgeldin Mağazayı ziyaret edin, ardından oynamak ve ödüller kazanmak için maceraya gidin.",
-  "minigame.dashboard.trophy.title": "Kupa bölümü",
-  "minigame.dashboard.trophy.body": "Jeneratörler ve zamanlanmış üretim artık her mini oyunun içinde çalışıyor. İlerlemek için macerayı oynayın, öğeler kazanın ve koleksiyonunuzu doldurun - kilidini açtığınız kupalar ve kilometre taşları zamanla burada görünecek.",
   "skill.ager.debuff": "2× Yaşlanma Kulübesi girişi (malzemeler, balık ve tuz)",
   "compost.sproutrootSurprise": "Sproutroot Surprise, arazilerdeki mahsul veriminizi +0,2 artırır ve arazilerden mahsul büyüme süresini %50 azaltır",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise, arazilerdeki mahsul veriminizi +0.4 artırır ve arazilerden mahsul büyüme süresini %50 azaltır",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "Hasat başına +2 Tuz",
   "skill.seaBlessed": "Hasatta tüm Tuz Düğümlerini yeniden şarj etme şansı %5",
   "skill.bacalhau": "Fermantasyon rafından +1 yem verimi",
-  "skill.saltSurge": "Tüm Tuz Düğümlerini şarj edin"
+  "skill.saltSurge": "Tüm Tuz Düğümlerini şarj edin",
+  "playerEconomyEditor.itemCard.trophy": "Kupa (sahip olduğunuzda gösterge tablosunda gösterin)",
+  "minigame.dashboard.trophyDetailEmpty": "Bu öğe için açıklama yok.",
+  "minigame.dashboard.trophySection.title": "Kupa Bölümü",
+  "minigame.dashboard.trophySection.subtitle": "Oyunu keşfedin ve kupaları toplayın"
 }

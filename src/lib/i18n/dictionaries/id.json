@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "Salin URL",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Disalin",
   "minigame.dashboard.welcomeFallback": "Selamat datang! Kunjungi toko, lalu pergilah ke petualangan untuk bermain dan mendapatkan hadiah.",
-  "minigame.dashboard.trophy.title": "Bagian trofi",
-  "minigame.dashboard.trophy.body": "Generator dan produksi berjangka waktu sekarang berjalan di dalam setiap minigame. Mainkan petualangan untuk maju, dapatkan item, dan isi koleksi Anda — piala dan tonggak sejarah yang Anda buka akan muncul di sini seiring waktu.",
   "skill.ager.debuff": "2× Input Aging Shed (bahan, ikan & garam)",
   "compost.sproutrootSurprise": "Sproutroot Surprise meningkatkan hasil panen Anda dari plot sebesar +0,2 dan mengurangi waktu pertumbuhan tanaman dari plot hingga 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise meningkatkan hasil panen Anda dari plot sebesar +0,4 dan mengurangi waktu pertumbuhan tanaman dari plot hingga 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "+2 Garam per panen",
   "skill.seaBlessed": "5% kesempatan untuk mengisi ulang semua Node Garam saat panen",
   "skill.bacalhau": "+1 Hasil umpan dari rak fermentasi",
-  "skill.saltSurge": "Isi ulang semua Node Garam"
+  "skill.saltSurge": "Isi ulang semua Node Garam",
+  "playerEconomyEditor.itemCard.trophy": "Trofi (ditampilkan di dasbor saat dimiliki)",
+  "minigame.dashboard.trophyDetailEmpty": "Tidak ada deskripsi untuk item ini.",
+  "minigame.dashboard.trophySection.title": "Bagian Trofi",
+  "minigame.dashboard.trophySection.subtitle": "Jelajahi permainan dan kumpulkan piala"
 }

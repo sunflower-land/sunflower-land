@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "URL kopieren",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Kopiert",
   "minigame.dashboard.welcomeFallback": "Willkommen! Besuche den Shop und begib dich dann ins Abenteuer, um zu spielen und Belohnungen zu verdienen.",
-  "minigame.dashboard.trophy.title": "Sektion Trophäen",
-  "minigame.dashboard.trophy.body": "Generatoren und zeitgesteuerte Produktion laufen jetzt in jedem Minispiel. Spiele das Abenteuer, um voranzukommen, Gegenstände zu verdienen und deine Sammlung zu vervollständigen — Trophäen und Meilensteine, die du freischaltest, werden hier im Laufe der Zeit auftauchen.",
   "skill.ager.debuff": "2 × Aging Shed Inputs (Zutaten, Fisch und Salz)",
   "compost.sproutrootSurprise": "Sproutroot Surprise erhöht den Ernteertrag von Parzellen um +0,2 und reduziert die Wachstumszeit der Pflanzen auf Parzellen um 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise erhöht den Ernteertrag von Parzellen um +0,4 und reduziert die Wachstumszeit der Pflanzen auf Parzellen um 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "+2 Salz pro Ernte",
   "skill.seaBlessed": "5% Chance, alle Salzknoten bei der Ernte wieder aufzuladen",
   "skill.bacalhau": "+1 Köderausbeute aus dem Gärregal",
-  "skill.saltSurge": "Alle Salzknoten aufladen"
+  "skill.saltSurge": "Alle Salzknoten aufladen",
+  "playerEconomyEditor.itemCard.trophy": "Trophäe (wird auf dem Armaturenbrett angezeigt, wenn du sie besitzt)",
+  "minigame.dashboard.trophyDetailEmpty": "Keine Beschreibung für diesen Artikel.",
+  "minigame.dashboard.trophySection.title": "Sektion Trophäen",
+  "minigame.dashboard.trophySection.subtitle": "Erkunde das Spiel und sammle die Trophäen"
 }

@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "URL をコピー",
   "playerEconomyEditor.siteUpload.playUrlCopied": "コピーされました",
   "minigame.dashboard.welcomeFallback": "ようこそ!ショップに行き、冒険に出てプレイして報酬を獲得してください。",
-  "minigame.dashboard.trophy.title": "トロフィーセクション",
-  "minigame.dashboard.trophy.body": "ジェネレーターとタイムプロダクションが各ミニゲーム内で実行されるようになりました。アドベンチャーをプレイしてゲームを進め、アイテムを獲得し、コレクションを充実させましょう。アンロックしたトロフィーやマイルストーンは、時間が経つにつれてここに表示されます。",
   "skill.ager.debuff": "エージングシェッドインプット×2（食材、魚、塩）",
   "compost.sproutrootSurprise": "スプラウトルートサプライズは、区画からの収穫量を+0.2増加させ、区画からの作物の成長時間を50％短縮します",
   "compost.sproutrootSurpriseBoosted": "スプラウトルートサプライズは、区画からの収穫量を+0.4増加させ、区画からの作物の成長時間を50％短縮します",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "収穫1回につき +2 塩",
   "skill.seaBlessed": "収穫時に 5% の確率ですべてのソルトノードをリチャージする",
   "skill.bacalhau": "+1発酵ラックからのベイト収量",
-  "skill.saltSurge": "すべてのソルトノードを充電する"
+  "skill.saltSurge": "すべてのソルトノードを充電する",
+  "playerEconomyEditor.itemCard.trophy": "トロフィー（所有している場合はダッシュボードに表示）",
+  "minigame.dashboard.trophyDetailEmpty": "この商品には説明がありません。",
+  "minigame.dashboard.trophySection.title": "トロフィーセクション",
+  "minigame.dashboard.trophySection.subtitle": "ゲームを探索してトロフィーを集めよう"
 }
