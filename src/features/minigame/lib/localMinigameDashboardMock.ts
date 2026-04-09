@@ -64,6 +64,12 @@ export function getLocalMinigameDashboardMock(
         description: "Slower batch",
         image: MOCK_IMG.flour,
       },
+      DemoTrophy: {
+        name: "Demo trophy",
+        description: "Shown when marked as trophy and owned",
+        image: MOCK_IMG.egg,
+        trophy: true,
+      },
     },
     actions: {
       MOCK_BUY: {
@@ -88,7 +94,7 @@ export function getLocalMinigameDashboardMock(
   };
 
   const state: PlayerEconomyRuntimeState = {
-    balances: { MockCoin: 100, Kitchen: 1 },
+    balances: { MockCoin: 100, Kitchen: 1, DemoTrophy: 1 },
     generating: {},
     dailyMinted: { utcDay: today, minted: {} },
     activity: 1,

@@ -66,6 +66,11 @@ export type PlayerEconomyBalanceItem = {
    * and appears in the dashboard production zone when the player owns it.
    */
   generator?: boolean;
+  /**
+   * When true and the player has a positive balance, this item’s art appears in the
+   * economy dashboard trophy zone (checkered area).
+   */
+  trophy?: boolean;
   /** Starting balance for new farms (no persisted minigame doc yet). */
   initialBalance?: number;
 };

@@ -21,6 +21,13 @@ export type MinigameInventoryItemUi = {
   description: string;
 };
 
+/** Owned trophy row for the dashboard checkered zone (no panel chrome). */
+export type MinigameTrophyDisplay = {
+  token: string;
+  name: string;
+  imageUrl: string;
+};
+
 export type MinigameDashboardUi = {
   headerBalanceToken: string;
   shopItems: MinigameShopItemUi[];

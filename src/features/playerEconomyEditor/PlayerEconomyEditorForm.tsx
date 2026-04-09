@@ -165,6 +165,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             id: nextId,
             tradeable: false,
             generator: false,
+            trophy: false,
             initialBalance: 0,
           },
         ],

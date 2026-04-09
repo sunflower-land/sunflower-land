@@ -76,6 +76,8 @@ export type ItemForm = {
   tradeable: boolean;
   /** When true, can be chosen as produce "requires" and shown in the dashboard production zone. */
   generator: boolean;
+  /** When true, shown in the economy dashboard trophy zone when the player owns at least one. */
+  trophy: boolean;
   /** Starting balance for new farms (`items[token].initialBalance` in saved config). */
   initialBalance: number;
   /** True while PUT to S3 / presign is in flight (editor-only, not persisted). */

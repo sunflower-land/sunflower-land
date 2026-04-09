@@ -19,6 +19,7 @@ import type {
   MinigameDashboardUi,
   MinigameInventoryItemUi,
   MinigameShopItemUi,
+  MinigameTrophyDisplay,
 } from "./minigameDashboardTypes";
 import { getMinigameTokenImage } from "./minigameTokenIcons";
 import {
@@ -81,6 +82,36 @@ export function primaryMintTokenKey(
   if (!mint) return "";
   const keys = Object.keys(mint);
   return keys[0] ?? "";
+}
+
+/** Items marked `trophy: true` with a positive balance (after merged initial balances). */
+export function deriveOwnedTrophyDisplays(
+  config: PlayerEconomyConfig,
+  balances: Record<string, number>,
+  tokenImages: Record<string, string>,
+): MinigameTrophyDisplay[] {
+  const items = config.items;
+  if (!items) return [];
+  const out: MinigameTrophyDisplay[] = [];
+  for (const [token, meta] of Object.entries(items)) {
+    if (meta.trophy !== true) continue;
+    const raw = balances[token];
+    const amt =
+      typeof raw === "number" && Number.isFinite(raw)
+        ? Math.max(0, Math.floor(raw))
+        : Number.isFinite(Number(raw))
+          ? Math.max(0, Math.floor(Number(raw)))
+          : 0;
+    if (amt <= 0) continue;
+    const name = meta.name?.trim() || token;
+    out.push({
+      token,
+      name,
+      imageUrl: resolveTokenImageUrl(token, tokenImages),
+    });
+  }
+  out.sort((a, b) => a.token.localeCompare(b.token));
+  return out;
 }
 
 export function buildTokenImageMap(
