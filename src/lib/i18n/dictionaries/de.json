@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "Artikel",
   "playerEconomyEditor.tab.actions": "Regeln",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "Hier sind die benutzerdefinierten Regeln und Aktionen, die dein Minispiel unterstützt. Verwende diese in deinem eigenen Minispiel.",
   "playerEconomyEditor.jsonTab.copy": "JSON kopieren",
   "playerEconomyEditor.jsonTab.copied": "Kopiert!",
   "playerEconomyEditor.jsonTab.aria": "Economy Config JSON (nur lesbar)",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "Sekunden bis zur Produktion",
   "playerEconomyEditor.custom.collectDropsTitle": "Sammle Belohnungen (Chance)",
   "playerEconomyEditor.custom.collectDropsHint": "Wenn der Timer abgelaufen ist, kann jede Reihe ihre Chance würfeln (0— 100%). Bei mehreren Reihen wird eine nach Gewicht ausgewählt. 100% = Gewährt immer diesen Betrag.",
-  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Bei einer Wartezeit von 0 wird der Zufall ausgelöst, wenn die Aktion ausgeführt wird. Bei eingestellter Wartezeit wird der Zufall ausgelöst, wenn der Spieler sammelt."
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Bei einer Wartezeit von 0 wird der Zufall ausgelöst, wenn die Aktion ausgeführt wird. Bei eingestellter Wartezeit wird der Zufall ausgelöst, wenn der Spieler sammelt.",
+  "playerEconomyEditor.jsonTab.intro": "Der Export entspricht den Erwartungen der API. Laden Sie eine JSON-Datei hoch, um eine Konfiguration zu laden, die Sie in einem Spiel oder Tool erstellt haben, und verwenden Sie dann Speichern, um sie zu veröffentlichen.",
+  "playerEconomyEditor.jsonTab.upload": "Laden Sie die JSON-Datei hoch",
+  "playerEconomyEditor.jsonTab.uploadAria": "Wählen Sie eine Economy-JSON-Datei zum Importieren",
+  "playerEconomyEditor.jsonTab.uploadHint": "Der Import ersetzt den aktuellen Editorstatus (Elemente, Regeln, Beschreibungen). Deine Wirtschaftskrise in den Basics bleibt erhalten. Klicken Sie auf Speichern, um mit dem Server zu synchronisieren.",
+  "playerEconomyEditor.jsonTab.importApplied": "Importiert. Klicken Sie auf Speichern, um zu veröffentlichen.",
+  "playerEconomyEditor.jsonTab.importError": "Diese Datei konnte nicht als gültige JSON-Konfiguration gelesen werden.",
+  "playerEconomyEditor.jsonTab.importReadError": "Die Datei konnte nicht gelesen werden."
 }

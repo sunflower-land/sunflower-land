@@ -8534,7 +8534,6 @@
   "playerEconomyEditor.tab.items": "物品",
   "playerEconomyEditor.tab.actions": "规则",
   "playerEconomyEditor.tab.json": "JSON",
-  "playerEconomyEditor.jsonTab.intro": "以下是您的小游戏支持的自定义规则和操作。在你的自定义小游戏中使用它们。",
   "playerEconomyEditor.jsonTab.copy": "复制 JSON",
   "playerEconomyEditor.jsonTab.copied": "已复制！",
   "playerEconomyEditor.jsonTab.aria": "经济配置 JSON（只读）",
@@ -8618,5 +8617,12 @@
   "playerEconomyEditor.custom.secondsToProduceLabel": "几秒钟的制作时间",
   "playerEconomyEditor.custom.collectDropsTitle": "收集奖励（机会）",
   "playerEconomyEditor.custom.collectDropsHint": "当计时器结束时，每行可以掷出自己的机会（0— 100%）。多行按权重选一个。100% = 始终授予该金额。",
-  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。等待时间为 0 时，动作运行时机会滚动。设定等待时间后，当玩家收集时，机会滚动。"
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。等待时间为 0 时，动作运行时机会滚动。设定等待时间后，当玩家收集时，机会滚动。",
+  "playerEconomyEditor.jsonTab.intro": "导出符合 API 的期望。上传 JSON 文件以加载您在游戏或工具中构建的配置，然后使用保存进行发布。",
+  "playerEconomyEditor.jsonTab.upload": "上传 JSON 文件",
+  "playerEconomyEditor.jsonTab.uploadAria": "选择要导入的经济 JSON 文件",
+  "playerEconomyEditor.jsonTab.uploadHint": "导入将替换当前的编辑器状态（项目、规则、描述）。你的经济基础知识部分会被保留。单击 “保存” 以同步到服务器。",
+  "playerEconomyEditor.jsonTab.importApplied": "已进口。单击 “保存” 进行发布。",
+  "playerEconomyEditor.jsonTab.importError": "无法将该文件读取为有效的 JSON 配置。",
+  "playerEconomyEditor.jsonTab.importReadError": "无法读取该文件。"
 }
