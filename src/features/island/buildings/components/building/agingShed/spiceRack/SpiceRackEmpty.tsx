@@ -60,8 +60,6 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
-  const skills = gameState.bumpkin.skills;
-
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
     : undefined;
@@ -98,7 +96,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           {selectedRecipeId && (
             <>
               {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
-                skills,
+                skills: gameState.bumpkin.skills,
                 collectibles: gameState.collectibles,
               }).map((label) => {
                 return (
@@ -166,7 +164,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
                     requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(skills),
+                      getAgingInputMultiplier(gameState),
                     )}
                   />
                 ),
@@ -180,9 +178,9 @@ export const SpiceRackEmpty: React.FC<Props> = ({
 
           {canShowRequirements &&
             selectedRecipeId === "Refined Salt" &&
-            getRefinedSaltChance(skills) > 0 && (
+            getRefinedSaltChance(gameState) > 0 && (
               <Label type="vibrant" className="text-xxs mx-2 mb-1">
-                {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+                {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
               </Label>
             )}
         </InnerPanel>

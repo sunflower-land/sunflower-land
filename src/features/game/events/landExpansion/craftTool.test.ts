@@ -390,4 +390,45 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(84);
   });
+
+  it("Salt Rakes cost 5% less with Salt Sculpture level 4", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(10) },
+        sculptures: { "Salt Sculpture": { level: 4 } },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Salt Rake",
+      },
+    });
+
+    expect(state.coins).toEqual(81);
+  });
+
+  it("stacks Cheap Rakes + Salt Sculpture level 4 discount", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(10) },
+        sculptures: { "Salt Sculpture": { level: 4 } },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Cheap Rakes": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Salt Rake",
+      },
+    });
+
+    // 20 * 0.85 * 0.95 = 16.15 → coins = 100 - 16.15 = 83.85
+    expect(state.coins).toBeCloseTo(83.85, 1);
+  });
 });

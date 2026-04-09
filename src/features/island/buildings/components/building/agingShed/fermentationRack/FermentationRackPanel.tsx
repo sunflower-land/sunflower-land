@@ -27,7 +27,6 @@ import type {
   GameState,
   Inventory,
   InventoryItemName,
-  Skills,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -52,10 +51,10 @@ function getMergedInventory(state: GameState): Inventory {
 function getFirstInsufficientIngredient(
   merged: Inventory,
   recipeId: FermentationRecipeName,
-  skills: Skills,
+  gameState: GameState,
 ): InventoryItemName | undefined {
   const def = getFermentationRecipe(recipeId);
-  const inputMultiplier = getAgingInputMultiplier(skills);
+  const inputMultiplier = getAgingInputMultiplier(gameState);
 
   for (const [ing, need] of getObjectEntries(def.ingredients)) {
     const name = ing as InventoryItemName;
@@ -132,11 +131,7 @@ export const FermentationRackPanel: React.FC = () => {
 
   const insufficientIngredient =
     selectedRecipeId !== undefined
-      ? getFirstInsufficientIngredient(
-          merged,
-          selectedRecipeId,
-          state.bumpkin.skills,
-        )
+      ? getFirstInsufficientIngredient(merged, selectedRecipeId, state)
       : undefined;
 
   const isInstantRecipe =

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
-import type { Skills } from "./game";
+import type { GameState, Skills } from "./game";
 import {
   getAgingOutput,
   getAgingSaltCost,
@@ -11,23 +11,31 @@ import {
   getRefinedSaltChance,
 } from "./agingFormulas";
 
+function stateWithSkills(skills: Skills): GameState {
+  return { bumpkin: { skills } } as GameState;
+}
+
 describe("getRefinedSaltChance", () => {
   it("returns 0 without Refiner", () => {
-    expect(getRefinedSaltChance({} as Skills)).toBe(0);
+    expect(getRefinedSaltChance(stateWithSkills({} as Skills))).toBe(0);
   });
 
   it("returns 15 with Refiner", () => {
-    expect(getRefinedSaltChance({ Refiner: 1 } as Skills)).toBe(15);
+    expect(
+      getRefinedSaltChance(stateWithSkills({ Refiner: 1 } as Skills)),
+    ).toBe(15);
   });
 });
 
 describe("getPrimeAgedChance", () => {
   it("defaults to 10%", () => {
-    expect(getPrimeAgedChance({} as Skills)).toBe(10);
+    expect(getPrimeAgedChance(stateWithSkills({} as Skills))).toBe(10);
   });
 
   it("doubles to 20% with Fish Smoking", () => {
-    expect(getPrimeAgedChance({ "Fish Smoking": 1 } as Skills)).toBe(20);
+    expect(
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills)),
+    ).toBe(20);
   });
 });
 
@@ -35,9 +43,9 @@ describe("getAgingOutput", () => {
   const farmId = 1;
 
   it("returns base amount when no relevant skills", () => {
-    const skills = {} as Skills;
+    const state = stateWithSkills({} as Skills);
     expect(
-      getAgingOutput(skills, new Decimal(3), "Salt", {
+      getAgingOutput(state, new Decimal(3), "Salt", {
         farmId,
         itemId: KNOWN_IDS.Salt,
         counter: 0,
@@ -46,9 +54,9 @@ describe("getAgingOutput", () => {
   });
 
   it("doubles output for Ager on any item", () => {
-    const skills = { Ager: 1 } as Skills;
+    const state = stateWithSkills({ Ager: 1 } as Skills);
     expect(
-      getAgingOutput(skills, new Decimal(2), "Pickled Radish", {
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
@@ -58,7 +66,7 @@ describe("getAgingOutput", () => {
 
   describe("Refiner bonus on Refined Salt (15% PRNG)", () => {
     const refinedSaltId = KNOWN_IDS["Refined Salt"];
-    const skills = { Refiner: 1 } as Skills;
+    const state = stateWithSkills({ Refiner: 1 } as Skills);
 
     it("documents deterministic miss at counter 0 for farmId 1", () => {
       expect(
@@ -87,7 +95,7 @@ describe("getAgingOutput", () => {
     it("does not add Refiner bonus without the skill", () => {
       const base = new Decimal(2);
       expect(
-        getAgingOutput({} as Skills, base, "Refined Salt", {
+        getAgingOutput(stateWithSkills({} as Skills), base, "Refined Salt", {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -96,9 +104,9 @@ describe("getAgingOutput", () => {
     });
 
     it("does not roll Refiner for non–Refined Salt items", () => {
-      const skillsWithRefiner = { Refiner: 1 } as Skills;
+      const stateWithRefiner = stateWithSkills({ Refiner: 1 } as Skills);
       expect(
-        getAgingOutput(skillsWithRefiner, new Decimal(2), "Salt", {
+        getAgingOutput(stateWithRefiner, new Decimal(2), "Salt", {
           farmId,
           itemId: KNOWN_IDS.Salt,
           counter: 4,
@@ -108,7 +116,7 @@ describe("getAgingOutput", () => {
 
     it("adds +1 on PRNG hit (counter 4) from base 2", () => {
       expect(
-        getAgingOutput(skills, new Decimal(2), "Refined Salt", {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -118,7 +126,7 @@ describe("getAgingOutput", () => {
 
     it("does not add Refiner +1 on PRNG miss (counter 0) from base 2", () => {
       expect(
-        getAgingOutput(skills, new Decimal(2), "Refined Salt", {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", {
           farmId,
           itemId: refinedSaltId,
           counter: 0,
@@ -127,9 +135,12 @@ describe("getAgingOutput", () => {
     });
 
     it("stacks Ager 2× with Refiner bonus on hit", () => {
-      const agerRefiner = { Ager: 1, Refiner: 1 } as Skills;
+      const agerRefinerState = stateWithSkills({
+        Ager: 1,
+        Refiner: 1,
+      } as Skills);
       expect(
-        getAgingOutput(agerRefiner, new Decimal(2), "Refined Salt", {
+        getAgingOutput(agerRefinerState, new Decimal(2), "Refined Salt", {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -141,11 +152,11 @@ describe("getAgingOutput", () => {
 
 describe("getBoostedAgingFishCost", () => {
   it("requires 1 fish without Ager", () => {
-    expect(getBoostedAgingFishCost({} as Skills)).toBe(1);
+    expect(getBoostedAgingFishCost(stateWithSkills({}))).toBe(1);
   });
 
   it("requires 2 fish with Ager (Aging Rack)", () => {
-    expect(getBoostedAgingFishCost({ Ager: 1 } as Skills)).toBe(2);
+    expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 1 }))).toBe(2);
   });
 });
 
@@ -154,12 +165,12 @@ describe("getBoostedAgingSaltCost", () => {
 
   it("matches base salt cost without Ager", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, {} as Skills)).toBe(base);
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({}))).toBe(base);
   });
 
   it("doubles salt cost with Ager (Aging Rack)", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, { Ager: 1 } as Skills)).toBe(
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 }))).toBe(
       base * 2,
     );
   });

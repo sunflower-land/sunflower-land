@@ -219,6 +219,7 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Macaw",
     "Squirrel",
     "Butterfly",
+    "Salt Sculpture",
   ];
 
   return (

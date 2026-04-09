@@ -194,6 +194,14 @@ export function craftCollectible({
       [action.name]: oldAmount.add(1) as Decimal,
     };
 
+    if (action.name === "Salt Sculpture") {
+      if (!stateCopy.sculptures) stateCopy.sculptures = {};
+      stateCopy.sculptures["Salt Sculpture"] = {
+        level: 1,
+        upgradedAt: createdAt,
+      };
+    }
+
     if (isKey(action.name)) {
       const keyBoughtAt =
         stateCopy.pumpkinPlaza.keysBought?.treasureShop[action.name]?.boughtAt;

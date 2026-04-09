@@ -47,12 +47,11 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
-  const skills = state.bumpkin.skills;
   const recipeDef = getSpiceRackRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0] as SpiceRackRecipeName;
   const outputAmount = getAgingOutput(
-    skills,
+    state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
   );
@@ -89,7 +88,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
         <div className="flex flex-wrap gap-1 mt-1">
           {outputItem &&
             COLLECTIBLE_BUFF_LABELS[outputItem]?.({
-              skills,
+              skills: state.bumpkin.skills,
               collectibles: state.collectibles,
             }).map((label) => {
               return (
@@ -120,7 +119,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
               const needDecimal = new Decimal(need ?? 0).mul(
-                getAgingInputMultiplier(skills),
+                getAgingInputMultiplier(state),
               );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);
@@ -143,9 +142,9 @@ export const SpiceRackInProgress: React.FC<Props> = ({
           </div>
         </div>
 
-        {getRefinedSaltChance(skills) > 0 && (
+        {getRefinedSaltChance(state) > 0 && (
           <Label type="vibrant" className="text-xxs mx-2 mb-1">
-            {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+            {`${getRefinedSaltChance(state)}% Refined Salt chance`}
           </Label>
         )}
 

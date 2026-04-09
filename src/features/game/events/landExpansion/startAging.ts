@@ -60,10 +60,9 @@ export function startAging({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const skills = game.bumpkin.skills;
     const baseXP = getFishBaseXP(action.fish);
-    const fishCost = getBoostedAgingFishCost(skills);
-    const saltCost = getBoostedAgingSaltCost(baseXP, skills);
+    const fishCost = getBoostedAgingFishCost(game);
+    const saltCost = getBoostedAgingSaltCost(baseXP, game);
 
     const fishCount = game.inventory[action.fish] ?? new Decimal(0);
     if (fishCount.lessThan(fishCost)) {
@@ -82,7 +81,7 @@ export function startAging({
       id: action.slotId,
       fish: action.fish,
       startedAt: createdAt,
-      readyAt: createdAt + getBoostedAgingTimeMs(baseXP, skills),
+      readyAt: createdAt + getBoostedAgingTimeMs(baseXP, game),
     };
 
     game.agingShed.racks.aging = [...queue, slot];

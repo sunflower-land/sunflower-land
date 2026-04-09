@@ -40,6 +40,7 @@ import { Fountain } from "./components/Fountain";
 import { Gnome } from "./components/Gnome";
 import { Nancy } from "./components/Nancy";
 import { Scarecrow } from "./components/Scarecrow";
+import { SaltSculpture } from "./components/SaltSculpture";
 import { Kuebiko } from "./components/Kuebiko";
 import { flags } from "./components/Flags";
 import { CarrotSword } from "./components/CarrotSword";
@@ -3859,6 +3860,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="The Sunflower Man Statue"
     />
   ),
+  "Salt Sculpture": () => <SaltSculpture />,
 };
 // Need readonly versions for some troublesome components while in design mode
 
