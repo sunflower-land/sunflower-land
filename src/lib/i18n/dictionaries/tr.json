@@ -8550,8 +8550,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Önce çiftliğinizi oyuna yükleyin.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Belirteç alınamadı.",
   "skill.cheapRakes": "Salt Rake jeton maliyetinde %15 indirim",
-  "skill.speedyAging": "%10 daha hızlı Yaşlanma Rafı hızı",
-  "skill.saltySeas": "%10 daha hızlı tuz şarjı ikmali",
   "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
   "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
   "saltHarvest.nextChargeIn": "Bir sonraki şarj:",
@@ -8599,7 +8597,6 @@
   "guide.compost.fruitGrowthTime": "-20% Meyve Yaması Büyüme Süresi",
   "fertiliser.sproutrootSurprise": "Sproutroot Sürprizi",
   "fertiliser.turbofruitMix": "Turbofruit Karışımı",
-  "skill.ager.buff": "Yaşlanma Kulübesi Raflarından +1 çıktı",
   "skill.wideRakes": "Hasat başına +2 Tuz",
   "skill.seaBlessed": "Hasatta tüm Tuz Düğümlerini yeniden şarj etme şansı %5",
   "skill.bacalhau": "Fermantasyon rafından +1 yem verimi",
@@ -8607,5 +8604,8 @@
   "playerEconomyEditor.itemCard.trophy": "Kupa (sahip olduğunuzda gösterge tablosunda gösterin)",
   "minigame.dashboard.trophyDetailEmpty": "Bu öğe için açıklama yok.",
   "minigame.dashboard.trophySection.title": "Kupa Bölümü",
-  "minigame.dashboard.trophySection.subtitle": "Oyunu keşfedin ve kupaları toplayın"
+  "minigame.dashboard.trophySection.subtitle": "Oyunu keşfedin ve kupaları toplayın",
+  "skill.speedyAging": "-10% Yaşlanma Raf süresi",
+  "skill.saltySeas": "-10% tuz şarjı yenileme süresi",
+  "skill.ager.buff": "Yaşlanma Kulübesi Raflarından 2 kat çıktı"
 }

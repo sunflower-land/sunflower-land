@@ -8550,8 +8550,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carica prima la tua fattoria nel gioco.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossibile recuperare il token.",
   "skill.cheapRakes": "15% di sconto sul costo delle monete Salt Rake",
-  "skill.speedyAging": "Velocità Aging Rack più veloce del 10%",
-  "skill.saltySeas": "Rifornimento della carica di sale più veloce del 10%",
   "skill.fishSmoking": "Possibilità doppia: Aged Fish diventa Prime Aged",
   "skill.refiner": "15% di possibilità di ottenere +1 sale raffinato",
   "saltHarvest.nextChargeIn": "Prossima ricarica in:",
@@ -8599,7 +8597,6 @@
   "guide.compost.fruitGrowthTime": "-20% Tempo di crescita del frutteto",
   "fertiliser.sproutrootSurprise": "Sproutroot Surprise",
   "fertiliser.turbofruitMix": "Miscela Turbofruit",
-  "skill.ager.buff": "+1 uscita da Aging Shed Racks",
   "skill.wideRakes": "+2 sale per raccolto",
   "skill.seaBlessed": "5% di possibilità di ricaricare tutti i Salt Nodes durante la raccolta",
   "skill.bacalhau": "+1 resa in esche dalla rastrelliera di fermentazione",
@@ -8607,5 +8604,8 @@
   "playerEconomyEditor.itemCard.trophy": "Trofeo (mostrato sulla dashboard se posseduto)",
   "minigame.dashboard.trophyDetailEmpty": "Nessuna descrizione per questo articolo.",
   "minigame.dashboard.trophySection.title": "Sezione Trofei",
-  "minigame.dashboard.trophySection.subtitle": "Esplora il gioco e raccogli i trofei"
+  "minigame.dashboard.trophySection.subtitle": "Esplora il gioco e raccogli i trofei",
+  "skill.speedyAging": "-10% Tempo di invecchiamento",
+  "skill.saltySeas": "-10% tempo di rifornimento della carica di sale",
+  "skill.ager.buff": "2× uscita da Aging Shed Racks"
 }
