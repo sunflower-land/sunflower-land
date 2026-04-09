@@ -156,19 +156,37 @@ const STATIC_FERMENTATION_RECIPES = {
   "Salt from Seaweed": {
     durationSeconds: 0,
     ingredients: {
-      Seaweed: new Decimal(1),
+      Seaweed: new Decimal(4),
     },
     outputs: {
-      Salt: new Decimal(2),
+      Salt: new Decimal(15),
     },
   },
   "Salt from Old Bottle": {
     durationSeconds: 0,
     ingredients: {
-      "Old Bottle": new Decimal(1),
+      "Old Bottle": new Decimal(8),
     },
     outputs: {
-      Salt: new Decimal(2),
+      Salt: new Decimal(9),
+    },
+  },
+  "Salt from Crab": {
+    durationSeconds: 0,
+    ingredients: {
+      Crab: new Decimal(4),
+    },
+    outputs: {
+      Salt: new Decimal(3),
+    },
+  },
+  "Salt from Bones": {
+    durationSeconds: 0,
+    ingredients: {
+      "Camel Bone": new Decimal(2),
+    },
+    outputs: {
+      Salt: new Decimal(1),
     },
   },
 } as const satisfies Record<string, FermentationRecipeDefinition>;

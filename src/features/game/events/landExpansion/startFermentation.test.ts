@@ -289,43 +289,40 @@ describe("startFermentation", () => {
     );
   });
 
-  it("instant salt recipe grants output without enqueueing", () => {
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: { Seaweed: new Decimal(1) },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe: "Salt from Seaweed",
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
+  it.each([
+    "Salt from Seaweed",
+    "Salt from Old Bottle",
+    "Salt from Crab",
+    "Salt from Bones",
+  ] as const)(
+    "instant recipe %s grants output without enqueueing",
+    (recipe) => {
+      const def = getFermentationRecipe(recipe);
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
 
-    expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.inventory.Seaweed?.toNumber()).toEqual(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(2);
-  });
+      const state = startFermentation({
+        state: createFermentationTestState({ inventory }),
+        action: {
+          type: "fermentation.started",
+          recipe,
+          jobId: TEST_JOB_ID,
+        },
+        farmId: 1,
+        createdAt,
+      });
 
-  it("starts salt_from_old_bottle and deducts bottle without using a slot", () => {
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: { "Old Bottle": new Decimal(1) },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe: "Salt from Old Bottle",
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(2);
-    expect(state.agingShed.racks.fermentation).toHaveLength(0);
-  });
+      expect(state.agingShed.racks.fermentation).toHaveLength(0);
+      for (const [item, qty] of getObjectEntries(def.outputs)) {
+        expect(state.inventory[item]?.toNumber()).toEqual(qty?.toNumber());
+      }
+      for (const [ing] of getObjectEntries(def.ingredients)) {
+        expect(state.inventory[ing]?.toNumber() ?? 0).toEqual(0);
+      }
+    },
+  );
 
   it("allows zero-duration recipe when fermentation rack is full", () => {
     const past = createdAt - 1;
@@ -361,7 +358,7 @@ describe("startFermentation", () => {
             ],
           },
         },
-        inventory: { "Old Bottle": new Decimal(1) },
+        inventory: { "Old Bottle": new Decimal(8) },
       }),
       action: {
         type: "fermentation.started",
@@ -377,7 +374,7 @@ describe("startFermentation", () => {
       newJobId,
     );
     expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(2);
+    expect(state.inventory.Salt?.toNumber()).toEqual(9);
   });
 
   it("exercises runtime recipe guard when type is widened", () => {
