@@ -143,9 +143,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
-  const [feedBuffHint, setFeedBuffHint] = useState<
-    "none" | "notEnough" | "already" | "notHappy" | "notSleeping"
-  >("none");
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playCowCollect } = useSound("cow_collect");
@@ -329,28 +326,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (sleeping) {
       if (hasBuffSelected) {
         const buffItem = selectedItem as AnimalFeedBuffName;
-        if (cow.feedBuff) {
-          setFeedBuffHint("already");
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          setFeedBuffHint("none");
-          return;
+        if (!cow.feedBuff) {
+          const buffCount = inventory[buffItem] ?? new Decimal(0);
+          if (buffCount.gte(1)) {
+            gameService.send({
+              type: "animal.feedBuffApplied",
+              animal: "Cow",
+              id: cow.id,
+              item: buffItem,
+            });
+            playFeedAnimal();
+            return;
+          }
         }
-        const buffCount = inventory[buffItem] ?? new Decimal(0);
-        if (buffCount.lt(1)) {
-          setFeedBuffHint("notEnough");
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          setFeedBuffHint("none");
-          return;
-        }
-
-        gameService.send({
-          type: "animal.feedBuffApplied",
-          animal: "Cow",
-          id: cow.id,
-          item: buffItem,
-        });
-        playFeedAnimal();
-        return;
       }
       handleShowDetails();
       return;
@@ -360,13 +348,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       // Already animating
       if (showDrops) return;
       return onReadyClick();
-    }
-
-    if (hasBuffSelected) {
-      setFeedBuffHint("notSleeping");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setFeedBuffHint("none");
-      return;
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
@@ -396,12 +377,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
-    if (feedBuffHint === "notSleeping")
-      return t("animal.feedBuff.onlyWhenResting");
-    if (feedBuffHint === "notHappy")
-      return t("animal.feedBuff.useWhenFedAndContent");
-    if (feedBuffHint === "notEnough") return t("animal.feedBuff.notEnough");
-    if (feedBuffHint === "already") return t("animal.feedBuff.alreadyActive");
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -566,10 +541,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           </Modal>
           <InfoPopover
             showPopover={
-              feedBuffHint !== "none" ||
-              showNoFoodSelected ||
-              showNoMedicine ||
-              showNotEnoughFood
+              showNoFoodSelected || showNoMedicine || showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >
