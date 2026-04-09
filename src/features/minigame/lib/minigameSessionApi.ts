@@ -123,10 +123,19 @@ export async function getMinigameSession(
   return payload.data;
 }
 
+/** Body for `POST /portal/:portalId/player-economy/action` (portal JWT). */
+export type MinigamePortalActionBody =
+  | { type: "generator.collected"; itemId: string }
+  | {
+      type?: "minigame.action";
+      action: string;
+      amounts?: Record<string, number>;
+    };
+
 export async function postPlayerEconomyActionRequest(
   portalId: string,
   portalJwt: string,
-  body: { action: string; itemId?: string; amounts?: Record<string, number> },
+  body: MinigamePortalActionBody,
 ): Promise<MinigameActionApiResponse> {
   const res = await fetch(`${playerEconomyUrl(portalId)}/action`, {
     method: "POST",
@@ -161,7 +170,6 @@ export async function postPlayerEconomyActionedEvent(opts: {
   userToken: string;
   portalId: string;
   action: string;
-  itemId?: string;
   amounts?: Record<string, number>;
 }): Promise<MinigameActionApiResponse> {
   const base = CONFIG.API_URL;
@@ -171,16 +179,12 @@ export async function postPlayerEconomyActionedEvent(opts: {
     type: "playerEconomy.actioned";
     portalId: string;
     action: string;
-    itemId?: string;
     amounts?: Record<string, number>;
   } = {
     type: "playerEconomy.actioned",
     portalId: opts.portalId,
     action: opts.action,
   };
-  if (opts.itemId !== undefined) {
-    eventPayload.itemId = opts.itemId;
-  }
   if (opts.amounts !== undefined) {
     eventPayload.amounts = opts.amounts;
   }

@@ -1,16 +1,22 @@
+import {
+  migrateLegacyPlayerEconomyConfigFields,
+  type PlayerEconomyConfigWithLegacy,
+} from "./minigameConfigMigration";
 import { resolveProduceDurationMs } from "./resolveProduceDuration";
 import {
   BurnRule,
   CollectRule,
   DailyActionUsesBucket,
   DailyMintBucket,
+  GeneratorJob,
+  GeneratorRecipeRule,
+  MintRule,
+  PLAYER_ECONOMY_GENERATOR_COLLECTED_ACTION,
   PlayerEconomyActionDefinition,
   PlayerEconomyConfig,
   PlayerEconomyProcessInput,
   PlayerEconomyProcessResult,
   PlayerEconomyRuntimeState,
-  MintRule,
-  GeneratorRecipeRule,
   RequireRule,
 } from "./types";
 
@@ -52,6 +58,21 @@ function isFixedMintWithDailyCap(
   rule: MintRule,
 ): rule is { amount: number; dailyCap: number } {
   return "amount" in rule && "dailyCap" in rule && !("min" in rule);
+}
+
+function mintFixedAmountWithOptionalChance(
+  rule: MintRule,
+  baseAmount: number,
+): number {
+  let add = baseAmount;
+  const r = rule as { chance?: number };
+  if (r.chance !== undefined) {
+    const c = Number(r.chance);
+    if (Number.isFinite(c) && c < 100 && Math.random() * 100 >= c) {
+      add = 0;
+    }
+  }
+  return add;
 }
 
 export function clonePlayerEconomyRuntimeState(
@@ -205,6 +226,7 @@ function applyProduce(
   produce: Record<string, GeneratorRecipeRule> | undefined,
   collect: Record<string, CollectRule> | undefined,
   now: number,
+  sourceActionId: string,
 ): { error?: string; generatorJobId?: string } {
   if (!produce) return {};
   for (const [outputToken, rule] of Object.entries(produce)) {
@@ -235,10 +257,96 @@ function applyProduce(
       startedAt: now,
       completesAt: now + durationMs,
       ...(rule.requires !== undefined ? { requires: rule.requires } : {}),
+      sourceActionId,
     };
     return { generatorJobId: id };
   }
   return {};
+}
+
+/**
+ * Timed jobs from `require[token].seconds` + `collect` (no legacy `produce`).
+ */
+function applyRequireTimedJobs(
+  config: PlayerEconomyConfig,
+  balances: Record<string, number>,
+  generating: PlayerEconomyRuntimeState["generating"],
+  def: PlayerEconomyActionDefinition,
+  sourceActionId: string,
+  now: number,
+): { error?: string; generatorJobId?: string } {
+  const produceKeys = Object.keys(def.produce ?? {});
+  if (produceKeys.length > 0) return {};
+
+  const collect = def.collect;
+  if (!collect || Object.keys(collect).length === 0) return {};
+
+  const reqEntries = Object.entries(def.require ?? {}).filter(([, r]) => {
+    const sec = (r as RequireRule).seconds;
+    return typeof sec === "number" && Number.isFinite(sec) && sec > 0;
+  });
+  if (reqEntries.length === 0) return {};
+  if (reqEntries.length > 1) {
+    return { error: "Only one require row may include a seconds timer" };
+  }
+
+  const collectKeys = Object.keys(collect);
+  if (collectKeys.length !== 1) {
+    return {
+      error: "Timed require actions need exactly one collect output row",
+    };
+  }
+
+  const outputToken = collectKeys[0]!;
+  const [laneToken, reqRule] = reqEntries[0]!;
+  const seconds = Math.floor((reqRule as RequireRule).seconds as number);
+  const durationMs = Math.max(0, seconds * 1000);
+
+  const activeForLane = Object.values(generating).filter(
+    (p) => p.outputToken === outputToken && p.requires === laneToken,
+  ).length;
+  const cap = getBalance(balances, laneToken);
+  if (activeForLane >= cap) {
+    const laneLabel = itemDisplayName(config, laneToken);
+    const outLabel = itemDisplayName(config, outputToken);
+    return {
+      error: `Not enough ${laneLabel} capacity for new ${outLabel} production`,
+    };
+  }
+
+  const id = newProducingJobId();
+  generating[id] = {
+    outputToken,
+    startedAt: now,
+    completesAt: now + durationMs,
+    requires: laneToken,
+    sourceActionId,
+  };
+  return { generatorJobId: id };
+}
+
+function findCollectDefinitionForJob(
+  config: PlayerEconomyConfig,
+  job: GeneratorJob,
+): PlayerEconomyActionDefinition | undefined {
+  if (job.sourceActionId) {
+    const d = config.actions[job.sourceActionId];
+    if (d?.collect?.[job.outputToken]) return d;
+  }
+  for (const def of Object.values(config.actions)) {
+    const p = def.produce ?? {};
+    if (!def.collect?.[job.outputToken]) continue;
+    if (p[job.outputToken] !== undefined) return def;
+  }
+  for (const def of Object.values(config.actions)) {
+    if (
+      def.collect?.[job.outputToken] &&
+      (!def.produce || Object.keys(def.produce).length === 0)
+    ) {
+      return def;
+    }
+  }
+  return undefined;
 }
 
 function applyMint(
@@ -271,13 +379,16 @@ function applyMint(
     } else if (isFixedMintWithDailyCap(rule)) {
       const key = dailyMintSubKey(actionId, token);
       const used = bucket.minted[key] ?? 0;
-      if (used + rule.amount > rule.dailyCap) {
+      const rolled = mintFixedAmountWithOptionalChance(rule, rule.amount);
+      if (rolled > 0 && used + rolled > rule.dailyCap) {
         return `Daily cap exceeded for ${label}`;
       }
-      bucket.minted[key] = used + rule.amount;
-      add = rule.amount;
+      if (rolled > 0) {
+        bucket.minted[key] = used + rolled;
+      }
+      add = rolled;
     } else {
-      add = rule.amount;
+      add = mintFixedAmountWithOptionalChance(rule, rule.amount);
     }
     balances[token] = getBalance(balances, token) + add;
   }
@@ -435,37 +546,7 @@ function runPhases(
   def: PlayerEconomyActionDefinition,
   input: PlayerEconomyProcessInput,
   working: PlayerEconomyRuntimeState,
-): {
-  error?: string;
-  generatorJobId?: string;
-  collectGrants?: { token: string; amount: number }[];
-} {
-  const hasProduce = Object.keys(def.produce ?? {}).length > 0;
-  const hasCollect = Object.keys(def.collect ?? {}).length > 0;
-  const itemId = input.itemId?.trim();
-
-  /** With `itemId`, only the collect phase runs (same action id as start for unified configs). */
-  if (itemId) {
-    if (!hasCollect) {
-      return { error: "itemId is not valid for this action" };
-    }
-    const collectResult = applyCollect(
-      working.balances,
-      working.generating,
-      def.collect,
-      itemId,
-      input.now,
-    );
-    if ("error" in collectResult) {
-      return { error: collectResult.error };
-    }
-    return { collectGrants: collectResult.grants };
-  }
-
-  if (hasCollect && !hasProduce) {
-    return { error: "itemId is required for collect" };
-  }
-
+): { error?: string; generatorJobId?: string } {
   const errRequire = applyRequire(config, working.balances, def.require);
   if (errRequire) return { error: errRequire };
 
@@ -493,6 +574,7 @@ function runPhases(
     def.produce,
     def.collect,
     input.now,
+    input.actionId,
   );
   if (prod.error) return { error: prod.error };
 
@@ -506,7 +588,56 @@ function runPhases(
   );
   if (errMint) return { error: errMint };
 
-  return { generatorJobId: prod.generatorJobId };
+  const timed = applyRequireTimedJobs(
+    config,
+    working.balances,
+    working.generating,
+    def,
+    input.actionId,
+    input.now,
+  );
+  if (timed.error) return { error: timed.error };
+
+  return {
+    generatorJobId: prod.generatorJobId ?? timed.generatorJobId,
+  };
+}
+
+export function processPlayerEconomyGeneratorCollect(
+  config: PlayerEconomyConfig,
+  state: PlayerEconomyRuntimeState,
+  itemId: string,
+  now: number,
+): PlayerEconomyProcessResult {
+  const migrated = migrateLegacyPlayerEconomyConfigFields(
+    config as PlayerEconomyConfigWithLegacy,
+  );
+  const working = clonePlayerEconomyRuntimeState(state);
+  rolloverDailyMintedIfNeeded(working.dailyMinted, now);
+  const job = working.generating[itemId];
+  if (!job) {
+    return { ok: false, error: "Unknown production id" };
+  }
+  const def = findCollectDefinitionForJob(migrated, job);
+  if (!def?.collect) {
+    return { ok: false, error: "Collect is not configured for this job" };
+  }
+  const collectResult = applyCollect(
+    working.balances,
+    working.generating,
+    def.collect,
+    itemId,
+    now,
+  );
+  if ("error" in collectResult) {
+    return { ok: false, error: collectResult.error };
+  }
+  recordSuccessfulMinigameAction(working, now);
+  return {
+    ok: true,
+    state: working,
+    collectGrants: collectResult.grants,
+  };
 }
 
 export function processPlayerEconomyAction(
@@ -514,6 +645,22 @@ export function processPlayerEconomyAction(
   state: PlayerEconomyRuntimeState,
   input: PlayerEconomyProcessInput,
 ): PlayerEconomyProcessResult {
+  if (input.actionId === PLAYER_ECONOMY_GENERATOR_COLLECTED_ACTION) {
+    const jid = input.itemId?.trim();
+    if (!jid) {
+      return { ok: false, error: "itemId is required" };
+    }
+    return processPlayerEconomyGeneratorCollect(config, state, jid, input.now);
+  }
+
+  if (input.itemId?.trim()) {
+    return {
+      ok: false,
+      error:
+        "itemId is not allowed on actions; use action generator.collected with itemId to collect timers",
+    };
+  }
+
   const def = config.actions[input.actionId];
   if (!def) {
     return { ok: false, error: `Unknown action ${input.actionId}` };
@@ -542,12 +689,7 @@ export function processPlayerEconomyAction(
     return { ok: false, error: errPurchaseLimit };
   }
 
-  const { error, generatorJobId, collectGrants } = runPhases(
-    config,
-    def,
-    input,
-    working,
-  );
+  const { error, generatorJobId } = runPhases(config, def, input, working);
   if (error) {
     return { ok: false, error };
   }
@@ -570,7 +712,6 @@ export function processPlayerEconomyAction(
     ok: true,
     state: working,
     generatorJobId,
-    ...(collectGrants !== undefined ? { collectGrants } : {}),
   };
 }
 
