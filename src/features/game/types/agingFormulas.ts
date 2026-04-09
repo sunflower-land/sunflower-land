@@ -1,6 +1,17 @@
 import Decimal from "decimal.js-light";
 import { prngChance } from "lib/prng";
 import type { InventoryItemName, Skills } from "./game";
+import { FermentationBait } from "./fishing";
+
+const BAIT_ITEMS = new Set<FermentationBait>([
+  "Capsule Bait",
+  "Umbrella Bait",
+  "Crimson Baitfish",
+]);
+
+export function isBaitItem(item: InventoryItemName): item is FermentationBait {
+  return BAIT_ITEMS.has(item as FermentationBait);
+}
 
 export const PRIME_AGED_XP_MULTIPLIER = 1.3;
 export const PRIME_AGED_BASE_CHANCE = 0.1;
@@ -69,6 +80,10 @@ export function getAgingOutput(
 
   let output = baseAmount;
   if (skills["Ager"]) {
+    output = output.add(1);
+  }
+
+  if (skills["Bacalhau"] && isBaitItem(item)) {
     output = output.add(1);
   }
 

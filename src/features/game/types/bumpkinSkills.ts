@@ -3287,6 +3287,42 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
   },
+  "Wide Rakes": {
+    name: "Wide Rakes",
+    tree: "Aging",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.wideRakes"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Salt"].image,
+      },
+    },
+  },
+  "Sea Blessed": {
+    name: "Sea Blessed",
+    tree: "Aging",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.seaBlessed"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Salt"].image,
+      },
+    },
+  },
 
   // Salt - Tier 2
   "Fish Smoking": {
@@ -3324,6 +3360,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
   },
+  Bacalhau: {
+    name: "Bacalhau",
+    tree: "Aging",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bacalhau"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: baits,
+      },
+    },
+  },
 
   // Salt - Tier 3
   Ager: {
@@ -3345,6 +3399,26 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.ager.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+  "Salt Surge": {
+    name: "Salt Surge",
+    tree: "Aging",
+    disabled: false,
+    power: true,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+      cooldown: 1000 * 60 * 60 * 48,
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.saltSurge"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
   },
