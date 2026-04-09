@@ -1,6 +1,5 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
-import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
@@ -13,7 +12,7 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
-  getAgingOutputBonus,
+  getAgingOutput,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,6 +20,7 @@ import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
+import { useSelector } from "@xstate/react";
 
 type Props = {
   job: FermentationJob;
@@ -40,21 +40,16 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const skills = state.bumpkin.skills;
-  const recipeDef = useMemo(
-    () => getFermentationRecipe(job.recipe),
-    [job.recipe],
-  );
+  const recipeDef = getFermentationRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
-  const outputItem = outputEntry?.[0] as InventoryItemName | undefined;
-  const outputAmount = (outputEntry?.[1] ?? new Decimal(0)).add(
-    getAgingOutputBonus(skills),
+  const outputItem = outputEntry?.[0];
+  const outputAmount = getAgingOutput(
+    skills,
+    outputEntry?.[1] ?? new Decimal(0),
+    outputItem,
   );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
