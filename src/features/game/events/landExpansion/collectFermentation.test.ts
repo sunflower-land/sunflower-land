@@ -362,7 +362,7 @@ describe("collectFermentation", () => {
     expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
   });
 
-  it("applies Ager skill to grant +1 output", () => {
+  it("applies Ager skill to double fermentation output", () => {
     const past = createdAt - 1;
 
     const state = collectFermentation({
