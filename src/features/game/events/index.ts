@@ -412,6 +412,10 @@ import {
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
+import {
+  applyAnimalFeedBuff,
+  ApplyAnimalFeedBuffAction,
+} from "./landExpansion/applyAnimalFeedBuff";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
   buyChapterItem,
@@ -768,6 +772,7 @@ export type PlayingEvent =
   | CancelQueuedCraftingAction
   | CompleteNPCChoreAction
   | ClaimProduceAction
+  | ApplyAnimalFeedBuffAction
   | BuyChapterItemAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -1050,6 +1055,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.cancelled": cancelQueuedCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
+  "animal.feedBuffApplied": applyAnimalFeedBuff,
   "chapterItem.bought": buyChapterItem,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,

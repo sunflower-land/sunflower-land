@@ -22,14 +22,17 @@ import { RequestBubble } from "features/game/expansion/components/animals/Reques
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
   MutantAnimal,
 } from "features/game/types/game";
+import { isAnimalFeedBuffItem } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/AnimalFeedBuffBadge";
 import { Transition } from "@headlessui/react";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
@@ -133,13 +136,16 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cow.state]);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
+  const [feedBuffHint, setFeedBuffHint] = useState<
+    "none" | "notEnough" | "already" | "notHappy" | "notSleeping"
+  >("none");
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playCowCollect } = useSound("cow_collect");
@@ -318,7 +324,34 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
+    const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
+
     if (sleeping) {
+      if (hasBuffSelected) {
+        const buffItem = selectedItem as AnimalFeedBuffName;
+        if (cow.feedBuff) {
+          setFeedBuffHint("already");
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          setFeedBuffHint("none");
+          return;
+        }
+        const buffCount = inventory[buffItem] ?? new Decimal(0);
+        if (buffCount.lt(1)) {
+          setFeedBuffHint("notEnough");
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          setFeedBuffHint("none");
+          return;
+        }
+
+        gameService.send({
+          type: "animal.feedBuffApplied",
+          animal: "Cow",
+          id: cow.id,
+          item: buffItem,
+        });
+        playFeedAnimal();
+        return;
+      }
       handleShowDetails();
       return;
     }
@@ -327,6 +360,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       // Already animating
       if (showDrops) return;
       return onReadyClick();
+    }
+
+    if (hasBuffSelected) {
+      setFeedBuffHint("notSleeping");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setFeedBuffHint("none");
+      return;
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
@@ -356,6 +396,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (feedBuffHint === "notSleeping")
+      return t("animal.feedBuff.onlyWhenResting");
+    if (feedBuffHint === "notHappy")
+      return t("animal.feedBuff.useWhenFedAndContent");
+    if (feedBuffHint === "notEnough") return t("animal.feedBuff.notEnough");
+    if (feedBuffHint === "already") return t("animal.feedBuff.alreadyActive");
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -460,6 +506,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         }}
       >
         <div className="relative w-full h-full">
+          <AnimalFeedBuffBadge feedBuff={cow.feedBuff} />
           {showDrops && (
             <ProduceDrops
               multiplier={cow.multiplier ?? 0}
@@ -519,7 +566,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           </Modal>
           <InfoPopover
             showPopover={
-              showNoFoodSelected || showNoMedicine || showNotEnoughFood
+              feedBuffHint !== "none" ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >

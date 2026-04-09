@@ -103,6 +103,48 @@ describe("claimProduce", () => {
     expect(state.inventory.Egg).toStrictEqual(new Decimal(2));
   });
 
+  it("applies Salt Lick (+5% produce) and decrements feed buff charges", () => {
+    const chickenId = "xyz";
+
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(1),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 60,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: chickenId,
+      },
+    });
+
+    expect(state.inventory.Egg).toStrictEqual(new Decimal("2.05"));
+    expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+      name: "Salt Lick",
+      harvestsRemaining: 2,
+    });
+  });
+
   it("throws an error if animal is not in ready state", () => {
     const chickenId = "xyz";
 
