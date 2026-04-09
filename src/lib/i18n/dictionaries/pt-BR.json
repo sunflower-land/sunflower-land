@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Sem fileiras de gravação",
   "playerEconomyEditor.custom.hint": "Use regras personalizadas com cuidado em seu código de minijogo",
   "playerEconomyEditor.custom.mint": "Hortelã",
-  "playerEconomyEditor.custom.mintHint": "Seu jogo pode determinar quanto cunhar",
   "playerEconomyEditor.custom.burn": "Queimar",
   "playerEconomyEditor.custom.burnHint": "Seu jogo decide quanto queimar",
   "playerEconomyEditor.custom.requires": "Requer",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Explore o jogo e colete os troféus",
   "skill.speedyAging": "-10% de tempo de envelhecimento no rack",
   "skill.saltySeas": "-10% de tempo de reposição da carga de sal",
-  "skill.ager.buff": "Saída 2× da Aging Shed Racks"
+  "skill.ager.buff": "Saída 2× da Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "Não colete linhas de recompensa",
+  "playerEconomyEditor.custom.mintHint": "Item, mínimo/máximo,% de chance e limite diário. Se o tempo de espera abaixo for maior que 0, essas linhas definem o que os jogadores recebem quando coletam (nada é cunhado quando a ação é executada). Com o tempo de espera 0, o mint é executado imediatamente quando a ação é executada.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Selecionar item",
+  "playerEconomyEditor.custom.generatorLaneHint": "Para recompensas cronometradas, escolha o item do gerador que define quantos trabalhos podem ser executados ao mesmo tempo (o mesmo que a antiga regra de geração).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Espere antes de coletar (opcional)",
+  "playerEconomyEditor.custom.timedOutputHint": "Segundos maiores que 0 iniciam um trabalho cronometrado após essa ação; os jogadores coletam usando o fluxo normal do gerador. As linhas Mint acima definem itens e valores para essa coleta. Deixe 0 para hortelã instantânea (sem cronômetro).",
+  "playerEconomyEditor.custom.outputItemLabel": "Item de saída",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Item concedido quando o cronômetro termina",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Segundos para produzir",
+  "playerEconomyEditor.custom.collectDropsTitle": "Colete recompensas (chance)",
+  "playerEconomyEditor.custom.collectDropsHint": "Quando o cronômetro termina, cada linha pode aumentar sua chance (0— 100%). Várias linhas escolhem uma por peso. 100% = sempre conceda esse valor.",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Com o tempo de espera 0, a chance aumenta quando a ação é executada. Com o tempo de espera definido, a chance aumenta quando o jogador coleta."
 }

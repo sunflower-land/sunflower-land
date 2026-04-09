@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "バーンロウなし",
   "playerEconomyEditor.custom.hint": "ミニゲームコードではカスタムルールを慎重に使用してください",
   "playerEconomyEditor.custom.mint": "ミント",
-  "playerEconomyEditor.custom.mintHint": "どの程度ミントするかは、ゲームによって決まります。",
   "playerEconomyEditor.custom.burn": "バーン",
   "playerEconomyEditor.custom.burnHint": "どれだけ燃やすかはゲームが決める",
   "playerEconomyEditor.custom.requires": "必要な",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "ゲームを探索してトロフィーを集めよう",
   "skill.speedyAging": "-10% エージングラックタイム",
   "skill.saltySeas": "-10% 塩チャージ補給時間",
-  "skill.ager.buff": "エージング・シェッド・ラックからの出力×2"
+  "skill.ager.buff": "エージング・シェッド・ラックからの出力×2",
+  "playerEconomyEditor.actionRow.noCollectRows": "コレクトリワード行なし",
+  "playerEconomyEditor.custom.mintHint": "アイテム、最小/最大、チャンス％、1日の上限。待機時間が0より大きい場合、これらの行はプレイヤーが収集したときに受け取るものを定義します (アクションが実行されても何も鋳造されません)。待機時間が 0 の場合、アクションが実行されるとすぐに mint が実行されます。",
+  "playerEconomyEditor.custom.requiresPlaceholder": "アイテムを選択する",
+  "playerEconomyEditor.custom.generatorLaneHint": "時間制限付きの報酬を得るには、一度に実行できるジョブの数を定義するジェネレーターアイテムを選択してください (以前の Generate ルールと同じ)。",
+  "playerEconomyEditor.custom.timedOutputTitle": "収集前に待つ (オプション)",
+  "playerEconomyEditor.custom.timedOutputHint": "秒数が 0 を超えると、このアクションの後に時間制限のあるジョブが開始されます。プレイヤーは通常のジェネレーターフローを使用して収集します。上のミント行は、収集するアイテムと金額を定義します。0 のままにしておくと、インスタントミント (タイマーなし) になります。",
+  "playerEconomyEditor.custom.outputItemLabel": "出力アイテム",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "タイマーが終了するとアイテムが付与されます",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "数秒で制作完了",
+  "playerEconomyEditor.custom.collectDropsTitle": "報酬を集める (チャンス)",
+  "playerEconomyEditor.custom.collectDropsHint": "タイマーが終了すると、各行の確率が上がります (0 ～ 100%)。複数の行が 1 つを重み付けして選択します。100% = 常にその量を割り当てます。",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。待機時間が 0 の場合、アクションが実行されるとチャンスが訪れます。待機時間を設定すると、プレイヤーが回収した時点でチャンスが回ります。"
 }

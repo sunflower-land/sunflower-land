@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Keine Brandreihen",
   "playerEconomyEditor.custom.hint": "Verwende benutzerdefinierte Regeln in deinem Minispielcode mit Bedacht",
   "playerEconomyEditor.custom.mint": "Minze",
-  "playerEconomyEditor.custom.mintHint": "Ihr Spiel kann bestimmen, wie viel Sie prägen müssen",
   "playerEconomyEditor.custom.burn": "Brennen",
   "playerEconomyEditor.custom.burnHint": "Dein Spiel entscheidet, wie viel verbrannt werden soll",
   "playerEconomyEditor.custom.requires": "Erfordert",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Erkunde das Spiel und sammle die Trophäen",
   "skill.speedyAging": "-10% Altern Racktime",
   "skill.saltySeas": "-10% Salzladezeit",
-  "skill.ager.buff": "2× Leistung von Aging Shed Racks"
+  "skill.ager.buff": "2× Leistung von Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "Nein, sammle Belohnungsreihen",
+  "playerEconomyEditor.custom.mintHint": "Gegenstand, Min/Max, Chance% und Tageslimit. Wenn die Wartezeit darunter größer als 0 ist, definieren diese Zeilen, was die Spieler erhalten, wenn sie sammeln (es wird nichts geprägt, wenn die Aktion läuft). Bei einer Wartezeit von 0 wird Mint sofort ausgeführt, wenn die Aktion ausgeführt wird.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Artikel wählen",
+  "playerEconomyEditor.custom.generatorLaneHint": "Wählen Sie für zeitlich begrenzte Belohnungen das Generatorelement aus, das definiert, wie viele Jobs gleichzeitig ausgeführt werden können (wie bei der alten Generate-Regel).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Warten Sie vor der Abholung (optional)",
+  "playerEconomyEditor.custom.timedOutputHint": "Sekunden, die größer als 0 sind, starten nach dieser Aktion einen zeitgesteuerten Job; die Spieler sammeln mit dem üblichen Generatorfluss. In den oberen Zeilen werden die Gegenstände und Mengen für das Sammeln definiert. Lassen Sie 0 für Instant Mint stehen (kein Timer).",
+  "playerEconomyEditor.custom.outputItemLabel": "Artikel ausgeben",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Gegenstand wird gewährt, wenn der Timer abgelaufen ist",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Sekunden bis zur Produktion",
+  "playerEconomyEditor.custom.collectDropsTitle": "Sammle Belohnungen (Chance)",
+  "playerEconomyEditor.custom.collectDropsHint": "Wenn der Timer abgelaufen ist, kann jede Reihe ihre Chance würfeln (0— 100%). Bei mehreren Reihen wird eine nach Gewicht ausgewählt. 100% = Gewährt immer diesen Betrag.",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Bei einer Wartezeit von 0 wird der Zufall ausgelöst, wenn die Aktion ausgeführt wird. Bei eingestellter Wartezeit wird der Zufall ausgelöst, wenn der Spieler sammelt."
 }

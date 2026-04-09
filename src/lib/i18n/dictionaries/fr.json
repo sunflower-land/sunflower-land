@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Aucune ligne brûlée",
   "playerEconomyEditor.custom.hint": "Utilisez les règles personnalisées avec soin dans le code de votre mini-jeu",
   "playerEconomyEditor.custom.mint": "Menthe",
-  "playerEconomyEditor.custom.mintHint": "Votre jeu peut déterminer la quantité à battre",
   "playerEconomyEditor.custom.burn": "Brûler",
   "playerEconomyEditor.custom.burnHint": "Votre jeu décide de la quantité à brûler",
   "playerEconomyEditor.custom.requires": "Nécessite",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Explorez le jeu et collectez les trophées",
   "skill.speedyAging": "-10 % Temps de vieillissement",
   "skill.saltySeas": "-10 % de temps de réapprovisionnement en sel",
-  "skill.ager.buff": "2 sorties provenant de Aging Shed Racks"
+  "skill.ager.buff": "2 sorties provenant de Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "Aucune ligne de récompenses à collecter",
+  "playerEconomyEditor.custom.mintHint": "Objet, min/max, % de chance et plafond quotidien. Si le temps d'attente ci-dessous est supérieur à 0, ces lignes définissent ce que les joueurs reçoivent lorsqu'ils collectent (rien n'est frappé lorsque l'action est exécutée). Avec un temps d'attente nul, mint s'exécute immédiatement lorsque l'action s'exécute.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Sélectionnez un article",
+  "playerEconomyEditor.custom.generatorLaneHint": "Pour les récompenses chronométrées, choisissez l'élément générateur qui définit le nombre de tâches pouvant être exécutées en même temps (comme dans l'ancienne règle de génération).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Attendez avant de récupérer (facultatif)",
+  "playerEconomyEditor.custom.timedOutputHint": "Les secondes supérieures à 0 démarrent une tâche chronométrée après cette action ; les joueurs collectent en utilisant le flux habituel du générateur. Les lignes Mint ci-dessus définissent les articles et les montants à collecter. Laissez 0 pour la menthe instantanée (pas de minuterie).",
+  "playerEconomyEditor.custom.outputItemLabel": "Élément de sortie",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Objet accordé lorsque le chronomètre est terminé",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Quelques secondes pour produire",
+  "playerEconomyEditor.custom.collectDropsTitle": "Collectez des récompenses (chance)",
+  "playerEconomyEditor.custom.collectDropsHint": "Lorsque le chronomètre est terminé, chaque ligne peut lancer sa chance (0 à 100 %). Sur plusieurs lignes, choisissez-en une en fonction du poids. 100 % = accordez toujours ce montant.",
+  "playerEconomyEditor.custom.mintChanceHint": "0 à 100 %. Lorsque le temps d'attente est nul, la chance se présente lorsque l'action est exécutée. Lorsque le temps d'attente est défini, la chance augmente lorsque le joueur collecte."
 }

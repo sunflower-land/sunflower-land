@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "No hay hileras quemadas",
   "playerEconomyEditor.custom.hint": "Usa las reglas personalizadas con cuidado en el código de tu minijuego",
   "playerEconomyEditor.custom.mint": "Menta",
-  "playerEconomyEditor.custom.mintHint": "Tu juego puede determinar cuánto acuñar",
   "playerEconomyEditor.custom.burn": "Quemar",
   "playerEconomyEditor.custom.burnHint": "Tu juego decide cuánto quemar",
   "playerEconomyEditor.custom.requires": "Requiere",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Explora el juego y recoge los trofeos",
   "skill.speedyAging": "-10% de tiempo de envejecimiento en estante",
   "skill.saltySeas": "-10% de tiempo de reposición de la carga de sal",
-  "skill.ager.buff": "2 veces la producción de Aging Shed Racks"
+  "skill.ager.buff": "2 veces la producción de Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "No hay filas de recompensas para acumular",
+  "playerEconomyEditor.custom.mintHint": "Objeto, mínimo/máximo,% de probabilidad y límite diario. Si el tiempo de espera inferior es superior a 0, estas filas definen lo que reciben los jugadores al recolectar (no se acuña nada cuando se ejecuta la acción). Si el tiempo de espera es 0, Mint se ejecuta inmediatamente cuando se inicia la acción.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Seleccione un artículo",
+  "playerEconomyEditor.custom.generatorLaneHint": "Para obtener recompensas cronometradas, elige el elemento generador que defina cuántos trabajos se pueden ejecutar a la vez (igual que la antigua regla Generar).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Esperar antes de recoger (opcional)",
+  "playerEconomyEditor.custom.timedOutputHint": "Los segundos superiores a 0 inician un trabajo cronometrado después de esta acción; los jugadores recolectan usando el flujo generador habitual. Las filas de Mint situadas en la parte superior definen los objetos y las cantidades que se van a recolectar. Deja 0 para acuñar al instante (sin temporizador).",
+  "playerEconomyEditor.custom.outputItemLabel": "Elemento de salida",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Objeto otorgado cuando se completa el cronómetro",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Segundos para producir",
+  "playerEconomyEditor.custom.collectDropsTitle": "Recoge recompensas (oportunidad)",
+  "playerEconomyEditor.custom.collectDropsHint": "Cuando termine el tiempo, cada fila tendrá su probabilidad (0— 100%). Varias filas eligen una por su peso. 100% = siempre se otorga esa cantidad.",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Si el tiempo de espera es 0, la probabilidad aumenta cuando se ejecuta la acción. Con el tiempo de espera establecido, la oportunidad se presenta cuando el jugador la acumula."
 }

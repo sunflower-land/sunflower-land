@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Tidak ada baris bakar",
   "playerEconomyEditor.custom.hint": "Gunakan aturan khusus dengan hati-hati dalam kode minigame Anda",
   "playerEconomyEditor.custom.mint": "Mint",
-  "playerEconomyEditor.custom.mintHint": "Permainan Anda dapat menentukan berapa banyak yang harus dicetak",
   "playerEconomyEditor.custom.burn": "Membakar",
   "playerEconomyEditor.custom.burnHint": "Permainan Anda menentukan berapa banyak yang akan dibakar",
   "playerEconomyEditor.custom.requires": "Membutuhkan",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Jelajahi permainan dan kumpulkan piala",
   "skill.speedyAging": "-10% Waktu Rak Penuaan",
   "skill.saltySeas": "-10% waktu pengisian garam",
-  "skill.ager.buff": "2× keluaran dari Aging Shed Racks"
+  "skill.ager.buff": "2× keluaran dari Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "Tidak ada pengumpulan baris hadiah",
+  "playerEconomyEditor.custom.mintHint": "Barang, min/maks,% peluang, dan batas harian. Jika waktu tunggu di bawah ini lebih besar dari 0, baris ini menentukan apa yang diterima pemain ketika mereka mengumpulkan (tidak ada yang dicetak saat aksi berjalan). Dengan waktu tunggu 0, mint langsung berjalan saat tindakan berjalan.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Pilih item",
+  "playerEconomyEditor.custom.generatorLaneHint": "Untuk hadiah berjangka waktu, pilih item generator yang menentukan berapa banyak pekerjaan yang dapat dijalankan sekaligus (sama dengan aturan Generate lama).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Tunggu sebelum mengumpulkan (opsional)",
+  "playerEconomyEditor.custom.timedOutputHint": "Detik lebih besar dari 0 memulai pekerjaan berjangka waktu setelah tindakan ini; pemain mengumpulkan menggunakan aliran generator biasa. Baris mint di atas menentukan item dan jumlah untuk koleksi itu. Biarkan 0 untuk mint instan (tanpa pengatur waktu).",
+  "playerEconomyEditor.custom.outputItemLabel": "Item keluaran",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Item diberikan saat timer selesai",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Detik untuk menghasilkan",
+  "playerEconomyEditor.custom.collectDropsTitle": "Kumpulkan hadiah (kesempatan)",
+  "playerEconomyEditor.custom.collectDropsHint": "Ketika timer selesai, setiap baris dapat menggulung kesempatannya (0-100%). Beberapa baris pilih satu berdasarkan berat. 100% = selalu berikan jumlah itu.",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%. Dengan waktu tunggu 0, peluang bergulir saat aksi berjalan. Dengan waktu tunggu yang ditetapkan, peluang bergulir saat pemain mengumpulkan."
 }

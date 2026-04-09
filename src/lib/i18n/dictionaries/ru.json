@@ -8444,7 +8444,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Нет правил сжигания",
   "playerEconomyEditor.custom.hint": "Кастомные правила в коде мини-игры следует использовать с осторожностью.",
   "playerEconomyEditor.custom.mint": "Минт",
-  "playerEconomyEditor.custom.mintHint": "Игра сама определяет, сколько минтить",
   "playerEconomyEditor.custom.burn": "Сжигание",
   "playerEconomyEditor.custom.burnHint": "Игра сама решает, сколько сжигать",
   "playerEconomyEditor.custom.requires": "Требования",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Explore the game and collect the trophies",
   "skill.speedyAging": "-10% Aging Rack time",
   "skill.saltySeas": "-10% salt charge replenishment time",
-  "skill.ager.buff": "2× output from Aging Shed Racks"
+  "skill.ager.buff": "2× output from Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "No collect reward rows",
+  "playerEconomyEditor.custom.mintHint": "Item, min/max, chance %, and daily cap. If wait time below is greater than 0, these rows define what players receive when they collect (nothing is minted when the action runs). With wait time 0, mint runs immediately when the action runs.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Select item",
+  "playerEconomyEditor.custom.generatorLaneHint": "For timed rewards, pick the generator item that defines how many jobs can run at once (same as the old Generate rule).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Wait before collect (optional)",
+  "playerEconomyEditor.custom.timedOutputHint": "Seconds greater than 0 start a timed job after this action; players collect using the usual generator flow. Mint rows above define items and amounts for that collect. Leave 0 for instant mint (no timer).",
+  "playerEconomyEditor.custom.outputItemLabel": "Output item",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Item granted when the timer completes",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Seconds to produce",
+  "playerEconomyEditor.custom.collectDropsTitle": "Collect rewards (chance)",
+  "playerEconomyEditor.custom.collectDropsHint": "When the timer finishes, each row can roll its chance (0–100%). Multiple rows pick one by weight. 100% = always grant that amount.",
+  "playerEconomyEditor.custom.mintChanceHint": "0–100%. With wait time 0, chance rolls when the action runs. With wait time set, chance rolls when the player collects."
 }
