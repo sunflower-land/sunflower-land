@@ -304,7 +304,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
           />
         );
       case "json":
-        return <JsonTab form={form} />;
+        return <JsonTab form={form} updateForm={updateForm} />;
     }
   };
 
