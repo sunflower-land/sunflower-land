@@ -328,6 +328,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
         id: item.id,
         ...(item.tradeable ? { tradeable: true } : {}),
         ...(item.generator ? { generator: true } : {}),
+        ...(item.trophy ? { trophy: true } : {}),
         ...(init > 0 ? { initialBalance: Math.max(0, Math.floor(init)) } : {}),
       };
       return acc;

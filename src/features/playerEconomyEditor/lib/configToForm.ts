@@ -536,6 +536,7 @@ export function configToForm(
       id,
       tradeable: item.tradeable === true,
       generator: item.generator === true,
+      trophy: item.trophy === true,
       initialBalance,
     };
   });

@@ -54,14 +54,22 @@ function normalizeItemGeneratorFromLegacy(
   const genParsed = parseBooleanishFlag(record.generator);
   delete record.generator;
 
+  const trophyParsed = parseBooleanishFlag(record.trophy);
+  delete record.trophy;
+
   const base = record as unknown as PlayerEconomyBalanceItem;
 
   let generator: boolean | undefined = genParsed;
   if (legacyProducer) generator = true;
 
-  if (generator === true) return { ...base, generator: true };
-  if (generator === false) return { ...base, generator: false };
-  return base;
+  let out: PlayerEconomyBalanceItem = base;
+  if (generator === true) out = { ...out, generator: true };
+  else if (generator === false) out = { ...out, generator: false };
+
+  if (trophyParsed === true) out = { ...out, trophy: true };
+  else if (trophyParsed === false) out = { ...out, trophy: false };
+
+  return out;
 }
 
 export function migrateLegacyPlayerEconomyConfigFields(
