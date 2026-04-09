@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "Reposición de la carga de sal un 10% más rápida",
   "skill.fishSmoking": "Doble probabilidad de que Aged Fish pase a ser Prime Aged",
   "skill.refiner": "15% de probabilidad de obtener +1 de sal refinada",
-  "skill.ager.buff": "+1 salida del estante de añejamiento, fermentación y especias",
   "saltHarvest.nextChargeIn": "Próxima carga en:",
   "agingShed.agingRack": "Envejecimiento",
   "agingShed.fermentationRack": "Fermentación",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie aumenta el rendimiento de los cultivos de invernadero en un +0,2.",
   "guide.compost.fruitGrowthTime": "-20% de tiempo de crecimiento de los huertos frutales",
   "fertiliser.sproutrootSurprise": "Sorpresa de Sproutroot",
-  "fertiliser.turbofruitMix": "Mezcla Turbofruit"
+  "fertiliser.turbofruitMix": "Mezcla Turbofruit",
+  "skill.ager.buff": "+1 salida de Aging Shed Racks",
+  "skill.wideRakes": "+2 de sal por cosecha",
+  "skill.seaBlessed": "5% de probabilidad de recargar todos los nodos de sal al cosecharlos",
+  "skill.bacalhau": "+1 Rendimiento de cebo en una rejilla de fermentación",
+  "skill.saltSurge": "Recarga todos los nodos de sal"
 }

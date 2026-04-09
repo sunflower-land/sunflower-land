@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "%10 daha hızlı tuz şarjı ikmali",
   "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
   "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
-  "skill.ager.buff": "Yaşlanma/Fermantasyon/Baharat Rafından +1 çıktı",
   "saltHarvest.nextChargeIn": "Bir sonraki şarj:",
   "agingShed.agingRack": "Yaşlanma",
   "agingShed.fermentationRack": "Fermantasyon",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie, sera mahsulü verimini +0.2 artırır.",
   "guide.compost.fruitGrowthTime": "-20% Meyve Yaması Büyüme Süresi",
   "fertiliser.sproutrootSurprise": "Sproutroot Sürprizi",
-  "fertiliser.turbofruitMix": "Turbofruit Karışımı"
+  "fertiliser.turbofruitMix": "Turbofruit Karışımı",
+  "skill.ager.buff": "Yaşlanma Kulübesi Raflarından +1 çıktı",
+  "skill.wideRakes": "Hasat başına +2 Tuz",
+  "skill.seaBlessed": "Hasatta tüm Tuz Düğümlerini yeniden şarj etme şansı %5",
+  "skill.bacalhau": "Fermantasyon rafından +1 yem verimi",
+  "skill.saltSurge": "Tüm Tuz Düğümlerini şarj edin"
 }

@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "Pengisian kembali garam 10% lebih cepat",
   "skill.fishSmoking": "Peluang dua kali lipat Ikan Aged menjadi Prime Aged",
   "skill.refiner": "15% kesempatan untuk mendapatkan +1 Garam Halus",
-  "skill.ager.buff": "+1 output dari Rak Penuaan/Fermentasi/Rempah-rempah",
   "saltHarvest.nextChargeIn": "Pengisian berikutnya di:",
   "agingShed.agingRack": "Penuaan",
   "agingShed.fermentationRack": "Fermentasi",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie meningkatkan hasil tanaman rumah kaca sebesar +0,2.",
   "guide.compost.fruitGrowthTime": "-20% Waktu Pertumbuhan Petak Buah",
   "fertiliser.sproutrootSurprise": "Kejutan Sproutroot",
-  "fertiliser.turbofruitMix": "Campuran Turbofruit"
+  "fertiliser.turbofruitMix": "Campuran Turbofruit",
+  "skill.ager.buff": "+1 keluaran dari Aging Shed Racks",
+  "skill.wideRakes": "+2 Garam per panen",
+  "skill.seaBlessed": "5% kesempatan untuk mengisi ulang semua Node Garam saat panen",
+  "skill.bacalhau": "+1 Hasil umpan dari rak fermentasi",
+  "skill.saltSurge": "Isi ulang semua Node Garam"
 }

@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "Rifornimento della carica di sale più veloce del 10%",
   "skill.fishSmoking": "Possibilità doppia: Aged Fish diventa Prime Aged",
   "skill.refiner": "15% di possibilità di ottenere +1 sale raffinato",
-  "skill.ager.buff": "+1 uscita da Aging/Fermentation/Spice Rack",
   "saltHarvest.nextChargeIn": "Prossima ricarica in:",
   "agingShed.agingRack": "L'invecchiamento",
   "agingShed.fermentationRack": "Fermentazione",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie aumenta la resa delle colture in serra di +0,2.",
   "guide.compost.fruitGrowthTime": "-20% Tempo di crescita del frutteto",
   "fertiliser.sproutrootSurprise": "Sproutroot Surprise",
-  "fertiliser.turbofruitMix": "Miscela Turbofruit"
+  "fertiliser.turbofruitMix": "Miscela Turbofruit",
+  "skill.ager.buff": "+1 uscita da Aging Shed Racks",
+  "skill.wideRakes": "+2 sale per raccolto",
+  "skill.seaBlessed": "5% di possibilità di ricaricare tutti i Salt Nodes durante la raccolta",
+  "skill.bacalhau": "+1 resa in esche dalla rastrelliera di fermentazione",
+  "skill.saltSurge": "Ricarica tutti i Salt Nodes"
 }

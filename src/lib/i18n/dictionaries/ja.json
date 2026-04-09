@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "ソルトチャージの補充時間が 10% 短縮",
   "skill.fishSmoking": "熟成魚がプライムエイジになる確率が2倍になる",
   "skill.refiner": "15% の確率で精製塩1個を獲得できる",
-  "skill.ager.buff": "熟成/発酵/スパイスラックからの+1出力",
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "発酵",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "温室グッディは温室作物の収穫量を+0.2増加させます。",
   "guide.compost.fruitGrowthTime": "-20% フルーツパッチの成長時間",
   "fertiliser.sproutrootSurprise": "スプラウトサプライズ",
-  "fertiliser.turbofruitMix": "ターボフルーツミックス"
+  "fertiliser.turbofruitMix": "ターボフルーツミックス",
+  "skill.ager.buff": "エージングシェッドラックからの+1出力",
+  "skill.wideRakes": "収穫1回につき +2 塩",
+  "skill.seaBlessed": "収穫時に 5% の確率ですべてのソルトノードをリチャージする",
+  "skill.bacalhau": "+1発酵ラックからのベイト収量",
+  "skill.saltSurge": "すべてのソルトノードを充電する"
 }

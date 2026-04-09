@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "补充盐分的速度加快 10%",
   "skill.fishSmoking": "陈年鱼变成 Prime Ated Ated",
   "skill.refiner": "15% 几率获得 +1 精制盐",
-  "skill.ager.buff": "陈酿/发酵/香料架输出 +1",
   "saltHarvest.nextChargeIn": "下次充电：",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "发酵",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie 将温室作物产量提高了 +0.2。",
   "guide.compost.fruitGrowthTime": "-20% 水果补丁生长时间",
   "fertiliser.sproutrootSurprise": "Sproutroot 惊喜",
-  "fertiliser.turbofruitMix": "涡轮果混合物"
+  "fertiliser.turbofruitMix": "涡轮果混合物",
+  "skill.ager.buff": "来自老化棚架的 +1 输出",
+  "skill.wideRakes": "每次收获 +2 盐",
+  "skill.seaBlessed": "收获时有 5% 的几率为所有盐类节点充电",
+  "skill.bacalhau": "+1 发酵架的诱饵产量",
+  "skill.saltSurge": "为所有 Salt 节点充值"
 }

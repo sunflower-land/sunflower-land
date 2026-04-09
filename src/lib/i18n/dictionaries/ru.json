@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "10% faster salt charge replenishment",
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
-  "skill.ager.buff": "+1 output from Aging/Fermentation/Spice Rack",
   "saltHarvest.nextChargeIn": "Next charge in:",
   "agingShed.agingRack": "Aging",
   "agingShed.fermentationRack": "Fermentation",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie increases greenhouse crop yield by +0.2.",
   "guide.compost.fruitGrowthTime": "-20% Fruit Patch Growth Time",
   "fertiliser.sproutrootSurprise": "Sproutroot Surprise",
-  "fertiliser.turbofruitMix": "Turbofruit Mix"
+  "fertiliser.turbofruitMix": "Turbofruit Mix",
+  "skill.ager.buff": "+1 output from Aging Shed Racks",
+  "skill.wideRakes": "+2 Salt per harvest",
+  "skill.seaBlessed": "5% chance to recharge all Salt Nodes on harvest",
+  "skill.bacalhau": "+1 Bait yield from fermentation rack",
+  "skill.saltSurge": "Recharge all Salt Nodes"
 }

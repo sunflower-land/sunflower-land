@@ -8554,7 +8554,6 @@
   "skill.saltySeas": "10% schnelleres Auffüllen der Salzladung",
   "skill.fishSmoking": "Doppelte Chance: Aus Aged Fish wird Prime Aged",
   "skill.refiner": "15% Chance, +1 raffiniertes Salz zu erhalten",
-  "skill.ager.buff": "+1 Leistung beim Reifen/Fermentieren/Gewürzregal",
   "saltHarvest.nextChargeIn": "Nächstes Aufladen:",
   "agingShed.agingRack": "Altern",
   "agingShed.fermentationRack": "Fermentation",
@@ -8601,5 +8600,10 @@
   "compost.greenhouseGoodie": "Greenhouse Goodie erhöht den Ernteertrag im Gewächshaus um +0,2.",
   "guide.compost.fruitGrowthTime": "-20% Wachstumszeit des Fruchtbeetes",
   "fertiliser.sproutrootSurprise": "Sproutroot-Überraschung",
-  "fertiliser.turbofruitMix": "Turbofruit-Mischung"
+  "fertiliser.turbofruitMix": "Turbofruit-Mischung",
+  "skill.ager.buff": "+1 Ausgang von Aging Shed Racks",
+  "skill.wideRakes": "+2 Salz pro Ernte",
+  "skill.seaBlessed": "5% Chance, alle Salzknoten bei der Ernte wieder aufzuladen",
+  "skill.bacalhau": "+1 Köderausbeute aus dem Gärregal",
+  "skill.saltSurge": "Alle Salzknoten aufladen"
 }
