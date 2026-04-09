@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "没有烧录行",
   "playerEconomyEditor.custom.hint": "在小游戏代码中谨慎使用自定义规则",
   "playerEconomyEditor.custom.mint": "薄荷",
-  "playerEconomyEditor.custom.mintHint": "你的游戏可以决定要铸造多少",
   "playerEconomyEditor.custom.burn": "烧伤",
   "playerEconomyEditor.custom.burnHint": "你的游戏决定烧掉多少",
   "playerEconomyEditor.custom.requires": "需要",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "探索游戏并收集奖杯",
   "skill.speedyAging": "-10% 老化机架时间",
   "skill.saltySeas": "-10% 盐分充能时间",
-  "skill.ager.buff": "老化棚架的 2 倍输出"
+  "skill.ager.buff": "老化棚架的 2 倍输出",
+  "playerEconomyEditor.actionRow.noCollectRows": "没有收集奖励行",
+  "playerEconomyEditor.custom.mintHint": "物品、最小值/最大值、几率百分比和每日上限。如果以下等待时间大于 0，则这些行定义了玩家在收集时收到的内容（动作运行时不会铸造任何东西）。等待时间为 0 时，mint 会在操作运行时立即运行。",
+  "playerEconomyEditor.custom.requiresPlaceholder": "选择物品",
+  "playerEconomyEditor.custom.generatorLaneHint": "要获得定时奖励，请选择定义一次可以运行多少任务的生成器项目（与旧的生成规则相同）。",
+  "playerEconomyEditor.custom.timedOutputTitle": "等着再领取（可选）",
+  "playerEconomyEditor.custom.timedOutputHint": "大于 0 的秒数在此操作之后启动定时任务；玩家使用通常的生成器流进行收集。上面的铸币行定义了该收藏品的物品和金额。保留 0 表示即时薄荷（无计时器）。",
+  "playerEconomyEditor.custom.outputItemLabel": "输出项目",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "计时器完成时授予的物品",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "几秒钟的制作时间",
+  "playerEconomyEditor.custom.collectDropsTitle": "收集奖励（机会）",
+  "playerEconomyEditor.custom.collectDropsHint": "当计时器结束时，每行可以掷出自己的机会（0— 100%）。多行按权重选一个。100% = 始终授予该金额。",
+  "playerEconomyEditor.custom.mintChanceHint": "0— 100%。等待时间为 0 时，动作运行时机会滚动。设定等待时间后，当玩家收集时，机会滚动。"
 }

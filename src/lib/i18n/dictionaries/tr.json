@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Yanma satırları yok",
   "playerEconomyEditor.custom.hint": "Mini oyun kodunuzda özel kuralları dikkatli kullanın",
   "playerEconomyEditor.custom.mint": "Nane",
-  "playerEconomyEditor.custom.mintHint": "Oyununuz ne kadar basılacağını belirleyebilir",
   "playerEconomyEditor.custom.burn": "Yanmak",
   "playerEconomyEditor.custom.burnHint": "Oyununuz ne kadar yakılacağına karar verir",
   "playerEconomyEditor.custom.requires": "Gerektirir",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Oyunu keşfedin ve kupaları toplayın",
   "skill.speedyAging": "-10% Yaşlanma Raf süresi",
   "skill.saltySeas": "-10% tuz şarjı yenileme süresi",
-  "skill.ager.buff": "Yaşlanma Kulübesi Raflarından 2 kat çıktı"
+  "skill.ager.buff": "Yaşlanma Kulübesi Raflarından 2 kat çıktı",
+  "playerEconomyEditor.actionRow.noCollectRows": "Ödül satırları toplamak yok",
+  "playerEconomyEditor.custom.mintHint": "Öğe, min/maks, şans yüzdesi, ve günlük limit. Aşağıdaki bekleme süresi 0'dan büyükse, bu satırlar oyuncuların topladıklarında ne alacaklarını tanımlar (eylem devam ederken hiçbir şey basılmaz). Bekleme süresi 0 ile, eylem çalıştığında mint hemen çalışır.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Öğe seç",
+  "playerEconomyEditor.custom.generatorLaneHint": "Zamanlı ödüller için, aynı anda kaç işin çalıştırılabileceğini tanımlayan jeneratör öğesini seçin (eski Oluştur kuralıyla aynı).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Toplamadan önce bekleyin (isteğe bağlı)",
+  "playerEconomyEditor.custom.timedOutputHint": "0'dan büyük saniyeler bu eylemden sonra zamanlanmış bir işe başlar; oyuncular normal jeneratör akışını kullanarak toplar. Yukarıdaki nane satırları, bu toplama için öğeleri ve miktarları tanımlar. Anında nane için 0 bırakın (zamanlayıcı yok).",
+  "playerEconomyEditor.custom.outputItemLabel": "Çıktı öğesi",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Zamanlayıcı tamamlandığında verilen öğe",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Üretilecek Saniyeler",
+  "playerEconomyEditor.custom.collectDropsTitle": "Ödüller topla (şans)",
+  "playerEconomyEditor.custom.collectDropsHint": "Zamanlayıcı bittiğinde, her satır şansını artırabilir (%0-100). Birden çok satır ağırlığa göre birini seçer. %100 = her zaman bu miktarı verin.",
+  "playerEconomyEditor.custom.mintChanceHint": "%0— %100. Bekleme süresi 0 olduğunda, eylem çalıştığında şans artar. Bekleme süresi ayarlandığında, oyuncu topladığında şans artar."
 }

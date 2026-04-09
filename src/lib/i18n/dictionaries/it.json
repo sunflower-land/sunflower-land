@@ -8441,7 +8441,6 @@
   "playerEconomyEditor.actionRow.noBurnRows": "Nessuna riga di masterizzazione",
   "playerEconomyEditor.custom.hint": "Usa le regole personalizzate con attenzione nel codice del tuo minigioco",
   "playerEconomyEditor.custom.mint": "Menta",
-  "playerEconomyEditor.custom.mintHint": "Il tuo gioco può determinare quanto coniare",
   "playerEconomyEditor.custom.burn": "Brucia",
   "playerEconomyEditor.custom.burnHint": "Il tuo gioco decide quanto bruciare",
   "playerEconomyEditor.custom.requires": "Richiede",
@@ -8607,5 +8606,17 @@
   "minigame.dashboard.trophySection.subtitle": "Esplora il gioco e raccogli i trofei",
   "skill.speedyAging": "-10% Tempo di invecchiamento",
   "skill.saltySeas": "-10% tempo di rifornimento della carica di sale",
-  "skill.ager.buff": "2× uscita da Aging Shed Racks"
+  "skill.ager.buff": "2× uscita da Aging Shed Racks",
+  "playerEconomyEditor.actionRow.noCollectRows": "Nessuna riga di raccolta delle ricompense",
+  "playerEconomyEditor.custom.mintHint": "Articolo, min/max, percentuale di probabilità e limite giornaliero. Se il tempo di attesa inferiore è maggiore di 0, queste righe definiscono ciò che i giocatori ricevono al momento della raccolta (non viene coniato nulla al termine dell'azione). Con il tempo di attesa 0, mint viene eseguito immediatamente quando viene eseguita l'azione.",
+  "playerEconomyEditor.custom.requiresPlaceholder": "Seleziona articolo",
+  "playerEconomyEditor.custom.generatorLaneHint": "Per i premi a tempo, scegli l'elemento del generatore che definisce quanti lavori possono essere eseguiti contemporaneamente (come la vecchia regola Generate).",
+  "playerEconomyEditor.custom.timedOutputTitle": "Attendi prima del ritiro (opzionale)",
+  "playerEconomyEditor.custom.timedOutputHint": "I secondi superiori a 0 iniziano un lavoro a tempo dopo questa azione; i giocatori raccolgono utilizzando il normale flusso del generatore. Le righe di Mint qui sopra definiscono gli oggetti e gli importi per quella raccolta. Lascia 0 per la creazione istantanea (senza timer).",
+  "playerEconomyEditor.custom.outputItemLabel": "Elemento di output",
+  "playerEconomyEditor.custom.outputItemPlaceholder": "Oggetto concesso allo scadere del timer",
+  "playerEconomyEditor.custom.secondsToProduceLabel": "Secondi per produrre",
+  "playerEconomyEditor.custom.collectDropsTitle": "Raccogli ricompense (possibilità)",
+  "playerEconomyEditor.custom.collectDropsHint": "Al termine del timer, ogni riga può aumentare la sua probabilità (0-100%). Righe multiple, selezionane una in base al peso. 100% = concedi sempre quell'importo.",
+  "playerEconomyEditor.custom.mintChanceHint": "0-100%. Con il tempo di attesa 0, la probabilità aumenta quando viene eseguita l'azione. Con il tempo di attesa impostato, la probabilità aumenta quando il giocatore raccoglie."
 }
