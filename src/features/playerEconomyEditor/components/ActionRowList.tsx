@@ -171,6 +171,7 @@ export const GeneratorCollectRowList: React.FC<{
   minRows = 0,
   maxRows,
 }) => {
+  const { t } = useAppTranslation();
   const canRemoveRow = rows.length > (minRows > 0 ? minRows : 1);
   const canAddRow = maxRows === undefined || rows.length < maxRows;
 
@@ -244,6 +245,22 @@ export const GeneratorCollectRowList: React.FC<{
           )}
         </div>
       ))}
+      {rows.length === 0 && minRows === 0 && canAddRow && (
+        <div className="flex items-center gap-2">
+          <p className="text-[10px] italic opacity-50">
+            {t("playerEconomyEditor.actionRow.noCollectRows")}
+          </p>
+          <img
+            src={SUNNYSIDE.icons.plus}
+            className="cursor-pointer hover:brightness-90"
+            onClick={() => onChange([{ ...EMPTY_MINT_ROW }])}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              imageRendering: "pixelated",
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };
@@ -279,20 +296,22 @@ export const CustomMintRowList: React.FC<{
       {rows.map((row, idx) => (
         <div key={idx} className="flex items-start gap-1">
           <div className="flex-1 grid grid-cols-2 gap-1">
-            <FieldRow label="Item">
-              <Dropdown
-                options={itemKeys}
-                value={row.token || undefined}
-                onChange={(v) => {
-                  const u = [...rows];
-                  u[idx] = { ...u[idx], token: v };
-                  onChange(u);
-                }}
-                placeholder="Select item"
-                showSearch
-                getOptionLabel={getItemOptionLabel}
-              />
-            </FieldRow>
+            <div className="col-span-2">
+              <FieldRow label="Item">
+                <Dropdown
+                  options={itemKeys}
+                  value={row.token || undefined}
+                  onChange={(v) => {
+                    const u = [...rows];
+                    u[idx] = { ...u[idx], token: v };
+                    onChange(u);
+                  }}
+                  placeholder="Select item"
+                  showSearch
+                  getOptionLabel={getItemOptionLabel}
+                />
+              </FieldRow>
+            </div>
             <FieldRow label="Daily cap">
               <NumberInput
                 value={new Decimal(row.dailyCap ?? 0)}
@@ -303,6 +322,21 @@ export const CustomMintRowList: React.FC<{
                     ...u[idx],
                     dailyCap: Math.max(0, Math.floor(v.toNumber())),
                   };
+                  onChange(u);
+                }}
+              />
+            </FieldRow>
+            <FieldRow label="Chance %">
+              <NumberInput
+                value={new Decimal(row.chance ?? 100)}
+                maxDecimalPlaces={0}
+                onValueChange={(v) => {
+                  const u = [...rows];
+                  const n = Math.max(
+                    0,
+                    Math.min(100, Math.round(v.toNumber())),
+                  );
+                  u[idx] = { ...u[idx], chance: n };
                   onChange(u);
                 }}
               />

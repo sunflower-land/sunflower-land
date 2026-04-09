@@ -43,14 +43,21 @@ const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
 
 /**
  * Iframe base URL resolution:
- * 1. `VITE_PORTAL_GAME_URL` when set (local / override).
- * 2. `apiPlayUrl` from the minigame session API when provided (e.g. dashboard).
- * 3. `DOMAIN_MAP` / default `https://{portalName}.sunflower-land.com`.
+ * 1. `iframeBaseUrl` when set (e.g. player economy dashboard → `*.economies.sunflower-land.com`).
+ * 2. `VITE_PORTAL_GAME_URL` when set (local / override).
+ * 3. `apiPlayUrl` from the minigame session API when provided.
+ * 4. `DOMAIN_MAP` / default `https://{portalName}.sunflower-land.com`.
  */
 function resolveMinigameIframeBaseUrl(
   portalName: MinigameName,
   apiPlayUrl?: string,
+  iframeBaseUrl?: string,
 ): string {
+  const locked = iframeBaseUrl?.trim();
+  if (locked) {
+    return locked.replace(/\/$/, "");
+  }
+
   const fromEnv = CONFIG.PORTAL_GAME_URL?.trim();
   if (fromEnv) {
     return fromEnv.replace(/\/$/, "");
@@ -70,9 +77,19 @@ interface Props {
   onClose: () => void;
   /** Canonical play URL from `GET /portal/:id/minigame` when API provides `playUrl`. */
   playUrl?: string;
+  /**
+   * When set, used as the iframe origin and wins over `VITE_PORTAL_GAME_URL` and `playUrl`.
+   * Player economy dashboard uses `https://{slug}.economies.sunflower-land.com`.
+   */
+  iframeBaseUrl?: string;
 }
 
-export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
+export const Portal: React.FC<Props> = ({
+  portalName,
+  onClose,
+  playUrl,
+  iframeBaseUrl,
+}) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const { gameService } = useContext(Context);
@@ -121,7 +138,11 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
         token = portalToken;
       }
 
-      const baseUrl = resolveMinigameIframeBaseUrl(portalName, playUrl);
+      const baseUrl = resolveMinigameIframeBaseUrl(
+        portalName,
+        playUrl,
+        iframeBaseUrl,
+      );
 
       const language = localStorage.getItem("language") || "en";
       const font = getCachedFont();
@@ -143,7 +164,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose, playUrl }) => {
     };
 
     load();
-  }, [portalName, playUrl]);
+  }, [portalName, playUrl, iframeBaseUrl]);
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {

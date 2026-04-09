@@ -415,7 +415,8 @@ export const MinigameDashboard: React.FC = () => {
   const hasShop = payload.ui.shopItems.length > 0;
   const copy = payload.config.descriptions;
   const marketPick = getPrimaryTradableMarketplaceItem(payload.config);
-  const hasCustomAdventureLink = Boolean(payload.config.playUrl?.trim());
+  /** Adventure iframe is always `https://{slug}.economies.sunflower-land.com`. */
+  const hasCustomAdventureLink = true;
 
   return (
     <div
@@ -660,7 +661,7 @@ export const MinigameDashboard: React.FC = () => {
         {showPortal && (
           <Portal
             portalName={payload.portalName}
-            playUrl={payload.playUrl}
+            iframeBaseUrl={`https://${payload.slug}.economies.sunflower-land.com`}
             onClose={() => {
               setShowPortal(false);
               setDashboardReloadKey((k) => k + 1);

@@ -52,6 +52,8 @@ export function resolvePlayerEconomySessionItems(
 }
 
 export type MinigameActionApiResponse = {
+  economy: MinigameSessionApiPayload;
+  changeset: { balances: Record<string, number> };
   playerEconomy: MinigameSessionApiPayload["playerEconomy"];
   generatorJobId?: string;
   collectGrants?: { token: string; amount: number }[];

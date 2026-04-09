@@ -15,7 +15,6 @@ import {
 } from "../lib/types";
 import { ShopCard } from "../components/ShopCard";
 import { CustomCard } from "../components/CustomCard";
-import { ProduceCard } from "../components/ProduceCard";
 import { RuleActionIdLabel } from "../components/RuleActionIdLabel";
 import { suggestNextActionId } from "../lib/actionIdHelpers";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -93,12 +92,7 @@ export const ActionsTab: React.FC<{
         base.require = [{ token: "", amount: 1 }];
         break;
       case "produce":
-        base.produce = [
-          { token: "", msToComplete: 0, limit: undefined, requires: "" },
-        ];
-        base.burn = [{ ...EMPTY_BURN_ROW }];
-        base.linkedCollectMint = [{ ...EMPTY_MINT_ROW }];
-        break;
+        return;
     }
 
     onAddAction(base);
@@ -132,9 +126,8 @@ export const ActionsTab: React.FC<{
       case "shop":
         return <ShopCard key={`action-${index}`} {...commonProps} />;
       case "custom":
-        return <CustomCard key={`action-${index}`} {...commonProps} />;
       case "produce":
-        return <ProduceCard key={`action-${index}`} {...commonProps} />;
+        return <CustomCard key={`action-${index}`} {...commonProps} />;
       default:
         return (
           <InnerPanel key={`action-${index}`} className="p-3 space-y-2">

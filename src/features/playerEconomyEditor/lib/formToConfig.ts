@@ -7,7 +7,13 @@ import type {
   MintRule,
 } from "features/minigame/lib/types";
 
-import type { ActionForm, EditorFormState, ItemForm } from "./types";
+import type {
+  ActionForm,
+  CustomMintRowForm,
+  EditorFormState,
+  ItemForm,
+  MintRuleForm,
+} from "./types";
 import {
   sanitizeActionId,
   suggestNextActionId,
@@ -30,6 +36,60 @@ function formChanceToSavedCollect(
 function normalizeGeneratorRequires(raw: unknown): string {
   if (raw === undefined || raw === null) return "";
   return String(raw).trim();
+}
+
+function customMintRowToCollectAmount(row: CustomMintRowForm): number {
+  const mi = Math.max(0, Math.floor(row.min ?? 0));
+  const ma = Math.max(0, Math.floor(row.max ?? 0));
+  return Math.max(mi, ma);
+}
+
+function linkedMintRuleToCustomMintRow(m: MintRuleForm): CustomMintRowForm {
+  const amt = Math.max(0, Math.floor(m.amount ?? 0));
+  return {
+    token: m.token,
+    min: amt,
+    max: amt,
+    dailyCap: m.dailyCap ?? 0,
+    chance: m.collectChance ?? 100,
+  };
+}
+
+/** Legacy editor stored collect payouts in `linkedCollectMint`; mint rows are the source of truth now. */
+function resolveMintLikeRowsForTimedCollect(
+  row: ActionForm,
+): CustomMintRowForm[] {
+  if (row.customMint.some((m) => m.token.trim())) {
+    return row.customMint;
+  }
+  return (row.linkedCollectMint ?? []).map(linkedMintRuleToCustomMintRow);
+}
+
+function buildCollectMapFromCustomMint(
+  rows: CustomMintRowForm[],
+  seconds: number,
+  norm: (t: string) => string,
+): Record<string, CollectRule> {
+  const map: Record<string, CollectRule> = {};
+  for (const row of rows) {
+    const tok = norm(row.token.trim());
+    if (!tok) continue;
+    const amount = customMintRowToCollectAmount(row);
+    const entry: CollectRule = { amount, seconds };
+    const ch = formChanceToSavedCollect(row.chance);
+    if (ch !== undefined) entry.chance = ch;
+    map[tok] = entry;
+  }
+  return map;
+}
+
+function hasTimedCustomCollectFromMint(row: ActionForm): boolean {
+  if (row.actionType !== "custom") return false;
+  if (!row.produce.length) return false;
+  if ((row.produce[0]?.msToComplete ?? 0) <= 0) return false;
+  return resolveMintLikeRowsForTimedCollect(row).some((m) =>
+    Boolean(m.token?.trim()),
+  );
 }
 
 function buildTokenRemap(items: ItemForm[]): Map<string, string> {
@@ -111,14 +171,19 @@ function rowToDefinition(
         const min = Math.max(0, Math.floor(r.min || 0));
         const max = Math.max(0, Math.floor(r.max || 0));
         const dailyCap = Math.max(0, Math.floor(r.dailyCap || 0));
+        const mintChance = formChanceToSavedCollect(r.chance);
         if (max < min) return map;
         if (min === max && dailyCap <= 0) {
-          map[tok] = { amount: min };
+          map[tok] =
+            mintChance !== undefined
+              ? ({ amount: min, chance: mintChance } as MintRule)
+              : { amount: min };
         } else {
           map[tok] = {
             min,
             max,
             dailyCap: dailyCap > 0 ? dailyCap : CUSTOM_MINT_UNCAPPED_DAILY,
+            ...(mintChance !== undefined ? { chance: mintChance } : {}),
           } as MintRule;
         }
         return map;
@@ -178,17 +243,8 @@ function rowToDefinition(
   }
 
   const produce = row.produce.reduce(
-    (map, p, idx) => {
-      let tok = norm(p.token);
-      if (
-        !tok &&
-        row.actionType === "produce" &&
-        idx === 0 &&
-        row.linkedCollectMint
-      ) {
-        const lm = row.linkedCollectMint.find((m) => norm(m.token.trim()));
-        if (lm) tok = norm(lm.token);
-      }
+    (map, p) => {
+      const tok = norm(p.token);
       if (!tok) return map;
       const rule: GeneratorRecipeRule = {
         msToComplete: Math.max(0, p.msToComplete || 0),
@@ -241,13 +297,6 @@ function isDefinitionEmpty(def: PlayerEconomyActionDefinition): boolean {
   );
 }
 
-function hasLinkedCollect(row: ActionForm): boolean {
-  return (
-    row.actionType === "produce" &&
-    (row.linkedCollectMint?.some((m) => m.token.trim()) ?? false)
-  );
-}
-
 function buildActionsFromForm(
   rows: ActionForm[],
   norm: (t: string) => string,
@@ -267,35 +316,31 @@ function buildActionsFromForm(
     }
     usedKeys.add(primaryId);
 
-    if (hasLinkedCollect(row)) {
+    if (hasTimedCustomCollectFromMint(row)) {
       const seconds = Math.max(
         0,
         Math.floor((row.produce[0]?.msToComplete ?? 0) / 1000),
       );
-      const collectMap = (row.linkedCollectMint ?? []).reduce(
-        (map, t) => {
-          const tok = norm(t.token);
-          if (!tok) return map;
-          const entry: CollectRule = {
-            amount: Math.max(0, t.amount || 0),
-            seconds,
-          };
-          const ch = formChanceToSavedCollect(t.collectChance);
-          if (ch !== undefined) entry.chance = ch;
-          map[tok] = entry;
-          return map;
-        },
-        {} as Record<string, CollectRule>,
-      );
+      const mintLike = resolveMintLikeRowsForTimedCollect(row);
+      const collectMap = buildCollectMapFromCustomMint(mintLike, seconds, norm);
       if (Object.keys(collectMap).length) {
         def.collect = collectMap;
-        if (def.produce) {
-          const nextProduce: Record<string, GeneratorRecipeRule> = {};
-          for (const [out, r] of Object.entries(def.produce)) {
-            const { msToComplete: _drop, ...rest } = r;
-            nextProduce[out] = rest;
-          }
-          def.produce = nextProduce;
+        delete def.mint;
+        const p0 = row.produce[0];
+        const reqStr = normalizeGeneratorRequires(p0?.requires);
+        const ordered = mintLike
+          .map((m) => norm(m.token.trim()))
+          .filter(Boolean);
+        const firstOut = ordered[0];
+        if (firstOut) {
+          def.produce = {
+            [firstOut]: {
+              ...(reqStr ? { requires: norm(reqStr) } : {}),
+              ...(p0?.limit !== undefined && p0.limit > 0
+                ? { limit: p0.limit }
+                : {}),
+            },
+          };
         }
       }
     }

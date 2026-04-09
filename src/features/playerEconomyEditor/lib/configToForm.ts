@@ -102,7 +102,8 @@ function isPlainFixedBurn(rule: BurnRule): boolean {
 }
 
 function inferActionType(def: PlayerEconomyActionDefinition): ActionType {
-  if (Object.keys(def.produce ?? {}).length > 0) return "produce";
+  /** Timed / generator output is edited under Custom alongside mint, burn, and collect drops. */
+  if (Object.keys(def.produce ?? {}).length > 0) return "custom";
 
   const mint = def.mint ?? {};
   const burn = def.burn ?? {};
@@ -156,18 +157,55 @@ function readPersistedEditorCardType(
   return undefined;
 }
 
-/** Prefer persisted `type` (and legacy `editorRuleKind`) so Generate rules never mis-merge as shop/custom. */
+/** Prefer persisted `type` (and legacy `editorRuleKind`). Generator rules use the Custom editor. */
 function resolveActionType(def: PlayerEconomyActionDefinition): ActionType {
   const k = readPersistedEditorCardType(def);
-  if (k === "generator") return "produce";
+  if (k === "generator") return "custom";
   if (k === "shop") return "shop";
   if (k === "custom") return "custom";
   return inferActionType(def);
 }
 
+function collectTimedMapToCustomMintRows(
+  collect: Record<string, CollectRule>,
+): CustomMintRowForm[] {
+  return Object.entries(collect).map(([key, rule]) => {
+    const r = rule as CollectRule;
+    const amt = Math.max(0, Math.floor(r.amount ?? 0));
+    const ch = collectChancePercentFromRule(r) ?? 100;
+    return {
+      token: key,
+      min: amt,
+      max: amt,
+      dailyCap: 0,
+      chance: ch,
+    };
+  });
+}
+
+function shouldHydrateCustomMintFromTimedCollect(
+  at: ActionType,
+  def: PlayerEconomyActionDefinition,
+): boolean {
+  if (at !== "custom") return false;
+  if (Object.keys(def.mint ?? {}).length > 0) return false;
+  if (Object.keys(def.produce ?? {}).length === 0) return false;
+  return Object.values(def.collect ?? {}).some(
+    (r) =>
+      typeof (r as CollectRule).seconds === "number" &&
+      Number.isFinite((r as CollectRule).seconds) &&
+      (r as CollectRule).seconds! > 0,
+  );
+}
+
 function mintToCustomRows(m: Record<string, MintRule>): CustomMintRowForm[] {
   return Object.entries(m).map(([key, rule]) => {
     const r = rule as Record<string, number>;
+    const chanceRaw = (rule as { chance?: number }).chance;
+    const chance =
+      typeof chanceRaw === "number" && Number.isFinite(chanceRaw)
+        ? Math.max(0, Math.min(100, Math.round(chanceRaw)))
+        : 100;
     if ("min" in r && "max" in r) {
       const dc = r.dailyCap ?? 0;
       return {
@@ -175,6 +213,7 @@ function mintToCustomRows(m: Record<string, MintRule>): CustomMintRowForm[] {
         min: r.min ?? 0,
         max: r.max ?? 0,
         dailyCap: dc >= CUSTOM_MINT_UNCAPPED - 1 ? 0 : dc,
+        chance,
       };
     }
     if ("dailyCap" in r && "amount" in r) {
@@ -183,6 +222,7 @@ function mintToCustomRows(m: Record<string, MintRule>): CustomMintRowForm[] {
         min: r.amount ?? 0,
         max: r.amount ?? 0,
         dailyCap: r.dailyCap ?? 0,
+        chance,
       };
     }
     return {
@@ -190,6 +230,7 @@ function mintToCustomRows(m: Record<string, MintRule>): CustomMintRowForm[] {
       min: r.amount ?? 0,
       max: r.amount ?? 0,
       dailyCap: 0,
+      chance,
     };
   });
 }
@@ -208,7 +249,10 @@ function actionEntryToForm(
   def: PlayerEconomyActionDefinition,
 ): ActionForm {
   const at = resolveActionType(def);
-  const customMint = at === "custom" ? mintToCustomRows(def.mint ?? {}) : [];
+  let customMint = at === "custom" ? mintToCustomRows(def.mint ?? {}) : [];
+  if (shouldHydrateCustomMintFromTimedCollect(at, def)) {
+    customMint = collectTimedMapToCustomMintRows(def.collect ?? {});
+  }
   const customBurn = at === "custom" ? burnToCustomRows(def.burn ?? {}) : [];
 
   return {
@@ -272,7 +316,11 @@ function actionEntryToForm(
         });
       }
       /** Legacy/broken saves: generator + inline collect but no `produce` (output lived only in collect). */
-      if (at === "produce" && Object.keys(def.collect ?? {}).length === 1) {
+      if (
+        at === "custom" &&
+        entries.length === 0 &&
+        Object.keys(def.collect ?? {}).length === 1
+      ) {
         const outTok = Object.keys(def.collect ?? {})[0]!;
         const r: GeneratorRecipeRule = {};
         return [
@@ -324,6 +372,18 @@ function collectRowsToLinkedMintForms(
   return [{ ...EMPTY_MINT_ROW }];
 }
 
+/** Produce-card legacy type, or custom rule with timed output rows. */
+function formHasTimedProduction(form: ActionForm): boolean {
+  if (form.actionType === "produce") return true;
+  return (
+    form.actionType === "custom" &&
+    form.produce.length > 0 &&
+    ((form.produce[0]?.msToComplete ?? 0) > 0 ||
+      Boolean(form.produce[0]?.token?.trim()) ||
+      form.customMint.some((m) => m.token.trim()))
+  );
+}
+
 function buildProductionCollectMapFromActions(
   actions: Record<string, PlayerEconomyActionDefinition>,
 ): Record<string, string> {
@@ -351,7 +411,7 @@ function mergeProduceCollectPairs(
 
   for (const a of sortedForms) {
     const collectId = byStart[a.id];
-    if (!collectId || a.actionType !== "produce") continue;
+    if (!collectId || !formHasTimedProduction(a)) continue;
     const cForm = formById.get(collectId);
     if (cForm) absorbedCollectIds.add(collectId);
   }
@@ -363,7 +423,7 @@ function mergeProduceCollectPairs(
     const collectId = byStart[a.id];
     const cForm = collectId ? formById.get(collectId) : undefined;
 
-    if (collectId && cForm && a.actionType === "produce") {
+    if (collectId && cForm && formHasTimedProduction(a)) {
       out.push({
         ...a,
         linkedCollectId: collectId,
@@ -420,7 +480,7 @@ function repairGenerateLinkedCollect(
   actions: Record<string, PlayerEconomyActionDefinition>,
 ): ActionForm[] {
   return forms.map((f) => {
-    if (f.actionType !== "produce") return f;
+    if (!formHasTimedProduction(f)) return f;
     if (f.linkedCollectMint?.some((m) => m.token.trim())) return f;
     const def = actions[f.id];
     const inlineCollect = def?.collect && Object.keys(def.collect).length > 0;
