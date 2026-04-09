@@ -8,12 +8,15 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import type { SpiceRackJob } from "features/game/lib/agingShed";
-import { getSpiceRackRecipe } from "features/game/types/spiceRack";
+import {
+  getSpiceRackRecipe,
+  SpiceRackRecipeName,
+} from "features/game/types/spiceRack";
 import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
-  getAgingOutputBonus,
+  getAgingOutput,
   getRefinedSaltChance,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
@@ -46,9 +49,11 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const skills = state.bumpkin.skills;
   const recipeDef = useMemo(() => getSpiceRackRecipe(job.recipe), [job.recipe]);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
-  const outputItem = outputEntry?.[0] as InventoryItemName | undefined;
-  const outputAmount = (outputEntry?.[1] ?? new Decimal(0)).add(
-    getAgingOutputBonus(skills),
+  const outputItem = outputEntry?.[0] as SpiceRackRecipeName;
+  const outputAmount = getAgingOutput(
+    skills,
+    outputEntry?.[1] ?? new Decimal(0),
+    outputItem,
   );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);

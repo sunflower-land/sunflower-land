@@ -133,7 +133,7 @@ describe("collectSpiceRack", () => {
     expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
   });
 
-  it("applies Ager skill to grant +1 output", () => {
+  it("applies Ager skill to double spice rack output", () => {
     const past = createdAt - 1;
 
     const state = collectSpiceRack({
@@ -249,7 +249,7 @@ describe("collectSpiceRack", () => {
       expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
     });
 
-    it("stacks Ager + Refiner bonus on PRNG hit", () => {
+    it("stacks Ager 2× with Refiner bonus on PRNG hit", () => {
       const state = collectSpiceRack({
         state: createFermentationTestState({
           bumpkin: {

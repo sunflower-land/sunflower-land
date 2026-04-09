@@ -8550,8 +8550,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "最初にゲームにファームをロードしてください。",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "トークンを取得できませんでした。",
   "skill.cheapRakes": "ソルトレイクのコインコストが 15% オフ",
-  "skill.speedyAging": "エージングラックの速度が 10% 速くなる",
-  "skill.saltySeas": "ソルトチャージの補充時間が 10% 短縮",
   "skill.fishSmoking": "熟成魚がプライムエイジになる確率が2倍になる",
   "skill.refiner": "15% の確率で精製塩1個を獲得できる",
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
@@ -8599,7 +8597,6 @@
   "guide.compost.fruitGrowthTime": "-20% フルーツパッチの成長時間",
   "fertiliser.sproutrootSurprise": "スプラウトサプライズ",
   "fertiliser.turbofruitMix": "ターボフルーツミックス",
-  "skill.ager.buff": "エージングシェッドラックからの+1出力",
   "skill.wideRakes": "収穫1回につき +2 塩",
   "skill.seaBlessed": "収穫時に 5% の確率ですべてのソルトノードをリチャージする",
   "skill.bacalhau": "+1発酵ラックからのベイト収量",
@@ -8607,5 +8604,8 @@
   "playerEconomyEditor.itemCard.trophy": "トロフィー（所有している場合はダッシュボードに表示）",
   "minigame.dashboard.trophyDetailEmpty": "この商品には説明がありません。",
   "minigame.dashboard.trophySection.title": "トロフィーセクション",
-  "minigame.dashboard.trophySection.subtitle": "ゲームを探索してトロフィーを集めよう"
+  "minigame.dashboard.trophySection.subtitle": "ゲームを探索してトロフィーを集めよう",
+  "skill.speedyAging": "-10% エージングラックタイム",
+  "skill.saltySeas": "-10% 塩チャージ補給時間",
+  "skill.ager.buff": "エージング・シェッド・ラックからの出力×2"
 }

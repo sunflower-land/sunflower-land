@@ -66,38 +66,35 @@ export function getAgingInputMultiplier(skills: Skills): number {
   return skills["Ager"] ? 2 : 1;
 }
 
-export function getAgingOutputBonus(skills: Skills): number {
-  return skills["Ager"] ? 1 : 0;
-}
-
 export function getAgingOutput(
   skills: Skills,
   baseAmount: Decimal,
   item: InventoryItemName,
-  prngArgs: { farmId: number; itemId: number; counter: number },
+  prngArgs?: { farmId: number; itemId: number; counter: number },
 ): Decimal {
-  const { farmId, itemId, counter } = prngArgs;
-
   let output = baseAmount;
   if (skills["Ager"]) {
-    output = output.add(1);
+    output = output.mul(2);
+  }
+
+  if (prngArgs) {
+    const { farmId, itemId, counter } = prngArgs;
+    if (item === "Refined Salt" && skills.Refiner) {
+      const isBonus = prngChance({
+        farmId,
+        itemId,
+        counter,
+        chance: 15,
+        criticalHitName: "Refiner",
+      });
+      if (isBonus) {
+        output = output.add(1);
+      }
+    }
   }
 
   if (skills["Bacalhau"] && isBaitItem(item)) {
     output = output.add(1);
-  }
-
-  if (item === "Refined Salt" && skills.Refiner) {
-    const isBonus = prngChance({
-      farmId,
-      itemId,
-      counter,
-      chance: 15,
-      criticalHitName: "Refiner",
-    });
-    if (isBonus) {
-      output = output.add(1);
-    }
   }
 
   return output;

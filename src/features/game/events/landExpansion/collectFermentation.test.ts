@@ -104,8 +104,8 @@ describe("collectFermentation", () => {
 
     expect(state.agingShed.racks.fermentation).toHaveLength(1);
     expect(state.agingShed.racks.fermentation[0].id).toEqual("b");
-    expect(state.inventory.Salt?.toNumber()).toEqual(2);
-    expect(state.farmActivity["Salt Fermented"]).toEqual(2);
+    expect(state.inventory.Salt?.toNumber()).toEqual(15);
+    expect(state.farmActivity["Salt Fermented"]).toEqual(15);
   });
 
   it("collects multiple ready jobs at once", () => {
@@ -141,8 +141,8 @@ describe("collectFermentation", () => {
     });
 
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(4);
-    expect(state.farmActivity["Salt Fermented"]).toEqual(4);
+    expect(state.inventory.Salt?.toNumber()).toEqual(24);
+    expect(state.farmActivity["Salt Fermented"]).toEqual(24);
   });
 
   it("stacks inventory when collecting output that already exists", () => {
@@ -171,7 +171,7 @@ describe("collectFermentation", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toEqual(5);
+    expect(state.inventory.Salt?.toNumber()).toEqual(18);
   });
 
   it.each(LEGACY_FERMENTATION_RECIPE_IDS)(
@@ -362,7 +362,7 @@ describe("collectFermentation", () => {
     expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
   });
 
-  it("applies Ager skill to grant +1 output", () => {
+  it("applies Ager skill to double fermentation output", () => {
     const past = createdAt - 1;
 
     const state = collectFermentation({

@@ -8550,8 +8550,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Load your farm in the game first.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Could not fetch token.",
   "skill.cheapRakes": "15% off Salt Rake coin cost",
-  "skill.speedyAging": "10% faster Aging Rack speed",
-  "skill.saltySeas": "10% faster salt charge replenishment",
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
   "saltHarvest.nextChargeIn": "Next charge in:",
@@ -8599,7 +8597,6 @@
   "guide.compost.fruitGrowthTime": "-20% Fruit Patch Growth Time",
   "fertiliser.sproutrootSurprise": "Sproutroot Surprise",
   "fertiliser.turbofruitMix": "Turbofruit Mix",
-  "skill.ager.buff": "+1 output from Aging Shed Racks",
   "skill.wideRakes": "+2 Salt per harvest",
   "skill.seaBlessed": "5% chance to recharge all Salt Nodes on harvest",
   "skill.bacalhau": "+1 Bait yield from fermentation rack",
@@ -8607,5 +8604,8 @@
   "playerEconomyEditor.itemCard.trophy": "Trophy (show on dashboard when owned)",
   "minigame.dashboard.trophyDetailEmpty": "No description for this item.",
   "minigame.dashboard.trophySection.title": "Trophy Section",
-  "minigame.dashboard.trophySection.subtitle": "Explore the game and collect the trophies"
+  "minigame.dashboard.trophySection.subtitle": "Explore the game and collect the trophies",
+  "skill.speedyAging": "-10% Aging Rack time",
+  "skill.saltySeas": "-10% salt charge replenishment time",
+  "skill.ager.buff": "2× output from Aging Shed Racks"
 }
