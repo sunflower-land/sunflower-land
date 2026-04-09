@@ -166,6 +166,8 @@ export const AIBuilder: React.FC = () => {
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">(
     "desktop",
   );
+  const [showHitboxes, setShowHitboxes] = useState(false);
+  const showHitboxesRef = useRef(false);
 
   const wsRef = useRef<WebSocket | null>(null);
   const sessionIdRef = useRef("");
@@ -222,6 +224,23 @@ export const AIBuilder: React.FC = () => {
       code.includes("SampleFarmScene") &&
       code.includes("// Phaser scene class definition")
     );
+  }, []);
+
+  const toggleHitboxes = useCallback((enabled: boolean) => {
+    const game = currentGameRef.current;
+    if (!game) return;
+    game.scene.scenes.forEach((scene: any) => {
+      if (scene.physics?.world) {
+        scene.physics.world.drawDebug = enabled;
+        if (enabled) {
+          scene.physics.world.createDebugGraphic();
+        } else {
+          scene.physics.world.debugGraphic?.clear();
+          scene.physics.world.debugGraphic?.destroy();
+          scene.physics.world.debugGraphic = null;
+        }
+      }
+    });
   }, []);
 
   const enableGameKeyboard = useCallback(() => {
@@ -331,6 +350,14 @@ export const AIBuilder: React.FC = () => {
 
         // Setup focus handling after canvas is ready
         setTimeout(() => setupCanvasFocusHandling(), 100);
+
+        // Re-apply hitbox state once scenes have started and physics is ready
+        const gameInstance = currentGameRef.current;
+        if (showHitboxesRef.current && gameInstance) {
+          gameInstance.events.once("step", () => {
+            toggleHitboxes(true);
+          });
+        }
       } catch (error: any) {
         showStatus(`Failed to load game: ${error.message}`, "error");
       }
@@ -1082,8 +1109,8 @@ export const AIBuilder: React.FC = () => {
 
           {/* ===== Game Preview - single instance, responsive sizing ===== */}
           <div className="flex-1 md:w-1/2 flex flex-col gap-1 min-h-0">
-            {/* Aspect ratio tabs - desktop only */}
-            <div className="hidden md:flex gap-1">
+            {/* Aspect ratio tabs + hitbox toggle - desktop only */}
+            <div className="hidden md:flex gap-1 items-center">
               <span
                 className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
                   previewMode === "desktop"
@@ -1103,6 +1130,22 @@ export const AIBuilder: React.FC = () => {
                 onClick={() => setPreviewMode("mobile")}
               >
                 {"Mobile"}
+              </span>
+              <span className="flex-1" />
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  showHitboxes
+                    ? "bg-orange-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => {
+                  const next = !showHitboxes;
+                  setShowHitboxes(next);
+                  showHitboxesRef.current = next;
+                  toggleHitboxes(next);
+                }}
+              >
+                {"Hitboxes"}
               </span>
             </div>
             <InnerPanel className="flex-1 flex flex-col p-2 min-h-0 overflow-hidden">
