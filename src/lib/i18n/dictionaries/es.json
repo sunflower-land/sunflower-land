@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "Copiar URL",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Copiado",
   "minigame.dashboard.welcomeFallback": "¡Bienvenido! Visita la tienda y lánzate a la aventura para jugar y conseguir recompensas.",
-  "minigame.dashboard.trophy.title": "Sección de trofeos",
-  "minigame.dashboard.trophy.body": "Los generadores y la producción cronometrada ahora funcionan dentro de cada minijuego. Participa en la aventura para progresar, conseguir objetos y completar tu colección. Los trofeos e hitos que desbloquees irán apareciendo aquí con el tiempo.",
   "skill.ager.debuff": "2 x insumos de Aging Shed (ingredientes, pescado y sal)",
   "compost.sproutrootSurprise": "Sproutroot Surprise aumenta el rendimiento de tus cultivos en un +0,2% y reduce el tiempo de crecimiento de los cultivos en las parcelas en un 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise aumenta el rendimiento de tus cultivos en un +0,4 y reduce el tiempo de crecimiento de los cultivos en las parcelas en un 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "+2 de sal por cosecha",
   "skill.seaBlessed": "5% de probabilidad de recargar todos los nodos de sal al cosecharlos",
   "skill.bacalhau": "+1 Rendimiento de cebo en una rejilla de fermentación",
-  "skill.saltSurge": "Recarga todos los nodos de sal"
+  "skill.saltSurge": "Recarga todos los nodos de sal",
+  "playerEconomyEditor.itemCard.trophy": "Trofeo (se muestra en el tablero cuando se posee)",
+  "minigame.dashboard.trophyDetailEmpty": "No hay descripción para este artículo.",
+  "minigame.dashboard.trophySection.title": "Sección de trofeos",
+  "minigame.dashboard.trophySection.subtitle": "Explora el juego y recoge los trofeos"
 }

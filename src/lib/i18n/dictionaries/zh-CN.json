@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "复制网址",
   "playerEconomyEditor.siteUpload.playUrlCopied": "已复制",
   "minigame.dashboard.welcomeFallback": "欢迎！访问商店，然后进入冒险之旅玩游戏并获得奖励。",
-  "minigame.dashboard.trophy.title": "奖杯部分",
-  "minigame.dashboard.trophy.body": "生成器和定时制作现在可以在每个小游戏中运行。玩冒险以取得进展，获得物品，填满收藏品——随着时间的推移，你解锁的奖杯和里程碑将出现在这里。",
   "skill.ager.debuff": "2× Aging Shed 输入（食材、鱼和盐）",
   "compost.sproutrootSurprise": "Sproutroot Surprise 可将您的地块作物产量提高 +0.2，并将地块的作物生长时间缩短 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise 可将您的地块作物产量提高 +0.4，并将地块的作物生长时间缩短 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "每次收获 +2 盐",
   "skill.seaBlessed": "收获时有 5% 的几率为所有盐类节点充电",
   "skill.bacalhau": "+1 发酵架的诱饵产量",
-  "skill.saltSurge": "为所有 Salt 节点充值"
+  "skill.saltSurge": "为所有 Salt 节点充值",
+  "playerEconomyEditor.itemCard.trophy": "奖杯（拥有时显示在仪表板上）",
+  "minigame.dashboard.trophyDetailEmpty": "此商品无描述。",
+  "minigame.dashboard.trophySection.title": "奖杯专区",
+  "minigame.dashboard.trophySection.subtitle": "探索游戏并收集奖杯"
 }

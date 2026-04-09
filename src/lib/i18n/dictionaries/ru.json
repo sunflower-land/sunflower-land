@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "Copy URL",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Copied",
   "minigame.dashboard.welcomeFallback": "Welcome! Visit the shop, then head into the adventure to play and earn rewards.",
-  "minigame.dashboard.trophy.title": "Trophy section",
-  "minigame.dashboard.trophy.body": "Generators and timed production now run inside each minigame. Play the adventure to progress, earn items, and fill out your collection — trophies and milestones you unlock will show up here over time.",
   "skill.ager.debuff": "2× Aging Shed inputs (ingredients, fish & salt)",
   "compost.sproutrootSurprise": "Sproutroot Surprise increases your crop yield from plots by +0.2 and reduces crop growth time from plots by 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise increases your crop yield from plots by +0.4 and reduces crop growth time from plots by 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "+2 Salt per harvest",
   "skill.seaBlessed": "5% chance to recharge all Salt Nodes on harvest",
   "skill.bacalhau": "+1 Bait yield from fermentation rack",
-  "skill.saltSurge": "Recharge all Salt Nodes"
+  "skill.saltSurge": "Recharge all Salt Nodes",
+  "playerEconomyEditor.itemCard.trophy": "Trophy (show on dashboard when owned)",
+  "minigame.dashboard.trophyDetailEmpty": "No description for this item.",
+  "minigame.dashboard.trophySection.title": "Trophy Section",
+  "minigame.dashboard.trophySection.subtitle": "Explore the game and collect the trophies"
 }

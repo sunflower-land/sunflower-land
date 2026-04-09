@@ -8590,8 +8590,6 @@
   "playerEconomyEditor.siteUpload.copyPlayUrl": "Copia URL",
   "playerEconomyEditor.siteUpload.playUrlCopied": "Copiato",
   "minigame.dashboard.welcomeFallback": "Benvenuto! Visita il negozio, poi parti all'avventura per giocare e guadagnare ricompense.",
-  "minigame.dashboard.trophy.title": "Sezione trofei",
-  "minigame.dashboard.trophy.body": "I generatori e la produzione a tempo ora vengono eseguiti all'interno di ogni minigioco. Gioca all'avventura per progredire, guadagnare oggetti e completare la tua collezione: i trofei e i traguardi che sbloccherai verranno visualizzati qui col tempo.",
   "skill.ager.debuff": "2× Input Aging Shed (ingredienti, pesce e sale)",
   "compost.sproutrootSurprise": "Sproutroot Surprise aumenta la resa delle colture dagli appezzamenti di +0,2 e riduce il tempo di crescita delle colture dagli appezzamenti del 50%",
   "compost.sproutrootSurpriseBoosted": "Sproutroot Surprise aumenta la resa delle colture dagli appezzamenti di +0,4 e riduce il tempo di crescita delle colture dagli appezzamenti del 50%",
@@ -8605,5 +8603,9 @@
   "skill.wideRakes": "+2 sale per raccolto",
   "skill.seaBlessed": "5% di possibilità di ricaricare tutti i Salt Nodes durante la raccolta",
   "skill.bacalhau": "+1 resa in esche dalla rastrelliera di fermentazione",
-  "skill.saltSurge": "Ricarica tutti i Salt Nodes"
+  "skill.saltSurge": "Ricarica tutti i Salt Nodes",
+  "playerEconomyEditor.itemCard.trophy": "Trofeo (mostrato sulla dashboard se posseduto)",
+  "minigame.dashboard.trophyDetailEmpty": "Nessuna descrizione per questo articolo.",
+  "minigame.dashboard.trophySection.title": "Sezione Trofei",
+  "minigame.dashboard.trophySection.subtitle": "Esplora il gioco e raccogli i trofei"
 }
