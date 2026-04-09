@@ -1,15 +1,16 @@
 import Decimal from "decimal.js-light";
 import { prngChance } from "lib/prng";
 import type { InventoryItemName, Skills } from "./game";
+import { FermentationBait } from "./fishing";
 
-const BAIT_ITEMS = new Set<InventoryItemName>([
+const BAIT_ITEMS = new Set<FermentationBait>([
   "Capsule Bait",
   "Umbrella Bait",
   "Crimson Baitfish",
 ]);
 
-export function isBaitItem(item: InventoryItemName): boolean {
-  return BAIT_ITEMS.has(item);
+export function isBaitItem(item: InventoryItemName): item is FermentationBait {
+  return BAIT_ITEMS.has(item as FermentationBait);
 }
 
 export const PRIME_AGED_XP_MULTIPLIER = 1.3;

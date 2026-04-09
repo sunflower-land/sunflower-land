@@ -101,8 +101,8 @@ export const SKILL_POINTS_PER_TIER: Record<
   },
   Aging: {
     1: 0,
-    2: 2,
-    3: 4,
+    2: 3,
+    3: 7,
   },
 };
 
