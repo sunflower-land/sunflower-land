@@ -2458,7 +2458,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Salt Lick": {
     name: "Salt Lick",
     description:
-      "A mineral block crafted at the Spice Rack.\n\nFeed effects may be added in a future update.",
+      "A mineral block crafted at the Spice Rack.\n\nFeed to an animal to increase animal produce by 5% on the next 3 harvests.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/667.png",
@@ -2470,7 +2470,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Honey Treat": {
     name: "Honey Treat",
     description:
-      "A sweet animal treat crafted at the Spice Rack.\n\nFeed effects may be added in a future update.",
+      "A sweet animal treat crafted at the Spice Rack.\n\nFeed to an animal to reduce animal feed consumption on the next 3 harvests.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/668.png",

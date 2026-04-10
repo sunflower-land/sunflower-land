@@ -8347,7 +8347,7 @@
   "spiceRack.saltLick": "Salt Lick",
   "description.saltLick": "Feed to an animal for +5% produce on the next 3 harvests. Crafted at the Spice Rack.",
   "spiceRack.honeyTreat": "Honey Treat",
-  "description.honeyTreat": "Feed to an animal to double mutant chance on the next 3 harvests. Crafted at the Spice Rack.",
+  "description.honeyTreat": "Feed to an animal to reduce animal feed consumption on the next 3 harvests. Crafted at the Spice Rack.",
   "spiceRack.spiceBase": "Spice Base",
   "description.spiceBase": "A peppery base for boosting recipe experience. Crafted at the Spice Rack.",
   "spiceRack.spicedCheese": "Spiced Cheese",
