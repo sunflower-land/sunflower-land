@@ -8644,5 +8644,15 @@
   "description.goblinRug": "Still looks a little mischievous.",
   "description.petRug": "Too cute to step on. Almost.",
   "description.jesterInABox": "Wind it up and prepare for chaos.",
-  "description.theSunflowerManStatue": "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it."
+  "description.theSunflowerManStatue": "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it.",
+  "description.sprout.mix.boost": "+0.2 Crop Plot Yield",
+  "description.fruitful.blend.boost": "+0.1 Fruit Patch Yield",
+  "description.rapid.root.boost": "-50% Crop Plot Growth Time",
+  "description.sproutroot.surprise.boost": "+0.2 Crop Plot Yield",
+  "description.sproutroot.surprise.boost.2": "-50% Crop Plot Growth Time",
+  "description.turbofruit.mix.boost": "-20% Fruit Patch Growth Time",
+  "description.greenhouse.glow.boost": "-20% Greenhouse Pot Growth Time",
+  "description.greenhouse.goodie.boost": "+0.2 Greenhouse Produce Yield",
+  "description.salt.lick.boost": "+5% Animal Produce Yield",
+  "description.honey.treat.boost": "-25% Animal Feed"
 }

@@ -316,6 +316,7 @@ export function feedAnimal({
         animalType: action.animal,
         foodQuantity,
         game: copy,
+        animal,
       });
 
     // Take food from inventory

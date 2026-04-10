@@ -267,7 +267,7 @@ describe("applyAnimalFeedBuff", () => {
         createdAt: now,
         state: {
           ...GAME_STATE,
-          inventory: { "Honey Treat": new Decimal(1) },
+          inventory: { "Salt Lick": new Decimal(1) },
           henHouse: {
             ...GAME_STATE.henHouse,
             animals: {
@@ -290,7 +290,7 @@ describe("applyAnimalFeedBuff", () => {
           type: "animal.feedBuffApplied",
           animal: "Chicken",
           id: chickenId,
-          item: "Honey Treat",
+          item: "Salt Lick",
         },
       }),
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.ALREADY_BUFFED);
@@ -329,5 +329,45 @@ describe("applyAnimalFeedBuff", () => {
         },
       }),
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_ENOUGH);
+  });
+
+  it("applies Honey Treat (without Salt Lick multiplier)", () => {
+    const chickenId = "c1";
+    const state = applyAnimalFeedBuff({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: { "Honey Treat": new Decimal(1) },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.feedBuffApplied",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Honey Treat",
+      },
+    });
+
+    expect(state.inventory["Honey Treat"]).toStrictEqual(new Decimal(0));
+    expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+      name: "Honey Treat",
+      harvestsRemaining: 3,
+    });
+    expect(state.henHouse.animals[chickenId].multiplier).toBeUndefined();
   });
 });

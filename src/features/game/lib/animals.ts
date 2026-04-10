@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 import {
   ANIMAL_FOOD_EXPERIENCE,
@@ -28,6 +27,7 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
+import Decimal from "decimal.js-light";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -485,26 +485,28 @@ export function getBoostedFoodQuantity({
   animalType,
   foodQuantity,
   game,
+  animal,
 }: {
   animalType: AnimalType;
   foodQuantity: number;
   game: GameState;
+  animal?: Animal;
 }): {
-  foodQuantity: number;
+  foodQuantity: Decimal;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let baseFoodQuantity = cloneDeep(foodQuantity);
+  let baseFoodQuantity = new Decimal(foodQuantity);
   const boostsUsed: { name: BoostName; value: string }[] = [];
   if (
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Fat Chicken", game })
   ) {
-    baseFoodQuantity *= 0.9;
+    baseFoodQuantity = baseFoodQuantity.mul(0.9);
     boostsUsed.push({ name: "Fat Chicken", value: "x0.9" });
   }
 
   if (animalType === "Cow" && isCollectibleBuilt({ name: "Dr Cow", game })) {
-    baseFoodQuantity *= 0.95;
+    baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Dr Cow", value: "x0.95" });
   }
 
@@ -512,7 +514,7 @@ export function getBoostedFoodQuantity({
     animalType === "Sheep" &&
     isCollectibleBuilt({ name: "Mermaid Sheep", game })
   ) {
-    baseFoodQuantity *= 0.95;
+    baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Mermaid Sheep", value: "x0.95" });
   }
 
@@ -520,7 +522,7 @@ export function getBoostedFoodQuantity({
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Cluckulator", game })
   ) {
-    baseFoodQuantity *= 0.75;
+    baseFoodQuantity = baseFoodQuantity.mul(0.75);
     boostsUsed.push({ name: "Cluckulator", value: "x0.75" });
   }
 
@@ -528,47 +530,47 @@ export function getBoostedFoodQuantity({
     (animalType === "Sheep" || animalType === "Cow") &&
     isWearableActive({ name: "Infernal Bullwhip", game })
   ) {
-    baseFoodQuantity *= 0.5;
+    baseFoodQuantity = baseFoodQuantity.mul(0.5);
     boostsUsed.push({ name: "Infernal Bullwhip", value: "x0.5" });
   }
 
   if (game.bumpkin.skills["Efficient Feeding"]) {
-    baseFoodQuantity *= 0.95;
+    baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Efficient Feeding", value: "x0.95" });
   }
 
   if (game.bumpkin.skills["Clucky Grazing"]) {
     if (animalType === "Chicken") {
-      baseFoodQuantity *= 0.75;
+      baseFoodQuantity = baseFoodQuantity.mul(0.75);
       boostsUsed.push({ name: "Clucky Grazing", value: "x0.75" });
     } else {
-      baseFoodQuantity *= 1.5;
+      baseFoodQuantity = baseFoodQuantity.mul(1.5);
       boostsUsed.push({ name: "Clucky Grazing", value: "x1.5" });
     }
   }
 
   if (game.bumpkin.skills["Sheepwise Diet"]) {
     if (animalType === "Sheep") {
-      baseFoodQuantity *= 0.75;
+      baseFoodQuantity = baseFoodQuantity.mul(0.75);
       boostsUsed.push({ name: "Sheepwise Diet", value: "x0.75" });
     } else {
-      baseFoodQuantity *= 1.5;
+      baseFoodQuantity = baseFoodQuantity.mul(1.5);
       boostsUsed.push({ name: "Sheepwise Diet", value: "x1.5" });
     }
   }
 
   if (game.bumpkin.skills["Cow-Smart Nutrition"]) {
     if (animalType === "Cow") {
-      baseFoodQuantity *= 0.75;
+      baseFoodQuantity = baseFoodQuantity.mul(0.75);
       boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x0.75" });
     } else {
-      baseFoodQuantity *= 1.5;
+      baseFoodQuantity = baseFoodQuantity.mul(1.5);
       boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x1.5" });
     }
   }
 
   if (game.bumpkin.skills["Chonky Feed"]) {
-    baseFoodQuantity *= 1.5;
+    baseFoodQuantity = baseFoodQuantity.mul(1.5);
     boostsUsed.push({ name: "Chonky Feed", value: "x1.5" });
   }
 
@@ -576,7 +578,7 @@ export function getBoostedFoodQuantity({
     (animalType === "Sheep" || animalType === "Cow") &&
     isTemporaryCollectibleActive({ name: "Collie Shrine", game })
   ) {
-    baseFoodQuantity *= 0.95;
+    baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Collie Shrine", value: "x0.95" });
   }
 
@@ -584,8 +586,13 @@ export function getBoostedFoodQuantity({
     animalType === "Chicken" &&
     isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
   ) {
-    baseFoodQuantity *= 0.95;
+    baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.95" });
+  }
+
+  if (animal?.feedBuff?.name === "Honey Treat") {
+    baseFoodQuantity = baseFoodQuantity.mul(0.75);
+    boostsUsed.push({ name: "Honey Treat", value: "x0.25" });
   }
 
   return { foodQuantity: baseFoodQuantity, boostsUsed };

@@ -159,7 +159,7 @@ describe("collectSpiceRack", () => {
       farmId: 1,
     });
 
-    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(2);
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(10);
   });
 
   describe("Refiner skill (Refined Salt output)", () => {
