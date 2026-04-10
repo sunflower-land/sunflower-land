@@ -3305,8 +3305,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
   },
-  "Sea Blessed": {
-    name: "Sea Blessed",
+  Bacalhau: {
+    name: "Bacalhau",
     tree: "Aging",
     disabled: false,
     requirements: {
@@ -3316,10 +3316,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.seaBlessed"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS["Salt"].image,
+        shortDescription: translate("skill.bacalhau"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: baits,
       },
     },
   },
@@ -3360,8 +3360,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
   },
-  Bacalhau: {
-    name: "Bacalhau",
+  "Sea Blessed": {
+    name: "Sea Blessed",
     tree: "Aging",
     disabled: false,
     requirements: {
@@ -3371,10 +3371,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.bacalhau"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: baits,
+        shortDescription: translate("skill.seaBlessed"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
   },

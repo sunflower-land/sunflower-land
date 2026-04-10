@@ -80,7 +80,7 @@ export function getToolPrice(
   }
 
   if (bumpkin.skills["Cheap Rakes"] && name === "Salt Rake") {
-    price = price * 0.85;
+    price = price * 0.8;
   }
 
   // Return the price for the amount of tools
