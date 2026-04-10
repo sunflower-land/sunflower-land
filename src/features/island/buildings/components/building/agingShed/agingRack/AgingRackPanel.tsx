@@ -66,13 +66,8 @@ export const AgingRackPanel: React.FC = () => {
   const readySlots = queue.filter((slot) => slot.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readySlots.length > 0;
 
-  const firstEmptySlotIndex = Math.min(queue.length, Math.max(0, maxSlots - 1));
-  const effectiveSlotIndex = useMemo(() => {
-    const base = selectedSlotIndex ?? firstEmptySlotIndex;
-    return Math.min(Math.max(base, 0), Math.max(0, maxSlots - 1));
-  }, [selectedSlotIndex, firstEmptySlotIndex, maxSlots]);
-
-  const selectedSlot = queue[effectiveSlotIndex];
+  const selectedSlot =
+    selectedSlotIndex !== null ? queue[selectedSlotIndex] : undefined;
 
   const skills = state.bumpkin.skills;
   const fishCost = getBoostedAgingFishCost(skills);
@@ -162,7 +157,7 @@ export const AgingRackPanel: React.FC = () => {
               const percentage =
                 totalDuration > 0 ? (elapsed / totalDuration) * 100 : 100;
               const remainingSec = Math.max(0, (slot.readyAt - now) / 1000);
-              const isSelected = effectiveSlotIndex === index;
+              const isSelected = selectedSlotIndex === index;
 
               return (
                 <Box
@@ -171,7 +166,11 @@ export const AgingRackPanel: React.FC = () => {
                   disabled={false}
                   hideCount
                   isSelected={isSelected}
-                  onClick={() => setSelectedSlotIndex(index)}
+                  onClick={() =>
+                    setSelectedSlotIndex((current) =>
+                      current === index ? null : index,
+                    )
+                  }
                   progress={{
                     percentage,
                     type: "progress",
@@ -194,8 +193,12 @@ export const AgingRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={effectiveSlotIndex === index}
-                  onClick={() => setSelectedSlotIndex(index)}
+                  isSelected={selectedSlotIndex === index}
+                  onClick={() =>
+                    setSelectedSlotIndex((current) =>
+                      current === index ? null : index,
+                    )
+                  }
                 >
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>

@@ -106,14 +106,8 @@ export const SpiceRackPanel: React.FC = () => {
   const readyJobs = queue.filter((job) => job.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readyJobs.length > 0;
 
-  const firstEmptySlotIndex = Math.min(queue.length, Math.max(0, maxSlots - 1));
-
-  const effectiveSlotIndex = useMemo(() => {
-    const base = selectedSlotIndex ?? firstEmptySlotIndex;
-    return Math.min(Math.max(base, 0), Math.max(0, maxSlots - 1));
-  }, [selectedSlotIndex, firstEmptySlotIndex, maxSlots]);
-
-  const selectedJob = queue[effectiveSlotIndex];
+  const selectedJob =
+    selectedSlotIndex !== null ? queue[selectedSlotIndex] : undefined;
 
   const handleRecipeSelect = (recipeId: SpiceRackRecipeName) => {
     setStartError(undefined);
@@ -197,8 +191,12 @@ export const SpiceRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={effectiveSlotIndex === index}
-                    onClick={() => setSelectedSlotIndex(index)}
+                    isSelected={selectedSlotIndex === index}
+                    onClick={() =>
+                      setSelectedSlotIndex((current) =>
+                        current === index ? null : index,
+                      )
+                    }
                   />
                   <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
                     {ready
@@ -220,8 +218,12 @@ export const SpiceRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={effectiveSlotIndex === index}
-                  onClick={() => setSelectedSlotIndex(index)}
+                  isSelected={selectedSlotIndex === index}
+                  onClick={() =>
+                    setSelectedSlotIndex((current) =>
+                      current === index ? null : index,
+                    )
+                  }
                 >
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>

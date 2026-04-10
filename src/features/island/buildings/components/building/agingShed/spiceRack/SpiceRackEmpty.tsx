@@ -10,7 +10,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
 import {
   getSpiceRackRecipe,
-  getMaxSpiceRackSlots,
   SPICE_RACK_RECIPE_IDS,
   type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
@@ -77,17 +76,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
         | [])
     : [];
 
-  const slotsFull =
-    gameState.agingShed.racks.spice.length >=
-    getMaxSpiceRackSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
 
   const canShowRequirements =
-    !!selectedRecipeId &&
-    !!recipeDef &&
-    shedPlaced &&
-    !slotsFull &&
-    !isVisiting;
+    !!selectedRecipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity = selectedRecipeId
     ? recipeDef?.outputs[selectedRecipeId]
@@ -181,11 +173,13 @@ export const SpiceRackEmpty: React.FC<Props> = ({
             </div>
           )}
 
-          {canShowRequirements && getRefinedSaltChance(skills) > 0 && (
-            <Label type="vibrant" className="text-xxs mx-2 mb-1">
-              {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
-            </Label>
-          )}
+          {canShowRequirements &&
+            selectedRecipeId === "Refined Salt" &&
+            getRefinedSaltChance(skills) > 0 && (
+              <Label type="vibrant" className="text-xxs mx-2 mb-1">
+                {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+              </Label>
+            )}
         </InnerPanel>
       )}
 
