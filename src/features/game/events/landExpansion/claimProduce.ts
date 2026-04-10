@@ -4,9 +4,8 @@ import {
   ANIMAL_RESOURCE_DROP,
   ANIMALS,
   AnimalType,
-  isMutantAnimalChapterName,
 } from "features/game/types/animals";
-import { BoostName, GameState, MutantAnimal } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
   getBoostedAwakeAt,
@@ -16,10 +15,6 @@ import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { getCurrentChapter } from "features/game/types/chapters";
-import { CHAPTER_MUTANTS } from "features/game/types/chapterMutants";
-import { randomInt } from "lib/utils/random";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -32,82 +27,6 @@ type Options = {
   action: ClaimProduceAction;
   createdAt?: number;
 };
-
-export const MUTANT_ANIMAL_CHANCE_DIVIDEND = 5000;
-
-export const getMutantAnimalChanceDividend = (
-  animalType: AnimalType,
-  animalLevel: number,
-  game: GameState,
-): { multiplier: number; boostsUsed: BoostName[] } => {
-  const isChicken = animalType === "Chicken";
-  const { inventory, bumpkin } = game;
-
-  const baseChance = MUTANT_ANIMAL_CHANCE_DIVIDEND - (animalLevel - 1) * 150;
-  let multiplier = 1;
-  const boostsUsed: BoostName[] = [];
-
-  if (isChicken && isCollectibleBuilt({ name: "Rooster", game })) {
-    multiplier -= 0.5;
-    boostsUsed.push("Rooster");
-  }
-
-  if (inventory["Barn Manager"]?.gt(0)) {
-    multiplier -= 0.1;
-    boostsUsed.push("Barn Manager");
-  }
-  if (inventory["Wrangler"]?.gt(0)) {
-    multiplier -= 0.1;
-    boostsUsed.push("Wrangler");
-  }
-
-  return { multiplier: Math.floor(baseChance * multiplier), boostsUsed };
-};
-
-export function getMutantAnimalReward(
-  animalType: AnimalType,
-  animalLevel: number,
-  game: GameState,
-  createdAt: number,
-  options?: { honeyTreat?: boolean },
-): {
-  reward: MutantAnimal | undefined;
-  boostsUsed: { name: BoostName; value: string }[];
-} {
-  const chapter = getCurrentChapter(createdAt);
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  if (!isMutantAnimalChapterName(chapter)) {
-    return { reward: undefined, boostsUsed };
-  }
-
-  const { multiplier: dividend, boostsUsed: dividendBoosts } =
-    getMutantAnimalChanceDividend(animalType, animalLevel, game);
-
-  let rollDividend = dividend;
-  const rollBoosts: { name: BoostName; value: string }[] = dividendBoosts.map(
-    (name) => ({ name, value: "" }),
-  );
-  if (options?.honeyTreat) {
-    rollDividend = Math.max(2, Math.floor(dividend / 2));
-    rollBoosts.push({ name: "Honey Treat", value: "2× mutant chance" });
-  }
-
-  const random = randomInt(0, rollDividend);
-  const isChapterMutant = random === 0;
-
-  if (isChapterMutant) {
-    const reward = CHAPTER_MUTANTS[chapter][animalType];
-    if (reward) {
-      return {
-        reward: reward as MutantAnimal,
-        boostsUsed: rollBoosts,
-      };
-    }
-  }
-
-  return { reward: undefined, boostsUsed: rollBoosts };
-}
 
 export function claimProduce({
   state,
@@ -137,8 +56,6 @@ export function claimProduce({
 
     const level = getAnimalLevel(animal.experience, action.animal);
 
-    const saltLickActive = animal.feedBuff?.name === "Salt Lick";
-
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
         resource
@@ -151,12 +68,8 @@ export function claimProduce({
         multiplier: animal.multiplier ?? 0,
       });
 
-      let amountToAdd = new Decimal(boostedAmount ?? 0);
+      const amountToAdd = new Decimal(boostedAmount ?? 0);
       const resourceBoosts = [...boostsUsed];
-      if (saltLickActive) {
-        amountToAdd = amountToAdd.mul(1.05);
-        resourceBoosts.push({ name: "Salt Lick", value: "×1.05" });
-      }
 
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
@@ -186,17 +99,6 @@ export function claimProduce({
       delete animal.reward;
     }
 
-    const { reward: mutantAnimal, boostsUsed: mutantAnimalBoostsUsed } =
-      getMutantAnimalReward(action.animal, level, copy, createdAt, {
-        honeyTreat: animal.feedBuff?.name === "Honey Treat",
-      });
-
-    if (mutantAnimal) {
-      animal.reward = {
-        items: [{ name: mutantAnimal, amount: 1 }],
-      };
-    }
-
     animal.asleepAt = createdAt;
     const { awakeAt, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
@@ -212,16 +114,11 @@ export function claimProduce({
     animal.state = "idle";
     animal.multiplier = 1;
 
-    copy.boostsUsedAt = updateBoostUsed({
-      game: copy,
-      boostNames: mutantAnimalBoostsUsed,
-      createdAt,
-    });
-
     if (animal.feedBuff) {
       animal.feedBuff.harvestsRemaining -= 1;
       if (animal.feedBuff.harvestsRemaining <= 0) {
         delete animal.feedBuff;
+        animal.multiplier = 1;
       }
     }
 

@@ -104,6 +104,8 @@ export function applyAnimalFeedBuff({
       harvestsRemaining: 3,
     };
 
+    animal.multiplier = 1.05;
+
     return copy;
   });
 }
