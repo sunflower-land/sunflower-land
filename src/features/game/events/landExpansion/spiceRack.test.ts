@@ -11,7 +11,7 @@ describe("isSpiceRackRecipeName", () => {
 
   it("accepts real recipe ids", () => {
     expect(isSpiceRackRecipeName("Refined Salt")).toBe(true);
-    expect(isSpiceRackRecipeName("Spiced Cheese")).toBe(true);
+    expect(isSpiceRackRecipeName("Spice Base")).toBe(true);
   });
 
   it("rejects unknown strings", () => {

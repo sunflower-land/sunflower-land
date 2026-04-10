@@ -45,17 +45,7 @@ const SPICE_RACK_RECIPES_STATIC = {
       Pepper: new Decimal(100),
     },
     outputs: {
-      "Spice Base": new Decimal(1),
-    },
-  },
-  "Spiced Cheese": {
-    durationSeconds: 60 * 60,
-    ingredients: {
-      "Spice Base": new Decimal(1),
-      Cheese: new Decimal(1),
-    },
-    outputs: {
-      "Spiced Cheese": new Decimal(1),
+      "Spice Base": new Decimal(5),
     },
   },
 } as const satisfies Record<string, SpiceRackRecipeDefinition>;
