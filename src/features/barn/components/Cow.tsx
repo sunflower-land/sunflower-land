@@ -526,7 +526,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
+              quantity={
+                idle && !hasGoldenCow ? requiredFoodQty.toNumber() : undefined
+              }
             />
           )}
           <Modal

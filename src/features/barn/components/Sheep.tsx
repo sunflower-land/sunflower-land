@@ -493,7 +493,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle && !hasGoldenSheep ? requiredFoodQty : undefined}
+              quantity={
+                idle && !hasGoldenSheep ? requiredFoodQty.toNumber() : undefined
+              }
             />
           )}
           <Modal
