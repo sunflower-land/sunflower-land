@@ -80,7 +80,7 @@ export const SaltSculpture: React.FC = () => {
           <div className="flex flex-col gap-2 p-1">
             <div className="flex items-center gap-2">
               <Label type="default" icon={ITEM_DETAILS["Salt Sculpture"].image}>
-                {`${t("saltSculpture.title")} ${t("lvl")} ${currentLevel}}`}
+                {`${t("saltSculpture.title")} ${t("lvl")} ${currentLevel}`}
               </Label>
             </div>
 
