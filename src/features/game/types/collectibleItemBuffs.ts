@@ -350,22 +350,22 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Sproutroot Surprise": () => [
     {
       shortDescription: translate("description.sproutroot.surprise.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "success",
+      boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
     {
       shortDescription: translate("description.sproutroot.surprise.boost.2"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
   "Turbofruit Mix": () => [
     {
       shortDescription: translate("description.turbofruit.mix.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
     },
   ],
