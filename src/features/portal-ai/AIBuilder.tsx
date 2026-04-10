@@ -154,15 +154,17 @@ export const AIBuilder: React.FC = () => {
     null,
   );
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"builder" | "assets">("builder");
+  const [activeTab, setActiveTab] = useState<"builder" | "assets" | "sdk">(
+    "builder",
+  );
   const [assetSearch, setAssetSearch] = useState("");
   const [assetCategory, setAssetCategory] = useState<string>("all");
   const [assetEntries, setAssetEntries] = useState<AssetEntry[]>([]);
   const [copiedRef, setCopiedRef] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [mobileDrawerTab, setMobileDrawerTab] = useState<"tools" | "assets">(
-    "tools",
-  );
+  const [mobileDrawerTab, setMobileDrawerTab] = useState<
+    "tools" | "assets" | "sdk"
+  >("tools");
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">(
     "desktop",
   );
@@ -929,6 +931,57 @@ export const AIBuilder: React.FC = () => {
     </div>
   );
 
+  // SDK methods reference
+  const sdkMethods = [
+    {
+      name: "startAttempt()",
+      description:
+        "Starts a minigame attempt. Call when the player begins playing.",
+    },
+    {
+      name: "submitScore(score)",
+      description:
+        "Submits a score for the minigame attempt. Pass a number as the score.",
+    },
+  ];
+
+  const sdkContent = (
+    <div className="flex flex-col gap-2 mt-1">
+      <p className="text-xs" style={{ color: "#555" }}>
+        {"Use "}
+        <code className="bg-brown-100 px-1 rounded">
+          {"createSunflowerSDK()"}
+        </code>
+        {" to create an SDK instance."}
+      </p>
+      {sdkMethods.map((method) => {
+        const code = `sdk.${method.name}`;
+        return (
+          <div
+            key={method.name}
+            className="text-xs bg-brown-100 px-2 py-1.5 rounded cursor-pointer hover:bg-brown-200"
+            onClick={() => {
+              navigator.clipboard.writeText(code).then(() => {
+                setCopiedRef(code);
+                setTimeout(() => setCopiedRef(null), 1500);
+              });
+            }}
+          >
+            <div className="flex justify-between items-center">
+              <code className="font-semibold">{code}</code>
+              <span className="text-[10px] flex-shrink-0 ml-2">
+                {copiedRef === code ? "Copied!" : "Copy"}
+              </span>
+            </div>
+            <p className="mt-0.5" style={{ color: "#555" }}>
+              {method.description}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   // Shared example prompts panel content
   const examplePromptsContent = (
     <div className="flex flex-wrap gap-1 mt-1">
@@ -1078,6 +1131,16 @@ export const AIBuilder: React.FC = () => {
               >
                 {"Assets"}
               </span>
+              <span
+                className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                  activeTab === "sdk"
+                    ? "bg-brown-200 font-semibold"
+                    : "bg-brown-100 hover:bg-brown-200"
+                }`}
+                onClick={() => setActiveTab("sdk")}
+              >
+                {"SDK"}
+              </span>
             </div>
 
             {/* Tab content */}
@@ -1099,10 +1162,15 @@ export const AIBuilder: React.FC = () => {
                   {versionsContent}
                 </InnerPanel>
               </>
-            ) : (
+            ) : activeTab === "assets" ? (
               <InnerPanel className="flex flex-col gap-2 p-2">
                 <Label type="default">{"Asset Directory"}</Label>
                 {assetDirectoryContent}
+              </InnerPanel>
+            ) : (
+              <InnerPanel className="flex flex-col gap-2 p-2">
+                <Label type="default">{"SDK Methods"}</Label>
+                {sdkContent}
               </InnerPanel>
             )}
           </div>
@@ -1247,6 +1315,16 @@ export const AIBuilder: React.FC = () => {
                       >
                         {"Assets"}
                       </span>
+                      <span
+                        className={`text-xs px-3 py-1 rounded-t cursor-pointer ${
+                          mobileDrawerTab === "sdk"
+                            ? "bg-brown-200 font-semibold"
+                            : "bg-brown-100"
+                        }`}
+                        onClick={() => setMobileDrawerTab("sdk")}
+                      >
+                        {"SDK"}
+                      </span>
                     </div>
                     <button
                       className="text-xs px-2 py-1 rounded"
@@ -1270,10 +1348,15 @@ export const AIBuilder: React.FC = () => {
                         {versionsContent}
                       </div>
                     </>
-                  ) : (
+                  ) : mobileDrawerTab === "assets" ? (
                     <div>
                       <Label type="default">{"Asset Directory"}</Label>
                       {assetDirectoryContent}
+                    </div>
+                  ) : (
+                    <div>
+                      <Label type="default">{"SDK Methods"}</Label>
+                      {sdkContent}
                     </div>
                   )}
                 </InnerPanel>
