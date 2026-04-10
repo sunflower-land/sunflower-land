@@ -4,6 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -219,7 +220,9 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Macaw",
     "Squirrel",
     "Butterfly",
-    "Salt Sculpture",
+    ...(hasFeatureAccess(state, "SALT_SCULPTURE")
+      ? (["Salt Sculpture"] as const)
+      : []),
   ];
 
   return (

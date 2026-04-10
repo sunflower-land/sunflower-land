@@ -23,7 +23,16 @@ export function upgradeSaltSculpture({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const currentLevel = game.sculptures?.["Salt Sculpture"]?.level ?? 1;
+    if (!hasFeatureAccess(game, "SALT_SCULPTURE")) {
+      throw new Error("Salt Sculpture not enabled");
+    }
+
+    const sculpture = game.sculptures?.["Salt Sculpture"];
+    if (!sculpture) {
+      throw new Error("Salt Sculpture not crafted");
+    }
+
+    const currentLevel = sculpture.level;
     const nextLevel = currentLevel + 1;
 
     if (nextLevel > SALT_SCULPTURE_MAX_LEVEL) {

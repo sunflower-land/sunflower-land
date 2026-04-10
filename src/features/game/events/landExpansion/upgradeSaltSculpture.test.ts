@@ -15,6 +15,20 @@ function stateWith(overrides: Partial<GameState> = {}): GameState {
 }
 
 describe("upgradeSaltSculpture", () => {
+  it("throws when upgrading without a crafted Salt Sculpture", () => {
+    expect(() =>
+      upgradeSaltSculpture({
+        state: stateWith({
+          sculptures: undefined,
+          coins: 99999,
+          inventory: { "Refined Salt": new Decimal(99999) },
+        }),
+        action: { type: "saltSculpture.upgraded" },
+        createdAt,
+      }),
+    ).toThrow("Salt Sculpture not crafted");
+  });
+
   it("upgrades from level 1 to 2, deducts correct ingredients", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
