@@ -1995,9 +1995,6 @@ export interface GameState {
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
   agingShed: AgingShed;
-  sculptures?: Partial<
-    Record<SculptureName, { level: number; upgradedAt?: number }>
-  >;
   petHouse: PetHouseBuilding;
 
   craftingBox: {
@@ -2090,6 +2087,9 @@ export interface GameState {
     leagues?: League;
   };
   saltFarm: SaltFarm;
+  sculptures?: Partial<
+    Record<SculptureName, { level: number; upgradedAt?: number }>
+  >;
 }
 
 export type AOE = Partial<

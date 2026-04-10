@@ -8712,7 +8712,6 @@
   "saltSculpture.buff.5": "+3% Aging Rack speed",
   "saltSculpture.buff.6": "+1 max salt harvest cap per node",
   "saltSculpture.title": "Salt Sculpture",
-  "saltSculpture.level": "Level {{level}}",
   "saltSculpture.activeBuffs": "Active Buffs",
   "saltSculpture.nextLevel": "Next Level",
   "saltSculpture.maxLevel": "Max level reached",
