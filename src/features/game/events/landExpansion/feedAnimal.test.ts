@@ -2030,4 +2030,35 @@ describe("feedAnimal", () => {
 
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0));
   });
+
+  it("takes 25% less food when Honey Treat buff is active", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+              feedBuff: { name: "Honey Treat", harvestsRemaining: 3 },
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.25));
+  });
 });

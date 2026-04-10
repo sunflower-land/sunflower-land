@@ -22,14 +22,17 @@ import { RequestBubble } from "features/game/expansion/components/animals/Reques
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
   MutantAnimal,
 } from "features/game/types/game";
+import { isAnimalFeedBuffItem } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/AnimalFeedBuffBadge";
 import { Transition } from "@headlessui/react";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
@@ -133,7 +136,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cow.state]);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
@@ -314,9 +317,35 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
+    const showNoFoodPrompt = async () => {
+      setShowNoFoodSelected(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowNoFoodSelected(false);
+    };
+
     if (sick) return onSickClick();
 
     if (needsLove) return onLoveClick();
+
+    const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
+
+    if (hasBuffSelected) {
+      const buffItem = selectedItem as AnimalFeedBuffName;
+      const buffCount = inventory[buffItem] ?? new Decimal(0);
+      if (!cow.feedBuff && buffCount.gte(1)) {
+        gameService.send({
+          type: "animal.feedBuffApplied",
+          animal: "Cow",
+          id: cow.id,
+          item: buffItem,
+        });
+        playFeedAnimal();
+        return;
+      }
+
+      await showNoFoodPrompt();
+      return;
+    }
 
     if (sleeping) {
       handleShowDetails();
@@ -350,9 +379,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    setShowNoFoodSelected(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setShowNoFoodSelected(false);
+    await showNoFoodPrompt();
   };
 
   const getInfoPopoverMessage = () => {
@@ -460,8 +487,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         }}
       >
         <div className="relative w-full h-full">
+          <AnimalFeedBuffBadge feedBuff={cow.feedBuff} />
           {showDrops && (
             <ProduceDrops
+              animal={cow}
               multiplier={cow.multiplier ?? 0}
               level={level}
               animalType="Cow"
@@ -498,7 +527,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
+              quantity={
+                idle && !hasGoldenCow ? requiredFoodQty.toNumber() : undefined
+              }
             />
           )}
           <Modal

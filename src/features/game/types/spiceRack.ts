@@ -25,17 +25,17 @@ const SPICE_RACK_RECIPES_STATIC = {
       "Refined Salt": new Decimal(5),
     },
     outputs: {
-      "Salt Lick": new Decimal(1),
+      "Salt Lick": new Decimal(5),
     },
   },
   "Honey Treat": {
     durationSeconds: 60 * 60,
     ingredients: {
-      "Refined Salt": new Decimal(10),
+      "Refined Salt": new Decimal(5),
       Honey: new Decimal(5),
     },
     outputs: {
-      "Honey Treat": new Decimal(1),
+      "Honey Treat": new Decimal(5),
     },
   },
   "Spice Base": {

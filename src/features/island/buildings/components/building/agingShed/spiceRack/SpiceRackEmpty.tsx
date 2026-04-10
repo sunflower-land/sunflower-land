@@ -24,6 +24,7 @@ import { mergeBasketAndChestInventory } from "features/island/hud/components/inv
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 function getPrimaryOutputItem(
   recipeId: SpiceRackRecipeName,
@@ -88,6 +89,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     !slotsFull &&
     !isVisiting;
 
+  const recipeOutputQuantity = selectedRecipeId
+    ? recipeDef?.outputs[selectedRecipeId]
+    : undefined;
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -96,8 +101,27 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           className="text-xs mb-2 ml-1"
           icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
         >
-          {selectedRecipeId ?? t("agingShed.spice.selectRecipe")}
+          {selectedRecipeId
+            ? `${selectedRecipeId}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+            : t("agingShed.spice.selectRecipe")}
         </Label>
+        {selectedRecipeId &&
+          COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
+            skills,
+            collectibles: gameState.collectibles,
+          }).map((label) => {
+            return (
+              <Label
+                key={label.shortDescription}
+                type={label.labelType}
+                className="text-xs mb-2 ml-1"
+                secondaryIcon={label.boostedItemIcon}
+                icon={label.boostTypeIcon}
+              >
+                {label.shortDescription}
+              </Label>
+            );
+          })}
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
             const outputItem = getPrimaryOutputItem(recipeId);

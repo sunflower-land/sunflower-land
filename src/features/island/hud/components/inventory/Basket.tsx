@@ -87,6 +87,7 @@ import {
   SPICE_RACK_PRODUCTS,
   SpiceRackProductName,
 } from "features/game/types/spiceRackProducts";
+import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 
 interface Prop {
   gameState: GameState;
@@ -206,6 +207,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const craftingResources = getItems(RECIPE_CRAFTABLES);
   const animalResources = getItems(ANIMAL_RESOURCES);
   const animalFeeds = getItems(ANIMAL_FOODS);
+  const animalFeedBuffs = getItems(ANIMAL_FEED_BUFF_ITEMS);
   const processedFood = getItems(PROCESSED_RESOURCES);
   const crustaceans = getItems(CRUSTACEANS_DESCRIPTIONS);
 
@@ -378,7 +380,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Acorn"].image,
           )}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
-          {itemsSection(t("feeds"), animalFeeds, ITEM_DETAILS.Hay.image)}
+          {itemsSection(
+            t("feeds"),
+            [...animalFeeds, ...animalFeedBuffs],
+            ITEM_DETAILS.Hay.image,
+          )}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait, ...fermentedBaits],

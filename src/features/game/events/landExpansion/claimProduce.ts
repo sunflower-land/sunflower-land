@@ -66,11 +66,15 @@ export function claimProduce({
         baseAmount: baseAmount.toNumber(),
         resource,
         multiplier: animal.multiplier ?? 0,
+        animal,
       });
+
+      const amountToAdd = new Decimal(boostedAmount ?? 0);
+      const resourceBoosts = [...boostsUsed];
 
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
-      ).add(boostedAmount ?? new Decimal(0));
+      ).add(amountToAdd);
 
       copy.farmActivity = trackFarmActivity(
         `${resource} Collected`,
@@ -79,7 +83,7 @@ export function claimProduce({
 
       copy.boostsUsedAt = updateBoostUsed({
         game: copy,
-        boostNames: boostsUsed,
+        boostNames: resourceBoosts,
         createdAt,
       });
     });
@@ -109,7 +113,13 @@ export function claimProduce({
       createdAt,
     });
     animal.state = "idle";
-    animal.multiplier = 1;
+
+    if (animal.feedBuff) {
+      animal.feedBuff.harvestsRemaining -= 1;
+      if (animal.feedBuff.harvestsRemaining <= 0) {
+        delete animal.feedBuff;
+      }
+    }
 
     return copy;
   });

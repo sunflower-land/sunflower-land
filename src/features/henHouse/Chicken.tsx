@@ -23,12 +23,15 @@ import { RequestBubble } from "features/game/expansion/components/animals/Reques
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
   MutantAnimal,
 } from "features/game/types/game";
+import { isAnimalFeedBuffItem } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/AnimalFeedBuffBadge";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InfoPopover } from "features/island/common/InfoPopover";
@@ -324,9 +327,35 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
+    const showNoFoodPrompt = async () => {
+      setShowNoFoodSelected(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowNoFoodSelected(false);
+    };
+
     if (sick) return onSickClick();
 
     if (needsLove) return onLoveClick();
+
+    const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
+
+    if (hasBuffSelected) {
+      const buffItem = selectedItem as AnimalFeedBuffName;
+      const buffCount = inventory[buffItem] ?? new Decimal(0);
+      if (!chicken.feedBuff && buffCount.gte(1)) {
+        gameService.send({
+          type: "animal.feedBuffApplied",
+          animal: "Chicken",
+          id: chicken.id,
+          item: buffItem,
+        });
+        playFeedAnimal();
+        return;
+      }
+
+      await showNoFoodPrompt();
+      return;
+    }
 
     if (sleeping) {
       handleShowDetails();
@@ -360,9 +389,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    setShowNoFoodSelected(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setShowNoFoodSelected(false);
+    await showNoFoodPrompt();
   };
 
   const getInfoPopoverMessage = () => {
@@ -473,8 +500,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             height: `${PIXEL_SCALE * 19}px`,
           }}
         >
+          <AnimalFeedBuffBadge feedBuff={chicken.feedBuff} />
           {showDrops && (
             <ProduceDrops
+              animal={chicken}
               multiplier={chicken.multiplier ?? 0}
               level={level}
               animalType="Chicken"

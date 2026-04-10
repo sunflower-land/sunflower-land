@@ -29,6 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -130,6 +131,23 @@ export const FermentationRackEmpty: React.FC<Props> = ({
             ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
             : t("agingShed.fermentation.selectFermentationOutput")}
         </Label>
+        {selectedGroup?.item &&
+          COLLECTIBLE_BUFF_LABELS[selectedGroup.item]?.({
+            skills,
+            collectibles: gameState.collectibles,
+          }).map((label) => {
+            return (
+              <Label
+                key={label.shortDescription}
+                type={label.labelType}
+                className="text-xs mb-2 ml-1"
+                secondaryIcon={label.boostedItemIcon}
+                icon={label.boostTypeIcon}
+              >
+                {label.shortDescription}
+              </Label>
+            );
+          })}
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {groups.map((g) => {
             return (
