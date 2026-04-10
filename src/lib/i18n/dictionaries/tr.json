@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "Barındırılan oyununuza herhangi bir dosya türünü https://{{slug}}.[1@/ $] adresinden yükleyin. Bir klasör yükleyin — dosyalar site kökünde saklanır (seçtiğiniz klasör adı saklanmaz; içindeki alt klasörler saklanır).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Klasör yükle",
   "playerEconomyEditor.siteUpload.playGame": "Oyunu oyna",
-  "playerEconomyEditor.siteUpload.playGameLoading": "Yükleniyor..."
+  "playerEconomyEditor.siteUpload.playGameLoading": "Yükleniyor...",
+  "playerEconomyEditor.cacheInvalidate.link": "Eski önbellek? CDN'yi yenileyin.",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "Oyunda eski kod gösteriliyor mu? Önbelleği yenilemek için aşağıdan onaylayın. Bu, barındırılan ekonomi sitenizin CDN'sini temizler. Bunu dakikada sadece bir kez yapabilirsiniz.",
+  "playerEconomyEditor.cacheInvalidate.confirm": "Önbelleği yenile",
+  "playerEconomyEditor.cacheInvalidate.cancel": "İptal",
+  "playerEconomyEditor.cacheInvalidate.working": "Çalışıyor...",
+  "playerEconomyEditor.cacheInvalidate.success": "Önbellek yenileme başladı. Tüm oyunculara ulaşmak bir dakika sürebilir.",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "Lütfen önbellek yenilemeleri arasında en az bir dakika bekleyin."
 }

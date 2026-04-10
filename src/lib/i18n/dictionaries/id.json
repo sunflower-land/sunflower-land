@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "Unggah jenis file apa pun ke game yang Anda hosting di https://{{slug}}.[1@/ $]. Unggah folder — file disimpan di root situs (nama folder yang Anda pilih tidak disimpan; subfolder di dalamnya ada).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Unggah folder",
   "playerEconomyEditor.siteUpload.playGame": "Mainkan permainan",
-  "playerEconomyEditor.siteUpload.playGameLoading": "Memuat..."
+  "playerEconomyEditor.siteUpload.playGameLoading": "Memuat...",
+  "playerEconomyEditor.cacheInvalidate.link": "Cache basi? Refresh CDN.",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "Apakah kode lama ditampilkan dalam game? Konfirmasikan di bawah ini untuk menyegarkan cache. Ini menghapus CDN untuk situs ekonomi yang dihosting Anda. Anda hanya dapat melakukan ini sekali per menit.",
+  "playerEconomyEditor.cacheInvalidate.confirm": "Segarkan cache",
+  "playerEconomyEditor.cacheInvalidate.cancel": "Batalkan",
+  "playerEconomyEditor.cacheInvalidate.working": "Bekerja...",
+  "playerEconomyEditor.cacheInvalidate.success": "Penyegaran cache dimulai. Butuh waktu satu menit untuk menjangkau semua pemain.",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "Harap tunggu setidaknya satu menit antara penyegaran cache."
 }

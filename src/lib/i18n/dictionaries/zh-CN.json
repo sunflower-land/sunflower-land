@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "通过 https://{{slug}}.[1@/ $] 将任何文件类型上传到您的托管游戏。上传文件夹 — 文件存储在站点根目录下（您选择的文件夹名称不保留；其中的子文件夹保存）。",
   "playerEconomyEditor.siteUpload.uploadFolder": "上传文件夹",
   "playerEconomyEditor.siteUpload.playGame": "玩游戏",
-  "playerEconomyEditor.siteUpload.playGameLoading": "加载中..."
+  "playerEconomyEditor.siteUpload.playGameLoading": "加载中...",
+  "playerEconomyEditor.cacheInvalidate.link": "过时的缓存？刷新 CDN。",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "游戏中显示的是旧代码吗？请确认以下内容以刷新缓存。这会清除您的托管经济网站的 CDN。你每分钟只能这样做一次。",
+  "playerEconomyEditor.cacheInvalidate.confirm": "刷新缓存",
+  "playerEconomyEditor.cacheInvalidate.cancel": "取消",
+  "playerEconomyEditor.cacheInvalidate.working": "正在工作...",
+  "playerEconomyEditor.cacheInvalidate.success": "缓存刷新已开始。可能需要一分钟才能联系到所有玩家。",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "请在两次缓存刷新之间等待至少一分钟。"
 }

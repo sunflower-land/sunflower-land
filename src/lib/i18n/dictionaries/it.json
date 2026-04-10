@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "Carica qualsiasi tipo di file nel gioco ospitato all'indirizzo https://{{slug}}.[1@/ $]. Carica una cartella: i file vengono archiviati nella cartella principale del sito (il nome della cartella che scegli non viene conservato; le sottocartelle al suo interno lo sono).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Carica cartella",
   "playerEconomyEditor.siteUpload.playGame": "Gioca",
-  "playerEconomyEditor.siteUpload.playGameLoading": "Caricamento..."
+  "playerEconomyEditor.siteUpload.playGameLoading": "Caricamento...",
+  "playerEconomyEditor.cacheInvalidate.link": "Cache obsoleta? Aggiorna il CDN.",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "Il vecchio codice è visualizzato nel gioco? Conferma qui sotto per aggiornare la cache. Questo cancella il CDN del tuo sito economico ospitato. Puoi farlo solo una volta al minuto.",
+  "playerEconomyEditor.cacheInvalidate.confirm": "Aggiorna la cache",
+  "playerEconomyEditor.cacheInvalidate.cancel": "Annulla",
+  "playerEconomyEditor.cacheInvalidate.working": "Lavorando...",
+  "playerEconomyEditor.cacheInvalidate.success": "L'aggiornamento della cache è iniziato. Può volerci un minuto per raggiungere tutti i giocatori.",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "Attendi almeno un minuto tra un aggiornamento della cache e l'altro."
 }

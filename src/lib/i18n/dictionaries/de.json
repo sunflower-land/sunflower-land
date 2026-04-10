@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "Laden Sie einen beliebigen Dateityp auf https://{{slug}}.[1@/ $] in Ihr gehostetes Spiel hoch. Lade einen Ordner hoch — die Dateien werden im Stammverzeichnis der Website gespeichert (der von dir gewählte Ordnername wird nicht beibehalten, sondern die darin enthaltenen Unterordner).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Ordner hochladen",
   "playerEconomyEditor.siteUpload.playGame": "Spiel spielen",
-  "playerEconomyEditor.siteUpload.playGameLoading": "Wird geladen..."
+  "playerEconomyEditor.siteUpload.playGameLoading": "Wird geladen...",
+  "playerEconomyEditor.cacheInvalidate.link": "Veralteter Cache? Aktualisieren Sie das CDN.",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "Wird der alte Code im Spiel angezeigt? Bestätige unten, um den Cache zu aktualisieren. Dadurch wird das CDN für Ihre gehostete Economy-Site gelöscht. Sie können dies nur einmal pro Minute tun.",
+  "playerEconomyEditor.cacheInvalidate.confirm": "Cache aktualisieren",
+  "playerEconomyEditor.cacheInvalidate.cancel": "Stornieren",
+  "playerEconomyEditor.cacheInvalidate.working": "Funktioniert...",
+  "playerEconomyEditor.cacheInvalidate.success": "Die Cacheaktualisierung wurde gestartet. Es kann eine Minute dauern, bis alle Spieler erreicht sind.",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "Bitte warten Sie mindestens eine Minute zwischen den Cache-Aktualisierungen."
 }

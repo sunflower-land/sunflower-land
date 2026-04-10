@@ -8614,5 +8614,12 @@
   "playerEconomyEditor.siteUpload.hint": "Upload any file type to your hosted game at https://{{slug}}.{{host}}. Upload a folder — files are stored at the site root (the folder name you pick is not kept; subfolders inside it are).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Upload folder",
   "playerEconomyEditor.siteUpload.playGame": "Play game",
-  "playerEconomyEditor.siteUpload.playGameLoading": "Loading…"
+  "playerEconomyEditor.siteUpload.playGameLoading": "Loading…",
+  "playerEconomyEditor.cacheInvalidate.link": "Stale cache? Refresh the CDN.",
+  "playerEconomyEditor.cacheInvalidate.modalBody": "Is old code showing in the game? Confirm below to refresh the cache. This clears the CDN for your hosted economy site. You can only do this once per minute.",
+  "playerEconomyEditor.cacheInvalidate.confirm": "Refresh cache",
+  "playerEconomyEditor.cacheInvalidate.cancel": "Cancel",
+  "playerEconomyEditor.cacheInvalidate.working": "Working...",
+  "playerEconomyEditor.cacheInvalidate.success": "Cache refresh started. It can take a minute to reach all players.",
+  "playerEconomyEditor.cacheInvalidate.cooldown": "Please wait at least one minute between cache refreshes."
 }
