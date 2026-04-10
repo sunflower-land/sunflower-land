@@ -168,6 +168,7 @@ export type PlayerEconomyEditorSessionContextValue = {
   >["prepareEconomySiteUploads"];
   /** Re-fetch list row metadata (e.g. S3 `index.html` last modified) without touching the form. */
   refreshHostedSiteMetadata: () => Promise<void>;
+  submitEvent: ReturnType<typeof useEditorApi>["submitEvent"];
 };
 
 const PlayerEconomyEditorSessionContext =
@@ -317,6 +318,7 @@ export function PlayerEconomyEditorSessionProvider({
       requestItemImageUploadUrl,
       prepareEconomySiteUploads,
       refreshHostedSiteMetadata,
+      submitEvent,
     }),
     [
       state,
@@ -327,6 +329,7 @@ export function PlayerEconomyEditorSessionProvider({
       requestItemImageUploadUrl,
       prepareEconomySiteUploads,
       refreshHostedSiteMetadata,
+      submitEvent,
     ],
   );
 

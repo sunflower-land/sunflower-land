@@ -23,6 +23,7 @@ import { JsonTab } from "./tabs/JsonTab";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { usePlayerEconomyEditorSession } from "./PlayerEconomyEditorSessionContext";
+import { ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE } from "./lib/editorApi";
 import { isValidPlayerEconomySlug } from "./lib/playerEconomySlug";
 
 function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
@@ -68,6 +69,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
     setPreviewUnsavedOpen,
     commitSaveLocalAndQueueSync,
     requestItemImageUploadUrl,
+    submitEvent,
   } = usePlayerEconomyEditorSession();
 
   const form = state.form;
@@ -79,6 +81,10 @@ export const PlayerEconomyEditorForm: React.FC = () => {
   const [saveValidationError, setSaveValidationError] = useState<string | null>(
     null,
   );
+  const [cacheModalOpen, setCacheModalOpen] = useState(false);
+  const [cacheBusy, setCacheBusy] = useState(false);
+  const [cacheModalError, setCacheModalError] = useState<string | null>(null);
+  const [cacheSuccess, setCacheSuccess] = useState(false);
   const formRef = useRef(form);
 
   useEffect(() => {
@@ -141,6 +147,34 @@ export const PlayerEconomyEditorForm: React.FC = () => {
 
   const patchForm = (next: Partial<EditorFormState>) =>
     updateForm((prev) => ({ ...prev, ...next }));
+
+  const openCacheModal = () => {
+    setCacheModalError(null);
+    setCacheSuccess(false);
+    setCacheModalOpen(true);
+  };
+
+  const confirmRefreshHostedCache = async () => {
+    const slug = form.slug.trim();
+    if (!slug) return;
+    setCacheBusy(true);
+    setCacheModalError(null);
+    setCacheSuccess(false);
+    try {
+      await submitEvent({ type: "economy.invalidated", slug });
+      setCacheSuccess(true);
+    } catch (e) {
+      const msg =
+        e instanceof Error ? e.message : t("playerEconomyEditor.error.update");
+      setCacheModalError(
+        msg === ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE
+          ? t("playerEconomyEditor.cacheInvalidate.cooldown")
+          : msg,
+      );
+    } finally {
+      setCacheBusy(false);
+    }
+  };
 
   const updateItem = (index: number, next: Partial<ItemForm>) =>
     updateForm((prev) => {
@@ -359,6 +393,17 @@ export const PlayerEconomyEditorForm: React.FC = () => {
       </OuterPanel>
 
       <div className="mt-1 space-y-1">
+        {mode === "edit" && (
+          <div className="px-1">
+            <button
+              type="button"
+              className="text-[10px] underline underline-offset-2 text-amber-200/90 hover:text-amber-100 text-left bg-transparent border-0 p-0 cursor-pointer font-[inherit]"
+              onClick={openCacheModal}
+            >
+              {t("playerEconomyEditor.cacheInvalidate.link")}
+            </button>
+          </div>
+        )}
         {savedFlash && (
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-sm bg-[#286c4e]/90 border border-[#1e4d38]">
             <img
@@ -415,6 +460,47 @@ export const PlayerEconomyEditorForm: React.FC = () => {
                 onClick={confirmPreviewWithUnsavedChanges}
               >
                 {t("playerEconomyEditor.unsavedPreview.continue")}
+              </Button>
+            </div>
+          </div>
+        </Panel>
+      </Modal>
+
+      <Modal
+        show={cacheModalOpen}
+        onHide={() => !cacheBusy && setCacheModalOpen(false)}
+      >
+        <Panel>
+          <div className="p-2 space-y-3">
+            <p className="text-xs leading-relaxed">
+              {t("playerEconomyEditor.cacheInvalidate.modalBody")}
+            </p>
+            {cacheModalError && (
+              <Label type="danger" className="block text-xs">
+                {cacheModalError}
+              </Label>
+            )}
+            {cacheSuccess && (
+              <p className="text-xs text-green-300">
+                {t("playerEconomyEditor.cacheInvalidate.success")}
+              </p>
+            )}
+            <div className="flex gap-1">
+              <Button
+                className="flex-1"
+                disabled={cacheBusy}
+                onClick={() => setCacheModalOpen(false)}
+              >
+                {t("playerEconomyEditor.cacheInvalidate.cancel")}
+              </Button>
+              <Button
+                className="flex-1"
+                disabled={cacheBusy || !form.slug.trim() || cacheSuccess}
+                onClick={() => void confirmRefreshHostedCache()}
+              >
+                {cacheBusy
+                  ? t("playerEconomyEditor.cacheInvalidate.working")
+                  : t("playerEconomyEditor.cacheInvalidate.confirm")}
               </Button>
             </div>
           </div>

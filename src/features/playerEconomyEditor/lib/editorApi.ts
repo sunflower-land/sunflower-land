@@ -5,6 +5,10 @@ import {
 } from "features/minigame/lib/minigameConfigMigration";
 import type { PlayerEconomyConfigRow } from "./types";
 
+/** Returned in 400 `errorCode` when cache refresh was used within the cooldown window. */
+export const ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE =
+  "ECONOMY_INVALIDATE_COOLDOWN";
+
 /** POST /event/:farmId body.event */
 export type PlayerEconomyEditorClientEvent =
   | {
@@ -18,7 +22,8 @@ export type PlayerEconomyEditorClientEvent =
       type: "economy.prepare-upload";
       slug: string;
       files: { path: string; contentType: string }[];
-    };
+    }
+  | { type: "economy.invalidated"; slug: string };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
 export type PlayerEconomyEditorEventResult = {
@@ -123,6 +128,11 @@ export function toPlayerEconomyConfigRow(
       v === null ? null : (parseHostedSiteIndexObject(v) ?? null);
   }
 
+  const invalidatedAt =
+    typeof r.invalidatedAt === "string" && r.invalidatedAt.trim()
+      ? r.invalidatedAt.trim()
+      : undefined;
+
   return {
     slug: r.slug.trim(),
     farmId: Number(r.farmId ?? 0),
@@ -132,6 +142,7 @@ export function toPlayerEconomyConfigRow(
       typeof r.updatedAt === "string" ? r.updatedAt : new Date().toISOString(),
     config: ensurePlayerEconomyConfig(r.config),
     ...(hostedSiteIndex !== undefined ? { hostedSiteIndex } : {}),
+    ...(invalidatedAt !== undefined ? { invalidatedAt } : {}),
   };
 }
 

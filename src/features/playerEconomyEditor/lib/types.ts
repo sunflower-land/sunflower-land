@@ -15,6 +15,8 @@ export type PlayerEconomyConfigRow = {
   config: PlayerEconomyConfig;
   createdAt: string;
   updatedAt: string;
+  /** ISO time of last CDN cache refresh (`economy.invalidated`). */
+  invalidatedAt?: string;
   hostedSiteIndex?: HostedMinigameSiteIndexInfo | null;
 };
 

@@ -7,6 +7,7 @@ import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
 import type { PlayerEconomyConfigRow } from "./types";
 import {
+  ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE,
   ensurePlayerEconomyConfig,
   extractSavedEditorFromEventData,
   getPlayerEconomyEditorDataType,
@@ -196,6 +197,26 @@ export function useEditorApi() {
       if (ev.type === "playerEconomy.removed" && ev.slug) {
         mockStore = mockStore.filter((r) => r.slug !== ev.slug);
         return {};
+      }
+
+      if (ev.type === "economy.invalidated" && ev.slug) {
+        const idx = mockStore.findIndex((r) => r.slug === ev.slug.trim());
+        if (idx < 0) {
+          return {};
+        }
+        const row = mockStore[idx];
+        if (row.invalidatedAt) {
+          const prev = new Date(row.invalidatedAt).getTime();
+          if (!Number.isNaN(prev) && Date.now() - prev < 60_000) {
+            throw new Error(ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE);
+          }
+        }
+        const now = new Date().toISOString();
+        mockStore[idx] = { ...row, invalidatedAt: now, updatedAt: now };
+        return {
+          savedRow: mockStore[idx],
+          savedConfig: mockStore[idx].config,
+        };
       }
 
       return {};
