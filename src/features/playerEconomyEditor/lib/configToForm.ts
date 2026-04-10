@@ -25,6 +25,7 @@ import type {
   EditorFormState,
   ItemForm,
   MintRuleForm,
+  PurchaseForm,
 } from "./types";
 import { EMPTY_MINT_ROW } from "./types";
 
@@ -608,6 +609,28 @@ export function configToForm(
   const mainCurrencyToken =
     rawMain && tradeableItemKeys.has(rawMain) ? rawMain : "";
 
+  const rawPurchases = cfg.purchases ?? {};
+  const purchases: PurchaseForm[] = Object.entries(rawPurchases)
+    .sort(([a], [b]) => sortConfigKeys(a, b))
+    .flatMap(([id, p]) => {
+      const pp = p as { itemId?: number; amount?: number; flower?: number };
+      const itemId = Math.floor(Number(pp.itemId));
+      if (!Number.isFinite(itemId)) return [];
+      const amount = Math.floor(Number(pp.amount));
+      const flower = Math.floor(Number(pp.flower));
+      return [
+        {
+          id,
+          itemId,
+          amount: Number.isFinite(amount) && amount >= 1 ? amount : 1,
+          flower:
+            Number.isFinite(flower) && flower >= 1 && flower <= 100
+              ? flower
+              : 1,
+        },
+      ];
+    });
+
   return {
     slug,
     playUrl: cfg.playUrl ?? "",
@@ -618,5 +641,6 @@ export function configToForm(
     descriptionRules: cfg.descriptions?.rules ?? "",
     items,
     actions,
+    purchases,
   };
 }

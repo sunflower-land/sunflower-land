@@ -72,6 +72,7 @@ export async function loadMinigameDashboard(
       ...(raw.mainCurrencyToken
         ? { mainCurrencyToken: raw.mainCurrencyToken }
         : {}),
+      ...(raw.purchases ? { purchases: raw.purchases } : {}),
       ...(raw.initialBalances ? { initialBalances: raw.initialBalances } : {}),
       ...(raw.productionCollectByStartId
         ? { productionCollectByStartId: raw.productionCollectByStartId }

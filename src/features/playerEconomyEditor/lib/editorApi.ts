@@ -95,6 +95,11 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
       ? { productionCollectByStartId: base.productionCollectByStartId }
       : {}),
     ...(base.dashboard ? { dashboard: base.dashboard } : {}),
+    ...(base.purchases &&
+    typeof base.purchases === "object" &&
+    !Array.isArray(base.purchases)
+      ? { purchases: base.purchases as PlayerEconomyConfig["purchases"] }
+      : {}),
   };
 
   return migrateLegacyPlayerEconomyConfigFields(input);

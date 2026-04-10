@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import type { MinigameShopItemUi } from "./minigameDashboardTypes";
 import { canAffordShopItem } from "./canAffordShopItem";
 
@@ -21,4 +22,13 @@ export function canAttemptShopPurchase(
   return (
     canAffordShopItem(item, balances) && !isShopItemPurchaseLimitedOut(item)
   );
+}
+
+export function canAttemptFlowerPurchase(
+  flowerCost: number,
+  farmBalance: Decimal,
+): boolean {
+  const c = Math.floor(Number(flowerCost));
+  if (!Number.isFinite(c) || c < 1) return false;
+  return farmBalance.gte(c);
 }

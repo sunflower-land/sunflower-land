@@ -388,9 +388,35 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
   );
   const mct = form.mainCurrencyToken.trim();
 
+  const purchasesRecord = form.purchases.reduce(
+    (acc, row) => {
+      const pid = row.id.trim();
+      if (!pid) return acc;
+      const flower = Math.floor(Number(row.flower));
+      const amount = Math.floor(Number(row.amount));
+      const itemId = Math.floor(Number(row.itemId));
+      if (
+        !Number.isFinite(flower) ||
+        flower < 1 ||
+        flower > 100 ||
+        !Number.isFinite(amount) ||
+        amount < 1 ||
+        !Number.isFinite(itemId)
+      ) {
+        return acc;
+      }
+      acc[pid] = { flower, amount, itemId };
+      return acc;
+    },
+    {} as NonNullable<PlayerEconomyConfig["purchases"]>,
+  );
+
   const config: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(items).length ? { items } : {}),
+    ...(Object.keys(purchasesRecord).length > 0
+      ? { purchases: purchasesRecord }
+      : {}),
     descriptions: {
       title: form.descriptionTitle || undefined,
       subtitle: form.descriptionSubtitle || undefined,
