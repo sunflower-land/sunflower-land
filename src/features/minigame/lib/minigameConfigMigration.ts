@@ -123,11 +123,20 @@ export function migrateLegacyPlayerEconomyConfigFields(
   const itemsWithGeneratorInference =
     inferGeneratorFlagsFromGeneratorRecipeRules(items, actions);
 
+  const rawPurchases = input.purchases;
+  const purchases =
+    rawPurchases &&
+    typeof rawPurchases === "object" &&
+    !Array.isArray(rawPurchases)
+      ? rawPurchases
+      : undefined;
+
   const out: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(itemsWithGeneratorInference).length > 0
       ? { items: itemsWithGeneratorInference }
       : {}),
+    ...(purchases && Object.keys(purchases).length > 0 ? { purchases } : {}),
     ...(input.descriptions ? { descriptions: input.descriptions } : {}),
     ...(visualTheme ? { visualTheme } : {}),
     ...(input.playUrl ? { playUrl: input.playUrl } : {}),

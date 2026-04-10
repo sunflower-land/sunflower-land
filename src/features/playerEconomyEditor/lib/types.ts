@@ -96,6 +96,13 @@ export type ItemForm = {
 
 export type ActionType = "produce" | "shop" | "custom";
 
+export type PurchaseForm = {
+  id: string;
+  itemId: number;
+  amount: number;
+  flower: number;
+};
+
 export type ActionForm = {
   actionType: ActionType;
   id: string;
@@ -138,9 +145,10 @@ export type EditorFormState = {
   descriptionRules: string;
   items: ItemForm[];
   actions: ActionForm[];
+  purchases: PurchaseForm[];
 };
 
-export type EditorTab = "basics" | "items" | "actions" | "json";
+export type EditorTab = "basics" | "items" | "purchases" | "actions" | "json";
 
 /* ─── Empty defaults ──────────────────────────────────────────── */
 
@@ -154,6 +162,7 @@ export const EMPTY_FORM: EditorFormState = {
   descriptionRules: "",
   items: [],
   actions: [],
+  purchases: [],
 };
 
 export const EMPTY_MINT_ROW: MintRuleForm = {

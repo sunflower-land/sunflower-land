@@ -15,6 +15,19 @@ export type MinigameShopItemUi = {
   purchasesSoFar?: number;
 };
 
+/** FLOWER-priced row from `config.purchases` (main game balance, not economy tokens). */
+export type MinigameFlowerPurchaseItemUi = {
+  id: string;
+  purchaseId: string;
+  name: string;
+  description: string;
+  listImage: string;
+  flower: number;
+  economyAmount: number;
+  tokenKey: string;
+  itemId: number;
+};
+
 export type MinigameInventoryItemUi = {
   token: string;
   name: string;
@@ -30,6 +43,7 @@ export type MinigameTrophyDisplay = {
 
 export type MinigameDashboardUi = {
   headerBalanceToken: string;
+  flowerPurchaseItems: MinigameFlowerPurchaseItemUi[];
   shopItems: MinigameShopItemUi[];
   inventoryItems: MinigameInventoryItemUi[];
   inventoryShortcutTokens: string[];

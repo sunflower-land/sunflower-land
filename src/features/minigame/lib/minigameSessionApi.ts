@@ -26,6 +26,7 @@ export type MinigameSessionApiPayload = {
   visualTheme?: PlayerEconomyConfig["visualTheme"];
   playUrl?: PlayerEconomyConfig["playUrl"];
   mainCurrencyToken?: PlayerEconomyConfig["mainCurrencyToken"];
+  purchases?: PlayerEconomyConfig["purchases"];
   /** Legacy keys; merged in `migrateLegacyPlayerEconomyConfigFields` when loading the dashboard. */
   initialBalances?: Record<string, number>;
   productionCollectByStartId?: Record<string, string>;
@@ -236,4 +237,63 @@ export async function postPlayerEconomyActionedEvent(opts: {
   }
 
   return body.data;
+}
+
+export async function postEconomyPurchasedEvent(opts: {
+  farmId: number;
+  userToken: string;
+  portalId: string;
+  purchaseId: string;
+}): Promise<{ gameState?: unknown }> {
+  const base = CONFIG.API_URL;
+  if (!base) throw new Error("API_URL is not configured");
+
+  const response = await fetch(`${base}/event/${opts.farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": randomID(),
+      Authorization: `Bearer ${opts.userToken}`,
+      accept: "application/json",
+      ...((window as { "x-amz-ttl"?: string })["x-amz-ttl"]
+        ? {
+            "X-Amz-TTL": String(
+              (window as { "x-amz-ttl"?: string })["x-amz-ttl"],
+            ),
+          }
+        : {}),
+    },
+    body: JSON.stringify({
+      event: {
+        type: "economy.purchased",
+        portalId: opts.portalId,
+        purchaseId: opts.purchaseId,
+      },
+      createdAt: new Date().toISOString(),
+    }),
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
+  }
+
+  const resBody = (await response.json().catch(() => ({}))) as {
+    gameState?: unknown;
+    data?: MinigameActionApiResponse;
+    errorCode?: string;
+  };
+
+  if (response.status === 400) {
+    throw new Error(
+      typeof resBody.errorCode === "string"
+        ? resBody.errorCode
+        : ERRORS.EFFECT_SERVER_ERROR,
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+  }
+
+  return { gameState: resBody.gameState };
 }

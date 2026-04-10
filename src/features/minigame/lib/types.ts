@@ -92,6 +92,13 @@ export type PlayerEconomyDescriptions = {
 /** Persisted by the minigame editor so Rules tab cards round-trip after save/load. */
 export type PlayerEconomyEditorActionType = "shop" | "generator" | "custom";
 
+/** Spend main-game FLOWER (`GameState.balance`) to mint an economy item (`items[token]` matched by `itemId`). */
+export type PlayerEconomyPurchaseDefinition = {
+  flower: number;
+  itemId: number;
+  amount: number;
+};
+
 export type PlayerEconomyActionDefinition = {
   /**
    * Which editor rule card this action came from (`generator` = Generate).
@@ -122,6 +129,7 @@ export type PlayerEconomyActionDefinition = {
 export type PlayerEconomyConfig = {
   actions: Record<string, PlayerEconomyActionDefinition>;
   items?: Record<string, PlayerEconomyBalanceItem>;
+  purchases?: Record<string, PlayerEconomyPurchaseDefinition>;
   descriptions?: PlayerEconomyDescriptions;
   /** Optional themed shell (e.g. bookmatched backdrop). */
   visualTheme?: string;

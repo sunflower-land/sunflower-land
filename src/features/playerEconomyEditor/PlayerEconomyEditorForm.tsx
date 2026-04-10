@@ -18,6 +18,7 @@ import type {
 } from "./lib/types";
 import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
+import { PurchasesTab } from "./tabs/PurchasesTab";
 import { ActionsTab } from "./tabs/ActionsTab";
 import { JsonTab } from "./tabs/JsonTab";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
@@ -39,6 +40,7 @@ function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
       ({ imageUploading: _u, uploadError: _e, ...item }) => item,
     ),
     actions: state.actions,
+    purchases: state.purchases,
   };
 }
 
@@ -55,6 +57,7 @@ function isEditorFormDirty(
 const TAB_DEFS: { id: EditorTab; icon: string }[] = [
   { id: "basics", icon: SUNNYSIDE.icons.expression_chat },
   { id: "items", icon: SUNNYSIDE.icons.basket },
+  { id: "purchases", icon: SUNNYSIDE.icons.disc },
   { id: "actions", icon: SUNNYSIDE.icons.lightning },
   { id: "json", icon: SUNNYSIDE.icons.expand },
 ];
@@ -118,6 +121,44 @@ export const PlayerEconomyEditorForm: React.FC = () => {
     if (mode === "create" && !isValidPlayerEconomySlug(form.slug)) {
       setSaveValidationError(t("playerEconomyEditor.error.slugInvalid"));
       return;
+    }
+    const purchaseIds = new Set<string>();
+    for (const p of form.purchases) {
+      const pid = p.id.trim();
+      if (!pid) {
+        setSaveValidationError(
+          t("playerEconomyEditor.error.purchaseIdRequired"),
+        );
+        return;
+      }
+      if (purchaseIds.has(pid)) {
+        setSaveValidationError(
+          t("playerEconomyEditor.error.purchaseIdDuplicate"),
+        );
+        return;
+      }
+      purchaseIds.add(pid);
+      const flower = Math.floor(Number(p.flower));
+      if (!Number.isFinite(flower) || flower < 1 || flower > 100) {
+        setSaveValidationError(
+          t("playerEconomyEditor.error.purchaseFlowerRange"),
+        );
+        return;
+      }
+      const amount = Math.floor(Number(p.amount));
+      if (!Number.isFinite(amount) || amount < 1) {
+        setSaveValidationError(
+          t("playerEconomyEditor.error.purchaseAmountMin"),
+        );
+        return;
+      }
+      const itemOk = form.items.some((i) => !i.deleted && i.id === p.itemId);
+      if (!itemOk) {
+        setSaveValidationError(
+          t("playerEconomyEditor.error.purchaseItemMissing"),
+        );
+        return;
+      }
     }
     commitSaveLocalAndQueueSync(form);
   };
@@ -325,6 +366,13 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             onAddItem={addItem}
             onDeleteItem={deleteItem}
             onUploadImage={handleUploadImage}
+          />
+        );
+      case "purchases":
+        return (
+          <PurchasesTab
+            form={form}
+            onChangePurchases={(purchases) => patchForm({ purchases })}
           />
         );
       case "actions":

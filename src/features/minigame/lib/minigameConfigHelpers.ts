@@ -17,6 +17,7 @@ export function formatBurnRuleForDisplay(rule: BurnRule): string {
 import type {
   MinigameDashboardData,
   MinigameDashboardUi,
+  MinigameFlowerPurchaseItemUi,
   MinigameInventoryItemUi,
   MinigameShopItemUi,
   MinigameTrophyDisplay,
@@ -212,6 +213,61 @@ function isCollectOnly(def: PlayerEconomyActionDefinition): boolean {
   return Boolean(c && !m && !b && !p);
 }
 
+function tokenKeysForBalanceItemId(
+  items: PlayerEconomyConfig["items"],
+  itemId: number,
+): string[] {
+  if (!items) return [];
+  return Object.entries(items)
+    .filter(([, v]) => v.id === itemId)
+    .map(([k]) => k);
+}
+
+/**
+ * FLOWER offers from `config.purchases` (requires a unique `items[token].id` match per `itemId`).
+ */
+export function deriveFlowerPurchaseItemsFromConfig(
+  config: PlayerEconomyConfig,
+  tokenImages: Record<string, string>,
+): MinigameFlowerPurchaseItemUi[] {
+  const raw = config.purchases;
+  if (!raw || typeof raw !== "object") return [];
+  const items = config.items ?? {};
+  const out: MinigameFlowerPurchaseItemUi[] = [];
+
+  for (const [purchaseId, p] of Object.entries(raw).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const flower = Math.floor(Number(p.flower));
+    const economyAmount = Math.floor(Number(p.amount));
+    const itemId = Math.floor(Number(p.itemId));
+    if (!Number.isFinite(flower) || flower < 1 || flower > 100) continue;
+    if (!Number.isFinite(economyAmount) || economyAmount < 1) continue;
+    if (!Number.isFinite(itemId)) continue;
+
+    const keys = tokenKeysForBalanceItemId(items, itemId);
+    if (keys.length !== 1) continue;
+    const tokenKey = keys[0] as string;
+    const meta = items[tokenKey];
+    const name = meta?.name?.trim() || tokenKey;
+    const description = meta?.description?.trim() ?? "";
+
+    out.push({
+      id: purchaseId,
+      purchaseId,
+      name,
+      description,
+      listImage: resolveTokenImageUrl(tokenKey, tokenImages),
+      flower,
+      economyAmount,
+      tokenKey,
+      itemId,
+    });
+  }
+
+  return out;
+}
+
 /**
  * Derive shop rows from purchasable / claimable actions (`burn`+`mint`, `require`+`mint`, or free `mint`).
  */
@@ -332,6 +388,10 @@ function buildUi(
   const tokenImages = buildTokenImageMap(config.items);
   return {
     headerBalanceToken,
+    flowerPurchaseItems: deriveFlowerPurchaseItemsFromConfig(
+      config,
+      tokenImages,
+    ),
     shopItems: enrichShopItemsWithPurchaseProgress(
       deriveShopItemsFromConfig(config, tokenImages),
       purchaseCounts,
