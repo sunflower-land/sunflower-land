@@ -118,7 +118,6 @@ export function claimProduce({
       animal.feedBuff.harvestsRemaining -= 1;
       if (animal.feedBuff.harvestsRemaining <= 0) {
         delete animal.feedBuff;
-        animal.multiplier = 1;
       }
     }
 

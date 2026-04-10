@@ -599,7 +599,7 @@ export function getBoostedFoodQuantity({
 
   if (animal?.feedBuff?.name === "Honey Treat") {
     baseFoodQuantity = baseFoodQuantity.mul(0.75);
-    boostsUsed.push({ name: "Honey Treat", value: "x0.25" });
+    boostsUsed.push({ name: "Honey Treat", value: "x0.75" });
   }
 
   return { foodQuantity: baseFoodQuantity, boostsUsed };

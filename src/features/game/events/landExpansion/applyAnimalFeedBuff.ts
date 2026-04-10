@@ -13,13 +13,13 @@ export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
   "Honey Treat",
 ];
 
-export const APPLY_ANIMAL_FEED_BUFF_ERRORS = {
-  INVALID_ITEM: "Not an animal feed buff item",
-  NOT_ENOUGH: "Not enough items",
-  ALREADY_BUFFED: "Animal already has a feed buff",
-  SICK: "Cannot apply feed buff while animal is sick",
-  NEEDS_LOVE: "Pet your animal before using this",
-} as const;
+export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
+  INVALID_ITEM = "Not an animal feed buff item",
+  NOT_ENOUGH = "Not enough items",
+  ALREADY_BUFFED = "Animal already has a feed buff",
+  SICK = "Cannot apply feed buff while animal is sick",
+  NEEDS_LOVE = "Pet your animal before using this",
+}
 
 /** Matches `animalMachine` `isAnimalNeedsLove` (uses event time, not wall clock). */
 export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
