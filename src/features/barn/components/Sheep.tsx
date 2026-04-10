@@ -281,6 +281,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
+    const showNoFoodPrompt = async () => {
+      setShowNoFoodSelected(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowNoFoodSelected(false);
+    };
+
     if (sick) return onSickClick();
 
     if (needsLove) return onLoveClick();
@@ -289,20 +295,19 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
-      if (!sheep.feedBuff) {
-        const buffCount = inventory[buffItem] ?? new Decimal(0);
-        if (buffCount.gte(1)) {
-          gameService.send({
-            type: "animal.feedBuffApplied",
-            animal: "Sheep",
-            id: sheep.id,
-            item: buffItem,
-          });
-          playFeedAnimal();
-          return;
-        }
+      const buffCount = inventory[buffItem] ?? new Decimal(0);
+      if (!sheep.feedBuff && buffCount.gte(1)) {
+        gameService.send({
+          type: "animal.feedBuffApplied",
+          animal: "Sheep",
+          id: sheep.id,
+          item: buffItem,
+        });
+        playFeedAnimal();
+        return;
       }
-      handleShowDetails();
+
+      await showNoFoodPrompt();
       return;
     }
 
@@ -338,9 +343,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    setShowNoFoodSelected(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setShowNoFoodSelected(false);
+    await showNoFoodPrompt();
   };
 
   const getInfoPopoverMessage = () => {
@@ -410,13 +413,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     state: game,
     name: showLoveItem!,
     animal: "Sheep",
-  });
-
-  const { foodXp } = handleFoodXP({
-    state: game,
-    animal: "Sheep",
-    level,
-    food: selectedItem as AnimalFoodName,
   });
 
   return (

@@ -1,14 +1,14 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { AnimalFeedBuff } from "features/game/types/game";
+import { AnimalFeedBuff, AnimalFeedBuffName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 
 type Props = {
-  feedBuff?: AnimalFeedBuff;
+  feedBuff: AnimalFeedBuff | undefined;
 };
 
-const BUFF_ICON: Record<AnimalFeedBuff["name"], string> = {
+const BUFF_ICON: Record<AnimalFeedBuffName, string> = {
   "Salt Lick": powerup,
   "Honey Treat": SUNNYSIDE.icons.lightning,
 };
@@ -22,8 +22,8 @@ export const AnimalFeedBuffBadge: React.FC<Props> = ({ feedBuff }) => {
       className="absolute pointer-events-none z-[1]"
       style={{
         width: `${PIXEL_SCALE * 7}px`,
-        top: 0,
-        left: 0,
+        bottom: 0,
+        right: 0,
       }}
       alt={feedBuff.name}
     />
