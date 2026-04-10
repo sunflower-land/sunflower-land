@@ -323,23 +323,26 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
-    if (sleeping) {
-      if (hasBuffSelected) {
-        const buffItem = selectedItem as AnimalFeedBuffName;
-        if (!cow.feedBuff) {
-          const buffCount = inventory[buffItem] ?? new Decimal(0);
-          if (buffCount.gte(1)) {
-            gameService.send({
-              type: "animal.feedBuffApplied",
-              animal: "Cow",
-              id: cow.id,
-              item: buffItem,
-            });
-            playFeedAnimal();
-            return;
-          }
+    if (hasBuffSelected) {
+      const buffItem = selectedItem as AnimalFeedBuffName;
+      if (!cow.feedBuff) {
+        const buffCount = inventory[buffItem] ?? new Decimal(0);
+        if (buffCount.gte(1)) {
+          gameService.send({
+            type: "animal.feedBuffApplied",
+            animal: "Cow",
+            id: cow.id,
+            item: buffItem,
+          });
+          playFeedAnimal();
+          return;
         }
       }
+      handleShowDetails();
+      return;
+    }
+
+    if (sleeping) {
       handleShowDetails();
       return;
     }

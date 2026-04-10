@@ -10,14 +10,6 @@ import { GameState } from "features/game/types/game";
 describe("applyAnimalFeedBuff", () => {
   const now = Date.now();
 
-  /** Mid-nap, before love window — buff allowed while resting. */
-  const asleepEarly = {
-    asleepAt: 1_000,
-    awakeAt: 1_000 + 3_600_000,
-    createdAt: 1_150_000,
-    lovedAt: 1_000,
-  } as const;
-
   const GAME_STATE: GameState = {
     ...INITIAL_FARM,
     buildings: {
@@ -30,10 +22,10 @@ describe("applyAnimalFeedBuff", () => {
     },
   };
 
-  it("applies Salt Lick and consumes inventory when animal is asleep (not needing love)", () => {
+  it("applies Salt Lick when animal is awake and idle", () => {
     const chickenId = "c1";
     const state = applyAnimalFeedBuff({
-      createdAt: asleepEarly.createdAt,
+      createdAt: now,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -49,9 +41,9 @@ describe("applyAnimalFeedBuff", () => {
               createdAt: 0,
               state: "idle",
               experience: 0,
-              asleepAt: asleepEarly.asleepAt,
-              awakeAt: asleepEarly.awakeAt,
-              lovedAt: asleepEarly.lovedAt,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
               item: "Petting Hand",
             },
           },
@@ -72,10 +64,14 @@ describe("applyAnimalFeedBuff", () => {
     });
   });
 
-  it("applies when animal is happy and asleep", () => {
+  it("applies Salt Lick when animal is asleep", () => {
     const chickenId = "c1";
+    const asleepAt = 1_000;
+    const awakeAt = 1_000 + 3_600_000;
+    const createdAt = 1_150_000;
+
     const state = applyAnimalFeedBuff({
-      createdAt: asleepEarly.createdAt,
+      createdAt,
       state: {
         ...GAME_STATE,
         inventory: { "Salt Lick": new Decimal(1) },
@@ -88,9 +84,9 @@ describe("applyAnimalFeedBuff", () => {
               createdAt: 0,
               state: "happy",
               experience: 0,
-              asleepAt: asleepEarly.asleepAt,
-              awakeAt: asleepEarly.awakeAt,
-              lovedAt: asleepEarly.lovedAt,
+              asleepAt,
+              awakeAt,
+              lovedAt: asleepAt,
               item: "Petting Hand",
             },
           },
@@ -106,11 +102,79 @@ describe("applyAnimalFeedBuff", () => {
     expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe("Salt Lick");
   });
 
+  it("applies when animal is happy and awake", () => {
+    const chickenId = "c1";
+    const state = applyAnimalFeedBuff({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: { "Salt Lick": new Decimal(1) },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "happy",
+              experience: 0,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.feedBuffApplied",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Salt Lick",
+      },
+    });
+    expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe("Salt Lick");
+  });
+
+  it("sets multiplier to 1.05 when Salt Lick is applied", () => {
+    const chickenId = "c1";
+    const state = applyAnimalFeedBuff({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: { "Salt Lick": new Decimal(1) },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.feedBuffApplied",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Salt Lick",
+      },
+    });
+    expect(state.henHouse.animals[chickenId].multiplier).toBe(1.05);
+  });
+
   it("throws if animal is sick", () => {
     const chickenId = "c1";
     expect(() =>
       applyAnimalFeedBuff({
-        createdAt: asleepEarly.createdAt,
+        createdAt: now,
         state: {
           ...GAME_STATE,
           inventory: { "Salt Lick": new Decimal(1) },
@@ -123,8 +187,8 @@ describe("applyAnimalFeedBuff", () => {
                 createdAt: 0,
                 state: "sick",
                 experience: 0,
-                asleepAt: asleepEarly.asleepAt,
-                awakeAt: asleepEarly.awakeAt,
+                asleepAt: 0,
+                awakeAt: 0,
                 lovedAt: 0,
                 item: "Petting Hand",
               },
@@ -141,7 +205,7 @@ describe("applyAnimalFeedBuff", () => {
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.SICK);
   });
 
-  it("throws NEEDS_LOVE when asleep and love window elapsed (matches animalMachine)", () => {
+  it("throws NEEDS_LOVE when asleep and love window elapsed", () => {
     const chickenId = "c1";
     const asleepAt = 1_000;
     const awakeAt = 1_000 + 3_600_000;
@@ -196,46 +260,11 @@ describe("applyAnimalFeedBuff", () => {
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
   });
 
-  it("throws NOT_SLEEPING when animal is awake", () => {
-    const chickenId = "c1";
-    expect(() =>
-      applyAnimalFeedBuff({
-        createdAt: now,
-        state: {
-          ...GAME_STATE,
-          inventory: { "Salt Lick": new Decimal(1) },
-          henHouse: {
-            ...GAME_STATE.henHouse,
-            animals: {
-              [chickenId]: {
-                id: chickenId,
-                type: "Chicken",
-                createdAt: 0,
-                state: "happy",
-                experience: 0,
-                asleepAt: now - 100_000,
-                awakeAt: now - 50_000,
-                lovedAt: now - 100_000,
-                item: "Petting Hand",
-              },
-            },
-          },
-        },
-        action: {
-          type: "animal.feedBuffApplied",
-          animal: "Chicken",
-          id: chickenId,
-          item: "Salt Lick",
-        },
-      }),
-    ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_SLEEPING);
-  });
-
   it("throws if animal already has a feed buff", () => {
     const chickenId = "c1";
     expect(() =>
       applyAnimalFeedBuff({
-        createdAt: asleepEarly.createdAt,
+        createdAt: now,
         state: {
           ...GAME_STATE,
           inventory: { "Honey Treat": new Decimal(1) },
@@ -248,9 +277,9 @@ describe("applyAnimalFeedBuff", () => {
                 createdAt: 0,
                 state: "idle",
                 experience: 0,
-                asleepAt: asleepEarly.asleepAt,
-                awakeAt: asleepEarly.awakeAt,
-                lovedAt: asleepEarly.lovedAt,
+                asleepAt: now - 100_000,
+                awakeAt: now - 50_000,
+                lovedAt: now - 100_000,
                 item: "Petting Hand",
                 feedBuff: { name: "Salt Lick", harvestsRemaining: 2 },
               },
@@ -271,7 +300,7 @@ describe("applyAnimalFeedBuff", () => {
     const chickenId = "c1";
     expect(() =>
       applyAnimalFeedBuff({
-        createdAt: asleepEarly.createdAt,
+        createdAt: now,
         state: {
           ...GAME_STATE,
           inventory: { "Salt Lick": new Decimal(0) },
@@ -284,9 +313,9 @@ describe("applyAnimalFeedBuff", () => {
                 createdAt: 0,
                 state: "idle",
                 experience: 0,
-                asleepAt: asleepEarly.asleepAt,
-                awakeAt: asleepEarly.awakeAt,
-                lovedAt: asleepEarly.lovedAt,
+                asleepAt: now - 100_000,
+                awakeAt: now - 50_000,
+                lovedAt: now - 100_000,
                 item: "Petting Hand",
               },
             },
@@ -300,40 +329,5 @@ describe("applyAnimalFeedBuff", () => {
         },
       }),
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_ENOUGH);
-  });
-
-  it("throws NOT_SLEEPING when animal is ready (awake)", () => {
-    const chickenId = "c1";
-    expect(() =>
-      applyAnimalFeedBuff({
-        createdAt: now,
-        state: {
-          ...GAME_STATE,
-          inventory: { "Salt Lick": new Decimal(1) },
-          henHouse: {
-            ...GAME_STATE.henHouse,
-            animals: {
-              [chickenId]: {
-                id: chickenId,
-                type: "Chicken",
-                createdAt: 0,
-                state: "ready",
-                experience: 60,
-                asleepAt: 0,
-                awakeAt: 0,
-                lovedAt: 0,
-                item: "Petting Hand",
-              },
-            },
-          },
-        },
-        action: {
-          type: "animal.feedBuffApplied",
-          animal: "Chicken",
-          id: chickenId,
-          item: "Salt Lick",
-        },
-      }),
-    ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_SLEEPING);
   });
 });

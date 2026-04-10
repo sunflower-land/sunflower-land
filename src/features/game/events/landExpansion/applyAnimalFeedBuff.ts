@@ -17,7 +17,6 @@ export const APPLY_ANIMAL_FEED_BUFF_ERRORS = {
   INVALID_ITEM: "Not an animal feed buff item",
   NOT_ENOUGH: "Not enough items",
   ALREADY_BUFFED: "Animal already has a feed buff",
-  NOT_SLEEPING: "Use this while your animal is resting",
   SICK: "Cannot apply feed buff while animal is sick",
   NEEDS_LOVE: "Pet your animal before using this",
 } as const;
@@ -76,11 +75,10 @@ export function applyAnimalFeedBuff({
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.SICK);
     }
 
-    if (!isAnimalAsleep(animal, createdAt)) {
-      throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_SLEEPING);
-    }
-
-    if (isAnimalNeedingLove(animal, createdAt)) {
+    if (
+      isAnimalAsleep(animal, createdAt) &&
+      isAnimalNeedingLove(animal, createdAt)
+    ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
     }
 
