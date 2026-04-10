@@ -372,8 +372,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Greenhouse Glow": () => [
     {
       shortDescription: translate("description.greenhouse.glow.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
     },
   ],
