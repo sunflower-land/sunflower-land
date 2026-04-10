@@ -136,40 +136,6 @@ describe("applyAnimalFeedBuff", () => {
     expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe("Salt Lick");
   });
 
-  it("sets multiplier to 1.05 when Salt Lick is applied", () => {
-    const chickenId = "c1";
-    const state = applyAnimalFeedBuff({
-      createdAt: now,
-      state: {
-        ...GAME_STATE,
-        inventory: { "Salt Lick": new Decimal(1) },
-        henHouse: {
-          ...GAME_STATE.henHouse,
-          animals: {
-            [chickenId]: {
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 0,
-              asleepAt: now - 100_000,
-              awakeAt: now - 50_000,
-              lovedAt: now - 100_000,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.feedBuffApplied",
-        animal: "Chicken",
-        id: chickenId,
-        item: "Salt Lick",
-      },
-    });
-    expect(state.henHouse.animals[chickenId].multiplier).toBe(1.05);
-  });
-
   it("throws if animal is sick", () => {
     const chickenId = "c1";
     expect(() =>

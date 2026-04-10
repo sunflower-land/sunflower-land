@@ -137,6 +137,7 @@ export type ResourceDropAmountArgs = {
   resource: AnimalResource;
   baseAmount: number;
   multiplier: number;
+  animal: Animal;
 };
 
 function getEggYieldBoosts(game: GameState): {
@@ -369,6 +370,7 @@ export function getResourceDropAmount({
   resource,
   baseAmount,
   multiplier,
+  animal,
 }: ResourceDropAmountArgs): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -477,6 +479,11 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
   if (multiplier) amount *= multiplier;
+
+  if (animal.feedBuff?.name === "Salt Lick") {
+    amount *= 1.05;
+    boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
+  }
 
   return { amount: Number(amount.toFixed(2)), boostsUsed };
 }

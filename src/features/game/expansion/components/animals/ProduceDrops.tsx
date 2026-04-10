@@ -1,5 +1,9 @@
 import React, { useContext } from "react";
-import { AnimalResource, InventoryItemName } from "features/game/types/game";
+import {
+  Animal,
+  AnimalResource,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ANIMAL_RESOURCE_DROP,
@@ -17,6 +21,7 @@ interface Props {
   level: AnimalLevel;
   multiplier: number;
   className?: string;
+  animal: Animal;
 }
 
 const _game = (state: MachineState) => state.context.state;
@@ -26,6 +31,7 @@ export const ProduceDrops: React.FC<Props> = ({
   animalType,
   multiplier,
   className,
+  animal,
 }) => {
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _game);
@@ -42,6 +48,7 @@ export const ProduceDrops: React.FC<Props> = ({
           baseAmount: amount.toNumber(),
           resource: item as AnimalResource,
           multiplier,
+          animal,
         });
 
         return (

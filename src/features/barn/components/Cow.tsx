@@ -490,6 +490,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           <AnimalFeedBuffBadge feedBuff={cow.feedBuff} />
           {showDrops && (
             <ProduceDrops
+              animal={cow}
               multiplier={cow.multiplier ?? 0}
               level={level}
               animalType="Cow"

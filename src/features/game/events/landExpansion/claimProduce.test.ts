@@ -127,7 +127,6 @@ describe("claimProduce", () => {
               lovedAt: 0,
               item: "Petting Hand",
               feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
-              multiplier: 1.05,
             },
           },
         },

@@ -66,6 +66,7 @@ export function claimProduce({
         baseAmount: baseAmount.toNumber(),
         resource,
         multiplier: animal.multiplier ?? 0,
+        animal,
       });
 
       const amountToAdd = new Decimal(boostedAmount ?? 0);
@@ -112,7 +113,6 @@ export function claimProduce({
       createdAt,
     });
     animal.state = "idle";
-    animal.multiplier = 1;
 
     if (animal.feedBuff) {
       animal.feedBuff.harvestsRemaining -= 1;
