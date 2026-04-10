@@ -357,7 +357,14 @@ export const PlayerEconomyEditorForm: React.FC = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "basics":
-        return <BasicsTab form={form} mode={mode} onChange={patchForm} />;
+        return (
+          <BasicsTab
+            form={form}
+            mode={mode}
+            onChange={patchForm}
+            onOpenCacheInvalidate={openCacheModal}
+          />
+        );
       case "items":
         return (
           <ItemsTab
@@ -441,17 +448,6 @@ export const PlayerEconomyEditorForm: React.FC = () => {
       </OuterPanel>
 
       <div className="mt-1 space-y-1">
-        {mode === "edit" && (
-          <div className="px-1">
-            <button
-              type="button"
-              className="text-[10px] underline underline-offset-2 text-amber-200/90 hover:text-amber-100 text-left bg-transparent border-0 p-0 cursor-pointer font-[inherit]"
-              onClick={openCacheModal}
-            >
-              {t("playerEconomyEditor.cacheInvalidate.link")}
-            </button>
-          </div>
-        )}
         {savedFlash && (
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-sm bg-[#286c4e]/90 border border-[#1e4d38]">
             <img

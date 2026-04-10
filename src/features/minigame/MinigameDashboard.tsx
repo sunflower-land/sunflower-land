@@ -51,6 +51,7 @@ import { MinigameTrophyDetailModal } from "./components/MinigameTrophyDetailModa
 import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
 import { hasFeatureAccess } from "lib/flags";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
+import { MinigameHighscoreWidget } from "./components/MinigameHighscoreWidget";
 import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -599,6 +600,9 @@ export const MinigameDashboard: React.FC = () => {
   const marketPick = getPrimaryTradableMarketplaceItem(payload.config);
   /** Adventure iframe is always `https://{slug}.economies.sunflower-land.com`. */
   const hasCustomAdventureLink = true;
+  const playerHighscore =
+    gameState.context.state.minigames?.games?.[payload.portalName]?.highscore ??
+    0;
 
   return (
     <div
@@ -679,17 +683,23 @@ export const MinigameDashboard: React.FC = () => {
                   tokenImages={tokenImages}
                 />
               )}
+              <MinigameHighscoreWidget highscore={playerHighscore} />
             </div>
           )}
 
           <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden gap-2">
               <MinigameTrophySection
                 config={payload.config}
                 balances={runtime.balances}
                 tokenImages={tokenImages}
                 onSelectTrophy={setTrophyDetailToken}
               />
+              {!hasShop && (
+                <div className="hidden shrink-0 self-start md:block w-full max-w-[min(42vw,220px)]">
+                  <MinigameHighscoreWidget highscore={playerHighscore} />
+                </div>
+              )}
             </div>
 
             <div className="shrink-0 pr-0.5 pt-0.5 md:pr-1 md:pt-1">
@@ -702,6 +712,12 @@ export const MinigameDashboard: React.FC = () => {
                 onOpenShop={hasShop ? openMobileShopList : undefined}
               />
             </div>
+          </div>
+        </div>
+
+        <div className="flex shrink-0 justify-start px-2 pb-1 md:hidden">
+          <div className="w-full max-w-[min(42vw,220px)]">
+            <MinigameHighscoreWidget highscore={playerHighscore} />
           </div>
         </div>
 

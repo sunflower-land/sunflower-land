@@ -8,7 +8,6 @@ import React, {
 import { InnerPanel } from "components/ui/Panel";
 import { TextInput } from "components/ui/TextInput";
 import { Dropdown } from "components/ui/Dropdown";
-import Switch from "components/ui/Switch";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { EditorFormState } from "../lib/types";
 import { SectionHeader } from "../components/SectionHeader";
@@ -32,7 +31,8 @@ export const BasicsTab: React.FC<{
   form: EditorFormState;
   mode: "create" | "edit";
   onChange: (next: Partial<EditorFormState>) => void;
-}> = ({ form, mode, onChange }) => {
+  onOpenCacheInvalidate: () => void;
+}> = ({ form, mode, onChange, onOpenCacheInvalidate }) => {
   const { t } = useAppTranslation();
   const { state: editorSession, refreshHostedSiteMetadata } =
     usePlayerEconomyEditorSession();
@@ -77,12 +77,6 @@ export const BasicsTab: React.FC<{
       : form.mainCurrencyToken.trim();
 
   const slugTrim = form.slug.trim();
-  const canonicalPlayUrl = slugTrim
-    ? canonicalHostedMinigamePlayUrl(slugTrim)
-    : "";
-  const hostedMinigamesEnabled =
-    Boolean(canonicalPlayUrl) && form.playUrl.trim() === canonicalPlayUrl;
-
   const hostedSiteIndexKey = useMemo(() => {
     const h = editorSession.hostedSiteIndex;
     if (!h) return "";
@@ -119,14 +113,13 @@ export const BasicsTab: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sync hosted URL to slug; onChange is stable enough via parent updateForm
   }, [slugTrim, form.playUrl]);
 
-  const onToggleHostedMinigames = () => {
-    if (hostedMinigamesEnabled) {
-      onChange({ playUrl: "" });
-      return;
-    }
+  /** Hosted adventure URL: set canonical when slug exists and play URL is still empty. */
+  useEffect(() => {
     if (!slugTrim) return;
+    if (form.playUrl.trim() !== "") return;
     onChange({ playUrl: canonicalHostedMinigamePlayUrl(slugTrim) });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only fill default when slug set and playUrl empty
+  }, [slugTrim]);
 
   const handlePlayGame = useCallback(async () => {
     setPlayGameError(null);
@@ -172,9 +165,6 @@ export const BasicsTab: React.FC<{
     }
   }, [farmId, sessionToken, slugTrim, t]);
 
-  const showHostedMinigameBlock =
-    hostedMinigamesEnabled || Boolean(editorSession.hostedSiteIndex);
-
   return (
     <div className="space-y-3">
       {/* Game Identity */}
@@ -217,33 +207,19 @@ export const BasicsTab: React.FC<{
           </FieldRow>
         ) : null}
         <div className="space-y-2 w-full">
-          <Switch
-            checked={hostedMinigamesEnabled}
-            onChange={onToggleHostedMinigames}
-            disabled={!slugTrim && !hostedMinigamesEnabled}
-            label={t("playerEconomyEditor.basics.customMinigamesSupported")}
+          <p className="text-xs text-amber-100/75 leading-snug ml-1">
+            {t("playerEconomyEditor.basics.customMinigamesDeployHint")}
+          </p>
+          <EconomySiteFilesUpload
+            slug={form.slug}
+            mode={mode}
+            hostedSiteIndex={editorSession.hostedSiteIndex}
+            onOpenCacheInvalidate={onOpenCacheInvalidate}
+            onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
+            onPlayGame={() => void handlePlayGame()}
+            playGameLoading={playGameLoading}
+            playGameError={playGameError}
           />
-          {!slugTrim ? (
-            <p className="text-[10px] opacity-60 leading-snug ml-1">
-              {t("playerEconomyEditor.basics.setSlugFirstForHosted")}
-            </p>
-          ) : null}
-          {showHostedMinigameBlock ? (
-            <>
-              <p className="text-xs text-amber-100/75 leading-snug ml-1">
-                {t("playerEconomyEditor.basics.customMinigamesDeployHint")}
-              </p>
-              <EconomySiteFilesUpload
-                slug={form.slug}
-                mode={mode}
-                hostedSiteIndex={editorSession.hostedSiteIndex}
-                onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
-                onPlayGame={() => void handlePlayGame()}
-                playGameLoading={playGameLoading}
-                playGameError={playGameError}
-              />
-            </>
-          ) : null}
         </div>
       </InnerPanel>
 
