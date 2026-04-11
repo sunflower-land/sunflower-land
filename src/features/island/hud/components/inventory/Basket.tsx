@@ -360,6 +360,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Rapid Root"].image,
           )}
           {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
+          {itemsSection(t("feeds"), [...animalFeeds], ITEM_DETAILS.Hay.image)}
+          {itemsSection(t("spices"), spices, ITEM_DETAILS["Spice Base"].image)}
           {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
           {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
           {itemsSection(t("flowers"), flowers, SUNNYSIDE.icons.seedling)}
@@ -380,11 +382,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Acorn"].image,
           )}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
-          {itemsSection(
-            t("feeds"),
-            [...animalFeeds, ...animalFeedBuffs],
-            ITEM_DETAILS.Hay.image,
-          )}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait, ...fermentedBaits],
@@ -411,7 +408,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             pickledCrops,
             ITEM_DETAILS["Pickled Radish"].image,
           )}
-          {itemsSection(t("spices"), spices, ITEM_DETAILS["Spice Base"].image)}
           {itemsSection(
             t("foods"),
             [...foods, ...pirateCake],
