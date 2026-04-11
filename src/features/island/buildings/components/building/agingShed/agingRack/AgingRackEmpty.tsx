@@ -75,17 +75,11 @@ export const AgingRackEmpty: React.FC<Props> = ({
 
   const fishOptions = useMemo(() => {
     return getObjectEntries(merged)
-      .filter((entry): entry is [FishName, Decimal | undefined] => {
-        const [name, qty] = entry;
-        return isFishName(name) && (qty?.gte(1) ?? false);
-      })
-      .sort((a, b) => {
-        // Sort by duration
-        const durationA = getBoostedAgingTimeMs(getFishBaseXP(a[0]), skills);
-        const durationB = getBoostedAgingTimeMs(getFishBaseXP(b[0]), skills);
-        return durationA - durationB;
-      })
-
+      .filter(
+        (entry): entry is [FishName, Decimal | undefined] =>
+          isFishName(entry[0]) && (entry[1]?.gte(1) ?? false),
+      )
+      .sort(([a], [b]) => a.localeCompare(b))
       .map(([fishName]) => {
         const baseXP = getFishBaseXP(fishName);
         const saltCost = getBoostedAgingSaltCost(baseXP, skills);
