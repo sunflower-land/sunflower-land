@@ -105,6 +105,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     animalType: "Sheep",
     foodQuantity: REQUIRED_FOOD_QTY.Sheep,
     game,
+    animal: sheep,
   });
 
   const hasGoldenSheep = isCollectibleBuilt({

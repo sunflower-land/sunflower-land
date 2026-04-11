@@ -497,7 +497,7 @@ export function getBoostedFoodQuantity({
   animalType: AnimalType;
   foodQuantity: number;
   game: GameState;
-  animal?: Animal;
+  animal: Animal;
 }): {
   foodQuantity: Decimal;
   boostsUsed: { name: BoostName; value: string }[];
