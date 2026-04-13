@@ -8,6 +8,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { HostedMinigameSiteIndexInfo } from "../lib/types";
 import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
 import { HOSTED_ECONOMY_SITE_HOST_SUFFIX } from "../lib/hostedMinigameUrl";
+import { SectionHeader } from "./SectionHeader";
+import { ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE } from "../lib/editorApi";
 
 function formatSiteIndexTime(iso: string): string {
   const d = new Date(iso);
@@ -163,40 +165,10 @@ function newRowId() {
   return `site-up-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-function EconomySiteUploadTitleRow({
-  slugTrim,
-  onOpenCacheInvalidate,
-}: {
-  slugTrim: string;
-  onOpenCacheInvalidate: () => void;
-}) {
-  const { t } = useAppTranslation();
-  return (
-    <div className="mb-2 flex items-start justify-between gap-2">
-      <Label
-        type="info"
-        icon={SUNNYSIDE.icons.seedling}
-        className="mb-0 min-w-0 flex-1"
-      >
-        {t("playerEconomyEditor.siteUpload.title")}
-      </Label>
-      <button
-        type="button"
-        className="shrink-0 cursor-pointer border-0 bg-transparent p-0 text-right font-[inherit] text-[10px] text-amber-200/90 underline underline-offset-2 hover:text-amber-100 disabled:cursor-not-allowed disabled:opacity-40"
-        onClick={onOpenCacheInvalidate}
-        disabled={!slugTrim}
-      >
-        {t("playerEconomyEditor.cacheInvalidate.link")}
-      </button>
-    </div>
-  );
-}
-
 export const EconomySiteFilesUpload: React.FC<{
   slug: string;
   mode: "create" | "edit";
   hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
-  onOpenCacheInvalidate: () => void;
   onAfterIndexUpload?: () => void;
   /** Opens hosted game in a new tab (fetches portal JWT + same query params as in-game portal). */
   onPlayGame?: () => void;
@@ -206,7 +178,6 @@ export const EconomySiteFilesUpload: React.FC<{
   slug,
   mode,
   hostedSiteIndex,
-  onOpenCacheInvalidate,
   onAfterIndexUpload,
   onPlayGame,
   playGameLoading = false,
@@ -215,9 +186,13 @@ export const EconomySiteFilesUpload: React.FC<{
   const { t } = useAppTranslation();
   const folderInputId = useId();
   const folderInputRef = useRef<HTMLInputElement>(null);
-  const { prepareEconomySiteUploads } = usePlayerEconomyEditorSession();
+  const { prepareEconomySiteUploads, submitEvent } =
+    usePlayerEconomyEditorSession();
   const [rows, setRows] = useState<UploadRow[]>([]);
   const [batchError, setBatchError] = useState<string | null>(null);
+  const [invalidateAfterUploadError, setInvalidateAfterUploadError] = useState<
+    string | null
+  >(null);
   const [isRunning, setIsRunning] = useState(false);
   const [recentIndexUpload, setRecentIndexUpload] = useState(false);
 
@@ -225,6 +200,7 @@ export const EconomySiteFilesUpload: React.FC<{
 
   useEffect(() => {
     setRecentIndexUpload(false);
+    setInvalidateAfterUploadError(null);
   }, [slugTrim]);
   const hasApi = Boolean(CONFIG.API_URL);
 
@@ -238,6 +214,7 @@ export const EconomySiteFilesUpload: React.FC<{
 
       setIsRunning(true);
       setBatchError(null);
+      setInvalidateAfterUploadError(null);
       setRows((prev) =>
         prev.map((r) => ({
           ...r,
@@ -257,11 +234,13 @@ export const EconomySiteFilesUpload: React.FC<{
         );
 
         let indexUploadedOk = false;
+        let everyUploadSucceeded = true;
 
         for (let i = 0; i < nextRows.length; i++) {
           const row = nextRows[i];
           const p = presigned[i];
           if (!p) {
+            everyUploadSucceeded = false;
             setRow(row.id, {
               status: "error",
               error: t("playerEconomyEditor.siteUpload.missingPresign"),
@@ -291,6 +270,7 @@ export const EconomySiteFilesUpload: React.FC<{
               indexUploadedOk = true;
             }
           } catch {
+            everyUploadSucceeded = false;
             setRow(row.id, {
               status: "error",
               error: t("playerEconomyEditor.siteUpload.putFailed"),
@@ -301,6 +281,29 @@ export const EconomySiteFilesUpload: React.FC<{
         if (indexUploadedOk) {
           setRecentIndexUpload(true);
           if (onAfterIndexUpload) onAfterIndexUpload();
+        }
+
+        if (everyUploadSucceeded && nextRows.length > 0) {
+          try {
+            await submitEvent({
+              type: "economy.invalidated",
+              slug: slugTrim,
+            });
+          } catch (e) {
+            const msg =
+              e instanceof Error
+                ? e.message
+                : t("playerEconomyEditor.error.update");
+            const detail =
+              msg === ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE
+                ? t("playerEconomyEditor.cacheInvalidate.cooldown")
+                : msg;
+            setInvalidateAfterUploadError(
+              t("playerEconomyEditor.siteUpload.invalidateAfterUploadFailed", {
+                message: detail,
+              }),
+            );
+          }
         }
       } catch (e) {
         const message =
@@ -319,7 +322,14 @@ export const EconomySiteFilesUpload: React.FC<{
         setIsRunning(false);
       }
     },
-    [prepareEconomySiteUploads, setRow, slugTrim, t, onAfterIndexUpload],
+    [
+      prepareEconomySiteUploads,
+      setRow,
+      slugTrim,
+      submitEvent,
+      t,
+      onAfterIndexUpload,
+    ],
   );
 
   const showPlaySection = Boolean(hostedSiteIndex) || recentIndexUpload;
@@ -364,10 +374,9 @@ export const EconomySiteFilesUpload: React.FC<{
   if (!slugTrim) {
     return (
       <InnerPanel className="p-3 space-y-2">
-        <EconomySiteUploadTitleRow
-          slugTrim={slugTrim}
-          onOpenCacheInvalidate={onOpenCacheInvalidate}
-        />
+        <SectionHeader type="info" icon={SUNNYSIDE.icons.seedling}>
+          {t("playerEconomyEditor.siteUpload.title")}
+        </SectionHeader>
         <p className="text-[10px] opacity-70 leading-snug">
           {t("playerEconomyEditor.basics.setSlugFirstForHosted")}
         </p>
@@ -378,10 +387,9 @@ export const EconomySiteFilesUpload: React.FC<{
   if (mode === "create") {
     return (
       <InnerPanel className="p-3 space-y-2">
-        <EconomySiteUploadTitleRow
-          slugTrim={slugTrim}
-          onOpenCacheInvalidate={onOpenCacheInvalidate}
-        />
+        <SectionHeader type="info" icon={SUNNYSIDE.icons.seedling}>
+          {t("playerEconomyEditor.siteUpload.title")}
+        </SectionHeader>
         <p className="text-[10px] opacity-70 leading-snug">
           {t("playerEconomyEditor.siteUpload.saveEconomyFirst")}
         </p>
@@ -391,10 +399,9 @@ export const EconomySiteFilesUpload: React.FC<{
 
   return (
     <InnerPanel className="p-3 space-y-2">
-      <EconomySiteUploadTitleRow
-        slugTrim={slugTrim}
-        onOpenCacheInvalidate={onOpenCacheInvalidate}
-      />
+      <SectionHeader type="info" icon={SUNNYSIDE.icons.seedling}>
+        {t("playerEconomyEditor.siteUpload.title")}
+      </SectionHeader>
       <p className="text-[10px] opacity-70 leading-snug ml-0.5">
         {t("playerEconomyEditor.siteUpload.hint", {
           slug: slugTrim,
@@ -505,6 +512,12 @@ export const EconomySiteFilesUpload: React.FC<{
       {batchError ? (
         <Label type="danger" className="block text-xs">
           {batchError}
+        </Label>
+      ) : null}
+
+      {invalidateAfterUploadError ? (
+        <Label type="danger" className="block text-xs">
+          {invalidateAfterUploadError}
         </Label>
       ) : null}
 

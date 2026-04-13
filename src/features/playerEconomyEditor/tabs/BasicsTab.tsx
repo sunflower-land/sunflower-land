@@ -31,8 +31,7 @@ export const BasicsTab: React.FC<{
   form: EditorFormState;
   mode: "create" | "edit";
   onChange: (next: Partial<EditorFormState>) => void;
-  onOpenCacheInvalidate: () => void;
-}> = ({ form, mode, onChange, onOpenCacheInvalidate }) => {
+}> = ({ form, mode, onChange }) => {
   const { t } = useAppTranslation();
   const { state: editorSession, refreshHostedSiteMetadata } =
     usePlayerEconomyEditorSession();
@@ -214,7 +213,6 @@ export const BasicsTab: React.FC<{
             slug={form.slug}
             mode={mode}
             hostedSiteIndex={editorSession.hostedSiteIndex}
-            onOpenCacheInvalidate={onOpenCacheInvalidate}
             onAfterIndexUpload={() => void refreshHostedSiteMetadata()}
             onPlayGame={() => void handlePlayGame()}
             playGameLoading={playGameLoading}
