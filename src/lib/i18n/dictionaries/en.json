@@ -2922,6 +2922,7 @@
   "playerEconomyEditor.siteUpload.noIndexYet": "No index.html in storage yet for this slug. Upload a folder that includes index.html at the site root.",
   "playerEconomyEditor.siteUpload.playGame": "Play game",
   "playerEconomyEditor.siteUpload.playGameLoading": "Loading…",
+  "playerEconomyEditor.siteUpload.invalidateAfterUploadFailed": "Uploads finished but the game CDN could not be refreshed: {{message}}",
   "playerEconomyEditor.items.empty": "No items yet. Items are the tokens and collectibles in your economy.",
   "playerEconomyEditor.items.addItem": "+ Add Item",
   "marketplace.minigames.empty": "No player economy currencies listed yet.",

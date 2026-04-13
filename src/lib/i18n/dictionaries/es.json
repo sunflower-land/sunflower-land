@@ -8653,5 +8653,6 @@
   "description.salt.lick.boost": "+5% de rendimiento en productos de origen animal",
   "description.honey.treat.boost": "-25% pienso para animales",
   "skill.cheapRakes": "20% de descuento en el precio de la moneda Salt Rake",
-  "skill.seaBlessed": "5% de probabilidad de restaurar 1 carga en 4 nodos de sal al cosecharlos"
+  "skill.seaBlessed": "5% de probabilidad de restaurar 1 carga en 4 nodos de sal al cosecharlos",
+  "playerEconomyEditor.siteUpload.invalidateAfterUploadFailed": "Las subidas han finalizado, pero no se ha podido actualizar la CDN del juego: {{message}}"
 }

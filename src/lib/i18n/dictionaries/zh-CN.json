@@ -8653,5 +8653,6 @@
   "description.salt.lick.boost": "+5% 动物农产品产量",
   "description.honey.treat.boost": "-25% 动物饲料",
   "skill.cheapRakes": "Salt Rake硬币成本可享受20％的折扣",
-  "skill.seaBlessed": "收获时有 5% 的几率恢复 4 个盐分节点 1 点充能"
+  "skill.seaBlessed": "收获时有 5% 的几率恢复 4 个盐分节点 1 点充能",
+  "playerEconomyEditor.siteUpload.invalidateAfterUploadFailed": "上传已完成，但无法刷新游戏 CDN：{{message}}"
 }

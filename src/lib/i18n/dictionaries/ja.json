@@ -8653,5 +8653,6 @@
   "description.salt.lick.boost": "+5% 畜産物の生産量",
   "description.honey.treat.boost": "-25% 動物用飼料",
   "skill.cheapRakes": "ソルトレイクのコインコストが 20% オフ",
-  "skill.seaBlessed": "収穫時に 5% の確率で4つのソルトノードにチャージを1つ回復する"
+  "skill.seaBlessed": "収穫時に 5% の確率で4つのソルトノードにチャージを1つ回復する",
+  "playerEconomyEditor.siteUpload.invalidateAfterUploadFailed": "アップロードは終了しましたが、ゲーム CDN を更新できませんでした:{{message}}"
 }

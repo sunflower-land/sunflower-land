@@ -8653,5 +8653,6 @@
   "description.salt.lick.boost": "+5% Animal Produce Yield",
   "description.honey.treat.boost": "-25% Animal Feed",
   "skill.cheapRakes": "20% off Salt Rake coin cost",
-  "skill.seaBlessed": "5% chance to restore 1 charge to 4 Salt Nodes on harvest"
+  "skill.seaBlessed": "5% chance to restore 1 charge to 4 Salt Nodes on harvest",
+  "playerEconomyEditor.siteUpload.invalidateAfterUploadFailed": "Uploads finished but the game CDN could not be refreshed: {{message}}"
 }
