@@ -17,21 +17,19 @@ export const PRIME_AGED_XP_MULTIPLIER = 1.3;
 export const PRIME_AGED_BASE_CHANCE = 0.1;
 
 export function getAgingMaxXP(baseXP: number): number {
-  if (baseXP < 100) return baseXP * 5;
-  if (baseXP <= 160) return baseXP * 6;
+  if (baseXP <= 130) return baseXP * 6;
   return baseXP * 10;
 }
 
 export function getAgingSaltCost(baseXP: number): number {
-  return Math.ceil(getAgingMaxXP(baseXP) / 25);
+  return Math.ceil(getAgingMaxXP(baseXP) / 100);
 }
 
 export function getAgingTimeMs(baseXP: number): number {
   const maxXP = getAgingMaxXP(baseXP);
   let j: number;
-  if (baseXP < 100) j = 200;
-  else if (baseXP <= 160) j = 300;
-  else if (baseXP < 1000) j = 500;
+  if (baseXP <= 130) j = 300;
+  else if (baseXP <= 500) j = 500;
   else j = 1000;
 
   const timeHours = (maxXP - baseXP) / j;
@@ -50,9 +48,10 @@ export function getBoostedAgingTimeMs(
   baseXP: number,
   state: GameState,
 ): number {
-  const skills = state.bumpkin?.skills;
+  const skills = state.bumpkin.skills;
   let timeMs = getAgingTimeMs(baseXP);
-  if (skills?.["Speedy Aging"]) {
+
+  if (skills["Speedy Aging"]) {
     timeMs *= 0.9;
   }
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 5) {

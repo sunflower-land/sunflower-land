@@ -5,8 +5,10 @@ import type { GameState, Skills } from "./game";
 import {
   getAgingOutput,
   getAgingSaltCost,
+  getAgingTimeMs,
   getBoostedAgingFishCost,
   getBoostedAgingSaltCost,
+  getBoostedAgingTimeMs,
   getPrimeAgedChance,
   getRefinedSaltChance,
 } from "./agingFormulas";
@@ -147,6 +149,23 @@ describe("getAgingOutput", () => {
         }).toNumber(),
       ).toBe(5);
     });
+  });
+});
+
+describe("getBoostedAgingTimeMs", () => {
+  const baseXP = 500;
+
+  it("halves aging time for Tuna vs other fish at the same base XP", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    expect(getBoostedAgingTimeMs(baseXP, {}, "Tuna")).toBe(baseMs * 0.5);
+    expect(getBoostedAgingTimeMs(baseXP, {}, "Angelfish")).toBe(baseMs);
+  });
+
+  it("applies Speedy Aging after the Tuna discount", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    expect(
+      getBoostedAgingTimeMs(baseXP, { "Speedy Aging": 1 } as Skills, "Tuna"),
+    ).toBe(baseMs * 0.5 * 0.9);
   });
 });
 
