@@ -304,12 +304,12 @@ export function populateSaltFarm({
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
-  "0": { x: -16, y: -18 },
-  "1": { x: -16, y: -16 },
-  "2": { x: -18, y: -18 },
-  "3": { x: -18, y: -16 },
-  "4": { x: -16, y: -20 },
-  "5": { x: -18, y: -20 },
+  "0": { x: -5, y: -18 },
+  "1": { x: -5, y: -17 },
+  "2": { x: -6, y: -18 },
+  "3": { x: -6, y: -17 },
+  "4": { x: -5, y: -19 },
+  "5": { x: -6, y: -19 },
 };
 
 /**
