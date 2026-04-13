@@ -26,6 +26,9 @@ function sessionPlayerEconomyToRuntime(
     ...(m.purchaseCounts != null
       ? { purchaseCounts: { ...m.purchaseCounts } }
       : {}),
+    ...(typeof m.highscore === "number" && Number.isFinite(m.highscore)
+      ? { highscore: m.highscore }
+      : {}),
   };
 }
 

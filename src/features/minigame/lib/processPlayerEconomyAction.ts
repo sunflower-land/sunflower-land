@@ -112,6 +112,9 @@ export function clonePlayerEconomyRuntimeState(
     ...(purchases && Object.keys(purchases).length > 0
       ? { purchaseCounts: { ...purchases } }
       : {}),
+    ...(typeof state.highscore === "number" && Number.isFinite(state.highscore)
+      ? { highscore: state.highscore }
+      : {}),
   };
 }
 

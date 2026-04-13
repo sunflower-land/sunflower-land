@@ -19,6 +19,8 @@ export type MinigameSessionApiPayload = {
       byAction: Record<string, number>;
     };
     purchaseCounts?: Record<string, number>;
+    /** Best score persisted for this farm + economy (player minigame session). */
+    highscore?: number;
   };
   actions: Record<string, unknown>;
   items?: PlayerEconomyConfig["items"];

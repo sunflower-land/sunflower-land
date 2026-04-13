@@ -600,9 +600,11 @@ export const MinigameDashboard: React.FC = () => {
   const marketPick = getPrimaryTradableMarketplaceItem(payload.config);
   /** Adventure iframe is always `https://{slug}.economies.sunflower-land.com`. */
   const hasCustomAdventureLink = true;
-  const playerHighscore =
+  const playerHighscore = Math.max(
+    runtime.highscore ?? 0,
     gameState.context.state.minigames?.games?.[payload.portalName]?.highscore ??
-    0;
+      0,
+  );
 
   return (
     <div

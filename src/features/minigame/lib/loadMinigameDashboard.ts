@@ -62,6 +62,9 @@ export async function loadMinigameDashboard(
       ...(pe.purchaseCounts != null
         ? { purchaseCounts: { ...pe.purchaseCounts } }
         : {}),
+      ...(typeof pe.highscore === "number" && Number.isFinite(pe.highscore)
+        ? { highscore: pe.highscore }
+        : {}),
     };
     const config = {
       actions: raw.actions as Record<string, any>,

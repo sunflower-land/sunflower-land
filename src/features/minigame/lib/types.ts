@@ -176,6 +176,8 @@ export type PlayerEconomyRuntimeState = {
   dailyActionUses?: DailyActionUsesBucket;
   /** Per-action purchase counts when `purchaseLimit` is used on shop rules. */
   purchaseCounts?: Record<string, number>;
+  /** Best score for this economy from the API (`playerEconomy.highscore` on session load). */
+  highscore?: number;
 };
 
 export type PlayerEconomyProcessInput = {
