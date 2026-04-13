@@ -3,8 +3,11 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getSpiceRackRecipe,
+  LEGACY_SPICE_RACK_RECIPE_IDS,
   spiceRackCollectedActivity,
+  type LegacySpiceRackRecipeName,
 } from "features/game/types/spiceRack";
+import { getObjectEntries } from "lib/object";
 import { collectSpiceRack } from "./collectSpiceRack";
 import { startSpiceRack } from "./startSpiceRack";
 import {
@@ -132,6 +135,45 @@ describe("collectSpiceRack", () => {
     expect(state.agingShed.racks.spice).toHaveLength(0);
     expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
   });
+
+  it.each(LEGACY_SPICE_RACK_RECIPE_IDS)(
+    "collects retired spice rack job still in the queue (%s)",
+    (recipeId: LegacySpiceRackRecipeName) => {
+      const past = createdAt - 1;
+      const def = getSpiceRackRecipe(recipeId);
+      const outputEntries = getObjectEntries(def.outputs);
+      expect(outputEntries).toHaveLength(1);
+      const [outputItem, outputQty] = outputEntries[0]!;
+      expect(outputQty?.eq(1)).toBe(true);
+
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: `legacy-${recipeId}`,
+                  recipe: recipeId,
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.agingShed.racks.spice).toHaveLength(0);
+      expect(state.inventory[outputItem]?.toNumber()).toEqual(1);
+      const activityName = spiceRackCollectedActivity(recipeId);
+      expect(state.farmActivity[activityName]).toEqual(1);
+    },
+  );
 
   it("applies Ager skill to double spice rack output", () => {
     const past = createdAt - 1;

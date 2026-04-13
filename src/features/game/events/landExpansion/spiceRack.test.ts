@@ -1,6 +1,7 @@
 import {
   getMaxSpiceRackSlots,
   isSpiceRackRecipeName,
+  isStartableSpiceRackRecipeName,
 } from "features/game/types/spiceRack";
 
 describe("isSpiceRackRecipeName", () => {
@@ -14,8 +15,27 @@ describe("isSpiceRackRecipeName", () => {
     expect(isSpiceRackRecipeName("Spice Base")).toBe(true);
   });
 
+  it("accepts legacy recipe ids for resolution", () => {
+    expect(isSpiceRackRecipeName("Spiced Cheese")).toBe(true);
+  });
+
   it("rejects unknown strings", () => {
     expect(isSpiceRackRecipeName("not_a_recipe")).toBe(false);
+  });
+});
+
+describe("isStartableSpiceRackRecipeName", () => {
+  it("accepts startable recipe ids", () => {
+    expect(isStartableSpiceRackRecipeName("Refined Salt")).toBe(true);
+    expect(isStartableSpiceRackRecipeName("Spice Base")).toBe(true);
+  });
+
+  it("rejects legacy recipe ids", () => {
+    expect(isStartableSpiceRackRecipeName("Spiced Cheese")).toBe(false);
+  });
+
+  it("rejects unknown strings", () => {
+    expect(isStartableSpiceRackRecipeName("not_a_recipe")).toBe(false);
   });
 });
 
