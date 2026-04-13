@@ -29,10 +29,7 @@ export const SaltNodePlaceholder: React.FC<Props> = ({ visiting }) => {
         <img
           src={add}
           className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-            top: `${PIXEL_SCALE * 10}px`,
-          }}
+          style={{ width: `${PIXEL_SCALE * 8}px`, top: `${PIXEL_SCALE * 2}px` }}
         />
       </div>
 

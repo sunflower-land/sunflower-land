@@ -1609,6 +1609,13 @@ export type AnimalResource =
   | "Milk";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
+export type AnimalFeedBuffName = "Salt Lick" | "Honey Treat";
+
+export type AnimalFeedBuff = {
+  name: AnimalFeedBuffName;
+  harvestsRemaining: number;
+};
+
 export type Animal = {
   id: string;
   type: AnimalType;
@@ -1621,6 +1628,7 @@ export type Animal = {
   item: LoveAnimalItem;
   multiplier?: number;
   reward?: Reward;
+  feedBuff?: AnimalFeedBuff;
 };
 
 export type AnimalBuilding = UpgradableBuilding & {

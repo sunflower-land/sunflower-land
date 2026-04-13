@@ -25,6 +25,7 @@ import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 type Props = {
   job: SpiceRackJob;
@@ -84,6 +85,25 @@ export const SpiceRackInProgress: React.FC<Props> = ({
                   removeTrailingZeros: true,
                 })}`}
           </Label>
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {outputItem &&
+            COLLECTIBLE_BUFF_LABELS[outputItem]?.({
+              skills,
+              collectibles: state.collectibles,
+            }).map((label) => {
+              return (
+                <Label
+                  key={label.shortDescription}
+                  type={label.labelType}
+                  className="text-xs mb-2 ml-1"
+                  icon={label.boostTypeIcon}
+                  secondaryIcon={label.boostedItemIcon}
+                >
+                  {label.shortDescription}
+                </Label>
+              );
+            })}
         </div>
         <div className="flex items-center">
           {outputItem && <Box image={ITEM_DETAILS[outputItem]?.image} />}

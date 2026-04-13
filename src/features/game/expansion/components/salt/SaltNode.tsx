@@ -85,7 +85,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
           <div
             className="flex justify-center absolute w-full pointer-events-none z-30"
             style={{
-              top: `${PIXEL_SCALE * -10}px`,
+              top: `${PIXEL_SCALE * -20}px`,
             }}
           >
             {storedCharges === 0 && (

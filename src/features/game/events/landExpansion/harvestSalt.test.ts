@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   BASE_SALT_YIELD,
-  MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
 } from "features/game/types/salt";
 import { HARVEST_SALT_ERRORS, harvestSalt } from "./harvestSalt";
@@ -254,7 +253,7 @@ describe("harvestSalt", () => {
       expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(0);
     });
 
-    it("recharges all nodes on PRNG hit with Sea Blessed", () => {
+    it("restores 1 charge to up to 4 nodes on PRNG hit with Sea Blessed", () => {
       const state = harvestSalt({
         state: {
           ...INITIAL_FARM,
@@ -282,7 +281,12 @@ describe("harvestSalt", () => {
               "1": {
                 createdAt: now - 1000,
                 coordinates: { x: 1, y: 0 },
-                salt: { storedCharges: 0, nextChargeAt: now + 50_000 },
+                salt: { storedCharges: 1, nextChargeAt: now + 50_000 },
+              },
+              "2": {
+                createdAt: now - 1000,
+                coordinates: { x: 2, y: 0 },
+                salt: { storedCharges: 3, nextChargeAt: now + 50_000 },
               },
             },
           },
@@ -292,12 +296,9 @@ describe("harvestSalt", () => {
         farmId: 1,
       });
 
-      expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(
-        MAX_STORED_SALT_CHARGES_PER_NODE,
-      );
-      expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(
-        MAX_STORED_SALT_CHARGES_PER_NODE,
-      );
+      expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(1);
+      expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(2);
+      expect(state.saltFarm.nodes["2"].salt.storedCharges).toBe(3);
     });
 
     it("does not recharge on PRNG miss with Sea Blessed", () => {

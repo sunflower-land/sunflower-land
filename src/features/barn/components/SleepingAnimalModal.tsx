@@ -160,6 +160,24 @@ export const SleepingAnimalModal = ({
             </div>
           </div>
         )}
+
+        {animal.feedBuff && (
+          <div className="flex text-sm p-1 items-center">
+            <img
+              src={ITEM_DETAILS[animal.feedBuff.name].image}
+              alt={animal.feedBuff.name}
+              className="w-6 mr-2"
+            />
+            <div>
+              <p className="text-sm font-secondary">{animal.feedBuff.name}</p>
+              <span className="text-xs -top-0.5 relative">
+                {t("sleepingAnimal.harvestsLeft", {
+                  count: animal.feedBuff.harvestsRemaining,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
       </InnerPanel>
 
       {level < 15 && (

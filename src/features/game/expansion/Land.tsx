@@ -1020,15 +1020,12 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(saltNodes)
       .filter(([, node]) => !!node.coordinates)
       .map(([id, node]) => {
-        const { x, y } = node.coordinates;
-
         return (
           <MapPlacement
             key={`salt-node-${id}`}
-            x={x}
-            y={y}
-            height={2}
-            width={2}
+            {...node.coordinates}
+            height={1}
+            width={1}
           >
             <SaltNode id={id} visiting={visiting} />
           </MapPlacement>
@@ -1042,14 +1039,13 @@ export const LandComponent: React.FC = () => {
       nodes: saltNodes,
     });
     return pendingIds.map((id) => {
-      const { x, y } = getSaltNodeCoordinates(basicLand, id);
+      const coordinates = getSaltNodeCoordinates(basicLand, id);
       return (
         <MapPlacement
           key={`salt-placeholder-${id}`}
-          x={x - 0.5}
-          y={y + 0.5}
-          height={2}
-          width={2}
+          {...coordinates}
+          height={1}
+          width={1}
         >
           <SaltNodePlaceholder visiting={visiting} />
         </MapPlacement>

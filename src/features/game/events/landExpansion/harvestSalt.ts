@@ -3,11 +3,11 @@ import { GameState } from "features/game/types/game";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SEA_BLESSED_CHANCE,
+  SEA_BLESSED_NODE_COUNT,
   getSaltChargeGenerationTime,
   getSaltYieldPerRake,
   getStoredSaltCharges,
   materializeSaltRegen,
-  rechargeAllSaltNodes,
   syncSaltNode,
 } from "features/game/types/salt";
 import { produce } from "immer";
@@ -15,6 +15,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { getKeys } from "lib/object";
 
 export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -109,7 +110,24 @@ export function harvestSalt({
       });
 
       if (seaBlessedHit) {
-        rechargeAllSaltNodes(copy, createdAt);
+        const interval = getSaltChargeGenerationTime({ gameState: copy });
+        const nodeIds = getKeys(copy.saltFarm.nodes);
+        const eligible = nodeIds.filter(
+          (id) =>
+            copy.saltFarm.nodes[id].salt.storedCharges <
+            MAX_STORED_SALT_CHARGES_PER_NODE,
+        );
+        const toRestore = eligible.slice(0, SEA_BLESSED_NODE_COUNT);
+        for (const nodeId of toRestore) {
+          const node = copy.saltFarm.nodes[nodeId];
+          node.salt.storedCharges = Math.min(
+            node.salt.storedCharges + 1,
+            MAX_STORED_SALT_CHARGES_PER_NODE,
+          );
+          if (node.salt.storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE) {
+            node.salt.nextChargeAt = createdAt + interval;
+          }
+        }
       }
     }
   });

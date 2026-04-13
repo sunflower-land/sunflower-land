@@ -322,6 +322,84 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
   ],
 
+  // Fertilisers
+  "Sprout Mix": () => [
+    {
+      shortDescription: translate("description.sprout.mix.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+    },
+  ],
+  "Fruitful Blend": () => [
+    {
+      shortDescription: translate("description.fruitful.blend.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+    },
+  ],
+  "Rapid Root": () => [
+    {
+      shortDescription: translate("description.rapid.root.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+    },
+  ],
+  "Sproutroot Surprise": () => [
+    {
+      shortDescription: translate("description.sproutroot.surprise.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+    },
+    {
+      shortDescription: translate("description.sproutroot.surprise.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+    },
+  ],
+  "Turbofruit Mix": () => [
+    {
+      shortDescription: translate("description.turbofruit.mix.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+    },
+  ],
+  "Greenhouse Glow": () => [
+    {
+      shortDescription: translate("description.greenhouse.glow.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
+    },
+  ],
+  "Greenhouse Goodie": () => [
+    {
+      shortDescription: translate("description.greenhouse.goodie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
+    },
+  ],
+  "Salt Lick": () => [
+    {
+      shortDescription: translate("description.salt.lick.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Honey Treat": () => [
+    {
+      shortDescription: translate("description.honey.treat.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+
   // Clash of Factions
   "Turbo Sprout": () => [
     {

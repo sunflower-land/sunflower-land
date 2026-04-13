@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { MutantsChapterName } from "./chapterMutants";
+import { ChapterName } from "./chapters";
 import { BuildingName } from "./buildings";
 import {
   AnimalFoodName,
@@ -737,3 +739,17 @@ export function getUniqueAnimalResources(): AnimalResource[] {
 
   return Array.from(uniqueResources);
 }
+
+// Mutants for all animals started in Bull Run; Pharaoh's Treasure has Pharaoh Chicken
+export const isMutantAnimalChapterName = (
+  chapter: ChapterName,
+): chapter is MutantsChapterName => {
+  return (
+    chapter !== "Solar Flare" &&
+    chapter !== "Dawn Breaker" &&
+    chapter !== "Witches' Eve" &&
+    chapter !== "Catch the Kraken" &&
+    chapter !== "Spring Blossom" &&
+    chapter !== "Clash of Factions"
+  );
+};
