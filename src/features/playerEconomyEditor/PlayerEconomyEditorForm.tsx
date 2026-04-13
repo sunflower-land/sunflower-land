@@ -7,6 +7,8 @@ import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import tier1BookIcon from "assets/icons/tier1_book.webp";
+import flowerTokenIcon from "assets/icons/flower_token.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
 
@@ -56,9 +58,9 @@ function isEditorFormDirty(
 const TAB_DEFS: { id: EditorTab; icon: string }[] = [
   { id: "basics", icon: SUNNYSIDE.icons.expression_chat },
   { id: "items", icon: SUNNYSIDE.icons.basket },
-  { id: "purchases", icon: SUNNYSIDE.icons.disc },
+  { id: "purchases", icon: flowerTokenIcon },
   { id: "actions", icon: SUNNYSIDE.icons.lightning },
-  { id: "docs", icon: SUNNYSIDE.icons.indicator },
+  { id: "docs", icon: tier1BookIcon },
 ];
 
 export const PlayerEconomyEditorForm: React.FC = () => {
@@ -77,6 +79,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
   const baseline = state.baseline;
   const activeTab = state.activeTab;
   const savedFlash = state.savedFlash;
+  const saveInProgress = state.saveInProgress;
   const mode = state.mode;
 
   const [saveValidationError, setSaveValidationError] = useState<string | null>(
@@ -205,7 +208,6 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             image: "",
             id: nextId,
             tradeable: false,
-            generator: false,
             trophy: false,
             initialBalance: 0,
           },
@@ -434,10 +436,16 @@ export const PlayerEconomyEditorForm: React.FC = () => {
           >
             {t("playerEconomyEditor.footer.preview")}
           </Button>
-          <Button className="flex-[2] min-w-0" onClick={handleSave}>
-            {mode === "create"
-              ? t("playerEconomyEditor.footer.createEconomy")
-              : t("playerEconomyEditor.footer.saveChanges")}
+          <Button
+            className="flex-[2] min-w-0"
+            disabled={saveInProgress}
+            onClick={handleSave}
+          >
+            {saveInProgress
+              ? t("playerEconomyEditor.footer.saving")
+              : mode === "create"
+                ? t("playerEconomyEditor.footer.createEconomy")
+                : t("playerEconomyEditor.footer.saveChanges")}
           </Button>
         </div>
       </div>

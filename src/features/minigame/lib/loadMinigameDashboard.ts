@@ -58,7 +58,9 @@ export async function loadMinigameDashboard(
       activity: pe.activity,
       dailyActivity: pe.dailyActivity ?? { date: day, count: 0 },
       dailyMinted: pe.dailyMinted ?? { utcDay: day, minted: {} },
-      ...(pe.dailyActionUses ? { dailyActionUses: pe.dailyActionUses } : {}),
+      ...(pe.rules && Object.keys(pe.rules).length > 0
+        ? { rules: pe.rules }
+        : {}),
       ...(pe.purchaseCounts != null
         ? { purchaseCounts: { ...pe.purchaseCounts } }
         : {}),

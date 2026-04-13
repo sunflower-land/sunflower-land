@@ -116,13 +116,17 @@ function inferActionType(def: PlayerEconomyActionDefinition): ActionType {
     hasMint && Object.values(mint).some((r) => !isPlainFixedMint(r));
   const nonPlainBurn =
     hasBurn && Object.values(burn).some((r) => !isPlainFixedBurn(r));
-  const hasMaxUses =
-    typeof def.maxUsesPerDay === "number" && def.maxUsesPerDay > 0;
+  const legacyMaxUses =
+    typeof (def as { maxUsesPerDay?: unknown }).maxUsesPerDay === "number" &&
+    (def as { maxUsesPerDay: number }).maxUsesPerDay > 0;
+  const hasCooldown =
+    typeof def.cooldownSeconds === "number" && def.cooldownSeconds > 0;
 
   if (
     nonPlainMint ||
     nonPlainBurn ||
-    hasMaxUses ||
+    legacyMaxUses ||
+    hasCooldown ||
     requireKeys.length > 0 ||
     def.showInShop === false
   ) {
@@ -289,8 +293,17 @@ function actionEntryToForm(
             if (entries.length === 0) {
               return [{ token: "", amount: 1 }];
             }
-            const [key] = entries[0];
-            return [{ token: key, amount: 1 }];
+            const [key, rule] = entries[0];
+            const amt = (rule as { amount?: number }).amount;
+            return [
+              {
+                token: key,
+                amount:
+                  typeof amt === "number" && Number.isFinite(amt)
+                    ? Math.max(1, Math.floor(amt))
+                    : 1,
+              },
+            ];
           })()
         : Object.entries(def.require ?? {}).map(([key, rule]) => ({
             token: key,
@@ -348,7 +361,9 @@ function actionEntryToForm(
     }),
     customMint,
     customBurn,
-    customDailyUsesCap: def.maxUsesPerDay ?? 0,
+    customMintDropChances: def.mintUiDropChances === true,
+    customCooldownSeconds: Math.max(0, Math.floor(def.cooldownSeconds ?? 0)),
+    customRequiresUiEnabled: Object.keys(def.require ?? {}).length > 0,
   };
 }
 
@@ -596,7 +611,6 @@ export function configToForm(
       image: item.image ?? "",
       id,
       tradeable: item.tradeable === true,
-      generator: item.generator === true,
       trophy: item.trophy === true,
       initialBalance,
     };

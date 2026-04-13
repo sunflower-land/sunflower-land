@@ -46,10 +46,6 @@ export const ActionsTab: React.FC<{
     .filter((item) => item.id !== undefined && !item.deleted)
     .map((item) => String(item.id));
 
-  const generatorItemKeys = form.items
-    .filter((item) => item.id !== undefined && !item.deleted && item.generator)
-    .map((item) => String(item.id));
-
   const getItemOptionLabel = useCallback(
     (idStr: string) => {
       const item = form.items.find((i) => String(i.id) === idStr && !i.deleted);
@@ -78,7 +74,9 @@ export const ActionsTab: React.FC<{
       collect: [],
       customMint: [],
       customBurn: [],
-      customDailyUsesCap: 0,
+      customMintDropChances: false,
+      customCooldownSeconds: 0,
+      customRequiresUiEnabled: false,
     };
 
     switch (type) {
@@ -116,7 +114,6 @@ export const ActionsTab: React.FC<{
       index,
       peerIds: peerIdsFor(index),
       itemKeys,
-      generatorItemKeys,
       getItemOptionLabel,
       onUpdate: (next: Partial<ActionForm>) => onUpdateAction(index, next),
       onDelete: () => setActionToDelete(index),

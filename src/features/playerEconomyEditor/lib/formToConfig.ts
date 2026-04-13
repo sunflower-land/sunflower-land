@@ -114,8 +114,9 @@ function rowToDefinition(
     if (row.actionType === "custom") {
       const first = row.require[0];
       const tok = first ? norm(first.token) : "";
+      const amt = Math.max(1, Math.floor(first?.amount ?? 1));
       if (tok) {
-        def.require = { [tok]: { amount: 1 } };
+        def.require = { [tok]: { amount: amt } };
       }
     } else {
       const require = row.require.reduce(
@@ -193,9 +194,12 @@ function rowToDefinition(
     if (Object.keys(customMint).length) def.mint = customMint;
 
     def.showInShop = false;
-    const cap = row.customDailyUsesCap ?? 0;
-    if (cap > 0) {
-      def.maxUsesPerDay = Math.max(0, Math.floor(cap));
+    if (row.customMintDropChances) {
+      def.mintUiDropChances = true;
+    }
+    const cd = Math.max(0, Math.floor(row.customCooldownSeconds ?? 0));
+    if (cd > 0) {
+      def.cooldownSeconds = cd;
     }
   } else {
     const burn = row.burn.reduce(
@@ -372,7 +376,6 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
         ...(item.image.trim() ? { image: item.image.trim() } : {}),
         id: item.id,
         ...(item.tradeable ? { tradeable: true } : {}),
-        ...(item.generator ? { generator: true } : {}),
         ...(item.trophy ? { trophy: true } : {}),
         ...(init > 0 ? { initialBalance: Math.max(0, Math.floor(init)) } : {}),
       };

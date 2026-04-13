@@ -14,10 +14,7 @@ export type MinigameSessionApiPayload = {
     /** Present on current API; omitted on older deployments until upgraded. */
     dailyActivity?: { date: string; count: number };
     dailyMinted?: { utcDay: string; minted: Record<string, number> };
-    dailyActionUses?: {
-      utcDay: string;
-      byAction: Record<string, number>;
-    };
+    rules?: Record<string, { ranAt: number }>;
     purchaseCounts?: Record<string, number>;
     /** Best score persisted for this farm + economy (player minigame session). */
     highscore?: number;
