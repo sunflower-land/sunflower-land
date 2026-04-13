@@ -148,7 +148,7 @@ export type EditorFormState = {
   purchases: PurchaseForm[];
 };
 
-export type EditorTab = "basics" | "items" | "purchases" | "actions" | "json";
+export type EditorTab = "basics" | "items" | "purchases" | "actions" | "docs";
 
 /* ─── Empty defaults ──────────────────────────────────────────── */
 
