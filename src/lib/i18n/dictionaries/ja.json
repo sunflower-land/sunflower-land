@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "ログインしてトークンを生成します。",
   "playerEconomyEditor.basics.portalJwtNoFarm": "最初にゲームにファームをロードしてください。",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "トークンを取得できませんでした。",
-  "skill.cheapRakes": "ソルトレイクのコインコストが 15% オフ",
   "skill.fishSmoking": "熟成魚がプライムエイジになる確率が2倍になる",
   "skill.refiner": "15% の確率で精製塩1個を獲得できる",
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "スプラウトサプライズ",
   "fertiliser.turbofruitMix": "ターボフルーツミックス",
   "skill.wideRakes": "収穫1回につき +2 塩",
-  "skill.seaBlessed": "収穫時に 5% の確率ですべてのソルトノードをリチャージする",
   "skill.bacalhau": "+1発酵ラックからのベイト収量",
   "skill.saltSurge": "すべてのソルトノードを充電する",
   "playerEconomyEditor.itemCard.trophy": "トロフィー（所有している場合はダッシュボードに表示）",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% 温室ポットの成長時間",
   "description.greenhouse.goodie.boost": "+0.2 温室農産物の収量",
   "description.salt.lick.boost": "+5% 畜産物の生産量",
-  "description.honey.treat.boost": "-25% 動物用飼料"
+  "description.honey.treat.boost": "-25% 動物用飼料",
+  "skill.cheapRakes": "ソルトレイクのコインコストが 20% オフ",
+  "skill.seaBlessed": "収穫時に 5% の確率で4つのソルトノードにチャージを1つ回復する"
 }

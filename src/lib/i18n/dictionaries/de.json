@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Melden Sie sich an, um ein Token zu generieren.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Lade zuerst deine Farm ins Spiel.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Das Token konnte nicht abgerufen werden.",
-  "skill.cheapRakes": "15% Rabatt auf die Kosten für Salt Rake-Münzen",
   "skill.fishSmoking": "Doppelte Chance: Aus Aged Fish wird Prime Aged",
   "skill.refiner": "15% Chance, +1 raffiniertes Salz zu erhalten",
   "saltHarvest.nextChargeIn": "Nächstes Aufladen:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Sproutroot-Überraschung",
   "fertiliser.turbofruitMix": "Turbofruit-Mischung",
   "skill.wideRakes": "+2 Salz pro Ernte",
-  "skill.seaBlessed": "5% Chance, alle Salzknoten bei der Ernte wieder aufzuladen",
   "skill.bacalhau": "+1 Köderausbeute aus dem Gärregal",
   "skill.saltSurge": "Alle Salzknoten aufladen",
   "playerEconomyEditor.itemCard.trophy": "Trophäe (wird auf dem Armaturenbrett angezeigt, wenn du sie besitzt)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% Wachstumszeit im Gewächshaustopf",
   "description.greenhouse.goodie.boost": "+0.2 Ertrag von Gewächshausprodukten",
   "description.salt.lick.boost": "+5% Ertrag tierischer Produkte",
-  "description.honey.treat.boost": "-25% Tierfutter"
+  "description.honey.treat.boost": "-25% Tierfutter",
+  "skill.cheapRakes": "20% Rabatt auf die Kosten für Salt Rake-Münzen",
+  "skill.seaBlessed": "5% Chance, bei Ernte 1 Ladung auf 4 Salzknoten wiederherzustellen"
 }

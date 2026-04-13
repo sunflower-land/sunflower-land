@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Sign in to generate a token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Load your farm in the game first.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Could not fetch token.",
-  "skill.cheapRakes": "15% off Salt Rake coin cost",
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",
   "skill.refiner": "15% chance to get +1 Refined Salt",
   "saltHarvest.nextChargeIn": "Next charge in:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Sproutroot Surprise",
   "fertiliser.turbofruitMix": "Turbofruit Mix",
   "skill.wideRakes": "+2 Salt per harvest",
-  "skill.seaBlessed": "5% chance to recharge all Salt Nodes on harvest",
   "skill.bacalhau": "+1 Bait yield from fermentation rack",
   "skill.saltSurge": "Recharge all Salt Nodes",
   "playerEconomyEditor.itemCard.trophy": "Trophy (show on dashboard when owned)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% Greenhouse Pot Growth Time",
   "description.greenhouse.goodie.boost": "+0.2 Greenhouse Produce Yield",
   "description.salt.lick.boost": "+5% Animal Produce Yield",
-  "description.honey.treat.boost": "-25% Animal Feed"
+  "description.honey.treat.boost": "-25% Animal Feed",
+  "skill.cheapRakes": "20% off Salt Rake coin cost",
+  "skill.seaBlessed": "5% chance to restore 1 charge to 4 Salt Nodes on harvest"
 }

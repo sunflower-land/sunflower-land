@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Faça login para gerar um token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carregue sua fazenda no jogo primeiro.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Não foi possível obter o token.",
-  "skill.cheapRakes": "15% de desconto no custo da moeda Salt Rake",
   "skill.fishSmoking": "Chance dobrada de Peixe Envelhecido se tornar Prime Aged",
   "skill.refiner": "15% de chance de obter +1 sal refinado",
   "saltHarvest.nextChargeIn": "Próxima cobrança em:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Surpresa do Sproutroot",
   "fertiliser.turbofruitMix": "Mistura de turbofrutas",
   "skill.wideRakes": "+2 Sal por colheita",
-  "skill.seaBlessed": "5% de chance de recarregar todos os Nodos de Sal na colheita",
   "skill.bacalhau": "+1 rendimento de isca da prateleira de fermentação",
   "skill.saltSurge": "Recarregue todos os Salt Nodes",
   "playerEconomyEditor.itemCard.trophy": "Troféu (exibido no painel quando possuído)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% de tempo de crescimento do vaso de estufa",
   "description.greenhouse.goodie.boost": "+0,2 Rendimento de produtos de estufa",
   "description.salt.lick.boost": "+5% de rendimento de produtos animais",
-  "description.honey.treat.boost": "-25% de ração animal"
+  "description.honey.treat.boost": "-25% de ração animal",
+  "skill.cheapRakes": "20% de desconto no custo da moeda Salt Rake",
+  "skill.seaBlessed": "5% de chance de restaurar 1 carga em 4 Nodos de Sal na colheita"
 }

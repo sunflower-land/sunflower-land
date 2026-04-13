@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Inicia sesión para generar un token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carga primero tu granja en el juego.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "No se ha podido obtener el token.",
-  "skill.cheapRakes": "15% de descuento en el precio de la moneda Salt Rake",
   "skill.fishSmoking": "Doble probabilidad de que Aged Fish pase a ser Prime Aged",
   "skill.refiner": "15% de probabilidad de obtener +1 de sal refinada",
   "saltHarvest.nextChargeIn": "Próxima carga en:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Sorpresa de Sproutroot",
   "fertiliser.turbofruitMix": "Mezcla Turbofruit",
   "skill.wideRakes": "+2 de sal por cosecha",
-  "skill.seaBlessed": "5% de probabilidad de recargar todos los nodos de sal al cosecharlos",
   "skill.bacalhau": "+1 Rendimiento de cebo en una rejilla de fermentación",
   "skill.saltSurge": "Recarga todos los nodos de sal",
   "playerEconomyEditor.itemCard.trophy": "Trofeo (se muestra en el tablero cuando se posee)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% de tiempo de crecimiento de macetas de invernadero",
   "description.greenhouse.goodie.boost": "+0.2 Rendimiento de productos de invernadero",
   "description.salt.lick.boost": "+5% de rendimiento en productos de origen animal",
-  "description.honey.treat.boost": "-25% pienso para animales"
+  "description.honey.treat.boost": "-25% pienso para animales",
+  "skill.cheapRakes": "20% de descuento en el precio de la moneda Salt Rake",
+  "skill.seaBlessed": "5% de probabilidad de restaurar 1 carga en 4 nodos de sal al cosecharlos"
 }

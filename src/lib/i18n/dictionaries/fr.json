@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Connectez-vous pour générer un jeton.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Chargez d'abord votre ferme dans le jeu.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossible de récupérer le jeton.",
-  "skill.cheapRakes": "15 % de réduction sur le prix des pièces Salt Rake",
   "skill.fishSmoking": "Deux fois plus de chances que Aged Fish devienne Prime Aged",
   "skill.refiner": "15 % de chances d'obtenir +1 sel raffiné",
   "saltHarvest.nextChargeIn": "Prochaine recharge dans :",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Surprise aux racines germées",
   "fertiliser.turbofruitMix": "Mélange de turbofruits",
   "skill.wideRakes": "+2 sels par récolte",
-  "skill.seaBlessed": "5 % de chances de recharger tous les Salt Nœuds lors de la récolte",
   "skill.bacalhau": "+1 Rendement d'appât grâce au casier de fermentation",
   "skill.saltSurge": "Rechargez tous les Salt Nodes",
   "playerEconomyEditor.itemCard.trophy": "Trophée (à afficher sur le tableau de bord lorsque vous le possédez)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20 % de temps de croissance des pots de serre",
   "description.greenhouse.goodie.boost": "+0,2 Rendement des produits de serre",
   "description.salt.lick.boost": "Rendement en produits d'origine animale +5 %",
-  "description.honey.treat.boost": "-25 % d'aliments pour animaux"
+  "description.honey.treat.boost": "-25 % d'aliments pour animaux",
+  "skill.cheapRakes": "20 % de réduction sur le coût des pièces Salt Rake",
+  "skill.seaBlessed": "5 % de chances de restaurer 1 charge sur 4 nœuds de sel lors de la récolte"
 }

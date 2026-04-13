@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNotSignedIn": "Masuk untuk menghasilkan token.",
   "playerEconomyEditor.basics.portalJwtNoFarm": "Muat peternakan Anda di game terlebih dahulu.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Tidak dapat mengambil token.",
-  "skill.cheapRakes": "Diskon 15% untuk biaya koin Salt Rake",
   "skill.fishSmoking": "Peluang dua kali lipat Ikan Aged menjadi Prime Aged",
   "skill.refiner": "15% kesempatan untuk mendapatkan +1 Garam Halus",
   "saltHarvest.nextChargeIn": "Pengisian berikutnya di:",
@@ -8579,7 +8578,6 @@
   "fertiliser.sproutrootSurprise": "Kejutan Sproutroot",
   "fertiliser.turbofruitMix": "Campuran Turbofruit",
   "skill.wideRakes": "+2 Garam per panen",
-  "skill.seaBlessed": "5% kesempatan untuk mengisi ulang semua Node Garam saat panen",
   "skill.bacalhau": "+1 Hasil umpan dari rak fermentasi",
   "skill.saltSurge": "Isi ulang semua Node Garam",
   "playerEconomyEditor.itemCard.trophy": "Trofi (ditampilkan di dasbor saat dimiliki)",
@@ -8653,5 +8651,7 @@
   "description.greenhouse.glow.boost": "-20% Waktu Pertumbuhan Pot Rumah Kaca",
   "description.greenhouse.goodie.boost": "+0.2 Hasil Produksi Rumah Kaca",
   "description.salt.lick.boost": "+5% Hasil Hasil Hewan",
-  "description.honey.treat.boost": "-25% Pakan Ternak"
+  "description.honey.treat.boost": "-25% Pakan Ternak",
+  "skill.cheapRakes": "Diskon 20% untuk biaya koin Salt Rake",
+  "skill.seaBlessed": "Peluang 5% untuk mengembalikan 1 muatan ke 4 Node Garam saat panen"
 }
