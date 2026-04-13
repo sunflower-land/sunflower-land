@@ -943,6 +943,11 @@ export const AIBuilder: React.FC = () => {
       description:
         "Submits a score for the minigame attempt. Pass a number as the score.",
     },
+    {
+      name: "goHome()",
+      description:
+        "Closes the portal and returns the player to Sunflower Land. Call when the player is done playing or exits the minigame.",
+    },
   ];
 
   const sdkContent = (
