@@ -142,6 +142,7 @@ export const BASE_SALT_YIELD = 10; // 10 salt per rake
 export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
 export const SEA_BLESSED_CHANCE = 5;
+export const SEA_BLESSED_NODE_COUNT = 4;
 
 export function rechargeAllSaltNodes(
   game: GameState,
