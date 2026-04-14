@@ -51,7 +51,10 @@ import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { SaltNode } from "./components/salt/SaltNode";
 import { SaltNodePlaceholder } from "./components/salt/SaltNodePlaceholder";
-import { getSaltNodeCoordinates } from "features/game/types/salt";
+import {
+  getSaltNodeCoordinates,
+  getSaltNodesWithPositions,
+} from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -1017,7 +1020,7 @@ export const LandComponent: React.FC = () => {
   }, [waterTraps]);
 
   const saltNodeElements = useMemo(() => {
-    return getObjectEntries(saltNodes)
+    return getObjectEntries(getSaltNodesWithPositions(saltNodes))
       .filter(([, node]) => !!node.coordinates)
       .map(([id, node]) => {
         return (
@@ -1027,7 +1030,7 @@ export const LandComponent: React.FC = () => {
             height={1}
             width={1}
           >
-            <SaltNode id={id} visiting={visiting} />
+            <SaltNode id={id} visiting={visiting} position={node.position} />
           </MapPlacement>
         );
       });

@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import type { GameState, InventoryItemName } from "./game";
+import { getObjectEntries } from "lib/object";
 
 export type SaltNode = {
   createdAt: number;
@@ -337,4 +338,73 @@ export function getSaltNodeCoordinates(
     x: SALT_NODE_COORDINATES[nodeIndex].x + offsetX,
     y: SALT_NODE_COORDINATES[nodeIndex].y + offsetY,
   };
+}
+
+export function getSaltNodePosition(
+  saltNode: SaltNode,
+  highestY: number,
+  lowestY: number,
+  leftestX: number,
+  rightestX: number,
+): "top" | "bottom" | "left" | "right" | undefined {
+  if (saltNode.coordinates.y === highestY) {
+    return "top";
+  }
+  if (saltNode.coordinates.y === lowestY) {
+    return "bottom";
+  }
+  if (saltNode.coordinates.x === leftestX) {
+    return "left";
+  }
+  if (saltNode.coordinates.x === rightestX) {
+    return "right";
+  }
+  return undefined;
+}
+
+export function getSaltNodesWithPositions(
+  saltNodes: SaltNodes,
+): Record<
+  string,
+  SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+> {
+  const highestY = Math.max(
+    ...Object.values(saltNodes).map((node) => node.coordinates.y),
+  );
+  const lowestY = Math.min(
+    ...Object.values(saltNodes).map((node) => node.coordinates.y),
+  );
+  const leftestX = Math.min(
+    ...Object.values(saltNodes).map((node) => node.coordinates.x),
+  );
+  const rightestX = Math.max(
+    ...Object.values(saltNodes).map((node) => node.coordinates.x),
+  );
+
+  const saltNodesWithPosition = getObjectEntries(saltNodes).map<
+    [
+      string,
+      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined },
+    ]
+  >(([id, node]) => {
+    const position = getSaltNodePosition(
+      node,
+      highestY,
+      lowestY,
+      leftestX,
+      rightestX,
+    );
+    return [id, { ...node, position }];
+  });
+
+  return saltNodesWithPosition.reduce<
+    Record<
+      string,
+      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+    >
+  >((acc, [id, node]) => {
+    acc[id] = node;
+
+    return acc;
+  }, {});
 }

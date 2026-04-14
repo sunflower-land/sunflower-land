@@ -20,6 +20,7 @@ import { canInstantHarvestSaltNode, getSaltNodeSprite } from "./saltNodeStage";
 interface Props {
   id: string;
   visiting: boolean;
+  position: "top" | "bottom" | "left" | "right" | undefined;
 }
 
 const _node = (id: string) => (state: MachineState) =>
@@ -28,7 +29,7 @@ const _node = (id: string) => (state: MachineState) =>
 const _gameState = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
+export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const node = useSelector(gameService, _node(id));
@@ -68,6 +69,30 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
     availableRakes,
   });
 
+  const getStyle = (): React.CSSProperties | undefined => {
+    switch (position) {
+      case "top":
+        return {
+          top: `${PIXEL_SCALE * -25}px`,
+        };
+      case "bottom":
+        return {
+          bottom: `${PIXEL_SCALE * -1}px`,
+        };
+      case "left":
+        return {
+          left: `${PIXEL_SCALE * -32}px`,
+        };
+      case "right":
+        return {
+          right: `${PIXEL_SCALE * -32}px`,
+        };
+      default:
+        return undefined;
+    }
+  };
+  const style = getStyle();
+
   return (
     <div className="relative w-full h-full">
       <div
@@ -84,9 +109,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
           (!visiting && storedCharges > 0 && availableRakes === 0)) && (
           <div
             className="flex justify-center absolute w-full pointer-events-none z-30"
-            style={{
-              top: `${PIXEL_SCALE * -20}px`,
-            }}
+            style={style}
           >
             {storedCharges === 0 && (
               <TimeLeftPanel
@@ -98,18 +121,17 @@ export const SaltNode: React.FC<Props> = ({ id, visiting }) => {
             {!visiting && storedCharges > 0 && availableRakes === 0 && (
               <InnerPanel
                 className={classNames(
-                  "absolute transition-opacity whitespace-nowrap w-fit z-50 pointer-events-none",
+                  "absolute transition-opacity w-fit z-[999] pointer-events-none",
                   {
                     "opacity-100": showNoRakesPanel,
                     "opacity-0": !showNoRakesPanel,
                   },
                 )}
+                style={{ width: `${PIXEL_SCALE * 40}px` }}
               >
-                <div className="flex flex-col text-xxs p-1">
-                  <span className="flex-1">
-                    {t("saltHarvest.blockedReason.notEnoughSaltRakes")}
-                  </span>
-                </div>
+                <p className="text-xxs p-1">
+                  {t("saltHarvest.blockedReason.notEnoughSaltRakes")}
+                </p>
               </InnerPanel>
             )}
           </div>
