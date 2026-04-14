@@ -356,12 +356,15 @@ jobs:
               inline: true,
             };
 
+            const shouldTagTeam = risk === "MEDIUM" || risk === "HIGH";
             const payload = {
               username: "GitHub Commits Alerts",
-              content: "<@&1260758874189729867>",
-              allowed_mentions: {
-                roles: ["1260758874189729867"],
-              },
+              ...(shouldTagTeam && {
+                content: "<@&1260758874189729867>",
+                allowed_mentions: {
+                  roles: ["1260758874189729867"],
+                },
+              }),
               avatar_url:
                 "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
               embeds: [
