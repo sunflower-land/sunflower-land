@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
@@ -65,10 +65,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
     : undefined;
-  const merged = useMemo(
-    () => mergeBasketAndChestInventory(gameState),
-    [gameState],
-  );
+  const merged = mergeBasketAndChestInventory(gameState);
 
   const ingredientKeys: InventoryItemName[] = recipeDef
     ? (getObjectEntries(recipeDef.ingredients).map(([name]) => name) as

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -45,10 +45,10 @@ export const AgingRackPanel: React.FC = () => {
   const state = useSelector(gameService, (s) => s.context.state);
   const queue = state.agingShed.racks.aging;
 
-  const agingClockEndAt = useMemo(() => {
-    if (queue.length === 0) return undefined;
-    return Math.max(...queue.map((slot) => slot.readyAt));
-  }, [queue]);
+  const agingClockEndAt =
+    queue.length === 0
+      ? undefined
+      : Math.max(...queue.map((slot) => slot.readyAt));
 
   const now = useNow({ live: queue.length > 0, autoEndAt: agingClockEndAt });
 
@@ -62,13 +62,22 @@ export const AgingRackPanel: React.FC = () => {
   const maxSlots = getAgingSlotCount(state.agingShed.level);
   const slotsFull = queue.length >= maxSlots;
   const shedPlaced = hasPlacedAgingShed(state);
-  const merged = useMemo(() => getMergedInventory(state), [state]);
+  const merged = getMergedInventory(state);
+
+  const activeSelectedSlotIndex =
+    selectedSlotIndex !== null &&
+    selectedSlotIndex < queue.length &&
+    selectedSlotIndex < maxSlots
+      ? selectedSlotIndex
+      : null;
 
   const readySlots = queue.filter((slot) => slot.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readySlots.length > 0;
 
   const selectedSlot =
-    selectedSlotIndex !== null ? queue[selectedSlotIndex] : undefined;
+    activeSelectedSlotIndex !== null
+      ? queue[activeSelectedSlotIndex]
+      : undefined;
 
   const skills = state.bumpkin.skills;
   const fishCost = getBoostedAgingFishCost(skills);
@@ -160,7 +169,7 @@ export const AgingRackPanel: React.FC = () => {
               const slot = queue[index];
               const ready = slot.readyAt <= now;
               const remainingSec = Math.max(0, (slot.readyAt - now) / 1000);
-              const isSelected = selectedSlotIndex === index;
+              const isSelected = activeSelectedSlotIndex === index;
 
               return (
                 <div
@@ -198,7 +207,7 @@ export const AgingRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={selectedSlotIndex === index}
+                  isSelected={activeSelectedSlotIndex === index}
                   onClick={() =>
                     setSelectedSlotIndex((current) =>
                       current === index ? null : index,
@@ -226,6 +235,7 @@ export const AgingRackPanel: React.FC = () => {
       ) : (
         <AgingRackEmpty
           gameState={state}
+          now={now}
           selectedFish={selectedFish}
           onSelectFish={setSelectedFish}
           onStart={handleStart}

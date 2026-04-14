@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
@@ -35,7 +35,6 @@ import { getObjectEntries } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Consumable, CONSUMABLES, FISH } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
-import { useNow } from "lib/utils/hooks/useNow";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import classNames from "classnames";
 
@@ -61,6 +60,7 @@ function hasEnoughAgingIngredients(
 
 type Props = {
   gameState: GameState;
+  now: number;
   selectedFish?: FishName;
   onSelectFish: (fish: FishName) => void;
   onStart: () => void;
@@ -71,6 +71,7 @@ type Props = {
 
 export const AgingRackEmpty: React.FC<Props> = ({
   gameState,
+  now,
   selectedFish,
   onSelectFish,
   onStart,
@@ -79,28 +80,32 @@ export const AgingRackEmpty: React.FC<Props> = ({
   startError,
 }) => {
   const { t } = useAppTranslation();
-  const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
+  const merged = getMergedInventory(gameState);
 
   const skills = gameState.bumpkin.skills;
 
-  const fishOptions = useMemo(() => {
-    return getObjectEntries(merged)
-      .filter(
-        (entry): entry is [FishName, Decimal | undefined] =>
-          isFishName(entry[0]) && (entry[1]?.gte(1) ?? false),
-      )
-      .sort(([a], [b]) => FISH[a].experience - FISH[b].experience)
-      .map(([fishName]) => {
-        const baseXP = getFishBaseXP(fishName);
-        const saltCost = getBoostedAgingSaltCost(baseXP, skills);
-        const timeMs = getBoostedAgingTimeMs(baseXP, skills);
-        return {
-          value: fishName,
-          icon: ITEM_DETAILS[fishName]?.image,
-          detail: `${saltCost} Salt · ${secondsToString(timeMs / 1000, { length: "medium" })}`,
-        };
-      });
-  }, [merged, skills]);
+  const fishOptions = getObjectEntries(merged)
+    .filter(
+      (entry): entry is [FishName, Decimal | undefined] =>
+        isFishName(entry[0]) && (entry[1]?.gte(1) ?? false),
+    )
+    .sort(([a], [b]) => FISH[a].experience - FISH[b].experience)
+    .map(([fishName]) => {
+      const baseXP = getFishBaseXP(fishName);
+      const saltCost = getBoostedAgingSaltCost(baseXP, skills);
+      const timeMs = getBoostedAgingTimeMs(baseXP, skills);
+      const saltLabel = ITEM_DETAILS["Salt"]?.translatedName ?? "Salt";
+
+      return {
+        value: fishName,
+        icon: ITEM_DETAILS[fishName]?.image,
+        detail: t("agingShed.agingRack.fishOptionDetail", {
+          saltCost,
+          salt: saltLabel,
+          time: secondsToString(timeMs / 1000, { length: "medium" }),
+        }),
+      };
+    });
 
   return (
     <>
@@ -144,6 +149,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
           merged={merged}
           skills={skills}
           gameState={gameState}
+          now={now}
         />
       )}
 
@@ -170,13 +176,16 @@ const SelectedFishDetails: React.FC<{
   merged: Inventory;
   skills: Skills;
   gameState: GameState;
-}> = ({ selectedFish, merged, skills, gameState }) => {
+  now: number;
+}> = ({ selectedFish, merged, skills, gameState, now }) => {
   const [boostDisplayBoosts, setBoostsUsed] = useState<
     { name: BoostName; value: string }[] | undefined
   >(undefined);
   const { t } = useAppTranslation();
   const primeAgedChance = getPrimeAgedChance(skills);
   const agedChance = 100 - primeAgedChance;
+  const selectedFishLabel =
+    ITEM_DETAILS[selectedFish]?.translatedName ?? selectedFish;
   const recipeDef = selectedFish
     ? {
         saltCost: getBoostedAgingSaltCost(getFishBaseXP(selectedFish), skills),
@@ -184,8 +193,6 @@ const SelectedFishDetails: React.FC<{
         timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), skills),
       }
     : undefined;
-  const now = useNow({ live: true });
-
   if (!recipeDef) {
     return null;
   }
@@ -234,7 +241,7 @@ const SelectedFishDetails: React.FC<{
       </div>
       <div className="flex flex-col justify-between items-start">
         <Label type="default" className="text-xs mb-2 ml-1">
-          {`Output`}
+          {t("agingShed.agingRack.output")}
         </Label>
         <div
           className={classNames(
@@ -254,7 +261,12 @@ const SelectedFishDetails: React.FC<{
             className="text-xs ml-3"
             icon={ITEM_DETAILS[`Aged ${selectedFish}`]?.image}
           >
-            {`Aged ${selectedFish} - Chance: ${agedChance}%`}
+            {t("agingShed.agingRack.outputChance", {
+              item: t("agingShed.agingRack.agedFishLabel", {
+                fish: selectedFishLabel,
+              }),
+              chance: agedChance,
+            })}
           </Label>
           <div className="flex flex-row items-start">
             {isAgedFishXpBoosted && (
@@ -273,7 +285,7 @@ const SelectedFishDetails: React.FC<{
             )}
           </div>
         </div>
-        <p className="text-sm my-2 ml-3">{`OR`}</p>
+        <p className="text-sm my-2 ml-3">{t("agingShed.agingRack.or")}</p>
         <div
           className={classNames(
             "flex flex-col sm:flex-row justify-between w-full pl-2",
@@ -292,7 +304,12 @@ const SelectedFishDetails: React.FC<{
             className="text-xs ml-3"
             icon={ITEM_DETAILS[`Prime Aged ${selectedFish}`]?.image}
           >
-            {`Prime Aged ${selectedFish} - Chance: ${primeAgedChance}%`}
+            {t("agingShed.agingRack.outputChance", {
+              item: t("agingShed.agingRack.primeAgedFishLabel", {
+                fish: selectedFishLabel,
+              }),
+              chance: primeAgedChance,
+            })}
           </Label>
           <div className="flex flex-row items-start">
             {isPrimeAgedFishXpBoosted && (

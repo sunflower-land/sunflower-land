@@ -22,6 +22,12 @@ const createdAt = FERMENTATION_TEST_NOW;
 /** Stable 8-char ids (required on action; mirrors client `crypto.randomUUID().slice(0, 8)`). */
 const TEST_JOB_ID = "a1b2c3d4";
 const TEST_JOB_ID_2 = "b2c3d4e5";
+const INSTANT_FERMENTATION_RECIPES = [
+  "Salt from Seaweed",
+  "Salt from Old Bottle",
+  "Salt from Crab",
+  "Salt from Bones",
+] as const;
 
 describe("startFermentation", () => {
   it("throws when Aging Shed is not placed", () => {
@@ -289,12 +295,7 @@ describe("startFermentation", () => {
     );
   });
 
-  it.each([
-    "Salt from Seaweed",
-    "Salt from Old Bottle",
-    "Salt from Crab",
-    "Salt from Bones",
-  ] as const)(
+  it.each(INSTANT_FERMENTATION_RECIPES)(
     "instant recipe %s grants output without enqueueing",
     (recipe) => {
       const def = getFermentationRecipe(recipe);
@@ -324,58 +325,72 @@ describe("startFermentation", () => {
     },
   );
 
-  it("allows zero-duration recipe when fermentation rack is full", () => {
-    const past = createdAt - 1;
-    const future = createdAt + 60 * 60 * 1000;
-    const newJobId = "instant01";
+  it.each(INSTANT_FERMENTATION_RECIPES)(
+    "allows zero-duration recipe %s when fermentation rack is full",
+    (recipe) => {
+      const past = createdAt - 1;
+      const future = createdAt + 60 * 60 * 1000;
+      const newJobId = "instant01";
+      const def = getFermentationRecipe(recipe);
+      const inventory: Record<string, Decimal> = {};
 
-    const state = startFermentation({
-      state: createFermentationTestState({
-        agingShed: {
-          ...createInitialAgingShed(),
-          level: 3,
-          racks: {
-            ...createInitialAgingShed().racks,
-            fermentation: [
-              {
-                id: "1",
-                recipe: "Pickled Radish",
-                startedAt: past,
-                readyAt: future,
-              },
-              {
-                id: "2",
-                recipe: "Pickled Radish",
-                startedAt: past,
-                readyAt: future,
-              },
-              {
-                id: "3",
-                recipe: "Pickled Radish",
-                startedAt: past,
-                readyAt: future,
-              },
-            ],
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      const state = startFermentation({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            level: 3,
+            racks: {
+              ...createInitialAgingShed().racks,
+              fermentation: [
+                {
+                  id: "1",
+                  recipe: "Pickled Radish",
+                  startedAt: past,
+                  readyAt: future,
+                },
+                {
+                  id: "2",
+                  recipe: "Pickled Radish",
+                  startedAt: past,
+                  readyAt: future,
+                },
+                {
+                  id: "3",
+                  recipe: "Pickled Radish",
+                  startedAt: past,
+                  readyAt: future,
+                },
+              ],
+            },
           },
+          inventory,
+        }),
+        action: {
+          type: "fermentation.started",
+          recipe,
+          jobId: newJobId,
         },
-        inventory: { "Old Bottle": new Decimal(8) },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe: "Salt from Old Bottle",
-        jobId: newJobId,
-      },
-      farmId: 1,
-      createdAt,
-    });
+        farmId: 1,
+        createdAt,
+      });
 
-    expect(state.agingShed.racks.fermentation).toHaveLength(3);
-    expect(state.agingShed.racks.fermentation.map((j) => j.id)).not.toContain(
-      newJobId,
-    );
-    expect(state.inventory["Old Bottle"]?.toNumber()).toEqual(0);
-    expect(state.inventory.Salt?.toNumber()).toEqual(9);
-  });
+      expect(state.agingShed.racks.fermentation).toHaveLength(3);
+      expect(state.agingShed.racks.fermentation.map((j) => j.id)).not.toContain(
+        newJobId,
+      );
+
+      for (const [item, qty] of getObjectEntries(def.outputs)) {
+        expect(state.inventory[item]?.toNumber()).toEqual(qty?.toNumber());
+      }
+      for (const [ing] of getObjectEntries(def.ingredients)) {
+        expect(state.inventory[ing]?.toNumber() ?? 0).toEqual(0);
+      }
+    },
+  );
 
   it("exercises runtime recipe guard when type is widened", () => {
     expect(() =>

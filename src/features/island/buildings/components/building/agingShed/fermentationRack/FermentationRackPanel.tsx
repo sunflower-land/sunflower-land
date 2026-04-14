@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -93,17 +93,17 @@ export const FermentationRackPanel: React.FC = () => {
   const queue = state.agingShed.racks.fermentation;
 
   /** Stop ticking when every job is ready (last `readyAt`); no interval when queue is empty. */
-  const fermentationClockEndAt = useMemo(() => {
-    if (queue.length === 0) return undefined;
-    return Math.max(...queue.map((job) => job.readyAt));
-  }, [queue]);
+  const fermentationClockEndAt =
+    queue.length === 0
+      ? undefined
+      : Math.max(...queue.map((job) => job.readyAt));
 
   const now = useNow({
     live: queue.length > 0,
     autoEndAt: fermentationClockEndAt,
   });
 
-  const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const groups = getFermentationOutputGroups();
 
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
     null,
@@ -121,6 +121,12 @@ export const FermentationRackPanel: React.FC = () => {
   const slotsFull = queue.length >= maxSlots;
 
   const shedPlaced = hasPlacedAgingShed(state);
+  const activeSelectedSlotIndex =
+    selectedSlotIndex !== null &&
+    selectedSlotIndex < queue.length &&
+    selectedSlotIndex < maxSlots
+      ? selectedSlotIndex
+      : null;
 
   const merged = getMergedInventory(state);
 
@@ -148,7 +154,9 @@ export const FermentationRackPanel: React.FC = () => {
   const canCollect = !isVisiting && shedPlaced && readyJobs.length > 0;
 
   const selectedJob =
-    selectedSlotIndex !== null ? queue[selectedSlotIndex] : undefined;
+    activeSelectedSlotIndex !== null
+      ? queue[activeSelectedSlotIndex]
+      : undefined;
 
   const applyOutputGroupSelection = useCallback(
     (group: FermentationOutputGroup) => {
@@ -292,7 +300,7 @@ export const FermentationRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={selectedSlotIndex === index}
+                    isSelected={activeSelectedSlotIndex === index}
                     onClick={() =>
                       setSelectedSlotIndex((current) =>
                         current === index ? null : index,
@@ -319,7 +327,7 @@ export const FermentationRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={selectedSlotIndex === index}
+                  isSelected={activeSelectedSlotIndex === index}
                   onClick={() =>
                     setSelectedSlotIndex((current) =>
                       current === index ? null : index,

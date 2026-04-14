@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
@@ -91,7 +91,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
 
-  const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const groups = getFermentationOutputGroups();
   const selectedGroup = selectedSignature
     ? groups.find((g) => g.signature === selectedSignature)
     : undefined;
@@ -100,7 +100,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
   const recipeId = selectedRecipeId;
   const recipeDef = recipeId ? getFermentationRecipe(recipeId) : undefined;
   const skills = gameState.bumpkin.skills;
-  const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
+  const merged = getMergedInventory(gameState);
 
   const ingredientKeys: InventoryItemName[] = recipeDef
     ? (getObjectEntries(recipeDef.ingredients).map(([name]) => name) as

@@ -10,8 +10,12 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
-import { AGED_FISH, PRIME_AGED_FISH } from "features/game/types/consumables";
-import { AgedFishName, PrimeAgedFishName } from "../types/fishing";
+import {
+  AGED_FISH,
+  isAgedFish,
+  isPrimeAgedFish,
+  PRIME_AGED_FISH,
+} from "features/game/types/consumables";
 
 export type FermentationOutputGroup = {
   /** Stable id for selection (output item name). */
@@ -72,64 +76,64 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
   return 10;
 }
 
-/** `0` = Aged fish bait, `1` = Prime Aged fish bait; `undefined` if not a fish-age variant. */
-function getBaitVariantAgingTier(
-  recipeId: FermentationRecipeName,
-): 0 | 1 | undefined {
-  const def = getFermentationRecipe(recipeId);
-
-  for (const [ingredientName] of getObjectEntries(def.ingredients)) {
-    if (ingredientName in PRIME_AGED_FISH) {
-      return 1;
-    }
-    if (ingredientName in AGED_FISH) {
-      return 0;
-    }
-  }
-
-  return undefined;
-}
-
 /**
- * For bait fermentation recipes, the aged / prime-aged fish ingredient supplies XP
- * (`AGED_FISH` / `PRIME_AGED_FISH` `.experience`) for ordering within an aging tier.
+ * For bait fermentation recipes, the aged / prime-aged fish ingredient determines
+ * the aging tier and supplies XP for ordering within a tier.
  */
-function getBaitVariantFishXp(
-  recipeId: FermentationRecipeName,
-): number | undefined {
+function getBaitVariantSortMetadata(recipeId: FermentationRecipeName): {
+  tier: 0 | 1 | undefined;
+  xp: number | undefined;
+} {
   const def = getFermentationRecipe(recipeId);
 
   for (const [ingredientName] of getObjectEntries(def.ingredients)) {
-    if (ingredientName in AGED_FISH) {
-      return AGED_FISH[ingredientName as AgedFishName].experience;
+    if (isPrimeAgedFish(ingredientName)) {
+      return {
+        tier: 1,
+        xp: PRIME_AGED_FISH[ingredientName].experience,
+      };
     }
-    if (ingredientName in PRIME_AGED_FISH) {
-      return PRIME_AGED_FISH[ingredientName as PrimeAgedFishName].experience;
+    if (isAgedFish(ingredientName)) {
+      return {
+        tier: 0,
+        xp: AGED_FISH[ingredientName].experience,
+      };
     }
   }
 
-  return undefined;
+  return { tier: undefined, xp: undefined };
 }
+
+type FermentationRecipeSortMeta = {
+  tier: 0 | 1 | undefined;
+  xp: number | undefined;
+  label: string;
+};
 
 function compareFermentationRecipeIds(
   a: FermentationRecipeName,
   b: FermentationRecipeName,
+  sortMetaByRecipe: Map<FermentationRecipeName, FermentationRecipeSortMeta>,
 ): number {
-  const tierA = getBaitVariantAgingTier(a);
-  const tierB = getBaitVariantAgingTier(b);
+  const aMeta = sortMetaByRecipe.get(a);
+  const bMeta = sortMetaByRecipe.get(b);
+  const tierA = aMeta?.tier;
+  const tierB = bMeta?.tier;
 
   if (tierA !== undefined && tierB !== undefined && tierA !== tierB) {
     return tierA - tierB;
   }
 
-  const xpA = getBaitVariantFishXp(a);
-  const xpB = getBaitVariantFishXp(b);
+  const xpA = aMeta?.xp;
+  const xpB = bMeta?.xp;
 
   if (xpA !== undefined && xpB !== undefined && xpA !== xpB) {
     return xpA - xpB;
   }
 
-  return formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b));
+  const aLabel = aMeta?.label ?? formatRecipeVariantLabel(a);
+  const bLabel = bMeta?.label ?? formatRecipeVariantLabel(b);
+  return aLabel.localeCompare(bLabel);
 }
 
 /**
@@ -160,6 +164,19 @@ export function findFermentationGroupByStoredSignature(
  */
 export function getFermentationOutputGroups(): FermentationOutputGroup[] {
   const byOutputItem = new Map<string, FermentationRecipeName[]>();
+  const sortMetaByRecipe = new Map<
+    FermentationRecipeName,
+    FermentationRecipeSortMeta
+  >();
+
+  for (const recipeId of FERMENTATION_RECIPE_IDS) {
+    const { tier, xp } = getBaitVariantSortMetadata(recipeId);
+    sortMetaByRecipe.set(recipeId, {
+      tier,
+      xp,
+      label: formatRecipeVariantLabel(recipeId),
+    });
+  }
 
   for (const recipeId of FERMENTATION_RECIPE_IDS) {
     const def = FERMENTATION_RECIPES[recipeId];
@@ -177,7 +194,9 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
     const def = getFermentationRecipe(recipeIds[0]);
     const [item] = getPrimaryOutput(def.outputs);
 
-    const sortedIds = [...recipeIds].sort(compareFermentationRecipeIds);
+    const sortedIds = [...recipeIds].sort((a, b) =>
+      compareFermentationRecipeIds(a, b, sortMetaByRecipe),
+    );
 
     const outputQuantities = sortedIds.map(
       (id) => getPrimaryOutput(getFermentationRecipe(id).outputs)[1],

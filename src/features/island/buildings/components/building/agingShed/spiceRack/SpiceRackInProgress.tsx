@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 
@@ -48,7 +48,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const state = useSelector(gameService, (state) => state.context.state);
 
   const skills = state.bumpkin.skills;
-  const recipeDef = useMemo(() => getSpiceRackRecipe(job.recipe), [job.recipe]);
+  const recipeDef = getSpiceRackRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0] as SpiceRackRecipeName;
   const outputAmount = getAgingOutput(
