@@ -154,11 +154,6 @@ export const ItemCard: React.FC<{
         label="Is Tradeable?"
       />
       <Switch
-        checked={item.generator}
-        onChange={() => onUpdate({ generator: !item.generator })}
-        label="Is Generator?"
-      />
-      <Switch
         checked={item.trophy}
         onChange={() => onUpdate({ trophy: !item.trophy })}
         label={t("playerEconomyEditor.itemCard.trophy")}

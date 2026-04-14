@@ -110,8 +110,16 @@ export type PlayerEconomyActionDefinition = {
    * Default true when omitted (backward compatible).
    */
   showInShop?: boolean;
-  /** Max successful invocations per UTC day (advanced / iframe minigames). */
-  maxUsesPerDay?: number;
+  /**
+   * Seconds after last successful run (`playerEconomy.rules[actionId].ranAt`) before this action can run again.
+   * Omit or ≤0 for no cooldown.
+   */
+  cooldownSeconds?: number;
+  /**
+   * Editor hint: mint rows are shown as item + amount + chance% instead of min/max.
+   * Ignored at runtime by the economy engine.
+   */
+  mintUiDropChances?: boolean;
   /**
    * Max lifetime purchases of this action per farm (shop). Non-collect invocations only.
    * Omit or ≤0 for unlimited.
@@ -162,9 +170,8 @@ export type PlayerEconomyDailyActivity = {
   count: number;
 };
 
-export type DailyActionUsesBucket = {
-  utcDay: string;
-  byAction: Record<string, number>;
+export type PlayerEconomyRuleRunRecord = {
+  ranAt: number;
 };
 
 export type PlayerEconomyRuntimeState = {
@@ -173,7 +180,8 @@ export type PlayerEconomyRuntimeState = {
   dailyMinted: DailyMintBucket;
   activity: number;
   dailyActivity: PlayerEconomyDailyActivity;
-  dailyActionUses?: DailyActionUsesBucket;
+  /** Per action id: last successful economy action completion time (ms). */
+  rules?: Record<string, PlayerEconomyRuleRunRecord>;
   /** Per-action purchase counts when `purchaseLimit` is used on shop rules. */
   purchaseCounts?: Record<string, number>;
   /** Best score for this economy from the API (`playerEconomy.highscore` on session load). */

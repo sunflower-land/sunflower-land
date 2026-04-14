@@ -78,8 +78,6 @@ export type ItemForm = {
   image: string;
   id?: number;
   tradeable: boolean;
-  /** When true, can be chosen as produce "requires" and shown in the dashboard production zone. */
-  generator: boolean;
   /** When true, shown in the economy dashboard trophy zone when the player owns at least one. */
   trophy: boolean;
   /** Starting balance for new farms (`items[token].initialBalance` in saved config). */
@@ -130,8 +128,16 @@ export type ActionForm = {
   /** Custom rule only — advanced mint rows. */
   customMint: CustomMintRowForm[];
   customBurn: CustomBurnRowForm[];
-  /** Custom: max successful runs per UTC day (0 = unlimited). */
-  customDailyUsesCap: number;
+  /**
+   * Custom: mint editor uses item + amount + chance% rows (saved as `mintUiDropChances` on the action).
+   */
+  customMintDropChances?: boolean;
+  /** Custom: cooldown in seconds after each successful use (0 = off). Saved as `cooldownSeconds`. */
+  customCooldownSeconds?: number;
+  /**
+   * Custom: Requires row inputs enabled in the editor (not persisted; derived on load from saved `require`).
+   */
+  customRequiresUiEnabled?: boolean;
 };
 
 export type EditorFormState = {

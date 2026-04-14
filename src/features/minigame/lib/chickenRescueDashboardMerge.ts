@@ -22,7 +22,9 @@ function sessionPlayerEconomyToRuntime(
     dailyMinted: m.dailyMinted ?? { utcDay: day, minted: {} },
     activity: m.activity,
     dailyActivity: m.dailyActivity ?? { date: day, count: 0 },
-    dailyActionUses: m.dailyActionUses ?? { utcDay: day, byAction: {} },
+    ...(m.rules && Object.keys(m.rules).length > 0
+      ? { rules: { ...m.rules } }
+      : {}),
     ...(m.purchaseCounts != null
       ? { purchaseCounts: { ...m.purchaseCounts } }
       : {}),

@@ -3,7 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { TextInput } from "components/ui/TextInput";
 import { Dropdown } from "components/ui/Dropdown";
-import { SUNNYSIDE } from "assets/sunnyside";
+import flowerTokenIcon from "assets/icons/flower_token.webp";
 import type { EditorFormState, PurchaseForm } from "../lib/types";
 import { SectionHeader } from "../components/SectionHeader";
 import { FieldRow } from "../components/FieldRow";
@@ -60,7 +60,7 @@ export const PurchasesTab: React.FC<{
   return (
     <div className="space-y-3">
       <InnerPanel className="p-3 space-y-3">
-        <SectionHeader type="info" icon={SUNNYSIDE.icons.disc}>
+        <SectionHeader type="info" icon={flowerTokenIcon}>
           {t("playerEconomyEditor.purchases.title")}
         </SectionHeader>
         <p className="text-xs text-amber-100/90 leading-relaxed">

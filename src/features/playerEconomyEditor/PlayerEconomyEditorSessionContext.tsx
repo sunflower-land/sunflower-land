@@ -37,6 +37,8 @@ export type PlayerEconomyEditorSessionState = {
   loadError: string | null;
   syncError: string | null;
   savedFlash: boolean;
+  /** True while a save request is in flight (button loading / disabled). */
+  saveInProgress: boolean;
   activeTab: EditorTab;
   previewUnsavedOpen: boolean;
 };
@@ -55,6 +57,7 @@ export type PlayerEconomyEditorSessionAction =
   | { type: "UPDATE_FORM"; update: (prev: EditorFormState) => EditorFormState }
   | { type: "SET_TAB"; tab: EditorTab }
   | { type: "COMMIT_SAVE_LOCAL"; form: EditorFormState }
+  | { type: "SET_SAVE_IN_PROGRESS"; value: boolean }
   | { type: "CLEAR_SAVED_FLASH" }
   | { type: "SYNC_ERROR"; message: string }
   | { type: "CLEAR_SYNC_ERROR" }
@@ -76,6 +79,7 @@ function sessionInit(
       loadError: null,
       syncError: null,
       savedFlash: false,
+      saveInProgress: false,
       activeTab: "basics",
       previewUnsavedOpen: false,
     };
@@ -90,6 +94,7 @@ function sessionInit(
     loadError: null,
     syncError: null,
     savedFlash: false,
+    saveInProgress: false,
     activeTab: "basics",
     previewUnsavedOpen: false,
   };
@@ -127,14 +132,15 @@ function sessionReducer(
     case "SET_TAB":
       return { ...state, activeTab: action.tab };
     case "COMMIT_SAVE_LOCAL": {
-      const next = structuredClone(action.form);
+      const saved = structuredClone(action.form);
       return {
         ...state,
-        form: next,
-        baseline: structuredClone(next),
+        baseline: structuredClone(saved),
         savedFlash: true,
       };
     }
+    case "SET_SAVE_IN_PROGRESS":
+      return { ...state, saveInProgress: action.value };
     case "CLEAR_SAVED_FLASH":
       return { ...state, savedFlash: false };
     case "SYNC_ERROR":
@@ -156,8 +162,8 @@ export type PlayerEconomyEditorSessionContextValue = {
   setActiveTab: (tab: EditorTab) => void;
   setPreviewUnsavedOpen: (open: boolean) => void;
   /**
-   * Commits the given form locally (baseline + flash), then POSTs to the API.
-   * Local state does not wait on or merge the response; failures open the sync modal.
+   * POSTs to the API; on success updates baseline and shows the saved flash.
+   * While in flight, `saveInProgress` is true. Failures open the sync modal and leave baseline unchanged.
    */
   commitSaveLocalAndQueueSync: (form: EditorFormState) => void;
   requestItemImageUploadUrl: ReturnType<
@@ -199,6 +205,7 @@ export function PlayerEconomyEditorSessionProvider({
   );
 
   const loadGenRef = useRef(0);
+  const saveInFlightRef = useRef(false);
 
   useEffect(() => {
     if (mode !== "edit" || !slug.trim()) return;
@@ -277,9 +284,11 @@ export function PlayerEconomyEditorSessionProvider({
 
   const commitSaveLocalAndQueueSync = useCallback(
     (form: EditorFormState) => {
-      const snapshot = structuredClone(form);
-      dispatch({ type: "COMMIT_SAVE_LOCAL", form: snapshot });
+      if (saveInFlightRef.current) return;
+      saveInFlightRef.current = true;
+      dispatch({ type: "SET_SAVE_IN_PROGRESS", value: true });
 
+      const snapshot = structuredClone(form);
       const trimmedSlug = snapshot.slug.trim();
       const event =
         mode === "create"
@@ -294,15 +303,23 @@ export function PlayerEconomyEditorSessionProvider({
               config: formToConfig(snapshot),
             } as const);
 
-      void submitEvent(event).catch((err) => {
-        dispatch({
-          type: "SYNC_ERROR",
-          message:
-            err instanceof Error
-              ? err.message
-              : t("playerEconomyEditor.error.update"),
+      void submitEvent(event)
+        .then(() => {
+          dispatch({ type: "COMMIT_SAVE_LOCAL", form: snapshot });
+        })
+        .catch((err) => {
+          dispatch({
+            type: "SYNC_ERROR",
+            message:
+              err instanceof Error
+                ? err.message
+                : t("playerEconomyEditor.error.update"),
+          });
+        })
+        .finally(() => {
+          saveInFlightRef.current = false;
+          dispatch({ type: "SET_SAVE_IN_PROGRESS", value: false });
         });
-      });
     },
     [mode, slug, submitEvent, t],
   );

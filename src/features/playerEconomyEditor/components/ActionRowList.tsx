@@ -289,128 +289,129 @@ export const CustomMintRowList: React.FC<{
   itemKeys: string[];
   getItemOptionLabel?: (itemId: string) => string;
   onChange: (rows: CustomMintRowForm[]) => void;
-}> = ({ rows, itemKeys, getItemOptionLabel, onChange }) => {
+  dropChances: boolean;
+}> = ({ rows, itemKeys, getItemOptionLabel, onChange, dropChances }) => {
   const { t } = useAppTranslation();
+  const nameLabel = t("playerEconomyEditor.custom.columnName");
+  const minLabel = t("playerEconomyEditor.custom.columnMin");
+  const maxLabel = t("playerEconomyEditor.custom.columnMax");
+  const amountLabel = t("playerEconomyEditor.custom.columnAmount");
+  const chanceLabel = t("playerEconomyEditor.custom.columnChancePct");
+
   return (
-    <>
+    <div className="space-y-2">
       {rows.map((row, idx) => (
-        <div key={idx} className="flex items-start gap-1">
-          <div className="flex-1 grid grid-cols-2 gap-1">
-            <div className="col-span-2">
-              <FieldRow label="Item">
-                <Dropdown
-                  options={itemKeys}
-                  value={row.token || undefined}
-                  onChange={(v) => {
-                    const u = [...rows];
-                    u[idx] = { ...u[idx], token: v };
-                    onChange(u);
-                  }}
-                  placeholder="Select item"
-                  showSearch
-                  getOptionLabel={getItemOptionLabel}
-                />
-              </FieldRow>
-            </div>
-            <FieldRow label="Daily cap">
-              <NumberInput
-                value={new Decimal(row.dailyCap ?? 0)}
-                maxDecimalPlaces={0}
-                onValueChange={(v) => {
+        <div key={idx} className="flex items-end gap-1">
+          <div className="flex-1 min-w-0 grid grid-cols-3 gap-1">
+            <FieldRow label={nameLabel}>
+              <Dropdown
+                options={itemKeys}
+                value={row.token || undefined}
+                onChange={(v) => {
                   const u = [...rows];
-                  u[idx] = {
-                    ...u[idx],
-                    dailyCap: Math.max(0, Math.floor(v.toNumber())),
-                  };
+                  u[idx] = { ...u[idx], token: v };
                   onChange(u);
                 }}
+                placeholder={t("playerEconomyEditor.custom.selectItem")}
+                showSearch
+                getOptionLabel={getItemOptionLabel}
               />
             </FieldRow>
-            <FieldRow label="Chance %">
-              <NumberInput
-                value={new Decimal(row.chance ?? 100)}
-                maxDecimalPlaces={0}
-                onValueChange={(v) => {
-                  const u = [...rows];
-                  const n = Math.max(
-                    0,
-                    Math.min(100, Math.round(v.toNumber())),
-                  );
-                  u[idx] = { ...u[idx], chance: n };
-                  onChange(u);
-                }}
-              />
-            </FieldRow>
-            <FieldRow label="Min">
-              <NumberInput
-                value={new Decimal(row.min ?? 0)}
-                maxDecimalPlaces={0}
-                onValueChange={(v) => {
-                  const u = [...rows];
-                  u[idx] = {
-                    ...u[idx],
-                    min: Math.max(0, Math.floor(v.toNumber())),
-                  };
-                  onChange(u);
-                }}
-              />
-            </FieldRow>
-            <FieldRow label="Max">
-              <NumberInput
-                value={new Decimal(row.max ?? 0)}
-                maxDecimalPlaces={0}
-                onValueChange={(v) => {
-                  const u = [...rows];
-                  u[idx] = {
-                    ...u[idx],
-                    max: Math.max(0, Math.floor(v.toNumber())),
-                  };
-                  onChange(u);
-                }}
-              />
-            </FieldRow>
+            {dropChances ? (
+              <>
+                <FieldRow label={amountLabel}>
+                  <NumberInput
+                    value={new Decimal(row.min ?? 0)}
+                    maxDecimalPlaces={0}
+                    onValueChange={(v) => {
+                      const u = [...rows];
+                      const n = Math.max(0, Math.floor(v.toNumber()));
+                      u[idx] = { ...u[idx], min: n, max: n };
+                      onChange(u);
+                    }}
+                  />
+                </FieldRow>
+                <FieldRow label={chanceLabel}>
+                  <NumberInput
+                    value={new Decimal(row.chance ?? 100)}
+                    maxDecimalPlaces={0}
+                    onValueChange={(v) => {
+                      const u = [...rows];
+                      const n = Math.max(
+                        0,
+                        Math.min(100, Math.round(v.toNumber())),
+                      );
+                      u[idx] = { ...u[idx], chance: n };
+                      onChange(u);
+                    }}
+                  />
+                </FieldRow>
+              </>
+            ) : (
+              <>
+                <FieldRow label={minLabel}>
+                  <NumberInput
+                    value={new Decimal(row.min ?? 0)}
+                    maxDecimalPlaces={0}
+                    onValueChange={(v) => {
+                      const u = [...rows];
+                      u[idx] = {
+                        ...u[idx],
+                        min: Math.max(0, Math.floor(v.toNumber())),
+                      };
+                      onChange(u);
+                    }}
+                  />
+                </FieldRow>
+                <FieldRow label={maxLabel}>
+                  <NumberInput
+                    value={new Decimal(row.max ?? 0)}
+                    maxDecimalPlaces={0}
+                    onValueChange={(v) => {
+                      const u = [...rows];
+                      u[idx] = {
+                        ...u[idx],
+                        max: Math.max(0, Math.floor(v.toNumber())),
+                      };
+                      onChange(u);
+                    }}
+                  />
+                </FieldRow>
+              </>
+            )}
           </div>
-          {rows.length > 1 && (
+          {rows.length > 1 ? (
             <img
               src={SUNNYSIDE.icons.cancel}
-              className="cursor-pointer hover:brightness-75 mt-5"
+              className="cursor-pointer hover:brightness-75 shrink-0 mb-0.5"
               onClick={() => onChange(rows.filter((_, i) => i !== idx))}
               style={{
                 width: `${PIXEL_SCALE * 7}px`,
                 imageRendering: "pixelated",
               }}
+              alt=""
             />
-          )}
-          {idx === rows.length - 1 && (
-            <img
-              src={SUNNYSIDE.icons.plus}
-              className="cursor-pointer hover:brightness-90 mt-5"
-              onClick={() => onChange([...rows, { ...EMPTY_CUSTOM_MINT_ROW }])}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                imageRendering: "pixelated",
-              }}
+          ) : (
+            <div
+              className="shrink-0"
+              style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
           )}
         </div>
       ))}
-      {rows.length === 0 && (
-        <div className="flex items-center gap-2">
-          <p className="text-[10px] italic opacity-50">
-            {t("playerEconomyEditor.actionRow.noMintRows")}
-          </p>
-          <img
-            src={SUNNYSIDE.icons.plus}
-            className="cursor-pointer hover:brightness-90"
-            onClick={() => onChange([{ ...EMPTY_CUSTOM_MINT_ROW }])}
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              imageRendering: "pixelated",
-            }}
-          />
-        </div>
-      )}
-    </>
+      <button
+        type="button"
+        className="text-xs underline text-[#3e2731] hover:opacity-80"
+        onClick={() => onChange([...rows, { ...EMPTY_CUSTOM_MINT_ROW }])}
+      >
+        {t("playerEconomyEditor.custom.addMintItem")}
+      </button>
+      {rows.length === 0 ? (
+        <p className="text-[10px] italic opacity-50">
+          {t("playerEconomyEditor.actionRow.noMintRows")}
+        </p>
+      ) : null}
+    </div>
   );
 };
 
@@ -421,28 +422,30 @@ export const CustomBurnRowList: React.FC<{
   onChange: (rows: CustomBurnRowForm[]) => void;
 }> = ({ rows, itemKeys, getItemOptionLabel, onChange }) => {
   const { t } = useAppTranslation();
+  const nameLabel = t("playerEconomyEditor.custom.columnName");
+  const minLabel = t("playerEconomyEditor.custom.columnMin");
+  const maxLabel = t("playerEconomyEditor.custom.columnMax");
+
   return (
-    <>
+    <div className="space-y-2">
       {rows.map((row, idx) => (
-        <div key={idx} className="flex items-start gap-1">
-          <div className="flex-1 grid grid-cols-2 gap-1">
-            <div className="col-span-2">
-              <FieldRow label="Item">
-                <Dropdown
-                  options={itemKeys}
-                  value={row.token || undefined}
-                  onChange={(v) => {
-                    const u = [...rows];
-                    u[idx] = { ...u[idx], token: v };
-                    onChange(u);
-                  }}
-                  placeholder="Select item"
-                  showSearch
-                  getOptionLabel={getItemOptionLabel}
-                />
-              </FieldRow>
-            </div>
-            <FieldRow label="Min burn">
+        <div key={idx} className="flex items-end gap-1">
+          <div className="flex-1 min-w-0 grid grid-cols-3 gap-1">
+            <FieldRow label={nameLabel}>
+              <Dropdown
+                options={itemKeys}
+                value={row.token || undefined}
+                onChange={(v) => {
+                  const u = [...rows];
+                  u[idx] = { ...u[idx], token: v };
+                  onChange(u);
+                }}
+                placeholder={t("playerEconomyEditor.custom.selectItem")}
+                showSearch
+                getOptionLabel={getItemOptionLabel}
+              />
+            </FieldRow>
+            <FieldRow label={minLabel}>
               <NumberInput
                 value={new Decimal(row.min ?? 0)}
                 maxDecimalPlaces={0}
@@ -456,7 +459,7 @@ export const CustomBurnRowList: React.FC<{
                 }}
               />
             </FieldRow>
-            <FieldRow label="Max burn">
+            <FieldRow label={maxLabel}>
               <NumberInput
                 value={new Decimal(row.max ?? 0)}
                 maxDecimalPlaces={0}
@@ -471,46 +474,37 @@ export const CustomBurnRowList: React.FC<{
               />
             </FieldRow>
           </div>
-          {rows.length > 1 && (
+          {rows.length > 1 ? (
             <img
               src={SUNNYSIDE.icons.cancel}
-              className="cursor-pointer hover:brightness-75 mt-5"
+              className="cursor-pointer hover:brightness-75 shrink-0 mb-0.5"
               onClick={() => onChange(rows.filter((_, i) => i !== idx))}
               style={{
                 width: `${PIXEL_SCALE * 7}px`,
                 imageRendering: "pixelated",
               }}
+              alt=""
             />
-          )}
-          {idx === rows.length - 1 && (
-            <img
-              src={SUNNYSIDE.icons.plus}
-              className="cursor-pointer hover:brightness-90 mt-5"
-              onClick={() => onChange([...rows, { ...EMPTY_CUSTOM_BURN_ROW }])}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                imageRendering: "pixelated",
-              }}
+          ) : (
+            <div
+              className="shrink-0"
+              style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
           )}
         </div>
       ))}
-      {rows.length === 0 && (
-        <div className="flex items-center gap-2">
-          <p className="text-[10px] italic opacity-50">
-            {t("playerEconomyEditor.actionRow.noBurnRows")}
-          </p>
-          <img
-            src={SUNNYSIDE.icons.plus}
-            className="cursor-pointer hover:brightness-90"
-            onClick={() => onChange([{ ...EMPTY_CUSTOM_BURN_ROW }])}
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              imageRendering: "pixelated",
-            }}
-          />
-        </div>
-      )}
-    </>
+      <button
+        type="button"
+        className="text-xs underline text-[#3e2731] hover:opacity-80"
+        onClick={() => onChange([...rows, { ...EMPTY_CUSTOM_BURN_ROW }])}
+      >
+        {t("playerEconomyEditor.custom.addBurnItem")}
+      </button>
+      {rows.length === 0 ? (
+        <p className="text-[10px] italic opacity-50">
+          {t("playerEconomyEditor.actionRow.noBurnRows")}
+        </p>
+      ) : null}
+    </div>
   );
 };
