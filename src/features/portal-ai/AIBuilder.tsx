@@ -109,6 +109,7 @@ function flattenSunnysideAssets(): AssetEntry[] {
 }
 
 const WS_URL = import.meta.env.VITE_AI_PORTAL_WS_URL || "ws://localhost:3001";
+const API_URL = WS_URL.replace(/^ws(s?):/, "http$1:");
 
 const EXAMPLE_PROMPTS = [
   {
@@ -1220,6 +1221,25 @@ export const AIBuilder: React.FC = () => {
               >
                 {"Hitboxes"}
               </span>
+              {lastSceneRef.current?.phaserScene && hasSavedFarm && (
+                <span
+                  className="text-xs px-3 py-1 rounded-t cursor-pointer bg-brown-100 hover:bg-brown-200"
+                  onClick={() => {
+                    const params = new URLSearchParams();
+                    if (
+                      currentVersionIdRef.current &&
+                      currentVersionIdRef.current !== "template"
+                    ) {
+                      params.set("versionId", currentVersionIdRef.current);
+                    }
+                    const qs = params.toString();
+                    const url = `${API_URL}/api/farm/${farmId}/download${qs ? `?${qs}` : ""}`;
+                    window.open(url, "_blank");
+                  }}
+                >
+                  {"Download"}
+                </span>
+              )}
             </div>
             <InnerPanel className="flex-1 flex flex-col p-2 min-h-0 overflow-hidden">
               <div className="flex-1 flex items-center justify-center min-h-0">
