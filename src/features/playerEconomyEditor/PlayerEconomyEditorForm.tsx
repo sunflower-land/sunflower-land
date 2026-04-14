@@ -23,6 +23,8 @@ import { ItemsTab } from "./tabs/ItemsTab";
 import { PurchasesTab } from "./tabs/PurchasesTab";
 import { ActionsTab } from "./tabs/ActionsTab";
 import { DocsTab } from "./tabs/DocsTab";
+import { JsonTab } from "./tabs/JsonTab";
+import { configToForm } from "./lib/configToForm";
 import { suggestNextActionId } from "./lib/actionIdHelpers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { usePlayerEconomyEditorSession } from "./PlayerEconomyEditorSessionContext";
@@ -60,6 +62,7 @@ const TAB_DEFS: { id: EditorTab; icon: string }[] = [
   { id: "items", icon: SUNNYSIDE.icons.basket },
   { id: "purchases", icon: flowerTokenIcon },
   { id: "actions", icon: SUNNYSIDE.icons.lightning },
+  { id: "json", icon: SUNNYSIDE.icons.indicator },
   { id: "docs", icon: tier1BookIcon },
 ];
 
@@ -351,6 +354,15 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             onAddAction={addAction}
             onDeleteAction={deleteAction}
             patchEmptyActionIds={patchEmptyActionIds}
+          />
+        );
+      case "json":
+        return (
+          <JsonTab
+            form={form}
+            onApplyConfig={(config) =>
+              updateForm((prev) => configToForm(prev.slug, config))
+            }
           />
         );
       case "docs":
