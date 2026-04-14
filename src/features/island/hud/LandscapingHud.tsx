@@ -18,6 +18,7 @@ import {
   LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
+  placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import {
@@ -230,6 +231,35 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
+              <Chest
+                location={location}
+                onPlaceChestItem={(selected) => {
+                  child.send("SELECT", {
+                    action: placeEvent(selected),
+                    placeable: { name: selected },
+                    multiple: true,
+                  });
+                }}
+                onPlaceNFT={(id, nft) => {
+                  child.send("SELECT", {
+                    action: "nft.placed",
+                    placeable: { id, name: nft },
+                    location,
+                  });
+                }}
+                onPlaceFarmHand={
+                  farmHandIds.length > 0
+                    ? (id) => {
+                        button.play();
+                        child.send("SELECT", {
+                          placeable: { name: "FarmHand", id },
+                          action: "farmHand.placed",
+                          requirements: { coins: 0, ingredients: {} },
+                        });
+                      }
+                    : undefined
+                }
+              />
               {location === "farm" && (
                 <>
                   <RoundButton
@@ -245,6 +275,25 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                         width: `${PIXEL_SCALE * 14}px`,
                       }}
                     />
+                    {showHelper && (
+                      <div
+                        className="absolute z-40"
+                        style={{
+                          left: `${PIXEL_SCALE * -8}px`,
+                          top: `${PIXEL_SCALE * 20}px`,
+                          transform: "scaleX(-1)",
+                        }}
+                      >
+                        <img
+                          className="cursor-pointer group-hover:img-highlight animate-pulsate"
+                          src={SUNNYSIDE.icons.click_icon}
+                          style={{
+                            width: `${PIXEL_SCALE * 18}px`,
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )}
                   </RoundButton>
                   <CraftDecorationsModal
                     show={showDecorations}

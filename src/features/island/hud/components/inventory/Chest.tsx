@@ -335,7 +335,8 @@ export const Chest: React.FC<Props> = ({
   // For petHouse, only show buds and petNFTs (no regular buds for petHouse)
   const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
-  const farmHands = getChestFarmHands(state.farmHands);
+  const farmHands =
+    location === "petHouse" ? {} : getChestFarmHands(state.farmHands);
 
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
