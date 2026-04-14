@@ -10,6 +10,8 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
+import { AGED_FISH, PRIME_AGED_FISH } from "features/game/types/consumables";
+import { AgedFishName, PrimeAgedFishName } from "../types/fishing";
 
 export type FermentationOutputGroup = {
   /** Stable id for selection (output item name). */
@@ -70,6 +72,66 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
   return 10;
 }
 
+/** `0` = Aged fish bait, `1` = Prime Aged fish bait; `undefined` if not a fish-age variant. */
+function getBaitVariantAgingTier(
+  recipeId: FermentationRecipeName,
+): 0 | 1 | undefined {
+  const def = getFermentationRecipe(recipeId);
+
+  for (const [ingredientName] of getObjectEntries(def.ingredients)) {
+    if (ingredientName in PRIME_AGED_FISH) {
+      return 1;
+    }
+    if (ingredientName in AGED_FISH) {
+      return 0;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * For bait fermentation recipes, the aged / prime-aged fish ingredient supplies XP
+ * (`AGED_FISH` / `PRIME_AGED_FISH` `.experience`) for ordering within an aging tier.
+ */
+function getBaitVariantFishXp(
+  recipeId: FermentationRecipeName,
+): number | undefined {
+  const def = getFermentationRecipe(recipeId);
+
+  for (const [ingredientName] of getObjectEntries(def.ingredients)) {
+    if (ingredientName in AGED_FISH) {
+      return AGED_FISH[ingredientName as AgedFishName].experience;
+    }
+    if (ingredientName in PRIME_AGED_FISH) {
+      return PRIME_AGED_FISH[ingredientName as PrimeAgedFishName].experience;
+    }
+  }
+
+  return undefined;
+}
+
+function compareFermentationRecipeIds(
+  a: FermentationRecipeName,
+  b: FermentationRecipeName,
+): number {
+  const tierA = getBaitVariantAgingTier(a);
+  const tierB = getBaitVariantAgingTier(b);
+
+  if (tierA !== undefined && tierB !== undefined && tierA !== tierB) {
+    return tierA - tierB;
+  }
+
+  const xpA = getBaitVariantFishXp(a);
+  const xpB = getBaitVariantFishXp(b);
+
+  if (xpA !== undefined && xpB !== undefined && xpA !== xpB) {
+    return xpA - xpB;
+  }
+
+  return formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b));
+}
+
 /**
  * Resolves a persisted output key to the current group. Supports legacy keys of the
  * form `item:amount` from when each yield was a separate dropdown row.
@@ -115,9 +177,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
     const def = getFermentationRecipe(recipeIds[0]);
     const [item] = getPrimaryOutput(def.outputs);
 
-    const sortedIds = [...recipeIds].sort((a, b) =>
-      formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b)),
-    );
+    const sortedIds = [...recipeIds].sort(compareFermentationRecipeIds);
 
     const outputQuantities = sortedIds.map(
       (id) => getPrimaryOutput(getFermentationRecipe(id).outputs)[1],

@@ -10,7 +10,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
 import {
   getSpiceRackRecipe,
-  getMaxSpiceRackSlots,
   SPICE_RACK_RECIPE_IDS,
   type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
@@ -77,17 +76,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
         | [])
     : [];
 
-  const slotsFull =
-    gameState.agingShed.racks.spice.length >=
-    getMaxSpiceRackSlots(gameState.agingShed.level);
   const shedPlaced = hasPlacedAgingShed(gameState);
 
   const canShowRequirements =
-    !!selectedRecipeId &&
-    !!recipeDef &&
-    shedPlaced &&
-    !slotsFull &&
-    !isVisiting;
+    !!selectedRecipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity = selectedRecipeId
     ? recipeDef?.outputs[selectedRecipeId]
@@ -95,33 +87,41 @@ export const SpiceRackEmpty: React.FC<Props> = ({
 
   return (
     <>
-      <InnerPanel className="mb-1">
-        <Label
-          type={selectedRecipeId ? "info" : "default"}
-          className="text-xs mb-2 ml-1"
-          icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
-        >
-          {selectedRecipeId
-            ? `${selectedRecipeId}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
-            : t("agingShed.spice.selectRecipe")}
-        </Label>
-        {selectedRecipeId &&
-          COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
-            skills,
-            collectibles: gameState.collectibles,
-          }).map((label) => {
-            return (
-              <Label
-                key={label.shortDescription}
-                type={label.labelType}
-                className="text-xs mb-2 ml-1"
-                secondaryIcon={label.boostedItemIcon}
-                icon={label.boostTypeIcon}
-              >
-                {label.shortDescription}
-              </Label>
-            );
-          })}
+      <InnerPanel className="mb-1 gap-1">
+        <div className="flex flex-col gap-1 mb-1">
+          <Label
+            type={selectedRecipeId ? "info" : "default"}
+            className="text-xs ml-1"
+            icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
+          >
+            {selectedRecipeId
+              ? `${selectedRecipeId}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+              : t("agingShed.spice.selectRecipe")}
+          </Label>
+          {selectedRecipeId && (
+            <>
+              {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
+                skills,
+                collectibles: gameState.collectibles,
+              }).map((label) => {
+                return (
+                  <Label
+                    key={label.shortDescription}
+                    type={label.labelType}
+                    className="text-xs ml-1"
+                    secondaryIcon={label.boostedItemIcon}
+                    icon={label.boostTypeIcon}
+                  >
+                    {label.shortDescription}
+                  </Label>
+                );
+              })}
+              <p className="text-xs ml-1">
+                {ITEM_DETAILS[selectedRecipeId]?.description}
+              </p>
+            </>
+          )}
+        </div>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
             const outputItem = getPrimaryOutputItem(recipeId);
@@ -181,11 +181,13 @@ export const SpiceRackEmpty: React.FC<Props> = ({
             </div>
           )}
 
-          {canShowRequirements && getRefinedSaltChance(skills) > 0 && (
-            <Label type="vibrant" className="text-xxs mx-2 mb-1">
-              {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
-            </Label>
-          )}
+          {canShowRequirements &&
+            selectedRecipeId === "Refined Salt" &&
+            getRefinedSaltChance(skills) > 0 && (
+              <Label type="vibrant" className="text-xxs mx-2 mb-1">
+                {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+              </Label>
+            )}
         </InnerPanel>
       )}
 

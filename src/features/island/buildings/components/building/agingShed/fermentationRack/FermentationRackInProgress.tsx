@@ -82,7 +82,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
                 })}`}
           </Label>
         </div>
-        <div className="flex flex-wrap mt-1">
+        <div className="flex flex-wrap mt-1 gap-1">
           {outputItem &&
             COLLECTIBLE_BUFF_LABELS[outputItem]?.({
               skills,
@@ -92,7 +92,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
                 <Label
                   key={label.shortDescription}
                   type={label.labelType}
-                  className="text-xs mb-2 ml-1"
+                  className="text-xs ml-1"
                   icon={label.boostTypeIcon}
                   secondaryIcon={label.boostedItemIcon}
                 >

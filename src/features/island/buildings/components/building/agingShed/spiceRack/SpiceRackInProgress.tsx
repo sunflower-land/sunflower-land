@@ -86,7 +86,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
                 })}`}
           </Label>
         </div>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1 mt-1">
           {outputItem &&
             COLLECTIBLE_BUFF_LABELS[outputItem]?.({
               skills,
