@@ -10,6 +10,12 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
+import {
+  AGED_FISH,
+  isAgedFish,
+  isPrimeAgedFish,
+  PRIME_AGED_FISH,
+} from "features/game/types/consumables";
 
 export type FermentationOutputGroup = {
   /** Stable id for selection (output item name). */
@@ -71,6 +77,66 @@ function outputGroupSortKey(group: FermentationOutputGroup): number {
 }
 
 /**
+ * For bait fermentation recipes, the aged / prime-aged fish ingredient determines
+ * the aging tier and supplies XP for ordering within a tier.
+ */
+function getBaitVariantSortMetadata(recipeId: FermentationRecipeName): {
+  tier: 0 | 1 | undefined;
+  xp: number | undefined;
+} {
+  const def = getFermentationRecipe(recipeId);
+
+  for (const [ingredientName] of getObjectEntries(def.ingredients)) {
+    if (isPrimeAgedFish(ingredientName)) {
+      return {
+        tier: 1,
+        xp: PRIME_AGED_FISH[ingredientName].experience,
+      };
+    }
+    if (isAgedFish(ingredientName)) {
+      return {
+        tier: 0,
+        xp: AGED_FISH[ingredientName].experience,
+      };
+    }
+  }
+
+  return { tier: undefined, xp: undefined };
+}
+
+type FermentationRecipeSortMeta = {
+  tier: 0 | 1 | undefined;
+  xp: number | undefined;
+  label: string;
+};
+
+function compareFermentationRecipeIds(
+  a: FermentationRecipeName,
+  b: FermentationRecipeName,
+  sortMetaByRecipe: Map<FermentationRecipeName, FermentationRecipeSortMeta>,
+): number {
+  const aMeta = sortMetaByRecipe.get(a);
+  const bMeta = sortMetaByRecipe.get(b);
+  const tierA = aMeta?.tier;
+  const tierB = bMeta?.tier;
+
+  if (tierA !== undefined && tierB !== undefined && tierA !== tierB) {
+    return tierA - tierB;
+  }
+
+  const xpA = aMeta?.xp;
+  const xpB = bMeta?.xp;
+
+  if (xpA !== undefined && xpB !== undefined && xpA !== xpB) {
+    return xpA - xpB;
+  }
+
+  const aLabel = aMeta?.label ?? formatRecipeVariantLabel(a);
+  const bLabel = bMeta?.label ?? formatRecipeVariantLabel(b);
+  return aLabel.localeCompare(bLabel);
+}
+
+/**
  * Resolves a persisted output key to the current group. Supports legacy keys of the
  * form `item:amount` from when each yield was a separate dropdown row.
  */
@@ -98,6 +164,19 @@ export function findFermentationGroupByStoredSignature(
  */
 export function getFermentationOutputGroups(): FermentationOutputGroup[] {
   const byOutputItem = new Map<string, FermentationRecipeName[]>();
+  const sortMetaByRecipe = new Map<
+    FermentationRecipeName,
+    FermentationRecipeSortMeta
+  >();
+
+  for (const recipeId of FERMENTATION_RECIPE_IDS) {
+    const { tier, xp } = getBaitVariantSortMetadata(recipeId);
+    sortMetaByRecipe.set(recipeId, {
+      tier,
+      xp,
+      label: formatRecipeVariantLabel(recipeId),
+    });
+  }
 
   for (const recipeId of FERMENTATION_RECIPE_IDS) {
     const def = FERMENTATION_RECIPES[recipeId];
@@ -116,7 +195,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
     const [item] = getPrimaryOutput(def.outputs);
 
     const sortedIds = [...recipeIds].sort((a, b) =>
-      formatRecipeVariantLabel(a).localeCompare(formatRecipeVariantLabel(b)),
+      compareFermentationRecipeIds(a, b, sortMetaByRecipe),
     );
 
     const outputQuantities = sortedIds.map(

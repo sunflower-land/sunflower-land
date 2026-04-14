@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -41,9 +41,6 @@ import { FermentationRackInProgress } from "./FermentationRackInProgress";
 
 const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
 const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
-
-/** UI-only slot for 0s recipes; does not use a server fermentation queue slot. */
-type FermentationSlotSelection = number | "instant" | null;
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -96,21 +93,21 @@ export const FermentationRackPanel: React.FC = () => {
   const queue = state.agingShed.racks.fermentation;
 
   /** Stop ticking when every job is ready (last `readyAt`); no interval when queue is empty. */
-  const fermentationClockEndAt = useMemo(() => {
-    if (queue.length === 0) return undefined;
-    return Math.max(...queue.map((job) => job.readyAt));
-  }, [queue]);
+  const fermentationClockEndAt =
+    queue.length === 0
+      ? undefined
+      : Math.max(...queue.map((job) => job.readyAt));
 
   const now = useNow({
     live: queue.length > 0,
     autoEndAt: fermentationClockEndAt,
   });
 
-  const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const groups = getFermentationOutputGroups();
 
-  /** `null` = no explicit tap yet: UI uses default (first empty slot, or instant when rack is full). */
-  const [selectedSlotIndex, setSelectedSlotIndex] =
-    useState<FermentationSlotSelection>(null);
+  const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
+    null,
+  );
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
   >(undefined);
@@ -124,6 +121,12 @@ export const FermentationRackPanel: React.FC = () => {
   const slotsFull = queue.length >= maxSlots;
 
   const shedPlaced = hasPlacedAgingShed(state);
+  const activeSelectedSlotIndex =
+    selectedSlotIndex !== null &&
+    selectedSlotIndex < queue.length &&
+    selectedSlotIndex < maxSlots
+      ? selectedSlotIndex
+      : null;
 
   const merged = getMergedInventory(state);
 
@@ -150,35 +153,10 @@ export const FermentationRackPanel: React.FC = () => {
   const readyJobs = queue.filter((job) => job.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readyJobs.length > 0;
 
-  const firstEmptySlotIndex = Math.min(queue.length, Math.max(0, maxSlots - 1));
-
-  const defaultSlotSelection = useMemo((): number | "instant" => {
-    if (queue.length >= maxSlots) return "instant";
-    return firstEmptySlotIndex;
-  }, [queue.length, maxSlots, firstEmptySlotIndex]);
-
-  const effectiveSelection = selectedSlotIndex ?? defaultSlotSelection;
-
-  /** Instant lane is only shown when every real fermentation slot is in use. */
-  const isInstantSlotSelected = slotsFull && effectiveSelection === "instant";
-
-  const effectiveQueueSlotIndex = useMemo(() => {
-    if (isInstantSlotSelected) return 0;
-    const idx =
-      typeof effectiveSelection === "number"
-        ? effectiveSelection
-        : firstEmptySlotIndex;
-    return Math.min(Math.max(idx, 0), Math.max(0, maxSlots - 1));
-  }, [
-    isInstantSlotSelected,
-    effectiveSelection,
-    firstEmptySlotIndex,
-    maxSlots,
-  ]);
-
-  const selectedJob = isInstantSlotSelected
-    ? undefined
-    : queue[effectiveQueueSlotIndex];
+  const selectedJob =
+    activeSelectedSlotIndex !== null
+      ? queue[activeSelectedSlotIndex]
+      : undefined;
 
   const applyOutputGroupSelection = useCallback(
     (group: FermentationOutputGroup) => {
@@ -299,6 +277,9 @@ export const FermentationRackPanel: React.FC = () => {
         <Label type="default" className="text-xs mb-2 ml-1">
           {t("agingShed.fermentation.fermentationSlots")}
         </Label>
+        <p className="text-xs mb-2 ml-1">
+          {t("agingShed.fermentation.description")}
+        </p>
         <div className="flex flex-wrap gap-1 px-1 pb-1 items-start">
           {Array.from({ length: maxSlots }).map((_, index) => {
             const isFilled = index < queue.length;
@@ -319,11 +300,12 @@ export const FermentationRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={
-                      !isInstantSlotSelected &&
-                      effectiveQueueSlotIndex === index
+                    isSelected={activeSelectedSlotIndex === index}
+                    onClick={() =>
+                      setSelectedSlotIndex((current) =>
+                        current === index ? null : index,
+                      )
                     }
-                    onClick={() => setSelectedSlotIndex(index)}
                   />
                   <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
                     {ready
@@ -345,29 +327,18 @@ export const FermentationRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={
-                    !isInstantSlotSelected && effectiveQueueSlotIndex === index
+                  isSelected={activeSelectedSlotIndex === index}
+                  onClick={() =>
+                    setSelectedSlotIndex((current) =>
+                      current === index ? null : index,
+                    )
                   }
-                  onClick={() => setSelectedSlotIndex(index)}
                 >
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>
               </div>
             );
           })}
-          {slotsFull && (
-            <div className="flex flex-col items-center max-w-[72px]">
-              <Box
-                disabled={false}
-                hideCount
-                isSelected={isInstantSlotSelected}
-                onClick={() => setSelectedSlotIndex("instant")}
-              />
-              <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
-                {t("agingShed.fermentation.instantSlot")}
-              </span>
-            </div>
-          )}
         </div>
       </InnerPanel>
 

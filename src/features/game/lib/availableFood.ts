@@ -31,10 +31,10 @@ export function getAllFoods(): Consumable[] {
     ...Object.values(PIRATE_CAKE),
     ...Object.values(FACTION_FOOD),
     ...Object.values(TRADE_FOOD),
-    ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
-    ...Object.values(AGED_FISH).sort((a, b) => a.name.localeCompare(b.name)),
-    ...Object.values(PRIME_AGED_FISH).sort((a, b) =>
-      a.name.localeCompare(b.name),
+    ...Object.values(FISH).sort((a, b) => a.experience - b.experience),
+    ...Object.values(AGED_FISH).sort((a, b) => a.experience - b.experience),
+    ...Object.values(PRIME_AGED_FISH).sort(
+      (a, b) => a.experience - b.experience,
     ),
   ];
 }

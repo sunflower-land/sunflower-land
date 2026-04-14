@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
@@ -9,11 +9,16 @@ import type { AgingRackSlot } from "features/game/lib/agingShed";
 import { getFishBaseXP } from "features/game/types/aging";
 import { getBoostedAgingSaltCost } from "features/game/types/agingFormulas";
 import type { AgedFishName } from "features/game/types/fishing";
-import type { Skills } from "features/game/types/game";
+import type { GameState, Skills } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Consumable, CONSUMABLES } from "features/game/types/consumables";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
+import Decimal from "decimal.js-light";
+import classNames from "classnames";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 type Props = {
   slot: AgingRackSlot;
@@ -22,6 +27,7 @@ type Props = {
   canCollect: boolean;
   collectError?: string;
   skills: Skills;
+  game: GameState;
 };
 
 export const AgingRackInProgress: React.FC<Props> = ({
@@ -31,19 +37,26 @@ export const AgingRackInProgress: React.FC<Props> = ({
   canCollect,
   collectError,
   skills,
+  game,
 }) => {
   const { t } = useAppTranslation();
+  const [showBoosts, setShowBoosts] = useState(false);
   const timeRemainingMs = Math.max(0, slot.readyAt - now);
   const isReady = timeRemainingMs <= 0;
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
   const saltCost = getBoostedAgingSaltCost(getFishBaseXP(slot.fish), skills);
+  const food: Consumable = CONSUMABLES[agedName];
+  const baseXp = food.experience;
+  const boostedXp = getFoodExpBoost({ food, game, createdAt: now });
+
+  const isXpBoosted = boostedXp.boostsUsed.length > 0;
 
   return (
     <>
       <InnerPanel className="mb-1">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start flex-wrap">
           <Label type="default" className="text-xs">
             {outputLabel}
           </Label>
@@ -74,6 +87,33 @@ export const AgingRackInProgress: React.FC<Props> = ({
               type="time"
               waitSeconds={Math.max(0, (slot.readyAt - slot.startedAt) / 1000)}
             />
+            <div
+              className={classNames("flex flex-row items-center", {
+                "cursor-pointer": isXpBoosted,
+              })}
+              onClick={() =>
+                isXpBoosted ? setShowBoosts(!showBoosts) : undefined
+              }
+            >
+              {isXpBoosted && (
+                <RequirementLabel type="xp" xp={boostedXp.boostedExp} boosted />
+              )}
+              {baseXp !== undefined && (
+                <RequirementLabel
+                  type="xp"
+                  xp={new Decimal(baseXp)}
+                  strikethrough={!!isXpBoosted}
+                />
+              )}
+              {isXpBoosted && showBoosts && (
+                <BoostsDisplay
+                  boosts={boostedXp.boostsUsed}
+                  show={showBoosts}
+                  state={game}
+                  onClick={() => setShowBoosts(!showBoosts)}
+                />
+              )}
+            </div>
           </div>
         </div>
 

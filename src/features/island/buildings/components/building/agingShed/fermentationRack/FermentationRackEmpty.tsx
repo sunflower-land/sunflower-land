@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
@@ -91,15 +91,16 @@ export const FermentationRackEmpty: React.FC<Props> = ({
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
 
-  const groups = useMemo(() => getFermentationOutputGroups(), []);
+  const groups = getFermentationOutputGroups();
   const selectedGroup = selectedSignature
     ? groups.find((g) => g.signature === selectedSignature)
     : undefined;
+  const selectedItem = selectedGroup?.item;
 
   const recipeId = selectedRecipeId;
   const recipeDef = recipeId ? getFermentationRecipe(recipeId) : undefined;
   const skills = gameState.bumpkin.skills;
-  const merged = useMemo(() => getMergedInventory(gameState), [gameState]);
+  const merged = getMergedInventory(gameState);
 
   const ingredientKeys: InventoryItemName[] = recipeDef
     ? (getObjectEntries(recipeDef.ingredients).map(([name]) => name) as
@@ -115,39 +116,45 @@ export const FermentationRackEmpty: React.FC<Props> = ({
     !!recipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity =
-    recipeId && selectedGroup?.item
-      ? getFermentationRecipe(recipeId).outputs[selectedGroup.item]
+    recipeId && selectedItem
+      ? getFermentationRecipe(recipeId).outputs[selectedItem]
       : undefined;
 
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label
-          type={selectedGroup ? "info" : "default"}
-          className="text-xs mb-2 ml-1"
-          icon={selectedGroup && ITEM_DETAILS[selectedGroup.item]?.image}
-        >
-          {selectedGroup
-            ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
-            : t("agingShed.fermentation.selectFermentationOutput")}
-        </Label>
-        {selectedGroup?.item &&
-          COLLECTIBLE_BUFF_LABELS[selectedGroup.item]?.({
-            skills,
-            collectibles: gameState.collectibles,
-          }).map((label) => {
-            return (
-              <Label
-                key={label.shortDescription}
-                type={label.labelType}
-                className="text-xs mb-2 ml-1"
-                secondaryIcon={label.boostedItemIcon}
-                icon={label.boostTypeIcon}
-              >
-                {label.shortDescription}
-              </Label>
-            );
-          })}
+        <div className="flex flex-col gap-1 mb-1">
+          <Label
+            type={selectedGroup ? "info" : "default"}
+            className="text-xs ml-1"
+            icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
+          >
+            {selectedGroup
+              ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+              : t("agingShed.fermentation.selectFermentationOutput")}
+          </Label>
+          {selectedItem && (
+            <>
+              {COLLECTIBLE_BUFF_LABELS[selectedItem]?.({
+                skills,
+                collectibles: gameState.collectibles,
+              })?.map((label) => (
+                <Label
+                  key={label.shortDescription}
+                  type={label.labelType}
+                  className="text-xs ml-1"
+                  secondaryIcon={label.boostedItemIcon}
+                  icon={label.boostTypeIcon}
+                >
+                  {label.shortDescription}
+                </Label>
+              ))}
+              <p className="text-xs ml-1">
+                {ITEM_DETAILS[selectedItem]?.description}
+              </p>
+            </>
+          )}
+        </div>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {groups.map((g) => {
             return (
@@ -171,7 +178,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
         <InnerPanel className="mb-1">
           <Label type="default" className="text-xs mb-2 ml-1">
             {selectedGroup.recipeIds.length > 1
-              ? t("agingShed.fermentation.selectIngredients")
+              ? t("agingShed.fermentation.selectRecipe")
               : t("agingShed.fermentation.requirementsTitle")}
           </Label>
 

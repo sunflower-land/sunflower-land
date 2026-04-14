@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -14,6 +14,7 @@ import { getAgingSlotCount, getFishBaseXP } from "features/game/types/aging";
 import {
   getBoostedAgingFishCost,
   getBoostedAgingSaltCost,
+  getPrimeAgedChance,
 } from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import type { GameState, Inventory } from "features/game/types/game";
@@ -44,10 +45,10 @@ export const AgingRackPanel: React.FC = () => {
   const state = useSelector(gameService, (s) => s.context.state);
   const queue = state.agingShed.racks.aging;
 
-  const agingClockEndAt = useMemo(() => {
-    if (queue.length === 0) return undefined;
-    return Math.max(...queue.map((slot) => slot.readyAt));
-  }, [queue]);
+  const agingClockEndAt =
+    queue.length === 0
+      ? undefined
+      : Math.max(...queue.map((slot) => slot.readyAt));
 
   const now = useNow({ live: queue.length > 0, autoEndAt: agingClockEndAt });
 
@@ -61,18 +62,22 @@ export const AgingRackPanel: React.FC = () => {
   const maxSlots = getAgingSlotCount(state.agingShed.level);
   const slotsFull = queue.length >= maxSlots;
   const shedPlaced = hasPlacedAgingShed(state);
-  const merged = useMemo(() => getMergedInventory(state), [state]);
+  const merged = getMergedInventory(state);
+
+  const activeSelectedSlotIndex =
+    selectedSlotIndex !== null &&
+    selectedSlotIndex < queue.length &&
+    selectedSlotIndex < maxSlots
+      ? selectedSlotIndex
+      : null;
 
   const readySlots = queue.filter((slot) => slot.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readySlots.length > 0;
 
-  const firstEmptySlotIndex = Math.min(queue.length, Math.max(0, maxSlots - 1));
-  const effectiveSlotIndex = useMemo(() => {
-    const base = selectedSlotIndex ?? firstEmptySlotIndex;
-    return Math.min(Math.max(base, 0), Math.max(0, maxSlots - 1));
-  }, [selectedSlotIndex, firstEmptySlotIndex, maxSlots]);
-
-  const selectedSlot = queue[effectiveSlotIndex];
+  const selectedSlot =
+    activeSelectedSlotIndex !== null
+      ? queue[activeSelectedSlotIndex]
+      : undefined;
 
   const skills = state.bumpkin.skills;
   const fishCost = getBoostedAgingFishCost(skills);
@@ -143,12 +148,18 @@ export const AgingRackPanel: React.FC = () => {
     return undefined;
   })();
 
+  const primeAgedChance = getPrimeAgedChance(skills);
+
   return (
     <>
       <InnerPanel className="mb-1">
         <Label type="default" className="text-xs mb-2 ml-1">
           {t("agingShed.agingRack.agingSlots")}
         </Label>
+        <p className="text-xs mb-2 ml-1">
+          {t("agingShed.agingRack.description", { primeAgedChance })}
+        </p>
+
         <div className="flex flex-wrap gap-1 px-1 pb-1 items-start">
           {Array.from({ length: maxSlots }).map((_, index) => {
             const isFilled = index < queue.length;
@@ -157,29 +168,31 @@ export const AgingRackPanel: React.FC = () => {
             if (isFilled) {
               const slot = queue[index];
               const ready = slot.readyAt <= now;
-              const totalDuration = slot.readyAt - slot.startedAt;
-              const elapsed = Math.min(now - slot.startedAt, totalDuration);
-              const percentage =
-                totalDuration > 0 ? (elapsed / totalDuration) * 100 : 100;
               const remainingSec = Math.max(0, (slot.readyAt - now) / 1000);
-              const isSelected = effectiveSlotIndex === index;
+              const isSelected = activeSelectedSlotIndex === index;
 
               return (
-                <Box
+                <div
                   key={slot.id}
-                  image={ITEM_DETAILS[slot.fish]?.image}
-                  disabled={false}
-                  hideCount
-                  isSelected={isSelected}
-                  onClick={() => setSelectedSlotIndex(index)}
-                  progress={{
-                    percentage,
-                    type: "progress",
-                    label: ready
-                      ? "Ready"
-                      : secondsToString(remainingSec, { length: "short" }),
-                  }}
-                />
+                  className="flex flex-col items-center max-w-[72px]"
+                >
+                  <Box
+                    image={ITEM_DETAILS[slot.fish]?.image}
+                    disabled={false}
+                    hideCount
+                    isSelected={isSelected}
+                    onClick={() =>
+                      setSelectedSlotIndex((current) =>
+                        current === index ? null : index,
+                      )
+                    }
+                  />
+                  <span className="text-xxs text-center leading-tight mt-0.5 px-0.5 max-w-[68px]">
+                    {ready
+                      ? t("agingShed.fermentation.ready")
+                      : secondsToString(remainingSec, { length: "short" })}
+                  </span>
+                </div>
               );
             }
 
@@ -194,8 +207,12 @@ export const AgingRackPanel: React.FC = () => {
                 <Box
                   hideCount
                   disabled={isInactiveEmpty}
-                  isSelected={effectiveSlotIndex === index}
-                  onClick={() => setSelectedSlotIndex(index)}
+                  isSelected={activeSelectedSlotIndex === index}
+                  onClick={() =>
+                    setSelectedSlotIndex((current) =>
+                      current === index ? null : index,
+                    )
+                  }
                 >
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>
@@ -213,10 +230,12 @@ export const AgingRackPanel: React.FC = () => {
           collectError={collectError}
           onCollect={handleCollect}
           skills={skills}
+          game={state}
         />
       ) : (
         <AgingRackEmpty
           gameState={state}
+          now={now}
           selectedFish={selectedFish}
           onSelectFish={setSelectedFish}
           onStart={handleStart}

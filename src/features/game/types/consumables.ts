@@ -2,7 +2,7 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
-import { BuildingProduct, Inventory } from "./game";
+import { BuildingProduct, Inventory, InventoryItemName } from "./game";
 import { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
 import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
 import { translate } from "lib/i18n/translate";
@@ -1433,6 +1433,17 @@ export const PRIME_AGED_FISH: Record<PrimeAgedFishName, Consumable> =
     },
     {} as Record<PrimeAgedFishName, Consumable>,
   );
+
+export const isAgedFish = (name: InventoryItemName): name is AgedFishName => {
+  return name in AGED_FISH;
+};
+
+export const isPrimeAgedFish = (
+  name: InventoryItemName,
+): name is PrimeAgedFishName => {
+  return name in PRIME_AGED_FISH;
+};
+
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...PIRATE_CAKE,
