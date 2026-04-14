@@ -356,7 +356,7 @@ jobs:
               inline: true,
             };
 
-            const shouldTagTeam = risk === "MEDIUM" || risk === "HIGH";
+            const shouldTagTeam = risk !== "LOW";
             const payload = {
               username: "GitHub Commits Alerts",
               ...(shouldTagTeam && {
