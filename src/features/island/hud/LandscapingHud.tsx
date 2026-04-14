@@ -275,25 +275,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                         width: `${PIXEL_SCALE * 14}px`,
                       }}
                     />
-                    {showHelper && (
-                      <div
-                        className="absolute z-40"
-                        style={{
-                          left: `${PIXEL_SCALE * -8}px`,
-                          top: `${PIXEL_SCALE * 20}px`,
-                          transform: "scaleX(-1)",
-                        }}
-                      >
-                        <img
-                          className="cursor-pointer group-hover:img-highlight animate-pulsate"
-                          src={SUNNYSIDE.icons.click_icon}
-                          style={{
-                            width: `${PIXEL_SCALE * 18}px`,
-                            display: "block",
-                          }}
-                        />
-                      </div>
-                    )}
                   </RoundButton>
                   <CraftDecorationsModal
                     show={showDecorations}
@@ -330,6 +311,25 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                         <Label type="vibrant" className="whitespace-nowrap">
                           {t("build")}
                         </Label>
+                      </div>
+                    )}
+                    {showHelper && (
+                      <div
+                        className="absolute z-40"
+                        style={{
+                          left: `${PIXEL_SCALE * -8}px`,
+                          top: `${PIXEL_SCALE * 20}px`,
+                          transform: "scaleX(-1)",
+                        }}
+                      >
+                        <img
+                          className="cursor-pointer group-hover:img-highlight animate-pulsate"
+                          src={SUNNYSIDE.icons.click_icon}
+                          style={{
+                            width: `${PIXEL_SCALE * 18}px`,
+                            display: "block",
+                          }}
+                        />
                       </div>
                     )}
                   </RoundButton>
