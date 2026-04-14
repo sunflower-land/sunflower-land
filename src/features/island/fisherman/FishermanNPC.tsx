@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
+import sparkle from "assets/decorations/sparkle.gif";
+import mapIcon from "assets/icons/map.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -16,10 +19,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { CONFIG } from "lib/config";
 import { FishCaught } from "./FishCaught";
-import { FishingChallenge } from "./FishingChallenge";
-import { Panel } from "components/ui/Panel";
-import { getKeys } from "features/game/types/craftables";
-import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
+import { getKeys } from "lib/object";
+import {
+  FISH,
+  FishName,
+  FISH_DIFFICULTY,
+  MarineMarvelName,
+  MAP_PIECE_MARVELS,
+} from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -27,6 +34,10 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
+import { Panel } from "components/ui/Panel";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -65,30 +76,48 @@ type FishingState =
   | "reeling"
   | "caught";
 
+type DifficultCatch = {
+  name: FishName | MarineMarvelName;
+  difficulty: number;
+  amount: number;
+};
+
 interface Props {
   onClick: () => void;
 }
 
 const _canFish = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
-const _fishing = (state: MachineState) => state.context.state.fishing;
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _state = (state: MachineState) => state.context.state;
+
+const _marvel = (state: MachineState) => {
+  const game = state.context.state;
+  // If there is a ready marvel to be caught;
+  const ready = MAP_PIECE_MARVELS.find(
+    (marvel) =>
+      !game.farmActivity[`${marvel} Caught`] &&
+      (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,
+  );
+
+  return ready;
+};
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
-  const spriteRef = useRef<SpriteSheetInstance>();
+  const spriteRef = useRef<SpriteSheetInstance>(undefined);
   const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showLockedModal, setShowLockedModal] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
-  const [challengeDifficulty, setChallengeDifficulty] = useState(1);
+  const [difficultCatch, setDifficultCatch] = useState<DifficultCatch[]>([]);
 
   const { gameService } = useContext(Context);
-  const fishing = useSelector(gameService, _fishing);
-  const farmActivity = useSelector(gameService, _farmActivity);
+  const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
+  const readyMarvel = useSelector(gameService, _marvel);
+  const { fishing, farmActivity, island } = state;
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
@@ -146,22 +175,24 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
-  const fish = getKeys(fishing.wharf.caught ?? {}).find((fish) => fish in FISH);
+  const caught = fishing.wharf.caught ?? {};
+  const caughtFish = getKeys(caught).filter(
+    (fish): fish is FishName | MarineMarvelName => fish in FISH,
+  );
 
   const reelIn = () => {
-    const fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+    const difficultCatch = caughtFish
+      .map((name) => {
+        const difficulty = FISH_DIFFICULTY[name];
+        if (!difficulty) return undefined;
+        return { name, difficulty, amount: caught[name] ?? 0 };
+      })
+      .filter(Boolean) as DifficultCatch[];
 
-    // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
-    // Right no they are losing resources, so comment this
-    // Remove comments in future so players don't refresh minigame
-    // if (fishDifficulty && didRefresh.current) {
-    //   // Player refreshed during challenge
-    //   // onChallengeLost();
-    // } else
+    setDifficultCatch(difficultCatch);
 
-    if (fishDifficulty) {
-      // Show fishing challenge
-      setChallengeDifficulty(fishDifficulty);
+    const maps = getKeys(fishing.wharf.maps ?? {});
+    if (maps.length > 0) {
       setShowChallenge(true);
     } else {
       // Instantly reel in
@@ -174,23 +205,31 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   };
 
   const onChallengeWon = () => {
+    setDifficultCatch([]);
     setShowChallenge(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
   };
 
+  const onChallengeRetry = () => {
+    gameService.send("fish.retried");
+  };
+
   const onChallengeLost = () => {
+    // Keep easy fish, mark difficult fish as missed
     setShowChallenge(false);
+    setShowCaughtModal(true);
+    setShowReelLabel(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 
-    gameService.send("fish.missed", { location: "wharf" });
+    gameService.send("map.missed");
     gameService.send("SAVE");
   };
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      const state = gameService.send("rod.reeled", { location: "wharf" });
+      const state = gameService.send("rod.reeled");
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) =>
@@ -228,13 +267,47 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     onClick();
   };
 
+  const fishermanPosition = (): Coordinates => {
+    if (island.type === "volcano") {
+      return {
+        x: 53,
+        y: 44,
+      };
+    }
+
+    if (island.type === "desert") {
+      return {
+        x: 34,
+        y: 30,
+      };
+    }
+
+    if (island.type === "spring") {
+      return {
+        x: 20,
+        y: 29,
+      };
+    }
+
+    return {
+      x: 0,
+      y: 0,
+    };
+  };
+
+  const { x, y } = fishermanPosition();
+
   return (
     <>
       <div
-        className={classNames("absolute w-full h-full", {
+        className={classNames("absolute z-50 w-full h-full", {
           "cursor-pointer hover:img-highlight": !fishing.wharf.castedAt,
         })}
         onClick={handleClick}
+        style={{
+          left: `${PIXEL_SCALE * x}px`,
+          top: `${PIXEL_SCALE * y}px`,
+        }}
       >
         {!canFish && (
           <>
@@ -262,7 +335,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
         {!showReelLabel && canFish && (
           <>
-            {fishing.weather === "Fish Frenzy" && (
+            {isFishFrenzy(state) && (
               <img
                 src={lightning}
                 style={{
@@ -275,7 +348,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
-            {fishing.weather === "Full Moon" && (
+            {isFullMoon(state) && (
               <img
                 src={fullMoon}
                 style={{
@@ -288,11 +361,38 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
+            {readyMarvel && (
+              <img
+                src={mapIcon}
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                  left: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * -19}px`,
+
+                  imageRendering: "pixelated",
+                }}
+                className="absolute animate-float pointer-events-none"
+              />
+            )}
           </>
         )}
 
+        {fishing.wharf.maps && (
+          <img
+            src={sparkle}
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
+              left: `${PIXEL_SCALE * 26}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+
+              imageRendering: "pixelated",
+            }}
+            className="absolute pointer-events-none"
+          />
+        )}
+
         {showReelLabel && (
-          <React.Fragment>
+          <>
             <img
               src={SUNNYSIDE.icons.expression_alerted}
               style={{
@@ -315,7 +415,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               }}
               className="absolute z-10 cursor-pointer"
             />
-          </React.Fragment>
+          </>
         )}
 
         {canFish && (
@@ -385,19 +485,22 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         >
           <FishCaught
             caught={fishing.wharf.caught ?? {}}
+            multiplier={fishing.wharf.multiplier}
             onClaim={close}
             farmActivity={farmActivity}
+            difficultCatch={difficultCatch}
+            maps={fishing.wharf.maps ?? {}}
           />
         </CloseButtonPanel>
       </Modal>
 
       <Modal show={showChallenge}>
         <Panel>
-          <FishingChallenge
-            difficulty={challengeDifficulty}
+          <FishermanPuzzle
             onCatch={onChallengeWon}
             onMiss={onChallengeLost}
-            fishName={fish as FishName}
+            onRetry={onChallengeRetry}
+            maps={fishing.wharf.maps ?? {}}
           />
         </Panel>
       </Modal>

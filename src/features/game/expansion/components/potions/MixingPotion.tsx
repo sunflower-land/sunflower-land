@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
@@ -9,10 +9,11 @@ import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
 import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { SpeechBubble } from "./SpeechBubble";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export type DesiredAnimation =
   | "idle"
@@ -28,12 +29,7 @@ type AnimationSettings = {
 };
 
 const SETTINGS: Record<DesiredAnimation, AnimationSettings> = {
-  idle: {
-    autoplay: true,
-    endAt: 8,
-    sheet: potionMasterIdleSheet,
-    loop: true,
-  },
+  idle: { autoplay: true, endAt: 8, sheet: potionMasterIdleSheet, loop: true },
   startMixing: {
     autoplay: true,
     endAt: 9,
@@ -82,12 +78,18 @@ const getFPS = (animation: DesiredAnimation, frameNumber: number): number => {
   }
 };
 
+const _potionHouseLastAttempt = (state: MachineState) => {
+  const potionHouse = state.context.state.potionHouse;
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  return previousAttempts[previousAttempts.length - 1] ?? [];
+};
+
 export const MixingPotion: React.FC<{
   potionHouseService: PotionHouseMachineInterpreter;
   feedbackText: string | null;
 }> = ({ potionHouseService, feedbackText }) => {
   // Hack for spritesheet to display correctly
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
 
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
@@ -105,10 +107,7 @@ export const MixingPotion: React.FC<{
   const currentAnimation = getCurrentAnimation();
   const settings = SETTINGS[currentAnimation];
 
-  const potionHouse = gameService.state.context.state.potionHouse;
-  const previousAttempts = potionHouse?.game.attempts ?? [];
-  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-
+  const lastAttempt = useSelector(gameService, _potionHouseLastAttempt);
   const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
 
   useEffect(() => {
@@ -121,13 +120,9 @@ export const MixingPotion: React.FC<{
     } else {
       potionHouseService.send("BOMB");
     }
-  }, [isGuessing]);
+  }, [isGuessing, lastAttempt, potionHouseService]);
 
   const handleNextAnimation = () => {
-    const potionHouse = gameService.state.context.state.potionHouse;
-    const previousAttempts = potionHouse?.game.attempts ?? [];
-    const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-
     const isGuessing = lastAttempt.some(
       (potion) => potion.status === "pending",
     );
@@ -136,22 +131,16 @@ export const MixingPotion: React.FC<{
     potionHouseService.send("NEXT_ANIMATION", { score });
   };
 
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
   return (
     <div className="flex flex-col items-center justify-evenly relative w-full h-full">
       <div className="min-h-[120px] sm:min-h-[80px] flex flex-col items-center">
         {feedbackText && <SpeechBubble text={feedbackText} className="w-4/5" />}
       </div>
-      {loaded && currentAnimation === "idle" && (
+      {currentAnimation === "idle" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -173,13 +162,11 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "startMixing" && (
+      {currentAnimation === "startMixing" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -201,13 +188,11 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "loopMixing" && (
+      {currentAnimation === "loopMixing" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -229,13 +214,11 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "bomb" && (
+      {currentAnimation === "bomb" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -257,13 +240,11 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "success" && (
+      {currentAnimation === "success" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}

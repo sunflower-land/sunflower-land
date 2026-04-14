@@ -1,14 +1,21 @@
 import { GameState } from "../../types/game";
 import { CollectibleName } from "features/game/types/craftables";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { PET_SHRINES } from "features/game/types/pets";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
+import { isPetCollectible } from "./placeCollectible";
+import { getKeys } from "lib/object";
 
 export type BurnCollectibleAction = {
   type: "collectible.burned";
   name: CollectibleName;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
   id: string;
 };
 
@@ -18,7 +25,7 @@ type Options = {
   createdAt?: number;
 };
 
-const hourglassTypes: HourglassType[] = [
+export const HOURGLASSES: HourglassType[] = [
   "Gourmet Hourglass",
   "Harvest Hourglass",
   "Timber Hourglass",
@@ -27,6 +34,13 @@ const hourglassTypes: HourglassType[] = [
   "Fisher's Hourglass",
   "Ore Hourglass",
 ];
+export const LIMITED_ITEMS: CollectibleName[] = [
+  ...HOURGLASSES,
+  "Time Warp Totem",
+  "Super Totem",
+  ...getKeys(PET_SHRINES),
+  "Obsidian Shrine",
+];
 
 export function burnCollectible({
   state,
@@ -34,17 +48,29 @@ export function burnCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    if (
-      action.name !== "Time Warp Totem" &&
-      !hourglassTypes.includes(action.name as HourglassType)
-    ) {
+    if (!LIMITED_ITEMS.includes(action.name)) {
       throw new Error(`Cannot burn ${action.name}`);
     }
 
-    let collectibleGroup =
-      action.location === "home"
-        ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+    const getCollectibleGroup = (
+      location: PlaceableLocation,
+      name: CollectibleName,
+    ) => {
+      if (location === "home") {
+        return stateCopy.home.collectibles[name];
+      } else if (location === "petHouse") {
+        if (!isPetCollectible(name)) {
+          throw new Error(
+            "Only pet collectibles can be placed in the pet house",
+          );
+        }
+        return stateCopy.petHouse.pets[name];
+      } else {
+        return stateCopy.collectibles[name];
+      }
+    };
+
+    let collectibleGroup = getCollectibleGroup(action.location, action.name);
 
     if (!collectibleGroup) {
       throw new Error("Invalid collectible");
@@ -58,6 +84,12 @@ export function burnCollectible({
       throw new Error("Collectible does not exist");
     }
 
+    const cooldown = EXPIRY_COOLDOWNS[action.name as TemporaryCollectibleName];
+
+    if ((collectibleToRemove.createdAt ?? 0) + cooldown > createdAt) {
+      throw new Error("Collectible is still active");
+    }
+
     collectibleGroup = collectibleGroup.filter(
       (collectible) => collectible.id !== collectibleToRemove.id,
     );
@@ -65,17 +97,27 @@ export function burnCollectible({
     if (collectibleGroup.length === 0) {
       if (action.location === "home") {
         delete stateCopy.home.collectibles[action.name];
-      }
-
-      if (action.location === "farm") {
+      } else if (action.location === "petHouse") {
+        if (!isPetCollectible(action.name)) {
+          throw new Error(
+            "Only pet collectibles can be placed in the pet house",
+          );
+        }
+        delete stateCopy.petHouse.pets[action.name];
+      } else {
         delete stateCopy.collectibles[action.name];
       }
     } else {
       if (action.location === "home") {
         stateCopy.home.collectibles[action.name] = collectibleGroup;
-      }
-
-      if (action.location === "farm") {
+      } else if (action.location === "petHouse") {
+        if (!isPetCollectible(action.name)) {
+          throw new Error(
+            "Only pet collectibles can be placed in the pet house",
+          );
+        }
+        stateCopy.petHouse.pets[action.name] = collectibleGroup;
+      } else {
         stateCopy.collectibles[action.name] = collectibleGroup;
       }
     }

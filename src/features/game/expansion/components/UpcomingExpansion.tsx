@@ -11,10 +11,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -30,9 +29,11 @@ import { expansionRequirements } from "features/game/events/landExpansion/reveal
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
-import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { useVisiting } from "lib/utils/visitUtils";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useExpansionCoinCostWithVip } from "lib/utils/hooks/useVipAccess";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -43,6 +44,8 @@ interface ExpandIconProps {
   showHelper: boolean;
   inventory: Inventory;
   coins: number;
+  /** When set (e.g. VIP discount), used for coin requirement display and check instead of requirements.coins */
+  effectiveCoinCost?: number;
 }
 export const ExpandIcon: React.FC<ExpandIconProps> = ({
   onOpen,
@@ -53,8 +56,10 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
   showHelper,
   inventory,
   coins,
+  effectiveCoinCost,
 }) => {
   const showRequirements = inventory["Basic Land"]?.lte(5);
+  const coinRequirement = effectiveCoinCost ?? requirements.coins ?? 0;
 
   const { t } = useAppTranslation();
   return (
@@ -86,10 +91,10 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   <div className="mr-3 flex items-center mb-1" key={"coins"}>
                     <RequirementLabel
                       type="coins"
-                      requirement={requirements.coins}
+                      requirement={coinRequirement}
                       balance={coins}
                     />
-                    {coins >= requirements.coins && (
+                    {coins >= coinRequirement && (
                       <img
                         src={SUNNYSIDE.icons.confirm}
                         className="h-4 ml-0.5"
@@ -98,7 +103,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   </div>
                 )}
                 {getKeys(requirements.resources ?? {})
-                  .filter((name) => name !== "Block Buck")
+                  .filter((name) => name !== "Gem")
                   .map((name) => (
                     <div className="mr-3 flex items-center mb-1" key={name}>
                       <RequirementLabel
@@ -161,16 +166,19 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
 
 export const ExpansionBuilding: React.FC<{
   state: GameState;
-  onDone: () => void;
   onReveal: () => void;
-}> = ({ state, onDone, onReveal }) => {
+}> = ({ state, onReveal }) => {
+  const now = useNow({
+    live: true,
+    autoEndAt: state.expansionConstruction?.readyAt,
+  });
   // Land is still being built
   if (state.expansionConstruction) {
     const origin =
       EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 3];
 
     // Being Built
-    if (state.expansionConstruction.readyAt > Date.now()) {
+    if (state.expansionConstruction.readyAt > now) {
       return (
         <MapPlacement
           x={origin.x - LAND_SIZE / 2}
@@ -178,7 +186,7 @@ export const ExpansionBuilding: React.FC<{
           height={LAND_SIZE}
           width={LAND_SIZE}
         >
-          <Pontoon onDone={onDone} expansion={state.expansionConstruction} />
+          <Pontoon expansion={state.expansionConstruction} />
         </MapPlacement>
       );
     }
@@ -230,42 +238,18 @@ export const ExpansionBuilding: React.FC<{
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC = () => {
-  const [_, setRender] = useState(0);
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { isVisiting } = useVisiting();
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const { openModal } = useContext(ModalContext);
 
   const state = gameState.context.state;
-
-  const requirements = expansionRequirements({ game: state });
-
-  const { t } = useAppTranslation();
+  const { requirements } = expansionRequirements({ game: state });
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
-
-  const onExpand = () => {
-    gameService.send("land.expanded");
-    gameService.send("SAVE");
-
-    const blockBucks = requirements?.resources["Block Buck"] ?? 0;
-    if (blockBucks) {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: blockBucks,
-        item: "Basic Land",
-        type: "Fee",
-      });
-    }
-
-    gameAnalytics.trackMilestone({
-      event: `Farm:Expanding:Expansion${expansions}`,
-    });
-
-    setShowBumpkinModal(false);
-  };
 
   const onReveal = () => {
     gameService.send("land.revealed");
@@ -289,11 +273,18 @@ export const UpcomingExpansion: React.FC = () => {
     getBumpkinLevel(state.bumpkin?.experience ?? 0) <
     (requirements?.bumpkinLevel ?? 0);
 
-  const canExpand = craftingRequirementsMet(state, requirements);
+  const effectiveCoinCost = useExpansionCoinCostWithVip({
+    coins: requirements?.coins,
+    game: state,
+  });
+  const requirementsWithVipCoins = requirements
+    ? { ...requirements, coins: effectiveCoinCost }
+    : requirements;
+  const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
 
   const showHelper =
     canExpand &&
-    (state.bumpkin?.activity?.["Tree Chopped"] ?? 0) >= 3 &&
+    (state.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
 
@@ -306,13 +297,9 @@ export const UpcomingExpansion: React.FC = () => {
         : null;
 
   return (
-    <>
+    <div className={isVisiting ? "pointer-events-none" : ""}>
       {state.expansionConstruction && (
-        <ExpansionBuilding
-          state={state}
-          onDone={() => setRender((r) => r + 1)}
-          onReveal={onReveal}
-        />
+        <ExpansionBuilding state={state} onReveal={onReveal} />
       )}
 
       {!state.expansionConstruction && requirements && !maxExpanded && (
@@ -325,6 +312,7 @@ export const UpcomingExpansion: React.FC = () => {
           requirements={requirements as IExpansionRequirements}
           showHelper={showHelper ?? false}
           coins={state.coins}
+          effectiveCoinCost={effectiveCoinCost}
         />
       )}
 
@@ -334,21 +322,18 @@ export const UpcomingExpansion: React.FC = () => {
           onClose={() => setShowBumpkinModal(false)}
         >
           <ExpansionRequirements
+            state={state}
             inventory={state.inventory}
             coins={state.coins}
             bumpkin={state.bumpkin as Bumpkin}
             details={{
               description: translate("landscape.expansion.one"),
             }}
+            onClose={() => setShowBumpkinModal(false)}
             requirements={requirements as IExpansionRequirements}
-            actionView={
-              <Button onClick={onExpand} disabled={!canExpand}>
-                {t("expand")}
-              </Button>
-            }
           />
         </CloseButtonPanel>
       </Modal>
-    </>
+    </div>
   );
 };

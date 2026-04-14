@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { Bud } from "../types/buds";
 import { getBudExperienceBoosts } from "./getBudExperienceBoosts";
 import { CONSUMABLES } from "../types/consumables";
@@ -17,7 +15,10 @@ const NON_BOOSTED_TRAITS: Omit<Bud, "type"> = {
 
 describe("getBudExperienceBoosts", () => {
   it("returns 1 if no buds", () => {
-    expect(getBudExperienceBoosts({}, CONSUMABLES["Chowder"])).toEqual(1);
+    expect(getBudExperienceBoosts({}, CONSUMABLES["Chowder"])).toEqual({
+      exp: 1,
+      budUsed: undefined,
+    });
   });
 
   it("returns 1 if no port buds", () => {
@@ -31,7 +32,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1);
+    ).toEqual({ exp: 1, budUsed: undefined });
   });
 
   it("returns 1.1 if Port type", () => {
@@ -45,7 +46,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.1);
+    ).toEqual({ exp: 1.1, budUsed: "Bud #1" });
   });
 
   it("returns 1.105 if Port type and Basic Aura", () => {
@@ -60,7 +61,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.105);
+    ).toEqual({ exp: 1.105, budUsed: "Bud #1" });
   });
 
   it("returns 1.12 if Port type and Green Aura", () => {
@@ -75,7 +76,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.12);
+    ).toEqual({ exp: 1.12, budUsed: "Bud #1" });
   });
 
   it("returns 1.2 if Port type and Rare Aura", () => {
@@ -90,7 +91,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.2);
+    ).toEqual({ exp: 1.2, budUsed: "Bud #1" });
   });
 
   it("returns 1.5 if Port type and Mythical Aura", () => {
@@ -105,7 +106,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.5);
+    ).toEqual({ exp: 1.5, budUsed: "Bud #1" });
   });
 
   it("returns the best boost if multiple buds", () => {
@@ -130,7 +131,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1.5);
+    ).toEqual({ exp: 1.5, budUsed: "Bud #2" });
   });
 
   it("filters out buds that are not placed", () => {
@@ -146,6 +147,6 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"],
       ),
-    ).toEqual(1);
+    ).toEqual({ exp: 1, budUsed: undefined });
   });
 });

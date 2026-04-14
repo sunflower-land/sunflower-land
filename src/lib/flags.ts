@@ -1,22 +1,109 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { TEAM_USERNAMES } from "./access";
 
-const defaultFeatureFlag = ({ inventory }: GameState) =>
+export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
+
+export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+  CONFIG.NETWORK === "amoy" ||
+  (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
+
+const usernameFeatureFlag = (game: GameState) => {
+  return (
+    testnetFeatureFlag() ||
+    TEAM_USERNAMES.map((name) => name.toLowerCase()).includes(
+      game.username?.toLowerCase() ?? "",
+    )
+  );
+};
+
+const betaFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
+export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
-const clashOfFactionsFeatureFlag = () => {
-  return true;
+const localStorageFeatureFlag = (key: string) =>
+  !!localStorage.getItem(key) === true;
+
+const testnetLocalStorageFeatureFlag = (key: string) => () => {
+  return testnetFeatureFlag() || localStorageFeatureFlag(key);
 };
 
-const timeBasedFeatureFlag = (date: Date) => () => {
-  return testnetFeatureFlag() || Date.now() > date.getTime();
+const timePeriodFeatureFlag =
+  ({ start, end }: TimeBasedFeatureWindow) =>
+  () =>
+  (now: number) => {
+    if (end === null) {
+      return testnetFeatureFlag() || now >= start.getTime();
+    }
+
+    return (
+      (testnetFeatureFlag() || now > start.getTime()) && now < end.getTime()
+    );
+  };
+
+const betaTimePeriodFeatureFlag =
+  ({ start, end }: TimeBasedFeatureWindow) =>
+  (game: GameState) =>
+  (now: number) => {
+    if (end === null) {
+      return betaFeatureFlag(game) || now > start.getTime();
+    }
+
+    return (
+      (betaFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
+    );
+  };
+
+export type FeatureFlag = (game: GameState) => boolean;
+
+/**
+ * @param start - The start date of the feature.
+ * @param end - The end date of the feature. If null, the feature is available indefinitely.
+ */
+export type TimeBasedFeatureWindow = { start: Date; end: Date | null };
+
+export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
+  TICKETS_FROM_COIN_NPC: { start: new Date("2026-02-24T00:00:00Z"), end: null },
+  APRIL_FOOLS_EVENT_FLAG: {
+    start: new Date("2026-04-01T00:00:00Z"),
+    end: new Date("2026-04-08T00:00:00Z"),
+  },
+} satisfies Record<string, TimeBasedFeatureWindow>;
+
+/** All time-based flags receive the full window; start-only helpers ignore `end`. */
+export type TimeBasedFeatureFlag = (
+  window: TimeBasedFeatureWindow,
+) => (game: GameState) => (now: number) => boolean;
+
+export type TimeBasedFeatureName = keyof typeof TIME_BASED_FEATURE_FLAG_WINDOWS;
+
+export const TIME_BASED_FEATURE_FLAGS: Record<
+  TimeBasedFeatureName,
+  TimeBasedFeatureFlag
+> = {
+  TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
+  APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
 };
 
-const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
-  return defaultFeatureFlag(game) || Date.now() > date.getTime();
-};
+/**
+ * @param featureName - The name of the feature to check access for.
+ * @param startTime - Instant to evaluate access at (e.g. order `createdAt` or `Date.now()`).
+ * @param game - The game state.
+ * @returns True if the player has access to the feature at `startTime`, false otherwise.
+ */
+export function hasTimeBasedFeatureAccess({
+  featureName,
+  now,
+  game,
+}: {
+  featureName: TimeBasedFeatureName;
+  game: GameState;
+  now: number;
+}) {
+  const window = TIME_BASED_FEATURE_FLAG_WINDOWS[featureName];
+  return TIME_BASED_FEATURE_FLAGS[featureName](window)(game)(now);
+}
 
 /*
  * How to Use:
@@ -25,77 +112,44 @@ const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
  *
  * Do not delete JEST_TEST.
  */
-export type FeatureName =
-  | "JEST_TEST"
-  | "PORTALS"
-  | "EASTER"
-  | "FACTIONS"
-  | "BANNER_SALES"
-  | "CROPS_AND_CHICKENS"
-  | "CROP_MACHINE"
-  | "DESERT_RECIPES"
-  | "FACTION_HOUSE"
-  | "CROP_QUICK_SELECT"
-  | "FESTIVAL_OF_COLORS"
-  | "FACTION_KITCHEN"
-  | "FACTION_CHORES"
-  | "CHAMPIONS"
-  | "TEST_DIGGING"
-  | "NEW_FRUITS"
-  | "DESERT_PLAZA"
-  | "SKILLS_REVAMP"
-  | "MARKETPLACE"
-  | "ONBOARDING_REWARDS"
-  | "FRUIT_DASH";
+const FEATURE_FLAGS = {
+  // For testing
+  JEST_TEST: betaFeatureFlag,
 
-// Used for testing production features
-export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
-/**
- * Adam: 1
- * Spencer: 3
- * Sacul: 51
- * Craig: 39488
- * Elias: 128727
- */
+  // Permanent Feature Flags
+  AIRDROP_PLAYER: adminFeatureFlag,
+  HOARDING_CHECK: betaFeatureFlag,
+  STREAMER_HAT: (game) =>
+    (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
-type FeatureFlag = (game: GameState) => boolean;
+  // Temporary Feature Flags
+  FACE_RECOGNITION_TEST: betaFeatureFlag,
+  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-export type ExperimentName = "ONBOARDING_CHALLENGES";
+  LEAGUES: () => false,
 
-const featureFlags: Record<FeatureName, FeatureFlag> = {
-  ONBOARDING_REWARDS: (game) =>
-    game.experiments.includes("ONBOARDING_CHALLENGES"),
-  MARKETPLACE: testnetFeatureFlag,
-  FESTIVAL_OF_COLORS: (game) => {
-    if (defaultFeatureFlag(game)) return true;
+  EASTER: () => false,
 
-    return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
-  },
-  CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
-  CROP_QUICK_SELECT: defaultFeatureFlag,
-  FRUIT_DASH: defaultFeatureFlag,
-  CROPS_AND_CHICKENS: betaTimeBasedFeatureFlag(
-    new Date("2024-08-07T00:00:00Z"),
-  ),
-  PORTALS: testnetFeatureFlag,
-  JEST_TEST: defaultFeatureFlag,
-  DESERT_RECIPES: defaultFeatureFlag,
-  FACTION_HOUSE: betaTimeBasedFeatureFlag(new Date("2024-07-08T00:00:00Z")),
-  EASTER: (game) => {
-    return false;
-  },
-  FACTIONS: clashOfFactionsFeatureFlag,
-  BANNER_SALES: clashOfFactionsFeatureFlag,
-  // Just in case we need to disable the crop machine, leave the flag in temporarily
-  CROP_MACHINE: () => true,
-  FACTION_KITCHEN: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
-  FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
-  TEST_DIGGING: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
-  NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
-  DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
-  SKILLS_REVAMP: testnetFeatureFlag,
-};
+  STREAM_STAGE_ACCESS: adminFeatureFlag,
+
+  MODERATOR: (game) =>
+    !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
+
+  CHAACS_TEMPLE_BETA: betaFeatureFlag,
+  SALT_FARM: betaFeatureFlag,
+
+  AGING_SHED: betaFeatureFlag,
+
+  SALT_SKILLS: testnetFeatureFlag,
+
+  /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
+  PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
+  /** @deprecated Use PLAYER_ECONOMIES */
+  TOKEN_MINIGAMES: (game) => !!game.settings.economiesEnabled,
+} satisfies Record<string, FeatureFlag>;
+
+export type FeatureName = keyof typeof FEATURE_FLAGS;
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
-  return featureFlags[featureName](game);
+  return FEATURE_FLAGS[featureName](game);
 };

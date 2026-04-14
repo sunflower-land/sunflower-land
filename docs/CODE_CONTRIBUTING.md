@@ -1,237 +1,240 @@
-# Welcome to Sunflower Land docs contributing guide
+# Sunflower Land — code contributing guide
 
-Thank you for joining our journey and helping us build the #1 Community Web3 game
+Thank you for helping build Sunflower Land. This guide covers the contribution workflow: issues, local setup, branches, pull requests, and review.
 
-In this guide you will get an overview of the contribution workflow from opening an issue, creating a PR, reviewing, and merging the PR.
+This repository is the **game client** (React, Vite, Phaser) that talks to on-chain and off-chain services. For a high-level overview, read the [README](../README.md).
 
-## New contributor guide
+By contributing, you agree to the [terms of service](https://docs.sunflower-land.com/support/terms-of-service) (referenced in our PR checklist).
 
-To get an overview of the project, please read the [README](../README.md).
+## Disclaimer
 
-Here are some resources to help you get started with open source contributions:
+By contributing to this repository you grant Sunflower Land ownership of any IP you contribute, to use indefinitely. That includes code, ideas discussed in issues or PRs, and artwork. Contributors are sometimes rewarded with NFTs or airdrops, but **there is no guarantee of reward**.
 
-### Disclaimer
+You confirm you have the right to submit everything you contribute.
 
-By contributing to this repository you provide Sunflower Land the ownership of any IP contributed to the project to use indefinitely. This includes code, discussions (ideas) and all types of artwork. While often designers and developers are rewarded with the NFTs and airdrops, there is no guarantee of reward.
+## Prerequisites
 
-You confirm you have the rights to the content you are contributing to the project.
+- A [GitHub](https://github.com) account
+- **Node.js 22** (matches [CI](../.github/workflows/ci.yml))
+- **Yarn** — install globally if needed: `npm install -g yarn`
+- **Git** — install from [git-scm.com](https://git-scm.com/downloads). On Windows, **Git Bash** works well with the GitHub Desktop + VS Code steps below; on macOS or Linux, use your system terminal and the [command-line workflow](#git-workflow-with-the-command-line) as needed.
+- Optional: [Visual Studio Code](https://code.visualstudio.com/Download) and [GitHub Desktop](https://desktop.github.com/)
 
-## Getting started
+## Environment setup
 
-1. Create a [Github](https://www.github.com) Account
-2. Go to the [Sunflower Land Github Repository](https://github.com/sunflower-land/sunflower-land)
-3. Fork the Repo to your account.
-   (Impt) Make sure you fork the repo to contribute back to the parent repo
-   ![Fork Repo](https://cdn.discordapp.com/attachments/939252287363239996/1179404787519869049/image.png?ex=661fc64d&is=660d514d&hm=6d3772f71ce9f108e1c33d20f87bdd14204850623a04e99a69a0283d8c77a0ed&)
-4. Download and install [Github Desktop](https://desktop.github.com/).
-5. Clone your forked repo to your Github Desktop app. Again select the option to contribute to the parent repo.
-   ![Clone Repo Locally](https://cdn.discordapp.com/attachments/939252287363239996/1179405576342610042/image.png?ex=661fc709&is=660d5209&hm=2d3f19a313df81cf0ff388ab17986e11bfbae5393c7eab1701240de51d3f36e4&)
-6. Download and install [Visual Studio Code](https://code.visualstudio.com/Download)
-7. Download and install [Git Bash](https://git-scm.com/downloads)
-8. Download and install [Node.js](https://nodejs.org/en)
-9. Once you installed all the required programs, go back to Github Desktop and go to File>Options>Integrations. Change the external Editor to Visual Studio Code
-10. Change Shell to Git Bash
-    ![Integration Settings](https://cdn.discordapp.com/attachments/939252287363239996/1179406381380550808/image.png?ex=661fc7c9&is=660d52c9&hm=d3b8a8080f64689125ca5aaa90aa797176d81edf444c4d093d9d8922ecc6eae7&)
-11. Open Visual Studio Code from Github Desktop. Alternatively you can use the keyboard shortcut `Ctrl + Shift + A`
-    ![Open VSC](https://cdn.discordapp.com/attachments/939252287363239996/1179406741876785202/image.png?ex=661fc81f&is=660d531f&hm=e56768a5cfe805f69bb56539c496b173da14535b6647a131fc4cf4310db962a2&)
-12. Use the keyboard shortcut `Ctrl + Shift + P` and type in `Terminal: Select Default Profile`
-13. Set Default Profile to Git Bash
-    ![Select Default Terminal](https://cdn.discordapp.com/attachments/939252287363239996/1227463209439592521/Screenshot_2024-04-10_112012.png?ex=66287f32&is=66160a32&hm=53fcaf97134e5a79e6836b17abc03f905bb81d6554edbcd40704885b00e7da2b&)
-14. Click on the 3 dots>Terminal>Open terminal or use the shortcut `Ctrl + Shift + ` `
-15. Enter the following commands into terminal:
+1. Open the [Sunflower Land repository](https://github.com/sunflower-land/sunflower-land) and **fork** it to your account. When cloning, use the option to contribute back to the **upstream** (parent) repo if your tool offers it.
+2. Clone **your fork** locally (GitHub Desktop: **File → Clone repository**, or use Git — see [Git workflow with the command line](#git-workflow-with-the-command-line)).
+3. In the repo root, install dependencies:
 
-`npm install -g yarn`
+   ```bash
+   yarn
+   ```
 
-_It may prompt you to install a newer version and tell you to enter a command to install it. Enter the provided command to install;_
+   This installs packages defined in [`package.json`](../package.json).
 
-`yarn install` or `yarn`
+4. Copy the environment sample:
 
-Installs yarn into your system based on the packages in [package.json](package.json);
+   ```bash
+   cp .env.sample .env
+   ```
 
-`cp .env.sample .env`
+   Adjust values in `.env` as needed for local development. See comments in [`.env.sample`](../.env.sample) if present.
 
-Creates a `.env ` file which contains the data for running the code locally on your device;
+### Optional: GitHub Desktop + VS Code on Windows
 
-_Bonus Command (not needed for setup):_
+1. In GitHub Desktop: **File → Options → Integrations**. Set **External editor** to Visual Studio Code and **Shell** to **Git Bash** (recommended).
+2. Open the repo in VS Code from GitHub Desktop, or press **Ctrl+Shift+A** with the repo selected.
+3. In VS Code, press **Ctrl+Shift+P**, run **Terminal: Select Default Profile**, and choose **Git Bash**.
+4. Open the terminal from the menu (**View → Terminal**) or run **Terminal: Toggle Terminal** from the Command Palette (**Ctrl+Shift+P**).
 
-`yarn dev`
+## Running locally
 
-_Runs the code locally on your device_
+Start the dev server (Windows, macOS, Linux, and WSL):
 
-![Commands](https://cdn.discordapp.com/attachments/939252287363239996/1227463321293164584/image.png?ex=66287f4c&is=66160a4c&hm=35f32e684c6e1df517207868473b7c54442232ef54690a0861c5fb4b14e64b9d&)
+```bash
+yarn dev
+```
 
-🎉Congratulations! You are now set to contribute code to the Sunflower Land Repository!
+The app is served on port **3000** by default (see [`package.json`](../package.json)).
 
-### Issues
+### Checks that mirror CI
 
-#### Create a new issue
+Before opening a PR, run the same kinds of checks [CI](../.github/workflows/ci.yml) runs:
 
-If you spot a problem with the docs, [search if an issue already exists](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments). If a related issue doesn't exist, you can open a new issue using a relevant [issue form](https://github.com/github/docs/issues/new/choose).
+| Command     | Purpose                  |
+| ----------- | ------------------------ |
+| `yarn tsc`  | TypeScript compile check |
+| `yarn test` | Jest unit tests          |
+| `yarn lint` | ESLint                   |
 
-#### Solve an issue
+CI sets `VITE_NETWORK=amoy` when running tests. If tests behave differently locally, try:
 
-Scan through our [existing issues](https://github.com/sunflower-land/sunflower-land/issues) to find one that interests you. You can narrow down the search using `labels` as filters. See [Labels](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels) for more information.
+```bash
+VITE_NETWORK=amoy yarn test
+```
 
-As a general rule, we assign features with deadlines to core team members. If a ticket is already assigned and you are passionate about it, please reach out to the developer on the issue comments and help them out.
+(On Windows Git Bash you can use the same line; in `cmd` use `set VITE_NETWORK=amoy && yarn test`.)
 
-## How can I help?
+## Issues
 
-If you have a bright idea, open an issue or join our active Discord #devs-chat first and start a discussion. We love to bring in the community ideas where possible!
+### Open an issue
 
-Don't have any ideas? We would suggest scanning the open issues and seeing if there is something that catches your eye.
+[Search existing issues](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments) first. If nothing fits, open a new issue using our [issue templates](https://github.com/sunflower-land/sunflower-land/issues/new/choose).
 
-You can search by labels as well to see which items are more urgent than others.
+### Work on an issue
 
-## What should I work on?
+Browse [open issues](https://github.com/sunflower-land/sunflower-land/issues). Use **labels** to filter; see GitHub’s [label help](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels).
 
-Maintaining a project with over 50 open source developers brings a range of challenges:
+We usually assign time-sensitive features to core team members. If an issue is assigned and you still want to help, comment on the issue and coordinate with the assignee.
 
-- Maintaining a consistent vision
-- Ensuring best architecture practices
-- Security concerns and vulnerabilities
-- Automated and manual testing
-- Readability and maintainability
-- Managing expectations, deadlines and contributors leaving the project
-- Tokenomics design
-- Anything that gets added to the project is more code that needs to be maintained by Thought Farm.
+## How you can help
 
-While we appreciate UI and gameplay PRs, we need these pieces of work to fit into the core team's development workflow to ensure work is pair programmed, has sufficient automated testing, is understood by the team, is peer reviewed, aligns with the tokenomics of the game and adheres with the vision of the project.
+- Share ideas in an issue or on Discord (**#devs-chat**) before large changes.
+- Pick an open issue that matches your skills and our scope (below).
 
-Due to the limited time resources of the team, at this point of time, we cannot accept any PRs that introduce major gameplay changes or UI workflows.
+## What to work on
 
-If you have an idea that introduces new UI workflows or gameplay, the best way forward is to first raise the idea for community and if consensus is met, it will get added to the roadmap. Once an item is on the roadmap, the core functionality will be developed by Thought Farm with the support from certified developers and the community. For new gameplay and UI workflows there will be plenty of tasks that can be worked on by community members.
+Many people contribute, so we balance vision, security, testing, tokenomics, and long-term maintenance. Anything merged is maintained by Thought Farm.
 
-**Examples of what can be worked on independently**
+We welcome many PRs, but **major gameplay or large new UI flows** need to fit the core team’s workflow (pairing, tests, review, tokenomics, product vision). We **do not** accept PRs that introduce **major gameplay changes** or **new end-to-end UI workflows** without prior alignment.
+
+For big ideas, discuss with the community first; agreed items can land on the roadmap, with core implementation led by Thought Farm and room for community tasks around them.
+
+**Usually fine to propose as a PR (typical community scope)**
 
 - Bug fixes
 - Decorations
-- Minor UI enhancements - Typos, buttons, alignment, colours
-- CI & Build improvements
-- Writing tests
-- Animations + game polish
+- Small UI tweaks (copy, alignment, colours, minor layout)
+- CI and build improvements
+- Tests for business logic
+- Animations and polish
 
-**Examples of what the core team will need to be involved in**
+**Usually needs core team involvement first**
 
 - New game features
-- Major UI & UX workflows
-- Architecture changes (state management, data storage, routers etc.)
-- Smart contracts & APIs
-- Testing infrastructure
-- Repo tooling (testing, components, build)
+- Major UI/UX flows
+- Architecture changes (state, storage, routing, etc.)
+- Smart contracts and **backend/API** work on the server (frontend-only PRs in this repo are still welcome; if server changes are needed too, see [Backend / API](#related-repositories-and-docs))
+- Testing infrastructure and broad repo tooling
 
-### Update your Branch
+## Keep your branch up to date
 
-Periodically the devs may push commits to the repository but they do not automatically appear in your local system.
+Upstream commits do not appear on your machine automatically. Update **before** starting new work.
 
-Before starting on your project, be sure to update your branch first
+### With GitHub Desktop
 
-To do this you can do the following steps:
+1. On **your fork** on GitHub, if you are behind upstream, GitHub shows **Sync fork** (or similar). Click **Sync fork**, then **Update branch**.
+2. In GitHub Desktop, click **Fetch origin**, then **Pull origin** so your local `main` (or default branch) matches.
 
-1. Go to your forked repo page and if there's any commits that are missing from your repo you should see a message like this:
-   ![Sync Fork](https://cdn.discordapp.com/attachments/939252287363239996/1227520084344569856/image.png?ex=6628b42a&is=66163f2a&hm=3391bb661fae133da6404ec545a62511c538a5d20e2d82ce3446c5cf2e817496&)
-2. Click on Sync Fork
-3. Click on Update Branch
-   ![Update Branch](https://cdn.discordapp.com/attachments/939252287363239996/1227519523918446622/image.png?ex=6628b3a4&is=66163ea4&hm=026e7c8b742d5163029f5e172c079aa86b2a82054d147fcedd13db8c68dd7506&)
-4. Go back to Github Desktop and click on Fetch Origin
-   ![Fetch Origin](https://cdn.discordapp.com/attachments/939252287363239996/1179427812378153031/image.png?ex=661fdbbf&is=660d66bf&hm=b6bcab68835d2985f6d5a6a8b62c972faa2e7350b653e23928fc827db92917cb&)
-5. Click on Pull Origin
-   ![Pull Origin](https://cdn.discordapp.com/attachments/939252287363239996/1179428162392826007/image.png?ex=661fdc12&is=660d6712&hm=e67b2d605109ee27983eea75c3a17ec0d804bfc9b69eb0c80dad86c3c1eac956&)
+### With Git
 
-Your branch should be updated with the main SFL repo now.
+See [Update from upstream](#update-from-upstream) below.
 
-### Make Changes
+## Make changes
 
-#### Make changes locally
+1. Create a **feature branch** from up-to-date `main` (GitHub Desktop: **Branch → New branch**; choose **main** / **upstream/main** as the base when prompted).
+2. Switch to that branch and edit in your editor.
+3. Commit often with clear messages; see [Commits](#commits).
 
-1. Open Github Desktop
-2. Create a new branch
-   ![New Branch](https://cdn.discordapp.com/attachments/939252287363239996/1179408819328135288/image.png?ex=661fca0e&is=660d550e&hm=08409935e9c4215b72dd06af9468eaf69e44579905e0e73ec12af7c0b6f54cf4&)
-   Create the branch based on `upstream/main` if this pops up.
+## Git workflow with the command line
 
-   ![Create based on main](https://cdn.discordapp.com/attachments/939252287363239996/1179409109213257801/image.png?ex=661fca53&is=660d5553&hm=0fcfad5f4a5d417397f22637894a8927767aecf3b2e4cbf446e8b27e2fa1a9f9&)
+Use this if you prefer Git without GitHub Desktop.
 
-   Otherwise you will see this menu instead
+### One-time setup
 
-   ![alternate](https://cdn.discordapp.com/attachments/939252287363239996/1179409109422985236/image.png?ex=661fca54&is=660d5554&hm=2e58aa2978b0a60a411a3ede6ed58478261ba99629a02112588c67fef1480c76&)
+```bash
+git clone https://github.com/<your-username>/sunflower-land.git
+cd sunflower-land
+git remote add upstream https://github.com/sunflower-land/sunflower-land.git
+```
 
-3. Once created, the program should switch you over to the branch that you just created.
-4. Open VS Code
-5. Make changes to the issue you're trying to resolve in VS Code.
+### Update from upstream
 
-### Preparing to submit
+```bash
+git checkout main
+git fetch upstream
+git merge upstream/main
+git push origin main
+```
 
-Before you submit, ensure you have done the following:
+Create a branch for your work:
 
-- Written tests for any business logic code
-- Provided sufficient comments on the code
-- Manually tested your code by running the repo.
-  Some tests you can run:
+```bash
+git checkout -b your-branch-name
+```
 
-`yarn dev`
+After commits:
 
-Test your changes locally on your system;
+```bash
+git push -u origin your-branch-name
+```
 
-`yarn tsc`
+Open a pull request from your fork’s branch against `sunflower-land/sunflower-land` **main** on GitHub.
 
-Runs typescript code to check for any syntax errors;
+## Before you open a pull request
 
-`yarn test`
+- Add or update **tests** for business logic you change.
+- Comment **non-obvious** code where it helps future readers.
+- **Manually test** your change with `yarn dev`.
+- Run **`yarn tsc`**, **`yarn test`**, and **`yarn lint`** locally.
 
-Runs tests to make sure the code runs well
+Use our [pull request template](PULL_REQUEST_TEMPLATE.md) as a guide: short summary, motivation, **how to test**, screenshots or recording for **UI** changes (attach those **in the PR**, not required in this doc), and linked issues.
 
-### Commit your update
+## Commits
 
-Commit the changes once you are happy with them. We prefer atomic commits that are easily revertable.
+Prefer **small, atomic commits** that are easy to revert.
 
-> **TIP:** If your changes include **only** documentation updates/additions/deletions,
-> make sure that you add below line to your commit message while committing:
->
-> **`[skip ci]`**
->
-> This **_won't_** trigger the GitHub Actions CI Workflow in turn, it **_won't_** waste the resources. 🤗 🌏
->
-> > E.g.
-> >
-> > ```
-> > [CHORE] Update README.md
-> > [skip ci]
-> > ```
+**Documentation-only** changes (no code or config behaviour change): add **`[skip ci]`** on its own line in the commit message body so GitHub Actions does not run a full CI cycle for doc-only edits.
 
-Once you confirmed your changes, go to the Source Control Panel and name your commit. Once ready, click on commit. Then sync your changes with the remote
-![Commit](https://cdn.discordapp.com/attachments/939252287363239996/1179410663962050721/image.png?ex=661fcbc6&is=660d56c6&hm=d8c7425ac7cefa846d660e5892f9f79d88f4c00fc9289013dc2d19acec93fc7c&)
-Then sync your changes
-![Sync Changes](https://cdn.discordapp.com/attachments/939252287363239996/1179411439132364880/image.png?ex=661fcc7f&is=660d577f&hm=0f0c83f8dd2767e1ae620d4d382675bee3222e9a5bf25af2f6da114503e47c5c&)
-_Bonus fyi: There are other options for commit but they do different things:_
+Example:
 
-- _Commit: Commits the file locally on your drive_
-- _Commit (Amend): Adds new stage changes to the most recent pushed commit_
-- _Commit and Push: Commits the file and pushes it to the remote_
-- _Commit and Sync: Commits the file and syncs your local branch with the remote branch_
-  ![Other Commit Options](https://cdn.discordapp.com/attachments/939252287363239996/1227465427861508127/image.png?ex=66288143&is=66160c43&hm=c41631df5fbbb7d056507fd7b21722e4510c7212d31661d3151586092a2567b4&)
+```
+[CHORE] Update CODE_CONTRIBUTING.md
 
-### Pull Request
+[skip ci]
+```
 
-When you're finished with the changes, create a pull request, also known as a PR.
+### GitHub Desktop commit and push
 
-You will want to prefix the name of your PR with the category it falls under:
+1. Review changes in the left sidebar; stage files as needed.
+2. Write a summary at the bottom; optionally add description.
+3. Click **Commit to** _your-branch-name_ (the button shows the active branch).
+4. Click **Push origin** (or **Publish branch** if the branch is new).
 
-- [FEAT] Feature or enhancement
-- [CHORE] Admin type work (scripts, documentation etc)
-- [FIX] A bug fix
+Other actions (if shown): **Commit** (local only), **Commit and Push**, **Commit (Amend)** (add to last commit — use carefully), **Commit and Sync**.
 
-For example - "[FEAT] Craft a sausage"
-![Create PR](https://cdn.discordapp.com/attachments/939252287363239996/1227520795014729749/image.png?ex=6628b4d3&is=66163fd3&hm=99221d3950fa4db97d7e119d1951f77bc131be1b7b00a6676887af61053e8af3&)
+## Pull requests
 
-- Once you submit your PR, a Sunflower Land team member will review your proposal. We may ask questions or request for additional information.
-- We may ask for changes to be made before a PR can be merged
-- As you update your PR and apply changes, mark each conversation as [resolved](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/commenting-on-a-pull-request#resolving-conversations).
-- If you run into any merge issues, checkout this [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) to help you resolve merge conflicts and other issues.
+1. Push your branch and open a **pull request** from your fork to **main**.
+2. **Title prefix** (required for consistency):
+   - **`[FEAT]`** — feature or enhancement
+   - **`[CHORE]`** — maintenance, scripts, docs
+   - **`[FIX]`** — bug fix
 
-When a PR is opened we run Github Actions to ensure the quality of the code is up to standards. This includes:
+   Example: `[FEAT] Craft a sausage`
 
-- Typescript check
-- Jest (unit testing)
+3. Fill in the template sections so reviewers can understand and test your change.
 
-### Your PR is merged!
+After you submit:
 
-Congratulations 🎉🎉 The Sunflower Land Dev Team thanks you for your contributions!✨️
+- A maintainer will review; we may ask questions or request changes.
+- **Resolve** review threads when you address them ([how to resolve conversations](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/commenting-on-a-pull-request#resolving-conversations)).
+- For merge conflicts, see GitHub’s [merge conflict tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts).
+
+### CI on pull requests
+
+We run **GitHub Actions** on PRs, including:
+
+- TypeScript (`yarn tsc`)
+- Jest (`yarn test`)
+- ESLint (`yarn lint`)
+
+## Related repositories and docs
+
+- **Art** — [ART_CONTRIBUTING.md](ART_CONTRIBUTING.md)
+- **Backend / API** — server code lives in the private **sunflower-land-api** repository (only people with access can clone it and land server-side changes). **You can still open frontend PRs in this repo** without API access. If your UI change **needs new or different backend behaviour**, call that out in the issue or PR so the team can coordinate; **review and merge may take longer** while API work is scheduled or implemented separately.
+- **Public HTTP API** (read-only tooling, rate limits, batch endpoints) — [OFFCHAIN_API.md](OFFCHAIN_API.md) and [openapi.json](openapi.json)
+
+## After merge
+
+Thanks for contributing. Welcome back for the next issue or idea.

@@ -1,5 +1,5 @@
 import { CropName } from "features/game/types/crops";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 
 import sunflowerProc from "assets/crops/sunflower/proc_sprite.png";
@@ -16,6 +16,8 @@ import radishProc from "assets/crops/radish/proc_sprite.png";
 import wheatProc from "assets/crops/wheat/proc_sprite.png";
 import kaleProc from "assets/crops/kale/proc_sprite.png";
 import soybeanProc from "assets/crops/soybean/proc_sprite.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProc,
@@ -32,6 +34,15 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Wheat: wheatProc,
   Kale: kaleProc,
   Soybean: soybeanProc,
+  Barley: potatoProc,
+  Rhubarb: radishProc,
+  Zucchini: kaleProc,
+  Yam: cabbageProc,
+  Broccoli: kaleProc,
+  Pepper: radishProc,
+  Onion: parsnipProc,
+  Turnip: sunflowerProc,
+  Artichoke: cabbageProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -51,6 +62,7 @@ export type Lifecycle = {
 };
 
 const URL = `${CONFIG.PROTECTED_IMAGE_URL}/crops`;
+const VOLCANO_URL = `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops`;
 
 export const IMAGES: Record<CropName, string> = {
   Sunflower: "sunflower",
@@ -67,21 +79,94 @@ export const IMAGES: Record<CropName, string> = {
   Wheat: "wheat",
   Kale: "kale",
   Soybean: "soybean",
+  Barley: "barley",
+  Rhubarb: "rhubarb",
+  Zucchini: "zucchini",
+  Yam: "yam",
+  Broccoli: "brocolli",
+  Pepper: "pepper",
+  Onion: "onion",
+  Turnip: "turnip",
+  Artichoke: "artichoke",
 };
 
-export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
-  IMAGES,
-).reduce(
-  (acc, name) => ({
-    ...acc,
-    [name]: {
-      seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-      halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-      almost: `${URL}/${IMAGES[name]}/almost.png`,
-      ready: `${URL}/${IMAGES[name]}/plant.png`,
-      crop: `${URL}/${IMAGES[name]}/crop.png`,
-      seed: `${URL}/${IMAGES[name]}/seed.png`,
-    },
-  }),
-  {} as Record<CropName, Lifecycle>,
-);
+export const CROP_LIFECYCLE: Record<
+  LandBiomeName,
+  Record<CropName, Lifecycle>
+> = {
+  "Basic Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${URL}/${IMAGES[name]}/almost.png`,
+        ready: `${URL}/${IMAGES[name]}/plant.png`,
+        crop: `${URL}/${IMAGES[name]}/crop.png`,
+        seed: `${URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Spring Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${URL}/${IMAGES[name]}/almost.png`,
+        ready: `${URL}/${IMAGES[name]}/plant.png`,
+        crop: `${URL}/${IMAGES[name]}/crop.png`,
+        seed: `${URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Volcano Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Desert Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${URL}/${IMAGES[name]}/almost.png`,
+        ready: `${URL}/${IMAGES[name]}/plant.png`,
+        crop: `${URL}/${IMAGES[name]}/crop.png`,
+        seed: `${URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+};
+
+export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
+  "Basic Biome": {
+    regular: SUNNYSIDE.soil.soil2,
+    dry: SUNNYSIDE.soil.soil_dry,
+  },
+  "Spring Biome": {
+    regular: SUNNYSIDE.soil.soil2,
+    dry: SUNNYSIDE.soil.soil_dry,
+  },
+  "Volcano Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
+  },
+  "Desert Biome": {
+    regular: SUNNYSIDE.soil.soil2,
+    dry: SUNNYSIDE.soil.soil_dry,
+  },
+};

@@ -4,16 +4,16 @@
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/badge.svg" alt="Translate" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml/badge.svg" alt="Testnet deploy" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml"> <img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml/badge.svg" alt="Mainnet deploy" /></a>
-<a href="https://twitter.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>
+<a href="https://x.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>
 <a href="https://www.youtube.com/channel/UCA08g3x6EGPPZE_4093q3PQ?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCA08g3x6EGPPZE_4093q3PQ?style=social&label=Sunflower%20Land" alt="Youtube Subscribe: Sunflower Land" /></a>
 <a href="https://discord.gg/sunflowerland"><img src="https://img.shields.io/discord/880987707214544966?label=Sunflower%20Land&logo=Discord&style=social" alt="Discord: Sunflower Land" /></a>
 </p>
 
 ![banner_2400_800-export](https://github.com/user-attachments/assets/4d08da2c-a5a5-4131-acbb-b9b41132f6df)
 
-The goal of this project is to create a decentralized and community driven MetaVerse style game.
+The goal of this project is to create a decentralized and community-driven MetaVerse style game.
 
-This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and off chain data.
+This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and offchain data.
 
 Looking to help out? Read our [contributing docs](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md)
 
@@ -35,17 +35,7 @@ Read the official docs/ litepaper here: [docs.sunflower-land.com](https://docs.s
 
 ### 👶 How to play ?
 
-Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-play)
-
-### ❓ Need Help ?
-
-First Read the FAQ's here: [FAQ's](https://sunflowerland.freshdesk.com/support/solutions/101000195014)
-
-Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
-
-### ‼️ Have a suggestion/proposal/cool idea ?
-
-Please add a new idea for the community to vote on, here: [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
+Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-start)
 
 # 🎨 Sunnyside Assets
 
@@ -57,7 +47,7 @@ These raw assets/tiles are not in this repo. You must purchase the asset pack if
 
 # 👶 Getting Started
 
-You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open source contribution for Sunflower Land
+You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open-source contribution for Sunflower Land
 
 # 🧪 Testing
 
@@ -128,4 +118,4 @@ All media assets (images and music) are not available for use in commercial or p
 
 To access the crops, resources and land tiles, please refer to the [SunnySide Asset Pack](https://danieldiggle.itch.io/sunnyside)
 
-If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach to the core team on Discord.
+If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach out to the core team on [Discord](https://discord.com/invite/sunflowerland).

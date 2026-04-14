@@ -125,14 +125,103 @@ export const secondsToString = (
     .join("\u00A0");
 };
 
+export const millisecondsToString = (
+  milliseconds: number,
+  options: TimeFormatOptions,
+) => {
+  const ONE_SEC = 1000;
+  const ONE_MIN = ONE_SEC * 60;
+  const ONE_HR = ONE_MIN * 60;
+  const ONE_DAY = ONE_HR * 24;
+
+  const roundingFunction =
+    milliseconds >= 0
+      ? (x: number) => Math.floor(x)
+      : (x: number) => Math.ceil(x);
+
+  const millisecondsValue = {
+    value: roundingFunction(milliseconds % ONE_SEC),
+    unit: translate("time.ms.med"),
+    pluralisedUnit: translate("time.mss.med"),
+    unitShort: translate("time.millisecond.short"),
+  };
+  const secondsValue = {
+    value: roundingFunction((milliseconds / ONE_SEC) % 60),
+    unit: translate("time.sec.med"),
+    pluralisedUnit: translate("time.secs.med"),
+    unitShort: translate("time.second.short"),
+  };
+  const minutesValue = {
+    value: roundingFunction((milliseconds / ONE_MIN) % 60),
+    unit: translate("time.min.med"),
+    pluralisedUnit: translate("time.mins.med"),
+    unitShort: translate("time.minute.short"),
+  };
+  const hoursValue = {
+    value: roundingFunction((milliseconds / ONE_HR) % 24),
+    unit: translate("time.hr.med"),
+    pluralisedUnit: translate("time.hrs.med"),
+    unitShort: translate("time.hour.short"),
+  };
+  const daysValue = {
+    value: roundingFunction(milliseconds / ONE_DAY),
+    unit: translate("time.day.med"),
+    pluralisedUnit: translate("time.days.med"),
+    unitShort: translate("time.day.short"),
+  };
+
+  const timeUnits = [
+    daysValue.value && daysValue,
+    (daysValue.value || hoursValue.value) && hoursValue,
+    (daysValue.value || hoursValue.value || minutesValue.value) && minutesValue,
+    (daysValue.value ||
+      hoursValue.value ||
+      minutesValue.value ||
+      secondsValue.value) &&
+      secondsValue,
+    millisecondsValue.value && millisecondsValue,
+  ].filter(Boolean);
+
+  let reducedTimeUnits;
+  switch (options.length) {
+    case "short":
+      reducedTimeUnits = timeUnits.slice(0, 1);
+      break;
+    case "medium":
+      reducedTimeUnits = timeUnits.slice(0, 2);
+      break;
+    case "full":
+      reducedTimeUnits = timeUnits;
+      break;
+  }
+
+  if (options.removeTrailingZeros) {
+    while (
+      options.removeTrailingZeros &&
+      reducedTimeUnits.length > 1 &&
+      !(reducedTimeUnits.slice(-1)[0] as TimeDuration)?.value
+    ) {
+      reducedTimeUnits = reducedTimeUnits.slice(0, -1);
+    }
+  }
+
+  return reducedTimeUnits
+    .map((x) => timeUnitToString(x as TimeDuration, options))
+    .join("\u00A0");
+};
+
 /**
  * Gets the time left before an operation is ready.
  * @param createdAt The time where the operation is started.
  * @param totalTimeInSeconds The total time in seconds needed for the operation to complete.
  * @returns The time left in seconds.
  */
-export const getTimeLeft = (createdAt: number, totalTimeInSeconds: number) => {
-  const millisecondsElapsed = Date.now() - createdAt;
+export const getTimeLeft = (
+  createdAt: number,
+  totalTimeInSeconds: number,
+  now: number,
+) => {
+  const millisecondsElapsed = now - createdAt;
 
   if (millisecondsElapsed > totalTimeInSeconds * 1000) return 0;
 
@@ -156,48 +245,75 @@ export const formatDateTime = (isoString: string) => {
   });
 };
 
-export function getRelativeTime(timestamp: number): string {
-  const now = new Date();
-  const secondsAgo = Math.floor((now.getTime() - timestamp) / 1000);
+/**
+ * Gets the relative time from now in a human readable format
+ * @param timestamp The timestamp to compare against
+ * @param length Format length - "short" shows 1 unit, "medium" shows 2 units, "long" shows 3 units (optional)
+ * @returns Relative time string eg: "2 days ago" or "2 days 3 hours 15 minutes ago"
+ */
+export function getRelativeTime(
+  timestamp: number,
+  now: number,
+  length: "short" | "medium" | "long" = "short",
+): string {
+  const diffInSeconds = Math.round((timestamp - now) / 1000);
+  const isInFuture = diffInSeconds > 0;
+  const secondsAbs = Math.abs(diffInSeconds);
 
-  if (secondsAgo === 0) {
+  if (secondsAbs < 1) {
     return "now";
-  } else if (secondsAgo < 60) {
-    return translate("time.seconds.ago", {
-      time: secondsAgo,
-      secondORseconds:
-        secondsAgo !== 1
-          ? translate("time.seconds.full")
-          : translate("time.second.full"),
+  }
+
+  const days = Math.floor(secondsAbs / 86400);
+  const remainingHours = Math.floor((secondsAbs % 86400) / 3600);
+  const remainingMinutes = Math.floor((secondsAbs % 3600) / 60);
+
+  if (days > 0) {
+    if ((length === "medium" || length === "long") && remainingHours > 0) {
+      const timeStr = `${days} ${days !== 1 ? translate("time.days.full") : translate("time.day.full")} ${remainingHours} ${remainingHours !== 1 ? translate("time.hours.full") : translate("time.hour.full")}${length === "long" && remainingMinutes > 0 ? ` ${remainingMinutes} ${remainingMinutes !== 1 ? translate("time.minutes.full") : translate("time.minute.full")}` : ""}`;
+      return translate(isInFuture ? "time.in" : "time.ago", { time: timeStr });
+    }
+    return translate(isInFuture ? "time.days.in" : "time.days.ago", {
+      time: days,
+      dayORdays:
+        days !== 1 ? translate("time.days.full") : translate("time.day.full"),
     });
-  } else if (secondsAgo < 3600) {
-    const minutesAgo = Math.floor(secondsAgo / 60);
-    return translate("time.minutes.ago", {
-      time: minutesAgo,
-      minuteORminutes:
-        minutesAgo !== 1
-          ? translate("time.minutes.full")
-          : translate("time.minute.full"),
-    });
-  } else if (secondsAgo < 86400) {
-    const hoursAgo = Math.floor(secondsAgo / 3600);
-    return translate("time.hours.ago", {
-      time: hoursAgo,
+  }
+
+  if (secondsAbs >= 3600) {
+    const hours = Math.floor(secondsAbs / 3600);
+    if ((length === "medium" || length === "long") && remainingMinutes > 0) {
+      const timeStr = `${hours} ${hours !== 1 ? translate("time.hours.full") : translate("time.hour.full")} ${remainingMinutes} ${remainingMinutes !== 1 ? translate("time.minutes.full") : translate("time.minute.full")}`;
+      return translate(isInFuture ? "time.in" : "time.ago", { time: timeStr });
+    }
+    return translate(isInFuture ? "time.hours.in" : "time.hours.ago", {
+      time: hours,
       hourORhours:
-        hoursAgo !== 1
+        hours !== 1
           ? translate("time.hours.full")
           : translate("time.hour.full"),
     });
-  } else {
-    const daysAgo = Math.floor(secondsAgo / 86400);
-    return translate("time.days.ago", {
-      time: daysAgo,
-      dayORdays:
-        daysAgo !== 1
-          ? translate("time.days.full")
-          : translate("time.day.full"),
+  }
+
+  if (secondsAbs >= 60) {
+    const minutes = Math.floor(secondsAbs / 60);
+    return translate(isInFuture ? "time.minutes.in" : "time.minutes.ago", {
+      time: minutes,
+      minuteORminutes:
+        minutes !== 1
+          ? translate("time.minutes.full")
+          : translate("time.minute.full"),
     });
   }
+
+  // Only show seconds when it's the only unit available
+  return translate(isInFuture ? "time.seconds.in" : "time.seconds.ago", {
+    time: secondsAbs,
+    secondORseconds:
+      secondsAbs !== 1
+        ? translate("time.seconds.full")
+        : translate("time.second.full"),
+  });
 }
 
 export function formatDateRange(fromDate: Date, toDate: Date): string {
@@ -304,4 +420,42 @@ export function getUTCDateString() {
   const day = String(date.getUTCDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+}
+
+export function getShortRelativeTime(timestamp: number): string {
+  const now = new Date();
+  const diffInSeconds = Math.round((timestamp - now.getTime()) / 1000);
+  const isInFuture = diffInSeconds > 0;
+  const secondsAbs = Math.abs(diffInSeconds);
+
+  if (secondsAbs < 1) {
+    return "now";
+  } else if (secondsAbs < 60) {
+    return isInFuture ? `in ${secondsAbs}s` : `${secondsAbs}s ago`;
+  } else if (secondsAbs < 3600) {
+    const minutes = Math.floor(secondsAbs / 60);
+    return isInFuture ? `in ${minutes}m` : `${minutes}m ago`;
+  } else if (secondsAbs < 86400) {
+    const hours = Math.floor(secondsAbs / 3600);
+    return isInFuture ? `in ${hours}h` : `${hours}h ago`;
+  } else {
+    const days = Math.floor(secondsAbs / 86400);
+    return isInFuture ? `in ${days}d` : `${days}d ago`;
+  }
+}
+
+/**
+ * A function that gives you the time until the next day in seconds.
+ * @returns Time until the next day in seconds eg: 86400
+ */
+export function secondsTillReset(now = Date.now()) {
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(now);
+  nextDay.setUTCHours(24, 0, 0, 0);
+  const timeUntilNextDay = nextDay.getTime() - now;
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+
+  return secondsUntilNextDay;
 }

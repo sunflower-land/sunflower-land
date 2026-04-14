@@ -5,37 +5,36 @@ import { Modal } from "components/ui/Modal";
 import { FlowerBedModal } from "./FlowerBedModal";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import {
-  DESERT_FLOWER_LIFECYCLE,
   FLOWERS,
-  FLOWER_LIFECYCLE,
   FLOWER_SEEDS,
   FlowerName,
+  FlowerGrowthStage,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
-import classNames from "classnames";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
-import { IslandType } from "features/game/types/game";
 import { FLOWER_VARIANTS } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 import chest from "assets/icons/chest.png";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-
-const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
-  basic: FLOWER_LIFECYCLE,
-  spring: FLOWER_LIFECYCLE,
-  desert: DESERT_FLOWER_LIFECYCLE,
-};
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import Decimal from "decimal.js-light";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
+import { Panel } from "components/ui/Panel";
+import { secondsToString } from "lib/utils/time";
+import { PlantedFlower } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   id: string;
@@ -63,25 +62,38 @@ const FlowerCongratulations: React.FC<{ flowerName: FlowerName }> = ({
   </div>
 );
 
-export const FlowerBed: React.FC<Props> = ({ id }) => {
-  const { t } = useAppTranslation();
-  const { showTimers, gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const { flowers, farmActivity } = state;
+const getGrowthStage = (
+  growPercentage: number,
+  dirty: boolean,
+): FlowerGrowthStage => {
+  // It's possible with boosts that the initial growth stage is not sprout.
+  // Always render a sprout if the flower is dirt (i.e. data not from backend).
+  if (dirty) return "sprout";
 
-  const flowerBed = flowers.flowerBeds[id];
+  return growPercentage >= 100
+    ? "ready"
+    : growPercentage >= 66
+      ? "almost"
+      : growPercentage >= 44
+        ? "halfway"
+        : "sprout";
+};
+
+const _flowers = (state: MachineState) => state.context.state.flowers;
+const _biome = (state: MachineState) =>
+  getCurrentBiome(state.context.state.island);
+const _season = (state: MachineState) => state.context.state.season.season;
+
+export const FlowerBed: React.FC<Props> = ({ id }) => {
+  const { gameService } = useContext(Context);
+
+  const flowers = useSelector(gameService, _flowers);
+  const biome = useSelector(gameService, _biome);
+  const season = useSelector(gameService, _season);
 
   const [showPlantModal, setShowPlantModal] = useState(false);
-  const [showCongratulationsModal, setShowCongratulationsModal] =
-    useState(false);
-  const [congratulationsPage, setCongratulationsPage] = useState(0);
-  const [showPopover, setShowPopover] = useState(false);
 
-  useUiRefresher();
+  const flowerBed = flowers.flowerBeds[id];
 
   if (!flowerBed.flower) {
     return (
@@ -91,11 +103,11 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           onClick={() => setShowPlantModal(true)}
         >
           <img
-            src={FLOWER_VARIANTS[state.island.type]}
+            src={FLOWER_VARIANTS(biome, season, "Red Pansy", "flower_bed")}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,
-              height: `${PIXEL_SCALE * 16}px`,
+              bottom: 0,
             }}
           />
         </div>
@@ -108,30 +120,61 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const flower = flowerBed.flower;
 
-  const growTime =
-    FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000;
-  const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
-  const timeLeftSeconds = timeLeft / 1000;
+  return <Flower flower={flower} id={id} />;
+};
 
-  const growPercentage = 100 - (Math.max(timeLeft, 0) / growTime) * 100;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
 
-  const isGrowing = timeLeft > 0;
+const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
+  flower,
+  id,
+}) => {
+  const { gameService, showTimers } = useContext(Context);
+  const { t } = useAppTranslation();
 
-  const stage =
-    growPercentage >= 100
-      ? "ready"
-      : growPercentage >= 66
-        ? "almost"
-        : growPercentage >= 44
-          ? "halfway"
-          : growPercentage >= 22
-            ? "sprout"
-            : "seedling";
+  const [showCongratulationsModal, setShowCongratulationsModal] =
+    useState(false);
+  const [congratulationsPage, setCongratulationsPage] = useState(0);
+  const [showPopover, setShowPopover] = useState(false);
+  const [showInstaGrowModal, setShowInstaGrowModal] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const farmActivity = useSelector(gameService, _farmActivity);
+  const inventory = useSelector(gameService, _inventory);
+  const biome = useSelector(gameService, _biome);
+  const season = useSelector(gameService, _season);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const collectibles = useSelector(gameService, _collectibles);
+
+  // Keep growth calculations in seconds to match `useCountdown`, and only use
+  // milliseconds for the countdown target date.
+  const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
+  const growTimeMs = growSeconds * 1000;
+
+  const { totalSeconds: secondsLeft } = useCountdown(
+    flower.plantedAt + growTimeMs,
+  );
+  const growPercentage = 100 - (Math.max(secondsLeft, 0) / growSeconds) * 100;
+
+  const isGrowing = secondsLeft > 0;
+
+  const stage = getGrowthStage(growPercentage, !!flower.dirty);
 
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
+  const instaGrowCost = calculateInstaGrowCost(secondsLeft);
+  const playerObsidian = inventory.Obsidian ?? new Decimal(0);
+
   const handlePlotClick = () => {
+    if (isGrowing) {
+      setShowInstaGrowModal(true);
+      return;
+    }
+
     if (!hasHarvestedBefore || !!reward) {
       setShowCongratulationsModal(true);
       return;
@@ -152,18 +195,29 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const closeInstaGrowModal = () => {
+    setShowInstaGrowModal(false);
+    setShowConfirm(false);
+  };
+
+  const handleInstaGrow = () => {
+    gameService.send({
+      type: "flower.instaGrown",
+      id,
+    });
+
+    closeInstaGrowModal();
+  };
   return (
     <>
       <div
-        className={classNames("relative w-full h-full", {
-          "cursor-pointer hover:img-highlight": !isGrowing,
-        })}
-        onClick={!isGrowing ? handlePlotClick : undefined}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={handlePlotClick}
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={LIFECYCLE_VARIANTS[state.island.type][flower.name][stage]}
+          src={FLOWER_VARIANTS(biome, season, flower.name, stage)}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
@@ -183,11 +237,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                   ? ITEM_DETAILS[flower.name].image
                   : SUNNYSIDE.icons.search
               }
-              description={
-                hasHarvestedBefore ? flowerBed.flower.name : "Unknown"
-              }
+              description={hasHarvestedBefore ? flower.name : "Unknown"}
               showPopover={showPopover}
-              timeLeft={timeLeftSeconds}
+              timeLeft={secondsLeft}
             />
           </div>
         )}
@@ -203,7 +255,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={!flower.dirty ? timeLeftSeconds : undefined}
+              seconds={!flower.dirty ? secondsLeft : undefined}
               type="progress"
               formatLength="short"
             />
@@ -252,7 +304,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                     {t("reward")}
                   </Label>
                   {(reward.items ?? []).map((item) => {
-                    const boost = COLLECTIBLE_BUFF_LABELS[item.name];
+                    const boost = COLLECTIBLE_BUFF_LABELS[item.name]?.({
+                      skills: bumpkin.skills,
+                      collectibles: collectibles,
+                    });
 
                     return (
                       <>
@@ -265,14 +320,29 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                           {ITEM_DETAILS[item.name].description}
                         </span>
                         {boost && (
-                          <Label
-                            type={boost.labelType}
-                            icon={boost.boostTypeIcon}
-                            secondaryIcon={boost.boostedItemIcon}
-                            className="my-1"
-                          >
-                            {boost.shortDescription}
-                          </Label>
+                          <div className="flex flex-col gap-1">
+                            {boost.map(
+                              (
+                                {
+                                  labelType,
+                                  boostTypeIcon,
+                                  boostedItemIcon,
+                                  shortDescription,
+                                },
+                                index,
+                              ) => (
+                                <Label
+                                  key={index}
+                                  type={labelType}
+                                  icon={boostTypeIcon}
+                                  secondaryIcon={boostedItemIcon}
+                                  className="mb-1"
+                                >
+                                  {shortDescription}
+                                </Label>
+                              ),
+                            )}
+                          </div>
                         )}
                       </>
                     );
@@ -284,6 +354,57 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           )}
           <FlowerCongratulations flowerName={flower.name} />
         </Panel>
+      </Modal>
+
+      <Modal show={showInstaGrowModal} onHide={closeInstaGrowModal}>
+        <CloseButtonPanel
+          onClose={closeInstaGrowModal}
+          bumpkinParts={NPC_WEARABLES["poppy"]}
+        >
+          <div className="p-1 flex flex-col gap-1">
+            <div className="flex flex-col gap-1 sm:flex-row sm:gap-2">
+              <Label type="vibrant">{t("instaGrow")}</Label>
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("instaGrow.timeRemaining", {
+                  time: secondsToString(secondsLeft, { length: "medium" }),
+                })}
+              </Label>
+            </div>
+            <p className="text-sm my-1 pl-0.5">
+              {t("instaGrow.description", {
+                project: hasHarvestedBefore ? flower.name : "flower",
+              })}
+            </p>
+            <div className="flex justify-start">
+              <RequirementLabel
+                item="Obsidian"
+                requirement={instaGrowCost}
+                type="item"
+                balance={playerObsidian}
+              />
+            </div>
+          </div>
+          {showConfirm ? (
+            <div className="flex justify-between gap-1">
+              <Button onClick={() => setShowConfirm(false)}>
+                {t("cancel")}
+              </Button>
+              <Button
+                onClick={handleInstaGrow}
+                disabled={!playerObsidian.gte(instaGrowCost)}
+              >
+                {t("confirm")}
+              </Button>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setShowConfirm(true)}
+              disabled={!playerObsidian.gte(instaGrowCost)}
+            >
+              {t("instaGrow")}
+            </Button>
+          )}
+        </CloseButtonPanel>
       </Modal>
     </>
   );

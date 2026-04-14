@@ -5,8 +5,8 @@
  * @param {() => void} onBackdropClick - callback function when backdrop is clicked
  */
 
-import { Transition } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
+import { Transition, TransitionChild } from "@headlessui/react";
+import React, { useState } from "react";
 
 interface Props {
   show: boolean;
@@ -14,24 +14,18 @@ interface Props {
   onBackdropClick: () => void;
 }
 
-export const ModalOverlay: React.FC<Props> = ({
+export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
   show,
   className,
   children,
   onBackdropClick,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (show && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [show, isVisible]);
+  const [hideChildren, setHideChildren] = useState(true);
 
   return (
     <Transition show={show}>
       {/* Overlay */}
-      <Transition.Child
+      <TransitionChild
         enter="transition-opacity ease-linear duration-100"
         enterFrom="opacity-0"
         enterTo="opacity-100"
@@ -41,25 +35,27 @@ export const ModalOverlay: React.FC<Props> = ({
       >
         <div
           id="overlay-mine"
-          className={`bg-brown-300 opacity-70 absolute inset-1 top-1 z-20 ${className}`}
+          className={`bg-brown-300 opacity-70 absolute inset-1 top-1 z-50 ${className}`}
           style={{
             boxShadow: "rgb(194 134 105) 0px 0px 5px 6px",
           }}
           onClick={onBackdropClick}
         />
-      </Transition.Child>
-      <Transition.Child
+      </TransitionChild>
+      <TransitionChild
         enter="transition-transform ease-linear duration-100"
         enterFrom="scale-0"
         enterTo="scale-100"
         leave="transition-transform ease-linear duration-100"
         leaveFrom="scale-100"
         leaveTo="scale-0"
-        afterLeave={() => setIsVisible(false)}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-20"
+        beforeEnter={() => setHideChildren(false)}
+        afterLeave={() => setHideChildren(true)}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-50"
+        as="div"
       >
-        {isVisible && <>{children}</>}
-      </Transition.Child>
+        {!hideChildren && <>{children}</>}
+      </TransitionChild>
     </Transition>
   );
 };

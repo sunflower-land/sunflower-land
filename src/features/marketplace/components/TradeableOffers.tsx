@@ -1,359 +1,334 @@
 import React, { useContext, useState } from "react";
-import { waitFor } from "xstate/lib/waitFor.js";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import {
-  CollectionName,
-  TradeableDetails,
-} from "features/game/types/marketplace";
+import { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import walletIcon from "assets/icons/wallet.png";
-import sflIcon from "assets/icons/sfl.webp";
-import tradeIcon from "assets/icons/trade.png";
-import lockIcon from "assets/icons/lock.png";
+import sflIcon from "assets/icons/flower_token.webp";
 import increaseArrow from "assets/icons/increase_arrow.png";
-import bg from "assets/ui/3x3_bg.png";
 
-import { TradeTable } from "./TradeTable";
+import { OfferTable } from "./TradeTable";
 import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
-import { NumberInput } from "components/ui/NumberInput";
+import { useSelector } from "@xstate/react";
+import { TradeableDisplay } from "../lib/tradeables";
+import {
+  BlockchainEvent,
+  Context as ContextType,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
-import { GameWallet } from "features/wallet/Wallet";
-import { getOfferItem, TradeableDisplay } from "../lib/tradeables";
+import { MakeOffer } from "./MakeOffer";
+import * as Auth from "features/auth/lib/Provider";
+import { AcceptOffer } from "./AcceptOffer";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
-import { signTypedData } from "@wagmi/core";
-import { config } from "features/wallet/WalletProvider";
-import { getKeys } from "features/game/types/decorations";
-import { RemoveOffer } from "./RemoveOffer";
+import { ResourceTable } from "./ResourceTable";
+import { formatNumber } from "lib/utils/formatNumber";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_ITEMS } from "features/game/types";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 
-// TODO - move make offer here, signing state + submitting state
-export const TradeableSummary: React.FC<{
-  display: TradeableDisplay;
-  sfl: number;
-}> = ({ display, sfl }) => {
-  return (
-    <div className="flex">
-      <div className="h-12 w-12 mr-2 relative">
-        <img src={bg} className="w-full rounded-sm" />
-        <img
-          src={display.image}
-          className="w-1/2 absolute"
-          style={{
-            left: "50%",
-            transform: "translate(-50%, 50%)",
-            bottom: "50%",
-          }}
-        />
-      </div>
-      <div>
-        <span className="text-sm">{`1 x ${display.name}`}</span>
-        <div className="flex items-center">
-          <span className="text-sm">{`${sfl} SFL`}</span>
-          <img src={sflIcon} className="h-6 ml-1" />
-        </div>
-      </div>
-    </div>
-  );
-};
+import Decimal from "decimal.js-light";
+import { useParams } from "react-router";
+import { KeyedMutator } from "swr";
+import { getMaxPurchases } from "./Tradeable";
+import { ResourceTaxes } from "./TradeableInfo";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
-const MakeOffer: React.FC<{
-  onClose: () => void;
-  tradeable?: TradeableDetails;
-  display: TradeableDisplay;
-  id: number;
-  onOfferMade: () => void;
-}> = ({ onClose, tradeable, display, id, onOfferMade }) => {
-  const { t } = useAppTranslation();
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { balance } = gameState.context.state;
-
-  const [offer, setOffer] = useState(0);
-  const [isSigning, setIsSigning] = useState(false);
-  const [isOffering, setIsOffering] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const sign = async () => {
-    const signature = await signTypedData(config, {
-      primaryType: "Offer",
-      types: {
-        Offer: [
-          { name: "item", type: "string" },
-          { name: "collection", type: "string" },
-          { name: "quantity", type: "uint256" },
-          { name: "SFL", type: "uint256" },
-        ],
-      },
-      message: {
-        item: display.name,
-        quantity: BigInt(1),
-        SFL: BigInt(offer),
-        collection: display.type,
-      },
-      domain: {
-        name: "Sunflower Land",
-      },
-    });
-
-    confirm({ signature });
-
-    setIsSigning(false);
-  };
-
-  const submitOffer = () => {
-    if (tradeable?.type === "onchain") {
-      setIsSigning(true);
-      return;
-    }
-
-    setShowConfirmation(true);
-  };
-
-  const confirm = async ({ signature }: { signature?: string }) => {
-    setIsOffering(true);
-
-    // Show confirmation modal
-
-    // Await async action
-
-    // Show error modal
-    // Show success
-
-    try {
-      gameService.send("POST_EFFECT", {
-        effect: {
-          type: "marketplace.offerMade",
-          id,
-          collection: display.type,
-          signature,
-          sfl: offer,
-        },
-      });
-
-      await waitFor(
-        gameService,
-        (state) => {
-          if (state.matches("error")) throw new Error("Insert failed");
-          return state.matches("playing");
-        },
-        { timeout: 60 * 1000 },
-      );
-    } finally {
-      setIsOffering(false);
-    }
-
-    confetti();
-    setShowSuccess(true);
-  };
-
-  if (showSuccess) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="success" className="mb-2">
-            {t("success")}
-          </Label>
-          <p className="text-sm mb-2">{t("marketplace.offerSuccess")}</p>
-        </div>
-        <Button
-          onClick={() => {
-            onOfferMade();
-          }}
-        >
-          {t("continue")}
-        </Button>
-      </>
-    );
-  }
-
-  if (isOffering) {
-    return <Loading />;
-  }
-
-  if (showConfirmation) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="danger" className="-ml-1 mb-2">
-            {t("are.you.sure")}
-          </Label>
-          <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} />
-        </div>
-
-        <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)} className="mr-1">
-            {t("cancel")}
-          </Button>
-          <Button onClick={() => confirm({})}>{t("confirm")}</Button>
-        </div>
-      </>
-    );
-  }
-
-  if (isSigning) {
-    return (
-      <GameWallet action="marketplace">
-        <>
-          <div className="p-2">
-            <Label type="danger" className="-ml-1 mb-2">
-              {t("are.you.sure")}
-            </Label>
-            <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableSummary display={display} sfl={offer} />
-          </div>
-
-          <div className="flex">
-            <Button onClick={() => setIsSigning(false)} className="mr-1">
-              {t("cancel")}
-            </Button>
-            <Button onClick={sign}>{t("marketplace.signAndOffer")}</Button>
-          </div>
-        </>
-      </GameWallet>
-    );
-  }
-
-  /* TODO only use game wallet when required */
-  return (
-    <>
-      <div className="p-2">
-        <div className="flex justify-between">
-          <Label type="default" className="-ml-1">
-            {t("marketplace.makeOffer")}
-          </Label>
-          {tradeable?.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
-        </div>
-        <p className="text-sm">{t("marketplace.howMuch")}</p>
-        <div className="my-2 -mx-2">
-          <NumberInput
-            value={offer}
-            onValueChange={(decimal) => setOffer(decimal.toNumber())}
-            maxDecimalPlaces={2}
-            isOutOfRange={balance.lt(offer)}
-            icon={sflIcon}
-          />
-        </div>
-
-        <Label type="default" className="-ml-1 mb-1" icon={lockIcon}>
-          {t("marketplace.sflLocked")}
-        </Label>
-        <p className="text-xs mb-2">{t("marketplace.sflLocked.description")}</p>
-      </div>
-
-      <div className="flex">
-        <Button className="mr-1" onClick={() => onClose()}>
-          {t("cancel")}
-        </Button>
-        <Button
-          disabled={!offer || balance.lt(offer)}
-          onClick={submitOffer}
-          className="relative"
-        >
-          <span>{t("confirm")}</span>
-          {tradeable?.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
-        </Button>
-      </div>
-    </>
-  );
-};
+const _hasPendingOfferEffect = (state: MachineState) =>
+  state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+const _balance = (state: MachineState) => state.context.state.balance;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _myOffersCount = (state: MachineState) =>
+  Object.keys(state.context.state.trades.offers ?? {}).length;
 
 export const TradeableOffers: React.FC<{
+  hideLimited?: boolean;
   tradeable?: TradeableDetails;
+  limitedTradesLeft: number;
+  limitedPurchasesLeft: number;
   farmId: number;
   display: TradeableDisplay;
-  id: number;
-  onOfferMade: () => void;
-}> = ({ tradeable, farmId, display, id, onOfferMade }) => {
-  const { gameService } = useContext(Context);
-
+  itemId: number;
+  reload: KeyedMutator<TradeableDetails>;
+}> = ({
+  hideLimited,
+  tradeable,
+  limitedTradesLeft,
+  farmId,
+  display,
+  itemId,
+  reload,
+  limitedPurchasesLeft,
+}) => {
+  const { authService } = useContext(Auth.Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
+  const { id } = useParams();
 
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOffering",
+    "marketplaceOfferingSuccess",
+  );
+
+  const hasPendingOfferEffect = useSelector(
+    gameService,
+    _hasPendingOfferEffect,
+  );
+  const authToken = useSelector(authService, _authToken);
+  const balance = useSelector(gameService, _balance);
+  const inventory = useSelector(gameService, _inventory);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
+  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
 
-  const topOffer = tradeable?.offers.reduce((highest, listing) => {
-    return listing.sfl > highest.sfl ? listing : highest;
-  }, tradeable?.offers?.[0]);
+  const topOffer = tradeable?.offers.reduce((highest, offer) => {
+    return offer.sfl > highest.sfl ? offer : highest;
+  }, tradeable?.offers[0]);
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceBulkOffersCancellingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferCancellingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceAcceptingSuccess",
+    "playing",
+    () => {
+      reload();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "loading",
+    "playing",
+    () =>
+      reload(undefined, {
+        optimisticData: tradeable
+          ? {
+              ...tradeable,
+              offers:
+                tradeable?.offers?.filter(
+                  (offer) => selectedOffer?.tradeId !== offer.tradeId,
+                ) ?? [],
+            }
+          : undefined,
+      }),
+  );
+
+  const handleHide = () => {
+    if (hasPendingOfferEffect) return;
+
+    setShowMakeOffer(false);
+  };
+
+  const handleSelectOffer = (id: string) => {
+    const selectedOffer = tradeable?.offers.find(
+      (offer) => offer.tradeId === id,
+    ) as Offer;
+
+    setSelectedOffer(selectedOffer);
+    setShowAcceptOffer(true);
+  };
+
+  const loading = !tradeable;
+  const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
+  const isVIP = useVipAccess({ game: gameService.getSnapshot().context.state });
+
+  const vipIsRequired = tradeable?.isVip && !isVIP;
 
   return (
     <>
-      <Modal show={showMakeOffer} onHide={() => setShowMakeOffer(false)}>
+      <Modal show={showMakeOffer} onHide={handleHide}>
         <Panel>
           <MakeOffer
-            id={id}
-            tradeable={tradeable}
+            itemId={itemId}
+            authToken={authToken}
             display={display}
+            floorPrice={tradeable?.floor ?? 0}
             onClose={() => setShowMakeOffer(false)}
-            onOfferMade={() => {
-              setShowMakeOffer(false);
-              onOfferMade();
-            }}
+            economy={
+              tradeable?.collection === "economies"
+                ? tradeable.economy
+                : undefined
+            }
           />
         </Panel>
       </Modal>
-      {topOffer && (
+      <Modal show={showAcceptOffer} onHide={handleHide}>
+        <Panel className="mb-1">
+          <AcceptOffer
+            authToken={authToken}
+            itemId={itemId}
+            display={display}
+            offer={(isResource ? selectedOffer : topOffer) as Offer}
+            onClose={() => setShowAcceptOffer(false)}
+            onOfferAccepted={reload}
+          />
+        </Panel>
+        {isResource && <ResourceTaxes />}
+      </Modal>
+      {!isResource && (
         <InnerPanel className="mb-1">
-          <div className="p-2">
+          <div className="p-2 pb-0 mb-2">
             <div className="flex justify-between mb-2">
               <Label type="default" icon={increaseArrow}>
-                {t("marketplace.topOffer")}
+                {t("marketplace.offers")}
               </Label>
-              <Label
-                type="chill"
-                icon={SUNNYSIDE.icons.player}
-              >{`#${topOffer.offeredById}`}</Label>
+              {tradeable?.expiresAt && (
+                <Label
+                  type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}
+                  className="mr-1"
+                >
+                  {`${limitedPurchasesLeft}/${getMaxPurchases(display.name, hideLimited)} Offers left`}
+                </Label>
+              )}
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <img src={sflIcon} className="h-8 mr-2" />
-                <p className="text-base">{`${topOffer.sfl} SFL`}</p>
-              </div>
-              <Button className="w-fit">{t("marketplace.acceptOffer")}</Button>
+            <div className="flex w-full flex-col sm:flex-row items-center justify-between">
+              {topOffer ? (
+                <div className="flex w-full mb-2 sm:mb-0 items-center">
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <div>
+                    <p className="text-base">{`${topOffer.sfl} FLOWER`}</p>
+                    <p className="text-xxs">
+                      {`$${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}`}
+                    </p>
+                  </div>
+                </div>
+              ) : !loading && tradeable?.offers.length === 0 ? (
+                <p className="text-sm self-end mb-2 text-left">
+                  {t("marketplace.noOffers")}
+                </p>
+              ) : (
+                <div />
+              )}
+              {!loading && (
+                <div className="flex items-center w-full sm:w-fit">
+                  {tradeable?.isActive && !vipIsRequired && (
+                    <Button
+                      className="w-full sm:w-fit mr-1"
+                      disabled={
+                        !tradeable ||
+                        !tradeable?.isActive ||
+                        limitedPurchasesLeft <= 0
+                      }
+                      onClick={() => setShowMakeOffer(true)}
+                    >
+                      <span className="whitespace-nowrap text-xs sm:text-sm">
+                        {t("marketplace.makeOffer")}
+                      </span>
+                    </Button>
+                  )}
+
+                  {topOffer && tradeable?.isActive && !vipIsRequired && (
+                    <Button
+                      disabled={
+                        topOffer.offeredBy.id === farmId ||
+                        limitedTradesLeft <= 0
+                      }
+                      onClick={() => setShowAcceptOffer(true)}
+                      className="w-full sm:w-fit"
+                    >
+                      <span className="whitespace-nowrap text-xs sm:text-sm">
+                        {t("marketplace.acceptOffer")}
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
+
+          {loading ? (
+            <Loading className="mb-2 ml-2" />
+          ) : (
+            <OfferTable
+              isResource={isResource}
+              details={display}
+              offers={tradeable?.offers ?? []}
+              id={farmId}
+            />
+          )}
         </InnerPanel>
       )}
 
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <Label icon={tradeIcon} type="default" className="mb-2">
-            {t("marketplace.offers")}
-          </Label>
-          <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.offers.length === 0 && (
-              <p className="text-sm">{t("marketplace.noOffers")}</p>
-            )}
-            {!!tradeable?.offers.length && (
-              <TradeTable
-                items={tradeable.offers.map((offer) => ({
-                  price: offer.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: offer.offeredById,
-                  icon:
-                    offer.offeredById === farmId
-                      ? SUNNYSIDE.icons.player
-                      : undefined,
-                }))}
-                id={farmId}
-              />
-            )}
+      {isResource && (
+        <InnerPanel className="mb-1">
+          <div className="p-2">
+            <div className="flex justify-between mb-2 mr-2">
+              <Label type="default" icon={increaseArrow}>
+                {t("marketplace.offers")}
+              </Label>
+            </div>
+            <div className="mb-2">
+              {loading && <Loading />}
+              {!loading && tradeable?.offers.length === 0 && (
+                <p className="text-sm">{t("marketplace.noOffers")}</p>
+              )}
+              {!!tradeable?.offers.length && (
+                <ResourceTable
+                  isResource={isResource}
+                  details={display}
+                  balance={balance}
+                  items={tradeable?.offers.map((offer) => ({
+                    id: offer.tradeId,
+                    price: offer.sfl,
+                    quantity: offer.quantity,
+                    pricePerUnit: Number(
+                      formatNumber(offer.sfl / offer.quantity, {
+                        decimalPlaces: 4,
+                      }),
+                    ),
+                    createdBy: offer.offeredBy,
+                  }))}
+                  inventoryCount={
+                    getBasketItems(inventory)[
+                      KNOWN_ITEMS[itemId]
+                    ]?.toNumber() ?? 0
+                  }
+                  id={farmId}
+                  tableType="offers"
+                  onClick={
+                    tradeable.isActive && !vipIsRequired
+                      ? (offerId) => {
+                          handleSelectOffer(offerId);
+                          setShowAcceptOffer(true);
+                        }
+                      : undefined
+                  }
+                />
+              )}
+            </div>
           </div>
-          <div className="w-full justify-end flex">
+          <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
             <Button
               className="w-full sm:w-fit"
               onClick={() => setShowMakeOffer(true)}
@@ -361,74 +336,8 @@ export const TradeableOffers: React.FC<{
               {t("marketplace.makeOffer")}
             </Button>
           </div>
-        </div>
-      </InnerPanel>
-    </>
-  );
-};
-
-export const YourOffer: React.FC<{
-  onOfferRemoved: () => void;
-  collection: CollectionName;
-  id: number;
-}> = ({ onOfferRemoved, collection, id }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const [showRemove, setShowRemove] = useState(false);
-  const { t } = useAppTranslation();
-
-  const { trades } = gameState.context.state;
-  const offers = trades.offers ?? {};
-
-  const offerIds = getKeys(offers).filter((offerId) => {
-    const offer = offers[offerId];
-    const itemId = getOfferItem({ offer });
-
-    // Make sure the offer is for this item
-    return offer.collection === collection && itemId === id;
-  });
-
-  // Get their highest offer for the current item
-  const myOfferId = offerIds.reduce((highest, offerId) => {
-    const offer = offers[offerId];
-    return offer.sfl > offers[highest].sfl ? offerId : highest;
-  }, offerIds[0]);
-
-  if (!myOfferId) return null;
-
-  const offer = offers[myOfferId];
-
-  return (
-    <>
-      <Modal show={!!showRemove} onHide={() => setShowRemove(false)}>
-        <RemoveOffer
-          id={myOfferId as string}
-          offer={offer}
-          onClose={() => setShowRemove(false)}
-          onDone={() => {
-            onOfferRemoved();
-            setShowRemove(false);
-          }}
-        />
-      </Modal>
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <Label type="info" icon={increaseArrow}>
-              {t("marketplace.yourOffer")}
-            </Label>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <img src={sflIcon} className="h-8 mr-2" />
-              <p className="text-base">{`${offer.sfl} SFL`}</p>
-            </div>
-            <Button className="w-fit" onClick={() => setShowRemove(true)}>
-              {t("marketplace.cancelOffer")}
-            </Button>
-          </div>
-        </div>
-      </InnerPanel>
+        </InnerPanel>
+      )}
     </>
   );
 };

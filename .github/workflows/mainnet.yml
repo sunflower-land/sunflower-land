@@ -22,6 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Install Dependencies
         run: yarn install
 
@@ -37,14 +42,14 @@ jobs:
           VITE_NETWORK: mainnet
           VITE_ACCOUNT_MINTER_CONTRACT: "0x14142323c5b6fe70285F17ae2733cB67935d542C"
           VITE_FARM_CONTRACT: "0x2B4A66557A79263275826AD31a4cDDc2789334bD"
-          VITE_GAME_CONTRACT: "0x516DF8A8151840DA4C5e4Ba4E9A73F085e55953f"
+          VITE_GAME_CONTRACT: "0xf3Ab48F12E8EcD8377e0D1f1c2d323Cc8635a214"
           VITE_SESSION_CONTRACT: "0x63ED5e7dF3eF84B81dEc5aC46d46A8FD86c452b4"
           VITE_AUCTION_CONTRACT: "0x2E9F8FFD0A9C0D72D843fe4c6b531561AD365BAb"
           VITE_INVENTORY_CONTRACT: "0x22d5f9B75c524Fec1D6619787e582644CD4D7422"
           VITE_TOKEN_CONTRACT: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
           VITE_WISHING_WELL_CONTRACT: "0x24d32a94fA91d4C99f994622AF30Eb16bf76AEAC"
           VITE_PAIR_CONTRACT: "0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
-          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/play/"
+          VITE_DISCORD_REDIRECT: "https://api.sunflower-land.com/oauth/discord"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
@@ -59,19 +64,29 @@ jobs:
           VITE_QUEST_CONTRACT: "0xD0dBc2DAEBaf2E7b00895B23AD88532847a81aBB"
           VITE_SEAL_CONTRACT: "0x054c6bA53A64eC02Fc85857746111954d4822882"
           VITE_BUY_SFL_CONTRACT: "0x9E5Cd8b8D5B2329f1299a5c40B87feD55dA502D0"
-          VITE_BUY_BLOCK_BUCKS_CONTRACT: "0x93a9DD356EC5208f8933Cb3607c4F61763798F29"
+          VITE_BUY_GEMS_CONTRACT: "0x9D9Be509343719b349E7e4037D53651271d129ED"
           VITE_QUICKSWAP_ROUTER_CONTRACT: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
           VITE_WMATIC_CONTRACT: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
-          VITE_DEPOSIT_CONTRACT: "0x9792d2BA541127D73B6c5b5eb25df7138dB4dB89"
-          VITE_BUD_DEPOSIT_CONTRACT: "0xe01Fc29828Bd5E517F9B19dD37ef57D10150CC6a"
           VITE_GREEDY_GOBLIN_DONATION: "0xa85c0e9495ba7860c231b529258132b5c9075b8a"
           VITE_CHICKEN_FIGHT_DONATION: "0x74c0c166c919bbe0b160fc27fc58eeee361bdfd4"
           VITE_DAILY_REWARD_CONTRACT: "0x3F2f4AA023c6Ed149D342229afAc6E140E149114"
-          VITE_WITHDRAWAL_CONTRACT: "0x83133174546453D99Ba7cf5e459bBA6Fb3A06b5d"
-          VITE_CHRISTMAS_EVENT_DONATION: "0xE336EF65aC5532C0BfeFF52e350B22F96E784b6F"
+          VITE_RONIN_DAILY_REWARD_CONTRACT: "0x215296d71f9111cc69fe06d378ecb06f4cd5086b"
+          VITE_WITHDRAWAL_CONTRACT: "0xf1F7fcBE652576AFbe20385B17A59a52d23ced5A"
+          VITE_CHRISTMAS_EVENT_DONATION: "0xc84F151276b93a9c94B7642c738C9e5c4Cf6a316"
           VITE_BUD_CONTRACT: "0x78a0cea8f323ff80985c5f9d1f9de18bb9e35996"
+          VITE_WITHDRAW_SFL_CONTRACT: "0x1fC4eBc1637D431E2C2Bc4bec407f022b2F3DB21"
+          VITE_ALGEBRA_QUOTER_CONTRACT: "0xa15F0D7377B2A0C0c10db057f641beD21028FC89"
+          VITE_USDC_CONTRACT: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+          VITE_FEES_CONTRACT: "0x5a9E3B09f829a5E7Fa1Af9ba112D91C1Cc93683F"
+          VITE_FLOWER_CONTRACT: "0x3E12b9d6A4D12cd9b4a6d613872d0Eb32f68b380"
+          VITE_WITHDRAW_FLOWER_CONTRACT: "0x6e9250ED7508A4d6CD8441E569134aeda6c9659b"
+          VITE_WITHDRAW_PET_CONTRACT: "0x4703DEFfA3510c2f03C804B760575F777902Be43"
+          VITE_DEPOSIT_V2_CONTRACT: "0xADA793Caf7166CeC21F6bdF2e63241951ABB83d7"
+          VITE_PET_CONTRACT: "0x7033222D18a2e827b88bc569938F7A974F813747"
+          VITE_META_PIXEL_ID: "3391375114350678"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
           VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
@@ -85,6 +100,20 @@ jobs:
           VITE_DEQUIPPER_CONTRACT: "0x7BACA66955d219e645fAecbA2810f8Ecd4d674a9"
           VITE_SEQUENCE_ACCESS_KEY: ${{ secrets.SEQUENCE_ACCESS_KEY }}
           VITE_ANIMATION_URL: "https://animations.sunflower-land.com"
+          VITE_AI_PORTAL_WS_URL: "wss://ai-dev.sunflower-land.com"
+
+          VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
+          VITE_TELEGRAM_BOT: "pumpkin_pete_bot"
+          VITE_TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
+
+      - name: Write version metadata
+        run: |
+          cat <<EOF > dist/version.json
+          {
+            "releaseVersion": "${{ steps.get_version.outputs.VERSION }}",
+            "clientVersion": "${{ steps.date.outputs.date }}"
+          }
+          EOF
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -106,7 +135,7 @@ jobs:
           color: "2105893"
           username: "Release Changelog"
           avatar_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
-          content: "||@Certified Code Contributor ||"
+          content: "<@&1374298420117897226>"
           footer_title: "Changelog"
           footer_icon_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
           footer_timestamp: true

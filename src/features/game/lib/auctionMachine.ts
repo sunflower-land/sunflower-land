@@ -1,7 +1,12 @@
 import { createMachine, Interpreter, assign } from "xstate";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { cancelBid as cancelBidAction } from "features/game/actions/cancelBid";
+import {
+  GameState,
+  InventoryItemName,
+  AuctionNFT,
+} from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
@@ -14,22 +19,27 @@ export type AuctionBase = {
   supply: number;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  type: "collectible" | "wearable";
+  chapterLimit: number;
 };
 
-export type AuctioneerItemName = BumpkinItem | InventoryItemName;
-
-type CollectibleAuction = AuctionBase & {
+export type CollectibleAuction = AuctionBase & {
   type: "collectible";
   collectible: InventoryItemName;
 };
 
-type WearableAuction = AuctionBase & {
+export type WearableAuction = AuctionBase & {
   type: "wearable";
   wearable: BumpkinItem;
 };
 
-export type Auction = CollectibleAuction | WearableAuction;
+export type NFTAuction = AuctionBase & {
+  type: "nft";
+  nft: AuctionNFT;
+  startId: number;
+  chapterLimit: number;
+};
+
+export type Auction = CollectibleAuction | WearableAuction | NFTAuction;
 
 export type LeaderboardBid = {
   rank: number;
@@ -56,6 +66,7 @@ export interface Context {
   username?: string;
   bid?: GameState["auctioneer"]["bid"];
   auctions: Auction[];
+  totalSupply: Record<string, number>;
   auctionId: string;
   transactionId: string;
   results?: AuctionResults;
@@ -70,7 +81,7 @@ type BidEvent = {
 };
 
 export type MintedEvent = {
-  item: AuctioneerItemName;
+  item: InventoryItemName | BumpkinItem | AuctionNFT;
   sessionId: string;
 };
 
@@ -103,6 +114,7 @@ export type AuctioneerMachineState = {
     | "playing"
     | "draftingBid"
     | "bidding"
+    | "cancelling"
     | "bidded"
     | "checkingResults"
     | "loser"
@@ -115,9 +127,15 @@ export type AuctioneerMachineState = {
   context: Context;
 };
 
+type AuctioneerStateSchema = {
+  states: {
+    [state in AuctioneerMachineState["value"]]: Record<string, never>;
+  };
+};
+
 export type MachineInterpreter = Interpreter<
   Context,
-  any,
+  AuctioneerStateSchema,
   BlockchainEvent,
   AuctioneerMachineState
 >;
@@ -139,6 +157,7 @@ export const createAuctioneerMachine = ({
         deviceTrackerId: "",
         canAccess: false,
         linkedAddress: "",
+        totalSupply: {},
 
         // Offline testing
         results: {
@@ -147,7 +166,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 44,
               experience: 10,
-              items: { Gold: 50, "Block Buck": 30, Radish: 50 },
+              items: { Gold: 50, Gem: 30, Radish: 50 },
               username: "Big Farmer",
               sfl: 1000,
               tickets: 5,
@@ -156,7 +175,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 1,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               username: "Top Dog",
@@ -165,7 +184,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 122078,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               rank: 3,
@@ -173,7 +192,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 156788,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               rank: 50,
@@ -181,7 +200,7 @@ export const createAuctioneerMachine = ({
             // {
             //   farmId: 1,
             //   experience: 10,
-            //   items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+            //   items: { Gold: 5, "Gem": 3, Radish: 5 },
             //   sfl: 100,
             //   tickets: 5,
             //   rank: 53,
@@ -206,11 +225,12 @@ export const createAuctioneerMachine = ({
             },
             sfl: 5,
             supply: 100,
+            chapterLimit: 1,
           },
           {
             auctionId: "test-auction-2",
-            type: "collectible",
-            collectible: "Ancient Human Warhammer",
+            type: "wearable",
+            wearable: "Acorn Hat",
             startAt: Date.now() + 1000000,
             endAt: Date.now() + 1200000,
             ingredients: {
@@ -219,6 +239,7 @@ export const createAuctioneerMachine = ({
             },
             sfl: 5,
             supply: 5000,
+            chapterLimit: 1,
           },
         ],
       },
@@ -227,14 +248,15 @@ export const createAuctioneerMachine = ({
         loading: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
-              const { auctions } = await loadAuctions({
+            src: async (context) => {
+              const { auctions, totalSupply } = await loadAuctions({
                 token: context.token,
                 transactionId: context.transactionId as string,
               });
 
               return {
                 auctions,
+                totalSupply,
                 auctionId:
                   auctions.length > 0 ? auctions[0].auctionId : undefined,
               };
@@ -243,6 +265,7 @@ export const createAuctioneerMachine = ({
               target: "initialising",
               actions: [
                 assign({
+                  totalSupply: (_, event) => event.data.totalSupply,
                   auctions: (_, event) => event.data.auctions,
                   auctionId: (_, event) => event.data.auctionId,
                 }),
@@ -352,8 +375,43 @@ export const createAuctioneerMachine = ({
             },
           },
         },
+        cancelling: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context) => {
+              if (!context.bid) {
+                throw new Error("No bid to cancel");
+              }
+
+              const { game } = await cancelBidAction({
+                farmId: Number(context.farmId),
+                auctionId: context.bid.auctionId,
+                token: context.token as string,
+                transactionId: context.transactionId as string,
+              });
+
+              onUpdate(game);
+
+              return {
+                bid: game.auctioneer.bid,
+              };
+            },
+            onDone: {
+              target: "playing",
+              actions: [
+                assign({
+                  bid: (_, event) => event.data.bid,
+                }),
+              ],
+            },
+            onError: {
+              target: "error",
+            },
+          },
+        },
         bidded: {
           on: {
+            CANCEL: "cancelling",
             CHECK_RESULTS: "checkingResults",
           },
         },
@@ -446,10 +504,10 @@ export const createAuctioneerMachine = ({
     },
     {
       actions: {
-        setTransactionId: assign<Context, any>({
+        setTransactionId: assign<Context, BlockchainEvent>({
           transactionId: () => randomID(),
         }),
-        clearTransactionId: assign<Context, any>({
+        clearTransactionId: assign<Context, BlockchainEvent>({
           transactionId: () => randomID(),
         }),
       },

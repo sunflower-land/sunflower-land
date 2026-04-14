@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import { PortalContext } from "../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import worldIcon from "assets/icons/world.png";
 import { goHome } from "../../lib/portalUtil";
 import { HudContainer } from "components/ui/HudContainer";
 import { Balances } from "components/Balances";
@@ -25,9 +24,7 @@ export const PortalExampleHUD: React.FC = () => {
         <Balances
           sfl={portalState.context.state.balance}
           coins={portalState.context.state.coins}
-          blockBucks={
-            portalState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-          }
+          gems={portalState.context.state.inventory["Gem"] ?? new Decimal(0)}
         />
         <Inventory
           state={portalState.context.state}
@@ -46,7 +43,7 @@ export const PortalExampleHUD: React.FC = () => {
         >
           <div
             id="deliveries"
-            className="flex relative z-50 justify-center cursor-pointer hover:img-highlight"
+            className="flex relative z-50 justify-center cursor-pointer hover:img-highlight group"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
               height: `${PIXEL_SCALE * 23}px`,
@@ -58,20 +55,27 @@ export const PortalExampleHUD: React.FC = () => {
             }}
           >
             <img
-              src={SUNNYSIDE.ui.round_button}
+              src={SUNNYSIDE.ui.round_button_pressed}
               className="absolute"
               style={{
                 width: `${PIXEL_SCALE * 22}px`,
               }}
             />
             <img
-              src={worldIcon}
+              src={SUNNYSIDE.ui.round_button}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                width: `${PIXEL_SCALE * 22}px`,
+              }}
+            />
+            <img
+              src={SUNNYSIDE.icons.worldIcon}
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
                 left: `${PIXEL_SCALE * 5}px`,
                 top: `${PIXEL_SCALE * 4}px`,
               }}
-              className="absolute"
+              className="absolute group-active:translate-y-[2px]"
             />
           </div>
         </div>

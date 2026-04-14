@@ -4,20 +4,19 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import { GameState } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
-import { getFactionWeek } from "features/game/lib/factions";
+import { getKeys } from "lib/object";
+import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";
 
 export function isMinigameComplete({
-  game,
+  minigames,
   name,
   now = new Date(),
 }: {
-  game: GameState;
+  minigames: GameState["minigames"];
   name: MinigameName;
   now?: Date;
 }) {
-  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
   const { games, prizes } = minigames;
 
   const todayKey = new Date(now).toISOString().slice(0, 10);
@@ -92,7 +91,7 @@ export function claimMinigamePrize({
     }
 
     // Has already claimed
-    if (history.prizeClaimedAt) {
+    if (history.prizeClaimedAt && !minigames.games["april-fools"]) {
       throw new Error(`Already claimed ${action.id} prize`);
     }
 
@@ -119,7 +118,7 @@ export function claimMinigamePrize({
     });
 
     if (game.faction && prize.items.Mark) {
-      const week = getFactionWeek({ date: new Date(createdAt) });
+      const week = getWeekKey({ date: new Date(createdAt) });
       const leaderboard = game.faction.history[week] ?? {
         score: 0,
         petXP: 0,

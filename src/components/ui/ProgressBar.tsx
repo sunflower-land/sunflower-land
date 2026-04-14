@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
@@ -109,7 +110,7 @@ export const ResizableBar: React.FC<{
  * Non-resizable bar that is used in the map.  Handles transparency well.
  * @param percentage Percentage of the bar (0 to 100).
  * @param type The bar type (determines what color it has).
- * @returns The non-rresizable bar.
+ * @returns The non-resizable bar.
  */
 export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
   percentage,
@@ -190,6 +191,117 @@ export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
   );
 };
 
+/**
+ * Animated non-resizable bar that is used in the map. Handles transparency well and animates progress changes.
+ * @param percentage Percentage of the bar (0 to 100).
+ * @param type The bar type (determines what color it has).
+ * @returns The animated non-resizable bar.
+ */
+export const AnimatedBar: React.FC<{
+  percentage: number;
+  type: ProgressType;
+  shouldWrap?: boolean;
+}> = ({ percentage, type, shouldWrap = true }) => {
+  const [prevPercentage, setPrevPercentage] = useState(
+    Math.min(percentage, 100),
+  );
+  const clampedPercentage = Math.min(percentage, 100);
+
+  // Detect if we need to wrap (percentage decreased)
+  const shouldReset = shouldWrap && prevPercentage > clampedPercentage;
+
+  const { width } = useSpring({
+    from: { width: shouldReset ? 0 : undefined },
+    to: { width: clampedPercentage },
+    config: {
+      tension: 120,
+      friction: 30,
+      clamp: true,
+    },
+    reset: shouldReset,
+  });
+
+  // Track previous percentage for wrap detection
+  useEffect(() => {
+    setPrevPercentage(clampedPercentage);
+  }, [clampedPercentage]);
+
+  return (
+    <div
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        height: `${PIXEL_SCALE * DIMENSIONS.height}px`,
+      }}
+    >
+      {/* Progress bar frame */}
+      <img
+        className="absolute"
+        src={SUNNYSIDE.ui.emptyBar}
+        style={{
+          width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        }}
+      />
+      <img
+        className="absolute z-30 opacity-50"
+        src={SUNNYSIDE.ui.emptyBar}
+        style={{
+          width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        }}
+      />
+
+      {/* Progress bar inner background */}
+      <div
+        className="absolute"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].backgroundColor,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * DIMENSIONS.innerWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+      <div
+        className="absolute z-30 opacity-80"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].backgroundColor,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * DIMENSIONS.innerWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+
+      {/* Animated Progress */}
+      <animated.div
+        className="absolute"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].color,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+          width: width?.to(
+            (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
+          ),
+        }}
+      />
+      <animated.div
+        className="absolute z-30 opacity-80"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].color,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+          // Remove the state setters from this transformation callback
+          width: width?.to((w) => {
+            return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
+          }),
+        }}
+      />
+    </div>
+  );
+};
+
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   percentage,
   type,
@@ -235,56 +347,5 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <Bar percentage={percentage} type={type} />
       </div>
     </div>
-  );
-};
-
-interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
-  startAt: number;
-  endAt: number;
-  formatLength: TimeFormatLength;
-  onComplete: () => void;
-  type?: ProgressBarProps["type"];
-}
-
-/**
- * A progress bar which re-renders it's own timer
- * This avoids parents needing to render on their own
- */
-export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
-  startAt,
-  endAt,
-  formatLength,
-  onComplete,
-  type = "progress",
-  ...divProps
-}) => {
-  const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
-
-  const totalSeconds = (endAt - startAt) / 1000;
-  const percentage = (100 * (totalSeconds - secondsLeft)) / totalSeconds;
-
-  const active = endAt >= startAt;
-
-  useEffect(() => {
-    if (active) {
-      const interval = setInterval(() => {
-        setSecondsLeft((endAt - Date.now()) / 1000);
-
-        if (Date.now() > endAt) {
-          onComplete();
-        }
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [active]);
-
-  return (
-    <ProgressBar
-      seconds={secondsLeft}
-      formatLength={formatLength}
-      percentage={percentage}
-      type={type}
-      {...divProps}
-    />
   );
 };

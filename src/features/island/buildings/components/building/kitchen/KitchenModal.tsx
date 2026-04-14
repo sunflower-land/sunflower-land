@@ -3,38 +3,53 @@ import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
 
-import { Recipes } from "../../ui/Recipes";
+import { Recipes } from "../Recipes";
 import {
   Cookable,
   CookableName,
+  isFishCookable,
   KITCHEN_COOKABLES,
 } from "features/game/types/consumables";
-import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
+import { BuildingProduct } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting: boolean;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
-  craftingService?: MachineInterpreter;
   buildingId: string;
+  queue: BuildingProduct[];
+  readyRecipes: BuildingProduct[];
 }
 
 export const KitchenModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
-  craftingService,
   buildingId,
+  queue,
+  readyRecipes,
 }) => {
-  const kitchenRecipes = Object.values(KITCHEN_COOKABLES).sort(
-    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
-  );
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
+  });
+  const kitchenRecipes = Object.values(KITCHEN_COOKABLES)
+    .filter((recipe) => {
+      if (getCurrentChapter(now) === "Paw Prints") return true;
+
+      return !isFishCookable(recipe.name);
+    })
+    .sort(
+      (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+    );
   const [selected, setSelected] = useState<Cookable>(
     kitchenRecipes.find((recipe) => recipe.name === itemInProgress) ||
       kitchenRecipes[0],
@@ -53,7 +68,7 @@ export const KitchenModal: React.FC<Props> = ({
             background: "Farm Background",
             shoes: "Black Farmer Boots",
           }}
-          tabs={[{ icon: chefHat, name: "Kitchen" }]}
+          tabs={[{ id: "kitchen", icon: chefHat, name: "Kitchen" }]}
           onClose={onClose}
           container={OuterPanel}
         >
@@ -63,11 +78,11 @@ export const KitchenModal: React.FC<Props> = ({
             recipes={kitchenRecipes}
             onCook={onCook}
             onClose={onClose}
-            crafting={crafting}
-            craftingService={craftingService}
+            cooking={cooking}
             buildingName="Kitchen"
             buildingId={buildingId}
-            currentlyCooking={selected.name}
+            queue={queue}
+            readyRecipes={readyRecipes}
           />
         </CloseButtonPanel>
       </Modal>

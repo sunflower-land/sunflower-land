@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel, PanelProps } from "../../../components/ui/Panel";
@@ -9,17 +9,25 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
-export interface PanelTabs {
+/**
+ * @icon The icon of the tab.
+ * @name The name of the tab. (Must be translated if using string-based tabs)
+ * @id The unique identifier of the tab. (Compulsory for string-based tabs)
+ * @unread Whether the tab has unread content.
+ * @alert Whether the tab has an alert.
+ */
+export interface PanelTabs<T extends string> {
   icon: string;
   name: string;
   unread?: boolean;
   alert?: boolean;
+  id: T;
 }
 
-interface Props {
-  tabs?: PanelTabs[];
-  currentTab?: number;
-  setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
+interface Props<T extends string> {
+  tabs?: PanelTabs<T>[];
+  currentTab?: T;
+  setCurrentTab?: React.Dispatch<React.SetStateAction<T>>;
   title?: string | JSX.Element;
   secondaryAction?: JSX.Element;
   onClose?: () => void;
@@ -27,13 +35,15 @@ interface Props {
   bumpkinParts?: Partial<Equipped>;
   className?: string;
   container?: React.FC<PanelProps>;
+  children?: React.ReactNode;
 }
 
 /**
  * A custom panel built for the game.
- * @tabs The tabs of the panel.
- * @currentTab The current selected tab index of the panel. Default is 0.
- * @setCurrentTab Dispatch method to set the current selected tab index.
+ * @tabs The tabs of the panel. When using string-based tabs (T extends string),
+ *       each tab must have an 'id' field for reliable identification.
+ * @currentTab The current selected tab id. Defaults to the first tab id when not provided.
+ * @setCurrentTab Dispatch method to set the current selected tab id.
  * @title The panel title.
  * @onClose The close panel method.  Close button will show if this is set.
  * @onBack The back button method.  Back button will show if this is set.
@@ -41,9 +51,9 @@ interface Props {
  * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
-export const CloseButtonPanel: React.FC<Props> = ({
+export const CloseButtonPanel = <T extends string>({
   tabs,
-  currentTab = 0,
+  currentTab,
   setCurrentTab,
   title,
   onClose,
@@ -53,11 +63,13 @@ export const CloseButtonPanel: React.FC<Props> = ({
   className,
   children,
   container: Container = Panel,
-}) => {
+}: Props<T>) => {
   const tabSound = useSound("tab");
   const button = useSound("button");
 
-  const handleTabClick = (index: number) => {
+  const activeTab = currentTab ?? tabs?.[0]?.id;
+
+  const handleTabClick = (index: T) => {
     setCurrentTab && setCurrentTab(index);
   };
 
@@ -88,11 +100,11 @@ export const CloseButtonPanel: React.FC<Props> = ({
               <Tab
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
-                className="flex items-center relative mr-1"
-                isActive={currentTab === index}
+                className="relative mr-1"
+                isActive={activeTab === tab.id}
                 onClick={() => {
                   tabSound.play();
-                  handleTabClick(index);
+                  handleTabClick(tab.id);
                 }}
               >
                 <SquareIcon icon={tab.icon} width={7} />
@@ -100,7 +112,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
                   className={classNames(
                     "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
                     {
-                      pulse: currentTab !== index && tab.unread,
+                      pulse: activeTab !== tab.id && tab.unread,
                     },
                   )}
                 >

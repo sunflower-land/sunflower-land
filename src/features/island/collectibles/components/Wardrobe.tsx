@@ -4,37 +4,32 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { StylistWearables } from "features/world/ui/stylist/StylistWearables";
-import { BASIC_WEARABLES } from "features/game/types/stylist";
+import { WardrobeWearables } from "features/home/components/WardrobeWearables";
 import { OuterPanel } from "components/ui/Panel";
+import { useVisiting } from "lib/utils/visitUtils";
 
 function hasOpened() {
-  return !!localStorage.getItem("hasOpenedWardrobe");
+  return !!localStorage.getItem("hasOpenedNewWardrobe");
+}
+function acknowledge() {
+  localStorage.setItem("hasOpenedNewWardrobe", "true");
 }
 
-function acknowledge() {
-  localStorage.setItem("hasOpenedWardrobe", "true");
-}
 export const Wardrobe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const { isVisiting } = useVisiting();
 
   const open = () => {
-    setShowModal(true);
     acknowledge();
+    setShowModal(true);
   };
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel container={OuterPanel}>
-          <StylistWearables wearables={BASIC_WEARABLES} />
-        </CloseButtonPanel>
-      </Modal>
-
-      {!hasOpened() && (
+      {!hasOpened() && !isVisiting && (
         <img
           src={SUNNYSIDE.icons.click_icon}
-          className="absolute bottom-0 right-0 z-20 cursor-pointer"
+          className="absolute bottom-0 right-0 z-20 cursor-pointer animate-pulsate"
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             right: `${PIXEL_SCALE * -8}px`,
@@ -42,7 +37,6 @@ export const Wardrobe: React.FC = () => {
           onClick={open}
         />
       )}
-
       <img
         src={SUNNYSIDE.decorations.wardrobe}
         style={{
@@ -50,10 +44,25 @@ export const Wardrobe: React.FC = () => {
           bottom: `${PIXEL_SCALE * 6}px`,
           left: `${PIXEL_SCALE * 1.5}px`,
         }}
-        className="absolute cursor-pointer hover:img-highlight"
+        className={`absolute cursor-pointer hover:img-highlight`}
         alt="Wardrobe"
         onClick={open}
       />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <CloseButtonPanel
+          onClose={() => setShowModal(false)}
+          container={OuterPanel}
+          tabs={[
+            {
+              id: "wardrobe",
+              icon: SUNNYSIDE.decorations.wardrobe,
+              name: "Wardrobe",
+            },
+          ]}
+        >
+          <WardrobeWearables />
+        </CloseButtonPanel>
+      </Modal>
     </>
   );
 };

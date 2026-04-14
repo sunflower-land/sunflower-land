@@ -1,21 +1,25 @@
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
   FlowerCrossBreedName,
+  FLOWERS,
   FlowerSeedName,
   isFlowerSeed,
 } from "features/game/types/flowers";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { getKeys } from "lib/object";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -30,24 +34,53 @@ type Options = {
   createdAt?: number;
 };
 
-export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
-  let seconds = FLOWER_SEEDS()[seed].plantSeconds;
+export const getFlowerTime = (
+  seed: FlowerSeedName,
+  game: GameState,
+): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
+  const { bumpkin } = game;
+
+  let seconds = FLOWER_SEEDS[seed].plantSeconds;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // If wearing Flower Crown 2x speed
   if (isWearableActive({ name: "Flower Crown", game })) {
     seconds *= 0.5;
+    boostsUsed.push({ name: "Flower Crown", value: "x0.5" });
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Moth Shrine", game })) {
+    seconds *= 0.75;
+    boostsUsed.push({ name: "Moth Shrine", value: "x0.75" });
   }
 
   // If Flower Fox is built gives 10% speed boost
   if (isCollectibleBuilt({ name: "Flower Fox", game })) {
     seconds *= 0.9;
+    boostsUsed.push({ name: "Flower Fox", value: "x0.9" });
   }
 
-  if (isCollectibleActive({ name: "Blossom Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
+    boostsUsed.push({ name: "Blossom Hourglass", value: "x0.75" });
   }
 
-  return seconds;
+  if (bumpkin.skills["Blooming Boost"]) {
+    seconds *= 0.9;
+    boostsUsed.push({ name: "Blooming Boost", value: "x0.9" });
+  }
+
+  if (bumpkin.skills["Flower Power"]) {
+    seconds *= 0.8;
+    boostsUsed.push({ name: "Flower Power", value: "x0.8" });
+  }
+
+  if (bumpkin.skills["Flowery Abode"]) {
+    seconds *= 1.5;
+    boostsUsed.push({ name: "Flowery Abode", value: "x1.5" });
+  }
+
+  return { seconds, boostsUsed };
 };
 
 type GetPlantedAtArgs = {
@@ -64,7 +97,7 @@ export function getPlantedAt({
   createdAt,
   boostedTime,
 }: GetPlantedAtArgs): number {
-  const flowerTime = FLOWER_SEEDS()[seed].plantSeconds;
+  const flowerTime = FLOWER_SEEDS[seed].plantSeconds;
 
   const offset = flowerTime - boostedTime;
 
@@ -89,12 +122,20 @@ export function plantFlower({
       throw new Error(translate("harvestflower.noFlowerBed"));
     }
 
+    if (flowerBed.x === undefined && flowerBed.y === undefined) {
+      throw new Error("Flower bed is not placed");
+    }
+
     if (flowerBed.flower?.plantedAt) {
       throw new Error(translate("harvestflower.alr.plant"));
     }
 
     if (!isFlowerSeed(action.seed)) {
       throw new Error("Not a flower seed");
+    }
+
+    if (!SEASONAL_SEEDS[state.season.season].includes(action.seed)) {
+      throw new Error(`${action.seed} is not in season`);
     }
 
     const seedCount = stateCopy.inventory[action.seed] ?? new Decimal(0);
@@ -105,7 +146,12 @@ export function plantFlower({
 
     const crossBreedCount =
       stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
-    const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
+    const crossBreedAmount =
+      FLOWER_CROSS_BREED_AMOUNTS[action.seed][action.crossbreed];
+
+    if (!crossBreedAmount) {
+      throw new Error("Not a valid crossbreed");
+    }
 
     if (crossBreedCount.lessThan(crossBreedAmount)) {
       throw new Error("Not enough crossbreeds");
@@ -115,22 +161,36 @@ export function plantFlower({
     stateCopy.inventory[action.crossbreed] =
       crossBreedCount.minus(crossBreedAmount);
 
+    const seedFlowers = getKeys(FLOWERS).filter(
+      (flowerName) => FLOWERS[flowerName].seed === action.seed,
+    );
+    const flower = seedFlowers.find((seedFlower) =>
+      (flowers.discovered[seedFlower] ?? []).includes(action.crossbreed),
+    );
+
+    const { seconds, boostsUsed } = getFlowerTime(action.seed, stateCopy);
+
     flowerBed.flower = {
       plantedAt: getPlantedAt({
         seed: action.seed,
         createdAt,
-        boostedTime: getFlowerTime(action.seed, stateCopy),
+        boostedTime: seconds,
       }),
-      amount: 1,
-      name: "Red Pansy",
-      dirty: true,
+      name: flower ?? "Red Lotus",
+      crossbreed: action.crossbreed,
+      dirty: !flower,
     };
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.seed} Planted`,
-      bumpkin?.activity,
-      new Decimal(1),
+      stateCopy.farmActivity,
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     const updatedBeehives = updateBeehives({
       game: stateCopy,

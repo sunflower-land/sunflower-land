@@ -1,37 +1,41 @@
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
 import React, { useContext } from "react";
+import { InventoryItemName } from "features/game/types/game";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
+import gems from "assets/icons/gem.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { useActor } from "@xstate/react";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { KNOWN_IDS } from "features/game/types";
+import cheer from "assets/icons/cheer.webp";
+import { CLUTTER, ClutterName } from "features/game/types/clutter";
 import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react/lib/useSelector";
 
 /**
- * The props for SFL requirement label. Use this when the item costs SFL.
- * @param type The type is SFL.
- * @param balance The SFL balance of the player.
- * @param requirement The SFL requirement.
+ * The props for FLOWER requirement label. Use this when the item costs FLOWER.
+ * @param type The type is FLOWER.
+ * @param balance The FLOWER balance of the player.
+ * @param requirement The FLOWER requirement.
  */
 interface SFLProps {
   type: "sfl";
   balance: Decimal;
   requirement: Decimal;
-  showLabel?: boolean;
 }
 /**
- * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
- * @param type The type is sell for SFL.
- * @param requirement The SFL requirement.
+ * The props for sell for FLOWER requirement label. Use this when selling the item gives players FLOWER.
+ * @param type The type is sell for FLOWER.
+ * @param requirement The FLOWER requirement.
  */
 interface SellSFLProps {
   type: "sellForSfl";
@@ -48,7 +52,6 @@ interface CoinsProps {
   type: "coins";
   balance: number;
   requirement: number;
-  showLabel?: boolean;
 }
 
 /**
@@ -62,6 +65,28 @@ interface SellCoinsProps {
 }
 
 /**
+ * The props for sell for Gems requirement label. Use this when selling the item gives players Gems.
+ * @param type The type is sell for Gems.
+ * @param requirement The Gems requirement.
+ */
+interface SellGemsProps {
+  type: "sellForGems";
+  requirement: number;
+}
+
+/**
+ * The props for sell for Items requirement label. Use this when selling the item gives players Items.
+ * @param type The type is sell for items.
+ * @param item The item name.
+ * @param requirement The Items requirement.
+ */
+interface SellItemProps {
+  type: "sellForItem";
+  item: InventoryItemName;
+  requirement: number;
+}
+
+/**
  * The props for item requirement label.
  * @param type The type is item.
  * @param item The item name.
@@ -70,10 +95,9 @@ interface SellCoinsProps {
  */
 interface ItemProps {
   type: "item";
-  item: InventoryItemName;
+  item: InventoryItemName | BumpkinItem;
   balance: Decimal;
   requirement: Decimal;
-  showLabel?: boolean;
 }
 
 interface WearableProps {
@@ -81,7 +105,6 @@ interface WearableProps {
   item: BumpkinItem;
   balance: number;
   requirement: BumpkinItem;
-  showLabel?: boolean;
 }
 
 /**
@@ -92,6 +115,8 @@ interface WearableProps {
 interface TimeProps {
   type: "time";
   waitSeconds: number;
+  strikethrough?: boolean;
+  boosted?: boolean;
 }
 
 /**
@@ -102,6 +127,8 @@ interface TimeProps {
 interface XPProps {
   type: "xp";
   xp: Decimal;
+  strikethrough?: boolean;
+  boosted?: boolean;
 }
 
 /**
@@ -129,6 +156,33 @@ interface HarvestsProps {
 }
 
 /**
+ * The props for skill points requirement label.
+ * @param type The type is skill points.
+ * @param points The skill points balance of the player.
+ * @param requirement The skill points requirement.
+ */
+interface SkillPointsProps {
+  type: "skillPoints";
+  points: number;
+  requirement: number;
+}
+
+interface OtherProps {
+  type: "other";
+  currentProgress: number;
+  requirement: number;
+}
+
+interface SellCheerProps {
+  type: "sellForCheer";
+  requirement: number;
+  clutterItem: ClutterName;
+}
+
+interface InstantReadyProps {
+  type: "instantReady";
+}
+/**
  * The default props.
  * @param className The class name for the label.
  */
@@ -136,11 +190,14 @@ interface defaultProps {
   className?: string;
   textColor?: string;
   hideIcon?: boolean;
+  showLabel?: boolean;
 }
 
 type Props = (
   | CoinsProps
   | SellCoinsProps
+  | SellGemsProps
+  | SellItemProps
   | SFLProps
   | SellSFLProps
   | ItemProps
@@ -149,6 +206,10 @@ type Props = (
   | XPProps
   | LevelProps
   | HarvestsProps
+  | SkillPointsProps
+  | OtherProps
+  | SellCheerProps
+  | InstantReadyProps
 ) &
   defaultProps;
 
@@ -158,28 +219,45 @@ type Props = (
  * @props The component props.
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
+  const { t } = useAppTranslation();
 
   const getIcon = () => {
     switch (props.type) {
+      case "sellForCheer":
+        return cheer;
       case "coins":
       case "sellForCoins":
         return coins;
+      case "sellForGems":
+        return gems;
+      case "sellForItem":
+        return ITEM_DETAILS[props.item].image;
       case "sfl":
       case "sellForSfl":
-        return token;
+        return flowerIcon;
+      case "instantReady":
+        return SUNNYSIDE.icons.lightning;
       case "item":
-        return ITEM_DETAILS[props.item].image;
+        if (props.item in KNOWN_IDS) {
+          return ITEM_DETAILS[props.item as InventoryItemName]?.image;
+        } else {
+          return (
+            getImageUrl(ITEM_IDS[props.item as BumpkinItem]) ??
+            SUNNYSIDE.icons.expression_confused
+          );
+        }
       case "time":
+        if (props.boosted) {
+          return SUNNYSIDE.icons.lightning;
+        }
         return SUNNYSIDE.icons.stopwatch;
       case "xp":
+        if (props.boosted) {
+          return SUNNYSIDE.icons.lightning;
+        }
+        return levelup;
       case "level":
         return levelup;
       case "harvests":
@@ -191,6 +269,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
+      case "sellForGems":
+      case "sellForItem":
+      case "sellForCheer":
         return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
@@ -205,6 +286,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "wearable": {
         return `${props.requirement}`;
       }
+      case "instantReady": {
+        return t("instantReady");
+      }
       case "time": {
         return secondsToString(props.waitSeconds, {
           length: "medium",
@@ -218,10 +302,24 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${t("level.number", { level: props.requirement })}`;
       }
       case "harvests": {
-        return `${t("harvest.number", {
-          minHarvest: props.minHarvest,
-          maxHarvest: props.maxHarvest,
-        })}`;
+        return `${
+          props.minHarvest === props.maxHarvest
+            ? t("harvest.number", {
+                noOfHarvests: props.minHarvest,
+              })
+            : t("harvest.numbers", {
+                minHarvest: props.minHarvest,
+                maxHarvest: props.maxHarvest,
+              })
+        }`;
+      }
+      case "skillPoints": {
+        const roundedDownPoints = formatNumber(props.points);
+        const roundedDownRequirement = formatNumber(props.requirement);
+        return `${t("skillPts")} ${roundedDownPoints}/${roundedDownRequirement}`;
+      }
+      case "other": {
+        return `Progress: ${props.currentProgress}/${props.requirement}`;
       }
     }
   };
@@ -231,17 +329,31 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "coins":
         return props.balance >= props.requirement;
       case "sfl":
-        return props.balance.greaterThanOrEqualTo(props.requirement);
+        return props.balance.gte(props.requirement);
       case "item":
-        return props.balance.greaterThanOrEqualTo(props.requirement);
+        return (
+          !props.requirement.lte(0) && props.balance.gte(props.requirement)
+        );
+      case "sellForCheer":
+        return state.inventory[props.clutterItem]?.gte(
+          CLUTTER[props.clutterItem].sellUnit,
+        );
       case "wearable":
         return props.balance > 0;
       case "level":
         return props.currentLevel >= props.requirement;
+      case "skillPoints":
+        return props.points >= props.requirement;
+      case "other": {
+        return props.currentProgress >= props.requirement;
+      }
       case "sellForSfl":
       case "sellForCoins":
+      case "sellForGems":
+      case "sellForItem":
       case "time":
       case "xp":
+      case "instantReady":
       case "harvests":
         return true;
     }
@@ -249,14 +361,29 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   const labelType = () => {
-    if (props.type === "wearable") {
-      if (requirementMet) {
-        return "success";
-      }
-      return "danger";
+    switch (props.type) {
+      case "wearable":
+        return requirementMet ? "success" : "danger";
+      case "other":
+      case "skillPoints":
+        return requirementMet ? "default" : "danger";
+      default:
+        return requirementMet ? "transparent" : "danger";
+    }
+  };
+
+  const getTranslatedItemName = (item: InventoryItemName | BumpkinItem) => {
+    const isInventoryItemName = (
+      item: InventoryItemName | BumpkinItem,
+    ): item is InventoryItemName => {
+      return item in ITEM_DETAILS;
+    };
+
+    if (isInventoryItemName(item)) {
+      return ITEM_DETAILS[item].translatedName ?? item;
     }
 
-    return requirementMet ? "transparent" : "danger";
+    return item;
   };
 
   return (
@@ -269,10 +396,12 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">{"SFL"}</span>
+          <span className="text-xs ml-1">{"FLOWER"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
+          <span className="text-xs ml-1">
+            {getTranslatedItemName(props.item)}
+          </span>
         )}
         {props.type === "wearable" && props.showLabel && (
           <span className="text-xs ml-1">{props.item}</span>
@@ -285,6 +414,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
+          "line-through":
+            (props.type === "time" || props.type === "xp") &&
+            props.strikethrough,
         })}
         type={labelType()}
         secondaryIcon={

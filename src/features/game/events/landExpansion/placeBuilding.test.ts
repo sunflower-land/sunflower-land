@@ -1,8 +1,10 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
+import { createInitialAgingShed } from "../../lib/agingShed";
 import { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
+import { RECIPES } from "features/game/lib/crafting";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -13,8 +15,10 @@ const GAME_STATE: GameState = {
 const dateNow = Date.now();
 
 describe("Place building", () => {
+  const farmId = 1;
   it("places a building", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: {
@@ -64,6 +68,7 @@ describe("Place building", () => {
     };
 
     const newState = placeBuilding({
+      farmId,
       state,
       createdAt: dateNow,
       action: {
@@ -90,5 +95,802 @@ describe("Place building", () => {
       readyAt: dateNow,
       createdAt: dateNow,
     });
+  });
+
+  it("adjusts the new readyAt for cooking buildings", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fire Pit": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              crafting: [
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 10000,
+                  timeRemaining: 60000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 70000,
+                  timeRemaining: 120000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 130000,
+                  timeRemaining: 180000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 190000,
+                  timeRemaining: 240000,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Fire Pit",
+        id: "123",
+        coordinates: { x: 1, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0].readyAt).toEqual(
+      dateNow + 60000,
+    );
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toEqual(
+      dateNow + 120000,
+    );
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[2].readyAt).toEqual(
+      dateNow + 180000,
+    );
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[3].readyAt).toEqual(
+      dateNow + 240000,
+    );
+    expect(state.buildings["Fire Pit"]?.[0].coordinates).toEqual({
+      x: 1,
+      y: 1,
+    });
+  });
+
+  it("adjusts the new readyAt for composters", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Premium Composter": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Premium Composter": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+              producing: {
+                items: {
+                  "Rapid Root": 10,
+                  "Red Wiggler": 1,
+                },
+                startedAt: dateNow - 180000,
+                readyAt: dateNow - 180000 + 12 * 60 * 60 * 1000,
+              },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Premium Composter",
+        id: "123",
+        coordinates: { x: 1, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.buildings["Premium Composter"]?.[0].producing?.startedAt,
+    ).toEqual(dateNow - 60000);
+    expect(
+      state.buildings["Premium Composter"]?.[0].producing?.readyAt,
+    ).toEqual(dateNow - 60000 + 12 * 60 * 60 * 1000);
+  });
+
+  it("adjusts the new readyAt for crop machines", () => {
+    const startTime = dateNow - 20000000;
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crop Machine": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: startTime,
+                  readyAt: startTime + 60000000,
+                  pausedTimeRemaining: 50000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: startTime + 60000000,
+                  readyAt: startTime + 120000000,
+                  pausedTimeRemaining: 110000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: startTime + 120000000,
+                  readyAt: startTime + 180000000,
+                  pausedTimeRemaining: 170000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 30000000,
+                  totalGrowTime: 60000000,
+                  startTime: startTime + 180000000,
+                  growsUntil: startTime + 210000000,
+                  pausedTimeRemaining: 200000000,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crop Machine",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.buildings["Crop Machine"]?.[0].queue?.[0].readyAt).toEqual(
+      dateNow + 50000000,
+    );
+    expect(state.buildings["Crop Machine"]?.[0].queue?.[1].readyAt).toEqual(
+      dateNow + 110000000,
+    );
+    expect(state.buildings["Crop Machine"]?.[0].queue?.[2].readyAt).toEqual(
+      dateNow + 170000000,
+    );
+    expect(state.buildings["Crop Machine"]?.[0].queue?.[3].growsUntil).toEqual(
+      dateNow + 200000000,
+    );
+  });
+
+  it("adjusts the new readyAt for greenhouse", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Greenhouse: new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        greenhouse: {
+          oil: 100,
+          pots: {
+            "123": {
+              plant: {
+                name: "Olive",
+                plantedAt: dateNow - 180000,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Greenhouse",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.greenhouse.pots["123"].plant?.plantedAt).toEqual(
+      dateNow - 60000,
+    );
+  });
+
+  it("adjusts the new readyAt for henhouse", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.henHouse.animals["123"].asleepAt).toEqual(dateNow - 60000);
+    expect(state.henHouse.animals["123"].awakeAt).toEqual(
+      dateNow - 60000 + 24 * 60 * 60 * 1000,
+    );
+  });
+
+  it("adjusts the new lovedAt for henhouse", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: dateNow - 160000,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.henHouse.animals["123"].lovedAt).toEqual(
+      dateNow - (160000 - 120000),
+    );
+  });
+
+  it("adjusts the new readyAt for crafting box", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crafting Box": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: dateNow - 180000,
+              readyAt: dateNow - 180000 + (RECIPES["Doll"]?.time ?? 0),
+              type: "collectible",
+            },
+          ],
+          recipes: {},
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crafting Box",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.craftingBox.queue?.[0].startedAt).toEqual(dateNow - 60000);
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(
+      dateNow - 60000 + (RECIPES["Doll"]?.time ?? 0),
+    );
+  });
+
+  it("shifts all crafting box queue items by downtime when re-placing", () => {
+    const dollTime = RECIPES["Doll"]?.time ?? 0;
+    const timberTime = RECIPES["Timber"]?.time ?? 0;
+    const removedAt = dateNow - 120000;
+    const dollStartedAt = dateNow - 180000;
+    const dollReadyAt = dollStartedAt + dollTime;
+    const timberStartedAt = dollReadyAt;
+    const timberReadyAt = timberStartedAt + timberTime;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crafting Box": new Decimal(1),
+          "Basic Land": new Decimal(10),
+          Leather: new Decimal(20),
+          Wood: new Decimal(20),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: dollStartedAt,
+              readyAt: dollReadyAt,
+              type: "collectible",
+            },
+            {
+              id: "timber-1",
+              name: "Timber",
+              startedAt: timberStartedAt,
+              readyAt: timberReadyAt,
+              type: "collectible",
+            },
+          ],
+          recipes: {},
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crafting Box",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.craftingBox.queue).toHaveLength(2);
+    expect(state.craftingBox.queue?.[0].startedAt).toEqual(
+      dollStartedAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(
+      dollReadyAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[1].startedAt).toEqual(
+      timberStartedAt + downtimeDelta,
+    );
+    expect(state.craftingBox.queue?.[1].readyAt).toEqual(
+      timberReadyAt + downtimeDelta,
+    );
+  });
+
+  it("does not adjust crafting box when queue is empty", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Crafting Box": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "idle",
+          queue: [],
+          recipes: {},
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Crafting Box",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.craftingBox.queue).toEqual([]);
+    expect(state.craftingBox.status).toBe("idle");
+  });
+
+  it("shifts aging shed fermentation jobs and upgradeReadyAt by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+    const upgradeReadyAt = dateNow + 500000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 1,
+          upgradeReadyAt,
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "job-1",
+                recipe: "Pickled Radish",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.fermentation).toHaveLength(1);
+    expect(state.agingShed.racks.fermentation[0].startedAt).toEqual(
+      jobStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.fermentation[0].readyAt).toEqual(
+      jobReadyAt + downtimeDelta,
+    );
+    expect(state.agingShed.upgradeReadyAt).toEqual(
+      upgradeReadyAt + downtimeDelta,
+    );
+  });
+
+  it("shifts aging shed spice rack jobs by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 1,
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "spice-1",
+                recipe: "Refined Salt",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.spice).toHaveLength(1);
+    expect(state.agingShed.racks.spice[0].startedAt).toEqual(
+      jobStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.spice[0].readyAt).toEqual(
+      jobReadyAt + downtimeDelta,
+    );
+  });
+
+  it("shifts water well upgradeReadyAt by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const upgradeReadyAt = dateNow + 500000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Water Well": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Water Well": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        waterWell: { level: 1, upgradeReadyAt },
+      },
+      action: {
+        type: "building.placed",
+        name: "Water Well",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.waterWell.upgradeReadyAt).toEqual(
+      upgradeReadyAt + downtimeDelta,
+    );
+  });
+
+  it("does not shift aging shed timers when placing a second aging shed instance", () => {
+    const removedAt = dateNow - 120000;
+    const jobStartedAt = dateNow - 180000;
+    const jobReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(2),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "first",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+            },
+            {
+              id: "second",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "job-1",
+                recipe: "Pickled Radish",
+                startedAt: jobStartedAt,
+                readyAt: jobReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "second",
+        coordinates: { x: 0, y: 4 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.agingShed.racks.fermentation[0].startedAt).toEqual(
+      jobStartedAt,
+    );
+    expect(state.agingShed.racks.fermentation[0].readyAt).toEqual(jobReadyAt);
+  });
+
+  it("does not adjust the new readyAt for second instance of building", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Hen House": new Decimal(2),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+            },
+            {
+              id: "456",
+              readyAt: 0,
+              createdAt: 0,
+              removedAt: dateNow - 2 * 24 * 60 * 60 * 1000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            123: {
+              id: "123",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+            456: {
+              id: "456",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+            789: {
+              id: "789",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "456",
+        coordinates: { x: 0, y: 3 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.henHouse.animals["123"].asleepAt).toEqual(dateNow - 180000);
+    expect(state.henHouse.animals["456"].asleepAt).toEqual(dateNow - 180000);
+    expect(state.henHouse.animals["789"].asleepAt).toEqual(dateNow - 180000);
   });
 });

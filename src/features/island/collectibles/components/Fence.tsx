@@ -1,10 +1,11 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const IMAGE_PATHS: Record<string, string> = {
   top_right_bottom_left: SUNNYSIDE.decorations.woodFenceFullEdge,
@@ -39,10 +40,26 @@ interface Props {
 
 export const Fence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
-    top: grid[x]?.[y + 1] === "Fence" || grid[x]?.[y + 1] === "Stone Fence",
-    right: grid[x + 1]?.[y] === "Fence" || grid[x + 1]?.[y] === "Stone Fence",
-    bottom: grid[x]?.[y - 1] === "Fence" || grid[x]?.[y - 1] === "Stone Fence",
-    left: grid[x - 1]?.[y] === "Fence" || grid[x - 1]?.[y] === "Stone Fence",
+    top:
+      grid[x]?.[y + 1] === "Fence" ||
+      grid[x]?.[y + 1] === "Stone Fence" ||
+      grid[x]?.[y + 1] === "Golden Fence" ||
+      grid[x]?.[y + 1] === "Golden Stone Fence",
+    right:
+      grid[x + 1]?.[y] === "Fence" ||
+      grid[x + 1]?.[y] === "Stone Fence" ||
+      grid[x + 1]?.[y] === "Golden Fence" ||
+      grid[x + 1]?.[y] === "Golden Stone Fence",
+    bottom:
+      grid[x]?.[y - 1] === "Fence" ||
+      grid[x]?.[y - 1] === "Stone Fence" ||
+      grid[x]?.[y - 1] === "Golden Fence" ||
+      grid[x]?.[y - 1] === "Golden Stone Fence",
+    left:
+      grid[x - 1]?.[y] === "Fence" ||
+      grid[x - 1]?.[y] === "Stone Fence" ||
+      grid[x - 1]?.[y] === "Golden Fence" ||
+      grid[x - 1]?.[y] === "Golden Stone Fence",
   };
 
   let image = SUNNYSIDE.decorations.woodFenceNoEdge;
@@ -54,14 +71,16 @@ export const Fence: React.FC<Props> = ({ x, y, grid }) => {
   }
 
   return (
-    <img
-      className="absolute"
-      src={image}
-      key={`${x}_${y}`}
-      style={{
-        height: `${GRID_WIDTH_PX}px`,
-        width: `${GRID_WIDTH_PX}px`,
-      }}
-    />
+    <SFTDetailPopover name="Fence">
+      <img
+        className="absolute"
+        src={image}
+        key={`${x}_${y}`}
+        style={{
+          height: `${GRID_WIDTH_PX}px`,
+          width: `${GRID_WIDTH_PX}px`,
+        }}
+      />
+    </SFTDetailPopover>
   );
 };

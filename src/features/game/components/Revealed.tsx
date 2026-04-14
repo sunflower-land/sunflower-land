@@ -4,10 +4,12 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 
 import { Context } from "../GameProvider";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ClaimReward } from "../expansion/components/ClaimReward";
+import Gift from "assets/icons/gift.png";
+import Lightning from "assets/icons/lightning.png";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -24,18 +26,26 @@ export const Revealed: React.FC<{
   };
 
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
-  const wearables = getKeys(gameState.context.revealed?.wardrobe ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
   const coins = gameState.context.revealed?.coins ?? 0;
 
   const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
   const streakBonus = currentStreaks % 5 == 0;
 
+  const isOneYearStreak = currentStreaks === 365;
+  const isTwoYearStreak = currentStreaks === 730;
+  const isYearlyStreakMilestone = isOneYearStreak || isTwoYearStreak;
+
+  const getStreakLabel = () => {
+    if (isTwoYearStreak) return t("reward.streak.twoYear");
+    if (isOneYearStreak) return t("reward.streak.oneYear");
+    return t("reward.streakBonus");
+  };
+
   return (
     <>
       <ClaimReward
         reward={{
-          createdAt: Date.now(),
           id: "revealed-reward",
           items: items.reduce(
             (acc, name) => ({
@@ -51,8 +61,12 @@ export const Revealed: React.FC<{
       />
       {streaks && streakBonus && (
         <div className="flex flex-col items-center p-2">
-          <Label type="info" className="px-0.5 text-sm">
-            {t("reward.streakBonus")}
+          <Label
+            type="vibrant"
+            icon={isYearlyStreakMilestone ? Gift : Lightning}
+            className="px-0.5 text-sm"
+          >
+            {getStreakLabel()}
           </Label>
         </div>
       )}

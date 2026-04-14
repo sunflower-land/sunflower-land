@@ -4,13 +4,19 @@ import {
   START_DATE,
   calculatePoints,
   getFactionWearableBoostAmount,
-  getFactionWeek,
+  getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
 import { BoostType, BoostValue } from "features/game/types/boosts";
-import { CONSUMABLES } from "features/game/types/consumables";
-import { FactionPetRequest, GameState } from "features/game/types/game";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import {
+  BoostName,
+  FactionPetRequest,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 const isPawShieldActive = (game: GameState) =>
@@ -19,7 +25,11 @@ const isPawShieldActive = (game: GameState) =>
 export const getKingdomPetBoost = (
   game: GameState,
   marks: number,
-): [number, Partial<Record<BoostType, BoostValue>>] => {
+): [
+  number,
+  Partial<Record<BoostType, BoostValue>>,
+  { name: BoostName; value: string }[],
+] => {
   const [wearablesBoost, wearablesLabels] = getFactionWearableBoostAmount(
     game,
     marks,
@@ -32,44 +42,61 @@ export const getKingdomPetBoost = (
   };
 
   let pawShieldBoost = 0;
+  const boostUsed: { name: BoostName; value: string }[] = [];
   if (isPawShieldActive(game)) {
     pawShieldBoost = marks * 0.25;
     boosts["Paw Shield"] = `+${0.25 * 100}%`;
+    boostUsed.push({ name: "Paw Shield", value: "+25%" });
   }
 
-  return [wearablesBoost + rankBoost + pawShieldBoost, boosts];
+  return [wearablesBoost + rankBoost + pawShieldBoost, boosts, boostUsed];
 };
 
 export enum DifficultyIndex {
   EASY = 0,
   MEDIUM = 1,
   HARD = 2,
+  DOLL = 3,
 }
 
 export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
+  [DifficultyIndex.DOLL]: 20,
 };
+
+const DOLL_XP = 5000;
 
 export const getTotalXPForRequest = (
   game: GameState,
   request: FactionPetRequest,
+  amount = 1,
 ) => {
   const { food, quantity } = request;
 
-  let foodXP = CONSUMABLES[food].experience;
+  const isEdible = (food: InventoryItemName): food is ConsumableName =>
+    food in CONSUMABLES;
 
-  if (isPawShieldActive(game)) {
-    foodXP += foodXP * 0.25;
+  let foodXP = 0;
+
+  if (isEdible(food)) {
+    foodXP = CONSUMABLES[food].experience;
+  } else {
+    foodXP = DOLL_XP;
   }
 
-  return foodXP * quantity;
+  if (isPawShieldActive(game)) {
+    foodXP *= 1.25;
+  }
+
+  return foodXP * quantity * amount;
 };
 
 export type FeedFactionPetAction = {
   type: "factionPet.fed";
   requestIndex: DifficultyIndex;
+  amount?: number;
 };
 
 type Options = {
@@ -104,16 +131,18 @@ export function feedFactionPet({
 
     const request = requests[action.requestIndex];
     const foodBalance = stateCopy.inventory[request.food] ?? new Decimal(0);
-    const week = getFactionWeek({ date: new Date(createdAt) });
+    const { amount = 1 } = action;
+    const requestAmount = request.quantity * amount;
+    const week = getWeekKey({ date: new Date(createdAt) });
     const day = getFactionWeekday(createdAt);
 
-    if (foodBalance.lt(request.quantity)) {
+    if (foodBalance.lt(requestAmount)) {
       throw new Error("Insufficient food to fulfill the request");
     }
 
-    stateCopy.inventory[request.food] = foodBalance.minus(request.quantity);
+    stateCopy.inventory[request.food] = foodBalance.minus(requestAmount);
 
-    const totalXP = getTotalXPForRequest(stateCopy, request);
+    const totalXP = getTotalXPForRequest(stateCopy, request, amount);
     const leaderboard = stateCopy.faction.history[week] ?? {
       score: 0,
       petXP: 0,
@@ -125,18 +154,28 @@ export function feedFactionPet({
     const baseReward = calculatePoints(
       fulfilled,
       PET_FED_REWARDS_KEY[action.requestIndex],
+      amount,
     );
-    const boostAmount = getKingdomPetBoost(stateCopy, baseReward)[0];
+    const [boostAmount, _, boostUsed] = getKingdomPetBoost(
+      stateCopy,
+      baseReward,
+    );
     const totalAmount = baseReward + boostAmount;
 
     stateCopy.inventory.Mark = marksBalance.add(totalAmount);
-    request.dailyFulfilled[day] = fulfilled + 1;
+    request.dailyFulfilled[day] = fulfilled + amount;
 
     stateCopy.faction.history[week] = {
       ...leaderboard,
       score: leaderboard.score + totalAmount,
       petXP: leaderboard.petXP + totalXP,
     };
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

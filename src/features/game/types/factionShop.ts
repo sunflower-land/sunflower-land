@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { FactionName, ShopItemBase } from "./game";
+import { FactionName, Keys, ShopItemBase } from "./game";
 import { translate } from "lib/i18n/translate";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 
@@ -123,15 +123,21 @@ export type FactionShopFood = {
   name: FactionShopFoodName;
 } & FactionItemBase;
 
+export type FactionShopKeys = {
+  name: Keys;
+} & FactionItemBase;
+
 export type FactionShopItemName =
   | FactionShopWearableName
   | FactionShopCollectibleName
-  | FactionShopFoodName;
+  | FactionShopFoodName
+  | Keys;
 
 export type FactionShopItem =
   | FactionShopWearable
   | FactionShopCollectible
-  | FactionShopFood;
+  | FactionShopFood
+  | FactionShopKeys;
 
 const BUMPKIN_FACTION_ITEMS: Record<
   BumpkinFactionCollectibleName | BumpkinFactionWearableName,
@@ -268,8 +274,7 @@ const BUMPKIN_FACTION_ITEMS: Record<
     requires: "Bumpkin Helmet",
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.bumpkinCrown"),
     type: "wearable",
     faction: "bumpkins",
   },
@@ -278,8 +283,7 @@ const BUMPKIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.bumpkinShield"),
     type: "wearable",
     faction: "bumpkins",
   },
@@ -288,8 +292,7 @@ const BUMPKIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.bumpkinQuiver"),
     type: "wearable",
     faction: "bumpkins",
   },
@@ -298,8 +301,7 @@ const BUMPKIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.bumpkinMedallion"),
     type: "wearable",
     faction: "bumpkins",
   },
@@ -436,8 +438,7 @@ const GOBLIN_FACTION_ITEMS: Record<
     requires: "Goblin Helmet",
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.goblinCrown"),
     type: "wearable",
     faction: "goblins",
   },
@@ -446,8 +447,7 @@ const GOBLIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.goblinShield"),
     type: "wearable",
     faction: "goblins",
   },
@@ -456,8 +456,7 @@ const GOBLIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.goblinQuiver"),
     type: "wearable",
     faction: "goblins",
   },
@@ -466,8 +465,7 @@ const GOBLIN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.goblinMedallion"),
     type: "wearable",
     faction: "goblins",
   },
@@ -607,8 +605,7 @@ const SUNFLORIAN_FACTION_ITEMS: Record<
     requires: "Sunflorian Helmet",
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.sunflorianCrown"),
     type: "wearable",
     faction: "sunflorians",
   },
@@ -617,8 +614,7 @@ const SUNFLORIAN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.sunflorianShield"),
     type: "wearable",
     faction: "sunflorians",
   },
@@ -627,8 +623,7 @@ const SUNFLORIAN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.sunflorianQuiver"),
     type: "wearable",
     faction: "sunflorians",
   },
@@ -637,8 +632,7 @@ const SUNFLORIAN_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.sunflorianMedallion"),
     type: "wearable",
     faction: "sunflorians",
   },
@@ -779,8 +773,7 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
     requires: "Nightshade Helmet",
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.nightshadeCrown"),
     type: "wearable",
     faction: "nightshades",
   },
@@ -789,8 +782,7 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.nightshadeShield"),
     type: "wearable",
     faction: "nightshades",
   },
@@ -799,8 +791,7 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.nightshadeQuiver"),
     type: "wearable",
     faction: "nightshades",
   },
@@ -809,10 +800,36 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
     price: new Decimal(240000),
     limit: null,
     currency: "Mark",
-    shortDescription:
-      "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
+    shortDescription: translate("description.factionShop.nightshadeMedallion"),
     type: "wearable",
     faction: "nightshades",
+  },
+};
+
+export const FACTION_SHOP_KEYS: Record<Keys, FactionShopKeys> = {
+  "Treasure Key": {
+    name: "Treasure Key",
+    price: new Decimal(1000),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.treasure.key"),
+    type: "keys",
+  },
+  "Rare Key": {
+    name: "Rare Key",
+    price: new Decimal(3000),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.rare.key"),
+    type: "keys",
+  },
+  "Luxury Key": {
+    name: "Luxury Key",
+    price: new Decimal(10000),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.luxury.key"),
+    type: "keys",
   },
 };
 
@@ -913,7 +930,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       price: new Decimal(2500),
       limit: null,
       currency: "Mark",
-      shortDescription: "A classic Spanish dish, brimming with flavor.",
+      shortDescription: translate("description.factionShop.paella.one"),
       type: "food",
     },
     Caponata: {
@@ -921,7 +938,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       price: new Decimal(2000),
       limit: null,
       currency: "Mark",
-      shortDescription: "A flavorful eggplant dish, perfect for sharing.",
+      shortDescription: translate("description.factionShop.caponata.one"),
       type: "food",
     },
     "Glazed Carrots": {
@@ -929,11 +946,12 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       price: new Decimal(1500),
       limit: null,
       currency: "Mark",
-      shortDescription: "Sweet and savory carrots, a delightful side dish.",
+      shortDescription: translate("description.factionShop.glazedCarrots.one"),
       type: "food",
     },
     ...BUMPKIN_FACTION_ITEMS,
     ...GOBLIN_FACTION_ITEMS,
     ...SUNFLORIAN_FACTION_ITEMS,
     ...NIGHTSHADE_FACTION_ITEMS,
+    ...FACTION_SHOP_KEYS,
   };

@@ -1,19 +1,14 @@
-import { GameState } from "features/game/types/game";
-import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
-} from "features/game/types/resources";
+import { CropPlot, GameState } from "features/game/types/game";
+import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlacePlotAction = {
   type: "plot.placed";
   name: ResourceName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {
@@ -29,23 +24,49 @@ export function placePlot({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
-      Object.keys(game.crops).length,
+      Object.values(game.crops).filter(
+        (plot) => plot.x !== undefined && plot.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No plots available");
     }
 
-    game.crops = {
-      ...game.crops,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
+    const existingPlot = Object.entries(game.crops).find(
+      ([_, plot]) => plot.x === undefined && plot.y === undefined,
+    );
+
+    if (existingPlot) {
+      const [id, plot] = existingPlot;
+      const updatedPlot = {
+        ...plot,
         x: action.coordinates.x,
         y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Crop Plot"],
-      },
+      };
+
+      if (updatedPlot.crop && updatedPlot.removedAt) {
+        const existingProgress =
+          updatedPlot.removedAt - updatedPlot.crop.plantedAt;
+        updatedPlot.crop.plantedAt = createdAt - existingProgress;
+      }
+      delete updatedPlot.removedAt;
+
+      game.crops[id] = updatedPlot;
+
+      return game;
+    }
+
+    const newPlot: CropPlot = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
     };
 
+    game.crops = {
+      ...game.crops,
+      [action.id as unknown as number]: newPlot,
+    };
     return game;
   });
 }

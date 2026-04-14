@@ -1,34 +1,36 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { MarketPrices } from "features/game/actions/getMarketPrices";
 import { TradeableName } from "features/game/actions/sellMarketResource";
-import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
-import { getRelativeTime } from "lib/utils/time";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Box } from "components/ui/Box";
-import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "features/game/components/VipAccess";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import {
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
+  // Crops
   Sunflower: 2000,
   Potato: 2000,
   Pumpkin: 2000,
@@ -43,6 +45,12 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Radish: 400,
   Wheat: 400,
   Kale: 400,
+  Barley: 400,
+  Olive: 100,
+  Rice: 100,
+  Grape: 100,
+  Tomato: 300,
+  Lemon: 250,
   Blueberry: 200,
   Orange: 200,
   Apple: 200,
@@ -51,18 +59,14 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Stone: 200,
   Iron: 200,
   Gold: 100,
+  Crimstone: 20,
+  Honey: 100,
   Egg: 200,
-};
-
-const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
-  const { t } = useAppTranslation();
-
-  useUiRefresher();
-  return (
-    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
-      cachedAt,
-    )}`}</span>
-  );
+  Feather: 200,
+  Leather: 200,
+  Milk: 200,
+  Wool: 200,
+  "Merino Wool": 200,
 };
 
 const getPriceMovement = (current: number, yesterday: number) => {
@@ -70,47 +74,25 @@ const getPriceMovement = (current: number, yesterday: number) => {
   return current > yesterday ? "up" : "down";
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const SalesPanel: React.FC<{
-  marketPrices:
-    | {
-        prices: MarketPrices;
-        cachedAt: number;
-      }
-    | undefined;
+  marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
   loadingNewPrices: boolean;
 }> = ({ marketPrices, loadingNewPrices }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const { openModal } = useContext(ModalContext);
-
-  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-  const [showPulse, setShowPulse] = useState(false);
+  const [warning, setWarning] = useState<"pendingTransaction">();
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
 
-  useEffect(() => {
-    if (loadingNewPrices) {
-      setShowPulse(true);
-    } else {
-      setTimeout(() => setShowPulse(false), 1000);
-    }
-  }, [loadingNewPrices]);
-
-  const onSell = (item: TradeableName, price: number) => {
-    const isHoarding = checkHoard(item, price);
-
-    if (isHoarding) {
-      setWarning("hoarding");
-      return;
-    }
-
+  const onSell = (item: TradeableName) => {
     // Open Confirmation modal
     setConfirm(true);
     setSelected(item);
@@ -118,7 +100,7 @@ export const SalesPanel: React.FC<{
 
   const confirmSell = (pricePerUnit: number) => {
     setConfirm(false);
-
+    if (accountTradedRecently) return;
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,
@@ -126,18 +108,12 @@ export const SalesPanel: React.FC<{
     });
   };
 
-  const checkHoard = (item: TradeableName, price: number) => {
-    const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
-
-    const progress = state.balance
-      .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * price)
-      .sub(state.previousBalance ?? new Decimal(0));
-
-    return progress.gt(MAX_SESSION_SFL);
-  };
-
-  const hasVIP = hasVipAccess(state.inventory);
+  const now = useNow();
+  const hasExchangeReputation = hasReputation({
+    game: state,
+    reputation: Reputation.Cropkeeper,
+    now,
+  });
 
   const unitPrice = marketPrices?.prices?.currentPrices?.[selected] ?? 0;
   const bundlePrice = MARKET_BUNDLES[selected] * unitPrice;
@@ -145,23 +121,6 @@ export const SalesPanel: React.FC<{
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) && unitPrice !== 0;
 
   const hasPrices = !!marketPrices;
-
-  if (warning === "hoarding") {
-    return (
-      <>
-        <div className="p-1 flex flex-col items-center">
-          <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
-          <p className="text-sm mb-1 text-center">
-            {t("goblinTrade.hoarding")}
-          </p>
-          <p className="text-xs mb-1 text-center">
-            {t("playerTrade.Progress")}
-          </p>
-        </div>
-        <Button onClick={() => setWarning(undefined)}>{t("back")}</Button>
-      </>
-    );
-  }
 
   if (warning === "pendingTransaction") {
     return (
@@ -178,8 +137,8 @@ export const SalesPanel: React.FC<{
     );
   }
 
-  if (gameService.state.matches("sellMarketResource")) {
-    return <Loading text="Selling" />;
+  if (gameService.getSnapshot().matches("sellMarketResource")) {
+    return <Loading text={t("selling")} />;
   }
 
   if (confirm) {
@@ -242,9 +201,10 @@ export const SalesPanel: React.FC<{
           <Button
             onClick={() =>
               hasPrices &&
+              !accountTradedRecently &&
               confirmSell(marketPrices.prices.currentPrices[selected])
             }
-            disabled={!canSell}
+            disabled={!canSell || accountTradedRecently}
           >
             {t("sell")}
           </Button>
@@ -259,23 +219,24 @@ export const SalesPanel: React.FC<{
         <div className="relative w-full">
           <div className="p-2">
             <div className="flex flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-              {hasVIP && (
+              {hasExchangeReputation && (
                 <Label type="default" icon={SUNNYSIDE.icons.basket}>
                   {t("goblinTrade.select")}
                 </Label>
               )}
-              <VIPAccess
-                isVIP={hasVIP}
-                onUpgrade={() => openModal("BUY_BANNER")}
-              />
+              {!hasExchangeReputation && (
+                <div className="pt-2 pl-2">
+                  <RequiredReputation reputation={Reputation.Cropkeeper} />
+                </div>
+              )}
               {marketPrices && (
                 <div
                   className={classNames(
-                    "flex items-center justify-start sm:justify-end w-64",
-                    { "opacity-75": !hasVIP },
+                    "flex items-center justify-start sm:justify-end w-64 text-xs",
+                    { "opacity-75": !hasExchangeReputation },
                   )}
                 >
-                  <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                  <LastUpdatedAt lastUpdated={marketPrices.cachedAt} />
                 </div>
               )}
             </div>
@@ -295,13 +256,22 @@ export const SalesPanel: React.FC<{
                     <ListingCategoryCard
                       itemName={name}
                       pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
-                      disabled={!hasPrices || !hasVIP}
+                      disabled={
+                        !hasPrices ||
+                        !hasExchangeReputation ||
+                        accountTradedRecently
+                      }
                       marketBundle={MARKET_BUNDLES[name]}
-                      showPulse={showPulse}
+                      showPulse={!!loadingNewPrices}
                       priceMovement={priceMovement}
                       onClick={() => {
-                        if (!hasPrices || !hasVIP) return;
-                        onSell(name, marketPrices.prices.currentPrices[name]);
+                        if (
+                          !hasPrices ||
+                          !hasExchangeReputation ||
+                          accountTradedRecently
+                        )
+                          return;
+                        onSell(name);
                       }}
                     />
                   </div>

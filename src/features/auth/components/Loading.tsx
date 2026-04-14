@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   text?: string;
+  dotsOnly?: boolean;
 }
 
-export const Loading: React.FC<Props> = ({ text, className }) => {
+export const Loading: React.FC<Props> = ({ text, className, dotsOnly }) => {
   const [dots, setDots] = useState("");
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
         "relative mb-1 mx-1 block w-fit",
       )}
     >
-      {text || t("loading")}
+      {!dotsOnly && (text || t("loading"))}
 
       <span
         className="absolute top-0"

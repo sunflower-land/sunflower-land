@@ -1,402 +1,406 @@
 import React, { useContext, useState } from "react";
 import {
-  SEASONS,
-  SeasonalBanner,
-  getCurrentSeason,
-  getPreviousSeasonalBanner,
-  getSeasonalBanner,
-  getSeasonalBannerImage,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
-import { ButtonPanel } from "components/ui/Panel";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
+import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { useTranslation } from "react-i18next";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { getBannerPrice } from "features/game/events/landExpansion/bannerPurchased";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
-import lifeTimeFarmerBannerIcon from "assets/decorations/banners/lifetime_farmer_banner.png";
+import lockIcon from "assets/icons/lock.png";
 import giftIcon from "assets/icons/gift.png";
-import blockBucksIcon from "assets/icons/block_buck.png";
+import increaseArrow from "assets/icons/increase_arrow.png";
 import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
+import blueVipIcon from "assets/icons/blue_vip.webp";
+import purpleVipIcon from "assets/icons/purple_vip.webp";
+import multiCast from "src/assets/icons/multi-cast.webp";
+
+import trophyIcon from "assets/icons/trophy.png";
+import shopIcon from "assets/icons/shop.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
-import classNames from "classnames";
-import { secondsToString } from "lib/utils/time";
-import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
+import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  hasLifetimeFarmerBanner,
+  VIP_PRICES,
+  VIP_TRIAL_PERIOD_MS,
+  VipBundle,
+} from "features/game/lib/vipAccess";
+import { getKeys } from "lib/object";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { REPUTATION_POINTS } from "features/game/lib/reputation";
+import * as Auth from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { GameState, VIP } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
+import { VIPSavings } from "./VIPSavings";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
-type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
-
-export const ORIGINAL_SEASONAL_BANNER_PRICE = 100;
-export const LIFETIME_FARMER_BANNER_PRICE = 740;
-
-const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _vip = (state: MachineState) => state.context.state.vip;
+const _state = (state: MachineState) => state.context.state;
+const _hasLifetimeFarmerBanner = (state: MachineState) =>
+  hasLifetimeFarmerBanner(state.context.state);
 
-type Props = {
-  onClose: () => void;
-  onSkip?: () => void;
+const VIP_NAME: Record<VipBundle, TranslationKeys> = {
+  "1_MONTH": "vip.1Month",
+  "3_MONTHS": "vip.3Months",
+  "2_YEARS": "vip.2Years",
 };
 
-const SeasonVIPDiscountTime: React.FC = () => {
-  const season = getCurrentSeason();
-  const seasonStartDate = SEASONS[season].startDate;
-  const seasonEndDate = SEASONS[season].endDate;
+const VIP_ICONS: Record<VipBundle, string> = {
+  "1_MONTH": vipIcon,
+  "3_MONTHS": blueVipIcon,
+  "2_YEARS": purpleVipIcon,
+};
 
-  const WEEK = 1000 * 60 * 60 * 24 * 7;
+const VIPLabel: React.FC<{
+  state: GameState;
+  now: number;
+  vip: VIP | undefined;
+  hasLifetimeBanner: boolean;
+  hasFullVip: boolean;
+  hasTrialVip: boolean;
+}> = ({ state, now, vip, hasLifetimeBanner, hasFullVip, hasTrialVip }) => {
+  const { t } = useAppTranslation();
 
-  const discountDates = [
-    seasonStartDate.getTime() + 1 * WEEK, // 1 weeks
-    seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
-    seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
-    seasonEndDate.getTime(), // End of season
-  ];
+  const hasVipTimestampFields = !!(vip?.trialStartedAt || vip?.expiresAt);
+  const hasTrial = !hasFullVip && hasTrialVip;
 
-  const upcomingDiscountEnd = discountDates.find((date) => date > Date.now());
-
-  if (!upcomingDiscountEnd) {
+  if (!hasLifetimeBanner && (!vip || !hasVipTimestampFields)) {
     return null;
   }
 
-  const secondsLeft = (upcomingDiscountEnd - Date.now()) / 1000;
+  if (hasTrial) {
+    return (
+      <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
+        {`Trial - ${secondsToString((state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
+      </Label>
+    );
+  }
 
-  // Discounts change at week 2
+  const vipExpiresAt = state.vip?.expiresAt ?? 0;
+  const expiresSoon = vipExpiresAt < now + 1000 * 60 * 60 * 24 * 7;
+
+  if (hasFullVip) {
+    return (
+      <>
+        <div className="flex justify-between my-2">
+          <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
+            {t("vip.access")}
+          </Label>
+          {hasLifetimeBanner ? (
+            <Label
+              type="success"
+              className="ml-2"
+              icon={SUNNYSIDE.icons.confirm}
+            >
+              {t("vip.lifetime")}
+            </Label>
+          ) : (
+            Number(vipExpiresAt) > 0 && (
+              <Label
+                type={expiresSoon ? "danger" : "transparent"}
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
+              </Label>
+            )
+          )}
+        </div>
+      </>
+    );
+  }
+
   return (
-    <Label type="info" icon={SUNNYSIDE.icons.timer}>
-      {secondsToString(secondsLeft, { length: "medium" })}
+    <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="ml-2">
+      {t("expired")}
     </Label>
   );
 };
 
-export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
+export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { gameService } = useContext(Context);
-  const [selected, setSelected] = useState<VIPItem>();
-  const { t } = useTranslation();
-
+  const [selected, setSelected] = useState<VipBundle>();
+  const { t } = useAppTranslation();
+  const { authService } = useContext(Auth.Context);
   const inventory = useSelector(gameService, _inventory);
-  const farmId = useSelector(gameService, _farmId);
+  const vip = useSelector(gameService, _vip);
+  const state = useSelector(gameService, _state);
+  const now = useNow();
 
-  const blockBuckBalance = inventory["Block Buck"] ?? new Decimal(0);
-  const seasonBannerImage = getSeasonalBannerImage();
-  const seasonBanner = getSeasonalBanner();
-  const previousBanner = getPreviousSeasonalBanner();
-
-  const hasSeasonBanner = (inventory[seasonBanner] ?? new Decimal(0)).gt(0);
-  const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(0);
-  const hasLifeTimeBanner = (
-    inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
-  ).gt(0);
-
-  const actualSeasonBannerPrice = getBannerPrice(
-    seasonBanner,
-    hasPreviousBanner,
-    hasLifeTimeBanner,
-    Date.now(),
-    farmId,
-  ).toNumber();
-
-  const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
-  const isFree = actualSeasonBannerPrice === 0;
+  const gemBalance = inventory["Gem"] ?? new Decimal(0);
+  const hasLifetimeBanner = useSelector(gameService, _hasLifetimeFarmerBanner);
 
   const handlePurchase = () => {
-    const state = gameService.send("banner.purchased", {
-      name: selected,
+    gameService.send("vip.bought", {
+      effect: { type: "vip.bought", bundle: selected },
+      authToken: authService.getSnapshot().context.user.rawToken as string,
+    });
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: VIP_PRICES[selected as VipBundle],
+      item: selected as VipBundle,
+      type: "Web3",
     });
 
-    const { inventory } = state.context.state;
+    const isFirstVip = !vip?.bundles?.length;
+    const boughtStarterPack = !!state.farmActivity["Starter Pack Purchased"];
 
-    // TODO: Update this if more vip items are added
-    if (!!inventory["Lifetime Farmer Banner"] && !!inventory[seasonBanner]) {
-      onClose();
-    } else {
-      setSelected(undefined);
+    if (isFirstVip && boughtStarterPack) {
+      gameAnalytics.trackMilestone({
+        event: "VIP:Conversion:StarterPack",
+      });
     }
+
+    if (isFirstVip) {
+      const DAY_MS = 24 * 60 * 60 * 1000;
+      const accountAgeMs = Date.now() - state.createdAt;
+      const sevenDaysMs = 7 * DAY_MS;
+
+      if (accountAgeMs < sevenDaysMs) {
+        const dayBucket = Math.min(
+          6,
+          Math.max(0, Math.floor(accountAgeMs / DAY_MS)),
+        );
+        const tag = boughtStarterPack ? "HasStarterPack" : "NoStarterPack";
+        gameAnalytics.trackMilestone({
+          event: `VIP:Conversion:NewUser:Day${dayBucket}:${tag}`,
+        });
+      }
+    }
+
+    setSelected(undefined);
   };
 
-  const handleClick = (item: VIPItem) => {
-    if (item === "Lifetime Farmer Banner" && hasLifeTimeBanner) return;
+  const hasFullVip = useVipAccess({ game: state, type: "full" });
+  const hasTrialVip = useVipAccess({ game: state, type: "trial" });
 
-    if (item === seasonBanner && hasSeasonBanner) return;
+  const hasTrial = !hasFullVip && hasTrialVip;
 
-    setSelected(item);
-  };
+  const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
-  const getSelectedImage = () => {
-    switch (selected) {
-      case "Lifetime Farmer Banner":
-        return lifeTimeFarmerBannerIcon;
-      case getSeasonalBanner():
-        return getSeasonalBannerImage();
-      default:
-        return "";
-    }
-  };
-
-  const getCanPurchaseItem = () => {
-    if (selected === "Lifetime Farmer Banner") {
-      return canAffordLifetimeBanner;
-    }
-
-    if (selected === seasonBanner) {
-      return canAffordSeasonBanner;
-    }
-
-    return false;
-  };
-
-  const getSeasonalBannerPriceLabel = () => {
-    if (hasSeasonBanner) {
-      return (
-        <SquareIcon
-          className="absolute right-1 bottom-1"
-          icon={SUNNYSIDE.icons.confirm}
-          width={7}
-        />
-      );
-    }
-
-    if ((!hasSeasonBanner && hasLifeTimeBanner) || isFree) {
-      return (
-        <Label type="success" className="absolute right-1 bottom-1">
-          {t("free")}
-        </Label>
-      );
-    }
-
-    return (
-      <Label
-        type="warning"
-        icon={blockBucksIcon}
-        className="absolute right-1 bottom-1"
-      >
-        {getItemPrice(seasonBanner)}
-      </Label>
-    );
-  };
-
-  const getItemPrice = (item?: VIPItem) => {
-    if (item === "Lifetime Farmer Banner") {
-      return getBannerPrice(
-        "Lifetime Farmer Banner",
-        hasPreviousBanner,
-        hasLifeTimeBanner,
-        Date.now(),
-        farmId,
-      ).toNumber();
-    }
-
-    if (item === seasonBanner) {
-      return getBannerPrice(
-        seasonBanner,
-        hasPreviousBanner,
-        hasLifeTimeBanner,
-        Date.now(),
-        farmId,
-      ).toNumber();
-    }
-
-    return 0;
-  };
-
-  const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
-
-  const canAffordLifetimeBanner = blockBuckBalance.gte(
-    getItemPrice("Lifetime Farmer Banner"),
-  );
-
-  const getErrorLabel = () => {
-    if (selected === "Lifetime Farmer Banner" && !canAffordLifetimeBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
-    }
-
-    if (selected === seasonBanner && !canAffordSeasonBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
-    }
-  };
+  const chapterTicket = getChapterTicket(now);
+  const currentChapter = getCurrentChapter(now);
 
   return (
     <>
-      {!selected && (
-        <div className="flex flex-col space-y-2 pt-2">
-          <div className="flex justify-between px-1">
+      <ModalOverlay
+        show={!!selected}
+        onBackdropClick={() => setSelected(undefined)}
+      >
+        <Panel className="w-full h-full">
+          <div className="flex justify-between">
+            <Label type="default" className="mb-2">
+              {t("vip.purchase.title")}
+            </Label>
+
+            <Label
+              icon={ITEM_DETAILS.Gem.image}
+              type={
+                gemBalance.lt(VIP_PRICES[selected as VipBundle] ?? 0)
+                  ? "danger"
+                  : "warning"
+              }
+              className="mb-2"
+            >
+              {VIP_PRICES[selected as VipBundle]}
+            </Label>
+          </div>
+          <p className="text-sm px-1 mb-2">
+            {t("vip.purchase.confirm", {
+              name: t(VIP_NAME[selected as VipBundle]),
+            })}
+          </p>
+          {hasLifetimeBanner && (
+            <Label
+              type="danger"
+              className="px-1 mb-2"
+              icon={ITEM_DETAILS["Lifetime Farmer Banner"].image}
+            >
+              {t("vip.lifetime.noPurchase")}
+            </Label>
+          )}
+          <div className="flex ">
+            <Button className="mr-1" onClick={() => setSelected(undefined)}>
+              {t("no")}
+            </Button>
+            <Button
+              disabled={
+                hasOneYear ||
+                hasLifetimeBanner ||
+                gemBalance.lt(VIP_PRICES[selected as VipBundle] ?? 0)
+              }
+              onClick={handlePurchase}
+            >
+              {t("yes")}
+            </Button>
+          </div>
+        </Panel>
+      </ModalOverlay>
+      <div className="flex flex-col pt-2 max-h-[400px] scrollable px-0.5 overflow-y-scroll">
+        <div className="flex justify-between items-center px-1">
+          <div className="flex items-center gap-2">
+            {!!onBack && (
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="w-6 cursor-pointer"
+                onClick={onBack}
+              />
+            )}
             <Label icon={vipIcon} type="default" className="ml-1">
               {t("season.vip.purchase")}
             </Label>
-            <a
-              href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-banners"
-              className="text-xxs underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t("read.more")}
-            </a>
           </div>
-          <p className="text-xs px-1">{t("season.vip.description")}</p>
-          <ButtonPanel
-            className={classNames(
-              "flex flex-col px-1 cursor-pointer relative",
-              {
-                "cursor-not-allowed": hasLifeTimeBanner,
-                "hover:bg-brown-300": !hasLifeTimeBanner,
-              },
-            )}
-            onClick={
-              !hasLifeTimeBanner
-                ? () => handleClick("Lifetime Farmer Banner")
-                : undefined
-            }
+          <a
+            href="https://docs.sunflower-land.com/roadmap/chapters"
+            className="text-xxs underline"
+            target="_blank"
+            rel="noreferrer"
           >
-            <div className="flex justify-between mb-2">
-              <Label
-                type="default"
-                className="mb-2"
-                icon={lifeTimeFarmerBannerIcon}
-              >
-                {t("season.lifetime.farmer")}
-              </Label>
-            </div>
-            <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
-              <div className="flex items-center space-x-2">
-                <SquareIcon icon={giftIcon} width={7} />
-                <span>{t("season.free.season.passes")}</span>
-              </div>
-              {!hasLifeTimeBanner ? (
-                <>
-                  <Label
-                    type="warning"
-                    icon={blockBucksIcon}
-                    className="absolute right-1 bottom-1"
-                  >
-                    {getItemPrice("Lifetime Farmer Banner")}
-                  </Label>
-                </>
-              ) : (
-                <SquareIcon
-                  className="absolute right-1 bottom-1"
-                  icon={SUNNYSIDE.icons.confirm}
-                  width={7}
-                />
-              )}
-            </div>
-          </ButtonPanel>
-          <ButtonPanel
-            className={classNames(
-              "flex flex-col px-1 cursor-pointer relative",
-              {
-                "cursor-not-allowed": hasSeasonBanner,
-                "hover:bg-brown-300": !hasSeasonBanner,
-              },
-            )}
-            onClick={
-              !hasSeasonBanner ? () => handleClick(seasonBanner) : undefined
-            }
-          >
-            <div className="flex justify-between items-center mb-2">
-              <Label type="default" icon={seasonBannerImage}>
-                {getSeasonalBanner()}
-              </Label>
-              {!hasSeasonBanner && <SeasonVIPDiscountTime />}
-            </div>
+            {t("read.more")}
+          </a>
+        </div>
+        <p className="text-xs px-1 mt-2 mb-2">{t("season.vip.description")}</p>
+        <VIPLabel
+          state={state}
+          now={now}
+          vip={vip}
+          hasLifetimeBanner={hasLifetimeBanner}
+          hasFullVip={hasFullVip}
+          hasTrialVip={hasTrialVip}
+        />
 
-            <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
-              {/* Weeks 9-12 will not include the mystery airdrop item */}
-              {getSeasonWeek() < 9 && (
-                <div className="flex items-center space-x-2">
-                  <SquareIcon icon={giftIcon} width={7} />
-                  <span>{t("season.mystery.gift")}</span>
-                </div>
-              )}
-              <div className="flex items-center space-x-2">
-                <SquareIcon
-                  icon={ITEM_DETAILS[getSeasonalTicket()].image}
-                  width={7}
-                />
-                <span>
-                  {t("season.ticket.bonus", { item: getSeasonalTicket() })}
+        <div className="flex mt-3 mb-2 px-1">
+          {getKeys(VIP_PRICES).map((name) => (
+            <div className="w-1/3 pr-1" key={name}>
+              <ButtonPanel
+                key={name}
+                className="flex flex-col items-center relative"
+                onClick={() => setSelected(name)}
+              >
+                <span className="whitespace-nowrap mb-2 mt-0.5">
+                  {t(VIP_NAME[name])}
                 </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <SquareIcon icon={vipIcon} width={7} />
-                <span>{t("season.vip.access")}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <SquareIcon icon={xpIcon} width={7} />
-                <span>{t("season.xp.boost")}</span>
-              </div>
-              {getCurrentSeason() === "Pharaoh's Treasure" && (
-                <div className="flex items-center space-x-2">
-                  <SquareIcon
-                    icon={ITEM_DETAILS["Sand Shovel"].image}
-                    width={7}
+                <div className="flex flex-1 justify-center items-center mb-6 w-full">
+                  <img
+                    src={VIP_ICONS[name]}
+                    style={{ width: `${PIXEL_SCALE * 12}px` }}
+                    className="w-2/5 sm:w-1/4"
                   />
-                  <span>{t("season.pharaohs.gift")}</span>
                 </div>
-              )}
-              {hasDiscount && !hasSeasonBanner && (
-                <span
-                  className="absolute right-2 bottom-8 text-xs discounted"
-                  style={{}}
-                >{`${ORIGINAL_SEASONAL_BANNER_PRICE} `}</span>
-              )}
-              {getSeasonalBannerPriceLabel()}
+                <Label
+                  type="warning"
+                  iconWidth={11}
+                  icon={ITEM_DETAILS.Gem.image}
+                  className="absolute h-7  -bottom-2"
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                  }}
+                >
+                  {`${VIP_PRICES[name]}`}
+                </Label>
+              </ButtonPanel>
             </div>
-          </ButtonPanel>
-          {onSkip && <Button onClick={onSkip}>{t("close")}</Button>}
+          ))}
         </div>
-      )}
-      {selected && (
-        <div className="flex flex-col space-y-2 relative">
-          <Label
-            type="default"
-            icon={getSelectedImage()}
-          >{`Purchase ${selected}`}</Label>
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="h-6 w-6 ml-2 cursor-pointer absolute top-6 -left-[6px]"
-            onClick={() => setSelected(undefined)}
+        {/* <Label type="default" icon={vipIcon} className="mb-2 ml-2">
+          {t("vip.benefits")}
+        </Label> */}
+        <div className="flex flex-col space-y-1 ml-1 mb-2 justify-between h-full">
+          <NoticeboardItems
+            items={[
+              { text: t("vip.benefit.airdrop"), icon: giftIcon },
+              { text: t("vip.benefit.expBoost"), icon: xpIcon },
+              {
+                text: t("vip.benefit.cookingQueue"),
+                icon: ITEM_DETAILS["Pumpkin Soup"].image,
+              },
+              {
+                text: t("vip.benefit.craftingQueue"),
+                icon: ITEM_DETAILS["Crafting Box"].image,
+              },
+              {
+                text: t("vip.benefit.multicast"),
+                icon: multiCast,
+              },
+              { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
+              {
+                text: t("vip.benefit.bonusDelivery"),
+                icon: ITEM_DETAILS[chapterTicket].image,
+              },
+              {
+                text: t("vip.benefit.reputation", {
+                  points: REPUTATION_POINTS.VIP,
+                }),
+                icon: increaseArrow,
+                label: hasTrial
+                  ? {
+                      labelType: "danger",
+                      shortDescription: t("vip.fullVipRequired"),
+                      boostTypeIcon: lockIcon,
+                    }
+                  : undefined,
+              },
+              { text: t("vip.benefit.competition"), icon: trophyIcon },
+              ...(currentChapter === "Paw Prints"
+                ? [
+                    {
+                      text: t("vip.benefit.bonusPetEnergy"),
+                      icon: SUNNYSIDE.icons.lightning,
+                    },
+                  ]
+                : []),
+              ...(currentChapter === "Crabs and Traps"
+                ? [
+                    {
+                      text: t("vip.benefit.bonusFishingAttempts"),
+                      icon: ITEM_DETAILS["Rod"].image,
+                    },
+                  ]
+                : []),
+            ]}
           />
-          <div className="flex flex-col px-1 pt-1 w-full space-y-2 items-center text-sm justify-between">
-            <img src={getSelectedImage()} className="w-12 sm:w-16" />
-            {getItemPrice(selected as VIPItem) > 0 ? (
-              <div className="flex items-center space-x-2">
-                <span>{`${t("total")} ${getItemPrice(
-                  selected as VIPItem,
-                )}`}</span>
-                <img src={blockBucksIcon} className="w-6" />
-              </div>
-            ) : hasLifeTimeBanner ? (
-              <Label type="success">{t("season.free.with.lifetime")}</Label>
-            ) : (
-              <Label type="success">{t("free")}</Label>
-            )}
-            {!getCanPurchaseItem() && getErrorLabel()}
-          </div>
-          <Button disabled={!getCanPurchaseItem()} onClick={handlePurchase}>
-            {t("confirm")}
-          </Button>
         </div>
-      )}
+        <div className="mt-3 px-0.5">
+          <VIPSavings />
+        </div>
+      </div>
     </>
   );
 };
 
 export const VIPOffer: React.FC = () => {
   const { gameService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const onClose = () => {
-    acknowledgeSeasonPass();
+    acknowledgeVIP();
     gameService.send("ACKNOWLEDGE");
   };
 
   return (
     <>
-      <VIPItems onClose={onClose} onSkip={onClose} />
+      <VIPItems />
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="w-10 absolute -top-12 right-2 cursor-pointer"
+        onClick={onClose}
+      />
+      <Button className="mt-2" onClick={onClose}>
+        {t("continue")}
+      </Button>
     </>
   );
 };

@@ -5,12 +5,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  LanguageCode,
-  languageDetails,
-} from "lib/i18n/dictionaries/dictionary";
+import { LanguageCode, LANGUAGE_DETAILS } from "lib/i18n/dictionaries/language";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -40,48 +37,48 @@ export const LanguageSwitcher: React.FC = () => {
   };
 
   const getFontSizeClass = (languageCode: LanguageCode): string => {
-    if (languageCode === language) {
-      return "";
+    switch (languageCode) {
+      case "zh-CN":
+        return "!text-[20px]";
+      case "ru":
+        return fontType === "Bold" ? "!text-[26px]" : "";
+      default:
+        return "";
     }
-    if (languageCode === "zh-CN") {
-      return "!text-[18px]";
-    }
-    if (languageCode === "ru" && fontType === "Bold") {
-      return "!text-[26px]";
-    }
-
-    return "";
   };
 
-  const languageArray = getKeys(languageDetails);
+  const languageArray = getKeys(LANGUAGE_DETAILS);
   return (
     <>
-      <div className="p-1 space-y-2">
-        {languageArray.map((languageCode) => (
-          <Button
-            key={languageCode}
-            onClick={() => {
-              setSelected(languageCode);
-              setConfirmModal(true);
-            }}
-            disabled={language === languageCode}
-          >
-            {languageDetails[languageCode].languageImage.map((img, index) => (
-              <img
-                key={index}
-                style={{ display: "inline-block", marginRight: "5px" }}
-                src={img}
-                alt={languageDetails[languageCode].imageAlt[index]}
-              />
-            ))}
-            <span
-              className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
+      <div className="p-1 space-y-2 max-h-[400px] overflow-y-auto scrollable">
+        <div className="grid grid-cols-2 gap-1">
+          {languageArray.map((languageCode) => (
+            <Button
+              key={languageCode}
+              onClick={() => {
+                setSelected(languageCode);
+                setConfirmModal(true);
+              }}
+              disabled={language === languageCode}
             >
-              {languageDetails[languageCode].languageName}
-            </span>{" "}
-            {language === languageCode && t("changeLanguage.currentLanguage")}
-          </Button>
-        ))}
+              {LANGUAGE_DETAILS[languageCode].languageImage.map(
+                (img, index) => (
+                  <img
+                    key={index}
+                    style={{ display: "inline-block", marginRight: "5px" }}
+                    src={img}
+                    alt={LANGUAGE_DETAILS[languageCode].imageAlt[index]}
+                  />
+                ),
+              )}
+              <span
+                className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
+              >
+                {LANGUAGE_DETAILS[languageCode].languageName}
+              </span>
+            </Button>
+          ))}
+        </div>
         <span>
           <a
             target="_blank"

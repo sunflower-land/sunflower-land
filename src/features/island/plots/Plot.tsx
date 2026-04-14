@@ -1,42 +1,51 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { Reward, CropPlot } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
-  Reward,
-  PlantedCrop,
-  PlacedItem,
-  InventoryItemName,
-} from "features/game/types/game";
-import { CROPS, CROP_SEEDS } from "features/game/types/crops";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
-import { harvestAudio, plantAudio } from "lib/utils/sfx";
-import {
-  getCompletedWellCount,
+  getAffectedWeather,
   isPlotFertile,
 } from "features/game/events/landExpansion/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
-import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
+import {
+  getCropYieldAmount,
+  getReward,
+  isReadyToHarvest,
+} from "features/game/events/landExpansion/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
-import { BuildingName } from "features/game/types/buildings";
+import { useSelector } from "@xstate/react";
+import {
+  MachineState,
+  selectGameState,
+  selectVerified,
+} from "features/game/lib/gameMachine";
+import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SeedName } from "features/game/types/seeds";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  isCropSeed,
+  SEASONAL_SEEDS,
+  SeedName,
+} from "features/game/types/seeds";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getKeys } from "features/game/types/craftables";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getKeys } from "lib/object";
 import { Transition } from "@headlessui/react";
-import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
+import { useSound } from "lib/utils/hooks/useSound";
+import { TornadoPlot } from "./components/TornadoPlot";
+import { TsunamiPlot } from "./components/TsunamiPlot";
+import { GreatFreezePlot } from "./components/GreatFreezePlot";
+import { SeasonalSeed } from "./components/SeasonalSeed";
+import { Modal } from "components/ui/Modal";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -50,16 +59,12 @@ export function getYieldColour(yieldAmount: number) {
   return "#71e358"; // Green
 }
 
-const selectCrops = (state: MachineState) => state.context.state.crops;
-const selectBuildings = (state: MachineState) => state.context.state.buildings;
-const selectLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const _crops = (state: MachineState) => state.context.state.crops;
 
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
     (total, crop) =>
-      total +
-      (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
+      total + (state.context.state.farmActivity?.[`${crop} Harvested`] ?? 0),
     0,
   );
 };
@@ -67,90 +72,108 @@ const selectHarvests = (state: MachineState) => {
 const selectPlants = (state: MachineState) =>
   getKeys(CROPS).reduce(
     (total, crop) =>
-      total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
+      total + (state.context.state.farmActivity?.[`${crop} Planted`] ?? 0),
     0,
   );
 
 const selectCropsSold = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
-
-const compareBuildings = (
-  prev: Partial<Record<BuildingName, PlacedItem[]>>,
-  next: Partial<Record<BuildingName, PlacedItem[]>>,
-) => {
-  return getCompletedWellCount(prev) === getCompletedWellCount(next);
-};
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+  state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
 
 interface Props {
   id: string;
-  index: number;
 }
-export const Plot: React.FC<Props> = ({ id, index }) => {
-  const { t } = useAppTranslation();
 
+export const Plot: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const {
-    gameService,
-    selectedItem,
-    showAnimations,
-    showTimers,
-    shortcutItem,
-  } = useContext(Context);
+  const { gameService, selectedItem, showAnimations, showTimers } =
+    useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
-  const [showQuickSelect, setShowQuickSelect] = useState(false);
-  const [reward, setReward] = useState<Omit<Reward, "sfl">>();
+  const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
+  const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
-  const [pulsating, setPulsating] = useState(false);
 
-  const crops = useSelector(gameService, selectCrops, (prev, next) => {
+  const crops = useSelector(gameService, _crops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
-  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
-  const harvested = useRef<PlantedCrop>();
   const [showHarvested, setShowHarvested] = useState(false);
+  const [cropAmount, setCropAmount] = useState(0);
+
+  const activityCount = useSelector(gameService, (state) => {
+    const cropName = state.context.state.crops[id]?.crop?.name;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const { openModal } = useContext(ModalContext);
 
+  const { play: plantAudio } = useSound("plant");
+  const { play: harvestAudio } = useSound("harvest");
+
+  const state = useSelector(gameService, selectGameState);
+  const verified = useSelector(gameService, selectVerified);
+  const { inventory, waterWell, season } = state;
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
-  const bumpkin = state.bumpkin;
-  const buds = state.buds;
   const plot = crops[id];
+
+  const now = useNow({ live: true });
+  const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
+
+  // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
+  const expectedReward =
+    crop?.reward ??
+    (crop && isReadyToHarvest(now, crop, CROPS[crop.name])
+      ? getReward({
+          crop: crop.name,
+          skills: state.bumpkin?.skills ?? {},
+          prngArgs: { farmId, counter: activityCount },
+        }).reward
+      : undefined);
 
   const isFertile = isPlotFertile({
     plotIndex: id,
     crops: crops,
-    buildings: buildings,
-    bumpkin: bumpkin,
+    wellLevel: waterWell.level,
+    buildings: state.buildings,
+    upgradeReadyAt: waterWell.upgradeReadyAt ?? 0,
+    createdAt: now,
+    island: state.island.type,
   });
 
   if (!isFertile) return <NonFertilePlot />;
 
-  const harvestCrop = async (crop: PlantedCrop) => {
-    const newState = gameService.send("crop.harvested", {
-      index: id,
-    });
+  const weather = getAffectedWeather({ id, game: state });
+
+  if (weather === "tornado") return <TornadoPlot game={state} />;
+  if (weather === "tsunami") return <TsunamiPlot game={state} />;
+  if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
+
+  const harvestCrop = async (plot: CropPlot) => {
+    if (!plot.crop) return;
+    const newState = gameService.send("crop.harvested", { index: id });
 
     if (newState.matches("hoarding")) return;
 
-    harvestAudio.play();
+    harvestAudio();
+    const cropAmount =
+      plot.crop.amount ??
+      getCropYieldAmount({
+        crop: plot.crop.name,
+        game: state,
+        plot,
+        createdAt: now,
+        prngArgs: { farmId, counter: activityCount },
+      }).amount;
 
     // firework animation
-    if (showAnimations && crop.amount && crop.amount >= 10) {
+    if (showAnimations && cropAmount >= 10) {
       setProcAnimation(
         <Spritesheet
           className="absolute pointer-events-none"
@@ -160,7 +183,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
             width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
             imageRendering: "pixelated",
           }}
-          image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
+          image={HARVEST_PROC_ANIMATION.sprites[plot.crop.name]}
           widthFrame={HARVEST_PROC_ANIMATION.size}
           heightFrame={HARVEST_PROC_ANIMATION.size}
           zoomScale={scale}
@@ -171,15 +194,13 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       );
     }
 
-    if (
-      newState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 1
-    ) {
+    if (newState.context.state.farmActivity?.["Sunflower Harvested"] === 1) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:SunflowerHarvested:Completed",
       });
     }
 
-    harvested.current = crop;
+    setCropAmount(cropAmount);
 
     if (showAnimations) {
       setShowHarvested(true);
@@ -191,10 +212,21 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
-    const now = Date.now();
+    const readyToHarvest =
+      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
+    const wantsToPlant = !crop && seed && isCropSeed(seed);
 
     // small buffer to prevent accidental double clicks
-    if (now - clickedAt.current < 100) {
+    // Allow clicks when clickedAt.current is 0 (initial state) or when >= 100ms have passed
+    // Exception: Allow immediate planting when plot is empty (enables quick harvest -> plant flow)
+    const timeSinceLastClick = now - clickedAt.current;
+    const allowImmediatePlant = !crop && wantsToPlant;
+
+    if (
+      clickedAt.current > 0 &&
+      timeSinceLastClick < 100 &&
+      !allowImmediatePlant
+    ) {
       return;
     }
 
@@ -205,47 +237,33 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       return;
     }
 
-    // increase touch count if there is a reward
-    const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
-
-    if (crop?.reward && readyToHarvest) {
-      if (touchCount < 1) {
-        // Add to touch count for reward pickup
-        setTouchCount((count) => count + 1);
+    // Handle reward flow (mirrors Tree.tsx pattern)
+    if (expectedReward && readyToHarvest) {
+      // For non-seasoned players with a reward, show captcha first
+      if (!isSeasoned) {
+        setReward(expectedReward);
         return;
       }
 
-      // They have touched enough!
-      setReward(crop.reward);
-
+      // Seasoned players - just harvest (reward applied in harvest)
+      harvestCrop(plot);
       return;
     }
 
     // apply fertilisers
     if (!readyToHarvest && seed && seed in CROP_COMPOST) {
-      const state = gameService.send("plot.fertilised", {
+      gameService.send("plot.fertilised", {
         plotID: id,
         fertiliser: seed,
       });
-
-      if (state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1) {
-        gameAnalytics.trackMilestone({
-          event: "Tutorial:Fertilised:Completed",
-        });
-      }
 
       return;
     }
 
     // plant
     if (!crop) {
-      if (
-        hasFeatureAccess(state, "CROP_QUICK_SELECT") &&
-        (!seed || !(seed in CROP_SEEDS) || !inventory[seed]?.gte(1))
-      ) {
-        setShowQuickSelect(true);
-        return;
+      if (isCropSeed(seed) && !SEASONAL_SEEDS[season.season].includes(seed)) {
+        setShowSeasonalSeed(true);
       }
 
       const newState = gameService.send("seed.planted", {
@@ -254,10 +272,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         cropId: uuidv4().slice(0, 8),
       });
 
-      plantAudio.play();
+      plantAudio();
 
       const planted =
-        newState.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+        newState.context.state.farmActivity?.["Sunflower Planted"] ?? 0;
 
       if (planted === 1) {
         gameAnalytics.trackMilestone({
@@ -279,7 +297,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // harvest crop when ready
     if (readyToHarvest) {
-      harvestCrop(crop);
+      harvestCrop(plot);
     }
 
     setTouchCount(0);
@@ -287,40 +305,21 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   const onCollectReward = (success: boolean) => {
     setReward(undefined);
-    setTouchCount(0);
 
-    if (success && crop) {
-      harvestCrop(crop);
+    if (success) {
+      harvestCrop(plot);
     }
   };
 
   return (
     <>
-      <Transition
-        appear={true}
-        show={showQuickSelect}
-        enter="transition-opacity duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex top-[-255%] left-[50%] absolute z-40"
-      >
-        <QuickSelect
-          icon={SUNNYSIDE.icons.seeds}
-          options={getKeys(CROP_SEEDS).map((seed) => ({
-            name: seed as InventoryItemName,
-            icon: CROP_SEEDS[seed].yield as InventoryItemName,
-          }))}
-          onClose={() => setShowQuickSelect(false)}
-          onSelected={(seed) => {
-            onClick(seed as SeedName);
-            setShowQuickSelect(false);
-          }}
-          type={t("quickSelect.cropSeeds")}
+      <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={season.season}
+          onClose={() => setShowSeasonalSeed(false)}
         />
-      </Transition>
+      </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
         {harvestCount < 3 &&
@@ -353,29 +352,24 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
         <FertilePlot
           cropName={crop?.name}
-          inventory={inventory}
-          // TODO
-          game={gameService.state?.context?.state ?? TEST_FARM}
-          buds={buds}
           plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
-          pulsating={showQuickSelect && pulsating}
         />
       </div>
-      <ChestReward
-        collectedItem={crop?.name}
-        reward={reward}
-        onCollected={onCollectReward}
-        onOpen={() =>
-          gameService.send("cropReward.collected", {
-            plotIndex: id,
-          })
-        }
-      />
+      {reward && (
+        <ChestReward
+          collectedItem={crop?.name}
+          reward={reward}
+          onCollected={onCollectReward}
+          onOpen={() => {
+            // No-op - reward is applied in harvestCrop(), this is just for the chest animation
+          }}
+        />
+      )}
 
       {/* Harvest Animation */}
       {showAnimations && (
@@ -390,13 +384,12 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex -top-2 left-[40%] absolute z-40 pointer-events-none"
+          as="div"
         >
           <span
             className="text-sm yield-text"
-            style={{
-              color: getYieldColour(harvested.current?.amount ?? 0),
-            }}
-          >{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
+            style={{ color: getYieldColour(cropAmount) }}
+          >{`+${formatNumber(cropAmount)}`}</span>
         </Transition>
       )}
     </>

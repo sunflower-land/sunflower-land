@@ -8,14 +8,12 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives"
 describe("removeBeehive", () => {
   const now = Date.now();
 
-  const FLOWER_GROW_TIME = FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000;
+  const FLOWER_GROW_TIME = FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000;
 
   const DEFAULT_BEEHIVE: Beehive = {
     x: 3,
     y: 3,
     swarm: false,
-    height: 1,
-    width: 1,
     honey: { updatedAt: 0, produced: 0 },
     flowers: [],
   };
@@ -24,11 +22,8 @@ describe("removeBeehive", () => {
     createdAt: now,
     x: 0,
     y: 0,
-    height: 1,
-    width: 2,
     flower: {
       name: "Red Pansy",
-      amount: 1,
       plantedAt: now,
     },
   };
@@ -50,24 +45,37 @@ describe("removeBeehive", () => {
     ).toThrow(REMOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   });
 
-  it("it harvests any honey that the beehive has produced", () => {
+  it("removes a beehive", () => {
     const beehiveId = "1";
-    const halfHoneyProduced = DEFAULT_HONEY_PRODUCTION_TIME / 2;
+    const now = Date.now();
 
     const state = removeBeehive({
       state: {
         ...TEST_FARM,
         inventory: {
           Beehive: new Decimal(1),
-          Honey: new Decimal(0),
+        },
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            "123": DEFAULT_FLOWER_BED,
+          },
         },
         beehives: {
           [beehiveId]: {
             ...DEFAULT_BEEHIVE,
             honey: {
-              updatedAt: 0,
-              produced: halfHoneyProduced,
+              updatedAt: now,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
+            flowers: [
+              {
+                id: "123",
+                attachedAt: now,
+                attachedUntil: now + FLOWER_GROW_TIME,
+                rate: 1,
+              },
+            ],
           },
         },
       },
@@ -75,32 +83,15 @@ describe("removeBeehive", () => {
         id: beehiveId,
         type: "beehive.removed",
       },
+      createdAt: now,
     });
 
-    expect(state.beehives[beehiveId]).toBeUndefined();
+    expect(state.beehives[beehiveId].x).toBeUndefined();
+    expect(state.beehives[beehiveId].y).toBeUndefined();
+    expect(state.beehives[beehiveId].removedAt).toEqual(now);
+    expect(state.beehives[beehiveId].flowers).toHaveLength(0);
+    expect(state.beehives[beehiveId].honey.produced).toEqual(0);
     expect(state.inventory.Honey).toEqual(new Decimal(0.5));
-  });
-
-  it("removes a beehive", () => {
-    const beehiveId = "1";
-
-    const state = removeBeehive({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Beehive: new Decimal(1),
-        },
-        beehives: {
-          [beehiveId]: DEFAULT_BEEHIVE,
-        },
-      },
-      action: {
-        id: beehiveId,
-        type: "beehive.removed",
-      },
-    });
-
-    expect(state.beehives[beehiveId]).toBeUndefined();
   });
 
   it("updates beehives", () => {
@@ -144,9 +135,15 @@ describe("removeBeehive", () => {
         id: beehive1Id,
         type: "beehive.removed",
       },
+      createdAt: now,
     });
 
-    expect(state.beehives[beehive1Id]).toBeUndefined();
+    expect(state.beehives[beehive1Id]).toEqual({
+      swarm: false,
+      honey: { updatedAt: tenMinutesAgo, produced: 0 },
+      flowers: [],
+      removedAt: now,
+    });
     expect(state.beehives[beehive2Id].flowers).toHaveLength(1);
   });
 });

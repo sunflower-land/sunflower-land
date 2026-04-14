@@ -1,73 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CookableName } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftingMachineChildProps } from "../WithCraftingMachine";
-import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
-import { bakeryAudio, loadAudio } from "lib/utils/sfx";
-import { SMOOTHIE_SHACK_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  SMOOTHIE_SHACK_DESK_VARIANTS,
+  SMOOTHIE_SHACK_VARIANTS,
+} from "features/island/lib/alternateArt";
+import { useSound } from "lib/utils/hooks/useSound";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { ReadyRecipes } from "../ReadyRecipes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
-type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+type Props = {
+  buildingId: string;
+  isBuilt: boolean;
+  island: GameState["island"];
+  season: TemperateSeasonName;
+};
+
+const _smoothieShack = (id: string) => (state: MachineState) =>
+  state.context.state.buildings["Smoothie Shack"]?.find((b) => b.id === id);
 
 export const SmoothieShack: React.FC<Props> = ({
   buildingId,
-  crafting,
-  idle,
-  ready,
-  name,
-  craftingService,
   isBuilt,
-  onRemove,
+  season,
   island,
 }) => {
+  const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    loadAudio([bakeryAudio]);
-  }, []);
+  const smoothieShack = useSelector(gameService, _smoothieShack(buildingId));
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(
+    smoothieShack ?? {},
+  );
+
+  const itemInProgress =
+    cooking?.name && cooking.name in COOKABLES
+      ? (cooking.name as CookableName)
+      : undefined;
+
+  const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
-    craftingService?.send({
-      type: "CRAFT",
-      event: "recipe.cooked",
+    gameService?.send({
+      type: "recipe.cooked",
       item,
       buildingId,
     });
   };
 
   const handleCollect = () => {
-    if (!name) return;
-
-    craftingService?.send({
-      type: "COLLECT",
-      item: name,
-      event: "recipe.collected",
+    gameService?.send({
+      type: "recipes.collected",
+      building: "Smoothie Shack",
+      buildingId,
     });
   };
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
+    if (!isBuilt) return;
 
-    if (isBuilt) {
-      if (idle || crafting) {
-        bakeryAudio.play();
-        setShowModal(true);
-        return;
-      }
-
-      if (ready) {
-        handleCollect();
-        return;
-      }
+    if (!cooking && readyRecipes.length > 0) {
+      handleCollect();
+    } else {
+      bakeryAudio();
+      setShowModal(true);
     }
   };
 
@@ -76,13 +84,13 @@ export const SmoothieShack: React.FC<Props> = ({
       <BuildingImageWrapper
         name="Smoothie Shack"
         onClick={handleClick}
-        ready={ready}
+        ready={readyRecipes.length > 0}
       >
         <img
-          src={SMOOTHIE_SHACK_VARIANTS[island]}
+          src={SMOOTHIE_SHACK_VARIANTS[getCurrentBiome(island)]}
           className={classNames("absolute bottom-0 pointer-events-none", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
+            "opacity-100": !cooking,
+            "opacity-80": cooking,
           })}
           style={{
             width: `${PIXEL_SCALE * 48}px`,
@@ -90,7 +98,7 @@ export const SmoothieShack: React.FC<Props> = ({
           }}
         />
 
-        {crafting ? (
+        {cooking ? (
           <img
             src={SUNNYSIDE.npcs.smoothieChefMaking}
             className="absolute pointer-events-none"
@@ -113,25 +121,23 @@ export const SmoothieShack: React.FC<Props> = ({
         )}
 
         <img
-          src={SUNNYSIDE.building.smoothieShackDesk}
+          src={SMOOTHIE_SHACK_DESK_VARIANTS[season]}
           className={classNames("absolute pointer-events-none", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
+            "opacity-100": !cooking,
+            "opacity-80": cooking,
           })}
           style={{
             width: `${PIXEL_SCALE * 24}px`,
             height: `${PIXEL_SCALE * 32}px`,
             right: `${PIXEL_SCALE * 12}px`,
-            top: `${PIXEL_SCALE * 2}px`,
+            top: `${season === "summer" ? PIXEL_SCALE * 2 : PIXEL_SCALE * 0}px`,
           }}
         />
 
-        {(crafting || ready) && name && (
+        {cooking && (
           <img
-            src={ITEM_DETAILS[name].image}
-            className={classNames("absolute pointer-events-none z-30", {
-              "img-highlight-heavy": ready,
-            })}
+            src={ITEM_DETAILS[cooking.name].image}
+            className="absolute pointer-events-none z-30"
             onLoad={(e) => {
               const img = e.currentTarget;
               if (
@@ -153,15 +159,18 @@ export const SmoothieShack: React.FC<Props> = ({
             }}
           />
         )}
+        <ReadyRecipes readyRecipes={readyRecipes} leftOffset={10} />
       </BuildingImageWrapper>
 
       <SmoothieShackModal
+        queue={queuedRecipes ?? []}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
-        crafting={!!crafting}
-        itemInProgress={name}
-        craftingService={craftingService}
+        cooking={cooking}
+        itemInProgress={itemInProgress}
+        buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );

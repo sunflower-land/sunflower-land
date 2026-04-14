@@ -1,5 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
+import { CONFIG } from "lib/config";
 
 export type Trait<T> = {
   name: T;
@@ -267,5 +268,18 @@ export type Bud = {
   aura: AuraTrait;
   ears: EarTrait;
   coordinates?: Coordinates;
-  location?: CollectibleLocation;
+  location?: PlaceableLocation;
+};
+
+export const getBudImage = (
+  budId: number,
+  size: "small" | "large" = "large",
+) => {
+  const budImageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+
+  if (size === "small") {
+    return `https://${budImageDomain}.sunflower-land.com/small-nfts/${budId}.webp`;
+  }
+
+  return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
 };

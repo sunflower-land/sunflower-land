@@ -9,12 +9,9 @@ describe("moveTree", () => {
           ...TEST_FARM,
           trees: {
             1: {
-              height: 1,
-              width: 1,
               x: 1,
               y: 1,
               wood: {
-                amount: 1,
                 choppedAt: 0,
               },
             },
@@ -35,32 +32,23 @@ describe("moveTree", () => {
         ...TEST_FARM,
         trees: {
           "123": {
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
             wood: {
-              amount: 1,
               choppedAt: 0,
             },
           },
           "456": {
-            height: 1,
-            width: 1,
             x: 4,
             y: 4,
             wood: {
-              amount: 1,
               choppedAt: 0,
             },
           },
           "789": {
-            height: 1,
-            width: 1,
             x: 8,
             y: 8,
             wood: {
-              amount: 1,
               choppedAt: 0,
             },
           },
@@ -75,32 +63,23 @@ describe("moveTree", () => {
 
     expect(gameState.trees).toEqual({
       "123": {
-        height: 1,
-        width: 1,
         x: 2,
         y: 2,
         wood: {
-          amount: 1,
           choppedAt: 0,
         },
       },
       "456": {
-        height: 1,
-        width: 1,
         x: 4,
         y: 4,
         wood: {
-          amount: 1,
           choppedAt: 0,
         },
       },
       "789": {
-        height: 1,
-        width: 1,
         x: 8,
         y: 8,
         wood: {
-          amount: 1,
           choppedAt: 0,
         },
       },

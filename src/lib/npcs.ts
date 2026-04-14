@@ -2,8 +2,12 @@ import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
   | "richie"
+  | "streamer"
   | "cluck e cheese"
   | "felga" // Fruit dash
+  | "minewhack" // Mine Whack
+  | "memory" // Memory portal
+  | "chaac" // Chaac's Temple portal
   | "digby"
   | "portaller"
   | "gambit"
@@ -67,6 +71,7 @@ export type NPCName =
   | "wobble"
   | "santa"
   | "elf"
+  | "ginger"
   | "misty"
   | "poppy"
   | "stevie"
@@ -104,9 +109,51 @@ export type NPCName =
   | "peggy"
   | "petro"
   | "pharaoh"
-  | "worried pete";
+  | "worried pete"
+  | "gilda"
+  | "chase" //cowboy
+  | "gunter"
+  | "gorga"
+  | "rocket man"
+  | "new year pete"
+  | "bailey" // weatherman
+  | "neville" // fish market
+  | "pirate skeleton"; //april fools event portal npc
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  streamer: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    onesie: "Rocket Onesie",
+    shoes: "Black Farmer Boots",
+    tool: "Auction Megaphone",
+    aura: "Coin Aura",
+  },
+  "rocket man": {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    onesie: "Rocket Onesie",
+    shoes: "Black Farmer Boots",
+    tool: "Auction Megaphone",
+    aura: "Coin Aura",
+  },
+  bailey: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Wise Staff",
+    hat: "Weather Hat",
+    secondaryTool: "Autumn's Embrace",
+  },
   richie: {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
@@ -127,6 +174,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Overalls",
     shirt: "Chic Gala Blouse",
     hat: "Chicken Hat",
+    suit: "Chicken Suit",
   },
   felga: {
     hair: "Basic Hair",
@@ -137,6 +185,34 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     shoes: "Yellow Boots",
     tool: "Farmer Pitchfork",
+  },
+  minewhack: {
+    hair: "Blacksmith Hair",
+    pants: "Blue Suspenders",
+    background: "Seashore Background",
+    hat: "Grumpy Cat",
+    body: "Beige Farmer Potion",
+    shoes: "Yellow Boots",
+    tool: "Grave Diggers Shovel",
+  },
+  memory: {
+    background: "Farm Background",
+    hair: "Greyed Glory",
+    body: "Beige Farmer Potion",
+    shirt: "Blue Blossom Shirt",
+    beard: "Wise Beard",
+    pants: "Blue Suspenders",
+    shoes: "Bumpkin Boots",
+    tool: "Kama",
+    hat: "Straw Hat",
+  },
+  chaac: {
+    background: "Farm Background",
+    hair: "Basic Hair",
+    body: "Beige Farmer Potion",
+    shirt: "Striped Blue Shirt",
+    pants: "Bumpkin Pants",
+    shoes: "Bumpkin Boots",
   },
   pharaoh: {
     body: "Light Brown Farmer Potion",
@@ -173,7 +249,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     coat: "Chef Apron",
     hair: "Royal Braids",
-    hat: "Chef Hat",
+
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
@@ -490,6 +566,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
+    hat: "Crab Hat",
   },
   grubnuk: {
     body: "Goblin Potion",
@@ -621,19 +698,20 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Tattered Slacks",
     shoes: "Old Shoes",
     tool: "Farmer Pitchfork",
+    hat: "Crab Hat",
   },
   // Announces news
   birdie: {
     body: "Beige Farmer Potion",
     background: "Pumpkin Plaza Background",
     hair: "Brown Long Hair",
-    shirt: "Explorer Shirt",
-    pants: "Oil Overalls",
-    hat: "Fossil Head",
-    tool: "Ancient Shovel",
-    secondaryTool: "Lemon Shield",
+    shirt: "Merino Jumper",
+    pants: "Cowgirl Skirt",
+    tool: "Shepherd Staff",
+    necklace: "Dream Scarf",
+    coat: "Milk Apron",
     shoes: "Black Farmer Boots",
-    wings: "Scarab Wings",
+    wings: "Sol & Luna",
   },
   // Old loving grandma of the game
   buttons: {
@@ -690,7 +768,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   stella: {
     body: "Beige Farmer Potion",
     hair: "White Long Hair",
-    hat: "Boater Hat",
+    hat: "Weather Hat",
+
     pants: "Farmer Overalls",
     shirt: "Daisy Tee",
     background: "Pumpkin Plaza Background",
@@ -790,12 +869,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   eins: {
     body: "Beige Farmer Potion",
-    hair: "Explorer Hair",
-    pants: "Farmer Overalls",
-    shirt: "SFL T-Shirt",
-    tool: "Hammer",
+    hair: "Brush Back Hair",
+    beard: "Moustache",
+    pants: "Wise Slacks",
+    shirt: "Diamond Patterned Vest",
+    tool: "Chemist Potion",
     background: "Farm Background",
-    shoes: "Black Farmer Boots",
+    shoes: "Leather Shoes",
   },
   garth: {
     body: "Infernal Goblin Potion",
@@ -803,7 +883,27 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Brown Suspenders",
     shirt: "Trial Tee",
     tool: "Hammer",
-    background: "Farm Background",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
+  gunter: {
+    body: "Infernal Goblin Potion",
+    hair: "Silver Streaks",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
+  gorga: {
+    body: "Infernal Goblin Potion",
+    hair: "Goth Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    hat: "Infernal Horns",
+    secondaryTool: "Infernal Drill",
+    background: "Forest Background",
     shoes: "Black Farmer Boots",
   },
   // Placeholder fisherman
@@ -816,6 +916,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Wellies",
     tool: "Sunflower Rod",
     hat: "Fishing Hat",
+  },
+  gilda: {
+    body: "Infernal Goblin Potion",
+    hair: "Rancher Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+    hat: "Infernal Horns",
   },
   finley: {
     body: "Light Brown Farmer Potion",
@@ -875,8 +985,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   mayor: {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
-    hat: "Feather Hat",
     hair: "Sun Spots",
+    hat: "Feather Hat",
     tool: "Merch Coffee Mug",
     pants: "Farmer Pants",
     background: "Seashore Background",
@@ -894,7 +1004,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   santa: {
     body: "Beige Farmer Potion",
-    hair: "Sun Spots",
+    hair: "Greyed Glory",
     hat: "Santa Hat",
     beard: "Santa Beard",
     suit: "Santa Suit",
@@ -904,6 +1014,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   elf: {
     body: "Light Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Elf Hat",
+    suit: "Elf Suit",
+    background: "Christmas Background",
+    shoes: "Black Farmer Boots",
+    tool: "Candy Cane",
+  },
+  ginger: {
+    onesie: "Gingerbread Onesie",
+    body: "Beige Farmer Potion",
     hair: "Sun Spots",
     hat: "Elf Hat",
     suit: "Elf Suit",
@@ -923,11 +1043,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Flower expert
   poppy: {
     body: "Beige Farmer Potion",
-    dress: "Antique Dress",
+    dress: "Blue Monarch Dress",
+    wings: "Butterfly Wings",
     background: "Mountain View Background",
     hair: "Brown Long Hair",
     tool: "Farmer Pitchfork",
     shoes: "Brown Boots",
+    hat: "Flower Crown",
   },
   // Beekeeper
   stevie: {
@@ -994,42 +1116,54 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   barlow: {
     body: "Beige Farmer Potion",
     hair: "Explorer Hair",
-    hat: "Bumpkin Helmet",
+    hat: "Bumpkin Crown",
     shirt: "Bumpkin Armor",
     pants: "Bumpkin Pants",
     tool: "Bumpkin Sword",
-    background: "Farm Background",
+    background: "Kingdom Background",
     shoes: "Bumpkin Sabatons",
+    necklace: "Bumpkin Medallion",
+    secondaryTool: "Bumpkin Shield",
+    wings: "Bumpkin Quiver",
   },
   graxle: {
     body: "Goblin Potion",
     hair: "Fire Hair",
-    hat: "Goblin Helmet",
+    hat: "Goblin Crown",
     shirt: "Goblin Armor",
     pants: "Goblin Pants",
     tool: "Goblin Axe",
-    background: "Farm Background",
+    background: "Kingdom Background",
     shoes: "Goblin Sabatons",
+    necklace: "Goblin Medallion",
+    secondaryTool: "Goblin Shield",
+    wings: "Goblin Quiver",
   },
   nyx: {
     body: "Pale Potion",
     hair: "Goth Hair",
-    hat: "Nightshade Helmet",
+    hat: "Nightshade Crown",
     shirt: "Nightshade Armor",
     pants: "Nightshade Pants",
     tool: "Nightshade Sword",
-    background: "Farm Background",
+    background: "Kingdom Background",
     shoes: "Nightshade Sabatons",
+    necklace: "Nightshade Medallion",
+    secondaryTool: "Nightshade Shield",
+    wings: "Nightshade Quiver",
   },
   reginald: {
     body: "Sunburst Potion",
     hair: "Blondie",
-    hat: "Sunflorian Helmet",
+    hat: "Sunflorian Crown",
     shirt: "Sunflorian Armor",
     pants: "Sunflorian Pants",
     tool: "Sunflorian Sword",
-    background: "Farm Background",
+    background: "Kingdom Background",
     shoes: "Sunflorian Sabatons",
+    necklace: "Sunflorian Medallion",
+    secondaryTool: "Sunflorian Shield",
+    wings: "Sunflorian Quiver",
   },
   glinteye: {
     body: "Goblin Potion",
@@ -1147,7 +1281,60 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
   },
+  chase: {
+    body: "Light Brown Farmer Potion",
+    hat: "Cowboy Hat",
+    hair: "Silver Streaks",
+    beard: "Wise Beard",
+    pants: "Cowboy Trouser",
+    shirt: "Cowboy Shirt",
+    tool: "Infernal Bullwhip",
+    background: "Pumpkin Plaza Background",
+    shoes: "Cowboy Boots",
+  },
+  "new year pete": {
+    body: "Light Brown Farmer Potion",
+    background: "Pumpkin Plaza Background",
+    hair: "Buzz Cut",
+    hat: "2026 Tiara",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  neville: {
+    body: "Dark Brown Farmer Potion",
+    hat: "Boater Hat",
+    coat: "Chef Apron",
+    hair: "Greyed Glory",
+    beard: "Hoary Chin",
+    pants: "Fishing Pants",
+    shirt: "Fresh Catch Vest",
+    tool: "Skinning Knife",
+    background: "Pumpkin Plaza Background",
+    shoes: "Cowboy Boots",
+  },
+  "pirate skeleton": {
+    body: "Moonseeker Potion",
+    hair: "Buzz Cut",
+    pants: "Pirate Pants",
+    hat: "Pirate Hat",
+    shirt: "Striped Blue Shirt",
+    coat: "Pirate General Coat",
+    tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
 };
+
+if (Date.now() < new Date("2025-02-15T00:00:00.000Z").getTime()) {
+  // For each NPC who doesn't have Goblin Potion, set their oensie to Love Heart Onesie
+  for (const npc of Object.values(NPC_WEARABLES)) {
+    if (npc.body !== "Goblin Potion") {
+      npc.onesie = "Love Heart Onesie";
+    }
+  }
+}
 
 type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
 export function acknowledgedNPCs(): AcknowledgedNPCs {

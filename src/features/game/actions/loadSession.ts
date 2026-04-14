@@ -5,30 +5,25 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, Purchase } from "../types/game";
 import { Announcements } from "../types/announcements";
-import {
-  getReferrerId,
-  getSignupMethod,
-} from "features/auth/actions/createAccount";
+import { getSignupMethod } from "features/auth/actions/createAccount";
 import { Moderation } from "../lib/gameMachine";
+import { LanguageCode } from "lib/i18n/dictionaries/language";
 
 type Request = {
   token: string;
   transactionId: string;
+  wallet?: string;
+  language?: LanguageCode;
 };
 
 type Response = {
   farmId: string;
   farmAddress?: string;
   game: GameState;
-  isBlacklisted?: boolean;
   deviceTrackerId: string;
   announcements: Announcements;
-  transaction?: {
-    type: "withdraw_bumpkin";
-    expiresAt: number;
-  };
+
   verified: boolean;
-  promoCode?: string;
   moderation: Moderation;
   sessionId: string;
   analyticsId: string;
@@ -36,20 +31,35 @@ type Response = {
   wallet?: string;
   nftId?: number;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
+  oauthNonce: string;
+  prices: {
+    sfl: {
+      usd: number;
+      timestamp: number;
+    };
+  };
+  apiKey: string;
+
+  accountTradedAt?: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
 let loadSessionErrors = 0;
 
-export async function loadSession(request: Request): Promise<Response> {
+export async function loadSession(
+  request: Request,
+  retries = 0,
+): Promise<Response> {
   if (loadSessionErrors) {
     await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
   }
 
-  const promoCode = getPromoCode();
-  const referrerId = getReferrerId();
   const signUpMethod = getSignupMethod();
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
@@ -62,14 +72,30 @@ export async function loadSession(request: Request): Promise<Response> {
     },
     body: JSON.stringify({
       clientVersion: CONFIG.CLIENT_VERSION as string,
-      promoCode,
-      referrerId,
       signUpMethod,
+      timezone,
+      wallet: request.wallet,
+      language: request.language ?? "en",
     }),
   });
 
   if (response.status === 503) {
-    throw new Error(ERRORS.MAINTENANCE);
+    const data = await response.json();
+    if (data.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    } else {
+      // Throttling. Do exponential backoff with jitter
+      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
+      const jitter = Math.random() * 1000;
+
+      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
+
+      if (retries < 3) {
+        return await loadSession(request, retries + 1);
+      }
+
+      throw new Error(ERRORS.SESSION_SERVER_ERROR);
+    }
   }
 
   if (response.status === 429) {
@@ -78,6 +104,10 @@ export async function loadSession(request: Request): Promise<Response> {
 
   if (response.status === 401) {
     throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status === 403) {
+    throw new Error(ERRORS.SESSION_CLIENT_ERROR);
   }
 
   if (response.status >= 400) {
@@ -93,10 +123,8 @@ export async function loadSession(request: Request): Promise<Response> {
     isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
-    promoCode: promo,
     farmId,
     sessionId,
     farmAddress,
@@ -105,6 +133,12 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
+    discordId,
+    fslId,
+    oauthNonce,
+    prices,
+    apiKey,
+    accountTradedAt,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -112,10 +146,8 @@ export async function loadSession(request: Request): Promise<Response> {
     deviceTrackerId: string;
     status?: "COOL_DOWN";
     announcements: Announcements;
-    transaction: { type: "withdraw_bumpkin"; expiresAt: number };
     verified: boolean;
     moderation: Moderation;
-    promoCode?: string;
     sessionId: string;
     farmId: string;
     analyticsId: string;
@@ -124,6 +156,17 @@ export async function loadSession(request: Request): Promise<Response> {
     linkedWallet?: string;
     wallet?: string;
     purchases: Purchase[];
+    discordId?: string;
+    fslId?: string;
+    oauthNonce: string;
+    prices: {
+      sfl: {
+        usd: number;
+        timestamp: number;
+      };
+    };
+    apiKey: string;
+    accountTradedAt?: string;
   }>(response);
 
   saveSession(farm.id);
@@ -133,18 +176,21 @@ export async function loadSession(request: Request): Promise<Response> {
     sessionId,
     farmId,
     game: makeGame(farm),
-    isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
-    promoCode: promo,
     analyticsId,
     linkedWallet,
     wallet,
     nftId,
     purchases,
+    fslId,
+    discordId,
+    oauthNonce,
+    prices,
+    apiKey,
+    accountTradedAt,
   };
 }
 
@@ -178,7 +224,7 @@ export function saveSession(farmId: number) {
   const farmSession = {
     farmId,
     loggedInAt: Date.now(),
-    account: wallet.getAccount(),
+    account: wallet.getConnection(),
   };
 
   const cacheKey = Buffer.from(JSON.stringify(farmSession)).toString("base64");
@@ -189,20 +235,4 @@ export function saveSession(farmId: number) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
-}
-
-const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}`;
-
-export function savePromoCode(id: string) {
-  localStorage.setItem(PROMO_LS_KEY, id);
-}
-
-export function getPromoCode() {
-  const item = localStorage.getItem(PROMO_LS_KEY);
-
-  if (!item) {
-    return undefined;
-  }
-
-  return item;
 }

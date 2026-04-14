@@ -7,7 +7,7 @@ import { BuildingProps } from "../Building";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { Modal } from "components/ui/Modal";
 import { TentModal } from "./TentModal";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -16,6 +16,8 @@ import { BuildingName } from "features/game/types/buildings";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PlacedItem } from "features/game/types/game";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { useVisiting } from "lib/utils/visitUtils";
+import { useNavigate } from "react-router";
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
@@ -26,14 +28,12 @@ const compareBuildings = (
   return prev.Tent?.length === next.Tent?.length;
 };
 
-export const Tent: React.FC<BuildingProps> = ({
-  buildingId,
-  isBuilt,
-  onRemove,
-}) => {
+export const Tent: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
   const { gameService } = useContext(Context);
 
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+  const navigate = useNavigate();
+  const { isVisiting } = useVisiting();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -41,17 +41,17 @@ export const Tent: React.FC<BuildingProps> = ({
     (building) => building.id === buildingId,
   );
 
-  const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>([]);
+  const [walletBumpkins] = useState<OnChainBumpkin[]>([]);
 
   const bumpkin = buildingIndex !== undefined && walletBumpkins[buildingIndex];
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt && bumpkin) {
+      if (isVisiting) {
+        navigate(`/visit/${gameService.getSnapshot().context.farmId}/home`);
+      } else {
+        navigate("/home");
+      }
       setShowModal(true);
     }
   };
@@ -83,7 +83,9 @@ export const Tent: React.FC<BuildingProps> = ({
               ...(placeOnRight ? { right: `${PIXEL_SCALE * 5}px` } : {}),
             }}
           >
-            <NPC parts={interpretTokenUri(bumpkin.tokenURI).equipped} />
+            <NPCPlaceable
+              parts={interpretTokenUri(bumpkin.tokenURI).equipped}
+            />
           </div>
         )}
       </BuildingImageWrapper>

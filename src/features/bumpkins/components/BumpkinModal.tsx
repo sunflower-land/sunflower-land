@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
-import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { ButtonPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -13,36 +12,40 @@ import {
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
-import { SkillsModal } from "./Skills";
-import { SkillsModal as SkillsModal2 } from "./revamp/Skills";
-import { CONFIG } from "lib/config";
+import { Skills } from "./revamp/Skills";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SkillBadges } from "./SkillBadges";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
-import { Trade } from "./Trade";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  FloorPrices,
-  getListingsFloorPrices,
-} from "features/game/actions/getListingsFloorPrices";
-import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
-import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
+import { MyReputation } from "features/island/hud/components/reputation/Reputation";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { LEGACY_BADGE_TREE } from "features/game/types/skills";
+import { setImageWidth } from "lib/images";
+import { LegacyBadges } from "./LegacyBadges";
+import { getKeys } from "lib/object";
+import { PowerSkills } from "features/island/hud/components/PowerSkills";
+import { PanelTabs } from "features/game/components/CloseablePanel";
+import foodIcon from "assets/food/chicken_drumstick.png";
+import { Equipped } from "features/game/types/bumpkin";
+import { Feed } from "features/island/bumpkin/components/Feed";
+import { LevelUp } from "features/island/bumpkin/components/LevelUp";
+import { getAvailableFood } from "features/game/lib/availableFood";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
-type ViewState = "home" | "achievements" | "skills" | "skills2";
-
-const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+export type ViewState =
+  | "home"
+  | "achievements"
+  | "skills"
+  | "legacyBadges"
+  | "powerSkills";
 
 const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
@@ -85,73 +88,45 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
     </div>
   );
 };
+type Tab = "info" | "equip" | "skills" | "feed";
 
 interface Props {
-  initialView: ViewState;
+  initialTab: Tab;
   onClose: () => void;
   bumpkin: Bumpkin;
   inventory: Inventory;
   readonly: boolean;
-  isFullUser: boolean;
   gameState: GameState;
+  powerSkillsReady: boolean;
+  hasPowerSkills: boolean;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
-  initialView,
+  initialTab,
   onClose,
   bumpkin,
   inventory,
   readonly,
-  isFullUser,
   gameState,
+  powerSkillsReady,
+  hasPowerSkills,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const level = getBumpkinLevel(experience);
+  const currentBumpkinLevel = level;
   const maxLevel = isMaxLevel(experience);
-  const canTrade = level >= 10;
-
-  const { authService } = useContext(AuthContext);
-  const rawToken = useSelector(authService, _rawToken);
-  const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState<ViewState>(initialView);
-
-  const [tab, setTab] = useState(0);
+  const [view, setView] = useState<ViewState>("home");
+  const [tab, setTab] = useState(initialTab);
   const { t } = useAppTranslation();
-  const getVisitBumpkinUrl = () => {
-    if (readonly) {
-      const baseUrl =
-        CONFIG.NETWORK === "mainnet"
-          ? `https://opensea.io/assets/matic`
-          : `https://testnets.opensea.io/assets/amoy`;
 
-      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${bumpkin?.id}`;
-    }
+  const [acknowledgedLevel, setAcknowledgedLevel] =
+    useState(currentBumpkinLevel);
+  const hasLeveledUp = currentBumpkinLevel > acknowledgedLevel;
+  const acknowledgeLevelUp = () => setAcknowledgedLevel(currentBumpkinLevel);
 
-    const baseUrl =
-      CONFIG.NETWORK === "mainnet"
-        ? `https://bumpkins.io/#/bumpkins`
-        : `https://testnet.bumpkins.io/#/bumpkins`;
-
-    return `${baseUrl}/${bumpkin?.id}`;
-  };
-
-  useEffect(() => {
-    if (tab !== 2 || !canTrade) return;
-
-    const load = async () => {
-      setIsLoading(true);
-      const floorPrices = await getListingsFloorPrices(rawToken);
-      setFloorPrices((prevFloorPrices) => ({
-        ...prevFloorPrices,
-        ...floorPrices,
-      }));
-
-      setIsLoading(false);
-    };
-    load();
-  }, [tab]);
+  const availableFood = getAvailableFood(inventory);
 
   if (view === "achievements") {
     return (
@@ -163,51 +138,68 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  if (view === "skills") {
+  if (view === "legacyBadges") {
     return (
-      <SkillsModal
-        readonly={readonly}
+      <LegacyBadges
         onBack={() => setView("home")}
         onClose={onClose}
+        inventory={inventory}
       />
     );
   }
 
-  if (view === "skills2") {
+  if (view === "powerSkills") {
     return (
-      <SkillsModal2
-        readonly={readonly}
+      <PowerSkills
+        onHide={onClose}
         onBack={() => setView("home")}
-        onClose={onClose}
+        readonly={readonly}
       />
     );
   }
 
-  const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
+  const renderTabs = (): PanelTabs<Tab>[] => {
+    if (readonly) {
+      return [
+        {
+          id: "info",
+          icon: SUNNYSIDE.icons.player,
+          name: t("info"),
+        },
+      ];
+    }
+
+    return [
+      {
+        id: "info",
+        icon: SUNNYSIDE.icons.player,
+        name: t("info"),
+      },
+      {
+        id: "equip",
+        icon: SUNNYSIDE.icons.wardrobe,
+        name: t("equip"),
+      },
+      {
+        id: "skills",
+        icon: SUNNYSIDE.badges.seedSpecialist,
+        name: t("skills"),
+      },
+      {
+        id: "feed",
+        icon: foodIcon,
+        name: t("feed.bumpkin"),
+      },
+    ];
+  };
 
   return (
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
-      tabs={[
-        {
-          icon: SUNNYSIDE.icons.player,
-          name: t("info"),
-        },
-        ...(!readonly
-          ? [
-              {
-                icon: SUNNYSIDE.icons.wardrobe,
-                name: t("equip"),
-              },
-              {
-                icon: token,
-                name: t("trades"),
-              },
-            ]
-          : []),
-      ]}
+      tabs={renderTabs()}
+      container={tab === "skills" || tab === "feed" ? OuterPanel : undefined}
     >
       <div
         style={{
@@ -216,111 +208,21 @@ export const BumpkinModal: React.FC<Props> = ({
         }}
         className="scrollable"
       >
-        {tab === 0 && (
-          <div className="flex flex-wrap">
-            <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
-              <div className="w-full rounded-md overflow-hidden mb-1">
-                <DynamicNFT
-                  showBackground
-                  bumpkinParts={bumpkin?.equipped as BumpkinParts}
-                />
-              </div>
-              {/* {isFullUser && (
-              <div className="ml-1">
-                <a
-                  href={getVisitBumpkinUrl()}
-                  target="_blank"
-                  className="underline text-xxs"
-                  rel="noreferrer"
-                >
-                  Visit Bumpkin
-                </a>
-              </div>
-            )} */}
-            </div>
-
-            <div className="flex-1">
-              <div className="mb-3">
-                <div className="flex items-center ml-1 my-2">
-                  <img
-                    src={levelIcon}
-                    style={{
-                      width: `${PIXEL_SCALE * 10}px`,
-                      marginRight: `${PIXEL_SCALE * 4}px`,
-                    }}
-                  />
-                  <div>
-                    <p>
-                      {t("lvl")} {level}
-                      {maxLevel ? " (Max)" : ""}
-                    </p>
-                    {/* Progress bar */}
-                    <BumpkinLevel experience={bumpkin.experience} />
-                  </div>
-                </div>
-              </div>
-
-              <ButtonPanel
-                onClick={() => setView("skills")}
-                className="mb-2 relative mt-1 !px-2 !py-1"
-              >
-                <div className="flex items-center mb-1 justify-between">
-                  <div className="flex items-center">
-                    <span className="text-sm">{t("skills")}</span>
-                    {hasAvailableSP && !readonly && (
-                      <img
-                        src={SUNNYSIDE.icons.expression_alerted}
-                        className="h-4 ml-2"
-                      />
-                    )}
-                  </div>
-                  <span className="text-sm underline">{t("viewAll")}</span>
-                </div>
-                <SkillBadges
-                  inventory={inventory}
-                  bumpkin={bumpkin as Bumpkin}
-                />
-              </ButtonPanel>
-
-              {hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
-                <ButtonPanel
-                  onClick={() => setView("skills2")}
-                  className="mb-2 relative mt-1 !px-2 !py-1"
-                >
-                  <div className="flex items-center mb-1 justify-between">
-                    <div className="flex items-center">
-                      <span className="text-sm">{"Skills Revamp"}</span>
-                      {hasAvailableSP && !readonly && (
-                        <img
-                          src={SUNNYSIDE.icons.expression_alerted}
-                          className="h-4 ml-2"
-                        />
-                      )}
-                    </div>
-                    <span className="text-sm underline">{t("viewAll")}</span>
-                  </div>
-                </ButtonPanel>
-              )}
-
-              <ButtonPanel
-                onClick={() => setView("achievements")}
-                className="mb-2 relative mt-1 !px-2 !py-1"
-              >
-                <div className="flex items-center mb-1 justify-between">
-                  <div className="flex items-center">
-                    <span className="text-sm">{t("achievements")}</span>
-                  </div>
-                  <span className="underline text-sm">{t("viewAll")}</span>
-                </div>
-                <AchievementBadges achievements={bumpkin?.achievements} />
-              </ButtonPanel>
-            </div>
-          </div>
+        {tab === "info" && (
+          <BumpkinInfo
+            level={level}
+            maxLevel={maxLevel}
+            gameState={gameState}
+            setView={setView}
+            powerSkillsReady={powerSkillsReady}
+            hasPowerSkills={hasPowerSkills}
+            readonly={readonly}
+          />
         )}
-        {tab === 1 && (
+
+        {tab === "equip" && (
           <BumpkinEquip
             equipment={bumpkin.equipped}
-            game={gameState}
             onEquip={(equipment) => {
               gameService.send("bumpkin.equipped", {
                 equipment,
@@ -329,13 +231,154 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && isLoading && (
-          <div className="my-2">
-            <Loading />
-          </div>
+        {tab === "skills" && <Skills readonly={readonly} />}
+        {tab === "feed" && (
+          <>
+            {hasLeveledUp ? (
+              <LevelUp
+                level={currentBumpkinLevel}
+                onClose={() => {
+                  onClose();
+                  if (currentBumpkinLevel === 2) {
+                    openModal("SECOND_LEVEL");
+                  }
+                  setTimeout(() => acknowledgeLevelUp(), 500);
+                }}
+                wearables={bumpkin.equipped as Equipped}
+              />
+            ) : (
+              <Feed food={availableFood} />
+            )}
+          </>
         )}
-        {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
       </div>
     </CloseButtonPanel>
+  );
+};
+
+export const BumpkinInfo: React.FC<{
+  level: number;
+  maxLevel: boolean;
+  gameState: GameState;
+  setView: (view: ViewState) => void;
+  powerSkillsReady: boolean;
+  hasPowerSkills: boolean;
+  readonly: boolean;
+}> = ({
+  level,
+  maxLevel,
+  gameState,
+  setView,
+  powerSkillsReady,
+  hasPowerSkills,
+  readonly,
+}) => {
+  const { t } = useAppTranslation();
+  const { bumpkin, inventory } = gameState;
+
+  const BADGES = getKeys(LEGACY_BADGE_TREE);
+
+  const badges = BADGES.map((badge) => {
+    if (inventory[badge]) {
+      return (
+        <img
+          key={badge}
+          src={ITEM_DETAILS[badge].image}
+          alt={badge}
+          style={{
+            opacity: 0,
+            marginRight: `${PIXEL_SCALE * 2}px`,
+            marginBottom: `${PIXEL_SCALE * 2}px`,
+          }}
+          onLoad={(e) => setImageWidth(e.currentTarget)}
+        />
+      );
+    }
+
+    return null;
+  }).filter(Boolean);
+
+  return (
+    <div className="flex flex-wrap">
+      <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
+        <div className="w-full rounded-md overflow-hidden mb-1">
+          <DynamicNFT
+            showBackground
+            bumpkinParts={bumpkin?.equipped as BumpkinParts}
+          />
+        </div>
+      </div>
+
+      <div className="flex-1">
+        <div className="mb-3">
+          <div className="flex items-center ml-1 my-2">
+            <img
+              src={levelIcon}
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+                marginRight: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+            <div>
+              <p>
+                {t("lvl")} {level}
+                {maxLevel ? " (Max)" : ""}
+              </p>
+              {/* Progress bar */}
+              <BumpkinLevel experience={bumpkin.experience} />
+            </div>
+          </div>
+        </div>
+
+        <MyReputation />
+        {hasPowerSkills && !readonly && (
+          <ButtonPanel
+            onClick={() => setView("powerSkills")}
+            className="mb-2 relative mt-1 !px-2 !py-1"
+          >
+            <div className="flex items-center mb-1 justify-between">
+              <div className="flex items-center">
+                <span className="text-sm">{t("powerSkills.title")}</span>
+                {powerSkillsReady && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    className="ml-2 w-2"
+                    alt="Exclamation"
+                  />
+                )}
+              </div>
+              <span className="underline text-sm">{t("viewAll")}</span>
+            </div>
+          </ButtonPanel>
+        )}
+        {badges.length > 0 && (
+          <ButtonPanel
+            className="mb-2 relative mt-1 !px-2 !py-1"
+            onClick={() => setView("legacyBadges")}
+          >
+            <div className="flex items-center mb-1 justify-between">
+              <div className="flex items-center">
+                <span className="text-sm">{`Legacy Badges`}</span>
+              </div>
+              <span className="underline text-sm">{t("viewAll")}</span>
+            </div>
+            <div className="flex flex-wrap items-center mt-2">{badges}</div>
+          </ButtonPanel>
+        )}
+
+        <ButtonPanel
+          onClick={() => setView("achievements")}
+          className="mb-2 relative mt-1 !px-2 !py-1"
+        >
+          <div className="flex items-center mb-1 justify-between">
+            <div className="flex items-center">
+              <span className="text-sm">{t("achievements")}</span>
+            </div>
+            <span className="underline text-sm">{t("viewAll")}</span>
+          </div>
+          <AchievementBadges achievements={bumpkin?.achievements} />
+        </ButtonPanel>
+      </div>
+    </div>
   );
 };

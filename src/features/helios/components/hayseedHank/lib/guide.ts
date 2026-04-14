@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
-
+import { getChapterTicket } from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 
 export type GuidePath =
@@ -14,13 +14,13 @@ export type GuidePath =
   | "animals"
   | "scavenger"
   | "fruit"
-  | "seasons";
+  | "chapters";
 
 /*
 Walkthrough:
 
 1. Expand Land
-2. Earn X SFL
+2. Earn X FLOWER
 3. Level up (2)
 4. Complete X Deliveries
 5. Build a Well
@@ -190,7 +190,9 @@ ${translate("crops.guide.three")}`,
       {
         text: `${translate("deliveries.guide.one")}
 
-              ${translate("deliveries.guide.two")}`,
+              ${translate("deliveries.guide.two")}
+              
+              ${translate("deliveries.guide.three")}`,
       },
     ],
   },
@@ -228,16 +230,18 @@ ${translate("crops.guide.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting#fruit",
   },
 
-  seasons: {
+  chapters: {
     achievements: ["Seasoned Farmer"],
-    icon: SUNNYSIDE.icons.stopwatch,
+    icon: ITEM_DETAILS[getChapterTicket(Date.now())].image,
     description: [
       {
-        text: `${translate("seasons.guide.one")}
+        text: `${translate("chapters.guide.one")}
 
-              ${translate("seasons.guide.two")}`,
+              ${translate("chapters.guide.two")}
+              
+              ${translate("chapters.guide.three")}`,
       },
     ],
-    docs: "https://docs.sunflower-land.com/player-guides/seasons",
+    docs: "https://docs.sunflower-land.com/player-guides/chapters-whats-new",
   },
 };

@@ -11,13 +11,41 @@ export async function loadTradeable({
   type,
   id,
   token,
+  economy,
+  attempts = 0,
 }: {
   type: CollectionName;
   id: number;
   token: string;
+  economy?: string;
+  attempts?: number;
 }): Promise<TradeableDetails> {
+  if (!CONFIG.API_URL)
+    return {
+      id,
+      floor: 0,
+      supply: 0,
+      collection: type,
+      isActive: false,
+      isVip: false,
+      lastSalePrice: 0,
+      offers: [],
+      listings: [],
+      history: {
+        sales: [],
+        history: {
+          totalSales: 0,
+          totalVolume: 0,
+          dates: {},
+        },
+      },
+    } as TradeableDetails;
+
   const url = new URL(`${API_URL}/collection/${type}/${id}`);
   url.searchParams.append("type", type);
+  if (economy) {
+    url.searchParams.set("economy", economy);
+  }
 
   const response = await window.fetch(url.toString(), {
     method: "GET",
@@ -28,6 +56,17 @@ export async function loadTradeable({
   });
 
   if (response.status === 429) {
+    if (attempts < 3) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      return await loadTradeable({
+        type,
+        id,
+        token,
+        economy,
+        attempts: attempts + 1,
+      });
+    }
+
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 

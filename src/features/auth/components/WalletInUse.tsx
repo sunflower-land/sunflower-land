@@ -6,7 +6,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/auth/lib/Provider";
 import { isAddress } from "ethers/lib/utils";
 import { useActor } from "@xstate/react";
-import { Wallet } from "features/wallet/Wallet";
 import { ClaimAccount } from "./NoAccount";
 import { Label } from "components/ui/Label";
 import { removeJWT } from "../actions/social";
@@ -21,12 +20,10 @@ export const WalletInUse: React.FC = () => {
 
   if (showClaimAccount) {
     return (
-      <Wallet action="login">
-        <ClaimAccount
-          onBack={() => setShowClaimAccount(false)}
-          onClaim={(id) => authService.send("CLAIM", { id })}
-        />
-      </Wallet>
+      <ClaimAccount
+        onBack={() => setShowClaimAccount(false)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
     );
   }
 
@@ -43,7 +40,7 @@ export const WalletInUse: React.FC = () => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="underline  text-xs cursor-pointer"
+              className="underline text-xs"
               onClick={() => setShowClaimAccount(true)}
             >
               {t("noaccount.alreadyHaveNFTFarm")}

@@ -2,9 +2,14 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  BoostName,
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -12,6 +17,16 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import {
+  isBuildingUpgradable,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
+import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
+import { BuildingName } from "features/game/types/buildings";
+import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+import { BoostsDisplay } from "./BoostsDisplay";
 
 /**
  * The props for the details for items.
@@ -19,6 +34,7 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
  */
 interface ItemDetailsProps {
   item: InventoryItemName;
+  seasons?: string[];
 }
 
 /**
@@ -36,12 +52,20 @@ interface HarvestsRequirementProps {
  * @param timeSeconds The wait time in seconds for using the item.
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
+ * @param xpBoostsUsed The boosts applied to food XP (for clickable boost display).
+ * @param baseXp The base XP before boosts (for strikethrough display).
+ * @param showBoosts Whether the boost panel is visible.
+ * @param setShowBoosts Callback to toggle the boost panel.
  * @param showOpenSeaLink Whether to show the open sea link or not.
  */
 interface PropertiesProps {
   timeSeconds?: number;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
+  xpBoostsUsed?: { name: BoostName; value: string }[];
+  baseXp?: number;
+  showBoosts?: boolean;
+  setShowBoosts?: (show: boolean) => void;
   showOpenSeaLink?: boolean;
 }
 
@@ -74,8 +98,15 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
-    const icon = ITEM_ICONS(game.island.type)[details.item] ?? item.image;
-    const title = details.item;
+    const hasLevel = isBuildingUpgradable(details.item as BuildingName)
+      ? game[makeUpgradableBuildingKey(details.item as UpgradableBuildingType)]
+          .level
+      : undefined;
+    const icon =
+      ITEM_ICONS(game.season.season, getCurrentBiome(game.island), hasLevel)[
+        details.item
+      ] ?? item.image;
+    const title = item.translatedName ?? details.item;
 
     let description = item.description;
 
@@ -85,14 +116,20 @@ export const InventoryItemDetails: React.FC<Props> = ({
           isCollectibleBuilt({
             name: boostedDescription.name as CollectibleName,
             game,
-          })
+          }) ||
+          game.bumpkin?.skills[
+            boostedDescription.name as BumpkinRevampSkillName
+          ]
         ) {
           description = boostedDescription.description;
         }
       }
     }
 
-    const boost = COLLECTIBLE_BUFF_LABELS[details.item];
+    const boost = COLLECTIBLE_BUFF_LABELS[details.item]?.({
+      skills: game.bumpkin.skills,
+      collectibles: game.collectibles,
+    });
 
     return (
       <>
@@ -118,15 +155,33 @@ export const InventoryItemDetails: React.FC<Props> = ({
           {description}
         </span>
         {boost && (
-          <div className="flex mb-2 sm:justify-center">
-            <Label
-              type={boost.labelType}
-              icon={boost.boostTypeIcon}
-              secondaryIcon={boost.boostedItemIcon}
-              className="my-1"
-            >
-              {boost.shortDescription}
-            </Label>
+          <div className="flex flex-wrap sm:flex-col gap-x-3 sm:gap-x-0 gap-y-1 mb-2 items-center">
+            {boost.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={index}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
+          </div>
+        )}
+        {details.seasons && (
+          <div className="flex items-center justify-center mb-2">
+            {details.seasons.map((season) => (
+              <img
+                key={season}
+                src={SEASON_ICONS[season as TemperateSeasonName]}
+                className="w-5 ml-1"
+              />
+            ))}
           </div>
         )}
       </>
@@ -135,6 +190,45 @@ export const InventoryItemDetails: React.FC<Props> = ({
 
   const getProperties = () => {
     if (!properties) return <></>;
+
+    const getXPDisplay = () => {
+      if (!properties.xp) return <></>;
+
+      const isXpBoosted =
+        properties.xpBoostsUsed &&
+        properties.xpBoostsUsed.length > 0 &&
+        properties.baseXp !== undefined &&
+        properties.xp.greaterThan(properties.baseXp);
+
+      if (
+        isXpBoosted &&
+        properties.xpBoostsUsed &&
+        properties.setShowBoosts &&
+        properties.showBoosts !== undefined
+      ) {
+        return (
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+          >
+            <RequirementLabel type="xp" xp={properties.xp} boosted />
+            <RequirementLabel
+              type="xp"
+              xp={new Decimal(properties.baseXp ?? 0)}
+              strikethrough
+            />
+            <BoostsDisplay
+              boosts={properties.xpBoostsUsed}
+              show={properties.showBoosts}
+              state={game}
+              onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+            />
+          </div>
+        );
+      }
+
+      return <RequirementLabel type="xp" xp={properties.xp} />;
+    };
 
     return (
       <div
@@ -158,7 +252,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
         )}
 
         {/* XP display */}
-        {!!properties.xp && <RequirementLabel type="xp" xp={properties.xp} />}
+        {getXPDisplay()}
 
         {/* OpenSea link */}
         {properties.showOpenSeaLink && (

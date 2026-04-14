@@ -19,9 +19,9 @@ export const useLongPress = (
   { shouldPreventDefault = true, delay = 300, interval = 200 } = {},
 ) => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
-  const timeout = useRef<NodeJS.Timeout>();
-  const timer = useRef<ReturnType<typeof setInterval>>();
-  const target = useRef<EventTarget>();
+  const timeout = useRef<NodeJS.Timeout>(undefined);
+  const timer = useRef<ReturnType<typeof setInterval>>(undefined);
+  const target = useRef<EventTarget>(undefined);
 
   const clear = useCallback(
     (e: React.MouseEvent | React.TouchEvent, shouldTriggerClick = true) => {

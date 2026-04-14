@@ -14,7 +14,7 @@ interface Props {
 
 export const Maturing = ({ paused }: Props) => {
   const { scale } = useContext(ZoomContext);
-  const spritesheetRef = useRef<SpriteSheetInstance>();
+  const spritesheetRef = useRef<SpriteSheetInstance>(undefined);
   const [fps] = useState<number[]>(
     calculateFPS(
       [

@@ -2,10 +2,16 @@ import { makeGame } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { Font } from "lib/utils/fonts";
 
 type Request = {
   portalId: string;
   token: string;
+};
+
+export const getJwt = () => {
+  const code = new URLSearchParams(window.location.search).get("jwt");
+  return code ?? "";
 };
 
 export const getUrl = () => {
@@ -22,6 +28,16 @@ export const getUrl = () => {
   return CONFIG.API_URL;
 };
 
+export const getLanguage = () => {
+  const language = new URLSearchParams(window.location.search).get("language");
+  return language || "en";
+};
+
+export const getFont = (): Font => {
+  const font = new URLSearchParams(window.location.search).get("font");
+  return (font as Font) || "Default";
+};
+
 export async function loadPortal(request: Request) {
   // Uses same autosave event driven endpoint
   const response = await window.fetch(
@@ -36,7 +52,7 @@ export async function loadPortal(request: Request) {
   );
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
+    throw new Error(ERRORS.PORTAL_LOAD_ERROR);
   }
 
   const data: { farm: GameState } = await response.json();

@@ -1,42 +1,45 @@
+import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
-import { SceneId } from "../mmoMachine";
 
 import { Birdie } from "./npcs/Birdie";
-import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
-import { Bert } from "./npcs/Bert";
+import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Finn } from "./npcs/Finn";
 import { Mayor } from "./npcs/Mayor";
-import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { Stylist } from "./stylist/Stylist";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
-import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
-import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
-import { GoldTooth } from "./npcs/GoldTooth";
-import { hasFeatureAccess } from "lib/flags";
-import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
+import { HalloweenNPC } from "./npcs/HalloweenNPC";
+import { SolarForge } from "./infernos/SolarForge";
+import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
+import { ObsidianExchange } from "./infernos/ObsidianExchange";
+import { PortalChooser } from "./portals/PortalChooser";
+import { Rocketman } from "./npcs/Rocketman";
+import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
+import { IncineratorModal } from "features/goblins/incinerator";
+import { Context } from "features/game/GameProvider";
+import { PetShop } from "features/pets/petShop/PetShop";
+import { Streams } from "features/game/components/modal/components/Streams";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -55,20 +58,19 @@ class NpcModalManager {
 export const npcModalManager = new NpcModalManager();
 
 interface Props {
-  scene: SceneId;
   id: number;
 }
 
-function getInitialNPC(scene: SceneId): NPCName | undefined {
-  return undefined;
-}
-
-export const NPCModals: React.FC<Props> = ({ scene, id }) => {
+export const NPCModals: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
-
-  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
-
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const [npc, setNpc] = useState<NPCName>();
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
@@ -87,11 +89,8 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
 
   return (
     <>
-      <Modal
-        // dialogClassName="npc-dialog"
-        show={!!npc && !isSeparateModal}
-        onHide={closeModal}
-      >
+      <Modal show={!!npc && !isSeparateModal} onHide={closeModal}>
+        {npc === "chase" && <PetShop onClose={closeModal} />}
         {npc === "flopsy" && (
           <CloseButtonPanel
             title="Enjoying Easter?"
@@ -101,14 +100,43 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
+        {npc === "ginger" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["ginger"]}
+            message={[
+              {
+                text: t("npcDialogues.ginger.dialogue1"),
+              },
+              {
+                text: t("npcDialogues.ginger.dialogue2"),
+              },
+            ]}
+          />
+        )}
+        {npc === "elf" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["elf"]}
+            message={[
+              {
+                text: t("npcDialogues.elf.dialogue1"),
+              },
+            ]}
+          />
+        )}
+        {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
+        {npc === "rocket man" && <Rocketman onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" && <FlowerShop onClose={closeModal} />}
-        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
+        {npc === "poppy" && <MegaBountyBoard onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "eins" && <PotionMaster onClose={closeModal} />}
+        {npc === "gunter" && <SolarForge onClose={closeModal} />}
+        {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
-
+        {npc === "bailey" && <WeatherShop onClose={closeModal} />}
+        {npc === "gilda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "digby" && <Digby onClose={closeModal} />}
         {npc === "pharaoh" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "petro" && (
@@ -122,6 +150,8 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             ]}
           />
         )}
+
+        {npc === "streamer" && <Streams onClose={closeModal} />}
 
         {npc === "marcus" && (
           <SpeakingModal
@@ -154,14 +184,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <GarbageCollectorModal />
           </CloseButtonPanel>
         )}
-        {npc === "billy" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.billy}
-          >
-            <ChickenRescue onClose={closeModal} />
-          </CloseButtonPanel>
-        )}
+        {npc === "billy" && <PortalChooser onClose={closeModal} />}
         {npc === "cluck e cheese" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -170,18 +193,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <CropsAndChickens onClose={closeModal} />
           </CloseButtonPanel>
         )}
-        {npc === "jafar" &&
-          hasFeatureAccess(gameService.state.context.state, "TEST_DIGGING") && (
-            <TreasureShop onClose={closeModal} />
-          )}
-        {/* Remove on release */}
-        {npc === "goldtooth" &&
-          !hasFeatureAccess(
-            gameService.state.context.state,
-            "TEST_DIGGING",
-          ) && <GoldTooth onClose={closeModal} />}
-
-        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
+        {npc === "jafar" && <TreasureShop onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -211,7 +223,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "grimtooth" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
-        {npc === "bert" && <Bert onClose={closeModal} />}
+        {npc === "bert" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "old salty" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
@@ -225,7 +237,15 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "goblet" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.goblet}
+            container={OuterPanel}
+          >
+            <IncineratorModal />
+          </CloseButtonPanel>
+        )}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
         {npc === "barlow" && (

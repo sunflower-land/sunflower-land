@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { GreenHouseCropName } from "features/game/types/crops";
 import { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
 
 const selectReadyPlants = (state: MachineState) => {
   const pots = state.context.state.greenhouse.pots;
@@ -27,11 +27,7 @@ const selectReadyPlants = (state: MachineState) => {
 
       const isReady =
         Date.now() >
-        getReadyAt({
-          game: state.context.state,
-          plant: pot.plant.name,
-          createdAt: pot.plant.plantedAt,
-        });
+        getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt });
 
       if (!isReady) {
         return plants;
@@ -43,19 +39,14 @@ const selectReadyPlants = (state: MachineState) => {
   );
 };
 
-export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
+export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
+  const { gameService, showAnimations } = useContext(Context);
 
   const readyPlants = useSelector(gameService, selectReadyPlants);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/greenhouse");
 
@@ -68,7 +59,7 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Greenhouse" onClick={handleClick}>
         <img
-          src={SUNNYSIDE.building.greenhouse}
+          src={GREENHOUSE_VARIANTS[season]}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 78}px`,
@@ -87,7 +78,9 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
               <img
                 key={index}
                 src={ITEM_DETAILS[plant].image}
-                className="img-highlight-heavy w-8 ready"
+                className={
+                  "img-highlight-heavy w-8" + (showAnimations ? " ready" : "")
+                }
               />
             ))}
           </div>

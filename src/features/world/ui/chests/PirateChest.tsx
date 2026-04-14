@@ -9,13 +9,15 @@ import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { Button } from "components/ui/Button";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { secondsToString } from "lib/utils/time";
+import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { isWearableActive } from "features/game/lib/wearables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import rewardsIcon from "assets/icons/stock.webp";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;
@@ -177,41 +179,50 @@ export const PirateChestModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const isClaimRewardFlowActive =
+    isPicking ||
+    (isRevealing &&
+      (gameState.matches("revealing") || gameState.matches("revealed")));
+
+  type Tab = "chest" | "rewards";
+  const [tab, setTab] = useState<Tab>("chest");
+
+  const chestTab: PanelTabs<Tab> = {
+    id: "chest",
+    icon: ITEM_DETAILS["Pirate Bounty"].image,
+    name: t("pirate.chest"),
+  };
+  const rewardsTab: PanelTabs<Tab> = {
+    id: "rewards",
+    icon: rewardsIcon,
+    name: t("chestRewardsList.rewardsTitle"),
+  };
+
+  const tabs: PanelTabs<Tab>[] = [
+    chestTab,
+    ...(isClaimRewardFlowActive ? [] : [rewardsTab]),
+  ];
+
   return (
-    <Modal
-      onHide={
-        isPicking ||
-        (isRevealing &&
-          (gameState.matches("revealing") || gameState.matches("revealed")))
-          ? undefined
-          : onClose
-      }
-      show={show}
-    >
+    <Modal onHide={isClaimRewardFlowActive ? undefined : onClose} show={show}>
       <CloseButtonPanel
-        onClose={
-          isPicking ||
-          (isRevealing &&
-            (gameState.matches("revealing") || gameState.matches("revealed")))
-            ? undefined
-            : onClose
-        }
+        onClose={isClaimRewardFlowActive ? undefined : onClose}
+        tabs={tabs}
+        currentTab={tab}
+        setCurrentTab={setTab}
         bumpkinParts={NPC_WEARABLES["old salty"]}
-        tabs={[
-          {
-            icon: ITEM_DETAILS["Pirate Bounty"].image,
-            name: t("pirate.chest"),
-          },
-        ]}
         className="pt-1"
       >
-        <PirateChestContent
-          setIsLoading={setIsLoading}
-          isPicking={isPicking}
-          setIsPicking={setIsPicking}
-          isRevealing={isRevealing}
-          setIsRevealing={setIsRevealing}
-        />
+        {tab === "chest" && (
+          <PirateChestContent
+            setIsLoading={setIsLoading}
+            isPicking={isPicking}
+            setIsPicking={setIsPicking}
+            isRevealing={isRevealing}
+            setIsRevealing={setIsRevealing}
+          />
+        )}
+        {tab === "rewards" && <ChestRewardsList type="Pirate Chest" />}
       </CloseButtonPanel>
     </Modal>
   );

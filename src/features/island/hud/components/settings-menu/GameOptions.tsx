@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
@@ -13,7 +13,6 @@ import { Label } from "components/ui/Label";
 import { translate } from "lib/i18n/translate";
 
 import { removeJWT } from "features/auth/actions/social";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -29,28 +28,51 @@ import {
   isChrome,
 } from "mobile-device-detect";
 import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
-import { TransferAccount } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
-import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
-import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
-import { DepositWrapper } from "features/goblins/bank/components/Deposit";
+import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
-import { AppearanceSettings } from "./general-settings/AppearanceSettings";
-import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import ticket from "assets/icons/ticket.png";
-import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import lockIcon from "assets/icons/lock.png";
+import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
+import { PickServer } from "./plaza-settings/PickServer";
+import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
+import { Preferences } from "./general-settings/Preferences";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import {
+  getSubscriptionsForFarmId,
+  Subscriptions,
+} from "features/game/actions/subscriptions";
+import { preload } from "swr";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
+import { AirdropPlayer } from "./general-settings/AirdropPlayer";
+import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
+import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
+import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
+import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
+import { ApiKey } from "./general-settings/ApiKey";
+import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
+import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
   onClose: () => void;
 }
+
+export const subscriptionsFetcher = ([, token, farmId]: [
+  string,
+  string,
+  number,
+]): Promise<Subscriptions> => {
+  return getSubscriptionsForFarmId(farmId, token);
+};
 
 const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -58,14 +80,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
-  const { walletService } = useContext(WalletContext);
 
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showFarm, setShowFarm] = useState(false);
 
   const copypaste = useSound("copypaste");
-  const button = useSound("button");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
@@ -93,8 +114,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const onLogout = () => {
     removeJWT();
     authService.send("LOGOUT");
-    walletService.send("RESET");
   };
+
+  const canRefresh = !gameService.getSnapshot().context.state.transaction;
+  const hideRefresh = !gameService.getSnapshot().context.nftId;
 
   return (
     <>
@@ -104,80 +127,88 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Label
             type="default"
             icon={SUNNYSIDE.icons.search}
+            popup={showFarm}
             className="mb-1 mr-4"
             onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
               copypaste.play();
               clipboard.copy(
-                gameService.state?.context?.farmId.toString() as string,
+                gameService.getSnapshot()?.context?.farmId.toString() as string,
               );
             }}
           >
             {t("gameOptions.farmId", {
-              farmId: gameService.state?.context?.farmId,
+              farmId: gameService.getSnapshot()?.context?.farmId,
             })}
           </Label>
-          {gameService.state?.context?.nftId !== undefined && (
-            <Label
-              type="default"
-              icon={ticket}
-              className="mb-1 mr-4"
-              onClick={() => {
-                copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.nftId?.toString() || "",
-                );
-              }}
-            >
-              {`NFT ID #${gameService.state?.context?.nftId}`}
-            </Label>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center justify-between mx-2">
-          {gameService.state?.context?.linkedWallet && (
-            <WalletAddressLabel
-              walletAddress={
-                (gameService.state?.context?.linkedWallet as string) || "XXXX"
-              }
-              showLabelTitle={true}
-            />
-          )}
         </div>
       </>
-      {!isPWA && (
-        <Button className="p-1 mb-1" onClick={handleInstallApp}>
-          <span>{t("install.app")}</span>
-        </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={refreshSession}>
-        {t("gameOptions.blockchainSettings.refreshChain")}
-      </Button>
-      {CONFIG.NETWORK === "amoy" && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.amoyActions")}</span>
-        </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
-        <span>{t("gameOptions.blockchainSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
-        <span>{t("gameOptions.generalSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
-        <span>{t("gameOptions.plazaSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
-        {t("gameOptions.logout")}
-      </Button>
-      <p className="mx-1 text-xxs">
-        <a
-          href="https://github.com/sunflower-land/sunflower-land/releases"
-          className="underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {CONFIG.RELEASE_VERSION?.split("-")[0]}
-        </a>
-      </p>
+      <div className="flex flex-col gap-1">
+        {(!isPWA || !hideRefresh) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {!isPWA && (
+              <Button
+                onClick={handleInstallApp}
+                className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                <span>{t("install.app")}</span>
+              </Button>
+            )}
+
+            {!hideRefresh && (
+              <Button
+                disabled={!canRefresh}
+                onClick={refreshSession}
+                className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                {t("gameOptions.blockchainSettings.refreshChain")}
+
+                {!canRefresh && (
+                  <img
+                    src={lockIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
+              </Button>
+            )}
+          </div>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
+            <span>{t("gameOptions.developerOptions")}</span>
+          </Button>
+          <Button
+            className="p-1 col-span-1 sm:col-span-2"
+            onClick={() => showConfirmLogoutModal(true)}
+          >
+            {t("gameOptions.logout")}
+          </Button>
+        </div>
+      </div>
+      <div className="flex justify-between">
+        <p className="mx-1 text-xxs">
+          <a
+            href="https://github.com/sunflower-land/sunflower-land/releases"
+            className="underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </a>
+        </p>
+      </div>
       <ConfirmationModal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}
@@ -195,14 +226,37 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
+const _farmId = (state: MachineState) => state.context.farmId;
+
+const preloadSubscriptions = async (token: string, farmId: number) => {
+  preload(
+    ["/notifications/subscriptions", token, farmId],
+    subscriptionsFetcher,
+  );
+};
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
+  const { authService } = useContext(Auth.Context);
+
+  const token = useSelector(authService, _token);
+  const { gameService } = useContext(GameContext);
+  const farmId = useSelector(gameService, _farmId);
   const [selected, setSelected] = useState<SettingMenuId>("main");
 
-  const onHide = () => {
+  useEffect(() => {
+    if (farmId) preloadSubscriptions(token, farmId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [farmId]);
+
+  const onHide = async () => {
     onClose();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSelected("main");
   };
 
@@ -221,6 +275,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
+      <ReferralWidget />
     </Modal>
   );
 };
@@ -233,7 +288,10 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
-
+  | "experiments"
+  | "economyEditor"
+  | "admin"
+  | "faceRecognition"
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
@@ -243,13 +301,16 @@ export type SettingMenuId =
   // General Settings
   | "discord"
   | "changeLanguage"
-  | "share"
-  | "appearance"
-  | "font"
+  | "preferences"
+  | "apiKey"
 
   // Amoy Testnet Actions
-  | "mainnetHoardingCheck"
-  | "amoyHoardingCheck";
+  | "hoardingCheck"
+  | "playerSearch"
+  | "errorSearch"
+  // Plaza Settings
+  | "pickServer"
+  | "shader";
 
 interface SettingMenu {
   title: string;
@@ -270,9 +331,9 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: InstallAppModal,
   },
   amoy: {
-    title: translate("gameOptions.amoyActions"),
+    title: translate("gameOptions.developerOptions"),
     parent: "main",
-    content: AmoyTestnetActions,
+    content: DeveloperOptions,
   },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
@@ -289,6 +350,16 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
+  experiments: {
+    title: "Experiments",
+    parent: "amoy",
+    content: ExperimentsSettings,
+  },
+  economyEditor: {
+    title: translate("gameOptions.experiments.economyEditor"),
+    parent: "experiments",
+    content: EconomyEditorExperimentSettings,
+  },
 
   // Blockchain Settings
   deposit: {
@@ -304,7 +375,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   transfer: {
     title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
-    content: TransferAccount,
+    content: TransferAccountWrapper,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
@@ -313,41 +384,55 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // General Settings
-  discord: {
-    title: "Discord",
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
     parent: "general",
-    content: Discord,
+    content: FaceRecognitionSettings,
   },
+  discord: { title: "Discord", parent: "general", content: Discord },
   changeLanguage: {
     title: translate("gameOptions.generalSettings.changeLanguage"),
     parent: "general",
     content: LanguageSwitcher,
   },
-  share: {
-    title: translate("share.ShareYourFarmLink"),
-    parent: "general",
-    content: Share,
+
+  apiKey: {
+    title: translate("share.apiKey"),
+    parent: "amoy",
+    content: ApiKey,
   },
-  appearance: {
-    title: translate("gameOptions.generalSettings.appearance"),
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
-    content: AppearanceSettings,
-  },
-  font: {
-    title: translate("gameOptions.generalSettings.font"),
-    parent: "appearance",
-    content: FontSettings,
+    content: Preferences,
   },
 
-  // Amoy Testnet Actions
-  mainnetHoardingCheck: {
-    title: "Hoarding Check (Mainnet)",
+  // Developer Options
+  admin: { title: `Airdrop Player`, parent: "amoy", content: AirdropPlayer },
+  hoardingCheck: {
+    title: "Hoarding Check (DEV)",
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
+    content: (props) => <DEV_HoarderCheck {...props} />,
   },
-  amoyHoardingCheck: {
-    title: "Hoarding Check (Amoy)",
+  playerSearch: {
+    title: "Player Search (DEV)",
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+    content: (props) => <DEV_PlayerSearch {...props} />,
+  },
+  errorSearch: {
+    title: "Error Search (DEV)",
+    parent: "amoy",
+    content: (props) => <DEV_ErrorSearch {...props} />,
+  },
+  // Plaza Settings
+  pickServer: {
+    title: translate("gameOptions.plazaSettings.pickServer"),
+    parent: "plaza",
+    content: PickServer,
+  },
+  shader: {
+    title: translate("gameOptions.plazaSettings.shader"),
+    parent: "plaza",
+    content: PlazaShaderSettings,
   },
 };

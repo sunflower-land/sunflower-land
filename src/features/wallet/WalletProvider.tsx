@@ -1,20 +1,21 @@
 import React from "react";
-import { useInterpret } from "@xstate/react";
-import { MachineInterpreter, walletMachine } from "./walletMachine";
 import { CONFIG } from "lib/config";
-
+import { farcasterMiniApp as miniAppConnector } from "@farcaster/miniapp-wagmi-connector";
 import { http, createConfig, fallback, injected } from "@wagmi/core";
-import { polygon, polygonAmoy } from "@wagmi/core/chains";
-import { walletConnect, metaMask } from "@wagmi/connectors";
+import {
+  base,
+  baseSepolia,
+  polygon,
+  polygonAmoy,
+  ronin,
+  saigon,
+} from "@wagmi/core/chains";
+import { walletConnect, metaMask, coinbaseWallet } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
-
-export const WalletContext = React.createContext<{
-  walletService: MachineInterpreter;
-}>(
-  {} as {
-    walletService: MachineInterpreter;
-  },
-);
+import { WaypointProvider } from "@sky-mavis/waypoint";
+import { EIP1193Provider } from "viem";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const sequenceConnector = sequenceWallet({
   defaultNetwork: "polygon",
@@ -38,80 +39,100 @@ export const walletConnectConnector = walletConnect({
 
 export const metaMaskConnector = metaMask();
 
-export const cryptoComConnector = injected({
-  target() {
-    if (typeof (window as any).deficonnectProvider !== "undefined") {
-      return {
-        id: "CryptoCom",
-        name: "Crypto Com Provider",
-        provider: (window as any).deficonnectProvider,
-      };
-    }
-
-    if (navigator?.userAgent?.includes("DeFiWallet") && window.ethereum) {
-      return {
-        id: "CryptoCom",
-        name: "Crypto Com Provider",
-        provider: window.ethereum,
-      };
-    }
-
-    return {
-      id: "windowProvider",
-      name: "Crypto Com Provider",
-      provider: undefined,
-    };
-  },
+export const coinbaseConnector = coinbaseWallet({
+  appName: "Sunflower Land",
+  appLogoUrl: "https://sunflower-land.com/game-assets/brand/512px.png",
 });
 
-export const bitGetConnector = injected({
-  target: "bitKeep",
-});
-
-export const okexConnector = injected({
-  target: "okxWallet",
-});
-
-export const phantomConnector = injected({
-  target: "phantom",
-});
+export const farcasterConnector = miniAppConnector();
 
 export const fallbackConnector = injected({
   target() {
     return {
       id: "injected",
       name: "Injected Wallet",
-      provider: window.ethereum,
+      provider:
+        window.ethereum?.isMetaMask || window.ethereum?.isCoinbaseWallet
+          ? undefined
+          : window.ethereum,
     };
   },
 });
 
-export const config = createConfig({
-  chains: [CONFIG.NETWORK === "mainnet" ? polygon : polygonAmoy],
-  multiInjectedProviderDiscovery: true,
-  connectors: [
-    sequenceConnector,
-    walletConnectConnector,
-    cryptoComConnector,
-    bitGetConnector,
-    okexConnector,
-    phantomConnector,
-    fallbackConnector,
-  ],
-  transports: {
-    [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
-    [polygonAmoy.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
+export const waypointConnector = injected({
+  target() {
+    return {
+      id: "waypoint",
+      name: "Ronin Waypoint",
+      provider: WaypointProvider.create({
+        clientId: "f71ef546-f5e5-49a9-8835-f89b60868622",
+        chainId: CONFIG.NETWORK === "mainnet" ? 2020 : 2021,
+      }) as EIP1193Provider,
+    };
   },
 });
 
-export const WalletProvider: React.FC = ({ children }) => {
-  const walletService = useInterpret(
-    walletMachine,
-  ) as unknown as MachineInterpreter;
+type SupportedChain =
+  | "polygon"
+  | "polygonAmoy"
+  | "base"
+  | "baseSepolia"
+  | "ronin"
+  | "saigon";
 
+const getAlchemyRpc = (chain: SupportedChain): string => {
+  switch (chain) {
+    case "polygon":
+      return `https://polygon-mainnet.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+    case "polygonAmoy":
+      return `https://polygon-amoy.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+    case "base":
+      return `https://base-mainnet.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+    case "baseSepolia":
+      return `https://base-sepolia.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+    case "ronin":
+      return `https://ronin-mainnet.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+    case "saigon":
+      return `https://ronin-saigon.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+  }
+};
+
+export const config = createConfig({
+  chains:
+    CONFIG.NETWORK === "mainnet"
+      ? [polygon, ronin, base]
+      : [polygonAmoy, saigon, baseSepolia],
+  multiInjectedProviderDiscovery: true,
+  connectors: [
+    metaMaskConnector,
+    sequenceConnector,
+    walletConnectConnector,
+    coinbaseConnector,
+    waypointConnector,
+    fallbackConnector,
+    farcasterConnector,
+  ],
+  transports: {
+    // Testnet
+    [polygon.id]: fallback([http(), http(getAlchemyRpc("polygon"))]),
+    [ronin.id]: fallback([http(), http(getAlchemyRpc("ronin"))]),
+    [base.id]: fallback([http(), http(getAlchemyRpc("base"))]),
+
+    // On Testnet use Alchemy RPC - as public testnet RPCs are unreliable
+    [polygonAmoy.id]: fallback([http(getAlchemyRpc("polygonAmoy")), http()]),
+    [saigon.id]: fallback([http(getAlchemyRpc("saigon")), http()]),
+    [baseSepolia.id]: fallback([http(getAlchemyRpc("baseSepolia")), http()]),
+  },
+});
+
+export const queryClient = new QueryClient();
+
+export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
-    <WalletContext.Provider value={{ walletService }}>
-      {children}
-    </WalletContext.Provider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </WagmiProvider>
   );
 };

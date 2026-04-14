@@ -1,81 +1,100 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React from "react";
-import shopIcon from "assets/icons/shop.png";
-import giftIcon from "assets/icons/gift.png";
-import { MarketplaceProfile } from "./components/MarketplaceProfile";
-import { MarketplaceHome } from "./components/MarketplaceHome";
-import { MarketplaceRewards } from "./components/MarketplaceRewards";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Tab } from "components/ui/Tab";
-import { SquareIcon } from "components/ui/SquareIcon";
-import classNames from "classnames";
+import React, { useContext, useEffect, useCallback } from "react";
+import sflIcon from "assets/icons/flower_token.webp";
+import { MarketplaceNavigation } from "./components/home/MarketplaceHome";
+import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
-import { Tradeable } from "./components/Tradeable";
-import { GameProvider } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
+import { formatNumber } from "lib/utils/formatNumber";
+import { PlayerModal } from "features/social/PlayerModal";
+import * as Auth from "features/auth/lib/Provider";
 
-interface Props {
-  onClose: () => void;
-}
-
-const tabs = [
-  {
-    name: "Market",
-    icon: shopIcon,
-    alert: 0,
-    route: "/marketplace",
-  },
-  {
-    name: "Profile",
-    icon: SUNNYSIDE.icons.player,
-    alert: 0,
-    route: "/marketplace/profile",
-  },
-  {
-    name: "Rewards",
-    icon: giftIcon,
-    alert: 0,
-    route: "/marketplace/rewards",
-  },
-];
+const _balance = (state: MachineState) => state.context.state.balance;
+const _farmId = (state: MachineState) => state.context.farmId ?? 0;
 
 export const Marketplace: React.FC = () => {
-  const { pathname } = useLocation();
+  const { gameService, fromRoute } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
+  const balance = useSelector(gameService, _balance);
+  const farmId = useSelector(gameService, _farmId);
+  const token =
+    (authService.getSnapshot().context.user?.rawToken as string) ?? "";
   const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useAppTranslation();
+
+  const handleClose = useCallback(() => {
+    const defaultRoute = location.pathname.includes("/world")
+      ? "/world/plaza"
+      : "/";
+
+    fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
+  }, [location.pathname, fromRoute, navigate]);
+
+  // exit marketplace if Escape key is pressed
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleClose]);
 
   return (
-    <GameProvider>
-      <div className="bg-[#181425] w-full h-full">
-        <OuterPanel className="h-full" style={{ paddingBottom: "42px" }}>
-          <div className="flex overflow-x-auto scrollbar-hide mr-auto">
-            {tabs.map((tab, index) => (
-              <Tab
-                key={`tab-${index}`}
-                isFirstTab={index === 0}
-                className="flex items-center relative mr-1"
-                isActive={tab.route === pathname}
-                onClick={() => {
-                  // Navigate
-                  navigate(tab.route);
-                }}
-              >
-                <SquareIcon icon={tab.icon} width={7} />
-                <span
-                  className={classNames(
-                    "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
-                  )}
-                >
-                  {tab.name}
-                </span>
-              </Tab>
-            ))}
+    <>
+      <PlayerModal
+        loggedInFarmId={farmId}
+        token={token}
+        hasAirdropAccess={false}
+      />
+      <MarketplaceIntroduction />
+      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+        <OuterPanel className="h-full">
+          <div
+            className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px]  mb-0.5"
+            style={{}}
+          >
+            <div
+              className="absolute inset-0 w-full h-full -z-0 rounded-sm"
+              // Repeating pixel art image background
+              style={{
+                backgroundImage: `url(${SUNNYSIDE.announcement.marketplace})`,
 
+                imageRendering: "pixelated",
+                backgroundSize: "320px",
+                backgroundPosition: "center",
+              }}
+            />
+            <div className="z-10 pl-4">
+              <p className="text-lg text-white z-10 text-shadow">
+                {t("marketplace")}
+              </p>
+              <p className="text-xs text-white z-10 text-shadow">
+                {t("marketplace.buy")}
+              </p>
+            </div>
+
+            <div className="flex items-center z-10">
+              <img src={sflIcon} className="w-8 mr-1" />
+              <p className="text-sm text-white">
+                {formatNumber(balance, { decimalPlaces: 4 })}
+              </p>
+            </div>
             <img
               src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer absolute right-2"
-              onClick={() => {
-                navigate("/");
-              }}
+              onClick={handleClose}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
                 height: `${PIXEL_SCALE * 11}px`,
@@ -83,15 +102,11 @@ export const Marketplace: React.FC = () => {
             />
           </div>
 
-          <Routes>
-            <Route path="/" element={<MarketplaceHome />} />
-            <Route path="/profile" element={<MarketplaceProfile />} />
-            <Route path="/rewards" element={<MarketplaceRewards />} />
-            <Route path="/:collection/:id" element={<Tradeable />} />
-            <Route path="/:collection" element={<MarketplaceHome />} />
-          </Routes>
+          <div style={{ height: "calc(100% - 70px)" }}>
+            <MarketplaceNavigation />
+          </div>
         </OuterPanel>
       </div>
-    </GameProvider>
+    </>
   );
 };

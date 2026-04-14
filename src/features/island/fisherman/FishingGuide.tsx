@@ -6,6 +6,16 @@ import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
+import { getKeys } from "lib/object";
+import {
+  FISH,
+  FishingBait,
+  getFermentationBaitsForFishBaits,
+} from "features/game/types/fishing";
+import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
+import { TemperateSeasonName } from "features/game/types/game";
+import { useGame } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
@@ -32,8 +42,105 @@ const FishingGuideItem: React.FC<{ icon: string; content: string }> = ({
   );
 };
 
+const SEASON_ORDER: TemperateSeasonName[] = [
+  "spring",
+  "summer",
+  "autumn",
+  "winter",
+];
+
+const BAIT_ORDER: FishingBait[] = [
+  "Earthworm",
+  "Capsule Bait",
+  "Grub",
+  "Umbrella Bait",
+  "Red Wiggler",
+  "Crimson Baitfish",
+  "Fishing Lure",
+  "Fish Flake",
+  "Fish Stick",
+  "Fish Oil",
+  "Crab Stick",
+];
+
+const FishingRow: React.FC<{
+  fish: keyof typeof FISH;
+  hasCaught: boolean;
+  alternateBg?: boolean;
+}> = ({ fish, hasCaught, alternateBg }) => {
+  const details = FISH[fish];
+
+  const seasonSet = new Set(details.seasons);
+
+  const allowedBaits = [
+    ...details.baits,
+    ...getFermentationBaitsForFishBaits(details.baits),
+  ];
+  const baits = BAIT_ORDER.filter((bait) => allowedBaits.includes(bait));
+
+  return (
+    <div
+      className={`grid grid-cols-[5fr_3fr_2fr] min-h-[42px] items-center gap-x-2 px-2 py-1.5 ${
+        alternateBg ? "bg-[#ead4aa] rounded-md" : ""
+      }`}
+    >
+      <div className="flex items-center min-w-0">
+        <img
+          src={ITEM_DETAILS[fish].image}
+          className="w-6 h-auto mr-2 flex-shrink-0"
+        />
+        <div className="min-w-0">
+          <p className="text-xs pb-0.5 truncate">{fish}</p>
+          {hasCaught && details.likes.length > 0 && (
+            <div className="flex items-center gap-x-0.5 mt-0.5">
+              {details.likes.map((like) => (
+                <img
+                  key={`${fish}-${like}`}
+                  src={ITEM_DETAILS[like].image}
+                  className="h-4"
+                  title={like}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-4 w-full place-items-center">
+        {SEASON_ORDER.map((season) =>
+          seasonSet.has(season) ? (
+            <img
+              key={`${fish}-${season}`}
+              src={SEASON_ICONS[season]}
+              className="w-4"
+            />
+          ) : (
+            <div key={`${fish}-${season}`} className="w-4 h-4" />
+          ),
+        )}
+      </div>
+
+      <div
+        className="flex flex-wrap items-center justify-end gap-x-0.5 gap-y-0.5 w-full min-w-0"
+        title={baits.join(", ")}
+      >
+        {baits.map((bait) => (
+          <img
+            key={`${fish}-${bait}`}
+            src={ITEM_DETAILS[bait].image}
+            className="w-4 h-4 object-contain"
+            title={bait}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const FishingGuide: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
+  const { gameState } = useGame();
+  const farmActivity = gameState.context.state.farmActivity ?? {};
   const basicGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.tools.fishing_rod,
@@ -59,7 +166,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       content: translate("fishingGuide.condition"),
     },
     {
-      icon: CROP_LIFECYCLE.Carrot.crop,
+      icon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
       content: translate("fishingGuide.bait.chum"),
     },
     {
@@ -67,10 +174,32 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       content: translate("fishingGuide.legendery.fish"),
     },
   ];
+
+  const fishList = getKeys(FISH)
+    .filter(
+      (fish) =>
+        FISH[fish].type !== "chapter" && FISH[fish].type !== "marine marvel",
+    )
+    .sort((a, b) => {
+      const order: Record<string, number> = {
+        basic: 0,
+        advanced: 1,
+        expert: 2,
+        "marine marvel": 3,
+        chapter: 4,
+      };
+
+      const aType = order[FISH[a].type] ?? 999;
+      const bType = order[FISH[b].type] ?? 999;
+      if (aType !== bType) return aType - bType;
+
+      return a.localeCompare(b);
+    });
+
   return (
     <div
       style={{ maxHeight: "320px" }}
-      className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
+      className="overflow-y-auto scrollable pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
         <img
@@ -91,10 +220,25 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
           <FishingGuideItem key={i} icon={item.icon} content={item.content} />
         ))}
 
-        <Button onClick={onClose} className="mt-2">
-          {t("gotIt")}
-        </Button>
+        <div className="mt-1">
+          <Label type="default">{t("fish")}</Label>
+          <div className="mt-1">
+            <div className="space-y-1">
+              {fishList.map((fish, index) => (
+                <FishingRow
+                  key={fish}
+                  fish={fish}
+                  hasCaught={(farmActivity[`${fish} Caught`] ?? 0) > 0}
+                  alternateBg={index % 2 === 1}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
+      <Button onClick={onClose} className="mt-2">
+        {t("gotIt")}
+      </Button>
     </div>
   );
 };

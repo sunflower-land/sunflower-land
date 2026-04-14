@@ -1,22 +1,33 @@
 import React, { useState } from "react";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";
-import { getChestBuds, getChestItems } from "./inventory/utils/inventory";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { NPC_WEARABLES } from "lib/npcs";
-import { BudName } from "features/game/types/buds";
-import { translate } from "lib/i18n/translate";
 import { OuterPanel } from "components/ui/Panel";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Biomes } from "./inventory/Biomes";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
+import Decimal from "decimal.js-light";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { PanelTabs } from "features/game/components/CloseablePanel";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;
   onHide: () => void;
   state: GameState;
-  onPlace: (item: InventoryItemName) => void;
-  onPlaceBud: (bud: BudName) => void;
+  onPlace: (item: LandscapingPlaceable) => void;
+  onPlaceNFT: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
+  location: PlaceableLocation;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -24,34 +35,58 @@ export const LandscapingChest: React.FC<Props> = ({
   onHide,
   state,
   onPlace,
-  onPlaceBud,
+  onPlaceNFT,
+  onPlaceFarmHand,
+  location,
 }) => {
-  const buds = getKeys(getChestBuds(state)).map(
-    (budId) => `Bud-${budId}` as BudName,
+  const { t } = useAppTranslation();
+
+  const [selected, setSelected] = useState<LandscapingPlaceableType>();
+  const [currentTab, setCurrentTab] = useState<"Chest" | "Biomes">("Chest");
+  const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
+    (state.inventory[item] ?? new Decimal(0)).gt(0),
   );
 
-  const items = getChestItems(state);
-  const [selected, setSelected] = useState(
-    [...buds, ...getKeys(items).sort((a, b) => a.localeCompare(b))][0],
-  );
+  const chestTab: PanelTabs<"Chest" | "Biomes"> = {
+    icon: chest,
+    name: t("chest"),
+    id: "Chest",
+  };
+
+  const biomesTab: PanelTabs<"Chest" | "Biomes"> = {
+    icon: ITEM_DETAILS["Basic Biome"].image,
+    name: t("biomes"),
+    id: "Biomes",
+  };
+
+  const tabs: PanelTabs<"Chest" | "Biomes">[] = [
+    chestTab,
+    ...(hasBiomes && location === "farm" ? [biomesTab] : []),
+  ];
 
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: chest, name: translate("chest") }]}
-        currentTab={0}
+        tabs={tabs}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
         container={OuterPanel}
       >
-        <Chest
-          state={state}
-          selected={selected}
-          onSelect={setSelected}
-          closeModal={onHide}
-          onPlace={onPlace}
-          onPlaceBud={onPlaceBud}
-        />
+        {currentTab === "Chest" && (
+          <Chest
+            state={state}
+            selected={selected}
+            onSelect={setSelected}
+            closeModal={onHide}
+            onPlace={onPlace}
+            onPlaceNFT={onPlaceNFT}
+            onPlaceFarmHand={onPlaceFarmHand}
+            location={location}
+          />
+        )}
+        {currentTab === "Biomes" && <Biomes state={state} />}
       </CloseButtonPanel>
     </Modal>
   );

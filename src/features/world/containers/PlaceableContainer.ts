@@ -34,7 +34,7 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
       frameHeight: 32,
     });
 
-    spriteLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+    spriteLoader.once(`filecomplete-spritesheet-${key}`, () => {
       if (this.sprite) return;
 
       const idle = scene.add.sprite(0, 0, key).setOrigin(0.5);

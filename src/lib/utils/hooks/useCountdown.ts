@@ -12,18 +12,49 @@ export const getReturnValues = (timeLeft: number) => {
   return { days, hours, minutes, seconds };
 };
 
-export const useCountdown = (targetDate: number) => {
-  const [countDown, setCountDown] = useState<number>(
-    Math.max(targetDate - Date.now(), 0),
-  );
+const getTimeRemaining = (targetDate?: number | null) => {
+  if (!targetDate) return 0;
+
+  return Math.max(targetDate - Date.now(), 0);
+};
+
+export const useCountdown = (
+  targetDate?: number | null,
+): {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  totalSeconds: number;
+} => {
+  const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(targetDate));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountDown(Math.max(targetDate - Date.now(), 0));
-    }, 1000);
+    let intervalId: ReturnType<typeof setInterval> | undefined;
 
-    return () => clearInterval(interval);
+    const tick = () => {
+      const remaining = getTimeRemaining(targetDate);
+      setTimeLeft(remaining);
+
+      if (remaining <= 0 && intervalId) {
+        clearInterval(intervalId);
+        intervalId = undefined;
+      }
+    };
+
+    tick();
+
+    intervalId = setInterval(tick, 1000);
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [targetDate]);
 
-  return getReturnValues(countDown);
+  return {
+    ...getReturnValues(timeLeft),
+    totalSeconds: Math.ceil(timeLeft / 1000),
+  };
 };

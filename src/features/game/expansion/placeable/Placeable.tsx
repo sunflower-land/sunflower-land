@@ -1,5 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "./landscapingMachine";
@@ -8,17 +15,13 @@ import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { Coordinates } from "../components/MapPlacement";
-import {
-  BUILDINGS_DIMENSIONS,
-  PlaceableName,
-} from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
 } from "features/game/types/craftables";
 import { READONLY_COLLECTIBLES } from "features/island/collectibles/CollectibleCollection";
-import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,27 +29,49 @@ import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
-import { isBudName } from "features/game/types/buds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { IslandType } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
+import {
+  getSortedCollectiblePositions,
+  getSortedResourcePositions,
+} from "../lib/utils";
+import { MachineState } from "features/game/lib/gameMachine";
+import { FarmHand } from "features/island/farmhand/FarmHand";
+import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 
-export const PLACEABLES: (
-  island: IslandType,
-) => Record<PlaceableName | "Bud", React.FC<any>> = (island) => ({
-  Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
-  ...READONLY_COLLECTIBLES,
-  ...READONLY_RESOURCE_COMPONENTS(island),
-  ...READONLY_BUILDINGS(island),
-  "Dirt Path": () => (
-    <img
-      src={DIRT_PATH_VARIANTS[island]}
-      style={{ width: `${PIXEL_SCALE * 22}px` }}
-    />
-  ),
-});
+type PlaceableArgs = {
+  island: GameState["island"];
+  season: TemperateSeasonName;
+  henHouseLevel: number;
+  barnLevel: number;
+  placeableId?: string;
+};
+
+export const PLACEABLES = (args: PlaceableArgs) => {
+  const { island, season, henHouseLevel, barnLevel, placeableId } = args;
+  const biome: LandBiomeName = getCurrentBiome(island);
+
+  return {
+    ...READONLY_COLLECTIBLES,
+    ...READONLY_RESOURCE_COMPONENTS({
+      season,
+      island,
+    }),
+    ...READONLY_BUILDINGS({ island, season, henHouseLevel, barnLevel }),
+    FarmHand: () => <FarmHand id={placeableId ?? ""} />,
+    Bumpkin: () => <PlacedBumpkin />,
+    "Dirt Path": () => (
+      <img
+        src={DIRT_PATH_VARIANTS[biome]}
+        style={{ width: `${PIXEL_SCALE * 22}px` }}
+      />
+    ),
+  };
+};
 
 // TODO - get dynamic bounds for placeable
 // const BOUNDS_MIN_X = -15
@@ -93,77 +118,163 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 };
 
 interface Props {
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }
+
+const _island = (state: MachineState) => state.context.state.island;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _henHouseLevel = (state: MachineState) =>
+  state.context.state.henHouse.level;
+const _barnLevel = (state: MachineState) => state.context.state.barn.level;
+const _crops = (state: MachineState) => state.context.state.crops;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _landscapingMachine = (state: MachineState) =>
+  state.children.landscaping as MachineInterpreter;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
+  const { gameService, showTimers } = useContext(Context);
 
-  const nodeRef = useRef(null);
-  const { gameService } = useContext(Context);
+  const island = useSelector(gameService, _island);
+  const season = useSelector(gameService, _season);
+  const henHouseLevel = useSelector(gameService, _henHouseLevel);
+  const barnLevel = useSelector(gameService, _barnLevel);
+  const crops = useSelector(gameService, _crops);
+  const collectibles = useSelector(gameService, _collectibles);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const landscapingMachine = useSelector(gameService, _landscapingMachine);
 
-  const [gameState] = useActor(gameService);
-  const [showHint, setShowHint] = useState(true);
-
-  const child = gameService.state.children.landscaping as MachineInterpreter;
-
-  const [machine, send] = useActor(child);
+  const [machine, send] = useActor(landscapingMachine);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
-  const grid = getGameGrid(gameState.context.state);
+  const nodeRef = useRef<HTMLDivElement>(null);
+
+  const hintResetToken = useMemo(
+    () => Symbol(`origin-${origin?.x ?? "none"}-${origin?.y ?? "none"}`),
+    [origin],
+  );
+
+  const [dismissedToken, setDismissedToken] = useState<symbol | null>(null);
+
+  const showHint = dismissedToken !== hintResetToken;
+
+  const hideHint = useCallback(() => {
+    setDismissedToken((current) => {
+      if (current === hintResetToken) {
+        return current;
+      }
+
+      return hintResetToken;
+    });
+  }, [hintResetToken]);
+
+  const cropPositions = getSortedResourcePositions(crops);
+  const collectiblePositions = getSortedCollectiblePositions(collectibles);
+  const grid = getGameGrid({ cropPositions, collectiblePositions });
 
   const { t } = useAppTranslation();
 
   let dimensions = { width: 0, height: 0 };
-  if (isBudName(placeable)) {
+  if (placeable?.name === "Bud") {
     dimensions = { width: 1, height: 1 };
-  } else if (placeable) {
+  } else if (placeable?.name === "Pet") {
+    dimensions = { width: 2, height: 2 };
+  } else if (placeable?.name === "FarmHand") {
+    dimensions = { width: 1, height: 1 };
+  } else if (placeable?.name === "Bumpkin") {
+    dimensions = { width: 1, height: 1 };
+  } else if (placeable?.name) {
     dimensions = {
       ...BUILDINGS_DIMENSIONS,
       ...COLLECTIBLES_DIMENSIONS,
       ...ANIMAL_DIMENSIONS,
       ...RESOURCE_DIMENSIONS,
-    }[placeable];
+    }[placeable.name];
   }
 
-  const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision({
-      state: gameService.state.context.state,
-      position: {
-        x,
-        y,
-        width: dimensions.width,
-        height: dimensions.height,
-      },
+  const detect = useCallback(
+    ({ x, y }: Coordinates) => {
+      const collisionDetected = detectCollision({
+        state: gameService.getSnapshot().context.state,
+        position: { x, y, width: dimensions.width, height: dimensions.height },
+        location,
+        name: placeable?.name as CollectibleName,
+      });
+
+      send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
+    },
+    [
+      dimensions.height,
+      dimensions.width,
+      gameService,
       location,
-      name: placeable as CollectibleName,
-    });
-
-    send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
-  };
-
-  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
-    getInitialCoordinates(origin);
+      placeable,
+      send,
+    ],
+  );
 
   useEffect(() => {
-    const [startingX, startingY] = getInitialCoordinates({ x: 0, y: 0 });
+    if (!placeable) return;
+
+    const [startingX, startingY] = getInitialCoordinates(origin);
 
     detect({
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
-  }, []);
+  }, [placeable, origin, detect]);
 
+  const position = useMemo<Coordinates>(
+    () => ({
+      x: coordinates.x * GRID_WIDTH_PX,
+      y: -coordinates.y * GRID_WIDTH_PX,
+    }),
+    [coordinates.x, coordinates.y],
+  );
+
+  // Arrow/WASD keyboard movement to move the ghost placeable on the grid
   useEffect(() => {
-    setShowHint(true);
-  }, [origin]);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!placeable) return;
 
-  if (!placeable) {
-    return null;
-  }
+      // Only while placing; ignore if typing in inputs
+      if (document.activeElement?.tagName === "INPUT") return;
 
-  const Collectible = isBudName(placeable)
-    ? PLACEABLES(gameState.context.state.island.type)["Bud"]
-    : PLACEABLES(gameState.context.state.island.type)[placeable];
+      let deltaX = 0;
+      let deltaY = 0;
+
+      if (e.key === "ArrowUp" || e.key === "w") {
+        deltaY = 1;
+      } else if (e.key === "ArrowDown" || e.key === "s") {
+        deltaY = -1;
+      } else if (e.key === "ArrowLeft" || e.key === "a") {
+        deltaX = -1;
+      } else if (e.key === "ArrowRight" || e.key === "d") {
+        deltaX = 1;
+      } else {
+        return;
+      }
+
+      const nextGrid = { x: coordinates.x + deltaX, y: coordinates.y + deltaY };
+      detect(nextGrid);
+      hideHint();
+      e.preventDefault();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [placeable, coordinates.x, coordinates.y, detect, hideHint]);
+
+  if (!placeable) return null;
+
+  const Collectible = PLACEABLES({
+    island,
+    season,
+    henHouseLevel,
+    barnLevel,
+    placeableId: placeable.id,
+  })[placeable.name];
 
   return (
     <>
@@ -183,11 +294,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
-          defaultPosition={{
-            x: DEFAULT_POSITION_X,
-            y: DEFAULT_POSITION_Y,
-          }}
-          nodeRef={nodeRef}
+          nodeRef={nodeRef as React.RefObject<HTMLElement>}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
           onStart={() => {
@@ -199,7 +306,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
             const y = Math.round(-data.y / GRID_WIDTH_PX);
 
             detect({ x, y });
-            setShowHint(false);
+            hideHint();
           }}
           onStop={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
@@ -209,6 +316,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
             send("DROP");
           }}
+          position={position}
         >
           <div
             ref={nodeRef}
@@ -221,11 +329,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           >
             {showHint && (
               <div
-                className="flex absolute pointer-events-none"
-                style={{
-                  top: "-35px",
-                  width: "135px",
-                }}
+                className="flex absolute pointer-events-none z-50 bg-[#000000af] p-1 rounded w-max"
+                style={{ top: "-35px" }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
                 <span className="text-white text-sm">
@@ -248,10 +353,21 @@ export const Placeable: React.FC<Props> = ({ location }) => {
               }}
             >
               <Collectible
+                index={0}
+                buildingId={"123"}
+                buildingIndex={0}
+                createdAt={0}
+                readyAt={0}
+                x={0}
+                y={0}
+                island={island}
+                season={season}
                 grid={grid}
-                coordinates={coordinates}
-                id={isBudName(placeable) ? placeable.split("-")[1] : undefined}
-                game={gameState.context.state}
+                showTimers={showTimers}
+                skills={bumpkin.skills}
+                id={placeable.id ?? "123"}
+                location={location}
+                name={placeable?.name as CollectibleName}
               />
             </div>
           </div>

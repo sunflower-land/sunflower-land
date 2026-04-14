@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export abstract class Preloader extends Phaser.Scene {
   public get id() {
@@ -43,6 +44,21 @@ export abstract class Preloader extends Phaser.Scene {
       );
 
       this.load.image(
+        "seasonal-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/seasonal-map-extruded.png?t=1`,
+      );
+
+      this.load.image(
+        "floating-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/floating-sky-map-extruded.png`,
+      );
+
+      this.load.image(
+        "christmas-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-2024-map-extruded.png`,
+      );
+
+      this.load.image(
         "easter-tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`,
       );
@@ -51,9 +67,21 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("alert", SUNNYSIDE.icons.expression_alerted);
       this.load.image("label", "world/label.png");
       this.load.image("brown_label", "world/brown_label.png");
+      this.load.image("gold_label", "world/gold_label.png");
+      this.load.image("vibrant_label", "world/vibrant_label.png");
       this.load.image("hammer", SUNNYSIDE.icons.hammer);
       this.load.image("disc", SUNNYSIDE.icons.disc);
       this.load.image("gift_icon", "world/gift.png");
+      this.load.image("round_button", SUNNYSIDE.ui.round_button);
+      this.load.image(
+        "round_button_pressed",
+        SUNNYSIDE.ui.round_button_pressed,
+      );
+      this.load.image("player_small", SUNNYSIDE.icons.player_small);
+      this.load.image("chat_icon", SUNNYSIDE.icons.expression_chat);
+      this.load.image("hand_wave", "world/hand_wave.png");
+      this.load.image("cheer", "world/cheer.png");
+      this.load.image("charm_icon", ITEM_DETAILS["Love Charm"].image); // TODO: Replace with actual charm icon
       this.load.image("shadow", "world/shadow.png");
       this.load.spritesheet("poof", "world/poof.png", {
         frameWidth: 20,
@@ -74,6 +102,7 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("heart", SUNNYSIDE.icons.heart);
       this.load.image("sad", SUNNYSIDE.icons.sad);
       this.load.image("happy", SUNNYSIDE.icons.happy);
+      this.load.image("delivery_icon", "world/delivery_ready.webp");
 
       this.load.spritesheet("silhouette", "world/silhouette.webp", {
         frameWidth: 14,

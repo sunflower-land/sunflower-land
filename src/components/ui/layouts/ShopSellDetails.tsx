@@ -1,21 +1,35 @@
-import { InventoryItemName } from "features/game/types/game";
+import {
+  Inventory,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { SeedName } from "features/game/types/seeds";
+import fullMoon from "assets/icons/full_moon.png";
+import { ClutterName } from "features/game/types/clutter";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 /**
  * The props for the details for items.
  * @param item The item.
  */
 interface ItemDetailsProps {
-  item: InventoryItemName;
+  item: InventoryItemName | BumpkinItem;
   from?: Date;
   to?: Date;
+  seasons?: TemperateSeasonName[];
 }
 
 /**
@@ -25,6 +39,10 @@ interface ItemDetailsProps {
 interface PropertiesProps {
   coins?: number;
   sfl?: Decimal;
+  gems?: number;
+  items?: Inventory;
+  cheer?: number;
+  clutterItem?: ClutterName;
 }
 
 /**
@@ -43,53 +61,12 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
+
 export const ShopSellDetails: React.FC<Props> = ({
   details,
   properties,
   actionView,
 }: Props) => {
-  const getItemDetail = () => {
-    const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
-    const title = details.item;
-    const description = item.description;
-
-    return (
-      <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {icon && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={icon} width={14} />
-            </div>
-          )}
-          <span className="sm:text-center">{title}</span>
-        </div>
-        <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-          {description}
-        </span>
-      </>
-    );
-  };
-
-  const getProperties = () => {
-    if (!properties) return <></>;
-
-    return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* Price display */}
-        {properties.coins !== undefined && (
-          <RequirementLabel
-            type="sellForCoins"
-            requirement={properties.coins}
-          />
-        )}
-        {!!properties.sfl && (
-          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
-        )}
-      </div>
-    );
-  };
-
   return (
     <div className="flex flex-col h-full justify-center">
       <div className="flex flex-col h-full px-1 py-0">
@@ -102,10 +79,89 @@ export const ShopSellDetails: React.FC<Props> = ({
             {formatDateRange(details.from, details.to as Date)}
           </Label>
         )}
-        {getItemDetail()}
-        {getProperties()}
+        <ItemDetails {...details} />
+        <ItemProperties {...properties} />
       </div>
       {actionView}
+    </div>
+  );
+};
+
+const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
+  const { item, seasons } = details;
+  const image = isCollectible(item)
+    ? ITEM_DETAILS[item].image
+    : getWearableImage(item);
+  const description = isCollectible(item)
+    ? ITEM_DETAILS[item].description
+    : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
+  const title = isCollectible(item)
+    ? (ITEM_DETAILS[item].translatedName ?? item)
+    : item;
+
+  return (
+    <>
+      <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+        {image && (
+          <div className="sm:mt-2">
+            <SquareIcon icon={image} width={14} />
+          </div>
+        )}
+        <span className="sm:text-center">{title}</span>
+      </div>
+      {description && (
+        <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
+          {description}
+        </span>
+      )}
+      {seasons && (
+        <div className="flex items-center justify-center mb-2">
+          {seasons.map((season) => (
+            <img key={season} src={SEASON_ICONS[season]} className="w-5 ml-1" />
+          ))}
+          {isFullMoonBerry(`${item} Seed` as SeedName) && (
+            <img src={fullMoon} className="w-6 ml-1" />
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+const ItemProperties: React.FC<PropertiesProps> = (properties) => {
+  if (!properties) return <></>;
+
+  return (
+    <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+      {/* Price display */}
+      {properties.coins !== undefined && (
+        <RequirementLabel type="sellForCoins" requirement={properties.coins} />
+      )}
+      {properties.gems !== undefined && (
+        <RequirementLabel type="sellForGems" requirement={properties.gems} />
+      )}
+      {!!properties.sfl && (
+        <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
+      )}
+      {properties.items && (
+        <>
+          {Object.entries(properties.items).map(([name, amount]) => (
+            <RequirementLabel
+              key={name}
+              type="sellForItem"
+              requirement={amount.toNumber()}
+              item={name as InventoryItemName}
+            />
+          ))}
+        </>
+      )}
+      {!!properties.cheer && properties.clutterItem && (
+        <RequirementLabel
+          type="sellForCheer"
+          requirement={properties.cheer}
+          clutterItem={properties.clutterItem}
+        />
+      )}
     </div>
   );
 };

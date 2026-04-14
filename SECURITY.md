@@ -31,7 +31,7 @@ Please include steps to reproduce the bug you have found in as much detail as po
 Once we have received your bug report, we will try to reproduce it and provide a more detailed response.
 Once the reported bug has been successfully reproduced, the Sunflower team will work on a fix.
 
-We are an open source project and don' always have the resources to answer straight away. We are extremely appreciative that you are helping us make this game truly awesome!
+We are an open source project and don't always have the resources to answer straight away. We are extremely appreciative that you are helping us make this game truly awesome!
 
 ## Bounty
 

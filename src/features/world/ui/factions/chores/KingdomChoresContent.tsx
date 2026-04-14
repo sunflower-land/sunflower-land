@@ -16,7 +16,6 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { InlineDialogue } from "../../TypingMessage";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -26,17 +25,25 @@ import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
 import lightning from "assets/icons/lightning.png";
 
-import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
+import { FarmActivityName } from "features/game/types/farmActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "../BoostInfoPanel";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
-const getSecondaryImage = (activity: BumpkinActivityName) => {
+const getSecondaryImage = (activity: FarmActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
   if (activity.endsWith("Fed")) return levelup;
 
   return undefined;
 };
+
+const getChoreImage = (kingdomChore: KingdomChore) => {
+  if (kingdomChore.activity.endsWith("Casted")) return SUNNYSIDE.icons.fish;
+
+  return ITEM_DETAILS[kingdomChore.image].image;
+};
+
 interface Props {
   kingdomChores: KingdomChores;
   onClose: () => void;
@@ -44,15 +51,14 @@ interface Props {
 
 const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 
 export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const autosaving = useSelector(gameService, _autosaving);
-  const bumpkin = useSelector(gameService, _bumpkin);
-
+  const farmActivity = useSelector(gameService, _farmActivity);
   const chores = Object.entries(kingdomChores.chores);
   const activeChores = chores.filter(
     ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
@@ -69,14 +75,12 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     useState<boolean>(false);
 
   const getProgress = (index: number) => {
-    if (!kingdomChores.chores[index].startedAt) {
+    const chore = kingdomChores.chores[index];
+    if (!chore?.startedAt) {
       return 0;
     }
 
-    return (
-      (bumpkin?.activity?.[kingdomChores.chores[index].activity] ?? 0) -
-      (kingdomChores.chores[index].startCount ?? 0)
-    );
+    return (farmActivity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
   };
 
   const handleComplete = (index: number) => {
@@ -105,11 +109,13 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const selectedChore = kingdomChores.chores[selected];
   const progress = getProgress(selected);
 
-  const needsRefresh =
-    kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
+  const { totalSeconds: secondsRemaining } = useCountdown(
+    kingdomChores.resetsAt ?? 0,
+  );
+  const needsRefresh = kingdomChores.resetsAt && secondsRemaining <= 0;
   const isRefreshing = !!(needsRefresh && autosaving);
 
-  if (activeChores.length === 0) {
+  if (activeChoresCount === 0) {
     return (
       <InnerPanel>
         <div className="absolute -top-7 right-0">
@@ -147,7 +153,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
           mobileReversePanelOrder={true}
           tallMobileContent={true}
           panel={
-            <Panel
+            <ChoresPanel
               progress={progress}
               chore={selectedChore}
               onComplete={() => handleComplete(selected)}
@@ -179,7 +185,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         key={choreId}
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
-                        image={ITEM_DETAILS[chore.image].image}
+                        image={getChoreImage(chore)}
                         secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
@@ -191,7 +197,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                       />
                     );
                   })}
-                  {activeChores.length === 0 && (
+                  {activeChoresCount === 0 && (
                     <span className="p-2 text-xxs">
                       {t("kingdomChores.noUpcoming")}
                     </span>
@@ -202,7 +208,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                 {
                   <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
-                      {t(`upcoming`)}
+                      {t("upcoming")}
                     </Label>
                     <p className="text-xxs">
                       {`${
@@ -221,7 +227,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         key={choreId}
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
-                        image={ITEM_DETAILS[chore.image].image}
+                        image={getChoreImage(chore)}
                         secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
@@ -268,7 +274,7 @@ type PanelProps = {
   skipAvailableAt: number;
 };
 
-const Panel: React.FC<PanelProps> = ({
+const ChoresPanel: React.FC<PanelProps> = ({
   progress,
   skipAvailableAt,
   onComplete,
@@ -280,14 +286,13 @@ const Panel: React.FC<PanelProps> = ({
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   const { t } = useAppTranslation();
+  const { totalSeconds: secondsRemaining } = useCountdown(skipAvailableAt);
 
-  useUiRefresher();
-
-  const canSkip = skipAvailableAt < Date.now();
+  const canSkip = secondsRemaining <= 0;
   const canComplete = progress >= chore.requirement;
 
   const boost = getKingdomChoreBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     chore.marks,
   )[0];
   const boostedMarks = chore.marks + boost;
@@ -295,11 +300,9 @@ const Panel: React.FC<PanelProps> = ({
   return (
     <div className="flex flex-col justify-center">
       <div className="flex space-y-1 space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
-        {ITEM_DETAILS[chore.image].image && (
-          <div className="sm:mt-2">
-            <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
-          </div>
-        )}
+        <div className="sm:mt-2">
+          <SquareIcon icon={getChoreImage(chore)} width={14} />
+        </div>
         <span className="sm:text-center">{chore.description}</span>
         <div className="flex-1 flex justify-end pb-1 sm:justify-center relative">
           <BoostInfoPanel
@@ -328,10 +331,7 @@ const Panel: React.FC<PanelProps> = ({
             <ResizableBar
               percentage={(progress / chore.requirement) * 100}
               type={canComplete ? "progress" : "quantity"}
-              outerDimensions={{
-                width: 50,
-                height: 7,
-              }}
+              outerDimensions={{ width: 50, height: 7 }}
             />
             <span className="text-xxs">
               {t("kingdomChores.progress", {
@@ -386,13 +386,10 @@ const Panel: React.FC<PanelProps> = ({
                     className="whitespace-nowrap"
                   >
                     {t("kingdomChores.nextSkip", {
-                      skip: secondsToString(
-                        (skipAvailableAt - Date.now()) / 1000,
-                        {
-                          length: "short",
-                          removeTrailingZeros: true,
-                        },
-                      ),
+                      skip: secondsToString(secondsRemaining, {
+                        length: "short",
+                        removeTrailingZeros: true,
+                      }),
                     })}
                   </Label>
                 </div>
@@ -420,7 +417,7 @@ const ConfirmSkip: React.FC<{
   const { t } = useAppTranslation();
 
   const boost = getKingdomChoreBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     chore.marks,
   )[0];
 
@@ -433,11 +430,9 @@ const ConfirmSkip: React.FC<{
           {t("kingdomChores.skipWarning")}
         </Label>
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
-          {ITEM_DETAILS[chore.image].image && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
-            </div>
-          )}
+          <div className="sm:mt-2">
+            <SquareIcon icon={getChoreImage(chore)} width={14} />
+          </div>
           <span>
             {t("skip")} {chore.description}
           </span>
@@ -462,14 +457,14 @@ export const KingdomChoresTimer: React.FC<{
 }> = ({ onReset, resetsAt }) => {
   const { t } = useAppTranslation();
 
-  useUiRefresher();
+  const { totalSeconds: secondsRemaining } = useCountdown(resetsAt ?? 0);
 
-  const shouldReset = resetsAt && resetsAt < Date.now();
-  const shouldWarn = resetsAt && resetsAt - Date.now() < 100_000;
+  const shouldReset = secondsRemaining <= 0;
+  const shouldWarn = secondsRemaining <= 100_000;
 
   useEffect(() => {
     if (shouldReset) onReset();
-  }, [shouldReset]);
+  }, [shouldReset, onReset]);
 
   if (shouldReset) {
     return (
@@ -489,7 +484,7 @@ export const KingdomChoresTimer: React.FC<{
         icon={SUNNYSIDE.icons.stopwatch}
       >
         {t("kingdomChores.reset", {
-          timeLeft: secondsToString((resetsAt - Date.now()) / 1000, {
+          timeLeft: secondsToString(secondsRemaining, {
             length: "medium",
             removeTrailingZeros: true,
           }),

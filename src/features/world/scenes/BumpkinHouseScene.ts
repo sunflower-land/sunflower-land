@@ -45,10 +45,11 @@ export class BumpkinHouseScene extends FactionHouseScene {
   }
 
   create() {
-    super.create();
     this.map = this.make.tilemap({
       key: "faction_house",
     });
+
+    super.create();
 
     this.initialiseNPCs(BUMPKIN_HOUSE_NPCS);
 

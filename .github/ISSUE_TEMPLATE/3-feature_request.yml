@@ -1,0 +1,78 @@
+name: Feature request
+description: Request approval for a new feature to be added into the game.
+title: "[FEAT] "
+labels: ["⭐ feature"]
+assignees: []
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary of Request
+      description: Provide summary of the problem, and the value that is added if the feature was added (i.e. As a player, I want a way to do this in game, so that value can be added to me in this way).
+      placeholder: As a player, I want... so that...
+    validations:
+      required: true
+  - type: textarea
+    id: community-demand
+    attributes:
+      label: Proof of Community Demand
+      description: Provide clear, numerical evidence proving that community demand exists for this feature. This can be community polls, discord screenshots, Aha! proposals, etc.
+      placeholder: Links to polls, screenshots, proposals...
+    validations:
+      required: false
+  - type: textarea
+    id: contributors
+    attributes:
+      label: Contributors
+      description: If known, please provide the list of contributors who will be working on this feature.
+      placeholder: "- TODO"
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: "## Technical Requirements"
+  - type: textarea
+    id: technical-requirements
+    attributes:
+      label: Implementation Steps
+      description: Provide clear, step-by-step instructions for HOW this feature should be implemented. Keep sentences short, and use sub-bullets if needed. Developers should be able to look at this list and effortlessly start programming the new feature.
+      placeholder: |
+        1. TODO
+        2. TODO
+    validations:
+      required: true
+  - type: textarea
+    id: backend-updates
+    attributes:
+      label: Backend Updates Needed
+      description: Provide a list of what backend updates will be needed to support this feature. Write N/A if none needed.
+      placeholder: "1. TODO"
+    validations:
+      required: false
+  - type: textarea
+    id: smart-contract-updates
+    attributes:
+      label: Smart Contract Updates Needed
+      description: Provide a list of what smart contract updates will be needed to support this feature. Write N/A if none needed.
+      placeholder: "1. TODO"
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: "## UI/UX Design Requirements"
+  - type: textarea
+    id: ui-ux-requirements
+    attributes:
+      label: UI/UX Design Requirements
+      description: Provide a list of UI/UX design considerations needed to support this feature. A UI/UX designer should be able to easily design new game interfaces after reading this list. Write N/A if none are needed.
+      placeholder: "1. TODO"
+    validations:
+      required: false
+  - type: textarea
+    id: assets-needed
+    attributes:
+      label: Assets Needed
+      description: Provide a list of assets needed to support this feature. This can be new sound-effects, music, graphics, gifs, etc. An asset creator should be able to easily design a new asset after reading this list. Write N/A if none are needed.
+      placeholder: "1. TODO"
+    validations:
+      required: false

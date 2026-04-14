@@ -9,24 +9,18 @@ const GAME_STATE: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        amount: 2,
       },
       minesLeft: 10,
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     },
     1: {
       stone: {
         minedAt: 0,
-        amount: 3,
       },
       minesLeft: 1,
       x: 4,
       y: 1,
-      height: 1,
-      width: 1,
     },
   },
 };
@@ -53,6 +47,22 @@ describe("mineSunstone", () => {
         },
       }),
     ).toThrow(EVENT_ERRORS.NO_SUNSTONE);
+  });
+
+  it("throws an error if sunstone is not placed", () => {
+    expect(() =>
+      mineSunstone({
+        state: {
+          ...GAME_STATE,
+          bumpkin: GAME_STATE.bumpkin,
+          sunstones: {
+            0: { ...GAME_STATE.sunstones[0], x: undefined, y: undefined },
+          },
+        },
+        action: { type: "sunstoneRock.mined", index: "0" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Sunstone rock is not placed");
   });
 
   it("throws an error if no gold pickaxes are left", () => {
@@ -92,7 +102,7 @@ describe("mineSunstone", () => {
     const game = mineSunstone(payload);
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Sunstone).toEqual(new Decimal(2));
+    expect(game.inventory.Sunstone).toEqual(new Decimal(1));
     expect(game.sunstones["0"].minesLeft).toEqual(9);
   });
 
@@ -117,7 +127,7 @@ describe("mineSunstone", () => {
     const game = mineSunstone(payload);
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Sunstone).toEqual(new Decimal(3));
+    expect(game.inventory.Sunstone).toEqual(new Decimal(1));
     expect(game.sunstones["1"]).toBeUndefined();
     expect(game.inventory["Sunstone Rock"]).toEqual(new Decimal(1));
   });
@@ -143,7 +153,7 @@ describe("mineSunstone", () => {
         } as MineSunstoneAction,
       });
 
-      expect(game.bumpkin?.activity?.["Sunstone Mined"]).toBe(1);
+      expect(game.farmActivity["Sunstone Mined"]).toBe(1);
     });
 
     it("increments Sunstone Mined activity by 2", () => {
@@ -175,7 +185,7 @@ describe("mineSunstone", () => {
         } as MineSunstoneAction,
       });
 
-      expect(game.bumpkin?.activity?.["Sunstone Mined"]).toBe(2);
+      expect(game.farmActivity["Sunstone Mined"]).toBe(2);
     });
   });
 });

@@ -18,17 +18,15 @@ export const GRID_DIG_SPOTS = 100;
 
 export function buyMoreDigs({ state }: Options) {
   return produce(state, (game) => {
-    const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
+    const gems = game.inventory["Gem"] ?? new Decimal(0);
 
-    if (blockBucks.lt(1)) {
-      throw new Error(
-        "Player does not have enough block bucks to buy more digs",
-      );
+    if (gems.lt(10)) {
+      throw new Error("Player does not have enough Gems to buy more digs");
     }
 
     const extraDigs = game.desert.digging.extraDigs ?? 0;
 
-    game.inventory["Block Buck"] = blockBucks.sub(1);
+    game.inventory["Gem"] = gems.sub(10);
 
     game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
 

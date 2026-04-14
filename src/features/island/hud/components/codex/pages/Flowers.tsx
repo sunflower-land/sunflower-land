@@ -1,16 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  FLOWER_MILESTONES,
-  MilestoneName,
-  getExperienceLevelForMilestones,
-} from "features/game/types/milestones";
+import { MilestoneName } from "features/game/types/milestones";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
@@ -20,15 +13,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const _milestones = (state: MachineState) => state.context.state.milestones;
-const _discovered = (state: MachineState) =>
-  state.context.state.flowers.discovered;
-
 const FLOWERS_BY_SEED = getFlowerBySeed();
 
 type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
+  state: GameState;
 };
 
 function getTotalFlowersFound(farmActivity: GameState["farmActivity"]) {
@@ -37,45 +26,17 @@ function getTotalFlowersFound(farmActivity: GameState["farmActivity"]) {
   }, 0);
 }
 
-export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
-  const { gameService } = useContext(Context);
-  const [expandedIndex, setExpandedIndex] = useState<number>();
+export const Flowers: React.FC<Props> = ({ state }) => {
   const [selectedFlower, setSelectedFlower] = useState<FlowerName>();
   const { t } = useAppTranslation();
 
-  const farmActivity = useSelector(gameService, _farmActivity);
-  const milestones = useSelector(gameService, _milestones);
-  const discovered = useSelector(gameService, _discovered);
+  const { farmActivity, flowers } = state;
+  const { discovered } = flowers;
 
   const crossBreeds = (selectedFlower && discovered[selectedFlower]) ?? [];
 
   const [foundFlowersCount] = useState<number>(() =>
     getTotalFlowersFound(farmActivity),
-  );
-
-  const handleMilestoneExpand = (milestoneIndex: number) => {
-    if (expandedIndex === milestoneIndex) {
-      setExpandedIndex(undefined);
-    } else {
-      setExpandedIndex(milestoneIndex);
-    }
-  };
-
-  const handleClaimReward = (milestone: MilestoneName) => {
-    gameService.send("milestone.claimed", { milestone });
-    setExpandedIndex(undefined);
-    onMilestoneReached(milestone);
-  };
-
-  const milestoneNames = getKeys(FLOWER_MILESTONES);
-  const unclaimedMilestones = milestoneNames.filter(
-    (milestone) => !milestones[milestone],
-  );
-  const claimedMilestoneCount =
-    milestoneNames.length - unclaimedMilestones.length;
-  const experienceLevel = getExperienceLevelForMilestones(
-    claimedMilestoneCount,
-    milestoneNames.length,
   );
 
   if (selectedFlower) {
@@ -115,7 +76,8 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
             ))}
           </>
         }
-      ></Detail>
+        state={state}
+      />
     );
   }
 
@@ -128,28 +90,6 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
           <Label type="formula" className="ml-1.5">
             {`${t("flowers.found")}: ${foundFlowersCount}`}
           </Label>
-          {/* Milestones disabled for spring bloom launch */}
-          {/* Claimed Milestones */}
-          {/* <div className="flex flex-wrap gap-1 px-1.5">
-            <MilestoneTracker
-              milestones={milestoneNames}
-              experienceLabelText={`${experienceLevel} Gardener`}
-              labelType="default"
-              labelIcon={SUNNYSIDE.icons.seedling}
-            />
-          </div>
-          <div className="space-y-1.5 px-1.5">
-            {unclaimedMilestones.map((milestone, index) => (
-              <MilestonePanel
-                key={milestone}
-                milestone={MILESTONES[milestone]}
-                isExpanded={expandedIndex === index}
-                farmActivity={farmActivity}
-                onClick={() => handleMilestoneExpand(index)}
-                onClaim={() => handleClaimReward(milestone)}
-              />
-            ))}
-          </div> */}
         </div>
         <div className="flex flex-col">
           {getKeys(FLOWERS_BY_SEED).map((type) => {
@@ -171,6 +111,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
                         !farmActivity[`${name} Harvested`] &&
                         (discovered[name] ?? []).length < 1
                       }
+                      inventoryCount={state.inventory[name]?.toNumber()}
                       onClick={() => setSelectedFlower(name)}
                       key={name}
                       image={ITEM_DETAILS[name].image}

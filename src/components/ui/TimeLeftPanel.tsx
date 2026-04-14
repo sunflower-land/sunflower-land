@@ -2,7 +2,6 @@ import React from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   text?: string;
@@ -15,8 +14,6 @@ export const TimeLeftPanel: React.FC<Props> = ({
   showTimeLeft = false,
   timeLeft,
 }) => {
-  useUiRefresher({ active: showTimeLeft });
-
   return (
     <InnerPanel
       className={classNames(

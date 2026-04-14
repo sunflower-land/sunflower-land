@@ -9,12 +9,9 @@ describe("moveCrimstone", () => {
           ...TEST_FARM,
           crimstones: {
             1: {
-              height: 2,
-              width: 2,
               x: 1,
               y: 1,
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
               minesLeft: 5,
@@ -36,34 +33,25 @@ describe("moveCrimstone", () => {
         ...TEST_FARM,
         crimstones: {
           "123": {
-            height: 2,
-            width: 2,
             x: 1,
             y: 1,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 5,
           },
           "456": {
-            height: 2,
-            width: 2,
             x: 4,
             y: 4,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 5,
           },
           "789": {
-            height: 2,
-            width: 2,
             x: 8,
             y: 8,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 5,
@@ -79,34 +67,25 @@ describe("moveCrimstone", () => {
 
     expect(gameState.crimstones).toEqual({
       "123": {
-        height: 2,
-        width: 2,
         x: 2,
         y: 2,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 5,
       },
       "456": {
-        height: 2,
-        width: 2,
         x: 4,
         y: 4,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 5,
       },
       "789": {
-        height: 2,
-        width: 2,
         x: 8,
         y: 8,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 5,

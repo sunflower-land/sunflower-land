@@ -1,11 +1,8 @@
 import React from "react";
 import { Label } from "components/ui/Label";
-import {
-  MAX_OIL_CAPACITY_IN_MILLIS,
-  getTotalOilMillisInMachine,
-} from "features/game/events/landExpansion/supplyCropMachine";
-import { CropMachineQueueItem } from "features/game/types/game";
-import { useEffect, useState } from "react";
+import { MAX_OIL_CAPACITY_IN_MILLIS } from "features/game/events/landExpansion/supplyCropMachine";
+import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachineOil";
+import { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -13,70 +10,37 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface OilTankProps {
   stopped: boolean;
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
   onAddOil: () => void;
+  state: GameState;
 }
 
-export const OilTank = ({
+export const OilTank: React.FC<OilTankProps> = ({
   stopped,
   queue,
   unallocatedOilTime,
   onAddOil,
-}: OilTankProps) => {
+  state,
+}) => {
   const { t } = useAppTranslation();
 
-  const calculatePercentageFull = (
-    queue: CropMachineQueueItem[],
-    unallocatedOilTime: number,
-  ) => {
-    const totalOilMillis = getTotalOilMillisInMachine(
-      queue,
-      unallocatedOilTime,
-    );
+  const now = useNow({ live: !stopped });
 
-    return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
-  };
-
-  const calculateOilTimeRemaining = (
-    queue: CropMachineQueueItem[],
-    unallocatedOilTime: number,
-  ) => {
-    const totalOilMillis = getTotalOilMillisInMachine(
-      queue,
-      unallocatedOilTime,
-    );
-    return totalOilMillis / 1000; // Convert milliseconds to seconds
-  };
-
-  // Initial state
-  const [oilInTank, setOilInTank] = useState(
-    calculatePercentageFull(queue, unallocatedOilTime),
+  const totalOilMillis = getTotalOilMillisInMachine(
+    queue,
+    unallocatedOilTime,
+    now,
   );
-  const [runtime, setRuntime] = useState(
-    calculateOilTimeRemaining(queue, unallocatedOilTime),
+  const oilInTank = Math.min(
+    100,
+    (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS(state)) * 100,
   );
-
-  useEffect(() => {
-    // Update the state immediately when paused or idle
-    if (stopped) {
-      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
-      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
-      return;
-    }
-
-    // Set interval when the machine is active
-    const interval = setInterval(() => {
-      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
-      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
-    }, 1000);
-
-    // Cleanup function to clear the interval
-    return () => clearInterval(interval);
-  }, [queue, unallocatedOilTime, stopped]);
+  const runtime = totalOilMillis / 1000;
 
   return (
     <div>

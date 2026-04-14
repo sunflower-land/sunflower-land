@@ -3,8 +3,9 @@
  */
 
 import Decimal from "decimal.js-light";
-import { Inventory, IslandType } from "./game";
+import { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
+import { WATER_TRAP } from "./crustaceans";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -13,80 +14,157 @@ export type WorkbenchToolName =
   | "Iron Pickaxe"
   | "Gold Pickaxe"
   | "Rod"
-  | "Oil Drill";
+  | "Oil Drill"
+  | "Pest Net"
+  | "Crab Pot"
+  | "Mariner Pot"
+  | "Salt Rake";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
 export interface Tool {
   name: string;
   description: string;
-  ingredients: Inventory;
+  ingredients: (skills?: Skills) => Inventory;
   price: number;
   disabled?: boolean;
   requiredIsland?: IslandType;
+  requiredLevel?: number;
+  type: "land" | "water" | "animal" | "weather";
 }
 
-export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
+export const WORKBENCH_TOOLS: Record<
+  WorkbenchToolName,
+  Tool & { stock: Decimal }
+> = {
   Axe: {
     name: "Axe",
     description: translate("description.axe"),
     price: 20,
-    ingredients: {},
+    ingredients: () => ({}),
+    stock: new Decimal(200),
+    type: "land",
   },
   Pickaxe: {
     name: "Pickaxe",
     description: translate("description.pickaxe"),
     price: 20,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(3),
-    },
+    }),
+    stock: new Decimal(60),
+    type: "land",
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: translate("description.stone.pickaxe"),
     price: 20,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(3),
       Stone: new Decimal(5),
-    },
+    }),
+    stock: new Decimal(20),
+    type: "land",
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
     description: translate("description.iron.pickaxe"),
 
     price: 80,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(3),
       Iron: new Decimal(5),
-    },
+    }),
+    stock: new Decimal(5),
+    type: "land",
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
     description: translate("description.gold.pickaxe"),
     price: 100,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(3),
       Gold: new Decimal(3),
-    },
+    }),
+    stock: new Decimal(5),
+    type: "land",
   },
   Rod: {
     name: "Rod",
     description: translate("description.rod"),
     price: 20,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(3),
       Stone: new Decimal(1),
-    },
+    }),
+    stock: new Decimal(50),
+    type: "water",
   },
   "Oil Drill": {
     name: "Oil Drill",
     description: translate("description.oil.drill"),
     price: 100,
-    ingredients: {
-      Wood: new Decimal(25),
-      Iron: new Decimal(10),
+    ingredients: (skill) => {
+      if (skill?.["Oil Rig"]) {
+        return {
+          Wood: new Decimal(20),
+          Iron: new Decimal(9),
+          Wool: new Decimal(20),
+        };
+      }
+
+      return {
+        Wood: new Decimal(20),
+        Iron: new Decimal(9),
+        Leather: new Decimal(10),
+      };
     },
     requiredIsland: "desert",
+    stock: new Decimal(5),
+    type: "land",
+  },
+  "Pest Net": {
+    name: "Pest Net",
+    description: translate("description.pestNet"),
+    price: 50,
+    ingredients: () => ({
+      Wool: new Decimal(2),
+    }),
+    stock: new Decimal(10),
+    disabled: true,
+    type: "land",
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description: translate("description.crab.pot"),
+    price: 250,
+    ingredients: () => ({
+      Feather: new Decimal(5),
+      Wool: new Decimal(3),
+    }),
+    stock: new Decimal(15),
+    requiredLevel: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
+    type: "water",
+  },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description: translate("description.mariner.pot"),
+    price: 500,
+    ingredients: () => ({
+      Feather: new Decimal(10),
+      "Merino Wool": new Decimal(10),
+    }),
+    stock: new Decimal(10),
+    requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
+    type: "water",
+  },
+  "Salt Rake": {
+    name: "Salt Rake",
+    description: "Used to harvest salt from salt nodes",
+    price: 20,
+    ingredients: () => ({ Wood: new Decimal(3) }),
+    stock: new Decimal(24),
+    type: "water",
   },
 };
 
@@ -95,19 +173,46 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     name: "Sand Shovel",
     description: translate("description.sand.shovel"),
     price: 20,
-    ingredients: {
+    ingredients: () => ({
       Wood: new Decimal(2),
       Stone: new Decimal(1),
-    },
+    }),
+    type: "land",
   },
   "Sand Drill": {
     name: "Sand Drill",
     description: translate("description.sand.drill"),
     price: 40,
-    ingredients: {
+    ingredients: () => ({
       Oil: new Decimal(1),
       Crimstone: new Decimal(1),
-      Wood: new Decimal(5),
-    },
+      Wood: new Decimal(3),
+      Leather: new Decimal(1),
+    }),
+    type: "land",
+  },
+};
+
+export const LOVE_ANIMAL_TOOLS: Record<LoveAnimalItem, Tool> = {
+  "Petting Hand": {
+    name: "Petting Hand",
+    description: translate("description.petting.hand"),
+    price: 0,
+    ingredients: () => ({}),
+    type: "animal",
+  },
+  Brush: {
+    name: "Brush",
+    description: translate("description.brush"),
+    price: 2000,
+    ingredients: () => ({}),
+    type: "animal",
+  },
+  "Music Box": {
+    name: "Music Box",
+    description: translate("description.music.box"),
+    price: 50000,
+    ingredients: () => ({}),
+    type: "animal",
   },
 };

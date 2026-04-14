@@ -1,19 +1,22 @@
-import { GameState } from "features/game/types/game";
+import { GameState, Rock } from "features/game/types/game";
 import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
+  ADVANCED_RESOURCES,
+  UpgradedResourceName,
+  StoneRockName,
+  RESOURCE_MULTIPLIER,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
-  name: ResourceName;
+  name: StoneRockName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {
@@ -28,26 +31,54 @@ export function placeStone({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Stone Rock"] || new Decimal(0)).minus(
-      Object.keys(game.stones).length,
-    );
+    const available = getAvailableNodes(game, "stones");
 
     if (available.lt(1)) {
       throw new Error("No stone available");
     }
 
-    game.stones = {
-      ...game.stones,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
+    const nodeStateAccessor = game.stones;
+
+    const existingStone = findExistingUnplacedNode({
+      nodeStateAccessor,
+      nodeToFind: action.name,
+    });
+
+    if (existingStone) {
+      const [id, stone] = existingStone;
+      const updatedStone = {
+        ...stone,
         x: action.coordinates.x,
         y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Stone Rock"],
-        stone: {
-          amount: 0,
-          minedAt: 0,
-        },
+      };
+
+      if (updatedStone.stone && updatedStone.removedAt) {
+        const existingProgress =
+          updatedStone.removedAt - updatedStone.stone.minedAt;
+        updatedStone.stone.minedAt = createdAt - existingProgress;
+      }
+      delete updatedStone.removedAt;
+
+      game.stones[id] = updatedStone;
+
+      return game;
+    }
+
+    const newStone: Rock = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      stone: {
+        minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
+    };
+
+    game.stones = {
+      ...game.stones,
+      [action.id]: newStone,
     };
 
     return game;

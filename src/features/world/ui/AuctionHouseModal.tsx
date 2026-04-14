@@ -28,9 +28,13 @@ export const AuctionHouseModal: React.FC<Props> = ({
       onUpdate={(state) => {
         gameService.send("UPDATE", { state });
       }}
-      onMint={(id) => {
+      onMint={() => {
         closeModal();
-        gameService.send("MINT", { auctionId: id });
+        gameService.send("auction.claimed", {
+          effect: {
+            type: "auction.claimed",
+          },
+        });
       }}
       deviceTrackerId={gameState.context.deviceTrackerId as string}
       linkedAddress={linkedWallet}

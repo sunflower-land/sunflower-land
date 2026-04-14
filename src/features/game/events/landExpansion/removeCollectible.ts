@@ -1,30 +1,32 @@
-import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { GameState, PlacedLamp } from "features/game/types/game";
-import {
-  areUnsupportedChickensBrewing,
-  removeUnsupportedChickens,
-} from "./removeBuilding";
-import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
-import { SEEDS } from "features/game/types/seeds";
-import { CollectibleLocation } from "features/game/types/collectibles";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { trackFarmActivity } from "features/game/types/farmActivity";
+import { CollectibleName } from "features/game/types/craftables";
+import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
+
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
+import { LIMITED_ITEMS } from "./burnCollectible";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
+import { PET_SHRINES } from "features/game/types/pets";
+import { populateSaltFarm } from "features/game/types/salt";
+import { isPetCollectible } from "./placeCollectible";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
-  CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
   GENIE_IN_USE = "Genie Lamp is in use",
   COLLECTIBLE_IN_USE = "This item is in use",
+  LIMITED_ITEM_IN_USE = "This limited time item is in use",
 }
 
 export type RemoveCollectibleAction = {
   type: "collectible.removed";
   name: CollectibleName;
   id: string;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {
@@ -33,13 +35,33 @@ type Options = {
   createdAt?: number;
 };
 
-export function removeCollectible({ state, action }: Options) {
+export function removeCollectible({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (stateCopy) => {
-    const { inventory, bumpkin } = stateCopy;
-    let collectibleGroup =
-      action.location === "home"
-        ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+    const { bumpkin } = stateCopy;
+
+    const getCollectibleGroup = (
+      location: PlaceableLocation,
+      name: CollectibleName,
+    ) => {
+      if (location === "home") {
+        return stateCopy.home.collectibles[name];
+      } else if (location === "petHouse") {
+        if (!isPetCollectible(name)) {
+          throw new Error(
+            "Only pet collectibles can be removed from the pet house",
+          );
+        }
+        return stateCopy.petHouse.pets[name];
+      } else {
+        return stateCopy.collectibles[name];
+      }
+    };
+
+    const collectibleGroup = getCollectibleGroup(action.location, action.name);
 
     if (bumpkin === undefined) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
@@ -57,45 +79,6 @@ export function removeCollectible({ state, action }: Options) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
     }
 
-    // TODO - remove once landscaping is launched
-    const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-    if (shovelAmount.gte(1)) {
-      inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
-    }
-
-    collectibleGroup = collectibleGroup.filter(
-      (collectible) => collectible.id !== collectibleToRemove.id,
-    );
-
-    // Remove collectible key if there are none placed
-    if (collectibleGroup.length === 0) {
-      if (action.location === "home") {
-        delete stateCopy.home.collectibles[action.name];
-      }
-
-      if (action.location === "farm") {
-        delete stateCopy.collectibles[action.name];
-      }
-    } else {
-      if (action.location === "home") {
-        stateCopy.home.collectibles[action.name] = collectibleGroup;
-      }
-
-      if (action.location === "farm") {
-        stateCopy.collectibles[action.name] = collectibleGroup;
-      }
-    }
-
-    if (action.name === "Chicken Coop") {
-      if (areUnsupportedChickensBrewing(stateCopy)) {
-        throw new Error(
-          REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN,
-        );
-      }
-
-      stateCopy.chickens = removeUnsupportedChickens(stateCopy);
-    }
-
     if (action.name === "Genie Lamp") {
       const collectible: PlacedLamp = collectibleToRemove;
       const rubbedCount = collectible.rubbedCount ?? 0;
@@ -104,30 +87,36 @@ export function removeCollectible({ state, action }: Options) {
       }
     }
 
-    const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
-    if (removalRestriction) {
-      const [restricted] = removalRestriction(state);
-      if (restricted)
-        throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
+    if (LIMITED_ITEMS.includes(action.name)) {
+      const collectible: PlacedItem = collectibleToRemove;
+      const cooldown =
+        EXPIRY_COOLDOWNS[action.name as TemporaryCollectibleName];
+      const isShrine =
+        action.name in PET_SHRINES || action.name === "Obsidian Shrine";
+
+      // Only expired pet shrines can be removed. Other limited items must be handled
+      // via the burn flow (and should remain non-removable from the map).
+      if (!isShrine) {
+        throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
+      }
+
+      if (!cooldown || (collectible.createdAt ?? 0) + cooldown > createdAt) {
+        throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
+      }
     }
 
-    if (action.name === "Kuebiko") {
-      getKeys(SEEDS()).forEach((seed) => {
-        if (stateCopy.inventory[seed]) {
-          delete stateCopy.inventory[seed];
-        }
-      });
+    // Populate the salt farm with the new salt charges
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
     }
 
-    if (action.name === "Hungry Caterpillar") {
-      getKeys(FLOWER_SEEDS()).forEach((seed) => {
-        if (stateCopy.inventory[seed]) {
-          delete stateCopy.inventory[seed];
-        }
-      });
-    }
+    delete collectibleToRemove.coordinates;
+    collectibleToRemove.removedAt = createdAt;
 
-    bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Collectible Removed",
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });

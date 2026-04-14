@@ -1,12 +1,27 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
-import { GameEventName, PlacementEvent, PlayingEvent } from "../events";
+import { GameEvent, GameEventName } from "../events";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
+import { GameState } from "../types/game";
+import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
+import { getRecordHash } from "lib/stateHash";
+
+type StateHash = Record<keyof GameState, string>;
+
+/**
+ * Returns a hash of each field in the gamestate
+ * { balance: "sha256:1234567890", inventory: "sha256:1234567890", ... }
+ */
+export async function getGameHash(gameState: GameState): Promise<StateHash> {
+  return (await getRecordHash(
+    gameState as unknown as Record<string, unknown>,
+  )) as StateHash;
+}
 
 type Request = {
   actions: PastAction[];
@@ -16,13 +31,12 @@ type Request = {
   fingerprint: string;
   deviceTrackerId: string;
   transactionId: string;
+  state: GameState;
 };
 
 const API_URL = CONFIG.API_URL;
 
-const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
-  "bot.detected",
-];
+const EXCLUDED_EVENTS: GameEventName<GameEvent>[] = ["bot.detected"];
 
 /**
  * Squashes similar events into a single event
@@ -66,37 +80,51 @@ export function serialize(events: PastAction[]) {
 }
 
 export async function autosaveRequest(
-  request: Omit<Request, "actions"> & { actions: any[] },
+  request: Omit<Request, "actions" | "state"> & {
+    actions: any[];
+    stateHash?: Record<keyof GameState, string>;
+  },
 ) {
   const ttl = (window as any)["x-amz-ttl"];
 
   // Useful for using cached results
   const cachedKey = getSessionId();
 
-  return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      ...{
-        "content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${request.token}`,
-        "X-Fingerprint": request.fingerprint,
-        "X-Transaction-ID": request.transactionId,
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, AUTO_SAVE_INTERVAL);
+
+  try {
+    return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
+      method: "POST",
+      headers: {
+        ...{
+          "content-type": "application/json;charset=UTF-8",
+          Authorization: `Bearer ${request.token}`,
+          "X-Fingerprint": request.fingerprint,
+          "X-Transaction-ID": request.transactionId,
+        },
+        ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
       },
-      ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
-    },
-    body: JSON.stringify({
-      sessionId: request.sessionId,
-      actions: request.actions,
-      clientVersion: CONFIG.CLIENT_VERSION as string,
-      cachedKey,
-      deviceTrackerId: request.deviceTrackerId,
-    }),
-  });
+      body: JSON.stringify({
+        sessionId: request.sessionId,
+        actions: request.actions,
+        clientVersion: CONFIG.CLIENT_VERSION as string,
+        cachedKey,
+        deviceTrackerId: request.deviceTrackerId,
+        stateHash: request.stateHash,
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 let autosaveErrors = 0;
 
-export async function autosave(request: Request) {
+export async function autosave(request: Request, retries = 0) {
   if (!API_URL) return { verified: true };
 
   // Shorten the payload
@@ -113,13 +141,35 @@ export async function autosave(request: Request) {
     await new Promise((res) => setTimeout(res, autosaveErrors * 5000));
   }
 
+  // eslint-disable-next-line no-console
+  console.time("getGameHash");
+  const stateHash = await getGameHash(request.state);
+  // eslint-disable-next-line no-console
+  console.timeEnd("getGameHash");
+
   const response = await autosaveRequest({
     ...request,
     actions,
+    stateHash,
   });
 
   if (response.status === 503) {
-    throw new Error(ERRORS.MAINTENANCE);
+    const data = await response.json();
+    if (data.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    } else {
+      // Throttling. Do exponential backoff with jitter
+      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
+      const jitter = Math.random() * 1000;
+
+      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
+
+      if (retries < 3) {
+        return await autosave(request, retries + 1);
+      }
+
+      throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
+    }
   }
 
   if (response.status === 401) {
@@ -130,27 +180,39 @@ export async function autosave(request: Request) {
     throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
   }
 
+  if (response.status === 403) {
+    throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
+  }
+
+  if (response.status === 409) {
+    throw new Error(ERRORS.MULTIPLE_DEVICES_OPEN);
+  }
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   if (response.status !== 200 || !response.ok) {
-    const data = await response.json();
-
     autosaveErrors += 1;
-
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
 
   autosaveErrors = 0;
 
-  const { farm, changeset, announcements } = await sanitizeHTTPResponse<{
+  // eslint-disable-next-line prefer-const
+  let { farm, changeset, announcements } = await sanitizeHTTPResponse<{
     farm: any;
     changeset: any;
     announcements: any;
   }>(response);
 
   farm.id = request.farmId;
+
+  // Merge the changes over the previous
+  farm = {
+    ...request.state,
+    ...farm,
+  };
 
   const game = makeGame(farm);
 

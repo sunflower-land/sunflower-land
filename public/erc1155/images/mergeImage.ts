@@ -7,7 +7,7 @@
 
 // async function main() {
 //   //   let ids: number[] = [];
-//   //   //passsing directoryPath and callback function
+//   //   //passing directoryPath and callback function
 //   //   const files = fs.readdirSync(__dirname);
 //   //   //listing all files using forEach
 //   //   files.forEach(function (file) {

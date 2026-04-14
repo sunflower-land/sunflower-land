@@ -1,41 +1,39 @@
-import React, { useContext, useRef, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
-
+import React, { useContext, useState } from "react";
 import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { redirectOAuth } from "features/auth/actions/oauth";
+import { discordOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
-  const { t } = useAppTranslation();
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
-
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
+
   const initialState = (): "connected" | "noDiscord" | "claim" | "claimed" => {
-    if (BONUSES["discord-signup"].isClaimed(gameState.context.state)) {
+    if (
+      BONUSES["discord-signup"].isClaimed(gameState.context.state) &&
+      gameState.context.discordId
+    ) {
       return "claimed";
     }
 
-    if (authState.context.user.token?.discordId) {
+    if (gameState.context.discordId) {
       return "connected";
     }
 
@@ -47,7 +45,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   >(initialState());
 
   const oauth = () => {
-    redirectOAuth();
+    discordOAuth({ nonce: gameState.context.oauthNonce });
   };
 
   const acknowledge = () => {
@@ -79,7 +77,6 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
       <ClaimReward
         onClaim={claim}
         reward={{
-          createdAt: Date.now(),
           id: "discord-bonus",
           items: BONUSES["discord-signup"].reward.inventory,
           wearables: BONUSES["discord-signup"].reward.wearables,
@@ -135,15 +132,9 @@ const _expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 export const DiscordBoat: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
-
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const isClaimed = useSelector(gameService, _isClaimed);
-
-  const alreadyClaimed = useRef(isClaimed);
 
   const expansions = useSelector(gameService, _expansions);
 
@@ -153,28 +144,17 @@ export const DiscordBoat: React.FC = () => {
   }
 
   // When ready, show boat above island
-  const isReady = authState.context.user.token?.discordId && !isClaimed;
+  const isReady = !!gameService.getSnapshot().context.discordId && !isClaimed;
 
-  if (alreadyClaimed.current) {
-    return null;
-  }
+  if (isClaimed) return null;
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel
-          bumpkinParts={NPC_WEARABLES.wobble}
-          onClose={() => setShowModal(false)}
-        >
-          <DiscordBonus onClose={() => setShowModal(false)} />
-        </CloseButtonPanel>
-      </Modal>
-
       <div
         className={classNames("absolute cursor-pointer  left-0", {
           boating: !isReady,
         })}
-        onClick={() => setShowModal(true)}
+        onClick={() => openModal("DISCORD")}
         style={{
           top: `${GRID_WIDTH_PX * yOffset}px`,
           width: `${PIXEL_SCALE * 104}px`,
@@ -198,7 +178,7 @@ export const DiscordBoat: React.FC = () => {
             right: `${PIXEL_SCALE * 30}px`,
           }}
         >
-          <NPC parts={NPC_WEARABLES.wobble} />
+          <NPCPlaceable parts={NPC_WEARABLES.wobble} />
         </div>
         <img
           src={SUNNYSIDE.decorations.treasure_chest}

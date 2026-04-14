@@ -5,13 +5,14 @@ import {
   FishType,
   MarineMarvelName,
 } from "features/game/types/fishing";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { AssetType } from "features/game/types/codex";
 import {
   FLOWERS,
   FlowerName,
   FlowerSeedName,
 } from "features/game/types/flowers";
+import { getObjectEntries } from "lib/object";
 
 export type ItemCounts = {
   available: number;
@@ -38,6 +39,7 @@ export const getFishByType = () => {
     advanced: [],
     expert: [],
     "marine marvel": [],
+    chapter: [],
   };
 
   getKeys(FISH).forEach((fishName) => {
@@ -48,11 +50,25 @@ export const getFishByType = () => {
   return fishByType;
 };
 
+export function getFishSection(fishName: FishName | MarineMarvelName): string {
+  const fishByType = getFishByType();
+  for (const [type, fishList] of Object.entries(fishByType)) {
+    if (fishList.includes(fishName)) {
+      return `fish-${type}`;
+    }
+  }
+  return "fish-common";
+}
+
 export const getFlowerBySeed = () => {
   const flowersBySeed: Record<FlowerSeedName, FlowerName[]> = {
     "Sunpetal Seed": [],
     "Bloom Seed": [],
     "Lily Seed": [],
+    "Edelweiss Seed": [],
+    "Gladiolus Seed": [],
+    "Lavender Seed": [],
+    "Clover Seed": [],
   };
 
   getKeys(FLOWERS).forEach((flowerName) => {
@@ -65,9 +81,8 @@ export const getFlowerBySeed = () => {
 
 export const getEncyclopediaFish = () => {
   const encyclopediaFish: (FishName | MarineMarvelName)[] = [];
-  getKeys(FISH).forEach((fishName) => {
-    const fish = FISH[fishName];
-    if (fish.type !== "marine marvel") {
+  getObjectEntries(FISH).forEach(([fishName, fish]) => {
+    if (fish.type !== "marine marvel" && fish.type !== "chapter") {
       encyclopediaFish.push(fishName);
     }
   });

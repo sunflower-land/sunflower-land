@@ -24,6 +24,33 @@ describe("supplyCookingOil", () => {
     ).toThrow("Building does not exist");
   });
 
+  it("requires building to be placed", () => {
+    expect(() =>
+      supplyCookingOil({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            Kitchen: [
+              {
+                coordinates: undefined,
+                id: "1",
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cookingOil.supplied",
+          building: "Kitchen",
+          buildingId: "1",
+          oilQuantity: 1,
+        },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Building does not exist");
+  });
+
   it("requires buildingId exists", () => {
     expect(() =>
       supplyCookingOil({
@@ -155,14 +182,14 @@ describe("supplyCookingOil", () => {
             ],
           },
           inventory: {
-            Oil: new Decimal(3),
+            Oil: new Decimal(7),
           },
         },
         action: {
           type: "cookingOil.supplied",
           building: "Fire Pit",
           buildingId: "1",
-          oilQuantity: 2,
+          oilQuantity: 6,
         },
         createdAt: Date.now(),
       }),
@@ -181,7 +208,7 @@ describe("supplyCookingOil", () => {
                 id: "1",
                 createdAt: Date.now(),
                 readyAt: 0,
-                oil: 24,
+                oil: 60,
               },
             ],
           },

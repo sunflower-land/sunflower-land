@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { buyFarmhand } from "./buyFarmHand";
 import { TEST_FARM } from "features/game/lib/constants";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("buyFarmHand", () => {
   it("requires a player has space for a farm hand", () => {
@@ -31,7 +32,7 @@ describe("buyFarmHand", () => {
     ).toThrow("No space for a farm hand");
   });
 
-  it("requires a player has block buck", () => {
+  it("requires a player has Gem", () => {
     expect(() =>
       buyFarmhand({
         action: {
@@ -44,7 +45,7 @@ describe("buyFarmHand", () => {
           },
         },
       }),
-    ).toThrow("Insufficient Block Bucks");
+    ).toThrow("Insufficient Gems");
   });
 
   it("uses a Farmhand Coupon", () => {
@@ -75,7 +76,7 @@ describe("buyFarmHand", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(25),
+          Gem: new Decimal(25 * BB_TO_GEM_RATIO),
         },
         island: {
           type: "spring",
@@ -83,7 +84,7 @@ describe("buyFarmHand", () => {
       },
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(15));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(15 * BB_TO_GEM_RATIO));
     expect(state.farmHands.bumpkins).toEqual({
       "1": {
         equipped: {
@@ -107,7 +108,7 @@ describe("buyFarmHand", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(50),
+          Gem: new Decimal(50 * BB_TO_GEM_RATIO),
         },
         island: {
           type: "spring",
@@ -115,7 +116,7 @@ describe("buyFarmHand", () => {
       },
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(40));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(40 * BB_TO_GEM_RATIO));
 
     state = buyFarmhand({
       action: {
@@ -124,6 +125,6 @@ describe("buyFarmHand", () => {
       state,
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(25));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(25 * BB_TO_GEM_RATIO));
   });
 });

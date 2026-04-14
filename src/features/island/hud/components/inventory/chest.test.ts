@@ -58,6 +58,7 @@ describe("chest", () => {
 
     expect(chest).toEqual({
       "Foreman Beaver": new Decimal(1),
+      "Fire Pit": new Decimal(0),
     });
   });
 
@@ -96,6 +97,8 @@ describe("chest", () => {
     expect(chest).toEqual({
       "Foreman Beaver": new Decimal(1),
       "Abandoned Bear": new Decimal(1),
+      "Fire Pit": new Decimal(0),
+      Scarecrow: new Decimal(0),
     });
   });
 });

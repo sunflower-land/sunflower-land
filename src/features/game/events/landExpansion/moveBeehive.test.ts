@@ -34,8 +34,6 @@ describe("moveBeehive", () => {
         beehives: {
           "1234": {
             swarm: false,
-            height: 1,
-            width: 1,
             honey: {
               updatedAt: 0,
               produced: 0,

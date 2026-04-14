@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { Faction, GameState } from "features/game/types/game";
 import { deliverFactionKitchen } from "./deliverFactionKitchen";
-import { START_DATE } from "features/game/lib/factions";
+import { getFactionWeekday, START_DATE } from "features/game/lib/factions";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -266,19 +266,22 @@ describe("factionKitchenDeliver", () => {
       },
     };
 
-    for (let i = 0; i < 11; i++) {
-      state = deliverFactionKitchen({
-        state,
-        action: {
-          type: "factionKitchen.delivered",
-          resourceIndex: 0,
-        },
-        createdAt: startTime,
-      });
-    }
+    state = deliverFactionKitchen({
+      state,
+      action: {
+        type: "factionKitchen.delivered",
+        resourceIndex: 0,
+        amount: 11,
+      },
+      createdAt: startTime,
+    });
+
+    const day = getFactionWeekday(startTime);
 
     expect(state.faction?.history?.[week].score).toBe(111);
     expect(state.inventory["Mark"]?.toNumber()).toBe(111);
+    expect(state.inventory["Honey"]?.toNumber()).toBe(89);
+    expect(state.faction?.kitchen?.requests[0].dailyFulfilled[day]).toBe(11);
   });
 
   it("applies 5% more points for a delivery if the player has the faction pants active", () => {

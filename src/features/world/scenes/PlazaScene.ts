@@ -1,18 +1,56 @@
-import faction_plaza from "assets/map/plaza.json";
-import desert_plaza from "assets/map/desert_plaza.json";
-
+import seasonal_plaza from "assets/map/seasonal_plaza.json";
+import seasonal_tileset from "assets/map/seasonal_tileset.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 
 import { PlaceableContainer } from "../containers/PlaceableContainer";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, GameState } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
+import { capitalize } from "lib/utils/capitalize";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { DogContainer } from "../containers/DogContainer";
+import { PetContainer } from "../containers/PetContainer";
+import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
+import { CONFIG } from "lib/config";
+import { canClaimTrial } from "features/game/events/landExpansion/startTrial";
+
+const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "world/better_together_banner.webp",
+  "Paw Prints": "world/paw_prints_banner.webp",
+  "Crabs and Traps": "world/crap_chapter_banner.webp",
+};
+
+// Tiled Layer names that get enabled during a chapter
+const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "Better Together Decoration Base",
+  "Paw Prints": "Paw Prints",
+  "Crabs and Traps": "Crabs and Traps",
+};
 
 export type FactionNPC = {
   npc: NPCName;
@@ -24,20 +62,25 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 165,
+    y: 143,
+    npc: "chase",
+    direction: "right",
+    hideLabel: true,
+  },
+
+  {
     x: 207,
     y: 379,
     npc: "peggy",
   },
   {
-    x: 600,
-    y: 197,
+    x: 640,
+    y: 227,
+    direction: "left",
     npc: "hammerin harry",
   },
-  {
-    x: 371,
-    y: 420,
-    npc: "pumpkin' pete",
-  },
+
   {
     x: 815,
     y: 213,
@@ -49,24 +92,14 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 259,
     npc: "stella",
   },
-  {
-    x: 631,
-    y: 98,
-    npc: "timmy",
-  },
-  {
-    x: 307,
-    y: 72,
-    npc: "raven",
-    direction: "left",
-  },
+
   {
     x: 367,
     y: 120,
     npc: "blacksmith",
   },
   {
-    x: 760,
+    x: 755,
     y: 390,
     npc: "grimbly",
   },
@@ -78,46 +111,42 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
 
   {
-    x: 480,
-    y: 140,
-    npc: "cornwell",
-  },
-  {
-    x: 795,
-    y: 118,
-    npc: "bert",
-    direction: "left",
-  },
-  {
     x: 534,
     y: 88,
     npc: "betty",
     direction: "left",
   },
-  {
-    x: 90,
-    y: 70,
-    npc: "tywin",
-  },
-  {
-    x: 506,
-    y: 250,
-    npc: "birdie",
-    direction: "left",
-  },
 
-  {
-    x: 214,
-    y: 295,
-    npc: "hank",
-  },
+  ...(Date.now() < new Date("2024-11-01T00:00:00").getTime()
+    ? [
+        {
+          x: 214,
+          y: 295,
+          npc: "hank" as NPCName,
+        },
+      ]
+    : []),
   {
     x: 442,
     y: 173,
     npc: "mayor",
     direction: "left",
   },
+  {
+    x: 728,
+    y: 274,
+    npc: "bailey",
+    direction: "left",
+  },
+  {
+    x: 672,
+    y: 384,
+    npc: "eins",
+    direction: "left",
+  },
 ];
+
+const budImageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
@@ -126,15 +155,25 @@ export class PlazaScene extends BaseScene {
     [sessionId: string]: PlaceableContainer;
   } = {};
 
+  dogs: {
+    [sessionId: string]: DogContainer;
+  } = {};
+
+  pets: {
+    [sessionId: string]: PetContainer;
+  } = {};
+
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor({ gameState }: { gameState: GameState }) {
-    const showDesertMap = hasFeatureAccess(gameState, "DESERT_PLAZA");
+  private trialVipSprite: Phaser.GameObjects.Sprite | undefined;
+
+  constructor() {
     super({
       name: "plaza",
       map: {
-        json: showDesertMap ? desert_plaza : faction_plaza,
-        imageKey: "tileset",
+        json: seasonal_plaza,
+        imageKey: "seasonal-tileset",
+        defaultTilesetConfig: seasonal_tileset,
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -144,19 +183,18 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("vip_gift", "world/vip_gift.png");
-    this.load.image("rabbit_1", "world/rabbit_1.png");
-    this.load.image("rabbit_2", "world/rabbit_2.png");
-    this.load.image("rabbit_3", "world/rabbit_3.png");
-    this.load.image("rabbit_4", "world/rabbit_4.png");
-    this.load.image("rabbit_5", "world/rabbit_5.png");
-    this.load.image("rabbit_6", "world/rabbit_6.png");
+    this.load.spritesheet("trial_vip", "world/trial_vip.webp", {
+      frameWidth: 18,
+      frameHeight: 23,
+    });
+    this.load.image("rarecrows", "world/rarecrows.webp");
 
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
-    this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
+    this.load.image("balloon", `world/heart_air_balloon.webp`);
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -194,7 +232,8 @@ export class PlazaScene extends BaseScene {
     });
 
     this.load.image("chest", "world/rare_chest.png");
-    this.load.image("trading_board", "world/trading_board.png");
+    this.load.image("weather_shop", "world/weather_shop.webp");
+    this.load.image("pet_shop", "world/pet_shop.webp");
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("luxury_chest", "world/luxury_chest.png");
@@ -203,18 +242,46 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("tomato_bombard", "world/tomato_bombard.gif");
-    this.load.image("rice_panda", "world/rice_panda.webp");
+    this.load.image("magma_stone", "world/magma_stone.webp");
+    this.load.image("pet_specialist_hat", "world/pet_specialist_hat.webp");
 
-    this.load.image("explorer_hat", "world/explorer_hat.png");
+    // Auction Items
+    this.load.image("prizes_chest", "world/prizes_chest.png");
+    this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
+    this.load.image("pet_bed", "world/pet_bed.webp");
+    this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
+    this.load.image("moon_fox_statue", "world/moon_fox_statue.webp");
+    this.load.image("squirrel_onesie_npc", "world/squirrel_onesie_npc.webp");
 
-    this.load.image("faction_banner", "world/clash_of_factions_banner.webp");
-    this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
+    this.load.image("ronin_banner", "world/ronin_banner.webp");
+
+    const chapter = getCurrentChapter(Date.now());
+    // chapter = "Paw Prints"; // Testing only
+    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
       frameHeight: 7,
     });
+
+    this.load.spritesheet("dog_1", "world/yellow_dog.webp", {
+      frameWidth: 21,
+      frameHeight: 22,
+    });
+
+    this.load.spritesheet("dog_2", "world/brown_dog.webp", {
+      frameWidth: 20,
+      frameHeight: 22,
+    });
+
+    this.load.spritesheet(
+      "sleeping_dragon",
+      "world/sleeping_dragon_teaser.webp",
+      {
+        frameWidth: 34,
+        frameHeight: 33,
+      },
+    );
 
     super.preload();
 
@@ -241,28 +308,141 @@ export class PlazaScene extends BaseScene {
   async create() {
     super.create();
 
-    const tradingBoard = this.add.sprite(725, 260, "trading_board");
-    tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(tradingBoard, 75)) {
-        interactableModalManager.open("trading_board");
+    this.placeables = {};
+    this.dogs = {};
+    this.pets = {};
+
+    const weatherShop = this.add.sprite(728, 250, "weather_shop");
+    weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(weatherShop, 75)) {
+        interactableModalManager.open("weather_shop");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
-    const tradingBoardIcon = this.add.sprite(745, 240, "trade_icon");
-    tradingBoardIcon
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(tradingBoardIcon, 75)) {
-          interactableModalManager.open("trading_board");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-    tradingBoardIcon.setDepth(1000000);
+    const rarecrows = this.add
+      .sprite(277, 420, "rarecrows")
+      .setDepth(100000000);
+    rarecrows.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(rarecrows, 75)) {
+        interactableModalManager.open("rarecrows");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
 
-    this.initialiseNPCs(PLAZA_BUMPKINS);
+    const petShop = this.add.sprite(164, 136, "pet_shop");
+    petShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(petShop, 75)) {
+        interactableModalManager.open("pet_shop");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const prizesChest = this.add.sprite(560, 245, "prizes_chest");
+    prizesChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(prizesChest, 100)) {
+        interactableModalManager.open("chapter_raffles");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const prizesLabel = new Label(this, "PRIZES", "gold");
+    prizesLabel.setPosition(560, 230);
+    prizesLabel.setDepth(10000000);
+    this.add.existing(prizesLabel);
+
+    let bumpkins = PLAZA_BUMPKINS;
+    const now = Date.now();
+    const { holiday } = getBumpkinHoliday({ now });
+    const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+
+    if (!isHoliday) {
+      bumpkins = [
+        ...bumpkins,
+        {
+          x: 371,
+          y: 420,
+          npc: "pumpkin' pete",
+        },
+        {
+          x: 795,
+          y: 118,
+          npc: "bert",
+          direction: "left",
+        },
+        {
+          x: 631,
+          y: 98,
+          npc: "timmy",
+        },
+        {
+          x: 307,
+          y: 72,
+          npc: "raven",
+          direction: "left",
+        },
+
+        {
+          x: 480,
+          y: 140,
+          npc: "cornwell",
+        },
+        {
+          x: 90,
+          y: 70,
+          npc: "tywin",
+        },
+      ];
+    } else {
+      bumpkins = [
+        ...bumpkins,
+        {
+          x: 555,
+          y: 252,
+          npc: "pumpkin' pete",
+          hideLabel: true,
+        },
+        {
+          x: 575,
+          y: 252,
+          npc: "tywin",
+          direction: "left",
+          hideLabel: true,
+        },
+        {
+          x: 640,
+          y: 250,
+          npc: "cornwell",
+          direction: "left",
+          hideLabel: true,
+        },
+
+        {
+          x: 620,
+          y: 245,
+          npc: "bert",
+          hideLabel: true,
+        },
+        {
+          x: 584,
+          y: 230,
+          npc: "timmy",
+          hideLabel: true,
+        },
+        {
+          x: 307,
+          y: 72,
+          npc: "raven",
+          direction: "left",
+        },
+      ];
+    }
+
+    this.initialiseNPCs(bumpkins);
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add
@@ -273,11 +453,6 @@ export class PlazaScene extends BaseScene {
         )
         .setDepth(1000000000000);
     }
-
-    const vipGift = this.add.sprite(379, 240, "vip_gift");
-    vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("vip_chest");
-    });
 
     if (this.gameState.inventory["Treasure Key"]) {
       this.add.sprite(106, 140, "key_disc").setDepth(1000000000);
@@ -320,16 +495,83 @@ export class PlazaScene extends BaseScene {
       }
     });
 
+    // Trial VIP - only show if canClaimTrial; disappears after trial.started
+    if (canClaimTrial({ vip: this.gameState.vip })) {
+      const trialVip = this.add.sprite(600, 320, "trial_vip");
+      this.trialVipSprite = trialVip;
+      trialVip.setDepth(100000001);
+      this.anims.create({
+        key: "trial_vip_anim",
+        frames: this.anims.generateFrameNumbers("trial_vip", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+      });
+      trialVip.play("trial_vip_anim", true);
+      this.physics.world.enable(trialVip);
+      this.colliders?.add(trialVip);
+      this.triggerColliders?.add(trialVip);
+      (trialVip.body as Phaser.Physics.Arcade.Body)
+        .setSize(24, 24)
+        .setOffset(0, 0) // center 40x40 on 18x23 sprite (origin 0.5)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+      trialVip.setData("id", "free_trial");
+      this.onCollision["free_trial"] = () => {
+        interactableModalManager.open("free_trial");
+      };
+      trialVip
+        .setInteractive({
+          cursor: "pointer",
+          hitArea: new Phaser.Geom.Rectangle(-25, -25, 50, 50),
+          hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+        })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(trialVip, 75)) {
+            interactableModalManager.open("free_trial");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+    }
+
     this.add.sprite(321.5, 230, "shop_icon");
-    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
+
+    const dragon = this.add
+      .sprite(142, 16, "sleeping_dragon")
+      .setDepth(10000000);
+    this.anims.create({
+      key: "sleeping_dragon_animation",
+      frames: this.anims.generateFrameNumbers("sleeping_dragon", {
+        start: 0,
+        end: 1,
+      }),
+      repeat: -1,
+      frameRate: 1,
+    });
+    dragon.play("sleeping_dragon_animation", true);
+
+    const balloon = this.add.sprite(510, 228, "balloon");
+
+    balloon.setDepth(272);
+
+    const balloonLabel = new Label(this, "FLY", "brown");
+    balloonLabel.setPosition(510, 208);
+    balloonLabel.setDepth(10000000);
+    this.add.existing(balloonLabel);
+
+    // On clikc open
+    balloon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("air_balloon");
+    });
 
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
     } else {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
-
-    auctionIcon.setDepth(1000000);
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
     clubHouseLabel.setPosition(152, 262);
@@ -357,7 +599,7 @@ export class PlazaScene extends BaseScene {
     });
 
     // Plaza Bud
-    const bud = this.add.sprite(500, 420, "plaza_bud");
+    const bud = this.add.sprite(525, 436, "plaza_bud");
     this.anims.create({
       key: "plaza_bud_animation",
       frames: this.anims.generateFrameNumbers("plaza_bud", {
@@ -378,20 +620,98 @@ export class PlazaScene extends BaseScene {
         }
       });
 
+    const season = this.gameState.season.season;
+
+    // List of all seasonal elements
+    const seasonElements = [
+      "Water",
+      "Ground",
+      "Flowers & Grass",
+      "Paths",
+      "Paths Layer 2",
+      "Decoration Base",
+      "Decoration Base 2",
+      "Decoration Base 3",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Base",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+      "Club House Base",
+    ];
+    const seasons = ["Spring", "Summer", "Autumn", "Winter"];
+
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+    ];
+
+    const topElementsSet = new Set(topElements);
+
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
+
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            const activeLayerName = `${element}/${capitalize(season)} ${element}`;
+            this.layers[activeLayerName]?.setDepth(1000000);
+          }
+        });
+      });
+
+    // Enable/disable chapter-specific layers
+    const chapter = getCurrentChapter(Date.now());
+
+    // Testing only
+    // chapter = "Paw Prints";
+
+    const activeChapterLayerName = CHAPTER_LAYERS[chapter];
+
+    // Hide all known chapter layers first
+    Object.values(CHAPTER_LAYERS).forEach((name) => {
+      if (!name) return;
+      this.layers[name]?.setVisible(false);
+    });
+
+    // Show only the active chapter layer (if present in the map)
+    if (activeChapterLayerName) {
+      this.layers[activeChapterLayerName]?.setVisible(true);
+    }
+
     // Banner
-    const banner = hasFeatureAccess(this.gameState, "DESERT_PLAZA")
-      ? "pharaoh_banner"
-      : "faction_banner";
-    this.add.image(400, 225, banner).setDepth(100000000000);
+    this.add.image(400, 225, "chapter_banner").setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, banner).setDepth(100000000000);
+    this.add.image(464, 225, "chapter_banner").setDepth(225);
 
-    this.add.image(480, 386, banner).setDepth(100000000000);
+    this.add.image(480, 386, "chapter_banner").setDepth(386);
 
-    this.add.sprite(385, 386, banner).setDepth(100000000000);
+    this.add.sprite(385, 386, "chapter_banner").setDepth(386);
+
+    // Ronin Banner
+    this.add.sprite(400, 150, "ronin_banner").setDepth(150);
+    this.add.sprite(330, 355, "ronin_banner").setDepth(355);
+    this.add.sprite(672, 270, "ronin_banner").setDepth(270);
+    this.add.sprite(41, 287, "ronin_banner").setDepth(287);
+    this.add.sprite(106, 110, "ronin_banner").setDepth(120);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
@@ -461,14 +781,66 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    // Stella Collectible of the Month
-    if (hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
-      this.add.image(248, 244, "tomato_bombard");
-    } else {
-      this.add.image(248, 244, "rice_panda");
+    if (this.textures.exists("sparkle")) {
+      const sparkle = this.add.sprite(567, 191, "sparkle");
+      sparkle.setDepth(1000000);
+
+      this.anims.create({
+        key: `sparkel_anim`,
+        frames: this.anims.generateFrameNumbers("sparkle", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+      });
+
+      const sparkle2 = this.add.sprite(589, 205.5, "sparkle");
+      sparkle2.setDepth(1000000);
+
+      const sparkle3 = this.add.sprite(599, 181, "sparkle");
+      sparkle3.setDepth(1000000);
+
+      const sparkle4 = this.add.sprite(612, 204, "sparkle");
+      sparkle4.setDepth(1000000);
+
+      const sparkle5 = this.add.sprite(634, 191, "sparkle");
+      sparkle5.setDepth(1000000);
+
+      // Rarecrows
+      const rarecrowsSparkle = this.add.sprite(277, 410, "sparkle");
+      rarecrowsSparkle.setDepth(100000000);
+
+      sparkle.play(`sparkel_anim`, true);
+      sparkle2.play(`sparkel_anim`, true);
+      sparkle3.play(`sparkel_anim`, true);
+      sparkle4.play(`sparkel_anim`, true);
+      sparkle5.play(`sparkel_anim`, true);
+      rarecrowsSparkle.play(`sparkel_anim`, true);
     }
 
-    this.add.image(288.5, 248, "explorer_hat");
+    // After Paw Prints, items are added on the tiled map itself
+    // TODO - delete this code once Crabs and Traps is released
+    if (chapter === "Paw Prints") {
+      const nft1 = this.add.image(567, 181, "moon_fox_statue");
+      nft1.setDepth(191);
+
+      const nft2 = this.add.image(589, 200, "pet_nft_egg");
+      nft2.setDepth(205);
+
+      const nft3 = this.add.image(601, 196, "paw_prints_rug");
+      nft3.setDepth(181);
+
+      const nft4 = this.add.image(612, 200, "squirrel_onesie_npc");
+      nft4.setDepth(205);
+
+      const nft5 = this.add.image(635, 193, "pet_bed");
+      nft5.setDepth(181);
+
+      this.add.image(248, 244, "magma_stone");
+
+      this.add.image(288.5, 247, "pet_specialist_hat");
+    }
 
     const door = this.colliders
       ?.getChildren()
@@ -491,8 +863,11 @@ export class PlazaScene extends BaseScene {
       const wasOpen = chest.visible;
       const isOpen = (obj1 as any).y > (obj2 as any).y;
 
-      this.layers["Club House Roof"].setVisible(isOpen);
-      this.layers["Club House Base"].setVisible(isOpen);
+      const roofBase = `${"Club House Base"}/${capitalize(season)} ${"Club House Base"}`;
+      const roofLayer = `${"Club House Roof"}/${capitalize(season)} ${"Club House Roof"}`;
+
+      this.layers[roofLayer].setVisible(isOpen);
+      this.layers[roofBase].setVisible(isOpen);
       this.layers["Club House Door"].setVisible(isOpen);
       clubHouseLabel.setVisible(isOpen);
 
@@ -558,12 +933,68 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  public addDog(id: 1 | 2, x: number, y: number, onPatted: () => void) {
+    const dogContainer = new DogContainer(this, x, y, id, onPatted);
+    this.dogs[id] = dogContainer;
+  }
+
+  public updateDogs() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    server.state.dogs.forEach((dog) => {
+      const dogContainer = this.dogs[dog.id];
+      if (!dogContainer) {
+        this.addDog(dog.id, dog.x, dog.y, () => {
+          server.send("pat_dog", {
+            action: "pat_dog",
+            id: dog.id,
+          });
+        });
+        return;
+      }
+
+      if (dogContainer) {
+        const distance = Math.sqrt(
+          (dogContainer.x - dog.x) ** 2 + (dogContainer.y - dog.y) ** 2,
+        );
+        if (distance > 2) {
+          if (dog.x > dogContainer.x) {
+            dogContainer.faceRight();
+          } else if (dog.x < dogContainer.x) {
+            dogContainer.faceLeft();
+          }
+
+          dogContainer.walk();
+        } else {
+          dogContainer.idle();
+        }
+
+        dogContainer.x = Phaser.Math.Linear(dogContainer.x, dog.x, 0.05);
+        dogContainer.y = Phaser.Math.Linear(dogContainer.y, dog.y, 0.05);
+
+        dogContainer.setDepth(dogContainer.y);
+      }
+    });
+  }
+
   public update() {
     super.update();
     this.syncPlaceables();
 
     if (this.movementAngle && this.arrows) {
       this.arrows.setVisible(false);
+    }
+
+    this.updateDogs();
+
+    // Remove trial VIP from plaza once trial has been started
+    if (this.trialVipSprite && !canClaimTrial({ vip: this.gameState.vip })) {
+      this.colliders?.remove(this.trialVipSprite);
+      this.triggerColliders?.remove(this.trialVipSprite);
+      delete this.onCollision["free_trial"];
+      this.trialVipSprite.destroy();
+      this.trialVipSprite = undefined;
     }
   }
 }

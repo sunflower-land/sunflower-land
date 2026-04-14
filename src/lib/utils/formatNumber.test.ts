@@ -6,6 +6,8 @@ describe("formatNumber", () => {
     expect(formatNumber(undefined)).toBe("");
 
     expect(formatNumber(new Decimal(0))).toBe("0");
+    expect(formatNumber(Infinity)).toBe("Infinity");
+    expect(formatNumber(-Infinity)).toBe("-Infinity");
 
     expect(formatNumber(new Decimal(0.001))).toBe("0");
     expect(formatNumber(new Decimal(0.009))).toBe("0");

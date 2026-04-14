@@ -1,36 +1,47 @@
-import React, { useContext, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
-import { WithdrawTokens } from "./WithdrawTokens";
+import { WithdrawFlower } from "./WithdrawFlower";
 import { WithdrawItems } from "./WithdrawItems";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
-import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
+import {
+  getAccountTradedRestrictionSecondsLeft,
+  isAccountTradedWithin90Days,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
+import { Transaction } from "features/island/hud/Transaction";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { GameWallet } from "features/wallet/Wallet";
+import { WithdrawPets } from "./WithdrawPets";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
     case "tokens":
-      return token;
+      return flowerIcon;
     case "items":
       return chest;
     case "wearables":
       return SUNNYSIDE.icons.wardrobe;
     case "buds":
       return SUNNYSIDE.icons.plant;
+    case "pets":
+      return petNFTEgg;
     case "resources":
       return SUNNYSIDE.resource.wood;
+    case "verify":
+      return SUNNYSIDE.icons.search;
+
     default:
       return "";
   }
@@ -39,37 +50,44 @@ const getPageIcon = (page: Page) => {
 const getPageText = (page: Page) => {
   switch (page) {
     case "tokens":
-      return "SFL";
+      return "FLOWER";
     case "items":
       return translate("collectibles");
     case "wearables":
       return translate("wearables");
     case "buds":
       return translate("buds");
+    case "pets":
+      return translate("pets");
     case "resources":
       return translate("resources");
+    case "verify":
+      return translate("verify");
     default:
       return "";
   }
 };
 
-type Page = "main" | "tokens" | "items" | "wearables" | "buds" | "resources";
+type Page =
+  | "main"
+  | "tokens"
+  | "items"
+  | "wearables"
+  | "buds"
+  | "resources"
+  | "verify"
+  | "pets";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
-    <div className="p-2 flex flex-col justify-center space-y-1">
-      <span className="mb-1">{translate("withdraw.sync")}</span>
+    <div className="flex flex-col justify-center space-y-1">
+      <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
+
       <div className="flex space-x-1">
         <Button onClick={() => setPage("tokens")}>
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
-          </div>
-        </Button>
-        <Button onClick={() => setPage("resources")}>
-          <div className="flex items-center">
-            <img src={getPageIcon("resources")} className="h-4 mr-1" />
-            {getPageText("resources")}
           </div>
         </Button>
       </div>
@@ -94,6 +112,20 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
             {getPageText("buds")}
           </div>
         </Button>
+        <Button onClick={() => setPage("pets")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("pets")} className="h-4 mr-1" />
+            {getPageText("pets")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("verify")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("verify")} className="h-4 mr-1" />
+            {getPageText("verify")}
+          </div>
+        </Button>
       </div>
     </div>
   );
@@ -104,7 +136,7 @@ const NavigationMenu: React.FC<{
   setPage: (page: Page) => void;
 }> = ({ page, setPage }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ml-2 pb-1">
       <img
         src={SUNNYSIDE.icons.arrow_left}
         className="self-start cursor-pointer mr-3"
@@ -127,126 +159,135 @@ interface Props {
   onClose: () => void;
 }
 
-const _verified = (state: MachineState) => state.context.verified;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const verified = useSelector(gameService, _verified);
+  const farmId = useSelector(gameService, _farmId);
+
+  const accountTradedRecently = useSelector(gameService, (s) =>
+    isAccountTradedWithin90Days(s.context),
+  );
+  const restrictionSecondsLeft = useSelector(gameService, (s) =>
+    getAccountTradedRestrictionSecondsLeft(s.context),
+  );
 
   const [page, setPage] = useState<Page>("main");
 
-  const withdrawAmount = useRef({
-    ids: [] as number[],
-    amounts: [] as string[],
-    sfl: "0",
-    wearableIds: [] as number[],
-    wearableAmounts: [] as number[],
-    budIds: [] as number[],
-  });
-
-  const [showCaptcha, setShowCaptcha] = useState(false);
-
-  const onWithdrawTokens = async (sfl: string) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl,
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: [],
-    };
-    setShowCaptcha(true);
+  const onWithdrawTokens = async (sfl: string, chainId: number) => {
+    if (accountTradedRecently) return;
+    gameService.send("TRANSACT", {
+      transaction: "transaction.flowerWithdrawn",
+      request: {
+        farmId,
+        effect: { type: "withdraw.flower", amount: sfl, chainId },
+      },
+    });
+    onClose();
   };
 
   const onWithdrawItems = async (ids: number[], amounts: string[]) => {
-    withdrawAmount.current = {
-      ids,
-      amounts,
-      sfl: "0",
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: [],
-    };
-    setShowCaptcha(true);
+    if (accountTradedRecently) return;
+    gameService.send("TRANSACT", {
+      transaction: "transaction.itemsWithdrawn",
+      request: { farmId, effect: { type: "withdraw.items", amounts, ids } },
+    });
+    onClose();
   };
 
   const onWithdrawWearables = async (
     wearableIds: number[],
     wearableAmounts: number[],
   ) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl: "0",
-      wearableAmounts,
-      wearableIds,
-      budIds: [],
-    };
-    setShowCaptcha(true);
-  };
-
-  const onWithdrawBuds = async (ids: number[]) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl: "0",
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: ids,
-    };
-    setShowCaptcha(true);
-  };
-
-  const onCaptchaSolved = async (token: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("WITHDRAW", {
-      ...withdrawAmount.current,
-      captcha: token,
+    if (accountTradedRecently) return;
+    gameService.send("TRANSACT", {
+      transaction: "transaction.wearablesWithdrawn",
+      request: {
+        effect: {
+          type: "withdraw.wearables",
+          amounts: wearableAmounts,
+          ids: wearableIds,
+        },
+      },
     });
     onClose();
   };
 
-  const provePersonhood = async () => {
-    gameService.send("PROVE_PERSONHOOD");
+  const onWithdrawBuds = async (ids: number[]) => {
+    if (accountTradedRecently) return;
+    gameService.send("TRANSACT", {
+      transaction: "transaction.budWithdrawn",
+      request: { effect: { type: "withdraw.buds", budIds: ids } },
+    });
     onClose();
   };
 
-  if (!verified) {
-    return (
-      <>
-        <p className="p-1 m-1">{t("withdraw.proof")}</p>
-        <Button onClick={provePersonhood}>{t("withdraw.verification")}</Button>
-      </>
-    );
-  }
+  const onWithdrawPets = async (ids: number[]) => {
+    if (accountTradedRecently) return;
+    gameService.send("TRANSACT", {
+      transaction: "transaction.petWithdrawn",
+      request: { effect: { type: "withdraw.pets", petIds: ids } },
+    });
+    onClose();
+  };
 
-  if (showCaptcha) {
-    return (
-      <>
-        <ReCAPTCHA
-          sitekey={CONFIG.RECAPTCHA_SITEKEY}
-          onChange={onCaptchaSolved}
-          onExpired={() => setShowCaptcha(false)}
-          className="w-full m-4 flex items-center justify-center"
-        />
-        <p className="text-xs p-1 m-1 text-center">{t("withdraw.unsave")}</p>
-      </>
-    );
+  const transaction = gameService.getSnapshot().context.state.transaction;
+  if (transaction) {
+    return <Transaction isBlocked onClose={onClose} />;
   }
 
   return (
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
-      {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
-      {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
-      {page === "resources" && <WithdrawResources onWithdraw={onClose} />}
-      {page === "wearables" && (
-        <WithdrawWearables onWithdraw={onWithdrawWearables} />
+      {page === "tokens" && (
+        <GameWallet action="withdrawFlower">
+          <WithdrawFlower
+            onWithdraw={onWithdrawTokens}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
       )}
-      {page === "buds" && <WithdrawBuds onWithdraw={onWithdrawBuds} />}
+      {page === "items" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawItems
+            onWithdraw={onWithdrawItems}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
+      )}
+      {page === "wearables" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawWearables
+            onWithdraw={onWithdrawWearables}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
+      )}
+      {page === "buds" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawBuds
+            onWithdraw={onWithdrawBuds}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
+      )}
+      {page === "pets" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawPets
+            onWithdraw={onWithdrawPets}
+            withdrawDisabled={accountTradedRecently}
+          />
+        </GameWallet>
+      )}
+      {page === "verify" && <FaceRecognition />}
+      {accountTradedRecently && (
+        <div className="mt-2">
+          <TradeCooldownWidget
+            restrictionSecondsLeft={restrictionSecondsLeft}
+          />
+        </div>
+      )}
     </>
   );
 };

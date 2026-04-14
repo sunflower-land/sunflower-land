@@ -1,94 +1,96 @@
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-
 import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { TimerPopover } from "features/island/common/TimerPopover";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
+import { Expanding } from "components/ui/layouts/ExpansionRequirements";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Panel } from "components/ui/Panel";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
+
+const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   expansion: ExpansionConstruction;
-  onDone: () => void;
 }
 
 /**
  * Goblins working hard constructing a piece of land
  */
-export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
-  const { showTimers } = useContext(Context);
+export const Pontoon: React.FC<Props> = ({ expansion }) => {
+  const { gameService, showTimers } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const readyAt = expansion.readyAt;
 
-  const [showPopover, setShowPopover] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(
-    (expansion.readyAt - Date.now()) / 1000,
-  );
-  const { t } = useAppTranslation();
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const seconds = (expansion.readyAt - Date.now()) / 1000;
-      setSecondsLeft(seconds);
+  const [showModal, setShowModal] = useState(false);
+  const gems = useRealTimeInstantGems({ readyAt, game: state });
 
-      if (seconds <= 0) {
-        clearInterval(interval);
-        onDone();
-      }
-    }, 1000);
+  const onInstantExpand = () => {
+    gameService.send("expansion.spedUp");
 
-    return () => clearInterval(interval);
-  }, []);
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Expand",
+      type: "Fee",
+    });
+
+    setShowModal(false);
+  };
 
   // Land is still being built
   const constructionTime = (expansion.readyAt - expansion.createdAt) / 1000;
+
   return (
-    <div
-      onMouseEnter={() => setShowPopover(true)}
-      onMouseLeave={() => setShowPopover(false)}
-      className="w-full h-full"
-    >
-      <img
-        src={SUNNYSIDE.land.pontoon}
-        style={{
-          top: `${PIXEL_SCALE * 20}px`,
-          left: `${PIXEL_SCALE * -10}px`,
-          width: `${PIXEL_SCALE * 129}px`,
-        }}
-        className="relative max-w-none"
-      />
-
-      {/* Timer popover */}
+    <>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Panel>
+          <Expanding
+            onClose={() => setShowModal(false)}
+            state={state}
+            readyAt={readyAt}
+            gems={gems}
+            onInstantExpanded={onInstantExpand}
+          />
+        </Panel>
+      </Modal>
       <div
-        className="flex justify-center absolute w-full pointer-events-none"
-        style={{
-          top: `${PIXEL_SCALE * -2}px`,
-          left: `${PIXEL_SCALE * 7}px`,
-        }}
+        onClick={() => setShowModal(true)}
+        className="w-full h-full cursor-pointer"
       >
-        <TimerPopover
-          image={SUNNYSIDE.land.island}
-          description={t("landscape.timerPopover")}
-          showPopover={showPopover}
-          timeLeft={secondsLeft}
-        />
-      </div>
-
-      {showTimers && (
-        <ProgressBar
-          seconds={secondsLeft}
-          percentage={
-            ((constructionTime - secondsLeft) / constructionTime) * 100
-          }
-          type="progress"
-          formatLength="medium"
+        <img
+          src={SUNNYSIDE.land.pontoon}
           style={{
-            top: `${PIXEL_SCALE * 82}px`,
-            left: `${PIXEL_SCALE * 45}px`,
-            whiteSpace: "nowrap",
+            top: `${PIXEL_SCALE * 20}px`,
+            left: `${PIXEL_SCALE * -10}px`,
+            width: `${PIXEL_SCALE * 129}px`,
           }}
+          className="relative max-w-none"
         />
-      )}
-    </div>
+
+        {showTimers && (
+          <ProgressBar
+            seconds={secondsLeft}
+            percentage={
+              ((constructionTime - secondsLeft) / constructionTime) * 100
+            }
+            type="progress"
+            formatLength="medium"
+            style={{
+              top: `${PIXEL_SCALE * 82}px`,
+              left: `${PIXEL_SCALE * 45}px`,
+              whiteSpace: "nowrap",
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };

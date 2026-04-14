@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { BASIC_DECORATIONS, ShopDecorationName } from "../../types/decorations";
+import {
+  LANDSCAPING_DECORATIONS,
+  ShopDecorationName,
+} from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -23,7 +26,7 @@ describe("buyDecoration", () => {
     ).toThrow("This item is not a decoration");
   });
 
-  it.only("does not craft a decoration if there is not enough coins", () => {
+  it("does not craft a decoration if there is not enough coins", () => {
     expect(() =>
       buyDecoration({
         state: {
@@ -71,7 +74,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.coins).toEqual(
-      coins - (BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0),
+      coins - (LANDSCAPING_DECORATIONS["Potted Sunflower"].coins ?? 0),
     );
   });
 
@@ -111,8 +114,8 @@ describe("buyDecoration", () => {
         name: "Potted Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0,
+    expect(state.farmActivity["Coins Spent"]).toEqual(
+      LANDSCAPING_DECORATIONS["Potted Sunflower"].coins ?? 0,
     );
   });
 
@@ -130,7 +133,7 @@ describe("buyDecoration", () => {
         name: "Potted Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(1);
+    expect(state.farmActivity["Potted Sunflower Bought"]).toEqual(1);
   });
 
   it("requires ID does not exist", () => {

@@ -9,6 +9,18 @@
       sizes="any"
       href="public/pwa/icons/favicon.ico"
     />
+
+    <!-- head content -->
+    <meta
+      name="fc:miniapp"
+      content='{"version":"1","imageUrl":"public/farcaster/farcaster_banner.png","button":{"title":"🚩 Play","action":{"type":"launch_miniapp","name":"Sunflower Land","url":"https://sunflower-land.com/play"}}}'
+    />
+    <!-- For backward compatibility -->
+    <meta
+      name="fc:frame"
+      content='{"version":"1","imageUrl":"public/farcaster/farcaster_banner.png","button":{"title":"🚩 Play","action":{"type":"launch_miniapp","name":"Sunflower Land","url":"https://sunflower-land.com/play"}}}'
+    />
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
@@ -20,6 +32,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap"
       rel="stylesheet"
     />
 
@@ -249,11 +265,6 @@
     <script type="module" src="/src/main.tsx"></script>
     <script
       src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-      async
-      defer
-    ></script>
-    <script
-      src="https://track.playcradle.com/static/wallet_tracking_min.js"
       async
       defer
     ></script>

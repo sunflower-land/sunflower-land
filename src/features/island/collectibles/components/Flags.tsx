@@ -1,13 +1,11 @@
 import React from "react";
 
-import {
-  CollectibleName,
-  FLAGS,
-  getKeys,
-} from "features/game/types/craftables";
+import { CollectibleName, FLAGS } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Flag } from "features/game/types/flags";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { getKeys } from "lib/object";
 
 interface Props {
   flagName: CollectibleName;
@@ -15,15 +13,17 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <img
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 11}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-      src={ITEM_DETAILS[flagName].image}
-      alt={flagName}
-    />
+    <SFTDetailPopover name={flagName}>
+      <img
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+        src={ITEM_DETAILS[flagName].image}
+        alt={flagName}
+      />
+    </SFTDetailPopover>
   );
 };
 

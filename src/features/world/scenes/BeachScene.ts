@@ -3,24 +3,18 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
-import { gameAnalytics } from "lib/gameAnalytics";
-import {
-  BeachBountyTreasure,
-  SELLABLE_TREASURE,
-} from "features/game/types/treasure";
+
 import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
-  getTreasureCount,
-  getTreasuresFound,
+  getArtefactsFound,
+  hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
@@ -49,21 +43,13 @@ const BUMPKINS: NPCBumpkin[] = [
   { npc: "jafar", x: 478, y: 220, direction: "left" },
   { npc: "corale", x: 215, y: 750 },
   { npc: "miranda", x: 418, y: 487 },
-  {
-    // To remove on digging release
-    npc: "goldtooth",
-    x: 384,
-    y: 335,
-  },
 ];
 
-export type DigAnalytics = {
-  outputCoins: number;
-  percentageFound: number;
-};
+export type DigAnalytics = { outputCoins: number; percentageFound: number };
 
 const SITE_COLS = DESERT_GRID_WIDTH;
 const SITE_ROWS = DESERT_GRID_HEIGHT;
+const PET_FOLLOW_OFFSET_X = 13;
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
@@ -79,7 +65,7 @@ export class BeachScene extends BaseScene {
   gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
-  digOffsetY = 1;
+  digOffsetY = -1;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
@@ -96,6 +82,7 @@ export class BeachScene extends BaseScene {
   alreadyNotifiedOfClaim = false;
   digSoundsCooldown = false;
   sandHole?: Phaser.GameObjects.Image;
+  digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -141,12 +128,6 @@ export class BeachScene extends BaseScene {
       frameHeight: 16,
     });
 
-    // "misty" NPC fisher
-    this.load.spritesheet("fisher", SUNNYSIDE.npcs.fishing_sheet, {
-      frameWidth: 58,
-      frameHeight: 50,
-    });
-
     // fishing weather icons
     this.load.image("fish_frenzy", "world/lightning.png");
     this.load.image("full_moon", "world/full_moon.png");
@@ -170,7 +151,13 @@ export class BeachScene extends BaseScene {
     this.load.image("hieroglyph", "world/hieroglyph.webp");
     this.load.image("vase", "world/vase.webp");
     this.load.image("scarab", "world/scarab.webp");
+    this.load.image("cow_skull", "world/cow_skull.webp");
+    this.load.image("ancient_clock", "world/ancient_clock.png");
+    this.load.image("broken_pillar", "world/broken_pillar.webp");
+    this.load.image("coprolite", "world/coprolite.webp");
+    this.load.image("moon_crystal", "world/moon_crystal.webp");
     this.load.image("sand", "world/sand.webp");
+    this.load.image("ammonite_shell", "world/ammonite_shell.webp");
 
     this.load.image("shovel_select", "world/shovel_select_new.webp");
     this.load.image("confirm_select", "world/select_confirm_new.webp");
@@ -179,17 +166,64 @@ export class BeachScene extends BaseScene {
     this.load.image("button", "world/button.webp");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
+    this.load.spritesheet("hank_swimming", SUNNYSIDE.npcs.hank_swimming, {
+      frameWidth: 16,
+      frameHeight: 14,
+    });
   }
 
+  get treasuresFound() {
+    return getArtefactsFound({
+      game: this.gameService.getSnapshot().context.state,
+      now: Date.now(),
+    });
+  }
+
+  get percentageTreasuresFound() {
+    return Math.round((this.treasuresFound / 3) * 100);
+  }
+
+  get hasClaimedStreakReward() {
+    return hasClaimedReward({
+      game: this.gameService.getSnapshot().context.state,
+    });
+  }
+
+  handleDigbyAlertSprite() {
+    // Add an alert sprite if required artefacts found but reward is not claimed
+    if (
+      !this.digbyAlertSprite?.active &&
+      this.percentageTreasuresFound >= 100 &&
+      !this.hasClaimedStreakReward
+    ) {
+      this.digbyAlertSprite = this.add
+        .sprite(336, 196, "alert")
+        .setDepth(1000000000);
+    }
+
+    if (this.digbyAlertSprite?.active) {
+      // Hide or show the alert sprite based on Digby's speaking status
+      if (this.npcs.digby?.isSpeaking) {
+        this.digbyAlertSprite.setVisible(false);
+      } else {
+        this.digbyAlertSprite.setVisible(true);
+      }
+
+      // Destroy the alert sprite if the reward is claimed
+      if (this.hasClaimedStreakReward) {
+        this.digbyAlertSprite.destroy();
+      }
+    }
+  }
   updatePirateChest() {
     const piratePotionEquipped = isWearableActive({
-      game: this.gameService.state.context.state,
+      game: this.gameService.getSnapshot().context.state,
       name: "Pirate Potion",
     });
 
     const openedAt =
-      this.gameService.state.context.state.pumpkinPlaza.pirateChest?.openedAt ??
-      0;
+      this.gameService.getSnapshot().context.state.pumpkinPlaza.pirateChest
+        ?.openedAt ?? 0;
     const hasOpened =
       !!openedAt &&
       new Date(openedAt).toISOString().substring(0, 10) ===
@@ -202,47 +236,18 @@ export class BeachScene extends BaseScene {
   }
 
   async create() {
-    this.map = this.make.tilemap({
-      key: "beach",
-    });
+    this.map = this.make.tilemap({ key: "beach" });
+
     super.create();
+    //To use when there are bumpkins under testing
+    // const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
+    //   return true;
+    // });
 
-    const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
-      // Show new NPC(Desert Merchant) if you're beta tester
-      if (bumpkin.npc === "jafar") {
-        return hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
-      if (bumpkin.npc === "goldtooth") {
-        return !hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
-      return true;
-    });
+    // this.initialiseNPCs(filteredBumpkins);
 
-    this.initialiseNPCs(filteredBumpkins);
-
+    this.initialiseNPCs(BUMPKINS);
     this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
-
-    const fisher = new FishermanContainer({
-      x: 402,
-      y: 791,
-      scene: this,
-      weather: this.gameState.fishing.weather,
-    });
-    fisher.setDepth(100000000);
-    this.physics.world.enable(fisher);
-    this.colliders?.add(fisher);
-    this.triggerColliders?.add(fisher);
-    (fisher.body as Phaser.Physics.Arcade.Body)
-      .setSize(12, 16)
-      .setOffset(12, 11)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
 
     const turtle = this.add.sprite(408, 595, "beach_bud");
     turtle.setScale(-1, 1);
@@ -256,6 +261,20 @@ export class BeachScene extends BaseScene {
       frameRate: 10,
     });
     turtle.play("turtle_bud_anim", true);
+
+    if (Date.now() > new Date("2023-11-01T00:00:00").getTime()) {
+      const hank = this.add.sprite(480, 810, "hank_swimming");
+      this.anims.create({
+        key: "hank_anim",
+        frames: this.anims.generateFrameNumbers("hank_swimming", {
+          start: 0,
+          end: 12,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      hank.play("hank_anim", true);
+    }
 
     const treasureShop = this.add.sprite(464, 194, "treasure_shop");
     this.physics.world.enable(treasureShop);
@@ -316,10 +335,7 @@ export class BeachScene extends BaseScene {
     bird.setDepth(1000000000);
     this.anims.create({
       key: "bird_anim",
-      frames: this.anims.generateFrameNumbers("bird", {
-        start: 0,
-        end: 3,
-      }),
+      frames: this.anims.generateFrameNumbers("bird", { start: 0, end: 3 }),
       repeat: -1,
       frameRate: 5,
     });
@@ -592,7 +608,7 @@ export class BeachScene extends BaseScene {
 
   public populateDugItems = () => {
     const { grid: revealed } =
-      this.gameService.state.context.state.desert.digging ?? [];
+      this.gameService.getSnapshot().context.state.desert.digging ?? [];
 
     revealed.flat().forEach((hole) => {
       const { x, y, items } = hole;
@@ -714,10 +730,7 @@ export class BeachScene extends BaseScene {
         }
       });
 
-      this.tweens.chain({
-        targets: this.currentPlayer,
-        tweens,
-      });
+      this.tweens.chain({ targets: this.currentPlayer, tweens });
     } else {
       // Fallback for is no path is found. Just plow through.
       const xDiff = this.currentPlayer.x - x;
@@ -781,18 +794,19 @@ export class BeachScene extends BaseScene {
     col?: number;
   }) => {
     const sandShovelsCount = (
-      this.gameService.state.context.state.inventory["Sand Shovel"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Shovel"] ??
       new Decimal(0)
     ).toNumber();
     const sandDrillsCount = (
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Drill"] ??
       new Decimal(0)
     ).toNumber();
 
     let hasDugHere = false;
 
     if (row !== undefined && col !== undefined) {
-      const dug = this.gameService.state.context.state.desert.digging.grid;
+      const dug =
+        this.gameService.getSnapshot().context.state.desert.digging.grid;
 
       hasDugHere = dug.flat().some((hole) => {
         return hole.x === col && hole.y === row;
@@ -811,8 +825,9 @@ export class BeachScene extends BaseScene {
         if (this.selectedItem === "Sand Drill") return;
 
         const sandShovels =
-          this.gameService.state.context.state.inventory["Sand Shovel"] ??
-          new Decimal(0);
+          this.gameService.getSnapshot().context.state.inventory[
+            "Sand Shovel"
+          ] ?? new Decimal(0);
 
         if (this.selectedItem !== "Sand Shovel") {
           // Select the shovel so the player knows they need a shovel to dig
@@ -891,7 +906,7 @@ export class BeachScene extends BaseScene {
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
 
     const sandDrills =
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Drill"] ??
       new Decimal(0);
 
     const noToolX = x + this.cellSize - 4;
@@ -963,7 +978,7 @@ export class BeachScene extends BaseScene {
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
 
     const sandDrills =
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Drill"] ??
       new Decimal(0);
 
     const noToolX = hoverX + this.cellSize - 4;
@@ -998,8 +1013,9 @@ export class BeachScene extends BaseScene {
     ];
 
     const availableHoles = drillCoords.some(({ x, y }) => {
-      const dugAt = this.gameService.state.context.state.desert.digging.grid
-        .flat()
+      const dugAt = this.gameService
+        .getSnapshot()
+        .context.state.desert.digging.grid.flat()
         .find((hole) => hole.x === x && hole.y === y);
 
       return !dugAt;
@@ -1051,7 +1067,7 @@ export class BeachScene extends BaseScene {
     startRow = Math.min(startRow, 8);
 
     const sandDrills =
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Drill"] ??
       new Decimal(0);
 
     if (sandDrills.lt(1)) {
@@ -1122,33 +1138,22 @@ export class BeachScene extends BaseScene {
     this.noToolHoverBox?.setVisible(false);
   };
 
-  get treasuresFound() {
-    return getTreasuresFound({ game: this.gameService.state.context.state });
-  }
-
-  get totalBuriedTreasure() {
-    return getTreasureCount({ game: this.gameService.state.context.state });
-  }
-
-  get percentageTreasuresFound() {
-    return Math.round(
-      (this.treasuresFound.length / this.totalBuriedTreasure) * 100,
-    );
-  }
-
   get isAncientShovelActive() {
     return isWearableActive({
       name: "Ancient Shovel",
-      game: this.gameService.state.context.state,
+      game: this.gameService.getSnapshot().context.state,
     });
   }
 
   get holesDugCount() {
-    return this.gameService.state.context.state.desert.digging.grid.length ?? 0;
+    return (
+      this.gameService.getSnapshot().context.state.desert.digging.grid.length ??
+      0
+    );
   }
 
   get hasDigsLeft() {
-    return getRemainingDigs(this.gameService.state.context.state) > 0;
+    return getRemainingDigs(this.gameService.getSnapshot().context.state) > 0;
   }
 
   public handleDig = async (row: number, col: number) => {
@@ -1156,12 +1161,7 @@ export class BeachScene extends BaseScene {
     this.coordsToDig = { x: col, y: row };
     // Send off reveal game event
     this.gameService.send("REVEAL", {
-      event: {
-        type: "desert.dug",
-        x: col,
-        y: row,
-        createdAt: new Date(),
-      },
+      event: { type: "desert.dug", x: col, y: row, createdAt: new Date() },
     });
 
     const x = col * this.cellSize + this.gridX + this.cellSize / 2;
@@ -1175,11 +1175,7 @@ export class BeachScene extends BaseScene {
     this.coordsToDig = coords;
     // Send off reveal game event
     this.gameService.send("REVEAL", {
-      event: {
-        type: "desert.drilled",
-        coords,
-        createdAt: new Date(),
-      },
+      event: { type: "desert.drilled", coords, createdAt: new Date() },
     });
   };
 
@@ -1201,29 +1197,6 @@ export class BeachScene extends BaseScene {
         "beachDigAttempts",
         JSON.stringify({ [day]: attemptsToday + 1 }),
       );
-    }
-
-    if (attemptsToday + 1 < 4) {
-      const totalCoins = this.treasuresFound.reduce((acc, item) => {
-        const treasure = SELLABLE_TREASURE[item as BeachBountyTreasure];
-
-        if (!treasure) {
-          // eslint-disable-next-line no-console
-          console.log("Treasure not found in SELLABLE_TREASURE", item);
-          return acc;
-        }
-
-        return (acc += treasure.sellPrice);
-      }, 0);
-
-      const percentageFound = Math.floor(
-        (this.totalBuriedTreasure / this.treasuresFound.length) * 100,
-      );
-
-      gameAnalytics.trackBeachDiggingAttempt({
-        outputCoins: totalCoins,
-        percentageFound,
-      });
     }
   };
 
@@ -1291,6 +1264,39 @@ export class BeachScene extends BaseScene {
     return pos;
   };
 
+  private movePetToPerimeter(
+    sessionId: string,
+    perimeterPosition: Coordinates,
+  ) {
+    const petState = this.mmoServer?.state?.pets?.get(sessionId);
+    const petContainer = this.pets[sessionId];
+
+    if (!petContainer || !petState || petState.sceneId !== this.scene.key) {
+      return;
+    }
+
+    const gridRight = this.gridX + this.cellSize * SITE_COLS;
+    const gridTop = this.gridY;
+    const gridBottom = this.gridY + this.cellSize * SITE_ROWS;
+
+    let offsetX = -PET_FOLLOW_OFFSET_X;
+
+    const isTopOrBottom =
+      perimeterPosition.y <= gridTop || perimeterPosition.y >= gridBottom;
+    const isRightEdge = perimeterPosition.x >= gridRight;
+
+    if (!isTopOrBottom && isRightEdge) {
+      offsetX = PET_FOLLOW_OFFSET_X;
+    }
+
+    petContainer.setPosition(
+      perimeterPosition.x + offsetX,
+      perimeterPosition.y,
+    );
+    petContainer.setDepth(perimeterPosition.y);
+    petContainer.idle();
+  }
+
   public handleOtherDiggersPositions() {
     // Create a grid for the dig site with a buffer
     const gridRect = new Phaser.Geom.Rectangle(
@@ -1300,43 +1306,48 @@ export class BeachScene extends BaseScene {
       this.cellSize * (SITE_ROWS + 0.5),
     );
 
+    const currentPlayerBounds = this.currentPlayer?.getBounds();
+
+    if (!currentPlayerBounds) return;
+
     // If any other players are inside of the dig area, move them to the perimeter
     this.mmoServer?.state?.players.forEach((player, sessionId) => {
+      if (sessionId === this.mmoServer?.sessionId) return;
+
       const otherPlayerBounds = new Phaser.Geom.Rectangle(
         player.x,
         player.y,
         16,
         16,
       );
-      const currentPlayerBounds = this.currentPlayer?.getBounds();
-
-      if (!currentPlayerBounds) return;
 
       if (
         Phaser.Geom.Rectangle.Overlaps(otherPlayerBounds, gridRect) &&
         Phaser.Geom.Rectangle.Overlaps(currentPlayerBounds, gridRect)
       ) {
+        let perimeterPosition = this.otherDiggers.get(sessionId);
+
         // Player has entered the dig site
-        if (!this.otherDiggers.get(sessionId)) {
-          this.otherDiggers.set(sessionId, this.pickRandomDiggerPosition());
+        if (!perimeterPosition) {
+          perimeterPosition = this.pickRandomDiggerPosition();
+          this.otherDiggers.set(sessionId, perimeterPosition);
         }
 
         this.playerEntities[sessionId]?.setPosition(
-          this.otherDiggers.get(sessionId)!.x,
-          this.otherDiggers.get(sessionId)!.y,
+          perimeterPosition.x,
+          perimeterPosition.y,
         );
         this.playerEntities[sessionId]?.idle();
-      } else {
+        this.movePetToPerimeter(sessionId, perimeterPosition);
+      } else if (this.otherDiggers.get(sessionId)) {
         // Player has left the dig site
-        if (this.otherDiggers.get(sessionId)) {
-          this.playerEntities[sessionId]?.showSmoke();
+        this.playerEntities[sessionId]?.showSmoke();
 
-          this.otherDiggers.delete(sessionId);
-          this.playerEntities[sessionId]?.setPosition(
-            this.mmoServer?.state?.players.get(sessionId)?.x,
-            this.mmoServer?.state?.players.get(sessionId)?.y,
-          );
-        }
+        this.otherDiggers.delete(sessionId);
+        this.playerEntities[sessionId]?.setPosition(
+          this.mmoServer?.state?.players.get(sessionId)?.x,
+          this.mmoServer?.state?.players.get(sessionId)?.y,
+        );
       }
     });
   }
@@ -1360,7 +1371,7 @@ export class BeachScene extends BaseScene {
   public handleDigbyWarnings = () => {
     if (!this.currentPlayer) return;
 
-    if (this.percentageTreasuresFound >= 100) {
+    if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
       if (this.alreadyNotifiedOfClaim) return;
 
       this.npcs.digby?.speak(translate("digby.claimPrize"));
@@ -1378,10 +1389,10 @@ export class BeachScene extends BaseScene {
     }
 
     const sandShovels =
-      this.gameService.state.context.state.inventory["Sand Shovel"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Shovel"] ??
       new Decimal(0);
     const sandDrills =
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      this.gameService.getSnapshot().context.state.inventory["Sand Drill"] ??
       new Decimal(0);
 
     if (
@@ -1513,7 +1524,7 @@ export class BeachScene extends BaseScene {
 
     if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
-    } else if (this.gameService.state.matches("revealed")) {
+    } else if (this.gameService.getSnapshot().matches("revealed")) {
       this.handleRevealSFX();
       // Only run this code once
       if (!this.isRevealing) return;
@@ -1533,6 +1544,13 @@ export class BeachScene extends BaseScene {
           npcModalManager.open("digby");
         });
         this.recordDigAnalytics();
+      } else if (
+        this.percentageTreasuresFound >= 100 &&
+        !this.hasClaimedStreakReward
+      ) {
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
       }
 
       // remove sand hole
@@ -1558,7 +1576,10 @@ export class BeachScene extends BaseScene {
       // is not revealing then it indicates we attempted to dig
       // while the machine was in the autosaving state.
       // Continue trying to send the REVEAL event until we get through
-      if (!this.gameService.state.matches("revealing") && !!this.coordsToDig) {
+      if (
+        !this.gameService.getSnapshot().matches("revealing") &&
+        !!this.coordsToDig
+      ) {
         if (Array.isArray(this.coordsToDig)) {
           this.handleDrill(this.coordsToDig);
         } else {
@@ -1623,6 +1644,8 @@ export class BeachScene extends BaseScene {
   public update() {
     if (!this.currentPlayer) return;
 
+    this.handleDigbyAlertSprite();
+
     this.handleUpdateSelectedItem();
     this.handleNameTagVisibility();
 
@@ -1638,7 +1661,9 @@ export class BeachScene extends BaseScene {
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
       this.updateOtherPlayers();
+      this.updateShaders();
       this.handleDigbyWarnings();
+      this.updatePets();
     } else {
       // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;

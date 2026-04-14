@@ -1,4 +1,4 @@
-import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { INITIAL_FARM, SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
@@ -8,20 +8,25 @@ import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
-import { FactionName, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import {
+  FactionName,
+  GameState,
+  InventoryItemName,
+  IslandType,
+  Order,
+} from "features/game/types/game";
+import { hasOrderRequirements } from "features/island/delivery/components/Orders";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import { formatNumber } from "lib/utils/formatNumber";
+import { KNOWN_IDS } from "features/game/types";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
-  "hammerin harry": "auctioneer",
+  "hammerin harry": "auctions",
 };
-export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
-  "pumpkin' pete": true,
-  hank: true,
-  santa: true,
-};
+export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {};
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -39,18 +44,35 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public label: Label | undefined;
   public backfx: Phaser.GameObjects.Sprite | undefined;
   public frontfx: Phaser.GameObjects.Sprite | undefined;
+  public backParticles:
+    | Phaser.GameObjects.Particles.ParticleEmitter
+    | undefined;
+  public frontParticles:
+    | Phaser.GameObjects.Particles.ParticleEmitter
+    | undefined;
 
   public clothing: Player["clothing"];
+  public username: string | undefined;
+  public experience: number | undefined;
+  public farmId: number | undefined;
   public faction: FactionName | undefined;
+  public totalDeliveries: number | undefined;
+  public dailyStreak: number | undefined;
+  public isVip: boolean | undefined;
+  public createdAt: number | undefined;
+  public islandType: IslandType | undefined;
+
   private ready = false;
 
   // Animation Keys
-  private idleSpriteKey: string | undefined;
-  private walkingSpriteKey: string | undefined;
+  private spriteKey: string | undefined;
+  private spriteKey2: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
+  private waveAnimationKey: string | undefined;
+  private cheerAnimationKey: string | undefined;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -65,7 +87,16 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onClick,
     name,
     direction,
+    username,
+    experience,
+    farmId,
     faction,
+    totalDeliveries,
+    dailyStreak,
+    isVip,
+    createdAt,
+    islandType,
+    showDeliveryIcon,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -75,7 +106,16 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
+    username?: string;
+    experience?: number;
+    farmId?: number;
     faction?: FactionName;
+    totalDeliveries?: number;
+    dailyStreak?: number;
+    isVip?: boolean;
+    createdAt?: number;
+    islandType?: IslandType;
+    showDeliveryIcon?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -98,13 +138,33 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.reaction = this.scene.add.group();
 
+    this.username = username;
+    this.experience = experience;
+    this.farmId = farmId;
     this.faction = faction;
+    this.totalDeliveries = totalDeliveries;
+    this.dailyStreak = dailyStreak;
+    this.isVip = isVip;
+    this.createdAt = createdAt;
+    this.islandType = islandType;
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
-      const label = new Label(this.scene, text.toUpperCase());
+      const labelType = name === "hammerin harry" ? "gold" : "grey";
+      const labelIconKey =
+        showDeliveryIcon && this.scene.textures.exists("delivery_icon")
+          ? "delivery_icon"
+          : undefined;
+      const label = new Label(
+        this.scene,
+        text.toUpperCase(),
+        labelType,
+        labelIconKey,
+      );
       this.add(label);
-      label.setPosition(label.width / 2, -16);
+
+      const width = label.width;
+      label.setPosition(width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
         !acknowledgedNPCs()[name as NPCName] &&
@@ -116,6 +176,29 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.label = label;
     }
+
+    // For Debugging Purpose - Check player position
+    // Uncomment to see the coordinates
+    // const coordinatesText = this.scene.add.text(
+    //   x, // X position of the text
+    //   y, // Y position of the text (above the NPC and label)
+    //   `X: ${x}, Y: ${y}`, // Initial text content
+    //   {
+    //     fontSize: "4px",
+    //     fontFamily: "monospace",
+    //     resolution: 4,
+    //     color: "#00000",
+    //   }, // Style
+    // );
+    // coordinatesText.setOrigin(0.5);
+
+    // // Update the text whenever the NPC's position changes
+    // this.scene.events.on("update", () => {
+    //   coordinatesText.setPosition(this.x, this.y + 15); // Adjust to keep it above the NPC
+    //   coordinatesText.setText(
+    //     `x: ${Math.round(this.x)}, y: ${Math.round(this.y)}`,
+    //   ); // Update the coordinates
+    // });
 
     this.scene.add.existing(this);
 
@@ -133,9 +216,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         },
       );
     }
-
     if (clothing.shirt === "Gift Giver") {
       this.showGift();
+    }
+    if (clothing.hat === "Streamer Hat") {
+      this.showCharm();
     }
     this.showAura();
   }
@@ -144,26 +229,45 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.setPosition(x, y);
   }
 
+  /**
+   * Update delivery icon visibility based on current game state.
+   * Call when game state changes (e.g. after completing a delivery) so the icon is removed.
+   */
+  public updateDeliveryIconVisibility(npcName: NPCName): void {
+    const gameState = this.scene.registry.get("gameState") as
+      | GameState
+      | undefined;
+    if (!gameState?.delivery?.orders || !this.label) return;
+    const now = Date.now();
+    const order = gameState.delivery.orders.find(
+      (o: Order) => o.from === npcName && now >= o.readyAt && !o.completedAt,
+    );
+    const showDeliveryIcon =
+      !!order && hasOrderRequirements({ order, state: gameState });
+    this.label.setIconVisible(showDeliveryIcon);
+  }
+
   get directionFacing() {
     return this.direction;
   }
 
   private async loadSprites(scene: Phaser.Scene) {
-    const keyName = tokenUriBuilder(this.clothing);
-    this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
-    this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
-    this.idleAnimationKey = `${keyName}-bumpkin-idle`;
-    this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
-    this.digAnimationKey = `${keyName}-bumpkin-dig`;
-    this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.spriteKey = tokenUriBuilder(this.clothing);
+    this.spriteKey2 = `${this.spriteKey}-2`;
+    this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
+    this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
+    this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
+    this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
+    this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
+    this.cheerAnimationKey = `${this.spriteKey}-bumpkin-cheer`; // Jump animation for now
 
     await buildNPCSheets({
       parts: this.clothing,
     }); //Removing this causes Aura to not show onload
 
-    if (scene.textures.exists(this.idleSpriteKey)) {
+    if (scene.textures.exists(this.spriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
-      const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
+      const idle = scene.add.sprite(0, 2, this.spriteKey).setOrigin(0.5);
       this.add(idle);
       if (this.clothing.aura !== undefined) {
         this.moveTo(idle, 2);
@@ -184,22 +288,25 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.ready = true;
     } else {
-      const url = getAnimationUrl(this.clothing, "idle_small");
-      const idleLoader = scene.load.spritesheet(this.idleSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
+      // Set up base animations
+      const url = getAnimationUrl(this.clothing, [
+        "idle",
+        "walking",
+        "dig",
+        "drilling",
+      ]);
+      const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
       });
 
-      idleLoader.once(Phaser.Loader.Events.COMPLETE, () => {
-        if (
-          !scene.textures.exists(this.idleSpriteKey as string) ||
-          this.ready
-        ) {
+      idleLoader.once(`filecomplete-spritesheet-${this.spriteKey}`, () => {
+        if (!scene.textures.exists(this.spriteKey as string) || this.ready) {
           return;
         }
 
         const idle = scene.add
-          .sprite(0, 0, this.idleSpriteKey as string)
+          .sprite(0, 2, this.spriteKey as string)
           .setOrigin(0.5);
         this.add(idle);
         if (this.clothing.aura !== undefined) {
@@ -214,105 +321,84 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           this.faceLeft();
         }
 
-        this.createIdleAnimation();
+        this.createIdleAnimation(0, 8);
+        this.createWalkingAnimation(9, 16);
+        this.createDigAnimation(17, 29);
+        this.createDrillAnimation(30, 38);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
         if (this.silhouette?.active) {
           this.silhouette?.destroy();
         }
-
-        idleLoader.removeAllListeners();
-      });
-    }
-
-    if (scene.textures.exists(this.walkingSpriteKey)) {
-      this.createWalkingAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "walking_small");
-      const walkingLoader = scene.load.spritesheet(this.walkingSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
       });
 
-      walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
-        this.createWalkingAnimation();
-        walkingLoader.removeAllListeners();
-      });
-    }
-
-    // If the texture already exists, we can use it immediately
-    if (scene.textures.exists(this.digAnimationKey)) {
-      this.createDigAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "dig");
-      const digLoader = scene.load.spritesheet(this.digAnimationKey, url, {
+      // Load micro interactions animations
+      const url2 = getAnimationUrl(this.clothing, ["wave", "jump"]);
+      const secondaryLoader = scene.load.spritesheet(this.spriteKey2, url2, {
         frameWidth: 96,
         frameHeight: 64,
       });
 
-      digLoader.once(Phaser.Loader.Events.COMPLETE, () => {
-        this.createDigAnimation();
-        digLoader.removeAllListeners();
-      });
-    }
+      secondaryLoader.once(
+        `filecomplete-spritesheet-${this.spriteKey2}`,
+        () => {
+          if (!scene.textures.exists(this.spriteKey2 as string)) {
+            return;
+          }
 
-    if (scene.textures.exists(this.drillAnimationKey)) {
-      this.createDrillAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "drilling");
-      const drillLoader = scene.load.spritesheet(this.drillAnimationKey, url, {
-        frameWidth: 96,
-        frameHeight: 64,
-      });
+          // Ensure these animations exist once the secondary sheet is loaded
+          if (!this.scene?.anims.exists(this.waveAnimationKey as string)) {
+            this.createWaveAnimation(0, 13);
+          }
 
-      drillLoader.once(Phaser.Loader.Events.COMPLETE, () => {
-        this.createDrillAnimation();
-        drillLoader.removeAllListeners();
-      });
+          if (!this.scene?.anims.exists(this.cheerAnimationKey as string)) {
+            this.createCheerAnimation(14, 18);
+          }
+        },
+      );
     }
 
     scene.load.start();
   }
 
-  private createDrillAnimation() {
+  private createDrillAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.drillAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.drillAnimationKey as string,
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       frameRate: 10,
       repeat: -1,
     });
   }
 
-  private createDigAnimation() {
+  private createDigAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.digAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.digAnimationKey as string,
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       frameRate: 10,
       repeat: -1,
     });
   }
 
-  private createIdleAnimation() {
+  private createIdleAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.idleAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.idleSpriteKey as string,
-        {
-          start: 0,
-          end: 8,
-        },
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       repeat: -1,
       frameRate: 10,
     });
@@ -352,19 +438,44 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
   }
 
-  private createWalkingAnimation() {
+  private createWalkingAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.walkingAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.walkingSpriteKey as string,
-        {
-          start: 0,
-          end: 7,
-        },
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createWaveAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.waveAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey2 as string, {
+        start,
+        end, // Only play half of the wave animation
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+  }
+
+  private createCheerAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.cheerAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey2 as string, {
+        start,
+        end,
+      }),
+      repeat: 2,
       frameRate: 10,
     });
   }
@@ -380,19 +491,41 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.destroy();
     }
 
+    // Putting on Gift Giver
     if (
       this.clothing.shirt !== "Gift Giver" &&
+      this.clothing.hat !== "Streamer Hat" && // If wearing streamer hat it won't replace icon with gift giver
       clothing.shirt === "Gift Giver"
     ) {
       this.showGift();
     }
 
+    // Putting on Streamer Hat
+    if (
+      this.clothing.hat !== "Streamer Hat" &&
+      clothing.hat === "Streamer Hat"
+    ) {
+      this.showCharm();
+    }
+
+    // Taking off Gift Giver
     if (
       this.clothing.shirt === "Gift Giver" &&
+      this.clothing.hat !== "Streamer Hat" && // If wearing streamer hat it won't remove icon
       clothing.shirt !== "Gift Giver"
     ) {
-      this.removeGift();
+      this.removeIcon();
     }
+
+    // Taking off Streamer Hat
+    if (
+      this.clothing.hat === "Streamer Hat" &&
+      clothing.hat !== "Streamer Hat"
+    ) {
+      this.removeIcon();
+      if (this.clothing.shirt === "Gift Giver") this.showGift(); // If wearing gift giver it will replace icon with streamer hat
+    }
+
     if (this.clothing.aura === clothing.aura || clothing.aura === undefined) {
       this.removeAura();
     }
@@ -407,9 +540,35 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.showSmoke();
   }
 
+  public showCharm() {
+    if (this.icon) {
+      this.removeIcon();
+    }
+
+    this.icon = this.scene.add.sprite(0, -14, "charm_icon").setOrigin(0.5);
+    this.add(this.icon);
+
+    if (this.scene.textures.exists("sparkle")) {
+      this.fx = this.scene.add.sprite(0, -8, "sparkle").setOrigin(0.5).setZ(10);
+      this.add(this.fx);
+
+      this.scene.anims.create({
+        key: `sparkel_anim`,
+        frames: this.scene.anims.generateFrameNumbers("sparkle", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+
+      this.fx.play(`sparkel_anim`, true);
+    }
+  }
+
   public showGift() {
     if (this.icon) {
-      this.removeGift();
+      this.removeIcon();
     }
 
     this.icon = this.scene.add.sprite(0, -12, "gift_icon").setOrigin(0.5);
@@ -433,7 +592,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private removeGift() {
+  private removeIcon() {
     if (this.icon?.active) {
       this.icon.destroy();
     }
@@ -452,7 +611,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (this.frontfx && this.backfx) {
       this.removeAura();
     }
-    if (this.clothing.aura !== undefined) {
+
+    if (this.clothing?.aura) {
+      if (!this.clothing?.aura) return; // Returns when no aura equipped
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const container = this;
       const auraName = this.clothing.aura;
@@ -474,6 +635,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
         this.createBackAuraAnimation();
         this.backfx.play(this.backAuraAnimationKey as string, true);
+
+        this.backParticles = container.scene.add.particles(
+          0,
+          -3.5,
+          this.backAuraKey as string,
+          {
+            lifespan: 1000,
+            alpha: { start: 1, end: 0 },
+            anim: this.backAuraAnimationKey as string,
+            frequency: 500,
+            follow: container,
+            emitting: false,
+          },
+        );
       } else {
         const backauraLoader = container.scene.load.spritesheet(
           this.backAuraKey,
@@ -484,24 +659,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        backauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
-          if (
-            !container.scene.textures.exists(this.backAuraKey as string) ||
-            this.ready
-          ) {
-            return;
-          }
-          const backaura = container.scene.add
-            .sprite(0, -3, this.backAuraKey as string)
-            .setOrigin(0.5);
-          this.add(backaura);
-          this.moveTo(backaura, 1);
-          this.backfx = backaura;
+        backauraLoader.once(
+          `filecomplete-spritesheet-${this.backAuraKey}`,
+          () => {
+            if (
+              !container.scene.textures.exists(this.backAuraKey as string) ||
+              this.ready
+            ) {
+              return;
+            }
+            const backaura = container.scene.add
+              .sprite(0, -3, this.backAuraKey as string)
+              .setOrigin(0.5);
+            this.add(backaura);
+            this.moveTo(backaura, 1);
+            this.backfx = backaura;
 
-          this.createBackAuraAnimation();
-          this.backfx.play(this.backAuraAnimationKey as string, true);
-          backauraLoader.removeAllListeners();
-        });
+            this.createBackAuraAnimation();
+            this.backfx.play(this.backAuraAnimationKey as string, true);
+
+            this.backParticles = container.scene.add.particles(
+              0,
+              -3.5,
+              this.backAuraKey as string,
+              {
+                lifespan: 1000,
+                alpha: { start: 1, end: 0 },
+                anim: this.backAuraAnimationKey as string,
+                frequency: 500,
+                follow: container,
+                emitting: false,
+              },
+            );
+          },
+        );
       }
       //Front-Aura
       if (container.scene.textures.exists(this.frontAuraKey)) {
@@ -514,6 +705,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
         this.createFrontAuraAnimation();
         this.frontfx.play(this.frontAuraAnimationKey as string, true);
+
+        this.frontParticles = container.scene.add.particles(
+          0,
+          1.5,
+          this.frontAuraKey as string,
+          {
+            lifespan: 1000,
+            alpha: { start: 1, end: 0 },
+            anim: this.frontAuraAnimationKey as string,
+            frequency: 500,
+            follow: container,
+          },
+        );
       } else {
         const frontauraLoader = container.scene.load.spritesheet(
           this.frontAuraKey,
@@ -524,24 +728,39 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        frontauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
-          if (
-            !container.scene.textures.exists(this.frontAuraKey as string) ||
-            this.ready
-          ) {
-            return;
-          }
-          const frontaura = container.scene.add
-            .sprite(0, 2, this.frontAuraKey as string)
-            .setOrigin(0.5);
-          this.add(frontaura);
-          this.moveTo(frontaura, 3);
-          this.frontfx = frontaura;
+        frontauraLoader.once(
+          `filecomplete-spritesheet-${this.frontAuraKey}`,
+          () => {
+            if (
+              !container.scene.textures.exists(this.frontAuraKey as string) ||
+              this.ready
+            ) {
+              return;
+            }
+            const frontaura = container.scene.add
+              .sprite(0, 2, this.frontAuraKey as string)
+              .setOrigin(0.5);
+            this.add(frontaura);
+            this.moveTo(frontaura, 3);
+            this.frontfx = frontaura;
 
-          this.createFrontAuraAnimation();
-          this.frontfx.play(this.frontAuraAnimationKey as string, true);
-          frontauraLoader.removeAllListeners();
-        });
+            this.createFrontAuraAnimation();
+            this.frontfx.play(this.frontAuraAnimationKey as string, true);
+
+            this.frontParticles = container.scene.add.particles(
+              0,
+              1.5,
+              this.frontAuraKey as string,
+              {
+                lifespan: 1000,
+                alpha: { start: 1, end: 0 },
+                anim: this.frontAuraAnimationKey as string,
+                frequency: 500,
+                follow: container,
+              },
+            );
+          },
+        );
       }
     }
   }
@@ -554,11 +773,23 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.frontfx = undefined;
 
+    if (this.frontParticles?.active) {
+      this.frontParticles.destroy();
+    }
+
+    this.frontParticles = undefined;
+
     if (this.backfx?.active) {
       this.backfx.destroy();
     }
 
     this.backfx = undefined;
+
+    if (this.backParticles?.active) {
+      this.backParticles.destroy();
+    }
+
+    this.backParticles = undefined;
   }
 
   public faceRight() {
@@ -650,12 +881,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.scene.textures.once("addtexture", () => onLoad());
     } else {
       this.scene.load.image(key, url);
-      this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => onLoad());
+      this.scene.load.once(`filecomplete-image-${key}`, () => onLoad());
       this.scene.load.start();
     }
   }
 
-  private _react(react: ReactionName | InventoryItemName, quantity?: number) {
+  private _react(
+    react: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     this.stopSpeaking();
 
     this.reaction.clear(true, true);
@@ -670,7 +904,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         0,
         -16,
         "Teeny Tiny Pixls",
-        `+${quantity}`,
+        `+${formatNumber(quantity)}`,
         5,
         1,
       );
@@ -699,13 +933,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.destroyReaction();
   }
 
-  public react(reaction: ReactionName | InventoryItemName, quantity?: number) {
+  public react(
+    reaction: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     if (this.scene.textures.exists(reaction)) {
       return this._react(reaction, quantity);
     }
 
-    if (reaction in ITEM_DETAILS) {
-      const image = ITEM_DETAILS[reaction as InventoryItemName].image;
+    if (reaction === "Social Point") {
+      this.loadTexture(reaction, "world/social_score.webp", () => {
+        this._react(reaction, quantity);
+      });
+
+      return;
+    }
+
+    if (reaction in KNOWN_IDS) {
+      const image = getTradeableDisplay({
+        id: KNOWN_IDS[reaction as InventoryItemName],
+        type: "collectibles",
+        state: INITIAL_FARM,
+      }).image;
+
+      this.loadTexture(reaction, image, () => {
+        this._react(reaction, quantity);
+      });
+    }
+
+    if (reaction in ITEM_IDS) {
+      const image = getTradeableDisplay({
+        id: ITEM_IDS[reaction as BumpkinItem],
+        type: "wearables",
+        state: INITIAL_FARM,
+      }).image;
 
       this.loadTexture(reaction, image, () => {
         this._react(reaction, quantity);
@@ -758,6 +1019,26 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         console.log("Bumpkin Container: Error playing walk animation: ", e);
       }
     }
+
+    if (this.frontParticles?.active) {
+      this.frontParticles.emitting = true;
+    }
+
+    if (this.backParticles?.active) {
+      this.backParticles.emitting = true;
+    }
+  }
+
+  public isInteracting() {
+    const interactionAnimations = [
+      this.waveAnimationKey,
+      this.cheerAnimationKey,
+    ];
+
+    return (
+      this.sprite?.anims?.isPlaying &&
+      interactionAnimations.includes(this.sprite?.anims.getName() as string)
+    );
   }
 
   public idle() {
@@ -772,6 +1053,38 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing idle animation: ", e);
       }
+    }
+
+    if (this.frontParticles?.active) {
+      this.frontParticles.emitting = false;
+    }
+
+    if (this.backParticles?.active) {
+      this.backParticles.emitting = false;
+    }
+  }
+
+  public wave() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.waveAnimationKey &&
+      this.scene?.anims.exists(this.waveAnimationKey)
+    ) {
+      this.sprite.anims.play(this.waveAnimationKey, true);
+      return;
+    }
+  }
+
+  public cheer() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.cheerAnimationKey &&
+      this.scene?.anims.exists(this.cheerAnimationKey)
+    ) {
+      this.sprite.anims.play(this.cheerAnimationKey, true);
+      return;
     }
   }
 
@@ -814,12 +1127,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (this.shadow?.active) {
       this.shadow?.destroy();
     }
-    if (this.frontfx?.active) {
-      this.frontfx?.destroy();
-    }
-    if (this.backfx?.active) {
-      this.backfx?.destroy();
-    }
+    this.removeAura();
     if (this.icon?.active) {
       this.icon?.destroy();
     }

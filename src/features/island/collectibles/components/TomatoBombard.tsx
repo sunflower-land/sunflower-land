@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -9,12 +9,14 @@ import bombardIdle from "assets/sfts/tomato_bombard_idle.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ZoomContext } from "components/ZoomProvider";
+import { SFTDetailPopoverContent } from "components/ui/SFTDetailPopover";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
-export const TomatoBombard: React.FC = () => {
+const TomatoBombardSpriteSheet = ({ open }: { open: boolean }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
-  const tomatofire = useRef<SpriteSheetInstance>();
-  const tomatoidle = useRef<SpriteSheetInstance>();
+  const tomatofire = useRef<SpriteSheetInstance>(undefined);
+  const tomatoidle = useRef<SpriteSheetInstance>(undefined);
 
   const boom = () => {
     const isPlaying = tomatofire.current?.getInfo("isPlaying");
@@ -25,14 +27,18 @@ export const TomatoBombard: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      boom();
+    }
+  }, [open]);
+
   return (
-    <div
-      className="relative w-full h-full cursor-pointer hover:img-highlight"
-      onClick={boom}
-    >
+    <>
       {showSpritesheet && (
         <Spritesheet
-          className="absolute group-hover:img-highlight pointer-events-none"
+          className="absolute group-hover:img-highlight"
           style={{
             zIndex: 99999999,
             width: `${PIXEL_SCALE * 84}px`,
@@ -61,7 +67,7 @@ export const TomatoBombard: React.FC = () => {
       )}
       {!showSpritesheet && (
         <Spritesheet
-          className=" absolute group-hover:img-highlight pointer-events-none"
+          className=" absolute group-hover:img-highlight "
           style={{
             zIndex: 99999999,
             width: `${PIXEL_SCALE * 32}px`,
@@ -84,6 +90,24 @@ export const TomatoBombard: React.FC = () => {
           loop={true}
         />
       )}
+    </>
+  );
+};
+
+export const TomatoBombard: React.FC = () => {
+  return (
+    <div className="absolute w-full h-full cursor-pointer hover:img-highlight">
+      <Popover>
+        <PopoverButton as="div" className="cursor-pointer">
+          {({ open }) => <TomatoBombardSpriteSheet open={open} />}
+        </PopoverButton>
+        <PopoverPanel
+          anchor={{ to: "left start" }}
+          className="flex pointer-events-none"
+        >
+          <SFTDetailPopoverContent name={"Tomato Bombard"} />
+        </PopoverPanel>
+      </Popover>
     </div>
   );
 };

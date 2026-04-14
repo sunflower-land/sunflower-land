@@ -75,7 +75,7 @@ export const PlayerModal: React.FC<Props> = ({
 
   const getModerationEvents = () => {
     const events: Event[] = [];
-    player.moderation?.kicked.forEach((kicked) => {
+    /* player.moderation?.kicked.forEach((kicked) => {
       events.push({
         type: "kick",
         at: kicked.kickedAt,
@@ -94,13 +94,16 @@ export const PlayerModal: React.FC<Props> = ({
 
     return events.sort((a, b) => {
       return new Date(b.at).getTime() - new Date(a.at).getTime();
-    });
+    }); */
+    return events;
   };
 
-  const latestMute = player.moderation?.muted.sort(
+  /* const latestMute = player.moderation?.muted.sort(
     (a, b) => b.mutedUntil - a.mutedUntil,
   )[0];
-  const isMuted = latestMute && latestMute.mutedUntil > Date.now();
+  const isMuted = latestMute && latestMute.mutedUntil > Date.now(); */
+  const latestMute = { mutedUntil: 0 };
+  const isMuted = false;
 
   return (
     <>

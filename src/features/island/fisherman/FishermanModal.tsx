@@ -1,42 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import plus from "assets/icons/plus.png";
-import lightning from "assets/icons/lightning.png";
-import fullMoon from "assets/icons/full_moon.png";
-import { Box } from "components/ui/Box";
-import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import powerup from "assets/icons/level_up.png";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { getKeys } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import {
-  CHUM_AMOUNTS,
-  CHUM_DETAILS,
-  Chum,
-  FISH,
+  FishName,
   FishingBait,
-  getTide,
+  MAP_PIECE_MARVELS,
 } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
-import {
-  getDailyFishingCount,
-  getDailyFishingLimit,
-} from "features/game/types/fishing";
-import { MachineState } from "features/game/lib/gameMachine";
-import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
+import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  getBasketItems,
-  getChestItems,
-} from "../hud/components/inventory/utils/inventory";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { capitalizeFirstLetters } from "lib/utils/capitalize";
+import { FishermanExtras } from "./FishermanExtras";
+import { MachineState } from "features/game/lib/gameMachine";
+import { MarvelHunt } from "./MarvelHunt";
+import { BaitSelection } from "./BaitSelection";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -49,337 +35,29 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
-const RARE_CHUM: InventoryItemName[] = [
-  "Rich Chicken",
-  "Speed Chicken",
-  "Fat Chicken",
-];
-
-const ChumSelection: React.FC<{
-  state: GameState;
-  bait: FishingBait;
-  onList: (item: Chum) => void;
-  onCancel: () => void;
-  initial?: Chum;
-}> = ({ state, bait, onList, onCancel, initial }) => {
-  const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<Chum | undefined>(initial);
-  const select = (name: Chum) => {
-    setSelected(name);
-  };
-
-  const items = {
-    ...getBasketItems(state.inventory),
-    ...getChestItems(state),
-  };
-
-  const hasRequirements =
-    selected && items[selected]?.gte(CHUM_AMOUNTS[selected] ?? 0);
-
-  return (
-    <div>
-      <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
-
-      <div className="flex flex-wrap">
-        {getKeys(CHUM_AMOUNTS)
-          .filter((name) => !!items[name]?.gte(1))
-          .filter((name) => {
-            if (bait !== "Red Wiggler" && RARE_CHUM.includes(name)) {
-              return false;
-            }
-
-            return true;
-          })
-          .map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={items[name]}
-              onClick={() => select(name)}
-              key={name}
-              isSelected={selected === name}
-            />
-          ))}
-      </div>
-
-      {selected && (
-        <div className="p-2">
-          <div className="flex justify-between">
-            <Label
-              type="default"
-              className="mb-1"
-              icon={ITEM_DETAILS[selected].image}
-            >
-              {selected}
-            </Label>
-            <Label
-              type={!hasRequirements ? "danger" : "default"}
-              className="mb-1"
-            >
-              {`${CHUM_AMOUNTS[selected]} ${selected}`}
-            </Label>
-          </div>
-          <p className="text-xs">{CHUM_DETAILS[selected]}</p>
-        </div>
-      )}
-
-      <div className="flex">
-        <Button className="mr-1" onClick={() => onCancel()}>
-          {t("cancel")}
-        </Button>
-        <Button
-          disabled={!hasRequirements}
-          onClick={() => onList(selected as Chum)}
-        >
-          {t("confirm")}
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-const BAIT: FishingBait[] = [
-  "Earthworm",
-  "Grub",
-  "Red Wiggler",
-  "Fishing Lure",
-];
-
-const BaitSelection: React.FC<{
-  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
-}> = ({ onCast }) => {
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const items = {
-    ...getBasketItems(state.inventory),
-    ...getChestItems(state),
-  };
-
-  useEffect(() => {
-    const lastSelectedBait = localStorage.getItem("lastSelectedBait");
-    if (lastSelectedBait) {
-      setBait(lastSelectedBait as FishingBait);
-    }
-    const lastSelectedChum = localStorage.getItem("lastSelectedChum");
-
-    const hasRequirements =
-      lastSelectedChum &&
-      items[lastSelectedChum as InventoryItemName]?.gte(
-        CHUM_AMOUNTS[lastSelectedChum as Chum] ?? 0,
-      );
-
-    if (hasRequirements) {
-      setChum(lastSelectedChum as Chum);
-    }
-  }, []);
-
-  const [showChum, setShowChum] = useState(false);
-  const [chum, setChum] = useState<Chum | undefined>();
-  const [bait, setBait] = useState<FishingBait>("Earthworm");
-
-  const { t } = useAppTranslation();
-
-  if (showChum) {
-    return (
-      <InnerPanel>
-        <ChumSelection
-          bait={bait}
-          state={state}
-          onCancel={() => setShowChum(false)}
-          initial={chum}
-          onList={(selected) => {
-            setChum(selected);
-            localStorage.setItem("lastSelectedChum", selected);
-            setShowChum(false);
-          }}
-        />
-      </InnerPanel>
-    );
-  }
-
-  const dailyFishingMax = getDailyFishingLimit(state);
-  const dailyFishingCount = getDailyFishingCount(state);
-  const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
-  const missingRod =
-    !isWearableActive({ name: "Ancient Rod", game: state }) &&
-    (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
-
-  const catches = getKeys(FISH).filter((name) =>
-    FISH[name].baits.includes(bait),
-  );
-
-  const tide = getTide();
-  const weather = state.fishing.weather;
-
-  return (
-    <>
-      <InnerPanel>
-        <div className="p-2">
-          <div className="flex items-center justify-between flex-wrap gap-1">
-            <div className="flex items-center gap-1">
-              {tide === "Dusktide" ? (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="formula"
-                  className="mr-2"
-                >
-                  {"Dusktide"}
-                </Label>
-              ) : (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="default"
-                  className="mr-2"
-                >
-                  {"Dawnlight"}
-                </Label>
-              )}
-
-              {weather === "Fish Frenzy" && (
-                <Label icon={lightning} type="vibrant">
-                  {weather}
-                </Label>
-              )}
-              {weather === "Full Moon" && (
-                <Label icon={fullMoon} type="vibrant">
-                  {weather}
-                </Label>
-              )}
-            </div>
-
-            <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-              {t("statements.daily.limit")}
-              {dailyFishingCount}
-              {"/"}
-              {dailyFishingMax}
-            </Label>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap">
-          {BAIT.map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              isSelected={bait === name}
-              count={items[name]}
-              onClick={() => {
-                setBait(name);
-                localStorage.setItem("lastSelectedBait", name);
-              }}
-              key={name}
-            />
-          ))}
-        </div>
-      </InnerPanel>
-      <div>
-        <InnerPanel className="my-1 relative">
-          <div className="flex p-1">
-            <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
-            <div>
-              <p className="text-sm mb-1">{bait}</p>
-              <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
-              {!items[bait] && bait !== "Fishing Lure" && (
-                <Label className="mt-2" type="default">
-                  {t("statements.craft.composter")}
-                </Label>
-              )}
-              {!items[bait] && bait === "Fishing Lure" && (
-                <Label className="mt-1" type="default">
-                  {t("fishermanModal.craft.beach")}
-                </Label>
-              )}
-            </div>
-          </div>
-          {!items[bait] && (
-            <Label className="absolute -top-3 right-0" type={"danger"}>
-              {t("fishermanModal.zero.available")}
-            </Label>
-          )}
-        </InnerPanel>
-      </div>
-      <InnerPanel className="mb-1">
-        {chum ? (
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center">
-              <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
-              <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
-            </div>
-            <img
-              src={SUNNYSIDE.icons.cancel}
-              className="h-5 pr-0.5 cursor-pointer"
-              onClick={() => {
-                setChum(undefined);
-                localStorage.removeItem("lastSelectedChum");
-              }}
-            />
-          </div>
-        ) : (
-          <div className="p-1 flex justify-between items-center flex-1 w-full">
-            <div className="flex">
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="h-4 mr-2"
-              />
-              <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
-            </div>
-            <Button
-              disabled={fishingLimitReached}
-              className={`h-[30px] w-[40px]`}
-              onClick={() => setShowChum(true)}
-            >
-              <div className="flex items-center">
-                <img src={plus} className="w-8 mt-1" />
-              </div>
-            </Button>
-          </div>
-        )}
-      </InnerPanel>
-
-      {fishingLimitReached && (
-        <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached", { limit: dailyFishingMax })}
-        </Label>
-      )}
-
-      {!fishingLimitReached && missingRod && (
-        <Label className="mb-1" type="danger">
-          {t("fishermanModal.needCraftRod")}
-        </Label>
-      )}
-
-      <Button
-        onClick={() => onCast(bait, chum)}
-        disabled={
-          fishingLimitReached ||
-          missingRod ||
-          !items[bait as InventoryItemName]?.gte(1)
-        }
-      >
-        <div className="flex items-center">
-          <span className="text-sm mr-1">{"Cast"}</span>
-          <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
-        </div>
-      </Button>
-    </>
-  );
-};
-
-const capitalizeFirstLetters = (inputString: string) => {
-  return inputString.replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
 interface Props {
-  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
+  onCast: (
+    bait: FishingBait,
+    chum?: InventoryItemName,
+    multiplier?: number,
+    guaranteedCatch?: FishName,
+  ) => void;
   onClose: () => void;
   npc?: NPCName;
 }
+const _state = (state: MachineState) => state.context.state;
 
-const currentWeather = (state: MachineState) =>
-  state.context.state.fishing.weather;
+const _marvel = (state: MachineState) => {
+  const game = state.context.state;
+  // If there is a ready marvel to be caught;
+  const ready = MAP_PIECE_MARVELS.find(
+    (marvel) =>
+      !game.farmActivity[`${marvel} Caught`] &&
+      (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,
+  );
+
+  return ready;
+};
 
 export const FishermanModal: React.FC<Props> = ({
   onCast,
@@ -387,26 +65,29 @@ export const FishermanModal: React.FC<Props> = ({
   npc = "reelin roy",
 }) => {
   const { gameService } = useContext(Context);
-  const weather = useSelector(gameService, currentWeather);
+  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
   const dailyFishingCount = getDailyFishingCount(state);
 
   const [showFishFrenzy, setShowFishFrenzy] = React.useState(
-    weather === "Fish Frenzy" && dailyFishingCount === 0,
+    isFishFrenzy(state) && dailyFishingCount === 0,
   );
 
   const [showFullMoon, setShowFullMoon] = React.useState(
-    weather === "Full Moon" && dailyFishingCount === 0,
+    isFullMoon(state) && dailyFishingCount === 0,
   );
 
-  const [tab, setTab] = useState(0);
+  type Tab = "fish" | "guide" | "extras";
+  const [tab, setTab] = useState<Tab>("fish");
+
+  const readyMarvel = useSelector(gameService, _marvel);
+
+  if (readyMarvel) {
+    return <MarvelHunt onClose={onClose} marvel={readyMarvel} />;
+  }
+
   if (showIntro) {
     return (
       <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
@@ -418,10 +99,10 @@ export const FishermanModal: React.FC<Props> = ({
               }),
             },
             {
-              text: translate("fishermanModal.fishBenefits"),
+              text: t("fishermanModal.fishBenefits"),
             },
             {
-              text: translate("fishermanModal.baitAndResources"),
+              text: t("fishermanModal.baitAndResources"),
             },
           ]}
           onClose={() => {
@@ -439,10 +120,10 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.crazyHappening"),
+              text: t("fishermanModal.crazyHappening"),
             },
             {
-              text: translate("fishermanModal.bonusFish"),
+              text: t("fishermanModal.bonusFish"),
             },
           ]}
           onClose={() => {
@@ -459,7 +140,7 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.fullMoon"),
+              text: t("fishermanModal.fullMoon"),
             },
           ]}
           onClose={() => {
@@ -472,26 +153,34 @@ export const FishermanModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
+      className="min-h-[360px]"
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[
-        { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
+        { id: "fish", icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
         {
+          id: "guide",
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
+        },
+        {
+          id: "extras",
+          icon: powerup,
+          name: t("fishing.extras"),
         },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <BaitSelection onCast={onCast} />}
+      {tab === "fish" && <BaitSelection onCast={onCast} state={state} />}
 
-      {tab === 1 && (
+      {tab === "guide" && (
         <InnerPanel>
-          <FishingGuide onClose={() => setTab(0)} />
+          <FishingGuide onClose={() => setTab("fish")} />
         </InnerPanel>
       )}
+      {tab === "extras" && <FishermanExtras state={state} />}
     </CloseButtonPanel>
   );
 };

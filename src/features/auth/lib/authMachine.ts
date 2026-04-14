@@ -2,15 +2,18 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS, ErrorCode } from "lib/errors";
 
-import { saveReferrerId } from "../actions/createAccount";
+import {
+  saveReferrerId,
+  getReferrerId as getReferrerIdFromLS,
+} from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
-import { oauthorise } from "../actions/oauth";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { loadSession, savePromoCode } from "features/game/actions/loadSession";
+import { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;
@@ -29,12 +32,6 @@ const getDiscordCode = () => {
 
 const getReferrerID = () => {
   const code = new URLSearchParams(window.location.search).get("ref");
-
-  return code;
-};
-
-const getPromoCode = () => {
-  const code = new URLSearchParams(window.location.search).get("promo");
 
   return code;
 };
@@ -110,11 +107,12 @@ type PWAInstallPromptShown = {
   type: "PWA_INSTALL_PROMPT_SHOWN";
 };
 
-type CreateFarmEvent = {
+export type CreateFarmEvent = {
   type: "CREATE_FARM";
-  donation: number;
-  captcha: string;
-  hasEnoughMatic: boolean;
+  donation?: number;
+  captcha?: string;
+  hasEnoughMatic?: boolean;
+  equipment: BumpkinParts;
 };
 
 type LoadFarmEvent = {
@@ -164,7 +162,6 @@ export type BlockchainState = {
     | "authorising"
     | "visiting"
     | "verifying"
-    | "oauthorising"
     | "unauthorised"
     | "authorised"
     | "connected"
@@ -209,12 +206,6 @@ export const authMachine = createMachine(
 
           if (referrerId) {
             saveReferrerId(referrerId);
-          }
-
-          const promoCode = getPromoCode();
-          if (promoCode) {
-            onboardingAnalytics.logEvent(`promo_code_${promoCode}` as any);
-            savePromoCode(promoCode);
           }
 
           storeUTMs();
@@ -299,29 +290,11 @@ export const authMachine = createMachine(
           },
         },
       },
-      oauthorising: {
-        entry: "setTransactionId",
-        invoke: {
-          src: "oauthorise",
-          onDone: {
-            target: "connected",
-            actions: ["assignToken", "saveToken"],
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
       authorised: {
         always: [
           {
             target: "noAccount",
             cond: (context) => !context.user.token?.farmId,
-          },
-          {
-            target: "oauthorising",
-            cond: "hasDiscordCode",
           },
           {
             target: "connected",
@@ -393,17 +366,17 @@ export const authMachine = createMachine(
       creating: {
         entry: "setTransactionId",
         invoke: {
-          src: async (context) => {
-            const { farm, token } = await signUp({
+          src: async (context, event) => {
+            const createEvent = event as CreateFarmEvent;
+            const { token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
-              referrerId: getReferrerID(),
+              referrerId: getReferrerIdFromLS(),
               utm: getUTMs(),
+              equipment: createEvent.equipment,
             });
 
-            return {
-              token,
-            };
+            return { token };
           },
           onDone: [
             {
@@ -430,7 +403,7 @@ export const authMachine = createMachine(
         invoke: {
           src: async (context, event) => {
             const { id } = event as ClaimFarmEvent;
-            const { farm, token } = await claimFarm({
+            const { token } = await claimFarm({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               farmId: id,
@@ -471,15 +444,6 @@ export const authMachine = createMachine(
           signature,
         });
 
-        return { token };
-      },
-      oauthorise: async (context) => {
-        const code = getDiscordCode() as string;
-        // Navigates to Discord OAuth Flow
-        const { token } = await oauthorise(
-          code,
-          context.transactionId as string,
-        );
         return { token };
       },
     },

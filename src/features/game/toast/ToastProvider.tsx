@@ -1,9 +1,13 @@
-import React, { FC, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { randomID } from "lib/utils/random";
 import { createContext } from "react";
-import { getKeys } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { InventoryItemName } from "../types/game";
+import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { Bud } from "../types/buds";
+import { KNOWN_IDS } from "../types";
+import { PetNFT } from "../types/pets";
 
 /**
  * The type of the toast.
@@ -13,7 +17,10 @@ export type ToastItem =
   | "SFL"
   | "XP"
   | "coins"
-  | "faction_points";
+  | "faction_points"
+  | BumpkinItem
+  | `Bud #${number}`
+  | `Pet #${number}`;
 
 /**
  * The toast props.
@@ -37,6 +44,9 @@ export interface Toast {
  * @param setCoinBalance Sets the coin balance state of the toast provider.
  * @param setExperience Sets the experience state of the toast provider.
  * @param setFactionPoinst Sets the faction points state of the toast provider.
+ * @param setWardrobe Sets the wardrobe state of the toast provider.
+ * @param setBuds Sets the buds state of the toast provider.
+ * @param setPetNFTs Sets the pet nfts state of the toast provider.
  */
 export const ToastContext = createContext<{
   toastsList: Toast[];
@@ -47,6 +57,9 @@ export const ToastContext = createContext<{
   setCoinBalance: (balance: number) => void;
   setExperience: (experience: Decimal) => void;
   setFactionPoints: (points: number) => void;
+  setWardrobe: (wardrobe: Partial<Record<BumpkinItem, number>>) => void;
+  setBuds: (buds: Partial<Record<number, Bud>>) => void;
+  setPetNFTs: (petNFTs: Partial<Record<number, PetNFT>>) => void;
 }>({
   toastsList: [],
   // eslint-disable-next-line no-console
@@ -59,6 +72,12 @@ export const ToastContext = createContext<{
   setExperience: console.log,
   // eslint-disable-next-line no-console
   setFactionPoints: console.log,
+  // eslint-disable-next-line no-console
+  setWardrobe: console.log,
+  // eslint-disable-next-line no-console
+  setBuds: console.log,
+  // eslint-disable-next-line no-console
+  setPetNFTs: console.log,
 });
 
 /**
@@ -68,23 +87,33 @@ export const ToastContext = createContext<{
 const TOAST_TIMEOUT_MS = 5000;
 
 /**
- * The toast provder for setting the toast list for the toast panel.
+ * The toast provider for setting the toast list for the toast panel.
  */
-export const ToastProvider: FC = ({ children }) => {
+export const ToastProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [toastsList, setToastsList] = useState<Toast[]>([]);
 
-  const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const newInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const oldSflBalance = useRef<Decimal>();
-  const newSflBalance = useRef<Decimal>();
-  const oldExperience = useRef<Decimal>();
-  const newExperience = useRef<Decimal>();
-  const oldCoinBalance = useRef<number>();
-  const newCoinBalance = useRef<number>();
-  const oldFactionPoints = useRef<number>();
-  const newFactionPoints = useRef<number>();
+  const oldInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const newInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const oldSflBalance = useRef<Decimal>(undefined);
+  const newSflBalance = useRef<Decimal>(undefined);
+  const oldExperience = useRef<Decimal>(undefined);
+  const newExperience = useRef<Decimal>(undefined);
+  const oldCoinBalance = useRef<number>(undefined);
+  const newCoinBalance = useRef<number>(undefined);
+  const oldFactionPoints = useRef<number>(undefined);
+  const newFactionPoints = useRef<number>(undefined);
+  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const oldBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const newBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
+  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
 
-  const timeout = useRef<NodeJS.Timeout>();
+  const timeout = useRef<NodeJS.Timeout>(undefined);
 
   /**
    * Gets the quantity difference of the item between the new and old states.
@@ -116,9 +145,37 @@ export const ToastProvider: FC = ({ children }) => {
       );
     }
 
-    return (newInventory.current?.[item] ?? new Decimal(0))?.minus(
-      oldInventory.current?.[item] ?? new Decimal(0),
-    );
+    if (item.startsWith("Bud #")) {
+      return new Decimal(
+        newBuds.current?.[Number(item.split("#")[1])] ? 1 : 0,
+      )?.minus(
+        new Decimal(oldBuds.current?.[Number(item.split("#")[1])] ? 1 : 0),
+      );
+    }
+
+    if (item.startsWith("Pet #")) {
+      return new Decimal(
+        newPetNFTs.current?.[Number(item.split("#")[1])] ? 1 : 0,
+      )?.minus(
+        new Decimal(oldPetNFTs.current?.[Number(item.split("#")[1])] ? 1 : 0),
+      );
+    }
+
+    if (KNOWN_IDS[item as InventoryItemName]) {
+      return (
+        newInventory.current?.[item as InventoryItemName] ?? new Decimal(0)
+      )?.minus(
+        oldInventory.current?.[item as InventoryItemName] ?? new Decimal(0),
+      );
+    }
+
+    if (ITEM_IDS[item as BumpkinItem]) {
+      return new Decimal(
+        newWardrobe.current?.[item as BumpkinItem] ?? 0,
+      )?.minus(new Decimal(oldWardrobe.current?.[item as BumpkinItem] ?? 0));
+    }
+
+    return new Decimal(0);
   };
 
   /**
@@ -128,7 +185,7 @@ export const ToastProvider: FC = ({ children }) => {
    * @param toast The toast to add to the toasts list.
    */
   const addToast = (toast: Omit<Toast, "id" | "difference" | "hidden">) => {
-    const id = `${Date.now()}-${randomID()}-${toast.item}`;
+    const id = `${randomID()}-${toast.item}`;
     const difference = getDifference(toast.item);
 
     if (difference.equals(0)) return;
@@ -192,6 +249,9 @@ export const ToastProvider: FC = ({ children }) => {
     oldCoinBalance.current = newCoinBalance.current;
     oldExperience.current = newExperience.current;
     oldFactionPoints.current = newFactionPoints.current;
+    oldWardrobe.current = newWardrobe.current;
+    oldBuds.current = newBuds.current;
+    oldPetNFTs.current = newPetNFTs.current;
     setToastsList([]);
   };
 
@@ -347,6 +407,114 @@ export const ToastProvider: FC = ({ children }) => {
     debouncedSetOldStates();
   };
 
+  const setWardrobe = (wardrobe: Partial<Record<BumpkinItem, number>>) => {
+    // set the new state
+    newWardrobe.current = wardrobe;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (!oldWardrobe.current) {
+      oldWardrobe.current = wardrobe;
+      return;
+    }
+
+    // get the inventory difference between the new and old states
+    const difference: Partial<Record<BumpkinItem, Decimal>> = {};
+
+    getKeys(wardrobe).forEach((item) => {
+      difference[item] = new Decimal(wardrobe[item as BumpkinItem] ?? 0);
+    });
+
+    getKeys(oldWardrobe.current ?? {}).forEach((item) => {
+      const value = new Decimal(oldWardrobe.current?.[item] ?? 0);
+      difference[item] = difference[item]?.minus(value) ?? value.mul(-1);
+
+      // item not needed in record if there is no quantity difference
+      if (difference[item]?.equals(new Decimal(0))) {
+        delete difference[item];
+      }
+    });
+
+    // set toast for each item in the inventory with quantity difference
+    getKeys(difference).forEach((item) => {
+      addToast({ item });
+    });
+
+    // clear all toasts after debounced timeout
+    debouncedSetOldStates();
+  };
+
+  const setBuds = (buds: Partial<Record<number, Bud>>) => {
+    // set the new state
+    newBuds.current = buds;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (!oldBuds.current) {
+      oldBuds.current = buds;
+      return;
+    }
+
+    // get the inventory difference between the new and old states
+    const difference: Partial<Record<number, Decimal>> = {};
+
+    getKeys(buds).forEach((id) => {
+      difference[id] = new Decimal(1);
+    });
+
+    getKeys(oldBuds.current ?? {}).forEach((id) => {
+      const value = new Decimal(oldBuds.current?.[id] ? 1 : 0);
+      difference[id] = difference[id]?.minus(value) ?? value.mul(-1);
+
+      // item not needed in record if there is no quantity difference
+      if (difference[id]?.equals(new Decimal(0))) {
+        delete difference[id];
+      }
+    });
+
+    // set toast for each item in the inventory with quantity difference
+    getKeys(difference).forEach((id) => {
+      addToast({ item: `Bud #${id}` });
+    });
+
+    // clear all toasts after debounced timeout
+    debouncedSetOldStates();
+  };
+
+  const setPetNFTs = (petNFTs: Partial<Record<number, PetNFT>>) => {
+    // set the new state
+    newPetNFTs.current = petNFTs;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (!oldPetNFTs.current) {
+      oldPetNFTs.current = petNFTs;
+      return;
+    }
+
+    // get the inventory difference between the new and old states
+    const difference: Partial<Record<number, Decimal>> = {};
+
+    getKeys(petNFTs).forEach((id) => {
+      difference[id] = new Decimal(1);
+    });
+
+    getKeys(oldPetNFTs.current ?? {}).forEach((id) => {
+      const value = new Decimal(oldPetNFTs.current?.[id] ? 1 : 0);
+      difference[id] = difference[id]?.minus(value) ?? value.mul(-1);
+
+      // item not needed in record if there is no quantity difference
+      if (difference[id]?.equals(new Decimal(0))) {
+        delete difference[id];
+      }
+    });
+
+    // set toast for each item in the inventory with quantity difference
+    getKeys(difference).forEach((id) => {
+      addToast({ item: `Pet #${id}` });
+    });
+
+    // clear all toasts after debounced timeout
+    debouncedSetOldStates();
+  };
+
   return (
     <ToastContext.Provider
       value={{
@@ -356,6 +524,9 @@ export const ToastProvider: FC = ({ children }) => {
         setExperience,
         setCoinBalance,
         setFactionPoints,
+        setWardrobe,
+        setBuds,
+        setPetNFTs,
       }}
     >
       {children}

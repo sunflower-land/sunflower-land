@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PATCH_FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { FruitSoil } from "./FruitSoil";
 
 import { FruitSeedling } from "./FruitSeedling";
@@ -11,6 +10,9 @@ import { FruitSeedling } from "./FruitSeedling";
 import { DeadTree } from "./DeadTree";
 import { ReplenishingTree } from "./ReplenishingTree";
 import { ReplenishedTree } from "./ReplenishedTree";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 type Stage = "Empty" | "Seedling" | "Replenishing" | "Replenished" | "Dead";
 
@@ -19,7 +21,10 @@ type FruitTreeStatus = {
   timeLeft?: number;
 };
 
-const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
+const getFruitTreeStatus = (
+  plantedFruit: PlantedFruit | undefined,
+  now: number,
+): FruitTreeStatus => {
   // No fruits planted
   if (!plantedFruit) return { stage: "Empty" };
 
@@ -28,26 +33,30 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
   // Dead tree/bush
   if (!harvestsLeft) return { stage: "Dead" };
 
-  const { seed } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT[name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
+  const growMsTotal = plantSeconds * 1000;
+
+  // If the tree has been harvested and still has harvests left, it may be replenishing.
   if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+    const replenishMsLeft = harvestedAt + growMsTotal - now;
+    const replenishSecondsLeft = replenishMsLeft / 1000;
 
-    // Replenishing tree
-    if (replenishingTimeLeft > 0) {
-      return { stage: "Replenishing", timeLeft: replenishingTimeLeft };
+    if (replenishSecondsLeft > 0) {
+      return { stage: "Replenishing", timeLeft: replenishSecondsLeft };
     }
   }
 
-  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
+  // Otherwise, it may still be growing from the original planting time.
+  const growMsLeft = plantedAt + growMsTotal - now;
+  const growSecondsLeft = growMsLeft / 1000;
 
-  // Seedling
-  if (growingTimeLeft > 0) {
-    return { stage: "Seedling", timeLeft: growingTimeLeft };
+  if (growSecondsLeft > 0) {
+    return { stage: "Seedling", timeLeft: growSecondsLeft };
   }
 
-  // Replenished tree
+  // Fully grown and ready to harvest.
   return { stage: "Replenished" };
 };
 
@@ -61,6 +70,8 @@ interface Props {
   hasAxes: boolean;
 }
 
+const _island = (state: MachineState) => state.context.state.island;
+
 export const FruitTree: React.FC<Props> = ({
   plantedFruit,
   plantTree,
@@ -70,8 +81,10 @@ export const FruitTree: React.FC<Props> = ({
   playShakingAnimation,
   hasAxes,
 }) => {
-  const treeStatus = getFruitTreeStatus(plantedFruit);
-  useUiRefresher({ active: !!treeStatus.timeLeft });
+  const { gameService } = useContext(Context);
+  const island = useSelector(gameService, _island);
+  const now = useNow({ live: !!plantedFruit });
+  const treeStatus = getFruitTreeStatus(plantedFruit, now);
 
   // Empty plot
   if (!plantedFruit) {
@@ -88,7 +101,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Dead") {
     return (
       <div className="absolute w-full h-full" onClick={removeTree}>
-        <DeadTree fruitName={name} hasAxes={hasAxes} />
+        <DeadTree patchFruitName={name} hasAxes={hasAxes} />
       </div>
     );
   }
@@ -97,7 +110,11 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
-        <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />
+        <FruitSeedling
+          island={island}
+          patchFruitName={name}
+          timeLeft={treeStatus.timeLeft}
+        />
       </div>
     );
   }
@@ -107,7 +124,8 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
         <ReplenishingTree
-          fruitName={name}
+          island={island}
+          patchFruitName={name}
           timeLeft={treeStatus.timeLeft}
           playShakeAnimation={playShakingAnimation}
         />
@@ -118,7 +136,7 @@ export const FruitTree: React.FC<Props> = ({
   // Ready tree
   return (
     <div className="absolute w-full h-full" onClick={harvestFruit}>
-      <ReplenishedTree fruitName={name} />
+      <ReplenishedTree island={island} patchFruitName={name} />
     </div>
   );
 };

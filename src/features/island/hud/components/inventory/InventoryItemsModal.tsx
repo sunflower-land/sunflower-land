@@ -7,9 +7,19 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
-import { BudName } from "features/game/types/buds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Biomes } from "./Biomes";
+import { getKeys } from "lib/object";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { PanelTabs } from "features/game/components/CloseablePanel";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;
@@ -17,19 +27,25 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem: InventoryItemName | BudName;
-  onSelectChestItem: (name: InventoryItemName | BudName) => void;
-  onPlace?: (name: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  selectedChestItem?: LandscapingPlaceableType;
+  onSelectChestItem: (item: LandscapingPlaceableType) => void;
+  onPlace?: (name: LandscapingPlaceable) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
   isFullUser: boolean;
+  location?: PlaceableLocation;
+  /** When true, open with Chest tab selected (e.g. first-time place flow). */
+  defaultToChest?: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
+
+type TabId = "Basket" | "Chest" | "Biomes";
 
 export const InventoryItemsModal: React.FC<Props> = ({
   show,
@@ -41,44 +57,78 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectChestItem,
   onDepositClick,
   onPlace,
-  onPlaceBud,
+  onPlaceNFT,
+  onPlaceFarmHand,
   isSaving,
   isFarming,
   isFullUser,
+  location,
+  defaultToChest,
 }) => {
-  const [currentTab, setCurrentTab] = useState<number>(0);
   const { t } = useAppTranslation();
+  const initialTab: TabId =
+    defaultToChest || location === "petHouse" ? "Chest" : "Basket";
+  const [currentTab, setCurrentTab] = useState<TabId>(initialTab);
+
+  const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
+    (state.inventory[item] ?? new Decimal(0)).gt(0),
+  );
+
+  const basketTab: PanelTabs<TabId> = {
+    icon: SUNNYSIDE.icons.basket,
+    name: t("basket"),
+    id: "Basket",
+  };
+
+  const chestTab: PanelTabs<TabId> = {
+    icon: chest,
+    name: t("chest"),
+    id: "Chest",
+  };
+
+  const biomesTab: PanelTabs<TabId> = {
+    icon: ITEM_DETAILS["Basic Biome"].image,
+    name: t("biomes"),
+    id: "Biomes",
+  };
+
+  const tabs: PanelTabs<TabId>[] = [basketTab, chestTab];
+
+  if (hasBiomes && location === "farm") {
+    tabs.push(biomesTab);
+  }
+
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[
-          { icon: SUNNYSIDE.icons.basket, name: t("basket") },
-          { icon: chest, name: t("chest") },
-        ]}
+        tabs={tabs as PanelTabs<TabId>[]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
         container={OuterPanel}
       >
-        {currentTab === 0 && (
+        {currentTab === "Basket" && (
           <Basket
             gameState={state}
             selected={selectedBasketItem}
             onSelect={onSelectBasketItem}
           />
         )}
-        {currentTab === 1 && (
+        {currentTab === "Chest" && (
           <Chest
             state={state}
             selected={selectedChestItem}
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
-            onPlaceBud={isFarming ? onPlaceBud : undefined}
+            onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
+            onPlaceFarmHand={isFarming ? onPlaceFarmHand : undefined}
             isSaving={isSaving}
+            location={location}
           />
         )}
+        {currentTab === "Biomes" && <Biomes state={state} />}
       </CloseButtonPanel>
     </Modal>
   );

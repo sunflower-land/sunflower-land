@@ -15,7 +15,7 @@ import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";
 import { useIsMusicPaused } from "lib/utils/hooks/useIsMusicPaused";
 
 interface Props {
-  musicPlayer: React.RefObject<HTMLAudioElement>;
+  musicPlayer: React.RefObject<HTMLAudioElement | null>;
   song: Song;
   handlePreviousSong: () => void;
   handleNextSong: () => void;
@@ -41,35 +41,45 @@ export const AudioMenu: React.FC<Props> = ({
   }, [isAudioMuted]);
 
   useEffect(() => {
-    if (!musicPlayer.current) return;
+    const player = musicPlayer.current;
+    if (!player) return;
 
-    musicPlayer.current.volume = 0.15;
+    // Modifying HTMLAudioElement properties is necessary for audio control
+    // eslint-disable-next-line react-hooks/immutability
+    player.volume = 0.15;
 
     if (isMusicPaused) {
-      musicPlayer.current.pause();
+      player.pause();
     } else {
-      musicPlayer.current.play();
-      musicPlayer.current.muted = false;
+      player.play();
+      player.muted = false;
     }
-  }, [isMusicPaused]);
+  }, [isMusicPaused, musicPlayer]);
 
   useEffect(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
-    document.addEventListener("visibilitychange", () => {
-      if (!musicPlayer.current) return;
+    const handleVisibilityChange = () => {
+      const player = musicPlayer.current;
+      if (!player) return;
 
       if (document.visibilityState === "visible") {
         if (!isMusicPaused) {
-          musicPlayer.current.play();
-          musicPlayer.current.muted = false;
+          player.play();
+          player.muted = false;
         }
         Howler.mute(isAudioMuted);
       } else {
-        musicPlayer.current.pause();
+        player.pause();
         Howler.mute(true);
       }
-    });
-  }, []);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isMusicPaused, isAudioMuted, musicPlayer]);
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -77,7 +87,7 @@ export const AudioMenu: React.FC<Props> = ({
         <div className="p-1 relative">
           <p className="mb-2">{t("music")}</p>
           {/* Music display */}
-          <div className="mb-1.5 overflow-hidden bg-brown-200 ">
+          <div className="mb-1.5 overflow-hidden bg-brown-200">
             <p
               className="whitespace-no-wrap w-fit text-white text-sm pt-1 pb-2"
               style={{

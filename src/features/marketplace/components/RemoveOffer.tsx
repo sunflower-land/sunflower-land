@@ -1,103 +1,82 @@
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
-import { waitFor } from "xstate/lib/waitFor";
-import { getOfferItem, getTradeableDisplay } from "../lib/tradeables";
+import React, { useContext } from "react";
+import { getTradeableDisplay } from "../lib/tradeables";
+import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
-import { TradeableSummary } from "./TradeableOffers";
+import sflIcon from "assets/icons/flower_token.webp";
+import bg from "assets/ui/3x3_bg.png";
+import {
+  MarketplaceTradeableName,
+  TRADE_INITIATION_MS,
+} from "features/game/types/marketplace";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { TradeInitiated } from "./RemoveListing";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   id: string;
   offer: TradeOffer;
+  authToken: string;
   onClose: () => void;
-  onDone: () => void;
 }
+const _state = (state: MachineState) => state.context.state;
+
 export const RemoveOffer: React.FC<Props> = ({
   id,
   onClose,
-  onDone,
   offer,
+  authToken,
 }) => {
   const { t } = useAppTranslation();
-
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [state, setState] = useState<"idle" | "removing" | "removed" | "error">(
-    "idle",
-  );
+  const state = useSelector(gameService, _state);
+  const now = useNow({ live: true });
 
   const confirm = async () => {
-    setState("removing");
+    gameService.send("marketplace.offerCancelled", {
+      effect: {
+        type: "marketplace.offerCancelled",
+        id,
+      },
+      authToken,
+    });
 
-    try {
-      gameService.send("POST_EFFECT", {
-        effect: {
-          type: "marketplace.offerCancelled",
-          id,
-        },
-      });
-
-      await waitFor(
-        gameService,
-        (state) => {
-          if (state.matches("error")) throw new Error("Insert failed");
-          return state.matches("playing");
-        },
-        { timeout: 60 * 1000 },
-      );
-
-      setState("removed");
-    } catch {
-      setState("error");
-    }
+    onClose();
   };
-
-  if (state === "removed") {
-    return (
-      <Panel>
-        <div className="p-2">
-          <Label type="success" className="mb-2">
-            {t("success")}
-          </Label>
-          <p className="text-sm mb-2">{t("marketplace.offerRemoved")}</p>
-        </div>
-        <div className="flex">
-          <Button onClick={onDone}>{t("continue")}</Button>
-        </div>
-      </Panel>
-    );
-  }
 
   if (!offer || !id) {
     return null;
   }
 
-  if (state === "removing") {
+  const itemId = tradeToId({ details: offer });
+  const display = getTradeableDisplay({
+    id: itemId,
+    type: offer.collection,
+    state,
+  });
+  const quantity = offer.items[display.name as MarketplaceTradeableName];
+
+  const initiatedAt = offer.initiatedAt;
+  const isBeingPurchased =
+    !!initiatedAt && now - initiatedAt < TRADE_INITIATION_MS;
+
+  if (isBeingPurchased) {
     return (
-      <Panel>
-        <Loading />
-      </Panel>
+      <TradeInitiated
+        initiatedAt={initiatedAt}
+        display={display}
+        quantity={
+          offer.items[display.name as MarketplaceTradeableName] as number
+        }
+        sfl={offer.sfl}
+      />
     );
   }
-
-  if (state === "error") {
-    return (
-      <Panel>
-        <div className="p-2">
-          <p className="text-sm">{`Something went wrong`}</p>
-        </div>
-      </Panel>
-    );
-  }
-
-  const itemId = getOfferItem({ offer });
-  const display = getTradeableDisplay({ id: itemId, type: offer.collection });
 
   return (
     <Panel>
@@ -108,7 +87,29 @@ export const RemoveOffer: React.FC<Props> = ({
         <p className="text-sm mb-2">
           {t("marketplace.cancelOffer.areYouSure")}
         </p>
-        <TradeableSummary display={display} sfl={offer.sfl} />
+        <div>
+          <div className="flex">
+            <div className="h-12 w-12 mr-2 relative">
+              <img src={bg} className="w-full rounded" />
+              <img
+                src={display.image}
+                className="w-1/2 absolute"
+                style={{
+                  left: "50%",
+                  transform: "translate(-50%, 50%)",
+                  bottom: "50%",
+                }}
+              />
+            </div>
+            <div>
+              <span className="text-sm">{`${quantity} x ${display.name}`}</span>
+              <div className="flex items-center">
+                <span className="text-sm">{`${offer.sfl} FLOWER`}</span>
+                <img src={sflIcon} className="h-6 ml-1" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>

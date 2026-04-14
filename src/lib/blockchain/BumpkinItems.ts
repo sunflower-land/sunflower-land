@@ -5,6 +5,7 @@ import { IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { Wardrobe } from "features/game/types/game";
 import { readContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.BUMPKIN_ITEMS_CONTRACT;
 
@@ -14,6 +15,7 @@ export async function loadWardrobe(
 ): Promise<Wardrobe> {
   try {
     const balances = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: BumpkinItemsJSON,
       address: address as `0x${string}`,
       functionName: "balanceOfBatch",
@@ -49,6 +51,7 @@ export async function loadWearablesBalanceBatch(
 ): Promise<Record<number, number>> {
   try {
     const balances = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: BumpkinItemsJSON,
       address: address as `0x${string}`,
       functionName: "balanceOfBatch",

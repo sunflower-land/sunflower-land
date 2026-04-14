@@ -1,33 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
-
-const isNoob = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
+import { Guide } from "features/helios/components/hayseedHank/components/Guide";
+import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 const hint = (state: MachineState) => {
-  const activity = state.context.state.bumpkin?.activity;
+  const activity = state.context.state.farmActivity;
   const inventory = state.context.state.inventory;
   const level = getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
@@ -35,7 +32,7 @@ const hint = (state: MachineState) => {
     return "Explore";
   }
 
-  const choppedTrees = activity?.["Tree Chopped"] ?? 0;
+  const choppedTrees = activity["Tree Chopped"] ?? 0;
   if (choppedTrees < 3) {
     return translate("pete.teaser.one");
   }
@@ -97,14 +94,14 @@ const hint = (state: MachineState) => {
 
 export const TravelTeaser: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
-  const showSpeech = useSelector(gameService, isNoob);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
   const { t } = useAppTranslation();
 
   const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
-  const [tab, setTab] = useState(0);
+  type Tab = "explore" | "guide";
+  const [tab, setTab] = useState<Tab>("explore");
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
 
@@ -112,7 +109,7 @@ export const TravelTeaser: React.FC = () => {
     const speak = async () => {
       setPeteState("typing");
 
-      await new Promise((res) => setTimeout(() => setPeteState("idle"), 1000));
+      await new Promise(() => setTimeout(() => setPeteState("idle"), 1000));
     };
 
     speak();
@@ -139,10 +136,12 @@ export const TravelTeaser: React.FC = () => {
           onClose={() => setShowModal(false)}
           tabs={[
             {
+              id: "explore",
               icon: SUNNYSIDE.icons.expression_chat,
               name: t("explore"),
             },
             {
+              id: "guide",
               icon: SUNNYSIDE.icons.expression_confused,
               name: t("guide"),
             },
@@ -154,8 +153,8 @@ export const TravelTeaser: React.FC = () => {
             style={{ maxHeight: "300px" }}
             className="scrollable overflow-y-auto"
           >
-            {tab === 0 && <PeteHelp />}
-            {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}
+            {tab === "explore" && <PeteHelp />}
+            {tab === "guide" && <Guide selected={guide} onSelect={setGuide} />}
           </div>
         </CloseButtonPanel>
       </Modal>
@@ -261,7 +260,7 @@ export const TravelTeaser: React.FC = () => {
               />
             )}
 
-            <NPC
+            <NPCPlaceable
               parts={NPC_WEARABLES["pumpkin' pete"]}
               onClick={() => setShowModal(true)}
             />

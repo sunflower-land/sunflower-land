@@ -1,15 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
-import {
-  areUnsupportedChickensBrewing,
-  getUnsupportedChickens,
-  removeBuilding,
-  REMOVE_BUILDING_ERRORS,
-} from "./removeBuilding";
-import { hasRemoveRestriction } from "features/game/types/removeables";
-import { BuildingName } from "features/game/types/buildings";
+import { removeBuilding, REMOVE_BUILDING_ERRORS } from "./removeBuilding";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -115,50 +107,8 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   });
 
-  it("does not remove a building that has a removal restriction", () => {
-    const buildingName: BuildingName = "Crop Machine";
-    const id = "123";
-    const state: GameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(0),
-      },
-      buildings: {
-        "Crop Machine": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-            queue: [
-              {
-                crop: "Sunflower",
-                amount: 1,
-                seeds: 1,
-                totalGrowTime: 60,
-                growTimeRemaining: 60,
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    const [_, error] = hasRemoveRestriction(buildingName, id, state);
-
-    expect(() =>
-      removeBuilding({
-        state,
-        action: {
-          type: "building.removed",
-          name: buildingName,
-          id,
-        },
-      }),
-    ).toThrow(error);
-  });
-
   it("removes a building and does not affect buildings of the same type", () => {
+    const dateNow = Date.now();
     const gameState = removeBuilding({
       state: {
         ...GAME_STATE,
@@ -193,9 +143,16 @@ describe("removeBuilding", () => {
         name: "Fire Pit",
         id: "123",
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.buildings["Fire Pit"]).toEqual([
+      {
+        id: "123",
+        createdAt: 0,
+        readyAt: 0,
+        removedAt: dateNow,
+      },
       {
         id: "456",
         coordinates: { x: 4, y: 4 },
@@ -212,34 +169,6 @@ describe("removeBuilding", () => {
         readyAt: 0,
       },
     ]);
-  });
-
-  it("uses one Rusty Shovel per building removed", () => {
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        collectibles: {
-          Nugget: [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "building.removed",
-        name: "Fire Pit",
-        id: "123",
-      },
-    });
-
-    expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
   });
 
   // it("cannot remove the only water well if there are two unsupported crops from the last expansion", () => {
@@ -515,328 +444,132 @@ describe("removeBuilding", () => {
   //   expect(expansions[1].plots?.["4"].crop).not.toBeUndefined();
   // });
 
-  it("cannot remove hen house if unsupported chickens are brewing", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(10),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-    gameState.chickens["2"].fedAt = 1;
-    expect(() =>
-      removeBuilding({
-        state: gameState,
-        action: {
-          type: "building.removed",
-          name: "Hen House",
-          id: "123",
-        },
-      }),
-    ).toThrow(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
-  });
-
-  it("removes all 10 chickens when only hen house is removed", () => {
-    const result = removeBuilding({
+  it("stores the time remaining for cooking buildings", () => {
+    const dateNow = Date.now();
+    const state = removeBuilding({
       state: {
         ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(1),
-        },
-        chickens: makeChickens(10),
         buildings: {
-          "Hen House": [
+          "Fire Pit": [
             {
               id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
               coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
+              crafting: [
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 60000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 120000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 180000,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 240000,
+                },
+              ],
             },
           ],
         },
       },
       action: {
         type: "building.removed",
-        name: "Hen House",
+        name: "Fire Pit",
         id: "123",
       },
+      createdAt: dateNow,
     });
 
-    expect(getKeys(result.chickens).length).toBe(0);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[0].timeRemaining,
+    ).toEqual(60000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[1].timeRemaining,
+    ).toEqual(120000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[2].timeRemaining,
+    ).toEqual(180000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[3].timeRemaining,
+    ).toEqual(240000);
   });
 
-  it("removes 5 chickens when one of two hen houses are removed", () => {
-    const result = removeBuilding({
+  it("saves the remaining time for each pack in the crop machine", () => {
+    const dateNow = Date.now();
+    const state = removeBuilding({
       state: {
         ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(1),
-        },
-        chickens: makeChickens(15),
         buildings: {
-          "Hen House": [
+          "Crop Machine": [
             {
               id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
               coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "345",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000,
+                  readyAt: dateNow - 10000000 + 60000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 60000000,
+                  readyAt: dateNow - 10000000 + 120000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 120000000,
+                  readyAt: dateNow - 10000000 + 180000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 30000000,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 180000000,
+                  growsUntil: dateNow - 10000000 + 210000000,
+                },
+              ],
             },
           ],
         },
       },
+
       action: {
         type: "building.removed",
-        name: "Hen House",
+        name: "Crop Machine",
         id: "123",
       },
+      createdAt: dateNow,
     });
 
-    expect(getKeys(result.chickens).length).toBe(10);
-  });
-
-  it("removes 15 chickens if a chicken coop is placed and one of two hen houses are removed", () => {
-    const result = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(1),
-        },
-        chickens: makeChickens(30),
-        collectibles: {
-          "Chicken Coop": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-        buildings: {
-          "Hen House": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "345",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "building.removed",
-        name: "Hen House",
-        id: "123",
-      },
-    });
-
-    expect(getKeys(result.chickens).length).toBe(15);
-  });
-
-  it("removes all chicken if a chicken coop is placed the only hen house is removed", () => {
-    const result = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(1),
-        },
-        chickens: makeChickens(30),
-        collectibles: {
-          "Chicken Coop": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-        buildings: {
-          "Hen House": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "building.removed",
-        name: "Hen House",
-        id: "123",
-      },
-    });
-
-    expect(getKeys(result.chickens).length).toBe(0);
-  });
-});
-
-describe("getUnsupportedChickens", () => {
-  it("get last 5 unsupported chickens if players have 15 placed chickens and only have 1 hen house", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(15),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-
-    const result = getUnsupportedChickens(gameState);
-
-    const lastChickensIndexes = Array.from({ length: 5 }, (_, i) =>
-      (i + 10).toString(),
-    );
-    const lastChickensInState = {} as Record<string, Chicken>;
-    lastChickensIndexes.forEach(
-      (key) =>
-        (lastChickensInState[key] = {
-          coordinates: {
-            x: 7,
-            y: 3,
-          },
-          multiplier: 1,
-        }),
-    );
-    expect(result).toEqual(lastChickensInState);
-  });
-  it("get all 8 unsupported chickens if players have 8 placed chickens and have 0 hen houses", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(8),
-      buildings: {},
-    };
-
-    const result = getUnsupportedChickens(gameState);
-    expect(result).toEqual(gameState.chickens);
-  });
-  it("get no unsupported chickens if all chickens are supported", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(9),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-
-    const result = getUnsupportedChickens(gameState);
-    expect(result).toEqual({});
-  });
-});
-
-describe("areUnsupportedChickensBrewing", () => {
-  it("return false if supported chickens are brewing", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(15),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-    gameState.chickens["0"].fedAt = 100;
-
-    const result = areUnsupportedChickensBrewing(gameState);
-    expect(result).toBeFalsy();
-  });
-  it("return true if some unsupported chickens are brewing", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(15),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-    gameState.chickens["11"].fedAt = 100;
-
-    const result = areUnsupportedChickensBrewing(gameState);
-    expect(result).toBeTruthy();
-  });
-  it("return false if no unsupported chickens are brewing", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(15),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-
-    const result = areUnsupportedChickensBrewing(gameState);
-    expect(result).toBeFalsy();
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[0].pausedTimeRemaining,
+    ).toEqual(50000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[1].pausedTimeRemaining,
+    ).toEqual(110000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[2].pausedTimeRemaining,
+    ).toEqual(170000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[3].pausedTimeRemaining,
+    ).toEqual(200000000);
   });
 });

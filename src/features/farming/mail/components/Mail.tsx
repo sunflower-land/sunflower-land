@@ -1,11 +1,11 @@
 import { useSelector } from "@xstate/react";
-import { ButtonPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import giftIcon from "assets/icons/gift.png";
 import letter from "assets/icons/letter.png";
 
@@ -35,7 +35,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   ids = [...announcementIds, ...ids];
   if (ids.length === 0) {
     return (
-      <div className="flex items-center justify-center flex-col">
+      <InnerPanel className="flex items-center justify-center flex-col">
         <img
           src={letter}
           className="my-2"
@@ -44,7 +44,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
           }}
         />
         <p className="mb-2 text-sm">{t("no.mail")}</p>
-      </div>
+      </InnerPanel>
     );
   }
 
@@ -63,7 +63,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   };
 
   return (
-    <div>
+    <InnerPanel>
       {ids.map((id) => {
         const details = announcements[id];
 
@@ -116,6 +116,6 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
           </ButtonPanel>
         );
       })}
-    </div>
+    </InnerPanel>
   );
 };

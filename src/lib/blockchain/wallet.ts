@@ -4,15 +4,33 @@ import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
 import {
-  getAccount,
   getBalance,
   getChainId,
+  getConnection,
   readContract,
   sendTransaction,
   switchChain,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { formatEther, parseEther } from "viem";
+import { base, baseSepolia, polygon, polygonAmoy } from "viem/chains";
+
+type ChainParameter =
+  | {
+      nativeCurrency?:
+        | {
+            name: string;
+            symbol: string;
+            decimals: number;
+          }
+        | undefined
+        | undefined;
+      rpcUrls?: readonly string[] | undefined;
+      chainName?: string | undefined;
+      blockExplorerUrls?: string[] | undefined | undefined;
+      iconUrls?: string[] | undefined | undefined;
+    }
+  | undefined;
 
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
@@ -22,14 +40,14 @@ const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
  * A wrapper of Viem which handles retries and other common errors.
  */
 export class Wallet {
-  public getAccount() {
-    const { address } = getAccount(config);
+  public getConnection(): `0x${string}` | undefined {
+    const { address } = getConnection(config);
 
     return address;
   }
 
-  public async getMaticBalance() {
-    const account = this.getAccount();
+  public async getMaticBalance(): Promise<number> {
+    const account = this.getConnection();
     if (!account) {
       throw new Error(ERRORS.NO_WEB3);
     }
@@ -40,48 +58,9 @@ export class Wallet {
     return Number(response.value);
   }
 
-  public async checkDefaultNetwork() {
+  public async isPolygon(): Promise<boolean> {
     const chainId = getChainId(config);
     return chainId === CONFIG.POLYGON_CHAIN_ID;
-  }
-
-  private getDefaultChainParam() {
-    if (CONFIG.POLYGON_CHAIN_ID === 137) {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Mainnet",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com/"],
-      };
-    } else {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Testnet Amoy",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc-amoy.polygon.technology"],
-        blockExplorerUrls: ["https://amoy.polygonscan.com/"],
-      };
-    }
-  }
-
-  public async switchNetwork() {
-    await switchChain(config, {
-      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
-      addEthereumChainParameter: this.getDefaultChainParam(),
-    });
-  }
-
-  public async initialiseNetwork() {
-    await this.switchNetwork();
   }
 
   public async donate(
@@ -119,10 +98,11 @@ export class Wallet {
     }
   }
 
-  public async getSFLForMatic(matic: string) {
+  public async getSFLForMatic(matic: string): Promise<Decimal> {
     const maticMinusFee = (BigInt(matic) * BigInt(950)) / BigInt(1000);
 
     const result = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [
         {
           inputs: [
@@ -145,8 +125,9 @@ export class Wallet {
     return new Decimal(formatEther(result[1]));
   }
 
-  public async getMaticForSFL(sfl: string) {
+  public async getMaticForSFL(sfl: string): Promise<Decimal> {
     const result = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [
         {
           inputs: [
@@ -171,6 +152,68 @@ export class Wallet {
     );
 
     return maticWithFee;
+  }
+
+  public async switchNetwork(chainId: number) {
+    let chainParameter: ChainParameter;
+
+    switch (chainId) {
+      case polygon.id:
+        chainParameter = {
+          chainName: "Polygon Mainnet",
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18,
+          },
+          rpcUrls: ["https://polygon-rpc.com/"],
+          blockExplorerUrls: ["https://polygonscan.com/"],
+        };
+        break;
+      case polygonAmoy.id:
+        chainParameter = {
+          chainName: "Polygon Testnet Amoy",
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18,
+          },
+          rpcUrls: ["https://rpc-amoy.polygon.technology"],
+          blockExplorerUrls: ["https://amoy.polygonscan.com/"],
+        };
+        break;
+      case base.id:
+        chainParameter = {
+          chainName: "Base Mainnet",
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18,
+          },
+          rpcUrls: ["https://mainnet.base.org"],
+          blockExplorerUrls: ["https://basescan.org/"],
+        };
+        break;
+      case baseSepolia.id:
+        chainParameter = {
+          chainName: "Base Sepolia",
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18,
+          },
+          rpcUrls: ["https://sepolia.base.org"],
+          blockExplorerUrls: ["https://sepolia.basescan.org/"],
+        };
+        break;
+      default:
+        throw new Error(`Unsupported chainId: ${chainId}`);
+    }
+
+    await switchChain(config, {
+      chainId,
+      addEthereumChainParameter: chainParameter,
+    });
   }
 }
 

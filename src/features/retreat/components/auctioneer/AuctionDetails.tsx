@@ -1,25 +1,25 @@
 import React from "react";
 
 import { Button } from "components/ui/Button";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getReturnValues, useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
+import { getMintedChapterLimit } from "./lib/getMintedChapterLimit";
+import { getAuctionItemType } from "./lib/getAuctionItemType";
+import { getAuctionItemDisplay } from "./lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
-  item: Auction;
+  auction: Auction;
   game: GameState;
   isUpcomingItem?: boolean;
   onDraftBid: () => void;
@@ -28,25 +28,37 @@ type Props = {
 
 type TimeObject = {
   time: {
-    days: number;
-    hours: number;
+    days?: number;
+    hours?: number;
     minutes: number;
     seconds: number;
+    totalSeconds?: number;
   };
   fontSize?: number;
   color?: string;
 };
 
-export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
-  const timeKeys = getKeys(time);
+export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
+  let timeKeys = getKeys(time).filter((key) => key !== "totalSeconds");
+
+  // remove day keys if days is 0
+  if (time.days === 0) {
+    timeKeys = timeKeys.filter((key) => key !== "days");
+  }
 
   const times = timeKeys.map((key) => {
-    const value = time[key].toString().padStart(2, "0");
+    const value = time[key as keyof TimeObject["time"]]
+      ?.toString()
+      .padStart(2, "0");
 
     return value;
   });
+
   return (
-    <span className="font-secondary text-base" style={{ color }}>
+    <span
+      className="font-secondary"
+      style={{ color, fontSize: fontSize && `${fontSize}px` }}
+    >
       {times.join(":")}
     </span>
   );
@@ -55,12 +67,12 @@ export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
 export const AuctionDetails: React.FC<Props> = ({
   game,
   isUpcomingItem,
-  item,
+  auction,
   onDraftBid,
   onBack,
 }) => {
-  const releaseDate = item?.startAt as number;
-  const releaseEndDate = item?.endAt as number;
+  const releaseDate = auction?.startAt as number;
+  const releaseEndDate = auction?.endAt as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
 
@@ -69,23 +81,28 @@ export const AuctionDetails: React.FC<Props> = ({
   const isMintComplete = Date.now() > releaseEndDate;
 
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const hasIngredients =
-    getKeys(item.ingredients).every((name) =>
-      (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0),
+    getKeys(auction.ingredients).every((name) =>
+      (game.inventory[name] ?? new Decimal(0)).gte(
+        auction.ingredients[name] ?? 0,
+      ),
     ) ?? false;
 
-  const MintButton = () => {
-    if (
-      isCollectible
-        ? !!game.inventory[item.collectible]
-        : !!game.wardrobe[item.wearable]
-    ) {
+  const getMintButton = () => {
+    const chapterLimitReached = getMintedChapterLimit(
+      game.auctioneer,
+      auction,
+      getAuctionItemType(auction),
+      now,
+    );
+
+    if (chapterLimitReached) {
       return <Label type="info">{t("alr.minted")}</Label>;
     }
-    if (isUpcomingItem) {
-      return null;
-    }
+
+    if (isUpcomingItem) return null;
 
     return (
       <Button
@@ -96,15 +113,17 @@ export const AuctionDetails: React.FC<Props> = ({
       </Button>
     );
   };
-  const isCollectible = item.type === "collectible";
 
-  const image = isCollectible
-    ? ITEM_DETAILS[item.collectible].image
-    : getImageUrl(ITEM_IDS[item.wearable]);
+  const { image, buffLabels, item, typeLabel, description } =
+    getAuctionItemDisplay({
+      auction,
+      skills: game.bumpkin.skills,
+      collectibles: game.collectibles,
+    });
 
-  const buffLabel = isCollectible
-    ? COLLECTIBLE_BUFF_LABELS[item.collectible]
-    : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
+  const isCollectible =
+    auction.type === "collectible" || auction.type === "nft";
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto relative">
@@ -115,26 +134,32 @@ export const AuctionDetails: React.FC<Props> = ({
             className="h-8 cursor-pointer"
           />
           <p className="absolute left-1/2 transform -translate-x-1/2 text-center max-w-[80%] sm:max-w-none">
-            {isCollectible ? item.collectible : item.wearable}
+            {item}
           </p>
-          <Label type="default">
-            {isCollectible ? t("collectible") : t("wearable")}
-          </Label>
+          <Label type="default">{typeLabel}</Label>
         </div>
 
-        {buffLabel && (
-          <Label
-            type={buffLabel.labelType}
-            icon={buffLabel.boostTypeIcon}
-            secondaryIcon={buffLabel.boostedItemIcon}
-          >
-            {buffLabel.shortDescription}
-          </Label>
+        {buffLabels && (
+          <div className="flex flex-col gap-1 mb-1">
+            {buffLabels.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={index}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
+          </div>
         )}
 
-        <p className="text-center text-xs mb-3">
-          {isCollectible ? ITEM_DETAILS[item.collectible].description : ""}
-        </p>
+        <p className="text-center text-xs mb-3">{description}</p>
 
         <div className="relative mb-2">
           {isCollectible && (
@@ -153,7 +178,7 @@ export const AuctionDetails: React.FC<Props> = ({
               })}
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
-              {`${item.supply} available`}
+              {`${auction.supply} available`}
             </Label>
           </div>
         </div>
@@ -162,12 +187,12 @@ export const AuctionDetails: React.FC<Props> = ({
       <div className="mb-2 flex flex-col items-center">
         <span className="text-xs mb-1">{t("auction.requirement")}</span>
         <div className="flex items-center justify-center">
-          {item.sfl > 0 && (
+          {auction.sfl > 0 && (
             <div className="flex items-center">
               <img src={token} className="h-6" />
             </div>
           )}
-          {getKeys(item.ingredients).map((name) => (
+          {getKeys(auction.ingredients).map((name) => (
             <div className="flex items-center ml-1" key={name}>
               <img src={ITEM_DETAILS[name].image} className="h-6" />
             </div>
@@ -178,7 +203,7 @@ export const AuctionDetails: React.FC<Props> = ({
       <div className="flex justify-around flex-wrap">
         <div className="flex flex-col items-center w-48 mb-2">
           <a
-            href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs underline mb-1"
@@ -195,7 +220,7 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
         <div className="flex flex-col items-center w-48 mb-2">
           <a
-            href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs underline mb-1"
@@ -216,7 +241,7 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
       </div>
 
-      {MintButton()}
+      {getMintButton()}
     </div>
   );
 };

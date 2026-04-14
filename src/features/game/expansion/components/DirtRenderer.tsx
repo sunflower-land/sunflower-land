@@ -1,5 +1,5 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import React, { memo } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -10,104 +10,120 @@ import { SUNNYSIDE } from "assets/sunnyside";
  */
 
 import { GameGrid } from "../placeable/lib/makeGrid";
-import { IslandType } from "features/game/types/game";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
-type CropAlternateArt = Record<IslandType, string>;
+type CropAlternateArt = Record<LandBiomeName, string>;
 
 const NO_EDGE: CropAlternateArt = {
-  basic: SUNNYSIDE.land.noEdge,
-  spring: SUNNYSIDE.land.noEdge,
-  desert: SUNNYSIDE.land.desertNoEdge,
+  "Basic Biome": SUNNYSIDE.land.noEdge,
+  "Spring Biome": SUNNYSIDE.land.noEdge,
+  "Desert Biome": SUNNYSIDE.land.desertNoEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoNoEdge,
 };
 
 const TOP_RIGHT_BOTTOM_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.fullEdge,
-  spring: SUNNYSIDE.land.fullEdge,
-  desert: SUNNYSIDE.land.desertFullEdge,
+  "Basic Biome": SUNNYSIDE.land.fullEdge,
+  "Spring Biome": SUNNYSIDE.land.fullEdge,
+  "Desert Biome": SUNNYSIDE.land.desertFullEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoFullEdge,
 };
 
 const TOP_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topAndLeftEdge,
-  spring: SUNNYSIDE.land.topAndLeftEdge,
-  desert: SUNNYSIDE.land.desertTopAndLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.topAndLeftEdge,
+  "Spring Biome": SUNNYSIDE.land.topAndLeftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopAndLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
 };
 
 const TOP_RIGHT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topAndRightEdge,
-  spring: SUNNYSIDE.land.topAndRightEdge,
-  desert: SUNNYSIDE.land.desertTopAndRightEdge,
+  "Basic Biome": SUNNYSIDE.land.topAndRightEdge,
+  "Spring Biome": SUNNYSIDE.land.topAndRightEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopAndRightEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
 };
 
 const BOTTOM_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.bottomAndLeftEdge,
-  spring: SUNNYSIDE.land.bottomAndLeftEdge,
-  desert: SUNNYSIDE.land.desertBottomAndLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.bottomAndLeftEdge,
+  "Spring Biome": SUNNYSIDE.land.bottomAndLeftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertBottomAndLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
 };
 
 const RIGHT_BOTTOM: CropAlternateArt = {
-  basic: SUNNYSIDE.land.bottomAndRightEdge,
-  spring: SUNNYSIDE.land.bottomAndRightEdge,
-  desert: SUNNYSIDE.land.desertBottomAndRightEdge,
+  "Basic Biome": SUNNYSIDE.land.bottomAndRightEdge,
+  "Spring Biome": SUNNYSIDE.land.bottomAndRightEdge,
+  "Desert Biome": SUNNYSIDE.land.desertBottomAndRightEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
 };
 
 const TOP: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topEdge,
-  spring: SUNNYSIDE.land.topEdge,
-  desert: SUNNYSIDE.land.desertTopEdge,
+  "Basic Biome": SUNNYSIDE.land.topEdge,
+  "Spring Biome": SUNNYSIDE.land.topEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopEdge,
 };
 
 const RIGHT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.rightEdge,
-  spring: SUNNYSIDE.land.rightEdge,
-  desert: SUNNYSIDE.land.desertRightEdge,
+  "Basic Biome": SUNNYSIDE.land.rightEdge,
+  "Spring Biome": SUNNYSIDE.land.rightEdge,
+  "Desert Biome": SUNNYSIDE.land.desertRightEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoRightEdge,
 };
 
 const BOTTOM: CropAlternateArt = {
-  basic: SUNNYSIDE.land.bottomEdge,
-  spring: SUNNYSIDE.land.bottomEdge,
-  desert: SUNNYSIDE.land.desertBottomEdge,
+  "Basic Biome": SUNNYSIDE.land.bottomEdge,
+  "Spring Biome": SUNNYSIDE.land.bottomEdge,
+  "Desert Biome": SUNNYSIDE.land.desertBottomEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoBottomEdge,
 };
 
 const LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.leftEdge,
-  spring: SUNNYSIDE.land.leftEdge,
-  desert: SUNNYSIDE.land.desertLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.leftEdge,
+  "Spring Biome": SUNNYSIDE.land.leftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoLeftEdge,
 };
 
 const TOP_BOTTOM: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topAndBottomEdge,
-  spring: SUNNYSIDE.land.topAndBottomEdge,
-  desert: SUNNYSIDE.land.desertTopAndBottomEdge,
+  "Basic Biome": SUNNYSIDE.land.topAndBottomEdge,
+  "Spring Biome": SUNNYSIDE.land.topAndBottomEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopAndBottomEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
 };
 
 const RIGHT_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.rightAndLeftEdge,
-  spring: SUNNYSIDE.land.rightAndLeftEdge,
-  desert: SUNNYSIDE.land.desertRightAndLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.rightAndLeftEdge,
+  "Spring Biome": SUNNYSIDE.land.rightAndLeftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertRightAndLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
 };
 
 const TOP_BOTTOM_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topLeftAndBottomEdge,
-  spring: SUNNYSIDE.land.topLeftAndBottomEdge,
-  desert: SUNNYSIDE.land.desertTopLeftAndBottomEdge,
+  "Basic Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
+  "Spring Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopLeftAndBottomEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
 };
 
 const TOP_RIGHT_BOTTOM: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topRightAndBottomEdge,
-  spring: SUNNYSIDE.land.topRightAndBottomEdge,
-  desert: SUNNYSIDE.land.desertTopRightAndBottomEdge,
+  "Basic Biome": SUNNYSIDE.land.topRightAndBottomEdge,
+  "Spring Biome": SUNNYSIDE.land.topRightAndBottomEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopRightAndBottomEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
 };
 
 const TOP_RIGHT_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.topRightAndLeftEdge,
-  spring: SUNNYSIDE.land.topRightAndLeftEdge,
-  desert: SUNNYSIDE.land.desertTopRightAndLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.topRightAndLeftEdge,
+  "Spring Biome": SUNNYSIDE.land.topRightAndLeftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertTopRightAndLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
 };
 
 const RIGHT_BOTTOM_LEFT: CropAlternateArt = {
-  basic: SUNNYSIDE.land.rightBottomAndLeftEdge,
-  spring: SUNNYSIDE.land.rightBottomAndLeftEdge,
-  desert: SUNNYSIDE.land.desertRightBottomAndLeftEdge,
+  "Basic Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
+  "Spring Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
+  "Desert Biome": SUNNYSIDE.land.desertRightBottomAndLeftEdge,
+  "Volcano Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
 };
 
 const IMAGE_PATHS: Record<string, CropAlternateArt> = {
@@ -137,10 +153,10 @@ type Edges = {
 
 interface Props {
   grid: GameGrid;
-  island: IslandType;
+  biome: LandBiomeName;
 }
 
-const Renderer: React.FC<Props> = ({ grid, island }) => {
+const Renderer: React.FC<Props> = ({ grid, biome }) => {
   const xPositions = getKeys(grid).map(Number);
 
   const dirt = xPositions.flatMap((x) => {
@@ -159,10 +175,10 @@ const Renderer: React.FC<Props> = ({ grid, island }) => {
         left: grid[x - 1]?.[y] !== "Dirt Path",
       };
 
-      let image = NO_EDGE[island];
+      let image = NO_EDGE[biome];
       const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
       const name = edgeNames.join("_");
-      const path = IMAGE_PATHS[name]?.[island];
+      const path = IMAGE_PATHS[name]?.[biome];
       if (path) {
         image = path;
       }

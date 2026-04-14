@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
 import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import { canMine } from "features/game/lib/resourceNodes";
+import { trackFarmActivity } from "features/game/types/farmActivity";
+import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type MineSunstoneAction = {
@@ -42,7 +42,11 @@ export function mineSunstone({
       throw new Error(EVENT_ERRORS.NO_SUNSTONE);
     }
 
-    if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
+    if (sunstoneRock.x === undefined && sunstoneRock.y === undefined) {
+      throw new Error("Sunstone rock is not placed");
+    }
+
+    if (!canMine(sunstoneRock, "Sunstone Rock", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 
@@ -52,12 +56,11 @@ export function mineSunstone({
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
 
-    const sunstoneMined = sunstoneRock.stone.amount;
+    const sunstoneMined = 1;
     const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
 
     sunstoneRock.stone = {
       minedAt: createdAt,
-      amount: 1,
     };
 
     stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
@@ -71,8 +74,24 @@ export function mineSunstone({
         stateCopy.inventory["Sunstone Rock"]?.sub(1);
     }
 
-    bumpkin.activity = trackActivity("Sunstone Mined", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Sunstone Mined",
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });
+}
+
+export function getSunstoneRecoveryTimeForDisplay(_game: GameState): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseTimeMs = SUNSTONE_RECOVERY_TIME * 1000;
+  return {
+    baseTimeMs,
+    recoveryTimeMs: baseTimeMs,
+    boostsUsed: [],
+  };
 }

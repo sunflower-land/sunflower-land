@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, type JSX } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -15,6 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useVisiting } from "lib/utils/visitUtils";
 
 /**
  * BuildingImageWrapper props
@@ -23,38 +24,37 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
  * @param onClick on click event
  */
 interface Props {
-  name: string;
-  index?: number;
-  nonInteractible?: boolean;
+  name: BuildingName;
   ready?: boolean;
-  onClick: () => void;
+  nonInteractible?: boolean;
+  onClick?: () => void;
 }
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
-export const BuildingImageWrapper: React.FC<Props> = ({
+export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
   name,
-  index,
   nonInteractible,
   ready,
   onClick,
   children,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const [warning, setWarning] = useState<JSX.Element>();
+  const { isVisiting } = useVisiting();
 
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
-  const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
-    name as BuildingName,
-    index ?? 0,
-  );
+  const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(name);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
   const { t } = useAppTranslation();
 
-  const getHandleDisabledOnClick = (name: string, nonInteractible: boolean) =>
+  const getHandleDisabledOnClick = (
+    name: BuildingName,
+    nonInteractible: boolean,
+  ) =>
     function handleDisabledOnClick() {
       if (nonInteractible) return;
 
@@ -69,8 +69,12 @@ export const BuildingImageWrapper: React.FC<Props> = ({
     };
 
   let enabled = !nonInteractible;
-  if (enabled) {
+  if (enabled && !isVisiting) {
     enabled = isBuildingEnabled(bumpkinLevel, name as BuildingName);
+  }
+  // When visiting, always allow clicking (enabled = true) if not nonInteractible
+  if (isVisiting && !nonInteractible) {
+    enabled = true;
   }
 
   const handleHover = () => {
@@ -136,7 +140,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="ready"
+            className={showAnimations ? "ready" : ""}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
             }}

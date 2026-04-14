@@ -1,17 +1,36 @@
 import Decimal from "decimal.js-light";
 import { startComposter } from "./startComposter";
-import { GameState } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { SEASON_COMPOST_REQUIREMENTS } from "features/game/types/composters";
+import { getKeys } from "lib/object";
 
-const GAME_STATE: GameState = TEST_FARM;
+const season: TemperateSeasonName = "winter";
+
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  season: { season, startedAt: Date.now() },
+};
 
 describe("start Compost Bin", () => {
   const dateNow = Date.now();
 
-  it("throws an error if Composter does not exist", () => {
+  it("throws an error if Composter is not placed", () => {
     expect(() =>
       startComposter({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Compost Bin": [
+              {
+                coordinates: undefined,
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+              },
+            ],
+          },
+        },
         action: { type: "composter.started", building: "Compost Bin" },
       }),
     ).toThrow("Composter does not exist");
@@ -55,14 +74,6 @@ describe("start Compost Bin", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
-                requires: {
-                  Kale: 50,
-                },
-                producing: {
-                  items: { "Sprout Mix": 10 },
-                  startedAt: dateNow - 10000,
-                  readyAt: dateNow - 1000,
-                },
               },
             ],
           },
@@ -77,9 +88,8 @@ describe("start Compost Bin", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
       },
       buildings: {
         "Compost Bin": [
@@ -88,16 +98,6 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
-            producing: {
-              items: { "Sprout Mix": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
@@ -108,9 +108,8 @@ describe("start Compost Bin", () => {
       action: { type: "composter.started", building: "Compost Bin" },
     });
 
-    expect(newState.inventory.Sunflower).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Pumpkin).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Carrot).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Potato).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Cabbage).toStrictEqual(new Decimal(0));
   });
 
   it("starts BasicComposters", () => {
@@ -118,9 +117,8 @@ describe("start Compost Bin", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
       },
       buildings: {
         "Compost Bin": [
@@ -129,16 +127,6 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
-            producing: {
-              items: { "Sprout Mix": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
@@ -163,9 +151,8 @@ describe("start Compost Bin", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
       },
       buildings: {
         "Compost Bin": [
@@ -174,11 +161,6 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -205,9 +187,8 @@ describe("start Compost Bin", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
       },
       buildings: {
         "Compost Bin": [
@@ -216,11 +197,6 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -238,7 +214,7 @@ describe("start Compost Bin", () => {
 
     expect(
       newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
-    ).toBe(13);
+    ).toBe(15);
   });
 
   it("doesn't gives +3 Sprout Mix with Efficient Bin skill if not Compost Bin", () => {
@@ -246,9 +222,8 @@ describe("start Compost Bin", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -257,11 +232,6 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -286,6 +256,41 @@ describe("start Compost Bin", () => {
         "Fruitful Blend"
       ],
     ).toBe(3);
+  });
+
+  it("give a 10% speed boost if the player had Swift Decomposer skill", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
+      },
+      buildings: {
+        "Compost Bin": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { "Swift Decomposer": 1 },
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Compost Bin" },
+    });
+
+    expect(newState.buildings["Compost Bin"]?.[0].producing?.readyAt).toBe(
+      dateNow + 5.4 * 60 * 60 * 1000,
+    );
   });
 });
 
@@ -340,14 +345,6 @@ describe("start Turbo Composter", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
-                requires: {
-                  Kale: 50,
-                },
-                producing: {
-                  items: { "Fruitful Blend": 10 },
-                  startedAt: dateNow - 10000,
-                  readyAt: dateNow - 1000,
-                },
               },
             ],
           },
@@ -362,8 +359,8 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Cauliflower: new Decimal(5),
-        Egg: new Decimal(1),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -372,15 +369,6 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Cauliflower: 3,
-              Egg: 1,
-            },
-            producing: {
-              items: { "Fruitful Blend": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
@@ -391,8 +379,8 @@ describe("start Turbo Composter", () => {
       action: { type: "composter.started", building: "Turbo Composter" },
     });
 
-    expect(newState.inventory.Cauliflower).toStrictEqual(new Decimal(2));
-    expect(newState.inventory.Egg).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Onion).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Turnip).toStrictEqual(new Decimal(0));
   });
 
   it("starts Turbo Composters", () => {
@@ -400,8 +388,8 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Cauliflower: new Decimal(5),
-        Egg: new Decimal(1),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -410,15 +398,6 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Cauliflower: 5,
-              Egg: 1,
-            },
-            producing: {
-              items: { "Fruitful Blend": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
@@ -443,9 +422,8 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -454,11 +432,6 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -485,9 +458,8 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -496,11 +468,6 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -528,9 +495,8 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
       },
       buildings: {
         "Compost Bin": [
@@ -539,11 +505,6 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -568,6 +529,76 @@ describe("start Turbo Composter", () => {
     expect(
       newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
     ).toBe(10);
+  });
+
+  it("give a 10% speed boost if the player had Swift Decomposer skill", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
+      },
+      buildings: {
+        "Turbo Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { "Swift Decomposer": 1 },
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Turbo Composter" },
+    });
+
+    expect(newState.buildings["Turbo Composter"]?.[0].producing?.readyAt).toBe(
+      dateNow + 7.2 * 60 * 60 * 1000,
+    );
+  });
+  it("should not remove fertiliser from inventory if the player has Composting Overhaul skill", () => {
+    const result = startComposter({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Composting Overhaul": 1 },
+        },
+        inventory: {
+          "Fruitful Blend": new Decimal(10),
+          ...Object.fromEntries(
+            Object.entries(
+              SEASON_COMPOST_REQUIREMENTS["Turbo Composter"][
+                GAME_STATE.season.season
+              ],
+            ).map(([key, value]) => [key, new Decimal(value)]),
+          ),
+        },
+        buildings: {
+          "Turbo Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+            },
+          ],
+        },
+      },
+      action: { type: "composter.started", building: "Turbo Composter" },
+      createdAt: dateNow,
+    });
+
+    expect(result.inventory["Fruitful Blend"]).toEqual(new Decimal(10));
   });
 });
 
@@ -622,12 +653,6 @@ describe("start Premium Composter", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
-                requires: { Kale: 1 },
-                producing: {
-                  items: { "Rapid Root": 10 },
-                  startedAt: dateNow - 10000,
-                  readyAt: dateNow - 1000,
-                },
               },
             ],
           },
@@ -642,8 +667,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Radish: new Decimal(2),
-        Parsnip: new Decimal(2),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -652,27 +682,25 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Radish: 2,
-              Parsnip: 2,
-            },
-            producing: {
-              items: { "Rapid Root": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
     };
 
     const newState = startComposter({
+      createdAt: dateNow,
       state,
       action: { type: "composter.started", building: "Premium Composter" },
     });
 
-    expect(newState.inventory.Radish).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Parsnip).toStrictEqual(new Decimal(0));
+    const requirements =
+      SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+        GAME_STATE.season.season
+      ];
+
+    getKeys(requirements).forEach((itemName) => {
+      expect(newState.inventory[itemName]).toEqual(new Decimal(0));
+    });
   });
 
   it("starts ExpertComposters", () => {
@@ -680,8 +708,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Radish: new Decimal(2),
-        Parsnip: new Decimal(2),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -690,15 +723,6 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Radish: 2,
-              Parsnip: 2,
-            },
-            producing: {
-              items: { "Rapid Root": 10 },
-              startedAt: dateNow - 10000,
-              readyAt: dateNow - 1000,
-            },
           },
         ],
       },
@@ -723,9 +747,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -734,11 +762,6 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -765,9 +788,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -776,11 +803,6 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -808,9 +830,8 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Sunflower: new Decimal(5),
-        Pumpkin: new Decimal(3),
-        Carrot: new Decimal(2),
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
       },
       buildings: {
         "Turbo Composter": [
@@ -819,11 +840,6 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            requires: {
-              Sunflower: 5,
-              Pumpkin: 3,
-              Carrot: 2,
-            },
           },
         ],
       },
@@ -848,5 +864,88 @@ describe("start Premium Composter", () => {
     expect(
       newState.buildings["Turbo Composter"]?.[0].producing?.items["Rapid Root"],
     ).toBeUndefined();
+  });
+
+  it("give a 10% speed boost if the player had Swift Decomposer skill", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
+      },
+      buildings: {
+        "Premium Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { "Swift Decomposer": 1 },
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Premium Composter" },
+    });
+
+    expect(
+      newState.buildings["Premium Composter"]?.[0].producing?.readyAt,
+    ).toBe(dateNow + 10.8 * 60 * 60 * 1000);
+  });
+
+  it("gives +1 Rapid Root with Turd Topper", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
+      },
+      wardrobe: {
+        "Turd Topper": 1,
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Turd Topper",
+        },
+      },
+      buildings: {
+        "Turbo Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Turbo Composter" },
+    });
+
+    expect(
+      newState.buildings["Turbo Composter"]?.[0].producing?.items[
+        "Fruitful Blend"
+      ],
+    ).toBe(4);
   });
 });

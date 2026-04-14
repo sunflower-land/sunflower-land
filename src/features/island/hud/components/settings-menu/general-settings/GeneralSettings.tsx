@@ -3,40 +3,50 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { connectToFSL } from "features/auth/actions/oauth";
+import { hasFeatureAccess } from "lib/flags";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const { showAnimations, toggleAnimations } = useContext(Context);
-
-  const onToggleAnimations = () => {
-    toggleAnimations();
-  };
-
   return (
-    <>
-      <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
-        <span>{`Discord`}</span>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+      <Button onClick={() => onSubMenuClick("preferences")}>
+        <span>{t("gameOptions.generalSettings.preferences")}</span>
       </Button>
-      <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
+      <Button onClick={() => onSubMenuClick("changeLanguage")}>
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-
-      <Button className="mb-1" onClick={() => onSubMenuClick("appearance")}>
-        <span>{t("gameOptions.generalSettings.appearance")}</span>
+      <Button
+        disabled={!!gameService.getSnapshot().context.fslId}
+        onClick={() =>
+          connectToFSL({ nonce: gameService.getSnapshot().context.oauthNonce })
+        }
+        className="relative"
+      >
+        {`Connect FSL ID`}
+        {!!gameService.getSnapshot().context.fslId && (
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            className="absolute right-1 top-1 h-5"
+          />
+        )}
       </Button>
-      <Button className="mb-1" onClick={onToggleAnimations}>
-        <span>
-          {showAnimations
-            ? t("gameOptions.generalSettings.disableAnimations")
-            : t("gameOptions.generalSettings.enableAnimations")}
-        </span>
+      <Button onClick={() => onSubMenuClick("discord")}>
+        <span>{`Discord`}</span>
       </Button>
-      <Button onClick={() => onSubMenuClick("share")} className="mb-1">
-        <span>{t("gameOptions.generalSettings.share")}</span>
-      </Button>
-    </>
+      {hasFeatureAccess(
+        gameService.getSnapshot()?.context?.state,
+        "FACE_RECOGNITION_TEST",
+      ) && (
+        <Button onClick={() => onSubMenuClick("faceRecognition")}>
+          <span>{t("gameOptions.faceRecognition")}</span>
+        </Button>
+      )}
+    </div>
   );
 };

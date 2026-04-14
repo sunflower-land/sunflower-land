@@ -3,6 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 type Edges = {
   top: boolean;
@@ -33,10 +34,26 @@ const verticalImages = [
 
 export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
-    top: grid[x]?.[y + 1] === "Stone Fence" || grid[x]?.[y + 1] === "Fence",
-    right: grid[x + 1]?.[y] === "Stone Fence" || grid[x + 1]?.[y] === "Fence",
-    bottom: grid[x]?.[y - 1] === "Stone Fence" || grid[x]?.[y - 1] === "Fence",
-    left: grid[x - 1]?.[y] === "Stone Fence" || grid[x - 1]?.[y] === "Fence",
+    top:
+      grid[x]?.[y + 1] === "Stone Fence" ||
+      grid[x]?.[y + 1] === "Fence" ||
+      grid[x]?.[y + 1] === "Golden Stone Fence" ||
+      grid[x]?.[y + 1] === "Golden Fence",
+    right:
+      grid[x + 1]?.[y] === "Stone Fence" ||
+      grid[x + 1]?.[y] === "Fence" ||
+      grid[x + 1]?.[y] === "Golden Stone Fence" ||
+      grid[x + 1]?.[y] === "Golden Fence",
+    bottom:
+      grid[x]?.[y - 1] === "Stone Fence" ||
+      grid[x]?.[y - 1] === "Fence" ||
+      grid[x]?.[y - 1] === "Golden Stone Fence" ||
+      grid[x]?.[y - 1] === "Golden Fence",
+    left:
+      grid[x - 1]?.[y] === "Stone Fence" ||
+      grid[x - 1]?.[y] === "Fence" ||
+      grid[x - 1]?.[y] === "Golden Stone Fence" ||
+      grid[x - 1]?.[y] === "Golden Fence",
   };
 
   let image = SUNNYSIDE.decorations.stoneHorizontalOne;
@@ -90,14 +107,16 @@ export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   }
 
   return (
-    <img
-      className="absolute"
-      src={image}
-      key={`${x}_${y}`}
-      style={{
-        height: `${GRID_WIDTH_PX}px`,
-        width: `${GRID_WIDTH_PX}px`,
-      }}
-    />
+    <SFTDetailPopover name="Stone Fence">
+      <img
+        className="absolute"
+        src={image}
+        key={`${x}_${y}`}
+        style={{
+          height: `${GRID_WIDTH_PX}px`,
+          width: `${GRID_WIDTH_PX}px`,
+        }}
+      />
+    </SFTDetailPopover>
   );
 };

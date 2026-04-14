@@ -6,26 +6,35 @@ import { Box } from "components/ui/Box";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import { secondsToString } from "lib/utils/time";
+import { BoostName } from "features/game/types/game";
+import { getBudImage } from "lib/buds/types";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
+  withdrawDisabled?: boolean;
 }
 
 const _state = (state: MachineState) => state.context.state;
 
-export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawBuds: React.FC<Props> = ({
+  onWithdraw,
+  withdrawDisabled,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -34,9 +43,13 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const buds = state.buds ?? {};
 
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(buds).filter((budId) => !buds[budId].coordinates),
+    getKeys(buds)
+      .filter((budId) => !buds[budId].coordinates)
+      .map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
+
+  const [showInfo, setShowInfo] = useState("");
 
   const onAdd = (budId: number) => {
     setUnselected((prev) => prev.filter((bud) => bud !== budId));
@@ -46,6 +59,51 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const onRemove = (budId: number) => {
     setUnselected((prev) => [...prev, budId]);
     setSelected((prev) => prev.filter((bud) => bud !== budId));
+  };
+
+  const now = useNow();
+
+  const hasAccess = hasReputation({
+    game: state,
+    reputation: Reputation.Seedling,
+    now,
+  });
+
+  if (!hasAccess) {
+    return <RequiredReputation reputation={Reputation.Seedling} />;
+  }
+
+  const getRestrictionStatus = (itemName: BoostName) => {
+    const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
+      boostUsedAt: state.boostsUsedAt,
+      item: itemName,
+    });
+    return { isRestricted, cooldownTimeLeft };
+  };
+
+  const getBudName = (budId: number) => {
+    return `Bud #${budId}`;
+  };
+
+  const sortWithdrawableItems = (a: number, b: number) => {
+    const itemA = getBudName(a) as BoostName;
+    const itemB = getBudName(b) as BoostName;
+    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
+    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
+
+    const aIsOnCooldown = aCooldownMs > 0;
+    const bIsOnCooldown = bCooldownMs > 0;
+
+    // 1. Buds on cooldown come first
+    if (aIsOnCooldown && bIsOnCooldown) {
+      // 2. Among those, sort by most cooldown time left
+      return bCooldownMs - aCooldownMs;
+    }
+    if (aIsOnCooldown !== bIsOnCooldown) {
+      return aIsOnCooldown ? -1 : 1;
+    }
+    // 3. Otherwise, sort by bud IDs
+    return a - b;
   };
 
   return (
@@ -58,14 +116,54 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           {t("withdraw.buds")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {unselected.map((budId) => (
-            <Box
-              key={`bud-${budId}`}
-              onClick={() => onAdd(budId)}
-              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-              iconClassName="scale-[1.8] origin-bottom absolute"
-            />
-          ))}
+          {unselected
+            .slice()
+            .sort((a, b) => sortWithdrawableItems(a, b))
+            .map((budId) => {
+              const budName = getBudName(budId);
+              const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(
+                budName as BoostName,
+              );
+              const RestrictionCooldown = cooldownTimeLeft / 1000;
+
+              const handleBoxClick = () => {
+                if (isRestricted) {
+                  setShowInfo((prev) => (prev === budName ? "" : budName));
+                }
+              };
+
+              return (
+                <div
+                  key={budName}
+                  onClick={handleBoxClick}
+                  className="flex relative"
+                >
+                  <InfoPopover
+                    className="absolute top-14 text-xxs sm:text-xs"
+                    showPopover={showInfo === `Bud #${budId}`}
+                  >
+                    {t("withdraw.boostedItem.timeLeft", {
+                      time: secondsToString(RestrictionCooldown, {
+                        length: "medium",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
+                    })}
+                  </InfoPopover>
+
+                  <Box
+                    key={`bud-${budId}`}
+                    onClick={() => onAdd(budId)}
+                    image={getBudImage(budId)}
+                    iconClassName="scale-[1.8] origin-bottom absolute"
+                    disabled={isRestricted}
+                    secondaryImage={
+                      isRestricted ? SUNNYSIDE.icons.lock : undefined
+                    }
+                  />
+                </div>
+              );
+            })}
           {/* Pad with empty boxes */}
           {unselected.length < 4 &&
             new Array(4 - unselected.length)
@@ -82,7 +180,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
               <Box
                 key={`bud-${budId}`}
                 onClick={() => onRemove(budId)}
-                image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                image={getBudImage(budId)}
                 iconClassName="scale-[1.8] origin-bottom absolute"
               />
             ))}
@@ -105,7 +203,9 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           />
           <div className="flex flex-col gap-1">
             <p>{t("withdraw.send.wallet")}</p>
-            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
+            <WalletAddressLabel
+              walletAddress={wallet.getConnection() || "XXXX"}
+            />
           </div>
         </div>
 
@@ -113,7 +213,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
-            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -124,7 +224,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
 
       <Button
         onClick={() => onWithdraw(selected)}
-        disabled={selected.length <= 0}
+        disabled={selected.length <= 0 || withdrawDisabled}
       >
         {t("withdraw")}
       </Button>

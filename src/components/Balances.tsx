@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import sflIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import coinsIcon from "assets/icons/coins.webp";
-import blockBucksIcon from "assets/icons/block_buck.png";
+import gemIcon from "assets/icons/gem.webp";
 
 import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
+import { useVisiting } from "lib/utils/visitUtils";
 
 interface Props {
   sfl: Decimal;
   coins: number;
-  blockBucks: Decimal;
+  gems: Decimal;
   onClick?: () => void;
 }
 
-export const Balances: React.FC<Props> = ({
-  sfl,
-  coins,
-  blockBucks,
-  onClick,
-}) => {
+export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
+  const { isVisiting } = useVisiting();
   const [showFullBalance, setShowFullBalance] = useState(false);
 
   return (
     <>
-      <div className="flex flex-col absolute space-y-1 items-end z-50 right-3 top-3 !text-[28px] text-stroke">
+      <div className="flex flex-col space-y-1 items-end !text-[28px] text-stroke">
         <div
           className="flex cursor-pointer items-center space-x-3 relative"
           onClick={onClick}
@@ -44,29 +41,29 @@ export const Balances: React.FC<Props> = ({
             />
           </div>
           <div className="flex items-center space-x-2">
-            <span className="balance-text mt-0.5">
-              {formatNumber(blockBucks)}
-            </span>
+            <span className="balance-text mt-0.5">{formatNumber(gems)}</span>
             <img
-              src={blockBucksIcon}
-              alt="Block Bucks"
+              src={gemIcon}
+              alt="Gems"
               style={{
                 marginTop: 2,
                 width: 28,
               }}
             />
           </div>
-          <img
-            src={SUNNYSIDE.ui.add_button}
-            className="absolute"
-            style={{
-              width: 20,
-              right: -8,
-              top: -4,
-            }}
-          />
+          {!isVisiting && (
+            <img
+              src={SUNNYSIDE.ui.add_button}
+              className="absolute"
+              style={{
+                width: 20,
+                right: -8,
+                top: -4,
+              }}
+            />
+          )}
         </div>
-        {/* SFL */}
+        {/* FLOWER */}
         <div
           className={classNames("flex items-center space-x-2 relative", {
             // show cursor if balance has a decimal place
@@ -79,8 +76,8 @@ export const Balances: React.FC<Props> = ({
             {formatNumber(sfl, { decimalPlaces: showFullBalance ? 8 : 4 })}
           </span>
           <img
-            src={sflIcon}
-            alt="SFL"
+            src={flowerIcon}
+            alt="FLOWER "
             style={{
               width: 26,
             }}

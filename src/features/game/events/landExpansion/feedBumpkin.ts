@@ -1,9 +1,11 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export enum FEED_BUMPKIN_ERRORS {
   MISSING_BUMPKIN = "You do not have a Bumpkin",
@@ -30,7 +32,6 @@ export function feedBumpkin({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
-    const buds = stateCopy.buds;
     const inventory = stateCopy.inventory;
 
     // throws error when player does not have a bumpkin
@@ -53,26 +54,38 @@ export function feedBumpkin({
     // reduce inventory food amount
     inventory[action.food] = inventoryFoodCount.sub(feedAmount);
 
-    // increaes bumpkin experience
-    const foodExperience = new Decimal(
-      getFoodExpBoost(
-        CONSUMABLES[action.food],
-        bumpkin,
-        stateCopy,
-        buds ?? {},
-        createdAt,
-      ),
-    );
+    // increase bumpkin experience
+    const { boostedExp: foodExperience, boostsUsed } = getFoodExpBoost({
+      food: CONSUMABLES[action.food],
+      game: stateCopy,
+      createdAt,
+    });
 
-    bumpkin.experience += Number(foodExperience.mul(feedAmount));
+    const totalExp = foodExperience.mul(feedAmount);
+    bumpkin.experience += Number(totalExp);
+
+    if (hasVipAccess({ game: stateCopy, now: createdAt })) {
+      const vipExpBonus = totalExp.sub(totalExp.div(1.1));
+      if (vipExpBonus.gt(0)) {
+        stateCopy.farmActivity = trackFarmActivity(
+          "VIP XP Earned",
+          stateCopy.farmActivity,
+          vipExpBonus,
+        );
+      }
+    }
 
     // tracks activity
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.food} Fed`,
-      bumpkin.activity,
+      stateCopy.farmActivity,
       feedAmount,
     );
-
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
     // return new state
     return stateCopy;
   });

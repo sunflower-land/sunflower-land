@@ -1,46 +1,59 @@
 import PubSub from "pubsub-js";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { getChestItems } from "./utils/inventory";
-import { KNOWN_IDS } from "features/game/types";
-import { BudName } from "features/game/types/buds";
-import { useSound } from "lib/utils/hooks/useSound";
+import { CollectibleName } from "features/game/types/craftables";
+import { BasketButton } from "./BasketButton";
+import { SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { Context } from "features/game/GameProvider";
+import { PlaceableLocation } from "features/game/types/collectibles";
+import { ChestButton } from "./ChestButton";
+import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   state: GameState;
   selectedItem?: InventoryItemName;
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
-  onPlace?: (item: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  onPlace?: (item: LandscapingPlaceable) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
+  onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
   hideActions: boolean;
+  location?: PlaceableLocation;
 }
 
 export const Inventory: React.FC<Props> = ({
   state,
-  selectedItem: selectedBasketItem,
+  selectedItem,
   shortcutItem,
   isFullUser,
   isFarming,
   isSaving,
   onPlace,
-  onPlaceBud,
+  onPlaceNFT,
+  onPlaceFarmHand,
   onDepositClick,
   hideActions,
+  location,
 }) => {
+  const { shortcuts } = useContext(Context);
+  const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
-
-  const inventory = useSound("inventory");
+  const showPlaceFirstHelper =
+    location !== "petHouse" && hasChestItemAndNoCollectiblesPlaced(state);
 
   useEffect(() => {
     const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
@@ -52,22 +65,8 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
-  const buds = getKeys(state.buds ?? {}).map(
-    (budId) => `Bud-${budId}` as BudName,
-  );
-
-  const [selectedChestItem, setSelectedChestItem] = useState<
-    InventoryItemName | BudName
-  >(
-    [
-      ...buds,
-      ...getKeys(getChestItems(state)).sort(
-        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
-      ),
-    ][0],
-  );
-
-  const shortcuts = getShortcuts();
+  const [selectedChestItem, setSelectedChestItem] =
+    useState<LandscapingPlaceableType>();
 
   const handleBasketItemClick = (item: InventoryItemName) => {
     if (!shortcutItem) return;
@@ -75,44 +74,35 @@ export const Inventory: React.FC<Props> = ({
     shortcutItem(item);
   };
 
+  const getSecondaryImage = (item: InventoryItemName) => {
+    const seed = SEEDS[item as SeedName];
+    return seed?.yield
+      ? ITEM_DETAILS[seed.yield].image
+      : ITEM_DETAILS[item]?.secondaryImage;
+  };
+
   return (
     <>
       <div
-        className="flex flex-col items-center absolute z-50"
+        className="flex flex-col items-end"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
         }}
       >
-        <div
-          onClick={() => {
-            inventory.play();
-            setIsOpen(true);
-          }}
-          className="relative flex z-50 cursor-pointer hover:img-highlight"
-          style={{
-            marginLeft: `${PIXEL_SCALE * 2}px`,
-            marginBottom: `${PIXEL_SCALE * 25}px`,
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.ui.round_button}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
+        {showPlaceFirstHelper && (
+          <Label type="vibrant" className="absolute top-[90px] right-[70px]">
+            {t("chest.placeFirst")}
+          </Label>
+        )}
+        {location !== "petHouse" ? (
+          <BasketButton
+            pulse={showPlaceFirstHelper}
+            onClick={() => setIsOpen(true)}
           />
-          <img
-            src={SUNNYSIDE.icons.basket}
-            className="absolute"
-            style={{
-              top: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              width: `${PIXEL_SCALE * 12}px`,
-            }}
-          />
-        </div>
+        ) : (
+          <ChestButton onClick={() => setIsOpen(true)} />
+        )}
 
         {!hideActions && (
           <div
@@ -126,7 +116,7 @@ export const Inventory: React.FC<Props> = ({
                 key={index}
                 isSelected={index === 0}
                 image={ITEM_DETAILS[item]?.image}
-                secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
+                secondaryImage={getSecondaryImage(item)}
                 count={state.inventory[item]?.sub(
                   state.collectibles[item as CollectibleName]?.length ?? 0,
                 )}
@@ -138,21 +128,25 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <InventoryItemsModal
+        key={isOpen ? `open-${!!showPlaceFirstHelper}` : "closed"}
         show={isOpen}
         onHide={() => {
           setIsOpen(false);
         }}
         state={state}
-        selectedBasketItem={selectedBasketItem}
+        selectedBasketItem={selectedItem}
         onSelectBasketItem={handleBasketItemClick}
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
-        onPlaceBud={onPlaceBud}
+        onPlaceNFT={onPlaceNFT}
+        onPlaceFarmHand={onPlaceFarmHand}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
         isFullUser={isFullUser}
+        location={location}
+        defaultToChest={showPlaceFirstHelper}
       />
     </>
   );

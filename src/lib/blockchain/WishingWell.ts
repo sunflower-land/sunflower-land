@@ -6,11 +6,13 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.WISHING_WELL_CONTRACT;
 
 export async function wish(account: `0x${string}`) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WishingWellJSON,
     address,
     functionName: "wish",
@@ -33,6 +35,7 @@ export async function collectFromWellOnChain({
   farmId: number;
 }) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WishingWellJSON,
     address: address,
     functionName: "collectFromWell",
@@ -44,6 +47,7 @@ export async function collectFromWellOnChain({
 
 export async function getWellBalance(account: `0x${string}`) {
   return await readContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WishingWellJSON,
     address: address,
     functionName: "balanceOf",
@@ -56,6 +60,7 @@ export async function canCollectFromWell(
   account: `0x${string}`,
 ): Promise<boolean> {
   return await readContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WishingWellJSON,
     address: address,
     functionName: "canCollect",
@@ -69,6 +74,7 @@ export async function lastCollectedFromWell(
 ): Promise<number> {
   return Number(
     await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: WishingWellJSON,
       address: address,
       functionName: "lastUpdatedAt",
@@ -81,6 +87,7 @@ export async function lastCollectedFromWell(
 export async function getLockedPeriod(account: `0x${string}`): Promise<number> {
   return Number(
     await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: WishingWellJSON,
       address: address,
       functionName: "getLockedPeriod",

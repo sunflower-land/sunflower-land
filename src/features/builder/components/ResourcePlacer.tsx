@@ -26,18 +26,25 @@ import { Sunstone } from "features/game/expansion/components/resources/sunstone/
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBed } from "features/island/flowers/FlowerBed";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
+import { GameState } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const fruitPatch = SUNNYSIDE.fruit.apple_tree;
 const goldStone = SUNNYSIDE.fruit.apple_tree;
 const ironStone = SUNNYSIDE.fruit.apple_tree;
-export const RESOURCES: Record<
+export const getResources = (
+  island: GameState["island"],
+): Record<
   keyof Layout,
   {
     component: React.FC;
     icon: string;
     dimensions: Dimensions;
   }
-> = {
+> => ({
   trees: {
     component: () => <Tree id="1" index={0} />,
     icon: SUNNYSIDE.resource.tree,
@@ -47,7 +54,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch id="1" index={0} />,
+    component: () => <FruitPatch id="1" />,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -55,7 +62,7 @@ export const RESOURCES: Record<
     },
   },
   stones: {
-    component: () => <Stone id="1" index={0} />,
+    component: () => <Stone id="1" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -63,7 +70,7 @@ export const RESOURCES: Record<
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron id="1" index={0} />,
+    component: () => <Iron id="1" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -71,7 +78,7 @@ export const RESOURCES: Record<
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold id="1" index={0} />,
+    component: () => <Gold id="1" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -79,7 +86,7 @@ export const RESOURCES: Record<
     icon: goldStone,
   },
   crimstones: {
-    component: () => <Crimstone id="1" index={0} />,
+    component: () => <Crimstone id="1" />,
     dimensions: {
       height: 2,
       width: 2,
@@ -95,12 +102,12 @@ export const RESOURCES: Record<
     icon: ITEM_DETAILS["Sunstone"].image,
   },
   plots: {
-    component: () => <Plot id="1" index={0} />,
+    component: () => <Plot id="1" />,
     dimensions: {
       height: 1,
       width: 1,
     },
-    icon: CROP_LIFECYCLE.Sunflower.seedling,
+    icon: CROP_LIFECYCLE[getCurrentBiome(island)].Sunflower.seedling,
   },
   boulder: {
     component: () => <Boulder />,
@@ -134,7 +141,7 @@ export const RESOURCES: Record<
     },
     icon: ITEM_DETAILS["Oil Reserve"].image,
   },
-};
+});
 
 type Dimensions = {
   height: number;
@@ -146,18 +153,23 @@ interface Props {
   onCancel: () => void;
   onPlace: (coords: Coordinates) => void;
 }
+
+const _island = (state: MachineState) => state.context.state.island;
+
 export const ResourcePlacer: React.FC<Props> = ({
   name,
   onCancel,
   onPlace,
 }) => {
+  const { gameService } = useContext(Context);
   const { scale } = useContext(ZoomContext);
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement>(null);
+  const island = useSelector(gameService, _island);
 
   const [isDragging, setIsDragging] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
-  const { component, dimensions } = RESOURCES[name];
+  const { component: Component, dimensions } = getResources(island)[name];
 
   return (
     <>
@@ -176,7 +188,7 @@ export const ResourcePlacer: React.FC<Props> = ({
         }}
       >
         <Draggable
-          nodeRef={nodeRef}
+          nodeRef={nodeRef as React.RefObject<HTMLElement>}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
           onStart={() => {
@@ -207,7 +219,7 @@ export const ResourcePlacer: React.FC<Props> = ({
                 height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
-              {component({})}
+              <Component />
             </div>
           </div>
         </Draggable>

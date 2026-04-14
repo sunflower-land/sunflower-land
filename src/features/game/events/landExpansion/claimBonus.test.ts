@@ -22,6 +22,22 @@ describe("claimBonus", () => {
     ).toThrow("No bonus exist");
   });
 
+  it("throws if the bonus has expired", () => {
+    const createdAt = new Date("2026-01-20T00:00:00Z").getTime();
+    expect(() =>
+      claimBonus({
+        state: {
+          ...TEST_FARM,
+        },
+        action: {
+          type: "bonus.claimed",
+          name: "2026-tiara-wave",
+        },
+        createdAt,
+      }),
+    ).toThrow("Bonus has expired");
+  });
+
   it("does not claim a bonus that is already claimed", () => {
     expect(() =>
       claimBonus({
@@ -56,7 +72,6 @@ describe("claimBonus", () => {
 
     expect(state.inventory).toEqual({
       Axe: new Decimal(5),
-      "Community Coin": new Decimal(1),
     });
 
     expect(state.wardrobe["Companion Cap"]).toEqual(1);

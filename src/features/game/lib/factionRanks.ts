@@ -34,7 +34,7 @@ import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp"
 import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
 import Decimal from "decimal.js-light";
 import { BoostType, BoostValue } from "../types/boosts";
-import { getKeys } from "../types/decorations";
+import { getKeys } from "lib/object";
 
 type BumpkinRank =
   | "forager"
@@ -86,7 +86,7 @@ type Rank = {
 const RANK_DATA: Record<FactionRank, Omit<Rank, "icon">> = {
   // Bumpkins
   forager: {
-    name: "rancher",
+    name: "forager",
     faction: "bumpkins",
     emblemsRequired: 0,
   },

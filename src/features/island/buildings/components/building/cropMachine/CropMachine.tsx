@@ -14,6 +14,8 @@ import {
   findGrowingCropPackIndex,
   hasReadyCrops,
   CropMachineState,
+  isCropPackReady,
+  useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Planting } from "./components/Planting";
 import { Sprouting } from "./components/Sprouting";
@@ -22,13 +24,12 @@ import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
-import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
 
-  if (!machines) return null;
+  if (!machines) return undefined;
 
   return machines.find((machine) => machine.id === id);
 };
@@ -45,7 +46,7 @@ interface Props {
 }
 
 export const CropMachine: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const cropMachine = useSelector(
@@ -54,11 +55,13 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 
+  const now = useCropMachineLiveNow(queue);
+
   const cropMachineContext: CropMachineContext = {
-    growingCropPackIndex: findGrowingCropPackIndex(queue),
+    growingCropPackIndex: findGrowingCropPackIndex(queue, now),
     queue,
     unallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
-    canHarvest: hasReadyCrops(queue),
+    canHarvest: hasReadyCrops(queue, now),
   };
 
   const cropMachineService = useInterpret(cropStateMachine, {
@@ -73,13 +76,13 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const running = useSelector(cropMachineService, _running);
   const paused = useSelector(cropMachineService, _paused);
 
-  const handleClick = () => {
-    hasFeatureAccess(gameService.state.context.state, "CROP_MACHINE") &&
-      setShowModal(true);
-  };
-
+  const handleClick = () => setShowModal(true);
   const handleAddSeeds = (seeds: AddSeedsInput) => {
-    const updated = gameService.send({ type: "cropMachine.supplied", seeds });
+    const updated = gameService.send({
+      type: "cropMachine.supplied",
+      seeds,
+      machineId: id,
+    });
 
     const machines = updated.context.state.buildings[
       "Crop Machine"
@@ -100,6 +103,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     const updated = gameService.send({
       type: "cropMachine.harvested",
       packIndex,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[
@@ -117,10 +121,31 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const handleRemovePack = (packIndex: number) => {
+    const updatedState = gameService.send({
+      type: "cropMachine.packRemoved",
+      packIndex,
+      machineId: id,
+    });
+
+    const machines = updatedState.context.state.buildings["Crop Machine"];
+
+    const updatedMachine = machines?.find((machine) => machine.id === id);
+
+    if (!updatedMachine) return;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: updatedMachine.queue ?? [],
+      updatedUnallocatedOilTime: updatedMachine.unallocatedOilTime ?? 0,
+    });
+  };
+
   const handleAddOil = (oil: number) => {
     const updated = gameService.send({
-      type: "cropMachine.supplied",
+      type: "cropMachine.oilSupplied",
       oil,
+      machineId: id,
     });
 
     const machines = updated.context.state.buildings[
@@ -134,12 +159,12 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     cropMachineService.send({
       type: "SUPPLY_MACHINE",
       updatedQueue: updatedMachine.queue ?? [],
-      updatedUnallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
+      updatedUnallocatedOilTime: updatedMachine.unallocatedOilTime ?? 0,
     });
   };
 
   const readyCrops = queue
-    .filter((pack) => pack.readyAt && pack.readyAt <= Date.now())
+    .filter((pack) => isCropPackReady(pack, now))
     .map((pack) => pack.crop);
 
   return (
@@ -154,20 +179,29 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         >
           {readyCrops.length > 0 && (
             <div
-              className="absolute flex w-full items-center justify-center z-10"
+              className="absolute flex flex-wrap w-full items-center justify-center z-10"
               style={{
                 top: `${PIXEL_SCALE * 16}px`,
+                maxWidth: `${PIXEL_SCALE * 80}px`, // Ensure the images don't overflow the container
               }}
             >
               {readyCrops.map((crop, index) => (
                 <img
                   key={index}
                   src={ITEM_DETAILS[crop].image}
-                  className="img-highlight-heavy w-8 ready"
+                  className={
+                    "img-highlight-heavy w-8 m-0.5" +
+                    (showAnimations ? " ready" : "")
+                  }
                 />
               ))}
             </div>
           )}
+          <img
+            src={SUNNYSIDE.building.shadowCropMachine}
+            className="absolute bottom-0 right-1"
+            style={{ width: `${PIXEL_SCALE * 80}px` }}
+          />
           <img
             src={SUNNYSIDE.building.idleMachine}
             className="w-full absolute"
@@ -178,11 +212,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           />
           {(running || paused) && (
             <>
-              <img
-                src={SUNNYSIDE.building.shadowCropMachine}
-                className="absolute bottom-0 right-1"
-                style={{ width: `${PIXEL_SCALE * 80}px` }}
-              />
               <div id="cropMachine" className="border-1 border-black">
                 {growingCropPackStage === "planting" && (
                   <Planting paused={paused} />
@@ -221,6 +250,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
         onHarvestPack={handleHarvestPack}
+        onRemovePack={handleRemovePack}
         onAddOil={handleAddOil}
       />
     </>

@@ -3,34 +3,37 @@ import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
+import { useVisiting } from "lib/utils/visitUtils";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getHelpRequired } from "features/game/types/monuments";
 import { HomeBumpkins } from "./HomeBumpkins";
 
-export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+const _game = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
+export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { isVisiting } = useVisiting();
+  const game = useSelector(gameService, _game);
+  const farmId = useSelector(gameService, _farmId);
 
   const [showHeart, setShowHeart] = useState(false);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
-      navigate("/home");
-
-      // Add future on click actions here
+      if (isVisiting) {
+        navigate(`/visit/${farmId}/home`);
+      } else {
+        navigate("/home");
+      }
       return;
     }
   };
@@ -39,7 +42,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }
@@ -52,13 +55,14 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     };
   }, []);
 
-  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+  const helpRequired = getHelpRequired({ game });
+  const homeHelpRequired = helpRequired.tasks.home.count;
 
   return (
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={SUNNYSIDE.building.house}
+          src={MANOR_VARIANTS["Spring Biome"][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{
@@ -67,23 +71,41 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             left: `${PIXEL_SCALE * 1}px`,
           }}
         />
+        {isVisiting && homeHelpRequired > 0 && (
+          <div className="pointer-events-auto cursor-pointer">
+            <div
+              className="relative mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 20}px`,
+                top: `${PIXEL_SCALE * -8}px`,
+                right: 0,
+              }}
+            >
+              <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              <img
+                className="absolute"
+                src={SUNNYSIDE.icons.drag}
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  right: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                  zIndex: 1000,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </BuildingImageWrapper>
-      <div
-        className="absolute"
-        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
-      >
-        <DailyReward />
-      </div>
 
       <div
-        className="absolute w-full"
+        className="relative w-full pointer-events-auto"
         style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 26.5}px`,
           left: `${PIXEL_SCALE * 0}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
+        <HomeBumpkins game={game} />
       </div>
 
       <div

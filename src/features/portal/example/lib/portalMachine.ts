@@ -1,14 +1,9 @@
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { GameState } from "features/game/types/game";
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { getUrl, loadPortal } from "../../actions/loadPortal";
+import { getJwt, getUrl, loadPortal } from "../../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { decodeToken } from "features/auth/actions/login";
-
-const getJWT = () => {
-  const code = new URLSearchParams(window.location.search).get("jwt");
-  return code;
-};
 
 export interface Context {
   id: number;
@@ -37,7 +32,7 @@ export const portalMachine = createMachine({
   initial: "initialising",
   context: {
     id: 0,
-    jwt: getJWT(),
+    jwt: getJwt(),
     state: CONFIG.API_URL ? undefined : OFFLINE_FARM,
   },
   states: {

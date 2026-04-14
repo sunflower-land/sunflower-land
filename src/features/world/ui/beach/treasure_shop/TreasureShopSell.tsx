@@ -1,10 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   BeachBountyTreasure,
-  SEASONAL_ARTEFACT,
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -18,11 +17,17 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
+import { CHAPTER_ARTEFACT } from "features/game/types/desert";
+import { getCurrentChapter } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
-  const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort(
-    (a, b) => SELLABLE_TREASURE[a].sellPrice - SELLABLE_TREASURE[b].sellPrice,
+  const now = useNow();
+  const currentChapter = getCurrentChapter(now);
+  const currentSeasonalArtefact = CHAPTER_ARTEFACT[currentChapter];
+  const beachBountyTreasure = getKeys(SELLABLE_TREASURES).sort(
+    (a, b) => SELLABLE_TREASURES[a].sellPrice - SELLABLE_TREASURES[b].sellPrice,
   );
 
   const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
@@ -32,7 +37,7 @@ export const TreasureShopSell: React.FC = () => {
   const [bulkSellModal, showBulkSellModal] = useState(false);
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
 
-  const selected = SELLABLE_TREASURE[selectedName];
+  const selected = SELLABLE_TREASURES[selectedName];
   const { gameService } = useContext(Context);
   const [
     {
@@ -44,7 +49,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = getSellPrice(selected, state);
+  const { price } = getSellPrice(selected, state);
   const amount = inventory[selectedName] || new Decimal(0);
   const coinAmount = price * customAmount.toNumber();
 
@@ -54,7 +59,7 @@ export const TreasureShopSell: React.FC = () => {
       amount,
     });
   };
-  const isValuable = selectedName in SEASONAL_ARTEFACT || price > 1000;
+  const isValuable = selectedName === currentSeasonalArtefact || price > 1000;
   const handleSellOne = () => {
     if (isValuable) {
       showConfirmationModal(true);
@@ -138,7 +143,7 @@ export const TreasureShopSell: React.FC = () => {
         show={confirmationModal}
         onHide={() => showConfirmationModal(false)}
         messages={[
-          selectedName in SEASONAL_ARTEFACT
+          selectedName === currentSeasonalArtefact
             ? t("confirmation.sellSeasonalArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")

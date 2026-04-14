@@ -167,11 +167,6 @@
 }
 
 @font-face {
-  font-family: "Hint";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf");
-}
-
-@font-face {
   font-family: "Secondary";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Secondary.ttf");
 }
@@ -210,6 +205,12 @@ button,
 input {
   /* text-shadow: 0px 1.4px #714431; */
   color: #3e2731;
+}
+
+input::placeholder {
+  color: black;
+  opacity: 0.3;
+  padding-left: 2px;
 }
 
 button:disabled {
@@ -301,6 +302,48 @@ img {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.discord-news-preview {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 15px;
+  line-height: 17px;
+}
+
+.discord-news-body {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 16px;
+  line-height: 17px;
+}
+
+.discord-news-body pre {
+  max-width: 100%;
+}
+
+.discord-news-body pre,
+.discord-news-body code,
+.discord-news-preview pre,
+.discord-news-preview code {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 14px;
+  line-height: 16px;
 }
 
 @keyframes blink {
@@ -399,6 +442,13 @@ img {
   transition-timing-function: linear;
 }
 
+.tease_boat {
+  animation-duration: 50s;
+  animation-name: boating;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes boating {
   0% {
     transform: translateX(-850px);
@@ -437,7 +487,7 @@ img {
 
 .coins-bb-hud-backdrop {
   height: 19px;
-  width: 88%;
+  width: 95%;
   left: -1px;
   top: 6px;
   -webkit-mask-image: linear-gradient(
@@ -446,6 +496,48 @@ img {
     rgba(0, 0, 0, 1) 22%
   );
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
+  z-index: -1;
+}
+
+.nft-marketplace-flower-price-backdrop {
+  left: -4px;
+  top: 1px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(255, 255, 255, 1) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(255, 255, 255, 1) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: -1;
+}
+
+.nft-marketplace-usd-price-backdrop {
+  left: -4px;
+  top: 1px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 18%,
+    rgba(255, 255, 255, 1) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 18%,
+    rgba(255, 255, 255, 1) 85%,
+    rgba(255, 255, 255, 0) 100%
+  );
   z-index: -1;
 }
 
@@ -496,8 +588,56 @@ img {
     2px 2px 0 black;
 }
 
+.yield-text-lg {
+  color: white;
+  /* text-shadow: 1px 1px black; */
+  font-family: Teeny;
+  font-size: 24px !important;
+  /* paint-order: stroke;
+  -webkit-text-stroke: 3px black; */
+  letter-spacing: 1px;
+
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black;
+}
+
 .yield-text {
   color: white;
+  /* text-shadow: 1px 1px black; */
+  font-family: Teeny;
+  font-size: 12px !important;
+  /* paint-order: stroke;
+  -webkit-text-stroke: 3px black; */
+  letter-spacing: 1px;
+
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black;
+}
+
+.gold-text {
+  color: #f09100;
   /* text-shadow: 1px 1px black; */
   font-family: Teeny;
   font-size: 12px !important;
@@ -698,6 +838,7 @@ img {
   animation: rise-up 750ms ease;
   animation-fill-mode: both;
   transform-origin: bottom center;
+  animation-delay: 200ms;
 }
 
 @keyframes rise-up {
@@ -737,12 +878,30 @@ img {
   animation: subtle-pulse 2s infinite;
 }
 
+@keyframes pulse-no-fade {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse-no-fade {
+  animation: pulse-no-fade 1s infinite;
+  transform-origin: center; /* Ensures scaling originates from center */
+  display: inline-block;
+}
+
 @keyframes subtle-pulse {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
@@ -791,13 +950,6 @@ img {
     rgb(254, 174, 52) 70%,
     rgb(254, 231, 97) 100%
   );
-}
-
-.npc-dialog {
-  position: absolute;
-  bottom: 0;
-  width: 66%;
-  left: 17.5%;
 }
 
 /* Expanding Full Screen Panel */
@@ -895,6 +1047,20 @@ img {
   transition-timing-function: linear;
 }
 
+.fish-swimming2 {
+  animation-duration: 10s;
+  animation-name: swimming2;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+.fish-swimming3 {
+  animation-duration: 20s;
+  animation-name: swimming3;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes swimming {
   0% {
     transform: translateX(0) scaleX(1);
@@ -915,6 +1081,52 @@ img {
     transform: translateX(0) scaleX(-1);
     animation-timing-function: linear;
     opacity: 0.8;
+  }
+}
+
+@keyframes swimming2 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  49% {
+    transform: translateX(100px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(100px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+}
+
+@keyframes swimming3 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  49% {
+    transform: translateX(150px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(150px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
   }
 }
 
@@ -1333,8 +1545,6 @@ img {
 }
 
 a {
-  font-family: Hint;
-  font-size: 24px !important;
   color: #3e2731;
 }
 
@@ -1351,6 +1561,7 @@ a {
 .font-Ark {
   font-family: "Ark", sans-serif;
   font-size: 14px;
+  font-weight: 900;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1382,4 +1593,70 @@ th {
   100% {
     content: "";
   }
+}
+
+@keyframes bounce-drop {
+  0% {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(-80%, 0, 0);
+    opacity: 1;
+  }
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(-140%, -20px, 0) scaleY(1.1);
+    opacity: 1;
+  }
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(-150%, -5px, 0) scaleY(1.05);
+    opacity: 1;
+  }
+  80% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(-160%, 0, 0) scaleY(0.95);
+    opacity: 0.5;
+  }
+  90% {
+    transform: translate3d(-170%, -4px, 0) scaleY(1.02);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(-170%, 0, 0) scaleY(1);
+    opacity: 0;
+  }
+}
+
+.bounce-drop {
+  animation-name: bounce-drop;
+  transform-origin: center bottom;
+  animation-duration: 0.9s;
+  animation-fill-mode: forwards;
+  animation-delay: var(--drop-delay, 0s);
+}
+
+.loading-fade-pulse {
+  animation: fade-in-out 1s infinite;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Classes to flip a collectible image */
+.flipped img {
+  transform: scaleX(-1);
+}
+
+.flipped img.absolute.left-1\/2.-translate-x-1\/2,
+.flipped img.absolute.left-1\/2.transform.-translate-x-1\/2 {
+  transform: scaleX(-1) translateX(50%);
 }

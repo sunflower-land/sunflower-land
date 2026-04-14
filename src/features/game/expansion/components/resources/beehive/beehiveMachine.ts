@@ -87,7 +87,11 @@ export const getCurrentSpeed = (hive: Beehive) => {
     .sort((a, b) => a.attachedAt - b.attachedAt);
 
   return attachedFlowers.reduce((rate, attachedFlower) => {
-    if (attachedFlower.attachedUntil <= Date.now()) return rate;
+    if (
+      attachedFlower.attachedUntil <= Date.now() ||
+      attachedFlower.attachedAt > Date.now()
+    )
+      return rate;
 
     return (rate += attachedFlower.rate ?? 1);
   }, 0);
@@ -99,6 +103,7 @@ export const beehiveMachine = createMachine<
   BeehiveState
 >(
   {
+    predictableActionArguments: true,
     id: "beehive",
     preserveActionOrder: true,
     initial: "prepareHive",
@@ -226,7 +231,8 @@ export const beehiveMachine = createMachine<
         hive: (_, event) => {
           return (event as UpdateHive).updatedHive;
         },
-        honeyProduced: ({ hive }) => hive.honey.produced,
+        honeyProduced: (_, event) =>
+          (event as UpdateHive).updatedHive.honey.produced,
       }),
       removeActiveFlower: assign((_) => ({
         attachedFlower: undefined,
@@ -250,3 +256,11 @@ export const beehiveMachine = createMachine<
     },
   },
 );
+
+export function areBeehivesEmpty(game: GameState): boolean {
+  const beehiveProducing = Object.values(game.beehives).every(
+    (hive) =>
+      getCurrentHoneyProduced(hive) <= DEFAULT_HONEY_PRODUCTION_TIME * 0.01,
+  );
+  return beehiveProducing;
+}

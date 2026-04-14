@@ -23,6 +23,10 @@ import { hasFeatureAccess } from "lib/flags";
 import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { Game3WinnerWidget } from "features/announcements/Game3WinnerWidget";
+
+import plankLogo from "assets/brand/plank_logo.png";
 
 type Props = {
   showOfflineModal: boolean;
@@ -44,28 +48,20 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100",
           )}
         >
-          <div className="w-[90%] relative">
+          <div className="w-full relative">
             <img
               src={SUNNYSIDE.fx.sparkle}
               className="absolute animate-pulse"
               style={{
                 width: `${PIXEL_SCALE * 8}px`,
-                top: `${PIXEL_SCALE * 0}px`,
-                right: `${PIXEL_SCALE * 0}px`,
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
               }}
             />
             <>
-              {hasFeatureAccess(TEST_FARM, "EASTER") ? (
-                <img
-                  id="logo"
-                  src={SUNNYSIDE.brand.easterlogo}
-                  className="w-full"
-                />
-              ) : (
-                <img id="logo" src={SUNNYSIDE.brand.logo} className="w-full" />
-              )}
+              <img id="logo" src={plankLogo} className="w-full" />
 
-              <div className="flex justify-center">
+              <div className="flex justify-center -mt-4">
                 <Label type="default" className="font-secondary text-sm">
                   {CONFIG.RELEASE_VERSION?.split("-")[0]}
                 </Label>
@@ -102,12 +98,11 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             {authState.matches("authorising") && <Loading />}
             {authState.matches("verifying") && <Verifying />}
             {(authState.matches("idle") || authState.matches("signIn")) && (
-              <SignIn type="signin" />
+              <SignIn />
             )}
             {authState.matches("signUp") && <SignUp />}
-            {authState.matches("oauthorising") && <Loading />}
-            {authState.matches("creating") && <Loading text="Creating" />}
-            {authState.matches("claiming") && <Loading text="Claiming" />}
+            {authState.matches("creating") && <Loading text={t("creating")} />}
+            {authState.matches("claiming") && <Loading text={t("claiming")} />}
             {authState.matches("unauthorised") && (
               <ErrorMessage
                 errorCode={authState.context.errorCode as ErrorCode}
@@ -115,8 +110,9 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             )}
           </Panel>
         )}
+        <SystemMessageWidget />
+        <Game3WinnerWidget />
       </Modal>
-
       {!authState.matches("connected") && !authState.matches("visiting") && (
         <LoginSettings />
       )}

@@ -3,6 +3,7 @@ import { CONFIG } from "lib/config";
 import BudABI from "./abis/Buds";
 import { config } from "features/wallet/WalletProvider";
 import { readContract } from "@wagmi/core";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const contractAddress = CONFIG.BUD_CONTRACT;
 
@@ -12,6 +13,7 @@ export async function getBudsBalance(
 ): Promise<number[]> {
   try {
     const buds = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: BudABI,
       address: contractAddress as `0x${string}`,
       functionName: "tokensOfOwner",

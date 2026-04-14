@@ -1,20 +1,20 @@
 import React, { SyntheticEvent, useContext, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys, getObjectEntries } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
 import { makeBulkBuyTools } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";
-import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   TREASURE_COLLECTIBLE_ITEM,
   TreasureCollectibleItem,
+  ARTEFACT_SHOP_KEYS,
 } from "features/game/types/collectibles";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
@@ -23,7 +23,7 @@ import {
   ARTEFACT_SHOP_WEARABLES,
   ArtefactShopWearables,
 } from "features/game/types/artefactShop";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -31,22 +31,23 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 
 import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import { Keys } from "features/game/types/game";
+import { isMobile } from "mobile-device-detect";
+import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
+import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
-  onClose: () => void;
 }
+const _state = (state: MachineState) => state.context.state;
 
-const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
+const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const { gameService, shortcutItem } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -59,9 +60,10 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
 
     return state.coins < price * amount;
   };
+  const selectedIngredients = selected.ingredients(state.bumpkin.skills);
   const lessIngredients = (amount = 1) =>
-    getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0),
+    getObjectEntries(selectedIngredients).some(([name, ingredients]) =>
+      ingredients?.mul(amount).greaterThan(inventory[name] || 0),
     );
 
   const craft = (event: SyntheticEvent, amount: number) => {
@@ -81,12 +83,12 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
       details={{ item: selectedName }}
       requirements={{
         coins: price,
-        resources: selected.ingredients,
+        resources: selectedIngredients,
       }}
       actionView={
         <>
           {stock.equals(0) ? (
-            <Restock onClose={onClose} />
+            <Restock npc={"jafar"} />
           ) : (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
@@ -115,13 +117,11 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
 };
 
 interface CollectibleContentProps {
-  selectedName: TreasureCollectibleItem;
-  onClose: () => void;
+  selectedName: TreasureCollectibleItem | Keys;
 }
 
 const CollectibleContent: React.FC<CollectibleContentProps> = ({
   selectedName,
-  onClose,
 }) => {
   const { t } = useAppTranslation();
 
@@ -132,14 +132,28 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       context: { state },
     },
   ] = useActor(gameService);
-  const inventory = state.inventory;
+  const { inventory, pumpkinPlaza } = state;
+
+  const isKey = (name: TreasureCollectibleItem | Keys): name is Keys =>
+    name in ARTEFACT_SHOP_KEYS;
+
+  const keysBoughtAt =
+    pumpkinPlaza.keysBought?.treasureShop[selectedName as Keys]?.boughtAt;
+  const keysBoughtToday =
+    !!keysBoughtAt &&
+    new Date(keysBoughtAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.shortDescription;
+  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  });
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -168,15 +182,33 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
         coins: selected.coins,
       }}
       actionView={
-        isAlreadyCrafted && isBoost ? (
-          <p className="text-xxs text-center mb-1 font-secondary">
-            {t("alr.crafted")}
-          </p>
-        ) : (
-          <Button disabled={lessIngredients()} onClick={craft}>
-            {t("craft")}
-          </Button>
-        )
+        <>
+          {isKey(selectedName) && (
+            <div
+              className={`flex mb-1 ${
+                isMobile ? "items-left" : "justify-center items-center"
+              }`}
+            >
+              <Label type={keysBoughtToday ? "danger" : "default"}>
+                {t("keys.dailyLimit", { keysAmountBoughtToday })}
+              </Label>
+            </div>
+          )}
+          {isAlreadyCrafted && isBoost ? (
+            <p className="text-xxs text-center mb-1 font-secondary">
+              {t("alr.crafted")}
+            </p>
+          ) : (
+            <Button
+              disabled={
+                lessIngredients() || (isKey(selectedName) && keysBoughtToday)
+              }
+              onClick={craft}
+            >
+              {t("craft")}
+            </Button>
+          )}
+        </>
       }
     />
   );
@@ -184,22 +216,16 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
 
 interface WearableContentProps {
   selectedName: keyof ArtefactShopWearables;
-  onClose: () => void;
 }
 
-const WearableContent: React.FC<WearableContentProps> = ({
-  selectedName,
-  onClose,
-}) => {
+const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+  const ticket = getChapterTicket(now);
 
   const selected = ARTEFACT_SHOP_WEARABLES[selectedName];
-  const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const inventory = state.inventory;
   const wardrobe = state.wardrobe;
 
@@ -210,26 +236,26 @@ const WearableContent: React.FC<WearableContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = (wardrobe[selectedName] ?? 0) >= 1;
-  const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName]?.shortDescription;
+  const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName];
 
   const craft = () => {
     gameService.send("wearable.bought", {
       name: selectedName,
     });
 
-    if (selected.ingredients["Block Buck"]) {
+    if (selected.ingredients["Gem"]) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        currency: "Gem",
+        amount: selected.ingredients["Gem"].toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });
     }
 
-    if (selected.ingredients[getSeasonalTicket()]) {
+    if (selected.ingredients[ticket]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount: selected.ingredients[ticket]?.toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });
@@ -264,16 +290,17 @@ const WearableContent: React.FC<WearableContentProps> = ({
   );
 };
 
-interface Props {
-  onClose: (e?: SyntheticEvent) => void;
-}
+type ArtefactShopItems =
+  | TreasureToolName
+  | TreasureCollectibleItem
+  | BumpkinItem
+  | Keys;
 
-export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
+export const TreasureShopBuy: React.FC = () => {
   const { t } = useAppTranslation();
 
-  const [selectedName, setSelectedName] = useState<
-    TreasureToolName | TreasureCollectibleItem | BumpkinItem
-  >("Sand Shovel");
+  const [selectedName, setSelectedName] =
+    useState<ArtefactShopItems>("Sand Shovel");
   const { gameService, shortcutItem } = useContext(Context);
 
   const [
@@ -292,15 +319,17 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     shortcutItem(toolName);
   };
 
-  const isTool = (
-    name: TreasureToolName | TreasureCollectibleItem | BumpkinItem,
-  ): name is TreasureToolName => name in TREASURE_TOOLS;
+  const isTool = (name: ArtefactShopItems): name is TreasureToolName =>
+    name in TREASURE_TOOLS;
 
   const isCollectible = (
-    name: TreasureToolName | TreasureCollectibleItem | BumpkinItem,
+    name: ArtefactShopItems,
   ): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
 
-  const now = Date.now();
+  const isKey = (name: ArtefactShopItems): name is Keys =>
+    name in ARTEFACT_SHOP_KEYS;
+
+  const now = useNow();
   const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
     (itemName) =>
       (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
@@ -308,7 +337,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   );
 
   const unlimitedCollectibles = shopCollectibles.filter(
-    (itemName) => !TREASURE_COLLECTIBLE_ITEM[itemName].to,
+    (itemName) =>
+      !TREASURE_COLLECTIBLE_ITEM[itemName].to &&
+      !(itemName in ARTEFACT_SHOP_KEYS),
   );
 
   const limitedCollectibles = shopCollectibles.filter(
@@ -328,16 +359,18 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     (itemName) => !!ARTEFACT_SHOP_WEARABLES[itemName]?.to,
   );
 
+  const unlimitedKeys = getKeys(ARTEFACT_SHOP_KEYS);
+
   return (
     <SplitScreenView
       divRef={divRef}
       panel={
         isTool(selectedName) ? (
-          <ToolContent onClose={onClose} selectedName={selectedName} />
-        ) : isCollectible(selectedName) ? (
-          <CollectibleContent onClose={onClose} selectedName={selectedName} />
+          <ToolContent selectedName={selectedName} />
+        ) : isCollectible(selectedName) || isKey(selectedName) ? (
+          <CollectibleContent selectedName={selectedName} />
         ) : (
-          <WearableContent onClose={onClose} selectedName={selectedName} />
+          <WearableContent selectedName={selectedName} />
         )
       }
       content={
@@ -364,7 +397,12 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
                 alternateIcon={
-                  COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                  COLLECTIBLE_BUFF_LABELS[name]?.({
+                    skills: state.bumpkin.skills,
+                    collectibles: state.collectibles,
+                  })
+                    ? lightning
+                    : undefined
                 }
                 key={name}
                 onClick={() => setSelectedName(name)}
@@ -378,7 +416,12 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                    COLLECTIBLE_BUFF_LABELS[name]?.({
+                      skills: state.bumpkin.skills,
+                      collectibles: state.collectibles,
+                    })
+                      ? lightning
+                      : undefined
                   }
                   onClick={() => setSelectedName(name)}
                   count={inventory[name]}
@@ -414,6 +457,28 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                   alternateIcon={
                     BUMPKIN_ITEM_BUFF_LABELS[name] ? lightning : undefined
                   }
+                />
+              );
+            })}
+          </div>
+          <Label type="default">{t("keys")}</Label>
+          <div className="flex flex-wrap mb-2">
+            {unlimitedKeys.map((name) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  alternateIcon={
+                    COLLECTIBLE_BUFF_LABELS[name]?.({
+                      skills: state.bumpkin.skills,
+                      collectibles: state.collectibles,
+                    })
+                      ? lightning
+                      : undefined
+                  }
+                  onClick={() => setSelectedName(name)}
+                  count={inventory[name]}
+                  image={ITEM_DETAILS[name].image}
                 />
               );
             })}

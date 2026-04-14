@@ -262,4 +262,88 @@ describe("accelerateComposter", () => {
       state.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toEqual(readyAt - 4 * 60 * 60 * 1000);
   });
+  it("subtracts double the amount of eggs when player has Composting Bonanza Skill", () => {
+    const readyAt =
+      Date.now() +
+      composterDetails["Premium Composter"].timeToFinishMilliseconds;
+
+    const state = accelerateComposter({
+      createdAt: Date.now(),
+      action: {
+        type: "compost.accelerated",
+        building: "Premium Composter",
+      },
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Composting Bonanza": 1,
+          },
+        },
+        inventory: { Egg: new Decimal(60) },
+        buildings: {
+          "Premium Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 10000000,
+              id: "123",
+              readyAt: 10000000,
+              producing: {
+                items: {},
+                readyAt,
+                startedAt: Date.now() - 500000,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    expect(state.inventory.Egg).toEqual(new Decimal(0));
+  });
+
+  it("uses feathers instead of eggs to compost when player has Feathery Business skill", () => {
+    const readyAt =
+      Date.now() +
+      composterDetails["Premium Composter"].timeToFinishMilliseconds;
+    const state = accelerateComposter({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feathery Business": 1,
+          },
+        },
+        inventory: {
+          Feather: new Decimal(60),
+          Egg: new Decimal(30),
+        },
+        buildings: {
+          "Premium Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 10000000,
+              id: "123",
+              readyAt: 10000000,
+              producing: {
+                items: {},
+                readyAt,
+                startedAt: Date.now() - 500000,
+              },
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "compost.accelerated",
+        building: "Premium Composter",
+      },
+    });
+
+    expect(state.inventory.Egg).toEqual(new Decimal(30));
+    expect(state.inventory.Feather).toEqual(new Decimal(0));
+  });
 });

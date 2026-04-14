@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { GameState } from "features/game/types/game";

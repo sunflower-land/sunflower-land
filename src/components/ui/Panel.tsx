@@ -6,11 +6,17 @@ import {
   pixelDarkBorderStyle,
   pixelLightBorderStyle,
 } from "features/game/lib/style";
+
+import usedButton from "assets/ui/used_button.png";
+import cardButton from "assets/ui/card_button.png";
+import selectedButton from "assets/ui/selected_button.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
+import { LABEL_STYLES, LabelType } from "./Label";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
@@ -21,7 +27,7 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * Default panel has the double layered pixel effect
  */
-export const Panel: React.FC<PanelProps> = ({
+export const Panel: React.FC<React.PropsWithChildren<PanelProps>> = ({
   children,
   hasTabs,
   bumpkinParts,
@@ -53,9 +59,11 @@ export const Panel: React.FC<PanelProps> = ({
  * Light panel with border effect
  */
 export const InnerPanel: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & {
-    divRef?: React.RefObject<HTMLDivElement>;
-  }
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & {
+      divRef?: React.RefObject<HTMLDivElement | null>;
+    }
+  >
 > = ({ children, ...divProps }) => {
   const { className, style, divRef, ...otherDivProps } = divProps;
 
@@ -78,10 +86,40 @@ export const InnerPanel: React.FC<
   );
 };
 
+type ColorPanelProps = React.HTMLAttributes<HTMLDivElement> & {
+  type?: LabelType;
+};
+
+/**
+ * Panel container using Label palette
+ */
+export const ColorPanel: React.FC<React.PropsWithChildren<ColorPanelProps>> = ({
+  children,
+  type = "default",
+  ...divProps
+}) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(className)}
+      style={{
+        ...LABEL_STYLES[type].borderStyle,
+        background: LABEL_STYLES[type].background,
+        color: LABEL_STYLES[type].textColour,
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};
+
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<PanelProps> = ({
+export const OuterPanel: React.FC<React.PropsWithChildren<PanelProps>> = ({
   children,
   hasTabs,
   tabAlignment = "top",
@@ -105,6 +143,8 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
+        // Fix for dark mode
+
         className={classNames(className, "bg-[#c28569]")}
         style={{
           ...pixelDarkBorderStyle,
@@ -132,36 +172,65 @@ type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
  * A panel with a single layered pixel effect
  */
 export const ButtonPanel: React.FC<
-  ButtonPanelProps & { disabled?: boolean; selected?: boolean }
-> = ({ children, disabled, ...divProps }) => {
-  const { className, style, selected, ...otherDivProps } = divProps;
+  React.PropsWithChildren<
+    ButtonPanelProps & {
+      disabled?: boolean;
+      selected?: boolean;
+      variant?: "primary" | "secondary" | "card";
+    }
+  >
+> = ({ children, disabled, variant, ...divProps }) => {
+  const { className, style, selected, onClick, ...otherDivProps } = divProps;
+
+  let borderImage = SUNNYSIDE.ui.primaryButton;
+  let borderImagePressed = SUNNYSIDE.ui.primaryButtonPressed;
+  if (variant === "secondary") {
+    borderImage = usedButton;
+    borderImagePressed = usedButton;
+  } else if (variant === "card") {
+    borderImage = cardButton;
+    borderImagePressed = usedButton;
+  }
+
+  if (selected) {
+    borderImage = selectedButton;
+    borderImagePressed = selectedButton;
+  }
+
+  const buttonVariables = {
+    "--button-image": `url(${borderImage})`,
+    "--button-pressed-image": `url(${borderImagePressed})`,
+  };
 
   return (
     <div
       className={classNames(
-        className,
-        "hover:brightness-90 cursor-pointer relative",
+        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.997] ${className}`,
+        "relative",
         {
           "opacity-50": !!disabled,
+          "cursor-pointer": !disabled,
+          "hover:brightness-90": !disabled,
+          // "img-highlight": selected,
         },
       )}
       style={{
+        ...buttonVariables,
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
-        borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         color: "#674544",
         ...style,
       }}
+      onClick={disabled ? undefined : onClick}
       {...otherDivProps}
     >
       {children}
 
-      {selected && (
+      {/* {selected && (
         <div
           className="absolute"
           style={{
@@ -177,7 +246,71 @@ export const ButtonPanel: React.FC<
             bottom: `${PIXEL_SCALE * -4}px`,
           }}
         />
+      )} */}
+    </div>
+  );
+};
+
+export const DropdownButtonPanel: React.FC<
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  >
+> = ({ children, disabled, ...divProps }) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(
+        `inner-panel ${className}`,
+        "relative !active:bg-transparent !focus:bg-transparent active:bg-none",
+        {
+          "cursor-pointer": !disabled,
+        },
       )}
+      style={{
+        ...pixelLightBorderStyle,
+        padding: `${PIXEL_SCALE * 1}px`,
+        background: "#e4a672",
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const DropdownOptionsPanel: React.FC<
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  >
+> = ({ children, disabled, ...divProps }) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(
+        `inner-panel transition-transform active:scale-[0.997] ${className}`,
+        "relative",
+        {
+          "opacity-50": !!disabled,
+          "cursor-pointer": !disabled,
+        },
+      )}
+      style={{
+        ...pixelLightBorderStyle,
+        padding: `${PIXEL_SCALE * 1}px`,
+        background: "#e4a672",
+        borderStyle: "solid",
+        borderWidth: `${PIXEL_SCALE * 0}px ${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 2}px`,
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
     </div>
   );
 };

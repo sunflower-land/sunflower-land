@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
@@ -11,7 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-
+import { CHAPTER_FISH } from "features/game/types/fishing";
 /**
  * Base Layout for Collectible Item Details Page in Codex
  * It can be extended by passing in addition children components
@@ -25,14 +25,15 @@ type Props = {
   additionalLabels?: React.ReactNode;
   children?: React.ReactNode;
   onBack: () => void;
+  state: GameState;
 };
-
 export const Detail: React.FC<Props> = ({
   name,
   caught,
   onBack,
   additionalLabels,
   children,
+  state,
 }) => {
   const { t } = useAppTranslation();
   const {
@@ -40,6 +41,7 @@ export const Detail: React.FC<Props> = ({
     description,
     howToGetItem = [],
     itemType,
+    isPermanent,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
@@ -56,7 +58,12 @@ export const Detail: React.FC<Props> = ({
     image.src = ITEM_DETAILS[name].image;
   }, []);
 
-  const buff = COLLECTIBLE_BUFF_LABELS[name];
+  const buff = COLLECTIBLE_BUFF_LABELS[name]?.({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  });
+
+  const isChapterFish = name in CHAPTER_FISH;
 
   return (
     <>
@@ -101,23 +108,52 @@ export const Detail: React.FC<Props> = ({
                 }}
               />
             </OuterPanel>
-            <div className="flex flex-1 content-start flex-col sm:flex-row sm:flex-wrap gap-2 p-1">
+            <div className="flex flex-1 content-start flex-col gap-1 gap-x-2 sm:flex-row sm:flex-wrap p-1">
               {additionalLabels}
-              {/* Boost labels to go below */}
-              {!!buff && (
-                <Label
-                  type={buff.labelType}
-                  icon={buff.boostTypeIcon}
-                  secondaryIcon={buff.boostedItemIcon}
-                >
-                  {buff.shortDescription}
-                </Label>
-              )}
-              {!!itemType && (
-                <Label type="default" className="capitalize">
-                  {itemType}
-                </Label>
-              )}
+              <div className="flex flex-row flex-wrap gap-y-1 gap-x-2.5 mr-9">
+                {/* Boost labels to go below */}
+                {!!buff &&
+                  buff.map(
+                    (
+                      {
+                        labelType,
+                        boostTypeIcon,
+                        boostedItemIcon,
+                        shortDescription,
+                      },
+                      index,
+                    ) => (
+                      <Label
+                        key={index}
+                        type={labelType}
+                        icon={boostTypeIcon}
+                        secondaryIcon={boostedItemIcon}
+                      >
+                        {shortDescription}
+                      </Label>
+                    ),
+                  )}
+                {!!itemType && (
+                  <Label type="default" className="capitalize">
+                    {itemType}
+                  </Label>
+                )}
+
+                {(isPermanent || isChapterFish) &&
+                  (isPermanent ? (
+                    <Label type="vibrant" className="capitalize">
+                      {t("permanent")}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="info"
+                      icon={SUNNYSIDE.icons.stopwatch}
+                      className="capitalize"
+                    >
+                      {t("chapter")}
+                    </Label>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
@@ -147,7 +183,7 @@ export const Detail: React.FC<Props> = ({
               {t("detail.view.item")}{" "}
               <a
                 href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
-                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 !text-[18px]"
+                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >

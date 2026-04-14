@@ -1,35 +1,28 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { Coordinates, MapPlacement } from "./components/MapPlacement";
+import { MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
-import {
-  ANIMAL_DIMENSIONS,
-  CollectibleName,
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "../types/craftables";
+import { COLLECTIBLES_DIMENSIONS } from "../types/craftables";
+import { getKeys } from "lib/object";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
-import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
+import { BUILDINGS_DIMENSIONS, Home } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { Chicken } from "../types/game";
-import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { Placeable } from "./placeable/Placeable";
 import { MachineState } from "../lib/gameMachine";
-import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
+import { getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
-import { useFirstRender } from "lib/utils/hooks/useFirstRender";
-import { MUSHROOM_DIMENSIONS } from "../types/resources";
+import { MUSHROOM_DIMENSIONS, RESOURCE_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
@@ -39,558 +32,382 @@ import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Outlet, useLocation } from "react-router";
+import { createPortal } from "react-dom";
+import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useVisiting } from "lib/utils/visitUtils";
+import { getObjectEntries } from "lib/object";
+import {
+  comparePositions,
+  compareSaltFarmSlice,
+  getSortedResourcePositions,
+  getSortedCollectiblePositions,
+} from "./lib/utils";
+import { Clutter } from "features/island/clutter/Clutter";
+import { PetNFT } from "features/island/pets/PetNFT";
+import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
+import { FarmHand } from "features/island/farmhand/FarmHand";
+import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
+import { SaltNode } from "./components/salt/SaltNode";
+import { SaltNodePlaceholder } from "./components/salt/SaltNodePlaceholder";
+import {
+  getSaltNodeCoordinates,
+  getSaltNodesWithPositions,
+} from "features/game/types/salt";
+import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
-type IslandElementArgs = {
-  game: GameState;
-  expansionConstruction?: ExpansionConstruction;
-  buildings: Partial<Record<BuildingName, PlacedItem[]>>;
-  collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
-  chickens: Partial<Record<string, Chicken>>;
-  trees: GameState["trees"];
-  stones: GameState["stones"];
-  iron: GameState["iron"];
-  gold: GameState["gold"];
-  crimstones: GameState["crimstones"];
-  sunstones: GameState["sunstones"];
-  crops: GameState["crops"];
-  fruitPatches: GameState["fruitPatches"];
-  flowerBeds: GameState["flowers"]["flowerBeds"];
-  airdrops: GameState["airdrops"];
-  showTimers: boolean;
-  grid: GameGrid;
-  mushrooms: GameState["mushrooms"]["mushrooms"];
-  isFirstRender: boolean;
-  buds: GameState["buds"];
-  beehives: GameState["beehives"];
-  oilReserves: GameState["oilReserves"];
-};
-
-const getIslandElements = ({
-  game,
-  buildings,
-  collectibles,
-  chickens,
-  trees,
-  stones,
-  iron,
-  gold,
-  crimstones,
-  sunstones,
-  fruitPatches,
-  flowerBeds,
-  crops,
-  showTimers,
-  grid,
-  mushrooms,
-  isFirstRender,
-  buds,
-  airdrops,
-  beehives,
-  oilReserves,
-}: IslandElementArgs) => {
-  const mapPlacements: Array<JSX.Element> = [];
-
-  mapPlacements.push(
-    ...getKeys(buildings)
-      .filter((name) => buildings[name])
-      .flatMap((name, nameIndex) => {
-        const items = buildings[name]!;
-        return items.map((building, itemIndex) => {
-          const { x, y } = building.coordinates;
-          const { width, height } = BUILDINGS_DIMENSIONS[name];
-
-          return (
-            <MapPlacement
-              key={`building-${nameIndex}-${itemIndex}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-            >
-              <Building
-                name={name}
-                id={building.id}
-                index={itemIndex}
-                readyAt={building.readyAt}
-                createdAt={building.createdAt}
-                craftingItemName={building.crafting?.name}
-                craftingReadyAt={building.crafting?.readyAt}
-                showTimers={showTimers}
-                x={x}
-                y={y}
-                island={game.island.type}
-              />
-            </MapPlacement>
-          );
-        });
-      }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(collectibles)
-      .filter((name) => collectibles[name])
-      .flatMap((name, nameIndex) => {
-        const items = collectibles[name]!;
-
-        return items.map((collectible, itemIndex) => {
-          const { readyAt, createdAt, coordinates, id } = collectible;
-          const { x, y } = coordinates;
-          const { width, height } = COLLECTIBLES_DIMENSIONS[name];
-
-          return (
-            <MapPlacement
-              key={`collectible-${nameIndex}-${itemIndex}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-            >
-              <Collectible
-                location="farm"
-                name={name}
-                id={id}
-                readyAt={readyAt}
-                createdAt={createdAt}
-                showTimers={showTimers}
-                x={coordinates.x}
-                y={coordinates.y}
-                grid={grid}
-                game={game}
-              />
-            </MapPlacement>
-          );
-        });
-      }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(chickens)
-      // Only show placed chickens (V1 may have ones without coords)
-      .filter((id) => chickens[id]?.coordinates)
-      .flatMap((id) => {
-        const chicken = chickens[id]!;
-        const { x, y } = chicken.coordinates as Coordinates;
-        const { width, height } = ANIMAL_DIMENSIONS.Chicken;
-
-        return (
-          <MapPlacement
-            key={`chicken-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-          >
-            <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
-          </MapPlacement>
-        );
-      }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(trees).map((id, index) => {
-      const { x, y, width, height } = trees[id];
-
-      return (
-        <MapPlacement
-          key={`trees-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`tree-${id}`}
-            name="Tree"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(stones).map((id, index) => {
-      const { x, y, width, height } = stones[id];
-
-      return (
-        <MapPlacement
-          key={`stones-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`stone-${id}`}
-            name="Stone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(iron).map((id, index) => {
-      const { x, y, width, height } = iron[id];
-
-      return (
-        <MapPlacement
-          key={`iron-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`iron-${id}`}
-            name="Iron Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(gold).map((id, index) => {
-      const { x, y, width, height } = gold[id];
-
-      return (
-        <MapPlacement
-          key={`gold-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`gold-${id}`}
-            name="Gold Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(crimstones).map((id, index) => {
-      const { x, y, width, height } = crimstones[id];
-
-      return (
-        <MapPlacement
-          key={`crimstone-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`crimstone-${id}`}
-            name="Crimstone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(sunstones).map((id, index) => {
-      const { x, y, width, height } = sunstones[id];
-
-      return (
-        <MapPlacement
-          key={`ruby-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            key={`ruby-${id}`}
-            name="Sunstone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(oilReserves).map((id, index) => {
-      const { x, y, width, height } = oilReserves[id];
-
-      return (
-        <MapPlacement
-          key={`oil-reserve-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            name="Oil Reserve"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(fruitPatches).map((id, index) => {
-      const { x, y, width, height } = fruitPatches[id];
-
-      return (
-        <MapPlacement
-          key={`fruitPatches-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            name="Fruit Patch"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(crops).map((id, index) => {
-      const { x, y, width, height } = crops[id];
-
-      return (
-        <MapPlacement
-          key={`crops-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            name="Crop Plot"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  mapPlacements.push(
-    ...getKeys(flowerBeds).map((id, index) => {
-      const { x, y, width, height } = flowerBeds[id];
-
-      return (
-        <MapPlacement
-          key={`flowers-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            name="Flower Bed"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  {
-    mushrooms &&
-      mapPlacements.push(
-        ...getKeys(mushrooms).flatMap((id) => {
-          const { x, y, name } = mushrooms[id]!;
-
-          return (
-            <MapPlacement
-              key={`mushroom-${id}`}
-              x={x}
-              y={y}
-              height={MUSHROOM_DIMENSIONS.height}
-              width={MUSHROOM_DIMENSIONS.width}
-            >
-              <Mushroom
-                key={`mushroom-${id}`}
-                id={id}
-                isFirstRender={isFirstRender}
-                name={name}
-              />
-            </MapPlacement>
-          );
-        }),
-      );
-  }
-
-  {
-    buds &&
-      mapPlacements.push(
-        ...getKeys(buds)
-          .filter(
-            (budId) =>
-              !!buds[budId].coordinates &&
-              (!buds[budId].location || buds[budId].location === "farm"),
-          )
-          .flatMap((id) => {
-            const { x, y } = buds[id]!.coordinates!;
-
-            return (
-              <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
-                <Bud id={String(id)} x={x} y={y} />
-              </MapPlacement>
-            );
-          }),
-      );
-  }
-
-  if (!!airdrops && airdrops?.length > 0) {
-    mapPlacements.push(
-      ...airdrops
-        // Only show placed chickens (V1 may have ones without coords)
-        .filter((airdrop) => airdrop?.coordinates)
-        .map((airdrop) => {
-          const { x, y } = airdrop.coordinates as Coordinates;
-
-          return (
-            <MapPlacement
-              key={`airdrop-${airdrop.id}`}
-              x={x}
-              y={y}
-              height={1}
-              width={1}
-            >
-              <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
-            </MapPlacement>
-          );
-        }),
-    );
-  }
-
-  mapPlacements.push(
-    ...getKeys(beehives).map((id, index) => {
-      const { x, y, width, height } = beehives[id];
-
-      return (
-        <MapPlacement
-          key={`beehive-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        >
-          <Resource
-            name="Beehive"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
-  );
-
-  return mapPlacements;
-};
-
-const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const isVisiting = (state: MachineState) => state.matches("visiting");
 const isPaused = (state: MachineState) => !!state.context.paused;
+const _island = (state: MachineState) => state.context.state.island;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _expansionCount = (state: MachineState) =>
+  state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
-export const Land: React.FC = () => {
-  const { gameService, showAnimations, showTimers } = useContext(Context);
+const _cropPositions = (state: MachineState) => ({
+  crops: state.context.state.crops,
+  positions: getSortedResourcePositions(state.context.state.crops),
+});
+const _treePositions = (state: MachineState) => ({
+  trees: state.context.state.trees,
+  positions: getSortedResourcePositions(state.context.state.trees),
+});
+
+const _hasSaltFarmAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "SALT_FARM");
+
+const _stonePositions = (state: MachineState) => {
+  return {
+    stones: state.context.state.stones,
+    positions: getSortedResourcePositions(state.context.state.stones),
+  };
+};
+const _goldPositions = (state: MachineState) => {
+  return {
+    gold: state.context.state.gold,
+    positions: getSortedResourcePositions(state.context.state.gold),
+  };
+};
+const _ironPositions = (state: MachineState) => {
+  return {
+    iron: state.context.state.iron,
+    positions: getSortedResourcePositions(state.context.state.iron),
+  };
+};
+const _crimstonePositions = (state: MachineState) => {
+  return {
+    crimstones: state.context.state.crimstones,
+    positions: getSortedResourcePositions(state.context.state.crimstones),
+  };
+};
+const _sunstonePositions = (state: MachineState) => {
+  return {
+    sunstones: state.context.state.sunstones,
+    positions: getSortedResourcePositions(state.context.state.sunstones),
+  };
+};
+const _beehivePositions = (state: MachineState) => {
+  return {
+    beehives: state.context.state.beehives,
+    positions: getSortedResourcePositions(state.context.state.beehives),
+  };
+};
+const _flowerBedPositions = (state: MachineState) => {
+  return {
+    flowerBeds: state.context.state.flowers.flowerBeds,
+    positions: getSortedResourcePositions(
+      state.context.state.flowers.flowerBeds,
+    ),
+  };
+};
+const _fruitPatchPositions = (state: MachineState) => {
+  return {
+    fruitPatches: state.context.state.fruitPatches,
+    positions: getSortedResourcePositions(state.context.state.fruitPatches),
+  };
+};
+const _oilReservePositions = (state: MachineState) => {
+  return {
+    oilReserves: state.context.state.oilReserves,
+    positions: getSortedResourcePositions(state.context.state.oilReserves),
+  };
+};
+const _lavaPitPositions = (state: MachineState) => {
+  return {
+    lavaPits: state.context.state.lavaPits,
+    positions: getSortedResourcePositions(state.context.state.lavaPits),
+  };
+};
+
+const _saltNodePositions = (state: MachineState) => {
+  const saltNodes = state.context.state.saltFarm.nodes;
+  const saltFarmLevel = state.context.state.saltFarm.level;
+  const basicLand =
+    state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
+  const saltNodeIds = Object.keys(saltNodes).sort();
+  return {
+    saltNodes,
+    saltFarmLevel,
+    basicLand,
+    saltNodeIds,
+    positions: getObjectEntries(saltNodes)
+      .filter(([, node]) => !!node.coordinates)
+      .map(([id, node]) => ({
+        id,
+        x: node.coordinates.x,
+        y: node.coordinates.y,
+      }))
+      .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
+  };
+};
+const _collectiblePositions = (state: MachineState) => {
+  return {
+    collectibles: state.context.state.collectibles,
+    positions: getSortedCollectiblePositions(state.context.state.collectibles),
+  };
+};
+const _buildingPositions = (state: MachineState) => {
+  return {
+    buildings: state.context.state.buildings,
+    positions: getObjectEntries(state.context.state.buildings).flatMap(
+      ([, value]) =>
+        value
+          ?.map((item) => item.coordinates)
+          .filter((coords) => coords !== undefined)
+          .map((coords) => ({ x: coords.x, y: coords.y })),
+    ),
+  };
+};
+const _mushroomPositions = (state: MachineState) => {
+  const { mushrooms } = state.context.state.mushrooms ?? {};
+
+  if (!mushrooms) return { positions: [] };
+
+  return {
+    mushrooms,
+    positions: getObjectEntries(mushrooms).flatMap(([, mushroom]) => {
+      return {
+        x: mushroom.x,
+        y: mushroom.y,
+      };
+    }),
+  };
+};
+
+const _clutterPositions = (state: MachineState) => {
+  const clutter = state.context.state.socialFarming?.clutter;
+
+  if (!clutter) return { positions: [] };
+
+  return {
+    clutter,
+    positions: getObjectEntries(clutter.locations).flatMap(([, location]) => {
+      return {
+        x: location.x,
+        y: location.y,
+      };
+    }),
+  };
+};
+const _budPositions = (state: MachineState) => {
+  const buds = state.context.state.buds;
+
+  if (!buds) return { positions: [] };
+
+  return {
+    buds,
+    positions: getObjectEntries(buds)
+      .filter(([, bud]) => !!bud.coordinates)
+      .flatMap(([, bud]) => {
+        return {
+          x: bud.coordinates!.x,
+          y: bud.coordinates!.y,
+        };
+      }),
+  };
+};
+
+const _petNFTPositions = (state: MachineState) => {
+  const nfts = state.context.state.pets?.nfts;
+
+  if (!nfts) return { positions: [] };
+
+  return {
+    nfts,
+    positions: getObjectEntries(nfts)
+      .filter(([, nft]) => !!nft.coordinates)
+      .flatMap(([, nft]) => {
+        return {
+          x: nft.coordinates!.x,
+          y: nft.coordinates!.y,
+        };
+      }),
+  };
+};
+
+const _bumpkinPlacement = (state: MachineState) => state.context.state.bumpkin;
+
+const _farmHandPositions = (state: MachineState) => {
+  const bumpkins = state.context.state.farmHands?.bumpkins;
+
+  if (!bumpkins) return { farmHands: {}, positions: [] };
+
+  return {
+    farmHands: bumpkins,
+    positions: Object.entries(bumpkins).flatMap(([, fh]) => {
+      if (!fh.coordinates) return undefined;
+
+      return {
+        x: fh.coordinates.x,
+        y: fh.coordinates.y,
+      };
+    }),
+  };
+};
+
+const _airdropPositions = (state: MachineState) => {
+  const airdrops = state.context.state.airdrops;
+
+  if (!airdrops) return { positions: [] };
+
+  return {
+    airdrops,
+    positions: airdrops
+      .filter((airdrop) => !!airdrop.coordinates)
+      .map((airdrop) => {
+        return {
+          x: airdrop.coordinates!.x,
+          y: airdrop.coordinates!.y,
+        };
+      }),
+  };
+};
+
+const _waterTrapPositions = (state: MachineState) => {
+  const waterTraps = state.context.state.crabTraps.trapSpots;
+
+  if (!waterTraps) return { positions: [] };
+
+  return {
+    waterTraps,
+    positions: getObjectEntries(waterTraps).flatMap(([, waterTrap]) => {
+      return {
+        x: waterTrap.x,
+        y: waterTrap.y,
+      };
+    }),
+  };
+};
+
+export const LandComponent: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const { pathname } = useLocation();
+
+  const showMarketplace = pathname.includes("marketplace");
+  const showFlowerDashboard = pathname.includes("flower-dashboard");
+  const showEconomyDashboard = pathname.includes("economy-dashboard");
+  const showRetentionDashboard = pathname.includes("retention-dashboard");
 
   const paused = useSelector(gameService, isPaused);
+  const island = useSelector(gameService, _island);
+  const season = useSelector(gameService, _season);
+  const expansionCount = useSelector(gameService, _expansionCount);
+  const { crops, positions: cropPositions } = useSelector(
+    gameService,
+    _cropPositions,
+    comparePositions,
+  );
+  const { trees } = useSelector(gameService, _treePositions, comparePositions);
+  const { collectibles, positions: collectiblePositions } = useSelector(
+    gameService,
+    _collectiblePositions,
+  );
+  const { buildings } = useSelector(gameService, _buildingPositions);
+  const { stones } = useSelector(
+    gameService,
+    _stonePositions,
+    comparePositions,
+  );
+  const { gold } = useSelector(gameService, _goldPositions, comparePositions);
+  const { iron } = useSelector(gameService, _ironPositions, comparePositions);
+  const { crimstones } = useSelector(
+    gameService,
+    _crimstonePositions,
+    comparePositions,
+  );
+  const { sunstones } = useSelector(
+    gameService,
+    _sunstonePositions,
+    comparePositions,
+  );
+  const { beehives } = useSelector(
+    gameService,
+    _beehivePositions,
+    comparePositions,
+  );
+  const { flowerBeds } = useSelector(
+    gameService,
+    _flowerBedPositions,
+    comparePositions,
+  );
+  const { fruitPatches } = useSelector(
+    gameService,
+    _fruitPatchPositions,
+    comparePositions,
+  );
+  const { oilReserves } = useSelector(
+    gameService,
+    _oilReservePositions,
+    comparePositions,
+  );
+  const { lavaPits } = useSelector(
+    gameService,
+    _lavaPitPositions,
+    comparePositions,
+  );
+  const { saltNodes, saltFarmLevel, basicLand } = useSelector(
+    gameService,
+    _saltNodePositions,
+    compareSaltFarmSlice,
+  );
+  const hasSaltFarmAccess = useSelector(gameService, _hasSaltFarmAccess);
+  const { mushrooms } = useSelector(
+    gameService,
+    _mushroomPositions,
+    comparePositions,
+  );
 
-  const state = useSelector(gameService, selectGameState);
-  const {
-    expansionConstruction,
-    buildings,
-    collectibles,
-    chickens,
-    inventory,
-    trees,
-    stones,
-    iron,
-    gold,
-    crimstones,
-    sunstones,
-    crops,
-    fruitPatches,
-    flowers: { flowerBeds },
-    mushrooms,
-    buds,
-    airdrops,
-    beehives,
-    oilReserves,
-    island,
-  } = state;
-
+  const { clutter } = useSelector(
+    gameService,
+    _clutterPositions,
+    comparePositions,
+  );
+  const { buds } = useSelector(gameService, _budPositions, comparePositions);
+  const { nfts: petNFTs } = useSelector(
+    gameService,
+    _petNFTPositions,
+    comparePositions,
+  );
+  const { farmHands } = useSelector(
+    gameService,
+    _farmHandPositions,
+    comparePositions,
+  );
+  const bumpkin = useSelector(gameService, _bumpkinPlacement);
+  const { airdrops } = useSelector(
+    gameService,
+    _airdropPositions,
+    comparePositions,
+  );
+  const { waterTraps } = useSelector(
+    gameService,
+    _waterTrapPositions,
+    comparePositions,
+  );
   const landscaping = useSelector(gameService, isLandscaping);
-  const visiting = useSelector(gameService, isVisiting);
-
-  const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
   // As the land gets bigger, expand the gameboard
   // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
@@ -607,13 +424,708 @@ export const Land: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const isFirstRender = useFirstRender();
-
   // memorize game grid and only update it when the stringified value changes
-  const gameGridValue = getGameGrid({ crops, collectibles });
   const gameGrid = useMemo(() => {
-    return gameGridValue;
-  }, [JSON.stringify(gameGridValue)]);
+    return getGameGrid({
+      cropPositions,
+      collectiblePositions,
+    });
+  }, [cropPositions, collectiblePositions]);
+
+  const { isVisiting: visiting } = useVisiting();
+
+  // New functions
+  const cropElements = useMemo(() => {
+    return getObjectEntries(crops)
+      .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
+      .map(([id, crop], index) => {
+        const { x, y } = crop;
+
+        return (
+          <MapPlacement
+            key={`crops-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Crop Plot"]}
+          >
+            <Resource
+              name="Crop Plot"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [crops]);
+
+  const treeElements = useMemo(() => {
+    return getObjectEntries(trees)
+      .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
+      .map(([id, tree], index) => {
+        const { x, y } = tree;
+
+        return (
+          <MapPlacement
+            key={`trees-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS.Tree}
+          >
+            <Resource
+              key={`tree-${id}`}
+              name="Tree"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [trees]);
+
+  const collectibleElements = useMemo(() => {
+    return getKeys(collectibles)
+      .filter((name) => collectibles[name])
+      .flatMap((name) => {
+        const items = collectibles[name]!;
+        return items
+          .filter((collectible) => collectible.coordinates)
+          .map((collectible, index) => {
+            const { readyAt, createdAt, coordinates, id } = collectible;
+            const { x, y } = coordinates!;
+            const { width, height } = COLLECTIBLES_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={`collectible-${name}-${id}`}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+                canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
+                isTile={name.includes("Tile")}
+                enableOnVisitClick
+              >
+                <Collectible
+                  location="farm"
+                  name={name}
+                  id={id}
+                  readyAt={readyAt ?? 0}
+                  createdAt={createdAt ?? 0}
+                  x={coordinates!.x}
+                  y={coordinates!.y}
+                  grid={gameGrid}
+                  flipped={collectible.flipped}
+                  index={index}
+                />
+              </MapPlacement>
+            );
+          });
+      });
+  }, [collectibles, gameGrid]);
+
+  const buildingElements = useMemo(() => {
+    const home = new Set<Home | "Town Center" | "Pet House">([
+      "Town Center",
+      "Tent",
+      "House",
+      "Manor",
+      "Mansion",
+      "Pet House",
+    ]);
+
+    return getKeys(buildings)
+      .filter((name) => buildings[name])
+      .flatMap((name) => {
+        const items = buildings[name]!;
+        return items
+          .filter((building) => building.coordinates !== undefined)
+          .map((building, itemIndex) => {
+            const { x, y } = building.coordinates!;
+            const { width, height } = BUILDINGS_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={`building-${name}-${building.id}`}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+                enableOnVisitClick={home.has(
+                  name as Home | "Town Center" | "Pet House",
+                )}
+              >
+                <Building
+                  name={name}
+                  id={building.id}
+                  index={itemIndex}
+                  readyAt={building.readyAt ?? 0}
+                  createdAt={building.createdAt ?? 0}
+                  x={x}
+                  y={y}
+                  island={island}
+                  season={season}
+                />
+              </MapPlacement>
+            );
+          });
+      });
+  }, [buildings, island, season]);
+
+  const stoneElements = useMemo(() => {
+    return getObjectEntries(stones)
+      .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
+      .map(([id, stone], index) => {
+        const { x, y } = stone;
+
+        return (
+          <MapPlacement
+            key={`stones-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Stone Rock"]}
+          >
+            <Resource
+              key={`stone-${id}`}
+              name="Stone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [stones]);
+
+  const goldElements = useMemo(() => {
+    return getObjectEntries(gold)
+      .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
+      .map(([id, gold], index) => {
+        const { x, y } = gold;
+
+        return (
+          <MapPlacement
+            key={`gold-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Gold Rock"]}
+          >
+            <Resource
+              key={`gold-${id}`}
+              name="Gold Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [gold]);
+
+  const ironElements = useMemo(() => {
+    return getObjectEntries(iron)
+      .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
+      .map(([id, iron], index) => {
+        const { x, y } = iron;
+
+        return (
+          <MapPlacement
+            key={`iron-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Iron Rock"]}
+          >
+            <Resource
+              key={`iron-${id}`}
+              name="Iron Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [iron]);
+
+  const crimstoneElements = useMemo(() => {
+    return getObjectEntries(crimstones)
+      .filter(
+        ([, crimstone]) =>
+          crimstone.x !== undefined && crimstone.y !== undefined,
+      )
+      .map(([id, crimstone], index) => {
+        const { x, y } = crimstone;
+
+        return (
+          <MapPlacement
+            key={`crimstone-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
+          >
+            <Resource
+              key={`crimstone-${id}`}
+              name="Crimstone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [crimstones]);
+
+  const sunstoneElements = useMemo(() => {
+    return getObjectEntries(sunstones)
+      .filter(
+        ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
+      )
+      .map(([id, sunstone], index) => {
+        const { x, y } = sunstone;
+
+        return (
+          <MapPlacement
+            key={`ruby-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
+          >
+            <Resource
+              key={`ruby-${id}`}
+              name="Sunstone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [sunstones]);
+
+  const beehiveElements = useMemo(() => {
+    return getObjectEntries(beehives)
+      .filter(
+        ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
+      )
+      .map(([id, beehive], index) => {
+        const { x, y } = beehive;
+
+        return (
+          <MapPlacement
+            key={`beehive-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS.Beehive}
+          >
+            <Resource
+              name="Beehive"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [beehives]);
+
+  const flowerBedElements = useMemo(() => {
+    return getObjectEntries(flowerBeds)
+      .filter(
+        ([, flowerBed]) =>
+          flowerBed.x !== undefined && flowerBed.y !== undefined,
+      )
+      .map(([id, flowerBed], index) => {
+        const { x, y } = flowerBed;
+
+        return (
+          <MapPlacement
+            key={`flowers-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Flower Bed"]}
+          >
+            <Resource
+              name="Flower Bed"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [flowerBeds]);
+
+  const fruitPatchElements = useMemo(() => {
+    return getObjectEntries(fruitPatches)
+      .filter(
+        ([, fruitPatch]) =>
+          fruitPatch.x !== undefined && fruitPatch.y !== undefined,
+      )
+      .map(([id, fruitPatch], index) => {
+        const { x, y } = fruitPatch;
+
+        return (
+          <MapPlacement
+            key={`fruitPatches-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Fruit Patch"]}
+          >
+            <Resource
+              name="Fruit Patch"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [fruitPatches]);
+
+  const oilReserveElements = useMemo(() => {
+    return getObjectEntries(oilReserves)
+      .filter(
+        ([, oilReserve]) =>
+          oilReserve.x !== undefined && oilReserve.y !== undefined,
+      )
+      .map(([id, oilReserve], index) => {
+        const { x, y } = oilReserve;
+
+        return (
+          <MapPlacement
+            key={`oil-reserve-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Oil Reserve"]}
+          >
+            <Resource
+              name="Oil Reserve"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [oilReserves]);
+
+  const lavaPitElements = useMemo(() => {
+    return getObjectEntries(lavaPits)
+      .filter(
+        ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
+      )
+      .map(([id, lavaPit], index) => {
+        const { x, y } = lavaPit;
+
+        return (
+          <MapPlacement
+            key={`oil-reserve-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Lava Pit"]}
+          >
+            <Resource
+              name="Lava Pit"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [lavaPits]);
+
+  const mushroomElements = useMemo(() => {
+    if (!mushrooms) return [];
+
+    return getObjectEntries(mushrooms).flatMap(([id, mushroom]) => {
+      return (
+        <MapPlacement
+          key={`mushroom-${id}`}
+          x={mushroom.x}
+          y={mushroom.y}
+          height={MUSHROOM_DIMENSIONS.height}
+          width={MUSHROOM_DIMENSIONS.width}
+          z={99999}
+        >
+          <Mushroom key={`mushroom-${id}`} id={id} name={mushroom.name} />
+        </MapPlacement>
+      );
+    });
+  }, [mushrooms]);
+
+  const clutterElements = useMemo(() => {
+    if (!visiting || !clutter) {
+      return [];
+    }
+
+    return <Clutter clutter={clutter} />;
+  }, [clutter, visiting]);
+
+  const budElements = useMemo(() => {
+    if (!buds) return [];
+
+    return Object.entries(buds)
+      .filter(
+        ([, bud]) =>
+          !!bud.coordinates && (!bud.location || bud.location === "farm"),
+      )
+      .flatMap(([id, bud]) => {
+        const { x, y } = bud.coordinates!;
+        return (
+          <MapPlacement
+            key={`bud-${id}`}
+            x={x}
+            y={y}
+            height={1}
+            width={1}
+            enableOnVisitClick
+          >
+            <Bud id={id} x={x} y={y} />
+          </MapPlacement>
+        );
+      });
+  }, [buds]);
+
+  const petNFTElements = useMemo(() => {
+    if (!petNFTs) return [];
+    return Object.entries(petNFTs)
+      .filter(
+        ([, pet]) =>
+          !!pet.coordinates && (!pet.location || pet.location === "farm"),
+      )
+      .flatMap(([id, pet]) => {
+        const { x, y } = pet.coordinates!;
+        return (
+          <MapPlacement
+            key={`pet-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+            enableOnVisitClick
+          >
+            <PetNFT id={id} x={x} y={y} />
+          </MapPlacement>
+        );
+      });
+  }, [petNFTs]);
+
+  const farmHandElements = useMemo(() => {
+    if (!farmHands || Object.keys(farmHands).length === 0) return [];
+
+    return Object.entries(farmHands).flatMap(([id, fh]) => {
+      if (!fh.coordinates || fh.location === "home") return [];
+
+      const { x, y } = fh.coordinates;
+
+      return (
+        <MapPlacement key={`farmhand-${id}`} x={x} y={y} height={1} width={1}>
+          <FarmHand id={id} />
+        </MapPlacement>
+      );
+    });
+  }, [farmHands]);
+
+  const bumpkinElement = useMemo(() => {
+    if (!bumpkin?.coordinates || bumpkin.location === "home") return [];
+
+    const { x, y } = bumpkin.coordinates;
+
+    return [
+      <MapPlacement key="main-bumpkin" x={x} y={y} height={1} width={1}>
+        <PlacedBumpkin />
+      </MapPlacement>,
+    ];
+  }, [bumpkin]);
+
+  const airdropElements = useMemo(() => {
+    if (!airdrops) return [];
+
+    return (
+      airdrops
+        // Only show placed chickens (V1 may have ones without coords)
+        .filter((airdrop) => !!airdrop.coordinates)
+        .map((airdrop) => {
+          const { x, y } = airdrop.coordinates!;
+
+          return (
+            <MapPlacement
+              key={`airdrop-${airdrop.id}`}
+              x={x}
+              y={y}
+              height={1}
+              width={1}
+            >
+              <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
+            </MapPlacement>
+          );
+        })
+    );
+  }, [airdrops]);
+
+  const waterTrapElements = useMemo(() => {
+    if (!waterTraps) return [];
+
+    return Object.entries(waterTraps).map(([id, waterTrap]) => {
+      return (
+        <MapPlacement
+          key={`water-trap-${id}`}
+          x={waterTrap.x}
+          y={waterTrap.y}
+          height={1}
+          width={1}
+        >
+          <WaterTrapSpot key={`water-trap-${id}`} id={id} />
+        </MapPlacement>
+      );
+    });
+  }, [waterTraps]);
+
+  const saltNodeElements = useMemo(() => {
+    return getObjectEntries(getSaltNodesWithPositions(saltNodes))
+      .filter(([, node]) => !!node.coordinates)
+      .map(([id, node]) => {
+        return (
+          <MapPlacement
+            key={`salt-node-${id}`}
+            {...node.coordinates}
+            height={1}
+            width={1}
+          >
+            <SaltNode id={id} visiting={visiting} position={node.position} />
+          </MapPlacement>
+        );
+      });
+  }, [saltNodes, visiting]);
+
+  const saltPlaceholderElements = useMemo(() => {
+    const pendingIds = getPendingSaltNodeIdsForUpgrade({
+      level: saltFarmLevel,
+      nodes: saltNodes,
+    });
+    return pendingIds.map((id) => {
+      const coordinates = getSaltNodeCoordinates(basicLand, id);
+      return (
+        <MapPlacement
+          key={`salt-placeholder-${id}`}
+          {...coordinates}
+          height={1}
+          width={1}
+        >
+          <SaltNodePlaceholder visiting={visiting} />
+        </MapPlacement>
+      );
+    });
+  }, [basicLand, saltFarmLevel, saltNodes, visiting]);
+
+  // Memoize island elements with enhanced performance tracking
+  const islandElements = useMemo(() => {
+    const elements = [
+      cropElements,
+      treeElements,
+      collectibleElements,
+      buildingElements,
+      stoneElements,
+      goldElements,
+      ironElements,
+      crimstoneElements,
+      sunstoneElements,
+      beehiveElements,
+      flowerBedElements,
+      fruitPatchElements,
+      oilReserveElements,
+      lavaPitElements,
+      mushroomElements,
+      clutterElements,
+      budElements,
+      petNFTElements,
+      farmHandElements,
+      bumpkinElement,
+      airdropElements,
+    ].flat();
+
+    const sortedIslandElements = elements.slice().sort((a, b) => {
+      // Non-colliding objects (like tiles, rugs) should be at the beginning
+      if (a.props.canCollide === false && b.props.canCollide === false) {
+        if (a.props.isTile) return -1; // a should be before b
+
+        if (b.props.isTile) return 1; // b should be before a
+      }
+
+      if (a.props.canCollide === false && b.props.canCollide !== false) {
+        return -1; // a should be before b
+      }
+
+      if (b.props.canCollide === false && a.props.canCollide !== false) {
+        return 1; // b should be before a
+      }
+
+      // For all other elements, sort by y position (higher y values first)
+      return b.props.y - a.props.y;
+    });
+
+    return sortedIslandElements;
+  }, [
+    cropElements,
+    treeElements,
+    collectibleElements,
+    buildingElements,
+    stoneElements,
+    goldElements,
+    ironElements,
+    crimstoneElements,
+    sunstoneElements,
+    beehiveElements,
+    flowerBedElements,
+    fruitPatchElements,
+    oilReserveElements,
+    lavaPitElements,
+    clutterElements,
+    budElements,
+    petNFTElements,
+    farmHandElements,
+    bumpkinElement,
+    airdropElements,
+    mushroomElements,
+  ]);
 
   return (
     <>
@@ -623,7 +1135,7 @@ export const Land: React.FC = () => {
           // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
+          backgroundImage: `url(${season === "winter" ? SUNNYSIDE.decorations.frozenOcean : island.type === "volcano" ? SUNNYSIDE.decorations.darkOcean : SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
         }}
@@ -644,21 +1156,15 @@ export const Land: React.FC = () => {
         />
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div
-            className={classNames("relative w-full h-full", {
-              "pointer-events-none": visiting,
-            })}
-          >
-            <LandBase type={island.type} expandedCount={expansionCount} />
-            <DirtRenderer island={island.type} grid={gameGrid} />
+          <div className="relative w-full h-full">
+            <LandBase
+              island={island}
+              season={season}
+              expandedCount={expansionCount}
+            />
+            <DirtRenderer biome={getCurrentBiome(island)} grid={gameGrid} />
 
-            {!landscaping && (
-              <Water
-                expansionCount={expansionCount}
-                townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
-                gameState={state}
-              />
-            )}
+            {!landscaping && <Water expansionCount={expansionCount} />}
             {!landscaping && <UpcomingExpansion />}
 
             <div
@@ -678,37 +1184,18 @@ export const Land: React.FC = () => {
             />
 
             {/* Sort island elements by y axis */}
-            {!paused &&
-              getIslandElements({
-                game: state,
-                expansionConstruction,
-                buildings,
-                collectibles,
-                chickens,
-                trees,
-                stones,
-                iron,
-                gold,
-                crimstones,
-                sunstones,
-                fruitPatches,
-                flowerBeds,
-                crops,
-                showTimers: showTimers,
-                grid: gameGrid,
-                mushrooms: mushrooms?.mushrooms,
-                isFirstRender,
-                buds,
-                airdrops,
-                beehives,
-                oilReserves,
-              }).sort((a, b) => b.props.y - a.props.y)}
+            {!paused && islandElements.map((element) => element)}
           </div>
 
           {landscaping && <Placeable location="farm" />}
         </div>
 
         {!landscaping && <Fisherman />}
+
+        {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
+        {!landscaping && waterTrapElements}
+        {!landscaping && hasSaltFarmAccess && saltPlaceholderElements}
+        {!landscaping && hasSaltFarmAccess && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div
@@ -724,13 +1211,34 @@ export const Land: React.FC = () => {
 
       {landscaping && <LandscapingHud location="farm" />}
 
-      {!landscaping && visiting && (
-        <div className="absolute z-20">
-          <VisitingHud />
-        </div>
-      )}
+      {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      {(showMarketplace ||
+        showFlowerDashboard ||
+        showEconomyDashboard ||
+        showRetentionDashboard) &&
+        createPortal(
+          <div
+            data-html2canvas-ignore="true"
+            aria-label="Hud"
+            className="fixed inset-safe-area pointer-events-none z-10"
+          >
+            <div
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              className="pointer-events-auto w-full h-full"
+            >
+              <Outlet />
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 };
+
+export const Land = React.memo(LandComponent);

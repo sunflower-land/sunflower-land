@@ -1,18 +1,23 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
-import { getSeasonalBanner } from "../types/seasons";
+import { hasVipAccess } from "./vipAccess";
+import { CHAPTERS } from "../types/chapters";
 
-export function SFLDiscount(state: GameState | undefined, sfl: Decimal) {
+export function SFLDiscount(
+  state: GameState | undefined,
+  sfl: Decimal,
+  now: number,
+) {
   if (!state) return sfl;
 
-  const currentSeasonBanner = getSeasonalBanner();
-
-  if (
-    state.inventory[currentSeasonBanner] ||
-    state.inventory["Lifetime Farmer Banner"]
-  ) {
-    // 25% discount
-    return sfl.times(0.75);
+  if (hasVipAccess({ game: state, now })) {
+    if (now > CHAPTERS["Great Bloom"].startDate.getTime()) {
+      // 50% discount
+      return sfl.times(0.5);
+    } else {
+      // 25% discount
+      return sfl.times(0.75);
+    }
   }
 
   return sfl;

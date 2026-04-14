@@ -1,19 +1,27 @@
+/* eslint-disable react-hooks/refs */
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
-import { PIXEL_SCALE } from "../lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
-import token from "assets/icons/sfl.webp";
-import levelup from "assets/icons/level_up.png";
-import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
-import coins from "assets/icons/coins.webp";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { Bud } from "../types/buds";
+import { KNOWN_IDS } from "../types";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
+import { useVisiting } from "lib/utils/visitUtils";
+import { PetNFT } from "../types/pets";
+
+import token from "assets/icons/flower_token.webp";
+import levelup from "assets/icons/level_up.png";
+import coins from "assets/icons/coins.webp";
+import { getPetImage } from "features/island/pets/lib/petShared";
 
 const MAX_TOAST = 6;
 
@@ -30,7 +38,35 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
     return FACTION_POINT_ICONS[faction];
   }
 
-  return ITEM_DETAILS[item]?.image;
+  if (KNOWN_IDS[item as InventoryItemName]) {
+    return getTradeableDisplay({
+      id: KNOWN_IDS[item as InventoryItemName],
+      type: "collectibles",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  if (ITEM_IDS[item as BumpkinItem]) {
+    return getTradeableDisplay({
+      id: ITEM_IDS[item as BumpkinItem],
+      type: "wearables",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  if (item.startsWith("Bud #")) {
+    return getTradeableDisplay({
+      id: Number(item.split("#")[1]),
+      type: "buds",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  if (item.startsWith("Pet #")) {
+    return getPetImage("happy", Number(item.split("#")[1]));
+  }
+
+  return "";
 };
 
 const _faction = (state: MachineState) => state.context.state.faction;
@@ -47,29 +83,43 @@ export const ToastPanel: React.FC = () => {
     setCoinBalance,
     setExperience,
     setFactionPoints,
+    setWardrobe,
+    setBuds,
+    setPetNFTs,
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
+  const { isVisiting } = useVisiting();
 
   const faction = useSelector(gameService, _faction);
 
-  const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const newInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const oldSflBalance = useRef<Decimal>();
-  const newSflBalance = useRef<Decimal>();
-  const oldExperience = useRef<Decimal>();
-  const newExperience = useRef<Decimal>();
-  const oldCoinBalance = useRef<number>();
-  const newCoinBalance = useRef<number>();
-  const oldFactionPoints = useRef<number>();
-  const newFactionPoints = useRef<number>();
+  const oldInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const newInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const oldSflBalance = useRef<Decimal>(undefined);
+  const newSflBalance = useRef<Decimal>(undefined);
+  const oldExperience = useRef<Decimal>(undefined);
+  const newExperience = useRef<Decimal>(undefined);
+  const oldCoinBalance = useRef<number>(undefined);
+  const newCoinBalance = useRef<number>(undefined);
+  const oldFactionPoints = useRef<number>(undefined);
+  const newFactionPoints = useRef<number>(undefined);
+  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const oldBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const newBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
+  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
 
   /**
    * Listens to game state transitions.
    */
   gameService.onTransition((state) => {
-    // does nothing if no state changes
-    if (!state.changed) return;
+    // does nothing if no state changes, visiting or ending visit
+    if (!state.changed || isVisiting || state.event.type === "END_VISIT") {
+      return;
+    }
 
     // set old and new states
     oldInventory.current = newInventory.current;
@@ -83,6 +133,12 @@ export const ToastPanel: React.FC = () => {
     newCoinBalance.current = state.context.state.coins;
     oldFactionPoints.current = newFactionPoints.current;
     newFactionPoints.current = faction?.points;
+    oldWardrobe.current = newWardrobe.current;
+    newWardrobe.current = state.context.state.wardrobe;
+    oldBuds.current = newBuds.current;
+    newBuds.current = state.context.state.buds;
+    oldPetNFTs.current = newPetNFTs.current;
+    newPetNFTs.current = state.context.state.pets?.nfts ?? {};
 
     // inventory is set and changed
     if (
@@ -123,6 +179,21 @@ export const ToastPanel: React.FC = () => {
     ) {
       setFactionPoints(newFactionPoints.current);
     }
+
+    // wardrobe is set and changed
+    if (!!newWardrobe.current && oldWardrobe.current !== newWardrobe.current) {
+      setWardrobe(newWardrobe.current);
+    }
+
+    // buds is set and changed
+    if (!!newBuds.current && oldBuds.current !== newBuds.current) {
+      setBuds(newBuds.current);
+    }
+
+    // pet nfts is set and changed
+    if (!!newPetNFTs.current && oldPetNFTs.current !== newPetNFTs.current) {
+      setPetNFTs(newPetNFTs.current);
+    }
   });
 
   // show toast only if there are toasts in the toast list
@@ -136,9 +207,9 @@ export const ToastPanel: React.FC = () => {
   return (
     <>
       {showToasts && (
-        <HudContainer>
+        <HudContainer zIndex="z-[99999]">
           <InnerPanel
-            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
+            className="flex flex-col items-start absolute pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 54}px`,
               left: `${PIXEL_SCALE * 3}px`,
@@ -154,7 +225,12 @@ export const ToastPanel: React.FC = () => {
                       className="h-6"
                       src={getToastIcon(item, faction?.name)}
                     />
-                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(difference)}`}</span>
+                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(
+                      difference,
+                      {
+                        decimalPlaces: item === "SFL" ? 4 : 2,
+                      },
+                    )}`}</span>
                   </div>
                 );
               })}

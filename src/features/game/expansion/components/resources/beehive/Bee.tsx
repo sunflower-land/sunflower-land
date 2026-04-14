@@ -42,6 +42,26 @@ const BeeComponent: React.FC<Props> = ({
   );
   const { x: flowerX, y: flowerY } = flower;
 
+  if (flowerX === undefined || flowerY === undefined) return null;
+
+  return (
+    <AnimatedBeeComponent
+      flowerX={flowerX}
+      flowerY={flowerY}
+      hiveX={hiveX}
+      hiveY={hiveY}
+      onAnimationEnd={onAnimationEnd}
+    />
+  );
+};
+
+const AnimatedBeeComponent: React.FC<{
+  flowerX: number;
+  flowerY: number;
+  hiveX: number;
+  hiveY: number;
+  onAnimationEnd: () => void;
+}> = ({ flowerX, flowerY, hiveX, hiveY, onAnimationEnd }) => {
   const getFlowerPositionRelativeToHive = (): {
     x: number;
     y: number;

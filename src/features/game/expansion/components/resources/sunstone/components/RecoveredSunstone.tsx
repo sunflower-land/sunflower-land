@@ -11,7 +11,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
 import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
 import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
@@ -27,6 +26,7 @@ import { ZoomContext } from "components/ZoomProvider";
 
 import { getSunstoneStage } from "../Sunstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Gold Pickaxe";
 
@@ -39,23 +39,20 @@ interface Props {
   minesLeft: number;
 }
 
-const RecoveredSunstoneComponent: React.FC<Props> = ({
+export const RecoveredSunstone: React.FC<Props> = ({
   hasTool,
   touchCount,
   minesLeft,
 }) => {
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const { t } = useAppTranslation();
 
+  const { play: miningAudio } = useSound("mining");
   useEffect(() => {
-    loadAudio([miningAudio]);
-
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -77,11 +74,10 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, miningAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -90,7 +86,6 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -108,7 +103,7 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
         })}
       >
         {/* static resource node image */}
-        {!showSpritesheet && (
+        {touchCount === 0 && (
           <img
             src={sunstoneImage}
             className={"absolute pointer-events-none"}
@@ -121,7 +116,7 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
         )}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <>
             <img
               src={sunstoneImage}
@@ -160,9 +155,6 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
               loop={true}
               onLoopComplete={(spritesheet) => {
                 spritesheet.pause();
-                if (touchCount == 0 && !!strikeGif.current) {
-                  setShowSpritesheet(false);
-                }
               }}
             />
           </>
@@ -202,5 +194,3 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
     </div>
   );
 };
-
-export const RecoveredSunstone = React.memo(RecoveredSunstoneComponent);

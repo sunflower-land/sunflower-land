@@ -1,97 +1,114 @@
-import React, { useState } from "react";
+import React, { useContext, useMemo, useState, type JSX } from "react";
 
 import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
-import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
+import { Bar, ProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
+import locust from "assets/icons/locust.webp";
+import sunshower from "assets/icons/sunshower.webp";
+import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
-import {
-  Bumpkin,
-  CropFertiliser,
-  CropPlot,
-  GameState,
-  Inventory,
-} from "features/game/types/game";
+import { CropFertiliser, CropPlot } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
-
-import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   cropName?: CropName;
-  inventory: Inventory;
-  game: GameState;
-  bumpkin?: Bumpkin;
-  buds?: NonNullable<GameState["buds"]>;
   plot: CropPlot;
   plantedAt?: number;
   fertiliser?: CropFertiliser;
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
-  pulsating: boolean;
 }
 
-const FertilePlotComponent: React.FC<Props> = ({
+const _island = (state: MachineState) => state.context.state.island;
+const _calendar = (state: MachineState) => state.context.state.calendar;
+
+const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
+
+const getGrowthStage = (
+  cropName?: CropName,
+  percentage?: number,
+): GrowthStage | undefined => {
+  if (!cropName || percentage === undefined) return undefined;
+  if (percentage >= 100) return "ready";
+  if (percentage >= 50) return "almost";
+  if (percentage >= 25) return "halfway";
+  return "seedling";
+};
+
+const getHarvestMetrics = ({
   cropName,
-  inventory,
-  game,
-  buds,
+  plot,
+  plantedAt,
+}: {
+  cropName?: CropName;
+  plot: CropPlot;
+  plantedAt?: number;
+}): { harvestSeconds: number; readyAt: number; startAt: number } => {
+  const plantedTimestamp = plantedAt ?? plot.crop?.plantedAt ?? 0;
+
+  if (!cropName || !plantedTimestamp) {
+    return { harvestSeconds: 0, readyAt: 0, startAt: 0 };
+  }
+
+  const baseHarvestSeconds = CROPS[cropName].harvestSeconds;
+  const boostOffsetMs =
+    plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
+  const harvestSeconds = Math.max(baseHarvestSeconds - boostOffsetMs / 1000, 0);
+  const startAt = plantedTimestamp + boostOffsetMs;
+  const readyAt = startAt + harvestSeconds * 1000;
+
+  return { harvestSeconds, readyAt, startAt };
+};
+
+export const FertilePlot: React.FC<Props> = ({
+  cropName,
   plot,
   plantedAt,
   fertiliser,
   procAnimation,
   touchCount,
   showTimers,
-  pulsating,
 }) => {
+  const { gameService } = useContext(Context);
+
+  const island = useSelector(gameService, _island);
+  const calendar = useSelector(gameService, _calendar);
+
   const [showTimerPopover, setShowTimerPopover] = useState(false);
+  const { harvestSeconds, readyAt } = useMemo(
+    () => getHarvestMetrics({ cropName, plot, plantedAt }),
+    [cropName, plantedAt, plot],
+  );
+  const currentTime = useNow({ live: readyAt > 0, autoEndAt: readyAt });
+  const timeLeft =
+    readyAt > 0 && harvestSeconds > 0
+      ? Math.max((readyAt - currentTime) / 1000, 0)
+      : 0;
+  const isGrowing = harvestSeconds > 0 ? readyAt > currentTime : false;
 
-  const [_, setRender] = useState<number>(0);
+  const activeInsectPlague =
+    getActiveCalendarEvent({ calendar }) === "insectPlague";
+  const isProtected = calendar.insectPlague?.protected;
 
-  let harvestSeconds = cropName ? CROPS[cropName].harvestSeconds : 0;
-  const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
+  const growPercentage =
+    harvestSeconds > 0
+      ? clampPercentage(100 - (timeLeft / harvestSeconds) * 100)
+      : 100;
+  const stage = getGrowthStage(cropName, growPercentage);
 
-  let startAt = plantedAt ?? 0;
-  if (cropName && game.bumpkin) {
-    const fertiliserName = fertiliser?.name ?? undefined;
-    harvestSeconds = getCropPlotTime({
-      crop: cropName,
-      inventory,
-      game,
-      buds: buds ?? {},
-      plot,
-      fertiliser: fertiliserName,
-    });
-    startAt = readyAt - harvestSeconds * 1000;
-  }
-  const timeLeft = readyAt > 0 ? (readyAt - Date.now()) / 1000 : 0;
-  const isGrowing = timeLeft > 0;
-
-  // REVIEW: Is this still needed after changing to LiveProgressBar?
-  useUiRefresher({ active: isGrowing });
-
-  const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
-  const stage: GrowthStage | undefined = !cropName
-    ? undefined
-    : growPercentage >= 100
-      ? "ready"
-      : growPercentage >= 50
-        ? "almost"
-        : growPercentage >= 25
-          ? "halfway"
-          : "seedling";
+  const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
   const handleMouseEnter = () => {
     // show details if field is growing
@@ -119,17 +136,38 @@ const FertilePlotComponent: React.FC<Props> = ({
       >
         {/* Crop base image */}
         <div
-          className={classNames("absolute pointer-events-none", {
-            "animate-pulsate": pulsating,
-          })}
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
         >
-          <Soil cropName={cropName} stage={stage} />
+          <Soil cropName={cropName} stage={stage} island={island} />
         </div>
       </div>
+      {activeInsectPlague && !isProtected && (
+        <img
+          src={locust}
+          alt="locust"
+          className="absolute top-0 right-0 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+          }}
+        />
+      )}
 
+      {isSunshower && (
+        <img
+          src={sunshower}
+          alt="sunshower"
+          className="absolute top-0 right-0 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+            right: `${PIXEL_SCALE * -2}px`,
+          }}
+        />
+      )}
       {/* Fertiliser */}
       {fertiliser?.name === "Sprout Mix" && (
         <img
@@ -152,6 +190,43 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 6}px`,
             bottom: `${PIXEL_SCALE * 9}px`,
             right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+      {fertiliser?.name === "Sproutroot Surprise" && (
+        <>
+          <img
+            key={`${fertiliser.name}-yield`}
+            className="absolute z-10 pointer-events-none"
+            src={powerup}
+            style={{
+              width: `${PIXEL_SCALE * 5}px`,
+              bottom: `${PIXEL_SCALE * 9}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+          <img
+            key={`${fertiliser.name}-speed`}
+            className="absolute z-10 pointer-events-none"
+            src={SUNNYSIDE.icons.stopwatch}
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
+              bottom: `${PIXEL_SCALE * 9}px`,
+              right: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+        </>
+      )}
+
+      {/* Bee Swarm */}
+      {plot.beeSwarm && (
+        <img
+          className="absolute z-10 pointer-events-none"
+          src={bee}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            top: `${PIXEL_SCALE * -2}px`,
+            left: `${PIXEL_SCALE * 0}px`,
           }}
         />
       )}
@@ -186,7 +261,7 @@ const FertilePlotComponent: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Progres bar for growing crops */}
+      {/* Progress bar for growing crops */}
       {showTimers && isGrowing && (
         <div
           className="absolute pointer-events-none"
@@ -195,12 +270,11 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <LiveProgressBar
-            key={`${startAt}-${readyAt}`}
-            startAt={startAt}
-            endAt={readyAt}
+          <ProgressBar
+            percentage={growPercentage}
+            seconds={timeLeft}
+            type="progress"
             formatLength="short"
-            onComplete={() => setRender((r) => r + 1)}
           />
         </div>
       )}
@@ -210,5 +284,3 @@ const FertilePlotComponent: React.FC<Props> = ({
     </div>
   );
 };
-
-export const FertilePlot = React.memo(FertilePlotComponent);

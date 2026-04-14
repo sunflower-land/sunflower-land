@@ -6,6 +6,7 @@ import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 import { readContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const contractAddress = CONFIG.INVENTORY_CONTRACT;
 
@@ -19,6 +20,7 @@ export async function getInventoryBalances(
     const batchAccounts = Array(IDS.length).fill(address);
 
     const balances = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: InventoryJSON,
       address: contractAddress,
       functionName: "balanceOfBatch",

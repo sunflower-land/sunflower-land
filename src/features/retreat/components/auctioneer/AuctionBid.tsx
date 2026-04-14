@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getAuctionItemImage } from "./lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -27,15 +27,16 @@ export const AuctionBid: React.FC<Props> = ({
   bid,
   auctionService,
 }) => {
-  const image = bid.collectible
-    ? ITEM_DETAILS[bid?.collectible].image
-    : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
-
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
+  const ready = useCountdown(readyAt);
+  const [cancelConfirm, setCancelConfirm] = useState(false);
+  const image = getAuctionItemImage(auction);
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const canCancel = now < auction.endAt;
+  const canReveal = now >= readyAt;
 
   const { t } = useAppTranslation();
 
-  const ready = useCountdown(readyAt);
   return (
     <div className="flex justify-center flex-col w-full items-center">
       <div className="relative my-2">
@@ -72,13 +73,34 @@ export const AuctionBid: React.FC<Props> = ({
       </div>
       <TimerDisplay time={ready} />
 
-      <Button
-        className="mt-2"
-        disabled={readyAt > Date.now()}
-        onClick={() => auctionService.send("CHECK_RESULTS")}
-      >
-        {t("auction.reveal")}
-      </Button>
+      {canCancel && (
+        <div className="flex flex-row items-center w-full gap-1 mt-2">
+          {cancelConfirm && (
+            <Button onClick={() => setCancelConfirm(false)}>
+              {t("auction.doNotCancel")}
+            </Button>
+          )}
+          <Button
+            onClick={() =>
+              cancelConfirm
+                ? auctionService.send("CANCEL")
+                : setCancelConfirm(true)
+            }
+          >
+            {t("auction.cancelBid")}
+          </Button>
+        </div>
+      )}
+
+      {canReveal && (
+        <Button
+          className="mt-2"
+          disabled={!canReveal}
+          onClick={() => auctionService.send("CHECK_RESULTS")}
+        >
+          {t("auction.reveal")}
+        </Button>
+      )}
     </div>
   );
 };

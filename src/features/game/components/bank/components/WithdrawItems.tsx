@@ -1,8 +1,12 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  BoostName,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
@@ -13,20 +17,31 @@ import { Box } from "components/ui/Box";
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { WITHDRAWABLES } from "features/game/types/withdrawables";
+import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import { secondsToString } from "lib/utils/time";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
   allowLongpressWithdrawal?: boolean;
+  withdrawDisabled?: boolean;
 }
 
 export function transferInventoryItem(
@@ -64,20 +79,18 @@ const _state = (state: MachineState) => state.context.state;
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
+  withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [inventory, setInventory] = useState<Inventory>({});
+  const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
   const [selected, setSelected] = useState<Inventory>({});
 
-  useEffect(() => {
-    const bankItems = getBankItems(state);
-    setInventory(bankItems);
-    setSelected({});
-  }, []);
+  const [showInfo, setShowInfo] = useState("");
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);
@@ -107,28 +120,113 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  const isCurrentObsession = (itemName: InventoryItemName) => {
-    const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
-    const currentObsession = state.bertObsession;
+  const hasMoreOffChainItems = (itemName: InventoryItemName) => {
+    const inventoryCount = inventory[itemName] ?? new Decimal(0);
+    const currentAmount = getChestItems(state)[itemName] ?? new Decimal(0);
+    const onChainAmount = state.previousInventory[itemName] ?? new Decimal(0);
 
-    if (!obsessionCompletedAt || !currentObsession) return false;
-    if (currentObsession.name !== itemName) return false;
+    // No items available to select, but there are more off-chain items
+    return inventoryCount.lessThanOrEqualTo(0) && currentAmount > onChainAmount;
+  };
 
-    return (
-      obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate
-    );
+  const getRestrictionStatus = (itemName: BoostName) => {
+    const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
+      boostUsedAt: state.boostsUsedAt,
+      item: itemName,
+    });
+    return { isRestricted, cooldownTimeLeft };
+  };
+
+  const withdrawableItemCache = getKeys(inventory).reduce(
+    (cache, itemName) => {
+      const { cooldownTimeLeft } = getRestrictionStatus(itemName);
+      const isOnCooldown = cooldownTimeLeft > 0;
+      const hasMoreOffChain = hasMoreOffChainItems(itemName);
+      const hasBuff = !!COLLECTIBLE_BUFF_LABELS[itemName]?.({
+        skills: state.bumpkin.skills,
+        collectibles: state.collectibles,
+      })?.length;
+
+      cache[itemName] = {
+        cooldownMs: cooldownTimeLeft,
+        isOnCooldown,
+        hasMoreOffChain,
+        hasBuff,
+      };
+      return cache;
+    },
+    {} as {
+      [key in InventoryItemName]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    },
+  );
+
+  const sortWithdrawableItems = (
+    itemA: InventoryItemName,
+    itemB: InventoryItemName,
+  ) => {
+    const a = withdrawableItemCache[itemA];
+    const b = withdrawableItemCache[itemB];
+
+    // Handle undefined cases first
+    if (!a && !b) return 0;
+    if (!a) return 1;
+    if (!b) return -1;
+
+    // 1. Items on cooldown come first, sorted by most cooldown time left
+    if (a.isOnCooldown && b.isOnCooldown) {
+      return b.cooldownMs - a.cooldownMs;
+    }
+    if (a.isOnCooldown !== b.isOnCooldown) {
+      return a.isOnCooldown ? -1 : 1;
+    }
+
+    // 2. Items that have more off-chain than on-chain copies
+    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
+      return a.hasMoreOffChain ? -1 : 1;
+    }
+
+    // 3. Boosted items come before non-boosted items
+    if (a.hasBuff !== b.hasBuff) {
+      return a.hasBuff ? -1 : 1;
+    }
+
+    // 4. Otherwise, sort by item IDs
+    return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
   const withdrawableItems = getKeys(inventory)
+    .filter((itemName) => {
+      const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
+      return !!withdrawAt && withdrawAt <= new Date(now);
+    })
     .filter(
-      (itemName) => WITHDRAWABLES[itemName]() && !isCurrentObsession(itemName),
+      (itemName) =>
+        hasMoreOffChainItems(itemName) || inventory[itemName]?.gt(0),
     )
-    .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
+    .sort((a, b) => sortWithdrawableItems(a, b) as number);
 
   const selectedItems = getKeys(selected)
     .filter((item) => selected[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
+
+  const hasAccess = hasReputation({
+    game: state,
+    reputation: Reputation.Seedling,
+    now,
+  });
+
+  if (!hasAccess) {
+    return <RequiredReputation reputation={Reputation.Seedling} />;
+  }
+
+  if (!isFaceVerified({ game: state })) {
+    return <FaceRecognition />;
+  }
 
   return (
     <>
@@ -146,15 +244,55 @@ export const WithdrawItems: React.FC<Props> = ({
             // The inventory amount that is not placed
             const inventoryCount = inventory[itemName] ?? new Decimal(0);
 
+            const { isRestricted, cooldownTimeLeft } =
+              getRestrictionStatus(itemName);
+
+            const RestrictionCooldown = cooldownTimeLeft / 1000;
+            const isLocked =
+              isRestricted || inventoryCount.lessThanOrEqualTo(0);
+
+            const shouldShowPopover =
+              isRestricted || hasMoreOffChainItems(itemName);
+
+            const handleBoxClick = () => {
+              if (shouldShowPopover) {
+                setShowInfo((prev) => (prev === itemName ? "" : itemName));
+              }
+            };
+
             return (
-              <Box
-                count={inventoryCount}
+              <div
                 key={itemName}
-                disabled={inventoryCount.lessThanOrEqualTo(0)}
-                onClick={() => onAdd(itemName)}
-                image={details.image}
-                canBeLongPressed={allowLongpressWithdrawal}
-              />
+                onClick={handleBoxClick}
+                className="flex relative text-center"
+              >
+                <InfoPopover
+                  className="absolute top-14 text-xxs sm:text-xs"
+                  showPopover={showInfo === itemName}
+                >
+                  {hasMoreOffChainItems(itemName)
+                    ? t("withdraw.requires.storeOnChain")
+                    : isRestricted &&
+                      t("withdraw.boostedItem.timeLeft", {
+                        time: secondsToString(RestrictionCooldown, {
+                          length: "medium",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }),
+                      })}
+                </InfoPopover>
+
+                <Box
+                  count={inventoryCount}
+                  key={itemName}
+                  disabled={isLocked}
+                  onClick={() => onAdd(itemName)}
+                  image={details.image}
+                  secondaryImage={
+                    shouldShowPopover ? SUNNYSIDE.icons.lock : undefined
+                  }
+                />
+              </div>
             );
           })}
           {/* Pad with empty boxes */}
@@ -199,7 +337,9 @@ export const WithdrawItems: React.FC<Props> = ({
           />
           <div className="flex flex-col gap-1">
             <p>{t("withdraw.send.wallet")}</p>
-            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
+            <WalletAddressLabel
+              walletAddress={wallet.getConnection() || "XXXX"}
+            />
           </div>
         </div>
 
@@ -207,7 +347,7 @@ export const WithdrawItems: React.FC<Props> = ({
           {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
-            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -216,7 +356,10 @@ export const WithdrawItems: React.FC<Props> = ({
         </p>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0 || withdrawDisabled}
+      >
         {t("withdraw")}
       </Button>
     </>

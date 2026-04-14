@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { FruitName } from "features/game/types/fruits";
 import {
+  BoostName,
   GameState,
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 export enum FRUIT_TREE_REMOVED_ERRORS {
@@ -25,27 +26,41 @@ type Options = {
   createdAt?: number;
 };
 
-export function getRequiredAxeAmount(
-  fruitName: FruitName,
-  inventory: Inventory,
-  game: GameState,
-) {
-  // Apply boost for Trees
-  if (
-    fruitName === "Apple" ||
-    fruitName === "Orange" ||
-    fruitName === "Lemon"
-  ) {
-    if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
-      return new Decimal(0);
-    }
+export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  let requiredAxeAmount = 1;
 
-    if (inventory.Logger?.gte(1)) {
-      return new Decimal(0.5);
-    }
+  if (inventory.Logger?.gte(1)) {
+    requiredAxeAmount = 0.5;
+    boostsUsed.push({ name: "Logger", value: "x0.5" });
   }
 
-  return new Decimal(1);
+  if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
+    requiredAxeAmount = 0;
+    boostsUsed.push({ name: "Foreman Beaver", value: "Free" });
+  }
+
+  if (game.bumpkin.skills["No Axe No Worries"]) {
+    requiredAxeAmount = 0;
+    boostsUsed.push({ name: "No Axe No Worries", value: "Free" });
+  }
+
+  return { amount: requiredAxeAmount, boostsUsed };
+}
+
+export function getWoodReward({ state }: { state: GameState }) {
+  let woodReward = 1;
+  // Fruity Woody: +1 Wood when removing a fruit tree
+  if (state.bumpkin.skills["Fruity Woody"]) {
+    woodReward += 1;
+  }
+
+  // Get -1 wood reward with No Axe No Worries Skill
+  if (state.bumpkin.skills["No Axe No Worries"]) {
+    woodReward -= 1;
+  }
+
+  return { woodReward };
 }
 
 export function removeFruitTree({
@@ -54,8 +69,7 @@ export function removeFruitTree({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
-    let woodReward = 1;
+    const { fruitPatches, bumpkin, inventory } = stateCopy;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -71,19 +85,16 @@ export function removeFruitTree({
       throw new Error("Nothing was planted");
     }
 
-    const requiredAxes = getRequiredAxeAmount(
-      patch.fruit.name,
-      inventory,
-      stateCopy,
-    );
+    const { amount: requiredAxes, boostsUsed: axeBoostsUsed } =
+      getRequiredAxeAmount(inventory, stateCopy);
 
-    if (action.selectedItem !== "Axe" && requiredAxes.gt(0)) {
+    if (action.selectedItem !== "Axe" && requiredAxes > 0) {
       throw new Error(FRUIT_TREE_REMOVED_ERRORS.MISSING_AXE);
     }
 
-    const axeAmount = inventory.Axe || new Decimal(0);
+    const axeAmount = inventory.Axe ?? new Decimal(0);
 
-    if (axeAmount.lessThan(requiredAxes)) {
+    if (axeAmount.lt(requiredAxes)) {
       throw new Error(FRUIT_TREE_REMOVED_ERRORS.NO_AXES);
     }
 
@@ -93,17 +104,19 @@ export function removeFruitTree({
       throw new Error("Fruit is still available");
     }
 
-    // Fruity Woody: +1 Wood when removing a fruit tree
-    if (bumpkin.skills["Fruity Woody"]) {
-      woodReward += 1;
-    }
+    const { woodReward } = getWoodReward({ state: stateCopy });
 
     delete patch.fruit;
     delete patch.fertiliser;
 
     inventory.Axe = axeAmount.sub(requiredAxes);
-    stateCopy.inventory.Wood =
-      stateCopy.inventory.Wood?.add(woodReward) || new Decimal(1);
+    inventory.Wood = inventory.Wood?.add(woodReward) || new Decimal(1);
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [...axeBoostsUsed],
+      createdAt,
+    });
 
     return stateCopy;
   });

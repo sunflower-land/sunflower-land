@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
 import { ClaimReward } from "./ClaimReward";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SomethingArrived: React.FC = () => {
@@ -22,7 +22,6 @@ export const SomethingArrived: React.FC = () => {
     <ClaimReward
       label={t("reward.whatsNew")}
       reward={{
-        createdAt: Date.now(),
         id: "something-arrived-reward",
         message: "Woohoo, something has arrived for you!",
         items: items.reduce(

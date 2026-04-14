@@ -27,18 +27,24 @@ export function removeBeehive({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    if (!copy.beehives[action.id]) {
+    const beehive = copy.beehives[action.id];
+
+    if (!beehive) {
       throw new Error(REMOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
     }
 
     const totalHoneyProduced =
-      copy.beehives[action.id].honey.produced / DEFAULT_HONEY_PRODUCTION_TIME;
+      beehive.honey.produced / DEFAULT_HONEY_PRODUCTION_TIME;
 
     copy.inventory.Honey = (copy.inventory.Honey ?? new Decimal(0)).add(
       totalHoneyProduced,
     );
 
-    delete copy.beehives[action.id];
+    delete beehive.x;
+    delete beehive.y;
+    beehive.removedAt = createdAt;
+    beehive.flowers = [];
+    beehive.honey.produced = 0;
 
     const updatedBeehives = updateBeehives({
       game: copy,

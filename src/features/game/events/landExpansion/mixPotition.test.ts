@@ -8,7 +8,7 @@ describe("mixPotion", () => {
   const GAME_STATE: GameState = {
     ...TEST_FARM,
     potionHouse: {
-      game: { status: "in_progress", attempts: [] },
+      game: { status: "in_progress", attempts: [], multiplier: 1 },
       history: [],
     },
     bumpkin: INITIAL_BUMPKIN,

@@ -1,8 +1,10 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { populateSaltFarm } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -29,6 +31,11 @@ export function equip({
 
     assertEquipment({ game, equipment: action.equipment, bumpkin });
 
+    // Populate the salt farm with the new salt charges
+    if (hasFeatureAccess(game, "SALT_FARM")) {
+      populateSaltFarm({ game, now: createdAt });
+    }
+
     bumpkin.equipped = action.equipment;
 
     return game;
@@ -50,22 +57,6 @@ export function assertEquipment({
 
   if (equipment.dress && equipment.pants) {
     throw new Error("Cannot equip pants while wearing dress");
-  }
-
-  if (!equipment.body) {
-    throw new Error("Body is required");
-  }
-
-  if (!equipment.shoes) {
-    throw new Error("Shoes are required");
-  }
-
-  if (!equipment.hair) {
-    throw new Error("Hair is required");
-  }
-
-  if (!equipment.dress && !(equipment.shirt && equipment.pants)) {
-    throw new Error("Bumpkin is naked!");
   }
 
   const available = availableWardrobe(game);
@@ -107,10 +98,6 @@ export function availableWardrobe(game: GameState): Wardrobe {
 
     if (inUse[name]) {
       amount -= inUse[name] ?? 0;
-    }
-
-    if (amount === 0) {
-      return acc;
     }
 
     return {

@@ -1,29 +1,41 @@
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import {
   getBudYieldBoosts,
   Resource,
 } from "features/game/lib/getBudYieldBoosts";
 import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+  trackFarmActivity,
+  FarmActivityName,
+} from "features/game/types/farmActivity";
 import {
-  FRUIT,
-  FruitName,
-  FRUIT_SEEDS,
-  Fruit,
   GreenHouseFruitName,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+  PatchFruitName,
 } from "features/game/types/fruits";
-import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
-import { getTimeLeft } from "lib/utils/time";
-import { FruitPatch } from "features/game/types/game";
+import {
+  BoostName,
+  CriticalHitName,
+  GameState,
+} from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
+import {
+  getActiveCalendarEvent,
+  getActiveGuardian,
+} from "features/game/types/calendar";
+import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -34,71 +46,68 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestFruitAction;
   createdAt?: number;
+  farmId: number;
 };
 
-export const isFruitReadyToHarvest = (
-  createdAt: number,
-  plantedFruit: PlantedFruit,
-  fruitDetails: Fruit,
-) => {
-  const { seed } = FRUIT()[fruitDetails.name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
-
-  return (
-    createdAt -
-      (plantedFruit.harvestedAt
-        ? plantedFruit.harvestedAt
-        : plantedFruit.plantedAt) >=
-    plantSeconds * 1000
-  );
-};
+export { isFruitReadyToHarvest } from "./fruitPatchReadiness";
 
 type FruitYield = {
-  name: FruitName | GreenHouseFruitName;
+  name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
+  prngArgs?: { farmId: number; counter: number };
 };
 
-export function isFruitGrowing(patch: FruitPatch) {
-  const fruit = patch.fruit;
-  if (!fruit) return false;
-
-  const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
-  if (!harvestsLeft) return false;
-
-  const { seed } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
-
-  if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
-    if (replenishingTimeLeft > 0) return true;
-  }
-
-  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
-  return growingTimeLeft > 0;
-}
-
-const isFruit = (resource: Resource): resource is FruitName => {
-  return resource in FRUIT();
+const isFruit = (resource: Resource): resource is PatchFruitName => {
+  return resource in PATCH_FRUIT;
 };
 
 // Basic = Blueberry & Orange - Skill
-const isBasicFruit = (resource: Resource): resource is FruitName => {
+export const isBasicFruit = (
+  resource: Resource,
+): resource is PatchFruitName => {
   return resource === "Blueberry" || resource === "Orange";
 };
 
 // Advanced = Apple, Banana - Skill
-const isAdvancedFruit = (resource: Resource): resource is FruitName => {
+export const isAdvancedFruit = (
+  resource: Resource,
+): resource is PatchFruitName => {
   return resource === "Apple" || resource === "Banana";
 };
 
-export function getFruitYield({ name, game, fertiliser }: FruitYield) {
+export function getFruitYield({
+  game,
+  name,
+  fertiliser,
+  prngArgs,
+}: FruitYield): {
+  amount: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   const { bumpkin } = game;
-
   let amount = 1;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  if (prngArgs) {
+    const itemId = KNOWN_IDS[name];
+    const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+      prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+
+    // Generous Orchard: 20% chance of +1 patch fruit
+    if (
+      bumpkin.skills["Generous Orchard"] &&
+      criticalDrop("Generous Orchard", 20) &&
+      isFruit(name)
+    ) {
+      amount += 1;
+      boostsUsed.push({ name: "Generous Orchard", value: "+1" });
+    }
+  }
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
+    boostsUsed.push({ name: "Lady Bug", value: "+0.25" });
   }
 
   if (
@@ -106,14 +115,22 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
+    boostsUsed.push({ name: "Black Bearry", value: "+1" });
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
-    amount += 0.1;
+    if (bumpkin.skills["Loyal Macaw"]) {
+      amount += 0.2;
+      boostsUsed.push({ name: "Loyal Macaw", value: "+0.2" });
+    } else {
+      amount += 0.1;
+    }
+    boostsUsed.push({ name: "Macaw", value: "+0.1" });
   }
 
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
     amount += 0.1;
+    boostsUsed.push({ name: "Camel Onesie", value: "+0.1" });
   }
 
   if (
@@ -124,18 +141,12 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
     amount += 0.1;
+    boostsUsed.push({ name: "Fruit Picker Apron", value: "+0.1" });
   }
 
-  if (bumpkin.skills["Red Sour"] && (name === "Tomato" || name === "Lemon")) {
+  if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
-  }
-
-  if (bumpkin.skills["Fruitful Fumble"] && isBasicFruit(name)) {
-    amount += 0.1;
-  }
-
-  if (bumpkin.skills["Tropical Orchard"] && isAdvancedFruit(name)) {
-    amount += 0.1;
+    boostsUsed.push({ name: "Fruitful Fumble", value: "+0.1" });
   }
 
   //Faction Quiver
@@ -148,14 +159,19 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     })
   ) {
     amount += 0.25;
+    boostsUsed.push({ name: FACTION_ITEMS[factionName].wings, value: "+0.25" });
   }
 
   if (fertiliser === "Fruitful Blend") {
-    amount += 0.1;
+    const { amount: fruitfulBlendBuff, boostsUsed: fruitfulBlendBuffBoosts } =
+      getFruitfulBlendBuff(game);
+    amount += fruitfulBlendBuff;
+    boostsUsed.push(...fruitfulBlendBuffBoosts);
   }
 
   if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {
     amount += 0.5;
+    boostsUsed.push({ name: "Banana Amulet", value: "+0.5" });
   }
 
   if (
@@ -163,15 +179,18 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isCollectibleBuilt({ name: "Banana Chicken", game })
   ) {
     amount += 0.1;
+    boostsUsed.push({ name: "Banana Chicken", value: "+0.1" });
   }
 
   // Lemon
   if (name === "Lemon" && isCollectibleBuilt({ name: "Lemon Shark", game })) {
     amount += 0.2;
+    boostsUsed.push({ name: "Lemon Shark", value: "+0.2" });
   }
 
   if (name === "Lemon" && isWearableActive({ name: "Lemon Shield", game })) {
     amount += 1;
+    boostsUsed.push({ name: "Lemon Shield", value: "+1" });
   }
 
   if (
@@ -179,6 +198,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isCollectibleBuilt({ name: "Reveling Lemon", game })
   ) {
     amount += 0.25;
+    boostsUsed.push({ name: "Reveling Lemon", value: "+0.25" });
   }
 
   if (
@@ -186,40 +206,70 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isCollectibleBuilt({ name: "Tomato Bombard", game })
   ) {
     amount += 1;
+    boostsUsed.push({ name: "Tomato Bombard", value: "+1" });
   }
 
+  const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, name);
+  amount += yieldBoost;
+  if (budUsed)
+    boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
+
+  // Grape
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
-    // Grape
     amount += 0.25;
+    boostsUsed.push({ name: "Vinny", value: "+0.25" });
   }
 
   if (name === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
     amount += 1;
+    boostsUsed.push({ name: "Grape Granny", value: "+1" });
   }
 
   if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
     amount += 0.2;
+    boostsUsed.push({ name: "Grape Pants", value: "+0.2" });
+  }
+
+  if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
+    if (name === "Tomato" || name === "Lemon") {
+      amount += 1;
+      boostsUsed.push({ name: "Zesty Vibes", value: "+1" });
+    } else {
+      amount -= 0.25;
+      boostsUsed.push({ name: "Zesty Vibes", value: "-0.25" });
+    }
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
   if (
-    isGreenhouseFruit(name) &&
-    isCollectibleBuilt({ name: "Pharaoh Gnome", game })
+    getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
-    amount += 2;
+    amount += 1;
+    boostsUsed.push({ name: "bountifulHarvest", value: "+1" });
+    const { activeGuardian } = getActiveGuardian({
+      game,
+    });
+    if (activeGuardian) {
+      amount += 1;
+      boostsUsed.push({ name: activeGuardian, value: "+1" });
+    }
   }
 
-  amount += getBudYieldBoosts(game.buds ?? {}, name);
-
-  return amount;
+  return { amount, boostsUsed };
 }
 
 export function harvestFruit({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { fruitPatches, bumpkin, collectibles } = stateCopy;
+    const { fruitPatches, bumpkin } = stateCopy;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -231,14 +281,18 @@ export function harvestFruit({
       throw new Error("Fruit patch does not exist");
     }
 
+    if (patch.x === undefined && patch.y === undefined) {
+      throw new Error("Fruit patch is not placed");
+    }
+
     if (!patch.fruit) {
       throw new Error("Nothing was planted");
     }
 
-    const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
+    const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
 
-    const { seed } = FRUIT()[name];
-    const { plantSeconds } = FRUIT_SEEDS()[seed];
+    const { seed } = PATCH_FRUIT[name];
+    const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
     if (createdAt - plantedAt < plantSeconds * 1000) {
       throw new Error("Not ready");
@@ -252,26 +306,41 @@ export function harvestFruit({
       throw new Error("No harvest left");
     }
 
+    const counter = stateCopy.farmActivity[`${name} Harvested`] ?? 0;
+    const { amount, boostsUsed } =
+      patch.fruit.amount !== undefined
+        ? { amount: patch.fruit.amount, boostsUsed: [] }
+        : getFruitYield({
+            game: stateCopy,
+            name,
+            fertiliser: patch.fertiliser?.name,
+            prngArgs: { farmId, counter },
+          });
+
     stateCopy.inventory[name] =
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    patch.fruit.harvestedAt = getPlantedAt(
-      seed,
-      (stateCopy.bumpkin as Bumpkin).equipped,
-      stateCopy,
-      createdAt,
+    // Patch fertiliser persists across harvests (not consumed here). Passing it into
+    // getPlantedAt applies Turbofruit Mix (×0.8) to replenishment timing for every
+    // remaining harvest, same lifecycle intent as Fruitful Blend on yield.
+    const { plantedAt: newPlantedAt, boostsUsed: fruitPlantedBoostsUsed } =
+      getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
+    delete patch.fruit.amount;
+    patch.fruit.harvestedAt = newPlantedAt;
+
+    const activityName: FarmActivityName = `${name} Harvested`;
+
+    stateCopy.farmActivity = trackFarmActivity(
+      activityName,
+      stateCopy.farmActivity,
     );
 
-    patch.fruit.amount = getFruitYield({
+    stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
-      name,
-      fertiliser: patch.fertiliser?.name,
+      boostNames: [...boostsUsed, ...fruitPlantedBoostsUsed],
+      createdAt,
     });
-
-    const activityName: BumpkinActivityName = `${name} Harvested`;
-
-    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
     return stateCopy;
   });

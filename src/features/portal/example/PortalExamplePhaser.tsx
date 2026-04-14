@@ -14,7 +14,7 @@ export const PortalExamplePhaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
-  const game = useRef<Game>();
+  const game = useRef<Game>(undefined);
 
   // This must match the key of your scene [PortalExampleScene]
   const scene = "portal_example";
@@ -86,10 +86,7 @@ export const PortalExamplePhaser: React.FC = () => {
       <div id="game-content" ref={ref} />
 
       {/* Comment out if you don't want to use our standard Bumpkin NPCs + click interactions */}
-      <NPCModals
-        id={portalState.context.id as number}
-        scene={"portal_example"}
-      />
+      <NPCModals id={portalState.context.id as number} />
 
       {/* Comment out if you don't want to use pop up modals from in game interactables */}
       <InteractableModals

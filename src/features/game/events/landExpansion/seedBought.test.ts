@@ -1,11 +1,15 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INVENTORY_LIMIT,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 
 import { seedBought } from "./seedBought";
+import { SEEDS } from "features/game/types/seeds";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -33,6 +37,10 @@ describe("seedBought", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: 0,
+          },
+          season: {
+            season: "autumn",
+            startedAt: 0,
           },
         },
         action: {
@@ -94,6 +102,31 @@ describe("seedBought", () => {
     ).toThrow("Insufficient tokens");
   });
 
+  it("throws an error when buying would exceed inventory limit", () => {
+    const sunflowerLimit =
+      INVENTORY_LIMIT(GAME_STATE)["Sunflower Seed"] ?? new Decimal(0);
+
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Sunflower Seed": sunflowerLimit,
+          },
+          stock: {
+            "Sunflower Seed": new Decimal(1),
+          },
+          coins: 100,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Can't buy more seeds than the inventory limit");
+  });
+
   it("subtracts the coins on purchase", () => {
     const coins = 1;
     const balance = new Decimal(1);
@@ -147,6 +180,10 @@ describe("seedBought", () => {
           ...INITIAL_BUMPKIN,
           experience: 200,
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
       },
       action: {
         item,
@@ -172,6 +209,10 @@ describe("seedBought", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: 200,
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
       },
       action: {
@@ -199,7 +240,7 @@ describe("seedBought", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+    expect(state.farmActivity["Coins Spent"]).toEqual(
       CROP_SEEDS["Sunflower Seed"].price,
     );
   });
@@ -217,7 +258,7 @@ describe("seedBought", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Sunflower Seed Bought"]).toEqual(amount);
+    expect(state.farmActivity["Sunflower Seed Bought"]).toEqual(amount);
   });
 
   it("purchases seeds for free when Kuebiko is placed and ready", () => {
@@ -494,6 +535,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -511,6 +556,10 @@ describe("seedBought", () => {
           coins: Infinity,
           inventory: {
             "Fruit Patch": new Decimal(1),
+          },
+          season: {
+            season: "autumn",
+            startedAt: 0,
           },
         },
         action: {
@@ -531,6 +580,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -549,6 +602,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(1),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -557,5 +614,44 @@ describe("seedBought", () => {
         },
       }),
     ).not.toThrow();
+  });
+
+  it("requires full moon to buy full moon berry seeds", () => {
+    expect(() =>
+      seedBought({
+        state: GAME_STATE,
+        action: {
+          type: "seed.bought",
+          item: "Duskberry Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Not a full moon");
+  });
+
+  it("reduces coin cost for Onion by 25% when Ladybug Suit is worn", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        coins: 10,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, suit: "Ladybug Suit" },
+          experience: 1000000,
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+      },
+      action: {
+        type: "seed.bought",
+        item: "Onion Seed",
+        amount: 1,
+      },
+    });
+    const price = 10 - SEEDS["Onion Seed"].price * 0.75;
+    expect(state.coins).toStrictEqual(price);
   });
 });

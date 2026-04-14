@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import walletIcon from "assets/icons/wallet.png";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -18,14 +18,21 @@ export const WalletAddressLabel: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const [show, setShow] = useState(false);
+
   const copypaste = useSound("copypaste");
 
   return (
     <Label
       type="formula"
-      className="mb-1 mr-4"
+      className="mb-1 mr-2"
       icon={walletIcon}
+      popup={show}
       onClick={() => {
+        setShow(true);
+        setTimeout(() => {
+          setShow(false);
+        }, 2000);
         copypaste.play();
         clipboard.copy(walletAddress);
       }}

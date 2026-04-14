@@ -14,7 +14,10 @@ const API_URL = CONFIG.API_URL;
 const REGEX = new RegExp(/^[\w*?!, '-]+$/);
 const ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-export const validateUsername = (username?: string) => {
+export const validateUsername = (
+  username?: string,
+  currentUsername?: string,
+) => {
   // If this function returns null, it means the username is valid.
   // If this function returns a string, it means the username is invalid and the string is the reason why.
 
@@ -22,12 +25,15 @@ export const validateUsername = (username?: string) => {
 
   username = username.replace(/[_-]/g, "");
 
+  if (username === currentUsername) return translate("username.sameAsCurrent");
   if (username.length < 3) return translate("username.tooShort");
   if (username.length > 12) return translate("username.tooLong");
   if (!REGEX.test(username)) return translate("username.invalidChar");
   if (username.includes(" ")) return translate("username.invalidChar");
   if (!ALPHABET.includes(username[0].toLowerCase()))
     return translate("username.startWithLetter");
+  if (username.toLowerCase().includes("fuck"))
+    return translate("username.containsProfanity");
 
   return null;
 };

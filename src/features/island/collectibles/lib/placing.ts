@@ -1,9 +1,14 @@
-import { BUILDINGS } from "features/game/types/buildings";
-import { BuildingName } from "features/game/types/buildings";
-import { PlaceableName } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import { BUILDINGS, BuildingName } from "features/game/types/buildings";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
+} from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import {
+  RESOURCE_STATE_ACCESSORS,
+  ResourceName,
+} from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 
 /**
@@ -16,56 +21,14 @@ export function removePlaceable({
 }: {
   state: GameState;
   id: string;
-  name: PlaceableName | "Bud";
+  name: LandscapingPlaceable;
 }) {
   const game = cloneDeep(state);
-  if (name === "Crop Plot") {
-    delete game.crops[id];
-    return game;
-  }
 
-  if (name === "Tree") {
-    delete game.trees[id];
-    return game;
-  }
-
-  if (name === "Stone Rock") {
-    delete game.stones[id];
-    return game;
-  }
-
-  if (name === "Iron Rock") {
-    delete game.iron[id];
-    return game;
-  }
-
-  if (name === "Gold Rock") {
-    delete game.gold[id];
-    return game;
-  }
-
-  if (name === "Crimstone Rock") {
-    delete game.crimstones[id];
-    return game;
-  }
-
-  if (name === "Sunstone Rock") {
-    delete game.sunstones[id];
-    return game;
-  }
-
-  if (name === "Fruit Patch") {
-    delete game.fruitPatches[id];
-    return game;
-  }
-
-  if (name === "Beehive") {
-    delete game.beehives[id];
-    return game;
-  }
-
-  if (name === "Flower Bed") {
-    delete game.flowers.flowerBeds[id];
+  if (name in RESOURCE_STATE_ACCESSORS) {
+    const attributeMapping =
+      RESOURCE_STATE_ACCESSORS[name as Exclude<ResourceName, "Boulder">];
+    delete attributeMapping(game)[id];
     return game;
   }
 
@@ -83,13 +46,22 @@ export function removePlaceable({
     return game;
   }
 
-  if (name === "Chicken") {
-    delete game.chickens[id];
+  if (name === "Bud") {
+    delete game.buds?.[Number(id)].coordinates;
     return game;
   }
 
-  if (name === "Bud") {
-    delete game.buds?.[Number(id)].coordinates;
+  if (name === "Pet") {
+    delete game.pets?.nfts?.[Number(id)].coordinates;
+    return game;
+  }
+
+  if (name === "FarmHand") {
+    const farmHand = game.farmHands.bumpkins[id];
+    if (farmHand) {
+      delete farmHand.coordinates;
+      delete farmHand.location;
+    }
     return game;
   }
 

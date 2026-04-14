@@ -1,0 +1,510 @@
+import { BumpkinItem } from "./bumpkin";
+import {
+  CHAPTER_RAFFLE_TICKET_NAME,
+  CHAPTER_TICKET_NAME,
+  ChapterName,
+  CHAPTER_ORDER,
+  ChapterRaffleTicket,
+} from "./chapters";
+import { InventoryItemName, MutantAnimal } from "./game";
+import {
+  ChapterCollectibleName,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreTier,
+  MEGASTORE,
+  ChapterWearableName,
+} from "./megastore";
+import {
+  isCollectible,
+  isWearable,
+} from "../events/landExpansion/buyChapterItem";
+import { CHAPTER_MUTANTS, MutantsChapterName } from "./chapterMutants";
+import { ChapterFish } from "./fishing";
+import { MutantFlowerName } from "./flowers";
+import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
+import { getKeys } from "lib/object";
+import { REWARD_BOXES } from "./rewardBoxes";
+import { CHAPTER_TRACKS } from "./tracks";
+import { COMMODITIES } from "./resources";
+
+export function getChapterMegastoreCollectibles(
+  chapter: ChapterName,
+): ChapterCollectibleName[] {
+  if (CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Bull Run"]) {
+    return [];
+  }
+  const excludedItems: ChapterStoreCollectible["collectible"][] = [
+    "Treasure Key",
+    "Rare Key",
+    "Luxury Key",
+    "Pet Egg",
+    "Bronze Flower Box",
+    "Silver Flower Box",
+    "Gold Flower Box",
+  ];
+  // Runtime type guard to ensure result is ChapterCollectibleName
+  function isChapterCollectible(
+    collectible: ChapterStoreCollectible["collectible"],
+  ): collectible is ChapterCollectibleName {
+    return !excludedItems.includes(collectible);
+  }
+
+  return Object.values(MEGASTORE[chapter])
+    .flatMap((tier) =>
+      tier.items.map((item) =>
+        isCollectible(item) && isChapterCollectible(item.collectible)
+          ? item.collectible
+          : undefined,
+      ),
+    )
+    .filter((item): item is ChapterCollectibleName => item !== undefined);
+}
+
+export function getChapterMegastoreWearables(
+  chapter: ChapterName,
+): ChapterWearableName[] {
+  if (CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Bull Run"]) {
+    return [];
+  }
+  return Object.values(MEGASTORE[chapter])
+    .flatMap((tier) =>
+      tier.items.map((item) => {
+        if (isWearable(item)) {
+          return item.wearable;
+        }
+      }),
+    )
+    .filter((item): item is ChapterWearableName => item !== undefined);
+}
+
+export function getChapterMutants(
+  chapter: ChapterName,
+): (MutantFlowerName | ChapterFish | MutantAnimal)[] {
+  const mutants = CHAPTER_MUTANTS[chapter as MutantsChapterName];
+  // type cast is fine here since we check for undefined below
+  if (!mutants) {
+    return [];
+  }
+
+  const { banner: _banner, ...mutantProperties } = mutants;
+
+  // Extract mutant properties explicitly, excluding banner and undefined values
+  return Object.values(mutantProperties)
+    .filter(
+      (mutant): mutant is MutantAnimal | ChapterFish[] | MutantFlowerName =>
+        mutant !== undefined,
+    )
+    .flat();
+}
+
+export function getChapterTrackCollectibles(chapter: ChapterName) {
+  const track = CHAPTER_TRACKS[chapter];
+  if (!track || CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Crabs and Traps"]) {
+    return [];
+  }
+
+  const excludedItems: InventoryItemName[] = [
+    "Treasure Key",
+    "Rare Key",
+    "Luxury Key",
+    ...HOURGLASSES,
+    ...getKeys(REWARD_BOXES),
+    ...Object.values(CHAPTER_TICKET_NAME),
+    ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
+      (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
+    ),
+    ...getKeys(COMMODITIES),
+  ];
+
+  return track.milestones.flatMap((milestone) => {
+    return [
+      ...getKeys(milestone.free.items ?? {}),
+      ...getKeys(milestone.premium.items ?? {}),
+    ].filter((item) => !excludedItems.includes(item));
+  });
+}
+
+export function getChapterTrackWearables(chapter: ChapterName) {
+  const track = CHAPTER_TRACKS[chapter];
+  if (!track || CHAPTER_ORDER[chapter] < CHAPTER_ORDER["Crabs and Traps"]) {
+    return [];
+  }
+
+  return track.milestones.flatMap((milestone) => {
+    return [
+      ...getKeys(milestone.free.wearables ?? {}),
+      ...getKeys(milestone.premium.wearables ?? {}),
+    ];
+  });
+}
+
+/** Order used when flattening sources for the grid. Add new source keys here when introducing them. */
+const SOURCE_DISPLAY_ORDER = [
+  "megastore",
+  "mutants",
+  "track",
+  "auctioneer",
+  "vipGift",
+  "other",
+] as const;
+
+export type ChapterItemSourceKey =
+  | (typeof SOURCE_DISPLAY_ORDER)[number]
+  | "unknown";
+
+/** Per-source lists of items. Each chapter uses the sources that apply (e.g. megastore, auctioneer). */
+export type ChapterCollectionBySource = Partial<
+  Record<
+    ChapterItemSourceKey,
+    {
+      collectibles?: InventoryItemName[];
+      wearables?: BumpkinItem[];
+    }
+  >
+>;
+
+function buildChapterCollection({
+  chapter,
+  overrides = {},
+}: {
+  chapter: ChapterName;
+  overrides?: Partial<ChapterCollectionBySource>;
+}): ChapterCollectionBySource {
+  return {
+    megastore: {
+      collectibles: getChapterMegastoreCollectibles(chapter),
+      wearables: getChapterMegastoreWearables(chapter),
+    },
+    mutants: { collectibles: getChapterMutants(chapter) },
+    track: {
+      collectibles: getChapterTrackCollectibles(chapter),
+      wearables: getChapterTrackWearables(chapter),
+    },
+    ...overrides,
+  };
+}
+
+/**
+ * Chapter collections keyed by source. When adding a new chapter:
+ * 1. Add a key for your chapter (e.g. "My Chapter").
+ * 2. For each source that chapter uses, add megastore/mutants/track (from getters) and/or auctioneer/vipChest/vipGift (list items explicitly).
+ * 3. No separate override map needed – the source is the key.
+ */
+export const CHAPTER_COLLECTIONS: Partial<
+  Record<ChapterName, ChapterCollectionBySource>
+> = {
+  "Pharaoh's Treasure": buildChapterCollection({
+    chapter: "Pharaoh's Treasure",
+    overrides: {
+      auctioneer: {
+        wearables: [
+          "Ancient Shovel",
+          "Desert Background",
+          "Fossil Head",
+          "Lemon Shield",
+          "Dev Wrench",
+          "Oil Overalls",
+          "Infernal Drill",
+        ],
+        collectibles: [
+          "Lemon Tea Bath",
+          "Tomato Clown",
+          "Pharaoh Gnome",
+          "Pyramid",
+          "Oasis",
+        ],
+      },
+      vipGift: {
+        wearables: ["Pharaoh Headdress", "Camel Onesie", "Grape Pants"],
+        collectibles: ["Paper Reed"],
+      },
+      other: {
+        collectibles: [
+          "Pharaoh's Treasure Banner",
+          // Jafar's Shop
+          "Camel",
+          "Sunlit Citadel",
+          "Baobab Tree",
+        ],
+        wearables: ["Scarab Wings"],
+      },
+      megastore: {
+        wearables: [
+          "Crab Trap",
+          "Amber Amulet",
+          "Explorer Shirt",
+          "Explorer Hat",
+          "Explorer Shorts",
+          "Rock Hammer",
+          "Desert Camel Background",
+          "Water Gourd",
+          "Ankh Shirt",
+        ],
+        collectibles: [
+          "Cannonball",
+          "Reveling Lemon",
+          "Lemon Frog",
+          "Tomato Bombard",
+          "Hapy Jar",
+          "Imsety Jar",
+          "Duamutef Jar",
+          "Qebehsenuef Jar",
+          "Sarcophagus",
+          "Clay Tablet",
+          "Snake in Jar",
+          "Anubis Jackal",
+          "Sundial",
+          "Sand Golem",
+          "Cactus King",
+          "Scarab Beetle",
+        ],
+      },
+    },
+  }),
+  "Bull Run": buildChapterCollection({
+    chapter: "Bull Run",
+    overrides: {
+      auctioneer: {
+        wearables: [
+          "Shepherd Staff",
+          "Infernal Bullwhip",
+          "Black Sheep Onesie",
+          "Chicken Suit",
+          "Merino Jumper",
+          "Cowbell Necklace",
+        ],
+        collectibles: [
+          "Moo-ver",
+          "Cluckulator",
+          "UFO",
+          "Black Sheep",
+          "Swiss Whiskers",
+        ],
+      },
+      vipGift: {
+        collectibles: ["Wagon"],
+        wearables: ["White Sheep Onesie"],
+      },
+      other: { collectibles: ["Bull Run Banner"] },
+    },
+  }),
+  "Winds of Change": buildChapterCollection({
+    chapter: "Winds of Change",
+    overrides: {
+      auctioneer: {
+        collectibles: ["Golden Sheep", "Barn Blueprint"],
+        wearables: [
+          "Sol & Luna",
+          "Solflare Aegis",
+          "Blossom Ward",
+          "Autumn's Embrace",
+          "Frozen Heart",
+          "Locust King Onesie",
+          "Glacial Plume",
+        ],
+      },
+      vipGift: {
+        collectibles: [
+          "Mama Duck",
+          "Summer Duckling",
+          "Autumn Duckling",
+          "Winter Duckling",
+        ],
+        wearables: ["Locust Onesie"],
+      },
+      other: { collectibles: ["Winds of Change Banner"] },
+    },
+  }),
+  "Great Bloom": buildChapterCollection({
+    chapter: "Great Bloom",
+    overrides: {
+      vipGift: {
+        collectibles: ["Mini Floating Island"],
+        wearables: ["Red Pepper Onesie"],
+      },
+      auctioneer: {
+        collectibles: [
+          "Quarry",
+          "Obsidian Turtle",
+          "Spring Guardian",
+          "Summer Guardian",
+          "Autumn Guardian",
+          "Winter Guardian",
+          "Sky Pillar",
+        ],
+        wearables: [
+          "Broccoli Hat",
+          "Sky Island Background",
+          "Medic Apron",
+          "Obsidian Necklace",
+        ],
+      },
+      other: { collectibles: ["Great Bloom Banner"] },
+    },
+  }),
+  "Better Together": buildChapterCollection({
+    chapter: "Better Together",
+    overrides: {
+      auctioneer: {
+        collectibles: [
+          "Rocket Statue",
+          "Ant Queen",
+          "Jurassic Droplet",
+          "Giant Onion",
+          "Giant Turnip",
+          "Groovy Gramophone",
+        ],
+        wearables: ["Oil Gallon", "Lava Swimwear"],
+      },
+      vipGift: {
+        collectibles: ["Wheat Whiskers"],
+        wearables: ["Turd Topper"],
+      },
+      other: { collectibles: ["Better Together Banner"] },
+    },
+  }),
+  "Paw Prints": buildChapterCollection({
+    chapter: "Paw Prints",
+    overrides: {
+      auctioneer: {
+        collectibles: ["Paw Prints Rug", "Pet Bed", "Moon Fox Statue"],
+        wearables: [
+          "Luna's Crescent",
+          "Master Chef's Cleaver",
+          "Training Whistle",
+          "Squirrel Onesie",
+        ],
+      },
+      vipGift: {
+        collectibles: ["Squeaky Chicken", "Pet Bowls"],
+      },
+      other: { collectibles: ["Paw Prints Banner"] },
+    },
+  }),
+  "Crabs and Traps": buildChapterCollection({
+    chapter: "Crabs and Traps",
+    overrides: {
+      track: {
+        collectibles: getChapterTrackCollectibles("Crabs and Traps"),
+        wearables: getChapterTrackWearables("Crabs and Traps"),
+      },
+      auctioneer: {
+        collectibles: ["Speckled Kissing Fish", "Fisherman's Boat", "Sea Arch"],
+        wearables: [
+          "Crimstone Spikes Hair",
+          "Paw Aura",
+          "Victoria's Apron",
+          "Beast Shoes",
+        ],
+      },
+      other: { collectibles: ["Crabs and Traps Banner"] },
+    },
+  }),
+};
+
+/** Flattens source-keyed collection into collectibles and wearables arrays for the grid. */
+export function getChapterCollectionForDisplay(chapter: ChapterName): {
+  collectibles: InventoryItemName[];
+  wearables: BumpkinItem[];
+} {
+  const bySource = CHAPTER_COLLECTIONS[chapter];
+  if (!bySource) {
+    return { collectibles: [], wearables: [] };
+  }
+  const collectibles: InventoryItemName[] = [];
+  const wearables: BumpkinItem[] = [];
+  for (const source of SOURCE_DISPLAY_ORDER) {
+    const entry = bySource[source];
+    if (entry?.collectibles) collectibles.push(...entry.collectibles);
+    if (entry?.wearables) wearables.push(...entry.wearables);
+  }
+  return { collectibles, wearables };
+}
+
+export function findMegastoreItemByChapter(
+  chapter: ChapterName,
+  itemName: string,
+  type: "collectible" | "wearable",
+): { item: ChapterStoreItem; tier: ChapterStoreTier } | undefined {
+  const store = MEGASTORE[chapter];
+  if (!store) return undefined;
+
+  const tiers: ChapterStoreTier[] = ["basic", "rare", "epic", "mega"];
+  for (const tier of tiers) {
+    const items = store[tier].items;
+    for (const item of items) {
+      if (
+        type === "collectible" &&
+        isCollectible(item) &&
+        item.collectible === itemName
+      ) {
+        return { item, tier };
+      }
+      if (
+        type === "wearable" &&
+        isWearable(item) &&
+        item.wearable === itemName
+      ) {
+        return { item, tier };
+      }
+    }
+  }
+  return undefined;
+}
+
+export function getChapterItemSource(
+  chapter: ChapterName,
+  itemName: InventoryItemName | BumpkinItem,
+  type: "collectible" | "wearable",
+): {
+  source: ChapterItemSourceKey;
+  storeItem?: ChapterStoreItem;
+  tier?: ChapterStoreTier;
+} {
+  const bySource = CHAPTER_COLLECTIONS[chapter];
+  if (!bySource) return { source: "unknown" };
+
+  for (const source of SOURCE_DISPLAY_ORDER) {
+    const entry = bySource[source];
+    if (!entry) continue;
+    if (
+      type === "collectible" &&
+      entry.collectibles?.includes(itemName as InventoryItemName)
+    ) {
+      if (source === "megastore") {
+        const megastoreResult = findMegastoreItemByChapter(
+          chapter,
+          itemName,
+          type,
+        );
+        return {
+          source: "megastore",
+          storeItem: megastoreResult?.item,
+          tier: megastoreResult?.tier,
+        };
+      }
+      return { source };
+    }
+    if (
+      type === "wearable" &&
+      entry.wearables?.includes(itemName as BumpkinItem)
+    ) {
+      if (source === "megastore") {
+        const megastoreResult = findMegastoreItemByChapter(
+          chapter,
+          itemName,
+          type,
+        );
+        return {
+          source: "megastore",
+          storeItem: megastoreResult?.item,
+          tier: megastoreResult?.tier,
+        };
+      }
+      return { source };
+    }
+  }
+
+  return { source: "unknown" };
+}

@@ -10,20 +10,27 @@ import { Revealed } from "features/game/components/Revealed";
 import React, { useContext, useState } from "react";
 
 import chestIcon from "assets/icons/gift.png";
+import rewardsIcon from "assets/icons/stock.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { Bud, TypeTrait } from "features/game/types/buds";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { getDayOfYear, secondsToString } from "lib/utils/time";
+import {
+  getDayOfYear,
+  secondsTillReset,
+  secondsToString,
+} from "lib/utils/time";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: () => void;
   setIsLoading?: (isLoading: boolean) => void;
 }
 
-const BUD_ORDER: TypeTrait[] = [
+export const BUD_ORDER: TypeTrait[] = [
   "Plaza",
   "Woodlands",
   "Cave",
@@ -39,17 +46,31 @@ const BUD_ORDER: TypeTrait[] = [
 /**
  * Based on day of year + year to get a consistent order of buds
  */
-export function getDailyBudBoxType(date: Date): TypeTrait {
-  const dayOfYear = getDayOfYear(date);
-
-  const index = dayOfYear % BUD_ORDER.length;
+export function getDailyBudBoxType(ms: number): TypeTrait {
+  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24)) + 2; // +2 to match with current order
+  const index = daysSinceEpoch % BUD_ORDER.length;
   return BUD_ORDER[index];
 }
 
 export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { t, i18n } = useAppTranslation();
+  const { t } = useAppTranslation();
+  type Tab = "box" | "rewards";
+  const [tab, setTab] = useState<Tab>("box");
+
+  const boxTab: PanelTabs<Tab> = {
+    id: "box",
+    icon: chestIcon,
+    name: t("budBox.title"),
+  };
+  const rewardsTab: PanelTabs<Tab> = {
+    id: "rewards",
+    icon: rewardsIcon,
+    name: t("chestRewardsList.rewardsTitle"),
+  };
+  const tabs: PanelTabs<Tab>[] = [boxTab, rewardsTab];
+  const now = useNow();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -71,27 +92,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     setIsRevealing(true);
     setIsPicking(false);
     setIsLoading && setIsLoading(false);
-  };
-
-  const getDayOfWeek = (date: Date): string => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-    };
-
-    switch (i18n.language) {
-      case "fr":
-        return date.toLocaleDateString("fr-FR", options);
-      case "pt":
-        return date.toLocaleDateString("pt-PT", options);
-      case "tk":
-        return date.toLocaleDateString("tr-TR", options);
-      case "zh-CN":
-        return date.toLocaleDateString("zh-CN", options);
-      case "ru":
-        return date.toLocaleDateString("ru-RU", options);
-      default:
-        return date.toLocaleDateString("en-US", options);
-    }
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
@@ -116,9 +116,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const days = new Array<number>(7).fill(0);
-  const now = Date.now();
-
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
     return bud.type;
@@ -134,83 +131,86 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   }
 
   return (
-    <CloseButtonPanel onClose={onClose}>
-      <div className="p-2">
-        <div className="flex flex-wrap mr-12">
-          <Label
-            icon={chestIcon}
-            type="default"
-            className="mb-2 mr-3 capitalize"
-          >
-            {t("budBox.title")}
-          </Label>
-        </div>
-        <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {days.map((_, index) => {
-          const date = new Date(now + 24 * 60 * 60 * 1000 * index);
-          const dailyBud = getDailyBudBoxType(date);
-          const hasBud = playerBudTypes.includes(dailyBud);
+    <CloseButtonPanel
+      tabs={tabs}
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+    >
+      {tab === "box" && (
+        <div className="p-2">
+          <p className="text-xs mb-3">{t("budBox.description")}</p>
+          {BUD_ORDER.map((_, index) => {
+            const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
+            const date = new Date(budTypeTimestamp);
+            const dailyBud = getDailyBudBoxType(budTypeTimestamp);
+            const hasBud = playerBudTypes.includes(dailyBud);
+            const ISOdate = new Date(date).toISOString().split("T")[0];
 
-          return (
-            <OuterPanel
-              key={date.toISOString()}
-              className="flex justify-between relative mb-1"
-            >
-              <div className="flex justify-between relative mb-1">
-                <div>
-                  <Label
-                    type={
-                      playerBudTypes.includes(dailyBud) ? "success" : "default"
-                    }
-                    className="mr-1"
-                  >
-                    {dailyBud}
-                  </Label>
+            return (
+              <OuterPanel
+                key={date.toISOString()}
+                className="flex justify-between relative mb-1"
+              >
+                <div className="flex justify-between relative mb-1">
+                  <div>
+                    <Label
+                      type={
+                        playerBudTypes.includes(dailyBud)
+                          ? "success"
+                          : "default"
+                      }
+                      className="mr-1"
+                    >
+                      {dailyBud}
+                    </Label>
+                  </div>
                 </div>
-              </div>
-              {index === 0 && !hasOpened && (
-                <Button
-                  onClick={open}
-                  disabled={!hasBud}
-                  className="w-auto h-8 text-xs mt-4"
-                >
-                  {t("budBox.open")}
-                </Button>
-              )}
-              {index === 0 && hasOpened && (
-                <Label
-                  icon={SUNNYSIDE.icons.confirm}
-                  type="success"
-                  className="absolute -top-2 -right-2"
-                >
-                  {t("budBox.opened")}
-                </Label>
-              )}
-              {index === 0 && !hasOpened && (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="info"
-                  className="absolute -top-3 -right-2"
-                >
-                  {t("budBox.today", {
-                    timeLeft: secondsToString(secondsLeftToday, {
-                      length: "short",
-                    }),
-                  })}
-                </Label>
-              )}
-              {index > 0 && (
-                <Label
-                  type="default"
-                  className="absolute -top-2 -right-2 capitalize"
-                >
-                  {getDayOfWeek(date)}
-                </Label>
-              )}
-            </OuterPanel>
-          );
-        })}
-      </div>
+                {index === 0 && !hasOpened && (
+                  <Button
+                    onClick={open}
+                    disabled={!hasBud}
+                    className="w-auto h-8 text-xs mt-4"
+                  >
+                    {t("budBox.open")}
+                  </Button>
+                )}
+                {index === 0 && hasOpened && (
+                  <Label
+                    icon={SUNNYSIDE.icons.confirm}
+                    type="success"
+                    className="absolute -top-2 -right-2"
+                  >
+                    {t("budBox.opened")}
+                  </Label>
+                )}
+                {index === 0 && !hasOpened && (
+                  <Label
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    type="info"
+                    className="absolute -top-3 -right-2"
+                  >
+                    {t("budBox.today", {
+                      timeLeft: secondsToString(secondsLeftToday, {
+                        length: "short",
+                      }),
+                    })}
+                  </Label>
+                )}
+                {index > 0 && (
+                  <Label
+                    type="default"
+                    className="absolute -top-2 -right-2 capitalize"
+                  >
+                    {ISOdate}
+                  </Label>
+                )}
+              </OuterPanel>
+            );
+          })}
+        </div>
+      )}
+      {tab === "rewards" && <ChestRewardsList type={"Bud Box"} />}
     </CloseButtonPanel>
   );
 };

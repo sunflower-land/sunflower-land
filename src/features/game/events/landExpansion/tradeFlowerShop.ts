@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { FlowerName } from "features/game/types/flowers";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type FlowerShopTradedAction = {
@@ -53,7 +53,7 @@ export function tradeFlowerShop({
     }
     game.inventory[weeklyFlower] = flowerCount.minus(1);
 
-    const seasonTicket = getSeasonalTicket(new Date(createdAt));
+    const seasonTicket = getChapterTicket(createdAt);
     const ticketCount = game.inventory[seasonTicket] ?? new Decimal(0);
     game.inventory[seasonTicket] = ticketCount.plus(TICKETS_REWARDED);
 

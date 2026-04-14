@@ -14,7 +14,7 @@ function createWrapperAndAppendToBody(wrapperId: string) {
   return wrapperElement;
 }
 
-export const ReactPortal: React.FC<Props> = ({
+export const ReactPortal: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   wrapperId = "react-portal-wrapper",
 }) => {
@@ -31,10 +31,12 @@ export const ReactPortal: React.FC<Props> = ({
       systemCreated = true;
       element = createWrapperAndAppendToBody(wrapperId);
     }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWrapperElement(element);
 
     return () => {
-      // delete the programatically created element
+      // delete the programmatically created element
       if (systemCreated && element?.parentNode) {
         element.parentNode.removeChild(element);
       }

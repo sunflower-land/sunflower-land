@@ -1,12 +1,13 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "./game";
-import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
+import { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
-import { getKeys, TOOLS } from "./craftables";
+import { TOOLS } from "./craftables";
+import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
-import { FRUIT, GREENHOUSE_FRUIT } from "./fruits";
-import { getSeasonalTicket } from "./seasons";
+import { GREENHOUSE_FRUIT, PATCH_FRUIT } from "./fruits";
+import { getChapterTicket } from "./chapters";
 import { translate } from "lib/i18n/translate";
 
 export type AchievementName =
@@ -75,7 +76,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Bread Winner": {
     description: translate("breadWinner.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["SFL Earned"] || 0,
+      gameState.farmActivity?.["SFL Earned"] || 0,
     requirement: 0.001,
     coins: 0,
     introduction: [
@@ -87,7 +88,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Sun Seeker": {
     description: translate("sunSeeker.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
+      gameState.farmActivity?.["Sunflower Harvested"] || 0,
     requirement: 100,
     coins: 0,
     rewards: {
@@ -97,14 +98,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Cabbage King": {
     description: translate("cabbageKing.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
+      gameState.farmActivity?.["Cabbage Harvested"] || 0,
     requirement: 200,
     coins: 10,
   },
   "Jack O'Latern": {
     description: translate("jackOLantern.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
+      gameState.farmActivity?.["Pumpkin Harvested"] || 0,
     requirement: 500,
     coins: 0,
     rewards: {
@@ -114,7 +115,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Cool Flower": {
     description: translate("coolFlower.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Cauliflower Harvested"] || 0,
+      gameState.farmActivity["Cauliflower Harvested"] || 0,
     requirement: 100,
     coins: 70,
   },
@@ -126,7 +127,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -140,7 +141,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Beetroot Beast": {
     description: translate("beetrootBeast.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Beetroot Harvested"] || 0,
+      gameState.farmActivity["Beetroot Harvested"] || 0,
     requirement: 2000,
     coins: 0,
     rewards: {
@@ -150,35 +151,35 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "My life is potato": {
     description: translate("myLifeIsPotato.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Potato Harvested"] || 0,
+      gameState.farmActivity["Potato Harvested"] || 0,
     requirement: 5000,
     coins: 300,
   },
   "Rapid Radish": {
     description: translate("rapidRadish.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Radish Harvested"] || 0,
+      gameState.farmActivity["Radish Harvested"] || 0,
     requirement: 200,
     coins: 400,
   },
   "20/20 Vision": {
     description: translate("twentyTwentyVision.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Carrot Harvested"] || 0,
+      gameState.farmActivity["Carrot Harvested"] || 0,
     requirement: 10000,
     coins: 400,
   },
   "Staple Crop": {
     description: translate("stapleCrop.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Wheat Harvested"] || 0,
+      gameState.farmActivity["Wheat Harvested"] || 0,
     requirement: 10000,
     coins: 500,
   },
   "Sunflower Superstar": {
     description: translate("sunflowerSuperstar.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
+      gameState.farmActivity["Sunflower Harvested"] || 0,
     requirement: 100000,
     coins: 0,
     rewards: {
@@ -188,7 +189,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Bumpkin Billionaire": {
     description: translate("bumpkinBillionaire.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["SFL Earned"] || 0,
+      gameState.farmActivity["SFL Earned"] || 0,
     requirement: 5000,
     coins: 0,
     rewards: {
@@ -198,7 +199,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Patient Parsnips": {
     description: translate("patientParsnips.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Parsnip Harvested"] || 0,
+      gameState.farmActivity["Parsnip Harvested"] || 0,
     requirement: 5000,
     coins: 750,
   },
@@ -210,7 +211,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -239,7 +240,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       return cookEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -258,7 +259,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       const bakedCakes = cakeEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -289,7 +290,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       return cookEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -316,7 +317,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Big Spender": {
     description: translate("bigSpender.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["SFL Spent"] || 0,
+      gameState.farmActivity["SFL Spent"] || 0,
     requirement: 10,
     coins: 20,
   },
@@ -332,7 +333,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "High Roller": {
     description: translate("highRoller.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["SFL Spent"] || 0,
+      gameState.farmActivity["SFL Spent"] || 0,
     requirement: 7500,
     coins: 0,
     rewards: {
@@ -344,7 +345,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   Timbeerrr: {
     description: translate("timbeerrr.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
+      gameState.farmActivity["Tree Chopped"] || 0,
     requirement: 150,
     coins: 0,
     rewards: {
@@ -359,7 +360,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       );
 
       return craftEvent.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -373,7 +374,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   Driller: {
     description: translate("driller.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Stone Mined"] || 0,
+      gameState.farmActivity["Stone Mined"] || 0,
     requirement: 50,
     coins: 0,
     rewards: {
@@ -383,7 +384,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Iron Eyes": {
     description: translate("ironEyes.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Iron Mined"] || 0,
+      gameState.farmActivity["Iron Mined"] || 0,
     requirement: 50,
     coins: 0,
     rewards: {
@@ -393,7 +394,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "El Dorado": {
     description: translate("elDorado.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Gold Mined"] || 0,
+      gameState.farmActivity["Gold Mined"] || 0,
     requirement: 50,
     coins: 0,
     rewards: {
@@ -403,7 +404,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Time to chop": {
     description: translate("timeToChop.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
+      gameState.farmActivity["Axe Crafted"] || 0,
     requirement: 500,
     coins: 0,
     rewards: {
@@ -413,14 +414,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   Canary: {
     description: translate("canary.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Stone Mined"] || 0,
+      gameState.farmActivity["Stone Mined"] || 0,
     requirement: 1000,
     coins: 500,
   },
   "Something Shiny": {
     description: translate("somethingShiny.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Iron Mined"] || 0,
+      gameState.farmActivity["Iron Mined"] || 0,
     requirement: 500,
     coins: 0,
     rewards: {
@@ -430,7 +431,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Bumpkin Chainsaw Amateur": {
     description: translate("bumpkinChainsawAmateur.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
+      gameState.farmActivity["Tree Chopped"] || 0,
     requirement: 5000,
     coins: 0,
     rewards: {
@@ -440,7 +441,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Gold Fever": {
     description: translate("goldFever.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Gold Mined"] || 0,
+      gameState.farmActivity["Gold Mined"] || 0,
     requirement: 500,
     coins: 0,
     rewards: {
@@ -513,13 +514,13 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Fruit Aficionado": {
     description: translate("fruitAficionado.description"),
     progress: (gameState: GameState) => {
-      const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
+      const fruits = [...getKeys(PATCH_FRUIT), ...getKeys(GREENHOUSE_FRUIT)];
       const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -534,34 +535,34 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Orange Squeeze": {
     description: translate("orangeSqueeze.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
+      gameState.farmActivity["Orange Harvested"] || 0,
     requirement: 100,
     coins: 10,
   },
   "Apple of my Eye": {
     description: translate("appleOfMyEye.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
+      gameState.farmActivity["Apple Harvested"] || 0,
     requirement: 500,
     coins: 400,
   },
   "Blue Chip": {
     description: translate("blueChip.description"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
+      gameState.farmActivity["Blueberry Harvested"] || 0,
     requirement: 5000,
     coins: 800,
   },
   "Fruit Platter": {
     description: translate("fruitPlatter.description"),
     progress: (gameState: GameState) => {
-      const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
+      const fruits = [...getKeys(PATCH_FRUIT), ...getKeys(GREENHOUSE_FRUIT)];
       const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+        const amount = gameState.farmActivity[activityName] || 0;
 
         return count + amount;
       }, 0);
@@ -599,7 +600,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Seasoned Farmer": {
     description: translate("seasonedFarmer.description"),
     progress: (gameState: GameState) => {
-      return gameState.inventory[getSeasonalTicket()]?.toNumber() ?? 0;
+      const ticket = getChapterTicket(Date.now());
+      return gameState.inventory[ticket]?.toNumber() ?? 0;
     },
     requirement: 50,
     coins: 0,
@@ -614,7 +616,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Treasure Hunter": {
     description: translate("treasureHunter.description"),
     progress: (gameState: GameState) => {
-      return gameState.bumpkin?.activity?.["Treasure Dug"] ?? 0;
+      return gameState.farmActivity["Treasure Dug"] ?? 0;
     },
     requirement: 10,
     coins: 0,
@@ -628,7 +630,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Egg-cellent Collection": {
     description: translate("eggcellentCollection.description"),
     progress: (gameState: GameState) => {
-      return gameState.bumpkin?.activity?.["Egg Collected"] ?? 0;
+      return gameState.farmActivity["Egg Collected"] ?? 0;
     },
     requirement: 10,
     coins: 0,

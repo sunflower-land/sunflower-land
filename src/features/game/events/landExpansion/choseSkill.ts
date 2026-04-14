@@ -1,10 +1,15 @@
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
   BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
+  BumpkinRevampSkillTree,
+  BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
 import { Bumpkin, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { populateSaltFarm } from "features/game/types/salt";
+import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -20,41 +25,171 @@ type Options = {
 export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return 0;
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience); // 1 level = 1 skill point
-  const allocatedSkillPoints = Object.values(bumpkin.skills).reduce(
-    (acc, level) => acc + level,
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
+
+  const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
+    const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
+    if (skillData) {
+      return acc + skillData.requirements.points;
+    }
+
+    return acc;
+  }, 0);
+
+  return bumpkinLevel - totalUsedSkillPoints;
+};
+
+export const SKILL_POINTS_PER_TIER: Record<
+  BumpkinRevampSkillTree,
+  Record<BumpkinSkillTier, number>
+> = {
+  Crops: {
+    1: 0,
+    2: 3,
+    3: 7,
+  },
+  Trees: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Fishing: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Mining: {
+    1: 0,
+    2: 3,
+    3: 7,
+  },
+  Cooking: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Compost: {
+    1: 0,
+    2: 3,
+    3: 7,
+  },
+  "Fruit Patch": {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Animals: {
+    1: 0,
+    2: 4,
+    3: 8,
+  },
+  "Bees & Flowers": {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Greenhouse: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Machinery: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Aging: {
+    1: 0,
+    2: 3,
+    3: 7,
+  },
+};
+
+export const getUnlockedTierForTree = (
+  tree: BumpkinRevampSkillTree,
+  bumpkin: Bumpkin,
+): { availableTier: BumpkinSkillTier; totalUsedSkillPoints: number } => {
+  // Calculate the total points used in the tree
+  const totalUsedSkillPoints = Object.keys(bumpkin.skills).reduce(
+    (acc, skill) => {
+      const skillData =
+        BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName];
+
+      if (
+        skillData &&
+        skillData.tree === tree &&
+        skillData.requirements.tier !== 3
+      ) {
+        return acc + skillData.requirements.points;
+      }
+
+      return acc;
+    },
     0,
   );
+  let availableTier: BumpkinSkillTier;
+  // Determine the tier and points needed for next tier
+  if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][3]) {
+    availableTier = 3;
+  } else if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][2]) {
+    availableTier = 2;
+  } else {
+    availableTier = 1;
+  }
 
-  return bumpkinLevel - allocatedSkillPoints;
+  return { availableTier, totalUsedSkillPoints };
 };
 
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
-  if (bumpkin == undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+  return produce(state, (stateCopy) => {
+    const { bumpkin, island } = stateCopy;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const claimedSkillsInTree = Object.keys(bumpkin.skills).filter((skill) =>
-    Object.keys(BUMPKIN_REVAMP_SKILL_TREE).includes(skill),
-  ).length;
-  const requirements = BUMPKIN_REVAMP_SKILL_TREE[action.skill].requirements;
-  const bumpkinHasSkill = bumpkin.skills[action.skill];
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (availableSkillPoints < requirements.points) {
-    throw new Error("You do not have enough skill points");
-  }
+    const { requirements, tree, disabled } =
+      BUMPKIN_REVAMP_SKILL_TREE[action.skill];
+    const bumpkinHasSkill = bumpkin.skills[action.skill];
 
-  if (requirements.skill && claimedSkillsInTree < requirements.skill) {
-    throw new Error("Missing previous skill requirement");
-  }
+    const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+    const { availableTier } = getUnlockedTierForTree(tree, bumpkin);
 
-  if (bumpkinHasSkill) {
-    throw new Error("You already have this skill");
-  }
+    if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
+      throw new Error("You are not at the correct island!");
+    }
 
-  bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
-  return stateCopy;
+    if (availableSkillPoints < requirements.points) {
+      throw new Error("You do not have enough skill points");
+    }
+
+    if (requirements.tier > availableTier) {
+      throw new Error(`You need to unlock tier ${requirements.tier} first`);
+    }
+
+    if (disabled) {
+      throw new Error("This skill is disabled");
+    }
+
+    if (tree === "Aging" && !hasFeatureAccess(stateCopy, "SALT_SKILLS")) {
+      throw new Error("This skill is not available yet");
+    }
+
+    if (bumpkinHasSkill) {
+      throw new Error("You already have this skill");
+    }
+
+    // Populate the salt farm with the new salt charges
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({ game: stateCopy, now: createdAt });
+    }
+
+    bumpkin.skills = {
+      ...bumpkin.skills,
+      [action.skill]: 1,
+    };
+
+    return stateCopy;
+  });
 }

@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
-import { FRUIT_LIFECYCLE } from "./fruits";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
+import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {
-  fruitName: FruitName;
+  patchFruitName: PatchFruitName;
   hasAxes: boolean;
 }
 
-export const DeadTree = ({ fruitName, hasAxes }: Props) => {
-  const { isBush } = FRUIT()[fruitName];
+const _island = (state: MachineState) => state.context.state.island;
+
+export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
+  const { gameService } = useContext(Context);
+  const { isBush } = PATCH_FRUIT[patchFruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
+  const island = useSelector(gameService, _island);
+  const biome = getCurrentBiome(island);
   const handleHover = () => {
     if (!hasAxes) {
       setShowNoToolWarning(true);
@@ -39,7 +48,7 @@ export const DeadTree = ({ fruitName, hasAxes }: Props) => {
       >
         {/* Dead tree/bush */}
         <img
-          src={FRUIT_LIFECYCLE[fruitName].dead}
+          src={PATCH_FRUIT_LIFECYCLE[biome][patchFruitName].dead}
           className="absolute"
           style={{
             bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,

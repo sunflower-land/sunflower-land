@@ -7,7 +7,8 @@ import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shop from "assets/icons/shop.png";
-import { getSeasonalArtefact } from "features/game/types/seasons";
+import { getChapterArtefact } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export function hasReadDesertNotice() {
   return !!localStorage.getItem("desert.notice");
@@ -22,6 +23,8 @@ interface Props {
 }
 export const DesertNoticeboard: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+  const chapterArtefact = getChapterArtefact(now);
 
   return (
     <Panel>
@@ -36,8 +39,8 @@ export const DesertNoticeboard: React.FC<Props> = ({ onClose }) => {
             icon: ITEM_DETAILS["Sand Shovel"].image,
           },
           {
-            text: t("desert.notice.two", { ticket: getSeasonalArtefact() }),
-            icon: ITEM_DETAILS[getSeasonalArtefact()].image,
+            text: t("desert.notice.two", { ticket: chapterArtefact }),
+            icon: ITEM_DETAILS[chapterArtefact].image,
           },
           {
             text: t("desert.notice.three"),

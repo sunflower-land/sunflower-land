@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
@@ -15,27 +15,15 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isLocked as isPlotLocked } from "features/game/events/landExpansion/moveCrop";
-import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
-import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
-import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
-import { InnerPanel } from "components/ui/Panel";
-import { SquareIcon } from "components/ui/SquareIcon";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
-import { IslandType } from "features/game/types/game";
-
-import cacti from "assets/resources/tree/cacti.webp";
-
-export const TREE_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.tree,
-  spring: SUNNYSIDE.resource.tree,
-  desert: cacti,
-};
+import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
+import { TREE_VARIANTS } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -48,36 +36,55 @@ export interface ResourceProps {
 }
 
 // Used for placing
-export const READONLY_RESOURCE_COMPONENTS: (
-  island: IslandType,
-) => Record<ResourceName, React.FC<ResourceProps>> = (island) => ({
-  "Crop Plot": () => (
-    <div
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 20}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-        right: `${PIXEL_SCALE * 2}px`,
-      }}
-    >
-      <img
-        src={SUNNYSIDE.resource.plot}
+export const READONLY_RESOURCE_COMPONENTS = ({
+  season,
+  island,
+}: {
+  season: TemperateSeasonName;
+  island: GameState["island"];
+}): Record<ResourceName, () => JSX.Element> => {
+  const currentBiome = getCurrentBiome(island);
+
+  return {
+    "Crop Plot": () => (
+      <div
+        className="relative"
         style={{
           width: `${PIXEL_SCALE * 20}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
+          right: `${PIXEL_SCALE * 2}px`,
         }}
-      />
-    </div>
-  ),
-  "Gold Rock": () => (
-    <div
-      style={{
-        width: `${PIXEL_SCALE * 14}px`,
-        top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    >
+      >
+        <img
+          src={SUNNYSIDE.resource.plot}
+          style={{
+            width: `${PIXEL_SCALE * 20}px`,
+          }}
+        />
+      </div>
+    ),
+    "Gold Rock": () => (
+      <div
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 14}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <img
+          src={ITEM_DETAILS["Gold Rock"].image}
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            top: `${PIXEL_SCALE * 3}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+        />
+      </div>
+    ),
+    "Iron Rock": () => (
       <img
-        src={ITEM_DETAILS["Gold Rock"].image}
+        src={ITEM_DETAILS["Iron Rock"].image}
         className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
@@ -85,112 +92,197 @@ export const READONLY_RESOURCE_COMPONENTS: (
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
-    </div>
-  ),
-  "Iron Rock": () => (
-    <img
-      src={ITEM_DETAILS["Iron Rock"].image}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 14}px`,
-        top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    />
-  ),
-  "Stone Rock": () => (
-    <img
-      src={ITEM_DETAILS["Stone Rock"].image}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 14}px`,
-        top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    />
-  ),
-  "Crimstone Rock": () => (
-    <img
-      src={ITEM_DETAILS["Crimstone Rock"].image}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 24}px`,
-        top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 4}px`,
-      }}
-    />
-  ),
-  "Oil Reserve": () => (
-    <img
-      src={ITEM_DETAILS["Oil Reserve"].image}
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-      style={{
-        width: `${PIXEL_SCALE * 30}px`,
-      }}
-    />
-  ),
-  Tree: () => (
-    <img
-      src={TREE_VARIANTS[island]}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-    />
-  ),
-  "Fruit Patch": () => (
-    <img
-      src={ITEM_DETAILS["Fruit Patch"].image}
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 30}px`,
-        top: `${PIXEL_SCALE * 2}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    />
-  ),
-  Boulder: () => (
-    <img
-      src={SUNNYSIDE.resource.boulder}
-      className="absolute h-auto w-full"
-      style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * -4}px`,
-      }}
-    />
-  ),
-  Beehive: () => (
-    <img
-      src={ITEM_DETAILS["Beehive"].image}
-      className="absolute bottom-0 h-auto w-full"
-      style={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-    />
-  ),
-  "Flower Bed": () => (
-    <img
-      src={ITEM_DETAILS["Flower Bed"].image}
-      className="absolute bottom-0 h-auto w-full"
-      style={{
-        width: `${PIXEL_SCALE * 48}px`,
-      }}
-    />
-  ),
-  "Sunstone Rock": () => (
-    <img
-      src={ITEM_DETAILS["Sunstone Rock"].image}
-      className="absolute h-auto w-full"
-      style={{
-        width: `${PIXEL_SCALE * 24}px`,
-        bottom: `${PIXEL_SCALE * 1}px`,
-        left: `${PIXEL_SCALE * 4}px`,
-      }}
-    />
-  ),
-});
+    ),
+    "Stone Rock": () => (
+      <img
+        src={ITEM_DETAILS["Stone Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 14}px`,
+          // Align the base stone rock with the gold/iron rocks so that the
+          // shared strike animation lines up without a visible jump.
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Fused Stone Rock": () => (
+      <img
+        src={ITEM_DETAILS["Fused Stone Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE}px`,
+          left: `${PIXEL_SCALE * 0.238}px`,
+        }}
+      />
+    ),
+    "Reinforced Stone Rock": () => (
+      <img
+        src={ITEM_DETAILS["Reinforced Stone Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE * -0.523}px`,
+          left: `${PIXEL_SCALE * 0.62}px`,
+        }}
+      />
+    ),
+    "Crimstone Rock": () => (
+      <img
+        src={ITEM_DETAILS["Crimstone Rock"].image}
+        className="relative"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 4}px`,
+        }}
+      />
+    ),
+    "Oil Reserve": () => (
+      <img
+        src={ITEM_DETAILS["Oil Reserve"].image}
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: `${PIXEL_SCALE * 30}px`,
+        }}
+      />
+    ),
+    Tree: () => (
+      <img
+        src={TREE_VARIANTS(currentBiome, season, "Tree")}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 26}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+      />
+    ),
+    "Fruit Patch": () => (
+      <img
+        src={ITEM_DETAILS["Fruit Patch"].image}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 30}px`,
+          top: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    Boulder: () => (
+      <img
+        src={SUNNYSIDE.resource.boulder}
+        className="absolute h-auto w-full"
+        style={{
+          width: `${PIXEL_SCALE * 32}px`,
+          bottom: `${PIXEL_SCALE * -4}px`,
+        }}
+      />
+    ),
+    Beehive: () => (
+      <img
+        src={ITEM_DETAILS["Beehive"].image}
+        className="absolute bottom-0 h-auto w-full"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+        }}
+      />
+    ),
+    "Flower Bed": () => (
+      <img
+        src={ITEM_DETAILS["Flower Bed"].image}
+        className="absolute bottom-0 h-auto w-full"
+        style={{
+          width: `${PIXEL_SCALE * 48}px`,
+        }}
+      />
+    ),
+    "Sunstone Rock": () => (
+      <img
+        src={ITEM_DETAILS["Sunstone Rock"].image}
+        className="absolute h-auto w-full"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 4}px`,
+        }}
+      />
+    ),
+    "Lava Pit": () => (
+      <img
+        src={ITEM_DETAILS["Lava Pit"].image}
+        className="absolute h-auto w-full"
+      />
+    ),
+    "Ancient Tree": () => (
+      <img
+        src={TREE_VARIANTS(currentBiome, season, "Ancient Tree")}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 26}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+      />
+    ),
+    "Sacred Tree": () => (
+      <img
+        src={TREE_VARIANTS(currentBiome, season, "Sacred Tree")}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 26}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+      />
+    ),
+    "Refined Iron Rock": () => (
+      <img
+        src={ITEM_DETAILS["Refined Iron Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Tempered Iron Rock": () => (
+      <img
+        src={ITEM_DETAILS["Tempered Iron Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Pure Gold Rock": () => (
+      <img
+        src={ITEM_DETAILS["Pure Gold Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Prime Gold Rock": () => (
+      <img
+        src={ITEM_DETAILS["Prime Gold Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+  };
+};
 
 export const RESOURCE_COMPONENTS: Record<
   ResourceName,
@@ -208,49 +300,18 @@ export const RESOURCE_COMPONENTS: Record<
   "Flower Bed": FlowerBed,
   "Sunstone Rock": Sunstone,
   "Oil Reserve": OilReserve,
+  "Lava Pit": LavaPit,
+  "Fused Stone Rock": Stone,
+  "Reinforced Stone Rock": Stone,
+  "Ancient Tree": Tree,
+  "Sacred Tree": Tree,
+  "Refined Iron Rock": Iron,
+  "Tempered Iron Rock": Iron,
+  "Pure Gold Rock": Gold,
+  "Prime Gold Rock": Gold,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _crops = (state: MachineState) => state.context.state.crops;
-const _stones = (state: MachineState) => state.context.state.stones;
-const _iron = (state: MachineState) => state.context.state.iron;
-const _gold = (state: MachineState) => state.context.state.gold;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
-const LockedResource: React.FC<ResourceProps> = (props) => {
-  const [showPopover, setShowPopover] = useState(false);
-
-  const Component = RESOURCE_COMPONENTS[props.name];
-  const { t } = useAppTranslation();
-
-  return (
-    <div
-      className="relative w-full h-full"
-      onMouseEnter={() => setShowPopover(true)}
-      onMouseLeave={() => setShowPopover(false)}
-    >
-      {showPopover && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -15}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="flex items-center space-x-2 mx-1 p-1">
-              <SquareIcon icon={SUNNYSIDE.icons.lock} width={5} />
-              <span className="text-xxs mb-0.5">{t("aoe.locked")}</span>
-            </div>
-          </InnerPanel>
-        </div>
-      )}
-      <div className="relative w-full h-full pointer-events-none">
-        <Component {...props} />
-      </div>
-    </div>
-  );
-};
 
 const MoveableResource: React.FC<ResourceProps> = (props) => {
   const Component = RESOURCE_COMPONENTS[props.name];
@@ -263,46 +324,6 @@ const MoveableResource: React.FC<ResourceProps> = (props) => {
 };
 
 const LandscapingResource: React.FC<ResourceProps> = (props) => {
-  const { gameService } = useContext(Context);
-
-  const collectibles = useSelector(gameService, _collectibles);
-  const crops = useSelector(gameService, _crops);
-  const stones = useSelector(gameService, _stones);
-  const iron = useSelector(gameService, _iron);
-  const gold = useSelector(gameService, _gold);
-  const bumpkin = useSelector(gameService, _bumpkin);
-
-  const isResourceLocked = (): boolean => {
-    const isPlot = props.name === "Crop Plot";
-    const isStone = props.name === "Stone Rock";
-    const isIron = props.name === "Iron Rock";
-    const isGold = props.name === "Gold Rock";
-
-    if (isPlot) {
-      const plot = crops[props.id];
-      return isPlotLocked(plot, collectibles, Date.now(), bumpkin);
-    }
-
-    if (isStone) {
-      const stoneRock = stones[props.id];
-      return isStoneLocked(stoneRock, collectibles, Date.now(), bumpkin);
-    }
-
-    if (isIron) {
-      const ironRock = iron[props.id];
-      return isIronLocked(ironRock, collectibles, Date.now(), bumpkin);
-    }
-
-    if (isGold) {
-      const goldRock = gold[props.id];
-      return isGoldLocked(goldRock, collectibles, Date.now(), bumpkin);
-    }
-
-    return false;
-  };
-
-  if (isResourceLocked()) return <LockedResource {...props} />;
-
   return <MoveableResource {...props} />;
 };
 

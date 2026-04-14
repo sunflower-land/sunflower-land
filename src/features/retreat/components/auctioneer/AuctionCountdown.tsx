@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 import { InnerPanel } from "components/ui/Panel";
@@ -8,8 +8,15 @@ import { Label } from "components/ui/Label";
 import { Auction } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { loadAuctions } from "./actions/loadAuctions";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { loadUpcomingAuction } from "./actions/loadUpcomingAuction";
+import {
+  acknowledgeAuctionCountdown,
+  getAuctionCountdownLastRead,
+} from "./auctionCountdownStorage";
+import { getAuctionItemType } from "./lib/getAuctionItemType";
+import { useNow } from "lib/utils/hooks/useNow";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -19,17 +26,15 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   const end = useCountdown(auction?.endAt);
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    if (auction.endAt < Date.now()) {
-      onComplete();
-    }
-  }, [end]);
+  const now = useNow({ live: true, autoEndAt: auction.endAt });
+  const item = getAuctionItemType(auction);
 
-  if (auction.endAt < Date.now()) {
+  if (auction.endAt <= now) {
+    onComplete();
     return null;
   }
 
-  if (auction.startAt < Date.now()) {
+  if (auction.startAt < now) {
     return (
       <div>
         <div className="h-6 flex justify-center">
@@ -61,10 +66,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
             }}
           >
             {t("auction")}
-            {":"}{" "}
-            {auction.type === "collectible"
-              ? auction.collectible
-              : auction.wearable}
+            {":"} {item}
           </div>
         </Label>
         <img
@@ -78,35 +80,39 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   );
 };
 
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
 export const AuctionCountdown: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+
+  const token = useSelector(authService, _token);
 
   const [auction, setAuction] = useState<Auction | undefined>();
 
   useEffect(() => {
     const load = async () => {
-      const { auctions } = await loadAuctions({
-        token: authState.context.user.rawToken as string,
-        transactionId: gameState.context.transactionId as string,
+      const upcoming = await loadUpcomingAuction({
+        token,
+        transactionId: gameService.getSnapshot().context
+          .transactionId as string,
       });
 
-      // Show countdown 1 hour from Auction
-      const upcoming = auctions.filter(
-        (auction) =>
-          auction.startAt - 60 * 60 * 1000 < Date.now() &&
-          auction.endAt > Date.now(),
-      );
-
-      if (upcoming.length > 0) {
-        setAuction(upcoming[0]);
+      if (upcoming && getAuctionCountdownLastRead() !== upcoming.auctionId) {
+        setAuction(upcoming);
       }
     };
 
     load();
-  }, []);
+  }, [token]);
+
+  const handleClick = () => {
+    if (auction) {
+      acknowledgeAuctionCountdown(auction.auctionId);
+      setAuction(undefined);
+    }
+  };
 
   if (!auction) {
     return null;
@@ -114,7 +120,7 @@ export const AuctionCountdown: React.FC = () => {
 
   return (
     <InnerPanel className="flex justify-center" id="test-auction">
-      <Countdown auction={auction} onComplete={() => setAuction(undefined)} />
+      <Countdown auction={auction} onComplete={handleClick} />
     </InnerPanel>
   );
 };

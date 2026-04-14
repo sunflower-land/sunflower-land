@@ -4,7 +4,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Bud as _Bud } from "../collectibles/components/Bud";
-import { MachineState } from "../buildings/lib/craftingMachine";
+import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
 
 export interface BudProps {
   id: string;

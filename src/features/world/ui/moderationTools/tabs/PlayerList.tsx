@@ -5,7 +5,7 @@ import { PlayerModal } from "../components/Player";
 
 import { calculateMuteTime } from "../components/Muted";
 
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -67,18 +67,20 @@ export const PlayerList: React.FC<Props> = ({
         <>
           <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
             {Players.map((player) => {
-              const latestMute = player.moderation?.muted.sort(
+              /* const latestMute = player.moderation?.muted.sort(
                 (a, b) => b.mutedUntil - a.mutedUntil,
               )[0];
 
-              const isMuted = latestMute && latestMute.mutedUntil > Date.now();
+              const isMuted = latestMute && latestMute.mutedUntil > Date.now(); */
+              const latestMute = { mutedUntil: 0 };
+              const isMuted = false;
 
               return (
                 <OuterPanel className="w-full" key={player.playerId}>
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
                     <div className="flex items-center gap-2 w-full">
                       <div className="flex items-center w-[45px] h-[50px] relative">
-                        <NPC parts={player.clothing} />
+                        <NPCIcon parts={player.clothing} />
                       </div>
                       <div className="flex flex-col items-start">
                         <span className="flex items-center gap-3 text-sm">

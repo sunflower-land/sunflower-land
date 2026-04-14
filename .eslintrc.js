@@ -1,4 +1,11 @@
-// eslint-disable-next-line no-undef
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const reactHooks = require("eslint-plugin-react-hooks");
+
+const hasSetStateInEffectRule =
+  reactHooks?.rules?.["set-state-in-effect"] !== undefined;
+const hasPurityRule = reactHooks?.rules?.purity !== undefined;
+
 module.exports = {
   env: {
     browser: true,
@@ -20,6 +27,11 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
   plugins: ["react", "@typescript-eslint", "unused-imports"],
   ignorePatterns: ["*.typegen.ts"],
   rules: {
@@ -36,6 +48,16 @@ module.exports = {
         argsIgnorePattern: "^_",
       },
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_",
+      },
+    ],
+    "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": [
       "error",
       {

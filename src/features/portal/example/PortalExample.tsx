@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { useActor, useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
@@ -16,6 +16,9 @@ import { authorisePortal } from "../lib/portalUtil";
 import { PortalMachineState } from "./lib/portalMachine";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
+import { getFont, getLanguage } from "../actions/loadPortal";
+import i18n from "lib/i18n";
+import { changeFont } from "lib/utils/fonts";
 
 const _gameState = (state: PortalMachineState) => state.context.state;
 
@@ -28,6 +31,21 @@ export const PortalExample: React.FC = () => {
   const { t } = useAppTranslation();
 
   const gameState = useSelector(portalService, _gameState);
+
+  useEffect(() => {
+    // load language from query params
+    const parentLanguage = getLanguage();
+    const appLanguage = localStorage.getItem("language") || "en";
+
+    if (appLanguage !== parentLanguage) {
+      localStorage.setItem("language", parentLanguage);
+      i18n.changeLanguage(parentLanguage);
+    }
+
+    // load font from query params
+    const font = getFont();
+    changeFont(font);
+  }, []);
 
   if (portalState.matches("error")) {
     return (

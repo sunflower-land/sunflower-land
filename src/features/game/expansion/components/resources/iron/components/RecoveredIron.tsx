@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -10,38 +11,57 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import { ZoomContext } from "components/ZoomProvider";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
+import { IronRockName } from "features/game/types/resources";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 
 const tool = "Stone Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-
 interface Props {
+  season: TemperateSeasonName;
+  island: GameState["island"];
   hasTool: boolean;
   touchCount: number;
+  ironRockName: IronRockName;
+  requiredToolAmount: Decimal;
+  inventory: Partial<Record<InventoryItemName, Decimal>>;
 }
 
-const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+const RecoveredIronComponent: React.FC<Props> = ({
+  hasTool,
+  touchCount,
+  season,
+  island,
+  ironRockName,
+  requiredToolAmount,
+  inventory,
+}) => {
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    loadAudio([miningAudio]);
+  const { play: miningAudio } = useSound("mining");
 
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[ironRockName];
+
+  useEffect(() => {
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -50,11 +70,10 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, miningAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -80,20 +99,10 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
         })}
       >
         {/* static resource node image */}
-        {!showSpritesheet && (
-          <img
-            src={SUNNYSIDE.resource.ironStone}
-            className={"absolute pointer-events-none"}
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
+        {touchCount === 0 && <Image />}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <Spritesheet
             className="pointer-events-none"
             style={{
@@ -122,9 +131,6 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!strikeGif.current) {
-                setShowSpritesheet(false);
-              }
             }}
           />
         )}
@@ -141,7 +147,9 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")}{" "}
+                {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
+                {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>

@@ -11,6 +11,7 @@ type TutorialName =
   | "Treasure Detector"
   | "Pirate Quest"
   | "Garbage Collector"
+  | "Incinerator"
   | "Chore Master";
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {

@@ -1,45 +1,61 @@
-import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { COOKABLES } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
-import React from "react";
-import { MachineInterpreter } from "../../lib/craftingMachine";
+import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Button } from "components/ui/Button";
+import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
+import { BuildingProduct, GameState } from "features/game/types/game";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import fastForward from "assets/icons/fast_forward.png";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 
 interface Props {
-  craftingService: MachineInterpreter;
+  product: BuildingProduct;
   onClose: () => void;
-  isOilBoosted: boolean;
+  isOilBoosted?: boolean;
+  onInstantReady: (gems: number) => void;
+  state: GameState;
 }
 
 export const InProgressInfo: React.FC<Props> = ({
-  craftingService,
-  onClose,
+  product,
   isOilBoosted,
+  onInstantReady,
+  state,
 }) => {
   const { t } = useAppTranslation();
 
-  const [
-    {
-      context: { secondsTillReady, name },
-    },
-  ] = useActor(craftingService);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const { totalSeconds: secondsTillReady } = useCountdown(product.readyAt ?? 0);
 
-  if (!name || !secondsTillReady) return null;
+  const isCookableName = (name: string | undefined): name is CookableName =>
+    !!name && name in COOKABLES;
 
-  if (secondsTillReady <= 0) {
-    onClose();
-  }
+  const getProductTotalSeconds = () => {
+    if (isCookableName(product.name)) {
+      return COOKABLES[product.name].cookingSeconds;
+    }
 
-  const { cookingSeconds } = COOKABLES[name];
+    return FISH_PROCESSING_TIME_SECONDS[product.name];
+  };
+
+  const totalSeconds = getProductTotalSeconds();
+  const { inventory } = state;
+
+  const gems = useRealTimeInstantGems({
+    readyAt: product.readyAt,
+    game: state,
+  });
 
   return (
-    <div className="flex flex-col mb-2">
+    <div className="flex flex-col mb-2 w-full">
       <Label
         className="mr-3 ml-2 mb-1"
         icon={SUNNYSIDE.icons.stopwatch}
@@ -47,9 +63,9 @@ export const InProgressInfo: React.FC<Props> = ({
       >
         {t("in.progress")}
       </Label>
-      <div className="flex">
+      <div className="flex items-center justify-between">
         <Box
-          image={ITEM_DETAILS[name].image}
+          image={ITEM_DETAILS[product.name].image}
           // alternateIcon={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
           secondaryImage={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
         />
@@ -65,10 +81,37 @@ export const InProgressInfo: React.FC<Props> = ({
             {secondsToString(secondsTillReady, { length: "medium" })}
           </span>
           <ResizableBar
-            percentage={(1 - secondsTillReady / cookingSeconds) * 100}
+            percentage={(1 - secondsTillReady / totalSeconds) * 100}
             type="progress"
           />
         </div>
+
+        <Button
+          disabled={!inventory.Gem?.gte(gems)}
+          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
+          onClick={() => setShowConfirmation(true)}
+        >
+          <div className="flex items-center justify-center gap-1 mx-2">
+            <img src={fastForward} className="h-5" />
+            <span className="text-sm flex items-center">{gems}</span>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+          </div>
+        </Button>
+
+        <ConfirmationModal
+          show={showConfirmation}
+          onHide={() => setShowConfirmation(false)}
+          onCancel={() => setShowConfirmation(false)}
+          onConfirm={() => {
+            onInstantReady(gems);
+            setShowConfirmation(false);
+          }}
+          messages={[
+            t("instantCook.confirmationMessage"),
+            t("instantCook.costMessage", { gems }),
+          ]}
+          confirmButtonLabel={t("instantCook.finish")}
+        />
       </div>
     </div>
   );

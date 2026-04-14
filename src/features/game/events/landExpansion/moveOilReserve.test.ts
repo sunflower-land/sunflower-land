@@ -9,14 +9,11 @@ describe("moveOilReserve", () => {
           ...TEST_FARM,
           oilReserves: {
             "1": {
-              height: 1,
-              width: 1,
               drilled: 1,
               createdAt: 0,
               x: 1,
               y: 1,
               oil: {
-                amount: 1,
                 drilledAt: 0,
               },
             },
@@ -37,36 +34,27 @@ describe("moveOilReserve", () => {
         ...TEST_FARM,
         oilReserves: {
           "123": {
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
             oil: {
-              amount: 1,
               drilledAt: 0,
             },
             createdAt: 0,
             drilled: 1,
           },
           "456": {
-            height: 1,
-            width: 1,
             x: 4,
             y: 4,
             oil: {
-              amount: 1,
               drilledAt: 0,
             },
             drilled: 1,
             createdAt: 0,
           },
           "789": {
-            height: 1,
-            width: 1,
             x: 8,
             y: 8,
             oil: {
-              amount: 1,
               drilledAt: 0,
             },
             drilled: 1,
@@ -83,36 +71,27 @@ describe("moveOilReserve", () => {
 
     expect(gameState.oilReserves).toEqual({
       "123": {
-        height: 1,
-        width: 1,
         x: 2,
         y: 2,
         oil: {
-          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,
         createdAt: 0,
       },
       "456": {
-        height: 1,
-        width: 1,
         x: 4,
         y: 4,
         oil: {
-          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,
         createdAt: 0,
       },
       "789": {
-        height: 1,
-        width: 1,
         x: 8,
         y: 8,
         oil: {
-          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,

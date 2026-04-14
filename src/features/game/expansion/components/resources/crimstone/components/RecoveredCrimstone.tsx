@@ -11,7 +11,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import crimstone_1 from "assets/resources/crimstone/crimstone_rock_1.webp";
 import crimstone_2 from "assets/resources/crimstone/crimstone_rock_2.webp";
 import crimstone_3 from "assets/resources/crimstone/crimstone_rock_3.webp";
@@ -23,6 +22,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCrimstoneStage } from "../Crimstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Gold Pickaxe";
 
@@ -46,16 +46,14 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   minedAt,
 }) => {
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const { t } = useAppTranslation();
 
+  const { play: miningAudio } = useSound("mining");
   useEffect(() => {
-    loadAudio([miningAudio]);
-
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -72,11 +70,10 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, miningAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -102,7 +99,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         })}
       >
         {/* static resource node image */}
-        {!showSpritesheet && (
+        {touchCount === 0 && (
           <img
             src={crimstoneImage}
             className={"absolute pointer-events-none"}
@@ -115,7 +112,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         )}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <>
             <img
               src={crimstoneImage}
@@ -154,9 +151,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
               loop={true}
               onLoopComplete={(spritesheet) => {
                 spritesheet.pause();
-                if (touchCount == 0 && !!strikeGif.current) {
-                  setShowSpritesheet(false);
-                }
               }}
             />
           </>

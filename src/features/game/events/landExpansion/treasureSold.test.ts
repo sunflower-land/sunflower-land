@@ -3,7 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import {
   BeachBountyTreasure,
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { sellTreasure } from "./treasureSold";
 
@@ -74,7 +74,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice,
     );
   });
 
@@ -95,7 +95,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Wooden Compass"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Wooden Compass"].sellPrice,
+      GAME_STATE.coins + SELLABLE_TREASURES["Wooden Compass"].sellPrice,
     );
   });
 
@@ -126,7 +126,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.2,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 1.2,
     );
   });
 
@@ -157,7 +157,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.3,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 1.3,
     );
   });
 
@@ -178,7 +178,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 4,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 4,
     );
   });
 
@@ -214,8 +214,8 @@ describe("treasureSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      SELLABLE_TREASURE["Clam Shell"].sellPrice,
+    expect(state.farmActivity["Coins Earned"]).toEqual(
+      SELLABLE_TREASURES["Clam Shell"].sellPrice,
     );
   });
 
@@ -234,6 +234,34 @@ describe("treasureSold", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Clam Shell Sold"]).toEqual(amount);
+    expect(state.farmActivity["Clam Shell Sold"]).toEqual(amount);
+  });
+
+  it("only sells one treasure even when they are placed", () => {
+    const state = sellTreasure({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Giant Apple": new Decimal(3),
+        },
+        collectibles: {
+          "Giant Apple": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "12",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "treasure.sold",
+        item: "Giant Apple",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Giant Apple"]).toEqual(new Decimal(2));
   });
 });

@@ -12,7 +12,8 @@ export const INITIAL_EXPANSIONS =
 
 export const TEST_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 1000,
+  // TODO: feat/crafting-box - remove this
+  experience: 200000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -28,9 +29,4 @@ export const TEST_BUMPKIN: Bumpkin = {
   },
   skills: {},
   achievements: {},
-  activity: {
-    "Reindeer Carrot Fed": 50,
-    "Sunflower Planted": 5,
-    "Tree Chopped": 5,
-  },
 };

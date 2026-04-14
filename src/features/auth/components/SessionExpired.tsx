@@ -4,12 +4,10 @@ import * as Auth from "features/auth/lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { removeJWT } from "../actions/social";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const { walletService } = useContext(WalletContext);
   const { t } = useAppTranslation();
 
   return (
@@ -32,7 +30,6 @@ export const SessionExpired: React.FC = () => {
         onClick={() => {
           removeJWT();
           authService.send("REFRESH");
-          walletService.send("RESET");
         }}
       >
         {t("refresh")}

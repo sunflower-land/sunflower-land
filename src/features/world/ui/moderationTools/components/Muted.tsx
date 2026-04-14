@@ -45,7 +45,7 @@ export const Muted: React.FC<{
           </div>
           <div className="flex flex-col justify-center text-center">
             <p className="text-sm">{"Reason:"}</p>
-            <p className="text-sm">{event.reason}</p>
+            <p className="text-sm">{event.arg}</p>
           </div>
           <div className="flex flex-col justify-center text-center">
             <p className="text-sm">{"You are muted until"}</p>

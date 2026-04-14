@@ -1,12 +1,13 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   Bumpkin,
+  GameState,
   ExpansionRequirements as IExpansionRequirements,
   Inventory,
 } from "features/game/types/game";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -15,6 +16,21 @@ import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { ResizableBar } from "../ProgressBar";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { Button } from "../Button";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Context } from "features/game/GameProvider";
+import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import vipIcon from "assets/icons/vip.webp";
+import {
+  useExpansionCoinCostWithVip,
+  useVipAccess,
+} from "lib/utils/hooks/useVipAccess";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -28,7 +44,8 @@ interface Props {
   bumpkin: Bumpkin;
   details: DetailsProps;
   requirements: IExpansionRequirements;
-  actionView?: JSX.Element;
+  state: GameState;
+  onClose: () => void;
 }
 
 /**
@@ -49,13 +66,53 @@ export const ExpansionRequirements: React.FC<Props> = ({
   bumpkin,
   details,
   requirements,
-  actionView,
   coins,
+  state,
+  onClose,
 }: Props) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
 
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
+
+  const fullCoinRequirement = requirements.coins ?? 0;
+  const effectiveCoinCost = useExpansionCoinCostWithVip({
+    coins: requirements.coins,
+    game: state,
+  });
+  const hasVip = useVipAccess({ game: state });
+  const showVipDiscount =
+    !!fullCoinRequirement && hasVip && effectiveCoinCost < fullCoinRequirement;
+  const requirementsWithVipCoins = {
+    ...requirements,
+    coins: effectiveCoinCost,
+  };
+
+  const onExpand = () => {
+    gameService.send("land.expanded");
+    gameService.send("SAVE");
+
+    const blockBucks = requirements?.resources["Gem"] ?? 0;
+    if (blockBucks) {
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: blockBucks,
+        item: "Basic Land",
+        type: "Fee",
+      });
+    }
+
+    const expansions = (state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+
+    gameAnalytics.trackMilestone({
+      event: `Farm:Expanding:Expansion${expansions}`,
+    });
+
+    onClose();
+  };
+
+  const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
 
   return (
     <div className="flex flex-col justify-center">
@@ -90,13 +147,28 @@ export const ExpansionRequirements: React.FC<Props> = ({
 
         <InnerPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
           {!!requirements.coins && (
-            <RequirementLabel
-              key={"coins"}
-              type="coins"
-              balance={coins}
-              showLabel
-              requirement={requirements.coins}
-            />
+            <div key={"coins"} className="flex items-center gap-1 flex-wrap">
+              <RequirementLabel
+                type="coins"
+                balance={coins}
+                showLabel
+                requirement={effectiveCoinCost}
+              />
+
+              {showVipDiscount && (
+                <span className="flex items-center gap-1">
+                  <span className="line-through text-xs">
+                    {requirements.coins.toLocaleString()}
+                  </span>
+                  <img
+                    src={vipIcon}
+                    alt="VIP"
+                    className="h-4 w-4"
+                    title="VIP discount"
+                  />
+                </span>
+              )}
+            </div>
           )}
           {getKeys(requirements.resources).map((itemName) => {
             return (
@@ -123,7 +195,82 @@ export const ExpansionRequirements: React.FC<Props> = ({
           </>
         )}
       </div>
-      {actionView}
+      <Button onClick={onExpand} disabled={!canExpand}>
+        {t("expand")}
+      </Button>
     </div>
+  );
+};
+
+export const Expanding: React.FC<{
+  state: GameState;
+  onClose: () => void;
+  onInstantExpanded: () => void;
+  readyAt: number;
+  gems: number;
+}> = ({ state, onClose, onInstantExpanded, readyAt, gems }) => {
+  const { t } = useAppTranslation();
+
+  const { requirements } = expansionRequirements({ game: state });
+  const totalSeconds = requirements?.seconds ?? 0;
+  const { totalSeconds: secondsTillReady, ...ready } = useCountdown(
+    readyAt ?? 0,
+  );
+
+  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > readyAt) {
+        onClose();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      <div className="p-1 ">
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.stopwatch}
+        >{`In progress`}</Label>
+        <p className="text-sm my-2">{t("crafting.expansionSoon")}</p>
+        <div className="flex items-center mb-1">
+          <div>
+            <div className="relative flex flex-col w-full">
+              <div className="flex items-center gap-x-1">
+                <ResizableBar
+                  percentage={(1 - secondsTillReady! / totalSeconds) * 100}
+                  type="progress"
+                />
+                <TimerDisplay time={ready} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex">
+        <Button onClick={onClose}>{t("close")}</Button>
+        {hasAccess && (
+          <Button
+            disabled={!state.inventory.Gem?.gte(gems)}
+            className="relative ml-1"
+            onClick={onInstantExpanded}
+          >
+            {t("gems.speedUp")}
+            <Label
+              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+              icon={ITEM_DETAILS.Gem.image}
+              className="flex absolute right-0 -top-5"
+            >
+              {gems}
+            </Label>
+          </Button>
+        )}
+      </div>
+    </>
   );
 };

@@ -1,11 +1,14 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import { expansionRequirements } from "./revealLand";
 import { produce } from "immer";
+import { trackFarmActivity } from "features/game/types/farmActivity";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getExpansionCoinCostWithVip } from "features/game/lib/vipAccess";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -18,11 +21,11 @@ type Options = {
   createdAt?: number;
 };
 
-export function expandLand({ state, action, createdAt = Date.now() }: Options) {
+export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
 
-    const requirements = expansionRequirements({ game });
+    const { requirements, boostsUsed } = expansionRequirements({ game });
     if (!requirements) {
       throw new Error("No more land expansions available");
     }
@@ -36,11 +39,20 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Insufficient Bumpkin Level");
     }
 
-    const coinRequirement = requirements.coins ?? 0;
-    if (game.coins < coinRequirement) {
+    const effectiveCoinCost = getExpansionCoinCostWithVip({
+      coins: requirements.coins,
+      game,
+      now: createdAt,
+    });
+    if (game.coins < effectiveCoinCost) {
       throw new Error("Insufficient coins");
     }
-    game.coins -= coinRequirement;
+    game.coins -= effectiveCoinCost;
+    game.farmActivity = trackFarmActivity(
+      "Coins Spent",
+      game.farmActivity,
+      new Decimal(effectiveCoinCost),
+    );
 
     const inventory = getKeys(requirements.resources).reduce(
       (inventory, ingredientName) => {
@@ -78,6 +90,13 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.expandedAt = createdAt;
 
     game.inventory = inventory;
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
+
     return game;
   });
 }

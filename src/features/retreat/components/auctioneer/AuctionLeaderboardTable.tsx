@@ -1,10 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 import { AuctionResults } from "features/game/lib/auctionMachine";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-122.php
 export const toOrdinalSuffix = (num: number) => {
@@ -57,12 +58,18 @@ export const AuctionLeaderboardTable: React.FC<{
           {leaderboard.map((result, index) => (
             <tr
               key={index}
-              className={classNames({
+              className={classNames("cursor-pointer", {
                 "bg-green-500": status === "winner" && result.farmId === farmId,
                 "bg-red-500":
                   (status === "loser" || status === "tiebreaker") &&
                   result.farmId === farmId,
               })}
+              onClick={() =>
+                playerModalManager.open({
+                  farmId: result.farmId,
+                  username: result.username,
+                })
+              }
             >
               <td
                 style={{ border: "1px solid #b96f50" }}

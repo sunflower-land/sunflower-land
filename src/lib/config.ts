@@ -40,18 +40,17 @@ const LOST_AND_FOUND_CONTRACT = import.meta.env
   .VITE_LOST_AND_FOUND_CONTRACT as string;
 const DAILY_REWARD_CONTRACT = import.meta.env
   .VITE_DAILY_REWARD_CONTRACT as string;
+const RONIN_DAILY_REWARD_CONTRACT = import.meta.env
+  .VITE_RONIN_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
-const BUY_BLOCK_BUCKS_CONTRACT = import.meta.env
-  .VITE_BUY_BLOCK_BUCKS_CONTRACT as string;
+const BUY_GEMS_CONTRACT = import.meta.env.VITE_BUY_GEMS_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
-const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
-const BUD_DEPOSIT_CONTRACT = import.meta.env
-  .VITE_BUD_DEPOSIT_CONTRACT as string;
 const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
 const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
+const ALCHEMY_KEY = import.meta.env.VITE_ALCHEMY_KEY as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
 const POKO_API_KEY = import.meta.env.VITE_POKO_API_KEY as string;
 const POKO_DIRECT_CHECKOUT_API_KEY = import.meta.env
@@ -60,6 +59,12 @@ const WALLETCONNECT_PROJECT_ID = import.meta.env
   .VITE_WALLETCONNECT_PROJECT_ID as string;
 const CHRISTMAS_EVENT_DONATION = import.meta.env
   .VITE_CHRISTMAS_EVENT_DONATION as string;
+const WITHDRAW_FLOWER_CONTRACT = import.meta.env
+  .VITE_WITHDRAW_FLOWER_CONTRACT as string;
+const WITHDRAW_PET_CONTRACT = import.meta.env
+  .VITE_WITHDRAW_PET_CONTRACT as string;
+const DEPOSIT_V2_CONTRACT = import.meta.env.VITE_DEPOSIT_V2_CONTRACT as string;
+const PET_CONTRACT = import.meta.env.VITE_PET_CONTRACT as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -80,9 +85,26 @@ const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 const PORTAL_URL = import.meta.env.VITE_ROOM_URL;
 const ANIMATION_URL = import.meta.env.VITE_ANIMATION_URL as string;
 
+const WITHDRAW_SFL_CONTRACT = import.meta.env
+  .VITE_WITHDRAW_SFL_CONTRACT as string;
+const ALGEBRA_QUOTER_CONTRACT = import.meta.env
+  .VITE_ALGEBRA_QUOTER_CONTRACT as string;
+const USDC_CONTRACT = import.meta.env.VITE_USDC_CONTRACT as string;
+const FLOWER_CONTRACT = import.meta.env.VITE_FLOWER_CONTRACT as string;
+
+const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY as string;
+const FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY as string;
+const FIREBASE_MESSAGING_SENDER_ID = import.meta.env
+  .VITE_FIREBASE_MESSAGING_SENDER_ID as string;
+const FIREBASE_APP_ID = import.meta.env.VITE_FIREBASE_APP_ID as string;
+
+const TELEGRAM_BOT = import.meta.env.VITE_TELEGRAM_BOT as string;
+const TWITTER_CLIENT_ID = import.meta.env.VITE_TWITTER_CLIENT_ID as string;
+
+const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string;
+
 export const CONFIG = {
   DEQUIPPER_CONTRACT,
-
   NETWORK,
   POLYGON_CHAIN_ID,
   DONATION_ADDRESS,
@@ -112,19 +134,26 @@ export const CONFIG = {
   BUMPKIN_CONTRACT,
   QUEST_CONTRACT,
   DAILY_REWARD_CONTRACT,
+  RONIN_DAILY_REWARD_CONTRACT,
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
   SEAL_CONTRACT,
   LOST_AND_FOUND_CONTRACT,
-  DEPOSIT_CONTRACT,
-  BUD_DEPOSIT_CONTRACT,
-  BUY_BLOCK_BUCKS_CONTRACT,
+  BUY_GEMS_CONTRACT,
   ALCHEMY_RPC,
+  ALCHEMY_KEY,
   GAME_CONTRACT,
   WITHDRAWAL_CONTRACT,
+  WITHDRAW_SFL_CONTRACT,
   AUCTION_CONTRACT,
   BUD_CONTRACT,
+  ALGEBRA_QUOTER_CONTRACT,
+  FLOWER_CONTRACT,
+  WITHDRAW_PET_CONTRACT,
+  DEPOSIT_V2_CONTRACT,
+  WITHDRAW_FLOWER_CONTRACT,
+  PET_CONTRACT,
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
@@ -141,4 +170,13 @@ export const CONFIG = {
   SEQUENCE_ACCESS_KEY,
   PORTAL_URL,
   ANIMATION_URL,
+  USDC_CONTRACT,
+  FIREBASE_VAPID_KEY,
+  FIREBASE_API_KEY,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+  TELEGRAM_BOT,
+  TWITTER_CLIENT_ID,
+
+  META_PIXEL_ID,
 };

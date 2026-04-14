@@ -10,32 +10,46 @@ import trophy from "assets/icons/trophy.png";
 import gift from "assets/icons/gift.png";
 import { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
+
+export type NoticeboardItemsElements = {
+  text: string | React.ReactNode;
+  icon?: string;
+  label?: BuffLabel;
+};
+
 interface NoticeboardItemProps {
-  items: { text: string; icon: string; label?: BuffLabel }[];
+  items: NoticeboardItemsElements[];
   iconWidth?: number;
 }
+
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
   items,
   iconWidth = 12,
 }) => {
   return (
-    <>
+    <div className="flex flex-col gap-1">
       {items.map((item, index) => (
-        <div className="flex mb-2 items-center" key={index}>
+        <div className="flex mb-1 items-center" key={index}>
           <div className={`w-${iconWidth} flex justify-center`}>
-            <img src={item.icon} className="h-6 mr-2 object-contain" />
+            {item.icon && (
+              <img src={item.icon} className="h-6 mr-2 object-contain" />
+            )}
           </div>
-          <div>
-            <p className="text-xs  flex-1">{item.text}</p>
+          <div className="w-full">
+            <p className="text-xs flex-1">{item.text}</p>
             {item.label && (
-              <Label type={item.label.labelType}>
+              <Label
+                type={item.label.labelType}
+                icon={item.label.boostTypeIcon}
+                secondaryIcon={item.label.boostedItemIcon}
+              >
                 {item.label.shortDescription}
               </Label>
             )}
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

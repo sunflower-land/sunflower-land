@@ -1,10 +1,15 @@
-import { GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";
 
-export type FruitCompostName = "Fruitful Blend";
-export type CropCompostName = "Sprout Mix" | "Rapid Root";
+export type FruitCompostName = "Fruitful Blend" | "Turbofruit Mix";
+export type CropCompostName =
+  | "Sprout Mix"
+  | "Rapid Root"
+  | "Sproutroot Surprise";
+
+export type GreenhouseCompostName = "Greenhouse Glow" | "Greenhouse Goodie";
 
 export type CompostName = FruitCompostName | CropCompostName;
 
@@ -30,6 +35,9 @@ export const FRUIT_COMPOST: Record<FruitCompostName, { description: string }> =
     "Fruitful Blend": {
       description: translate("compost.fruitfulBlend"),
     },
+    "Turbofruit Mix": {
+      description: translate("compost.turbofruitMix"),
+    },
   };
 
 export const CROP_COMPOST: Record<
@@ -51,6 +59,27 @@ export const CROP_COMPOST: Record<
   "Rapid Root": {
     description: translate("compost.rapidRoot"),
   },
+  "Sproutroot Surprise": {
+    description: translate("compost.sproutrootSurprise"),
+    boostedDescriptions: [
+      {
+        name: "Knowledge Crab",
+        description: translate("compost.sproutrootSurpriseBoosted"),
+      },
+    ],
+  },
+};
+
+export const GREENHOUSE_COMPOST: Record<
+  GreenhouseCompostName,
+  { description: string }
+> = {
+  "Greenhouse Glow": {
+    description: translate("compost.greenhouseGlow"),
+  },
+  "Greenhouse Goodie": {
+    description: translate("compost.greenhouseGoodie"),
+  },
 };
 
 type Requirements = Partial<Record<InventoryItemName, number>>;
@@ -60,8 +89,8 @@ export type ComposterDetails = {
   produce: CompostName;
   produceAmount: number;
   worm: Worm;
-  eggBoostRequirements: number;
-  eggBoostMilliseconds: number;
+  resourceBoostRequirements: number;
+  resourceBoostMilliseconds: number;
 };
 
 export const composterDetails: Record<ComposterName, ComposterDetails> = {
@@ -70,24 +99,24 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     produce: "Sprout Mix",
     produceAmount: 10,
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
-    eggBoostRequirements: 10,
-    eggBoostMilliseconds: 2 * 60 * 60 * 1000,
+    resourceBoostRequirements: 10,
+    resourceBoostMilliseconds: 2 * 60 * 60 * 1000,
   },
   "Turbo Composter": {
     produce: "Fruitful Blend",
     produceAmount: 3,
     worm: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
-    eggBoostRequirements: 20,
-    eggBoostMilliseconds: 3 * 60 * 60 * 1000,
+    resourceBoostRequirements: 20,
+    resourceBoostMilliseconds: 3 * 60 * 60 * 1000,
   },
   "Premium Composter": {
     produce: "Rapid Root",
     produceAmount: 10,
     worm: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
-    eggBoostRequirements: 30,
-    eggBoostMilliseconds: 4 * 60 * 60 * 1000,
+    resourceBoostRequirements: 30,
+    resourceBoostMilliseconds: 4 * 60 * 60 * 1000,
   },
 };
 
@@ -97,3 +126,62 @@ export function isComposting(game: GameState, name: ComposterName): boolean {
   if (!producing) return false;
   return Date.now() > producing?.readyAt;
 }
+
+export const SEASON_COMPOST_REQUIREMENTS: Record<
+  ComposterName,
+  Record<TemperateSeasonName, Requirements>
+> = {
+  "Compost Bin": {
+    spring: {
+      Rhubarb: 10,
+      Carrot: 5,
+    },
+    summer: {
+      Zucchini: 10,
+      Pepper: 2,
+    },
+    autumn: {
+      Yam: 15,
+    },
+    winter: {
+      Potato: 10,
+      Cabbage: 3,
+    },
+  },
+  "Turbo Composter": {
+    spring: {
+      Soybean: 5,
+      Corn: 3,
+    },
+    summer: {
+      Cauliflower: 4,
+      Eggplant: 3,
+    },
+    autumn: {
+      Broccoli: 10,
+      Artichoke: 2,
+    },
+    winter: {
+      Onion: 5,
+      Turnip: 2,
+    },
+  },
+  "Premium Composter": {
+    spring: {
+      Blueberry: 8,
+      Egg: 5,
+    },
+    summer: {
+      Banana: 3,
+      Egg: 5,
+    },
+    autumn: {
+      Apple: 4,
+      Tomato: 5,
+    },
+    winter: {
+      Lemon: 3,
+      Apple: 3,
+    },
+  },
+};

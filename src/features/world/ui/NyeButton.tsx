@@ -8,6 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useActor } from "@xstate/react";
 import { translate } from "lib/i18n/translate";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -19,6 +20,8 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const now = useNow();
+
   const hasClaimed = !!gameState.context.state.wardrobe?.["New Years Tiara"];
 
   if (showReward) {
@@ -26,7 +29,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel>
         <ClaimReward
           reward={{
-            createdAt: Date.now(),
+            createdAt: now,
             id: "2023-nye-reward",
             items: {},
             wearables: {

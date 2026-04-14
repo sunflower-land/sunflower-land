@@ -23,6 +23,11 @@ export async function reset(request: Request) {
     },
   });
 
+  if (response.status === 409) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
   if (response.status >= 400) {
     throw new Error(ERRORS.RESET_SERVER_ERROR);
   }

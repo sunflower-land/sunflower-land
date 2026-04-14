@@ -1,22 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-
-import desertShakeSheet from "assets/resources/tree/desert_shake_sheet.webp";
-import cacti from "assets/resources/tree/cacti.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { chopAudio, loadAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
-import { IslandType } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { TreeName } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
+import { TREE_SHAKE_SHEET_VARIANTS } from "features/island/lib/alternateArt";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
+import { Context } from "features/game/GameProvider";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const tool = "Axe";
 
@@ -27,35 +30,36 @@ interface Props {
   hasTool: boolean;
   showHelper: boolean;
   touchCount: number;
-  island: IslandType;
+  island: GameState["island"];
+  season: TemperateSeasonName;
+  id: string;
 }
-
-const SHAKE_SHEET: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.shakeSheet,
-  spring: SUNNYSIDE.resource.springShakeSheet,
-  desert: desertShakeSheet,
-};
-
-const TREE_IMAGE: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.tree,
-  spring: SUNNYSIDE.resource.spring_tree,
-  desert: cacti,
-};
 
 const RecoveredTreeComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   showHelper,
   island,
+  season,
+  id,
 }) => {
+  const { gameService } = useContext(Context);
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
+  const state = useSelector(gameService, (state) => state.context.state);
 
-  const shakeGif = useRef<SpriteSheetInstance>();
+  const biome: LandBiomeName = getCurrentBiome(island);
+
+  const shakeGif = useRef<SpriteSheetInstance>(undefined);
   const { t } = useAppTranslation();
 
-  loadAudio([chopAudio]);
+  const { play: chopAudio } = useSound("chop");
+
+  const tree = (state.trees[id]?.name ?? "Tree") as TreeName;
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[tree];
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {
@@ -66,11 +70,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
-      chopAudio.play();
+      chopAudio();
       shakeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, chopAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -108,20 +111,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         )}
 
         {/* static tree image */}
-        {!showSpritesheet && (
-          <img
-            src={TREE_IMAGE[island]}
-            className={"absolute pointer-events-none"}
-            style={{
-              width: `${PIXEL_SCALE * 26}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 3}px`,
-            }}
-          />
-        )}
+        {touchCount === 0 && <Image />}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <Spritesheet
             className="pointer-events-none"
             style={{
@@ -132,14 +125,14 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
               // Adjust the base of tree to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * 2}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
               right: `${PIXEL_SCALE * -4}px`,
             }}
             getInstance={(spritesheet) => {
               shakeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={SHAKE_SHEET[island]}
+            image={TREE_SHAKE_SHEET_VARIANTS(biome, season, tree)}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}
@@ -150,9 +143,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!shakeGif.current) {
-                setShowSpritesheet(false);
-              }
             }}
           />
         )}

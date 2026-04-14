@@ -1,32 +1,14 @@
 import React from "react";
-
-import { SUNNYSIDE } from "assets/sunnyside";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { WAREHOUSE_VARIANTS } from "features/island/lib/alternateArt";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
-export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
-  const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
-    if (isBuilt) {
-      // Add future on click actions here
-      return;
-    }
-  };
-
+export const Warehouse: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper
-      name="Warehouse"
-      onClick={handleClick}
-      nonInteractible={!onRemove}
-    >
+    <SFTDetailPopover name="Warehouse">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 50}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
@@ -34,12 +16,12 @@ export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         }}
       >
         <img
-          src={SUNNYSIDE.building.warehouse}
+          src={WAREHOUSE_VARIANTS[season]}
           style={{
             width: `${PIXEL_SCALE * 50}px`,
           }}
         />
       </div>
-    </BuildingImageWrapper>
+    </SFTDetailPopover>
   );
 };

@@ -1,13 +1,15 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState, Position } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import {
   detectCollision,
   isOverlapping,
   isWithinAOE,
+  Position,
 } from "./collisionDetection";
 import { Dimensions } from "features/game/types/buildings";
 import cloneDeep from "lodash.clonedeep";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 describe("isOverlapping", () => {
   it("returns false if there is no overlap between two positions", () => {
@@ -173,33 +175,6 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
-  it("returns true if a collision is detected with a chicken", () => {
-    const state: GameState = cloneDeep(TEST_FARM);
-    state.chickens = {
-      0: {
-        coordinates: {
-          x: 1,
-          y: 1,
-        },
-        multiplier: 1,
-      },
-    };
-
-    const hasCollision = detectCollision({
-      state,
-      position: {
-        x: 1,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      location: "farm",
-      name: "Abandoned Bear",
-    });
-
-    expect(hasCollision).toBe(true);
-  });
-
   it("returns true if a collision is detected with a bud", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.buds = {
@@ -233,44 +208,7 @@ describe("detectCollisions", () => {
 });
 
 describe("isWithinAOE", () => {
-  const GAME_STATE: GameState = {
-    ...TEST_FARM,
-    balance: new Decimal(0),
-    inventory: {},
-    crops: {
-      0: {
-        createdAt: Date.now(),
-        height: 1,
-        width: 1,
-        x: 0,
-        y: 0,
-        crop: {
-          name: "Sunflower",
-          plantedAt: 0,
-          amount: 1,
-        },
-      },
-    },
-    gold: {
-      0: {
-        height: 1,
-        width: 1,
-        x: 0,
-        y: 0,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-  };
-
-  const firstCropId = Object.keys(GAME_STATE.crops)[0];
-
-  const plotDimensions: Dimensions = {
-    height: GAME_STATE.crops[firstCropId].height,
-    width: GAME_STATE.crops[firstCropId].width,
-  };
+  const plotDimensions: Dimensions = { ...RESOURCE_DIMENSIONS["Crop Plot"] };
 
   const plot1: Position = { x: -1, y: -2, ...plotDimensions };
   const plot2: Position = { x: -1, y: -3, ...plotDimensions };
@@ -757,10 +695,7 @@ describe("isWithinAOE", () => {
   });
 
   it("returns true if the rock is within the Emerald Turtle AOE", () => {
-    const rockDimensions: Dimensions = {
-      height: GAME_STATE.gold[0].height,
-      width: GAME_STATE.gold[0].width,
-    };
+    const rockDimensions: Dimensions = { ...RESOURCE_DIMENSIONS["Gold Rock"] };
 
     const rockPosition1: Position = { x: 1, y: 0, ...rockDimensions };
     const rockPosition2: Position = { x: 1, y: -1, ...rockDimensions };
@@ -849,7 +784,7 @@ describe("isWithinAOE", () => {
 
     const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
 
-    plotPositions.forEach((plotPosition, idx) => {
+    plotPositions.forEach((plotPosition) => {
       const isPlotWithinAoE = isWithinAOE(
         "Queen Cornelia",
         itemPosition,
@@ -885,7 +820,7 @@ describe("isWithinAOE", () => {
 
     const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
 
-    plotPositions.forEach((plotPosition, idx) => {
+    plotPositions.forEach((plotPosition) => {
       const isPlotWithinAoE = isWithinAOE(
         "Queen Cornelia",
         itemPosition,
@@ -921,5 +856,173 @@ describe("isWithinAOE", () => {
     );
 
     expect(cropPlot).toBe(false);
+  });
+});
+
+describe("detectPetHouseCollision", () => {
+  it("detects collision with same-name pet at same coordinates", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.petHouse = {
+      ...state.petHouse,
+      level: 1,
+      pets: {
+        Barkley: [
+          {
+            id: "pet-1",
+            readyAt: 0,
+            createdAt: 0,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+    };
+
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 0, y: 0, height: 1, width: 1 },
+      location: "petHouse",
+      name: "Barkley",
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("allows placing same-name pet at different non-colliding coordinates", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.petHouse = {
+      ...state.petHouse,
+      level: 1,
+      pets: {
+        Barkley: [
+          {
+            id: "pet-1",
+            readyAt: 0,
+            createdAt: 0,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+    };
+
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 2, y: 0, height: 1, width: 1 },
+      location: "petHouse",
+      name: "Barkley",
+    });
+
+    expect(hasCollision).toBe(false);
+  });
+
+  it("detects collision when placing outside pet house bounds", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.petHouse = {
+      ...state.petHouse,
+      level: 1,
+      pets: {},
+    };
+
+    // Level 1 bounds: x: -3 to 4, y: -3 to 3
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 10, y: 10, height: 1, width: 1 },
+      location: "petHouse",
+      name: "Barkley",
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("detects collision with Pet NFT using 2x2 dimensions", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.petHouse = {
+      ...state.petHouse,
+      level: 1,
+      pets: {},
+    };
+    state.pets = {
+      nfts: {
+        1: {
+          id: 1,
+          name: "Pet #1",
+          coordinates: { x: 0, y: 0 },
+          location: "petHouse",
+          requests: { food: [], fedAt: 0 },
+          experience: 0,
+          energy: 100,
+          pettedAt: 0,
+        },
+      },
+    };
+
+    // Trying to place at x: 1, y: 0 should collide with 2x2 Pet NFT at 0,0
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 1, y: 0, height: 1, width: 1 },
+      location: "petHouse",
+      name: "Barkley",
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("allows placing outside Pet NFT 2x2 bounds", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.petHouse = {
+      ...state.petHouse,
+      level: 1,
+      pets: {},
+    };
+    state.pets = {
+      nfts: {
+        1: {
+          id: 1,
+          name: "Pet #1",
+          coordinates: { x: 0, y: 0 },
+          location: "petHouse",
+          requests: { food: [], fedAt: 0 },
+          experience: 0,
+          energy: 100,
+          pettedAt: 0,
+        },
+      },
+    };
+
+    // Placing at x: 2, y: 0 should NOT collide with 2x2 Pet NFT at 0,0
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 2, y: 0, height: 1, width: 1 },
+      location: "petHouse",
+      name: "Barkley",
+    });
+
+    expect(hasCollision).toBe(false);
+  });
+});
+
+describe("detectHomeCollision - same name items", () => {
+  it("detects collision with same-name collectible at same coordinates", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.home = {
+      collectibles: {
+        "Abandoned Bear": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+            createdAt: 0,
+          },
+        ],
+      },
+    };
+
+    const hasCollision = detectCollision({
+      state,
+      position: { x: 0, y: 0, height: 1, width: 1 },
+      location: "home",
+      name: "Abandoned Bear",
+    });
+
+    expect(hasCollision).toBe(true);
   });
 });

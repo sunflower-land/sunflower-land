@@ -1,5 +1,4 @@
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { CollectibleName } from "features/game/types/craftables";
 
 /**
  * Convert game items onto a X,Y Grid
@@ -13,30 +12,60 @@ import { GameState } from "features/game/types/game";
  */
 export type GameGrid = Record<number, Record<number, CollectibleName>>;
 
+function isFence(name: CollectibleName) {
+  return (
+    name === "Fence" ||
+    name === "Stone Fence" ||
+    name === "Golden Fence" ||
+    name === "Golden Stone Fence"
+  );
+}
+
 export function getGameGrid({
-  crops,
-  collectibles,
-}: Pick<GameState, "crops" | "collectibles">) {
+  cropPositions = [],
+  collectiblePositions = [],
+}: {
+  cropPositions: { x: number; y: number }[];
+  collectiblePositions: {
+    x: number;
+    y: number;
+    name: CollectibleName;
+  }[];
+}) {
   const grid: GameGrid = {};
 
-  getKeys(crops || {}).forEach((plotIndex) => {
-    const coords = crops[plotIndex] ?? { x: 0, y: 0 };
-
-    if (!grid[coords.x]) {
-      grid[coords.x] = {};
+  cropPositions.forEach(({ x, y }) => {
+    if (!grid[x]) {
+      grid[x] = {};
     }
-
-    grid[coords.x][coords.y] = "Dirt Path";
+    // Only set if empty, fences/collectibles will override as needed
+    if (!grid[x][y]) {
+      grid[x][y] = "Dirt Path";
+    }
   });
 
-  getKeys(collectibles).forEach((name) => {
-    collectibles[name]?.forEach(({ coordinates }) => {
-      if (!grid[coordinates.x]) {
-        grid[coordinates.x] = {};
-      }
+  collectiblePositions.forEach(({ x, y, name }) => {
+    if (!grid[x]) {
+      grid[x] = {};
+    }
 
-      grid[coordinates.x][coordinates.y] = name;
-    });
+    const existing = grid[x][y];
+
+    if (isFence(existing) && !isFence(name)) {
+      // Keep existing fence, don't let non-fence overwrite
+      return;
+    }
+
+    // Prefer fences, allow fence to replace non-fence or empty
+    if (isFence(name)) {
+      grid[x][y] = name;
+      return;
+    }
+
+    // If not a fence, only set when empty or not already a fence
+    if (!existing) {
+      grid[x][y] = name;
+    }
   });
 
   return grid;

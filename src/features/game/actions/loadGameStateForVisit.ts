@@ -1,9 +1,10 @@
 import { CONFIG } from "lib/config";
 import { GameState } from "../types/game";
+import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
-type VisitGameState = Omit<
+export type VisitGameState = Omit<
   GameState,
   | "tradedAt"
   | "tradeOffer"
@@ -12,14 +13,27 @@ type VisitGameState = Omit<
   | "stock"
   | "stockExpiry"
   | "expansionRequirements"
->;
+> & {
+  moderator: {
+    wallet?: string;
+    discordId?: string;
+    isFaceRecognised?: boolean;
+    account: "wallet" | "google" | "fsl" | "wechat";
+    nftId?: number;
+  };
+};
 
 export async function loadGameStateForVisit(
   id: number,
   token?: string,
 ): Promise<{
-  state: VisitGameState;
+  visitorFarmState: GameState;
   isBanned: boolean;
+  visitorId: number;
+  visitedFarmState: GameState;
+  visitedFarmNftId?: number;
+  hasHelpedPlayerToday: boolean;
+  totalHelpedToday: number;
 }> {
   // Go and fetch the state for the farm you are trying to visit
   const url = `${API_URL}/visit/${id}`;
@@ -33,5 +47,12 @@ export async function loadGameStateForVisit(
 
   const data = await response.json();
 
-  return data;
+  const { visitorFarmState, visitedFarmState, visitedFarmNftId } = data;
+
+  return {
+    ...data,
+    visitorFarmState: makeGame(visitorFarmState),
+    visitedFarmState: makeGame(visitedFarmState),
+    visitedFarmNftId,
+  };
 }

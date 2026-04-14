@@ -1,177 +1,237 @@
 import React, { useContext, useState } from "react";
-import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import {
   BumpkinRevampSkillTree,
   getRevampSkills,
-  REVAMP_SKILL_TREE_CATEGORIES,
+  getRevampSkillTreeCategoriesByIsland,
 } from "features/game/types/bumpkinSkills";
 
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
-import { getKeys } from "features/game/types/craftables";
-import { useActor } from "@xstate/react";
+import { getKeys } from "lib/object";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { setImageWidth } from "lib/images";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import sflIcon from "assets/icons/sfl.webp";
-import { Button } from "components/ui/Button";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { ISLAND_EXPANSIONS } from "features/game/types/game";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import classNames from "classnames";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
-const iconList = {
+import {
+  canResetForFree,
+  getGemCost,
+  PaymentType,
+  getTimeUntilNextFreeReset,
+} from "features/game/events/landExpansion/resetSkills";
+import { SkillReset } from "./SkillReset";
+import fruits from "assets/fruit/fruits.png";
+import Decimal from "decimal.js-light";
+import { capitalize } from "lib/utils/capitalize";
+
+export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
-  Rocks: SUNNYSIDE.skills.rocks,
   Cooking: SUNNYSIDE.skills.cooking,
-  Animals: SUNNYSIDE.skills.animals,
-  Fruit: SUNNYSIDE.skills.animals,
-  Fishing: SUNNYSIDE.skills.animals,
-  Greenhouse: SUNNYSIDE.skills.animals,
-  Mining: SUNNYSIDE.skills.animals,
-  "Bees & Flowers": SUNNYSIDE.skills.animals,
-  Oil: SUNNYSIDE.skills.animals,
-  Machinary: SUNNYSIDE.skills.animals,
+  Animals: SUNNYSIDE.animals.chickenIdle,
+  "Fruit Patch": fruits,
+  Fishing: SUNNYSIDE.icons.fish,
+  Greenhouse: ITEM_DETAILS.Greenhouse.image,
+  Mining: SUNNYSIDE.tools.stone_pickaxe,
+  "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
+  Machinery: ITEM_DETAILS["Crop Machine"].image,
+  Compost: ITEM_DETAILS["Premium Composter"].image,
+  Aging: ITEM_DETAILS["Salt"].image,
 };
 
-export const SkillCategoryList = ({
-  skillPointsInfo,
-  onClick,
-  onBack,
-}: {
-  skillPointsInfo: () => JSX.Element;
+const _state = (state: MachineState) => state.context.state;
+
+export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-  onBack: () => void;
-}) => {
+}> = ({ onClick }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const [showSkillsResetModal, setShowSkillsResetModal] =
-    useState<boolean>(false);
+  const state = useSelector(gameService, _state);
+  const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
+  const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
+    useState(false);
 
-  const { bumpkin } = state;
+  const { bumpkin, inventory } = state;
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
-  // Functions
-  const hasSkills = bumpkin?.skills
-    ? Object.keys(bumpkin.skills).length > 0
-    : false;
-  const threeMonthsSinceLastReset = bumpkin?.previousSkillsResetAt
-    ? new Date(bumpkin.previousSkillsResetAt).getTime() + 7776000000 <
-      Date.now()
-    : true; // 90 days in milliseconds, yeah I know..
-  const enoughSfl = state.balance.toNumber() >= 10;
+  const hasSkills = getKeys(skills).length > 0;
+
+  const getNextResetDateAndTime = () => {
+    const nextResetTime =
+      Date.now() + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
+    const nextResetDate = new Date(nextResetTime);
+
+    return {
+      date: nextResetDate.toLocaleDateString(navigator.language, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      time: nextResetDate.toLocaleTimeString(navigator.language, {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      }),
+    };
+  };
+
+  const gemCost = getGemCost(paidSkillResets);
+
+  const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
+  const gemBalance = inventory.Gem ?? new Decimal(0);
+
+  const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
+    ? "free"
+    : "gems";
 
   const handleSkillsReset = () => {
-    setShowSkillsResetModal(false);
-    gameService.send("skills.reset");
-
-    // can be useful later?
-    gameAnalytics.trackMilestone({
-      event: "Bumpkin:SkillReset",
+    gameService.send({
+      type: "skills.reset",
+      paymentType: resetType,
     });
+    setShowSkillsResetModal(false);
+
+    if (resetType === "gems") {
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: gemCost,
+        item: "Skills Reset",
+        type: "Fee",
+      });
+    }
   };
+
+  const canResetSkills = () => {
+    if (!hasSkills) return false;
+    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
+      return false;
+    if (resetType === "gems" && !hasEnoughGems) return false;
+
+    return true;
+  };
+
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{ margin: `${PIXEL_SCALE * 2}px` }}
-        >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={onBack}
-          />
-          {skillPointsInfo()}
+        <div className="flex flex-row mt-2 mb-1 items-center">
+          <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
         </div>
-
-        {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
-          const skills = getRevampSkills(category);
-          const icon = iconList[skills[0].tree];
-          const skillsAcquiredInCategoryCount = getKeys({
-            ...bumpkin?.skills,
-          }).filter((acquiredSkillName) =>
-            skills.find((skill) => skill.name === acquiredSkillName),
-          ).length;
+        {ISLAND_EXPANSIONS.map((islandType) => {
+          const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
+            state.island.type,
+            islandType,
+          );
+          const categories = getRevampSkillTreeCategoriesByIsland(
+            islandType,
+            state,
+          );
+          if (categories.length <= 0) return;
 
           return (
-            <div key={category} onClick={() => onClick(category)}>
-              <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
+            <div key={islandType} className="flex flex-col items-stretch">
+              <div className="flex items-center gap-2 mt-1 mb-2">
                 <Label
-                  type="default"
-                  className="px-1 text-xxs absolute -top-3 -right-1"
+                  type={hasUnlockedIslandCategory ? "default" : "warning"}
+                  className="capitalize"
                 >
-                  {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+                  {t("skillCategory.islands", {
+                    island:
+                      islandType === "spring" ? "Petal Paradise" : islandType,
+                  })}
                 </Label>
-                <div className="flex justify-center items-center">
-                  <img
-                    src={icon}
-                    style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                  />
-                  <span className="text-sm">{category}</span>
-                </div>
-              </ButtonPanel>
+
+                {!hasUnlockedIslandCategory && (
+                  <Label type="warning">
+                    {t("skillCategory.reachIsland", {
+                      island:
+                        islandType === "spring"
+                          ? "Petal Paradise"
+                          : `${capitalize(islandType)} Island`,
+                    })}
+                  </Label>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-1">
+                {categories.map((category) => {
+                  const skills = getRevampSkills(category);
+                  const icon = SKILL_TREE_ICONS[skills[0].tree];
+                  const skillsAcquiredInCategoryCount = getKeys({
+                    ...bumpkin?.skills,
+                  }).filter((acquiredSkillName) =>
+                    skills.find((skill) => skill.name === acquiredSkillName),
+                  ).length;
+
+                  return (
+                    <div key={category}>
+                      <ButtonPanel
+                        disabled={!hasUnlockedIslandCategory}
+                        onClick={
+                          hasUnlockedIslandCategory
+                            ? () => onClick(category)
+                            : undefined
+                        }
+                        className={classNames(
+                          `flex relative items-center mb-1 hover:bg-brown-200`,
+                          { "cursor-pointer": hasUnlockedIslandCategory },
+                        )}
+                      >
+                        <Label
+                          type="default"
+                          className="px-1 text-xxs absolute -top-3 -right-1"
+                        >
+                          {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
+                        </Label>
+                        <div className="flex gap-2 justify-center items-center">
+                          <SquareIcon icon={icon} width={14} />
+                          <span className="text-sm">{category}</span>
+                        </div>
+                      </ButtonPanel>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}
-
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center m-1">
           <p
-            className="text-xs cursor-pointer underline"
+            className="text-xs cursor-pointer underline py-1"
             onClick={() => setShowSkillsResetModal(true)}
           >
-            {"Reset Skills"}
+            {t("skillReset.resetSkills")}
           </p>
         </div>
       </InnerPanel>
 
       <Modal
         show={showSkillsResetModal}
-        onHide={() => setShowSkillsResetModal(false)}
+        onHide={() => {
+          setShowSkillsResetModal(false);
+          setShowSkillsResetConfirmation(false);
+        }}
       >
-        <OuterPanel>
-          <InnerPanel className="flex flex-col items-center">
-            <div className="flex flex-row items-center w-full justify-between">
-              <Label type="danger">{"Skills Reset"}</Label>
-              <Label type="warning" icon={sflIcon}>
-                {"10 SFL"}
-              </Label>
-            </div>
-            <p className="text-xs py-4 px-2 text-center">
-              {
-                "Are you sure you want to reset all your skills? This action cannot be undone and will cost 10 SFL. You will be able to reset your skills again in 3 months."
-              }
-            </p>
-            {!threeMonthsSinceLastReset && (
-              <Label
-                type="danger"
-                icon={SUNNYSIDE.icons.stopwatch}
-                className="mb-2"
-              >
-                {"Can't reset skills yet"}
-              </Label>
-            )}
-            {!enoughSfl && (
-              <Label type="danger" icon={sflIcon} className="mb-2">
-                {"You do not have enough SFL"}
-              </Label>
-            )}
-            <Button
-              onClick={handleSkillsReset}
-              disabled={!hasSkills || !threeMonthsSinceLastReset || !enoughSfl}
-            >
-              {"Reset Skills"}
-            </Button>
-          </InnerPanel>
-        </OuterPanel>
+        <SkillReset
+          resetType={resetType}
+          gemCost={gemCost}
+          gemBalance={gemBalance}
+          getNextResetDateAndTime={getNextResetDateAndTime}
+          hasSkills={hasSkills}
+          canResetSkills={canResetSkills}
+          handleSkillsReset={handleSkillsReset}
+          showSkillsResetConfirmation={showSkillsResetConfirmation}
+          setShowSkillsResetConfirmation={setShowSkillsResetConfirmation}
+        />
       </Modal>
     </>
   );

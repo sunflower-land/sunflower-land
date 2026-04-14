@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
+import { AuctionHistory } from "./AuctionHistory";
 import { useActor, useInterpret } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
@@ -14,11 +15,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "features/game/components/VipAccess";
 import { Loading } from "features/auth/components";
+import { hasReputation } from "features/game/lib/reputation";
+import { Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import choreIcon from "assets/icons/chores.webp";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   gameState: GameState;
@@ -26,7 +29,7 @@ interface Props {
   farmId: number;
   onClose: () => void;
   onUpdate: (state: GameState) => void;
-  onMint: (id: string) => void;
+  onMint: () => void;
   deviceTrackerId: string;
   linkedAddress?: string;
 }
@@ -41,10 +44,12 @@ export const AuctioneerModal: React.FC<Props> = ({
   deviceTrackerId,
   linkedAddress,
 }) => {
-  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+
+  type Tab = "auction" | "results";
+  const [tab, setTab] = useState<Tab>("auction");
 
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
@@ -65,6 +70,14 @@ export const AuctioneerModal: React.FC<Props> = ({
     }
   }, [isOpen]);
 
+  const now = useNow();
+
+  const hasAuctionAccess = hasReputation({
+    game: gameState,
+    reputation: Reputation.Grower,
+    now,
+  });
+
   if (auctioneerState.matches("idle")) {
     return null;
   }
@@ -79,19 +92,29 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const closeModal = () => {
-    onClose();
-  };
-
   return (
-    <Modal show={isOpen} onHide={closeModal}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: t("auction.title") }]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            id: "auction",
+            icon: SUNNYSIDE.icons.stopwatch,
+            name: t("auction.title"),
+          },
+
+          {
+            id: "results",
+            icon: choreIcon,
+            name: t("auction.results"),
+          },
+        ]}
         bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
-            href="https://docs.sunflower-land.com/player-guides/auctions"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             className="mx-auto text-xxs underline text-center"
             target="_blank"
             rel="noreferrer"
@@ -108,28 +131,27 @@ export const AuctioneerModal: React.FC<Props> = ({
           </a>
         }
       >
-        <div
-          style={{
-            minHeight: "200px",
-          }}
-        >
-          <div className="flex flex-col">
-            <div className="pt-2 pl-2">
-              <VIPAccess
-                isVIP={hasVipAccess(gameState.inventory)}
-                onUpgrade={() => {
-                  onClose();
-                  openModal("BUY_BANNER");
-                }}
+        {tab === "auction" && (
+          <div
+            style={{
+              minHeight: "200px",
+            }}
+          >
+            <div className="flex flex-col">
+              {!hasAuctionAccess && (
+                <div className="pt-2 pl-2">
+                  <RequiredReputation reputation={Reputation.Grower} />
+                </div>
+              )}
+              <AuctioneerContent
+                auctionService={auctionService}
+                gameState={gameState}
+                onMint={onMint}
               />
             </div>
-            <AuctioneerContent
-              auctionService={auctionService}
-              gameState={gameState}
-              onMint={onMint}
-            />
           </div>
-        </div>
+        )}
+        {tab === "results" && <AuctionHistory />}
       </CloseButtonPanel>
     </Modal>
   );

@@ -1,10 +1,8 @@
 import Decimal from "decimal.js-light";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "features/game/types/craftables";
+import { trackFarmActivity } from "features/game/types/farmActivity";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   DECORATIONS,
   LandscapingDecorationName,
@@ -12,28 +10,22 @@ import {
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { getKeys } from "lib/object";
 
-export type buyDecorationAction = {
+export type BuyDecorationAction = {
   type: "decoration.bought";
   name: ShopDecorationName | LandscapingDecorationName;
   id?: string;
-  coordinates?: {
-    x: number;
-    y: number;
-  };
+  coordinates?: Coordinates;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: buyDecorationAction;
+  action: BuyDecorationAction;
   createdAt?: number;
 };
 
-export function buyDecoration({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function buyDecoration({ state, action }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
     const desiredItem = DECORATIONS[name];
@@ -74,14 +66,14 @@ export function buyDecoration({
 
     const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(price),
     );
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${name} Bought`,
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(1),
     );
 

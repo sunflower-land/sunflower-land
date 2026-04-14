@@ -4,7 +4,7 @@ import { animated } from "@react-spring/web";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { ZoomContext } from "./ZoomProvider";
 
-export const GameBoard: React.FC = ({ children }) => {
+export const GameBoard: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { scale } = useContext(ZoomContext);
 
   return (

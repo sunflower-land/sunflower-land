@@ -1,6 +1,10 @@
 import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
-import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import {
+  TEST_FARM,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+} from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 
@@ -11,8 +15,6 @@ describe("harvestBeehive", () => {
     x: 3,
     y: 3,
     swarm: false,
-    height: 1,
-    width: 1,
     honey: { updatedAt: 0, produced: 0 },
     flowers: [],
   };
@@ -21,11 +23,8 @@ describe("harvestBeehive", () => {
     createdAt: now,
     x: 0,
     y: 0,
-    height: 1,
-    width: 2,
     flower: {
       name: "Red Pansy",
-      amount: 1,
       plantedAt: now,
     },
   };
@@ -148,14 +147,11 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -167,7 +163,7 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1);
+    expect(state.crops?.["987"].beeSwarm).toBeUndefined();
   });
 
   it("does not activate a swarm when the hive is not full", () => {
@@ -186,14 +182,11 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -205,7 +198,7 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1);
+    expect(state.crops?.["987"].beeSwarm).toBeUndefined();
   });
 
   it("activates the swarm when the hive is full adding 0.2 crop boost to planted crops", () => {
@@ -224,14 +217,11 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -243,30 +233,28 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1.2);
+    expect(state.crops?.["987"].beeSwarm).toMatchObject({
+      count: 1,
+      swarmActivatedAt: expect.any(Number),
+    });
   });
 
-  it("[BEE SWARM] Does not affect crop plots that are not planted", () => {
+  it("Adds to the swarm counter when there is no crop planted", () => {
     const crops: Record<string, CropPlot> = {
       "1": {
-        height: 1,
-        width: 1,
         x: 0,
         y: -2,
         createdAt: 0,
       },
       "2": {
-        height: 1,
-        width: 1,
         x: 1,
         y: -2,
         createdAt: 0,
       },
     };
-
     const state = harvestBeehive({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         beehives: {
           "1234": {
             ...DEFAULT_BEEHIVE,
@@ -283,9 +271,94 @@ describe("harvestBeehive", () => {
         type: "beehive.harvested",
         id: "1234",
       },
+      createdAt: now,
     });
 
-    expect(state.crops).toEqual(crops);
+    expect(state.crops).toEqual({
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 1,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 1,
+          swarmActivatedAt: now,
+        },
+      },
+    });
+  });
+
+  it("Stacks the swarm counter when there is no crop planted", () => {
+    const crops: Record<string, CropPlot> = {
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 1,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 1,
+          swarmActivatedAt: now,
+        },
+      },
+    };
+    const state = harvestBeehive({
+      state: {
+        ...INITIAL_FARM,
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: true,
+            honey: {
+              updatedAt: 0,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+        crops,
+      },
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops).toEqual({
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 2,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          count: 2,
+          swarmActivatedAt: now,
+        },
+      },
+    });
   });
 
   it("sets the swarm to false after activating the swarm", () => {
@@ -304,14 +377,11 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -348,7 +418,7 @@ describe("harvestBeehive", () => {
         id: "1234",
       },
     });
-    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Honey Harvested"]).toEqual(amount);
   });
 
   it("adds bumpkin activity for honey harvested from a partially full hive", () => {
@@ -373,7 +443,7 @@ describe("harvestBeehive", () => {
         id: "1234",
       },
     });
-    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Honey Harvested"]).toEqual(amount);
   });
 
   it("updates the beehives", () => {
@@ -392,7 +462,6 @@ describe("harvestBeehive", () => {
               ...DEFAULT_FLOWER_BED,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
                 plantedAt: fiveMinutesAgo,
               },
             },
@@ -503,6 +572,55 @@ describe("harvestBeehive", () => {
     expect(gameState.inventory.Honey).toEqual(new Decimal(2));
   });
 
+  it("harvests a full beehive when King of Bears placed", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        collectibles: {
+          "King of Bears": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.beehives?.[beehiveId]).toEqual({
+      ...DEFAULT_BEEHIVE,
+      swarm: expect.any(Boolean),
+      honey: {
+        updatedAt: expect.any(Number),
+        produced: 0,
+      },
+    });
+    expect(gameState.inventory.Honey).toEqual(new Decimal(1.25));
+  });
+
   it("harvests a full beehive wearing Honeycomb Shield and Bee Suit", () => {
     const beehiveId = "1234";
     const now = Date.now();
@@ -587,5 +705,47 @@ describe("harvestBeehive", () => {
       },
     });
     expect(gameState.inventory.Honey).toEqual(new Decimal(2.1 / 2));
+  });
+
+  it("harvests +0.1 honey with Sweet Bonus skill", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            ...INITIAL_BUMPKIN.skills,
+            "Sweet Bonus": 1,
+          },
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.beehives?.[beehiveId]).toEqual({
+      ...DEFAULT_BEEHIVE,
+      honey: {
+        updatedAt: expect.any(Number),
+        produced: 0,
+      },
+    });
+    expect(gameState.inventory.Honey).toEqual(new Decimal(1.1));
   });
 });

@@ -9,6 +9,8 @@ import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { useNow } from "lib/utils/hooks/useNow";
 
 function getFirstTsFileName(stackTrace: string) {
   try {
@@ -57,7 +59,8 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   stack,
 }) => {
   const [showGetHelp, setShowGetHelp] = useState(false);
-  const [date] = useState(new Date().toISOString());
+  const now = useNow();
+  const [date] = useState(new Date(now).toISOString());
   const { t } = useAppTranslation();
 
   useEffect(() => {
@@ -78,14 +81,6 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       </>
     );
   }
-
-  const handleGetSupport = () => {
-    window.open(
-      "https://sunflowerland.freshdesk.com",
-      "_blank",
-      "noopener,noreferrer",
-    );
-  };
 
   const handleAskOnDiscord = () => {
     window.open(
@@ -109,27 +104,29 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         <p>{t("error.connection.three")}</p>
         <div className="flex flex-col w-full mb-2 text-xs overflow-hidden space-y-1">
           {farmId && (
-            <p>
+            <p className="select-all">
               {t("farm")}
               {": "}
               {farmId}
             </p>
           )}
           {error && (
-            <p>
+            <p className="select-all">
               {t("error")}
               {": "}
               {error}
             </p>
           )}
-          <p>
+          <p className="select-all">
             {t("date")}
             {": "}
             {date}
           </p>
           {transactionId && (
             <p>
-              {t("transaction.id")} {transactionId}
+              <span className="select-all">
+                {t("transaction.id")} {transactionId}
+              </span>
             </p>
           )}
           {tsFileName && (
@@ -146,16 +143,54 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
-        <Button onClick={handleGetSupport}>{t("error.contactSupport")}</Button>
-        <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
-      </div>
+      <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
     </div>
   ) : (
     <>
       <div className="p-2 py-1 space-y-2 mb-2">
         <h1 className="mb-1 text-base text-center">{t("error.wentWrong")}</h1>
         <p>{t("error.connection.one")}</p>
+
+        <div className="flex flex-col w-full mb-2 text-xs overflow-hidden space-y-1 ">
+          {farmId && (
+            <p className="select-all">
+              {t("farm")}
+              {": "}
+              {farmId}
+            </p>
+          )}
+          {error && (
+            <p className="select-all">
+              {t("error")}
+              {": "}
+              {error}
+            </p>
+          )}
+          <p className="select-all">
+            {t("date")}
+            {": "}
+            {date}
+          </p>
+          {transactionId && (
+            <p>
+              <span className="select-all">
+                {t("transaction.id")} {transactionId}
+              </span>
+            </p>
+          )}
+          {tsFileName && (
+            <p>
+              {t("error.file")}
+              {": "}
+              {tsFileName}
+            </p>
+          )}
+          <p>
+            {t("version")}
+            {": "}
+            {CONFIG.RELEASE_VERSION}
+          </p>
+        </div>
         <p
           onClick={() => setShowGetHelp(true)}
           className="underline text-xs cursor-pointer"
@@ -166,6 +201,8 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       {onAcknowledge && (
         <Button onClick={onAcknowledge}>{t("try.again")}</Button>
       )}
+
+      <SystemMessageWidget />
     </>
   );
 };
@@ -176,7 +213,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
-  const id = service.state.context?.farmId;
+  const id = service.state?.context?.farmId;
 
   const [
     {
@@ -185,6 +222,7 @@ export const SomethingWentWrong: React.FC = () => {
   ] = useActor(service);
 
   const onAcknowledge = () => {
+    window.history.pushState({}, "", window.location.pathname);
     service.send("REFRESH");
   };
 

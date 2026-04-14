@@ -3,37 +3,52 @@ import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
 
-import { Recipes } from "../../ui/Recipes";
+import { Recipes } from "../Recipes";
 import {
   Cookable,
   CookableName,
   DELI_COOKABLES,
+  isFishCookable,
 } from "features/game/types/consumables";
-import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
+import { BuildingProduct } from "features/game/types/game";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting: boolean;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
-  craftingService?: MachineInterpreter;
   buildingId: string;
+  queue: BuildingProduct[];
+  readyRecipes: BuildingProduct[];
 }
 export const DeliModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
-  craftingService,
   buildingId,
+  queue,
+  readyRecipes,
 }) => {
-  const deliRecipes = Object.values(DELI_COOKABLES).sort(
-    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
-  );
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
+  });
+  const deliRecipes = Object.values(DELI_COOKABLES)
+    .filter((recipe) => {
+      if (getCurrentChapter(now) === "Paw Prints") return true;
+
+      return !isFishCookable(recipe.name);
+    })
+    .sort(
+      (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+    );
   const [selected, setSelected] = useState<Cookable>(
     deliRecipes.find((recipe) => recipe.name === itemInProgress) ||
       deliRecipes[0],
@@ -51,7 +66,7 @@ export const DeliModal: React.FC<Props> = ({
           background: "Farm Background",
           shoes: "Black Farmer Boots",
         }}
-        tabs={[{ icon: chefHat, name: "Deli" }]}
+        tabs={[{ id: "deli", icon: chefHat, name: "Deli" }]}
         onClose={onClose}
         container={OuterPanel}
       >
@@ -61,11 +76,11 @@ export const DeliModal: React.FC<Props> = ({
           recipes={deliRecipes}
           onCook={onCook}
           onClose={onClose}
-          crafting={crafting}
-          craftingService={craftingService}
+          cooking={cooking}
           buildingName="Deli"
           buildingId={buildingId}
-          currentlyCooking={selected.name}
+          queue={queue}
+          readyRecipes={readyRecipes}
         />
       </CloseButtonPanel>
     </Modal>

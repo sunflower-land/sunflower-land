@@ -7,20 +7,18 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const LaTomatina: React.FC<{ event: SpecialEvent | undefined }> = ({
   event,
 }) => {
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
+  const now = useNow();
 
-  if (
-    !event ||
-    !event.isEligible ||
-    event.endAt < Date.now() ||
-    event.startAt > Date.now()
-  )
+  if (!event || !event.isEligible || event.endAt < now || event.startAt > now) {
     return null;
+  }
 
   return (
     <>
@@ -43,7 +41,7 @@ export const LaTomatina: React.FC<{ event: SpecialEvent | undefined }> = ({
         onClick={() => setShowSpecialEvent(true)}
         className="absolute cursor-pointer hover:img-highlight"
       >
-        <NPC
+        <NPCPlaceable
           parts={{
             hat: "Feather Hat",
             body: "Infernal Bumpkin Potion",

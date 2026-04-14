@@ -3,13 +3,16 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
-import { SFL_COST } from "features/game/events/landExpansion/joinFaction";
+import {
+  FACTION_BOOST_COOLDOWN,
+  SFL_COST,
+} from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
@@ -19,8 +22,9 @@ import {
   getChampionsLeaderboard,
   KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { Loading } from "features/auth/components";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const FACTION_RECRUITERS: Record<FactionName, NPCName> = {
   goblins: "graxle",
@@ -35,7 +39,6 @@ interface Props {
 }
 
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
-const _username = (state: MachineState) => state.context.state.username;
 const _farmId = (state: MachineState) => state.context.farmId;
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
@@ -46,13 +49,21 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [cost, setCost] = useState(10000000);
   const [isLoading, setIsLoading] = useState(true);
 
+  const now = useNow();
+
   const joinedFaction = useSelector(gameService, _joinedFaction);
   const farmId = useSelector(gameService, _farmId);
 
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
-  const hasSFL = gameService.state.context.state.balance.gte(cost);
+  const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
+  const previousFaction =
+    gameService.getSnapshot().context.state.previousFaction;
+  const hasRecentlyLeftFaction =
+    previousFaction &&
+    now - previousFaction.leftAt < FACTION_BOOST_COOLDOWN &&
+    previousFaction.name !== faction;
 
   useEffect(() => {
     const load = async () => {
@@ -68,7 +79,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         setIsLoading(false);
       }
 
-      // Error occured - let them join for 10
+      // Error occurred - let them join for 10
       if (!champions) {
         setCost(10);
         setIsLoading(false);
@@ -84,7 +95,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       });
 
       const position = totals.indexOf(faction);
-      const fee = SFL_COST.reverse()[position] ?? 10;
+      const fee = [...SFL_COST].reverse()[position] ?? 10;
       setCost(fee);
       setIsLoading(false);
     };
@@ -105,16 +116,20 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const intro = `${t("faction.restrited.area", {
     faction: capitalize(faction),
-  })} ${t("faction.not.pledged", {
-    faction: capitalize(faction),
-  })}`;
+  })} ${t("faction.not.pledged", { faction: capitalize(faction) })}`;
+
+  const cooldownMessage = hasRecentlyLeftFaction
+    ? `You recently left the ${capitalize(
+        previousFaction.name,
+      )} faction. XP boosts are disabled until ${new Date(
+        previousFaction.leftAt + FACTION_BOOST_COOLDOWN,
+      ).toLocaleDateString()} if you join the ${capitalize(faction)} faction.`
+    : null;
 
   const confirmFaction = `${t("faction.cost", {
     cost,
     faction: capitalize(faction),
-  })} ${t("faction.pledge.reward", {
-    banner: FACTION_BANNERS[faction],
-  })}`;
+  })} ${t("faction.pledge.reward", { banner: FACTION_BANNERS[faction] })}`;
 
   // If joined a different faction, show a message that they can't change
   if (joinedFaction && joinedFaction.name !== faction) {
@@ -123,7 +138,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         <div className="flex flex-col p-2 pt-1 space-y-2">
           <div className="flex justify-between">
             <Label type="default">{capitalize(faction)}</Label>
-            <Label type="danger">{`No Access`}</Label>
+            <Label type="danger">{t("faction.noAccess")}</Label>
           </div>
           <span className="text-xs sm:text-sm">
             {t("faction.restrited.area", { faction: capitalize(faction) })}
@@ -144,9 +159,12 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           <div className="flex flex-col px-2 py-1 space-y-2">
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
-              <Label type="danger">{`No Access`}</Label>
+              <Label type="danger">{t("faction.noAccess")}</Label>
             </div>
-            <span className="text-xs sm:text-sm">
+            <span className="text-xs sm:text-sm space-y-2">
+              {cooldownMessage && (
+                <Label type="warning">{cooldownMessage}</Label>
+              )}
               <InlineDialogue message={intro} />
             </span>
           </div>
@@ -161,7 +179,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
               <Label type={hasSFL ? "warning" : "danger"} icon={sflIcon}>
-                {`${cost} SFL`}
+                {`${cost} FLOWER`}
               </Label>
             </div>
             <span className="text-xs sm:text-sm mb-2">
@@ -183,9 +201,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
             reward={{
               sfl: 0,
               factionPoints: 0,
-              items: {
-                [FACTION_BANNERS[faction]]: 1,
-              },
+              items: { [FACTION_BANNERS[faction]]: 1 },
               coins: 0,
               createdAt: new Date().getTime(),
               id: `${new Date().getTime()}`,

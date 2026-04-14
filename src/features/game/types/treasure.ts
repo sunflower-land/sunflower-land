@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { SEASONS } from "./seasons";
+import { CHAPTERS, hasChapterEnded } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -20,9 +20,16 @@ export type BeachBountyTreasure =
   | "Camel Bone"
   | "Vase"
   | "Hieroglyph"
-  | BeachBountySeasonalArtefact;
+  | BeachBountyChapterArtefact;
 
-export type BeachBountySeasonalArtefact = "Scarab";
+export type BeachBountyChapterArtefact =
+  | "Scarab"
+  | "Cow Skull"
+  | "Ancient Clock"
+  | "Broken Pillar"
+  | "Coprolite"
+  | "Moon Crystal"
+  | "Ammonite Shell";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -80,19 +87,7 @@ export type SellableTreasure = {
   to?: Date;
 };
 
-export const SEASONAL_ARTEFACT: Record<
-  BeachBountySeasonalArtefact,
-  SellableTreasure
-> = {
-  Scarab: {
-    sellPrice: 200,
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
-    description: translate("descvription.scarab"),
-  },
-};
-
-export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
+export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
   {
     Sand: {
       sellPrice: 10,
@@ -166,5 +161,44 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       sellPrice: 7500,
       description: translate("description.pirate.bounty"),
     },
-    ...SEASONAL_ARTEFACT,
+    Scarab: {
+      sellPrice: 200,
+      description: translate("description.scarab"),
+    },
+    "Cow Skull": {
+      sellPrice: 200,
+      description: translate("description.cowSkull"),
+    },
+    "Ancient Clock": {
+      description: "",
+      sellPrice: 200,
+    },
+    "Broken Pillar": {
+      sellPrice: 200,
+      description: "",
+    },
+    Coprolite: {
+      sellPrice: 200,
+      description: "",
+    },
+    "Moon Crystal": {
+      sellPrice: 200,
+      description: "",
+      ...(hasChapterEnded("Paw Prints", Date.now())
+        ? {}
+        : {
+            from: CHAPTERS["Paw Prints"].startDate,
+            to: CHAPTERS["Paw Prints"].endDate,
+          }),
+    },
+    "Ammonite Shell": {
+      sellPrice: 200,
+      description: "",
+      ...(hasChapterEnded("Crabs and Traps", Date.now())
+        ? {}
+        : {
+            from: CHAPTERS["Crabs and Traps"].startDate,
+            to: CHAPTERS["Crabs and Traps"].endDate,
+          }),
+    },
   };

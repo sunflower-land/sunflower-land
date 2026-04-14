@@ -1,19 +1,27 @@
-import { SeasonName } from "features/game/types/seasons";
+import { ChapterName } from "features/game/types/chapters";
 import { BuffLabel } from ".";
 
 export type CodexCategoryName =
   | "Fish"
+  | "Crustaceans"
   | "Flowers"
   | "Season"
+  | "Bull Run"
   | "Deliveries"
   | "Chores"
+  | "Checklist"
   | "Bumpkins"
   | "Farming"
   | "Treasures"
   | "Leaderboard"
   | "Factions"
   | "Minigames"
-  | "Marks";
+  | "Competition"
+  | "Marks"
+  | "Chore Board"
+  | "Social Points"
+  | "Leagues"
+  | "Collections";
 
 export type CollectionGroup = "fish";
 
@@ -30,7 +38,7 @@ export type AssetType = "collectible" | "wearable" | "bud";
 export type BaseInformation = {
   id: number;
   name: string;
-  season?: SeasonName;
+  season?: ChapterName;
   howToObtain: string[];
   type: AssetType;
   // Leave empty if no boosts

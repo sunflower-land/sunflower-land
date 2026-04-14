@@ -1,7 +1,8 @@
 import React from "react";
 
 import { CollectibleProps } from "./Collectible";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
 import { WarTombstone } from "./components/WarTombstone";
@@ -192,6 +193,7 @@ import { StarlightTuna } from "./components/StartlightTuna";
 import { RadiantRay } from "./components/RadiantRay";
 import { PhantomBarracuda } from "./components/PhantomBarracuda";
 import { GildedSwordfish } from "./components/GildedSwordfish";
+import { SuperStar } from "./components/SuperStar";
 import { CrimsonCarp } from "./components/CrimsonCarp";
 import { SapoDocuras } from "./components/SapoDocuras";
 import { SapoTravessuras } from "./components/SapoTravessuras";
@@ -327,29 +329,107 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
-import { Template } from "./components/template/Template";
+// import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
 import { TomatoBombard } from "./components/TomatoBombard";
+import { BullRunBanner } from "./components/BullRunBanner";
+import { Bed } from "./components/Bed";
+import { Wagon } from "./components/Wagon";
+import { Chicory } from "./components/Chicory";
+import { LonghornCowfish } from "./components/LonghornCownfish";
+import { AlienChicken } from "./components/AlienChicken";
+import { ToxicTuft } from "./components/ToxicTuft";
+import { Mootant } from "./components/Mootants";
+import { SuperTotem } from "./components/SuperTotem";
+import { GoldenCow } from "./components/GoldenCow";
+import { VolcanoGnome } from "./components/VolcanoGnome";
+import { WindsOfChangeBanner } from "./components/WindsOfChangeBanner";
+import { FrozenCow } from "./components/FrozenCow";
+import { FrozenSheep } from "./components/FrozenSheep";
+import { SummerChicken } from "./components/SummerChicken";
+import { Jellyfish } from "./components/Jellyfish";
+import { Chamomile } from "./components/Chamomile";
+import { BlackSheep } from "./components/BlackSheep";
+import { GoldenFence } from "./components/GoldenFence";
+import { GoldenStoneFence } from "./components/GoldenStoneFence";
+import { Tiles } from "./components/Tiles";
+import { GreatBloomBanner } from "./components/GreatBloomBanner";
+import { LoveChicken } from "./components/LoveChicken";
+import { DrCow } from "./components/DrCow";
+import { NurseSheep } from "./components/NurseSheep";
+import { PinkDolphin } from "./components/PinkDolphin";
+import { Lunalist } from "./components/Lunalist";
+import { Monument } from "./components/Monument";
+import { BabyCow } from "./components/BabyCow";
+import { BabySheep } from "./components/BabySheep";
+import { JanitorChicken } from "./components/JanitorChicken";
+import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
+import { BlackHoleFlower } from "./components/BlackHoleFlower";
+import { SleepyChicken } from "./components/SleepyChicken";
+import { AstronautCow } from "./components/AstronautCow";
+import { AstronautSheep } from "./components/AstronautSheep";
+import { MermaidCow } from "./components/MermaidCow";
+import { MermaidSheep } from "./components/MermaidSheep";
+import { SquidChicken } from "./components/SquidChicken";
+import { AnemoneFlower } from "./components/AnemoneFlower";
+import { Poseidon } from "./components/Poseidon";
+import { Project } from "./components/Project";
+import { PetShrine } from "./components/PetShrine";
+import { ObsidianShrine } from "./components/ObsidianShrine";
+import { Pet } from "../pets/Pet";
+import { PetName, PET_TYPES } from "features/game/types/pets";
+import { PetNFT } from "./components/petNFT/PetNFT";
+import { Isopod } from "./components/Isopod";
+import { Nautilus } from "./components/Nautilus";
+import { Dollocaris } from "./components/Dollocaris";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import { BedName } from "features/game/types/game";
 
 export const COLLECTIBLE_COMPONENTS: Record<
-  CollectibleName | "Bud",
+  CollectibleName | "Bud" | "Pet" | "PetNFT",
   React.FC<CollectibleProps>
 > = {
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (previous, name) => ({
       ...previous,
-      [name]: () => (
-        <TemplateCollectible
-          name={name}
-          dimensions={DECORATION_TEMPLATES[name].dimensions}
-        />
-      ),
+      [name]: () => <TemplateCollectible name={name} />,
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+
+  ...getKeys(PET_TYPES).reduce<Record<PetName, React.FC<CollectibleProps>>>(
+    (previous, name) => ({
+      ...previous,
+      [name]: () => <Pet name={name} />,
+    }),
+    {} as Record<PetName, React.FC<CollectibleProps>>,
+  ),
+
+  "Baby Cow": BabyCow,
+  "Baby Sheep": BabySheep,
+  "Janitor Chicken": JanitorChicken,
+  "Venus Bumpkin Trap": VenusBumpkinTrap,
+  "Black Hole Flower": BlackHoleFlower,
+  "Sleepy Chicken": SleepyChicken,
+  "Astronaut Cow": AstronautCow,
+  "Astronaut Sheep": AstronautSheep,
+  "Mermaid Cow": MermaidCow,
+  "Mermaid Sheep": MermaidSheep,
+  "Squid Chicken": SquidChicken,
+  "Anemone Flower": AnemoneFlower,
+  "Love Chicken": LoveChicken,
+  "Dr Cow": DrCow,
+  "Nurse Sheep": NurseSheep,
+  "Pink Dolphin": PinkDolphin,
+  Lunalist: Lunalist,
+  "Frozen Cow": FrozenCow,
+  "Frozen Sheep": FrozenSheep,
+  "Summer Chicken": SummerChicken,
+  Jellyfish: Jellyfish,
+  Chamomile: Chamomile,
   "Jelly Lamp": JellyLamp,
   "Paint Can": PaintCan,
   "Benevolence Flag": BenevolenceFlag,
@@ -481,6 +561,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiance Lantern": RadianceLantern,
   "Ocean Lantern": OceanLantern,
   "Solar Lantern": SolarLantern,
+  Wagon: Wagon,
 
   "Magic Bean": Bean,
 
@@ -506,6 +587,53 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Treasure
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
+  "Fox Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Fox Shrine" />
+  ),
+  "Sparrow Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Sparrow Shrine" />
+  ),
+  "Toucan Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Toucan Shrine" />
+  ),
+  "Collie Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Collie Shrine" />
+  ),
+  "Badger Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Badger Shrine" />
+  ),
+  "Boar Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Boar Shrine" />
+  ),
+  "Hound Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Hound Shrine" />
+  ),
+  "Stag Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Stag Shrine" />
+  ),
+  "Legendary Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Legendary Shrine" />
+  ),
+  "Obsidian Shrine": ObsidianShrine,
+  "Mole Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Mole Shrine" />
+  ),
+  "Bear Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Bear Shrine" />
+  ),
+  "Tortoise Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Tortoise Shrine" />
+  ),
+  "Moth Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Moth Shrine" />
+  ),
+  "Bantam Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Bantam Shrine" />
+  ),
+  "Trading Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Trading Shrine" />
+  ),
+
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,
@@ -543,6 +671,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Clash of Factions Banner": ClashOfFactionsBanner,
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
   "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
+  "Bull Run Banner": BullRunBanner,
+  "Winds of Change Banner": WindsOfChangeBanner,
+  "Great Bloom Banner": GreatBloomBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,
@@ -558,7 +689,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Cobalt: Cobalt,
   Blossombeard: Blossombeard,
   "Desert Gnome": DesertGnome,
-
+  "Volcano Gnome": VolcanoGnome,
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,
   "Purple Trail": PurpleTrail,
@@ -595,14 +726,24 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Town Sign": Sign,
   "White Crow": WhiteCrow,
   Bud: Bud,
+  // Added for easier mapping with placeable.name in Placeable.tsx
+  Pet: PetNFT,
+
+  PetNFT: PetNFT,
   "Twilight Anglerfish": TwilightAnglerfish,
   "Starlight Tuna": StarlightTuna,
   "Radiant Ray": RadiantRay,
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
+  "Super Star": SuperStar,
+  "Giant Isopod": Isopod,
+  Nautilus: Nautilus,
+  Dollocaris: Dollocaris,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
+  "Longhorn Cowfish": LonghornCowfish,
+  Poseidon: Poseidon,
 
   "Kraken Tentacle": KrakenTentacle,
 
@@ -623,6 +764,53 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Skill Shrimpy": SkillShrimpy,
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
+  "Speckled Kissing Fish": () => (
+    <TemplateCollectible name="Speckled Kissing Fish" />
+  ),
+  "Dark Eyed Kissing Fish": () => (
+    <TemplateCollectible name="Dark Eyed Kissing Fish" />
+  ),
+  "Fisherman's Boat": () => <TemplateCollectible name="Fisherman's Boat" />,
+  "Sea Arch": () => <TemplateCollectible name="Sea Arch" />,
+  "Crabs and Fish Rug": () => <TemplateCollectible name="Crabs and Fish Rug" />,
+  "Fish Flags": () => <TemplateCollectible name="Fish Flags" />,
+  "Fish Drying Rack": () => <TemplateCollectible name="Fish Drying Rack" />,
+  "Yellow Submarine Trophy": () => (
+    <TemplateCollectible name="Yellow Submarine Trophy" />
+  ),
+  Oaken: () => <TemplateCollectible name="Oaken" />,
+  Meerkat: () => <TemplateCollectible name="Meerkat" />,
+  "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
+  "Poseidon's Throne": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+      }}
+      alt="Poseidon's Throne"
+      project="Poseidon's Throne"
+    />
+  ),
+  "Fish Kite": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Fish Kite"].image}
+      alt="Fish Kite"
+    />
+  ),
   "Crim Peckster": CrimPeckster,
   "Knight Chicken": KnightChicken,
   "Pharaoh Chicken": PharaohChicken,
@@ -736,6 +924,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
+  "Alien Chicken": AlienChicken,
+  "Toxic Tuft": ToxicTuft,
+  Mootant: Mootant,
+  Chicory: Chicory,
+  "Golden Cow": GoldenCow,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1080,7 +1273,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Stone Beetle"].image}
-      alt="Camel"
+      alt="Stone Beetle"
     />
   ),
   "Iron Beetle": (props: CollectibleProps) => (
@@ -1095,7 +1288,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Iron Beetle"].image}
-      alt="Camel"
+      alt="Iron Beetle"
     />
   ),
   "Gold Beetle": (props: CollectibleProps) => (
@@ -1110,7 +1303,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Gold Beetle"].image}
-      alt="Camel"
+      alt="Gold Beetle"
     />
   ),
   "Fairy Circle": (props: CollectibleProps) => (
@@ -1125,7 +1318,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 35}px`,
       }}
       image={ITEM_DETAILS["Fairy Circle"].image}
-      alt="Camel"
+      alt="Fairy Circle"
     />
   ),
   Squirrel: (props: CollectibleProps) => (
@@ -1140,7 +1333,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS.Squirrel.image}
-      alt="Camel"
+      alt="Squirrel"
     />
   ),
   Macaw: (props: CollectibleProps) => (
@@ -1155,7 +1348,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 14}px`,
       }}
       image={ITEM_DETAILS.Macaw.image}
-      alt="Camel"
+      alt="Macaw"
     />
   ),
   Butterfly: (props: CollectibleProps) => (
@@ -1170,21 +1363,2508 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 13}px`,
       }}
       image={ITEM_DETAILS.Butterfly.image}
-      alt="Camel"
+      alt="Butterfly"
     />
   ),
 
   // To Update
-  Sundial: Template,
-  "Sand Golem": Template,
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
+  Sundial: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS.Sundial.image}
+      alt="Sundial"
+    />
+  ),
+  "Sand Golem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Sand Golem"].image}
+      alt="Sand Golem"
+    />
+  ),
+  "Lemon Frog": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Frog"].image}
+      alt="Lemon Frog"
+    />
+  ),
+  "Scarab Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Scarab Beetle"].image}
+      alt="Scarab Beetle"
+    />
+  ),
+
+  "Cow Scratcher": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+      image={ITEM_DETAILS["Cow Scratcher"].image}
+      alt="Cow Scratcher"
+    />
+  ),
+  "Spinning Wheel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Spinning Wheel"].image}
+      alt="Spinning Wheel"
+    />
+  ),
+  "Sleepy Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Sleepy Rug"].image}
+      alt="Sleepy Rug"
+    />
+  ),
+  Meteorite: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Meteorite"].image}
+      alt="Meteorite"
+    />
+  ),
+  "Sheaf of Plenty": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Sheaf of Plenty"].image}
+      alt="Sheaf of Plenty"
+    />
+  ),
+  "Mechanical Bull": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Mechanical Bull"].image}
+      alt="Mechanical Bull"
+    />
+  ),
+  "Moo-ver": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Moo-ver"].image}
+      alt="Moo-ver"
+    />
+  ),
+  "Crop Circle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+      }}
+      image={ITEM_DETAILS["Crop Circle"].image}
+      alt="Crop Circle"
+    />
+  ),
+  "Swiss Whiskers": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Swiss Whiskers"].image}
+      alt="Swiss Whiskers"
+    />
+  ),
+  Cluckulator: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Cluckulator"].image}
+      alt="Cluckulator"
+    />
+  ),
+  UFO: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["UFO"].image}
+      alt="UFO"
+    />
+  ),
+  "Black Sheep": BlackSheep,
+  "Halloween Scarecrow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Halloween Scarecrow"].image}
+      alt="Halloween Scarecrow"
+    />
+  ),
+  "Vampire Bear": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Vampire Bear"].image}
+      alt="Vampire Bear"
+    />
+  ),
+  "Super Totem": SuperTotem,
+  "Christmas Stocking": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Stocking"].image}
+      alt="Christmas Stocking"
+    />
+  ),
+  "Golden Christmas Stocking": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+      }}
+      image={ITEM_DETAILS["Golden Christmas Stocking"].image}
+      alt="Golden Christmas Stocking"
+    />
+  ),
+  "Cozy Fireplace": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Cozy Fireplace"].image}
+      alt="Cozy Fireplace"
+    />
+  ),
+  "Christmas Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Rug"].image}
+      alt="Christmas Rug"
+    />
+  ),
+  "Christmas Candle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Candle"].image}
+      alt="Christmas Candle"
+    />
+  ),
+  "Santa Penguin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Santa Penguin"].image}
+      alt="Santa Penguin"
+    />
+  ),
+  "Penguin Pool": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Penguin Pool"].image}
+      alt="Penguin Pool"
+    />
+  ),
+  Snowman: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Snowman"].image}
+      alt="Snowman"
+    />
+  ),
+  "Festive Toy Train": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Festive Toy Train"].image}
+      alt="Festive Toy Train"
+    />
+  ),
+  Kite: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Kite"].image}
+      alt="Kite"
+    />
+  ),
+  "Acorn House": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Acorn House"].image}
+      alt="Acorn House"
+    />
+  ),
+  "Spring Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+      }}
+      image={ITEM_DETAILS["Spring Duckling"].image}
+      alt="Spring Duckling"
+    />
+  ),
+  Igloo: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Igloo"].image}
+      alt="Igloo"
+    />
+  ),
+  "Ugly Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Ugly Duckling"].image}
+      alt="Ugly Duckling"
+    />
+  ),
+  "Lake Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Lake Rug"].image}
+      alt="Lake Rug"
+    />
+  ),
+  Hammock: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+        bottom: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+      }}
+      image={ITEM_DETAILS["Hammock"].image}
+      alt="Hammock"
+    />
+  ),
+  Mammoth: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+      }}
+      image={ITEM_DETAILS["Mammoth"].image}
+      alt="Mammoth"
+    />
+  ),
+  "Cup of Chocolate": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Cup of Chocolate"].image}
+      alt="Cup of Chocolate"
+    />
+  ),
+  "Golden Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Golden Sheep"].image}
+      alt="Golden Sheep"
+    />
+  ),
+  "Barn Blueprint": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Barn Blueprint"].image}
+      alt="Barn Blueprint"
+    />
+  ),
+  "Mama Duck": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Mama Duck"].image}
+      alt="Mama Duck"
+    />
+  ),
+  "Summer Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+      }}
+      image={ITEM_DETAILS["Summer Duckling"].image}
+      alt="Summer Duckling"
+    />
+  ),
+  "Autumn Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+      }}
+      image={ITEM_DETAILS["Autumn Duckling"].image}
+      alt="Autumn Duckling"
+    />
+  ),
+  "Winter Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 8}px`,
+      }}
+      image={ITEM_DETAILS["Winter Duckling"].image}
+      alt="Winter Duckling"
+    />
+  ),
+  Jin: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Jin"].image}
+      alt="Jin"
+    />
+  ),
+  "Floral Arch": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+      }}
+      image={ITEM_DETAILS["Floral Arch"].image}
+      alt="Floral Arch"
+    />
+  ),
+  "Flower Coin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+      }}
+      image={ITEM_DETAILS["Flower Coin"].image}
+      alt="Flower Coin"
+    />
+  ),
+  "Flower Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Flower Statue"].image}
+      alt="Flower Statue"
+    />
+  ),
+  "Heartstruck Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Heartstruck Tree"].image}
+      alt="Heartstruck Tree"
+    />
+  ),
+  "Mermaid Fountain": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Mermaid Fountain"].image}
+      alt="Mermaid Fountain"
+    />
+  ),
+  "Mysterious Entrance": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+      }}
+      image={ITEM_DETAILS["Mysterious Entrance"].image}
+      alt="Mysterious Entrance"
+    />
+  ),
+  "Streamer's Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Streamer's Statue"].image}
+      alt="Streamer's Statue"
+    />
+  ),
+  Cetus: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 50}px`,
+        bottom: `${PIXEL_SCALE * -1}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 50}px`,
+      }}
+      image={ITEM_DETAILS["Cetus"].image}
+      alt="Cetus"
+    />
+  ),
+  "Goldcrest Mosaic Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Goldcrest Mosaic Rug"].image}
+      alt="Goldcrest Mosaic Rug"
+    />
+  ),
+  "Sandy Mosaic Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Sandy Mosaic Rug"].image}
+      alt="Sandy Mosaic Rug"
+    />
+  ),
+  "Twilight Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Twilight Rug"].image}
+      alt="Twilight Rug"
+    />
+  ),
+  "Orchard Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Orchard Rug"].image}
+      alt="Orchard Rug"
+    />
+  ),
+  "Carrot Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Carrot Rug"].image}
+      alt="Carrot Rug"
+    />
+  ),
+  "Beetroot Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Beetroot Rug"].image}
+      alt="Beetroot Rug"
+    />
+  ),
+  "Harlequin Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Harlequin Rug"].image}
+      alt="Harlequin Rug"
+    />
+  ),
+  "Large Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Large Rug"].image}
+      alt="Large Rug"
+    />
+  ),
+  "Golden Fence": GoldenFence,
+  "Golden Stone Fence": GoldenStoneFence,
+  "Golden Pine Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Golden Pine Tree"].image}
+      alt="Golden Pine Tree"
+    />
+  ),
+  "Golden Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Golden Tree"].image}
+      alt="Golden Tree"
+    />
+  ),
+  "Golden Bush": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Golden Bush"].image}
+      alt="Golden Bush"
+    />
+  ),
+  "Black Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Black Tile" />
+  ),
+  "Blue Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Blue Tile" />
+  ),
+  "Green Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Green Tile" />
+  ),
+  "Purple Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Purple Tile" />
+  ),
+  "Red Tile": (props: CollectibleProps) => <Tiles {...props} name="Red Tile" />,
+  "Yellow Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Yellow Tile" />
+  ),
+  "Carrot House": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Carrot House"].image}
+      alt="Carrot House"
+    />
+  ),
+  "Orange Bunny Lantern": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Orange Bunny Lantern"].image}
+      alt="Orange Bunny Lantern"
+    />
+  ),
+  "White Bunny Lantern": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["White Bunny Lantern"].image}
+      alt="White Bunny Lantern"
+    />
+  ),
+  "Orange Tunnel Bunny": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Orange Tunnel Bunny"].image}
+      alt="Orange Tunnel Bunny"
+    />
+  ),
+  "White Tunnel Bunny": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["White Tunnel Bunny"].image}
+      alt="White Tunnel Bunny"
+    />
+  ),
+  "Easter Basket": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Easter Basket"].image}
+      alt="Easter Basket"
+    />
+  ),
+  Quarry: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Quarry"].image}
+      alt="Quarry"
+    />
+  ),
+  "Obsidian Turtle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Obsidian Turtle"].image}
+      alt="Obsidian Turtle"
+    />
+  ),
+  "Winter Guardian": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Winter Guardian"].image}
+      alt="Winter Guardian"
+    />
+  ),
+  "Summer Guardian": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Summer Guardian"].image}
+      alt="Summer Guardian"
+    />
+  ),
+  "Spring Guardian": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Spring Guardian"].image}
+      alt="Spring Guardian"
+    />
+  ),
+  "Autumn Guardian": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Autumn Guardian"].image}
+      alt="Autumn Guardian"
+    />
+  ),
+  "Sky Pillar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Sky Pillar"].image}
+      alt="Sky Pillar"
+    />
+  ),
+  "Flower-Scribed Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+      }}
+      image={ITEM_DETAILS["Flower-Scribed Statue"].image}
+      alt="Flower-Scribed Statue"
+    />
+  ),
+  "Balloon Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Balloon Rug"].image}
+      alt="Balloon Rug"
+    />
+  ),
+  "Giant Yam": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Giant Yam"].image}
+      alt="Giant Yam"
+    />
+  ),
+  "Giant Orange": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Giant Orange"].image}
+      alt="Giant Orange"
+    />
+  ),
+  "Giant Apple": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Giant Apple"].image}
+      alt="Giant Apple"
+    />
+  ),
+  "Giant Banana": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Banana"].image}
+      alt="Giant Banana"
+    />
+  ),
+  "Heart Air Balloon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -8}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Heart Air Balloon"].image}
+      alt="Heart Air Balloon"
+    />
+  ),
+  "Giant Zucchini": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Giant Zucchini"].image}
+      alt="Giant Zucchini"
+    />
+  ),
+  "Mini Floating Island": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Mini Floating Island"].image}
+      alt="Mini Floating Island"
+    />
+  ),
+  "Giant Kale": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Kale"].image}
+      alt="Giant Kale"
+    />
+  ),
+  "Paint Buckets": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Paint Buckets"].image}
+      alt="Paint Buckets"
+    />
+  ),
+  "Rainbow Well": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Rainbow Well"].image}
+      alt="Rainbow Well"
+    />
+  ),
+  "Floating Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Floating Toy"].image}
+      alt="Floating Toy"
+    />
+  ),
+  "Rainbow Flower": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Rainbow Flower"].image}
+      alt="Rainbow Flower"
+    />
+  ),
+  "Pony Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Pony Toy"].image}
+      alt="Pony Toy"
+    />
+  ),
+  "Red Slime Balloon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Red Slime Balloon"].image}
+      alt="Red Slime Balloon"
+    />
+  ),
+  "Blue Slime Balloon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Blue Slime Balloon"].image}
+      alt="Blue Slime Balloon"
+    />
+  ),
+  "Better Together Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Better Together Banner"].image}
+      alt="Better Together Banner"
+    />
+  ),
+  "Paw Prints Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Banner"].image}
+      alt="Paw Prints Banner"
+    />
+  ),
+  "Crabs and Traps Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Crabs and Traps Banner"].image}
+      alt="Crabs and Traps Banner"
+    />
+  ),
+  "Diving Helmet": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `50%`,
+        transform: "translatex(-50%)",
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Diving Helmet"].image}
+      alt="Diving Helmet"
+    />
+  ),
+  "Paw Prints Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Rug"].image}
+      alt="Paw Prints Rug"
+    />
+  ),
+  "Pet Bed": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Pet Bed"].image}
+      alt="Pet Bed"
+    />
+  ),
+  "Pet Bowls": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Pet Bowls"].image}
+      alt="Pet Bowls"
+    />
+  ),
+  "Giant Acorn": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Acorn"].image}
+      alt="Giant Acorn"
+    />
+  ),
+  "Moon Fox Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Moon Fox Statue"].image}
+      alt="Moon Fox Statue"
+    />
+  ),
+  "Big Apple": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      alt="Big Apple"
+      project="Big Apple"
+    />
+  ),
+  "Big Orange": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      alt="Big Orange"
+      project="Big Orange"
+    />
+  ),
+  "Big Banana": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      alt="Big Banana"
+      project="Big Banana"
+    />
+  ),
+  "Farmer's Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 46}px`,
+      }}
+      alt="Farmer's Monument"
+      project="Farmer's Monument"
+    />
+  ),
+  "Miner's Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 42}px`,
+      }}
+      alt="Miner's Monument"
+      project="Miner's Monument"
+    />
+  ),
+  "Woodcutter's Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 43}px`,
+      }}
+      alt="Woodcutter's Monument"
+      project="Woodcutter's Monument"
+    />
+  ),
+  "Teamwork Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 47}px`,
+      }}
+      alt="Teamwork Monument"
+      project="Teamwork Monument"
+    />
+  ),
+  "Basic Cooking Pot": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+      }}
+      alt="Basic Cooking Pot"
+      project="Basic Cooking Pot"
+    />
+  ),
+  "Expert Cooking Pot": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      alt="Expert Cooking Pot"
+      project="Expert Cooking Pot"
+    />
+  ),
+  "Advanced Cooking Pot": (props: CollectibleProps) => (
+    <Project
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+      }}
+      alt="Advanced Cooking Pot"
+      project="Advanced Cooking Pot"
+    />
+  ),
+  "Floor Mirror": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Floor Mirror"].image}
+      alt="Floor Mirror"
+    />
+  ),
+  "Long Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Long Rug"].image}
+      alt="Long Rug"
+    />
+  ),
+  "Garbage Bin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Garbage Bin"].image}
+      alt="Garbage Bin"
+    />
+  ),
+  Wheelbarrow: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+      }}
+      image={ITEM_DETAILS["Wheelbarrow"].image}
+      alt="Wheelbarrow"
+    />
+  ),
+  "Snail King": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Snail King"].image}
+      alt="Snail King"
+    />
+  ),
+  "Reelmaster's Chair": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+      image={ITEM_DETAILS["Reelmaster's Chair"].image}
+      alt="Reelmaster's Chair"
+    />
+  ),
+  "Rat King": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Rat King"].image}
+      alt="Rat King"
+    />
+  ),
+  "Fruit Tune Box": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+      image={ITEM_DETAILS["Fruit Tune Box"].image}
+      alt="Fruit Tune Box"
+    />
+  ),
+  "Giant Artichoke": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+      }}
+      image={ITEM_DETAILS["Giant Artichoke"].image}
+      alt="Giant Artichoke"
+    />
+  ),
+  "Rocket Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Rocket Statue"].image}
+      alt="Rocket Statue"
+    />
+  ),
+  "Ant Queen": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+      image={ITEM_DETAILS["Ant Queen"].image}
+      alt="Ant Queen"
+    />
+  ),
+  "Jurassic Droplet": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Jurassic Droplet"].image}
+      alt="Jurassic Droplet"
+    />
+  ),
+  "Giant Onion": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+      image={ITEM_DETAILS["Giant Onion"].image}
+      alt="Giant Onion"
+    />
+  ),
+  "Giant Turnip": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 5}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Giant Turnip"].image}
+      alt="Giant Turnip"
+    />
+  ),
+  "Groovy Gramophone": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+      image={ITEM_DETAILS["Groovy Gramophone"].image}
+      alt="Groovy Gramophone"
+    />
+  ),
+  "Wheat Whiskers": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+      image={ITEM_DETAILS["Wheat Whiskers"].image}
+      alt="Wheat Whiskers"
+    />
+  ),
+  Cerberus: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Cerberus"].image}
+      alt="Cerberus"
+    />
+  ),
+  "Witch's Cauldron": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 38}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 38}px`,
+      }}
+      image={ITEM_DETAILS["Witch's Cauldron"].image}
+      alt="Witch's Cauldron"
+    />
+  ),
+  Raveyard: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Raveyard"].image}
+      alt="Raveyard"
+    />
+  ),
+  "Haunted House": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 93}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 93}px`,
+      }}
+      image={ITEM_DETAILS["Haunted House"].image}
+      alt="Haunted House"
+    />
+  ),
+  "Mimic Egg": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Mimic Egg"].image}
+      alt="Mimic Egg"
+    />
+  ),
+  "Haunted Tomb": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+      }}
+      image={ITEM_DETAILS["Haunted Tomb"].image}
+      alt="Haunted Tomb"
+    />
+  ),
+  Guillotine: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Guillotine"].image}
+      alt="Guillotine"
+    />
+  ),
+  "Vampire Coffin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Vampire Coffin"].image}
+      alt="Vampire Coffin"
+    />
+  ),
+  "Petnip Plant": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Petnip Plant"].image}
+      alt="Petnip Plant"
+    />
+  ),
+  "Pet Kennel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Pet Kennel"].image}
+      alt="Pet Kennel"
+    />
+  ),
+  "Pet Toys": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+      image={ITEM_DETAILS["Pet Toys"].image}
+      alt="Pet Toys"
+    />
+  ),
+  "Pet Playground": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+      }}
+      image={ITEM_DETAILS["Pet Playground"].image}
+      alt="Pet Playground"
+    />
+  ),
+  "Fish Bowl": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Fish Bowl"].image}
+      alt="Fish Bowl"
+    />
+  ),
+  "Giant Gold Bone": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Giant Gold Bone"].image}
+      alt="Giant Gold Bone"
+    />
+  ),
+  "Lunar Temple": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 46}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 46}px`,
+      }}
+      image={ITEM_DETAILS["Lunar Temple"].image}
+      alt="Lunar Temple"
+    />
+  ),
+  "Magma Stone": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Magma Stone"].image}
+      alt="Magma Stone"
+    />
+  ),
+  Cornucopia: (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      project="Cornucopia"
+      divStyle={{
+        width: `${PIXEL_SCALE * 42}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 42}px`,
+      }}
+      alt="Cornucopia"
+    />
+  ),
+  "Holiday Decorative Totem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Holiday Decorative Totem"].image}
+      alt="Holiday Decorative Totem"
+    />
+  ),
+  "Red Holiday Ornament": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Red Holiday Ornament"].image}
+      alt="Red Holiday Ornament"
+    />
+  ),
+  "Green Holiday Ornament": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Green Holiday Ornament"].image}
+      alt="Green Holiday Ornament"
+    />
+  ),
+  "Gift Turtle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Gift Turtle"].image}
+      alt="Gift Turtle"
+    />
+  ),
+  "Red Nose Reindeer": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+      }}
+      image={ITEM_DETAILS["Red Nose Reindeer"].image}
+      alt="Red Nose Reindeer"
+    />
+  ),
+  "Tuxedo Claus": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 37}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 37}px`,
+      }}
+      image={ITEM_DETAILS["Tuxedo Claus"].image}
+      alt="Tuxedo Claus"
+    />
+  ),
+  "Winter Alpaca": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Winter Alpaca"].image}
+      alt="Winter Alpaca"
+    />
+  ),
+  "Penguin Surprise": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 51}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 51}px`,
+      }}
+      image={ITEM_DETAILS["Penguin Surprise"].image}
+      alt="Penguin Surprise"
+    />
+  ),
+  "Frozen Meat": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Frozen Meat"].image}
+      alt="Frozen Meat"
+    />
+  ),
+  "Ho Ho oh oh…": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Ho Ho oh oh…"].image}
+      alt="Ho Ho oh oh…"
+    />
+  ),
+  "Squeaky Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Squeaky Chicken"].image}
+      alt="Squeaky Chicken"
+    />
+  ),
+  ...getKeys(BED_FARMHAND_COUNT).reduce(
+    (acc, bedName) => {
+      acc[bedName] = (props: CollectibleProps) => (
+        <Bed {...props} name={bedName} />
+      );
+      return acc;
+    },
+    {} as Record<BedName, React.FC<CollectibleProps>>,
+  ),
+  "Teeth Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Teeth Toy"].image}
+      alt="Teeth Toy"
+    />
+  ),
+  "Fake Treasure": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Fake Treasure"].image}
+      alt="Fake Treasure"
+    />
+  ),
+  "Fake Mouse": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Fake Mouse"].image}
+      alt="Fake Mouse"
+    />
+  ),
+  "Pet Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Pet Tree"].image}
+      alt="Pet Tree"
+    />
+  ),
+  "Definitely not a Flower": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Definitely not a Flower"].image}
+      alt="Definitely not a Flower"
+    />
+  ),
+  "Bumpkin Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Bumpkin Rug"].image}
+      alt="Bumpkin Rug"
+    />
+  ),
+  "Goblin Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Goblin Rug"].image}
+      alt="Goblin Rug"
+    />
+  ),
+  "Pet Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Pet Rug"].image}
+      alt="Pet Rug"
+    />
+  ),
+  "Jester in a box": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Jester in a box"].image}
+      alt="Jester in a box"
+    />
+  ),
+  "The Sunflower Man Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["The Sunflower Man Statue"].image}
+      alt="The Sunflower Man Statue"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
 export const READONLY_COLLECTIBLES: Record<
-  CollectibleName | "Bud",
-  React.FC<any>
+  CollectibleName | "Bud" | "Pet" | "PetNFT",
+  React.FC<CollectibleProps>
 > = {
   ...COLLECTIBLE_COMPONENTS,
   Observatory: () => (
@@ -1203,7 +3883,7 @@ export const READONLY_COLLECTIBLES: Record<
   ),
 
   "Basic Scarecrow": (props: CollectibleProps) => {
-    const hasChonkyScarecrow = props.game.bumpkin.skills["Chonky Scarecrow"];
+    const hasChonkyScarecrow = props.skills["Chonky Scarecrow"];
     const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
 
     return (
@@ -1239,7 +3919,7 @@ export const READONLY_COLLECTIBLES: Record<
   },
 
   "Scary Mike": (props: CollectibleProps) => {
-    const hasHorrorMike = props.game.bumpkin.skills["Horror Mike"];
+    const hasHorrorMike = props.skills["Horror Mike"];
     const offset = hasHorrorMike ? 4 : 0;
 
     return (
@@ -1275,7 +3955,7 @@ export const READONLY_COLLECTIBLES: Record<
   },
 
   "Laurie the Chuckle Crow": (props: CollectibleProps) => {
-    const hasLauriesGains = props.game.bumpkin.skills["Laurie's Gains"];
+    const hasLauriesGains = props.skills["Laurie's Gains"];
     const offset = hasLauriesGains ? 4 : 0;
 
     return (
@@ -1455,45 +4135,6 @@ export const READONLY_COLLECTIBLES: Record<
       </div>
     </div>
   ),
-  Bale: () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-        top: `${PIXEL_SCALE * -5}px`,
-        left: `${PIXEL_SCALE * -3}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full"
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * 5}px`,
-        }}
-      />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 4}px`,
-          height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * -11}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 27}px`,
-            top: `${PIXEL_SCALE * 25}px`,
-          }}
-        />
-      </div>
-    </div>
-  ),
   "Nyon Statue": () => (
     <img
       src={ITEM_DETAILS["Nyon Statue"].image}
@@ -1502,11 +4143,12 @@ export const READONLY_COLLECTIBLES: Record<
     />
   ),
   "Rock Golem": () => (
-    <img
-      src={ITEM_DETAILS["Rock Golem"].image}
+    <div
       className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 34}px` }}
-    />
+      style={{ left: `${PIXEL_SCALE * -2}px`, width: `${PIXEL_SCALE * 34}px` }}
+    >
+      <img src={ITEM_DETAILS["Rock Golem"].image} className="w-full" />
+    </div>
   ),
   "Wicker Man": () => (
     <div

@@ -3,7 +3,7 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { getFactionWeek } from "features/game/lib/factions";
+import { getWeekKey } from "features/game/lib/factions";
 import { CollectivePet, Faction, FactionName } from "features/game/types/game";
 import { FACTION_PET_REFRESH_INTERVAL } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
@@ -18,80 +18,32 @@ type FactionPetStateCoords = Record<
 >;
 
 const PROGRESS_BAR_COORDS: Record<FactionName, Coordinates> = {
-  nightshades: {
-    x: 233,
-    y: 312,
-  },
-  sunflorians: {
-    x: 233,
-    y: 248,
-  },
-  bumpkins: {
-    x: 233,
-    y: 312,
-  },
-  goblins: {
-    x: 233,
-    y: 264,
-  },
+  nightshades: { x: 233, y: 312 },
+  sunflorians: { x: 233, y: 248 },
+  bumpkins: { x: 233, y: 312 },
+  goblins: { x: 233, y: 264 },
 };
 
 export const PET_STATE_COORDS: FactionPetStateCoords = {
   sunflorians: {
-    pet_hungry: {
-      x: 243,
-      y: 220,
-    },
-    pet_sleeping: {
-      x: 243,
-      y: 229,
-    },
-    pet_happy: {
-      x: 243,
-      y: 220,
-    },
+    pet_hungry: { x: 243, y: 220 },
+    pet_sleeping: { x: 243, y: 229 },
+    pet_happy: { x: 243, y: 220 },
   },
   nightshades: {
-    pet_hungry: {
-      x: 241,
-      y: 284,
-    },
-    pet_sleeping: {
-      x: 241,
-      y: 284,
-    },
-    pet_happy: {
-      x: 241,
-      y: 284,
-    },
+    pet_hungry: { x: 241, y: 284 },
+    pet_sleeping: { x: 241, y: 284 },
+    pet_happy: { x: 241, y: 284 },
   },
   bumpkins: {
-    pet_hungry: {
-      x: 241,
-      y: 286,
-    },
-    pet_sleeping: {
-      x: 239,
-      y: 289,
-    },
-    pet_happy: {
-      x: 239,
-      y: 283,
-    },
+    pet_hungry: { x: 241, y: 286 },
+    pet_sleeping: { x: 239, y: 289 },
+    pet_happy: { x: 239, y: 283 },
   },
   goblins: {
-    pet_hungry: {
-      x: 242,
-      y: 237,
-    },
-    pet_sleeping: {
-      x: 242,
-      y: 237,
-    },
-    pet_happy: {
-      x: 242,
-      y: 237,
-    },
+    pet_hungry: { x: 242, y: 237 },
+    pet_sleeping: { x: 242, y: 237 },
+    pet_happy: { x: 242, y: 237 },
   },
 };
 
@@ -115,8 +67,8 @@ export abstract class FactionHouseScene extends BaseScene {
     this.load.image("empty_progress_bar", "world/empty_bar.png");
     this.load.image("boost_icon", "world/lightning.png");
 
-    const week = getFactionWeek({ date: new Date() });
-    const faction = this.gameService.state.context.state.faction;
+    const week = getWeekKey({ date: new Date() });
+    const faction = this.gameService.getSnapshot().context.state.faction;
     this.factionName = faction?.name;
 
     if (faction) {
@@ -178,11 +130,12 @@ export abstract class FactionHouseScene extends BaseScene {
       4,
     );
 
-    const thisWeek = getFactionWeek({ date: new Date() });
-    const lastWeek = getFactionWeek({
+    const thisWeek = getWeekKey({ date: new Date() });
+    const lastWeek = getWeekKey({
       date: new Date(new Date(thisWeek).getTime() - 7 * 24 * 60 * 60 * 1000),
     });
-    const faction = this.gameService.state.context.state.faction as Faction;
+    const faction = this.gameService.getSnapshot().context.state
+      .faction as Faction;
     const isStreakWeek =
       (faction.history?.[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
 
@@ -198,14 +151,27 @@ export abstract class FactionHouseScene extends BaseScene {
 
   create() {
     super.create();
+
+    // Clear interval if setting up a new one
+    if (this.fetchInterval) {
+      clearInterval(this.fetchInterval);
+    }
+
     this.fetchInterval = setInterval(
       () => this.makeFetchRequest(),
       FACTION_PET_REFRESH_INTERVAL,
     );
+
+    // Clear if scene is shut down
+    this.events.once("shutdown", () => {
+      if (this.fetchInterval) {
+        clearInterval(this.fetchInterval);
+      }
+    });
   }
 
   async makeFetchRequest() {
-    const { farmId } = this.gameService.state.context;
+    const { farmId } = this.gameService.getSnapshot().context;
 
     const data = await getFactionPetUpdate({ farmId });
 
@@ -216,18 +182,6 @@ export abstract class FactionHouseScene extends BaseScene {
     this.progress = this.calculatePetProgress();
 
     this.boostIcon?.setVisible((data.streak ?? 0) >= 3);
-  }
-
-  shutdown() {
-    if (this.fetchInterval) {
-      clearInterval(this.fetchInterval);
-    }
-  }
-
-  destroy() {
-    if (this.fetchInterval) {
-      clearInterval(this.fetchInterval);
-    }
   }
 
   set petState(newValue: PetStateSprite) {

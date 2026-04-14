@@ -1,13 +1,15 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
-import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getKeys } from "lib/object";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -25,50 +27,76 @@ type Options = {
   createdAt?: number;
 };
 
+export const calculateSwarmBoost = (amount: number, game: GameState) => {
+  const { bumpkin } = game;
+
+  let boost = amount + 0.2;
+
+  if (bumpkin.skills["Pollen Power Up"]) {
+    boost += 0.1; // 0.3
+  }
+
+  return boost;
+};
+
 const applySwarmBoostToCrops = (
-  crops: GameState["crops"],
+  state: GameState,
+  createdAt: number,
 ): GameState["crops"] => {
+  const { crops } = state;
+
   return getKeys(crops).reduce(
     (acc, cropId) => {
       const cropPlot = crops[cropId];
+      const updatedPlot = { ...cropPlot };
 
-      if (cropPlot.crop) {
-        const amount = cropPlot.crop.amount;
+      updatedPlot.beeSwarm = {
+        count: (cropPlot.beeSwarm?.count ?? 0) + 1,
+        swarmActivatedAt: createdAt,
+      };
 
-        return {
-          ...acc,
-          [cropId]: {
-            ...cropPlot,
-            crop: {
-              ...cropPlot.crop,
-              amount: amount + 0.2,
-            },
-          },
-        };
-      }
-
-      return { ...acc, [cropId]: cropPlot };
+      return { ...acc, [cropId]: updatedPlot };
     },
     {} as GameState["crops"],
   );
 };
 
 export const getHoneyMultiplier = (game: GameState) => {
+  const { bumpkin } = game;
+
   let multiplier = 1;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Bee Suit", game })) {
     multiplier += 0.1;
+    boostsUsed.push({ name: "Bee Suit", value: "+0.1" });
   }
 
   if (isWearableActive({ name: "Honeycomb Shield", game })) {
     multiplier += 1;
+    boostsUsed.push({ name: "Honeycomb Shield", value: "+1" });
   }
 
-  return multiplier;
+  if (bumpkin.skills["Sweet Bonus"]) {
+    multiplier += 0.1;
+    boostsUsed.push({ name: "Sweet Bonus", value: "+0.1" });
+  }
+
+  if (isCollectibleBuilt({ name: "King of Bears", game })) {
+    multiplier += 0.25;
+    boostsUsed.push({ name: "King of Bears", value: "+0.25" });
+  }
+
+  return { multiplier, boostsUsed };
 };
 
-const getTotalHoneyProduced = (game: GameState, honeyProduced: number) => {
-  return honeyProduced * getHoneyMultiplier(game);
+const getTotalHoneyProduced = (
+  game: GameState,
+  honeyProduced: number,
+): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
+  const { multiplier, boostsUsed } = getHoneyMultiplier(game);
+
+  return { amount: honeyProduced * multiplier, boostsUsed };
 };
 
 export function harvestBeehive({
@@ -99,7 +127,10 @@ export function harvestBeehive({
       DEFAULT_HONEY_PRODUCTION_TIME;
     const isFull = honeyProduced >= 1;
 
-    const totalHoneyProduced = getTotalHoneyProduced(stateCopy, honeyProduced);
+    const { amount: totalHoneyProduced, boostsUsed } = getTotalHoneyProduced(
+      stateCopy,
+      honeyProduced,
+    );
 
     stateCopy.beehives[action.id].honey.produced = 0;
     stateCopy.beehives[action.id].honey.updatedAt = createdAt;
@@ -110,16 +141,22 @@ export function harvestBeehive({
     // If the beehive is full, check, apply and update swarm
     if (isFull) {
       if (stateCopy.beehives[action.id].swarm) {
-        stateCopy.crops = applySwarmBoostToCrops(stateCopy.crops);
+        stateCopy.crops = applySwarmBoostToCrops(stateCopy, createdAt);
       }
 
       // Actual value updated on the server
       stateCopy.beehives[action.id].swarm = false;
     }
 
-    stateCopy.bumpkin.activity = trackActivity(
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
+
+    stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
-      stateCopy.bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(totalHoneyProduced),
     );
 

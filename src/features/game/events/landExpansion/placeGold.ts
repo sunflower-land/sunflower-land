@@ -1,19 +1,22 @@
-import { GameState } from "features/game/types/game";
+import { GameState, Rock } from "features/game/types/game";
 import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
+  RESOURCE_MULTIPLIER,
+  GoldRockName,
+  ADVANCED_RESOURCES,
+  UpgradedResourceName,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
-  name: ResourceName;
+  name: GoldRockName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {
@@ -28,26 +31,54 @@ export function placeGold({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Gold Rock"] || new Decimal(0)).minus(
-      Object.keys(game.gold).length,
-    );
+    const available = getAvailableNodes(game, "gold");
 
     if (available.lt(1)) {
       throw new Error("No gold available");
     }
 
-    game.gold = {
-      ...game.gold,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
+    const nodeStateAccessor = game.gold;
+
+    const existingGold = findExistingUnplacedNode({
+      nodeStateAccessor,
+      nodeToFind: action.name,
+    });
+
+    if (existingGold) {
+      const [id, gold] = existingGold;
+      const updatedGold = {
+        ...gold,
         x: action.coordinates.x,
         y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Gold Rock"],
-        stone: {
-          amount: 0,
-          minedAt: 0,
-        },
+      };
+
+      if (updatedGold.stone && updatedGold.removedAt) {
+        const existingProgress =
+          updatedGold.removedAt - updatedGold.stone.minedAt;
+        updatedGold.stone.minedAt = createdAt - existingProgress;
+      }
+      delete updatedGold.removedAt;
+
+      game.gold[id] = updatedGold;
+
+      return game;
+    }
+
+    const gold: Rock = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      stone: {
+        minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
+    };
+
+    game.gold = {
+      ...game.gold,
+      [action.id as unknown as number]: gold,
     };
 
     return game;

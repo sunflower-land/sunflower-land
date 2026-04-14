@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
@@ -15,6 +15,7 @@ import riceGrowing from "assets/greenhouse/rice_growing.webp";
 import riceAlmost from "assets/greenhouse/rice_almost.webp";
 import riceReady from "assets/greenhouse/rice_ready.webp";
 import barrelIcon from "assets/resources/oil_barrel.webp";
+import powerup from "assets/icons/level_up.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
@@ -25,21 +26,31 @@ import { GreenHouseFruitName } from "features/game/types/fruits";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { LiveProgressBar } from "components/ui/ProgressBar";
-import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { GreenhousePlant } from "features/game/types/game";
+import { ProgressBar } from "components/ui/ProgressBar";
 import {
-  OIL_USAGE,
+  getGreenhouseCropYieldAmount,
+  getReadyAt,
+} from "features/game/events/landExpansion/harvestGreenHouse";
+import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getOilUsage,
   SEED_TO_PLANT,
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { QuickSelect } from "./QuickSelect";
 import { SUNNYSIDE } from "assets/sunnyside";
-import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
+import {
+  GREENHOUSE_COMPOST,
+  GreenhouseCompostName,
+} from "features/game/types/composters";
+import {
+  GreenhouseFertiliser,
+  InventoryItemName,
+} from "features/game/types/game";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -70,28 +81,102 @@ interface Props {
   id: number;
 }
 
-const selectPots = (state: MachineState) => state.context.state.greenhouse.pots;
-const selectInventory = (state: MachineState) => state.context.state.inventory;
+const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
+const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
+
+const GreenhousePotFertiliserBadges: React.FC<{
+  fertiliser?: GreenhouseFertiliser;
+}> = ({ fertiliser }) => {
+  const name = fertiliser?.name;
+  if (!name) return null;
+
+  return (
+    <>
+      {name === "Greenhouse Goodie" && (
+        <img
+          src={powerup}
+          alt=""
+          className="absolute z-10 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+      {name === "Greenhouse Glow" && (
+        <img
+          src={SUNNYSIDE.icons.stopwatch}
+          alt=""
+          className="absolute z-10 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+    </>
+  );
+};
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, showAnimations, showTimers } =
-    useContext(Context);
+  const {
+    gameService,
+    selectedItem,
+    showAnimations,
+    enableQuickSelect,
+    showTimers,
+  } = useContext(Context);
 
   const { t } = useAppTranslation();
-  const [_, setRender] = useState<number>(0);
   const [showHarvested, setShowHarvested] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const [pulsating, setPulsating] = useState(false);
-  const harvested = useRef<GreenhousePlant>();
+  const [harvestedName, setHarvestedName] = useState<
+    GreenHouseCropName | GreenHouseFruitName | undefined
+  >(undefined);
+  const [harvestedAmount, setHarvestedAmount] = useState<number>(0);
 
-  const pots = useSelector(gameService, selectPots);
-  const inventory = useSelector(gameService, selectInventory);
+  const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
+  const activityCount = useSelector(gameService, (state) => {
+    const cropName = state.context.state.greenhouse.pots[id]?.plant?.name;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
+
+  const { inventory, greenhouse } = state;
+  const { pots } = greenhouse;
 
   const pot = pots[id];
+  const growingPlant = pot?.plant;
+  const potFertiliser = pot?.fertiliser;
 
-  const plant = async (
+  const plantedAt = growingPlant?.plantedAt ?? 0;
+  const readyAt = growingPlant
+    ? getReadyAt({
+        plant: growingPlant.name,
+        createdAt: plantedAt,
+      })
+    : 0;
+  const harvestSeconds = Math.max((readyAt - plantedAt) / 1000, 0);
+  const now = useNow({ live: !!growingPlant, autoEndAt: readyAt });
+  const secondsLeft =
+    readyAt > 0 ? Math.max(Math.ceil((readyAt - now) / 1000), 0) : 0;
+  const percentage =
+    harvestSeconds > 0
+      ? clampPercentage(((harvestSeconds - secondsLeft) / harvestSeconds) * 100)
+      : 100;
+
+  const { usage: oilRequired } = getOilUsage({
+    seed: selectedItem as GreenHouseCropSeedName,
+    game: state,
+  });
+
+  const plantSeed = async (
     seed: GreenHouseCropSeedName = selectedItem as GreenHouseCropSeedName,
   ) => {
     if (
@@ -99,33 +184,37 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       !SEED_TO_PLANT[seed as GreenHouseCropSeedName] ||
       !inventory[seed]?.gte(1)
     ) {
-      setShowQuickSelect(true);
+      if (enableQuickSelect) {
+        setShowQuickSelect(true);
+      }
       return;
     }
 
-    if (
-      OIL_USAGE[seed as GreenHouseCropSeedName] >
-      gameService.state.context.state.greenhouse.oil
-    ) {
+    if (oilRequired > gameService.getSnapshot().context.state.greenhouse.oil) {
       setShowOilWarning(true);
       await new Promise((res) => setTimeout(res, 2000));
       setShowOilWarning(false);
       return;
     }
 
-    gameService.send("greenhouse.planted", {
+    gameService.send("greenhouse.planted", { id, seed });
+  };
+
+  const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
+    const invItem = item ?? selectedItem;
+    if (!invItem || !(invItem in GREENHOUSE_COMPOST) || potFertiliser) {
+      return false;
+    }
+    gameService.send("greenhouse.fertilised", {
       id,
-      seed,
+      fertiliser: invItem as GreenhouseCompostName,
     });
+    return true;
   };
 
   if (!pot?.plant) {
     return (
-      <div
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-        }}
-      >
+      <div className="relative" style={{ width: `${PIXEL_SCALE * 28}px` }}>
         {/* Harvest Animation */}
         {showAnimations && (
           <Transition
@@ -139,15 +228,14 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             className="flex -top-2 left-[40%] absolute w-full z-40 pointer-events-none"
+            as="div"
           >
             <img
-              src={ITEM_DETAILS[harvested.current?.name ?? "Rice"].image}
+              src={ITEM_DETAILS[harvestedName ?? "Rice"].image}
               className="mr-2 img-highlight-heavy"
-              style={{
-                width: `${PIXEL_SCALE * 7}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
-            <span className="text-sm yield-text">{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
+            <span className="text-sm yield-text">{`+${formatNumber(harvestedAmount)}`}</span>
           </Transition>
         )}
 
@@ -162,20 +250,21 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex top-[-200%] left-[50%] absolute z-40 shadow-md"
+          as="div"
         >
           <QuickSelect
-            icon={SUNNYSIDE.icons.seeds}
             options={[
-              { name: "Grape Seed", icon: "Grape" },
-              { name: "Rice Seed", icon: "Rice" },
-              { name: "Olive Seed", icon: "Olive" },
+              { name: "Grape Seed", icon: "Grape", showSecondaryImage: true },
+              { name: "Rice Seed", icon: "Rice", showSecondaryImage: true },
+              { name: "Olive Seed", icon: "Olive", showSecondaryImage: true },
             ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={(seed) => {
-              plant(seed as GreenHouseCropSeedName);
+              plantSeed(seed as GreenHouseCropSeedName);
               setShowQuickSelect(false);
             }}
             type={t("quickSelect.greenhouseSeeds")}
+            showExpanded
           />
         </Transition>
 
@@ -189,54 +278,60 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           leave="transition-opacity duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-          className="flex -top-4 left-[80%] absolute z-40 shadow-md w-60"
+          className="flex -top-4 left-[80%] absolute z-40 shadow-md w-auto"
+          as="div"
         >
-          <Label type="danger" icon={barrelIcon}>
-            {`${OIL_USAGE[selectedItem as GreenHouseCropSeedName]} ${t(
-              "greenhouse.oilRequired",
-            )}`}
+          <Label type="danger" icon={barrelIcon} className="whitespace-nowrap">
+            {`${oilRequired} ${t("greenhouse.oilRequired")}`}
           </Label>
         </Transition>
 
+        <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
         <img
           src={emptyPot}
-          className={classNames("cursor-pointer hover:img-highlight", {
-            "animate-pulsate": showQuickSelect && pulsating,
-          })}
-          style={{
-            width: `${PIXEL_SCALE * 28}px`,
+          className="cursor-pointer hover:img-highlight"
+          style={{ width: `${PIXEL_SCALE * 28}px` }}
+          onClick={() => {
+            if (tryApplyGreenhouseFertiliser()) return;
+            plantSeed();
           }}
-          onClick={() => plant()}
         />
       </div>
     );
   }
 
-  const plantedAt = pot.plant.plantedAt;
-  const readyAt = getReadyAt({
-    game: gameService.state.context.state,
-    plant: pot.plant.name,
-    createdAt: plantedAt,
-  });
-  const harvestSeconds = (readyAt - plantedAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
-  const startAt = plantedAt ?? 0;
-
-  const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
-
   const harvest = async () => {
-    if (Date.now() < readyAt) {
+    if (!pot.plant) return;
+    if (
+      selectedItem &&
+      selectedItem in GREENHOUSE_COMPOST &&
+      !potFertiliser &&
+      now < readyAt
+    ) {
+      tryApplyGreenhouseFertiliser();
+      return;
+    }
+    if (now < readyAt) {
       setShowTimeRemaining(true);
       await new Promise((res) => setTimeout(res, 2000));
       setShowTimeRemaining(false);
       return;
     }
 
-    harvested.current = pot.plant;
+    setHarvestedName(pot.plant.name);
 
-    gameService.send("greenhouse.harvested", {
-      id,
-    });
+    setHarvestedAmount(
+      pot.plant.amount ??
+        getGreenhouseCropYieldAmount({
+          prngArgs: { farmId, counter: activityCount },
+          crop: pot.plant.name,
+          game: state,
+          createdAt: now,
+          fertiliser: potFertiliser?.name,
+        }).amount,
+    );
+
+    gameService.send("greenhouse.harvested", { id });
 
     if (showAnimations) {
       setShowHarvested(true);
@@ -258,20 +353,15 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   }
 
   return (
-    <div
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-      }}
-    >
+    <div className="relative" style={{ width: `${PIXEL_SCALE * 28}px` }}>
+      <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
       <img
         src={PLANT_STAGES[pot.plant.name][stage]}
         className="cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-        }}
+        style={{ width: `${PIXEL_SCALE * 28}px` }}
         onClick={harvest}
       />
-      {showTimers && Date.now() < readyAt && (
+      {showTimers && secondsLeft > 0 && (
         <div
           className="absolute pointer-events-none"
           style={{
@@ -280,12 +370,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <LiveProgressBar
-            key={`${startAt}-${readyAt}`}
-            startAt={startAt}
-            endAt={readyAt}
+          <ProgressBar
+            percentage={percentage}
+            seconds={secondsLeft}
             formatLength="short"
-            onComplete={() => setRender((r) => r + 1)}
+            type="progress"
           />
         </div>
       )}
@@ -301,6 +390,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="flex top-0 left-[90%] absolute z-40 shadow-md w-[200px]"
+        as="div"
       >
         <Label
           type="info"

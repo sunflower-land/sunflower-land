@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -8,10 +8,9 @@ import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
-import { Bumpkin } from "features/game/types/game";
-import { loadAudio, shopAudio } from "lib/utils/sfx";
+import { GameState } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
@@ -21,6 +20,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
+import { useSound } from "lib/utils/hooks/useSound";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+
+const _season = (state: MachineState) => state.context.state.season.season;
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -30,81 +34,84 @@ const _specialEvents = (state: MachineState) =>
     )
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
-const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
-  if (!bumpkin) return false;
-
-  const { activity = {} } = bumpkin;
-
+const hasSoldCropsBefore = (farmActivity: GameState["farmActivity"]) => {
   return !!getKeys(CROPS).find((crop) =>
-    getKeys(activity).includes(`${crop} Sold`),
+    getKeys(farmActivity).includes(`${crop} Sold`),
   );
 };
 
-const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
-  if (!bumpkin) return false;
-
-  const { activity = {} } = bumpkin;
-
+const hasBoughtCropsBefore = (farmActivity: GameState["farmActivity"]) => {
   return !!getKeys(CROPS).find((crop) =>
-    getKeys(activity).includes(`${crop} Seed Bought`),
+    getKeys(farmActivity).includes(`${crop} Seed Bought`),
   );
 };
 
-export const Market: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+const getBettyPositioning = () => {
+  return {
+    shadow: {
+      width: `${PIXEL_SCALE * 15}px`,
+      bottom: `${PIXEL_SCALE * 6}px`,
+      right: `${PIXEL_SCALE * 9}px`,
+    },
+    betty: {
+      width: `${PIXEL_SCALE * 16}px`,
+      bottom: `${PIXEL_SCALE * 8}px`,
+      right: `${PIXEL_SCALE * 8}px`,
+      transform: "scaleX(-1)",
+    },
+  };
+};
+
+export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const specialEvents = useSelector(gameService, _specialEvents);
 
+  const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    loadAudio([shopAudio]);
-  }, []);
+  const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
     if (isBuilt) {
       // Add future on click actions here
-      shopAudio.play();
+      shopAudio();
       setIsOpen(true);
       return;
     }
   };
 
-  const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
+  const hasSoldBefore = hasSoldCropsBefore(
+    gameState.context.state.farmActivity,
+  );
   const showBuyHelper =
-    !hasBoughtCropsBefore(gameState.context.state.bumpkin) && !!hasSoldBefore;
+    !hasBoughtCropsBefore(gameState.context.state.farmActivity) &&
+    !!hasSoldBefore;
 
   const showHelper =
-    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
-    !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
+    gameState.context.state.farmActivity["Sunflower Harvested"] === 9 &&
+    !gameState.context.state.farmActivity["Sunflower Sold"];
 
-  const cropShortageSecondsLeft =
-    (gameState.context.state.createdAt +
-      CROP_SHORTAGE_HOURS * 60 * 60 * 1000 -
-      Date.now()) /
-    1000;
-  const isCropShortage = cropShortageSecondsLeft >= 0;
+  const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
+    gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
+  );
+
+  const isCropShortage = cropShortageSecondsLeft > 0;
 
   const specialEventDetails = specialEvents[0];
 
   const boostItem = getKeys(specialEventDetails?.[1]?.bonus ?? {})[0];
   const boostAmount =
     specialEventDetails?.[1]?.bonus?.[boostItem]?.saleMultiplier;
+  const { shadow: shadowPosition, betty: bettyPosition } =
+    getBettyPositioning();
 
   return (
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[island]}
+          src={MARKET_VARIANTS[getCurrentBiome(island)][season]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
@@ -114,21 +121,12 @@ export const Market: React.FC<BuildingProps> = ({
         <img
           src={shadow}
           className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 18}px`,
-          }}
+          style={shadowPosition}
         />
         <img
           src={SUNNYSIDE.npcs.betty}
           className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 8}px`,
-            right: `${PIXEL_SCALE * 16}px`,
-            transform: "scaleX(-1)",
-          }}
+          style={bettyPosition}
         />
 
         {showHelper && (

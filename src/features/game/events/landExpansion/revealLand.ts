@@ -7,20 +7,28 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
+  Requirements,
 } from "features/game/types/expansions";
-import { Airdrop, GameState } from "features/game/types/game";
+import { Airdrop, BoostName, GameState } from "features/game/types/game";
 
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { CropName } from "features/game/types/crops";
 import { produce } from "immer";
+import {
+  CRIMSTONE_RECOVERY_TIME,
+  GOLD_RECOVERY_TIME,
+  IRON_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
   4: "Sunflower",
-  5: "Potato", // We need Potatos at expansion 5 for cooking
+  5: "Rhubarb", // Spring-available crop for early cooking tutorial
   6: "Pumpkin",
   7: "Carrot",
   8: "Cabbage",
@@ -74,11 +82,9 @@ export function revealLand({
     // Add Trees
     land.trees?.forEach((coords) => {
       game.trees[randomUUID().slice(0, 8)] = {
-        height: 2,
-        width: 2,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        wood: { amount: 1, choppedAt: 0 },
+        wood: { choppedAt: 0 },
       };
     });
     inventory.Tree = (inventory.Tree || new Decimal(0)).add(land.trees.length);
@@ -86,11 +92,9 @@ export function revealLand({
     // Add Stones
     land.stones?.forEach((coords) => {
       game.stones[randomUUID().slice(0, 8)] = {
-        height: 1,
-        width: 1,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Stone Rock"] = (inventory["Stone Rock"] || new Decimal(0)).add(
@@ -100,11 +104,9 @@ export function revealLand({
     // Add Iron
     land.iron?.forEach((coords) => {
       game.iron[randomUUID().slice(0, 8)] = {
-        height: 1,
-        width: 1,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Iron Rock"] = (inventory["Iron Rock"] || new Decimal(0)).add(
@@ -114,11 +116,9 @@ export function revealLand({
     // Add Gold
     land.gold?.forEach((coords) => {
       game.gold[randomUUID().slice(0, 8)] = {
-        height: 1,
-        width: 1,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Gold Rock"] = (inventory["Gold Rock"] || new Decimal(0)).add(
@@ -128,11 +128,9 @@ export function revealLand({
     // Add Crimstone
     land.crimstones?.forEach((coords) => {
       game.crimstones[randomUUID().slice(0, 8)] = {
-        height: 2,
-        width: 2,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 5,
       };
     });
@@ -144,13 +142,10 @@ export function revealLand({
     land.plots?.forEach((coords) => {
       game.crops[randomUUID().slice(0, 8)] = {
         createdAt: Date.now(),
-        height: 1,
-        width: 1,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         crop: {
           name: EXPANSION_CROPS[landCount] ?? "Sunflower",
-          amount: 1,
           plantedAt: 0,
         },
       };
@@ -163,12 +158,10 @@ export function revealLand({
     // Add Fruit patches
     land.fruitPatches?.forEach((coords) => {
       game.fruitPatches[randomUUID().slice(0, 8)] = {
-        height: 2,
-        width: 2,
+        createdAt: Date.now(),
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         fruit: {
-          amount: 1,
           harvestedAt: 0,
           harvestsLeft: 3,
           name: "Apple",
@@ -184,11 +177,9 @@ export function revealLand({
     land.sunstones?.forEach((coords) => {
       const id = randomUUID();
       game.sunstones[id] = {
-        height: 2,
-        width: 2,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 10,
       };
     });
@@ -200,8 +191,6 @@ export function revealLand({
     land.beehives?.forEach((coords) => {
       const id = randomUUID();
       game.beehives[id] = {
-        height: 1,
-        width: 1,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         honey: { produced: 0, updatedAt: Date.now() },
@@ -217,8 +206,6 @@ export function revealLand({
     land.flowerBeds?.forEach((coords) => {
       const id = randomUUID();
       game.flowers.flowerBeds[id] = {
-        height: 1,
-        width: 3,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         createdAt,
@@ -231,14 +218,11 @@ export function revealLand({
     land.oilReserves?.forEach((coords) => {
       const id = randomUUID();
       game.oilReserves[id] = {
-        height: 2,
-        width: 2,
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         createdAt,
         drilled: 0,
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
       };
@@ -247,24 +231,36 @@ export function revealLand({
       land.oilReserves?.length ?? 0,
     );
 
-    // Refresh all basic resources
-    game.trees = getKeys(game.trees).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.trees[id],
-            wood: {
-              ...game.trees[id].wood,
-              choppedAt: createdAt - 4 * 60 * 60 * 1000,
-            },
-          },
-        };
-      },
-      {} as GameState["trees"],
+    // Add lava pits
+    land.lavaPits?.forEach((coords) => {
+      const id = randomUUID();
+      game.lavaPits[id] = {
+        x: coords.x + origin.x,
+        y: coords.y + origin.y,
+        createdAt,
+      };
+    });
+    inventory["Lava Pit"] = (inventory["Lava Pit"] || new Decimal(0)).add(
+      land.lavaPits?.length ?? 0,
     );
 
-    game.stones = getKeys(game.stones).reduce(
+    // Replenish all trees
+    game.trees = getKeys(game.trees).reduce<GameState["trees"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.trees[id],
+          wood: {
+            ...game.trees[id].wood,
+            choppedAt:
+              (game.trees[id].removedAt ?? createdAt) -
+              TREE_RECOVERY_TIME * 1000,
+          },
+        },
+      };
+    }, {});
+
+    game.stones = getKeys(game.stones).reduce<GameState["stones"]>(
       (acc, id) => {
         return {
           ...acc,
@@ -272,47 +268,47 @@ export function revealLand({
             ...game.stones[id],
             stone: {
               ...game.stones[id].stone,
-              minedAt: createdAt - 12 * 60 * 60 * 1000,
+              minedAt:
+                (game.stones[id].removedAt ?? createdAt) -
+                STONE_RECOVERY_TIME * 1000,
             },
           },
         };
       },
-      {} as GameState["stones"],
+      {},
     );
 
-    game.iron = getKeys(game.iron).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.iron[id],
-            stone: {
-              ...game.iron[id].stone,
-              minedAt: createdAt - 24 * 60 * 60 * 1000,
-            },
+    game.iron = getKeys(game.iron).reduce<GameState["iron"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.iron[id],
+          stone: {
+            ...game.iron[id].stone,
+            minedAt:
+              (game.iron[id].removedAt ?? createdAt) -
+              IRON_RECOVERY_TIME * 1000,
           },
-        };
-      },
-      {} as GameState["iron"],
-    );
+        },
+      };
+    }, {});
 
-    game.gold = getKeys(game.gold).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.gold[id],
-            stone: {
-              ...game.gold[id].stone,
-              minedAt: createdAt - 48 * 60 * 60 * 1000,
-            },
+    game.gold = getKeys(game.gold).reduce<GameState["gold"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.gold[id],
+          stone: {
+            ...game.gold[id].stone,
+            minedAt:
+              (game.gold[id].removedAt ?? createdAt) -
+              GOLD_RECOVERY_TIME * 1000,
           },
-        };
-      },
-      {} as GameState["gold"],
-    );
+        },
+      };
+    }, {});
 
-    game.crimstones = getKeys(game.crimstones).reduce(
+    game.crimstones = getKeys(game.crimstones).reduce<GameState["crimstones"]>(
       (acc, id) => {
         return {
           ...acc,
@@ -320,13 +316,32 @@ export function revealLand({
             ...game.crimstones[id],
             stone: {
               ...game.crimstones[id].stone,
-              minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
+              minedAt:
+                (game.crimstones[id].removedAt ?? createdAt) -
+                CRIMSTONE_RECOVERY_TIME * 1000,
             },
           },
         };
       },
-      {} as GameState["crimstones"],
+      {},
     );
+
+    game.oilReserves = getKeys(game.oilReserves).reduce<
+      GameState["oilReserves"]
+    >((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.oilReserves[id],
+          oil: {
+            ...game.oilReserves[id].oil,
+            drilledAt:
+              (game.oilReserves[id].removedAt ?? createdAt) -
+              OIL_RESERVE_RECOVERY_TIME * 1000,
+          },
+        },
+      };
+    }, {});
 
     // Add fire pit on expansion 5
     if (landCount >= 5 && !game.inventory["Fire Pit"]) {
@@ -351,13 +366,22 @@ export function revealLand({
   });
 }
 
-export const expansionRequirements = ({ game }: { game: GameState }) => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+export const expansionRequirements = ({
+  game,
+}: {
+  game: GameState;
+}): {
+  requirements: Requirements | undefined;
+  boostsUsed: { name: BoostName; value: string }[];
+} => {
+  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {
-    return undefined;
+    return { requirements: undefined, boostsUsed };
   }
 
   let resources = requirements.resources;
@@ -367,17 +391,14 @@ export const expansionRequirements = ({ game }: { game: GameState }) => {
     resources = getKeys(resources).reduce(
       (acc, key) => ({
         ...acc,
-        [key]:
-          key === "Block Buck" ? resources[key] : (resources[key] ?? 0) / 2,
+        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
       }),
       {},
     );
+    boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
   }
 
-  return {
-    ...requirements,
-    resources,
-  };
+  return { requirements: { ...requirements, resources }, boostsUsed };
 };
 
 export function getRewards({
@@ -401,7 +422,7 @@ export function getRewards({
         id: "expansion-sixth-airdrop",
         items: {
           "Time Warp Totem": 1,
-          "Block Buck": 1,
+          Gem: 20,
         },
         message: "Woohoo, you discovered a gift!",
         sfl: 0,
@@ -418,7 +439,7 @@ export function getRewards({
   const blockBuckAirdrop = {
     createdAt,
     items: {
-      "Block Buck": 1,
+      Gem: 20,
     },
     sfl: 0,
     coins: 0,
@@ -429,7 +450,11 @@ export function getRewards({
     airdrops = [
       ...airdrops,
       {
-        ...blockBuckAirdrop,
+        createdAt,
+        items: {},
+        sfl: 0.1,
+        coins: 0,
+        wearables: {},
         coordinates: { x: -7, y: -3 },
         id: "expansion-seven-airdrop",
       },

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { ComposterName } from "features/game/types/composters";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { CompostBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -44,8 +44,7 @@ export function collectCompost({
     }
 
     if (createdAt < compost.readyAt) {
-      throw new Error(translate("error.no.ready"));
-      ("Compost is not ready");
+      throw new Error("Compost is not ready");
     }
 
     getKeys(compost.items ?? {}).forEach((name) => {
@@ -53,13 +52,14 @@ export function collectCompost({
       stateCopy.inventory[name] = previousCount.add(compost.items[name] ?? 0);
     });
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.building} Collected`,
-      bumpkin?.activity,
+      stateCopy.farmActivity,
     );
 
-    // Set on backend
-    delete building.requires;
+    if (building.requires) {
+      delete building.requires;
+    }
 
     delete building.producing;
 

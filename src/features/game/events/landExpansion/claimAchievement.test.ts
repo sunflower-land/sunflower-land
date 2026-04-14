@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
@@ -101,9 +100,9 @@ describe("claim achievements", () => {
           ...INITIAL_BUMPKIN,
           experience,
           achievements: undefined,
-          activity: {
-            "Sunflower Harvested": 10000,
-          },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 10000,
         },
       },
       action: {

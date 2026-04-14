@@ -3,6 +3,8 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { removeFruitTree } from "./fruitTreeRemoved";
 
+const now = Date.now();
+
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
@@ -12,36 +14,31 @@ const GAME_STATE: GameState = {
   },
   fruitPatches: {
     0: {
+      createdAt: now,
       fruit: {
         name: "Apple",
-        amount: 1,
         plantedAt: 123,
         harvestedAt: 0,
         harvestsLeft: 0,
       },
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
     1: {
+      createdAt: now,
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
     2: {
+      createdAt: now,
       fruit: {
         name: "Blueberry",
-        amount: 1,
         plantedAt: 123,
         harvestedAt: 0,
         harvestsLeft: 0,
       },
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
   },
 };
@@ -80,17 +77,15 @@ describe("fruitTreeRemoved", () => {
           ...GAME_STATE,
           fruitPatches: {
             0: {
+              createdAt: now,
               fruit: {
                 name: "Apple",
-                amount: 1,
                 plantedAt: 123,
                 harvestedAt: 0,
                 harvestsLeft: 3,
               },
               x: -2,
               y: 0,
-              height: 1,
-              width: 1,
             },
           },
         },
@@ -186,60 +181,6 @@ describe("fruitTreeRemoved", () => {
     });
 
     expect(state.inventory.Axe).toStrictEqual(new Decimal(1));
-  });
-
-  it("requires an axe for Blueberries when Foreman Beaver is placed and ready", () => {
-    const state = removeFruitTree({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          "Foreman Beaver": [
-            {
-              id: "123",
-              createdAt: Date.now(),
-              coordinates: { x: 1, y: 1 },
-              // Ready at < now
-              readyAt: Date.now() - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "fruitTree.removed",
-        index: "2",
-        selectedItem: "Axe",
-      },
-    });
-
-    expect(state.inventory.Axe).toStrictEqual(new Decimal(0));
-  });
-
-  it("throws an error for Blueberries if no Axe and when Foreman Beaver is placed and ready", async () => {
-    expect(() =>
-      removeFruitTree({
-        state: {
-          ...GAME_STATE,
-          inventory: { Axe: new Decimal(0) },
-          collectibles: {
-            "Foreman Beaver": [
-              {
-                id: "123",
-                createdAt: Date.now(),
-                coordinates: { x: 1, y: 1 },
-                // Ready at < now
-                readyAt: Date.now() - 5 * 60 * 1000,
-              },
-            ],
-          },
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "fruitTree.removed",
-          selectedItem: "Axe",
-          index: "2",
-        },
-      }),
-    ).toThrow("No axes left");
   });
 
   it("applies a +1 wood reward on removal with Fruity Woody skill", () => {

@@ -1,0 +1,4 @@
+{
+  "releaseVersion": "local-dev",
+  "comment": "This is just a fake file to test the version update widget locally. Currently releaseVersion matches the same in .env"
+}

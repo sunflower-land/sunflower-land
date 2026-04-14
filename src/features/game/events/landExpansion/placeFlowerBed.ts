@@ -1,16 +1,13 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { updateBeehives } from "features/game/lib/updateBeehives";
+import { FlowerBed, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceFlowerBedAction = {
   type: "flowerBed.placed";
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {
@@ -26,42 +23,57 @@ export function placeFlowerBed({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Flower Bed"] || new Decimal(0)).minus(
-      Object.keys(game.flowers.flowerBeds).length,
+      Object.values(game.flowers.flowerBeds).filter(
+        (flowerBed) => flowerBed.x !== undefined && flowerBed.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No flower beds available");
     }
 
-    const dimensions = RESOURCE_DIMENSIONS["Flower Bed"];
-    const collides = detectCollision({
-      state,
-      name: "Flower Bed",
-      location: "farm",
-      position: {
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        height: dimensions.height,
-        width: dimensions.width,
-      },
-    });
-
-    if (collides) {
-      throw new Error("Flower Bed collides");
-    }
-
     if (game.flowers.flowerBeds[action.id]) {
       throw new Error("ID exists");
     }
 
-    game.flowers.flowerBeds = {
-      ...game.flowers.flowerBeds,
-      [action.id]: {
-        createdAt,
+    const existingFlowerBed = Object.entries(game.flowers.flowerBeds).find(
+      ([_, flowerBed]) =>
+        flowerBed.x === undefined && flowerBed.y === undefined,
+    );
+
+    if (existingFlowerBed) {
+      const [id, flowerBed] = existingFlowerBed;
+      const updatedFlowerBed = {
+        ...flowerBed,
         x: action.coordinates.x,
         y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Flower Bed"],
-      },
+      };
+
+      if (updatedFlowerBed.flower && updatedFlowerBed.removedAt) {
+        const existingProgress =
+          updatedFlowerBed.removedAt - updatedFlowerBed.flower.plantedAt;
+        updatedFlowerBed.flower.plantedAt = createdAt - existingProgress;
+      }
+      delete updatedFlowerBed.removedAt;
+
+      game.flowers.flowerBeds[id] = updatedFlowerBed;
+
+      const updatedBeehives = updateBeehives({ game, createdAt });
+
+      game.beehives = updatedBeehives;
+
+      return game;
+    }
+
+    const flowerBed: FlowerBed = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+    };
+
+    game.flowers.flowerBeds = {
+      ...game.flowers.flowerBeds,
+      [action.id]: flowerBed,
     };
 
     return game;

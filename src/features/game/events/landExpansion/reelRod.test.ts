@@ -8,7 +8,7 @@ describe("reelRod", () => {
   it("requires player has casted", () => {
     expect(() =>
       reelRod({
-        action: { location: "wharf", type: "rod.reeled" },
+        action: { type: "rod.reeled" },
         state: farm,
       }),
     ).toThrow("Nothing has been casted");
@@ -16,17 +16,15 @@ describe("reelRod", () => {
 
   it("claims the fish", () => {
     const state = reelRod({
-      action: { location: "wharf", type: "rod.reeled" },
+      action: { type: "rod.reeled" },
       state: {
         ...farm,
         inventory: { Seaweed: new Decimal(5) },
         fishing: {
-          weather: "Sunny",
           wharf: {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
           },
-          beach: {},
           dailyAttempts: {},
         },
       },
@@ -38,18 +36,16 @@ describe("reelRod", () => {
 
   it("resets the location", () => {
     const state = reelRod({
-      action: { location: "wharf", type: "rod.reeled" },
+      action: { type: "rod.reeled" },
       state: {
         ...farm,
         fishing: {
-          weather: "Sunny",
           dailyAttempts: {},
           wharf: {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
             chum: "Sunflower",
           },
-          beach: {},
         },
       },
     });
@@ -61,18 +57,16 @@ describe("reelRod", () => {
 
   it("tracks fish caught", () => {
     const state = reelRod({
-      action: { location: "wharf", type: "rod.reeled" },
+      action: { type: "rod.reeled" },
       state: {
         ...farm,
         fishing: {
-          weather: "Sunny",
           wharf: {
             caught: {
               Anchovy: 1,
             },
             castedAt: 100011000,
           },
-          beach: {},
         },
         inventory: {
           Rod: new Decimal(3),
@@ -83,5 +77,94 @@ describe("reelRod", () => {
     });
 
     expect(state.farmActivity[`Anchovy Caught`]).toEqual(1);
+  });
+
+  it("tracks map pieces found", () => {
+    const state = reelRod({
+      action: { type: "rod.reeled" },
+      state: {
+        ...farm,
+        fishing: {
+          wharf: {
+            caught: {
+              Anchovy: 1,
+            },
+            castedAt: 100011000,
+            maps: {
+              "Starlight Tuna": 1,
+              "Twilight Anglerfish": 2,
+            },
+          },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+          Sunflower: new Decimal(500),
+        },
+      },
+    });
+
+    expect(state.farmActivity[`Starlight Tuna Map Piece Found`]).toEqual(1);
+    expect(state.farmActivity[`Twilight Anglerfish Map Piece Found`]).toEqual(
+      2,
+    );
+  });
+
+  it("updates boostsUsedAt with Anemone Flower when maps present and collectible built", () => {
+    const createdAt = 12345;
+    const state = reelRod({
+      action: { type: "rod.reeled" },
+      state: {
+        ...farm,
+        collectibles: {
+          "Anemone Flower": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        fishing: {
+          wharf: {
+            caught: { Anchovy: 1 },
+            castedAt: 100011000,
+            maps: { "Starlight Tuna": 1 },
+          },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+          Sunflower: new Decimal(500),
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.boostsUsedAt?.["Anemone Flower"]).toEqual(createdAt);
+  });
+
+  it("does not update boostsUsedAt when Anemone Flower not built", () => {
+    const state = reelRod({
+      action: { type: "rod.reeled" },
+      state: {
+        ...farm,
+        fishing: {
+          wharf: {
+            caught: { Anchovy: 1 },
+            castedAt: 100011000,
+            maps: { "Starlight Tuna": 1 },
+          },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+          Sunflower: new Decimal(500),
+        },
+      },
+    });
+
+    expect(state.boostsUsedAt?.["Anemone Flower"]).toBeUndefined();
   });
 });

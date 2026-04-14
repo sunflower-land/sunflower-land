@@ -1,19 +1,34 @@
 import Decimal from "decimal.js-light";
-import { Crop, CropName, CROPS, GREENHOUSE_CROPS } from "../../types/crops";
+import {
+  Crop,
+  CropName,
+  CROPS,
+  GREENHOUSE_CROPS,
+  GreenHouseCrop,
+} from "../../types/crops";
 import { GameState } from "../../types/game";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
-  Fruit,
-  FRUIT,
-  FruitName,
   GREENHOUSE_FRUIT,
+  GreenHouseFruit,
+  PATCH_FRUIT,
+  PatchFruit,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { produce } from "immer";
+import { ExoticCrop } from "features/game/types/beans";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
-export type SellableName = CropName | FruitName;
-export type SellableItem = Crop | Fruit;
+export type SellableName = CropName | PatchFruitName;
+export type SellableItem =
+  | Crop
+  | PatchFruit
+  | ExoticCrop
+  | GreenHouseFruit
+  | GreenHouseCrop;
 
 export type SellCropAction = {
   type: "crop.sold";
@@ -23,9 +38,9 @@ export type SellCropAction = {
 
 export const SELLABLE = {
   ...CROPS,
-  ...FRUIT(),
+  ...PATCH_FRUIT,
   ...GREENHOUSE_CROPS,
-  ...GREENHOUSE_FRUIT(),
+  ...GREENHOUSE_FRUIT,
 };
 
 type Options = {
@@ -57,32 +72,40 @@ export function sellCrop({
 
     const sellables = SELLABLE[action.crop];
 
-    const count = game.inventory[action.crop] || new Decimal(0);
+    const { count } = getCountAndType(game, action.crop);
 
     if (count.lessThan(action.amount)) {
       throw new Error("Insufficient quantity to sell");
     }
 
-    const price = getSellPrice({
+    const { price, boostsUsed } = getSellPrice({
       item: sellables,
       game,
       now: new Date(createdAt),
     });
 
     const coinsEarned = price * action.amount;
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       "Coins Earned",
-      bumpkin.activity,
+      game.farmActivity,
       new Decimal(coinsEarned),
     );
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       `${action.crop} Sold`,
-      bumpkin?.activity,
+      game.farmActivity,
       new Decimal(amount),
     );
 
     game.coins = game.coins + coinsEarned;
-    game.inventory[action.crop] = setPrecision(count.sub(amount));
+    game.inventory[action.crop] = setPrecision(
+      (game.inventory[action.crop] ?? new Decimal(0)).sub(amount),
+    );
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return game;
   });

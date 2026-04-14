@@ -8,12 +8,12 @@ import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
@@ -26,6 +26,8 @@ import {
 import { GameWallet } from "features/wallet/Wallet";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -56,10 +58,12 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-const RequiresWallet: React.FC<{
-  requiresWallet: boolean;
-  hasWallet: boolean;
-}> = ({ requiresWallet, hasWallet, children }) => {
+const RequiresWallet: React.FC<
+  React.PropsWithChildren<{
+    requiresWallet: boolean;
+    hasWallet: boolean;
+  }>
+> = ({ requiresWallet, hasWallet, children }) => {
   const [acknowledged, setAcknowledged] = useState(false);
   const { t } = useAppTranslation();
 
@@ -94,8 +98,8 @@ export const SpecialEventModalContent: React.FC<{
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const task = useRef<Task>(undefined);
   const [reward, setReward] = useState<Airdrop & { day: number }>();
-  const task = useRef<Task>();
   const [showLink, setShowLink] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -104,6 +108,9 @@ export const SpecialEventModalContent: React.FC<{
     state: { inventory, balance },
     linkedWallet,
   } = gameState.context;
+
+  const now = useNow({ live: true });
+  const { totalSeconds: secondsRemaining } = useCountdown(event.endAt);
 
   const claimReward = (day: number) => {
     task.current = event.tasks[day - 1];
@@ -116,7 +123,7 @@ export const SpecialEventModalContent: React.FC<{
       items: task.current.reward.items,
       sfl: task.current.reward.sfl,
       coins: 0,
-      createdAt: Date.now(),
+      createdAt: now,
       id: `${eventName}-${day}`,
       wearables: task.current.reward.wearables,
       day,
@@ -152,9 +159,7 @@ export const SpecialEventModalContent: React.FC<{
     const taskIndex = day - 1;
     const previousTaskIndex = taskIndex - 1;
 
-    const currentDay = Math.floor(
-      (Date.now() - event.startAt) / TWENTY_FOUR_HOURS,
-    );
+    const currentDay = Math.floor((now - event.startAt) / TWENTY_FOUR_HOURS);
 
     const previousTask = event.tasks[previousTaskIndex];
 
@@ -208,7 +213,7 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
-  if (event.endAt < Date.now()) {
+  if (event.endAt < now) {
     return (
       <div>
         <div className="flex justify-between items-center p-2">
@@ -273,7 +278,7 @@ export const SpecialEventModalContent: React.FC<{
             )}
 
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
-              {secondsToString((event.endAt - Date.now()) / 1000, {
+              {secondsToString(secondsRemaining, {
                 length: "medium",
                 removeTrailingZeros: true,
               })}{" "}
@@ -342,7 +347,7 @@ export const SpecialEventModalContent: React.FC<{
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
-                        {`${task.reward.sfl} SFL`}
+                        {`${task.reward.sfl} FLOWER`}
                       </Label>
                     )}
 
@@ -412,7 +417,7 @@ export const SpecialEventModalContent: React.FC<{
                 ))}
                 {!!selected.reward.sfl && (
                   <Label type="warning" className="">
-                    {`${selected.reward.sfl} SFL`}
+                    {`${selected.reward.sfl} FLOWER`}
                   </Label>
                 )}
               </div>
@@ -436,7 +441,7 @@ export const SpecialEventModalContent: React.FC<{
               disabled={
                 !!selected.completedAt ||
                 !hasRequirements(selectedIndex + 1) ||
-                getTaskStartDate(selectedIndex + 1).getTime() > Date.now()
+                getTaskStartDate(selectedIndex + 1).getTime() > now
               }
             >
               {t("complete")}

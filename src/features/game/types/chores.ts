@@ -1,9 +1,9 @@
-import { BumpkinActivityName } from "./bumpkinActivity";
+import { FarmActivityName } from "./farmActivity";
 import { InventoryItemName } from "./game";
 
 export type Chore = {
   // Challenges
-  activity?: BumpkinActivityName;
+  activity?: FarmActivityName;
   bumpkinLevel?: number;
   expansionCount?: number;
   sfl?: number;

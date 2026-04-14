@@ -2,79 +2,92 @@ import {
   BUMPKIN_ITEM_PART,
   BumpkinItem,
   BumpkinPart,
-  ITEM_IDS,
 } from "features/game/types/bumpkin";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { BumpkinPartGroup } from "./BumpkinPartGroup";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 
 import lightning from "assets/icons/lightning.png";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import {
+  BUMPKIN_ITEM_BUFF_LABELS,
+  SPECIAL_ITEM_LABELS,
+} from "features/game/types/bumpkinItemBuffs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { GameState } from "features/game/types/game";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
-import { pixelBlueBorderStyle } from "features/game/lib/style";
+import {
+  pixelBlueBorderStyle,
+  pixelGrayBorderStyle,
+  pixelVibrantBorderStyle,
+} from "features/game/lib/style";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { getWearableImage } from "features/game/lib/getWearableImage";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
-const REQUIRED: BumpkinPart[] = [
-  "background",
-  "body",
-  "dress",
-  "shirt",
-  "pants",
-  "hair",
-  "shoes",
-  "tool",
+const REQUIRED: BumpkinPart[] = ["background", "body", "hair", "shoes", "tool"];
+
+const REQUIRED_BUT_INCOMPATIBLE: BumpkinPart[][] = [
+  ["shirt", "pants"],
+  ["dress"],
 ];
 
 const NOTREQUIRED: BumpkinPart[] = [
+  "hat",
+  "beard",
   "necklace",
   "coat",
-  "hat",
-  "secondaryTool",
-  "onesie",
-  "suit",
   "wings",
-  "beard",
+  "suit",
+  "onesie",
+  "secondaryTool",
   "aura",
 ];
 
 interface Props {
   onEquip: (equipment: BumpkinParts) => void;
   equipment: BumpkinParts;
-  game: GameState;
+  farmHandId?: string;
 }
 
-export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
+const _game = (state: MachineState) => state.context.state;
+
+export const BumpkinEquip: React.FC<Props> = ({
+  equipment,
+  onEquip,
+  farmHandId,
+}) => {
+  const { gameService } = useContext(Context);
   const [equipped, setEquipped] = useState(equipment);
+  const [baseEquipment, setBaseEquipment] = useState(equipment);
   const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
-  const [selectedBumpkinItem, setSelectedBumpkinItem] = useState(
-    equipped[REQUIRED[0]],
-  );
-  const [filteredWardrobeNames, setFilteredWardrobeNames] = useState<
-    BumpkinItem[]
-  >([]);
+  const [localFarmHandId, setLocalFarmHandId] = useState(farmHandId);
+  const [showPromoteConfirm, setShowPromoteConfirm] = useState(false);
+
+  const game = useSelector(gameService, _game);
 
   /**
    * Show available wardrobe and currently equipped items
    */
-  const wardrobe = Object.values(equipment ?? {}).reduce(
-    (acc, name) => ({
+  const wardrobe = Object.values(equipment ?? {}).reduce((acc, name) => {
+    const available = availableWardrobe(game)[name] ?? 0;
+
+    return {
       ...acc,
-      [name]: 1,
-    }),
-    availableWardrobe(game),
-  );
+      [name]: available,
+    };
+  }, availableWardrobe(game));
 
   const equipPart = (name: BumpkinItem) => {
     const part = BUMPKIN_ITEM_PART[name];
@@ -113,54 +126,14 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
 
   const finish = (equipment: BumpkinParts) => {
     onEquip(equipment);
+    setBaseEquipment(equipment); // Reset dirty baseline when saving
   };
 
-  const isDirty = JSON.stringify(equipped) !== JSON.stringify(equipment);
+  const isDirty = JSON.stringify(equipped) !== JSON.stringify(baseEquipment);
 
-  const equippedItems = Object.values(equipped);
-
-  const isMissingBackground = !equipped.background;
-  const isMissingHair = !equipped.hair;
-  const isMissingBody = !equipped.body;
-  const isMissingShoes = !equipped.shoes;
-  const isMissingShirt = !equipped.shirt && !equipped.dress;
-  const isMissingPants = !equipped.pants && !equipped.dress;
-
-  const warn =
-    isMissingHair ||
-    isMissingBody ||
-    isMissingShoes ||
-    isMissingShirt ||
-    isMissingBackground ||
-    isMissingPants;
+  const equippedItems = Object.values(baseEquipment);
 
   const { t } = useAppTranslation();
-  const warning = () => {
-    if (isMissingHair) {
-      return t("equip.missingHair");
-    }
-
-    if (isMissingBody) {
-      return t("equip.missingBody");
-    }
-
-    if (isMissingShoes) {
-      return t("equip.missingShoes");
-    }
-
-    if (isMissingShirt) {
-      return t("equip.missingShirt");
-    }
-
-    if (isMissingPants) {
-      return t("equip.missingPants");
-    }
-
-    if (isMissingBackground) {
-      return t("equip.missingBackground");
-    }
-    return "";
-  };
 
   const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
     a.localeCompare(b),
@@ -171,18 +144,16 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
       sortedWardrobeNames.filter((name) => !BUMPKIN_ITEM_BUFF_LABELS[name]),
     );
 
-  useEffect(() => {
-    const filteredWardrobe = wardrobeSortedByBuff.filter(
-      (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
-    );
-    setFilteredWardrobeNames(filteredWardrobe);
-    setSelectedBumpkinItem(equipped[selectedBumpkinPart]);
-  }, [selectedBumpkinPart]);
+  const filteredWardrobeNames = wardrobeSortedByBuff.filter(
+    (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
+  );
+
+  const selectedBumpkinItem = equipped[selectedBumpkinPart];
 
   return (
     <div className="p-2">
-      <div className="flex flex-wrap justify-center">
-        <div className="w-1/3 flex flex-col justify-center">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2">
+        <div className="w-full sm:w-1/3 flex flex-col justify-center">
           <div className="w-full relative rounded-xl overflow-hidden mr-2 mb-1">
             <DynamicNFT
               showBackground
@@ -190,29 +161,61 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
               key={JSON.stringify(equipped)}
             />
             <div className="absolute w-8 h-8 bottom-10 right-4">
-              <NPC parts={equipped} key={JSON.stringify(equipped)} />
+              <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
-          <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>
+          <Button disabled={!isDirty} onClick={() => finish(equipped)}>
             <div className="flex">{t("save")}</div>
           </Button>
-          {warn && <Label type="warning">{warning()}</Label>}
+          {localFarmHandId && (
+            <Button
+              onClick={() => {
+                setShowPromoteConfirm(true);
+              }}
+            >
+              {t("setAsBumpkin")}
+            </Button>
+          )}
         </div>
-        <div className="w-2/3 sm:w-[32%] flex flex-col gap-2 mt-1 pl-2 mb-2 sm:pr-2 sm:mb-0">
+        <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>
           <BumpkinPartGroup
             bumpkinParts={REQUIRED}
             equipped={equipped}
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
-          ></BumpkinPartGroup>
+          />
+          <Label type="default">{t("equip.chooseDressOrShirt&Pants")}</Label>
+          <div className="flex divide-x-2 divide-white mb-2 w-full">
+            {REQUIRED_BUT_INCOMPATIBLE.map((parts, index) => (
+              <div
+                key={parts.join(",")}
+                className={classNames("md:w-1/2", {
+                  "pl-2": index > 0,
+                  "pr-2": index === 0,
+                  "w-2/5 sm:w-2/3": index === 0,
+                  "w-3/5 sm:w-1/3": index === 1,
+                })}
+              >
+                <BumpkinPartGroup
+                  bumpkinParts={parts}
+                  equipped={equipped}
+                  selected={selectedBumpkinPart}
+                  onSelect={(bumpkinPart) =>
+                    setSelectedBumpkinPart(bumpkinPart)
+                  }
+                  gridStyling={`grid ${index === 1 ? "grid-cols-3 sm:grid-cols-1 md:grid-cols-2" : "grid-cols-2"} gap-2`}
+                />
+              </div>
+            ))}
+          </div>
           <Label type="default">{t("optional")}</Label>
           <BumpkinPartGroup
             bumpkinParts={NOTREQUIRED}
             equipped={equipped}
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
-          ></BumpkinPartGroup>
+          />
         </div>
 
         <div className="flex-1 flex max-h-[300px] sm:max-h-[306px]">
@@ -228,51 +231,104 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                   <p>{t("empty")}</p>
                 </div>
               ) : (
-                <div className="w-full grid grid-cols-5 sm:grid-cols-4 py-1 px-1 gap-2">
+                <div className="w-full grid grid-cols-5 sm:grid-cols-3 md:grid-cols-4 py-1 px-1 gap-2">
                   {filteredWardrobeNames.map((name) => {
-                    const buffLabel = BUMPKIN_ITEM_BUFF_LABELS[name];
+                    const boostLabel =
+                      BUMPKIN_ITEM_BUFF_LABELS[name] &&
+                      !SPECIAL_ITEM_LABELS[name];
+
+                    const specialItem = SPECIAL_ITEM_LABELS[name];
+
+                    const buffLabel = boostLabel || specialItem;
+                    const amountEquipped = wardrobe[name] ?? 0;
+
+                    const unavailable =
+                      !wardrobe[name] && !equippedItems.includes(name);
 
                     return (
-                      <OuterPanel
-                        key={name}
-                        className={classNames(
-                          "w-full relative hover:img-highlight !p-0",
-                          {
-                            "img-highlight": selectedBumpkinItem === name,
-                            "cursor-pointer":
-                              !equippedItems.includes(name) ||
-                              !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
-                          },
-                        )}
-                        onClick={() => {
-                          setSelectedBumpkinItem(name);
-                          // Already equipped
-                          if (equippedItems.includes(name)) {
-                            unequipPart(name);
-                          } else {
-                            equipPart(name);
-                          }
-                        }}
-                      >
-                        {equippedItems.includes(name) && (
-                          <img
-                            className="absolute h-4 -left-2 -top-2"
-                            src={SUNNYSIDE.icons.confirm}
-                          />
-                        )}
-                        {!!buffLabel && (
-                          <div
-                            className="absolute -right-2 -top-2 bg-[#1e6dd5]"
-                            style={{ ...pixelBlueBorderStyle }}
+                      <Popover key={name}>
+                        <PopoverButton
+                          as="div"
+                          className="cursor-pointer"
+                          disabled={!unavailable}
+                        >
+                          <OuterPanel
+                            className={classNames(
+                              "w-full relative  !p-0 flex items-center justify-center",
+                              {
+                                "hover:img-highlight": !unavailable,
+                                "img-highlight":
+                                  selectedBumpkinItem === name && !unavailable,
+                                "cursor-pointer":
+                                  (!equippedItems.includes(name) ||
+                                    !REQUIRED.includes(
+                                      BUMPKIN_ITEM_PART[name],
+                                    )) &&
+                                  !unavailable,
+                                "opacity-50": unavailable,
+                              },
+                            )}
+                            onClick={() => {
+                              if (unavailable) {
+                                return;
+                              }
+                              // Already equipped
+                              if (equippedItems.includes(name)) {
+                                unequipPart(name);
+                              } else {
+                                equipPart(name);
+                              }
+                            }}
                           >
-                            <SquareIcon icon={lightning} width={4} />
-                          </div>
-                        )}
-                        <img
-                          src={getImageUrl(ITEM_IDS[name])}
-                          className="w-full aspect-square"
-                        />
-                      </OuterPanel>
+                            {equippedItems.includes(name) && (
+                              <img
+                                className="absolute h-4 -left-2 -top-2"
+                                src={SUNNYSIDE.icons.confirm}
+                              />
+                            )}
+                            {amountEquipped > 0 && (
+                              <div
+                                className="absolute -right-2 -bottom-2 bg-[#c0cbdc] text-[#181425] text-xs"
+                                style={pixelGrayBorderStyle}
+                              >
+                                {amountEquipped}
+                              </div>
+                            )}
+                            {!!buffLabel && (
+                              <div
+                                className={classNames(
+                                  "absolute -right-2 -top-2",
+                                  {
+                                    "bg-[#b65389]": specialItem,
+                                    "bg-[#1e6dd5]": boostLabel,
+                                  },
+                                )}
+                                style={
+                                  specialItem
+                                    ? pixelVibrantBorderStyle
+                                    : pixelBlueBorderStyle
+                                }
+                              >
+                                <SquareIcon icon={lightning} width={4} />
+                              </div>
+                            )}
+                            <img
+                              src={getWearableImage(name)}
+                              className="h-10"
+                            />
+                          </OuterPanel>
+                        </PopoverButton>
+                        <PopoverPanel
+                          anchor={{ to: "right end" }}
+                          className="flex pointer-events-none"
+                        >
+                          <InnerPanel>
+                            <p className="text-xxs">
+                              {t("marketplace.itemInUse")}
+                            </p>
+                          </InnerPanel>
+                        </PopoverPanel>
+                      </Popover>
                     );
                   })}
                 </div>
@@ -280,7 +336,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
             </div>
             {(() => {
               const buffLabel = selectedBumpkinItem
-                ? BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? ""
+                ? (BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? "")
                 : "";
 
               return (
@@ -291,14 +347,27 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                   >
                     <p className="text-xs flex-1">{selectedBumpkinItem}</p>
                     {buffLabel && (
-                      <div className="mt-1">
-                        <Label
-                          type={buffLabel.labelType}
-                          icon={buffLabel.boostTypeIcon}
-                          secondaryIcon={buffLabel.boostedItemIcon}
-                        >
-                          {buffLabel.shortDescription}
-                        </Label>
+                      <div className="flex flex-col gap-1 mt-1">
+                        {buffLabel.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
                       </div>
                     )}
                   </InnerPanel>
@@ -308,6 +377,21 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
           </OuterPanel>
         </div>
       </div>
+      <ConfirmationModal
+        show={showPromoteConfirm}
+        onHide={() => setShowPromoteConfirm(false)}
+        messages={[t("signup.createBumpkinConfirmation")]}
+        onCancel={() => setShowPromoteConfirm(false)}
+        onConfirm={() => {
+          if (!localFarmHandId) return;
+
+          gameService.send("farmhand.promoted", { id: localFarmHandId });
+          gameService.send("SAVE");
+          setLocalFarmHandId(undefined);
+          setShowPromoteConfirm(false);
+        }}
+        confirmButtonLabel={t("setAsBumpkin")}
+      />
     </div>
   );
 };

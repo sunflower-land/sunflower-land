@@ -1,127 +1,134 @@
 import Decimal from "decimal.js-light";
 import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import {
+  BoostName,
   CropMachineBuilding,
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
-import { getCropYieldAmount } from "./plant";
-import { isBasicCrop } from "./harvest";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import {
+  isTemporaryCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 
-export type AddSeedsInput = { type: CropSeedName; amount: number };
+export type AddSeedsInput = {
+  type: CropSeedName;
+  amount: number;
+};
 
 export type SupplyCropMachineAction = {
   type: "cropMachine.supplied";
-  seeds?: AddSeedsInput;
-  oil?: number;
+  seeds: AddSeedsInput;
+  machineId: string;
 };
 
-type Options = {
+type SupplyCropMachineOptions = {
   state: Readonly<GameState>;
   action: SupplyCropMachineAction;
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = 5;
-export const CROP_MACHINE_PLOTS = 10;
-export const OIL_PER_HOUR_CONSUMPTION = 1;
+export const MAX_QUEUE_SIZE = (state: GameState): number =>
+  state.bumpkin.skills["Field Expansion Module"] ? 10 : 5;
+
+export const CROP_MACHINE_PLOTS = (state: GameState): number =>
+  state.bumpkin.skills["Field Extension Module"] ? 15 : 10;
+
+export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
+  let addtionalOil = 1;
+  if (state.bumpkin.skills["Crop Processor Unit"]) {
+    addtionalOil += 0.1;
+  }
+  if (state.bumpkin.skills["Rapid Rig"]) {
+    addtionalOil += 0.4;
+  }
+
+  let oilReduction = 1;
+
+  if (state.bumpkin.skills["Oil Gadget"]) {
+    oilReduction -= 0.1;
+  }
+
+  if (state.bumpkin.skills["Efficiency Extension Module"]) {
+    oilReduction -= 0.3;
+  }
+
+  const oilConsumedPerHour = addtionalOil * oilReduction;
+
+  return oilConsumedPerHour;
+};
 // 2 days worth of oil
-export const MAX_OIL_CAPACITY_IN_HOURS = 48;
-export const MAX_OIL_CAPACITY_IN_MILLIS = 48 * 60 * 60 * 1000;
+export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) =>
+  state.bumpkin.skills["Leak-Proof Tank"] ? 48 * 3 : 48;
 
-export function getTotalOilMillisInMachine(
-  queue: CropMachineQueueItem[],
-  unallocatedOilTime: number,
-  now: number = Date.now(),
-) {
-  const oil = queue.reduce((totalOil, item) => {
-    // There is no oil to allocated to this pack
-    if (!item.startTime) return totalOil;
+export const MAX_OIL_CAPACITY_IN_MILLIS = (state: GameState) =>
+  MAX_OIL_CAPACITY_IN_HOURS(state) * 60 * 60 * 1000;
 
-    // Completely allocated pack has started growing but has not reached the readyAt time
-    // therefore it is currently using its allocation of oil
-    // add the unused oil to the total oil
-    if (item.readyAt && item.startTime <= now && item.readyAt > now) {
-      return totalOil + item.readyAt - now;
-    }
-
-    // Completely allocated pack hasn't started growing yet. Add the entire allocation to the total oil
-    if (item.readyAt && item.startTime > now) {
-      return totalOil + item.readyAt - item.startTime;
-    }
-
-    // Partially allocated pack hasn't started growing yet. Add the entire allocation to the total oil.
-    if (item.growsUntil && item.startTime > now) {
-      return totalOil + item.growsUntil - item.startTime;
-    }
-
-    // Partially allocated pack has started growing and is currently growing but has not reached the growsUntil time
-    // therefore it is currently using its oil allocation
-    // add the unused oil to the total oil
-    if (item.growsUntil && item.startTime <= now && item.growsUntil > now) {
-      return totalOil + item.growsUntil - now;
-    }
-
-    return totalOil;
-  }, unallocatedOilTime ?? 0);
-
-  return Math.max(oil, 0);
-}
-
-export function calculateCropTime(seeds: {
-  type: CropSeedName;
-  amount: number;
-}): number {
+export function calculateCropTime(
+  seeds: {
+    type: CropSeedName;
+    amount: number;
+  },
+  state: GameState,
+): { milliSeconds: number; boostUsed: { name: BoostName; value: string }[] } {
+  const boostUsed: { name: BoostName; value: string }[] = [];
   const cropName = seeds.type.split(" ")[0] as CropName;
 
-  const milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+  let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
-  return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
+  if (state.bumpkin.skills?.["Crop Processor Unit"]) {
+    milliSeconds = milliSeconds * 0.95;
+    boostUsed.push({ name: "Crop Processor Unit", value: "x0.95" });
+  }
+
+  if (state.bumpkin.skills?.["Rapid Rig"]) {
+    milliSeconds = milliSeconds * 0.8;
+    boostUsed.push({ name: "Rapid Rig", value: "x0.8" });
+  }
+
+  if (isCollectibleBuilt({ game: state, name: "Groovy Gramophone" })) {
+    milliSeconds = milliSeconds * 0.5;
+    boostUsed.push({ name: "Groovy Gramophone", value: "x0.5" });
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state })) {
+    milliSeconds = milliSeconds * 0.9;
+    boostUsed.push({ name: "Tortoise Shrine", value: "x0.9" });
+  }
+
+  return {
+    milliSeconds: (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state),
+    boostUsed,
+  };
 }
 
-export function getOilTimeInMillis(oil: number) {
+export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds
-  return (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+  return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
 }
 
-export function getPackYieldAmount(
-  amount: number,
-  crop: CropName,
-  state: GameState,
-): number {
-  if (!state.bumpkin) {
-    throw new Error("You do not have a Bumpkin");
-  }
+export function getPackSeedLimit({
+  state,
+  seedName,
+}: {
+  state: GameState;
+  seedName: CropSeedName;
+}) {
+  const inventoryLimit = INVENTORY_LIMIT(state)[seedName] ?? new Decimal(0);
 
-  // run getCropYieldAmount for each amount times to get the yield amount per each seed
-  let totalYield = 0;
-  for (let i = 0; i < amount; i++) {
-    totalYield += getCropYieldAmount({
-      game: state,
-      crop,
-    });
-  }
-  return totalYield;
+  return inventoryLimit;
 }
 
 export function updateCropMachine({
-  state,
+  cropMachine,
   now,
 }: {
-  state: GameState;
   now: number;
+  cropMachine: CropMachineBuilding;
 }) {
-  const stateCopy = cloneDeep<GameState>(state);
-
-  // Ensure the crop machine exists
-  if (!stateCopy.buildings["Crop Machine"]) {
-    throw new Error("Crop Machine does not exist");
-  }
-
-  const cropMachine = stateCopy.buildings[
-    "Crop Machine"
-  ][0] as CropMachineBuilding;
   const queue = cropMachine.queue ?? [];
 
   queue.forEach((pack, index) => {
@@ -130,7 +137,8 @@ export function updateCropMachine({
       return;
     }
 
-    const previousQueueItemReadyAt = queue[index - 1]?.readyAt ?? now;
+    const previousQueueItemReadyAt =
+      queue[index - 1]?.readyAt ?? queue[index - 1]?.growsUntil ?? now;
 
     // Allocate oil to the pack and update its state
     if (cropMachine.unallocatedOilTime >= pack.growTimeRemaining) {
@@ -246,101 +254,123 @@ function updateGrowsUntil(
   }
 }
 
+export const BASIC_CROP_MACHINE_SEEDS: CropSeedName[] = [
+  "Sunflower Seed",
+  "Potato Seed",
+  "Pumpkin Seed",
+];
+
+export const CROP_EXTENSION_MOD_I_SEEDS: CropSeedName[] = [
+  "Rhubarb Seed",
+  "Zucchini Seed",
+];
+
+export const CROP_EXTENSION_MOD_II_SEEDS: CropSeedName[] = [
+  "Carrot Seed",
+  "Cabbage Seed",
+];
+
+export const CROP_EXTENSION_MOD_III_SEEDS: CropSeedName[] = [
+  "Yam Seed",
+  "Broccoli Seed",
+];
+
 export function supplyCropMachine({
   state,
   action,
   createdAt = Date.now(),
-}: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+}: SupplyCropMachineOptions): GameState {
+  const seedsAdded = action.seeds;
 
-  const oilAdded = action.oil ?? 0;
-  const seedsAdded = action.seeds ?? {
-    type: "Sunflower Seed",
-    amount: 0,
-  };
-
-  if (seedsAdded.amount < 0 || oilAdded < 0) {
+  if (seedsAdded.amount < 1) {
     throw new Error("Invalid amount supplied");
   }
 
-  if (!stateCopy.bumpkin) {
-    throw new Error("You do not have a Bumpkin");
-  }
+  return produce(state, (stateCopy) => {
+    if (!stateCopy.buildings["Crop Machine"]) {
+      throw new Error("Crop Machine does not exist");
+    }
 
-  if (!stateCopy.buildings["Crop Machine"]?.[0]) {
-    throw new Error("Crop Machine does not exist");
-  }
+    const cropMachine = stateCopy.buildings["Crop Machine"].find(
+      (machine) => machine.id === action.machineId,
+    );
 
-  const cropName = seedsAdded.type.split(" ")[0] as CropName;
+    if (!cropMachine || !cropMachine.coordinates) {
+      throw new Error("Crop Machine not found");
+    }
 
-  if (!isBasicCrop(cropName)) {
-    throw new Error("You can only supply basic crop seeds!");
-  }
+    const { queue = [] } = cropMachine;
+    const seedName = seedsAdded.type;
 
-  const cropMachine = stateCopy.buildings["Crop Machine"][0];
+    // Check if seed is allowed based on basic seeds or skills
+    if (
+      !BASIC_CROP_MACHINE_SEEDS.includes(seedName) &&
+      !(
+        state.bumpkin.skills["Crop Extension Module I"] &&
+        CROP_EXTENSION_MOD_I_SEEDS.includes(seedName)
+      ) &&
+      !(
+        state.bumpkin.skills["Crop Extension Module II"] &&
+        CROP_EXTENSION_MOD_II_SEEDS.includes(seedName)
+      ) &&
+      !(
+        state.bumpkin.skills["Crop Extension Module III"] &&
+        CROP_EXTENSION_MOD_III_SEEDS.includes(seedName)
+      )
+    ) {
+      throw new Error("You can't supply these seeds");
+    }
 
-  const previousSeedsInInventory =
-    stateCopy.inventory[seedsAdded.type] ?? new Decimal(0);
+    const inventoryLimit = getPackSeedLimit({ state, seedName });
 
-  if (previousSeedsInInventory.lt(seedsAdded.amount)) {
-    throw new Error("Missing requirements");
-  }
+    if (inventoryLimit.lt(seedsAdded.amount)) {
+      throw new Error("Can't supply more seeds than the inventory limit");
+    }
 
-  const queue = cropMachine.queue ?? [];
+    const previousSeedsInInventory =
+      stateCopy.inventory[seedName] ?? new Decimal(0);
 
-  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE) {
-    throw new Error("Queue is full");
-  }
+    if (previousSeedsInInventory.lt(seedsAdded.amount)) {
+      throw new Error("Missing requirements");
+    }
 
-  // removes seeds from the player's inventory
-  stateCopy.inventory[seedsAdded.type] = previousSeedsInInventory.minus(
-    seedsAdded.amount,
-  );
+    if (queue.length + 1 > MAX_QUEUE_SIZE(state)) {
+      throw new Error("Queue is full");
+    }
 
-  const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
+    stateCopy.inventory[seedName] = previousSeedsInInventory.minus(
+      seedsAdded.amount,
+    );
 
-  if (previousOilInInventory.lt(oilAdded)) {
-    throw new Error("Missing requirements");
-  }
+    const crop = seedName.split(" ")[0] as CropName;
 
-  stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
+    const { milliSeconds, boostUsed } = calculateCropTime(seedsAdded, state);
 
-  const oilMillisInMachine = getTotalOilMillisInMachine(
-    queue,
-    cropMachine.unallocatedOilTime ?? 0,
-  );
-
-  if (
-    oilMillisInMachine + getOilTimeInMillis(oilAdded) >
-    MAX_OIL_CAPACITY_IN_MILLIS
-  ) {
-    throw new Error("Oil capacity exceeded");
-  }
-
-  if (oilAdded > 0) {
-    cropMachine.unallocatedOilTime =
-      (cropMachine.unallocatedOilTime ?? 0) + getOilTimeInMillis(oilAdded);
-  }
-
-  const crop = seedsAdded.type.split(" ")[0] as CropName;
-
-  if (seedsAdded.amount > 0) {
     queue.push({
       seeds: seedsAdded.amount,
-      // getPackYieldAmount is computationally expensive - let the backend provide this
-      amount: 0,
-      // amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
       crop,
-      growTimeRemaining: calculateCropTime(seedsAdded),
-      totalGrowTime: calculateCropTime(seedsAdded),
+      growTimeRemaining: milliSeconds,
+      totalGrowTime: milliSeconds,
     });
-    stateCopy.buildings["Crop Machine"][0].queue = queue;
-  }
+    cropMachine.queue = queue;
 
-  stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
-    now: createdAt,
-    state: stateCopy,
+    const updatedCropMachine = updateCropMachine({
+      now: createdAt,
+      cropMachine,
+    });
+
+    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
+      "Crop Machine"
+    ].map((machine) =>
+      machine.id === cropMachine.id ? updatedCropMachine : machine,
+    );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostUsed,
+      createdAt,
+    });
+
+    return stateCopy;
   });
-
-  return stateCopy;
 }

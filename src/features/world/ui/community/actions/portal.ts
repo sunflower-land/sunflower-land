@@ -1,28 +1,30 @@
 import jwt_decode from "jwt-decode";
 import { Token } from "features/auth/actions/login";
-import { MinigameName } from "features/game/types/minigames";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
 type Request = {
-  portalId: MinigameName;
+  portalId: string;
   token: string;
   farmId: number;
+  /** When true, skip localStorage cache and always POST `/portal/:id/login`. */
+  skipCache?: boolean;
 };
 
 const API_URL = CONFIG.API_URL;
 
 export async function portal(request: Request) {
-  // TODO check cache for valid token;
-  const cachedToken = getMinigameToken(request.portalId);
+  if (!request.skipCache) {
+    const cachedToken = getMinigameToken(request.portalId);
 
-  if (cachedToken) {
-    const token = decodeToken(cachedToken);
-    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
-    const isValid = !!token.userAccess;
+    if (cachedToken) {
+      const token = decodeToken(cachedToken);
+      const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
+      const isValid = !!token.userAccess;
 
-    if (isFresh && isValid) {
-      return { token: cachedToken };
+      if (isFresh && isValid) {
+        return { token: cachedToken };
+      }
     }
   }
 
@@ -55,9 +57,9 @@ export async function portal(request: Request) {
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `sb_wiz.zpc.minigame.${host}-${window.location.pathname}`;
 
-type MinigameSessions = Partial<Record<MinigameName, string>>;
+type MinigameSessions = Partial<Record<string, string>>;
 
-function getMinigameToken(name: MinigameName): string | null {
+function getMinigameToken(name: string): string | null {
   const item = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (!item) {
@@ -87,13 +89,7 @@ export function decodeToken(token: string): Token {
  */
 const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 1;
 
-export function saveJWT({
-  token,
-  name,
-}: {
-  token: string;
-  name: MinigameName;
-}) {
+export function saveJWT({ token, name }: { token: string; name: string }) {
   let sessions: MinigameSessions = {};
   const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
   if (stored) {

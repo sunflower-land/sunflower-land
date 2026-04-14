@@ -17,11 +17,6 @@ export const TypingMessage: React.FC<Props> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
-    if (forceShowFullMessage) {
-      setDisplayedMessage(message);
-      return;
-    }
-
     const interval = setInterval(() => {
       if (currentIndex < message.length) {
         const newDisplayedMessage = message.substring(0, currentIndex + 1);
@@ -38,7 +33,11 @@ export const TypingMessage: React.FC<Props> = ({
     };
   }, [message, forceShowFullMessage, trail, currentIndex, onMessageEnd]);
 
-  return <div className="text-sm">{displayedMessage}</div>;
+  return (
+    <div className="text-sm">
+      {forceShowFullMessage ? message : displayedMessage}
+    </div>
+  );
 };
 
 export const InlineDialogue: React.FC<{

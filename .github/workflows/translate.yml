@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Install dependencies
         run: yarn install
@@ -36,6 +36,16 @@ jobs:
 
       - name: Run translation script
         run: yarn translate
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Translator Bot"
+          git config --global user.email "translator@sunflower-land.com"
+
+      - name: Pull latest changes
+        run: |
+          git fetch origin
+          git pull origin main
 
       - uses: EndBug/add-and-commit@v9
         with:

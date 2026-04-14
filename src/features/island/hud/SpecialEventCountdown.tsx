@@ -10,7 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 import { secondsToString } from "lib/utils/time";
 
-import { getKeys } from "features/game/types/decorations";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import lightning from "assets/icons/lightning.png";
@@ -18,6 +18,7 @@ import {
   acknowledgeSpecialEvent,
   specialEventLastAcknowledged,
 } from "features/announcements/announcementsStorage";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -30,6 +31,7 @@ const _specialEvents = (state: MachineState) =>
 export const SpecialEventCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const specialEvents = useSelector(gameService, _specialEvents);
+  const now = useNow();
 
   const [isClosed, setIsClosed] = useState(false);
 
@@ -92,7 +94,7 @@ export const SpecialEventCountdown: React.FC = () => {
             type="info"
             className="ml-1 mt-1"
           >
-            {`${secondsToString((specialEvent.endAt - Date.now()) / 1000, {
+            {`${secondsToString((specialEvent.endAt - now) / 1000, {
               length: "short",
             })} left`}
           </Label>

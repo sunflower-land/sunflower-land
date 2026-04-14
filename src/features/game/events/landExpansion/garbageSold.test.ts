@@ -75,6 +75,25 @@ describe("garbageSold", () => {
     );
   });
 
+  it("sells a block buck", () => {
+    const state = sellGarbage({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Block Buck": new Decimal(5),
+        },
+      },
+      action: {
+        type: "garbage.sold",
+        item: "Block Buck",
+        amount: 5,
+      },
+    });
+
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(0));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(100));
+  });
+
   it("sell the treasure in bulk given sufficient quantity", () => {
     const state = sellGarbage({
       state: {
@@ -128,7 +147,7 @@ describe("garbageSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+    expect(state.farmActivity["Coins Earned"]).toEqual(
       GARBAGE["Solar Flare Ticket"].sellPrice,
     );
   });
@@ -148,8 +167,26 @@ describe("garbageSold", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Solar Flare Ticket Sold"]).toEqual(
-      amount,
+    expect(state.farmActivity["Solar Flare Ticket Sold"]).toEqual(amount);
+  });
+
+  it("gives items", () => {
+    const state = sellGarbage({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Hen House": new Decimal(2),
+        },
+      },
+      action: {
+        type: "garbage.sold",
+        item: "Hen House",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Wood"]).toEqual(
+      (GAME_STATE.inventory["Wood"] ?? new Decimal(0)).add(200),
     );
   });
 });

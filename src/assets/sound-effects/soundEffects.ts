@@ -36,6 +36,7 @@ export const SOUNDS = {
     mountain_escape: `${CONFIG.PROTECTED_IMAGE_URL}/songs/mountain_escape.mp3`,
     royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
     willow_tree: `${CONFIG.PROTECTED_IMAGE_URL}/songs/willow_tree.mp3`,
+    sunflower_christmas: `${CONFIG.PROTECTED_IMAGE_URL}/songs/sunflower_christmas.mp3`,
   },
   doors: {
     open: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Door/Farm_Game_Farming_Door_Open_Chest_2_Wood_Creak_Storage_Hinge.mp3`,
@@ -45,11 +46,20 @@ export const SOUNDS = {
     crow_collected: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/crow_collected.mp3`,
     portal_travel: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Farming_Tool_Power_Charge_Up_Ding_2_Heavy_Flow_Transition.mp3`,
     maze_over: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Fishing/Notification/Farm_Game_Fishing_Notification_Negative_Unsuccessful_Catch_3_Fail_Capture_Sad_Complete_Fish.mp3`,
+    level_up: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Task_Complete_1_Musical_Drum_Pop_Success_Single_2.mp3`,
   },
   voices: {
     ouph: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Human/Farm_Game_Animal_Vocal_Human_Character_Voice_Farmer_Ouph_Pain.mp3`,
   },
-  animals: {},
+  animals: {
+    chicken_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_1.mp3`,
+    cow_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Cow/Farm_Game_Animal_Cow_Moo_1_Moan_Call_Field.mp3`,
+    sheep_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Sheep/Farm_Game_Animal_Sheep_Call_Baaa_1.mp3`,
+    produce_drop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
+    feed_animal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Eat/Farm_Game_Farming_Eat_Organic_Food_Chew_Consume_Player_Chomp_Bite_Fruit_Veg_4_Short.mp3`,
+    cure_animal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Organic/Farm_Game_User_Interface_Organic_Generic_Select_2_Click_Pop_Short_Option.mp3`,
+    morning_rooster: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Rooster_Cock_A_Doodle_Doo_1.mp3`,
+  },
   buildings: {
     bank: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Buildings/bank.mp3`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Buildings/barn.mp3`,

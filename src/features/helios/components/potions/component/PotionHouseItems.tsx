@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import {
   Decoration,
   POTION_HOUSE_DECORATIONS,
@@ -13,15 +13,17 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  POTION_HOUSE_EXOTIC_CROPS,
   POTION_HOUSE_ITEMS,
   PotionHouseItem,
 } from "features/game/types/collectibles";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isExoticCrop } from "features/game/types/crops";
 
 export const PotionHouseItems: React.FC = () => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
-    POTION_HOUSE_DECORATIONS()["Giant Potato"],
+    POTION_HOUSE_DECORATIONS["Giant Potato"],
   );
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -45,7 +47,10 @@ export const PotionHouseItems: React.FC = () => {
     );
 
   const buy = () => {
-    if (selected.name in POTION_HOUSE_ITEMS) {
+    if (
+      selected.name in POTION_HOUSE_ITEMS ||
+      selected.name in POTION_HOUSE_EXOTIC_CROPS
+    ) {
       gameService.send("collectible.crafted", {
         name: selected.name,
       });
@@ -59,7 +64,11 @@ export const PotionHouseItems: React.FC = () => {
   };
 
   const Action = () => {
-    if (selected.name in POTION_HOUSE_ITEMS && inventory[selected.name])
+    if (
+      selected.name in POTION_HOUSE_ITEMS &&
+      inventory[selected.name] &&
+      !isExoticCrop(selected.name)
+    )
       return (
         <span className="text-xxs text-center my-1">{t("alr.minted")}</span>
       );
@@ -89,8 +98,9 @@ export const PotionHouseItems: React.FC = () => {
       content={
         <>
           {Object.values({
-            ...POTION_HOUSE_DECORATIONS(),
+            ...POTION_HOUSE_DECORATIONS,
             ...POTION_HOUSE_ITEMS,
+            ...POTION_HOUSE_EXOTIC_CROPS,
           }).map((item) => (
             <Box
               isSelected={selected.name === item.name}

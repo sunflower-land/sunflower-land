@@ -1,19 +1,22 @@
-import { GameState } from "features/game/types/game";
+import { GameState, Tree } from "features/game/types/game";
 import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
+  ADVANCED_RESOURCES,
+  RESOURCE_MULTIPLIER,
+  TreeName,
+  UpgradedResourceName,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
-  name: ResourceName;
+  name: TreeName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {
@@ -28,26 +31,52 @@ export function placeTree({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory.Tree || new Decimal(0)).minus(
-      Object.keys(game.trees).length,
-    );
+    const available = getAvailableNodes(game, "trees");
 
     if (available.lt(1)) {
       throw new Error("No trees available");
     }
 
-    game.trees = {
-      ...game.trees,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
+    const nodeStateAccessor = game.trees;
+
+    const existingTree = findExistingUnplacedNode({
+      nodeStateAccessor,
+      nodeToFind: action.name,
+    });
+
+    if (existingTree) {
+      const [id, tree] = existingTree;
+      const updatedTree = {
+        ...tree,
         x: action.coordinates.x,
         y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Tree"],
-        wood: {
-          amount: 1,
-          choppedAt: 0,
-        },
-      },
+      };
+
+      if (updatedTree.wood && updatedTree.removedAt) {
+        const existingProgress =
+          updatedTree.removedAt - updatedTree.wood.choppedAt;
+        updatedTree.wood.choppedAt = createdAt - existingProgress;
+      }
+      delete updatedTree.removedAt;
+
+      game.trees[id] = updatedTree;
+
+      return game;
+    }
+
+    const tree: Tree = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      wood: { choppedAt: 0 },
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+    };
+
+    game.trees = {
+      ...game.trees,
+      [action.id]: tree,
     };
 
     return game;

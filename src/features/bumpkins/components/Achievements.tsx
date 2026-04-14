@@ -1,12 +1,12 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import {
   AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { AchievementDetails } from "./AchievementDetails";
@@ -18,6 +18,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameState } from "features/game/types/game";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -26,39 +27,38 @@ interface Props {
   readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
-  const [selected, setSelected] = useState<AchievementName>("Farm Hand");
+const getDefaultSelectedAchievement = (state: GameState) => {
+  const achievements = ACHIEVEMENTS();
+  const bumpkinAchievements = state.bumpkin?.achievements || {};
+  const achievementKeys = getKeys(achievements).filter((achievement) => {
+    const item = ACHIEVEMENTS()[achievement];
+    return item.rewards || item.coins > 0;
+  });
 
+  const firstUnclaimedAchievementName = achievementKeys.find((name) => {
+    const achievement = achievements[name];
+    const progress = achievement.progress(state);
+    const isComplete = progress >= achievement.requirement;
+    const isAlreadyClaimed = !!bumpkinAchievements[name];
+
+    return isComplete && !isAlreadyClaimed;
+  });
+
+  return firstUnclaimedAchievementName ?? achievementKeys[0];
+};
+
+export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+  const [selected, setSelected] = useState<AchievementName>(
+    getDefaultSelectedAchievement(state),
+  );
 
   const achievements = ACHIEVEMENTS();
-
-  useEffect(() => {
-    const bumpkinAchievements = state.bumpkin?.achievements || {};
-    const achievementKeys = getKeys(achievements).filter((achievement) => {
-      const item = ACHIEVEMENTS()[achievement];
-      return item.rewards || item.coins > 0;
-    });
-
-    const firstUnclaimedAchievementName = achievementKeys.find((name) => {
-      const achievement = achievements[name];
-      const progress = achievement.progress(state);
-      const isComplete = progress >= achievement.requirement;
-      const isAlreadyClaimed = !!bumpkinAchievements[name];
-
-      return isComplete && !isAlreadyClaimed;
-    });
-
-    const defaultSelectedAchievement =
-      firstUnclaimedAchievementName ?? achievementKeys[0];
-
-    setSelected(defaultSelectedAchievement);
-  }, []);
 
   const claim = () => {
     gameService.send("achievement.claimed", {
@@ -201,13 +201,16 @@ export const AchievementsModal: React.FC<Props> = ({
   onClose,
   readonly,
 }) => {
-  const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[{ icon: SUNNYSIDE.icons.player, name: t("achievements") }]}
+      tabs={[
+        {
+          id: "achievements",
+          icon: SUNNYSIDE.icons.player,
+          name: t("achievements"),
+        },
+      ]}
       onClose={onClose}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}

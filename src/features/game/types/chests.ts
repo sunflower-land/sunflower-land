@@ -1,118 +1,117 @@
-import { InventoryItemName, Wardrobe } from "./game";
-import { SEASONS } from "./seasons";
+import { BB_TO_GEM_RATIO } from "./game";
+import { RewardBoxReward } from "./rewardBoxes";
 
-export type ChestReward = {
-  items?: Partial<Record<InventoryItemName, number>>;
-  wearables?: Partial<Wardrobe>;
-  sfl?: number;
-  weighting: number;
-  coins?: number;
-};
+export const CHEST_MULTIPLIER = 900;
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
-  Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
-  Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime()
-    ? [
-        { wearables: { "Grape Pants": 1 }, weighting: weight },
-        { items: { "Paper Reed": 1 }, weighting: weight },
-      ]
-    : [];
-
-export const BASIC_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 100 },
-  { sfl: 10, weighting: 50 },
-  { sfl: 25, weighting: 20 },
-  { items: { "Block Buck": 1 }, weighting: 100 },
-  { items: { "Block Buck": 2 }, weighting: 50 },
-  { items: { "Block Buck": 5 }, weighting: 20 },
-  { items: { "Block Buck": 10 }, weighting: 5 },
-  { items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 }, weighting: 100 },
-  { items: { "Iron Pickaxe": 10 }, weighting: 10 },
-  { items: { Rod: 10 }, weighting: 20 },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 50 },
-  { items: { "Fishing Lure": 10 }, weighting: 10 },
-  { items: { "Pirate Cake": 5 }, weighting: 5 },
-  { items: { "Wheat Cake": 3 }, weighting: 20 },
-  { items: { "Goblin Brunch": 3 }, weighting: 30 },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 },
-  { items: { "Fermented Carrots": 5 }, weighting: 50 },
-  { items: { "Blueberry Jam": 3 }, weighting: 100 },
-  { wearables: { "Fox Hat": 1 }, weighting: 50 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { Rug: 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 5 },
-  ...SEASONAL_REWARDS(5),
+export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
+export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
+  { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 5 * CHEST_MULTIPLIER },
+  {
+    items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 },
+    weighting: 100 * CHEST_MULTIPLIER,
+  },
+  { items: { "Iron Pickaxe": 10 }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { Rod: 10 }, weighting: 20 * CHEST_MULTIPLIER },
+  {
+    items: { "Rapid Root": 10, "Sprout Mix": 10 },
+    weighting: 50 * CHEST_MULTIPLIER,
+  },
+  { items: { "Fishing Lure": 10 }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 5 }, weighting: 5 * CHEST_MULTIPLIER },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 3 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { "Fermented Carrots": 5 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
 ];
 
-export const RARE_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 50 },
-  { sfl: 10, weighting: 100 },
-  { sfl: 25, weighting: 50 },
-  { sfl: 50, weighting: 20 },
-  { items: { "Block Buck": 1 }, weighting: 50 },
-  { items: { "Block Buck": 2 }, weighting: 100 },
-  { items: { "Block Buck": 5 }, weighting: 50 },
-  { items: { "Block Buck": 10 }, weighting: 20 },
-  { items: { "Block Buck": 25 }, weighting: 10 },
-  { items: { "Block Buck": 50 }, weighting: 5 },
-  { items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 }, weighting: 50 },
-  { items: { "Gold Pickaxe": 3 }, weighting: 50 },
-  { items: { "Oil Drill": 3 }, weighting: 25 },
-  { items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 }, weighting: 50 },
-  { items: { "Fishing Lure": 25 }, weighting: 25 },
-  { items: { "Pirate Cake": 5 }, weighting: 30 },
-  { items: { "Wheat Cake": 3 }, weighting: 20 },
-  { items: { "Goblin Brunch": 3 }, weighting: 50 },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 },
-  { wearables: { "Fox Hat": 1 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { items: { "Twister Rug": 1 }, weighting: 25 },
-  ...SEASONAL_REWARDS(25),
+export const RARE_REWARDS: () => RewardBoxReward[] = () => [
+  { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 16000, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 5 * CHEST_MULTIPLIER },
+  {
+    items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 },
+    weighting: 50 * CHEST_MULTIPLIER,
+  },
+  { items: { "Gold Pickaxe": 3 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Oil Drill": 3 }, weighting: 25 * CHEST_MULTIPLIER },
+  {
+    items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 },
+    weighting: 50 * CHEST_MULTIPLIER,
+  },
+  { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 5 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
 ];
 
-export const LUXURY_REWARDS: () => ChestReward[] = () => [
-  { sfl: 10, weighting: 50 },
-  { sfl: 25, weighting: 100 },
-  { sfl: 50, weighting: 50 },
-  { items: { "Block Buck": 5 }, weighting: 50 },
-  { items: { "Block Buck": 10 }, weighting: 100 },
-  { items: { "Block Buck": 25 }, weighting: 25 },
-  { items: { "Block Buck": 50 }, weighting: 10 },
-  { items: { "Gold Pickaxe": 10 }, weighting: 75 },
-  { items: { "Oil Drill": 5 }, weighting: 50 },
+export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { "Gold Pickaxe": 10 }, weighting: 75 * CHEST_MULTIPLIER },
+  { items: { "Oil Drill": 5 }, weighting: 50 * CHEST_MULTIPLIER },
   {
     items: { Rod: 10, Earthworm: 10, "Red Wiggler": 10, Grub: 10 },
-    weighting: 50,
+    weighting: 50 * CHEST_MULTIPLIER,
   },
-  { items: { "Fishing Lure": 25 }, weighting: 25 },
-  { items: { "Pirate Cake": 10 }, weighting: 50 },
-  { items: { "Goblin Brunch": 10 }, weighting: 25 },
-  { items: { "Bumpkin Roast": 10 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 50 },
-  ...SEASONAL_REWARDS(25),
+  { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 10 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
 ];
 
-export const BUD_BOX_REWARDS: ChestReward[] = [
-  { items: { "Gold Pickaxe": 3 }, weighting: 5 },
-  { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 10 },
+export const BUD_BOX_REWARDS: RewardBoxReward[] = [
+  { items: { "Stone Pickaxe": 15 }, weighting: 15 },
+  { items: { "Iron Pickaxe": 10 }, weighting: 8 },
+  { items: { "Gold Pickaxe": 5 }, weighting: 3 },
+  { items: { "Fishing Lure": 10 }, weighting: 10 },
   { items: { "Pirate Cake": 3 }, weighting: 5 },
-  { items: { "Red Pansy": 2 }, weighting: 10 },
-  { items: { "Purple Cosmos": 2 }, weighting: 10 },
-  { items: { "Time Warp Totem": 1 }, weighting: 10 },
+  { items: { "Red Lavender": 1, "White Lavender": 1 }, weighting: 20 },
+  { items: { "Blue Clover": 1, "Yellow Clover": 1 }, weighting: 20 },
+  { items: { "Red Edelweiss": 1, "Purple Edelweiss": 1 }, weighting: 20 },
+  { items: { "Blue Gladiolus": 1, "Yellow Gladiolus": 1 }, weighting: 20 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
-  { items: { "Oil Drill": 2 }, weighting: 5 },
-  { items: { "Shroom Syrup": 1 }, weighting: 5 },
-  { items: { Antipasto: 1, "Steamed Red Rice": 1 }, weighting: 5 },
-  { items: { "Beetroot Blaze": 1, "Rapid Roast": 1 }, weighting: 5 },
-  { items: { "White Carrot": 1 }, weighting: 10 },
-  { items: { "Warty Goblin Pumpkin": 1 }, weighting: 5 },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 10 },
+  { items: { "Oil Drill": 3 }, weighting: 5 },
+  { items: { "Pizza Margherita": 1 }, weighting: 5 },
+  { items: { "Spaghetti al Limone": 1 }, weighting: 5 },
+  {
+    items: { "Beetroot Blaze": 1, "Rapid Roast": 1, "Shroom Syrup": 1 },
+    weighting: 10,
+  },
+  { items: { "White Carrot": 1, "Warty Goblin Pumpkin": 1 }, weighting: 20 },
+  { items: { "Adirondack Potato": 1, "Purple Cauliflower": 1 }, weighting: 10 },
+  { items: { Chiogga: 1 }, weighting: 5 },
+  { items: { "Rapid Root": 30, "Sprout Mix": 30 }, weighting: 20 },
+  { items: { Doll: 5 }, weighting: 5 },
+  { items: { "Time Warp Totem": 1 }, weighting: 3 },
+  { items: { "Luxury Key": 1 }, weighting: 1 },
 ];
 
-export const GIFT_GIVER_REWARDS: ChestReward[] = [
+export const GIFT_GIVER_REWARDS: RewardBoxReward[] = [
   { items: { "Radish Cake": 1 }, weighting: 15 },
   { items: { "Pirate Cake": 1 }, weighting: 10 },
   { items: { "Fishing Lure": 3 }, weighting: 10 },
@@ -124,7 +123,7 @@ export const GIFT_GIVER_REWARDS: ChestReward[] = [
   { items: { Pickaxe: 3, "Stone Pickaxe": 2 }, weighting: 5 },
 ];
 
-export const PIRATE_CHEST_REWARDS: ChestReward[] = [
+export const PIRATE_CHEST_REWARDS: RewardBoxReward[] = [
   { items: { "Sand Shovel": 5 }, weighting: 20 },
   { items: { Grub: 5 }, weighting: 10 },
   { items: { Earthworm: 5 }, weighting: 10 },
@@ -139,7 +138,7 @@ export const PIRATE_CHEST_REWARDS: ChestReward[] = [
 ];
 
 // 1-3 days
-export const BASIC_DESERT_STREAK: ChestReward[] = [
+export const BASIC_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Clam Shell": 1 }, weighting: 20 },
   { items: { Pipi: 1 }, weighting: 20 },
   { items: { "Sand Shovel": 10 }, weighting: 15 },
@@ -150,7 +149,7 @@ export const BASIC_DESERT_STREAK: ChestReward[] = [
 ];
 
 // 4-10 days
-export const ADVANCED_DESERT_STREAK: ChestReward[] = [
+export const ADVANCED_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Clam Shell": 2 }, weighting: 10 },
   { items: { "Treasure Key": 1 }, weighting: 10 },
   { items: { "Pirate Cake": 1 }, weighting: 10 },
@@ -161,7 +160,7 @@ export const ADVANCED_DESERT_STREAK: ChestReward[] = [
 ];
 
 // 11+ days
-export const EXPERT_DESERT_STREAK: ChestReward[] = [
+export const EXPERT_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Pirate Bounty": 1 }, weighting: 5 },
   { items: { Pearl: 1 }, weighting: 10 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
@@ -170,4 +169,28 @@ export const EXPERT_DESERT_STREAK: ChestReward[] = [
   { items: { "Sand Drill": 3 }, weighting: 5 },
   { items: { "Pirate Cake": 1 }, weighting: 5 },
   { items: { "Shroom Syrup": 1 }, weighting: 1 },
+];
+
+export const MANEKI_NEKO_REWARDS: RewardBoxReward[] = [
+  { items: { "Pumpkin Soup": 1 }, weighting: 50 },
+  { items: { "Cauliflower Burger": 1 }, weighting: 35 },
+  { items: { "Mashed Potato": 1 }, weighting: 30 },
+  { items: { "Boiled Eggs": 1 }, weighting: 30 },
+  { items: { "Bumpkin Broth": 1 }, weighting: 30 },
+  { items: { "Sunflower Crunch": 1 }, weighting: 20 },
+  { items: { "Bumpkin Salad": 1 }, weighting: 15 },
+  { items: { "Goblin's Treat": 1 }, weighting: 15 },
+  { items: { "Kale Stew": 1 }, weighting: 10 },
+  { items: { "Sunflower Cake": 1 }, weighting: 5 },
+];
+
+export const FESTIVE_TREE_REWARDS: RewardBoxReward[] = [
+  { items: { "Treasure Key": 1 }, wearables: {}, weighting: 20 },
+  { items: { "Bronze Food Box": 1 }, wearables: {}, weighting: 20 },
+  { items: { "Bronze Love Box": 1 }, wearables: {}, weighting: 10 },
+  { items: { "Bronze Tool Box": 1 }, wearables: {}, weighting: 10 },
+  { items: { "Rare Key": 1 }, wearables: {}, weighting: 5 },
+  { items: {}, wearables: { "Candy Halbred": 1 }, weighting: 1 },
+  { items: {}, wearables: { "Cookie Shield": 1 }, weighting: 1 },
+  { items: {}, wearables: { "Cozy Reindeer Onesie": 1 }, weighting: 1 },
 ];
