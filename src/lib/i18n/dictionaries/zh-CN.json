@@ -7878,7 +7878,6 @@
   "megaStore.title": "超星商店",
   "description.bonusFloater.boost": "+1 Floater",
   "description.meerkat.boost.two": "+1 沙子",
-  "description.poseidonsThrone.boost": "+1 大麻和粪便",
   "description.pearlBed.boost": "+1 雇农",
   "description.cornSilkHair.boost": "+2 玉米",
   "raffle.newLocation": "新地点",
@@ -8699,5 +8698,6 @@
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",
   "agingShed.fermentation.description": "将盐与各种成分混合发酵以增强肥料和诱饵",
   "agingShed.fermentation.selectRecipe": "选择食谱",
-  "agingShed.spice.description": "混合各种食材，为您的食谱制作香料"
+  "agingShed.spice.description": "混合各种食材，为您的食谱制作香料",
+  "description.poseidonsThrone.boost": "每个农场帮助 +1 大麻和粪便"
 }

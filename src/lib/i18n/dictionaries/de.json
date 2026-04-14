@@ -7878,7 +7878,6 @@
   "megaStore.title": "Stellas Megastore",
   "description.bonusFloater.boost": "+1 Schwebekörper",
   "description.meerkat.boost.two": "+1 Sand",
-  "description.poseidonsThrone.boost": "+1 Gras und Mist",
   "description.pearlBed.boost": "+1 Farmarbeiter",
   "description.cornSilkHair.boost": "+2 Mais",
   "raffle.newLocation": "Neuer Standort",
@@ -8699,5 +8698,6 @@
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",
   "agingShed.fermentation.description": "Kombinieren Sie Salz mit verschiedenen Zutaten, um sie für bessere Düngemittel und Köder zu fermentieren.",
   "agingShed.fermentation.selectRecipe": "Wählen Sie ein Rezept",
-  "agingShed.spice.description": "Kombinieren Sie verschiedene Zutaten, um Ihre Rezepte zu würzen"
+  "agingShed.spice.description": "Kombinieren Sie verschiedene Zutaten, um Ihre Rezepte zu würzen",
+  "description.poseidonsThrone.boost": "+1 Weed & Dung pro Farmhilfe"
 }

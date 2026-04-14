@@ -7878,7 +7878,6 @@
   "megaStore.title": "Megastore de Stella",
   "description.bonusFloater.boost": "+1 Flotador",
   "description.meerkat.boost.two": "+1 Arena",
-  "description.poseidonsThrone.boost": "+1 Hierba y estiércol",
   "description.pearlBed.boost": "+1 peón",
   "description.cornSilkHair.boost": "+2 Maíz",
   "raffle.newLocation": "Nueva ubicación",
@@ -8699,5 +8698,6 @@
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",
   "agingShed.fermentation.description": "Combine la sal con varios ingredientes para fermentarlos y obtener mejores fertilizantes y cebo",
   "agingShed.fermentation.selectRecipe": "Selecciona la receta",
-  "agingShed.spice.description": "Combina varios ingredientes para crear especias para tus recetas"
+  "agingShed.spice.description": "Combina varios ingredientes para crear especias para tus recetas",
+  "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja"
 }
