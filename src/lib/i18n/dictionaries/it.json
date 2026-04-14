@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Attendi (secondi)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Devi attivare un evento generator.collected nel tuo gioco (POST /action) per raccogliere l'oggetto una volta che il timer è pronto. Usa il job id di PlayerEconomy. Generare i dati della sessione come itemId.",
   "playerEconomyEditor.custom.requiresRow": "Richiede",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Importo"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Importo",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Configurazione salvata",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "Questo JSON corrisponde a ciò che viene memorizzato al momento del salvataggio. Slug e altri campi Basics vengono modificati separatamente.",
+  "playerEconomyEditor.jsonTab.copy": "Copia negli appunti",
+  "playerEconomyEditor.jsonTab.editHeading": "Incolla o modifica JSON",
+  "playerEconomyEditor.jsonTab.editIntro": "Incolla una configurazione economica completa o modifica il testo qui sotto, quindi applica per caricarla in questo editor. Il tuo slug in Basics non è cambiato.",
+  "playerEconomyEditor.jsonTab.apply": "Applica all'editor",
+  "playerEconomyEditor.jsonTab.resetDraft": "Reimposta dall'editor corrente",
+  "playerEconomyEditor.jsonTab.invalidJson": "JSON non valido. Correggi la sintassi e riprova.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Impossibile copiare negli appunti."
 }

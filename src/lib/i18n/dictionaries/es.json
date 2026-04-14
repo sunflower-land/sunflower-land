@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Espera (segundos)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Debes lanzar un evento generator.collected en tu juego (POST /action) para recolectar el objeto una vez que el temporizador esté listo. Usa el identificador de trabajo de PlayerEconomy.Generating en los datos de la sesión como ItemID.",
   "playerEconomyEditor.custom.requiresRow": "Requiere",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Monto"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Monto",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Configuración guardada",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "Este JSON coincide con lo que se almacena al guardar. Slug y otros campos básicos se editan por separado.",
+  "playerEconomyEditor.jsonTab.copy": "Copiar al portapapeles",
+  "playerEconomyEditor.jsonTab.editHeading": "Pegar o editar JSON",
+  "playerEconomyEditor.jsonTab.editIntro": "Pegue una configuración económica completa o edite el texto que aparece a continuación y, a continuación, aplíquela para cargarla en este editor. Tu slug en Basics no ha cambiado.",
+  "playerEconomyEditor.jsonTab.apply": "Aplicar al editor",
+  "playerEconomyEditor.jsonTab.resetDraft": "Restablecer desde el editor actual",
+  "playerEconomyEditor.jsonTab.invalidJson": "JSON no válido. Corrija la sintaxis e inténtelo de nuevo.",
+  "playerEconomyEditor.jsonTab.copyFailed": "No se pudo copiar al portapapeles."
 }

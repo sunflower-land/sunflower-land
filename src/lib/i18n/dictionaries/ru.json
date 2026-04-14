@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Wait (seconds)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "You must fire a generator.collected event in your game (POST /action) to collect the item once the timer is ready. Use the job id from playerEconomy.generating in session data as itemId.",
   "playerEconomyEditor.custom.requiresRow": "Requires",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Amount"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Amount",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Saved configuration",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "This JSON matches what is stored when you save. Slug and other Basics fields are edited separately.",
+  "playerEconomyEditor.jsonTab.copy": "Copy to clipboard",
+  "playerEconomyEditor.jsonTab.editHeading": "Paste or edit JSON",
+  "playerEconomyEditor.jsonTab.editIntro": "Paste a full economy config or edit the text below, then apply to load it into this editor. Your slug in Basics is not changed.",
+  "playerEconomyEditor.jsonTab.apply": "Apply to editor",
+  "playerEconomyEditor.jsonTab.resetDraft": "Reset from current editor",
+  "playerEconomyEditor.jsonTab.invalidJson": "Invalid JSON. Fix the syntax and try again.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Could not copy to the clipboard."
 }

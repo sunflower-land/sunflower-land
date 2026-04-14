@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Aguarde (segundos)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Você deve acionar um evento generator.collected em seu jogo (POST /action) para coletar o item quando o cronômetro estiver pronto. Use o ID do trabalho de PlayerEconomy.Generating nos dados da sessão como ItemId.",
   "playerEconomyEditor.custom.requiresRow": "Requer",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Quantia"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Quantia",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Configuração salva",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "Esse JSON corresponde ao que é armazenado quando você salva. O Slug e outros campos básicos são editados separadamente.",
+  "playerEconomyEditor.jsonTab.copy": "Copiar para a prancheta",
+  "playerEconomyEditor.jsonTab.editHeading": "Colar ou editar JSON",
+  "playerEconomyEditor.jsonTab.editIntro": "Cole uma configuração econômica completa ou edite o texto abaixo e aplique para carregá-la neste editor. Seu slug no Basics não foi alterado.",
+  "playerEconomyEditor.jsonTab.apply": "Aplicar ao editor",
+  "playerEconomyEditor.jsonTab.resetDraft": "Redefinir a partir do editor atual",
+  "playerEconomyEditor.jsonTab.invalidJson": "JSON inválido. Corrija a sintaxe e tente novamente.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Não foi possível copiar para a área de transferência."
 }

@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "待機 (秒)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "タイマーの準備ができたら、ゲーム内で generator.collectedイベント（POST/action）を起動してアイテムを集める必要があります。セッションデータ内の PlayerEconomy.Generating のジョブ ID を ItemID として使用してください。",
   "playerEconomyEditor.custom.requiresRow": "必要な",
-  "playerEconomyEditor.custom.requiresAmountLabel": "金額"
+  "playerEconomyEditor.custom.requiresAmountLabel": "金額",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "保存された構成",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "この JSON は、保存時に保存される内容と一致します。Slug と他の Basics フィールドは別々に編集されます。",
+  "playerEconomyEditor.jsonTab.copy": "クリップボードにコピー",
+  "playerEconomyEditor.jsonTab.editHeading": "JSON をペーストまたは編集する",
+  "playerEconomyEditor.jsonTab.editIntro": "エコノミーコンフィグ全体を貼り付けるか、下のテキストを編集し、適用してこのエディターにロードしてください。Basics のスラッグは変わりません。",
+  "playerEconomyEditor.jsonTab.apply": "エディターに適用",
+  "playerEconomyEditor.jsonTab.resetDraft": "現在のエディターからリセット",
+  "playerEconomyEditor.jsonTab.invalidJson": "JSON が無効です。構文を修正してやり直してください。",
+  "playerEconomyEditor.jsonTab.copyFailed": "クリップボードにコピーできませんでした。"
 }

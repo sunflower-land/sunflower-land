@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Bekle (saniye)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Zamanlayıcı hazır olduğunda öğeyi toplamak için oyununuzda bir generator.etkinliği (POST /action) başlatmanız gerekir. PlayerEconomy.Generating içindeki iş kimliğini ItemID olarak oturum verilerini kullanın.",
   "playerEconomyEditor.custom.requiresRow": "Gerektirir",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Miktar"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Miktar",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Kaydedilen yapılandırma",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "Bu JSON, kaydettiğinizde depolananla eşleşir. Slug ve diğer Temel alanlar ayrı ayrı düzenlenir.",
+  "playerEconomyEditor.jsonTab.copy": "Panoya kopyala",
+  "playerEconomyEditor.jsonTab.editHeading": "JSON'u yapıştırın veya düzenleyin",
+  "playerEconomyEditor.jsonTab.editIntro": "Tam bir ekonomi yapılandırması yapıştırın veya aşağıdaki metni düzenleyin, ardından bu düzenleyiciye yüklemek için uygulayın. Basics\"teki sümüklü böcekleriniz değişmedi.",
+  "playerEconomyEditor.jsonTab.apply": "Editöre uygula",
+  "playerEconomyEditor.jsonTab.resetDraft": "Geçerli düzenleyiciden sıfırla",
+  "playerEconomyEditor.jsonTab.invalidJson": "Geçersiz JSON. Sözdizimini düzeltin ve tekrar deneyin.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Panoya kopyalanamadı."
 }

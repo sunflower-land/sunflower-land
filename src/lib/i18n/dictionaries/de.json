@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Warte (Sekunden)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Du musst in deinem Spiel ein generator.collected-Event auslösen (POST /action), um den Gegenstand einzusammeln, sobald der Timer abgelaufen ist. Verwende die Job-ID von PlayerEconomy.Generating in den Sitzungsdaten als ItemId.",
   "playerEconomyEditor.custom.requiresRow": "Erfordert",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Betrag"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Betrag",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Gespeicherte Konfiguration",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "Dieses JSON entspricht dem, was beim Speichern gespeichert wird. Slug- und andere Basics-Felder werden separat bearbeitet.",
+  "playerEconomyEditor.jsonTab.copy": "In die Zwischenablage kopieren",
+  "playerEconomyEditor.jsonTab.editHeading": "JSON einfügen oder bearbeiten",
+  "playerEconomyEditor.jsonTab.editIntro": "Fügen Sie eine vollständige Economy-Konfiguration ein oder bearbeiten Sie den folgenden Text und bewerben Sie ihn dann, um ihn in diesen Editor zu laden. Ihr Slug in Basics hat sich nicht geändert.",
+  "playerEconomyEditor.jsonTab.apply": "Bewerben Sie sich beim Redakteur",
+  "playerEconomyEditor.jsonTab.resetDraft": "Aus aktuellem Editor zurücksetzen",
+  "playerEconomyEditor.jsonTab.invalidJson": "Ungültiges JSON. Korrigieren Sie die Syntax und versuchen Sie es erneut.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Konnte nicht in die Zwischenablage kopieren."
 }

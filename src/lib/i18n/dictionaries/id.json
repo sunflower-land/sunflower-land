@@ -8680,5 +8680,15 @@
   "playerEconomyEditor.custom.waitRow": "Tunggu (detik)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Anda harus mengaktifkan acara generator.di game Anda (POST/action) untuk mengumpulkan item setelah timer siap. Gunakan id pekerjaan dari PlayerEconomy.Generating dalam data sesi sebagai ItemId.",
   "playerEconomyEditor.custom.requiresRow": "Membutuhkan",
-  "playerEconomyEditor.custom.requiresAmountLabel": "Jumlah"
+  "playerEconomyEditor.custom.requiresAmountLabel": "Jumlah",
+  "playerEconomyEditor.tab.json": "JSON",
+  "playerEconomyEditor.jsonTab.savedConfigHeading": "Konfigurasi yang disimpan",
+  "playerEconomyEditor.jsonTab.savedConfigIntro": "JSON ini cocok dengan apa yang disimpan saat Anda menyimpan. Bidang Slug dan Dasar lainnya diedit secara terpisah.",
+  "playerEconomyEditor.jsonTab.copy": "Salin ke clipboard",
+  "playerEconomyEditor.jsonTab.editHeading": "Tempel atau edit JSON",
+  "playerEconomyEditor.jsonTab.editIntro": "Tempelkan konfigurasi ekonomi penuh atau edit teks di bawah ini, lalu terapkan untuk memuatnya ke editor ini. Siput Anda di Dasar tidak berubah.",
+  "playerEconomyEditor.jsonTab.apply": "Terapkan ke editor",
+  "playerEconomyEditor.jsonTab.resetDraft": "Setel ulang dari editor saat ini",
+  "playerEconomyEditor.jsonTab.invalidJson": "JSON tidak valid. Perbaiki sintaks dan coba lagi.",
+  "playerEconomyEditor.jsonTab.copyFailed": "Tidak dapat menyalin ke clipboard."
 }
