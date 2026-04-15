@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "Combina il sale con vari ingredienti per farli fermentare e ottenere fertilizzanti ed esche potenziati",
   "agingShed.fermentation.selectRecipe": "Seleziona la ricetta",
   "agingShed.spice.description": "Combina vari ingredienti per creare spezie per le tue ricette",
-  "description.poseidonsThrone.boost": "+1 erbaccia e sterco per ogni aiuto alla fattoria"
+  "description.poseidonsThrone.boost": "+1 erbaccia e sterco per ogni aiuto alla fattoria",
+  "equip.eyes": "Occhi",
+  "equip.mouth": "Bocca"
 }

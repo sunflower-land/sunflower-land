@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "Campurkan garam dengan berbagai bahan untuk memfermentasinya untuk pupuk dan umpan yang ditingkatkan",
   "agingShed.fermentation.selectRecipe": "Pilih resep",
   "agingShed.spice.description": "Gabungkan berbagai bahan untuk membuat bumbu untuk resep Anda",
-  "description.poseidonsThrone.boost": "+1 Gulma & Kotoran per bantuan pertanian"
+  "description.poseidonsThrone.boost": "+1 Gulma & Kotoran per bantuan pertanian",
+  "equip.eyes": "Mata",
+  "equip.mouth": "Mulut"
 }

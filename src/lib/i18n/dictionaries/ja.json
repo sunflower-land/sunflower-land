@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "塩をさまざまな材料と組み合わせて発酵させ、肥料や餌を強化します",
   "agingShed.fermentation.selectRecipe": "レシピを選択",
   "agingShed.spice.description": "さまざまな材料を組み合わせて、レシピ用のスパイスを作りましょう",
-  "description.poseidonsThrone.boost": "農場の助け1つにつき、雑草と糞+1"
+  "description.poseidonsThrone.boost": "農場の助け1つにつき、雑草と糞+1",
+  "equip.eyes": "目",
+  "equip.mouth": "口"
 }

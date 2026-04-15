@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "Combinez le sel avec divers ingrédients pour les faire fermenter pour obtenir des engrais et des appâts améliorés",
   "agingShed.fermentation.selectRecipe": "Sélectionnez une recette",
   "agingShed.spice.description": "Combinez différents ingrédients pour créer des épices pour vos recettes",
-  "description.poseidonsThrone.boost": "+1 Weed & Dung par aide à la ferme"
+  "description.poseidonsThrone.boost": "+1 Weed & Dung par aide à la ferme",
+  "equip.eyes": "Yeux",
+  "equip.mouth": "Bouche"
 }

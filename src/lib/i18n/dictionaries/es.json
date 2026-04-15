@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "Combine la sal con varios ingredientes para fermentarlos y obtener mejores fertilizantes y cebo",
   "agingShed.fermentation.selectRecipe": "Selecciona la receta",
   "agingShed.spice.description": "Combina varios ingredientes para crear especias para tus recetas",
-  "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja"
+  "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja",
+  "equip.eyes": "Ojos",
+  "equip.mouth": "Boca"
 }

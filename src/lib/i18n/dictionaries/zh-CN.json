@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "将盐与各种成分混合发酵以增强肥料和诱饵",
   "agingShed.fermentation.selectRecipe": "选择食谱",
   "agingShed.spice.description": "混合各种食材，为您的食谱制作香料",
-  "description.poseidonsThrone.boost": "每个农场帮助 +1 大麻和粪便"
+  "description.poseidonsThrone.boost": "每个农场帮助 +1 大麻和粪便",
+  "equip.eyes": "眼睛",
+  "equip.mouth": "嘴巴"
 }

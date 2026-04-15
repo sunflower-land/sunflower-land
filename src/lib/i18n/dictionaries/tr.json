@@ -8699,5 +8699,7 @@
   "agingShed.fermentation.description": "Gelişmiş gübreler ve yem için onları fermente etmek için tuzu çeşitli malzemelerle birleştirin",
   "agingShed.fermentation.selectRecipe": "Tarif seç",
   "agingShed.spice.description": "Tarifleriniz için baharat oluşturmak için çeşitli malzemeleri birleştirin",
-  "description.poseidonsThrone.boost": "Çiftlik yardımı başına +1 Ot ve Gübre"
+  "description.poseidonsThrone.boost": "Çiftlik yardımı başına +1 Ot ve Gübre",
+  "equip.eyes": "Gözler",
+  "equip.mouth": "Ağız"
 }
