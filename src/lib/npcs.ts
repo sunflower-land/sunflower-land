@@ -342,7 +342,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Kingdom Background",
     shoes: "Brown Boots",
     hat: "Queen's Crown",
-    eyes: "Grumpy Eyes",
     mouth: "Neutral Mouth",
   },
   gaucho: {
@@ -787,7 +786,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
     wings: "Bat Wings",
     hat: "Victorian Hat",
-    eyes: "Scared Eyes",
     mouth: "Neutral Mouth",
   },
   // Clothes shop stylist
