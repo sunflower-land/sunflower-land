@@ -18,6 +18,8 @@ import {
   ITEM_NAMES,
   BumpkinBeard,
   BumpkinAura,
+  BumpkinEyes,
+  BumpkinMouth,
 } from "features/game/types/bumpkin";
 
 export type BumpkinParts = {
@@ -38,6 +40,8 @@ export type BumpkinParts = {
   dress?: BumpkinDress;
   beard?: BumpkinBeard;
   aura?: BumpkinAura;
+  eyes?: BumpkinEyes;
+  mouth?: BumpkinMouth;
 };
 
 enum Slots {
@@ -58,6 +62,8 @@ enum Slots {
   Dress = 14,
   Beard = 15,
   Aura = 16,
+  Eyes = 17,
+  Mouth = 18,
 }
 
 export function tokenUriBuilder(parts: BumpkinParts) {
@@ -82,6 +88,8 @@ export function tokenUriBuilder(parts: BumpkinParts) {
     ? ITEM_IDS[parts.secondaryTool]
     : 0;
   ids[Slots.Aura] = parts.aura ? ITEM_IDS[parts.aura] : 0;
+  ids[Slots.Eyes] = parts.eyes ? ITEM_IDS[parts.eyes] : 0;
+  ids[Slots.Mouth] = parts.mouth ? ITEM_IDS[parts.mouth] : 0;
 
   // Trim off trailing 0s
   const lastPartIndex = [...ids].reverse().findIndex(Boolean);
@@ -115,6 +123,8 @@ function getOrderedIds(parts: BumpkinParts) {
     dress,
     beard,
     aura,
+    eyes,
+    mouth,
   } = parts;
 
   const bgId = background ? ITEM_IDS[background] : 0;
@@ -134,6 +144,8 @@ function getOrderedIds(parts: BumpkinParts) {
   const dressId = dress ? ITEM_IDS[dress] : 0;
   const beardId = beard ? ITEM_IDS[beard] : 0;
   const auraId = aura ? ITEM_IDS[aura] : 0;
+  const eyesId = eyes ? ITEM_IDS[eyes] : 0;
+  const mouthId = mouth ? ITEM_IDS[mouth] : 0;
 
   return [
     bgId, // 0
@@ -153,6 +165,8 @@ function getOrderedIds(parts: BumpkinParts) {
     dressId, // 14
     beardId, //15
     auraId, //16
+    eyesId, // 17
+    mouthId, // 18
   ];
 }
 
@@ -163,7 +177,7 @@ export function interpretTokenUri(tokenUri: string) {
 
   const parts = tokenPart.split("_");
   // Bug with web2 farm metadata
-  if (!parts[1].startsWith("v")) {
+  if (parts[1] && !parts[1].startsWith("v")) {
     parts.splice(1, 1);
   }
   const [tokenId, version, ...ids] = parts.map((val) =>
@@ -210,6 +224,12 @@ export function interpretTokenUri(tokenUri: string) {
     }),
     ...(ids[Slots.Aura] && {
       aura: getItemName<BumpkinAura>(ids[Slots.Aura]),
+    }),
+    ...(ids[Slots.Eyes] && {
+      eyes: getItemName<BumpkinEyes>(ids[Slots.Eyes]),
+    }),
+    ...(ids[Slots.Mouth] && {
+      mouth: getItemName<BumpkinMouth>(ids[Slots.Mouth]),
     }),
   };
 
