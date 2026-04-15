@@ -36,4 +36,6 @@ export const BUMPKIN_PART_SILHOUETTE: Record<BumpkinPart, string> = {
   wings: wingsSilhouette,
   beard: beardSilhouette,
   aura: auraSilhoutte,
+  eyes: bodySilhouette,
+  mouth: beardSilhouette,
 };

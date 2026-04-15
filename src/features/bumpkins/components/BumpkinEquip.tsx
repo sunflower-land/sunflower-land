@@ -53,6 +53,8 @@ const NOTREQUIRED: BumpkinPart[] = [
   "onesie",
   "secondaryTool",
   "aura",
+  "eyes",
+  "mouth",
 ];
 
 interface Props {
