@@ -16,6 +16,7 @@ describe("isSpiceRackRecipeName", () => {
   });
 
   it("accepts legacy recipe ids for resolution", () => {
+    expect(isSpiceRackRecipeName("Spice Base")).toBe(true);
     expect(isSpiceRackRecipeName("Spiced Cheese")).toBe(true);
   });
 
@@ -27,10 +28,12 @@ describe("isSpiceRackRecipeName", () => {
 describe("isStartableSpiceRackRecipeName", () => {
   it("accepts startable recipe ids", () => {
     expect(isStartableSpiceRackRecipeName("Refined Salt")).toBe(true);
-    expect(isStartableSpiceRackRecipeName("Spice Base")).toBe(true);
+    expect(isStartableSpiceRackRecipeName("Honey Treat")).toBe(true);
+    expect(isStartableSpiceRackRecipeName("Salt Lick")).toBe(true);
   });
 
   it("rejects legacy recipe ids", () => {
+    expect(isStartableSpiceRackRecipeName("Spice Base")).toBe(false);
     expect(isStartableSpiceRackRecipeName("Spiced Cheese")).toBe(false);
   });
 
