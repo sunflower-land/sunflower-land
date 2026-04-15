@@ -370,8 +370,6 @@
   "equip.dress": "Vestido",
   "equip.beard": "Barba",
   "equip.aura": "Aura",
-  "equip.eyes": "Ojos",
-  "equip.mouth": "Boca",
   "equip.missingHair": "Se requiere cabello.",
   "equip.missingBody": "Se requiere el cuerpo.",
   "equip.missingShoes": "Se requieren zapatos.",
@@ -8672,7 +8670,6 @@
   "playerEconomyEditor.custom.waitRow": "Espera (segundos)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Debes lanzar un evento generator.collected en tu juego (POST /action) para recolectar el objeto una vez que el temporizador esté listo. Usa el identificador de trabajo de PlayerEconomy.Generating en los datos de la sesión como ItemID.",
   "playerEconomyEditor.custom.requiresRow": "Requiere",
-<<<<<<< HEAD
   "playerEconomyEditor.custom.requiresAmountLabel": "Monto",
   "playerEconomyEditor.tab.json": "JSON",
   "playerEconomyEditor.jsonTab.savedConfigHeading": "Configuración guardada",
@@ -8704,7 +8701,3 @@
   "agingShed.spice.description": "Combina varios ingredientes para crear especias para tus recetas",
   "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja"
 }
-=======
-  "playerEconomyEditor.custom.requiresAmountLabel": "Monto"
-}
->>>>>>> 8fecb94ee (Setup for bumpkin faces)

@@ -1919,8 +1919,6 @@
   "equip.dress": "连衣裙",
   "equip.beard": "胡子",
   "equip.aura": "光环",
-  "equip.eyes": "眼睛",
-  "equip.mouth": "嘴巴",
   "bumpkinTrade.listed": "已上架",
   "digby.streak": "挖宝连胜",
   "digby.claimPrize": "干得好 Bumpkin！可别忘了领取连胜大奖！",
@@ -8672,7 +8670,6 @@
   "playerEconomyEditor.custom.waitRow": "等待（秒）",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "计时器准备就绪后，你必须在游戏中触发 generator.collected 事件（POST /action）来收集物品。使用 PlayereConomy.generating 中的任务 ID 作为 itemId 在会话中生成。",
   "playerEconomyEditor.custom.requiresRow": "需要",
-<<<<<<< HEAD
   "playerEconomyEditor.custom.requiresAmountLabel": "金额",
   "playerEconomyEditor.tab.json": "JSON",
   "playerEconomyEditor.jsonTab.savedConfigHeading": "保存的配置",
@@ -8704,7 +8701,3 @@
   "agingShed.spice.description": "混合各种食材，为您的食谱制作香料",
   "description.poseidonsThrone.boost": "每个农场帮助 +1 大麻和粪便"
 }
-=======
-  "playerEconomyEditor.custom.requiresAmountLabel": "金额"
-}
->>>>>>> 8fecb94ee (Setup for bumpkin faces)

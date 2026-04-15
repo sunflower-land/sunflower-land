@@ -2303,8 +2303,6 @@
   "equip.dress": "Robe",
   "equip.beard": "Barbe",
   "equip.aura": "Aura",
-  "equip.eyes": "Yeux",
-  "equip.mouth": "Bouche",
   "bumpkinTrade.visitBoard": "Visitez le tableau des transactions pour répertorier plus de transactions.",
   "bumpkinTrade.unlockMoreTrades": "Débloquez plus de transactions",
   "bumpkinTrade.minimumFloor": "Prix unitaire minimum : {{min}}",
@@ -8672,7 +8670,6 @@
   "playerEconomyEditor.custom.waitRow": "Attendre (secondes)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "Vous devez lancer un événement generator.collected dans votre jeu (POST /action) pour récupérer l'objet une fois que le chronomètre est prêt. Utilisez l'identifiant de tâche de PlayerEconomy.Generating in session data comme ItemID.",
   "playerEconomyEditor.custom.requiresRow": "Nécessite",
-<<<<<<< HEAD
   "playerEconomyEditor.custom.requiresAmountLabel": "Montant",
   "playerEconomyEditor.tab.json": "JSON",
   "playerEconomyEditor.jsonTab.savedConfigHeading": "Configuration enregistrée",
@@ -8704,7 +8701,3 @@
   "agingShed.spice.description": "Combinez différents ingrédients pour créer des épices pour vos recettes",
   "description.poseidonsThrone.boost": "+1 Weed & Dung par aide à la ferme"
 }
-=======
-  "playerEconomyEditor.custom.requiresAmountLabel": "Montant"
-}
->>>>>>> 8fecb94ee (Setup for bumpkin faces)

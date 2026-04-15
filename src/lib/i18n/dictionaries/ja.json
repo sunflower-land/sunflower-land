@@ -371,8 +371,6 @@
   "equip.dress": "ドレス",
   "equip.beard": "あごひげ",
   "equip.aura": "オーラ",
-  "equip.eyes": "目",
-  "equip.mouth": "口",
   "equip.missingHair": "髪が必要です",
   "equip.missingBody": "ボディが必要です",
   "equip.missingShoes": "靴が必要です",
@@ -8672,7 +8670,6 @@
   "playerEconomyEditor.custom.waitRow": "待機 (秒)",
   "playerEconomyEditor.custom.waitGeneratorCollectHint": "タイマーの準備ができたら、ゲーム内で generator.collectedイベント（POST/action）を起動してアイテムを集める必要があります。セッションデータ内の PlayerEconomy.Generating のジョブ ID を ItemID として使用してください。",
   "playerEconomyEditor.custom.requiresRow": "必要な",
-<<<<<<< HEAD
   "playerEconomyEditor.custom.requiresAmountLabel": "金額",
   "playerEconomyEditor.tab.json": "JSON",
   "playerEconomyEditor.jsonTab.savedConfigHeading": "保存された構成",
@@ -8704,7 +8701,3 @@
   "agingShed.spice.description": "さまざまな材料を組み合わせて、レシピ用のスパイスを作りましょう",
   "description.poseidonsThrone.boost": "農場の助け1つにつき、雑草と糞+1"
 }
-=======
-  "playerEconomyEditor.custom.requiresAmountLabel": "金額"
-}
->>>>>>> 8fecb94ee (Setup for bumpkin faces)
