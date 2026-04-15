@@ -1,8 +1,4 @@
-import {
-  ALLOWED_BUMPKIN_ITEMS,
-  DEFAULT_BUMPKIN_EYES,
-  DEFAULT_BUMPKIN_MOUTH,
-} from "features/game/types/bumpkin";
+import { ALLOWED_BUMPKIN_ITEMS } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Wardrobe } from "features/game/types/game";
 
@@ -27,8 +23,6 @@ export const DEFAULT_SIGNUP_EQUIPMENT: BumpkinParts = {
   pants: "Farmer Pants",
   shoes: "Black Farmer Boots",
   tool: "Farmer Pitchfork",
-  eyes: DEFAULT_BUMPKIN_EYES,
-  mouth: DEFAULT_BUMPKIN_MOUTH,
 };
 
 export type Gender = "male" | "female";
