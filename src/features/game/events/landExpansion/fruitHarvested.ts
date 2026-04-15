@@ -162,7 +162,7 @@ export function getFruitYield({
     boostsUsed.push({ name: FACTION_ITEMS[factionName].wings, value: "+0.25" });
   }
 
-  if (fertiliser === "Fruitful Blend") {
+  if (fertiliser === "Fruitful Blend" || fertiliser === "Turbofruit Mix") {
     const { amount: fruitfulBlendBuff, boostsUsed: fruitfulBlendBuffBoosts } =
       getFruitfulBlendBuff(game);
     amount += fruitfulBlendBuff;
