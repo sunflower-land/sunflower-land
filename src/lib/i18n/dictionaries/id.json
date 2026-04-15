@@ -7878,7 +7878,6 @@
   "megaStore.title": "Megastore Stella",
   "description.bonusFloater.boost": "+1 Floater",
   "description.meerkat.boost.two": "+1 Sand",
-  "description.poseidonsThrone.boost": "+1 Gulma & Kotoran",
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 Jagung",
   "raffle.newLocation": "Lokasi baru",
@@ -8699,5 +8698,6 @@
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",
   "agingShed.fermentation.description": "Campurkan garam dengan berbagai bahan untuk memfermentasinya untuk pupuk dan umpan yang ditingkatkan",
   "agingShed.fermentation.selectRecipe": "Pilih resep",
-  "agingShed.spice.description": "Gabungkan berbagai bahan untuk membuat bumbu untuk resep Anda"
+  "agingShed.spice.description": "Gabungkan berbagai bahan untuk membuat bumbu untuk resep Anda",
+  "description.poseidonsThrone.boost": "+1 Gulma & Kotoran per bantuan pertanian"
 }

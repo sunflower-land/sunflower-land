@@ -249,6 +249,30 @@ jobs:
             return null;
           }
 
+          async function isPrApproved(prNumber) {
+            try {
+              const reviews = await githubRequest(`/repos/${owner}/${repo}/pulls/${prNumber}/reviews?per_page=100`);
+              const latestStateByReviewer = new Map();
+
+              for (const review of reviews) {
+                if (!review.user) continue;
+                const state = review.state;
+                if (state === "APPROVED" || state === "CHANGES_REQUESTED" || state === "DISMISSED") {
+                  latestStateByReviewer.set(review.user.id, state);
+                }
+              }
+
+              const states = [...latestStateByReviewer.values()];
+              const hasApproval = states.some((s) => s === "APPROVED");
+              const hasChangesRequested = states.some((s) => s === "CHANGES_REQUESTED");
+
+              return hasApproval && !hasChangesRequested;
+            } catch (error) {
+              console.log(`Review lookup failed for PR #${prNumber}: ${error.message}`);
+              return false;
+            }
+          }
+
           async function summarizeWithAi(metadata, files, diff) {
             if (!OPENAI_API_KEY) {
               appendSummary([
@@ -348,7 +372,7 @@ jobs:
             HIGH: 15158332,
           };
 
-          async function sendDiscordAlert(metadata, files, summary, risk) {
+          async function sendDiscordAlert(metadata, files, summary, risk, pullRequest) {
             const embedColor = risk ? (RISK_COLORS[risk] ?? 15158332) : 15158332;
             const riskField = {
               name: "Risk Score",
@@ -356,22 +380,36 @@ jobs:
               inline: true,
             };
 
+            const shouldTagTeam = risk !== "LOW";
             const payload = {
               username: "GitHub Commits Alerts",
-              content: "<@&1260758874189729867>",
-              allowed_mentions: {
-                roles: ["1260758874189729867"],
-              },
+              ...(shouldTagTeam && {
+                content: "<@&1260758874189729867>",
+                allowed_mentions: {
+                  roles: ["1260758874189729867"],
+                },
+              }),
               avatar_url:
                 "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
               embeds: [
                 {
-                  title: "Direct commit to main detected",
-                  url: getCommitUrl(metadata.sha),
+                  title: pullRequest
+                    ? "Unapproved PR merge to main detected"
+                    : "Direct commit to main detected",
+                  url: pullRequest ? pullRequest.url : getCommitUrl(metadata.sha),
                   color: embedColor,
                   description: truncate(summary, 4000),
                   fields: [
                     riskField,
+                    ...(pullRequest
+                      ? [
+                          {
+                            name: "Pull Request",
+                            value: `[#${pullRequest.number} - ${escapeDiscord(truncate(pullRequest.title, 100))}](${pullRequest.url})`,
+                            inline: true,
+                          },
+                        ]
+                      : []),
                     {
                       name: "Repository",
                       value: escapeDiscord(REPOSITORY),
@@ -407,7 +445,7 @@ jobs:
                     },
                   ],
                   footer: {
-                    text: "Repo-only alert: PR merges that bypass merge rules are not reliably detectable here.",
+                    text: "Alerts on direct commits and unapproved PR merges to main.",
                   },
                   timestamp: new Date().toISOString(),
                 },
@@ -457,10 +495,14 @@ jobs:
 
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
               if (pullRequest) {
-                continue;
+                const approved = await isPrApproved(pullRequest.number);
+                if (approved) {
+                  continue;
+                }
+                suspiciousCommits.push({ ...metadata, pullRequest });
+              } else {
+                suspiciousCommits.push(metadata);
               }
-
-              suspiciousCommits.push(metadata);
             }
 
             appendSummary([
@@ -468,9 +510,7 @@ jobs:
               "",
               `Processed ${commitRange.length} commit(s).`,
               `Skipped ${skippedBots} known bot commit(s).`,
-              `Flagged ${suspiciousCommits.length} direct commit(s) to \`main\`.`,
-              "",
-              "Note: repo-only automation cannot reliably detect PR merges that bypass merge rules.",
+              `Flagged ${suspiciousCommits.length} suspicious commit(s) to \`main\`.`,
             ]);
 
             for (const metadata of suspiciousCommits) {
@@ -488,7 +528,7 @@ jobs:
                 result = fallbackSummary(metadata, files);
               }
 
-              await sendDiscordAlert(metadata, files, result.summary, result.risk);
+              await sendDiscordAlert(metadata, files, result.summary, result.risk, metadata.pullRequest);
             }
           }
 
