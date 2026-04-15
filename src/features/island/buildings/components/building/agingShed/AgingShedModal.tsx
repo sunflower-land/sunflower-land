@@ -39,33 +39,26 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const hasAgingShedAccess = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "AGING_SHED"),
   );
-  const latestReadyAt = useSelector(gameService, (state) => {
-    const { aging, fermentation, spice } = state.context.state.agingShed.racks;
-    return Math.max(
-      ...aging.map((slot) => slot.readyAt),
-      ...fermentation.map((slot) => slot.readyAt),
-      ...spice.map((slot) => slot.readyAt),
-    );
-  });
-  const now = useNow({
-    live: true,
-    autoEndAt: latestReadyAt,
-  });
-  const hasReadyAgingRack = useSelector(gameService, (state) =>
-    state.context.state.agingShed.racks.aging.some(
-      (slot) => slot.readyAt <= now,
-    ),
+  const agingShedRacks = useSelector(
+    gameService,
+    (state) => state.context.state.agingShed.racks,
   );
-  const hasReadyFermentationRack = useSelector(gameService, (state) =>
-    state.context.state.agingShed.racks.fermentation.some(
-      (slot) => slot.readyAt <= now,
-    ),
+
+  const { aging, fermentation, spice } = agingShedRacks;
+  const readyAts = [
+    ...aging.map((slot) => slot.readyAt),
+    ...fermentation.map((slot) => slot.readyAt),
+    ...spice.map((slot) => slot.readyAt),
+  ];
+  const latestReadyAt = readyAts.length ? Math.max(...readyAts) : undefined;
+
+  const now = useNow({ live: true, autoEndAt: latestReadyAt });
+
+  const hasReadyAgingRack = aging.some((slot) => slot.readyAt <= now);
+  const hasReadyFermentationRack = fermentation.some(
+    (slot) => slot.readyAt <= now,
   );
-  const hasReadySpiceRack = useSelector(gameService, (state) =>
-    state.context.state.agingShed.racks.spice.some(
-      (slot) => slot.readyAt <= now,
-    ),
-  );
+  const hasReadySpiceRack = spice.some((slot) => slot.readyAt <= now);
 
   const tabs: PanelTabs<AgingShedTabs>[] = [
     {
