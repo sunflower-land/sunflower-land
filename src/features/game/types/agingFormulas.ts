@@ -56,7 +56,7 @@ export function getBoostedAgingTimeMs(
     timeMs *= 0.9;
   }
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 5) {
-    timeMs *= 0.97;
+    timeMs *= 0.95;
   }
   return timeMs;
 }
@@ -68,7 +68,7 @@ export function getPrimeAgedChance(state: GameState): number {
     chance *= 2;
   }
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 2) {
-    chance += 2;
+    chance += 4;
   }
   return chance;
 }

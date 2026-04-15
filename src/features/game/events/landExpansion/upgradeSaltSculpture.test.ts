@@ -33,8 +33,6 @@ describe("upgradeSaltSculpture", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          Seaweed: new Decimal(10),
-          "Old Bottle": new Decimal(10),
           "Refined Salt": new Decimal(20),
           Earthworm: new Decimal(20),
         },
@@ -44,24 +42,28 @@ describe("upgradeSaltSculpture", () => {
     });
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(2);
-    expect(state.inventory.Seaweed?.toNumber()).toBe(5);
-    expect(state.inventory["Old Bottle"]?.toNumber()).toBe(5);
     expect(state.inventory["Refined Salt"]?.toNumber()).toBe(10);
     expect(state.inventory.Earthworm?.toNumber()).toBe(10);
   });
 
-  it("upgrades from level 5 to 6, deducts 1000 Refined Salt", () => {
+  it("upgrades from level 5 to 6, deducts coins and ingredients", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         sculptures: { "Salt Sculpture": { level: 5 } },
-        inventory: { "Refined Salt": new Decimal(1500) },
+        coins: 3000,
+        inventory: {
+          "Refined Salt": new Decimal(300),
+          "Red Wiggler": new Decimal(20),
+        },
       }),
       action: { type: "saltSculpture.upgraded" },
       createdAt,
     });
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(6);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(500);
+    expect(state.coins).toBe(1000);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(100);
+    expect(state.inventory["Red Wiggler"]?.toNumber()).toBe(10);
   });
 
   it("throws when already at max level", () => {
@@ -82,20 +84,18 @@ describe("upgradeSaltSculpture", () => {
     expect(() =>
       upgradeSaltSculpture({
         state: stateWith({
-          inventory: { Seaweed: new Decimal(1) },
+          inventory: { "Refined Salt": new Decimal(1) },
         }),
         action: { type: "saltSculpture.upgraded" },
         createdAt,
       }),
-    ).toThrow("Insufficient Seaweed");
+    ).toThrow("Insufficient Refined Salt");
   });
 
   it("sets upgradedAt timestamp", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          Seaweed: new Decimal(10),
-          "Old Bottle": new Decimal(10),
           "Refined Salt": new Decimal(20),
           Earthworm: new Decimal(20),
         },

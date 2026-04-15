@@ -87,7 +87,7 @@ export function getToolPrice(
     (game.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 4 &&
     name === "Salt Rake"
   ) {
-    price = price * 0.95;
+    price = price * 0.9;
   }
 
   // Return the price for the amount of tools

@@ -119,7 +119,7 @@ export function getSaltChargeGenerationTime({
   }
 
   if ((gameState.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 1) {
-    chargeGenerationTimeMs *= 0.98;
+    chargeGenerationTimeMs *= 0.95;
   }
 
   return chargeGenerationTimeMs;

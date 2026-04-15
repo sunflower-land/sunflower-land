@@ -20,6 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys, getObjectEntries } from "lib/object";
 import { MachineState } from "features/game/lib/gameMachine";
+import { SALT_SCULPTURE_VARIANTS } from "features/island/lib/alternateArt";
 
 const _sculptureLevel = (state: MachineState) =>
   state.context.state.sculptures?.["Salt Sculpture"]?.level ?? 1;
@@ -68,7 +69,7 @@ export const SaltSculpture: React.FC = () => {
           }}
         >
           <img
-            src={ITEM_DETAILS.Salt.image}
+            src={SALT_SCULPTURE_VARIANTS[currentLevel]}
             style={{ width: `${PIXEL_SCALE * 24}px` }}
             alt="Salt Sculpture"
           />

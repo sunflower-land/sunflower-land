@@ -1720,4 +1720,9 @@ export const SUNNYSIDE = {
     seaUrchin: `${CONFIG.PROTECTED_IMAGE_URL}/crustaceans/sea_urchin.webp`,
     shrimp: `${CONFIG.PROTECTED_IMAGE_URL}/crustaceans/shrimp.webp`,
   },
+  sculptures: {
+    saltSculpture1: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_01.webp`,
+    saltSculpture2: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_02.webp`,
+    saltSculpture3: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_03.webp`,
+  },
 };

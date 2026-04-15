@@ -399,3 +399,12 @@ export const AGING_SHED_VARIANTS: Record<number, string> = {
   2: SUNNYSIDE.building.agingShed2,
   3: SUNNYSIDE.building.agingShed3,
 };
+
+export const SALT_SCULPTURE_VARIANTS: Record<number, string> = {
+  1: SUNNYSIDE.sculptures.saltSculpture1,
+  2: SUNNYSIDE.sculptures.saltSculpture1,
+  3: SUNNYSIDE.sculptures.saltSculpture2,
+  4: SUNNYSIDE.sculptures.saltSculpture2,
+  5: SUNNYSIDE.sculptures.saltSculpture3,
+  6: SUNNYSIDE.sculptures.saltSculpture3,
+};
