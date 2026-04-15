@@ -43,7 +43,10 @@ const REQUIRED_BUT_INCOMPATIBLE: BumpkinPart[][] = [
   ["dress"],
 ];
 
-const NOTREQUIRED: BumpkinPart[] = [
+/** Set true to show eyes/mouth category tiles in the optional row (domain + autosave already support them). */
+const SHOW_EYES_AND_MOUTH_IN_EQUIP_UI = false;
+
+const NOTREQUIRED_ALL: BumpkinPart[] = [
   "hat",
   "beard",
   "necklace",
@@ -56,6 +59,10 @@ const NOTREQUIRED: BumpkinPart[] = [
   "eyes",
   "mouth",
 ];
+
+const NOTREQUIRED: BumpkinPart[] = SHOW_EYES_AND_MOUTH_IN_EQUIP_UI
+  ? NOTREQUIRED_ALL
+  : NOTREQUIRED_ALL.filter((part) => part !== "eyes" && part !== "mouth");
 
 interface Props {
   onEquip: (equipment: BumpkinParts) => void;
@@ -251,12 +258,12 @@ export const BumpkinEquip: React.FC<Props> = ({
                       <Popover key={name}>
                         <PopoverButton
                           as="div"
-                          className="cursor-pointer"
+                          className="cursor-pointer w-full"
                           disabled={!unavailable}
                         >
                           <OuterPanel
                             className={classNames(
-                              "w-full relative  !p-0 flex items-center justify-center",
+                              "w-full min-h-0 aspect-square relative !p-0 flex items-center justify-center",
                               {
                                 "hover:img-highlight": !unavailable,
                                 "img-highlight":
@@ -316,7 +323,9 @@ export const BumpkinEquip: React.FC<Props> = ({
                             )}
                             <img
                               src={getWearableImage(name)}
-                              className="h-10"
+                              alt={name}
+                              className="max-h-10 max-w-10 w-auto h-auto object-contain shrink-0"
+                              style={{ imageRendering: "pixelated" }}
                             />
                           </OuterPanel>
                         </PopoverButton>
