@@ -12,7 +12,7 @@ describe("isSpiceRackRecipeName", () => {
 
   it("accepts real recipe ids", () => {
     expect(isSpiceRackRecipeName("Refined Salt")).toBe(true);
-    expect(isSpiceRackRecipeName("Spice Base")).toBe(true);
+    expect(isSpiceRackRecipeName("Honey Treat")).toBe(true);
   });
 
   it("accepts legacy recipe ids for resolution", () => {

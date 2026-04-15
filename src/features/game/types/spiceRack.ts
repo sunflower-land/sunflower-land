@@ -38,16 +38,6 @@ const SPICE_RACK_RECIPES_STATIC = {
       "Honey Treat": new Decimal(5),
     },
   },
-  "Spice Base": {
-    durationSeconds: 60 * 60,
-    ingredients: {
-      "Refined Salt": new Decimal(5),
-      Pepper: new Decimal(100),
-    },
-    outputs: {
-      "Spice Base": new Decimal(5),
-    },
-  },
 } as const satisfies Record<string, SpiceRackRecipeDefinition>;
 
 /**
@@ -56,6 +46,16 @@ const SPICE_RACK_RECIPES_STATIC = {
  * can still be collected.
  */
 const LEGACY_SPICE_RACK_RECIPES = {
+  "Spice Base": {
+    durationSeconds: 60 * 60,
+    ingredients: {
+      "Refined Salt": new Decimal(5),
+      Pepper: new Decimal(100),
+    },
+    outputs: {
+      "Spice Base": new Decimal(1),
+    },
+  },
   "Spiced Cheese": {
     durationSeconds: 60 * 60,
     ingredients: {
