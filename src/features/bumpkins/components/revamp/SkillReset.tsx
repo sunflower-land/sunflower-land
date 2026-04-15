@@ -13,30 +13,32 @@ interface SkillResetProps {
   resetType: PaymentType;
   gemCost: number;
   gemBalance: Decimal;
-  getNextResetDateAndTime: () => {
+  nextResetDateAndTime: {
     date: string;
     time: string;
   };
   hasSkills: boolean;
-  canResetSkills: () => boolean;
+  canResetSkills: boolean;
   handleSkillsReset: () => void;
   showSkillsResetConfirmation: boolean;
   setShowSkillsResetConfirmation: (show: boolean) => void;
+  freeSkillResets?: number;
 }
 
 export const SkillReset: React.FC<SkillResetProps> = ({
   resetType,
   gemCost,
   gemBalance,
-  getNextResetDateAndTime,
+  nextResetDateAndTime,
   hasSkills,
   canResetSkills,
   handleSkillsReset,
   showSkillsResetConfirmation,
   setShowSkillsResetConfirmation,
+  freeSkillResets = 0,
 }) => {
   const { t } = useAppTranslation();
-  const { date, time } = getNextResetDateAndTime();
+  const { date, time } = nextResetDateAndTime;
   return (
     <OuterPanel>
       <InnerPanel className="flex flex-col items-center">
@@ -55,7 +57,11 @@ export const SkillReset: React.FC<SkillResetProps> = ({
               <p className="text-xs text-center">
                 {t("skillReset.freeDescription")}
               </p>
-              <Label type="warning">{t("skillReset.180Days")}</Label>
+              <Label type="warning">
+                {freeSkillResets >= 1
+                  ? t("skillReset.bankedResets", { count: freeSkillResets })
+                  : t("skillReset.180Days")}
+              </Label>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
@@ -82,7 +88,7 @@ export const SkillReset: React.FC<SkillResetProps> = ({
           {!showSkillsResetConfirmation ? (
             <Button
               onClick={() => setShowSkillsResetConfirmation(true)}
-              disabled={!canResetSkills()}
+              disabled={!canResetSkills}
             >
               {t("skillReset.resetSkills")}
             </Button>
@@ -97,7 +103,7 @@ export const SkillReset: React.FC<SkillResetProps> = ({
               <Button
                 className="w-full"
                 onClick={handleSkillsReset}
-                disabled={!canResetSkills()}
+                disabled={!canResetSkills}
               >
                 {t("confirm")}
               </Button>

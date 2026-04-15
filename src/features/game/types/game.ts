@@ -506,10 +506,20 @@ export type Bumpkin = {
   tokenUri: string;
   experience: number;
   skills: Skills;
-  achievements?: Partial<Record<AchievementName, number>>;
+  achievements: Partial<Record<AchievementName, number>>;
   activity?: Partial<Record<FarmActivityName, number>>;
-  previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
+  /**
+   * @description Timestamp of the last free skill reset.
+   */
+  previousFreeSkillResetAt?: number;
+  /**
+   * @description Number of free skill resets banked.
+   */
+  freeSkillResets?: number;
+  /**
+   * @description Number of paid skill resets used.
+   */
   paidSkillResets?: number;
   coordinates?: Coordinates;
   location?: Exclude<PlaceableLocation, "petHouse">;
@@ -955,6 +965,7 @@ export type Airdrop = {
   coordinates?: Coordinates;
   factionPoints?: number;
   vipDays?: number;
+  freeSkillResets?: number;
   recipes?: RecipeCollectibleName[];
 };
 

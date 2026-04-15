@@ -18,13 +18,13 @@ type Options = {
 export const getGemCost = (paidSkillResets: number) =>
   200 * Math.pow(2, paidSkillResets);
 
+// 180 days in milliseconds
+export const RESET_PERIOD_MS = 180 * 24 * 60 * 60 * 1000;
+
 export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
-  now = Date.now(),
+  now: number,
 ) {
-  // 180 days in milliseconds
-  const RESET_PERIOD_MS = 180 * 24 * 60 * 60 * 1000;
-
   // Calculate next reset time by adding reset period
   const nextResetTime = previousFreeSkillResetAt + RESET_PERIOD_MS;
 
@@ -35,8 +35,12 @@ export function getTimeUntilNextFreeReset(
 
 export function canResetForFree(
   previousFreeSkillResetAt: number,
-  now = Date.now(),
+  freeSkillResets: number,
+  now: number,
 ) {
+  if (freeSkillResets >= 1) {
+    return true;
+  }
   const timeUntilNextReset = getTimeUntilNextFreeReset(
     previousFreeSkillResetAt,
     now,
@@ -50,10 +54,11 @@ export function resetSkills({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (game) => {
-    const { bumpkin, buildings } = game;
+    const { bumpkin } = game;
     const {
       paidSkillResets = 0,
       previousFreeSkillResetAt = 0,
+      freeSkillResets = 0,
       skills,
     } = bumpkin;
 
@@ -68,8 +73,9 @@ export function resetSkills({
     }
 
     if (action.paymentType === "free") {
-      // If trying to do free reset before 4 months
-      if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
+      if (
+        !canResetForFree(previousFreeSkillResetAt, freeSkillResets, createdAt)
+      ) {
         const timeToNextFreeResetInMilliseconds = getTimeUntilNextFreeReset(
           previousFreeSkillResetAt,
           createdAt,
@@ -82,31 +88,21 @@ export function resetSkills({
         );
       }
 
-      // Reset paid resets counter since 4 months have passed
       bumpkin.paidSkillResets = 0;
-    }
-
-    // Handle gem reset
-    if (action.paymentType === "gems") {
+      bumpkin.freeSkillResets = Math.max(0, freeSkillResets - 1);
+      bumpkin.previousFreeSkillResetAt = createdAt;
+    } else {
       const gemCost = getGemCost(paidSkillResets);
 
       if (game.inventory.Gem?.lt(gemCost)) {
         throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
       }
 
-      // Deduct gems
       game.inventory.Gem = game.inventory.Gem?.minus(gemCost);
-      // Increment paid resets counter
       bumpkin.paidSkillResets = paidSkillResets + 1;
     }
 
-    // Reset skills
     bumpkin.skills = {};
-
-    // Update last free reset timestamp only for free resets
-    if (action.paymentType === "free") {
-      bumpkin.previousFreeSkillResetAt = createdAt;
-    }
 
     return game;
   });

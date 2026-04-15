@@ -96,6 +96,7 @@ export const Rewards: React.FC<{
     | "sfl"
     | "factionPoints"
     | "vipDays"
+    | "freeSkillResets"
     | "coins"
     | "xp"
     | "buff"
@@ -153,6 +154,20 @@ export const Rewards: React.FC<{
               {`${formatNumber(reward.vipDays)} VIP Days`}
             </Label>
             <p className="text-xs mt-0.5">{t("reward.vipDescription")}</p>
+          </div>
+        </ButtonPanel>
+      )}
+      {!!reward.freeSkillResets && (
+        <ButtonPanel
+          variant="card"
+          className="flex items-start cursor-context-menu hover:brightness-100"
+        >
+          <Box image={SUNNYSIDE.skills.crops} className="-mt-2 -ml-1 -mb-1" />
+          <div>
+            <Label type="warning">
+              {`${formatNumber(reward.freeSkillResets)} ${reward.freeSkillResets === 1 ? "Free Skill Reset" : "Free Skill Resets"}`}
+            </Label>
+            <p className="text-xs mt-0.5">{t("reward.freeSkillResets")}</p>
           </div>
         </ButtonPanel>
       )}

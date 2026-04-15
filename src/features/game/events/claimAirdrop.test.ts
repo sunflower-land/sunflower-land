@@ -99,6 +99,36 @@ describe("claimAirdrop", () => {
     expect(state.airdrops).toEqual([]);
   });
 
+  it("claims free skill resets onto bumpkin", () => {
+    const state = claimAirdrop({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...TEST_FARM.bumpkin!,
+          freeSkillResets: 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+            freeSkillResets: 2,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+    });
+
+    expect(state.bumpkin?.freeSkillResets).toEqual(3);
+    expect(state.airdrops).toEqual([]);
+  });
+
   it("claims a wearable reward", () => {
     const state = claimAirdrop({
       state: {

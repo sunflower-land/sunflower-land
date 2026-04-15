@@ -99,8 +99,14 @@ export function claimAirdrop({
     game.vip = addVipDays({
       game,
       vipDays: airdrop.vipDays,
-      createdAt: Date.now(),
+      createdAt,
     });
+  }
+
+  const freeSkillResetsAmount = airdrop.freeSkillResets ?? 0;
+  if (freeSkillResetsAmount > 0) {
+    game.bumpkin.freeSkillResets =
+      (game.bumpkin.freeSkillResets ?? 0) + freeSkillResetsAmount;
   }
 
   game.balance = game.balance.add(airdrop.sfl);

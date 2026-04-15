@@ -72,6 +72,88 @@ describe("resetSkills", () => {
       expect(state.bumpkin?.skills).toEqual({});
       expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
       expect(state.bumpkin?.paidSkillResets ?? 0).toEqual(0);
+      expect(state.bumpkin?.freeSkillResets ?? 0).toEqual(0);
+    });
+
+    describe("banked freeSkillResets", () => {
+      const withinCooldown = () => {
+        const recent = new Date(dateNow);
+        recent.setDate(recent.getDate() - 10);
+        return recent.getTime();
+      };
+
+      it("allows a free reset during the cooldown when freeSkillResets is 1", () => {
+        const state = resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+              previousFreeSkillResetAt: withinCooldown(),
+              freeSkillResets: 1,
+              paidSkillResets: 2,
+            },
+          },
+          action: { type: "skills.reset", paymentType: "free" },
+          createdAt: dateNow,
+        });
+
+        expect(state.bumpkin?.skills).toEqual({});
+        expect(state.bumpkin?.freeSkillResets).toEqual(0);
+        expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+        expect(state.bumpkin?.paidSkillResets ?? 0).toEqual(0);
+      });
+
+      it("allows a free reset during the cooldown when freeSkillResets is greater than 1", () => {
+        const state = resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+              previousFreeSkillResetAt: withinCooldown(),
+              freeSkillResets: 3,
+            },
+          },
+          action: { type: "skills.reset", paymentType: "free" },
+          createdAt: dateNow,
+        });
+
+        expect(state.bumpkin?.skills).toEqual({});
+        expect(state.bumpkin?.freeSkillResets).toEqual(2);
+        expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+      });
+
+      it("still requires waiting when freeSkillResets is 0 and cooldown has not elapsed", () => {
+        const oneSeventyDaysAgo = new Date(dateNow);
+        oneSeventyDaysAgo.setDate(oneSeventyDaysAgo.getDate() - 170);
+
+        const timeUntilNextReset = getTimeUntilNextFreeReset(
+          oneSeventyDaysAgo.getTime(),
+          dateNow,
+        );
+        const daysRemaining = Math.ceil(
+          timeUntilNextReset / (1000 * 60 * 60 * 24),
+        );
+
+        expect(() => {
+          resetSkills({
+            state: {
+              ...INITIAL_FARM,
+              bumpkin: {
+                ...TEST_BUMPKIN,
+                skills: { "Green Thumb": 1 },
+                previousFreeSkillResetAt: oneSeventyDaysAgo.getTime(),
+                freeSkillResets: 0,
+              },
+            },
+            action: { type: "skills.reset", paymentType: "free" },
+            createdAt: dateNow,
+          });
+        }).toThrow(
+          `Wait ${daysRemaining} more days for free reset or use gems`,
+        );
+      });
     });
   });
 

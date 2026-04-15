@@ -31,6 +31,8 @@ import { Panel } from "components/ui/Panel";
 import { useConnection } from "wagmi";
 import { ErrorCode } from "lib/errors";
 
+const MAX_FREE_SKILL_RESETS = 20;
+
 // Types
 interface AirdropItem {
   value: number;
@@ -388,6 +390,7 @@ export const AirdropPlayer: React.FC<
   const [message, setMessage] = useState("");
   const [showAdvancedItems, setShowAdvancedItems] = useState(false);
   const [vipDays, setVipDays] = useState<number>();
+  const [freeSkillResets, setFreeSkillResets] = useState<number>();
 
   // Advanced items state
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
@@ -424,6 +427,7 @@ export const AirdropPlayer: React.FC<
         wearables,
         farmIds: farmIdArray,
         vipDays,
+        freeSkillResets,
         message,
         signature,
       },
@@ -447,6 +451,7 @@ export const AirdropPlayer: React.FC<
           { name: "coins", type: "uint256" },
           { name: "vipDays", type: "uint256" },
           { name: "message", type: "string" },
+          { name: "freeSkillResets", type: "uint256" },
         ],
       },
       primaryType: "Airdrop",
@@ -457,6 +462,7 @@ export const AirdropPlayer: React.FC<
         coins: BigInt(coins),
         vipDays: BigInt(vipDays ?? 0),
         message,
+        freeSkillResets: BigInt(freeSkillResets ?? 0),
       },
     });
     await send(signature);
@@ -494,22 +500,33 @@ export const AirdropPlayer: React.FC<
       icon: vipIcon,
       maxValue: 365,
     },
+    "Free Skill Resets": {
+      value: freeSkillResets ?? 0,
+      setValue: setFreeSkillResets,
+      maxDecimalPlaces: 0,
+      icon: SUNNYSIDE.skills.crops,
+      maxValue: MAX_FREE_SKILL_RESETS,
+    },
   };
 
-  const disabled =
-    !farmIds ||
-    !message.length ||
-    !(
-      coins ||
-      gems ||
-      loveCharm ||
-      selectedItems.length ||
-      selectedWearables.length ||
-      vipDays
-    ) ||
-    Object.values(basicItems).some(
+  function isDisabled() {
+    const hasAnyReward =
+      !!coins ||
+      !!gems ||
+      !!loveCharm ||
+      selectedItems.length > 0 ||
+      selectedWearables.length > 0 ||
+      !!vipDays ||
+      (freeSkillResets ?? 0) > 0;
+
+    const exceedsMax = Object.values(basicItems).some(
       ({ value, maxValue }) => value > (maxValue ?? 0),
     );
+
+    return !farmIds || !message.length || exceedsMax || !hasAnyReward;
+  }
+
+  const disabled = isDisabled();
 
   const advancedItemsProps: AdvancedItemsProps = {
     selectedItems,

@@ -27,11 +27,13 @@ import {
   getGemCost,
   PaymentType,
   getTimeUntilNextFreeReset,
+  RESET_PERIOD_MS,
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
@@ -63,13 +65,23 @@ export const SkillCategoryList: React.FC<{
 
   const { bumpkin, inventory } = state;
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
+  const {
+    previousFreeSkillResetAt = 0,
+    paidSkillResets = 0,
+    freeSkillResets = 0,
+    skills,
+  } = bumpkin;
+
+  const now = useNow({
+    live: true,
+    autoEndAt: previousFreeSkillResetAt + RESET_PERIOD_MS,
+  });
 
   const hasSkills = getKeys(skills).length > 0;
 
-  const getNextResetDateAndTime = () => {
+  const getNextResetDateAndTime = (now: number) => {
     const nextResetTime =
-      Date.now() + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
+      now + getTimeUntilNextFreeReset(previousFreeSkillResetAt, now);
     const nextResetDate = new Date(nextResetTime);
 
     return {
@@ -86,12 +98,18 @@ export const SkillCategoryList: React.FC<{
     };
   };
 
+  const nextResetDateAndTime = getNextResetDateAndTime(now);
+
   const gemCost = getGemCost(paidSkillResets);
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const gemBalance = inventory.Gem ?? new Decimal(0);
 
-  const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
+  const resetType: PaymentType = canResetForFree(
+    previousFreeSkillResetAt,
+    freeSkillResets,
+    now,
+  )
     ? "free"
     : "gems";
 
@@ -112,14 +130,13 @@ export const SkillCategoryList: React.FC<{
     }
   };
 
-  const canResetSkills = () => {
+  const checkResetSkillsEligibility = () => {
     if (!hasSkills) return false;
-    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
-      return false;
     if (resetType === "gems" && !hasEnoughGems) return false;
 
     return true;
   };
+  const canResetSkills = checkResetSkillsEligibility();
 
   return (
     <>
@@ -225,12 +242,13 @@ export const SkillCategoryList: React.FC<{
           resetType={resetType}
           gemCost={gemCost}
           gemBalance={gemBalance}
-          getNextResetDateAndTime={getNextResetDateAndTime}
+          nextResetDateAndTime={nextResetDateAndTime}
           hasSkills={hasSkills}
           canResetSkills={canResetSkills}
           handleSkillsReset={handleSkillsReset}
           showSkillsResetConfirmation={showSkillsResetConfirmation}
           setShowSkillsResetConfirmation={setShowSkillsResetConfirmation}
+          freeSkillResets={freeSkillResets}
         />
       </Modal>
     </>
