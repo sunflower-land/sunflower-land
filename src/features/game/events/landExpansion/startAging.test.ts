@@ -132,7 +132,7 @@ describe("startAging", () => {
     expect(state.inventory.Salt?.toNumber()).toBe(95);
   });
 
-  it("deducts correct salt for Sea Bass (8)", () => {
+  it("deducts correct salt for Sea Bass (5)", () => {
     const state = startAging({
       state: createFermentationTestState({
         inventory: { "Sea Bass": new Decimal(1), Salt: new Decimal(100) },
@@ -146,7 +146,7 @@ describe("startAging", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toBe(92);
+    expect(state.inventory.Salt?.toNumber()).toBe(95);
   });
 
   it("pushes slot with correct readyAt for Anchovy", () => {
