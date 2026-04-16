@@ -1191,37 +1191,37 @@ export const FISH: Record<FishName, Consumable> = {
   Butterflyfish: {
     name: "Butterflyfish",
     description: translate("description.butterflyfish.two"),
-    experience: 120,
+    experience: 110,
   },
   Blowfish: {
     name: "Blowfish",
     description: translate("description.blowfish.two"),
-    experience: 180,
+    experience: 170,
   },
   Clownfish: {
     name: "Clownfish",
     description: translate("description.clownfish.two"),
-    experience: 230,
+    experience: 210,
   },
   "Sea Bass": {
     name: "Sea Bass",
     description: translate("description.seabass.two"),
-    experience: 150,
+    experience: 140,
   },
   "Sea Horse": {
     name: "Sea Horse",
     description: translate("description.seahorse.two"),
-    experience: 260,
+    experience: 240,
   },
   "Horse Mackerel": {
     name: "Horse Mackerel",
     description: translate("description.horsemackerel.two"),
-    experience: 510,
+    experience: 440,
   },
   Squid: {
     name: "Squid",
     description: translate("description.squid.two"),
-    experience: 460,
+    experience: 410,
   },
   "Red Snapper": {
     name: "Red Snapper",
@@ -1231,42 +1231,42 @@ export const FISH: Record<FishName, Consumable> = {
   "Moray Eel": {
     name: "Moray Eel",
     description: translate("description.morayeel.two"),
-    experience: 170,
+    experience: 160,
   },
   "Olive Flounder": {
     name: "Olive Flounder",
     description: translate("description.oliveflounder.two"),
-    experience: 200,
+    experience: 180,
   },
   Napoleanfish: {
     name: "Napoleanfish",
     description: translate("description.napoleanfish.two"),
-    experience: 190,
+    experience: 180,
   },
   Surgeonfish: {
     name: "Surgeonfish",
     description: translate("description.surgeonfish.two"),
-    experience: 220,
+    experience: 210,
   },
   "Zebra Turkeyfish": {
     name: "Zebra Turkeyfish",
     description: translate("description.zebraturkeyfish.two"),
-    experience: 240,
+    experience: 220,
   },
   Ray: {
     name: "Ray",
     description: translate("description.ray.two"),
-    experience: 350,
+    experience: 320,
   },
   "Hammerhead shark": {
     name: "Hammerhead shark",
     description: translate("description.hammerheadshark.two"),
-    experience: 890,
+    experience: 750,
   },
   "Barred Knifejaw": {
     name: "Barred Knifejaw",
     description: translate("description.barredknifejaw.two"),
-    experience: 690,
+    experience: 580,
   },
   Tuna: {
     name: "Tuna",
@@ -1286,7 +1286,7 @@ export const FISH: Record<FishName, Consumable> = {
   Oarfish: {
     name: "Oarfish",
     description: translate("description.oarfish.two"),
-    experience: 220,
+    experience: 200,
   },
   "Football fish": {
     name: "Football fish",
@@ -1301,76 +1301,76 @@ export const FISH: Record<FishName, Consumable> = {
   Coelacanth: {
     name: "Coelacanth",
     description: translate("description.coelacanth.two"),
-    experience: 470,
+    experience: 410,
   },
   "Whale Shark": {
     name: "Whale Shark",
     description: translate("description.whaleshark.two"),
-    experience: 1530,
+    experience: 1240,
   },
   "Saw Shark": {
     name: "Saw Shark",
     description: translate("description.sawshark.two"),
-    experience: 2450,
+    experience: 1920,
   },
   "White Shark": {
     name: "White Shark",
     description: translate("description.whiteshark.two"),
-    experience: 2540,
+    experience: 1990,
   },
   Angelfish: {
     description: "?",
-    experience: 280,
+    experience: 250,
     name: "Angelfish",
   },
   Halibut: {
     description: "?",
-    experience: 240,
+    experience: 220,
     name: "Halibut",
   },
   Parrotfish: {
     description: "?",
-    experience: 500,
+    experience: 440,
     name: "Parrotfish",
   },
   Porgy: {
     description: "?",
-    experience: 270,
+    experience: 250,
     name: "Porgy",
   },
   Muskellunge: {
     description: "?",
-    experience: 320,
+    experience: 290,
     name: "Muskellunge",
   },
   Trout: {
     description: "?",
-    experience: 370,
+    experience: 330,
     name: "Trout",
   },
   Walleye: {
     description: "?",
-    experience: 220,
+    experience: 210,
     name: "Walleye",
   },
   Weakfish: {
     description: "?",
-    experience: 220,
+    experience: 200,
     name: "Weakfish",
   },
   "Rock Blackfish": {
     description: "?",
-    experience: 350,
+    experience: 310,
     name: "Rock Blackfish",
   },
   Cobia: {
     description: "?",
-    experience: 350,
+    experience: 310,
     name: "Cobia",
   },
   Tilapia: {
     description: "?",
-    experience: 210,
+    experience: 190,
     name: "Tilapia",
   },
 };

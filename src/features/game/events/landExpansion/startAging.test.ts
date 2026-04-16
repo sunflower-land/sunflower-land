@@ -149,7 +149,7 @@ describe("startAging", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toBe(91);
+    expect(state.inventory.Salt?.toNumber()).toBe(92);
   });
 
   it("pushes slot with correct readyAt for Anchovy", () => {

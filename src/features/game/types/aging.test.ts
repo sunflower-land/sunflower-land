@@ -14,14 +14,15 @@ describe("getAgingMaxXP", () => {
     expect(getAgingMaxXP(200)).toBe(1200);
   });
 
-  it("returns 8× max XP for fish with 201–370 base XP", () => {
+  it("returns 8× max XP for fish with 201–330 base XP", () => {
     expect(getAgingMaxXP(201)).toBe(1608);
     expect(getAgingMaxXP(270)).toBe(2160);
     expect(getAgingMaxXP(300)).toBe(2400);
-    expect(getAgingMaxXP(370)).toBe(2960);
+    expect(getAgingMaxXP(330)).toBe(2640);
   });
 
-  it("returns 10× max XP for fish with more than 370 base XP", () => {
+  it("returns 10× max XP for fish with more than 330 base XP", () => {
+    expect(getAgingMaxXP(331)).toBe(3310);
     expect(getAgingMaxXP(371)).toBe(3710);
     expect(getAgingMaxXP(700)).toBe(7000);
     expect(getAgingMaxXP(1000)).toBe(10000);
@@ -30,8 +31,8 @@ describe("getAgingMaxXP", () => {
   it("handles edge cases at tier boundaries", () => {
     expect(getAgingMaxXP(200)).toBe(1200);
     expect(getAgingMaxXP(201)).toBe(1608);
-    expect(getAgingMaxXP(370)).toBe(2960);
-    expect(getAgingMaxXP(371)).toBe(3710);
+    expect(getAgingMaxXP(330)).toBe(2640);
+    expect(getAgingMaxXP(331)).toBe(3310);
   });
 });
 
@@ -61,18 +62,18 @@ describe("getAgingTimeMs", () => {
     expect(ms200 / (60 * 60 * 1000)).toBeCloseTo(3.333, 2);
   });
 
-  it("uses j=500 for fish with 201–370 base XP", () => {
+  it("uses j=500 for fish with 201–330 base XP", () => {
     const ms201 = getAgingTimeMs(201);
     expect(ms201 / (60 * 60 * 1000)).toBeCloseTo(2.814, 2);
 
     const ms270 = getAgingTimeMs(270);
     expect(ms270 / (60 * 60 * 1000)).toBeCloseTo(3.78, 2);
 
-    const ms370 = getAgingTimeMs(370);
-    expect(ms370 / (60 * 60 * 1000)).toBeCloseTo(5.18, 2);
+    const ms330 = getAgingTimeMs(330);
+    expect(ms330 / (60 * 60 * 1000)).toBeCloseTo(4.62, 2);
   });
 
-  it("uses j=1000 for fish with more than 370 base XP", () => {
+  it("uses j=1000 for fish with more than 330 base XP", () => {
     const ms = getAgingTimeMs(1000);
     const hours = ms / (60 * 60 * 1000);
     expect(hours).toBeCloseTo(9.0);
