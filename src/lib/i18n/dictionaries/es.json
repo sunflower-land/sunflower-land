@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Restablecer desde el editor actual",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON no válido. Corrija la sintaxis e inténtelo de nuevo.",
   "playerEconomyEditor.jsonTab.copyFailed": "No se pudo copiar al portapapeles.",
-  "compost.turbofruitMix": "Turbofruit Mix reduce el tiempo de crecimiento de los huertos frutales en un 20%.",
   "description.salt": "Se utiliza para envejecer y fermentar recursos",
   "description.pickled.radish": "Rábano crujiente, encurtido a la perfección. Se utiliza como ingrediente para recetas de fermentación.",
   "description.pickled.zucchini": "Calabacín en rodajas con un toque picante y salado. Se utiliza como ingrediente para recetas de fermentación.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Combina varios ingredientes para crear especias para tus recetas",
   "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja",
   "equip.eyes": "Ojos",
-  "equip.mouth": "Boca"
+  "equip.mouth": "Boca",
+  "compost.turbofruitMix": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,1 y reduce el tiempo de crecimiento de los huertos en un 20%."
 }

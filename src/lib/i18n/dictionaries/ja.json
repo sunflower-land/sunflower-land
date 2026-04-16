@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "現在のエディターからリセット",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON が無効です。構文を修正してやり直してください。",
   "playerEconomyEditor.jsonTab.copyFailed": "クリップボードにコピーできませんでした。",
-  "compost.turbofruitMix": "ターボフルーツミックスはフルーツパッチの成長時間を20％短縮します。",
   "description.salt": "資源の熟成や発酵に使用",
   "description.pickled.radish": "カリッとした大根、ピリッとピリッとしたピリッとしたピリッとしたピリッとしたピクルス。発酵レシピの材料として使用されます。",
   "description.pickled.zucchini": "スライスしたズッキーニで、塩味の効いたシャープな食感。発酵レシピの材料として使用されます。",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "さまざまな材料を組み合わせて、レシピ用のスパイスを作りましょう",
   "description.poseidonsThrone.boost": "農場の助け1つにつき、雑草と糞+1",
   "equip.eyes": "目",
-  "equip.mouth": "口"
+  "equip.mouth": "口",
+  "compost.turbofruitMix": "ターボフルーツミックスはフルーツパッチの収穫量を+0.1増やし、フルーツパッチの成長時間を20％短縮します。"
 }

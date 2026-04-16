@@ -8564,7 +8564,6 @@
   "skill.ager.debuff": "2х затраты в сарае выдержки (ингредиенты, рыба и соль)",
   "compost.sproutrootSurprise": "Ростковый сюрприз увеличивает урожай с грядок на +0.2 и сокращает время роста культур на грядках на 50%",
   "compost.sproutrootSurpriseBoosted": "Ростковый сюрприз увеличивает урожай с грядок на +0.4 и сокращает время роста культур на грядках на 50%",
-  "compost.turbofruitMix": "Турбофруктовая смесь сокращает время роста фруктовых грядок на 20%",
   "compost.greenhouseGlow": "Тепличное сияние сокращает время роста культур в теплице на 20% (включая оставшееся время, если применить в процессе роста).",
   "compost.greenhouseGoodie": "Тепличный гостинец увеличивает урожай тепличных культур на +0.2.",
   "guide.compost.fruitGrowthTime": "-20% времени роста фруктовых грядок",
@@ -8701,5 +8700,6 @@
   "playerEconomyEditor.error.slugInvalid": "Используй 1-63 символа: только строчные буквы, цифры и дефисы; не может начинаться или заканчиваться дефисом.",
   "playerEconomyEditor.tab.json": "JSON",
   "equip.eyes": "Глаза",
-  "equip.mouth": "Рот"
+  "equip.mouth": "Рот",
+  "compost.turbofruitMix": "Turbofruit Mix increases your fruit patch yield by +0.1 and reduces fruit patch growth time by 20%."
 }

@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Reimposta dall'editor corrente",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON non valido. Correggi la sintassi e riprova.",
   "playerEconomyEditor.jsonTab.copyFailed": "Impossibile copiare negli appunti.",
-  "compost.turbofruitMix": "Turbofruit Mix riduce il tempo di crescita degli appezzamenti di frutta del 20%.",
   "description.salt": "Utilizzato per invecchiare e fermentare le risorse",
   "description.pickled.radish": "Ravanello croccante, marinato alla perfezione. Usato come ingrediente per ricette di fermentazione.",
   "description.pickled.zucchini": "Zucchine a fette con un morso acuto e salato. Utilizzato come ingrediente per ricette di fermentazione.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Combina vari ingredienti per creare spezie per le tue ricette",
   "description.poseidonsThrone.boost": "+1 erbaccia e sterco per ogni aiuto alla fattoria",
   "equip.eyes": "Occhi",
-  "equip.mouth": "Bocca"
+  "equip.mouth": "Bocca",
+  "compost.turbofruitMix": "Turbofruit Mix aumenta la resa dell'orto di +0,1 e riduce il tempo di crescita dell'orto del 20%."
 }

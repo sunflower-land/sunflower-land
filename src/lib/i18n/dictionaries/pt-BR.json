@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Redefinir a partir do editor atual",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON inválido. Corrija a sintaxe e tente novamente.",
   "playerEconomyEditor.jsonTab.copyFailed": "Não foi possível copiar para a área de transferência.",
-  "compost.turbofruitMix": "O Turbofruit Mix reduz o tempo de crescimento do canteiro de frutas em 20%.",
   "description.salt": "Usado para envelhecer e fermentar recursos",
   "description.pickled.radish": "Rabanete crocante, em conserva com perfeição. Usado como ingrediente para receitas de fermentação.",
   "description.pickled.zucchini": "Abobrinha fatiada com um toque forte e salgado. Usado como ingrediente para receitas de fermentação.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Combine vários ingredientes para criar tempero para suas receitas",
   "description.poseidonsThrone.boost": "+1 Weed & Dung por ajuda na fazenda",
   "equip.eyes": "Olhos",
-  "equip.mouth": "Boca"
+  "equip.mouth": "Boca",
+  "compost.turbofruitMix": "O Turbofruit Mix aumenta o rendimento do canteiro de frutas em +0,1 e reduz o tempo de crescimento do canteiro de frutas em 20%."
 }

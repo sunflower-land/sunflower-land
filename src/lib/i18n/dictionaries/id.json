@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Setel ulang dari editor saat ini",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON tidak valid. Perbaiki sintaks dan coba lagi.",
   "playerEconomyEditor.jsonTab.copyFailed": "Tidak dapat menyalin ke clipboard.",
-  "compost.turbofruitMix": "Campuran Turbofruit mengurangi waktu pertumbuhan petak buah sebesar 20%.",
   "description.salt": "Digunakan untuk menua dan memfermentasi sumber daya",
   "description.pickled.radish": "Lobak renyah, acar hingga kesempurnaan tajam. Digunakan sebagai bahan untuk resep fermentasi.",
   "description.pickled.zucchini": "Irisan zucchini dengan gigitan tajam dan asin. Digunakan sebagai bahan untuk resep fermentasi.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Gabungkan berbagai bahan untuk membuat bumbu untuk resep Anda",
   "description.poseidonsThrone.boost": "+1 Gulma & Kotoran per bantuan pertanian",
   "equip.eyes": "Mata",
-  "equip.mouth": "Mulut"
+  "equip.mouth": "Mulut",
+  "compost.turbofruitMix": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,1 dan mengurangi waktu pertumbuhan petak buah sebesar 20%."
 }

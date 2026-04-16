@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "从当前编辑器重置",
   "playerEconomyEditor.jsonTab.invalidJson": "无效的 JSON。修复语法，然后重试。",
   "playerEconomyEditor.jsonTab.copyFailed": "无法复制到剪贴板。",
-  "compost.turbofruitMix": "Turbofruit Mix 可将水果地的生长时间缩短20％",
   "description.salt": "用于老化和发酵资源",
   "description.pickled.radish": "脆萝卜，腌制至完美无缺。用作发酵配方的原料。",
   "description.pickled.zucchini": "切成薄片的西葫芦，带有锋利的咸味。用作发酵配方的原料。",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "混合各种食材，为您的食谱制作香料",
   "description.poseidonsThrone.boost": "每个农场帮助 +1 大麻和粪便",
   "equip.eyes": "眼睛",
-  "equip.mouth": "嘴巴"
+  "equip.mouth": "嘴巴",
+  "compost.turbofruitMix": "Turbofruit Mix 可将您的水果地产量提高 +0.1，并将水果地的生长时间缩短 20%。"
 }

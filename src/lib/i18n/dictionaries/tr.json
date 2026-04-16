@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Geçerli düzenleyiciden sıfırla",
   "playerEconomyEditor.jsonTab.invalidJson": "Geçersiz JSON. Sözdizimini düzeltin ve tekrar deneyin.",
   "playerEconomyEditor.jsonTab.copyFailed": "Panoya kopyalanamadı.",
-  "compost.turbofruitMix": "Turbofruit Mix, meyve yaması büyüme süresini %20 azaltır.",
   "description.salt": "Kaynakları yaşlandırmak ve fermente etmek için kullanılır",
   "description.pickled.radish": "Gevrek turp, keskin bir mükemmelliğe kadar turşu. Fermantasyon tarifleri için bileşen olarak kullanılır.",
   "description.pickled.zucchini": "Keskin, tuzlu bir ısırıkla dilimlenmiş kabak. Fermantasyon tarifleri için bileşen olarak kullanılır.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Tarifleriniz için baharat oluşturmak için çeşitli malzemeleri birleştirin",
   "description.poseidonsThrone.boost": "Çiftlik yardımı başına +1 Ot ve Gübre",
   "equip.eyes": "Gözler",
-  "equip.mouth": "Ağız"
+  "equip.mouth": "Ağız",
+  "compost.turbofruitMix": "Turbofruit Mix, meyve yaması veriminizi +0.1 artırır ve meyve yaması büyüme süresini %20 azaltır."
 }

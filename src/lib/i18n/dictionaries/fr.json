@@ -8681,7 +8681,6 @@
   "playerEconomyEditor.jsonTab.resetDraft": "Réinitialiser à partir de l'éditeur actuel",
   "playerEconomyEditor.jsonTab.invalidJson": "JSON non valide. Corrigez la syntaxe et réessayez.",
   "playerEconomyEditor.jsonTab.copyFailed": "Impossible de copier dans le presse-papiers.",
-  "compost.turbofruitMix": "Turbofruit Mix réduit le temps de croissance des parcelles fruitières de 20 %.",
   "description.salt": "Utilisé pour faire vieillir et fermenter les ressources",
   "description.pickled.radish": "Radis croustillant, mariné à la perfection. Utilisé comme ingrédient pour les recettes de fermentation.",
   "description.pickled.zucchini": "Courgettes tranchées avec une morsure saumâtre et piquante. Utilisé comme ingrédient pour les recettes de fermentation.",
@@ -8701,5 +8700,6 @@
   "agingShed.spice.description": "Combinez différents ingrédients pour créer des épices pour vos recettes",
   "description.poseidonsThrone.boost": "+1 Weed & Dung par aide à la ferme",
   "equip.eyes": "Yeux",
-  "equip.mouth": "Bouche"
+  "equip.mouth": "Bouche",
+  "compost.turbofruitMix": "Turbofruit Mix augmente le rendement de vos parcelles de fruits de +0,1 % et réduit le temps de croissance de celles-ci de 20 %."
 }
