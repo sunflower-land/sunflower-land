@@ -132,20 +132,6 @@ function rowToDefinition(
     }
   }
 
-  const requireBelow = row.requireBelow.reduce(
-    (map, t) => {
-      const tok = norm(t.token);
-      if (!tok) return map;
-      map[tok] = Math.max(0, t.amount || 0);
-      return map;
-    },
-    {} as Record<string, number>,
-  );
-  if (Object.keys(requireBelow).length) def.requireBelow = requireBelow;
-
-  const requireAbsent = row.requireAbsent.map((s) => norm(s)).filter(Boolean);
-  if (requireAbsent.length) def.requireAbsent = requireAbsent;
-
   if (row.actionType === "custom") {
     const customBurn = row.customBurn.reduce(
       (map, r) => {
@@ -284,9 +270,9 @@ function rowToDefinition(
     def.showInShop = false;
   }
 
-  const shopLim = Math.max(0, Math.floor(row.shopPurchaseLimit ?? 0));
-  if (row.actionType === "shop" && shopLim > 0) {
-    def.purchaseLimit = shopLim;
+  const maxCalls = Math.max(0, Math.floor(row.customMaxCalls ?? 0));
+  if (maxCalls > 0) {
+    def.maxCalls = maxCalls;
   }
 
   def.type = row.actionType === "produce" ? "generator" : row.actionType;
@@ -378,6 +364,10 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
         ...(item.tradeable ? { tradeable: true } : {}),
         ...(item.trophy ? { trophy: true } : {}),
         ...(init > 0 ? { initialBalance: Math.max(0, Math.floor(init)) } : {}),
+        ...(item.max > 0 ? { max: Math.max(0, Math.floor(item.max)) } : {}),
+        ...(item.globalSupplyCap > 0
+          ? { supply: Math.max(1, Math.floor(item.globalSupplyCap)) }
+          : {}),
       };
       return acc;
     },

@@ -213,6 +213,8 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             tradeable: false,
             trophy: false,
             initialBalance: 0,
+            max: 0,
+            globalSupplyCap: 0,
           },
         ],
       };

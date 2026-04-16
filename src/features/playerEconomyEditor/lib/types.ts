@@ -82,6 +82,12 @@ export type ItemForm = {
   trophy: boolean;
   /** Starting balance for new farms (`items[token].initialBalance` in saved config). */
   initialBalance: number;
+  /** Max units of this token a single farm can own. 0 = unlimited. */
+  max: number;
+  /**
+   * Global cap across all farms (saved as `supply` on the balance item). 0 = unlimited.
+   */
+  globalSupplyCap: number;
   /** True while PUT to S3 / presign is in flight (editor-only, not persisted). */
   imageUploading?: boolean;
   uploadError?: string;
@@ -107,8 +113,6 @@ export type ActionForm = {
   mint: MintRuleForm[];
   burn: TokenAmount[];
   require: TokenAmount[];
-  requireBelow: TokenAmount[];
-  requireAbsent: string[];
   produce: ProduceRuleForm[];
   collect: CollectRuleForm[];
   /**
@@ -121,10 +125,6 @@ export type ActionForm = {
    * Shop: when false, hidden from derived in-game shop (loaded from `showInShop`; no editor toggle).
    */
   showInShop: boolean;
-  /**
-   * Shop: max lifetime purchases per farm (persisted as `purchaseLimit` on the action). 0 = unlimited.
-   */
-  shopPurchaseLimit: number;
   /** Custom rule only — advanced mint rows. */
   customMint: CustomMintRowForm[];
   customBurn: CustomBurnRowForm[];
@@ -134,6 +134,8 @@ export type ActionForm = {
   customMintDropChances?: boolean;
   /** Custom: cooldown in seconds after each successful use (0 = off). Saved as `cooldownSeconds`. */
   customCooldownSeconds?: number;
+  /** Custom: max lifetime invocations per farm (0 = unlimited). Saved as `maxCalls`. */
+  customMaxCalls?: number;
   /**
    * Custom: Requires row inputs enabled in the editor (not persisted; derived on load from saved `require`).
    */

@@ -14,6 +14,8 @@ import type { ItemForm } from "../lib/types";
 import { FieldRow } from "./FieldRow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+const DARK_LABEL = "text-[#3e2731]";
+
 export const ItemCard: React.FC<{
   item: ItemForm;
   index: number;
@@ -145,6 +147,101 @@ export const ItemCard: React.FC<{
       </FieldRow>
       <p className="text-[10px] opacity-60 -mt-1 ml-1">
         {t("playerEconomyEditor.itemCard.initialBalanceHelp")}
+      </p>
+
+      {/* Max owned toggle + input */}
+      <div className="flex w-full flex-wrap items-center gap-x-2 gap-y-2">
+        <div className="flex items-center gap-x-2 shrink-0">
+          <button
+            type="button"
+            className="shrink-0 flex items-center"
+            onClick={() => {
+              if ((item.max ?? 0) > 0) {
+                onUpdate({ max: 0 });
+              } else {
+                onUpdate({ max: 1 });
+              }
+            }}
+            aria-pressed={(item.max ?? 0) > 0}
+          >
+            <img
+              src={
+                (item.max ?? 0) > 0
+                  ? SUNNYSIDE.ui.turn_off
+                  : SUNNYSIDE.ui.turn_on
+              }
+              alt=""
+              className="w-16"
+              style={{ imageRendering: "pixelated" }}
+            />
+          </button>
+          <span className={`text-xs shrink-0 min-w-[5.5rem] ${DARK_LABEL}`}>
+            {"Max owned"}
+          </span>
+        </div>
+        <div className="min-w-0 flex-1 flex justify-end">
+          <div className="w-full min-w-[120px] max-w-[220px]">
+            <NumberInput
+              value={new Decimal(item.max ?? 0)}
+              maxDecimalPlaces={0}
+              readOnly={(item.max ?? 0) <= 0}
+              onValueChange={(v) =>
+                onUpdate({
+                  max: Math.max(0, Math.floor(v.toNumber())),
+                })
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Global supply cap (economy-wide) */}
+      <div className="flex w-full flex-wrap items-center gap-x-2 gap-y-2">
+        <div className="flex items-center gap-x-2 shrink-0">
+          <button
+            type="button"
+            className="shrink-0 flex items-center"
+            onClick={() => {
+              if ((item.globalSupplyCap ?? 0) > 0) {
+                onUpdate({ globalSupplyCap: 0 });
+              } else {
+                onUpdate({ globalSupplyCap: 1 });
+              }
+            }}
+            aria-pressed={(item.globalSupplyCap ?? 0) > 0}
+          >
+            <img
+              src={
+                (item.globalSupplyCap ?? 0) > 0
+                  ? SUNNYSIDE.ui.turn_off
+                  : SUNNYSIDE.ui.turn_on
+              }
+              alt=""
+              className="w-16"
+              style={{ imageRendering: "pixelated" }}
+            />
+          </button>
+          <span className={`text-xs shrink-0 min-w-[5.5rem] ${DARK_LABEL}`}>
+            {t("playerEconomyEditor.itemCard.globalSupplyCap")}
+          </span>
+        </div>
+        <div className="min-w-0 flex-1 flex justify-end">
+          <div className="w-full min-w-[120px] max-w-[220px]">
+            <NumberInput
+              value={new Decimal(item.globalSupplyCap ?? 0)}
+              maxDecimalPlaces={0}
+              readOnly={(item.globalSupplyCap ?? 0) <= 0}
+              onValueChange={(v) =>
+                onUpdate({
+                  globalSupplyCap: Math.max(0, Math.floor(v.toNumber())),
+                })
+              }
+            />
+          </div>
+        </div>
+      </div>
+      <p className="text-[10px] opacity-60 -mt-1 ml-1">
+        {t("playerEconomyEditor.itemCard.globalSupplyCapHelp")}
       </p>
 
       {/* Is Tradeable? toggle */}

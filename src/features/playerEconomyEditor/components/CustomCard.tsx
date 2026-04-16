@@ -74,6 +74,7 @@ export const CustomCard: React.FC<{
   const requiresPanelOn = action.customRequiresUiEnabled === true;
   const waitEnabled = (produceRule.msToComplete ?? 0) > 0;
   const cooldownEnabled = (action.customCooldownSeconds ?? 0) > 0;
+  const maxCallsEnabled = (action.customMaxCalls ?? 0) > 0;
 
   useLayoutEffect(() => {
     const p0 = action.produce[0];
@@ -235,6 +236,49 @@ export const CustomCard: React.FC<{
                       0,
                       Math.floor(v.toNumber()),
                     ),
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex w-full flex-wrap items-center gap-x-2 gap-y-2">
+          <div className="flex items-center gap-x-2 shrink-0">
+            <button
+              type="button"
+              className="shrink-0 flex items-center"
+              onClick={() => {
+                if (maxCallsEnabled) {
+                  onUpdate({ customMaxCalls: 0 });
+                } else {
+                  onUpdate({ customMaxCalls: 1 });
+                }
+              }}
+              aria-pressed={maxCallsEnabled}
+            >
+              <img
+                src={
+                  maxCallsEnabled ? SUNNYSIDE.ui.turn_off : SUNNYSIDE.ui.turn_on
+                }
+                alt=""
+                className="w-16"
+                style={{ imageRendering: "pixelated" }}
+              />
+            </button>
+            <span className={`text-xs shrink-0 min-w-[10rem] ${DARK_LABEL}`}>
+              {t("playerEconomyEditor.custom.maxCallsRow")}
+            </span>
+          </div>
+          <div className="min-w-0 flex-1 flex justify-end">
+            <div className="w-full min-w-[120px] max-w-[220px]">
+              <NumberInput
+                value={new Decimal(action.customMaxCalls ?? 0)}
+                maxDecimalPlaces={0}
+                readOnly={!maxCallsEnabled}
+                onValueChange={(v) =>
+                  onUpdate({
+                    customMaxCalls: Math.max(0, Math.floor(v.toNumber())),
                   })
                 }
               />

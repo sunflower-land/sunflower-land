@@ -3,6 +3,17 @@ import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
 import type { PlayerEconomyConfig } from "./types";
 
+export function normalizeEconomySupplies(raw: unknown): Record<string, number> {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof v === "number" && Number.isFinite(v)) {
+      out[k] = Math.floor(v);
+    }
+  }
+  return out;
+}
+
 export type MinigameSessionApiPayload = {
   farm: { balance: string; bumpkin: unknown };
   playerEconomy: {
@@ -14,8 +25,7 @@ export type MinigameSessionApiPayload = {
     /** Present on current API; omitted on older deployments until upgraded. */
     dailyActivity?: { date: string; count: number };
     dailyMinted?: { utcDay: string; minted: Record<string, number> };
-    rules?: Record<string, { ranAt: number }>;
-    purchaseCounts?: Record<string, number>;
+    rules?: Record<string, { ranAt: number; count?: number }>;
     /** Best score persisted for this farm + economy (player minigame session). */
     highscore?: number;
   };
@@ -33,6 +43,8 @@ export type MinigameSessionApiPayload = {
     productionCollectByStartId?: Record<string, string>;
     visualTheme?: string;
   };
+  /** Global per-token totals (`economy_supplies`); optional on older API. */
+  supplies?: Record<string, number>;
 };
 
 /** Merges top-level `items` with optional `playerEconomy.items` mirror from the API. */
