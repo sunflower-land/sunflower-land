@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { getAgingSaltCost, getFishBaseXP } from "features/game/types/aging";
-import { getAgingTimeMs } from "features/game/types/agingFormulas";
+import {
+  getAgingTimeMs,
+  getBoostedAgingTimeMs,
+} from "features/game/types/agingFormulas";
 import { startAging } from "./startAging";
 import {
   createFermentationTestState,
@@ -132,7 +135,7 @@ describe("startAging", () => {
     expect(state.inventory.Salt?.toNumber()).toBe(95);
   });
 
-  it("deducts correct salt for Sea Bass (5)", () => {
+  it("deducts correct salt for Sea Bass", () => {
     const state = startAging({
       state: createFermentationTestState({
         inventory: { "Sea Bass": new Decimal(1), Salt: new Decimal(100) },
@@ -146,7 +149,7 @@ describe("startAging", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toBe(95);
+    expect(state.inventory.Salt?.toNumber()).toBe(91);
   });
 
   it("pushes slot with correct readyAt for Anchovy", () => {
@@ -224,11 +227,12 @@ describe("startAging", () => {
     expect(slot.readyAt).toBe(createdAt + baseTime * 0.9);
   });
 
-  it("ages Tuna in half the time of other fish at the same base XP", () => {
+  it("sets readyAt from boosted aging time for Tuna without skills", () => {
+    const baseState = createFermentationTestState({
+      inventory: { Tuna: new Decimal(1), Salt: new Decimal(100) },
+    });
     const state = startAging({
-      state: createFermentationTestState({
-        inventory: { Tuna: new Decimal(1), Salt: new Decimal(100) },
-      }),
+      state: baseState,
       action: {
         type: "agingRack.started",
         fish: "Tuna",
@@ -240,7 +244,9 @@ describe("startAging", () => {
 
     const baseXP = getFishBaseXP("Tuna");
     const slot = state.agingShed.racks.aging[0];
-    expect(slot.readyAt).toBe(createdAt + getAgingTimeMs(baseXP) * 0.5);
+    expect(slot.readyAt).toBe(
+      createdAt + getBoostedAgingTimeMs(baseXP, baseState),
+    );
   });
 
   it("applies Ager skill to double salt and fish cost", () => {
