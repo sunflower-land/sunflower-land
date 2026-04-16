@@ -29,9 +29,9 @@ import { secondsToString } from "lib/utils/time";
 import { getObjectEntries } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Consumable, CONSUMABLES, FISH } from "features/game/types/consumables";
-import classNames from "classnames";
-import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import classNames from "classnames";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
