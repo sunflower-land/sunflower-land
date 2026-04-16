@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Active Buffs",
   "saltSculpture.nextLevel": "Next Level",
   "saltSculpture.maxLevel": "Max level reached",
-  "saltSculpture.upgrade": "Upgrade to Level {{level}}"
+  "saltSculpture.upgrade": "Upgrade to Level {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Max calls",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Global supply",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optional cap on how many of this token can exist across all farms (shop mints).",
+  "minigame.dashboard.supplyLeft": "{{count}} left",
+  "minigame.dashboard.supplySoldOut": "Global supply is sold out."
 }

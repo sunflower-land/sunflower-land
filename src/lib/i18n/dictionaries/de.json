@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Aktive Buffs",
   "saltSculpture.nextLevel": "Nächstes Level",
   "saltSculpture.maxLevel": "Maximales Level erreicht",
-  "saltSculpture.upgrade": "Auf Level {{level}} hochstufen"
+  "saltSculpture.upgrade": "Auf Level {{level}} hochstufen",
+  "playerEconomyEditor.custom.maxCallsRow": "Max. Anrufe",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Weltweites Angebot",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optionale Obergrenze dafür, wie viele dieser Tokens in allen Farmen (Shop Mints) existieren können.",
+  "minigame.dashboard.supplyLeft": "{{count}} übrig",
+  "minigame.dashboard.supplySoldOut": "Das weltweite Angebot ist ausverkauft."
 }

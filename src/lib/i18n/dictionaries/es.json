@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Buffs activos",
   "saltSculpture.nextLevel": "Siguiente nivel",
   "saltSculpture.maxLevel": "Nivel máximo alcanzado",
-  "saltSculpture.upgrade": "Mejora al nivel {{level}}"
+  "saltSculpture.upgrade": "Mejora al nivel {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Número máximo de llamadas",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Suministro global",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Límite opcional del número de fichas de este tipo que pueden existir en todas las granjas (casas de moneda).",
+  "minigame.dashboard.supplyLeft": "{{count}} izquierda",
+  "minigame.dashboard.supplySoldOut": "El suministro mundial está agotado."
 }

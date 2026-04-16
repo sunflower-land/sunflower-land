@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Buff attivi",
   "saltSculpture.nextLevel": "Livello successivo",
   "saltSculpture.maxLevel": "Livello massimo raggiunto",
-  "saltSculpture.upgrade": "Passa al livello {{level}}"
+  "saltSculpture.upgrade": "Passa al livello {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Numero massimo di chiamate",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Fornitura globale",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limite opzionale al numero massimo di questi token che possono esistere in tutte le fattorie (shop mints).",
+  "minigame.dashboard.supplyLeft": "{{count}} a sinistra",
+  "minigame.dashboard.supplySoldOut": "L'offerta globale è esaurita."
 }

@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "主动增益",
   "saltSculpture.nextLevel": "下一级",
   "saltSculpture.maxLevel": "已达到最大等级",
-  "saltSculpture.upgrade": "升级到等级 {{level}}"
+  "saltSculpture.upgrade": "升级到等级 {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "最大通话次数",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "全球供应",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "可选上限限制所有农场（商店铸币厂）中可以存在的该代币的数量。",
+  "minigame.dashboard.supplyLeft": "{{count}} 向左",
+  "minigame.dashboard.supplySoldOut": "全球供应已售罄。"
 }

@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Buffs actifs",
   "saltSculpture.nextLevel": "Niveau suivant",
   "saltSculpture.maxLevel": "Niveau maximum atteint",
-  "saltSculpture.upgrade": "Passez au niveau {{level}}"
+  "saltSculpture.upgrade": "Passez au niveau {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Nombre maximum d'appels",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Approvisionnement mondial",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limitation facultative du nombre de jetons pouvant exister dans toutes les fermes (atelier de fabrication).",
+  "minigame.dashboard.supplyLeft": "{{count}} gauche",
+  "minigame.dashboard.supplySoldOut": "L'approvisionnement mondial est épuisé."
 }

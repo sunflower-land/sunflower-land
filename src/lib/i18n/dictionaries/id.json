@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Buff Aktif",
   "saltSculpture.nextLevel": "Tingkat Berikutnya",
   "saltSculpture.maxLevel": "Level maksimum tercapai",
-  "saltSculpture.upgrade": "Tingkatkan ke Level {{level}}"
+  "saltSculpture.upgrade": "Tingkatkan ke Level {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Panggilan maksimum",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Pasokan global",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Batasan opsional pada berapa banyak token ini yang dapat ada di semua peternakan (toko permen).",
+  "minigame.dashboard.supplyLeft": "{{count}} tersisa",
+  "minigame.dashboard.supplySoldOut": "Pasokan global terjual habis."
 }

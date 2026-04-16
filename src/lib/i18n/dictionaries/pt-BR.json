@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "Buffs ativos",
   "saltSculpture.nextLevel": "Próximo nível",
   "saltSculpture.maxLevel": "Nível máximo atingido",
-  "saltSculpture.upgrade": "Atualize para o nível {{level}}"
+  "saltSculpture.upgrade": "Atualize para o nível {{level}}",
+  "playerEconomyEditor.custom.maxCallsRow": "Número máximo de chamadas",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "Fornecimento global",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limite opcional de quantos desses tokens podem existir em todas as fazendas (lojas de balas).",
+  "minigame.dashboard.supplyLeft": "{{count}} à esquerda",
+  "minigame.dashboard.supplySoldOut": "O fornecimento global está esgotado."
 }

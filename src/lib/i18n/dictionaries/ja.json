@@ -8714,5 +8714,10 @@
   "saltSculpture.activeBuffs": "アクティブバフ",
   "saltSculpture.nextLevel": "次のレベル",
   "saltSculpture.maxLevel": "最大レベルに達しました",
-  "saltSculpture.upgrade": "レベル {{level}} にアップグレード"
+  "saltSculpture.upgrade": "レベル {{level}} にアップグレード",
+  "playerEconomyEditor.custom.maxCallsRow": "最大コール数",
+  "playerEconomyEditor.itemCard.globalSupplyCap": "グローバルサプライ",
+  "playerEconomyEditor.itemCard.globalSupplyCapHelp": "すべてのファーム（ショップミント）に存在できるトークンの数の上限（オプション）。",
+  "minigame.dashboard.supplyLeft": "{{count}} 左",
+  "minigame.dashboard.supplySoldOut": "グローバルサプライは完売しました。"
 }
