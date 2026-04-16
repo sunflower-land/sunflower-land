@@ -6,7 +6,7 @@ import type { PlayerEconomyConfig } from "../lib/types";
 import { getMinigameTokenImage } from "../lib/minigameTokenIcons";
 import { tokenDisplayName } from "../lib/minigameConfigHelpers";
 import { canAffordShopPriceLine } from "../lib/canAffordShopItem";
-import { isShopItemPurchaseLimitedOut } from "../lib/minigameShopAvailability";
+import { isShopItemMaxCallsReached } from "../lib/minigameShopAvailability";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -26,7 +26,9 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
   shopActionError,
 }) => {
   const { t } = useAppTranslation();
-  const purchaseCapped = isShopItemPurchaseLimitedOut(item);
+  const purchaseCapped = isShopItemMaxCallsReached(item);
+  const supplyBlocked = item.supplyBlocked === true;
+  const actionBlocked = purchaseCapped || supplyBlocked;
   return (
     <>
       <div
@@ -49,7 +51,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
         <div className="flex flex-col gap-1">
           {item.prices.map((line) => {
             const lineOk =
-              purchaseCapped || canAffordShopPriceLine(balances, line);
+              actionBlocked || canAffordShopPriceLine(balances, line);
             return (
               <div
                 key={line.token}
@@ -58,7 +60,7 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
                 <span
                   className={classNames(
                     "tabular-nums font-medium",
-                    !lineOk && "text-red-700",
+                    !actionBlocked && !lineOk && "text-red-700",
                   )}
                 >
                   {new Decimal(line.amount).toString()}{" "}
@@ -78,9 +80,21 @@ export const MinigameShopDetailBody: React.FC<Props> = ({
           })}
         </div>
       </div>
+      {item.supplyRemainingMin !== undefined && (
+        <p className="mb-2 text-xs text-[#3e2731]">
+          {t("minigame.dashboard.supplyLeft", {
+            count: item.supplyRemainingMin,
+          })}
+        </p>
+      )}
       {purchaseCapped && (
         <p className="mb-2 text-xs text-[#3e2731]">
           {t("minigame.dashboard.shopAlreadyPurchased")}
+        </p>
+      )}
+      {supplyBlocked && (
+        <p className="mb-2 text-xs text-[#3e2731]">
+          {t("minigame.dashboard.supplySoldOut")}
         </p>
       )}
       {shopActionError && (

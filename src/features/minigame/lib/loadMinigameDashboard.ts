@@ -7,6 +7,7 @@ import { getLocalMinigameDashboardMock } from "./localMinigameDashboardMock";
 import type { FetchMinigameResult } from "./minigameDashboardTypes";
 import {
   getMinigameSession,
+  normalizeEconomySupplies,
   resolvePlayerEconomySessionItems,
   type MinigameSessionApiPayload,
 } from "./minigameSessionApi";
@@ -61,9 +62,6 @@ export async function loadMinigameDashboard(
       ...(pe.rules && Object.keys(pe.rules).length > 0
         ? { rules: pe.rules }
         : {}),
-      ...(pe.purchaseCounts != null
-        ? { purchaseCounts: { ...pe.purchaseCounts } }
-        : {}),
       ...(typeof pe.highscore === "number" && Number.isFinite(pe.highscore)
         ? { highscore: pe.highscore }
         : {}),
@@ -91,6 +89,7 @@ export async function loadMinigameDashboard(
         slug as MinigameName,
         config,
         state,
+        normalizeEconomySupplies(raw.supplies),
       ),
     };
   } catch (e) {

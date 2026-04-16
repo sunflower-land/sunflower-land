@@ -2,17 +2,18 @@ import Decimal from "decimal.js-light";
 import type { MinigameShopItemUi } from "./minigameDashboardTypes";
 import { canAffordShopItem } from "./canAffordShopItem";
 
-export function isShopItemPurchaseLimitedOut(
-  item: MinigameShopItemUi,
-): boolean {
-  const cap = item.purchaseLimit;
+export function isShopItemMaxCallsReached(item: MinigameShopItemUi): boolean {
+  const cap = item.maxCalls;
   if (cap === undefined || cap <= 0) return false;
-  return (item.purchasesSoFar ?? 0) >= cap;
+  return (item.callsSoFar ?? 0) >= cap;
 }
 
-/** Row is locked (checkmark) only when the rule has a purchase limit and it is exhausted. */
+/**
+ * Row is “purchased” (checkmark, non-clickable) when per-farm max calls are exhausted.
+ * Global supply exhaustion still allows opening the detail view so the sold-out message is visible.
+ */
 export function isShopItemBoughtOrDisabled(item: MinigameShopItemUi): boolean {
-  return isShopItemPurchaseLimitedOut(item);
+  return isShopItemMaxCallsReached(item);
 }
 
 export function canAttemptShopPurchase(
@@ -20,7 +21,9 @@ export function canAttemptShopPurchase(
   balances: Record<string, number>,
 ): boolean {
   return (
-    canAffordShopItem(item, balances) && !isShopItemPurchaseLimitedOut(item)
+    canAffordShopItem(item, balances) &&
+    !isShopItemMaxCallsReached(item) &&
+    item.supplyBlocked !== true
   );
 }
 

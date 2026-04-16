@@ -10,7 +10,8 @@ import {
   canAffordShopItem,
   canAffordShopPriceLine,
 } from "../lib/canAffordShopItem";
-import { isShopItemBoughtOrDisabled } from "../lib/minigameShopAvailability";
+import { isShopItemMaxCallsReached } from "../lib/minigameShopAvailability";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   items: MinigameShopItemUi[];
@@ -30,6 +31,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
   onItemClick,
   className,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className={
@@ -38,16 +40,17 @@ export const MinigameShopListBody: React.FC<Props> = ({
       }
     >
       {items.map((item) => {
-        const boughtOrCapped = isShopItemBoughtOrDisabled(item);
+        const maxCallsReached = isShopItemMaxCallsReached(item);
+        const supplyBlocked = item.supplyBlocked === true;
         const canAfford = canAffordShopItem(item, balances);
         return (
           <ButtonPanel
             key={item.id}
             className="flex min-h-[3.5rem] flex-row items-center gap-2 py-1.5 text-left"
             selected={item.id === highlightedId}
-            disabled={boughtOrCapped}
+            disabled={maxCallsReached}
             onClick={() => {
-              if (boughtOrCapped) return;
+              if (maxCallsReached) return;
               onItemClick(item);
             }}
           >
@@ -70,12 +73,15 @@ export const MinigameShopListBody: React.FC<Props> = ({
               <div
                 className={classNames(
                   "mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs leading-normal",
-                  !boughtOrCapped && !canAfford && "font-medium",
+                  !maxCallsReached &&
+                    !supplyBlocked &&
+                    !canAfford &&
+                    "font-medium",
                 )}
               >
                 {item.prices.map((line, idx) => {
                   const lineOk =
-                    boughtOrCapped || canAffordShopPriceLine(balances, line);
+                    maxCallsReached || canAffordShopPriceLine(balances, line);
                   return (
                     <React.Fragment key={`${item.id}-${line.token}-${idx}`}>
                       {idx > 0 ? (
@@ -85,7 +91,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
                       ) : null}
                       <span
                         className={classNames(
-                          !boughtOrCapped && !lineOk && "text-red-700",
+                          !maxCallsReached && !lineOk && "text-red-700",
                         )}
                       >
                         {new Decimal(line.amount).toString()}
@@ -103,8 +109,15 @@ export const MinigameShopListBody: React.FC<Props> = ({
                   );
                 })}
               </div>
+              {item.supplyRemainingMin !== undefined && (
+                <div className="mt-0.5 text-[10px] leading-tight opacity-80">
+                  {t("minigame.dashboard.supplyLeft", {
+                    count: item.supplyRemainingMin,
+                  })}
+                </div>
+              )}
             </div>
-            {boughtOrCapped && (
+            {maxCallsReached && (
               <img
                 src={SUNNYSIDE.icons.confirm}
                 alt=""

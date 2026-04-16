@@ -27,6 +27,10 @@ import {
   isGeneratorBalanceItem,
   migrateLegacyPlayerEconomyConfigFields,
 } from "./minigameConfigMigration";
+import {
+  isShopActionGloballySupplyBlocked,
+  minSupplyRemainingForShopAction,
+} from "./minigameShopSupply";
 
 /**
  * When the persisted minigame has no balance entry for a token yet, use
@@ -274,6 +278,7 @@ export function deriveFlowerPurchaseItemsFromConfig(
 export function deriveShopItemsFromConfig(
   config: PlayerEconomyConfig,
   tokenImages: Record<string, string>,
+  supplies: Record<string, number> = {},
 ): MinigameShopItemUi[] {
   const out: MinigameShopItemUi[] = [];
 
@@ -317,12 +322,23 @@ export function deriveShopItemsFromConfig(
     const imageToken = mintKey || prices[0]?.token || "";
     const itemForMint = mintKey ? config.items?.[mintKey] : undefined;
 
-    const purchaseLimit =
-      typeof def.purchaseLimit === "number" &&
-      Number.isFinite(def.purchaseLimit) &&
-      def.purchaseLimit > 0
-        ? Math.floor(def.purchaseLimit)
+    const maxCalls =
+      typeof def.maxCalls === "number" &&
+      Number.isFinite(def.maxCalls) &&
+      def.maxCalls > 0
+        ? Math.floor(def.maxCalls)
         : undefined;
+
+    const supplyRemainingMin = minSupplyRemainingForShopAction(
+      config,
+      actionId,
+      supplies,
+    );
+    const supplyBlocked = isShopActionGloballySupplyBlocked(
+      config,
+      actionId,
+      supplies,
+    );
 
     out.push({
       id: actionId,
@@ -331,7 +347,13 @@ export function deriveShopItemsFromConfig(
       description: itemForMint?.description ?? "",
       listImage: resolveTokenImageUrl(imageToken, tokenImages),
       prices,
-      ...(purchaseLimit !== undefined ? { purchaseLimit } : {}),
+      ...(maxCalls !== undefined ? { maxCalls } : {}),
+      ...(supplyRemainingMin !== undefined
+        ? {
+            supplyRemainingMin,
+            ...(supplyBlocked ? { supplyBlocked: true as const } : {}),
+          }
+        : {}),
     });
   }
 
@@ -367,14 +389,13 @@ function inventoryShortcutTokensFromProduction(
   return out.sort((a, b) => a.localeCompare(b));
 }
 
-function enrichShopItemsWithPurchaseProgress(
+function enrichShopItemsWithCallProgress(
   items: MinigameShopItemUi[],
-  purchaseCounts: Record<string, number> | undefined,
+  rules: PlayerEconomyRuntimeState["rules"],
 ): MinigameShopItemUi[] {
-  const c = purchaseCounts ?? {};
   return items.map((item) =>
-    item.purchaseLimit != null && item.purchaseLimit > 0
-      ? { ...item, purchasesSoFar: c[item.actionId] ?? 0 }
+    item.maxCalls != null && item.maxCalls > 0
+      ? { ...item, callsSoFar: rules?.[item.actionId]?.count ?? 0 }
       : item,
   );
 }
@@ -383,7 +404,8 @@ function buildUi(
   config: PlayerEconomyConfig,
   headerBalanceToken: string,
   visualTheme: string | undefined,
-  purchaseCounts: Record<string, number> | undefined,
+  rules: PlayerEconomyRuntimeState["rules"],
+  supplies: Record<string, number>,
 ): MinigameDashboardUi {
   const tokenImages = buildTokenImageMap(config.items);
   return {
@@ -392,9 +414,9 @@ function buildUi(
       config,
       tokenImages,
     ),
-    shopItems: enrichShopItemsWithPurchaseProgress(
-      deriveShopItemsFromConfig(config, tokenImages),
-      purchaseCounts,
+    shopItems: enrichShopItemsWithCallProgress(
+      deriveShopItemsFromConfig(config, tokenImages, supplies),
+      rules,
     ),
     inventoryItems: buildInventoryItems(config),
     inventoryShortcutTokens: inventoryShortcutTokensFromProduction(config),
@@ -408,6 +430,7 @@ export function buildMinigameDashboardData(
   portalName: MinigameName,
   config: PlayerEconomyConfig,
   state: PlayerEconomyRuntimeState,
+  economySupplies: Record<string, number> = {},
 ): MinigameDashboardData {
   const normalized = migrateLegacyPlayerEconomyConfigFields(config);
 
@@ -419,6 +442,7 @@ export function buildMinigameDashboardData(
   const visualTheme = normalized.visualTheme;
 
   const mergedState = mergeRuntimeWithInitialBalances(normalized, state);
+  const supplies = { ...economySupplies };
 
   return {
     slug,
@@ -426,11 +450,13 @@ export function buildMinigameDashboardData(
     displayName,
     config: normalized,
     state: mergedState,
+    economySupplies: supplies,
     ui: buildUi(
       normalized,
       headerBalanceToken,
       visualTheme,
-      mergedState.purchaseCounts,
+      mergedState.rules,
+      supplies,
     ),
     playUrl: normalized.playUrl,
   };

@@ -23,6 +23,7 @@ import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 import { Portal } from "features/world/ui/portals/Portal";
 import { loadMinigameDashboard } from "./lib/loadMinigameDashboard";
 import {
+  normalizeEconomySupplies,
   postEconomyPurchasedEvent,
   postPlayerEconomyActionedEvent,
 } from "./lib/minigameSessionApi";
@@ -37,7 +38,7 @@ import { getMinigameTokenImage } from "./lib/minigameTokenIcons";
 import {
   canAttemptFlowerPurchase,
   canAttemptShopPurchase,
-  isShopItemBoughtOrDisabled,
+  isShopItemMaxCallsReached,
 } from "./lib/minigameShopAvailability";
 import { MinigameShopPanel } from "./components/MinigameShopPanel";
 import { MinigameShopDetailBody } from "./components/MinigameShopDetailBody";
@@ -52,7 +53,11 @@ import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction
 import { hasFeatureAccess } from "lib/flags";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import { MinigameHighscoreWidget } from "./components/MinigameHighscoreWidget";
-import { getPrimaryTradableMarketplaceItem } from "./lib/minigameConfigHelpers";
+import {
+  buildMinigameDashboardData,
+  getPrimaryTradableMarketplaceItem,
+} from "./lib/minigameConfigHelpers";
+import { bumpEconomySuppliesForShopPurchase } from "./lib/minigameShopSupply";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import type { MinigameLoadError } from "./lib/minigameDashboardTypes";
@@ -290,7 +295,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onShopItemClick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    if (isShopItemBoughtOrDisabled(item)) {
+    if (isShopItemMaxCallsReached(item)) {
       return;
     }
     setShopActionError(null);
@@ -309,7 +314,7 @@ export const MinigameDashboard: React.FC = () => {
 
   const onMobileShopListPick = (item: MinigameShopItemUi) => {
     if (!runtime) return;
-    if (isShopItemBoughtOrDisabled(item)) {
+    if (isShopItemMaxCallsReached(item)) {
       return;
     }
     setShopActionError(null);
@@ -348,8 +353,10 @@ export const MinigameDashboard: React.FC = () => {
     if (!prev) return;
     if (!canAttemptShopPurchase(pendingShopItem, prev.balances)) return;
 
+    const shopActionId = pendingShopItem.actionId;
+
     const local = processPlayerEconomyAction(payload.config, prev, {
-      actionId: pendingShopItem.actionId,
+      actionId: shopActionId,
       now: Date.now(),
     });
     if (!local.ok) {
@@ -357,8 +364,26 @@ export const MinigameDashboard: React.FC = () => {
       return;
     }
 
+    const bumpPayloadSupplies = () =>
+      setPayload((p) =>
+        p
+          ? buildMinigameDashboardData(
+              p.slug,
+              p.portalName,
+              p.config,
+              local.state,
+              bumpEconomySuppliesForShopPurchase(
+                p.economySupplies,
+                p.config,
+                shopActionId,
+              ),
+            )
+          : p,
+      );
+
     if (!CONFIG.API_URL) {
       applyRuntime(local.state);
+      bumpPayloadSupplies();
       setShowShopConfirm(false);
       setShowMobileShop(false);
       setMobileShopPhase("list");
@@ -373,9 +398,10 @@ export const MinigameDashboard: React.FC = () => {
     }
 
     const snapshotRuntime = clonePlayerEconomyRuntimeState(prev);
-    const shopActionId = pendingShopItem.actionId;
+    const snapshotSupplies = { ...payload.economySupplies };
 
     applyRuntime(local.state);
+    bumpPayloadSupplies();
     setShowShopConfirm(false);
     setShowMobileShop(false);
     setMobileShopPhase("list");
@@ -385,7 +411,7 @@ export const MinigameDashboard: React.FC = () => {
     void (async () => {
       const remoteSeq = ++minigameRemoteActionSeqRef.current;
       try {
-        await postPlayerEconomyActionedEvent({
+        const data = await postPlayerEconomyActionedEvent({
           farmId,
           userToken,
           portalId: payload.portalName,
@@ -393,10 +419,35 @@ export const MinigameDashboard: React.FC = () => {
         });
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
+        const remote = data.economy?.supplies;
+        if (remote != null && typeof remote === "object") {
+          setPayload((p) =>
+            p
+              ? buildMinigameDashboardData(
+                  p.slug,
+                  p.portalName,
+                  p.config,
+                  runtimeRef.current ?? local.state,
+                  normalizeEconomySupplies(remote),
+                )
+              : p,
+          );
+        }
       } catch (e) {
         if (!dashboardMountedRef.current) return;
         if (remoteSeq !== minigameRemoteActionSeqRef.current) return;
         applyRuntime(snapshotRuntime);
+        setPayload((p) =>
+          p
+            ? buildMinigameDashboardData(
+                p.slug,
+                p.portalName,
+                p.config,
+                snapshotRuntime,
+                snapshotSupplies,
+              )
+            : p,
+        );
         setActionSyncError(
           e instanceof Error ? e.message : t("minigame.dashboard.actionFailed"),
         );
