@@ -5,7 +5,8 @@ import {
   getSpiceRackRecipe,
   getMaxSpiceRackSlots,
   isSpiceRackRecipeName,
-  type SpiceRackRecipeName,
+  isStartableSpiceRackRecipeName,
+  type StartableSpiceRackRecipeName,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
@@ -15,7 +16,7 @@ import { hasFeatureAccess } from "lib/flags";
 
 export type StartSpiceRackAction = {
   type: "spiceRack.started";
-  recipe: SpiceRackRecipeName;
+  recipe: StartableSpiceRackRecipeName;
   /** Client-generated id (same idea as fermentation `jobId`). */
   jobId: string;
 };
@@ -42,6 +43,10 @@ export function startSpiceRack({
 
     if (!isSpiceRackRecipeName(action.recipe)) {
       throw new Error("Invalid spice rack recipe");
+    }
+
+    if (!isStartableSpiceRackRecipeName(action.recipe)) {
+      throw new Error("This spice rack recipe is no longer available.");
     }
 
     const recipeDef = getSpiceRackRecipe(action.recipe);

@@ -5,8 +5,10 @@ import type { GameState, Skills } from "./game";
 import {
   getAgingOutput,
   getAgingSaltCost,
+  getAgingTimeMs,
   getBoostedAgingFishCost,
   getBoostedAgingSaltCost,
+  getBoostedAgingTimeMs,
   getPrimeAgedChance,
   getRefinedSaltChance,
 } from "./agingFormulas";
@@ -147,6 +149,45 @@ describe("getAgingOutput", () => {
         }).toNumber(),
       ).toBe(5);
     });
+  });
+});
+
+describe("getBoostedAgingTimeMs", () => {
+  const baseXP = 500;
+
+  it("matches base aging time with no boosts", () => {
+    const state = stateWithSkills({} as Skills);
+    expect(getBoostedAgingTimeMs(baseXP, state)).toBe(getAgingTimeMs(baseXP));
+  });
+
+  it("applies Speedy Aging as 0.9×", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    expect(
+      getBoostedAgingTimeMs(
+        baseXP,
+        stateWithSkills({ "Speedy Aging": 1 } as Skills),
+      ),
+    ).toBe(baseMs * 0.9);
+  });
+
+  it("applies Salt Sculpture level 5+ as 0.95×", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    const state = {
+      bumpkin: { skills: {} as Skills },
+      sculptures: { "Salt Sculpture": { level: 5 } },
+    } as GameState;
+    expect(getBoostedAgingTimeMs(baseXP, state)).toBe(baseMs * 0.95);
+  });
+
+  it("stacks Speedy Aging and Salt Sculpture discounts", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    const state = {
+      bumpkin: { skills: { "Speedy Aging": 1 } as Skills },
+      sculptures: { "Salt Sculpture": { level: 5 } },
+    } as GameState;
+    expect(getBoostedAgingTimeMs(baseXP, state)).toBeCloseTo(
+      baseMs * 0.9 * 0.95,
+    );
   });
 });
 

@@ -1,6 +1,7 @@
 import {
   getMaxSpiceRackSlots,
   isSpiceRackRecipeName,
+  isStartableSpiceRackRecipeName,
 } from "features/game/types/spiceRack";
 
 describe("isSpiceRackRecipeName", () => {
@@ -11,11 +12,33 @@ describe("isSpiceRackRecipeName", () => {
 
   it("accepts real recipe ids", () => {
     expect(isSpiceRackRecipeName("Refined Salt")).toBe(true);
+    expect(isSpiceRackRecipeName("Honey Treat")).toBe(true);
+  });
+
+  it("accepts legacy recipe ids for resolution", () => {
+    expect(isSpiceRackRecipeName("Spice Base")).toBe(true);
     expect(isSpiceRackRecipeName("Spiced Cheese")).toBe(true);
   });
 
   it("rejects unknown strings", () => {
     expect(isSpiceRackRecipeName("not_a_recipe")).toBe(false);
+  });
+});
+
+describe("isStartableSpiceRackRecipeName", () => {
+  it("accepts startable recipe ids", () => {
+    expect(isStartableSpiceRackRecipeName("Refined Salt")).toBe(true);
+    expect(isStartableSpiceRackRecipeName("Honey Treat")).toBe(true);
+    expect(isStartableSpiceRackRecipeName("Salt Lick")).toBe(true);
+  });
+
+  it("rejects legacy recipe ids", () => {
+    expect(isStartableSpiceRackRecipeName("Spice Base")).toBe(false);
+    expect(isStartableSpiceRackRecipeName("Spiced Cheese")).toBe(false);
+  });
+
+  it("rejects unknown strings", () => {
+    expect(isStartableSpiceRackRecipeName("not_a_recipe")).toBe(false);
   });
 });
 

@@ -6,75 +6,80 @@ import {
 } from "./agingFormulas";
 
 describe("getAgingMaxXP", () => {
-  it("returns 5x for fish below 100 XP", () => {
-    expect(getAgingMaxXP(60)).toBe(300);
-    expect(getAgingMaxXP(70)).toBe(350);
-    expect(getAgingMaxXP(80)).toBe(400);
-    expect(getAgingMaxXP(90)).toBe(450);
-  });
-
-  it("returns 6x for fish with 100-160 XP", () => {
+  it("returns 6× max XP for fish with at most 200 base XP", () => {
+    expect(getAgingMaxXP(60)).toBe(360);
     expect(getAgingMaxXP(100)).toBe(600);
-    expect(getAgingMaxXP(110)).toBe(660);
-    expect(getAgingMaxXP(120)).toBe(720);
-    expect(getAgingMaxXP(130)).toBe(780);
-    expect(getAgingMaxXP(140)).toBe(840);
-    expect(getAgingMaxXP(150)).toBe(900);
-    expect(getAgingMaxXP(160)).toBe(960);
+    expect(getAgingMaxXP(129)).toBe(774);
+    expect(getAgingMaxXP(170)).toBe(1020);
+    expect(getAgingMaxXP(200)).toBe(1200);
   });
 
-  it("returns 10x for fish above 160 XP", () => {
-    expect(getAgingMaxXP(170)).toBe(1700);
-    expect(getAgingMaxXP(200)).toBe(2000);
+  it("returns 8× max XP for fish with 201–330 base XP", () => {
+    expect(getAgingMaxXP(201)).toBe(1608);
+    expect(getAgingMaxXP(270)).toBe(2160);
+    expect(getAgingMaxXP(300)).toBe(2400);
+    expect(getAgingMaxXP(330)).toBe(2640);
+  });
+
+  it("returns 10× max XP for fish with more than 330 base XP", () => {
+    expect(getAgingMaxXP(331)).toBe(3310);
+    expect(getAgingMaxXP(371)).toBe(3710);
     expect(getAgingMaxXP(700)).toBe(7000);
     expect(getAgingMaxXP(1000)).toBe(10000);
   });
 
   it("handles edge cases at tier boundaries", () => {
-    expect(getAgingMaxXP(99)).toBe(495);
-    expect(getAgingMaxXP(100)).toBe(600);
-    expect(getAgingMaxXP(160)).toBe(960);
-    expect(getAgingMaxXP(161)).toBe(1610);
+    expect(getAgingMaxXP(200)).toBe(1200);
+    expect(getAgingMaxXP(201)).toBe(1608);
+    expect(getAgingMaxXP(330)).toBe(2640);
+    expect(getAgingMaxXP(331)).toBe(3310);
   });
 });
 
 describe("getAgingSaltCost", () => {
-  it("returns ceil(maxXP / 25)", () => {
-    expect(getAgingSaltCost(60)).toBe(12);
-    expect(getAgingSaltCost(100)).toBe(24);
-    expect(getAgingSaltCost(170)).toBe(68);
-    expect(getAgingSaltCost(1000)).toBe(400);
+  it("returns round(maxXP / 100)", () => {
+    expect(getAgingSaltCost(60)).toBe(4);
+    expect(getAgingSaltCost(100)).toBe(6);
+    expect(getAgingSaltCost(170)).toBe(10);
+    expect(getAgingSaltCost(1000)).toBe(100);
   });
 
-  it("rounds up fractional salt", () => {
-    expect(getAgingSaltCost(110)).toBe(27); // ceil(660/25) = ceil(26.4) = 27
-    expect(getAgingSaltCost(130)).toBe(32); // ceil(780/25) = ceil(31.2) = 32
+  it("rounds fractional salt from maxXP", () => {
+    expect(getAgingSaltCost(110)).toBe(7); // round(660/100)
+    expect(getAgingSaltCost(130)).toBe(8); // round(780/100)
   });
 });
 
 describe("getAgingTimeMs", () => {
-  it("uses j=200 for fish below 100 XP", () => {
-    const ms = getAgingTimeMs(60);
-    const hours = ms / (60 * 60 * 1000);
-    expect(hours).toBeCloseTo(1.2);
+  it("uses j=300 for fish with at most 200 base XP", () => {
+    const ms60 = getAgingTimeMs(60);
+    expect(ms60 / (60 * 60 * 1000)).toBeCloseTo(1.0);
+
+    const ms100 = getAgingTimeMs(100);
+    expect(ms100 / (60 * 60 * 1000)).toBeCloseTo(1.667, 2);
+
+    const ms200 = getAgingTimeMs(200);
+    expect(ms200 / (60 * 60 * 1000)).toBeCloseTo(3.333, 2);
   });
 
-  it("uses j=300 for fish with 100-160 XP", () => {
-    const ms = getAgingTimeMs(100);
-    const hours = ms / (60 * 60 * 1000);
-    expect(hours).toBeCloseTo(1.667, 2);
+  it("uses j=500 for fish with 201–330 base XP", () => {
+    const ms201 = getAgingTimeMs(201);
+    expect(ms201 / (60 * 60 * 1000)).toBeCloseTo(2.814, 2);
+
+    const ms270 = getAgingTimeMs(270);
+    expect(ms270 / (60 * 60 * 1000)).toBeCloseTo(3.78, 2);
+
+    const ms330 = getAgingTimeMs(330);
+    expect(ms330 / (60 * 60 * 1000)).toBeCloseTo(4.62, 2);
   });
 
-  it("uses j=500 for fish with 161-999 XP", () => {
-    const ms = getAgingTimeMs(170);
-    const hours = ms / (60 * 60 * 1000);
-    expect(hours).toBeCloseTo(3.06, 1);
-  });
-
-  it("uses j=1000 for fish with >=1000 XP", () => {
+  it("uses j=1000 for fish with more than 330 base XP", () => {
     const ms = getAgingTimeMs(1000);
     const hours = ms / (60 * 60 * 1000);
     expect(hours).toBeCloseTo(9.0);
+
+    const ms371 = getAgingTimeMs(371);
+    expect(ms371 / (60 * 60 * 1000)).toBeCloseTo(3.339, 2);
   });
 });
 

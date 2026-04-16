@@ -38,6 +38,14 @@ const SPICE_RACK_RECIPES_STATIC = {
       "Honey Treat": new Decimal(5),
     },
   },
+} as const satisfies Record<string, SpiceRackRecipeDefinition>;
+
+/**
+ * Removed from the aging shed UI and from {@link SPICE_RACK_RECIPE_IDS} so they
+ * cannot be started, but kept in {@link SPICE_RACK_RECIPES} so in-progress jobs
+ * can still be collected.
+ */
+const LEGACY_SPICE_RACK_RECIPES = {
   "Spice Base": {
     durationSeconds: 60 * 60,
     ingredients: {
@@ -63,12 +71,29 @@ const SPICE_RACK_RECIPES_STATIC = {
 export const SPICE_RACK_RECIPES: Record<
   SpiceRackRecipeName,
   SpiceRackRecipeDefinition
-> = SPICE_RACK_RECIPES_STATIC;
+> = {
+  ...SPICE_RACK_RECIPES_STATIC,
+  ...LEGACY_SPICE_RACK_RECIPES,
+};
 
-export type SpiceRackRecipeName = keyof typeof SPICE_RACK_RECIPES_STATIC;
+export type StartableSpiceRackRecipeName =
+  keyof typeof SPICE_RACK_RECIPES_STATIC;
 
-export const SPICE_RACK_RECIPE_IDS: SpiceRackRecipeName[] = getKeys(
+export type LegacySpiceRackRecipeName = keyof typeof LEGACY_SPICE_RACK_RECIPES;
+
+export type SpiceRackRecipeName =
+  | StartableSpiceRackRecipeName
+  | LegacySpiceRackRecipeName;
+
+export const SPICE_RACK_RECIPE_IDS: StartableSpiceRackRecipeName[] = getKeys(
   SPICE_RACK_RECIPES_STATIC,
+);
+
+export const LEGACY_SPICE_RACK_RECIPE_IDS: LegacySpiceRackRecipeName[] =
+  getKeys(LEGACY_SPICE_RACK_RECIPES);
+
+const STARTABLE_SPICE_RACK_RECIPE_ID_SET = new Set<string>(
+  SPICE_RACK_RECIPE_IDS,
 );
 
 export type SpiceRackCollectedActivity = `${SpiceRackRecipeName} Spiced`;
@@ -82,6 +107,13 @@ export function spiceRackCollectedActivity(
 export function isSpiceRackRecipeName(id: string): id is SpiceRackRecipeName {
   return Object.prototype.hasOwnProperty.call(SPICE_RACK_RECIPES, id);
 }
+
+export function isStartableSpiceRackRecipeName(
+  id: string,
+): id is StartableSpiceRackRecipeName {
+  return STARTABLE_SPICE_RACK_RECIPE_ID_SET.has(id);
+}
+
 export function getSpiceRackRecipe(
   name: SpiceRackRecipeName,
 ): SpiceRackRecipeDefinition {

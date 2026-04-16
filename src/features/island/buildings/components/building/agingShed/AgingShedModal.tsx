@@ -18,6 +18,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BUILDING_UPGRADES } from "features/game/events/landExpansion/upgradeBuilding";
 import { getKeys } from "lib/object";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   isOpen: boolean;
@@ -38,22 +39,45 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const hasAgingShedAccess = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "AGING_SHED"),
   );
+  const agingShedRacks = useSelector(
+    gameService,
+    (state) => state.context.state.agingShed.racks,
+  );
+
+  const { aging, fermentation, spice } = agingShedRacks;
+  const readyAts = [
+    ...aging.map((slot) => slot.readyAt),
+    ...fermentation.map((slot) => slot.readyAt),
+    ...spice.map((slot) => slot.readyAt),
+  ];
+  const latestReadyAt = readyAts.length ? Math.max(...readyAts) : undefined;
+
+  const now = useNow({ live: true, autoEndAt: latestReadyAt });
+
+  const hasReadyAgingRack = aging.some((slot) => slot.readyAt <= now);
+  const hasReadyFermentationRack = fermentation.some(
+    (slot) => slot.readyAt <= now,
+  );
+  const hasReadySpiceRack = spice.some((slot) => slot.readyAt <= now);
 
   const tabs: PanelTabs<AgingShedTabs>[] = [
     {
       id: "agingRack",
       name: t("agingShed.agingRack"),
       icon: SUNNYSIDE.icons.expression_confused,
+      alert: hasReadyAgingRack,
     },
     {
       id: "fermentationRack",
       name: t("agingShed.fermentationRack"),
       icon: SUNNYSIDE.icons.expression_confused,
+      alert: hasReadyFermentationRack,
     },
     {
       id: "spiceRack",
       name: t("agingShed.spiceRack"),
       icon: SUNNYSIDE.icons.expression_confused,
+      alert: hasReadySpiceRack,
     },
   ];
 

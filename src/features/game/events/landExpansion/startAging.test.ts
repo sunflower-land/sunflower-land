@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { getAgingSaltCost, getFishBaseXP } from "features/game/types/aging";
-import { getAgingTimeMs } from "features/game/types/agingFormulas";
+import {
+  getAgingTimeMs,
+  getBoostedAgingTimeMs,
+} from "features/game/types/agingFormulas";
 import { startAging } from "./startAging";
 import {
   createFermentationTestState,
@@ -85,7 +88,7 @@ describe("startAging", () => {
     expect(() =>
       startAging({
         state: createFermentationTestState({
-          inventory: { Anchovy: new Decimal(1), Salt: new Decimal(5) },
+          inventory: { Anchovy: new Decimal(1), Salt: new Decimal(4) },
         }),
         action: {
           type: "agingRack.started",
@@ -115,7 +118,7 @@ describe("startAging", () => {
     expect(state.inventory.Anchovy?.toNumber()).toBe(4);
   });
 
-  it("deducts correct salt for Anchovy (12)", () => {
+  it("deducts correct salt for Anchovy (5)", () => {
     const state = startAging({
       state: createFermentationTestState({
         inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
@@ -129,10 +132,10 @@ describe("startAging", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toBe(88);
+    expect(state.inventory.Salt?.toNumber()).toBe(95);
   });
 
-  it("deducts correct salt for Sea Bass (24)", () => {
+  it("deducts correct salt for Sea Bass", () => {
     const state = startAging({
       state: createFermentationTestState({
         inventory: { "Sea Bass": new Decimal(1), Salt: new Decimal(100) },
@@ -146,7 +149,7 @@ describe("startAging", () => {
       createdAt,
     });
 
-    expect(state.inventory.Salt?.toNumber()).toBe(76);
+    expect(state.inventory.Salt?.toNumber()).toBe(92);
   });
 
   it("pushes slot with correct readyAt for Anchovy", () => {
@@ -168,8 +171,9 @@ describe("startAging", () => {
     expect(slots[0].fish).toBe("Anchovy");
     expect(slots[0].id).toBe(TEST_SLOT_ID);
     expect(slots[0].startedAt).toBe(createdAt);
-    // 1.2 hours = 4320000 ms
-    expect(slots[0].readyAt).toBe(createdAt + 1.2 * 60 * 60 * 1000);
+    expect(slots[0].readyAt).toBe(
+      createdAt + getAgingTimeMs(getFishBaseXP("Anchovy")),
+    );
   });
 
   it("allows multiple slots up to max for shed level", () => {
@@ -221,6 +225,28 @@ describe("startAging", () => {
     const baseTime = getAgingTimeMs(getFishBaseXP("Anchovy"));
     const slot = state.agingShed.racks.aging[0];
     expect(slot.readyAt).toBe(createdAt + baseTime * 0.9);
+  });
+
+  it("sets readyAt from boosted aging time for Tuna without skills", () => {
+    const baseState = createFermentationTestState({
+      inventory: { Tuna: new Decimal(1), Salt: new Decimal(100) },
+    });
+    const state = startAging({
+      state: baseState,
+      action: {
+        type: "agingRack.started",
+        fish: "Tuna",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    const baseXP = getFishBaseXP("Tuna");
+    const slot = state.agingShed.racks.aging[0];
+    expect(slot.readyAt).toBe(
+      createdAt + getBoostedAgingTimeMs(baseXP, baseState),
+    );
   });
 
   it("applies Ager skill to double salt and fish cost", () => {
