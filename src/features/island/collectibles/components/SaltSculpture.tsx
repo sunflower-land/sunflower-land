@@ -62,14 +62,14 @@ export const SaltSculpture: React.FC = () => {
         <div
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 24}px`,
+            width: `${PIXEL_SCALE * 47}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 4}px`,
+            left: `${PIXEL_SCALE * 0.5}px`,
           }}
         >
           <img
             src={SALT_SCULPTURE_VARIANTS[currentLevel]}
-            style={{ width: `${PIXEL_SCALE * 24}px` }}
+            style={{ width: `${PIXEL_SCALE * 47}px` }}
             alt="Salt Sculpture"
           />
         </div>
