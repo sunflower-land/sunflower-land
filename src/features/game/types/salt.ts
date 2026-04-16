@@ -251,13 +251,18 @@ export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
 export function populateSaltFarm({
   game,
   now,
+  /** When set (e.g. Salt Sculpture upgrade), use this level only for max stored charges; charge interval still follows current `game` state. */
+  saltSculptureLevelForMaxCharges,
 }: {
   game: GameState;
   now: number;
+  saltSculptureLevelForMaxCharges?: number;
 }) {
   const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: game });
   const maxCharges = getMaxStoredSaltChargesFromLevel(
-    game.sculptures?.["Salt Sculpture"]?.level ?? 0,
+    saltSculptureLevelForMaxCharges ??
+      game.sculptures?.["Salt Sculpture"]?.level ??
+      0,
   );
   const syncOpts: SaltSyncOptions = { chargeIntervalMs, maxCharges };
 

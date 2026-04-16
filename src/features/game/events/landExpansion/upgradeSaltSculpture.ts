@@ -40,6 +40,11 @@ export function upgradeSaltSculpture({
     }
 
     const upgrade = SALT_SCULPTURE_UPGRADES[nextLevel];
+    if (!upgrade) {
+      throw new Error(
+        `Invalid Salt Sculpture upgrade path: ${currentLevel} -> ${nextLevel}`,
+      );
+    }
 
     if (game.coins < upgrade.coins) {
       throw new Error("Insufficient coins");
@@ -64,7 +69,11 @@ export function upgradeSaltSculpture({
     }
 
     if (hasFeatureAccess(game, "SALT_FARM")) {
-      populateSaltFarm({ game, now: createdAt });
+      populateSaltFarm({
+        game,
+        now: createdAt,
+        saltSculptureLevelForMaxCharges: nextLevel,
+      });
     }
 
     if (!game.sculptures) game.sculptures = {};

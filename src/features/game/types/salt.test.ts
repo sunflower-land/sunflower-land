@@ -1,7 +1,10 @@
+import type { GameState } from "features/game/types/game";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
+  getSaltChargeGenerationTime,
   materializeSaltRegen,
+  populateSaltFarm,
   syncSaltNode,
   type Salt,
   type SaltNode,
@@ -69,5 +72,46 @@ describe("salt nextChargeAt regen", () => {
     expect(afterGrant.salt.nextChargeAt).toBe(
       t0 + SALT_CHARGE_GENERATION_TIME + half,
     );
+  });
+});
+
+describe("populateSaltFarm", () => {
+  const t0 = 1_000_000_000_000;
+
+  it("uses saltSculptureLevelForMaxCharges for cap while charge interval follows current sculpture level", () => {
+    const game = {
+      saltFarm: {
+        level: 4,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 0,
+              nextChargeAt: t0,
+            },
+          },
+        },
+      },
+      sculptures: { "Salt Sculpture": { level: 2 } },
+    } as unknown as GameState;
+
+    const intervalMs = getSaltChargeGenerationTime({ gameState: game });
+    const now = t0 + intervalMs * 5;
+
+    const base = JSON.parse(JSON.stringify(game)) as unknown as GameState;
+    populateSaltFarm({ game: base, now });
+
+    const withOverride = JSON.parse(
+      JSON.stringify(game),
+    ) as unknown as GameState;
+    populateSaltFarm({
+      game: withOverride,
+      now,
+      saltSculptureLevelForMaxCharges: 3,
+    });
+
+    expect(base.saltFarm.nodes["0"].salt.storedCharges).toBe(3);
+    expect(withOverride.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
   });
 });
