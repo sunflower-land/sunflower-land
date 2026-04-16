@@ -1,6 +1,10 @@
 import { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CropMachineBuilding, GameState } from "features/game/types/game";
+import {
+  getPlacedCommonPetsCount,
+  getPlacedNFTPetsCount,
+} from "features/game/types/pets";
 import { produce } from "immer";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
@@ -9,6 +13,7 @@ export enum REMOVE_BUILDING_ERRORS {
   WATER_WELL_REMOVE_CROPS = "Cannot remove Water Well that causes crops to uproot",
   HEN_HOUSE_REMOVE_BREWING_CHICKEN = "Cannot remove Hen House that causes chickens that are brewing egg to be removed",
   BUILDING_NOT_PLACED = "Building not placed",
+  PET_HOUSE_HAS_PETS = "Cannot remove Pet House while pets are inside",
 }
 
 export type RemoveBuildingAction = {
@@ -54,6 +59,14 @@ export function removeBuilding({
 
     if (!buildingToRemove.coordinates) {
       throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
+    }
+
+    if (action.name === "Pet House") {
+      const commonPets = getPlacedCommonPetsCount(stateCopy.petHouse);
+      const nftPets = getPlacedNFTPetsCount(stateCopy.pets);
+      if (commonPets + nftPets > 0) {
+        throw new Error(REMOVE_BUILDING_ERRORS.PET_HOUSE_HAS_PETS);
+      }
     }
 
     delete buildingToRemove.coordinates;
