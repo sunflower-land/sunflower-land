@@ -57,7 +57,7 @@ export function startSpiceRack({
       throw new Error("No available slots");
     }
 
-    const inputMultiplier = getAgingInputMultiplier(game.bumpkin.skills);
+    const inputMultiplier = getAgingInputMultiplier(game);
 
     for (const [ingredient, amount] of getObjectEntries(
       recipeDef.ingredients,

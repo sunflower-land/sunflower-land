@@ -58,7 +58,6 @@ export function collectAgedFish({
       (slot) => slot.readyAt > createdAt,
     );
 
-    const skills = game.bumpkin.skills;
     const results: AgingCollectResult[] = [];
 
     ready.forEach((slot) => {
@@ -69,7 +68,7 @@ export function collectAgedFish({
         (game.farmActivity[`${agedName} Collected`] ?? 0) +
         (game.farmActivity[`${primeAgedName} Collected`] ?? 0);
 
-      const outputAmount = getAgingOutput(skills, new Decimal(1), slot.fish, {
+      const outputAmount = getAgingOutput(game, new Decimal(1), slot.fish, {
         farmId,
         itemId: KNOWN_IDS[slot.fish],
         counter,
@@ -79,7 +78,7 @@ export function collectAgedFish({
         farmId,
         itemId: KNOWN_IDS[agedName],
         counter,
-        chance: getPrimeAgedChance(skills),
+        chance: getPrimeAgedChance(game),
         criticalHitName: primeAgedName,
       });
 

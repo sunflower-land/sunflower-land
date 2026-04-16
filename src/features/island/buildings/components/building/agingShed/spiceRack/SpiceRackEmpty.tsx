@@ -166,7 +166,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
                     requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(skills),
+                      getAgingInputMultiplier(gameState),
                     )}
                   />
                 ),
@@ -180,9 +180,9 @@ export const SpiceRackEmpty: React.FC<Props> = ({
 
           {canShowRequirements &&
             selectedRecipeId === "Refined Salt" &&
-            getRefinedSaltChance(skills) > 0 && (
+            getRefinedSaltChance(gameState) > 0 && (
               <Label type="vibrant" className="text-xxs mx-2 mb-1">
-                {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+                {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
               </Label>
             )}
         </InnerPanel>

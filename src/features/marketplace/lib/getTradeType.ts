@@ -1392,6 +1392,7 @@ export const ITEM_TRADE_TYPES: {
     "Pet Rug": "instant",
     "Jester in a box": "instant",
     "The Sunflower Man Statue": "instant",
+    "Salt Sculpture": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",

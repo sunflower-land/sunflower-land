@@ -63,7 +63,7 @@ export function startFermentation({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const inputMultiplier = getAgingInputMultiplier(game.bumpkin.skills);
+    const inputMultiplier = getAgingInputMultiplier(game);
 
     for (const [ingredient, amount] of getObjectEntries(
       recipeDef.ingredients,

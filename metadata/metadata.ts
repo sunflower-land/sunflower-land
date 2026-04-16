@@ -15500,6 +15500,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2358.webp",
     name: "The Sunflower Man Statue",
   },
+  "Salt Sculpture": {
+    description:
+      "A progressive sculpture providing Salt & Aging buffs per level",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Salt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2989.png",
+    name: "Salt Sculpture",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

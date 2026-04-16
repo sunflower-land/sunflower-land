@@ -23,16 +23,11 @@ export function grantFermentationRecipeOutputs(
 
   for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
     const prev = game.inventory[item] ?? new Decimal(0);
-    const add = getAgingOutput(
-      game.bumpkin.skills,
-      amount ?? new Decimal(0),
-      item,
-      {
-        farmId,
-        itemId: KNOWN_IDS[item],
-        counter: game.farmActivity[`${item} Fermented`] ?? 0,
-      },
-    );
+    const add = getAgingOutput(game, amount ?? new Decimal(0), item, {
+      farmId,
+      itemId: KNOWN_IDS[item],
+      counter: game.farmActivity[`${item} Fermented`] ?? 0,
+    });
     game.inventory[item] = prev.add(add);
 
     const activityName: FermentationCollectedActivity = `${item} Fermented`;

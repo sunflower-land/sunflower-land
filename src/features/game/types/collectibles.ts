@@ -35,7 +35,8 @@ export type HeliosBlacksmithItem =
   | "Fairy Circle"
   | "Squirrel"
   | "Macaw"
-  | "Butterfly";
+  | "Butterfly"
+  | "Salt Sculpture";
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -326,6 +327,15 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     boost: translate("description.butterfly.boost"),
     coins: 15000,
     ingredients: {},
+    inventoryLimit: 1,
+  },
+  "Salt Sculpture": {
+    description: translate("description.saltSculpture"),
+    boost: translate("description.saltSculpture.boost"),
+    coins: 2000,
+    ingredients: {
+      "Refined Salt": new Decimal(10),
+    },
     inventoryLimit: 1,
   },
 };

@@ -7563,4 +7563,8 @@ export const ITEM_DETAILS: Items = {
     image: theSunflowerManStatue,
     description: translate("description.theSunflowerManStatue"),
   },
+  "Salt Sculpture": {
+    image: SUNNYSIDE.sculptures.saltSculpture1,
+    description: translate("description.saltSculpture"),
+  },
 };

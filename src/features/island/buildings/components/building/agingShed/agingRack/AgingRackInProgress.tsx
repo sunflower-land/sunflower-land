@@ -9,7 +9,7 @@ import type { AgingRackSlot } from "features/game/lib/agingShed";
 import { getFishBaseXP } from "features/game/types/aging";
 import { getBoostedAgingSaltCost } from "features/game/types/agingFormulas";
 import type { AgedFishName } from "features/game/types/fishing";
-import type { GameState, Skills } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
@@ -26,7 +26,6 @@ type Props = {
   onCollect: () => void;
   canCollect: boolean;
   collectError?: string;
-  skills: Skills;
   game: GameState;
 };
 
@@ -36,7 +35,6 @@ export const AgingRackInProgress: React.FC<Props> = ({
   onCollect,
   canCollect,
   collectError,
-  skills,
   game,
 }) => {
   const { t } = useAppTranslation();
@@ -46,7 +44,7 @@ export const AgingRackInProgress: React.FC<Props> = ({
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
-  const saltCost = getBoostedAgingSaltCost(getFishBaseXP(slot.fish), skills);
+  const saltCost = getBoostedAgingSaltCost(getFishBaseXP(slot.fish), game);
   const food: Consumable = CONSUMABLES[agedName];
   const baseXp = food.experience;
   const boostedXp = getFoodExpBoost({ food, game, createdAt: now });
