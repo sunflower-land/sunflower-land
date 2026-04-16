@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!",
   "mine-whack.portal.missionObjectives": "Görev: {{targetScore}} puana ulaşın.",
   "mine-whack.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
-  "portal.mineWhack.title": "Mine Wack",
   "portal.mineWhack.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!",
   "blessing.winners": "{{count}} kazananlar",
   "blessing.maxAmount": "Yetersiz {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Küresel arz",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Bu jetonun kaç tanesinin tüm çiftliklerde (mağaza nane) bulunabileceğine ilişkin isteğe bağlı sınır.",
   "minigame.dashboard.supplyLeft": "{{count}} kaldı",
-  "minigame.dashboard.supplySoldOut": "Küresel arz tükendi."
+  "minigame.dashboard.supplySoldOut": "Küresel arz tükendi.",
+  "portal.mineWhack.title": "Mine Damlası"
 }

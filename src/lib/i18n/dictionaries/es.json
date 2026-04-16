@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "¡Toca los topos, esquiva a los conejos y compite contra el tiempo en este desafío de reflejos!",
   "mine-whack.portal.missionObjectives": "Misión: Alcanzar {{targetScore}} puntos.",
   "mine-whack.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
-  "portal.mineWhack.title": "Aplasta Topos",
   "portal.mineWhack.description": "¡Toca los topos, esquiva a los conejos y compite contra el tiempo en este desafío de reflejos!",
   "blessing.winners": "{{count}} ganadores",
   "blessing.maxAmount": "Insuficiente {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Suministro global",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Límite opcional del número de fichas de este tipo que pueden existir en todas las granjas (casas de moneda).",
   "minigame.dashboard.supplyLeft": "{{count}} izquierda",
-  "minigame.dashboard.supplySoldOut": "El suministro mundial está agotado."
+  "minigame.dashboard.supplySoldOut": "El suministro mundial está agotado.",
+  "portal.mineWhack.title": "Mine Whack"
 }
