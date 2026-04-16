@@ -43,6 +43,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
+  const skills = state.bumpkin.skills;
   const recipeDef = getFermentationRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0];
@@ -84,7 +85,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
         <div className="flex flex-wrap mt-1 gap-1">
           {outputItem &&
             COLLECTIBLE_BUFF_LABELS[outputItem]?.({
-              skills: state.bumpkin.skills,
+              skills,
               collectibles: state.collectibles,
             }).map((label) => {
               return (

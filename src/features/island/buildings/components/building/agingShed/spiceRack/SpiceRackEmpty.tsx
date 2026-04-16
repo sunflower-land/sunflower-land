@@ -60,6 +60,8 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
+  const skills = gameState.bumpkin.skills;
+
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
     : undefined;
@@ -96,7 +98,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           {selectedRecipeId && (
             <>
               {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
-                skills: gameState.bumpkin.skills,
+                skills,
                 collectibles: gameState.collectibles,
               }).map((label) => {
                 return (
