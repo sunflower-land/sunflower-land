@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 erbaccia e sterco per ogni aiuto alla fattoria",
   "equip.eyes": "Occhi",
   "equip.mouth": "Bocca",
-  "compost.turbofruitMix": "Turbofruit Mix aumenta la resa dell'orto di +0,1 e riduce il tempo di crescita dell'orto del 20%."
+  "compost.turbofruitMix": "Turbofruit Mix aumenta la resa dell'orto di +0,1 e riduce il tempo di crescita dell'orto del 20%.",
+  "description.saltSculpture": "Una scultura progressiva dedicata agli appassionati di Salt & Aging",
+  "description.saltSculpture.boost": "Potenziamenti cumulativi di sale e invecchiamento per livello",
+  "saltSculpture.buff.1": "-5% tempo di rifornimento della carica di sale",
+  "saltSculpture.buff.2": "+4% di probabilità di Prime Aging",
+  "saltSculpture.buff.3": "+1 limite massimo di raccolta del sale per nodo",
+  "saltSculpture.buff.4": "-10% Costo delle monete Salt Rake",
+  "saltSculpture.buff.5": "-5% Tempo di invecchiamento",
+  "saltSculpture.buff.6": "+1 limite massimo di raccolta del sale per nodo",
+  "saltSculpture.title": "Scultura in sale",
+  "saltSculpture.activeBuffs": "Buff attivi",
+  "saltSculpture.nextLevel": "Livello successivo",
+  "saltSculpture.maxLevel": "Livello massimo raggiunto",
+  "saltSculpture.upgrade": "Passa al livello {{level}}"
 }

@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 Weed & Dung par aide à la ferme",
   "equip.eyes": "Yeux",
   "equip.mouth": "Bouche",
-  "compost.turbofruitMix": "Turbofruit Mix augmente le rendement de vos parcelles de fruits de +0,1 % et réduit le temps de croissance de celles-ci de 20 %."
+  "compost.turbofruitMix": "Turbofruit Mix augmente le rendement de vos parcelles de fruits de +0,1 % et réduit le temps de croissance de celles-ci de 20 %.",
+  "description.saltSculpture": "Une sculpture progressive qui ravit les amateurs de sel et de vieillissement",
+  "description.saltSculpture.boost": "Améliorations cumulées de sel et de vieillissement par niveau",
+  "saltSculpture.buff.1": "-5 % de temps de réapprovisionnement en sel",
+  "saltSculpture.buff.2": "+4 % de chance de vieillissement principal",
+  "saltSculpture.buff.3": "+1 plafond maximum de récolte de sel par nœud",
+  "saltSculpture.buff.4": "-10 % du coût des pièces Salt Rake",
+  "saltSculpture.buff.5": "-5 % Temps de vieillissement",
+  "saltSculpture.buff.6": "+1 plafond maximum de récolte de sel par nœud",
+  "saltSculpture.title": "Sculpture en sel",
+  "saltSculpture.activeBuffs": "Buffs actifs",
+  "saltSculpture.nextLevel": "Niveau suivant",
+  "saltSculpture.maxLevel": "Niveau maximum atteint",
+  "saltSculpture.upgrade": "Passez au niveau {{level}}"
 }

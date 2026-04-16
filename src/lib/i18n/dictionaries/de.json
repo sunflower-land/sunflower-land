@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 Weed & Dung pro Farmhilfe",
   "equip.eyes": "Augen",
   "equip.mouth": "Mund",
-  "compost.turbofruitMix": "Turbofruit Mix erhöht den Ertrag Ihrer Fruchtbeete um +0,1 und reduziert die Wachstumszeit der Fruchtbeete um 20%."
+  "compost.turbofruitMix": "Turbofruit Mix erhöht den Ertrag Ihrer Fruchtbeete um +0,1 und reduziert die Wachstumszeit der Fruchtbeete um 20%.",
+  "description.saltSculpture": "Eine fortschrittliche Skulptur, die Salt & Aging-Fans begeistern wird",
+  "description.saltSculpture.boost": "Kumulative Salz- und Alterungsbuffs pro Level",
+  "saltSculpture.buff.1": "-5% Zeit, um die Salzladung wieder aufzufüllen",
+  "saltSculpture.buff.2": "+4% Chance auf Primäres Altern",
+  "saltSculpture.buff.3": "+1 maximale Salzernteobergrenze pro Knoten",
+  "saltSculpture.buff.4": "-10% Salt Rake-Münzkosten",
+  "saltSculpture.buff.5": "-5% Alterungszeit",
+  "saltSculpture.buff.6": "+1 maximale Salzernteobergrenze pro Knoten",
+  "saltSculpture.title": "Salzskulptur",
+  "saltSculpture.activeBuffs": "Aktive Buffs",
+  "saltSculpture.nextLevel": "Nächstes Level",
+  "saltSculpture.maxLevel": "Maximales Level erreicht",
+  "saltSculpture.upgrade": "Auf Level {{level}} hochstufen"
 }

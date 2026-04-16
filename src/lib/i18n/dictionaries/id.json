@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 Gulma & Kotoran per bantuan pertanian",
   "equip.eyes": "Mata",
   "equip.mouth": "Mulut",
-  "compost.turbofruitMix": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,1 dan mengurangi waktu pertumbuhan petak buah sebesar 20%."
+  "compost.turbofruitMix": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,1 dan mengurangi waktu pertumbuhan petak buah sebesar 20%.",
+  "description.saltSculpture": "Patung progresif yang memberikan penggemar Salt & Aging",
+  "description.saltSculpture.boost": "Buff Garam & Penuaan kumulatif per level",
+  "saltSculpture.buff.1": "-5% waktu pengisian muatan garam",
+  "saltSculpture.buff.2": "Peluang Penuaan Utama +4%",
+  "saltSculpture.buff.3": "+1 maksimum batas panen garam per simpul",
+  "saltSculpture.buff.4": "-10% biaya koin Salt Rake",
+  "saltSculpture.buff.5": "-5% Waktu Rak Penuaan",
+  "saltSculpture.buff.6": "+1 maksimum batas panen garam per simpul",
+  "saltSculpture.title": "Patung Garam",
+  "saltSculpture.activeBuffs": "Buff Aktif",
+  "saltSculpture.nextLevel": "Tingkat Berikutnya",
+  "saltSculpture.maxLevel": "Level maksimum tercapai",
+  "saltSculpture.upgrade": "Tingkatkan ke Level {{level}}"
 }

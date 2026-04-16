@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "Çiftlik yardımı başına +1 Ot ve Gübre",
   "equip.eyes": "Gözler",
   "equip.mouth": "Ağız",
-  "compost.turbofruitMix": "Turbofruit Mix, meyve yaması veriminizi +0.1 artırır ve meyve yaması büyüme süresini %20 azaltır."
+  "compost.turbofruitMix": "Turbofruit Mix, meyve yaması veriminizi +0.1 artırır ve meyve yaması büyüme süresini %20 azaltır.",
+  "description.saltSculpture": "Tuz ve Yaşlanma zenginlikleri sağlayan ilerici bir heykel",
+  "description.saltSculpture.boost": "Seviye başına Kümülatif Tuz ve Yaşlanma güçlendirmeleri",
+  "saltSculpture.buff.1": "-5% tuz şarjı yenileme süresi",
+  "saltSculpture.buff.2": "+4% İlk Yaşlanma şansı",
+  "saltSculpture.buff.3": "Düğüm başına +1 maksimum tuz hasat sınırı",
+  "saltSculpture.buff.4": "-10% Tuz Tırmığı madeni para maliyeti",
+  "saltSculpture.buff.5": "-5% Yaşlanma Raf Süresi",
+  "saltSculpture.buff.6": "Düğüm başına +1 maksimum tuz hasat sınırı",
+  "saltSculpture.title": "Tuz Heykeli",
+  "saltSculpture.activeBuffs": "Aktif Güçlendirmeler",
+  "saltSculpture.nextLevel": "Sonraki Seviye",
+  "saltSculpture.maxLevel": "Maksimum seviyeye ulaşıldı",
+  "saltSculpture.upgrade": "Seviyeye Yükselt {{level}}"
 }

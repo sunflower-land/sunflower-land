@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 Weed & Dung por ajuda na fazenda",
   "equip.eyes": "Olhos",
   "equip.mouth": "Boca",
-  "compost.turbofruitMix": "O Turbofruit Mix aumenta o rendimento do canteiro de frutas em +0,1 e reduz o tempo de crescimento do canteiro de frutas em 20%."
+  "compost.turbofruitMix": "O Turbofruit Mix aumenta o rendimento do canteiro de frutas em +0,1 e reduz o tempo de crescimento do canteiro de frutas em 20%.",
+  "description.saltSculpture": "Uma escultura progressiva que oferece fãs de sal e envelhecimento",
+  "description.saltSculpture.boost": "Bônus cumulativos de sal e envelhecimento por nível",
+  "saltSculpture.buff.1": "-5% de tempo de reposição da carga de sal",
+  "saltSculpture.buff.2": "+4% de chance de envelhecimento primário",
+  "saltSculpture.buff.3": "+1 limite máximo de colheita de sal por nó",
+  "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake",
+  "saltSculpture.buff.5": "-5% de tempo de envelhecimento no rack",
+  "saltSculpture.buff.6": "+1 limite máximo de colheita de sal por nó",
+  "saltSculpture.title": "Escultura de sal",
+  "saltSculpture.activeBuffs": "Buffs ativos",
+  "saltSculpture.nextLevel": "Próximo nível",
+  "saltSculpture.maxLevel": "Nível máximo atingido",
+  "saltSculpture.upgrade": "Atualize para o nível {{level}}"
 }

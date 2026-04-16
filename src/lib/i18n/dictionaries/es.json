@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "+1 marihuana y estiércol por cada ayuda de granja",
   "equip.eyes": "Ojos",
   "equip.mouth": "Boca",
-  "compost.turbofruitMix": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,1 y reduce el tiempo de crecimiento de los huertos en un 20%."
+  "compost.turbofruitMix": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,1 y reduce el tiempo de crecimiento de los huertos en un 20%.",
+  "description.saltSculpture": "Una escultura progresiva que mejora la sal y el envejecimiento",
+  "description.saltSculpture.boost": "Potenciaciones acumuladas de sal y envejecimiento por nivel",
+  "saltSculpture.buff.1": "-5% de tiempo de reposición de la carga de sal",
+  "saltSculpture.buff.2": "+4% de probabilidad de envejecimiento primario",
+  "saltSculpture.buff.3": "+1 límite máximo de recolección de sal por nodo",
+  "saltSculpture.buff.4": "-10% de coste de la moneda Salt Rake",
+  "saltSculpture.buff.5": "-5% de tiempo de envejecimiento en estante",
+  "saltSculpture.buff.6": "+1 límite máximo de recolección de sal por nodo",
+  "saltSculpture.title": "Escultura de sal",
+  "saltSculpture.activeBuffs": "Buffs activos",
+  "saltSculpture.nextLevel": "Siguiente nivel",
+  "saltSculpture.maxLevel": "Nivel máximo alcanzado",
+  "saltSculpture.upgrade": "Mejora al nivel {{level}}"
 }

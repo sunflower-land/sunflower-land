@@ -8701,5 +8701,18 @@
   "playerEconomyEditor.tab.json": "JSON",
   "equip.eyes": "Глаза",
   "equip.mouth": "Рот",
-  "compost.turbofruitMix": "Turbofruit Mix increases your fruit patch yield by +0.1 and reduces fruit patch growth time by 20%."
+  "compost.turbofruitMix": "Turbofruit Mix increases your fruit patch yield by +0.1 and reduces fruit patch growth time by 20%.",
+  "description.saltSculpture": "A progressive sculpture providing Salt & Aging buffs",
+  "description.saltSculpture.boost": "Cumulative Salt & Aging buffs per level",
+  "saltSculpture.buff.1": "-5% salt charge replenishment time",
+  "saltSculpture.buff.2": "+4% Prime Aging chance",
+  "saltSculpture.buff.3": "+1 max salt harvest cap per node",
+  "saltSculpture.buff.4": "-10% Salt Rake coin cost",
+  "saltSculpture.buff.5": "-5% Aging Rack Time",
+  "saltSculpture.buff.6": "+1 max salt harvest cap per node",
+  "saltSculpture.title": "Salt Sculpture",
+  "saltSculpture.activeBuffs": "Active Buffs",
+  "saltSculpture.nextLevel": "Next Level",
+  "saltSculpture.maxLevel": "Max level reached",
+  "saltSculpture.upgrade": "Upgrade to Level {{level}}"
 }

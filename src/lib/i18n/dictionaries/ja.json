@@ -8701,5 +8701,18 @@
   "description.poseidonsThrone.boost": "農場の助け1つにつき、雑草と糞+1",
   "equip.eyes": "目",
   "equip.mouth": "口",
-  "compost.turbofruitMix": "ターボフルーツミックスはフルーツパッチの収穫量を+0.1増やし、フルーツパッチの成長時間を20％短縮します。"
+  "compost.turbofruitMix": "ターボフルーツミックスはフルーツパッチの収穫量を+0.1増やし、フルーツパッチの成長時間を20％短縮します。",
+  "description.saltSculpture": "ソルト＆エイジングマニアに効く進歩的な彫刻",
+  "description.saltSculpture.boost": "レベルごとの累積ソルト＆エイジングバフ",
+  "saltSculpture.buff.1": "-5% 塩チャージ補給時間",
+  "saltSculpture.buff.2": "+4% プライムエイジングチャンス",
+  "saltSculpture.buff.3": "ノードあたりの最大塩収穫上限+1",
+  "saltSculpture.buff.4": "-10% ソルトレイクコインコスト",
+  "saltSculpture.buff.5": "-5% エージングラックタイム",
+  "saltSculpture.buff.6": "ノードあたりの最大塩収穫上限+1",
+  "saltSculpture.title": "ソルト・スカルプチャー",
+  "saltSculpture.activeBuffs": "アクティブバフ",
+  "saltSculpture.nextLevel": "次のレベル",
+  "saltSculpture.maxLevel": "最大レベルに達しました",
+  "saltSculpture.upgrade": "レベル {{level}} にアップグレード"
 }
