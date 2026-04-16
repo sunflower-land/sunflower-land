@@ -428,7 +428,6 @@ describe("craftTool", () => {
       },
     });
 
-    // 20 * 0.85 * 0.90 = 15.3 → coins = 100 - 15.3 = 84.7
-    expect(state.coins).toBeCloseTo(84.7, 1);
+    expect(state.coins).toEqual(100 - 20 * 0.8 * 0.9);
   });
 });
