@@ -28,6 +28,7 @@ jest.doMock("assets/sunnyside", () => ({
     splash: {},
     tutorial: {},
     crustaceans: {},
+    sculptures: {},
   },
 }));
 
