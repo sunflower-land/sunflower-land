@@ -3411,7 +3411,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "basic",
-      cooldown: 1000 * 60 * 60 * 48,
+      cooldown: 1000 * 60 * 60 * 72,
     },
     boosts: {
       buff: {
