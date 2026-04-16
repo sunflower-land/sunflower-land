@@ -8709,7 +8709,7 @@
   "saltSculpture.buff.2": "+4% Prime Aging chance",
   "saltSculpture.buff.3": "+1 max salt harvest cap per node",
   "saltSculpture.buff.4": "-10% Salt Rake coin cost",
-  "saltSculpture.buff.5": "+5% Aging Rack speed",
+  "saltSculpture.buff.5": "-5% Aging Rack Time",
   "saltSculpture.buff.6": "+1 max salt harvest cap per node",
   "saltSculpture.title": "Salt Sculpture",
   "saltSculpture.activeBuffs": "Active Buffs",

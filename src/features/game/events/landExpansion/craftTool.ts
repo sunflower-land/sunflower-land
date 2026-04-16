@@ -115,7 +115,7 @@ export function craftTool({ state, action }: Options) {
     throw new Error("You do not have the required island expansion");
   }
 
-  if (stateCopy.stock[action.tool]?.lt(1)) {
+  if (stateCopy.stock[action.tool]?.lt(amount)) {
     throw new Error("Not enough stock");
   }
 

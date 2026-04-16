@@ -9,8 +9,7 @@ import {
   SALT_SCULPTURE_UPGRADES,
 } from "features/game/types/saltSculpture";
 import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -21,6 +20,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { getKeys, getObjectEntries } from "lib/object";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SALT_SCULPTURE_VARIANTS } from "features/island/lib/alternateArt";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 const _sculptureLevel = (state: MachineState) =>
   state.context.state.sculptures?.["Salt Sculpture"]?.level ?? 1;
@@ -77,18 +77,16 @@ export const SaltSculpture: React.FC = () => {
       </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="flex flex-col gap-2 p-1">
-            <div className="flex items-center gap-2">
+        <OuterPanel>
+          <div className="flex flex-col gap-1">
+            <InnerPanel className="flex flex-col gap-1">
               <Label type="default" icon={ITEM_DETAILS["Salt Sculpture"].image}>
                 {`${t("saltSculpture.title")} ${t("lvl")} ${currentLevel}`}
               </Label>
-            </div>
-
-            <InnerPanel>
-              <Label type="success" className="mb-1">
-                {t("saltSculpture.activeBuffs")}
-              </Label>
+              {isMaxLevel && (
+                <Label type="success">{t("saltSculpture.maxLevel")}</Label>
+              )}
+              <Label type="success">{t("saltSculpture.activeBuffs")}</Label>
               <div className="flex flex-col gap-1">
                 {Array.from({ length: currentLevel }, (_, i) => i + 1).map(
                   (lvl) => (
@@ -99,7 +97,7 @@ export const SaltSculpture: React.FC = () => {
                         alt=""
                       />
                       <span className="text-xs">
-                        {`Lv${lvl}: ${t(`saltSculpture.buff.${lvl}` as "saltSculpture.buff.1")}`}
+                        {`Lv${lvl}: ${t(`saltSculpture.buff.${lvl}` as TranslationKeys)}`}
                       </span>
                     </div>
                   ),
@@ -154,17 +152,13 @@ export const SaltSculpture: React.FC = () => {
               </InnerPanel>
             )}
 
-            {isMaxLevel && (
-              <Label type="success">{t("saltSculpture.maxLevel")}</Label>
+            {!isMaxLevel && (
+              <Button disabled={!canUpgrade} onClick={handleUpgrade}>
+                {t("saltSculpture.upgrade", { level: nextLevel })}
+              </Button>
             )}
           </div>
-
-          {!isMaxLevel && (
-            <Button disabled={!canUpgrade} onClick={handleUpgrade}>
-              {t("saltSculpture.upgrade", { level: nextLevel })}
-            </Button>
-          )}
-        </CloseButtonPanel>
+        </OuterPanel>
       </Modal>
     </>
   );
