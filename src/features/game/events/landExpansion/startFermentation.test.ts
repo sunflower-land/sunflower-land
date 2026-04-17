@@ -158,7 +158,7 @@ describe("startFermentation", () => {
       agingShed: { ...createInitialAgingShed(), level: 2 },
       inventory: {
         Radish: new Decimal(20),
-        Zucchini: new Decimal(40),
+        Zucchini: new Decimal(75),
         Salt: new Decimal(20),
       },
     });
@@ -277,7 +277,7 @@ describe("startFermentation", () => {
   it("queues pickled tomato with salt", () => {
     const state = startFermentation({
       state: createFermentationTestState({
-        inventory: { Tomato: new Decimal(10), Salt: new Decimal(5) },
+        inventory: { Tomato: new Decimal(15), Salt: new Decimal(5) },
       }),
       action: {
         type: "fermentation.started",
@@ -438,7 +438,7 @@ describe("startFermentation", () => {
     "starts %s with Refined Salt and deducts all ingredients",
     (recipeId) => {
       const def = getFermentationRecipe(recipeId);
-      expect(def.ingredients["Refined Salt"]?.eq(2)).toBe(true);
+      expect(def.ingredients["Refined Salt"]?.eq(1)).toBe(true);
 
       const inventory: Record<string, Decimal> = {};
       for (const [ing, qty] of getObjectEntries(def.ingredients)) {
