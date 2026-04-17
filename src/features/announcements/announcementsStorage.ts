@@ -60,6 +60,20 @@ export function acknowledgeBuds() {
   return localStorage.setItem("budsDrop", new Date().toISOString());
 }
 
+export function getReferralsAnnouncementLastRead(): Date | null {
+  const value = localStorage.getItem("referralsAnnouncementLastRead");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeReferralsAnnouncement() {
+  return localStorage.setItem(
+    "referralsAnnouncementLastRead",
+    new Date().toISOString(),
+  );
+}
+
 export function hasUnreadMail(
   announcements: Announcements,
   mailbox: GameState["mailbox"],
