@@ -4,7 +4,7 @@ import { RewardBoxReward } from "./rewardBoxes";
 export const CHEST_MULTIPLIER = 900;
 
 export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
-export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
+export const BASIC_REWARDS: RewardBoxReward[] = [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
@@ -33,7 +33,7 @@ export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
 ];
 
-export const RARE_REWARDS: () => RewardBoxReward[] = () => [
+export const RARE_REWARDS: RewardBoxReward[] = [
   { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
@@ -63,7 +63,7 @@ export const RARE_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
 ];
 
-export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
+export const LUXURY_REWARDS: RewardBoxReward[] = [
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
