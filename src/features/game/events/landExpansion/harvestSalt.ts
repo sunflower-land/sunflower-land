@@ -17,6 +17,7 @@ import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -53,9 +54,10 @@ export function harvestSalt({
       throw new Error(HARVEST_SALT_ERRORS.SALT_NODE_NOT_FOUND);
     }
 
-    const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
-      gameState: copy,
-    });
+    const { chargeGenerationTimeMs: interval, boostsUsed } =
+      getSaltChargeGenerationTime({
+        gameState: copy,
+      });
     const maxCharges = getMaxStoredSaltCharges(
       copy.sculptures?.["Salt Sculpture"]?.level ?? 0,
     );
@@ -138,5 +140,11 @@ export function harvestSalt({
         }
       }
     }
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
   });
 }
