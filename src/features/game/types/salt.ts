@@ -258,40 +258,54 @@ export function getNextSaltChargeInSeconds({
 export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
 
 /**
- * Populates the salt farm with the new salt charges BEFORE any boost is applied
- * @param game - The game state
- * @param now - The current time
- * @param saltSculptureLevelForMaxCharges - The level of the Salt Sculpture upgrade
- * @returns void
+ * Crystallises accrued salt charges at the pre-mutation rate.
+ * Call AFTER the boost-changing mutation so that `gameBefore` still
+ * reflects the old rate and `game` reflects the new rate.
+ * Skips work when the charge generation time hasn't changed.
  */
 export function populateSaltFarm({
-  game,
+  gameBefore,
+  gameAfter,
   now,
   /** When set (e.g. Salt Sculpture upgrade), use this level only for max stored charges; charge interval still follows current `game` state. */
   saltSculptureLevelForMaxCharges,
 }: {
-  game: GameState;
+  gameBefore: Readonly<GameState>;
+  gameAfter: GameState;
   now: number;
   saltSculptureLevelForMaxCharges?: number;
 }) {
-  const { chargeGenerationTimeMs: chargeIntervalMs, boostsUsed } =
-    getSaltChargeGenerationTime({ gameState: game });
+  const { chargeGenerationTimeMs: chargeGenerationTimeBefore } =
+    getSaltChargeGenerationTime({ gameState: gameBefore });
+  const { chargeGenerationTimeMs: chargeGenerationTimeAfter, boostsUsed } =
+    getSaltChargeGenerationTime({ gameState: gameAfter });
+
+  if (
+    !saltSculptureLevelForMaxCharges &&
+    chargeGenerationTimeAfter === chargeGenerationTimeBefore
+  ) {
+    return;
+  }
+
   const maxCharges = getMaxStoredSaltChargesFromLevel(
     saltSculptureLevelForMaxCharges ??
-      game.sculptures?.["Salt Sculpture"]?.level ??
+      gameAfter.sculptures?.["Salt Sculpture"]?.level ??
       0,
   );
-  const syncOpts: SaltSyncOptions = { chargeIntervalMs, maxCharges };
+  const syncOpts: SaltSyncOptions = {
+    chargeIntervalMs: chargeGenerationTimeBefore,
+    maxCharges,
+  };
 
-  for (const nodeId of Object.keys(game.saltFarm.nodes)) {
-    game.saltFarm.nodes[nodeId] = syncSaltNode(
-      game.saltFarm.nodes[nodeId],
+  for (const nodeId of Object.keys(gameAfter.saltFarm.nodes)) {
+    gameAfter.saltFarm.nodes[nodeId] = syncSaltNode(
+      gameAfter.saltFarm.nodes[nodeId],
       now,
       syncOpts,
     );
   }
-  game.boostsUsedAt = updateBoostUsed({
-    game,
+  gameAfter.boostsUsedAt = updateBoostUsed({
+    game: gameAfter,
     boostNames: boostsUsed,
     createdAt: now,
   });

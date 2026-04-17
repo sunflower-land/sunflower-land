@@ -68,18 +68,19 @@ export function upgradeSaltSculpture({
       );
     }
 
-    if (hasFeatureAccess(game, "SALT_FARM")) {
-      populateSaltFarm({
-        game,
-        now: createdAt,
-        saltSculptureLevelForMaxCharges: nextLevel,
-      });
-    }
-
     if (!game.sculptures) game.sculptures = {};
     game.sculptures["Salt Sculpture"] = {
       level: nextLevel,
       upgradedAt: createdAt,
     };
+
+    if (hasFeatureAccess(game, "SALT_FARM")) {
+      populateSaltFarm({
+        gameBefore: state,
+        gameAfter: game,
+        now: createdAt,
+        saltSculptureLevelForMaxCharges: nextLevel,
+      });
+    }
   });
 }

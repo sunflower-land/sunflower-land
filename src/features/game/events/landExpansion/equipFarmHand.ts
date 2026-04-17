@@ -35,11 +35,11 @@ export function equipFarmhand({
       game,
     });
 
-    // Populate the salt farm with the new salt charges
-    if (hasFeatureAccess(game, "SALT_FARM")) {
-      populateSaltFarm({ game, now: createdAt });
-    }
     bumpkin.equipped = action.equipment;
+
+    if (hasFeatureAccess(game, "SALT_FARM")) {
+      populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
+    }
 
     return game;
   });
