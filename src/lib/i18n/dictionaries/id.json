@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "Ketuk tahi lalat, hindari kelinci, dan berpacu melawan waktu dalam tantangan refleks ini!",
   "mine-whack.portal.missionObjectives": "Misi: Mencapai {{targetScore}} poin.",
   "mine-whack.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
-  "portal.mineWhack.title": "Tambang Wack",
   "portal.mineWhack.description": "Ketuk tahi lalat, hindari kelinci, dan berpacu melawan waktu dalam tantangan refleks ini!",
   "blessing.winners": "{{count}} pemenang",
   "blessing.maxAmount": "Tidak cukup {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Pasokan global",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Batasan opsional pada berapa banyak token ini yang dapat ada di semua peternakan (toko permen).",
   "minigame.dashboard.supplyLeft": "{{count}} tersisa",
-  "minigame.dashboard.supplySoldOut": "Pasokan global terjual habis."
+  "minigame.dashboard.supplySoldOut": "Pasokan global terjual habis.",
+  "portal.mineWhack.title": "Penghancur Tambang"
 }

@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "在这场反应比拼里，敲击鼹鼠、避开兔子，与时间赛跑吧！",
   "mine-whack.portal.missionObjectives": "任务：达到 {{targetScore}} 点数。",
   "mine-whack.portal.rewardMessage": "恭喜，您完成了任务！这是您的奖励。",
-  "portal.mineWhack.title": "打矿鼠",
   "portal.mineWhack.description": "在这场反应比拼里，敲击鼹鼠、避开兔子，与时间赛跑吧！",
   "blessing.winners": "{{count}} 蒙恩者",
   "blessing.maxAmount": "{{name}} 不足。",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "全球供应",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "可选上限限制所有农场（商店铸币厂）中可以存在的该代币的数量。",
   "minigame.dashboard.supplyLeft": "{{count}} 向左",
-  "minigame.dashboard.supplySoldOut": "全球供应已售罄。"
+  "minigame.dashboard.supplySoldOut": "全球供应已售罄。",
+  "portal.mineWhack.title": "Mine Whack"
 }

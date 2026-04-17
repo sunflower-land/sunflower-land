@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "Toque nas toupeiras, evite os coelhos e corra contra o tempo neste desafio reflexo!",
   "mine-whack.portal.missionObjectives": "Missão: Alcançar {{targetScore}} pontos.",
   "mine-whack.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
-  "portal.mineWhack.title": "Mine Wack",
   "portal.mineWhack.description": "Toque nas toupeiras, evite os coelhos e corra contra o tempo neste desafio reflexo!",
   "blessing.winners": "{{count}} vencedores",
   "blessing.maxAmount": "Insuficiente {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Fornecimento global",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limite opcional de quantos desses tokens podem existir em todas as fazendas (lojas de balas).",
   "minigame.dashboard.supplyLeft": "{{count}} à esquerda",
-  "minigame.dashboard.supplySoldOut": "O fornecimento global está esgotado."
+  "minigame.dashboard.supplySoldOut": "O fornecimento global está esgotado.",
+  "portal.mineWhack.title": "Mine Whack"
 }

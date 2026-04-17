@@ -5593,7 +5593,6 @@
   "portal.fruitDash.description": "Продержись как можно дольше, собирая фрукты и избегая препятствий в этом бесконечном испытании!",
   "portal.halloween.title": "Хэллоуин",
   "portal.halloween.description": "Брось вызов особняку с привидениями, собирай факелы и убегай от призраков в этом жутком испытании на выживание!",
-  "portal.mineWhack.title": "Ударь крота",
   "portal.mineWhack.description": "Нажимай на кротов, при этом избегая кроликов, и соревнуйся на время в этом испытании на реакцию!",
   "portal.memory.title": "Память",
   "recipes.upNext": "На очереди",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Global supply",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optional cap on how many of this token can exist across all farms (shop mints).",
   "minigame.dashboard.supplyLeft": "{{count}} left",
-  "minigame.dashboard.supplySoldOut": "Global supply is sold out."
+  "minigame.dashboard.supplySoldOut": "Global supply is sold out.",
+  "portal.mineWhack.title": "Mine Whack"
 }

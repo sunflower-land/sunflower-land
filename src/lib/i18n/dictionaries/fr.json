@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "Tapez sur les taupes, esquivez les lapins et courez contre la montre dans ce défi réflexe !",
   "mine-whack.portal.missionObjectives": "Mission : Atteindre {{targetScore}} points.",
   "mine-whack.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
-  "portal.mineWhack.title": "Mine Wack",
   "portal.mineWhack.description": "Tapez sur les taupes, esquivez les lapins et courez contre la montre dans ce défi réflexe !",
   "blessing.winners": "{{count}} gagnants",
   "blessing.maxAmount": "Insuffisant {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Approvisionnement mondial",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limitation facultative du nombre de jetons pouvant exister dans toutes les fermes (atelier de fabrication).",
   "minigame.dashboard.supplyLeft": "{{count}} gauche",
-  "minigame.dashboard.supplySoldOut": "L'approvisionnement mondial est épuisé."
+  "minigame.dashboard.supplySoldOut": "L'approvisionnement mondial est épuisé.",
+  "portal.mineWhack.title": "Mine Whack"
 }

@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!",
   "mine-whack.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}} Punkte.",
   "mine-whack.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
-  "portal.mineWhack.title": "Mein Wack",
   "portal.mineWhack.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!",
   "blessing.winners": "{{count}} Gewinner",
   "blessing.maxAmount": "Ungenügend {{name}}.",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Weltweites Angebot",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optionale Obergrenze dafür, wie viele dieser Tokens in allen Farmen (Shop Mints) existieren können.",
   "minigame.dashboard.supplyLeft": "{{count}} übrig",
-  "minigame.dashboard.supplySoldOut": "Das weltweite Angebot ist ausverkauft."
+  "minigame.dashboard.supplySoldOut": "Das weltweite Angebot ist ausverkauft.",
+  "portal.mineWhack.title": "Mein Schlag"
 }

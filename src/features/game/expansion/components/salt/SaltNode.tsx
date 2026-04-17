@@ -30,7 +30,7 @@ const _gameState = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService, showAnimations, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const node = useSelector(gameService, _node(id));
   const gameState = useSelector(gameService, _gameState);
@@ -102,6 +102,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
         onClick={() => {
           if (canHarvest) {
             gameService.send("salt.harvested", { id });
+            shortcutItem("Salt Rake");
           }
         }}
       >

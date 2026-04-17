@@ -5802,7 +5802,6 @@
   "mine-whack.portal.description": "このリフレックスチャレンジでは、ほくろをタップし、ウサギをかわし、時間との戦いを繰り広げましょう！",
   "mine-whack.portal.missionObjectives": "ミッション:{{targetScore}} ポイント達成",
   "mine-whack.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
-  "portal.mineWhack.title": "マイン・ワック",
   "portal.mineWhack.description": "このリフレックスチャレンジでは、ほくろをタップし、ウサギをかわし、時間との戦いを繰り広げましょう！",
   "blessing.winners": "{{count}} 勝者",
   "blessing.maxAmount": "{{name}} が不足しています。",
@@ -8719,5 +8718,6 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "グローバルサプライ",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "すべてのファーム（ショップミント）に存在できるトークンの数の上限（オプション）。",
   "minigame.dashboard.supplyLeft": "{{count}} 左",
-  "minigame.dashboard.supplySoldOut": "グローバルサプライは完売しました。"
+  "minigame.dashboard.supplySoldOut": "グローバルサプライは完売しました。",
+  "portal.mineWhack.title": "マインワック"
 }
