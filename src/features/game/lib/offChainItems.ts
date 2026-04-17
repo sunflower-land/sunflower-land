@@ -90,4 +90,8 @@ export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Holiday Ticket 2025",
   "Town Sign",
   "Acorn",
+  "CluckCoin",
+  "April Fools Token 2026",
+  "April Fools Ticket 2026",
+  "Salt Sculpture",
 ]);
