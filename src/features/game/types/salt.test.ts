@@ -96,7 +96,9 @@ describe("populateSaltFarm", () => {
       sculptures: { "Salt Sculpture": { level: 2 } },
     } as unknown as GameState;
 
-    const intervalMs = getSaltChargeGenerationTime({ gameState: game });
+    const { chargeGenerationTimeMs: intervalMs } = getSaltChargeGenerationTime({
+      gameState: game,
+    });
     const now = t0 + intervalMs * 5;
 
     const base = JSON.parse(JSON.stringify(game)) as unknown as GameState;

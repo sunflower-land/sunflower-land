@@ -38,7 +38,8 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const now = useNow({ live: true });
 
-  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
+  const { chargeGenerationTimeMs: chargeIntervalMs } =
+    getSaltChargeGenerationTime({ gameState });
   const availableRakes = Math.floor(inventory["Salt Rake"]?.toNumber() ?? 0);
 
   const storedCharges = node

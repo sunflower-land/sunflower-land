@@ -63,7 +63,9 @@ export function upgradeSaltFarm({
 
     const currentNodes = Object.keys(saltFarm.nodes).length;
     const nodesToAdd: number = totalExpectedNodes - currentNodes;
-    const interval = getSaltChargeGenerationTime({ gameState: copy });
+    const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
+      gameState: copy,
+    });
 
     for (let i = 0; i < nodesToAdd; i++) {
       copy.saltFarm.nodes[`${currentNodes + i}`] = {

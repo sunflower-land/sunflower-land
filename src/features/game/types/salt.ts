@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import type { GameState, InventoryItemName } from "./game";
+import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
 import { getMaxStoredSaltCharges as getMaxStoredSaltChargesFromLevel } from "./saltSculpture";
+import { updateBoostUsed } from "./updateBoostUsed";
 
 export type SaltNode = {
   createdAt: number;
@@ -111,18 +112,24 @@ export function getSaltChargeGenerationTime({
   gameState,
 }: {
   gameState: GameState;
-}): number {
+}): {
+  chargeGenerationTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (gameState.bumpkin?.skills["Salty Seas"]) {
     chargeGenerationTimeMs *= 0.9;
+    boostsUsed.push({ name: "Salty Seas", value: "x0.9" });
   }
 
   if ((gameState.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 1) {
     chargeGenerationTimeMs *= 0.95;
+    boostsUsed.push({ name: "Salt Sculpture", value: "x0.95" });
   }
 
-  return chargeGenerationTimeMs;
+  return { chargeGenerationTimeMs, boostsUsed };
 }
 
 export const BASE_SALT_YIELD = 10; // 10 salt per rake
@@ -135,7 +142,9 @@ export function rechargeAllSaltNodes(
   game: GameState,
   createdAt: number,
 ): GameState {
-  const interval = getSaltChargeGenerationTime({ gameState: game });
+  const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
+    gameState: game,
+  });
   for (const nodeId of Object.keys(game.saltFarm.nodes)) {
     game.saltFarm.nodes[nodeId].salt.storedCharges =
       MAX_STORED_SALT_CHARGES_PER_NODE;
@@ -248,6 +257,13 @@ export function getNextSaltChargeInSeconds({
 
 export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
 
+/**
+ * Populates the salt farm with the new salt charges BEFORE any boost is applied
+ * @param game - The game state
+ * @param now - The current time
+ * @param saltSculptureLevelForMaxCharges - The level of the Salt Sculpture upgrade
+ * @returns void
+ */
 export function populateSaltFarm({
   game,
   now,
@@ -258,7 +274,8 @@ export function populateSaltFarm({
   now: number;
   saltSculptureLevelForMaxCharges?: number;
 }) {
-  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: game });
+  const { chargeGenerationTimeMs: chargeIntervalMs, boostsUsed } =
+    getSaltChargeGenerationTime({ gameState: game });
   const maxCharges = getMaxStoredSaltChargesFromLevel(
     saltSculptureLevelForMaxCharges ??
       game.sculptures?.["Salt Sculpture"]?.level ??
@@ -273,6 +290,11 @@ export function populateSaltFarm({
       syncOpts,
     );
   }
+  game.boostsUsedAt = updateBoostUsed({
+    game,
+    boostNames: boostsUsed,
+    createdAt: now,
+  });
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {

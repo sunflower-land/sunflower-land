@@ -53,7 +53,9 @@ export function harvestSalt({
       throw new Error(HARVEST_SALT_ERRORS.SALT_NODE_NOT_FOUND);
     }
 
-    const interval = getSaltChargeGenerationTime({ gameState: copy });
+    const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
+      gameState: copy,
+    });
     const maxCharges = getMaxStoredSaltCharges(
       copy.sculptures?.["Salt Sculpture"]?.level ?? 0,
     );
@@ -113,7 +115,10 @@ export function harvestSalt({
       });
 
       if (seaBlessedHit) {
-        const interval = getSaltChargeGenerationTime({ gameState: copy });
+        const { chargeGenerationTimeMs: interval } =
+          getSaltChargeGenerationTime({
+            gameState: copy,
+          });
         const nodeIds = getKeys(copy.saltFarm.nodes);
         const eligible = nodeIds.filter(
           (id) =>
