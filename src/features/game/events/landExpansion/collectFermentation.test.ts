@@ -362,6 +362,39 @@ describe("collectFermentation", () => {
     expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
   });
 
+  it("collecting Capsule Bait from retired Pickled Pepper recipe still grants 3 bait", () => {
+    const past = createdAt - 1;
+    const fishName = getFishNamesByTier("basic")[0];
+    const recipe =
+      `Capsule Bait (Aged ${fishName}, Pickled Pepper)` as FermentationRecipeName;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "retired-pepper-bait",
+                recipe,
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(3);
+    expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(3);
+  });
+
   it("applies Ager skill to double fermentation output", () => {
     const past = createdAt - 1;
 

@@ -5,8 +5,10 @@ import {
   getFermentationRecipe,
   GREENHOUSE_FERMENTATION_STARTABLE_IDS,
   LEGACY_FERMENTATION_RECIPE_IDS,
+  RETIRED_BAIT_FERMENTATION_RECIPE_IDS,
   type FermentationRecipeName,
   type LegacyFermentationRecipeName,
+  type RetiredBaitFermentationRecipeName,
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
@@ -434,6 +436,30 @@ describe("startFermentation", () => {
     },
   );
 
+  it.each(RETIRED_BAIT_FERMENTATION_RECIPE_IDS)(
+    "rejects retired bait fermentation recipe so it cannot be started (%s)",
+    (recipeId: RetiredBaitFermentationRecipeName) => {
+      const def = getFermentationRecipe(recipeId);
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      expect(() =>
+        startFermentation({
+          state: createFermentationTestState({ inventory }),
+          action: {
+            type: "fermentation.started",
+            recipe: recipeId as StartableFermentationRecipeName,
+            jobId: TEST_JOB_ID,
+          },
+          farmId: 1,
+          createdAt,
+        }),
+      ).toThrow("This fermentation recipe is no longer available.");
+    },
+  );
+
   it.each([...GREENHOUSE_FERMENTATION_STARTABLE_IDS])(
     "starts %s with Refined Salt and deducts all ingredients",
     (recipeId) => {
@@ -548,6 +574,87 @@ describe("startFermentation", () => {
 
     expect(state.inventory[primeAgedFish]?.toNumber()).toEqual(0);
     expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
+  it("starts Capsule Bait with Pickled Tomato for first basic-tier fish (Aged)", () => {
+    const fishName = getFishNamesByTier("basic")[0];
+    const agedFish = `Aged ${fishName}` as const;
+    const recipe =
+      `Capsule Bait (Aged ${fishName}, Pickled Tomato)` as StartableFermentationRecipeName;
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          [agedFish]: new Decimal(1),
+          "Pickled Tomato": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe,
+        jobId: TEST_JOB_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Tomato"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
+  it("starts Umbrella Bait with Pickled Pepper for first advanced-tier fish (Aged)", () => {
+    const fishName = getFishNamesByTier("advanced")[0];
+    const agedFish = `Aged ${fishName}` as const;
+    const recipe =
+      `Umbrella Bait (Aged ${fishName}, Pickled Pepper)` as StartableFermentationRecipeName;
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          [agedFish]: new Decimal(1),
+          "Pickled Pepper": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe,
+        jobId: TEST_JOB_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Pepper"]?.toNumber()).toEqual(0);
+    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
+  });
+
+  it("starts Crimson Baitfish with Pickled Radish for first expert-tier fish (Aged)", () => {
+    const fishName = getFishNamesByTier("expert")[0];
+    const agedFish = `Aged ${fishName}` as const;
+    const recipe =
+      `Crimson Baitfish (Aged ${fishName}, Pickled Radish)` as StartableFermentationRecipeName;
+
+    const state = startFermentation({
+      state: createFermentationTestState({
+        inventory: {
+          [agedFish]: new Decimal(1),
+          "Pickled Radish": new Decimal(1),
+        },
+      }),
+      action: {
+        type: "fermentation.started",
+        recipe,
+        jobId: TEST_JOB_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(0);
     expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
   });
 
