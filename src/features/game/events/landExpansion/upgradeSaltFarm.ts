@@ -10,6 +10,7 @@ import {
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
 import { hasFeatureAccess } from "lib/flags";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type UpgradeSaltFarmAction = {
   type: "saltFarm.upgraded";
@@ -63,9 +64,10 @@ export function upgradeSaltFarm({
 
     const currentNodes = Object.keys(saltFarm.nodes).length;
     const nodesToAdd: number = totalExpectedNodes - currentNodes;
-    const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
-      gameState: copy,
-    });
+    const { chargeGenerationTimeMs: interval, boostsUsed } =
+      getSaltChargeGenerationTime({
+        gameState: copy,
+      });
 
     for (let i = 0; i < nodesToAdd; i++) {
       copy.saltFarm.nodes[`${currentNodes + i}`] = {
@@ -83,6 +85,12 @@ export function upgradeSaltFarm({
       };
     }
     copy.saltFarm.level = nextLevel;
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return copy;
   });
