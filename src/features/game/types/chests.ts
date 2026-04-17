@@ -34,8 +34,8 @@ export const BASIC_REWARDS: RewardBoxReward[] = [
 ];
 
 export const RARE_REWARDS: RewardBoxReward[] = [
-  { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
-  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 20 * CHEST_MULTIPLIER },
   { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
@@ -64,8 +64,8 @@ export const RARE_REWARDS: RewardBoxReward[] = [
 ];
 
 export const LUXURY_REWARDS: RewardBoxReward[] = [
-  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
-  { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
   { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
