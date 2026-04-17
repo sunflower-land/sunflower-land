@@ -4,7 +4,7 @@ import { RewardBoxReward } from "./rewardBoxes";
 export const CHEST_MULTIPLIER = 900;
 
 export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
-export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
+export const BASIC_REWARDS: RewardBoxReward[] = [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
@@ -23,19 +23,19 @@ export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
     weighting: 50 * CHEST_MULTIPLIER,
   },
   { items: { "Fishing Lure": 10 }, weighting: 10 * CHEST_MULTIPLIER },
-  { items: { "Pirate Cake": 5 }, weighting: 5 * CHEST_MULTIPLIER },
-  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
-  { items: { "Goblin Brunch": 3 }, weighting: 30 * CHEST_MULTIPLIER },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
-  { items: { "Fermented Carrots": 5 }, weighting: 50 * CHEST_MULTIPLIER },
-  { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { "Honey Cake": 5 }, weighting: 5 * CHEST_MULTIPLIER },
+  { items: { "Rice Bun": 2 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Caprese Salad": 2 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Grape Juice": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { Sauerkraut: 3 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Fancy Fries": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
 ];
 
-export const RARE_REWARDS: () => RewardBoxReward[] = () => [
-  { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
-  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+export const RARE_REWARDS: RewardBoxReward[] = [
+  { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 20 * CHEST_MULTIPLIER },
   { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
@@ -55,16 +55,17 @@ export const RARE_REWARDS: () => RewardBoxReward[] = () => [
     weighting: 50 * CHEST_MULTIPLIER,
   },
   { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
-  { items: { "Pirate Cake": 5 }, weighting: 30 * CHEST_MULTIPLIER },
-  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
-  { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { "Honey Cake": 5 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Rice Bun": 3 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Caprese Salad": 2 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Grape Juice": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { Sunstone: 1 }, weighting: 15 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
 ];
 
-export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
-  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
-  { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
+export const LUXURY_REWARDS: RewardBoxReward[] = [
+  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
   { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
@@ -77,9 +78,10 @@ export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
     weighting: 50 * CHEST_MULTIPLIER,
   },
   { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
-  { items: { "Pirate Cake": 10 }, weighting: 50 * CHEST_MULTIPLIER },
-  { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
-  { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Honey Cake": 10 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Caprese Salad": 5 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Grape Juice": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { Sunstone: 3 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
 ];
 
