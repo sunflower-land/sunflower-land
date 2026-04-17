@@ -54,9 +54,9 @@ interface Props {
 export const CHEST_LOOT: (
   game: GameState,
 ) => Record<ChestRewardType, RewardBoxReward[]> = (state) => ({
-  "Treasure Key": BASIC_REWARDS(),
-  "Rare Key": RARE_REWARDS(),
-  "Luxury Key": LUXURY_REWARDS(),
+  "Treasure Key": BASIC_REWARDS,
+  "Rare Key": RARE_REWARDS,
+  "Luxury Key": LUXURY_REWARDS,
   "Bud Box": BUD_BOX_REWARDS,
   "Gift Giver": GIFT_GIVER_REWARDS,
   "Basic Desert Rewards": BASIC_DESERT_STREAK,
