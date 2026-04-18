@@ -79,7 +79,6 @@ export function upgradeSaltSculpture({
         gameBefore: state,
         gameAfter: game,
         now: createdAt,
-        saltSculptureLevelForMaxCharges: nextLevel,
       });
     }
   });

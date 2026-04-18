@@ -13,6 +13,7 @@ import {
   getSaltChargeGenerationTime,
   getStoredSaltCharges,
   materializeSaltRegen,
+  getMaxStoredSaltCharges,
 } from "features/game/types/salt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { canInstantHarvestSaltNode, getSaltNodeSprite } from "./saltNodeStage";
@@ -42,12 +43,16 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
     getSaltChargeGenerationTime({ gameState });
   const availableRakes = Math.floor(inventory["Salt Rake"]?.toNumber() ?? 0);
 
+  const maxCharges = getMaxStoredSaltCharges(
+    gameState.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
+
   const storedCharges = node
-    ? getStoredSaltCharges(node, now, { chargeIntervalMs })
+    ? getStoredSaltCharges(node, now, { chargeIntervalMs, maxCharges })
     : 0;
 
   const materialized = node
-    ? materializeSaltRegen(node.salt, now, { chargeIntervalMs })
+    ? materializeSaltRegen(node.salt, now, { chargeIntervalMs, maxCharges })
     : null;
   const nextChargeInSeconds = materialized
     ? getNextSaltChargeInSeconds({

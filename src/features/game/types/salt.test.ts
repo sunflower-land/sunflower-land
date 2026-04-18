@@ -28,7 +28,7 @@ describe("salt nextChargeAt regen", () => {
       nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
     };
     const later = t0 + SALT_CHARGE_GENERATION_TIME * 3 + 1;
-    const out = materializeSaltRegen(salt, later);
+    const out = materializeSaltRegen(salt, later, undefined);
     expect(out.storedCharges).toBe(3);
     expect(out.nextChargeAt).toBe(t0 + SALT_CHARGE_GENERATION_TIME * 4);
   });
@@ -38,7 +38,7 @@ describe("salt nextChargeAt regen", () => {
       storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE - 1,
       nextChargeAt: t0,
     };
-    const out = materializeSaltRegen(salt, t0 + 1);
+    const out = materializeSaltRegen(salt, t0 + 1, undefined);
     expect(out.storedCharges).toBe(MAX_STORED_SALT_CHARGES_PER_NODE);
     expect(out.nextChargeAt).toBe(t0 + SALT_CHARGE_GENERATION_TIME);
   });
@@ -48,7 +48,7 @@ describe("salt nextChargeAt regen", () => {
       storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE + 10,
       nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
     };
-    const out = materializeSaltRegen(salt, t0);
+    const out = materializeSaltRegen(salt, t0, undefined);
     expect(out.storedCharges).toBe(MAX_STORED_SALT_CHARGES_PER_NODE);
   });
 
@@ -164,7 +164,55 @@ describe("populateSaltFarm", () => {
     );
   });
 
-  it("uses saltSculptureLevelForMaxCharges for cap while charge interval follows current sculpture level", () => {
+  it("crystallizes boosted progress when boost is removed, then follows slower cadence", () => {
+    const boostedInterval = SALT_CHARGE_GENERATION_TIME * 0.9;
+    const gameBefore = makeGame({
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Salty Seas": 1 } },
+      saltFarm: {
+        level: 1,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 0,
+              nextChargeAt: t0 + boostedInterval,
+            },
+          },
+        },
+      },
+    });
+    const game: GameState = {
+      ...gameBefore,
+      bumpkin: { ...gameBefore.bumpkin, skills: {} },
+    };
+
+    const now = t0 + boostedInterval + boostedInterval / 2;
+
+    populateSaltFarm({ gameBefore, gameAfter: game, now });
+
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(1);
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(
+      t0 + boostedInterval * 2,
+    );
+
+    const { chargeGenerationTimeMs: slowerInterval } =
+      getSaltChargeGenerationTime({
+        gameState: game,
+      });
+    const afterCadence = syncSaltNode(
+      game.saltFarm.nodes["0"],
+      game.saltFarm.nodes["0"].salt.nextChargeAt + slowerInterval - 1,
+      { chargeIntervalMs: slowerInterval },
+    );
+
+    expect(afterCadence.salt.storedCharges).toBe(2);
+    expect(afterCadence.salt.nextChargeAt).toBe(
+      t0 + boostedInterval * 2 + slowerInterval,
+    );
+  });
+
+  it("uses gameAfter sculpture level for max charge cap while charge interval follows current sculpture level", () => {
     const gameBefore = makeGame({
       saltFarm: {
         level: 4,
@@ -193,9 +241,48 @@ describe("populateSaltFarm", () => {
       gameBefore,
       gameAfter: game,
       now,
-      saltSculptureLevelForMaxCharges: 3,
     });
 
     expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
+  });
+
+  it("runs sync when sculpture upgrade increases max charges without changing charge interval", () => {
+    const gameBefore = makeGame({
+      sculptures: { "Salt Sculpture": { level: 2 } },
+      saltFarm: {
+        level: 1,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 3,
+              nextChargeAt: t0,
+            },
+          },
+        },
+      },
+    });
+    const gameAfter: GameState = {
+      ...gameBefore,
+      sculptures: { "Salt Sculpture": { level: 3 } },
+    };
+
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameBefore })
+        .chargeGenerationTimeMs,
+    ).toBe(
+      getSaltChargeGenerationTime({ gameState: gameAfter })
+        .chargeGenerationTimeMs,
+    );
+
+    const { chargeGenerationTimeMs: intervalMs } = getSaltChargeGenerationTime({
+      gameState: gameBefore,
+    });
+    const now = t0 + intervalMs * 5;
+
+    populateSaltFarm({ gameBefore, gameAfter, now });
+
+    expect(gameAfter.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
   });
 });

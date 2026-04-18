@@ -9,8 +9,8 @@ import {
   getStoredSaltCharges,
   materializeSaltRegen,
   syncSaltNode,
+  getMaxStoredSaltCharges,
 } from "features/game/types/salt";
-import { getMaxStoredSaltCharges } from "features/game/types/saltSculpture";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { prngChance } from "lib/prng";
