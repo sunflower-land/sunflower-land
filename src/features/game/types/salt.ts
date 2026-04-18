@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
-import { updateBoostUsed } from "./updateBoostUsed";
 
 export type SaltNode = {
   createdAt: number;
@@ -284,15 +283,13 @@ export function populateSaltFarm({
     gameAfter.sculptures?.["Salt Sculpture"]?.level ?? 0,
   );
 
-  const boostsUnchanged =
+  const sameBoostSet =
     boostsUsedBefore.length === boostsUsedAfter.length &&
-    boostsUsedBefore.every((boost) =>
-      boostsUsedAfter.some((b) => b.name === boost.name),
-    );
+    boostsUsedBefore.every((b) => boostsUsedAfter.includes(b));
 
   if (
     chargeGenerationTimeAfter === chargeGenerationTimeBefore &&
-    boostsUnchanged &&
+    sameBoostSet &&
     prevMax === nextMax
   ) {
     return;
@@ -311,11 +308,6 @@ export function populateSaltFarm({
       syncOpts,
     );
   }
-  gameAfter.boostsUsedAt = updateBoostUsed({
-    game: gameAfter,
-    boostNames: boostsUsedBefore,
-    createdAt: now,
-  });
 }
 
 export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
