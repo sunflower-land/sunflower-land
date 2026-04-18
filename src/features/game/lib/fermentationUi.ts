@@ -1,10 +1,11 @@
 import Decimal from "decimal.js-light";
 
 import {
-  FERMENTATION_RECIPES,
   FERMENTATION_RECIPE_IDS,
   getFermentationRecipe,
+  STARTABLE_FERMENTATION_RECIPES,
   type FermentationRecipeName,
+  type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -29,7 +30,7 @@ export type FermentationOutputGroup = {
 };
 
 function getPrimaryOutput(
-  outputs: (typeof FERMENTATION_RECIPES)[FermentationRecipeName]["outputs"],
+  outputs: (typeof STARTABLE_FERMENTATION_RECIPES)[StartableFermentationRecipeName]["outputs"],
 ): [InventoryItemName, Decimal] {
   const entries = getObjectEntries(outputs);
   const first = entries[0];
@@ -179,7 +180,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
   }
 
   for (const recipeId of FERMENTATION_RECIPE_IDS) {
-    const def = FERMENTATION_RECIPES[recipeId];
+    const def = STARTABLE_FERMENTATION_RECIPES[recipeId];
     const [item] = getPrimaryOutput(def.outputs);
     const signature = String(item);
 

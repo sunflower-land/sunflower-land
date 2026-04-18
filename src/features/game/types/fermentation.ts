@@ -196,8 +196,8 @@ const STATIC_FERMENTATION_RECIPES = {
 
 /**
  * Removed from the aging shed UI and from {@link FERMENTATION_RECIPE_IDS} so they
- * cannot be started, but kept in {@link FERMENTATION_RECIPES} so in-progress jobs
- * can still be collected.
+ * cannot be started, but kept in the full fermentation registry so in-progress jobs
+ * can still be collected ({@link getFermentationRecipe}).
  */
 const LEGACY_FERMENTATION_RECIPES = {
   "Greenhouse Glow: Pickled Radish": {
@@ -514,16 +514,6 @@ const RETIRED_BAIT_FERMENTATION_RECIPES = buildRetiredBaitFermentationRecipes();
 export const RETIRED_BAIT_FERMENTATION_RECIPE_IDS: RetiredBaitFermentationRecipeName[] =
   getKeys(RETIRED_BAIT_FERMENTATION_RECIPES);
 
-export const FERMENTATION_RECIPES: Record<
-  FermentationRecipeName,
-  FermentationRecipeDefinition
-> = {
-  ...STATIC_FERMENTATION_RECIPES,
-  ...BAIT_FERMENTATION_RECIPES,
-  ...RETIRED_BAIT_FERMENTATION_RECIPES,
-  ...LEGACY_FERMENTATION_RECIPES,
-};
-
 export type StaticFermentationRecipeName =
   keyof typeof STATIC_FERMENTATION_RECIPES;
 
@@ -553,10 +543,39 @@ export type FermentationRecipeName =
   | LegacyFermentationRecipeName
   | RetiredBaitFermentationRecipeName;
 
+/**
+ * Recipes that may be started from the aging shed UI. Do not add legacy or retired
+ * bait entries here — use {@link getFermentationRecipe} for any known recipe id.
+ */
+export const STARTABLE_FERMENTATION_RECIPES: Record<
+  StartableFermentationRecipeName,
+  FermentationRecipeDefinition
+> = {
+  ...STATIC_FERMENTATION_RECIPES,
+  ...BAIT_FERMENTATION_RECIPES,
+};
+
+/**
+ * Full registry including legacy greenhouse and retired bait (collect-only).
+ * Do **not** iterate this map for UI or new starts — use {@link FERMENTATION_RECIPE_IDS}
+ * and {@link STARTABLE_FERMENTATION_RECIPES}.
+ */
+const ALL_FERMENTATION_RECIPES: Record<
+  FermentationRecipeName,
+  FermentationRecipeDefinition
+> = {
+  ...STARTABLE_FERMENTATION_RECIPES,
+  ...RETIRED_BAIT_FERMENTATION_RECIPES,
+  ...LEGACY_FERMENTATION_RECIPES,
+};
+
 export const FERMENTATION_RECIPE_IDS: StartableFermentationRecipeName[] = [
   ...getKeys(STATIC_FERMENTATION_RECIPES),
   ...getKeys(BAIT_FERMENTATION_RECIPES),
 ];
+
+export const BAIT_FERMENTATION_RECIPE_IDS: BaitFermentationRecipeName[] =
+  getKeys(BAIT_FERMENTATION_RECIPES);
 
 const STARTABLE_FERMENTATION_RECIPE_ID_SET = new Set<string>(
   FERMENTATION_RECIPE_IDS,
@@ -567,7 +586,7 @@ export type FermentationCollectedActivity = `${InventoryItemName} Fermented`;
 export function isFermentationRecipeName(
   id: string,
 ): id is FermentationRecipeName {
-  return id in FERMENTATION_RECIPES;
+  return id in ALL_FERMENTATION_RECIPES;
 }
 
 export function isStartableFermentationRecipeName(
@@ -579,7 +598,7 @@ export function isStartableFermentationRecipeName(
 export function getFermentationRecipe(
   name: FermentationRecipeName,
 ): FermentationRecipeDefinition {
-  return FERMENTATION_RECIPES[name];
+  return ALL_FERMENTATION_RECIPES[name];
 }
 
 /** Fermentation rack slots: one per Aging Shed level, max 6. */

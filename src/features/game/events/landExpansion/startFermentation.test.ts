@@ -2,10 +2,12 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  BAIT_FERMENTATION_RECIPE_IDS,
   getFermentationRecipe,
   GREENHOUSE_FERMENTATION_STARTABLE_IDS,
   LEGACY_FERMENTATION_RECIPE_IDS,
   RETIRED_BAIT_FERMENTATION_RECIPE_IDS,
+  type BaitFermentationRecipeName,
   type FermentationRecipeName,
   type LegacyFermentationRecipeName,
   type RetiredBaitFermentationRecipeName,
@@ -466,6 +468,33 @@ describe("startFermentation", () => {
       const def = getFermentationRecipe(recipeId);
       expect(def.ingredients["Refined Salt"]?.eq(1)).toBe(true);
 
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      const state = startFermentation({
+        state: createFermentationTestState({ inventory }),
+        action: {
+          type: "fermentation.started",
+          recipe: recipeId,
+          jobId: TEST_JOB_ID,
+        },
+        farmId: 1,
+        createdAt,
+      });
+
+      for (const [ing] of getObjectEntries(def.ingredients)) {
+        expect(state.inventory[ing]?.toNumber() ?? 0).toEqual(0);
+      }
+      expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipeId);
+    },
+  );
+
+  it.each(BAIT_FERMENTATION_RECIPE_IDS)(
+    "starts bait fermentation recipe and deducts ingredients (%s)",
+    (recipeId: BaitFermentationRecipeName) => {
+      const def = getFermentationRecipe(recipeId);
       const inventory: Record<string, Decimal> = {};
       for (const [ing, qty] of getObjectEntries(def.ingredients)) {
         inventory[ing] = qty ?? new Decimal(0);
