@@ -152,14 +152,19 @@ export function rechargeAllSaltNodes(
   return game;
 }
 
-export function getSaltYieldPerRake(gameState: GameState): number {
+export function getSaltYieldPerRake(gameState: GameState): {
+  saltYield: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   let saltYield = BASE_SALT_YIELD;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (gameState.bumpkin?.skills["Wide Rakes"]) {
     saltYield += 2;
+    boostsUsed.push({ name: "Wide Rakes", value: "+2" });
   }
 
-  return saltYield;
+  return { saltYield, boostsUsed };
 }
 
 function clampStoredCharges(

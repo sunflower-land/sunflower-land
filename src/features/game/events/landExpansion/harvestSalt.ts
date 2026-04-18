@@ -74,7 +74,8 @@ export function harvestSalt({
     if (availableRakes.lt(1)) {
       throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
     }
-    const saltPerRake = getSaltYieldPerRake(copy);
+    const { saltYield: saltPerRake, boostsUsed: saltYieldBoostsUsed } =
+      getSaltYieldPerRake(copy);
     const legacySalt = legacyReadySlots * saltPerRake;
 
     const saltInInventory = copy.inventory["Salt"] ?? new Decimal(0);
@@ -143,7 +144,7 @@ export function harvestSalt({
 
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
-      boostNames: boostsUsed,
+      boostNames: [...boostsUsed, ...saltYieldBoostsUsed],
       createdAt,
     });
   });
