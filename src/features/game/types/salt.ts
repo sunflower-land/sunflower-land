@@ -285,7 +285,9 @@ export function populateSaltFarm({
 
   const sameBoostSet =
     boostsUsedBefore.length === boostsUsedAfter.length &&
-    boostsUsedBefore.every((b) => boostsUsedAfter.includes(b));
+    boostsUsedBefore.every((b) =>
+      boostsUsedAfter.some((a) => a.name === b.name && a.value === b.value),
+    );
 
   if (
     chargeGenerationTimeAfter === chargeGenerationTimeBefore &&
