@@ -1702,7 +1702,18 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-04-17T00:00:00Z"),
     withdrawAt: new Date("2026-04-17T00:00:00Z"),
   },
-
+  "Bumpkin Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Goblin Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Pet Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
   "Jester in a box": {
     tradeAt: new Date("2026-04-17T00:00:00Z"),
     withdrawAt: new Date("2026-04-17T00:00:00Z"),
