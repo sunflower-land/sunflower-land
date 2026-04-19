@@ -136,11 +136,22 @@ export function rechargeAllSaltNodes(
   createdAt: number,
 ): GameState {
   const interval = getSaltChargeGenerationTime({ gameState: game });
+  const maxCharges = getMaxStoredSaltChargesFromLevel(
+    game.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
+  const syncOpts: SaltSyncOptions = { chargeIntervalMs: interval, maxCharges };
   for (const nodeId of Object.keys(game.saltFarm.nodes)) {
-    game.saltFarm.nodes[nodeId].salt.storedCharges =
-      MAX_STORED_SALT_CHARGES_PER_NODE;
-    game.saltFarm.nodes[nodeId].salt.nextChargeAt = createdAt + interval;
+    const node = game.saltFarm.nodes[nodeId];
+    const syncedNode = syncSaltNode(node, createdAt, syncOpts);
+    const storedCharges = getStoredSaltCharges(node, createdAt);
+    syncedNode.salt.storedCharges = Math.min(
+      storedCharges + MAX_STORED_SALT_CHARGES_PER_NODE,
+      maxCharges,
+    );
+    syncedNode.salt.nextChargeAt = createdAt + interval;
+    game.saltFarm.nodes[nodeId] = syncedNode;
   }
+
   return game;
 }
 

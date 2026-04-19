@@ -1,10 +1,12 @@
 import type { GameState } from "features/game/types/game";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
   getSaltChargeGenerationTime,
   materializeSaltRegen,
   populateSaltFarm,
+  rechargeAllSaltNodes,
   syncSaltNode,
   type Salt,
   type SaltNode,
@@ -113,5 +115,145 @@ describe("populateSaltFarm", () => {
 
     expect(base.saltFarm.nodes["0"].salt.storedCharges).toBe(3);
     expect(withOverride.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
+  });
+});
+
+describe("rechargeAllSaltNodes", () => {
+  const t0 = 1_000_000_000_000;
+
+  it("fills to the base max and resets the charge timer", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      saltFarm: {
+        level: 1,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 0,
+              nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
+            },
+          },
+        },
+      },
+    };
+    const interval = getSaltChargeGenerationTime({ gameState: game });
+    rechargeAllSaltNodes(game, t0);
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(
+      MAX_STORED_SALT_CHARGES_PER_NODE,
+    );
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(t0 + interval);
+  });
+
+  it("does not push stored charges above the Salt Sculpture cap", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      saltFarm: {
+        level: 1,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
+              nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
+            },
+          },
+        },
+      },
+    };
+    const interval = getSaltChargeGenerationTime({ gameState: game });
+    rechargeAllSaltNodes(game, t0);
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(
+      MAX_STORED_SALT_CHARGES_PER_NODE,
+    );
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(t0 + interval);
+  });
+
+  it("respects a higher stored cap when Salt Sculpture is upgraded", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      sculptures: { "Salt Sculpture": { level: 3 } },
+      saltFarm: {
+        level: 2,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 1,
+              nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME * 10,
+            },
+          },
+        },
+      },
+    };
+    const interval = getSaltChargeGenerationTime({ gameState: game });
+    rechargeAllSaltNodes(game, t0);
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(t0 + interval);
+  });
+
+  it("materializes passive regen before applying the skill grant", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      sculptures: { "Salt Sculpture": { level: 3 } },
+      saltFarm: {
+        level: 2,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 0,
+              nextChargeAt: t0,
+            },
+          },
+        },
+      },
+    };
+    const interval = getSaltChargeGenerationTime({ gameState: game });
+    const skillAt = t0 + interval;
+    rechargeAllSaltNodes(game, skillAt);
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(4);
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(skillAt + interval);
+  });
+
+  it("updates every salt node on the farm", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      saltFarm: {
+        level: 2,
+        nodes: {
+          "0": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 0 },
+            salt: {
+              storedCharges: 0,
+              nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
+            },
+          },
+          "1": {
+            createdAt: t0,
+            coordinates: { x: 0, y: 1 },
+            salt: {
+              storedCharges: 1,
+              nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME * 2,
+            },
+          },
+        },
+      },
+    };
+    const interval = getSaltChargeGenerationTime({ gameState: game });
+    rechargeAllSaltNodes(game, t0);
+    expect(game.saltFarm.nodes["0"].salt.storedCharges).toBe(
+      MAX_STORED_SALT_CHARGES_PER_NODE,
+    );
+    expect(game.saltFarm.nodes["1"].salt.storedCharges).toBe(
+      MAX_STORED_SALT_CHARGES_PER_NODE,
+    );
+    expect(game.saltFarm.nodes["0"].salt.nextChargeAt).toBe(t0 + interval);
+    expect(game.saltFarm.nodes["1"].salt.nextChargeAt).toBe(t0 + interval);
   });
 });
