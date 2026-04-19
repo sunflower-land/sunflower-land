@@ -105,11 +105,6 @@ export function removeCollectible({
       }
     }
 
-    // Populate the salt farm with the new salt charges
-    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
-      populateSaltFarm({ game: stateCopy, now: createdAt });
-    }
-
     delete collectibleToRemove.coordinates;
     collectibleToRemove.removedAt = createdAt;
 
@@ -117,6 +112,14 @@ export function removeCollectible({
       "Collectible Removed",
       stateCopy.farmActivity,
     );
+
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({
+        gameBefore: state,
+        gameAfter: stateCopy,
+        now: createdAt,
+      });
+    }
 
     return stateCopy;
   });

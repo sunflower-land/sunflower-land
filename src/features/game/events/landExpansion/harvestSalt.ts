@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
-  MAX_STORED_SALT_CHARGES_PER_NODE,
   SEA_BLESSED_CHANCE,
   SEA_BLESSED_NODE_COUNT,
   getSaltChargeGenerationTime,
@@ -9,14 +8,16 @@ import {
   getStoredSaltCharges,
   materializeSaltRegen,
   syncSaltNode,
+  getMaxStoredSaltCharges,
+  SaltSyncOptions,
 } from "features/game/types/salt";
-import { getMaxStoredSaltCharges } from "features/game/types/saltSculpture";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getKeys } from "lib/object";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getObjectEntries } from "lib/object";
 
 export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
@@ -53,11 +54,12 @@ export function harvestSalt({
       throw new Error(HARVEST_SALT_ERRORS.SALT_NODE_NOT_FOUND);
     }
 
-    const interval = getSaltChargeGenerationTime({ gameState: copy });
+    const { chargeGenerationTimeMs: chargeIntervalMs, boostsUsed } =
+      getSaltChargeGenerationTime({ gameState: copy });
     const maxCharges = getMaxStoredSaltCharges(
       copy.sculptures?.["Salt Sculpture"]?.level ?? 0,
     );
-    const syncOpts = { chargeIntervalMs: interval, maxCharges };
+    const syncOpts: SaltSyncOptions = { chargeIntervalMs, maxCharges };
     const syncedNode = syncSaltNode(saltNode, createdAt, syncOpts);
     const storedCharges = getStoredSaltCharges(syncedNode, createdAt, syncOpts);
 
@@ -70,7 +72,8 @@ export function harvestSalt({
     if (availableRakes.lt(1)) {
       throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
     }
-    const saltPerRake = getSaltYieldPerRake(copy);
+    const { saltYield: saltPerRake, boostsUsed: saltYieldBoostsUsed } =
+      getSaltYieldPerRake(copy);
     const legacySalt = legacyReadySlots * saltPerRake;
 
     const saltInInventory = copy.inventory["Salt"] ?? new Decimal(0);
@@ -81,9 +84,9 @@ export function harvestSalt({
     const syncedNextChargeAt = syncedNode.salt.nextChargeAt;
     const baselineNextChargeAt = Number.isFinite(syncedNextChargeAt)
       ? syncedNextChargeAt
-      : createdAt + interval;
+      : createdAt + chargeIntervalMs;
     const nextChargeAt = wasFullBeforeHarvest
-      ? createdAt + interval
+      ? createdAt + chargeIntervalMs
       : baselineNextChargeAt;
 
     const draftSalt = {
@@ -113,25 +116,42 @@ export function harvestSalt({
       });
 
       if (seaBlessedHit) {
-        const interval = getSaltChargeGenerationTime({ gameState: copy });
-        const nodeIds = getKeys(copy.saltFarm.nodes);
-        const eligible = nodeIds.filter(
-          (id) =>
-            copy.saltFarm.nodes[id].salt.storedCharges <
-            MAX_STORED_SALT_CHARGES_PER_NODE,
-        );
+        const eligible = getObjectEntries(copy.saltFarm.nodes)
+          .filter(([, node]) => {
+            const syncedNode = syncSaltNode(node, createdAt, syncOpts);
+            const storedCharges = getStoredSaltCharges(
+              syncedNode,
+              createdAt,
+              syncOpts,
+            );
+            return storedCharges < maxCharges;
+          })
+          .map(([nodeId]) => nodeId);
         const toRestore = eligible.slice(0, SEA_BLESSED_NODE_COUNT);
         for (const nodeId of toRestore) {
           const node = copy.saltFarm.nodes[nodeId];
-          node.salt.storedCharges = Math.min(
-            node.salt.storedCharges + 1,
-            MAX_STORED_SALT_CHARGES_PER_NODE,
+          const syncedNode = syncSaltNode(node, createdAt, syncOpts);
+          const storedCharges = getStoredSaltCharges(
+            syncedNode,
+            createdAt,
+            syncOpts,
           );
-          if (node.salt.storedCharges === MAX_STORED_SALT_CHARGES_PER_NODE) {
-            node.salt.nextChargeAt = createdAt + interval;
+          syncedNode.salt.storedCharges = Math.min(
+            storedCharges + 1,
+            maxCharges,
+          );
+          if (syncedNode.salt.storedCharges === maxCharges) {
+            syncedNode.salt.nextChargeAt = createdAt + chargeIntervalMs;
           }
+          copy.saltFarm.nodes[nodeId] = syncedNode;
         }
       }
     }
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: [...boostsUsed, ...saltYieldBoostsUsed],
+      createdAt,
+    });
   });
 }

@@ -1,8 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import type { GameState, InventoryItemName } from "./game";
+import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
-import { getMaxStoredSaltCharges as getMaxStoredSaltChargesFromLevel } from "./saltSculpture";
 
 export type SaltNode = {
   createdAt: number;
@@ -111,18 +110,24 @@ export function getSaltChargeGenerationTime({
   gameState,
 }: {
   gameState: GameState;
-}): number {
+}): {
+  chargeGenerationTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (gameState.bumpkin?.skills["Salty Seas"]) {
     chargeGenerationTimeMs *= 0.9;
+    boostsUsed.push({ name: "Salty Seas", value: "x0.9" });
   }
 
   if ((gameState.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 1) {
     chargeGenerationTimeMs *= 0.95;
+    boostsUsed.push({ name: "Salt Sculpture", value: "x0.95" });
   }
 
-  return chargeGenerationTimeMs;
+  return { chargeGenerationTimeMs, boostsUsed };
 }
 
 export const BASE_SALT_YIELD = 10; // 10 salt per rake
@@ -135,7 +140,9 @@ export function rechargeAllSaltNodes(
   game: GameState,
   createdAt: number,
 ): GameState {
-  const interval = getSaltChargeGenerationTime({ gameState: game });
+  const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
+    gameState: game,
+  });
   for (const nodeId of Object.keys(game.saltFarm.nodes)) {
     game.saltFarm.nodes[nodeId].salt.storedCharges =
       MAX_STORED_SALT_CHARGES_PER_NODE;
@@ -144,14 +151,19 @@ export function rechargeAllSaltNodes(
   return game;
 }
 
-export function getSaltYieldPerRake(gameState: GameState): number {
+export function getSaltYieldPerRake(gameState: GameState): {
+  saltYield: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   let saltYield = BASE_SALT_YIELD;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (gameState.bumpkin?.skills["Wide Rakes"]) {
     saltYield += 2;
+    boostsUsed.push({ name: "Wide Rakes", value: "+2" });
   }
 
-  return saltYield;
+  return { saltYield, boostsUsed };
 }
 
 function clampStoredCharges(
@@ -183,7 +195,7 @@ function rollNextChargeBoundary(
 export function materializeSaltRegen(
   salt: Salt,
   now: number,
-  options?: SaltSyncOptions,
+  options: SaltSyncOptions | undefined,
 ): Salt {
   const intervalMs = options?.chargeIntervalMs ?? SALT_CHARGE_GENERATION_TIME;
   const maxCharges = options?.maxCharges ?? MAX_STORED_SALT_CHARGES_PER_NODE;
@@ -212,15 +224,7 @@ export function materializeSaltRegen(
 export function getStoredSaltCharges(
   saltNode: SaltNode,
   now: number,
-  options?: SaltSyncOptions,
-): number {
-  return materializeSaltRegen(saltNode.salt, now, options).storedCharges;
-}
-
-export function getDisplaySaltCharges(
-  saltNode: SaltNode,
-  now: number,
-  options?: SaltSyncOptions,
+  options: SaltSyncOptions | undefined,
 ): number {
   return materializeSaltRegen(saltNode.salt, now, options).storedCharges;
 }
@@ -228,7 +232,7 @@ export function getDisplaySaltCharges(
 export function syncSaltNode(
   saltNode: SaltNode,
   now: number,
-  options?: SaltSyncOptions,
+  options: SaltSyncOptions | undefined,
 ): SaltNode {
   return {
     ...saltNode,
@@ -248,27 +252,60 @@ export function getNextSaltChargeInSeconds({
 
 export const SALT_FARM_UPDATE_INTERVAL = 1000 * 60 * 10; // 10 minutes
 
+/**
+ * Crystallises accrued salt charges at the pre-mutation rate.
+ * Call AFTER the boost-changing mutation so that `gameBefore` still
+ * reflects the old rate and `game` reflects the new rate.
+ * Skips work when charge generation time, active boosts, and max stored charges are unchanged.
+ */
 export function populateSaltFarm({
-  game,
+  gameBefore,
+  gameAfter,
   now,
-  /** When set (e.g. Salt Sculpture upgrade), use this level only for max stored charges; charge interval still follows current `game` state. */
-  saltSculptureLevelForMaxCharges,
 }: {
-  game: GameState;
+  gameBefore: Readonly<GameState>;
+  gameAfter: GameState;
   now: number;
-  saltSculptureLevelForMaxCharges?: number;
 }) {
-  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState: game });
-  const maxCharges = getMaxStoredSaltChargesFromLevel(
-    saltSculptureLevelForMaxCharges ??
-      game.sculptures?.["Salt Sculpture"]?.level ??
-      0,
-  );
-  const syncOpts: SaltSyncOptions = { chargeIntervalMs, maxCharges };
+  const {
+    chargeGenerationTimeMs: chargeGenerationTimeBefore,
+    boostsUsed: boostsUsedBefore,
+  } = getSaltChargeGenerationTime({ gameState: gameBefore });
+  const {
+    chargeGenerationTimeMs: chargeGenerationTimeAfter,
+    boostsUsed: boostsUsedAfter,
+  } = getSaltChargeGenerationTime({ gameState: gameAfter });
 
-  for (const nodeId of Object.keys(game.saltFarm.nodes)) {
-    game.saltFarm.nodes[nodeId] = syncSaltNode(
-      game.saltFarm.nodes[nodeId],
+  const prevMax = getMaxStoredSaltCharges(
+    gameBefore.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
+  const nextMax = getMaxStoredSaltCharges(
+    gameAfter.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
+
+  const sameBoostSet =
+    boostsUsedBefore.length === boostsUsedAfter.length &&
+    boostsUsedBefore.every((b) =>
+      boostsUsedAfter.some((a) => a.name === b.name && a.value === b.value),
+    );
+
+  if (
+    chargeGenerationTimeAfter === chargeGenerationTimeBefore &&
+    sameBoostSet &&
+    prevMax === nextMax
+  ) {
+    return;
+  }
+
+  const maxCharges = nextMax;
+  const syncOpts: SaltSyncOptions = {
+    chargeIntervalMs: chargeGenerationTimeBefore,
+    maxCharges,
+  };
+
+  for (const nodeId of Object.keys(gameAfter.saltFarm.nodes)) {
+    gameAfter.saltFarm.nodes[nodeId] = syncSaltNode(
+      gameAfter.saltFarm.nodes[nodeId],
       now,
       syncOpts,
     );
@@ -372,4 +409,11 @@ export function getSaltNodesWithPositions(
 
     return acc;
   }, {});
+}
+
+export function getMaxStoredSaltCharges(sculptureLevel: number): number {
+  let max = MAX_STORED_SALT_CHARGES_PER_NODE;
+  if (sculptureLevel >= 3) max += 1;
+  if (sculptureLevel >= 6) max += 1;
+  return max;
 }

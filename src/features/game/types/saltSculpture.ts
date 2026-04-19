@@ -64,10 +64,3 @@ export const SALT_SCULPTURE_BUFFS: Record<number, string> = {
 export function getSaltSculptureLevel(state: GameState): number {
   return state.sculptures?.["Salt Sculpture"]?.level ?? 0;
 }
-
-export function getMaxStoredSaltCharges(sculptureLevel: number): number {
-  let max = 3;
-  if (sculptureLevel >= 3) max += 1;
-  if (sculptureLevel >= 6) max += 1;
-  return max;
-}
