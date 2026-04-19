@@ -18,6 +18,7 @@ import { getRelativeTime } from "lib/utils/time";
 import promote from "assets/icons/promote.webp";
 import followIcon from "assets/icons/follow.webp";
 import helpIcon from "assets/icons/help.webp";
+import cheer from "assets/icons/cheer.webp";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -48,6 +49,8 @@ import { HelpInfoPopover } from "./components/HelpInfoPopover";
 import { SearchBar } from "./components/SearchBar";
 import { Detail } from "./actions/getFollowNetworkDetails";
 import { useNow } from "lib/utils/hooks/useNow";
+import Decimal from "decimal.js-light";
+import { useHelpCounter } from "features/island/hud/components/useHelpCounter";
 
 type Props = {
   type: "world" | "local";
@@ -60,6 +63,9 @@ const _username = (state: MachineState) =>
   (state.context.visitorState ?? state.context.state).username;
 const _farmId = (state: MachineState) =>
   state.context.visitorId ?? state.context.farmId;
+const _cheersAvailable = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).inventory["Cheer"] ??
+  new Decimal(0);
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -103,6 +109,8 @@ export const Feed: React.FC<Props> = ({
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
+  const cheersAvailable = useSelector(gameService, _cheersAvailable);
+  const helpCounter = useHelpCounter(gameService);
 
   const { t } = useAppTranslation();
 
@@ -266,6 +274,32 @@ export const Feed: React.FC<Props> = ({
                 />
               )}
               <Label type="default">{t("feed")}</Label>
+              <Label type="default" style={{ paddingLeft: "24px" }}>
+                <div className="absolute left-[-12px] top-1/2 -translate-y-1/2 h-6 w-6">
+                  <img
+                    src={SUNNYSIDE.icons.disc}
+                    alt=""
+                    className="absolute left-0 top-0"
+                    style={{
+                      width: 24,
+                      height: 24,
+                    }}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.drag}
+                    alt=""
+                    className="absolute left-[3px] top-[3px]"
+                    style={{
+                      width: 18,
+                      height: 18,
+                    }}
+                  />
+                </div>
+                {`${helpCounter.remaining}/${helpCounter.total}`}
+              </Label>
+              <Label type="default" icon={cheer}>
+                {cheersAvailable.toNumber()}
+              </Label>
               {server && <span className="text-xxs">{server}</span>}
             </div>
             <img

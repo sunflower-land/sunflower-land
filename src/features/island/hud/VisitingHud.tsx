@@ -33,6 +33,7 @@ import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
+import { useSyncHelpCounterCache } from "./components/useHelpCounter";
 
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
@@ -46,6 +47,8 @@ const _autosaving = (state: MachineState) => state.matches("autosaving");
 export const VisitingHud: React.FC = () => {
   const { gameService, fromRoute } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  useSyncHelpCounterCache(gameService);
 
   const helpRequired = getHelpRequired({
     game: gameState.context.state,
