@@ -12,7 +12,7 @@ export const ApiKey: React.FC = () => {
 
   return (
     <>
-      <div className="p-2">
+      <div className="p-2 flex flex-col gap-2 mb-4">
         <p className="text-sm mb-2">{t("share.apiKeyDescription")}</p>
         <p className="text-xs truncate">{`x-api-key: ${apiKey}`}</p>
         <CopyField text={apiKey} copyFieldMessage={t("share.CopyFarmURL")} />

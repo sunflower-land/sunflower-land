@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 puntos de EXP animal por afecto animal",
   "description.spaCow.boost": "+0.1 Leche",
   "description.deepSeaSlug.boost": "+5 intentos de pesca",
-  "description.deepSeaSlug.boost.2": "+1 lombriz procedente del compostaje"
+  "description.deepSeaSlug.boost.2": "+1 lombriz procedente del compostaje",
+  "referral.share": "Comparte en:",
+  "referral.share.message": "¡Únete a mí en Sunflower Land! 🌻 Usa mi enlace de referencia para obtener un paquete de inicio cuando te registres. #SunflowerLand"
 }

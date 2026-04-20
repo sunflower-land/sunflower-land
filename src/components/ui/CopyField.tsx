@@ -56,7 +56,7 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   };
 
   return (
-    <div className="mb-4">
+    <>
       <div
         className={`mt-2 p-1 ${isDarkMode ? "bg-brown-200" : "bg-[#c28669]"}`}
       >
@@ -79,6 +79,6 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
       >
         <Label type="default">{tooltipMessage}</Label>
       </div>
-    </div>
+    </>
   );
 };

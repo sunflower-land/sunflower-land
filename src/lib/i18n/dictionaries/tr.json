@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "Hayvan Sevgisinden +5 Hayvan DP'si",
   "description.spaCow.boost": "+0.1 Süt",
   "description.deepSeaSlug.boost": "+5 Balıkçılık Denemesi",
-  "description.deepSeaSlug.boost.2": "+1 Kompostlamadan Solucan"
+  "description.deepSeaSlug.boost.2": "+1 Kompostlamadan Solucan",
+  "referral.share": "Paylaş:",
+  "referral.share.message": "Ayçiçeği Ülkesinde bana katılın! 🌻 Kaydolduğunuzda bir başlangıç paketi almak için tavsiye bağlantımı kullanın. #SunflowerLand"
 }

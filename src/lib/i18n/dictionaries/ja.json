@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "アニマル・アフェクションによる動物経験値+5",
   "description.spaCow.boost": "+0.1 ミルク",
   "description.deepSeaSlug.boost": "+5回釣りの試行",
-  "description.deepSeaSlug.boost.2": "コンポストからのワーム+1"
+  "description.deepSeaSlug.boost.2": "コンポストからのワーム+1",
+  "referral.share": "シェア:",
+  "referral.share.message": "サンフラワーランドに参加しよう！🌻 サインアップ時に私の紹介リンクを使ってスターターパッケージを入手してください。#SunflowerLand"
 }

@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 EXP Animal da Animal Affection",
   "description.spaCow.boost": "+0.1 Leite",
   "description.deepSeaSlug.boost": "+5 tentativas de pesca",
-  "description.deepSeaSlug.boost.2": "+1 minhoca da compostagem"
+  "description.deepSeaSlug.boost.2": "+1 minhoca da compostagem",
+  "referral.share": "Compartilhe em:",
+  "referral.share.message": "Junte-se a mim na Terra do Girassol! 🌻 Use meu link de indicação para obter um pacote inicial ao se inscrever. #SunflowerLand"
 }

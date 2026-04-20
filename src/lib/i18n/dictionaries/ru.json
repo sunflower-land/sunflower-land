@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 Animal XP from Animal Affection",
   "description.spaCow.boost": "+0.1 Milk",
   "description.deepSeaSlug.boost": "+5 Fishing Attempts",
-  "description.deepSeaSlug.boost.2": "+1 Worm from Composting"
+  "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
+  "referral.share": "Share on:",
+  "referral.share.message": "Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand"
 }
