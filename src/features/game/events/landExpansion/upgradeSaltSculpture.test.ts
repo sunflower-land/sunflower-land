@@ -33,7 +33,7 @@ describe("upgradeSaltSculpture", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          "Refined Salt": new Decimal(55),
+          "Refined Salt": new Decimal(100),
           "Capsule Bait": new Decimal(20),
         },
       }),
@@ -42,7 +42,7 @@ describe("upgradeSaltSculpture", () => {
     });
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(2);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(10);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(55);
     expect(state.inventory["Capsule Bait"]?.toNumber()).toBe(10);
   });
 
@@ -52,7 +52,7 @@ describe("upgradeSaltSculpture", () => {
         sculptures: { "Salt Sculpture": { level: 5 } },
         coins: 3000,
         inventory: {
-          "Refined Salt": new Decimal(200),
+          "Refined Salt": new Decimal(100),
           "Crimson Baitfish": new Decimal(20),
         },
       }),
@@ -62,7 +62,7 @@ describe("upgradeSaltSculpture", () => {
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(6);
     expect(state.coins).toBe(1000);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(100);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(0);
     expect(state.inventory["Crimson Baitfish"]?.toNumber()).toBe(10);
   });
 
@@ -96,7 +96,7 @@ describe("upgradeSaltSculpture", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          "Refined Salt": new Decimal(55),
+          "Refined Salt": new Decimal(100),
           "Capsule Bait": new Decimal(20),
         },
       }),
