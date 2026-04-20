@@ -120,11 +120,13 @@ export function getSpiceRackRecipe(
   return SPICE_RACK_RECIPES[name];
 }
 
-/** Spice rack slots: one per Aging Shed level, max 6. */
+export const MAX_SPICE_RACK_SLOTS = 6;
+
+/** Spice rack slots: one per Aging Shed level, capped at {@link MAX_SPICE_RACK_SLOTS}. */
 export function getMaxSpiceRackSlots(level: number): number {
   if (level < 1) {
     return 1;
   }
 
-  return Math.min(level, 6);
+  return Math.min(level, MAX_SPICE_RACK_SLOTS);
 }
