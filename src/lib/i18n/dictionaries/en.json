@@ -3174,6 +3174,11 @@
   "minigame.dashboard.buyOnMarketplace": "Buy on marketplace",
   "minigame.dashboard.highscore": "High score",
   "minigame.dashboard.highscoreAria": "Your high score for this game: {{score}}",
+  "minigame.dashboard.leaderboard": "Leaderboard",
+  "minigame.dashboard.leaderboardEmpty": "No scores yet — be the first!",
+  "minigame.dashboard.leaderboardLastUpdated": "Updated {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Lvl {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Couldn't load the leaderboard.",
   "nftminting.mintAccountNFT": "Minting Account NFT",
   "nftminting.mintingYourNFT": "Minting your NFT and storing progress on the Blockchain",
   "nftminting.almostThere": "Almost there",
@@ -8793,5 +8798,6 @@
   "description.spaSheep.boost": "+5 Animal XP from Animal Affection",
   "description.spaCow.boost": "+0.1 Milk",
   "description.deepSeaSlug.boost": "+5 Fishing Attempts",
-  "description.deepSeaSlug.boost.2": "+1 Worm from Composting"
+  "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
+  "saltSculpture.upgrade": "Upgrade to Level {{level}}"
 }
