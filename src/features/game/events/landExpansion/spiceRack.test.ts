@@ -48,14 +48,13 @@ describe("getMaxSpiceRackSlots", () => {
     expect(getMaxSpiceRackSlots(-1)).toEqual(1);
   });
 
-  it("returns level for 1 through 4", () => {
+  it("returns level for 1 through 6", () => {
     expect(getMaxSpiceRackSlots(1)).toEqual(1);
     expect(getMaxSpiceRackSlots(3)).toEqual(3);
-    expect(getMaxSpiceRackSlots(4)).toEqual(4);
+    expect(getMaxSpiceRackSlots(6)).toEqual(6);
   });
 
-  it("caps at 4 for higher levels", () => {
-    expect(getMaxSpiceRackSlots(5)).toEqual(4);
-    expect(getMaxSpiceRackSlots(6)).toEqual(4);
+  it("caps at 6 for higher levels", () => {
+    expect(getMaxSpiceRackSlots(7)).toEqual(6);
   });
 });
