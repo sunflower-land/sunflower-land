@@ -8790,5 +8790,10 @@
   "description.saltRock": "A chunk of raw salt — the currency of this chapter.",
   "description.saltAwakeningRaffleTicket": "Hold onto this — you could win something salty.",
   "description.saltAwakeningBanner": "Rally the flag — the Salt Awakening has begun.",
-  "description.saltDinoEgg": "A fossilized egg cracked from the salt flats. Who laid this?"
+  "description.saltDinoEgg": "A fossilized egg cracked from the salt flats. Who laid this?",
+  "description.flamingoChicken.boost": "-2.5% Chicken Sleep Time",
+  "description.spaSheep.boost": "+5 Animal XP from Animal Affection",
+  "description.spaCow.boost": "+0.1 Milk",
+  "description.deepSeaSlug.boost": "+5 Fishing Attempts",
+  "description.deepSeaSlug.boost.2": "+1 Worm from Composting"
 }

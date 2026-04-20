@@ -2183,6 +2183,44 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Flamingo Chicken": () => [
+    {
+      shortDescription: translate("description.flamingoChicken.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+    },
+  ],
+  "Spa Sheep": () => [
+    {
+      shortDescription: translate("description.spaSheep.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+  ],
+  "Spa Cow": () => [
+    {
+      shortDescription: translate("description.spaCow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+  ],
+  "Deep Sea Slug": () => [
+    {
+      shortDescription: translate("description.deepSeaSlug.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rod"].image,
+    },
+    {
+      shortDescription: translate("description.deepSeaSlug.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+    },
+  ],
 
   // All items go above this line
 
