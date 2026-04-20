@@ -8351,7 +8351,6 @@
   "eventAprilFools.noticeboard.one": "Добро пожаловать на событие от сообщества Sunflower Land на 1 апреля 2026!",
   "upgrade.intro.agingShed": "Эй, бампкин! Прокачай {{building}} и получи больше слотов для выдержки, ферментации и специй.",
   "upgrade.agingShedCapacity": "+1 слот на полках выдержки, ферментации и специй",
-  "upgrade.agingShedCapacity.level5&6": "+1 слот на полках выдержки и ферментации",
   "greenhouseGlow": "Тепличное сияние",
   "description.greenhouseGlow": "Ферментированный буст для теплицы.",
   "greenhouseGoodie": "Тепличный гостинец",
