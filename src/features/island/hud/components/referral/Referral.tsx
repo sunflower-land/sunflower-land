@@ -236,10 +236,11 @@ export const ReferralInfo: React.FC = () => {
 
       {/* Social share buttons */}
       <div className="flex items-center gap-1 flex-wrap">
-        <p>{`Share on: `}</p>
+        <p>{`${t("referral.share")} `}</p>
         <TwitterShareButton
           url={referralLink}
           title={shareMessage}
+          hashtags={["SunflowerLand"]}
           onClick={() => onShareClick("Twitter")}
         >
           <XIcon size={32} round />
@@ -260,7 +261,7 @@ export const ReferralInfo: React.FC = () => {
         </TelegramShareButton>
         <FacebookShareButton
           url={referralLink}
-          title={shareMessage}
+          hashtag="#SunflowerLand"
           onClick={() => onShareClick("Facebook")}
         >
           <FacebookIcon size={32} round />
