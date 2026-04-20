@@ -145,6 +145,8 @@ export type ActionForm = {
 export type EditorFormState = {
   slug: string;
   playUrl: string;
+  /** Listed in Economy Hub and minigames marketplace when true. */
+  enabled: boolean;
   /** `items` token key (`String(id)`); empty = auto primary currency among tradeable items. */
   mainCurrencyToken: string;
   descriptionTitle: string;
@@ -169,6 +171,7 @@ export type EditorTab =
 export const EMPTY_FORM: EditorFormState = {
   slug: "",
   playUrl: "",
+  enabled: false,
   mainCurrencyToken: "",
   descriptionTitle: "",
   descriptionSubtitle: "",

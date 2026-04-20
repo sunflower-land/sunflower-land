@@ -131,6 +131,10 @@ export function migrateLegacyPlayerEconomyConfigFields(
       ? rawPurchases
       : undefined;
 
+  const enabledFlag = parseBooleanishFlag(
+    (input as PlayerEconomyConfig & { enabled?: unknown }).enabled,
+  );
+
   const out: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(itemsWithGeneratorInference).length > 0
@@ -143,6 +147,7 @@ export function migrateLegacyPlayerEconomyConfigFields(
     ...(input.mainCurrencyToken?.trim()
       ? { mainCurrencyToken: input.mainCurrencyToken.trim() }
       : {}),
+    ...(enabledFlag !== undefined ? { enabled: enabledFlag } : {}),
   };
 
   return out;
