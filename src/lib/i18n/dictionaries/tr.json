@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Önce çiftliğinizi oyuna yükleyin.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Belirteç alınamadı.",
   "skill.fishSmoking": "Yaşlı Balığın Prime Aged olma ihtimali iki katına çıktı",
-  "skill.refiner": "%15 +1 Rafine Tuz alma şansı",
   "saltHarvest.nextChargeIn": "Bir sonraki şarj:",
   "agingShed.agingRack": "Yaşlanma",
   "agingShed.fermentationRack": "Fermantasyon",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Turbofruit Karışımı",
   "skill.wideRakes": "Hasat başına +2 Tuz",
   "skill.bacalhau": "Fermantasyon rafından +1 yem verimi",
-  "skill.saltSurge": "Tüm Tuz Düğümlerini şarj edin",
   "playerEconomyEditor.itemCard.trophy": "Kupa (sahip olduğunuzda gösterge tablosunda gösterin)",
   "minigame.dashboard.trophyDetailEmpty": "Bu öğe için açıklama yok.",
   "minigame.dashboard.trophySection.title": "Kupa Bölümü",
   "minigame.dashboard.trophySection.subtitle": "Oyunu keşfedin ve kupaları toplayın",
-  "skill.speedyAging": "-10% Yaşlanma Raf süresi",
   "skill.saltySeas": "-10% tuz şarjı yenileme süresi",
   "skill.ager.buff": "Yaşlanma Kulübesi Raflarından 2 kat çıktı",
   "playerEconomyEditor.actionRow.noCollectRows": "Ödül satırları toplamak yok",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Bu jetonun kaç tanesinin tüm çiftliklerde (mağaza nane) bulunabileceğine ilişkin isteğe bağlı sınır.",
   "minigame.dashboard.supplyLeft": "{{count}} kaldı",
   "minigame.dashboard.supplySoldOut": "Küresel arz tükendi.",
-  "portal.mineWhack.title": "Mine Damlası"
+  "portal.mineWhack.title": "Mine Damlası",
+  "skill.speedyAging": "-10% Balık Yaşlanma süresi",
+  "skill.refiner": "Rafine Tuz yaparken %15 +1 Rafine Tuz şansı",
+  "skill.saltSurge": "Tüm Tuz Düğümlerini maksimuma kadar şarj edin"
 }

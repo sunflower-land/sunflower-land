@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Chargez d'abord votre ferme dans le jeu.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Impossible de récupérer le jeton.",
   "skill.fishSmoking": "Deux fois plus de chances que Aged Fish devienne Prime Aged",
-  "skill.refiner": "15 % de chances d'obtenir +1 sel raffiné",
   "saltHarvest.nextChargeIn": "Prochaine recharge dans :",
   "agingShed.agingRack": "Vieillissement",
   "agingShed.fermentationRack": "Fermentation",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Mélange de turbofruits",
   "skill.wideRakes": "+2 sels par récolte",
   "skill.bacalhau": "+1 Rendement d'appât grâce au casier de fermentation",
-  "skill.saltSurge": "Rechargez tous les Salt Nodes",
   "playerEconomyEditor.itemCard.trophy": "Trophée (à afficher sur le tableau de bord lorsque vous le possédez)",
   "minigame.dashboard.trophyDetailEmpty": "Aucune description pour cet article.",
   "minigame.dashboard.trophySection.title": "Section des trophées",
   "minigame.dashboard.trophySection.subtitle": "Explorez le jeu et collectez les trophées",
-  "skill.speedyAging": "-10 % Temps de vieillissement",
   "skill.saltySeas": "-10 % de temps de réapprovisionnement en sel",
   "skill.ager.buff": "2 sorties provenant de Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Aucune ligne de récompenses à collecter",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limitation facultative du nombre de jetons pouvant exister dans toutes les fermes (atelier de fabrication).",
   "minigame.dashboard.supplyLeft": "{{count}} gauche",
   "minigame.dashboard.supplySoldOut": "L'approvisionnement mondial est épuisé.",
-  "portal.mineWhack.title": "Mine Whack"
+  "portal.mineWhack.title": "Mine Whack",
+  "skill.speedyAging": "-10 % Temps de vieillissement du poisson",
+  "skill.refiner": "15 % de chances d'obtenir +1 sel raffiné lors de la fabrication de sel raffiné",
+  "skill.saltSurge": "Rechargez tous les Salt Nodes au maximum"
 }

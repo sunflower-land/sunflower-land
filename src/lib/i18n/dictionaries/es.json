@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carga primero tu granja en el juego.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "No se ha podido obtener el token.",
   "skill.fishSmoking": "Doble probabilidad de que Aged Fish pase a ser Prime Aged",
-  "skill.refiner": "15% de probabilidad de obtener +1 de sal refinada",
   "saltHarvest.nextChargeIn": "Próxima carga en:",
   "agingShed.agingRack": "Envejecimiento",
   "agingShed.fermentationRack": "Fermentación",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Mezcla Turbofruit",
   "skill.wideRakes": "+2 de sal por cosecha",
   "skill.bacalhau": "+1 Rendimiento de cebo en una rejilla de fermentación",
-  "skill.saltSurge": "Recarga todos los nodos de sal",
   "playerEconomyEditor.itemCard.trophy": "Trofeo (se muestra en el tablero cuando se posee)",
   "minigame.dashboard.trophyDetailEmpty": "No hay descripción para este artículo.",
   "minigame.dashboard.trophySection.title": "Sección de trofeos",
   "minigame.dashboard.trophySection.subtitle": "Explora el juego y recoge los trofeos",
-  "skill.speedyAging": "-10% de tiempo de envejecimiento en estante",
   "skill.saltySeas": "-10% de tiempo de reposición de la carga de sal",
   "skill.ager.buff": "2 veces la producción de Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "No hay filas de recompensas para acumular",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Límite opcional del número de fichas de este tipo que pueden existir en todas las granjas (casas de moneda).",
   "minigame.dashboard.supplyLeft": "{{count}} izquierda",
   "minigame.dashboard.supplySoldOut": "El suministro mundial está agotado.",
-  "portal.mineWhack.title": "Mine Whack"
+  "portal.mineWhack.title": "Mine Whack",
+  "skill.speedyAging": "-10% de tiempo de envejecimiento del pescado",
+  "skill.refiner": "15% de probabilidad de obtener +1 de sal refinada al hacer sal refinada",
+  "skill.saltSurge": "Recarga todos los nodos de sal al máximo"
 }

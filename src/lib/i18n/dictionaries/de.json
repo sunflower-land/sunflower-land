@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Lade zuerst deine Farm ins Spiel.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Das Token konnte nicht abgerufen werden.",
   "skill.fishSmoking": "Doppelte Chance: Aus Aged Fish wird Prime Aged",
-  "skill.refiner": "15% Chance, +1 raffiniertes Salz zu erhalten",
   "saltHarvest.nextChargeIn": "Nächstes Aufladen:",
   "agingShed.agingRack": "Altern",
   "agingShed.fermentationRack": "Fermentation",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Turbofruit-Mischung",
   "skill.wideRakes": "+2 Salz pro Ernte",
   "skill.bacalhau": "+1 Köderausbeute aus dem Gärregal",
-  "skill.saltSurge": "Alle Salzknoten aufladen",
   "playerEconomyEditor.itemCard.trophy": "Trophäe (wird auf dem Armaturenbrett angezeigt, wenn du sie besitzt)",
   "minigame.dashboard.trophyDetailEmpty": "Keine Beschreibung für diesen Artikel.",
   "minigame.dashboard.trophySection.title": "Sektion Trophäen",
   "minigame.dashboard.trophySection.subtitle": "Erkunde das Spiel und sammle die Trophäen",
-  "skill.speedyAging": "-10% Altern Racktime",
   "skill.saltySeas": "-10% Salzladezeit",
   "skill.ager.buff": "2× Leistung von Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Nein, sammle Belohnungsreihen",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optionale Obergrenze dafür, wie viele dieser Tokens in allen Farmen (Shop Mints) existieren können.",
   "minigame.dashboard.supplyLeft": "{{count}} übrig",
   "minigame.dashboard.supplySoldOut": "Das weltweite Angebot ist ausverkauft.",
-  "portal.mineWhack.title": "Mein Schlag"
+  "portal.mineWhack.title": "Mein Schlag",
+  "skill.speedyAging": "-10% Reifezeit der Fische",
+  "skill.refiner": "15% Chance auf +1 Raffiniertes Salz bei der Herstellung von raffiniertem Salz",
+  "skill.saltSurge": "Lädt alle Salzknoten auf Maximum auf"
 }

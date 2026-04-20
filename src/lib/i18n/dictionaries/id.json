@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Muat peternakan Anda di game terlebih dahulu.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Tidak dapat mengambil token.",
   "skill.fishSmoking": "Peluang dua kali lipat Ikan Aged menjadi Prime Aged",
-  "skill.refiner": "15% kesempatan untuk mendapatkan +1 Garam Halus",
   "saltHarvest.nextChargeIn": "Pengisian berikutnya di:",
   "agingShed.agingRack": "Penuaan",
   "agingShed.fermentationRack": "Fermentasi",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Campuran Turbofruit",
   "skill.wideRakes": "+2 Garam per panen",
   "skill.bacalhau": "+1 Hasil umpan dari rak fermentasi",
-  "skill.saltSurge": "Isi ulang semua Node Garam",
   "playerEconomyEditor.itemCard.trophy": "Trofi (ditampilkan di dasbor saat dimiliki)",
   "minigame.dashboard.trophyDetailEmpty": "Tidak ada deskripsi untuk item ini.",
   "minigame.dashboard.trophySection.title": "Bagian Trofi",
   "minigame.dashboard.trophySection.subtitle": "Jelajahi permainan dan kumpulkan piala",
-  "skill.speedyAging": "-10% Waktu Rak Penuaan",
   "skill.saltySeas": "-10% waktu pengisian garam",
   "skill.ager.buff": "2× keluaran dari Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Tidak ada pengumpulan baris hadiah",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Batasan opsional pada berapa banyak token ini yang dapat ada di semua peternakan (toko permen).",
   "minigame.dashboard.supplyLeft": "{{count}} tersisa",
   "minigame.dashboard.supplySoldOut": "Pasokan global terjual habis.",
-  "portal.mineWhack.title": "Penghancur Tambang"
+  "portal.mineWhack.title": "Penghancur Tambang",
+  "skill.speedyAging": "-10% Waktu Penuaan Ikan",
+  "skill.refiner": "15% peluang +1 Garam Halus saat membuat Garam Halus",
+  "skill.saltSurge": "Isi ulang semua Node Garam hingga maksimal"
 }

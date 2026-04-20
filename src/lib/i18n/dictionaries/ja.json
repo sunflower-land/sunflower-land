@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "最初にゲームにファームをロードしてください。",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "トークンを取得できませんでした。",
   "skill.fishSmoking": "熟成魚がプライムエイジになる確率が2倍になる",
-  "skill.refiner": "15% の確率で精製塩1個を獲得できる",
   "saltHarvest.nextChargeIn": "次回のチャージイン:",
   "agingShed.agingRack": "老化",
   "agingShed.fermentationRack": "発酵",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "ターボフルーツミックス",
   "skill.wideRakes": "収穫1回につき +2 塩",
   "skill.bacalhau": "+1発酵ラックからのベイト収量",
-  "skill.saltSurge": "すべてのソルトノードを充電する",
   "playerEconomyEditor.itemCard.trophy": "トロフィー（所有している場合はダッシュボードに表示）",
   "minigame.dashboard.trophyDetailEmpty": "この商品には説明がありません。",
   "minigame.dashboard.trophySection.title": "トロフィーセクション",
   "minigame.dashboard.trophySection.subtitle": "ゲームを探索してトロフィーを集めよう",
-  "skill.speedyAging": "-10% エージングラックタイム",
   "skill.saltySeas": "-10% 塩チャージ補給時間",
   "skill.ager.buff": "エージング・シェッド・ラックからの出力×2",
   "playerEconomyEditor.actionRow.noCollectRows": "コレクトリワード行なし",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "すべてのファーム（ショップミント）に存在できるトークンの数の上限（オプション）。",
   "minigame.dashboard.supplyLeft": "{{count}} 左",
   "minigame.dashboard.supplySoldOut": "グローバルサプライは完売しました。",
-  "portal.mineWhack.title": "マインワック"
+  "portal.mineWhack.title": "マインワック",
+  "skill.speedyAging": "-10% 魚の熟成時間",
+  "skill.refiner": "精製塩を作ると 15% の確率で精錬塩1個を獲得できる",
+  "skill.saltSurge": "すべてのソルトノードを最大までリチャージする"
 }

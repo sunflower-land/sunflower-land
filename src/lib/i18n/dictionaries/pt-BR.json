@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Carregue sua fazenda no jogo primeiro.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Não foi possível obter o token.",
   "skill.fishSmoking": "Chance dobrada de Peixe Envelhecido se tornar Prime Aged",
-  "skill.refiner": "15% de chance de obter +1 sal refinado",
   "saltHarvest.nextChargeIn": "Próxima cobrança em:",
   "agingShed.agingRack": "envelhecimento",
   "agingShed.fermentationRack": "Fermentação",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "Mistura de turbofrutas",
   "skill.wideRakes": "+2 Sal por colheita",
   "skill.bacalhau": "+1 rendimento de isca da prateleira de fermentação",
-  "skill.saltSurge": "Recarregue todos os Salt Nodes",
   "playerEconomyEditor.itemCard.trophy": "Troféu (exibido no painel quando possuído)",
   "minigame.dashboard.trophyDetailEmpty": "Não há descrição para este item.",
   "minigame.dashboard.trophySection.title": "Seção de troféus",
   "minigame.dashboard.trophySection.subtitle": "Explore o jogo e colete os troféus",
-  "skill.speedyAging": "-10% de tempo de envelhecimento no rack",
   "skill.saltySeas": "-10% de tempo de reposição da carga de sal",
   "skill.ager.buff": "Saída 2× da Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Não colete linhas de recompensa",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Limite opcional de quantos desses tokens podem existir em todas as fazendas (lojas de balas).",
   "minigame.dashboard.supplyLeft": "{{count}} à esquerda",
   "minigame.dashboard.supplySoldOut": "O fornecimento global está esgotado.",
-  "portal.mineWhack.title": "Mine Whack"
+  "portal.mineWhack.title": "Mine Whack",
+  "skill.speedyAging": "-10% de tempo de envelhecimento do peixe",
+  "skill.refiner": "15% de chance de +1 sal refinado ao fazer sal refinado",
+  "skill.saltSurge": "Recarregue todos os Salt Nodes ao máximo"
 }

@@ -8525,7 +8525,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "请先在游戏中加载您的农场。",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "令牌获取失败。",
   "skill.fishSmoking": "x2 几率获得特级腌制鱼",
-  "skill.refiner": "15% 几率获得 +1 精制盐",
   "saltHarvest.nextChargeIn": "下次充电：",
   "agingShed.agingRack": "风干架",
   "agingShed.fermentationRack": "发酵架",
@@ -8564,12 +8563,10 @@
   "fertiliser.turbofruitMix": "极速果蔬拌",
   "skill.wideRakes": "+2 盐",
   "skill.bacalhau": "+1 发酵架鱼饵产出",
-  "skill.saltSurge": "刷新所有盐矿充能",
   "playerEconomyEditor.itemCard.trophy": "奖杯（拥有时显示在仪表盘）",
   "minigame.dashboard.trophyDetailEmpty": "该物品暂无描述。",
   "minigame.dashboard.trophySection.title": "奖杯专区",
   "minigame.dashboard.trophySection.subtitle": "探索游戏，收集奖杯",
-  "skill.speedyAging": "-10% 腌制架耗时",
   "skill.saltySeas": "-10% 盐矿充能恢复时间",
   "skill.ager.buff": "x2 腌渍坊槽位产出",
   "playerEconomyEditor.actionRow.noCollectRows": "暂无收集奖励条目",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "可选数量上限，用于限制所有农场中该代币允许存在的总数量（商店铸造）。",
   "minigame.dashboard.supplyLeft": "剩余 {{count}}",
   "minigame.dashboard.supplySoldOut": "全服供应已售罄。",
-  "portal.mineWhack.title": "打矿鼠"
+  "portal.mineWhack.title": "打矿鼠",
+  "skill.speedyAging": "-10% 鱼类老化时间",
+  "skill.refiner": "制作精制盐时有 15% 的几率获得 +1 精制盐",
+  "skill.saltSurge": "将所有 Salt 节点充能到最大值"
 }

@@ -8537,7 +8537,6 @@
   "playerEconomyEditor.basics.portalJwtNoFarm": "Сначала загрузи свою ферму в игре.",
   "playerEconomyEditor.basics.portalJwtFetchFailed": "Не удалось получить токен.",
   "skill.fishSmoking": "Удвоенный шанс, что выдержанная рыба станет премиум выдержанной",
-  "skill.refiner": "15% шанс получить +1 очищенной соли",
   "description.bumpkinRug": "Ковёр с милой мордочкой бампкина",
   "description.goblinRug": "Всё ещё выглядит немного озорным.",
   "description.petRug": "Слишком милый, чтобы на него наступать. Почти.",
@@ -8570,12 +8569,10 @@
   "fertiliser.turbofruitMix": "Турбофруктовая смесь",
   "skill.wideRakes": "+2 соли за сбор",
   "skill.bacalhau": "+1 наживка на стойке ферментации",
-  "skill.saltSurge": "Перезарядить все соляные узлы",
   "playerEconomyEditor.itemCard.trophy": "Трофей (показывать на панели, если есть)",
   "minigame.dashboard.trophyDetailEmpty": "У этого предмета нет описания.",
   "minigame.dashboard.trophySection.title": "Раздел трофеев",
   "minigame.dashboard.trophySection.subtitle": "Исследуй игру и собирай трофеи",
-  "skill.speedyAging": "-10% времени на стойке выдержки",
   "skill.saltySeas": "-10% времени восстановления зарядов соли",
   "skill.ager.buff": "2х к производству на всех полках сарая выдержки",
   "playerEconomyEditor.actionRow.noCollectRows": "Нет строк наград за сбор",
@@ -8719,5 +8716,8 @@
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optional cap on how many of this token can exist across all farms (shop mints).",
   "minigame.dashboard.supplyLeft": "{{count}} left",
   "minigame.dashboard.supplySoldOut": "Global supply is sold out.",
-  "portal.mineWhack.title": "Mine Whack"
+  "portal.mineWhack.title": "Mine Whack",
+  "skill.speedyAging": "-10% Fish Aging time",
+  "skill.refiner": "15% chance of +1 Refined Salt when making Refined Salt",
+  "skill.saltSurge": "Recharge all Salt Nodes to max"
 }
