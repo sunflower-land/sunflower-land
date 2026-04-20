@@ -88,7 +88,7 @@ describe("startAging", () => {
     expect(() =>
       startAging({
         state: createFermentationTestState({
-          inventory: { Anchovy: new Decimal(1), Salt: new Decimal(4) },
+          inventory: { Anchovy: new Decimal(1), Salt: new Decimal(1) },
         }),
         action: {
           type: "agingRack.started",
@@ -118,7 +118,7 @@ describe("startAging", () => {
     expect(state.inventory.Anchovy?.toNumber()).toBe(4);
   });
 
-  it("deducts correct salt for Anchovy (5)", () => {
+  it("deducts correct salt for Anchovy", () => {
     const state = startAging({
       state: createFermentationTestState({
         inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
