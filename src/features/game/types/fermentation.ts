@@ -4,7 +4,6 @@ import { getKeys } from "lib/object";
 import type { Inventory, InventoryItemName } from "./game";
 import type { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
 import { getFishNamesByTier } from "./fishing";
-import { PickledCropName } from "./pickled";
 
 export type FermentationRecipeDefinition = {
   durationSeconds: number;
@@ -13,38 +12,6 @@ export type FermentationRecipeDefinition = {
 };
 
 const GREENHOUSE_FERMENT_DURATION_SEC = 60 * 60 * 2;
-
-function greenhouseGlowRecipe(
-  pickle: PickledCropName,
-  salt: "Salt" | "Refined Salt",
-): FermentationRecipeDefinition {
-  return {
-    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
-    ingredients: {
-      [pickle]: new Decimal(1),
-      [salt]: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Glow": new Decimal(1),
-    },
-  };
-}
-
-function greenhouseGoodieRecipe(
-  pickle: PickledCropName,
-  salt: "Salt" | "Refined Salt",
-): FermentationRecipeDefinition {
-  return {
-    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
-    ingredients: {
-      [pickle]: new Decimal(1),
-      [salt]: new Decimal(2),
-    },
-    outputs: {
-      "Greenhouse Goodie": new Decimal(1),
-    },
-  };
-}
 
 const STATIC_FERMENTATION_RECIPES = {
   "Pickled Radish": {
@@ -60,7 +27,7 @@ const STATIC_FERMENTATION_RECIPES = {
   "Pickled Zucchini": {
     durationSeconds: 60 * 60,
     ingredients: {
-      Zucchini: new Decimal(40),
+      Zucchini: new Decimal(75),
       Salt: new Decimal(5),
     },
     outputs: {
@@ -70,7 +37,7 @@ const STATIC_FERMENTATION_RECIPES = {
   "Pickled Tomato": {
     durationSeconds: 60 * 60,
     ingredients: {
-      Tomato: new Decimal(10),
+      Tomato: new Decimal(15),
       Salt: new Decimal(5),
     },
     outputs: {
@@ -100,37 +67,73 @@ const STATIC_FERMENTATION_RECIPES = {
   "Pickled Pepper": {
     durationSeconds: 60 * 60,
     ingredients: {
-      Pepper: new Decimal(10),
+      Pepper: new Decimal(30),
       Salt: new Decimal(5),
     },
     outputs: {
       "Pickled Pepper": new Decimal(1),
     },
   },
-  "Greenhouse Glow: Pickled Tomato": greenhouseGlowRecipe(
-    "Pickled Tomato",
-    "Refined Salt",
-  ),
-  "Greenhouse Glow: Pickled Zucchini": greenhouseGlowRecipe(
-    "Pickled Zucchini",
-    "Refined Salt",
-  ),
-  "Greenhouse Glow: Pickled Cabbage": greenhouseGlowRecipe(
-    "Pickled Cabbage",
-    "Refined Salt",
-  ),
-  "Greenhouse Goodie: Pickled Radish": greenhouseGoodieRecipe(
-    "Pickled Radish",
-    "Refined Salt",
-  ),
-  "Greenhouse Goodie: Pickled Pepper": greenhouseGoodieRecipe(
-    "Pickled Pepper",
-    "Refined Salt",
-  ),
-  "Greenhouse Goodie: Pickled Onion": greenhouseGoodieRecipe(
-    "Pickled Onion",
-    "Refined Salt",
-  ),
+  "Greenhouse Glow: Pickled Tomato": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Tomato": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  },
+  "Greenhouse Glow: Pickled Zucchini": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Zucchini": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  },
+  "Greenhouse Glow: Pickled Cabbage": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Cabbage": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  },
+  "Greenhouse Goodie: Pickled Radish": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Radish": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  },
+  "Greenhouse Goodie: Pickled Pepper": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Pepper": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  },
+  "Greenhouse Goodie: Pickled Onion": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Onion": new Decimal(1),
+      "Refined Salt": new Decimal(1),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  },
   "Sproutroot Surprise": {
     durationSeconds: 60 * 2,
     ingredients: {
@@ -193,27 +196,75 @@ const STATIC_FERMENTATION_RECIPES = {
 
 /**
  * Removed from the aging shed UI and from {@link FERMENTATION_RECIPE_IDS} so they
- * cannot be started, but kept in {@link FERMENTATION_RECIPES} so in-progress jobs
- * can still be collected.
+ * cannot be started, but kept in the full fermentation registry so in-progress jobs
+ * can still be collected ({@link getFermentationRecipe}).
  */
 const LEGACY_FERMENTATION_RECIPES = {
-  "Greenhouse Glow: Pickled Radish": greenhouseGlowRecipe(
-    "Pickled Radish",
-    "Salt",
-  ),
-  "Greenhouse Glow: Pickled Pepper": greenhouseGlowRecipe(
-    "Pickled Pepper",
-    "Salt",
-  ),
-  "Greenhouse Goodie: Pickled Cabbage": greenhouseGoodieRecipe(
-    "Pickled Cabbage",
-    "Salt",
-  ),
-  "Greenhouse Goodie: Pickled Tomato": greenhouseGoodieRecipe(
-    "Pickled Tomato",
-    "Salt",
-  ),
+  "Greenhouse Glow: Pickled Radish": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Radish": new Decimal(1),
+      Salt: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  },
+  "Greenhouse Glow: Pickled Pepper": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Pepper": new Decimal(1),
+      Salt: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Glow": new Decimal(1),
+    },
+  },
+  "Greenhouse Goodie: Pickled Cabbage": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Cabbage": new Decimal(1),
+      Salt: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  },
+  "Greenhouse Goodie: Pickled Tomato": {
+    durationSeconds: GREENHOUSE_FERMENT_DURATION_SEC,
+    ingredients: {
+      "Pickled Tomato": new Decimal(1),
+      Salt: new Decimal(2),
+    },
+    outputs: {
+      "Greenhouse Goodie": new Decimal(1),
+    },
+  },
 } as const satisfies Record<string, FermentationRecipeDefinition>;
+
+/** Template union keeps `FermentationCollectedActivity` finite (not `${string} Fermented`). */
+export type BaitFermentationRecipeName =
+  | `Capsule Bait (Aged ${FishName}, Pickled Zucchini)`
+  | `Capsule Bait (Prime Aged ${FishName}, Pickled Zucchini)`
+  | `Capsule Bait (Aged ${FishName}, Pickled Tomato)`
+  | `Capsule Bait (Prime Aged ${FishName}, Pickled Tomato)`
+  | `Umbrella Bait (Aged ${FishName}, Pickled Cabbage)`
+  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Cabbage)`
+  | `Umbrella Bait (Aged ${FishName}, Pickled Pepper)`
+  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Pepper)`
+  | `Crimson Baitfish (Aged ${FishName}, Pickled Radish)`
+  | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Radish)`
+  | `Crimson Baitfish (Aged ${FishName}, Pickled Onion)`
+  | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Onion)`;
+
+/** Former bait recipe ids kept for in-progress fermentation collection only. */
+export type RetiredBaitFermentationRecipeName =
+  | `Capsule Bait (Aged ${FishName}, Pickled Pepper)`
+  | `Capsule Bait (Prime Aged ${FishName}, Pickled Pepper)`
+  | `Umbrella Bait (Aged ${FishName}, Pickled Onion)`
+  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Onion)`
+  | `Crimson Baitfish (Aged ${FishName}, Pickled Tomato)`
+  | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Tomato)`;
 
 function buildBaitFermentationRecipes(): Record<
   BaitFermentationRecipeName,
@@ -246,21 +297,21 @@ function buildBaitFermentationRecipes(): Record<
         "Capsule Bait": new Decimal(6),
       },
     };
-    recipes[`Capsule Bait (Aged ${fish}, Pickled Pepper)`] = {
+    recipes[`Capsule Bait (Aged ${fish}, Pickled Tomato)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [aged]: new Decimal(1),
-        "Pickled Pepper": new Decimal(1),
+        "Pickled Tomato": new Decimal(1),
       },
       outputs: {
         "Capsule Bait": new Decimal(3),
       },
     };
-    recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
+    recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Tomato)`] = {
       durationSeconds: fiveMin,
       ingredients: {
         [primeAged]: new Decimal(1),
-        "Pickled Pepper": new Decimal(1),
+        "Pickled Tomato": new Decimal(1),
       },
       outputs: {
         "Capsule Bait": new Decimal(6),
@@ -292,6 +343,117 @@ function buildBaitFermentationRecipes(): Record<
         "Umbrella Bait": new Decimal(6),
       },
     };
+    recipes[`Umbrella Bait (Aged ${fish}, Pickled Pepper)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [aged]: new Decimal(1),
+        "Pickled Pepper": new Decimal(1),
+      },
+      outputs: {
+        "Umbrella Bait": new Decimal(3),
+      },
+    };
+    recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [primeAged]: new Decimal(1),
+        "Pickled Pepper": new Decimal(1),
+      },
+      outputs: {
+        "Umbrella Bait": new Decimal(6),
+      },
+    };
+  }
+
+  for (const fish of getFishNamesByTier("expert")) {
+    const aged: AgedFishName = `Aged ${fish}`;
+    const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
+
+    recipes[`Crimson Baitfish (Aged ${fish}, Pickled Radish)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [aged]: new Decimal(1),
+        "Pickled Radish": new Decimal(1),
+      },
+      outputs: {
+        "Crimson Baitfish": new Decimal(3),
+      },
+    };
+    recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Radish)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [primeAged]: new Decimal(1),
+        "Pickled Radish": new Decimal(1),
+      },
+      outputs: {
+        "Crimson Baitfish": new Decimal(6),
+      },
+    };
+    recipes[`Crimson Baitfish (Aged ${fish}, Pickled Onion)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [aged]: new Decimal(1),
+        "Pickled Onion": new Decimal(1),
+      },
+      outputs: {
+        "Crimson Baitfish": new Decimal(3),
+      },
+    };
+    recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Onion)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [primeAged]: new Decimal(1),
+        "Pickled Onion": new Decimal(1),
+      },
+      outputs: {
+        "Crimson Baitfish": new Decimal(6),
+      },
+    };
+  }
+
+  return recipes as Record<
+    BaitFermentationRecipeName,
+    FermentationRecipeDefinition
+  >;
+}
+
+function buildRetiredBaitFermentationRecipes(): Record<
+  RetiredBaitFermentationRecipeName,
+  FermentationRecipeDefinition
+> {
+  const recipes: Record<string, FermentationRecipeDefinition> = {};
+  const fiveMin = 60 * 5;
+
+  for (const fish of getFishNamesByTier("basic")) {
+    const aged: AgedFishName = `Aged ${fish}`;
+    const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
+
+    recipes[`Capsule Bait (Aged ${fish}, Pickled Pepper)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [aged]: new Decimal(1),
+        "Pickled Pepper": new Decimal(1),
+      },
+      outputs: {
+        "Capsule Bait": new Decimal(3),
+      },
+    };
+    recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
+      durationSeconds: fiveMin,
+      ingredients: {
+        [primeAged]: new Decimal(1),
+        "Pickled Pepper": new Decimal(1),
+      },
+      outputs: {
+        "Capsule Bait": new Decimal(6),
+      },
+    };
+  }
+
+  for (const fish of getFishNamesByTier("advanced")) {
+    const aged: AgedFishName = `Aged ${fish}`;
+    const primeAged: PrimeAgedFishName = `Prime Aged ${fish}`;
+
     recipes[`Umbrella Bait (Aged ${fish}, Pickled Onion)`] = {
       durationSeconds: fiveMin,
       ingredients: {
@@ -340,32 +502,17 @@ function buildBaitFermentationRecipes(): Record<
     };
   }
 
-  return recipes;
+  return recipes as Record<
+    RetiredBaitFermentationRecipeName,
+    FermentationRecipeDefinition
+  >;
 }
 
 const BAIT_FERMENTATION_RECIPES = buildBaitFermentationRecipes();
+const RETIRED_BAIT_FERMENTATION_RECIPES = buildRetiredBaitFermentationRecipes();
 
-export const FERMENTATION_RECIPES: Record<
-  FermentationRecipeName,
-  FermentationRecipeDefinition
-> = {
-  ...STATIC_FERMENTATION_RECIPES,
-  ...BAIT_FERMENTATION_RECIPES,
-  ...LEGACY_FERMENTATION_RECIPES,
-};
-
-/** Template union keeps `FermentationCollectedActivity` finite (not `${string} Fermented`). */
-export type BaitFermentationRecipeName =
-  | `Capsule Bait (Aged ${FishName}, Pickled Zucchini)`
-  | `Capsule Bait (Prime Aged ${FishName}, Pickled Zucchini)`
-  | `Capsule Bait (Aged ${FishName}, Pickled Pepper)`
-  | `Capsule Bait (Prime Aged ${FishName}, Pickled Pepper)`
-  | `Umbrella Bait (Aged ${FishName}, Pickled Cabbage)`
-  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Cabbage)`
-  | `Umbrella Bait (Aged ${FishName}, Pickled Onion)`
-  | `Umbrella Bait (Prime Aged ${FishName}, Pickled Onion)`
-  | `Crimson Baitfish (Aged ${FishName}, Pickled Tomato)`
-  | `Crimson Baitfish (Prime Aged ${FishName}, Pickled Tomato)`;
+export const RETIRED_BAIT_FERMENTATION_RECIPE_IDS: RetiredBaitFermentationRecipeName[] =
+  getKeys(RETIRED_BAIT_FERMENTATION_RECIPES);
 
 export type StaticFermentationRecipeName =
   keyof typeof STATIC_FERMENTATION_RECIPES;
@@ -393,12 +540,42 @@ export const GREENHOUSE_FERMENTATION_STARTABLE_IDS = [
 
 export type FermentationRecipeName =
   | StartableFermentationRecipeName
-  | LegacyFermentationRecipeName;
+  | LegacyFermentationRecipeName
+  | RetiredBaitFermentationRecipeName;
+
+/**
+ * Recipes that may be started from the aging shed UI. Do not add legacy or retired
+ * bait entries here — use {@link getFermentationRecipe} for any known recipe id.
+ */
+export const STARTABLE_FERMENTATION_RECIPES: Record<
+  StartableFermentationRecipeName,
+  FermentationRecipeDefinition
+> = {
+  ...STATIC_FERMENTATION_RECIPES,
+  ...BAIT_FERMENTATION_RECIPES,
+};
+
+/**
+ * Full registry including legacy greenhouse and retired bait (collect-only).
+ * Do **not** iterate this map for UI or new starts — use {@link FERMENTATION_RECIPE_IDS}
+ * and {@link STARTABLE_FERMENTATION_RECIPES}.
+ */
+const ALL_FERMENTATION_RECIPES: Record<
+  FermentationRecipeName,
+  FermentationRecipeDefinition
+> = {
+  ...STARTABLE_FERMENTATION_RECIPES,
+  ...RETIRED_BAIT_FERMENTATION_RECIPES,
+  ...LEGACY_FERMENTATION_RECIPES,
+};
 
 export const FERMENTATION_RECIPE_IDS: StartableFermentationRecipeName[] = [
   ...getKeys(STATIC_FERMENTATION_RECIPES),
   ...getKeys(BAIT_FERMENTATION_RECIPES),
 ];
+
+export const BAIT_FERMENTATION_RECIPE_IDS: BaitFermentationRecipeName[] =
+  getKeys(BAIT_FERMENTATION_RECIPES);
 
 const STARTABLE_FERMENTATION_RECIPE_ID_SET = new Set<string>(
   FERMENTATION_RECIPE_IDS,
@@ -409,7 +586,7 @@ export type FermentationCollectedActivity = `${InventoryItemName} Fermented`;
 export function isFermentationRecipeName(
   id: string,
 ): id is FermentationRecipeName {
-  return id in FERMENTATION_RECIPES;
+  return id in ALL_FERMENTATION_RECIPES;
 }
 
 export function isStartableFermentationRecipeName(
@@ -421,7 +598,7 @@ export function isStartableFermentationRecipeName(
 export function getFermentationRecipe(
   name: FermentationRecipeName,
 ): FermentationRecipeDefinition {
-  return FERMENTATION_RECIPES[name];
+  return ALL_FERMENTATION_RECIPES[name];
 }
 
 /** Fermentation rack slots: one per Aging Shed level, max 6. */
