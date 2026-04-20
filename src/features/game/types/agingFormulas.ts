@@ -17,13 +17,13 @@ export const PRIME_AGED_XP_MULTIPLIER = 1.3;
 export const PRIME_AGED_BASE_CHANCE = 0.1;
 
 export function getAgingMaxXP(baseXP: number): number {
-  if (baseXP <= 200) return baseXP * 6;
-  if (baseXP <= 330) return baseXP * 8;
-  return baseXP * 10;
+  if (baseXP <= 200) return baseXP * 3;
+  if (baseXP <= 330) return baseXP * 4;
+  return baseXP * 5;
 }
 
 export function getAgingSaltCost(baseXP: number): number {
-  return Math.round(getAgingMaxXP(baseXP) / 100);
+  return Math.round(getAgingMaxXP(baseXP) / 50);
 }
 
 export function getAgingTimeMs(baseXP: number): number {
