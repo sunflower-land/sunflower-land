@@ -8779,5 +8779,16 @@
   "description.royalCrabPot.boost": "Trap without Crab Pots",
   "description.crabHouse.boost": "+2 Crustacean yield",
   "description.speedTrap.boost": "-20% Crap trap time",
-  "description.pistolShrimp.boost": "20% chance to get +1 crustacean yield"
+  "description.pistolShrimp.boost": "20% chance to get +1 crustacean yield",
+  "description.flamingoChicken": "A rosy fowl that preens in the Salt Awakening brine.",
+  "description.saltCrystalFlower": "Petals grown from crystallized salt — bloom of the awakening.",
+  "description.spaCow": "Fully relaxed and pampered in mineral-rich mud.",
+  "description.spaSheep": "Wool washed white by hot springs and salt steam.",
+  "description.deepSeaPig": "A plump little marvel rooting through the abyss.",
+  "description.deepSeaSlug": "Glides slowly along the seabed, glowing faintly.",
+  "description.crystalShrimp": "Translucent shell that sparkles in the tidal light.",
+  "description.saltRock": "A chunk of raw salt — the currency of this chapter.",
+  "description.saltAwakeningRaffleTicket": "Hold onto this — you could win something salty.",
+  "description.saltAwakeningBanner": "Rally the flag — the Salt Awakening has begun.",
+  "description.saltDinoEgg": "A fossilized egg cracked from the salt flats. Who laid this?"
 }

@@ -106,11 +106,16 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Pet Specialist Pants",
     epic: "Pet Specialist Shirt",
   },
-  // TODO: Add Crabs and Traps items
   "Crabs and Traps": {
     basic: "Fish Hook Hat",
     rare: "Fish Hook Vest",
     epic: "Fish Hook Waders",
+  },
+  // TODO: Add Salt Awakening items
+  "Salt Awakening": {
+    basic: "Cow Scratcher",
+    rare: "Cow Scratcher",
+    epic: "Cow Scratcher",
   },
 };
 

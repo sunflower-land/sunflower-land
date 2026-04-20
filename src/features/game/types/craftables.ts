@@ -1429,6 +1429,15 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crab House": { width: 1, height: 1 },
   "Speed Trap": { width: 1, height: 1 },
 
+  "Flamingo Chicken": { width: 1, height: 1 },
+  "Salt Crystal Flower": { width: 1, height: 1 },
+  "Spa Cow": { width: 2, height: 2 },
+  "Spa Sheep": { width: 2, height: 2 },
+  "Deep Sea Pig": { width: 1, height: 1 },
+  "Deep Sea Slug": { width: 1, height: 1 },
+  "Crystal Shrimp": { width: 1, height: 1 },
+  "Salt Awakening Banner": { width: 1, height: 1 },
+
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },
   "Hound Shrine": { width: 1, height: 1 },

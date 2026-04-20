@@ -31,6 +31,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Better Together": "world/better_together_banner.webp",
   "Paw Prints": "world/paw_prints_banner.webp",
   "Crabs and Traps": "world/crap_chapter_banner.webp",
+  "Salt Awakening": "world/salt_awakening_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -49,6 +50,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Better Together": "Better Together Decoration Base",
   "Paw Prints": "Paw Prints",
   "Crabs and Traps": "Crabs and Traps",
+  "Salt Awakening": "Salt Awakening",
 };
 
 export type FactionNPC = {

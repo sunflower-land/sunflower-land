@@ -386,6 +386,9 @@ import { PetNFT } from "./components/petNFT/PetNFT";
 import { Isopod } from "./components/Isopod";
 import { Nautilus } from "./components/Nautilus";
 import { Dollocaris } from "./components/Dollocaris";
+import { DeepSeaPig } from "./components/DeepSeaPig";
+import { DeepSeaSlug } from "./components/DeepSeaSlug";
+import { CrystalShrimp } from "./components/CrystalShrimp";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { BedName } from "features/game/types/game";
 
@@ -3867,6 +3870,18 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Royal Crab Pot": () => <TemplateCollectible name="Royal Crab Pot" />,
   "Crab House": () => <TemplateCollectible name="Crab House" />,
   "Speed Trap": () => <TemplateCollectible name="Speed Trap" />,
+  "Flamingo Chicken": () => <TemplateCollectible name="Flamingo Chicken" />,
+  "Salt Crystal Flower": () => (
+    <TemplateCollectible name="Salt Crystal Flower" />
+  ),
+  "Spa Cow": () => <TemplateCollectible name="Spa Cow" />,
+  "Spa Sheep": () => <TemplateCollectible name="Spa Sheep" />,
+  "Deep Sea Pig": DeepSeaPig,
+  "Deep Sea Slug": DeepSeaSlug,
+  "Crystal Shrimp": CrystalShrimp,
+  "Salt Awakening Banner": () => (
+    <TemplateCollectible name="Salt Awakening Banner" />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
