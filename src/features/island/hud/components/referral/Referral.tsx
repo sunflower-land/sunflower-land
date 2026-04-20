@@ -191,7 +191,7 @@ export const ReferralInfo: React.FC = () => {
   const referralLink = `${gameLink}/?ref=${referralCode}`;
   const copypaste = useSound("copypaste");
 
-  const shareMessage = `Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand`;
+  const shareMessage = t("referral.share.message");
 
   const onShareClick = (
     method: "Reddit" | "Twitter" | "Telegram" | "Facebook" | "Whatsapp",

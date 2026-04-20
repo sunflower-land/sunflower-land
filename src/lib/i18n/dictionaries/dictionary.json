@@ -6425,6 +6425,8 @@
   "referral.friend": "25 Love Charms - Only applies to the first referral",
   "referral.flower": "10% of $FLOWER spent on gems by your friend within the first 6 months",
   "referral.description": "You will receive the following rewards when your friend signs up using your referral link:",
+  "referral.share": "Share on:",
+  "referral.share.message": "Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand",
   "taskBoard.tasks": "Tasks",
   "taskBoard.loveCharmCount": "Inventory: {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Complete tasks to earn Love Charm.",
