@@ -4621,7 +4621,6 @@
   "upgrade.capacityIncrease": "+{{amount}} capacity",
   "upgrade.petHouseCapacity": "+2 common pet breeds, +3 NFT pet capacity",
   "upgrade.agingShedCapacity": "+1 slot in aging, fermentation and spice racks",
-  "upgrade.agingShedCapacity.level5&6": "+1 slot in aging and fermentation racks",
   "upgrade": "Upgrade",
   "animals.buy": "Buy {{animal}}",
   "capacity": "Capacity",

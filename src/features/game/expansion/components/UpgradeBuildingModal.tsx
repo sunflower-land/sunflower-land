@@ -169,9 +169,6 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
       return t("upgrade.petHouseCapacity");
     }
     if (buildingName === "Aging Shed") {
-      if (nextLevel >= 5) {
-        return t("upgrade.agingShedCapacity.level5&6");
-      }
       return t("upgrade.agingShedCapacity");
     }
     return t("upgrade.capacityIncrease", { amount: capacityIncrease });
