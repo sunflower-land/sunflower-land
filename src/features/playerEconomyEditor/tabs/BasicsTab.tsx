@@ -5,9 +5,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import { TextInput } from "components/ui/TextInput";
 import { Dropdown } from "components/ui/Dropdown";
+import { Modal } from "components/ui/Modal";
+import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { EditorFormState } from "../lib/types";
 import { SectionHeader } from "../components/SectionHeader";
@@ -44,7 +47,20 @@ export const BasicsTab: React.FC<{
 
   const [playGameLoading, setPlayGameLoading] = useState(false);
   const [playGameError, setPlayGameError] = useState<string | null>(null);
+  const [showUploadRequiredModal, setShowUploadRequiredModal] = useState(false);
   const playUrlSyncRef = useRef<string>("");
+
+  const hasUploadedCode = editorSession.hostedSiteIndex != null;
+
+  const handleToggleEnabled = () => {
+    // Block enabling when no code has been uploaded yet — show a guidance modal
+    // instead. Disabling is always allowed.
+    if (!form.enabled && !hasUploadedCode) {
+      setShowUploadRequiredModal(true);
+      return;
+    }
+    onChange({ enabled: !form.enabled });
+  };
 
   const activeItemCount = useMemo(
     () => form.items.filter((i) => !i.deleted).length,
@@ -167,6 +183,25 @@ export const BasicsTab: React.FC<{
 
   return (
     <div className="space-y-3">
+      <Modal
+        show={showUploadRequiredModal}
+        onHide={() => setShowUploadRequiredModal(false)}
+      >
+        <Panel>
+          <div className="p-1">
+            <Label type="danger" className="mb-2">
+              {t("playerEconomyEditor.basics.uploadRequiredTitle")}
+            </Label>
+            <p className="text-sm mb-3 leading-tight">
+              {t("playerEconomyEditor.basics.uploadRequiredMessage")}
+            </p>
+            <Button onClick={() => setShowUploadRequiredModal(false)}>
+              {t("close")}
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
+
       {/* Game Identity */}
       <InnerPanel className="p-3 space-y-2">
         <SectionHeader type="info" icon={SUNNYSIDE.icons.player}>
@@ -188,7 +223,7 @@ export const BasicsTab: React.FC<{
         <div className="pl-1">
           <Switch
             checked={form.enabled}
-            onChange={() => onChange({ enabled: !form.enabled })}
+            onChange={handleToggleEnabled}
             label={t("playerEconomyEditor.basics.isEnabled")}
           />
           <p className="text-xxs text-amber-100/75 leading-snug mt-1">
