@@ -1490,6 +1490,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crimson Baitfish": 2988,
 
   "Salt Sculpture": 2989,
+
+  // Crabs and Traps - Items
+  Pufferfish: 2990,
+  "Fat Crab": 2991,
+  "Navigation Table": 2992,
+  "Royal Crab Pot": 2993,
+  "Crab House": 2994,
+  "Speed Trap": 2995,
 };
 
 // The reverse of above

@@ -227,7 +227,8 @@ export type BumpkinTool =
   | "Master Chef's Cleaver"
   | "Luna's Crescent"
   | "Candy Halbred"
-  | "Admin Fools Tools";
+  | "Admin Fools Tools"
+  | "Pistol Shrimp";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -1194,6 +1195,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Gold Teeth": 552,
   "Infernal Smile": 553,
   "Neutral Mouth": 554,
+  "Pistol Shrimp": 555,
 };
 
 // The reverse of above
@@ -1813,6 +1815,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Gold Teeth": "mouth",
   "Infernal Smile": "mouth",
   "Neutral Mouth": "mouth",
+  "Pistol Shrimp": "tool",
 };
 
 /**Copied from BE just for hoarding checks */

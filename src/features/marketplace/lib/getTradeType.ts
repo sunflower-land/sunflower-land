@@ -1393,6 +1393,12 @@ export const ITEM_TRADE_TYPES: {
     "Jester in a box": "instant",
     "The Sunflower Man Statue": "instant",
     "Salt Sculpture": "instant",
+    Pufferfish: "instant",
+    "Fat Crab": "instant",
+    "Navigation Table": "instant",
+    "Royal Crab Pot": "instant",
+    "Crab House": "instant",
+    "Speed Trap": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -1944,6 +1950,7 @@ export const ITEM_TRADE_TYPES: {
     "Gold Teeth": "instant",
     "Infernal Smile": "instant",
     "Neutral Mouth": "instant",
+    "Pistol Shrimp": "instant",
   },
 };
 

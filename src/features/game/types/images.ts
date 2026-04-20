@@ -124,6 +124,12 @@ import pearlBed from "assets/sfts/pearl_bed.webp";
 import crimstoneClam from "assets/sfts/crimstone_clam.webp";
 import poseidonsThrone from "assets/sfts/poseidons_throne.webp";
 import fishKite from "assets/sfts/fish_kite.webp";
+import pufferfish from "assets/sfts/pufferfish.webp";
+import fatCrab from "assets/sfts/fat_crab_trapped.webp";
+import navigationTable from "assets/sfts/navigation_table.webp";
+import royalCrabPot from "assets/sfts/royal_crab_pot.webp";
+import crabHouse from "assets/sfts/crab_house.webp";
+import speedTrap from "assets/sfts/speed_trap.webp";
 import hummingBird from "assets/sfts/hummingbird.webp";
 import queenBee from "assets/sfts/queen_bee.webp";
 import flowerFox from "assets/sfts/flower_fox.webp";
@@ -7566,5 +7572,29 @@ export const ITEM_DETAILS: Items = {
   "Salt Sculpture": {
     image: SUNNYSIDE.sculptures.saltSculpture1,
     description: translate("description.saltSculpture"),
+  },
+  Pufferfish: {
+    image: pufferfish,
+    description: translate("description.pufferfish"),
+  },
+  "Fat Crab": {
+    image: fatCrab,
+    description: translate("description.fatCrab"),
+  },
+  "Navigation Table": {
+    image: navigationTable,
+    description: translate("description.navigationTable"),
+  },
+  "Royal Crab Pot": {
+    image: royalCrabPot,
+    description: translate("description.royalCrabPot"),
+  },
+  "Crab House": {
+    image: crabHouse,
+    description: translate("description.crabHouse"),
+  },
+  "Speed Trap": {
+    image: speedTrap,
+    description: translate("description.speedTrap"),
   },
 };

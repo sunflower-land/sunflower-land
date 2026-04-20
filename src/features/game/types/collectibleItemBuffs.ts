@@ -2148,6 +2148,43 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Rod"].image,
     },
   ],
+  "Salt Sculpture": () => [
+    {
+      shortDescription: translate("description.saltSculpture.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Navigation Table": () => [
+    {
+      shortDescription: translate("description.navigationTable.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Royal Crab Pot": () => [
+    {
+      shortDescription: translate("description.royalCrabPot.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Crab House": () => [
+    {
+      shortDescription: translate("description.crabHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Speed Trap": () => [
+    {
+      shortDescription: translate("description.speedTrap.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+
+  // All items go above this line
 
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
@@ -2172,11 +2209,4 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
           ]);
       }),
   ),
-  "Salt Sculpture": () => [
-    {
-      shortDescription: translate("description.saltSculpture.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-    },
-  ],
 };

@@ -3861,6 +3861,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Salt Sculpture": () => <SaltSculpture />,
+  Pufferfish: () => <TemplateCollectible name="Pufferfish" />,
+  "Fat Crab": () => <TemplateCollectible name="Fat Crab" />,
+  "Navigation Table": () => <TemplateCollectible name="Navigation Table" />,
+  "Royal Crab Pot": () => <TemplateCollectible name="Royal Crab Pot" />,
+  "Crab House": () => <TemplateCollectible name="Crab House" />,
+  "Speed Trap": () => <TemplateCollectible name="Speed Trap" />,
 };
 // Need readonly versions for some troublesome components while in design mode
 

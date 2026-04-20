@@ -1422,6 +1422,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Butterfly: { width: 1, height: 1 },
   "Salt Sculpture": { width: 3, height: 3 },
 
+  Pufferfish: { width: 1, height: 1 },
+  "Fat Crab": { width: 1, height: 1 },
+  "Navigation Table": { width: 1, height: 1 },
+  "Royal Crab Pot": { width: 1, height: 1 },
+  "Crab House": { width: 1, height: 1 },
+  "Speed Trap": { width: 1, height: 1 },
+
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },
   "Hound Shrine": { width: 1, height: 1 },
