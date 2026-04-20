@@ -33,8 +33,8 @@ describe("upgradeSaltSculpture", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          "Refined Salt": new Decimal(20),
-          Earthworm: new Decimal(20),
+          "Refined Salt": new Decimal(100),
+          "Capsule Bait": new Decimal(20),
         },
       }),
       action: { type: "saltSculpture.upgraded" },
@@ -42,8 +42,8 @@ describe("upgradeSaltSculpture", () => {
     });
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(2);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(10);
-    expect(state.inventory.Earthworm?.toNumber()).toBe(10);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(55);
+    expect(state.inventory["Capsule Bait"]?.toNumber()).toBe(10);
   });
 
   it("upgrades from level 5 to 6, deducts coins and ingredients", () => {
@@ -52,8 +52,8 @@ describe("upgradeSaltSculpture", () => {
         sculptures: { "Salt Sculpture": { level: 5 } },
         coins: 3000,
         inventory: {
-          "Refined Salt": new Decimal(300),
-          "Red Wiggler": new Decimal(20),
+          "Refined Salt": new Decimal(100),
+          "Crimson Baitfish": new Decimal(20),
         },
       }),
       action: { type: "saltSculpture.upgraded" },
@@ -62,8 +62,8 @@ describe("upgradeSaltSculpture", () => {
 
     expect(state.sculptures?.["Salt Sculpture"]?.level).toBe(6);
     expect(state.coins).toBe(1000);
-    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(100);
-    expect(state.inventory["Red Wiggler"]?.toNumber()).toBe(10);
+    expect(state.inventory["Refined Salt"]?.toNumber()).toBe(0);
+    expect(state.inventory["Crimson Baitfish"]?.toNumber()).toBe(10);
   });
 
   it("throws when already at max level", () => {
@@ -96,8 +96,8 @@ describe("upgradeSaltSculpture", () => {
     const state = upgradeSaltSculpture({
       state: stateWith({
         inventory: {
-          "Refined Salt": new Decimal(20),
-          Earthworm: new Decimal(20),
+          "Refined Salt": new Decimal(100),
+          "Capsule Bait": new Decimal(20),
         },
       }),
       action: { type: "saltSculpture.upgraded" },

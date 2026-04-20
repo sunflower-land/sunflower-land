@@ -15,30 +15,30 @@ export const SALT_SCULPTURE_UPGRADES: Record<
   2: {
     coins: 0,
     ingredients: {
-      "Refined Salt": new Decimal(10),
-      Earthworm: new Decimal(10),
+      "Refined Salt": new Decimal(45),
+      "Capsule Bait": new Decimal(10),
     },
   },
   3: {
     coins: 500,
     ingredients: {
-      "Refined Salt": new Decimal(40),
-      Earthworm: new Decimal(10),
-      Grub: new Decimal(10),
+      "Refined Salt": new Decimal(60),
+      "Capsule Bait": new Decimal(10),
+      "Umbrella Bait": new Decimal(10),
     },
   },
   4: {
     coins: 1000,
     ingredients: {
-      "Refined Salt": new Decimal(75),
-      "Greenhouse Glow": new Decimal(25),
-      "Greenhouse Goodie": new Decimal(25),
+      "Refined Salt": new Decimal(70),
+      "Greenhouse Glow": new Decimal(5),
+      "Greenhouse Goodie": new Decimal(5),
     },
   },
   5: {
     coins: 1500,
     ingredients: {
-      "Refined Salt": new Decimal(120),
+      "Refined Salt": new Decimal(85),
       "Sproutroot Surprise": new Decimal(10),
       "Turbofruit Mix": new Decimal(10),
     },
@@ -46,8 +46,8 @@ export const SALT_SCULPTURE_UPGRADES: Record<
   6: {
     coins: 2000,
     ingredients: {
-      "Refined Salt": new Decimal(200),
-      "Red Wiggler": new Decimal(10),
+      "Refined Salt": new Decimal(100),
+      "Crimson Baitfish": new Decimal(10),
     },
   },
 };

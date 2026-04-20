@@ -334,7 +334,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     boost: translate("description.saltSculpture.boost"),
     coins: 2000,
     ingredients: {
-      "Refined Salt": new Decimal(10),
+      "Refined Salt": new Decimal(30),
     },
     inventoryLimit: 1,
   },
