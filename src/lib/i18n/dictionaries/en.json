@@ -8800,6 +8800,5 @@
   "description.spaSheep.boost": "+5 Animal XP from Animal Affection",
   "description.spaCow.boost": "+0.1 Milk",
   "description.deepSeaSlug.boost": "+5 Fishing Attempts",
-  "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
-  "saltSculpture.upgrade": "Upgrade to Level {{level}}"
+  "description.deepSeaSlug.boost.2": "+1 Worm from Composting"
 }
