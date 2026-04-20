@@ -23,7 +23,10 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
+import {
+  getAgingInputMultiplier,
+  getAgingOutput,
+} from "features/game/types/agingFormulas";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -116,7 +119,12 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   const recipeOutputQuantity =
     recipeId && selectedItem
-      ? getFermentationRecipe(recipeId).outputs[selectedItem]
+      ? getAgingOutput(
+          gameState,
+          getFermentationRecipe(recipeId).outputs[selectedItem] ??
+            new Decimal(0),
+          selectedItem,
+        )
       : undefined;
 
   return (
