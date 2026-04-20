@@ -7,18 +7,21 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 export const DeepSeaSlug: React.FC = () => {
   return (
     <SFTDetailPopover name="Deep Sea Slug">
-      <>
+      <div
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 32}px`,
+          top: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 0}px`,
+        }}
+      >
         <img
           src={deepSeaSlugTrophy}
-          style={{
-            width: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-          }}
+          style={{ width: `${PIXEL_SCALE * 32}px` }}
           className="absolute"
           alt="Deep Sea Slug"
         />
-      </>
+      </div>
     </SFTDetailPopover>
   );
 };
