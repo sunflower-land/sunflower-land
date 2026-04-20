@@ -24,6 +24,7 @@ import {
 } from "../lib/hostedMinigameUrl";
 import { EconomySiteFilesUpload } from "../components/EconomySiteFilesUpload";
 import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
+import Switch from "components/ui/Switch";
 
 const MAIN_CURRENCY_AUTO_VALUE = "__main_currency_auto__";
 
@@ -184,6 +185,16 @@ export const BasicsTab: React.FC<{
             className={mode === "edit" ? "pointer-events-none opacity-70" : ""}
           />
         </FieldRow>
+        <div className="pl-1">
+          <Switch
+            checked={form.enabled}
+            onChange={() => onChange({ enabled: !form.enabled })}
+            label={t("playerEconomyEditor.basics.isEnabled")}
+          />
+          <p className="text-xxs text-amber-100/75 leading-snug mt-1">
+            {t("playerEconomyEditor.basics.isEnabledHint")}
+          </p>
+        </div>
         {activeItemCount > 0 ? (
           <FieldRow label={t("playerEconomyEditor.basics.mainCurrencyLabel")}>
             {tradeableItems.length === 0 ? (

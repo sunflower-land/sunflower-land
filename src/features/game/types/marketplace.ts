@@ -76,6 +76,64 @@ export type EconomyMinigameRank = {
   image?: string;
 };
 
+/**
+ * A claimable reward an economy offers in exchange for one of its items.
+ *
+ * Example: trade 5 Chicken Feet (earned inside the "Chicken Rescue" economy)
+ * for 25 Marks. The `id` is opaque to the client and is echoed back when the
+ * player triggers the `economies.exchanged` effect so the backend can credit
+ * the correct reward.
+ */
+export type EconomyExchange = {
+  id: string;
+  /** Slug of the source economy (e.g. "chicken-rescue"). */
+  economySlug: string;
+  /** Display label of the source economy (e.g. "Chicken Rescue"). */
+  economyLabel: string;
+  /** Image url of the item being exchanged. */
+  itemImage?: string;
+  /** Display name of the item being exchanged (e.g. "Chicken Feet"). */
+  itemName: string;
+  /** Quantity of the item required to redeem this exchange. */
+  itemAmount: number;
+  /** Image url of the reward given. */
+  rewardImage?: string;
+  /** Display name of the reward (e.g. "Marks"). */
+  rewardName: string;
+  /** Quantity of the reward granted. */
+  rewardAmount: number;
+  /** Whether the player has already claimed this exchange. */
+  claimed?: boolean;
+};
+
+/** One offer from `GET /data?type=economies` → `exchanges` (matches API). */
+export type EconomyExchangeOffer = {
+  id: string;
+  slug: string;
+  requirements: Record<string, number>;
+  rewards: { items: Record<string, number> };
+  completedAt?: number;
+};
+
+export type PlayerEconomySummary = {
+  balances: Record<string, number>;
+  exchangeCompletions: Record<string, number>;
+};
+
+/** Row from `GET /data?type=economies` (hub list, sorted by player count). */
+export type EconomyListRow = {
+  slug: string;
+  label: string;
+  description: string;
+  playerCount: number;
+  image?: string;
+  marketplaceItemId: number | null;
+  /** Count of config items with `trophy: true` (collectible slots). */
+  trophyTotal: number;
+  /** How many trophy slots the farm has collected (economies hub data only). */
+  trophiesCollected?: number;
+};
+
 export type Offer = {
   tradeId: string;
   sfl: number;

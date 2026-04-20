@@ -34,6 +34,7 @@ function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
   return {
     slug: state.slug,
     playUrl: state.playUrl,
+    enabled: state.enabled,
     mainCurrencyToken: state.mainCurrencyToken,
     descriptionTitle: state.descriptionTitle,
     descriptionSubtitle: state.descriptionSubtitle,
