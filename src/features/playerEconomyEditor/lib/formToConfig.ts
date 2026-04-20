@@ -406,6 +406,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
 
   const config: PlayerEconomyConfig = {
     actions,
+    enabled: form.enabled,
     ...(Object.keys(items).length ? { items } : {}),
     ...(Object.keys(purchasesRecord).length > 0
       ? { purchases: purchasesRecord }

@@ -73,6 +73,7 @@ export type NPCName =
   | "elf"
   | "ginger"
   | "misty"
+  | "murmur"
   | "poppy"
   | "stevie"
   | "Chun Long"
@@ -1075,6 +1076,20 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Sunflower Rod",
     pants: "Fishing Pants",
     shirt: "Reel Fishing Vest",
+  },
+  /** Kingdom corner NPC — jester cap + Motley + eclectic gear (secret Economy Hub gate). */
+  murmur: {
+    body: "Beige Farmer Potion",
+    hair: "Fire Hair",
+    hat: "Cap n Bells",
+    suit: "Motley",
+    pants: "Fancy Pants",
+    shirt: "Fire Shirt",
+    shoes: "Brown Boots",
+    tool: "Infernal Rod",
+    background: "Kingdom Background",
+    eyes: "Giggle Eyes",
+    mouth: "Neutral Mouth",
   },
   // Flower expert
   poppy: {

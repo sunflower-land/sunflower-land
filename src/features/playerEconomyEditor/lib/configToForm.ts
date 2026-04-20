@@ -650,6 +650,7 @@ export function configToForm(
   return {
     slug,
     playUrl: cfg.playUrl ?? "",
+    enabled: cfg.enabled !== false,
     mainCurrencyToken,
     descriptionTitle: cfg.descriptions?.title ?? "",
     descriptionSubtitle: cfg.descriptions?.subtitle ?? "",

@@ -100,6 +100,7 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
     !Array.isArray(base.purchases)
       ? { purchases: base.purchases as PlayerEconomyConfig["purchases"] }
       : {}),
+    ...(typeof base.enabled === "boolean" ? { enabled: base.enabled } : {}),
   };
 
   return migrateLegacyPlayerEconomyConfigFields(input);

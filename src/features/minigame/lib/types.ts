@@ -153,6 +153,19 @@ export type PlayerEconomyConfig = {
    * Must match an item with `tradeable: true` and a numeric `id`. Omit to auto-pick (id 0, else lowest id).
    */
   mainCurrencyToken?: string;
+  /**
+   * When `false`, omitted from Economy Hub and minigames marketplace browse APIs.
+   * When `true` or omitted (legacy), may appear there.
+   */
+  enabled?: boolean;
+  /** Redeem economy balances for main-game inventory (`economies.exchanged`). */
+  exchanges?: Record<
+    string,
+    {
+      requirements: Record<string, number>;
+      rewards: { items: Record<string, number> };
+    }
+  >;
 };
 
 export type GeneratorJob = {
