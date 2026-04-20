@@ -12,6 +12,7 @@ import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png"
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
+import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
 import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import { ChapterFish } from "./fishing";
@@ -30,7 +31,8 @@ export type ChapterName =
   | "Great Bloom"
   | "Better Together"
   | "Paw Prints"
-  | "Crabs and Traps";
+  | "Crabs and Traps"
+  | "Salt Awakening";
 
 export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Solar Flare": 1,
@@ -46,6 +48,7 @@ export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Better Together": 11,
   "Paw Prints": 12,
   "Crabs and Traps": 13,
+  "Salt Awakening": 14,
 };
 
 type ChapterDates = { startDate: Date; endDate: Date; tasksBegin?: Date };
@@ -104,6 +107,11 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
     endDate: new Date("2026-05-04T00:00:00.000Z"),
     tasksBegin: new Date("2026-02-09T00:00:00.000Z"), // Visual only
   },
+  "Salt Awakening": {
+    startDate: new Date("2026-05-04T00:00:00.000Z"),
+    tasksBegin: new Date("2026-05-11T00:00:00.000Z"), // Visual only
+    endDate: new Date("2026-08-03T00:00:00.000Z"),
+  },
 };
 
 export type ChapterTicket =
@@ -119,11 +127,13 @@ export type ChapterTicket =
   | "Geniseed"
   | "Bracelet"
   | "Pet Cookie"
-  | "Floater";
+  | "Floater"
+  | "Salt Rock";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
-  | "Crabs and Traps Raffle Ticket";
+  | "Crabs and Traps Raffle Ticket"
+  | "Salt Awakening Raffle Ticket";
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
@@ -141,6 +151,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Better Together Banner": "Better Together",
   "Paw Prints Banner": "Paw Prints",
   "Crabs and Traps Banner": "Crabs and Traps",
+  "Salt Awakening Banner": "Salt Awakening",
 };
 
 export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
@@ -157,6 +168,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Better Together": "Bracelet",
   "Paw Prints": "Pet Cookie",
   "Crabs and Traps": "Floater",
+  "Salt Awakening": "Salt Rock",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -176,6 +188,7 @@ export const CHAPTER_RAFFLE_TICKET_NAME: Record<
   "Better Together": undefined,
   "Paw Prints": "Paw Prints Raffle Ticket",
   "Crabs and Traps": "Crabs and Traps Raffle Ticket",
+  "Salt Awakening": "Salt Awakening Raffle Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -195,6 +208,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Better Together": "Coprolite",
   "Paw Prints": "Moon Crystal",
   "Crabs and Traps": "Ammonite Shell",
+  "Salt Awakening": "Salt Dino Egg",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -211,6 +225,7 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Better Together": "Poseidon",
   "Paw Prints": "Super Star",
   "Crabs and Traps": "Giant Isopod",
+  "Salt Awakening": "Deep Sea Pig",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {
@@ -304,6 +319,7 @@ export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
   "Better Together Banner": betterTogetherBanner,
   "Paw Prints Banner": pawPrintsBanner,
   "Crabs and Traps Banner": crabChapterBanner,
+  "Salt Awakening Banner": saltAwakeningBanner,
 };
 
 export function getChapterBannerImage(now: number) {

@@ -1393,6 +1393,29 @@ export const ITEM_TRADE_TYPES: {
     "Jester in a box": "instant",
     "The Sunflower Man Statue": "instant",
     "Salt Sculpture": "instant",
+
+    // Salt Awakening Auction Items
+    Pufferfish: "onchain",
+    "Fat Crab": "onchain",
+    "Navigation Table": "onchain",
+    "Royal Crab Pot": "onchain",
+    "Crab House": "onchain",
+    "Speed Trap": "onchain",
+
+    // Salt Awakening Mutants
+    "Flamingo Chicken": "instant",
+    "Salt Crystal Flower": "instant",
+    "Spa Cow": "instant",
+    "Spa Sheep": "instant",
+    "Deep Sea Pig": "instant",
+    "Deep Sea Slug": "instant",
+    "Crystal Shrimp": "instant",
+
+    // Salt Awakening Tickets
+    "Salt Rock": "instant",
+    "Salt Awakening Raffle Ticket": "instant",
+    "Salt Awakening Banner": "instant",
+    "Salt Dino Egg": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -1944,6 +1967,7 @@ export const ITEM_TRADE_TYPES: {
     "Gold Teeth": "instant",
     "Infernal Smile": "instant",
     "Neutral Mouth": "instant",
+    "Pistol Shrimp": "onchain",
   },
 };
 

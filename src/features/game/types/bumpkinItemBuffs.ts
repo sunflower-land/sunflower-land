@@ -1056,6 +1056,17 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+
+  "Pistol Shrimp": [
+    {
+      shortDescription: translate("description.pistolShrimp.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+
+  // Add items above this line
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
