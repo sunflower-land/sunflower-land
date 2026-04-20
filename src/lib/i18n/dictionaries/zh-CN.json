@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 来自动物情感的动物经验值",
   "description.spaCow.boost": "+0.1 牛奶",
   "description.deepSeaSlug.boost": "+5 次钓鱼尝试",
-  "description.deepSeaSlug.boost.2": "+1 堆肥产生的蠕虫"
+  "description.deepSeaSlug.boost.2": "+1 堆肥产生的蠕虫",
+  "referral.share": "分享到：",
+  "referral.share.message": "加入我的向日葵乐园！🌻 注册时使用我的推荐链接获取入门套餐。#SunflowerLand"
 }

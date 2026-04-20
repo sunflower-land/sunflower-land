@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 XP Hewan dari Animal Affection",
   "description.spaCow.boost": "+0.1 Susu",
   "description.deepSeaSlug.boost": "+5 Upaya Memancing",
-  "description.deepSeaSlug.boost.2": "+1 Cacing dari Pengomposan"
+  "description.deepSeaSlug.boost.2": "+1 Cacing dari Pengomposan",
+  "referral.share": "Bagikan di:",
+  "referral.share.message": "Bergabunglah dengan saya di Tanah Bunga Matahari! 🌻 Gunakan tautan rujukan saya untuk mendapatkan paket starter saat Anda mendaftar. #SunflowerLand"
 }

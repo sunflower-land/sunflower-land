@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 Tier-EP für Animal Affection",
   "description.spaCow.boost": "+0.1 Milch",
   "description.deepSeaSlug.boost": "+5 Fangversuche",
-  "description.deepSeaSlug.boost.2": "+1 Wurm aus der Kompostierung"
+  "description.deepSeaSlug.boost.2": "+1 Wurm aus der Kompostierung",
+  "referral.share": "Teilen auf:",
+  "referral.share.message": "Begleite mich ins Sonnenblumenland! 🌻 Benutze meinen Empfehlungslink, um ein Starterpaket zu erhalten, wenn du dich anmeldest. #SunflowerLand"
 }

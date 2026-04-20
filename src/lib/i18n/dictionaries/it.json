@@ -8793,5 +8793,7 @@
   "description.spaSheep.boost": "+5 Animal XP di Animal Affection",
   "description.spaCow.boost": "+0,1 latte",
   "description.deepSeaSlug.boost": "+5 tentativi di pesca",
-  "description.deepSeaSlug.boost.2": "+1 Verme da compostaggio"
+  "description.deepSeaSlug.boost.2": "+1 Verme da compostaggio",
+  "referral.share": "Condividi su:",
+  "referral.share.message": "Unisciti a me in Sunflower Land! 🌻 Usa il mio link di riferimento per ottenere un pacchetto iniziale al momento della registrazione. #SunflowerLand"
 }
