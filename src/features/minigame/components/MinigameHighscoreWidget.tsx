@@ -5,9 +5,14 @@ import { formatNumber } from "lib/utils/formatNumber";
 
 type Props = {
   highscore: number;
+  /** When provided, renders a small "leaderboard" link under the score. */
+  onOpenLeaderboard?: () => void;
 };
 
-export const MinigameHighscoreWidget: React.FC<Props> = ({ highscore }) => {
+export const MinigameHighscoreWidget: React.FC<Props> = ({
+  highscore,
+  onOpenLeaderboard,
+}) => {
   const { t } = useAppTranslation();
 
   return (
@@ -25,6 +30,17 @@ export const MinigameHighscoreWidget: React.FC<Props> = ({ highscore }) => {
           {formatNumber(highscore, { decimalPlaces: 0 })}
         </span>
       </div>
+      {onOpenLeaderboard && (
+        <div className="flex justify-end pr-1 pt-0.5">
+          <button
+            type="button"
+            onClick={onOpenLeaderboard}
+            className="text-xs underline text-[#3e2731]/80 hover:text-[#3e2731] cursor-pointer"
+          >
+            {t("minigame.dashboard.leaderboard")}
+          </button>
+        </div>
+      )}
     </InnerPanel>
   );
 };

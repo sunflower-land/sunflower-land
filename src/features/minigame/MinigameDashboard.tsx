@@ -160,6 +160,7 @@ export const MinigameDashboard: React.FC = () => {
   );
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const applyRuntime = useCallback((next: PlayerEconomyRuntimeState | null) => {
     runtimeRef.current = next;
     setRuntime(next);
@@ -298,6 +299,10 @@ export const MinigameDashboard: React.FC = () => {
         setShowWelcomeModal(false);
         return;
       }
+      if (showLeaderboard) {
+        setShowLeaderboard(false);
+        return;
+      }
       handleClose();
     };
     document.addEventListener("keydown", onKey);
@@ -313,6 +318,7 @@ export const MinigameDashboard: React.FC = () => {
     showShopConfirm,
     showActionSyncError,
     showWelcomeModal,
+    showLeaderboard,
     trophyDetailToken,
   ]);
 
@@ -773,7 +779,10 @@ export const MinigameDashboard: React.FC = () => {
                   tokenImages={tokenImages}
                 />
               )}
-              <MinigameHighscoreWidget highscore={playerHighscore} />
+              <MinigameHighscoreWidget
+                highscore={playerHighscore}
+                onOpenLeaderboard={() => setShowLeaderboard(true)}
+              />
             </div>
           )}
 
@@ -787,7 +796,10 @@ export const MinigameDashboard: React.FC = () => {
               />
               {!hasShop && (
                 <div className="hidden shrink-0 self-start md:block w-full max-w-[min(42vw,220px)]">
-                  <MinigameHighscoreWidget highscore={playerHighscore} />
+                  <MinigameHighscoreWidget
+                    highscore={playerHighscore}
+                    onOpenLeaderboard={() => setShowLeaderboard(true)}
+                  />
                 </div>
               )}
             </div>
@@ -803,30 +815,13 @@ export const MinigameDashboard: React.FC = () => {
               />
             </div>
           </div>
-
-          {/* Right-side leaderboard column (desktop only). */}
-          <div className="hidden min-h-0 w-[min(42vw,220px)] shrink-0 md:flex md:flex-col md:gap-2">
-            <MinigameLeaderboardWidget
-              loading={leaderboardLoading}
-              players={leaderboard?.topTen ?? null}
-              lastUpdated={leaderboard?.lastUpdated ?? null}
-              error={leaderboardError}
-              currentFarmId={farmId ?? undefined}
-            />
-          </div>
         </div>
 
         <div className="flex shrink-0 flex-col gap-1 px-2 pb-1 md:hidden">
           <div className="w-full max-w-[min(42vw,220px)]">
-            <MinigameHighscoreWidget highscore={playerHighscore} />
-          </div>
-          <div className="w-full">
-            <MinigameLeaderboardWidget
-              loading={leaderboardLoading}
-              players={leaderboard?.topTen ?? null}
-              lastUpdated={leaderboard?.lastUpdated ?? null}
-              error={leaderboardError}
-              currentFarmId={farmId ?? undefined}
+            <MinigameHighscoreWidget
+              highscore={playerHighscore}
+              onOpenLeaderboard={() => setShowLeaderboard(true)}
             />
           </div>
         </div>
@@ -942,6 +937,22 @@ export const MinigameDashboard: React.FC = () => {
           <p className="text-xs leading-relaxed whitespace-pre-line text-[#3e2731]">
             {copy?.welcome ?? t("minigame.dashboard.welcomeFallback")}
           </p>
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showLeaderboard}
+          title={t("minigame.dashboard.leaderboard")}
+          confirmLabel={t("close")}
+          onClose={() => setShowLeaderboard(false)}
+          onConfirm={() => setShowLeaderboard(false)}
+        >
+          <MinigameLeaderboardWidget
+            loading={leaderboardLoading}
+            players={leaderboard?.topTen ?? null}
+            lastUpdated={leaderboard?.lastUpdated ?? null}
+            error={leaderboardError}
+            currentFarmId={farmId ?? undefined}
+          />
         </MinigameConfirmPanel>
 
         <MinigameConfirmPanel

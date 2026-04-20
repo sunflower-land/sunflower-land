@@ -4,8 +4,10 @@ import { Panel, InnerPanel, ButtonPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
-import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import checkeredBg from "assets/land/checkered_bg.webp";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { minigameDashboardBackdropStyle } from "features/minigame/lib/minigameBoardPixels";
 
 import type { PlayerEconomyConfigRow } from "./lib/types";
 import { useEditorApi } from "./lib/useEditorApi";
@@ -23,15 +25,10 @@ export const PlayerEconomyEditor: React.FC = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { loadRows, submitEvent } = useEditorApi();
+  const { loadRows } = useEditorApi();
   const [rows, setRows] = useState<PlayerEconomyConfigRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [createSlug, setCreateSlug] = useState("");
-  const [creating, setCreating] = useState(false);
-  const [createError, setCreateError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -58,30 +55,6 @@ export const PlayerEconomyEditor: React.FC = () => {
       mounted = false;
     };
   }, [loadRows]);
-
-  const handleCreate = async () => {
-    const slug = normalizePlayerEconomySlugInput(createSlug);
-    if (!slug) {
-      setCreateError(t("playerEconomyEditor.error.slugRequired"));
-      return;
-    }
-    if (!isValidPlayerEconomySlug(slug)) {
-      setCreateError(t("playerEconomyEditor.error.slugInvalid"));
-      return;
-    }
-    setCreating(true);
-    setCreateError(null);
-    try {
-      await submitEvent({ type: "playerEconomy.created", slug });
-      navigate(`/economy-editor/edit/${slug}`);
-    } catch (e) {
-      setCreateError(
-        e instanceof Error ? e.message : t("playerEconomyEditor.error.create"),
-      );
-    } finally {
-      setCreating(false);
-    }
-  };
 
   return (
     <div className="p-2 pb-16 space-y-2 relative h-full">
@@ -157,75 +130,115 @@ export const PlayerEconomyEditor: React.FC = () => {
       <div className="fixed bottom-2 left-0 right-0 px-2 z-10">
         <Button
           className="w-full"
-          onClick={() => {
-            setShowCreateModal(true);
-            setCreateSlug("");
-            setCreateError(null);
-          }}
+          onClick={() => navigate("/economy-editor/create")}
         >
           <span className="text-sm">{t("playerEconomyEditor.createNew")}</span>
         </Button>
       </div>
-
-      <Modal
-        show={showCreateModal}
-        onHide={() => !creating && setShowCreateModal(false)}
-      >
-        <Panel>
-          <div className="p-2">
-            <div className="flex items-center justify-between mb-3">
-              <Label type="default" icon={SUNNYSIDE.icons.plus}>
-                {t("playerEconomyEditor.modal.createTitle")}
-              </Label>
-              <img
-                src={SUNNYSIDE.icons.close}
-                className="w-6 cursor-pointer"
-                style={{ imageRendering: "pixelated" }}
-                onClick={() => !creating && setShowCreateModal(false)}
-              />
-            </div>
-
-            <p className="text-xs mb-2">
-              {t("playerEconomyEditor.modal.slugHint")}
-            </p>
-
-            <TextInput
-              value={createSlug}
-              onValueChange={(v) => setCreateSlug(v.toLowerCase())}
-              placeholder="e.g. my-awesome-game"
-              maxLength={63}
-            />
-
-            {createError && (
-              <Label type="danger" className="mt-2">
-                {createError}
-              </Label>
-            )}
-
-            <Button
-              className="mt-3"
-              disabled={creating || !createSlug.trim()}
-              onClick={handleCreate}
-            >
-              {creating
-                ? t("playerEconomyEditor.creating")
-                : t("playerEconomyEditor.create")}
-            </Button>
-          </div>
-        </Panel>
-      </Modal>
     </div>
   );
 };
 
 /* ─── Create view ──────────────────────────────────────────────── */
 
+/**
+ * Simple slug-entry landing that fires `playerEconomy.created` and then
+ * navigates to the full editor at `/economy-editor/edit/:slug`. The editor
+ * tabs/setup only appear once the economy exists on the server.
+ */
 export const PlayerEconomyEditorCreate: React.FC = () => {
+  const { t } = useAppTranslation();
+  const navigate = useNavigate();
+  const { submitEvent } = useEditorApi();
+
+  const [slug, setSlug] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleCreate = async () => {
+    const normalized = normalizePlayerEconomySlugInput(slug);
+    if (!normalized) {
+      setError(t("playerEconomyEditor.error.slugRequired"));
+      return;
+    }
+    if (!isValidPlayerEconomySlug(normalized)) {
+      setError(t("playerEconomyEditor.error.slugInvalid"));
+      return;
+    }
+    setCreating(true);
+    setError(null);
+    try {
+      await submitEvent({ type: "playerEconomy.created", slug: normalized });
+      navigate(`/economy-editor/edit/${normalized}`);
+    } catch (e) {
+      setError(
+        e instanceof Error ? e.message : t("playerEconomyEditor.error.create"),
+      );
+      setCreating(false);
+    }
+  };
+
   return (
-    <div className="h-full overflow-hidden p-2">
-      <PlayerEconomyEditorSessionProvider mode="create" slug="">
-        <PlayerEconomyEditorSessionView />
-      </PlayerEconomyEditorSessionProvider>
+    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto p-2">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={minigameDashboardBackdropStyle(checkeredBg)}
+      />
+
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="absolute right-2 top-2 z-20 cursor-pointer"
+        onClick={() => !creating && navigate("/economy-editor")}
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+          height: `${PIXEL_SCALE * 11}px`,
+        }}
+        alt=""
+      />
+
+      <InnerPanel className="relative z-10 w-full max-w-md p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <Label type="vibrant" icon={SUNNYSIDE.icons.plus}>
+            {t("playerEconomyEditor.modal.createTitle")}
+          </Label>
+        </div>
+
+        <p className="text-xs mb-2 leading-tight text-[#3e2731]">
+          {t("playerEconomyEditor.createLanding.description")}
+        </p>
+        <p className="text-xs mb-2 leading-tight text-[#3e2731]/80">
+          {t("playerEconomyEditor.modal.slugHint")}
+        </p>
+
+        <TextInput
+          value={slug}
+          onValueChange={(v) => setSlug(v.toLowerCase())}
+          placeholder="e.g. my-awesome-game"
+          maxLength={63}
+        />
+
+        {error && (
+          <Label type="danger" className="mt-2">
+            {error}
+          </Label>
+        )}
+
+        <div className="flex gap-2 mt-3">
+          <Button
+            variant="secondary"
+            disabled={creating}
+            onClick={() => navigate("/economy-editor")}
+          >
+            {t("playerEconomyEditor.createLanding.back")}
+          </Button>
+          <Button disabled={creating || !slug.trim()} onClick={handleCreate}>
+            {creating
+              ? t("playerEconomyEditor.creating")
+              : t("playerEconomyEditor.create")}
+          </Button>
+        </div>
+      </InnerPanel>
     </div>
   );
 };
