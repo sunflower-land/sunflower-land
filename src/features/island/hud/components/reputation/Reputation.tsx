@@ -260,11 +260,6 @@ export const ReputationTiers: React.FC = () => {
               text: t("reputation.cropkeeper.description"),
               icon: sflIcon,
             },
-
-            {
-              text: t("reputation.cropkeeper.resources"),
-              icon: ITEM_DETAILS.Eggplant.image,
-            },
           ]}
         />
 
