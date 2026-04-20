@@ -165,9 +165,9 @@ export const MarketplaceHotNow: React.FC = () => {
 
           <TopTrades trends={data} />
         </div>
-      <InnerPanel className="mb-1">
+      </InnerPanel>
 
-      <InnerPanel>
+      <InnerPanel className="mb-1">
         <div className="p-2">
           <Label type="success" className="-ml-1 mb-2">
             {t("reward.whatsNew")}
