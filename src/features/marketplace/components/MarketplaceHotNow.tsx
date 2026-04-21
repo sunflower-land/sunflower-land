@@ -174,7 +174,6 @@ export const MarketplaceHotNow: React.FC = () => {
           <WhatsNew />
         </div>
       </InnerPanel>
-
     </div>
   );
 };
