@@ -392,7 +392,7 @@ describe("collectFermentation", () => {
     },
   );
 
-  it("applies Ager skill to double fermentation output", () => {
+  it("applies Ager skill to double fermentation output when stamped", () => {
     const past = createdAt - 1;
 
     const state = collectFermentation({
@@ -408,6 +408,69 @@ describe("collectFermentation", () => {
                 recipe: "Pickled Radish",
                 startedAt: past,
                 readyAt: past,
+                skills: { Ager: true },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(2);
+  });
+
+  it("ignores Ager skill activated after starting (exploit guard)", () => {
+    // Job was queued without the Ager stamp (1x input); activating Ager after
+    // must not double the output.
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "ager-exploit",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: false },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(1);
+  });
+
+  it("honours Ager stamp even when skill is deactivated after starting", () => {
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: {} },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "ager-stamped",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: true },
               },
             ],
           },

@@ -340,6 +340,41 @@ describe("startAging", () => {
     expect(state.inventory.Anchovy?.toNumber()).toBe(3);
   });
 
+  it("stamps Ager=true on the slot when the skill is active", () => {
+    const state = startAging({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        inventory: { Anchovy: new Decimal(5), Salt: new Decimal(100) },
+      }),
+      action: {
+        type: "agingRack.started",
+        fish: "Anchovy",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.aging[0].skills?.Ager).toBe(true);
+  });
+
+  it("stamps Ager=false on the slot when the skill is not active", () => {
+    const state = startAging({
+      state: createFermentationTestState({
+        inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
+      }),
+      action: {
+        type: "agingRack.started",
+        fish: "Anchovy",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.aging[0].skills?.Ager).toBe(false);
+  });
+
   it("throws when Ager requires 2 fish but only 1 available", () => {
     expect(() =>
       startAging({

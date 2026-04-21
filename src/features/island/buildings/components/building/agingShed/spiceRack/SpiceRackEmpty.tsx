@@ -84,6 +84,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
         gameState,
         recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
         selectedRecipeId,
+        !!gameState.bumpkin.skills["Ager"],
       )
     : undefined;
 

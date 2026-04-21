@@ -124,6 +124,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           getFermentationRecipe(recipeId).outputs[selectedItem] ??
             new Decimal(0),
           selectedItem,
+          !!gameState.bumpkin.skills["Ager"],
         )
       : undefined;
 
