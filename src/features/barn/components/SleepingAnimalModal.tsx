@@ -16,6 +16,7 @@ import { Animal } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  isMaxLevel as isMaxAnimalLevel,
 } from "features/game/lib/animals";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -90,6 +91,7 @@ export const SleepingAnimalModal = ({
   const hasTool = getCountAndType(state, animal.item).count.gt(0);
 
   const level = getAnimalLevel(animal.experience, animal.type);
+  const isMaxLevel = isMaxAnimalLevel(animal.type, level);
 
   const { name: mutantName } = animal.reward?.items?.[0] ?? {};
 
@@ -104,6 +106,18 @@ export const SleepingAnimalModal = ({
           <Label type="formula" className="text-xs">
             {`Lvl. ${level}`}
           </Label>
+          {isMaxLevel && (
+            <Label
+              type="formula"
+              className="text-xs ml-1"
+              style={{
+                background: "#E18C00",
+                color: "#3e2731",
+              }}
+            >
+              {"MAX"}
+            </Label>
+          )}
         </div>
 
         <div className="flex text-sm p-1 items-center">
