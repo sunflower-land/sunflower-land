@@ -63,6 +63,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   type Tab = "harvest" | "plant" | "fertilise";
   const [activeTab, setActiveTab] = useState<Tab>("harvest");
   const [reward, setReward] = useState<Reward>();
+  const [initialFertiliser, setInitialFertiliser] =
+    useState<AnyCompostName | null>(null);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
 
@@ -223,6 +225,9 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   };
 
   const handleShrineClick = () => {
+    setInitialFertiliser(
+      localStorage.getItem("obsidianShrineFertiliser") as AnyCompostName | null,
+    );
     setShow(true);
     setActiveTab(
       hasReadyCrops ? "harvest" : hasAvailablePlots ? "plant" : "fertilise",
@@ -312,7 +317,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             />
           )}
           {activeTab === "fertilise" && (
-            <FertiliseAll state={state} close={close} />
+            <FertiliseAll
+              state={state}
+              close={close}
+              initialFertiliser={initialFertiliser}
+            />
           )}
         </CloseButtonPanel>
 
@@ -542,50 +551,53 @@ const getEligibleCount = (
 const FertiliseAll: React.FC<{
   state: GameState;
   close: () => void;
-}> = ({ state, close }) => {
+  initialFertiliser: AnyCompostName | null;
+}> = ({ state, close, initialFertiliser }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
 
   const [selectedFertiliser, setSelectedFertiliser] =
-    useState<AnyCompostName | null>(
-      localStorage.getItem("obsidianShrineFertiliser") as AnyCompostName | null,
-    );
+    useState<AnyCompostName | null>(initialFertiliser);
 
   const ownedFertilisers = getOwnedFertilisers(state);
 
-  if (selectedFertiliser && !ownedFertilisers.includes(selectedFertiliser)) {
-    setSelectedFertiliser(ownedFertilisers[0] ?? null);
-  }
+  const effectiveFertiliser: AnyCompostName | null =
+    selectedFertiliser && ownedFertilisers.includes(selectedFertiliser)
+      ? selectedFertiliser
+      : (ownedFertilisers[0] ?? null);
 
   const selectFertiliser = (name: AnyCompostName) => {
     localStorage.setItem("obsidianShrineFertiliser", name);
     setSelectedFertiliser(name);
   };
 
-  const eligibleCount = selectedFertiliser
-    ? getEligibleCount(state, selectedFertiliser, now)
+  const eligibleCount = effectiveFertiliser
+    ? getEligibleCount(state, effectiveFertiliser, now)
     : 0;
-  const ownedCount = selectedFertiliser
-    ? (state.inventory[selectedFertiliser] ?? new Decimal(0)).toNumber()
+  const ownedCount = effectiveFertiliser
+    ? (state.inventory[effectiveFertiliser] ?? new Decimal(0)).toNumber()
     : 0;
 
   const applyAll = () => {
-    if (!selectedFertiliser || eligibleCount === 0 || ownedCount === 0) return;
+    if (!effectiveFertiliser || eligibleCount === 0 || ownedCount === 0) return;
 
-    if (selectedFertiliser in CROP_COMPOST) {
+    if (effectiveFertiliser in CROP_COMPOST) {
       gameService.send("plots.bulkFertilised", {
-        fertiliser: selectedFertiliser as CropCompostName,
+        fertiliser: effectiveFertiliser as CropCompostName,
       });
     } else {
-      Object.entries(state.fruitPatches).forEach(([id, patch]) => {
+      let remaining = ownedCount;
+      for (const [id, patch] of Object.entries(state.fruitPatches)) {
+        if (remaining === 0) break;
         if (!patch.fertiliser) {
           gameService.send("fruitPatch.fertilised", {
             patchID: id,
-            fertiliser: selectedFertiliser as FruitCompostName,
+            fertiliser: effectiveFertiliser as FruitCompostName,
           });
+          remaining -= 1;
         }
-      });
+      }
     }
 
     const remainingOwned = getOwnedFertilisers(
@@ -609,17 +621,17 @@ const FertiliseAll: React.FC<{
                 key={name}
                 image={ITEM_DETAILS[name].image}
                 onClick={() => selectFertiliser(name)}
-                isSelected={selectedFertiliser === name}
+                isSelected={effectiveFertiliser === name}
                 count={state.inventory[name] ?? new Decimal(0)}
               />
             ))}
-            {selectedFertiliser && (
+            {effectiveFertiliser && (
               <div className="flex flex-wrap justify-between w-full px-2">
                 <Label
                   type="default"
-                  icon={ITEM_DETAILS[selectedFertiliser].image}
+                  icon={ITEM_DETAILS[effectiveFertiliser].image}
                 >
-                  {selectedFertiliser}
+                  {effectiveFertiliser}
                 </Label>
                 <Label type="info">
                   {t("obsidianShrine.eligible", { count: eligibleCount })}
@@ -629,14 +641,14 @@ const FertiliseAll: React.FC<{
             <Button
               onClick={applyAll}
               disabled={
-                !selectedFertiliser || eligibleCount === 0 || ownedCount === 0
+                !effectiveFertiliser || eligibleCount === 0 || ownedCount === 0
               }
             >
-              {!selectedFertiliser
+              {!effectiveFertiliser
                 ? t("obsidianShrine.selectFertiliser")
-                : eligibleCount === 0 && selectedFertiliser in CROP_COMPOST
+                : eligibleCount === 0 && effectiveFertiliser in CROP_COMPOST
                   ? t("obsidianShrine.noEligiblePlots")
-                  : eligibleCount === 0 && selectedFertiliser in FRUIT_COMPOST
+                  : eligibleCount === 0 && effectiveFertiliser in FRUIT_COMPOST
                     ? t("obsidianShrine.noEligiblePatches")
                     : t("obsidianShrine.fertilise")}
             </Button>
