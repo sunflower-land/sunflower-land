@@ -9,10 +9,17 @@ export type MinigameShopItemUi = {
   listImage: string;
   /** Cost lines: all burn tokens, all require tokens, or one free-mint line (amount 0). */
   prices: { token: string; amount: number }[];
-  /** Max lifetime purchases per farm when set on the shop rule (`purchaseLimit` in config). */
-  purchaseLimit?: number;
-  /** Successful purchases recorded for this action (from runtime `purchaseCounts`). */
-  purchasesSoFar?: number;
+  /** Max lifetime invocations per farm when set on the rule (`maxCalls` in config). */
+  maxCalls?: number;
+  /** Lifetime invocations recorded for this action (from runtime `rules[actionId].count`). */
+  callsSoFar?: number;
+  /**
+   * Tightest remaining global supply among capped mint outputs (from `economy_supplies` + config).
+   * Omitted when no `supply` caps apply to this action’s mints.
+   */
+  supplyRemainingMin?: number;
+  /** True when global supply cannot fit another mint for this shop action. */
+  supplyBlocked?: boolean;
 };
 
 /** FLOWER-priced row from `config.purchases` (main game balance, not economy tokens). */
@@ -61,6 +68,8 @@ export type MinigameDashboardData = {
   ui: MinigameDashboardUi;
   /** Iframe base from API; `Portal` uses `VITE_PORTAL_GAME_URL` instead when set. */
   playUrl?: string;
+  /** Global per-token totals from API `supplies` (non-zero keys only from server; merged optimistically). */
+  economySupplies: Record<string, number>;
 };
 
 /** User-facing load failure; translate in the dashboard with `useAppTranslation`. */

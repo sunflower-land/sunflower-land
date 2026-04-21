@@ -1460,6 +1460,7 @@ export const SUNNYSIDE = {
     power_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/power_shovel.png`,
     rusty_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/rusty_shovel.png`,
     sand_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/sand_shovel.png`,
+    salt_rake: `${CONFIG.PROTECTED_IMAGE_URL}/tools/salt_rake.webp`,
     shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/shovel.png`,
     stone_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/stone_pickaxe.png`,
     wood_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/wood_pickaxe.png`,
@@ -1719,5 +1720,10 @@ export const SUNNYSIDE = {
     seaSnail: `${CONFIG.PROTECTED_IMAGE_URL}/crustaceans/sea_snail.webp`,
     seaUrchin: `${CONFIG.PROTECTED_IMAGE_URL}/crustaceans/sea_urchin.webp`,
     shrimp: `${CONFIG.PROTECTED_IMAGE_URL}/crustaceans/shrimp.webp`,
+  },
+  sculptures: {
+    saltSculpture1: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_01.webp`,
+    saltSculpture2: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_02.webp`,
+    saltSculpture3: `${CONFIG.PROTECTED_IMAGE_URL}/sculptures/salt_sculpture_03.webp`,
   },
 };

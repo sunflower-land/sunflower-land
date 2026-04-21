@@ -48,7 +48,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0];
   const outputAmount = getAgingOutput(
-    skills,
+    state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
   );
@@ -116,7 +116,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
               const needDecimal = new Decimal(need ?? 0).mul(
-                getAgingInputMultiplier(skills),
+                getAgingInputMultiplier(state),
               );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);

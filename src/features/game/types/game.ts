@@ -127,6 +127,7 @@ import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
 import { SaltFarm } from "./salt";
 import type { AgingShed } from "../lib/agingShed";
+import type { SculptureName } from "./saltSculpture";
 
 export type CraftingQueueItem = {
   id: string;
@@ -252,7 +253,8 @@ export type MutantChicken =
   | "Love Chicken"
   | "Janitor Chicken"
   | "Sleepy Chicken"
-  | "Squid Chicken";
+  | "Squid Chicken"
+  | "Flamingo Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -260,7 +262,8 @@ export type MutantCow =
   | "Dr Cow"
   | "Baby Cow"
   | "Astronaut Cow"
-  | "Mermaid Cow";
+  | "Mermaid Cow"
+  | "Spa Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -268,7 +271,8 @@ export type MutantSheep =
   | "Nurse Sheep"
   | "Baby Sheep"
   | "Astronaut Sheep"
-  | "Mermaid Sheep";
+  | "Mermaid Sheep"
+  | "Spa Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -288,6 +292,7 @@ export type Coupons =
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
+  | "Skill Reset Ticket"
   | "Bud Seedling"
   | "Community Coin"
   | "Arcade Token"
@@ -364,6 +369,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Bud Ticket": {
     description: translate("description.bud.ticket"),
+  },
+  "Skill Reset Ticket": {
+    description: translate("description.skillResetTicket"),
   },
   "Bud Seedling": {
     description: translate("description.bud.seedling"),
@@ -474,6 +482,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "April Fools Ticket 2026": {
     description: translate("description.aprilFoolsTicket2026"),
+  },
+  "Salt Rock": { description: "Collected during the Salt Awakening." },
+  "Salt Awakening Raffle Ticket": {
+    description: "A raffle ticket for the Salt Awakening chapter.",
   },
 };
 
@@ -2086,6 +2098,9 @@ export interface GameState {
     leagues?: League;
   };
   saltFarm: SaltFarm;
+  sculptures?: Partial<
+    Record<SculptureName, { level: number; upgradedAt?: number }>
+  >;
 }
 
 export type AOE = Partial<

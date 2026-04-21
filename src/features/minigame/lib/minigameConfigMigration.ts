@@ -69,6 +69,10 @@ function normalizeItemGeneratorFromLegacy(
   if (trophyParsed === true) out = { ...out, trophy: true };
   else if (trophyParsed === false) out = { ...out, trophy: false };
 
+  const visibleParsed = parseBooleanishFlag(record.is_visible);
+  if (visibleParsed === false) out = { ...out, is_visible: false };
+  else delete (out as unknown as Record<string, unknown>).is_visible;
+
   return out;
 }
 
@@ -131,6 +135,10 @@ export function migrateLegacyPlayerEconomyConfigFields(
       ? rawPurchases
       : undefined;
 
+  const enabledFlag = parseBooleanishFlag(
+    (input as PlayerEconomyConfig & { enabled?: unknown }).enabled,
+  );
+
   const out: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(itemsWithGeneratorInference).length > 0
@@ -143,6 +151,7 @@ export function migrateLegacyPlayerEconomyConfigFields(
     ...(input.mainCurrencyToken?.trim()
       ? { mainCurrencyToken: input.mainCurrencyToken.trim() }
       : {}),
+    ...(enabledFlag !== undefined ? { enabled: enabledFlag } : {}),
   };
 
   return out;

@@ -29,6 +29,7 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Better Together": "Coprolite",
     "Paw Prints": "Moon Crystal",
     "Crabs and Traps": "Ammonite Shell",
+    "Salt Awakening": "Salt Dino Egg",
   };
 
 export const DIGGING_FORMATIONS = {

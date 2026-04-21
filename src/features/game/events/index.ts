@@ -637,6 +637,10 @@ import {
   upgradeSaltFarm,
   UpgradeSaltFarmAction,
 } from "./landExpansion/upgradeSaltFarm";
+import {
+  upgradeSaltSculpture,
+  UpgradeSaltSculptureAction,
+} from "./landExpansion/upgradeSaltSculpture";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -822,7 +826,8 @@ export type PlayingEvent =
   | PromoteFarmhandAction
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction
-  | StartTrialAction;
+  | StartTrialAction
+  | UpgradeSaltSculptureAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1103,6 +1108,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.moved": moveBumpkin,
   "bumpkin.removedPlacement": removeBumpkinPlacement,
   "farmhand.promoted": promoteFarmhand,
+  "saltSculpture.upgraded": upgradeSaltSculpture,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

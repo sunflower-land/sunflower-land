@@ -84,4 +84,12 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Fish: ["Pink Dolphin"],
     banner: "?",
   },
+  "Salt Awakening": {
+    Chicken: "Flamingo Chicken",
+    Flower: "Salt Crystal Flower",
+    Fish: ["Deep Sea Pig", "Deep Sea Slug", "Crystal Shrimp"],
+    Cow: "Spa Cow",
+    Sheep: "Spa Sheep",
+    banner: "?",
+  },
 };

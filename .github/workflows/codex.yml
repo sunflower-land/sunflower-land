@@ -72,6 +72,11 @@ jobs:
               - Does not introduce new bugs or regressions
               - Follows the project's coding standards and conventions
 
+            **Critical rule for every suggestion you make:**
+            - Every fix, code sketch, or alternative you propose must itself be safe under React Compiler and follow the Rules of React.
+            - Before suggesting anything, silently check it against the React Compiler / `eslint-plugin-react-hooks` (including `react-compiler`) rules. If your suggested fix would be flagged by the compiler or those lint rules, do NOT suggest it — find a compiler-safe alternative or drop the suggestion entirely.
+            - Never suggest a fix that would introduce one of the anti-patterns listed below, even as a `[Low]` nit.
+
             The project assumptions:
             - React 19+ with React Compiler enabled.
             - Components are expected to be **pure** and compatible with concurrent rendering.
@@ -93,6 +98,18 @@ jobs:
               - Avoid reading/writing mutable refs or other mutable singletons in render in a way that affects UI logic.
             - Components:
               - Avoid defining components inside other components (nested component definitions) unless there is a clear, intentional reason and it’s safe for React Compiler.
+
+            **React Compiler anti-patterns — never introduce and never suggest as a fix:**
+            - `setState` called synchronously inside a `useEffect` body to derive/sync state from other state or props. The React Compiler flags this as "cascading renders" ("You Might Not Need an Effect"). Derive the value during render instead, or lift/rework the state.
+            - Effects whose only job is to keep one piece of state in sync with another piece of state, props, or a selector — always derive in render.
+            - Resetting state in an effect in response to a prop/state change — use `key` to remount or derive in render.
+            - Mutating props, state, refs, or captured variables during render.
+            - Reading `ref.current` during render to influence rendered output.
+            - Conditionally calling hooks, or calling hooks inside loops, callbacks, or after early returns.
+            - Stuffing non-serializable / mutable objects (class instances, Phaser objects, Maps being mutated in place, etc.) into state instead of refs.
+            - Relying on referential identity of inline objects/arrays/functions being preserved across renders without `useMemo` / `useCallback` when the identity actually matters for correctness.
+
+            If you are tempted to suggest a `useEffect` that ends in `setX(...)` purely to reconcile state, stop and suggest a derived value in render instead.
 
             2) Performance & allocation patterns
             - Avoid heavy or repeated work in render (e.g. expensive loops, sorting, filtering, allocations).
@@ -127,6 +144,7 @@ jobs:
               - `[Low]` – minor readability/cleanup suggestion.
             - When possible, reference file and line in the diff (e.g. `src/foo/Bar.tsx:42`).
             - For each issue, give a **specific** suggestion or small code sketch for how to improve it.
+            - Every code sketch you include must itself be compiler-safe — no `setState` inside `useEffect` bodies for derivation, no conditional hooks, no mutation during render, etc. If the compiler-safe version is "do nothing / already correct", prefer dropping the finding over suggesting an anti-pattern.
             - If the PR looks great, explicitly say so and only mention a few small nits that would clearly improve clarity or performance.
 
             Pull request title and body:

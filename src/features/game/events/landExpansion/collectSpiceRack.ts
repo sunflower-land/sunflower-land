@@ -47,8 +47,6 @@ export function collectSpiceRack({
 
     game.agingShed.racks.spice = queue.filter((job) => job.readyAt > createdAt);
 
-    const { skills } = game.bumpkin;
-
     ready.forEach((job) => {
       const recipeDef = getSpiceRackRecipe(job.recipe);
       const counter =
@@ -56,7 +54,7 @@ export function collectSpiceRack({
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        const add = getAgingOutput(skills, amount ?? new Decimal(0), item, {
+        const add = getAgingOutput(game, amount ?? new Decimal(0), item, {
           farmId,
           itemId: KNOWN_IDS[item],
           counter,

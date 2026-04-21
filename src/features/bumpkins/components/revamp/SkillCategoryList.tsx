@@ -90,10 +90,14 @@ export const SkillCategoryList: React.FC<{
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const gemBalance = inventory.Gem ?? new Decimal(0);
+  const ticketBalance = inventory["Skill Reset Ticket"] ?? new Decimal(0);
+  const hasTicket = ticketBalance.gte(1);
 
   const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
     ? "free"
-    : "gems";
+    : hasTicket
+      ? "ticket"
+      : "gems";
 
   const handleSkillsReset = () => {
     gameService.send({
@@ -116,6 +120,7 @@ export const SkillCategoryList: React.FC<{
     if (!hasSkills) return false;
     if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
       return false;
+    if (resetType === "ticket" && !hasTicket) return false;
     if (resetType === "gems" && !hasEnoughGems) return false;
 
     return true;
@@ -225,6 +230,7 @@ export const SkillCategoryList: React.FC<{
           resetType={resetType}
           gemCost={gemCost}
           gemBalance={gemBalance}
+          ticketBalance={ticketBalance}
           getNextResetDateAndTime={getNextResetDateAndTime}
           hasSkills={hasSkills}
           canResetSkills={canResetSkills}

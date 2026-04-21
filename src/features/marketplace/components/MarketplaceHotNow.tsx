@@ -19,8 +19,6 @@ import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
 import { useGame } from "features/game/GameProvider";
-import { MyOffers } from "./profile/MyOffers";
-import { MyListings } from "./profile/MyListings";
 
 const hotNowFetcher = ([, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadTrends({ token });
@@ -167,7 +165,7 @@ export const MarketplaceHotNow: React.FC = () => {
         </div>
       </InnerPanel>
 
-      <InnerPanel className="mb-1">
+      <InnerPanel>
         <div className="p-2">
           <Label type="success" className="-ml-1 mb-2">
             {t("reward.whatsNew")}
@@ -176,9 +174,6 @@ export const MarketplaceHotNow: React.FC = () => {
           <WhatsNew />
         </div>
       </InnerPanel>
-
-      <MyOffers />
-      <MyListings />
     </div>
   );
 };

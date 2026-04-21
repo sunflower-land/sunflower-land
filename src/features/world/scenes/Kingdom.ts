@@ -35,6 +35,7 @@ const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
 };
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
+  { x: 0, y: 0, npc: "murmur", direction: "right" },
   { x: 305, y: 500, npc: "billy", direction: "left" },
   { x: 112, y: 181, npc: "jester" },
   { x: 263, y: 105, npc: "victoria", direction: "left" },

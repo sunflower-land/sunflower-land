@@ -35,8 +35,7 @@ export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
   hideLimited?: boolean;
-  showPlayerEconomies?: boolean;
-}> = ({ onClose, farmId, hideLimited, showPlayerEconomies = false }) => {
+}> = ({ onClose, farmId, hideLimited }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -463,21 +462,6 @@ export const Filters: React.FC<{
         ? buildTraitGroups("pets", PET_TRAIT_GROUPS)
         : undefined,
     },
-    // Mini games (token minigames beta)
-    ...(showPlayerEconomies
-      ? [
-          {
-            icon: SUNNYSIDE.icons.playIcon,
-            label: t("marketplace.minigames"),
-            onClick: () => {
-              setExpandedTraitGroups({});
-              navigate(`${baseUrl}/economies`);
-              onClose?.();
-            },
-            isActive: pathname === `${baseUrl}/economies`,
-          },
-        ]
-      : []),
     {
       icon: SUNNYSIDE.icons.player,
       label: t("marketplace.myProfile"),

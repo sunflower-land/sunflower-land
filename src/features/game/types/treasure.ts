@@ -29,7 +29,8 @@ export type BeachBountyChapterArtefact =
   | "Broken Pillar"
   | "Coprolite"
   | "Moon Crystal"
-  | "Ammonite Shell";
+  | "Ammonite Shell"
+  | "Salt Dino Egg";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -199,6 +200,16 @@ export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
         : {
             from: CHAPTERS["Crabs and Traps"].startDate,
             to: CHAPTERS["Crabs and Traps"].endDate,
+          }),
+    },
+    "Salt Dino Egg": {
+      sellPrice: 200,
+      description: "",
+      ...(hasChapterEnded("Salt Awakening", Date.now())
+        ? {}
+        : {
+            from: CHAPTERS["Salt Awakening"].startDate,
+            to: CHAPTERS["Salt Awakening"].endDate,
           }),
     },
   };

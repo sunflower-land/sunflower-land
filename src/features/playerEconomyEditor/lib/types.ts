@@ -82,6 +82,12 @@ export type ItemForm = {
   trophy: boolean;
   /** Starting balance for new farms (`items[token].initialBalance` in saved config). */
   initialBalance: number;
+  /** Max units of this token a single farm can own. 0 = unlimited. */
+  max: number;
+  /**
+   * Global cap across all farms (saved as `supply` on the balance item). 0 = unlimited.
+   */
+  globalSupplyCap: number;
   /** True while PUT to S3 / presign is in flight (editor-only, not persisted). */
   imageUploading?: boolean;
   uploadError?: string;
@@ -90,6 +96,11 @@ export type ItemForm = {
    * Keeps the slot so numeric `id` sequencing continues for new items.
    */
   deleted?: boolean;
+  /**
+   * When false, saved as `is_visible: false` and hidden from the economy dashboard inventory.
+   * Default true.
+   */
+  isVisible: boolean;
 };
 
 export type ActionType = "produce" | "shop" | "custom";
@@ -107,8 +118,6 @@ export type ActionForm = {
   mint: MintRuleForm[];
   burn: TokenAmount[];
   require: TokenAmount[];
-  requireBelow: TokenAmount[];
-  requireAbsent: string[];
   produce: ProduceRuleForm[];
   collect: CollectRuleForm[];
   /**
@@ -121,10 +130,6 @@ export type ActionForm = {
    * Shop: when false, hidden from derived in-game shop (loaded from `showInShop`; no editor toggle).
    */
   showInShop: boolean;
-  /**
-   * Shop: max lifetime purchases per farm (persisted as `purchaseLimit` on the action). 0 = unlimited.
-   */
-  shopPurchaseLimit: number;
   /** Custom rule only — advanced mint rows. */
   customMint: CustomMintRowForm[];
   customBurn: CustomBurnRowForm[];
@@ -134,6 +139,8 @@ export type ActionForm = {
   customMintDropChances?: boolean;
   /** Custom: cooldown in seconds after each successful use (0 = off). Saved as `cooldownSeconds`. */
   customCooldownSeconds?: number;
+  /** Custom: max lifetime invocations per farm (0 = unlimited). Saved as `maxCalls`. */
+  customMaxCalls?: number;
   /**
    * Custom: Requires row inputs enabled in the editor (not persisted; derived on load from saved `require`).
    */
@@ -143,6 +150,8 @@ export type ActionForm = {
 export type EditorFormState = {
   slug: string;
   playUrl: string;
+  /** Listed in Economy Hub and minigames marketplace when true. */
+  enabled: boolean;
   /** `items` token key (`String(id)`); empty = auto primary currency among tradeable items. */
   mainCurrencyToken: string;
   descriptionTitle: string;
@@ -167,6 +176,7 @@ export type EditorTab =
 export const EMPTY_FORM: EditorFormState = {
   slug: "",
   playUrl: "",
+  enabled: false,
   mainCurrencyToken: "",
   descriptionTitle: "",
   descriptionSubtitle: "",

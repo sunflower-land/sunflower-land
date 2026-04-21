@@ -227,7 +227,8 @@ export type BumpkinTool =
   | "Master Chef's Cleaver"
   | "Luna's Crescent"
   | "Candy Halbred"
-  | "Admin Fools Tools";
+  | "Admin Fools Tools"
+  | "Pistol Shrimp";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -566,6 +567,27 @@ export type BumpkinAura =
   | "Paw Aura"
   | "Glitch Aura";
 
+export type BumpkinEyes =
+  | "Bumpkin Eyes"
+  | "Big Wink Eyes"
+  | "Fun Eyes"
+  | "Giggle Eyes"
+  | "Grumpy Eyes"
+  | "Relaxed Eyes"
+  | "Scared Eyes"
+  | "Surprised Eyes"
+  | "Wink Eyes";
+
+export type BumpkinMouth =
+  | "Bumpkin Smile"
+  | "Angry Mouth"
+  | "Baby Teeth"
+  | "Big Smile"
+  | "Fanged Smile"
+  | "Gold Teeth"
+  | "Infernal Smile"
+  | "Neutral Mouth";
+
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -583,7 +605,13 @@ export type BumpkinItem =
   | BumpkinSuit
   | BumpkinWings
   | BumpkinBeard
-  | BumpkinAura;
+  | BumpkinAura
+  | BumpkinEyes
+  | BumpkinMouth;
+
+/** Default face when not equipped (matches API bumpkin image pipeline). */
+export const DEFAULT_BUMPKIN_EYES: BumpkinEyes = "Bumpkin Eyes";
+export const DEFAULT_BUMPKIN_MOUTH: BumpkinMouth = "Bumpkin Smile";
 
 export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
@@ -1150,6 +1178,24 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Faulty Barrier Background": 535,
   "Cardboard Wings": 536,
   "Glitch Aura": 537,
+  "Bumpkin Eyes": 538,
+  "Big Wink Eyes": 539,
+  "Fun Eyes": 540,
+  "Giggle Eyes": 541,
+  "Grumpy Eyes": 542,
+  "Relaxed Eyes": 543,
+  "Scared Eyes": 544,
+  "Surprised Eyes": 545,
+  "Wink Eyes": 546,
+  "Bumpkin Smile": 547,
+  "Angry Mouth": 548,
+  "Baby Teeth": 549,
+  "Big Smile": 550,
+  "Fanged Smile": 551,
+  "Gold Teeth": 552,
+  "Infernal Smile": 553,
+  "Neutral Mouth": 554,
+  "Pistol Shrimp": 555,
 };
 
 // The reverse of above
@@ -1179,6 +1225,8 @@ export type Wallet = {
   dress?: BumpkinDress[];
   beard?: BumpkinBeard[];
   aura?: BumpkinAura[];
+  eyes: BumpkinEyes[];
+  mouth: BumpkinMouth[];
 };
 
 export type Equipped = {
@@ -1199,6 +1247,8 @@ export type Equipped = {
   dress?: BumpkinDress;
   beard?: BumpkinBeard;
   aura?: BumpkinAura;
+  eyes?: BumpkinEyes;
+  mouth?: BumpkinMouth;
 };
 
 export type BumpkinPart = keyof Equipped;
@@ -1748,6 +1798,24 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Faulty Barrier Background": "background",
   "Cardboard Wings": "wings",
   "Glitch Aura": "aura",
+  "Bumpkin Eyes": "eyes",
+  "Big Wink Eyes": "eyes",
+  "Fun Eyes": "eyes",
+  "Giggle Eyes": "eyes",
+  "Grumpy Eyes": "eyes",
+  "Relaxed Eyes": "eyes",
+  "Scared Eyes": "eyes",
+  "Surprised Eyes": "eyes",
+  "Wink Eyes": "eyes",
+  "Bumpkin Smile": "mouth",
+  "Angry Mouth": "mouth",
+  "Baby Teeth": "mouth",
+  "Big Smile": "mouth",
+  "Fanged Smile": "mouth",
+  "Gold Teeth": "mouth",
+  "Infernal Smile": "mouth",
+  "Neutral Mouth": "mouth",
+  "Pistol Shrimp": "tool",
 };
 
 /**Copied from BE just for hoarding checks */
@@ -1806,6 +1874,29 @@ const ALLOWED_BACKGROUNDS: BumpkinBackground[] = [
   "Seashore Background",
 ];
 
+const ALLOWED_BUMPKIN_EYES: BumpkinEyes[] = [
+  "Bumpkin Eyes",
+  "Big Wink Eyes",
+  "Fun Eyes",
+  "Giggle Eyes",
+  "Grumpy Eyes",
+  "Relaxed Eyes",
+  "Scared Eyes",
+  "Surprised Eyes",
+  "Wink Eyes",
+];
+
+const ALLOWED_BUMPKIN_MOUTHS: BumpkinMouth[] = [
+  "Bumpkin Smile",
+  "Angry Mouth",
+  "Baby Teeth",
+  "Big Smile",
+  "Fanged Smile",
+  "Gold Teeth",
+  "Infernal Smile",
+  "Neutral Mouth",
+];
+
 export const ALLOWED_BUMPKIN_ITEMS: BumpkinItem[] = [
   ...ALLOWED_BUMPKIN_HAIR,
   ...ALLOWED_BUMPKIN_SHIRTS,
@@ -1814,4 +1905,6 @@ export const ALLOWED_BUMPKIN_ITEMS: BumpkinItem[] = [
   ...ALLOWED_BUMPKIN_BOOTS,
   ...ALLOWED_BUMPKIN_TOOLS,
   ...ALLOWED_BACKGROUNDS,
+  ...ALLOWED_BUMPKIN_EYES,
+  ...ALLOWED_BUMPKIN_MOUTHS,
 ];

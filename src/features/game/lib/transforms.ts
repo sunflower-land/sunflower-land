@@ -137,5 +137,6 @@ export function makeGame(farm: any): GameState {
     pets: farm.pets,
     prototypes: farm.prototypes,
     saltFarm: farm.saltFarm ?? { level: 0, nodes: {} },
+    sculptures: farm.sculptures,
   };
 }

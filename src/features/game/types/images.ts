@@ -124,6 +124,12 @@ import pearlBed from "assets/sfts/pearl_bed.webp";
 import crimstoneClam from "assets/sfts/crimstone_clam.webp";
 import poseidonsThrone from "assets/sfts/poseidons_throne.webp";
 import fishKite from "assets/sfts/fish_kite.webp";
+import pufferfish from "assets/sfts/pufferfish.webp";
+import fatCrab from "assets/sfts/fat_crab_trapped.webp";
+import navigationTable from "assets/sfts/navigation_table.webp";
+import royalCrabPot from "assets/sfts/royal_crab_pot.webp";
+import crabHouse from "assets/sfts/crab_house.webp";
+import speedTrap from "assets/sfts/speed_trap.webp";
 import hummingBird from "assets/sfts/hummingbird.webp";
 import queenBee from "assets/sfts/queen_bee.webp";
 import flowerFox from "assets/sfts/flower_fox.webp";
@@ -288,6 +294,7 @@ import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_ban
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
+import skillResetTicket from "assets/icons/skill_reset_ticket.webp";
 import budSeedling from "assets/icons/bud_seedling.png";
 import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
 import polygonBanner from "assets/sfts/polygon_banner.webp";
@@ -426,11 +433,26 @@ import fishingLure from "assets/composters/fishing_lure.png";
 import capsuleBait from "assets/fish/bait/capsule_bait.webp";
 import umbrellaBait from "assets/fish/bait/umbrella_bait.webp";
 import crimsonBaitfish from "assets/fish/bait/crimson_baitfish.webp";
+import deepSeaPig from "assets/fish/deep_sea_pig.webp";
+import deepSeaSlug from "assets/fish/deep_sea_slug.webp";
+import crystalShrimp from "assets/fish/crystal_shrimp.webp";
+import flamingoChicken from "assets/sfts/flamingo_chicken.webp";
+import saltCrystalFlower from "assets/sfts/salt_crystal_flower.webp";
+import spaCow from "assets/sfts/spa_cow.webp";
+import spaSheep from "assets/sfts/spa_sheep.webp";
+import saltRockTicket from "assets/icons/salt_rock_ticket.webp";
+import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
+import saltAwakeningRaffleTicket from "assets/icons/salt_awakening_raffle_ticket.png";
+import saltDinoEgg from "assets/icons/salt_dino_egg.webp";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
 import fruitfulBlend from "assets/composters/fruitful_blend.png";
 import rapidRoot from "assets/composters/rapid_root.png";
+import sproutrootSurprise from "assets/icons/sproutroot_surprise.webp";
+import turbofruitMix from "assets/icons/turbofruit_mix.webp";
+import greenhouseGlow from "assets/icons/greenhouse_glow.webp";
+import greenhouseGoodie from "assets/icons/greenhouse_goodie.webp";
 
 // Clothing
 import chefHat from "assets/icons/chef_hat.png";
@@ -1928,7 +1950,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("tool.oilDrill"),
   },
   "Salt Rake": {
-    image: SUNNYSIDE.tools.sand_shovel,
+    image: SUNNYSIDE.tools.salt_rake,
     description: WORKBENCH_TOOLS["Salt Rake"].description,
     translatedName: "Salt Rake",
   },
@@ -3779,6 +3801,10 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description: COUPONS["Bud Ticket"].description,
   },
+  "Skill Reset Ticket": {
+    image: skillResetTicket,
+    description: COUPONS["Skill Reset Ticket"].description,
+  },
   "Bud Seedling": {
     image: budSeedling,
     description: COUPONS["Bud Seedling"].description,
@@ -4761,12 +4787,12 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("pickled.pepper"),
   },
   "Greenhouse Glow": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: greenhouseGlow,
     description: translate("description.greenhouseGlow"),
     translatedName: translate("greenhouseGlow"),
   },
   "Greenhouse Goodie": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: greenhouseGoodie,
     description: translate("description.greenhouseGoodie"),
     translatedName: translate("greenhouseGoodie"),
   },
@@ -4777,12 +4803,12 @@ export const ITEM_DETAILS: Items = {
         description: translate("compost.sproutrootSurpriseBoosted"),
       },
     ],
-    image: SUNNYSIDE.icons.expression_confused,
+    image: sproutrootSurprise,
     description: translate("compost.sproutrootSurprise"),
     translatedName: translate("fertiliser.sproutrootSurprise"),
   },
   "Turbofruit Mix": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: turbofruitMix,
     description: translate("compost.turbofruitMix"),
     translatedName: translate("fertiliser.turbofruitMix"),
   },
@@ -7562,5 +7588,77 @@ export const ITEM_DETAILS: Items = {
   "The Sunflower Man Statue": {
     image: theSunflowerManStatue,
     description: translate("description.theSunflowerManStatue"),
+  },
+  "Salt Sculpture": {
+    image: SUNNYSIDE.sculptures.saltSculpture1,
+    description: translate("description.saltSculpture"),
+  },
+  Pufferfish: {
+    image: pufferfish,
+    description: translate("description.pufferfish"),
+  },
+  "Fat Crab": {
+    image: fatCrab,
+    description: translate("description.fatCrab"),
+  },
+  "Navigation Table": {
+    image: navigationTable,
+    description: translate("description.navigationTable"),
+  },
+  "Royal Crab Pot": {
+    image: royalCrabPot,
+    description: translate("description.royalCrabPot"),
+  },
+  "Crab House": {
+    image: crabHouse,
+    description: translate("description.crabHouse"),
+  },
+  "Speed Trap": {
+    image: speedTrap,
+    description: translate("description.speedTrap"),
+  },
+  "Flamingo Chicken": {
+    image: flamingoChicken,
+    description: translate("description.flamingoChicken"),
+  },
+  "Salt Crystal Flower": {
+    image: saltCrystalFlower,
+    description: translate("description.saltCrystalFlower"),
+  },
+  "Spa Cow": {
+    image: spaCow,
+    description: translate("description.spaCow"),
+  },
+  "Spa Sheep": {
+    image: spaSheep,
+    description: translate("description.spaSheep"),
+  },
+  "Deep Sea Pig": {
+    image: deepSeaPig,
+    description: translate("description.deepSeaPig"),
+  },
+  "Deep Sea Slug": {
+    image: deepSeaSlug,
+    description: translate("description.deepSeaSlug"),
+  },
+  "Crystal Shrimp": {
+    image: crystalShrimp,
+    description: translate("description.crystalShrimp"),
+  },
+  "Salt Rock": {
+    image: saltRockTicket,
+    description: translate("description.saltRock"),
+  },
+  "Salt Awakening Raffle Ticket": {
+    image: saltAwakeningRaffleTicket,
+    description: translate("description.saltAwakeningRaffleTicket"),
+  },
+  "Salt Awakening Banner": {
+    image: saltAwakeningBanner,
+    description: translate("description.saltAwakeningBanner"),
+  },
+  "Salt Dino Egg": {
+    image: saltDinoEgg,
+    description: translate("description.saltDinoEgg"),
   },
 };

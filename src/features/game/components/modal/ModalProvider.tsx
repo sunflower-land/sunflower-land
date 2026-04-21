@@ -17,6 +17,7 @@ import { CloseButtonPanel } from "../CloseablePanel";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { Rewards } from "features/island/hud/components/referral/Rewards";
+import { DailyRewardChest } from "features/game/expansion/components/dailyReward/DailyReward";
 import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
 import { MarketplaceTutorialModal } from "./MarketplaceTutorialModal";
 type GlobalModal =
@@ -229,6 +230,8 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
       </Modal>
 
       <Rewards show={opened === "EARN"} onHide={handleClose} tab={"Earn"} />
+
+      <DailyRewardChest show={opened === "DAILY_REWARD"} onHide={handleClose} />
     </ModalContext.Provider>
   );
 };

@@ -15,6 +15,7 @@ import {
 } from "features/game/types/spiceRack";
 import {
   getAgingInputMultiplier,
+  getAgingOutput,
   getRefinedSaltChance,
 } from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -79,7 +80,11 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     !!selectedRecipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity = selectedRecipeId
-    ? recipeDef?.outputs[selectedRecipeId]
+    ? getAgingOutput(
+        gameState,
+        recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
+        selectedRecipeId,
+      )
     : undefined;
 
   return (
@@ -166,7 +171,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
                     requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(skills),
+                      getAgingInputMultiplier(gameState),
                     )}
                   />
                 ),
@@ -180,9 +185,9 @@ export const SpiceRackEmpty: React.FC<Props> = ({
 
           {canShowRequirements &&
             selectedRecipeId === "Refined Salt" &&
-            getRefinedSaltChance(skills) > 0 && (
+            getRefinedSaltChance(gameState) > 0 && (
               <Label type="vibrant" className="text-xxs mx-2 mb-1">
-                {`${getRefinedSaltChance(skills)}% Refined Salt chance`}
+                {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
               </Label>
             )}
         </InnerPanel>

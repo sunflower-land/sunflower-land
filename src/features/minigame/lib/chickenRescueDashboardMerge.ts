@@ -1,6 +1,7 @@
 import type { MinigameName } from "features/game/types/minigames";
 import type { PlayerEconomyConfig, PlayerEconomyRuntimeState } from "./types";
 import {
+  normalizeEconomySupplies,
   resolvePlayerEconomySessionItems,
   type MinigameSessionApiPayload,
 } from "./minigameSessionApi";
@@ -24,9 +25,6 @@ function sessionPlayerEconomyToRuntime(
     dailyActivity: m.dailyActivity ?? { date: day, count: 0 },
     ...(m.rules && Object.keys(m.rules).length > 0
       ? { rules: { ...m.rules } }
-      : {}),
-    ...(m.purchaseCounts != null
-      ? { purchaseCounts: { ...m.purchaseCounts } }
       : {}),
     ...(typeof m.highscore === "number" && Number.isFinite(m.highscore)
       ? { highscore: m.highscore }
@@ -68,5 +66,6 @@ export function buildMinigameDashboardFromApiSession(
     portalName,
     config,
     sessionPlayerEconomyToRuntime(session.playerEconomy),
+    normalizeEconomySupplies(session.supplies),
   );
 }

@@ -944,6 +944,39 @@ describe("fruitHarvested", () => {
 
       expect(amount).toEqual(1.2);
     });
+
+    it("applies Fruitful Blend buff yield and boosts when Turbofruit Mix is applied without Fruitful Bounty", () => {
+      const { amount, boostsUsed } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: INITIAL_FARM,
+        fertiliser: "Turbofruit Mix",
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1.1);
+      expect(boostsUsed).toEqual([{ name: "Fruitful Blend", value: "+0.1" }]);
+    });
+
+    it("applies doubled Fruitful Blend buff when Turbofruit Mix is applied with Fruitful Bounty", () => {
+      const { amount, boostsUsed } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Fruitful Bounty": 1 },
+          },
+        },
+        fertiliser: "Turbofruit Mix",
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1.2);
+      expect(boostsUsed).toEqual([
+        { name: "Fruitful Blend", value: "+0.1" },
+        { name: "Fruitful Bounty", value: "+0.1" },
+      ]);
+    });
     it("gives +1 Lemon yield when Zesty Vibes skill and Lemon", () => {
       const { amount } = getFruitYield({
         prngArgs: { counter: 0, farmId },
