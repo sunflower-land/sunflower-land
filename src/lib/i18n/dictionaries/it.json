@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% del costo di tutte le monete dei picconi",
   "skill.cheapRakes": "Costo della moneta Salt Rake del 20%",
   "description.ladybugSuit.boost": "-25% Costo in monete Onion Seed",
-  "saltSculpture.buff.4": "-10% costo della moneta Salt Rake"
+  "saltSculpture.buff.4": "-10% costo della moneta Salt Rake",
+  "agingShed.fermentation.selectRecipeRequired": "Seleziona una ricetta"
 }

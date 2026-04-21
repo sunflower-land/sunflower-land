@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% tüm kazma madeni para maliyeti",
   "skill.cheapRakes": "%20 tuz tırmığı madeni para maliyeti",
   "description.ladybugSuit.boost": "-25% Soğan Tohumu madeni para maliyeti",
-  "saltSculpture.buff.4": "-10% tuz tırmığı madeni para maliyeti"
+  "saltSculpture.buff.4": "-10% tuz tırmığı madeni para maliyeti",
+  "agingShed.fermentation.selectRecipeRequired": "Lütfen bir tarif seçin"
 }

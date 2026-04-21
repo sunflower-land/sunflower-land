@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% aller Münzkosten für Spitzhacken",
   "skill.cheapRakes": "Salzrake-Münze kostet 20%",
   "description.ladybugSuit.boost": "-25% Kosten für Onion Seed-Münzen",
-  "saltSculpture.buff.4": "-10% Kosten für Salt-Rake-Münzen"
+  "saltSculpture.buff.4": "-10% Kosten für Salt-Rake-Münzen",
+  "agingShed.fermentation.selectRecipeRequired": "Bitte wählen Sie ein Rezept aus"
 }

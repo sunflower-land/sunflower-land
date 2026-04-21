@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% do custo de todas as moedas de picaretas",
   "skill.cheapRakes": "20% de custo da moeda de ancinho de sal",
   "description.ladybugSuit.boost": "-25% de custo da moeda Onion Seed",
-  "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake"
+  "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake",
+  "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita"
 }

@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "すべてのツルハシのコインコスト -20%",
   "skill.cheapRakes": "20% ソルトレイクコインコスト",
   "description.ladybugSuit.boost": "-25% オニオンシードコインコスト",
-  "saltSculpture.buff.4": "-10% ソルトレイクコインコスト"
+  "saltSculpture.buff.4": "-10% ソルトレイクコインコスト",
+  "agingShed.fermentation.selectRecipeRequired": "レシピを選択してください"
 }

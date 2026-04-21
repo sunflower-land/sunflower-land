@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% all pickaxes coin cost",
   "skill.cheapRakes": "20% salt rake coin cost",
   "description.ladybugSuit.boost": "-25% Onion Seed coin cost",
-  "saltSculpture.buff.4": "-10% salt rake coin cost"
+  "saltSculpture.buff.4": "-10% salt rake coin cost",
+  "agingShed.fermentation.selectRecipeRequired": "Please select a recipe"
 }

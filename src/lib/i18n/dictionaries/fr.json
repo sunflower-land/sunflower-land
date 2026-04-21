@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20 % sur le coût de toutes les pièces de pioche",
   "skill.cheapRakes": "20 % du coût des pièces en forme de râteau à sel",
   "description.ladybugSuit.boost": "-25 % du coût de la pièce Onion Seed",
-  "saltSculpture.buff.4": "-10 % du coût des pièces du râteau à sel"
+  "saltSculpture.buff.4": "-10 % du coût des pièces du râteau à sel",
+  "agingShed.fermentation.selectRecipeRequired": "Veuillez sélectionner une recette"
 }

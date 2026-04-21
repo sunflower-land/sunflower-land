@@ -8803,5 +8803,6 @@
   "skill.frugalMiner": "-20% semua biaya koin beliung",
   "skill.cheapRakes": "Biaya koin penggaruk garam 20%",
   "description.ladybugSuit.boost": "-25% biaya koin Benih Bawang",
-  "saltSculpture.buff.4": "-10% biaya koin penggaruk garam"
+  "saltSculpture.buff.4": "-10% biaya koin penggaruk garam",
+  "agingShed.fermentation.selectRecipeRequired": "Silakan pilih resep"
 }
