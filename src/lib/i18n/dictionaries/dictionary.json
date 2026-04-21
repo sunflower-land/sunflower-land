@@ -2005,6 +2005,7 @@
   "description.rapid.growth": "(LEGACY) Apply to a crop to grow twice as fast",
   "description.bud.ticket": "(LEGACY) A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
   "description.skillResetTicket": "A ticket that allows you to reset your skills for free.",
+  "description.skillResetTicketWarning": "Counts as a gem reset; free timer unchanged.",
   "description.potion.ticket": "A reward from the Potion Game. Use this to buy items from Eins.",
   "description.trading.ticket": "(LEGACY) Free Trades! Woohoo!",
   "description.block.buck": "A valuable token in Sunflower Land!",
