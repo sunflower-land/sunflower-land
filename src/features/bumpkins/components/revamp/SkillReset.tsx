@@ -13,6 +13,7 @@ interface SkillResetProps {
   resetType: PaymentType;
   gemCost: number;
   gemBalance: Decimal;
+  ticketBalance: Decimal;
   getNextResetDateAndTime: () => {
     date: string;
     time: string;
@@ -28,6 +29,7 @@ export const SkillReset: React.FC<SkillResetProps> = ({
   resetType,
   gemCost,
   gemBalance,
+  ticketBalance,
   getNextResetDateAndTime,
   hasSkills,
   canResetSkills,
@@ -44,10 +46,28 @@ export const SkillReset: React.FC<SkillResetProps> = ({
           <Label type="default">{t("skillReset.skillsReset")}</Label>
 
           <Label
-            type={resetType === "free" ? "success" : "vibrant"}
-            icon={resetType === "gems" ? ITEM_DETAILS.Gem.image : undefined}
+            type={
+              resetType === "free"
+                ? "success"
+                : resetType === "ticket"
+                  ? "success"
+                  : "vibrant"
+            }
+            icon={
+              resetType === "gems"
+                ? ITEM_DETAILS.Gem.image
+                : resetType === "ticket"
+                  ? ITEM_DETAILS["Skill Reset Ticket"].image
+                  : undefined
+            }
           >
-            {t(resetType === "free" ? "skillReset.free" : "skillReset.gems")}
+            {t(
+              resetType === "free"
+                ? "skillReset.free"
+                : resetType === "ticket"
+                  ? "skillReset.ticket"
+                  : "skillReset.gems",
+            )}
           </Label>
 
           {resetType === "free" ? (
@@ -56,6 +76,24 @@ export const SkillReset: React.FC<SkillResetProps> = ({
                 {t("skillReset.freeDescription")}
               </p>
               <Label type="warning">{t("skillReset.180Days")}</Label>
+            </div>
+          ) : resetType === "ticket" ? (
+            <div className="flex flex-col items-center gap-2">
+              <RequirementLabel
+                type="item"
+                item={"Skill Reset Ticket"}
+                balance={ticketBalance}
+                requirement={new Decimal(1)}
+              />
+              <p className="text-xs text-center">
+                {t("skillReset.ticketDescription")}
+              </p>
+              <Label type="warning">
+                {t("description.skillResetTicketWarning")}
+              </Label>
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("skillReset.nextFreeReset", { date, time })}
+              </Label>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">

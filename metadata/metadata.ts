@@ -15677,6 +15677,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/3004.png",
     name: "Salt Awakening Raffle Ticket",
   },
+  "Skill Reset Ticket": {
+    description: "A ticket that allows you to reset your skills for free.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/775.png",
+    name: "Skill Reset Ticket",
+  },
   "Salt Awakening Banner": {
     description: "A banner for the Salt Awakening chapter.",
     decimals: 0,
