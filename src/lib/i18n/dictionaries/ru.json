@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 Fishing Attempts",
   "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
   "referral.share": "Share on:",
-  "referral.share.message": "Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand"
+  "referral.share.message": "Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "An economy is a mini-game with its own items, currency and shop. Pick a short slug for your economy — it becomes your subdomain and cannot be changed later.",
+  "playerEconomyEditor.createLanding.back": "Back",
+  "minigame.dashboard.leaderboard": "Leaderboard",
+  "minigame.dashboard.leaderboardEmpty": "No scores yet — be the first!",
+  "minigame.dashboard.leaderboardLastUpdated": "Updated {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Lvl {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Couldn't load the leaderboard."
 }

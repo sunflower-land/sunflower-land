@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 Upaya Memancing",
   "description.deepSeaSlug.boost.2": "+1 Cacing dari Pengomposan",
   "referral.share": "Bagikan di:",
-  "referral.share.message": "Bergabunglah dengan saya di Tanah Bunga Matahari! 🌻 Gunakan tautan rujukan saya untuk mendapatkan paket starter saat Anda mendaftar. #SunflowerLand"
+  "referral.share.message": "Bergabunglah dengan saya di Tanah Bunga Matahari! 🌻 Gunakan tautan rujukan saya untuk mendapatkan paket starter saat Anda mendaftar. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "Ekonomi adalah mini-game dengan item, mata uang, dan tokonya sendiri. Pilih siput pendek untuk ekonomi Anda — itu menjadi subdomain Anda dan tidak dapat diubah nanti.",
+  "playerEconomyEditor.createLanding.back": "Kembali",
+  "minigame.dashboard.leaderboard": "Papan peringkat",
+  "minigame.dashboard.leaderboardEmpty": "Belum ada skor - jadilah yang pertama!",
+  "minigame.dashboard.leaderboardLastUpdated": "Diperbarui {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Tingkat {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Tidak dapat memuat papan peringkat."
 }

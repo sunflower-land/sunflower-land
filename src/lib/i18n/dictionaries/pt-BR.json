@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 tentativas de pesca",
   "description.deepSeaSlug.boost.2": "+1 minhoca da compostagem",
   "referral.share": "Compartilhe em:",
-  "referral.share.message": "Junte-se a mim na Terra do Girassol! 🌻 Use meu link de indicação para obter um pacote inicial ao se inscrever. #SunflowerLand"
+  "referral.share.message": "Junte-se a mim na Terra do Girassol! 🌻 Use meu link de indicação para obter um pacote inicial ao se inscrever. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "Uma economia é um minijogo com seus próprios itens, moeda e loja. Escolha um pequeno slug para sua economia — ele se torna seu subdomínio e não pode ser alterado posteriormente.",
+  "playerEconomyEditor.createLanding.back": "Voltar",
+  "minigame.dashboard.leaderboard": "Tabela de classificação",
+  "minigame.dashboard.leaderboardEmpty": "Ainda não há pontuações — seja o primeiro!",
+  "minigame.dashboard.leaderboardLastUpdated": "Atualizado em {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Nvel {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Não foi possível carregar a tabela de classificação."
 }

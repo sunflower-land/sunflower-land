@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 次钓鱼尝试",
   "description.deepSeaSlug.boost.2": "+1 堆肥产生的蠕虫",
   "referral.share": "分享到：",
-  "referral.share.message": "加入我的向日葵乐园！🌻 注册时使用我的推荐链接获取入门套餐。#SunflowerLand"
+  "referral.share.message": "加入我的向日葵乐园！🌻 注册时使用我的推荐链接获取入门套餐。#SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "经济是一款拥有自己的物品、货币和商店的小游戏。为您的经济选择一个简短的标题——它会成为您的子域名，以后无法更改。",
+  "playerEconomyEditor.createLanding.back": "返回",
+  "minigame.dashboard.leaderboard": "排行榜",
+  "minigame.dashboard.leaderboardEmpty": "还没有分数——成为第一个！",
+  "minigame.dashboard.leaderboardLastUpdated": "已更新 {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "等级 {{level}}",
+  "minigame.dashboard.leaderboardFailed": "无法加载排行榜。"
 }

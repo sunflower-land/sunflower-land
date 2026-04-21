@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 Balıkçılık Denemesi",
   "description.deepSeaSlug.boost.2": "+1 Kompostlamadan Solucan",
   "referral.share": "Paylaş:",
-  "referral.share.message": "Ayçiçeği Ülkesinde bana katılın! 🌻 Kaydolduğunuzda bir başlangıç paketi almak için tavsiye bağlantımı kullanın. #SunflowerLand"
+  "referral.share.message": "Ayçiçeği Ülkesinde bana katılın! 🌻 Kaydolduğunuzda bir başlangıç paketi almak için tavsiye bağlantımı kullanın. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "Ekonomi, kendi eşyaları, para birimi ve mağazası olan bir mini oyundur. Ekonominiz için kısa bir slug seçin - bu sizin alt alanınız olur ve daha sonra değiştirilemez.",
+  "playerEconomyEditor.createLanding.back": "Geri",
+  "minigame.dashboard.leaderboard": "Liderlik Tablosu",
+  "minigame.dashboard.leaderboardEmpty": "Henüz puan yok - ilk siz olun!",
+  "minigame.dashboard.leaderboardLastUpdated": "Güncellendi {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Lvl {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Liderlik tablosu yüklenemedi."
 }

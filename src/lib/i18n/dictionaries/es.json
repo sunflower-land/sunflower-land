@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 intentos de pesca",
   "description.deepSeaSlug.boost.2": "+1 lombriz procedente del compostaje",
   "referral.share": "Comparte en:",
-  "referral.share.message": "¡Únete a mí en Sunflower Land! 🌻 Usa mi enlace de referencia para obtener un paquete de inicio cuando te registres. #SunflowerLand"
+  "referral.share.message": "¡Únete a mí en Sunflower Land! 🌻 Usa mi enlace de referencia para obtener un paquete de inicio cuando te registres. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "Una economía es un minijuego con sus propios objetos, moneda y tienda. Elige una sección corta para tu economía: pasará a ser tu subdominio y no podrás cambiarla más adelante.",
+  "playerEconomyEditor.createLanding.back": "Atrás",
+  "minigame.dashboard.leaderboard": "Tabla clasificatoria",
+  "minigame.dashboard.leaderboardEmpty": "Aún no hay puntajes, ¡sé el primero!",
+  "minigame.dashboard.leaderboardLastUpdated": "Actualizado {{when}}",
+  "minigame.dashboard.leaderboardLevelShort": "Nivel {{level}}",
+  "minigame.dashboard.leaderboardFailed": "No se ha podido cargar la tabla de clasificación."
 }

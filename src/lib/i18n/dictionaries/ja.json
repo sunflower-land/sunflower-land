@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5回釣りの試行",
   "description.deepSeaSlug.boost.2": "コンポストからのワーム+1",
   "referral.share": "シェア:",
-  "referral.share.message": "サンフラワーランドに参加しよう！🌻 サインアップ時に私の紹介リンクを使ってスターターパッケージを入手してください。#SunflowerLand"
+  "referral.share.message": "サンフラワーランドに参加しよう！🌻 サインアップ時に私の紹介リンクを使ってスターターパッケージを入手してください。#SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "エコノミーは、独自のアイテム、通貨、ショップを備えたミニゲームです。エコノミーの短いスラッグを選んでください。それがサブドメインになり、後で変更することはできません。",
+  "playerEconomyEditor.createLanding.back": "戻る",
+  "minigame.dashboard.leaderboard": "リーダーボード",
+  "minigame.dashboard.leaderboardEmpty": "まだスコアはありません—一番になりましょう！",
+  "minigame.dashboard.leaderboardLastUpdated": "{{when}} を更新しました",
+  "minigame.dashboard.leaderboardLevelShort": "レベル {{level}}",
+  "minigame.dashboard.leaderboardFailed": "リーダーボードを読み込めませんでした。"
 }

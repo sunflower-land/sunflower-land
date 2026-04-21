@@ -8795,5 +8795,12 @@
   "description.deepSeaSlug.boost": "+5 Fangversuche",
   "description.deepSeaSlug.boost.2": "+1 Wurm aus der Kompostierung",
   "referral.share": "Teilen auf:",
-  "referral.share.message": "Begleite mich ins Sonnenblumenland! 🌻 Benutze meinen Empfehlungslink, um ein Starterpaket zu erhalten, wenn du dich anmeldest. #SunflowerLand"
+  "referral.share.message": "Begleite mich ins Sonnenblumenland! 🌻 Benutze meinen Empfehlungslink, um ein Starterpaket zu erhalten, wenn du dich anmeldest. #SunflowerLand",
+  "playerEconomyEditor.createLanding.description": "Eine Wirtschaft ist ein Minispiel mit eigenen Gegenständen, Währungen und Geschäften. Wähle eine kurze Option für deine Wirtschaft — sie wird zu deiner Subdomain und kann später nicht mehr geändert werden.",
+  "playerEconomyEditor.createLanding.back": "Zurück",
+  "minigame.dashboard.leaderboard": "Bestenliste",
+  "minigame.dashboard.leaderboardEmpty": "Noch keine Ergebnisse — sei der Erste!",
+  "minigame.dashboard.leaderboardLastUpdated": "{{when}} aktualisiert",
+  "minigame.dashboard.leaderboardLevelShort": "Stufe {{level}}",
+  "minigame.dashboard.leaderboardFailed": "Die Bestenliste konnte nicht geladen werden."
 }
