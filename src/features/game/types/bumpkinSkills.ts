@@ -81,6 +81,16 @@ import restlessAnimals from "assets/icons/skill_icons/restless_animals.png";
 import rockyFavor from "assets/icons/skill_icons/rocky_favor.png";
 import seededBounty from "assets/icons/skill_icons/seedybounty.png";
 import strongRoots from "assets/icons/skill_icons/strong_roots.png";
+import ager from "assets/icons/skill_icons/ager.webp";
+import bacalhau from "assets/icons/skill_icons/bacalhau.webp";
+import cheapRakes from "assets/icons/skill_icons/cheap_rakes.webp";
+import fishSmoking from "assets/icons/skill_icons/fish_smoking.webp";
+import refiner from "assets/icons/skill_icons/refiner.webp";
+import saltSurge from "assets/icons/skill_icons/salt_surge.webp";
+import saltySeas from "assets/icons/skill_icons/salty_seas.webp";
+import seaBlessed from "assets/icons/skill_icons/sea_blessed.webp";
+import speedyAging from "assets/icons/skill_icons/speedy_aging.webp";
+import wideRakes from "assets/icons/skill_icons/wide_rakes.webp";
 import xpIcon from "assets/icons/xp.png";
 import { NPCName } from "lib/npcs";
 import { BuffLabel } from ".";
@@ -3251,6 +3261,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Salt Rake"].image,
       },
     },
+    image: cheapRakes,
   },
   "Speedy Aging": {
     name: "Speedy Aging",
@@ -3266,8 +3277,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.speedyAging"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
+    image: speedyAging,
   },
   "Salty Seas": {
     name: "Salty Seas",
@@ -3286,6 +3299,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
+    image: saltySeas,
   },
   "Wide Rakes": {
     name: "Wide Rakes",
@@ -3304,6 +3318,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
+    image: wideRakes,
   },
   Bacalhau: {
     name: "Bacalhau",
@@ -3319,9 +3334,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.bacalhau"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: baits,
+        boostedItemIcon: bacalhau,
       },
     },
+    image: bacalhau,
   },
 
   // Salt - Tier 2
@@ -3342,6 +3358,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
+    image: fishSmoking,
   },
   Refiner: {
     name: "Refiner",
@@ -3359,6 +3376,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
+    image: refiner,
   },
   "Sea Blessed": {
     name: "Sea Blessed",
@@ -3377,6 +3395,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
+    image: seaBlessed,
   },
 
   // Salt - Tier 3
@@ -3401,6 +3420,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
+    image: ager,
   },
   "Salt Surge": {
     name: "Salt Surge",
@@ -3421,6 +3441,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Salt"].image,
       },
     },
+    image: saltSurge,
   },
 } satisfies Record<string, BumpkinSkillRevamp>;
 
