@@ -96,6 +96,11 @@ export type ItemForm = {
    * Keeps the slot so numeric `id` sequencing continues for new items.
    */
   deleted?: boolean;
+  /**
+   * When false, saved as `is_visible: false` and hidden from the economy dashboard inventory.
+   * Default true.
+   */
+  isVisible: boolean;
 };
 
 export type ActionType = "produce" | "shop" | "custom";

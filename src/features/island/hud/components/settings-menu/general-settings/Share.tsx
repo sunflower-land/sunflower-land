@@ -45,7 +45,9 @@ export const Share: React.FC = () => {
             />
           </div>
         </div>
-        <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
+        <div className="flex flex-col gap-2 mb-4">
+          <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
+        </div>
       </div>
       <div className="flex space-x-1 text-sm">
         <Button onClick={handleTweetClick}>{t("share.Tweet")}</Button>

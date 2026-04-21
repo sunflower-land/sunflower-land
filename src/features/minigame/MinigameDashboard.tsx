@@ -53,6 +53,11 @@ import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction
 import { hasFeatureAccess } from "lib/flags";
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import { MinigameHighscoreWidget } from "./components/MinigameHighscoreWidget";
+import { MinigameLeaderboardWidget } from "./components/MinigameLeaderboardWidget";
+import {
+  loadEconomyLeaderboard,
+  type EconomyLeaderboard,
+} from "./lib/loadEconomyLeaderboard";
 import {
   buildMinigameDashboardData,
   getPrimaryTradableMarketplaceItem,
@@ -150,6 +155,12 @@ export const MinigameDashboard: React.FC = () => {
   const [trophyDetailToken, setTrophyDetailToken] = useState<string | null>(
     null,
   );
+  const [leaderboard, setLeaderboard] = useState<EconomyLeaderboard | null>(
+    null,
+  );
+  const [leaderboardLoading, setLeaderboardLoading] = useState(false);
+  const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const applyRuntime = useCallback((next: PlayerEconomyRuntimeState | null) => {
     runtimeRef.current = next;
     setRuntime(next);
@@ -208,6 +219,33 @@ export const MinigameDashboard: React.FC = () => {
     playerEconomiesBlocked,
   ]);
 
+  /**
+   * Leaderboard is best-effort: it never blocks the dashboard render and failures are
+   * shown inside the widget. Refetches whenever the slug changes and on every
+   * `dashboardReloadKey` bump so the list updates after a fresh minigame attempt.
+   */
+  useEffect(() => {
+    if (playerEconomiesBlocked) return;
+    if (!slug) return;
+    let cancelled = false;
+    setLeaderboardLoading(true);
+    setLeaderboardError(null);
+    (async () => {
+      const res = await loadEconomyLeaderboard(slug, userToken);
+      if (cancelled) return;
+      if (res.ok) {
+        setLeaderboard(res.data);
+        setLeaderboardError(null);
+      } else {
+        setLeaderboardError(res.error);
+      }
+      setLeaderboardLoading(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, userToken, dashboardReloadKey, playerEconomiesBlocked]);
+
   const handleClose = useCallback(() => {
     navigate("/");
   }, [navigate]);
@@ -261,6 +299,10 @@ export const MinigameDashboard: React.FC = () => {
         setShowWelcomeModal(false);
         return;
       }
+      if (showLeaderboard) {
+        setShowLeaderboard(false);
+        return;
+      }
       handleClose();
     };
     document.addEventListener("keydown", onKey);
@@ -276,6 +318,7 @@ export const MinigameDashboard: React.FC = () => {
     showShopConfirm,
     showActionSyncError,
     showWelcomeModal,
+    showLeaderboard,
     trophyDetailToken,
   ]);
 
@@ -736,7 +779,10 @@ export const MinigameDashboard: React.FC = () => {
                   tokenImages={tokenImages}
                 />
               )}
-              <MinigameHighscoreWidget highscore={playerHighscore} />
+              <MinigameHighscoreWidget
+                highscore={playerHighscore}
+                onOpenLeaderboard={() => setShowLeaderboard(true)}
+              />
             </div>
           )}
 
@@ -750,7 +796,10 @@ export const MinigameDashboard: React.FC = () => {
               />
               {!hasShop && (
                 <div className="hidden shrink-0 self-start md:block w-full max-w-[min(42vw,220px)]">
-                  <MinigameHighscoreWidget highscore={playerHighscore} />
+                  <MinigameHighscoreWidget
+                    highscore={playerHighscore}
+                    onOpenLeaderboard={() => setShowLeaderboard(true)}
+                  />
                 </div>
               )}
             </div>
@@ -768,9 +817,12 @@ export const MinigameDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex shrink-0 justify-start px-2 pb-1 md:hidden">
+        <div className="flex shrink-0 flex-col gap-1 px-2 pb-1 md:hidden">
           <div className="w-full max-w-[min(42vw,220px)]">
-            <MinigameHighscoreWidget highscore={playerHighscore} />
+            <MinigameHighscoreWidget
+              highscore={playerHighscore}
+              onOpenLeaderboard={() => setShowLeaderboard(true)}
+            />
           </div>
         </div>
 
@@ -885,6 +937,22 @@ export const MinigameDashboard: React.FC = () => {
           <p className="text-xs leading-relaxed whitespace-pre-line text-[#3e2731]">
             {copy?.welcome ?? t("minigame.dashboard.welcomeFallback")}
           </p>
+        </MinigameConfirmPanel>
+
+        <MinigameConfirmPanel
+          show={showLeaderboard}
+          title={t("minigame.dashboard.leaderboard")}
+          confirmLabel={t("close")}
+          onClose={() => setShowLeaderboard(false)}
+          onConfirm={() => setShowLeaderboard(false)}
+        >
+          <MinigameLeaderboardWidget
+            loading={leaderboardLoading}
+            players={leaderboard?.topTen ?? null}
+            lastUpdated={leaderboard?.lastUpdated ?? null}
+            error={leaderboardError}
+            currentFarmId={farmId ?? undefined}
+          />
         </MinigameConfirmPanel>
 
         <MinigameConfirmPanel

@@ -255,6 +255,11 @@ export const ItemCard: React.FC<{
         onChange={() => onUpdate({ trophy: !item.trophy })}
         label={t("playerEconomyEditor.itemCard.trophy")}
       />
+      <Switch
+        checked={item.isVisible}
+        onChange={() => onUpdate({ isVisible: !item.isVisible })}
+        label={t("playerEconomyEditor.itemCard.visibleInInventory")}
+      />
     </InnerPanel>
   );
 };

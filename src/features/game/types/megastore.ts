@@ -1012,6 +1012,7 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Spring Blossom": EMPTY_SEASONAL_STORE,
   "Witches' Eve": EMPTY_SEASONAL_STORE,
   "Crabs and Traps": CRABS_AND_TRAPS_ITEMS,
+  "Salt Awakening": EMPTY_SEASONAL_STORE, // TODO: Add Salt Awakening items
   "Pharaoh's Treasure": {
     basic: {
       items: PHARAOH_ITEMS,

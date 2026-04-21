@@ -253,7 +253,8 @@ export type MutantChicken =
   | "Love Chicken"
   | "Janitor Chicken"
   | "Sleepy Chicken"
-  | "Squid Chicken";
+  | "Squid Chicken"
+  | "Flamingo Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -261,7 +262,8 @@ export type MutantCow =
   | "Dr Cow"
   | "Baby Cow"
   | "Astronaut Cow"
-  | "Mermaid Cow";
+  | "Mermaid Cow"
+  | "Spa Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -269,7 +271,8 @@ export type MutantSheep =
   | "Nurse Sheep"
   | "Baby Sheep"
   | "Astronaut Sheep"
-  | "Mermaid Sheep";
+  | "Mermaid Sheep"
+  | "Spa Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -475,6 +478,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "April Fools Ticket 2026": {
     description: translate("description.aprilFoolsTicket2026"),
+  },
+  "Salt Rock": { description: "Collected during the Salt Awakening." },
+  "Salt Awakening Raffle Ticket": {
+    description: "A raffle ticket for the Salt Awakening chapter.",
   },
 };
 
