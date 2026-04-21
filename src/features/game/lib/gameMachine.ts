@@ -370,6 +370,11 @@ type PlayingEventHandlerOptions = {
   immediateSave?: boolean;
 };
 
+const isLocalVisitingHelpEvent = (
+  event: PlayingEvent | VisitingEvent,
+): event is VisitingEvent & { totalHelpedToday: number } =>
+  Object.prototype.hasOwnProperty.call(LOCAL_VISITING_EVENTS, event.type);
+
 const playingEventHandler = (
   eventName: string,
   options?: PlayingEventHandlerOptions,
@@ -437,6 +442,12 @@ const playingEventHandler = (
                 state,
                 actions,
                 visitorState,
+                totalHelpedToday:
+                  context.visitorState && isLocalVisitingHelpEvent(event)
+                    ? (context.totalHelpedToday ??
+                        event.totalHelpedToday ??
+                        0) + 1
+                    : context.totalHelpedToday,
               };
             }
 
