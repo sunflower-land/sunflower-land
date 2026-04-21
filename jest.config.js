@@ -35,10 +35,9 @@ module.exports = {
         // Memory Leak Fix - Cause unknown
         // https://github.com/kulshekhar/ts-jest/issues/1967
         isolatedModules: true,
-        // ts-jest forces moduleResolution=node10 internally because jest requires
-        // CommonJS; TS 6.0 treats node10 as deprecated. Scope the acknowledgement
-        // to the transform so `yarn tsc` remains strict.
-        tsconfig: { ignoreDeprecations: "6.0" },
+        // Test-scoped config: test-only types (jest/node) and
+        // ignoreDeprecations for ts-jest's forced CommonJS/node10 output.
+        tsconfig: "<rootDir>/tsconfig.test.json",
       },
     ],
   },

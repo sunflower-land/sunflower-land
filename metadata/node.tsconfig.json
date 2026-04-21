@@ -2,6 +2,10 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "CommonJS",
+    // TODO: `Node10` is deprecated in TS 6.0 and will be removed in 7.0.
+    // Kept as a compat bridge because vite-node metadata scripts need
+    // CommonJS output. Migrate `module` + `moduleResolution` to `NodeNext`
+    // before the TypeScript 7.0 upgrade.
     "moduleResolution": "Node10"
   }
 }
