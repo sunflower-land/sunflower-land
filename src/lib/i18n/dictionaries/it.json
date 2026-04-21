@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Mostra nell'inventario della dashboard",
   "skill.fellersDiscount": "-20% costo della moneta d'ascia",
   "skill.frugalMiner": "-20% del costo di tutte le monete dei picconi",
-  "skill.cheapRakes": "Costo della moneta Salt Rake del 20%",
   "description.ladybugSuit.boost": "-25% Costo in monete Onion Seed",
   "saltSculpture.buff.4": "-10% costo della moneta Salt Rake",
-  "agingShed.fermentation.selectRecipeRequired": "Seleziona una ricetta"
+  "agingShed.fermentation.selectRecipeRequired": "Seleziona una ricetta",
+  "skill.cheapRakes": "-20% costo in monete salate"
 }

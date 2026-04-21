@@ -4825,7 +4825,7 @@
   "skill.compostingOverhaul.debuff": "-5 fertilisers",
   "skill.compostingRevamp.buff": "+5 fertilisers",
   "skill.compostingRevamp.debuff": "-3 Worms",
-  "skill.cheapRakes": "20% salt rake coin cost",
+  "skill.cheapRakes": "-20% salt rake coin cost",
   "skill.speedyAging": "-10% Fish Aging time",
   "skill.saltySeas": "-10% salt charge replenishment time",
   "skill.fishSmoking": "Doubled chance Aged Fish becomes Prime Aged",

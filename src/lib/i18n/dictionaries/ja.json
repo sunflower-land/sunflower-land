@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "ダッシュボードインベントリに表示",
   "skill.fellersDiscount": "-20% アックスコインコスト",
   "skill.frugalMiner": "すべてのツルハシのコインコスト -20%",
-  "skill.cheapRakes": "20% ソルトレイクコインコスト",
   "description.ladybugSuit.boost": "-25% オニオンシードコインコスト",
   "saltSculpture.buff.4": "-10% ソルトレイクコインコスト",
-  "agingShed.fermentation.selectRecipeRequired": "レシピを選択してください"
+  "agingShed.fermentation.selectRecipeRequired": "レシピを選択してください",
+  "skill.cheapRakes": "-20% ソルトレイクコインコスト"
 }

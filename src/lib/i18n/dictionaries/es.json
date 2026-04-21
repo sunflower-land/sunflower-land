@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Mostrar en el inventario del tablero",
   "skill.fellersDiscount": "-20% de coste de la moneda con hacha",
   "skill.frugalMiner": "-20% del coste de todas las monedas de pico",
-  "skill.cheapRakes": "Coste de la moneda Salt Rake del 20%",
   "description.ladybugSuit.boost": "-25% de coste de la moneda Onion Seed",
   "saltSculpture.buff.4": "-10% de costo de la moneda Salt Rake",
-  "agingShed.fermentation.selectRecipeRequired": "Seleccione una receta"
+  "agingShed.fermentation.selectRecipeRequired": "Seleccione una receta",
+  "skill.cheapRakes": "-20% de costo de la moneda Salt Rake"
 }

@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Show in dashboard inventory",
   "skill.fellersDiscount": "-20% axe coin cost",
   "skill.frugalMiner": "-20% all pickaxes coin cost",
-  "skill.cheapRakes": "20% salt rake coin cost",
   "description.ladybugSuit.boost": "-25% Onion Seed coin cost",
   "saltSculpture.buff.4": "-10% salt rake coin cost",
-  "agingShed.fermentation.selectRecipeRequired": "Please select a recipe"
+  "agingShed.fermentation.selectRecipeRequired": "Please select a recipe",
+  "skill.cheapRakes": "-20% salt rake coin cost"
 }

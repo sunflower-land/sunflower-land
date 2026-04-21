@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Mostrar no inventário do painel",
   "skill.fellersDiscount": "-20% de custo da moeda de machado",
   "skill.frugalMiner": "-20% do custo de todas as moedas de picaretas",
-  "skill.cheapRakes": "20% de custo da moeda de ancinho de sal",
   "description.ladybugSuit.boost": "-25% de custo da moeda Onion Seed",
   "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake",
-  "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita"
+  "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita",
+  "skill.cheapRakes": "-20% de custo da moeda Salt Rake"
 }

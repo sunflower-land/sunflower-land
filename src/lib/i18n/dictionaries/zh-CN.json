@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "在控制面板清单中显示",
   "skill.fellersDiscount": "-20% 斧头硬币消耗",
   "skill.frugalMiner": "-20% 所有镐硬币消耗",
-  "skill.cheapRakes": "20% 的盐耙硬币成本",
   "description.ladybugSuit.boost": "-25% 洋葱种子硬币成本",
   "saltSculpture.buff.4": "-10% 盐耙硬币成本",
-  "agingShed.fermentation.selectRecipeRequired": "请选择食谱"
+  "agingShed.fermentation.selectRecipeRequired": "请选择食谱",
+  "skill.cheapRakes": "-20% 盐耙硬币成本"
 }

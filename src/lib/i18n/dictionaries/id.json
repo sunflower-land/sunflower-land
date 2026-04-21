@@ -8801,8 +8801,8 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Tampilkan di inventaris dasbor",
   "skill.fellersDiscount": "-20% biaya koin kapak",
   "skill.frugalMiner": "-20% semua biaya koin beliung",
-  "skill.cheapRakes": "Biaya koin penggaruk garam 20%",
   "description.ladybugSuit.boost": "-25% biaya koin Benih Bawang",
   "saltSculpture.buff.4": "-10% biaya koin penggaruk garam",
-  "agingShed.fermentation.selectRecipeRequired": "Silakan pilih resep"
+  "agingShed.fermentation.selectRecipeRequired": "Silakan pilih resep",
+  "skill.cheapRakes": "-20% biaya koin penggaruk garam"
 }
