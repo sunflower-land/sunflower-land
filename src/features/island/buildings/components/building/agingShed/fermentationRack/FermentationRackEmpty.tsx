@@ -132,7 +132,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <div className="flex flex-col gap-1 mb-1">
           <Label
-            type={selectedGroup ? "info" : "default"}
+            type={"default"}
             className="text-xs ml-1"
             icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
           >
