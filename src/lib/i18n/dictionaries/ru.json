@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% Onion Seed coin cost",
   "saltSculpture.buff.4": "-10% salt rake coin cost",
   "agingShed.fermentation.selectRecipeRequired": "Please select a recipe",
-  "skill.cheapRakes": "-20% salt rake coin cost"
+  "skill.cheapRakes": "-20% salt rake coin cost",
+  "description.skillResetTicket": "A ticket that allows you to reset your skills for free.",
+  "description.skillResetTicketWarning": "Counts as a gem reset; free timer unchanged.",
+  "skillReset.ticket": "Ticket Reset",
+  "skillReset.ticketDescription": "Use a Skill Reset Ticket to reset all your skills."
 }

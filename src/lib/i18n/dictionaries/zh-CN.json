@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% 洋葱种子硬币成本",
   "saltSculpture.buff.4": "-10% 盐耙硬币成本",
   "agingShed.fermentation.selectRecipeRequired": "请选择食谱",
-  "skill.cheapRakes": "-20% 盐耙硬币成本"
+  "skill.cheapRakes": "-20% 盐耙硬币成本",
+  "description.skillResetTicket": "一张允许您免费重置技能的门票。",
+  "description.skillResetTicketWarning": "算作宝石重置；免费计时器不变。",
+  "skillReset.ticket": "票证重置",
+  "skillReset.ticketDescription": "使用技能重置通知单来重置所有技能。"
 }

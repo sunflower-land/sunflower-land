@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25 % du coût de la pièce Onion Seed",
   "saltSculpture.buff.4": "-10 % du coût des pièces du râteau à sel",
   "agingShed.fermentation.selectRecipeRequired": "Veuillez sélectionner une recette",
-  "skill.cheapRakes": "-20 % du coût des pièces du râteau à sel"
+  "skill.cheapRakes": "-20 % du coût des pièces du râteau à sel",
+  "description.skillResetTicket": "Un ticket qui vous permet de réinitialiser vos compétences gratuitement.",
+  "description.skillResetTicketWarning": "Compte comme une réinitialisation de la gemme ; le temps libre est inchangé.",
+  "skillReset.ticket": "Réinitialisation du ticket",
+  "skillReset.ticketDescription": "Utilisez un ticket de réinitialisation des compétences pour réinitialiser toutes vos compétences."
 }

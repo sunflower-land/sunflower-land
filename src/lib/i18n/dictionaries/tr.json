@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% Soğan Tohumu madeni para maliyeti",
   "saltSculpture.buff.4": "-10% tuz tırmığı madeni para maliyeti",
   "agingShed.fermentation.selectRecipeRequired": "Lütfen bir tarif seçin",
-  "skill.cheapRakes": "-20% tuz tırmığı madeni para maliyeti"
+  "skill.cheapRakes": "-20% tuz tırmığı madeni para maliyeti",
+  "description.skillResetTicket": "Becerilerinizi ücretsiz olarak sıfırlamanıza izin veren bir bilet.",
+  "description.skillResetTicketWarning": "Mücevher sıfırlaması olarak sayılır; serbest zamanlayıcı değişmedi.",
+  "skillReset.ticket": "Bilet Sıfırlama",
+  "skillReset.ticketDescription": "Tüm becerilerinizi sıfırlamak için Beceri Sıfırlama Bileti kullanın."
 }

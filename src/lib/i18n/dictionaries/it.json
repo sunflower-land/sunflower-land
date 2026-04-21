@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% Costo in monete Onion Seed",
   "saltSculpture.buff.4": "-10% costo della moneta Salt Rake",
   "agingShed.fermentation.selectRecipeRequired": "Seleziona una ricetta",
-  "skill.cheapRakes": "-20% costo in monete salate"
+  "skill.cheapRakes": "-20% costo in monete salate",
+  "description.skillResetTicket": "Un ticket che ti permette di resettare le tue abilità gratuitamente.",
+  "description.skillResetTicketWarning": "Conta come un ripristino delle gemme; il tempo libero è invariato.",
+  "skillReset.ticket": "Reimpostazione del biglietto",
+  "skillReset.ticketDescription": "Usa uno Skill Reset Ticket per resettare tutte le tue abilità."
 }

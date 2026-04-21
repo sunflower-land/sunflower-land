@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% de custo da moeda Onion Seed",
   "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake",
   "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita",
-  "skill.cheapRakes": "-20% de custo da moeda Salt Rake"
+  "skill.cheapRakes": "-20% de custo da moeda Salt Rake",
+  "description.skillResetTicket": "Um tíquete que permite que você redefina suas habilidades gratuitamente.",
+  "description.skillResetTicketWarning": "Conta como uma reinicialização de gema; o cronômetro livre não foi alterado.",
+  "skillReset.ticket": "Redefinição de tíquete",
+  "skillReset.ticketDescription": "Use um tíquete de redefinição de habilidade para redefinir todas as suas habilidades."
 }

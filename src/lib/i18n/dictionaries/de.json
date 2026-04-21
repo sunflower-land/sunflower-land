@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% Kosten für Onion Seed-Münzen",
   "saltSculpture.buff.4": "-10% Kosten für Salt-Rake-Münzen",
   "agingShed.fermentation.selectRecipeRequired": "Bitte wählen Sie ein Rezept aus",
-  "skill.cheapRakes": "-20% Kosten für Salt-Rake-Münzen"
+  "skill.cheapRakes": "-20% Kosten für Salt-Rake-Münzen",
+  "description.skillResetTicket": "Ein Ticket, mit dem du deine Fähigkeiten kostenlos zurücksetzen kannst.",
+  "description.skillResetTicketWarning": "Gilt als Edelstein-Reset; die freie Zeit bleibt unverändert.",
+  "skillReset.ticket": "Ticket zurücksetzen",
+  "skillReset.ticketDescription": "Benutze ein Skill Reset Ticket, um alle deine Fähigkeiten zurückzusetzen."
 }

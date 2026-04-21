@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% biaya koin Benih Bawang",
   "saltSculpture.buff.4": "-10% biaya koin penggaruk garam",
   "agingShed.fermentation.selectRecipeRequired": "Silakan pilih resep",
-  "skill.cheapRakes": "-20% biaya koin penggaruk garam"
+  "skill.cheapRakes": "-20% biaya koin penggaruk garam",
+  "description.skillResetTicket": "Tiket yang memungkinkan Anda mengatur ulang keterampilan Anda secara gratis.",
+  "description.skillResetTicketWarning": "Dihitung sebagai reset permata; timer gratis tidak berubah.",
+  "skillReset.ticket": "Reset Tiket",
+  "skillReset.ticketDescription": "Gunakan Tiket Reset Keterampilan untuk mengatur ulang semua keterampilan Anda."
 }

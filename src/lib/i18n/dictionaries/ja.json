@@ -8804,5 +8804,9 @@
   "description.ladybugSuit.boost": "-25% オニオンシードコインコスト",
   "saltSculpture.buff.4": "-10% ソルトレイクコインコスト",
   "agingShed.fermentation.selectRecipeRequired": "レシピを選択してください",
-  "skill.cheapRakes": "-20% ソルトレイクコインコスト"
+  "skill.cheapRakes": "-20% ソルトレイクコインコスト",
+  "description.skillResetTicket": "無料でスキルをリセットできるチケット。",
+  "description.skillResetTicketWarning": "ジェムリセットとしてカウントされます。フリータイマーは変わりません。",
+  "skillReset.ticket": "チケットリセット",
+  "skillReset.ticketDescription": "スキルリセットチケットを使用して、すべてのスキルをリセットします。"
 }
