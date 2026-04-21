@@ -48,6 +48,7 @@ import { selectGameState, selectVerified } from "features/game/lib/gameMachine";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { FarmActivityName } from "features/game/types/farmActivity";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -79,6 +80,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const verified = useSelector(gameService, selectVerified);
   const farmId = useSelector(gameService, (state) => state.context.farmId);
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
+
+  const hasFertiliseAccess = hasFeatureAccess(
+    state,
+    "OBSIDIAN_SHRINE_BULK_FERTILISE",
+  );
 
   const availablePlots = getAvailablePlots(state);
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
@@ -281,11 +287,15 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               icon: SUNNYSIDE.icons.plant,
               name: "Plant",
             },
-            {
-              id: "fertilise",
-              icon: ITEM_DETAILS["Sprout Mix"].image,
-              name: "Fertilise",
-            },
+            ...(hasFertiliseAccess
+              ? ([
+                  {
+                    id: "fertilise",
+                    icon: ITEM_DETAILS["Sprout Mix"].image,
+                    name: "Fertilise",
+                  },
+                ] as const)
+              : []),
           ]}
           currentTab={activeTab}
           setCurrentTab={setActiveTab}
@@ -316,7 +326,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               close={close}
             />
           )}
-          {activeTab === "fertilise" && (
+          {activeTab === "fertilise" && hasFertiliseAccess && (
             <FertiliseAll
               state={state}
               close={close}
