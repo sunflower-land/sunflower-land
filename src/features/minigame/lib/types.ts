@@ -87,6 +87,11 @@ export type PlayerEconomyBalanceItem = {
   max?: number;
   /** Max total of this token across all players (global circulating cap). */
   supply?: number;
+  /**
+   * When false, hidden from the economy dashboard inventory (and production shortcuts).
+   * Visible when omitted.
+   */
+  is_visible?: boolean;
 };
 
 export type PlayerEconomyDescriptions = {

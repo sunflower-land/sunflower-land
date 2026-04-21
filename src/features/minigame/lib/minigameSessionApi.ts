@@ -15,7 +15,12 @@ export function normalizeEconomySupplies(raw: unknown): Record<string, number> {
 }
 
 export type MinigameSessionApiPayload = {
-  farm: { balance: string; bumpkin: unknown };
+  farm: {
+    balance: string;
+    bumpkin: unknown;
+    username?: string;
+    faction?: string;
+  };
   playerEconomy: {
     balances: Record<string, number>;
     /** Some API deployments mirror economy `items` here instead of the top-level `items` field. */

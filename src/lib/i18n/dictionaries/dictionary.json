@@ -2913,6 +2913,7 @@
   "playerEconomyEditor.itemCard.globalSupplyCap": "Global supply",
   "playerEconomyEditor.itemCard.globalSupplyCapHelp": "Optional cap on how many of this token can exist across all farms (shop mints).",
   "playerEconomyEditor.itemCard.trophy": "Trophy (show on dashboard when owned)",
+  "playerEconomyEditor.itemCard.visibleInInventory": "Show in dashboard inventory",
   "playerEconomyEditor.mintRule.title": "Mint",
   "playerEconomyEditor.mintRule.empty": "No mint rules",
   "playerEconomyEditor.mintRule.ruleLabel": "Mint Rule {{n}}",
