@@ -2792,7 +2792,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
