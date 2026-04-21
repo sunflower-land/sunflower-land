@@ -51,6 +51,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
     state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
+    !!job.skills?.Ager,
   );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);

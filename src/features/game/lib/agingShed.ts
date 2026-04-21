@@ -7,11 +7,16 @@ import type {
 } from "../types/fishing";
 import type { SpiceRackRecipeName } from "../types/spiceRack";
 
+// Marks whether an Ager-stamped skill was applied at the time of starting the job.
+// Optional for backwards compatibility with jobs queued before the stamp existed.
+export type AgingSkillStamp = { Ager?: boolean };
+
 export type FermentationJob = {
   id: string;
   recipe: FermentationRecipeName;
   startedAt: number;
   readyAt: number;
+  skills?: AgingSkillStamp;
 };
 
 export type AgingRackSlot = {
@@ -19,6 +24,7 @@ export type AgingRackSlot = {
   fish: FishName;
   startedAt: number;
   readyAt: number;
+  skills?: AgingSkillStamp;
 };
 
 export type AgingCollectResult = {
@@ -31,6 +37,7 @@ export type SpiceRackJob = {
   recipe: SpiceRackRecipeName;
   startedAt: number;
   readyAt: number;
+  skills?: AgingSkillStamp;
 };
 
 export type AgingShed = UpgradableBuilding & {
