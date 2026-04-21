@@ -10,17 +10,18 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
+    "types": ["jest"],
     "paths": {
-      "features/*": ["src/features/*"],
-      "assets/*": ["src/assets/*"],
-      "lib/*": ["src/lib/*"],
-      "components/*": ["src/components/*"]
+      "features/*": ["./src/features/*"],
+      "assets/*": ["./src/assets/*"],
+      "lib/*": ["./src/lib/*"],
+      "components/*": ["./src/components/*"],
+      "metadata/*": ["./metadata/*"]
     }
   },
   "include": [
