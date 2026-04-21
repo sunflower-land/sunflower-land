@@ -3,6 +3,8 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   BAIT_FERMENTATION_RECIPE_IDS,
+  BAIT_OUTPUT_AGED,
+  BAIT_OUTPUT_PRIME,
   getFermentationRecipe,
   GREENHOUSE_FERMENTATION_STARTABLE_IDS,
   LEGACY_FERMENTATION_RECIPE_IDS,
@@ -542,150 +544,83 @@ describe("startFermentation", () => {
     );
   });
 
-  it("starts Capsule Bait recipe for first basic-tier fish (Aged)", () => {
-    const fishName = getFishNamesByTier("basic")[0];
-    const agedFish = `Aged ${fishName}` as const;
-    const recipe =
-      `Capsule Bait (Aged ${fishName}, Pickled Zucchini)` as StartableFermentationRecipeName;
+  describe.each([
+    {
+      family: "Capsule Bait" as const,
+      tier: "basic" as const,
+      activePickles: ["Pickled Zucchini", "Pickled Tomato"] as const,
+      retiredPickle: "Pickled Pepper" as const,
+    },
+    {
+      family: "Umbrella Bait" as const,
+      tier: "advanced" as const,
+      activePickles: ["Pickled Cabbage", "Pickled Pepper"] as const,
+      retiredPickle: "Pickled Onion" as const,
+    },
+    {
+      family: "Crimson Baitfish" as const,
+      tier: "expert" as const,
+      activePickles: ["Pickled Radish", "Pickled Onion"] as const,
+      retiredPickle: "Pickled Tomato" as const,
+    },
+  ])(
+    "$family fermentation start (tier $tier)",
+    ({ family, tier, activePickles, retiredPickle }) => {
+      describe.each([
+        { prefix: "Aged" as const, expected: BAIT_OUTPUT_AGED },
+        { prefix: "Prime Aged" as const, expected: BAIT_OUTPUT_PRIME },
+      ])("$prefix fish", ({ prefix, expected }) => {
+        it.each(activePickles)(
+          `starts with %s, deducts ingredients, and recipe outputs ${family} matching centralised constant`,
+          (pickle) => {
+            const fishName = getFishNamesByTier(tier)[0];
+            const fishKey = `${prefix} ${fishName}` as const;
+            const recipe =
+              `${family} (${prefix} ${fishName}, ${pickle})` as StartableFermentationRecipeName;
 
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          [agedFish]: new Decimal(1),
-          "Pickled Zucchini": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe,
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
+            const state = startFermentation({
+              state: createFermentationTestState({
+                inventory: {
+                  [fishKey]: new Decimal(1),
+                  [pickle]: new Decimal(1),
+                },
+              }),
+              action: {
+                type: "fermentation.started",
+                recipe,
+                jobId: TEST_JOB_ID,
+              },
+              farmId: 1,
+              createdAt,
+            });
 
-    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
-  });
+            expect(state.inventory[fishKey]?.toNumber()).toEqual(0);
+            expect(state.inventory[pickle]?.toNumber()).toEqual(0);
+            expect(state.agingShed.racks.fermentation[0].recipe).toEqual(
+              recipe,
+            );
+            expect(
+              getFermentationRecipe(recipe).outputs[family]?.toNumber(),
+            ).toEqual(expected.toNumber());
+          },
+        );
+      });
 
-  it("Prime Aged basic bait recipe outputs 6 Capsule Bait", () => {
-    const fishName = getFishNamesByTier("basic")[0];
-    const recipe =
-      `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
-
-    expect(getFermentationRecipe(recipe).outputs["Capsule Bait"]).toEqual(
-      new Decimal(10),
-    );
-  });
-
-  it("starts Capsule Bait recipe with Prime Aged fish", () => {
-    const fishName = getFishNamesByTier("basic")[0];
-    const primeAgedFish = `Prime Aged ${fishName}` as const;
-    const recipe =
-      `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as StartableFermentationRecipeName;
-
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          [primeAgedFish]: new Decimal(1),
-          "Pickled Zucchini": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe,
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory[primeAgedFish]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Zucchini"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
-  });
-
-  it("starts Capsule Bait with Pickled Tomato for first basic-tier fish (Aged)", () => {
-    const fishName = getFishNamesByTier("basic")[0];
-    const agedFish = `Aged ${fishName}` as const;
-    const recipe =
-      `Capsule Bait (Aged ${fishName}, Pickled Tomato)` as StartableFermentationRecipeName;
-
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          [agedFish]: new Decimal(1),
-          "Pickled Tomato": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe,
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Tomato"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
-  });
-
-  it("starts Umbrella Bait with Pickled Pepper for first advanced-tier fish (Aged)", () => {
-    const fishName = getFishNamesByTier("advanced")[0];
-    const agedFish = `Aged ${fishName}` as const;
-    const recipe =
-      `Umbrella Bait (Aged ${fishName}, Pickled Pepper)` as StartableFermentationRecipeName;
-
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          [agedFish]: new Decimal(1),
-          "Pickled Pepper": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe,
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Pepper"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
-  });
-
-  it("starts Crimson Baitfish with Pickled Radish for first expert-tier fish (Aged)", () => {
-    const fishName = getFishNamesByTier("expert")[0];
-    const agedFish = `Aged ${fishName}` as const;
-    const recipe =
-      `Crimson Baitfish (Aged ${fishName}, Pickled Radish)` as StartableFermentationRecipeName;
-
-    const state = startFermentation({
-      state: createFermentationTestState({
-        inventory: {
-          [agedFish]: new Decimal(1),
-          "Pickled Radish": new Decimal(1),
-        },
-      }),
-      action: {
-        type: "fermentation.started",
-        recipe,
-        jobId: TEST_JOB_ID,
-      },
-      farmId: 1,
-      createdAt,
-    });
-
-    expect(state.inventory[agedFish]?.toNumber()).toEqual(0);
-    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(0);
-    expect(state.agingShed.racks.fermentation[0].recipe).toEqual(recipe);
-  });
+      it(`retired ${retiredPickle} recipe output still matches centralised constants`, () => {
+        const fishName = getFishNamesByTier(tier)[0];
+        for (const { prefix, expected } of [
+          { prefix: "Aged" as const, expected: BAIT_OUTPUT_AGED },
+          { prefix: "Prime Aged" as const, expected: BAIT_OUTPUT_PRIME },
+        ]) {
+          const recipe =
+            `${family} (${prefix} ${fishName}, ${retiredPickle})` as FermentationRecipeName;
+          expect(
+            getFermentationRecipe(recipe).outputs[family]?.toNumber(),
+          ).toEqual(expected.toNumber());
+        }
+      });
+    },
+  );
 
   it("applies Ager skill to double ingredient costs", () => {
     const state = startFermentation({
