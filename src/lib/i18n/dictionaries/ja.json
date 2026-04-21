@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "ポーションゲームからの報酬。これを使ってアインズからアイテムを購入しよう。",
   "select.network": "ネットワークを選択",
   "switching.network": "ネットワークを切り替えています...",
-  "description.obsidianShrine.buff": "すべての準備が整った作物と植物の種子を一括収穫",
   "obsidianShrine.noCrops": "収穫の準備ができている作物はありません",
   "withdraw.pets": "撤回するペットを選択",
   "marketplace.tradesCleared": "取引が削除されました",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "無料でスキルをリセットできるチケット。",
   "description.skillResetTicketWarning": "ジェムリセットとしてカウントされます。フリータイマーは変わりません。",
   "skillReset.ticket": "チケットリセット",
-  "skillReset.ticketDescription": "スキルリセットチケットを使用して、すべてのスキルをリセットします。"
+  "skillReset.ticketDescription": "スキルリセットチケットを使用して、すべてのスキルをリセットします。",
+  "description.obsidianShrine.buff": "作物や果物の大量収穫、植え付け、施肥を行います",
+  "obsidianShrine.fertilise": "すべて施肥する",
+  "obsidianShrine.fertiliseAll": "対象となるすべての区画とパッチに肥料を適用します",
+  "obsidianShrine.selectFertiliser": "肥料を選択する",
+  "obsidianShrine.noFertilisers": "肥料はありません",
+  "obsidianShrine.noEligiblePlots": "施肥する区画はありません",
+  "obsidianShrine.noEligiblePatches": "施肥するパッチはありません",
+  "obsidianShrine.eligible": "{{count}} 対象となります"
 }

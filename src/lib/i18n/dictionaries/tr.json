@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın.",
   "select.network": "Ağ Seçin",
   "switching.network": "Ağ Değiştirme...",
-  "description.obsidianShrine.buff": "Tüm hazır mahsulleri ve bitki tohumlarını toplu olarak hasat edin",
   "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
   "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin",
   "marketplace.tradesCleared": "İşlemler kaldırıldı",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "Becerilerinizi ücretsiz olarak sıfırlamanıza izin veren bir bilet.",
   "description.skillResetTicketWarning": "Mücevher sıfırlaması olarak sayılır; serbest zamanlayıcı değişmedi.",
   "skillReset.ticket": "Bilet Sıfırlama",
-  "skillReset.ticketDescription": "Tüm becerilerinizi sıfırlamak için Beceri Sıfırlama Bileti kullanın."
+  "skillReset.ticketDescription": "Tüm becerilerinizi sıfırlamak için Beceri Sıfırlama Bileti kullanın.",
+  "description.obsidianShrine.buff": "Mahsullerinizi ve meyvelerinizi toplu olarak hasat edin, ekin ve gübreleyin",
+  "obsidianShrine.fertilise": "Tümünü Gübreleyin",
+  "obsidianShrine.fertiliseAll": "Tüm uygun arazilere ve yamalara gübre uygulayın",
+  "obsidianShrine.selectFertiliser": "Bir gübre seçin",
+  "obsidianShrine.noFertilisers": "Gübre yok",
+  "obsidianShrine.noEligiblePlots": "Gübrelenecek arsa yok",
+  "obsidianShrine.noEligiblePatches": "Gübrelenecek yama yok",
+  "obsidianShrine.eligible": "{{count}} uygun"
 }

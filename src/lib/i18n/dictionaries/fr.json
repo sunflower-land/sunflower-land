@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "Une récompense issue du jeu de potions. Utilisez-le pour acheter des objets chez Eins.",
   "select.network": "Sélectionnez le réseau",
   "switching.network": "Réseau de commutation...",
-  "description.obsidianShrine.buff": "Récoltez en vrac toutes les cultures prêtes et les graines de plantes",
   "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée",
   "withdraw.pets": "Sélectionnez les animaux de compagnie à retirer",
   "marketplace.tradesCleared": "Transactions supprimées",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "Un ticket qui vous permet de réinitialiser vos compétences gratuitement.",
   "description.skillResetTicketWarning": "Compte comme une réinitialisation de la gemme ; le temps libre est inchangé.",
   "skillReset.ticket": "Réinitialisation du ticket",
-  "skillReset.ticketDescription": "Utilisez un ticket de réinitialisation des compétences pour réinitialiser toutes vos compétences."
+  "skillReset.ticketDescription": "Utilisez un ticket de réinitialisation des compétences pour réinitialiser toutes vos compétences.",
+  "description.obsidianShrine.buff": "Récoltez en vrac, plantez et fertilisez vos cultures et vos fruits",
+  "obsidianShrine.fertilise": "Fertilisez tout",
+  "obsidianShrine.fertiliseAll": "Appliquez de l'engrais sur toutes les parcelles et parcelles éligibles",
+  "obsidianShrine.selectFertiliser": "Sélectionnez un engrais",
+  "obsidianShrine.noFertilisers": "Aucun engrais disponible",
+  "obsidianShrine.noEligiblePlots": "Aucune parcelle à fertiliser",
+  "obsidianShrine.noEligiblePatches": "Pas de patchs à fertiliser",
+  "obsidianShrine.eligible": "{{count}} éligible"
 }

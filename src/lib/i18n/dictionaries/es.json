@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins.",
   "select.network": "Seleccionar red",
   "switching.network": "Cambiando de red…",
-  "description.obsidianShrine.buff": "Cosecha y vuelve a sembrar todos los cultivos listos.",
   "obsidianShrine.noCrops": "No hay cultivos listos para cosechar",
   "withdraw.pets": "Selecciona las mascotas que deseas retirar",
   "marketplace.tradesCleared": "Intercambios eliminados",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "Un ticket que te permite restablecer tus habilidades de forma gratuita.",
   "description.skillResetTicketWarning": "Cuenta como el restablecimiento de una gema; el temporizador gratuito no cambia.",
   "skillReset.ticket": "Restablecimiento de entradas",
-  "skillReset.ticketDescription": "Usa un ticket de restablecimiento de habilidades para restablecer todas tus habilidades."
+  "skillReset.ticketDescription": "Usa un ticket de restablecimiento de habilidades para restablecer todas tus habilidades.",
+  "description.obsidianShrine.buff": "Coseche, plante y fertilice sus cultivos y frutas a granel",
+  "obsidianShrine.fertilise": "Fertilizar todo",
+  "obsidianShrine.fertiliseAll": "Aplique fertilizante a todas las parcelas y parches elegibles",
+  "obsidianShrine.selectFertiliser": "Selecciona un fertilizante",
+  "obsidianShrine.noFertilisers": "No hay abonos disponibles",
+  "obsidianShrine.noEligiblePlots": "No hay parcelas que fertilizar",
+  "obsidianShrine.noEligiblePatches": "No hay parches que fertilizar",
+  "obsidianShrine.eligible": "{{count}} elegible"
 }

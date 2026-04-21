@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "Una ricompensa del gioco delle pozioni. Usalo per acquistare oggetti da Eins.",
   "select.network": "Seleziona rete",
   "switching.network": "Rete di commutazione...",
-  "description.obsidianShrine.buff": "Raccogli all'ingrosso tutte le colture pronte e i semi delle piante",
   "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
   "withdraw.pets": "Seleziona Animali domestici da prelevare",
   "marketplace.tradesCleared": "Operazioni rimosse",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "Un ticket che ti permette di resettare le tue abilità gratuitamente.",
   "description.skillResetTicketWarning": "Conta come un ripristino delle gemme; il tempo libero è invariato.",
   "skillReset.ticket": "Reimpostazione del biglietto",
-  "skillReset.ticketDescription": "Usa uno Skill Reset Ticket per resettare tutte le tue abilità."
+  "skillReset.ticketDescription": "Usa uno Skill Reset Ticket per resettare tutte le tue abilità.",
+  "description.obsidianShrine.buff": "Raccogli, pianta e concima in massa le tue colture e i tuoi frutti",
+  "obsidianShrine.fertilise": "Fertilizza tutto",
+  "obsidianShrine.fertiliseAll": "Applica il fertilizzante a tutti gli appezzamenti e gli appezzamenti idonei",
+  "obsidianShrine.selectFertiliser": "Seleziona un fertilizzante",
+  "obsidianShrine.noFertilisers": "Nessun fertilizzante disponibile",
+  "obsidianShrine.noEligiblePlots": "Nessun appezzamento da concimare",
+  "obsidianShrine.noEligiblePatches": "Nessun cerotto da concimare",
+  "obsidianShrine.eligible": "{{count}} idoneo"
 }

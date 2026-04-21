@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "Hadiah dari Game Ramuan. Gunakan ini untuk membeli barang dari Eins.",
   "select.network": "Pilih Jaringan",
   "switching.network": "Beralih Jaringan...",
-  "description.obsidianShrine.buff": "Panen massal semua tanaman siap pakai dan benih tanaman",
   "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen",
   "withdraw.pets": "Pilih Hewan Peliharaan untuk ditarik",
   "marketplace.tradesCleared": "Perdagangan dihapus",
@@ -8808,5 +8807,13 @@
   "description.skillResetTicket": "Tiket yang memungkinkan Anda mengatur ulang keterampilan Anda secara gratis.",
   "description.skillResetTicketWarning": "Dihitung sebagai reset permata; timer gratis tidak berubah.",
   "skillReset.ticket": "Reset Tiket",
-  "skillReset.ticketDescription": "Gunakan Tiket Reset Keterampilan untuk mengatur ulang semua keterampilan Anda."
+  "skillReset.ticketDescription": "Gunakan Tiket Reset Keterampilan untuk mengatur ulang semua keterampilan Anda.",
+  "description.obsidianShrine.buff": "Panen massal, tanam, dan pupuk tanaman dan buah Anda",
+  "obsidianShrine.fertilise": "Pupuk Semua",
+  "obsidianShrine.fertiliseAll": "Terapkan pupuk ke semua plot dan petak yang memenuhi syarat",
+  "obsidianShrine.selectFertiliser": "Pilih pupuk",
+  "obsidianShrine.noFertilisers": "Tidak ada pupuk yang tersedia",
+  "obsidianShrine.noEligiblePlots": "Tidak ada plot untuk dipupuk",
+  "obsidianShrine.noEligiblePatches": "Tidak ada tambalan untuk dibuahi",
+  "obsidianShrine.eligible": "{{count}} memenuhi syarat"
 }
