@@ -300,13 +300,15 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   return (
     <>
       <div
-        className={classNames("absolute z-50 w-full h-full", {
+        className={classNames("absolute z-50", {
           "cursor-pointer hover:img-highlight": !fishing.wharf.castedAt,
         })}
         onClick={handleClick}
         style={{
           left: `${PIXEL_SCALE * x}px`,
           top: `${PIXEL_SCALE * y}px`,
+          width: `${PIXEL_SCALE * 50}px`,
+          height: `${PIXEL_SCALE * 50}px`,
         }}
       >
         {!canFish && (
