@@ -129,8 +129,8 @@ export function resetSkills({
 
     if (hasFeatureAccess(game, "SALT_FARM")) {
       populateSaltFarm({
-        gameBefore: { ...state },
-        gameAfter: { ...game },
+        gameBefore: state,
+        gameAfter: game,
         now: createdAt,
       });
     }
