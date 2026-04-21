@@ -17,7 +17,7 @@ jobs:
       - name: Install modules
         run: yarn
       - name: Typescript check
-        run: yarn typecheck
+        run: yarn tsc
       - name: Run tests
         run: yarn test
         env:
