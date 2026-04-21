@@ -32,6 +32,13 @@ import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 import { getReward } from "features/game/events/landExpansion/harvest";
+import { getPlotsToFertilise } from "features/game/events/landExpansion/bulkFertilisePlot";
+import {
+  CROP_COMPOST,
+  CropCompostName,
+  FRUIT_COMPOST,
+  FruitCompostName,
+} from "features/game/types/composters";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -53,9 +60,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const [show, setShow] = useState(false);
-  type Tab = "harvest" | "plant";
+  type Tab = "harvest" | "plant" | "fertilise";
   const [activeTab, setActiveTab] = useState<Tab>("harvest");
-  const [showPopover, setShowPopover] = useState(false);
   const [reward, setReward] = useState<Reward>();
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
@@ -217,10 +223,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   };
 
   const handleShrineClick = () => {
-    if (hasReadyCrops || hasAvailablePlots) {
-      setShow(true);
-      setActiveTab(hasReadyCrops ? "harvest" : "plant");
-    }
+    setShow(true);
+    setActiveTab(
+      hasReadyCrops ? "harvest" : hasAvailablePlots ? "plant" : "fertilise",
+    );
   };
 
   return (
@@ -228,14 +234,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       <div
         onClick={isVisiting ? undefined : handleShrineClick}
         className={classNames("absolute", {
-          "cursor-pointer hover:img-highlight":
-            hasReadyCrops || hasAvailablePlots,
-          "cursor-not-allowed": !hasReadyCrops && !hasAvailablePlots,
+          "cursor-pointer hover:img-highlight": !isVisiting,
         })}
-        onMouseEnter={() =>
-          !hasReadyCrops && !hasAvailablePlots && setShowPopover(true)
-        }
-        onMouseLeave={() => setShowPopover(false)}
         style={{ ...shrineDimensions, bottom: 0 }}
       >
         <img
@@ -276,6 +276,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               icon: SUNNYSIDE.icons.plant,
               name: "Plant",
             },
+            {
+              id: "fertilise",
+              icon: ITEM_DETAILS["Sprout Mix"].image,
+              name: "Fertilise",
+            },
           ]}
           currentTab={activeTab}
           setCurrentTab={setActiveTab}
@@ -306,6 +311,9 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               close={close}
             />
           )}
+          {activeTab === "fertilise" && (
+            <FertiliseAll state={state} close={close} />
+          )}
         </CloseButtonPanel>
 
         <div className="absolute -top-8 -mt-[2px] right-0 mr-[5.5px]">
@@ -335,22 +343,6 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             width: `${PIXEL_SCALE * 4}px`,
           }}
         />
-      )}
-
-      {showPopover && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -14}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-[999999]">
-            <div className="text-xs mx-1 p-1 flex flex-col items-center">
-              {!hasReadyCrops && <span>{t("obsidianShrine.noCrops")}</span>}
-              {!hasAvailablePlots && <span>{t("obsidianShrine.noPlots")}</span>}
-            </div>
-          </InnerPanel>
-        </div>
       )}
     </>
   );
@@ -517,6 +509,142 @@ const PlantAll: React.FC<{
       ) : (
         <Label type="default" className="my-2 text-center">
           {t("obsidianShrine.noSeeds")}
+        </Label>
+      )}
+    </InnerPanel>
+  );
+};
+
+type AnyCompostName = CropCompostName | FruitCompostName;
+
+const getOwnedFertilisers = (state: GameState): AnyCompostName[] => {
+  const all: AnyCompostName[] = [
+    ...(Object.keys(CROP_COMPOST) as CropCompostName[]),
+    ...(Object.keys(FRUIT_COMPOST) as FruitCompostName[]),
+  ];
+  return all.filter((name) =>
+    (state.inventory[name] ?? new Decimal(0)).greaterThan(0),
+  );
+};
+
+const getEligibleCount = (
+  state: GameState,
+  fertiliser: AnyCompostName,
+  now: number,
+): number => {
+  if (fertiliser in CROP_COMPOST) {
+    return getPlotsToFertilise(state, now).length;
+  }
+  return Object.values(state.fruitPatches).filter((patch) => !patch.fertiliser)
+    .length;
+};
+
+const FertiliseAll: React.FC<{
+  state: GameState;
+  close: () => void;
+}> = ({ state, close }) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const now = useNow({ live: true });
+
+  const [selectedFertiliser, setSelectedFertiliser] =
+    useState<AnyCompostName | null>(
+      localStorage.getItem("obsidianShrineFertiliser") as AnyCompostName | null,
+    );
+
+  const ownedFertilisers = getOwnedFertilisers(state);
+
+  if (selectedFertiliser && !ownedFertilisers.includes(selectedFertiliser)) {
+    setSelectedFertiliser(ownedFertilisers[0] ?? null);
+  }
+
+  const selectFertiliser = (name: AnyCompostName) => {
+    localStorage.setItem("obsidianShrineFertiliser", name);
+    setSelectedFertiliser(name);
+  };
+
+  const eligibleCount = selectedFertiliser
+    ? getEligibleCount(state, selectedFertiliser, now)
+    : 0;
+  const ownedCount = selectedFertiliser
+    ? (state.inventory[selectedFertiliser] ?? new Decimal(0)).toNumber()
+    : 0;
+
+  const applyAll = () => {
+    if (!selectedFertiliser || eligibleCount === 0 || ownedCount === 0) return;
+
+    if (selectedFertiliser in CROP_COMPOST) {
+      gameService.send("plots.bulkFertilised", {
+        fertiliser: selectedFertiliser as CropCompostName,
+      });
+    } else {
+      Object.entries(state.fruitPatches).forEach(([id, patch]) => {
+        if (!patch.fertiliser) {
+          gameService.send("fruitPatch.fertilised", {
+            patchID: id,
+            fertiliser: selectedFertiliser as FruitCompostName,
+          });
+        }
+      });
+    }
+
+    const remainingOwned = getOwnedFertilisers(
+      gameService.getSnapshot().context.state,
+    );
+    if (remainingOwned.length === 0) {
+      close();
+    }
+  };
+
+  return (
+    <InnerPanel>
+      {ownedFertilisers.length > 0 ? (
+        <>
+          <Label type="default" className="my-2">
+            {t("obsidianShrine.fertiliseAll")}
+          </Label>
+          <div className="flex flex-wrap gap-2">
+            {ownedFertilisers.map((name) => (
+              <Box
+                key={name}
+                image={ITEM_DETAILS[name].image}
+                onClick={() => selectFertiliser(name)}
+                isSelected={selectedFertiliser === name}
+                count={state.inventory[name] ?? new Decimal(0)}
+              />
+            ))}
+            {selectedFertiliser && (
+              <div className="flex flex-wrap justify-between w-full px-2">
+                <Label
+                  type="default"
+                  icon={ITEM_DETAILS[selectedFertiliser].image}
+                >
+                  {selectedFertiliser}
+                </Label>
+                <Label type="info">
+                  {t("obsidianShrine.eligible", { count: eligibleCount })}
+                </Label>
+              </div>
+            )}
+            <Button
+              onClick={applyAll}
+              disabled={
+                !selectedFertiliser || eligibleCount === 0 || ownedCount === 0
+              }
+            >
+              {!selectedFertiliser
+                ? t("obsidianShrine.selectFertiliser")
+                : eligibleCount === 0 && selectedFertiliser in CROP_COMPOST
+                  ? t("obsidianShrine.noEligiblePlots")
+                  : eligibleCount === 0 && selectedFertiliser in FRUIT_COMPOST
+                    ? t("obsidianShrine.noEligiblePatches")
+                    : t("obsidianShrine.fertilise")}
+            </Button>
+          </div>
+        </>
+      ) : (
+        <Label type="default" className="my-2 text-center">
+          {t("obsidianShrine.noFertilisers")}
         </Label>
       )}
     </InnerPanel>
