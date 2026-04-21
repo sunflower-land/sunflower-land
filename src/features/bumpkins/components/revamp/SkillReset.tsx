@@ -88,6 +88,9 @@ export const SkillReset: React.FC<SkillResetProps> = ({
               <p className="text-xs text-center">
                 {t("skillReset.ticketDescription")}
               </p>
+              <Label type="warning">
+                {t("description.skillResetTicketWarning")}
+              </Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                 {t("skillReset.nextFreeReset", { date, time })}
               </Label>
