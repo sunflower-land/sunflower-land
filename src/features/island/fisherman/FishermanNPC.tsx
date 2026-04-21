@@ -39,6 +39,8 @@ import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
+const HITBOX_SIZE_PX = 50;
+
 type SpriteFrames = { startAt: number; endAt: number };
 
 const FISHING_FRAMES: Record<FishingState, SpriteFrames> = {
@@ -307,8 +309,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         style={{
           left: `${PIXEL_SCALE * x}px`,
           top: `${PIXEL_SCALE * y}px`,
-          width: `${PIXEL_SCALE * 50}px`,
-          height: `${PIXEL_SCALE * 50}px`,
+          width: `${PIXEL_SCALE * HITBOX_SIZE_PX}px`,
+          height: `${PIXEL_SCALE * HITBOX_SIZE_PX}px`,
         }}
       >
         {!canFish && (
