@@ -1,8 +1,9 @@
 import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import Decimal from "decimal.js-light";
 
-export type PaymentType = "gems" | "free";
+export type PaymentType = "gems" | "free" | "ticket";
 
 export type ResetSkillsAction = {
   type: "skills.reset";
@@ -97,6 +98,19 @@ export function resetSkills({
       // Deduct gems
       game.inventory.Gem = game.inventory.Gem?.minus(gemCost);
       // Increment paid resets counter
+      bumpkin.paidSkillResets = paidSkillResets + 1;
+    }
+
+    // Handle ticket reset (free cost, but counts as a gem reset)
+    if (action.paymentType === "ticket") {
+      const ticketBalance =
+        game.inventory["Skill Reset Ticket"] ?? new Decimal(0);
+
+      if (ticketBalance.lt(1)) {
+        throw new Error("You do not have a Skill Reset Ticket");
+      }
+
+      game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
       bumpkin.paidSkillResets = paidSkillResets + 1;
     }
 
