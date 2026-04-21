@@ -575,7 +575,7 @@ describe("startFermentation", () => {
       `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
 
     expect(getFermentationRecipe(recipe).outputs["Capsule Bait"]).toEqual(
-      new Decimal(6),
+      new Decimal(10),
     );
   });
 
