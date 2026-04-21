@@ -136,17 +136,16 @@ export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 export const SEA_BLESSED_CHANCE = 5;
 export const SEA_BLESSED_NODE_COUNT = 4;
 
-export function rechargeAllSaltNodes(
-  game: GameState,
-  createdAt: number,
-): GameState {
+export function rechargeAllSaltNodes(game: GameState, now: number): GameState {
   const { chargeGenerationTimeMs: interval } = getSaltChargeGenerationTime({
     gameState: game,
   });
+  const maxCharges = getMaxStoredSaltCharges(
+    game.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
   for (const nodeId of Object.keys(game.saltFarm.nodes)) {
-    game.saltFarm.nodes[nodeId].salt.storedCharges =
-      MAX_STORED_SALT_CHARGES_PER_NODE;
-    game.saltFarm.nodes[nodeId].salt.nextChargeAt = createdAt + interval;
+    game.saltFarm.nodes[nodeId].salt.storedCharges = maxCharges;
+    game.saltFarm.nodes[nodeId].salt.nextChargeAt = now + interval;
   }
   return game;
 }
