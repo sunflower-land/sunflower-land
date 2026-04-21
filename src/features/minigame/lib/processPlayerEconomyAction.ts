@@ -82,7 +82,6 @@ export function clonePlayerEconomyRuntimeState(
   const dm = state.dailyMinted ?? { utcDay: day, minted: {} };
   const da = state.dailyActivity ?? { date: day, count: 0 };
   const rules = state.rules;
-  const purchases = state.purchaseCounts;
   return {
     balances: { ...state.balances },
     generating: Object.fromEntries(
@@ -105,13 +104,10 @@ export function clonePlayerEconomyRuntimeState(
           rules: Object.fromEntries(
             Object.entries(rules).map(([id, rec]) => [
               id,
-              { ranAt: rec.ranAt },
+              { ranAt: rec.ranAt, ...(rec.count ? { count: rec.count } : {}) },
             ]),
           ),
         }
-      : {}),
-    ...(purchases && Object.keys(purchases).length > 0
-      ? { purchaseCounts: { ...purchases } }
       : {}),
     ...(typeof state.highscore === "number" && Number.isFinite(state.highscore)
       ? { highscore: state.highscore }
@@ -149,34 +145,6 @@ function applyRequire(
     if (getBalance(balances, token) < rule.amount) {
       const label = itemDisplayName(config, token);
       return `Requires at least ${rule.amount} ${label}`;
-    }
-  }
-  return undefined;
-}
-
-function applyRequireBelow(
-  config: PlayerEconomyConfig,
-  balances: Record<string, number>,
-  requireBelow: Record<string, number> | undefined,
-): string | undefined {
-  if (!requireBelow) return undefined;
-  for (const [token, maxExclusive] of Object.entries(requireBelow)) {
-    if (getBalance(balances, token) >= maxExclusive) {
-      return `${itemDisplayName(config, token)} is at or above the allowed maximum`;
-    }
-  }
-  return undefined;
-}
-
-function applyRequireAbsent(
-  config: PlayerEconomyConfig,
-  balances: Record<string, number>,
-  absent: string[] | undefined,
-): string | undefined {
-  if (!absent?.length) return undefined;
-  for (const token of absent) {
-    if (getBalance(balances, token) > 0) {
-      return `${itemDisplayName(config, token)} already acquired`;
     }
   }
   return undefined;
@@ -509,37 +477,37 @@ function checkActionCooldownSeconds(
   return undefined;
 }
 
-function checkPurchaseLimit(
+function checkMaxCalls(
   def: PlayerEconomyActionDefinition,
   actionId: string,
-  purchaseCounts: PlayerEconomyRuntimeState["purchaseCounts"],
-  itemId: string | undefined,
+  state: PlayerEconomyRuntimeState,
 ): string | undefined {
-  if (itemId?.trim()) return undefined;
-  const cap = def.purchaseLimit;
+  const cap = def.maxCalls;
   if (cap === undefined || !Number.isFinite(cap) || cap <= 0) return undefined;
   const limit = Math.floor(cap);
-  const used = purchaseCounts?.[actionId] ?? 0;
+  const used = state.rules?.[actionId]?.count ?? 0;
   if (used >= limit) {
-    return "Purchase limit reached";
+    return "Max calls reached";
   }
   return undefined;
 }
 
-function incrementPurchaseCountIfNeeded(
-  state: PlayerEconomyRuntimeState,
-  def: PlayerEconomyActionDefinition,
-  actionId: string,
-  itemId: string | undefined,
-): void {
-  if (itemId?.trim()) return;
-  const cap = def.purchaseLimit;
-  if (cap === undefined || !Number.isFinite(cap) || cap <= 0) return;
-  const prev = state.purchaseCounts ?? {};
-  state.purchaseCounts = {
-    ...prev,
-    [actionId]: (prev[actionId] ?? 0) + 1,
-  };
+/** Check that no item `max` is breached after minting. */
+function checkItemMaxAfterAction(
+  config: PlayerEconomyConfig,
+  balances: Record<string, number>,
+): string | undefined {
+  if (!config.items) return undefined;
+  for (const [token, item] of Object.entries(config.items)) {
+    const maxCap = item.max;
+    if (maxCap === undefined || !Number.isFinite(maxCap) || maxCap <= 0)
+      continue;
+    const bal = balances[token] ?? 0;
+    if (bal > Math.floor(maxCap)) {
+      return `Cannot own more than ${Math.floor(maxCap)} ${item.name || token}`;
+    }
+  }
+  return undefined;
 }
 
 function runPhases(
@@ -550,20 +518,6 @@ function runPhases(
 ): { error?: string; generatorJobId?: string } {
   const errRequire = applyRequire(config, working.balances, def.require);
   if (errRequire) return { error: errRequire };
-
-  const errBelow = applyRequireBelow(
-    config,
-    working.balances,
-    def.requireBelow,
-  );
-  if (errBelow) return { error: errBelow };
-
-  const errAbsent = applyRequireAbsent(
-    config,
-    working.balances,
-    def.requireAbsent,
-  );
-  if (errAbsent) return { error: errAbsent };
 
   const errBurn = applyBurns(config, working.balances, def.burn, input.amounts);
   if (errBurn) return { error: errBurn };
@@ -633,6 +587,11 @@ export function processPlayerEconomyGeneratorCollect(
   if ("error" in collectResult) {
     return { ok: false, error: collectResult.error };
   }
+  // --- item max validation (after collecting) ---
+  const errItemMax = checkItemMaxAfterAction(migrated, working.balances);
+  if (errItemMax) {
+    return { ok: false, error: errItemMax };
+  }
   recordSuccessfulMinigameAction(working, now);
   return {
     ok: true,
@@ -680,14 +639,9 @@ export function processPlayerEconomyAction(
     return { ok: false, error: errCooldown };
   }
 
-  const errPurchaseLimit = checkPurchaseLimit(
-    def,
-    input.actionId,
-    working.purchaseCounts,
-    input.itemId,
-  );
-  if (errPurchaseLimit) {
-    return { ok: false, error: errPurchaseLimit };
+  const errMaxCalls = checkMaxCalls(def, input.actionId, working);
+  if (errMaxCalls) {
+    return { ok: false, error: errMaxCalls };
   }
 
   const { error, generatorJobId } = runPhases(config, def, input, working);
@@ -695,14 +649,22 @@ export function processPlayerEconomyAction(
     return { ok: false, error };
   }
 
+  // --- item max validation (after minting) ---
+  const errItemMax = checkItemMaxAfterAction(config, working.balances);
+  if (errItemMax) {
+    return { ok: false, error: errItemMax };
+  }
+
   recordSuccessfulMinigameAction(working, input.now);
 
+  const prevRecord = working.rules?.[input.actionId];
   working.rules = {
     ...(working.rules ?? {}),
-    [input.actionId]: { ranAt: input.now },
+    [input.actionId]: {
+      ranAt: input.now,
+      count: (prevRecord?.count ?? 0) + 1,
+    },
   };
-
-  incrementPurchaseCountIfNeeded(working, def, input.actionId, input.itemId);
 
   return {
     ok: true,
@@ -721,6 +683,5 @@ export function emptyPlayerEconomyState(
     dailyMinted: { utcDay: day, minted: {} },
     activity: 0,
     dailyActivity: { date: day, count: 0 },
-    purchaseCounts: {},
   };
 }

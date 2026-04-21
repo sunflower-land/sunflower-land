@@ -1,8 +1,15 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
-import type { SpiceRackRecipeName } from "features/game/types/spiceRack";
-import { getSpiceRackRecipe } from "features/game/types/spiceRack";
+import type {
+  LegacySpiceRackRecipeName,
+  StartableSpiceRackRecipeName,
+} from "features/game/types/spiceRack";
+import {
+  getSpiceRackRecipe,
+  LEGACY_SPICE_RACK_RECIPE_IDS,
+} from "features/game/types/spiceRack";
+import { getObjectEntries } from "lib/object";
 import { startSpiceRack } from "./startSpiceRack";
 import {
   createFermentationTestState,
@@ -126,7 +133,7 @@ describe("startSpiceRack", () => {
         }),
         action: {
           type: "spiceRack.started",
-          recipe: "not_a_valid_recipe" as SpiceRackRecipeName,
+          recipe: "not_a_valid_recipe" as StartableSpiceRackRecipeName,
           jobId: TEST_JOB_ID,
         },
         createdAt,
@@ -134,8 +141,31 @@ describe("startSpiceRack", () => {
     ).toThrow("Invalid spice rack recipe");
   });
 
+  it.each(LEGACY_SPICE_RACK_RECIPE_IDS)(
+    "rejects legacy spice rack recipe so it cannot be started (%s)",
+    (recipeId: LegacySpiceRackRecipeName) => {
+      const def = getSpiceRackRecipe(recipeId);
+      const inventory: Record<string, Decimal> = {};
+      for (const [ing, qty] of getObjectEntries(def.ingredients)) {
+        inventory[ing] = qty ?? new Decimal(0);
+      }
+
+      expect(() =>
+        startSpiceRack({
+          state: createFermentationTestState({ inventory }),
+          action: {
+            type: "spiceRack.started",
+            recipe: recipeId as StartableSpiceRackRecipeName,
+            jobId: TEST_JOB_ID,
+          },
+          createdAt,
+        }),
+      ).toThrow("This spice rack recipe is no longer available.");
+    },
+  );
+
   it("sets readyAt from durationSeconds", () => {
-    const recipe: SpiceRackRecipeName = "Salt Lick";
+    const recipe: StartableSpiceRackRecipeName = "Salt Lick";
     const def = getSpiceRackRecipe(recipe);
 
     const state = startSpiceRack({

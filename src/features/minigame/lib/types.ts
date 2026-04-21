@@ -80,6 +80,18 @@ export type PlayerEconomyBalanceItem = {
   trophy?: boolean;
   /** Starting balance for new farms (no persisted minigame doc yet). */
   initialBalance?: number;
+  /**
+   * Max units of this token a single farm can own. Enforced on mint, collect, and purchase.
+   * Omit or ≤0 for no per-farm cap.
+   */
+  max?: number;
+  /** Max total of this token across all players (global circulating cap). */
+  supply?: number;
+  /**
+   * When false, hidden from the economy dashboard inventory (and production shortcuts).
+   * Visible when omitted.
+   */
+  is_visible?: boolean;
 };
 
 export type PlayerEconomyDescriptions = {
@@ -121,13 +133,11 @@ export type PlayerEconomyActionDefinition = {
    */
   mintUiDropChances?: boolean;
   /**
-   * Max lifetime purchases of this action per farm (shop). Non-collect invocations only.
-   * Omit or ≤0 for unlimited.
+   * Max lifetime invocations of this action per farm. Tracked via
+   * {@link PlayerEconomyRuleRunRecord.count}. Omit or ≤0 for unlimited.
    */
-  purchaseLimit?: number;
+  maxCalls?: number;
   require?: Record<string, RequireRule>;
-  requireBelow?: Record<string, number>;
-  requireAbsent?: string[];
   mint?: Record<string, MintRule>;
   burn?: Record<string, BurnRule>;
   produce?: Record<string, GeneratorRecipeRule>;
@@ -148,6 +158,19 @@ export type PlayerEconomyConfig = {
    * Must match an item with `tradeable: true` and a numeric `id`. Omit to auto-pick (id 0, else lowest id).
    */
   mainCurrencyToken?: string;
+  /**
+   * When `false`, omitted from Economy Hub and minigames marketplace browse APIs.
+   * When `true` or omitted (legacy), may appear there.
+   */
+  enabled?: boolean;
+  /** Redeem economy balances for main-game inventory (`economies.exchanged`). */
+  exchanges?: Record<
+    string,
+    {
+      requirements: Record<string, number>;
+      rewards: { items: Record<string, number> };
+    }
+  >;
 };
 
 export type GeneratorJob = {
@@ -172,6 +195,8 @@ export type PlayerEconomyDailyActivity = {
 
 export type PlayerEconomyRuleRunRecord = {
   ranAt: number;
+  /** Lifetime invocation count for this action; used with {@link PlayerEconomyActionDefinition.maxCalls}. */
+  count?: number;
 };
 
 export type PlayerEconomyRuntimeState = {
@@ -182,8 +207,6 @@ export type PlayerEconomyRuntimeState = {
   dailyActivity: PlayerEconomyDailyActivity;
   /** Per action id: last successful economy action completion time (ms). */
   rules?: Record<string, PlayerEconomyRuleRunRecord>;
-  /** Per-action purchase counts when `purchaseLimit` is used on shop rules. */
-  purchaseCounts?: Record<string, number>;
   /** Best score for this economy from the API (`playerEconomy.highscore` on session load). */
   highscore?: number;
 };

@@ -30,8 +30,9 @@ import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
 import {
+  getMaxStoredSaltCharges,
+  getSaltChargeGenerationTime,
   getStoredSaltCharges,
-  MAX_STORED_SALT_CHARGES_PER_NODE,
   rechargeAllSaltNodes,
 } from "features/game/types/salt";
 
@@ -438,11 +439,19 @@ export function powerSkillDisabledConditions({
 
     case "Salt Surge": {
       const { nodes } = state.saltFarm;
+      const maxCharges = getMaxStoredSaltCharges(
+        state.sculptures?.["Salt Sculpture"]?.level ?? 0,
+      );
+      const { chargeGenerationTimeMs } = getSaltChargeGenerationTime({
+        gameState: state,
+      });
       if (
         Object.values(nodes).every(
           (node) =>
-            getStoredSaltCharges(node, createdAt) ===
-            MAX_STORED_SALT_CHARGES_PER_NODE,
+            getStoredSaltCharges(node, createdAt, {
+              chargeIntervalMs: chargeGenerationTimeMs,
+              maxCharges,
+            }) === maxCharges,
         )
       ) {
         return {

@@ -52,9 +52,7 @@ export const AgingRackPanel: React.FC = () => {
 
   const now = useNow({ live: queue.length > 0, autoEndAt: agingClockEndAt });
 
-  const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
-    null,
-  );
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedFish, setSelectedFish] = useState<FishName | undefined>();
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
@@ -64,25 +62,16 @@ export const AgingRackPanel: React.FC = () => {
   const shedPlaced = hasPlacedAgingShed(state);
   const merged = getMergedInventory(state);
 
-  const activeSelectedSlotIndex =
-    selectedSlotIndex !== null &&
-    selectedSlotIndex < queue.length &&
-    selectedSlotIndex < maxSlots
-      ? selectedSlotIndex
-      : null;
-
   const readySlots = queue.filter((slot) => slot.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readySlots.length > 0;
 
-  const selectedSlot =
-    activeSelectedSlotIndex !== null
-      ? queue[activeSelectedSlotIndex]
-      : undefined;
+  const selectedSlot = selectedSlotId
+    ? queue.find((slot) => slot.id === selectedSlotId)
+    : undefined;
 
-  const skills = state.bumpkin.skills;
-  const fishCost = getBoostedAgingFishCost(skills);
+  const fishCost = getBoostedAgingFishCost(state);
   const saltNeeded = selectedFish
-    ? getBoostedAgingSaltCost(getFishBaseXP(selectedFish), skills)
+    ? getBoostedAgingSaltCost(getFishBaseXP(selectedFish), state)
     : undefined;
   const hasSalt = saltNeeded
     ? (merged["Salt"] ?? new Decimal(0)).gte(saltNeeded)
@@ -118,6 +107,7 @@ export const AgingRackPanel: React.FC = () => {
     try {
       gameService.send("agingRack.collected");
       gameService.send("SAVE");
+      setSelectedSlotId(null);
     } catch (e) {
       setCollectError(e instanceof Error ? e.message : String(e));
     }
@@ -148,7 +138,7 @@ export const AgingRackPanel: React.FC = () => {
     return undefined;
   })();
 
-  const primeAgedChance = getPrimeAgedChance(skills);
+  const primeAgedChance = getPrimeAgedChance(state);
 
   return (
     <>
@@ -169,7 +159,7 @@ export const AgingRackPanel: React.FC = () => {
               const slot = queue[index];
               const ready = slot.readyAt <= now;
               const remainingSec = Math.max(0, (slot.readyAt - now) / 1000);
-              const isSelected = activeSelectedSlotIndex === index;
+              const isSelected = selectedSlotId === slot.id;
 
               return (
                 <div
@@ -182,8 +172,8 @@ export const AgingRackPanel: React.FC = () => {
                     hideCount
                     isSelected={isSelected}
                     onClick={() =>
-                      setSelectedSlotIndex((current) =>
-                        current === index ? null : index,
+                      setSelectedSlotId((current) =>
+                        current === slot.id ? null : slot.id,
                       )
                     }
                   />
@@ -201,19 +191,10 @@ export const AgingRackPanel: React.FC = () => {
                 key={`empty-${index}`}
                 className={classNames(
                   "flex flex-col items-center max-w-[72px]",
-                  isInactiveEmpty && "opacity-40 pointer-events-none",
+                  isInactiveEmpty && "opacity-40",
                 )}
               >
-                <Box
-                  hideCount
-                  disabled={isInactiveEmpty}
-                  isSelected={activeSelectedSlotIndex === index}
-                  onClick={() =>
-                    setSelectedSlotIndex((current) =>
-                      current === index ? null : index,
-                    )
-                  }
-                >
+                <Box hideCount disabled>
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>
               </div>
@@ -229,7 +210,6 @@ export const AgingRackPanel: React.FC = () => {
           canCollect={canCollect}
           collectError={collectError}
           onCollect={handleCollect}
-          skills={skills}
           game={state}
         />
       ) : (

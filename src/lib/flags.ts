@@ -138,9 +138,12 @@ const FEATURE_FLAGS = {
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
   SALT_FARM: betaFeatureFlag,
 
+  OBSIDIAN_SHRINE_BULK_FERTILISE: betaFeatureFlag,
+
   AGING_SHED: betaFeatureFlag,
 
-  SALT_SKILLS: testnetFeatureFlag,
+  SALT_SKILLS: betaFeatureFlag,
+  SALT_SCULPTURE: betaFeatureFlag,
 
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,

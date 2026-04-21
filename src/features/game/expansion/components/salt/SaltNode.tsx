@@ -13,6 +13,7 @@ import {
   getSaltChargeGenerationTime,
   getStoredSaltCharges,
   materializeSaltRegen,
+  getMaxStoredSaltCharges,
 } from "features/game/types/salt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { canInstantHarvestSaltNode, getSaltNodeSprite } from "./saltNodeStage";
@@ -30,7 +31,7 @@ const _gameState = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService, showAnimations, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const node = useSelector(gameService, _node(id));
   const gameState = useSelector(gameService, _gameState);
@@ -38,15 +39,20 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const now = useNow({ live: true });
 
-  const chargeIntervalMs = getSaltChargeGenerationTime({ gameState });
+  const { chargeGenerationTimeMs: chargeIntervalMs } =
+    getSaltChargeGenerationTime({ gameState });
   const availableRakes = Math.floor(inventory["Salt Rake"]?.toNumber() ?? 0);
 
+  const maxCharges = getMaxStoredSaltCharges(
+    gameState.sculptures?.["Salt Sculpture"]?.level ?? 0,
+  );
+
   const storedCharges = node
-    ? getStoredSaltCharges(node, now, { chargeIntervalMs })
+    ? getStoredSaltCharges(node, now, { chargeIntervalMs, maxCharges })
     : 0;
 
   const materialized = node
-    ? materializeSaltRegen(node.salt, now, { chargeIntervalMs })
+    ? materializeSaltRegen(node.salt, now, { chargeIntervalMs, maxCharges })
     : null;
   const nextChargeInSeconds = materialized
     ? getNextSaltChargeInSeconds({
@@ -102,6 +108,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
         onClick={() => {
           if (canHarvest) {
             gameService.send("salt.harvested", { id });
+            shortcutItem("Salt Rake");
           }
         }}
       >

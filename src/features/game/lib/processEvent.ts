@@ -43,6 +43,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     ),
 
   "Bud Ticket": new Decimal(1),
+  "Skill Reset Ticket": new Decimal(100),
   "Speed Chicken": new Decimal(5),
   "Rich Chicken": new Decimal(5),
   "Fat Chicken": new Decimal(5),

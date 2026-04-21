@@ -75,9 +75,7 @@ export const SpiceRackPanel: React.FC = () => {
     autoEndAt: spiceClockEndAt,
   });
 
-  const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
-    null,
-  );
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedRecipeId, setSelectedRecipeId] = useState<
     SpiceRackRecipeName | undefined
   >();
@@ -88,12 +86,6 @@ export const SpiceRackPanel: React.FC = () => {
   const slotsFull = queue.length >= maxSlots;
 
   const shedPlaced = hasPlacedAgingShed(state);
-  const activeSelectedSlotIndex =
-    selectedSlotIndex !== null &&
-    selectedSlotIndex < queue.length &&
-    selectedSlotIndex < maxSlots
-      ? selectedSlotIndex
-      : null;
 
   const merged = mergeBasketAndChestInventory(state);
 
@@ -112,10 +104,9 @@ export const SpiceRackPanel: React.FC = () => {
   const readyJobs = queue.filter((job) => job.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readyJobs.length > 0;
 
-  const selectedJob =
-    activeSelectedSlotIndex !== null
-      ? queue[activeSelectedSlotIndex]
-      : undefined;
+  const selectedJob = selectedSlotId
+    ? queue.find((job) => job.id === selectedSlotId)
+    : undefined;
 
   const handleRecipeSelect = (recipeId: SpiceRackRecipeName) => {
     setStartError(undefined);
@@ -144,6 +135,7 @@ export const SpiceRackPanel: React.FC = () => {
     try {
       gameService.send("spiceRack.collected");
       gameService.send("SAVE");
+      setSelectedSlotId(null);
     } catch (e) {
       setCollectError(e instanceof Error ? e.message : String(e));
     }
@@ -190,6 +182,7 @@ export const SpiceRackPanel: React.FC = () => {
               const outputItem = getPrimaryOutputItem(job.recipe);
               const ready = job.readyAt <= now;
               const remainingSec = Math.max(0, (job.readyAt - now) / 1000);
+              const isSelected = selectedSlotId === job.id;
 
               return (
                 <div
@@ -200,10 +193,10 @@ export const SpiceRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={activeSelectedSlotIndex === index}
+                    isSelected={isSelected}
                     onClick={() =>
-                      setSelectedSlotIndex((current) =>
-                        current === index ? null : index,
+                      setSelectedSlotId((current) =>
+                        current === job.id ? null : job.id,
                       )
                     }
                   />
@@ -221,19 +214,10 @@ export const SpiceRackPanel: React.FC = () => {
                 key={`empty-${index}`}
                 className={classNames(
                   "flex flex-col items-center max-w-[72px]",
-                  isInactiveEmpty && "opacity-40 pointer-events-none",
+                  isInactiveEmpty && "opacity-40",
                 )}
               >
-                <Box
-                  hideCount
-                  disabled={isInactiveEmpty}
-                  isSelected={activeSelectedSlotIndex === index}
-                  onClick={() =>
-                    setSelectedSlotIndex((current) =>
-                      current === index ? null : index,
-                    )
-                  }
-                >
+                <Box hideCount disabled>
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>
               </div>

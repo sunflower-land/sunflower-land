@@ -600,6 +600,7 @@ export const ITEM_TRADE_TYPES: {
     "Gold Pass": "instant",
     "Potion Ticket": "instant",
     "Bud Ticket": "instant",
+    "Skill Reset Ticket": "instant",
     "Bud Seedling": "onchain",
     "Catch the Kraken Banner": "instant",
     "Mermaid Scale": "instant",
@@ -1392,6 +1393,30 @@ export const ITEM_TRADE_TYPES: {
     "Pet Rug": "instant",
     "Jester in a box": "instant",
     "The Sunflower Man Statue": "instant",
+    "Salt Sculpture": "instant",
+
+    // Salt Awakening Auction Items
+    Pufferfish: "onchain",
+    "Fat Crab": "onchain",
+    "Navigation Table": "onchain",
+    "Royal Crab Pot": "onchain",
+    "Crab House": "onchain",
+    "Speed Trap": "onchain",
+
+    // Salt Awakening Mutants
+    "Flamingo Chicken": "instant",
+    "Salt Crystal Flower": "instant",
+    "Spa Cow": "instant",
+    "Spa Sheep": "instant",
+    "Deep Sea Pig": "instant",
+    "Deep Sea Slug": "instant",
+    "Crystal Shrimp": "instant",
+
+    // Salt Awakening Tickets
+    "Salt Rock": "instant",
+    "Salt Awakening Raffle Ticket": "instant",
+    "Salt Awakening Banner": "instant",
+    "Salt Dino Egg": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -1926,6 +1951,24 @@ export const ITEM_TRADE_TYPES: {
     "Faulty Barrier Background": "instant",
     "Cardboard Wings": "onchain",
     "Glitch Aura": "onchain",
+    "Bumpkin Eyes": "instant",
+    "Big Wink Eyes": "instant",
+    "Fun Eyes": "instant",
+    "Giggle Eyes": "instant",
+    "Grumpy Eyes": "instant",
+    "Relaxed Eyes": "instant",
+    "Scared Eyes": "instant",
+    "Surprised Eyes": "instant",
+    "Wink Eyes": "instant",
+    "Bumpkin Smile": "instant",
+    "Angry Mouth": "instant",
+    "Baby Teeth": "instant",
+    "Big Smile": "instant",
+    "Fanged Smile": "instant",
+    "Gold Teeth": "instant",
+    "Infernal Smile": "instant",
+    "Neutral Mouth": "instant",
+    "Pistol Shrimp": "onchain",
   },
 };
 

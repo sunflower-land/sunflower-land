@@ -77,12 +77,12 @@ export const RestockBoat: React.FC = () => {
 
   const wharfCoords = (): Coordinates => {
     if (expansionCount < 7) {
-      return { x: -1, y: -7 };
+      return { x: 10, y: -4.5 };
     }
     if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: 0, y: -10 };
+      return { x: 10, y: -10.5 };
     } else {
-      return { x: 0, y: -17 };
+      return { x: 10, y: -16.5 };
     }
   };
 
@@ -93,6 +93,7 @@ export const RestockBoat: React.FC = () => {
           src={boat}
           style={{
             width: `${68 * PIXEL_SCALE}px`,
+            transform: "scaleX(-1)",
           }}
           className="cursor-pointer hover:img-highlight"
           onClick={() => setIsOpen(true)}

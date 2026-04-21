@@ -12,6 +12,7 @@ import { getHelpRequired } from "features/game/types/monuments";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -94,6 +95,16 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
           </div>
         )}
       </BuildingImageWrapper>
+
+      <div
+        className="absolute"
+        style={{
+          left: `${PIXEL_SCALE * 16}px`,
+          top: `${PIXEL_SCALE * 14}px`,
+        }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full pointer-events-auto"

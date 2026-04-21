@@ -4,11 +4,8 @@ import { Label } from "components/ui/Label";
 import { RuleActionIdLabel } from "./RuleActionIdLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import Decimal from "decimal.js-light";
-import { NumberInput } from "components/ui/NumberInput";
 import { EMPTY_BURN_ROW, EMPTY_MINT_ROW, type ActionForm } from "../lib/types";
 import { MintRowList, BurnRowList } from "./ActionRowList";
-import { FieldRow } from "./FieldRow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ShopCard: React.FC<{
@@ -99,21 +96,6 @@ export const ShopCard: React.FC<{
           }
         />
       </div>
-
-      <FieldRow
-        label="Limit"
-        hint="Max times each farm can buy this (0 = unlimited). Uses saved purchase counts."
-      >
-        <NumberInput
-          value={new Decimal(action.shopPurchaseLimit ?? 0)}
-          maxDecimalPlaces={0}
-          onValueChange={(v) =>
-            onUpdate({
-              shopPurchaseLimit: Math.max(0, Math.floor(v.toNumber())),
-            })
-          }
-        />
-      </FieldRow>
     </InnerPanel>
   );
 };

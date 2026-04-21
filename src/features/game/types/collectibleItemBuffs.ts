@@ -349,19 +349,25 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
   "Sproutroot Surprise": () => [
     {
-      shortDescription: translate("description.sproutroot.surprise.boost"),
+      shortDescription: translate("description.sprout.mix.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
     {
-      shortDescription: translate("description.sproutroot.surprise.boost.2"),
+      shortDescription: translate("description.rapid.root.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
   "Turbofruit Mix": () => [
+    {
+      shortDescription: translate("description.fruitful.blend.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+    },
     {
       shortDescription: translate("description.turbofruit.mix.boost"),
       labelType: "info",
@@ -2142,6 +2148,81 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Rod"].image,
     },
   ],
+  "Salt Sculpture": () => [
+    {
+      shortDescription: translate("description.saltSculpture.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Navigation Table": () => [
+    {
+      shortDescription: translate("description.navigationTable.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Royal Crab Pot": () => [
+    {
+      shortDescription: translate("description.royalCrabPot.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Crab House": () => [
+    {
+      shortDescription: translate("description.crabHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Speed Trap": () => [
+    {
+      shortDescription: translate("description.speedTrap.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Flamingo Chicken": () => [
+    {
+      shortDescription: translate("description.flamingoChicken.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+    },
+  ],
+  "Spa Sheep": () => [
+    {
+      shortDescription: translate("description.spaSheep.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+  ],
+  "Spa Cow": () => [
+    {
+      shortDescription: translate("description.spaCow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+  ],
+  "Deep Sea Slug": () => [
+    {
+      shortDescription: translate("description.deepSeaSlug.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rod"].image,
+    },
+    {
+      shortDescription: translate("description.deepSeaSlug.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+    },
+  ],
+
+  // All items go above this line
 
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)

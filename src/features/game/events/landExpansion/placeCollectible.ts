@@ -81,11 +81,6 @@ export function placeCollectible({
       throw new Error("You cannot place this item");
     }
 
-    // Populate the salt farm with the new salt charges
-    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
-      populateSaltFarm({ game: stateCopy, now: createdAt });
-    }
-
     // Only pet collectibles can be placed in the pet house
     if (action.location === "petHouse" && !isPetCollectible(action.name)) {
       throw new Error("Only pet collectibles can be placed in the pet house");
@@ -262,6 +257,14 @@ export function placeCollectible({
       "Collectible Placed",
       stateCopy.farmActivity,
     );
+
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({
+        gameBefore: state,
+        gameAfter: stateCopy,
+        now: createdAt,
+      });
+    }
 
     return stateCopy;
   });

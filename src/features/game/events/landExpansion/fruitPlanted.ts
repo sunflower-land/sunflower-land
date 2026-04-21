@@ -49,7 +49,7 @@ function getHarvestsLeft({
 
 function getHarvestRange({ state }: { state: GameState }) {
   let minHarvest = 3;
-  let maxHarvest = 6;
+  let maxHarvest = 5;
   if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
     if (state.bumpkin.skills["Pear Turbocharge"]) {
       minHarvest += 2;

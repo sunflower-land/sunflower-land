@@ -682,6 +682,52 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2026-02-01"),
     withdrawAt: new Date("2026-02-01"),
   },
+
+  // April Fools 2026
+  "Neon Noiz Jacket": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "404 Chic Top": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Neon Noiz Pants": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "404 Chic Skirt": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Admin Fools Tools": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Neon Noiz Shoes": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "404 Chic Boots": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Aether Specs": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Faulty Barrier Background": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Cardboard Wings": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Glitch Aura": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
 };
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
@@ -1634,6 +1680,47 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   "Ho Ho oh oh…": {
     tradeAt: new Date("2026-02-01"),
     withdrawAt: new Date("2026-02-01"),
+  },
+
+  "Teeth Toy": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Fake Treasure": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Fake Mouse": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Pet Tree": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Definitely not a Flower": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Bumpkin Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Goblin Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Pet Rug": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "Jester in a box": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+  "The Sunflower Man Statue": {
+    tradeAt: new Date("2026-04-17T00:00:00Z"),
+    withdrawAt: new Date("2026-04-17T00:00:00Z"),
   },
 
   // Tutorial marketplace item

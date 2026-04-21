@@ -17,14 +17,16 @@ import type {
   GameState,
   Inventory,
   InventoryItemName,
-  Skills,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
+import {
+  getAgingInputMultiplier,
+  getAgingOutput,
+} from "features/game/types/agingFormulas";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -48,10 +50,10 @@ function getFirstIngredientImage(recipeId: FermentationRecipeName) {
 function hasEnoughFermentationIngredients(
   merged: Inventory,
   recipeId: FermentationRecipeName,
-  skills: Skills,
+  gameState: GameState,
 ): boolean {
   const def = getFermentationRecipe(recipeId);
-  const inputMultiplier = getAgingInputMultiplier(skills);
+  const inputMultiplier = getAgingInputMultiplier(gameState);
 
   for (const [ingredient, amount] of getObjectEntries(def.ingredients)) {
     const have = merged[ingredient as InventoryItemName] ?? new Decimal(0);
@@ -117,7 +119,12 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   const recipeOutputQuantity =
     recipeId && selectedItem
-      ? getFermentationRecipe(recipeId).outputs[selectedItem]
+      ? getAgingOutput(
+          gameState,
+          getFermentationRecipe(recipeId).outputs[selectedItem] ??
+            new Decimal(0),
+          selectedItem,
+        )
       : undefined;
 
   return (
@@ -125,7 +132,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <div className="flex flex-col gap-1 mb-1">
           <Label
-            type={selectedGroup ? "info" : "default"}
+            type={"default"}
             className="text-xs ml-1"
             icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
           >
@@ -198,7 +205,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       isSelected={recipeId === id}
                       onClick={() => onSelectVariant(id)}
                       secondaryImage={
-                        hasEnoughFermentationIngredients(merged, id, skills)
+                        hasEnoughFermentationIngredients(merged, id, gameState)
                           ? SUNNYSIDE.icons.confirm
                           : SUNNYSIDE.icons.cancel
                       }
@@ -229,7 +236,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                       merged[itemName as InventoryItemName] ?? new Decimal(0)
                     }
                     requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(skills),
+                      getAgingInputMultiplier(gameState),
                     )}
                   />
                 ),

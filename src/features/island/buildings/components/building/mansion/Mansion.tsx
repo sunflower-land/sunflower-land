@@ -14,6 +14,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -97,6 +98,16 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           </div>
         )}
       </BuildingImageWrapper>
+
+      <div
+        className="absolute"
+        style={{
+          left: `${PIXEL_SCALE * 0}px`,
+          top: `${PIXEL_SCALE * 0}px`,
+        }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="relative w-fit pointer-events-auto"

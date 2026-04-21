@@ -264,12 +264,6 @@ function actionEntryToForm(
     actionType: at,
     id,
     showInShop: def.showInShop !== false,
-    shopPurchaseLimit:
-      at === "shop" &&
-      typeof def.purchaseLimit === "number" &&
-      def.purchaseLimit > 0
-        ? Math.floor(def.purchaseLimit)
-        : 0,
     mint:
       at === "custom"
         ? []
@@ -309,13 +303,6 @@ function actionEntryToForm(
             token: key,
             amount: (rule as { amount: number }).amount,
           })),
-    requireBelow: Object.entries(def.requireBelow ?? {}).map(
-      ([key, amount]) => ({
-        token: key,
-        amount: amount as number,
-      }),
-    ),
-    requireAbsent: (def.requireAbsent ?? []) as string[],
     produce: (() => {
       const entries = Object.entries(def.produce ?? {});
       if (entries.length > 0) {
@@ -363,6 +350,7 @@ function actionEntryToForm(
     customBurn,
     customMintDropChances: def.mintUiDropChances === true,
     customCooldownSeconds: Math.max(0, Math.floor(def.cooldownSeconds ?? 0)),
+    customMaxCalls: Math.max(0, Math.floor(def.maxCalls ?? 0)),
     customRequiresUiEnabled: Object.keys(def.require ?? {}).length > 0,
   };
 }
@@ -604,6 +592,18 @@ export function configToForm(
       typeof rawInit === "number" && Number.isFinite(rawInit)
         ? Math.max(0, Math.floor(rawInit))
         : 0;
+    const rawMax = item.max;
+    const max =
+      typeof rawMax === "number" && Number.isFinite(rawMax) && rawMax > 0
+        ? Math.floor(rawMax)
+        : 0;
+    const rawSupply = item.supply;
+    const globalSupplyCap =
+      typeof rawSupply === "number" &&
+      Number.isFinite(rawSupply) &&
+      rawSupply > 0
+        ? Math.floor(rawSupply)
+        : 0;
     return {
       key,
       name: item.name,
@@ -612,7 +612,10 @@ export function configToForm(
       id,
       tradeable: item.tradeable === true,
       trophy: item.trophy === true,
+      isVisible: item.is_visible !== false,
       initialBalance,
+      max,
+      globalSupplyCap,
     };
   });
 
@@ -648,6 +651,7 @@ export function configToForm(
   return {
     slug,
     playUrl: cfg.playUrl ?? "",
+    enabled: cfg.enabled !== false,
     mainCurrencyToken,
     descriptionTitle: cfg.descriptions?.title ?? "",
     descriptionSubtitle: cfg.descriptions?.subtitle ?? "",
