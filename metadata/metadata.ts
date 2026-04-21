@@ -15612,7 +15612,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Spa Cow",
   },
   "Spa Sheep": {
-    description: "",
+    description: "Wool washed white by hot springs and salt steam.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
