@@ -13,6 +13,14 @@ export type FermentationRecipeDefinition = {
 
 const GREENHOUSE_FERMENT_DURATION_SEC = 60 * 60 * 2;
 
+/**
+ * Bait fermentation output per (Aged | Prime Aged) fish. Shared across
+ * Capsule Bait, Umbrella Bait and Crimson Baitfish recipe families so
+ * balance changes stay one-touch.
+ */
+export const BAIT_OUTPUT_AGED = new Decimal(5);
+export const BAIT_OUTPUT_PRIME = new Decimal(10);
+
 const STATIC_FERMENTATION_RECIPES = {
   "Pickled Radish": {
     durationSeconds: 60 * 60,
@@ -284,7 +292,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(3),
+        "Capsule Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Zucchini)`] = {
@@ -294,7 +302,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Zucchini": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(6),
+        "Capsule Bait": BAIT_OUTPUT_PRIME,
       },
     };
     recipes[`Capsule Bait (Aged ${fish}, Pickled Tomato)`] = {
@@ -304,7 +312,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(3),
+        "Capsule Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Tomato)`] = {
@@ -314,7 +322,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(6),
+        "Capsule Bait": BAIT_OUTPUT_PRIME,
       },
     };
   }
@@ -330,7 +338,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(3),
+        "Umbrella Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Cabbage)`] = {
@@ -340,7 +348,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Cabbage": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(6),
+        "Umbrella Bait": BAIT_OUTPUT_PRIME,
       },
     };
     recipes[`Umbrella Bait (Aged ${fish}, Pickled Pepper)`] = {
@@ -350,7 +358,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(3),
+        "Umbrella Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
@@ -360,7 +368,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(6),
+        "Umbrella Bait": BAIT_OUTPUT_PRIME,
       },
     };
   }
@@ -376,7 +384,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Radish": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(3),
+        "Crimson Baitfish": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Radish)`] = {
@@ -386,7 +394,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Radish": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(6),
+        "Crimson Baitfish": BAIT_OUTPUT_PRIME,
       },
     };
     recipes[`Crimson Baitfish (Aged ${fish}, Pickled Onion)`] = {
@@ -396,7 +404,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(3),
+        "Crimson Baitfish": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Onion)`] = {
@@ -406,7 +414,7 @@ function buildBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(6),
+        "Crimson Baitfish": BAIT_OUTPUT_PRIME,
       },
     };
   }
@@ -435,7 +443,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(3),
+        "Capsule Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Capsule Bait (Prime Aged ${fish}, Pickled Pepper)`] = {
@@ -445,7 +453,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Pepper": new Decimal(1),
       },
       outputs: {
-        "Capsule Bait": new Decimal(6),
+        "Capsule Bait": BAIT_OUTPUT_PRIME,
       },
     };
   }
@@ -461,7 +469,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(3),
+        "Umbrella Bait": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Umbrella Bait (Prime Aged ${fish}, Pickled Onion)`] = {
@@ -471,7 +479,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Onion": new Decimal(1),
       },
       outputs: {
-        "Umbrella Bait": new Decimal(6),
+        "Umbrella Bait": BAIT_OUTPUT_PRIME,
       },
     };
   }
@@ -487,7 +495,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(3),
+        "Crimson Baitfish": BAIT_OUTPUT_AGED,
       },
     };
     recipes[`Crimson Baitfish (Prime Aged ${fish}, Pickled Tomato)`] = {
@@ -497,7 +505,7 @@ function buildRetiredBaitFermentationRecipes(): Record<
         "Pickled Tomato": new Decimal(1),
       },
       outputs: {
-        "Crimson Baitfish": new Decimal(6),
+        "Crimson Baitfish": BAIT_OUTPUT_PRIME,
       },
     };
   }
