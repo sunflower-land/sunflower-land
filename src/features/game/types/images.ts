@@ -448,6 +448,10 @@ import saltDinoEgg from "assets/icons/salt_dino_egg.webp";
 import sproutMix from "assets/composters/sprout_mix.png";
 import fruitfulBlend from "assets/composters/fruitful_blend.png";
 import rapidRoot from "assets/composters/rapid_root.png";
+import sproutrootSurprise from "assets/icons/sproutroot_surprise.webp";
+import turbofruitMix from "assets/icons/turbofruit_mix.webp";
+import greenhouseGlow from "assets/icons/greenhouse_glow.webp";
+import greenhouseGoodie from "assets/icons/greenhouse_goodie.webp";
 
 // Clothing
 import chefHat from "assets/icons/chef_hat.png";
@@ -1945,7 +1949,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("tool.oilDrill"),
   },
   "Salt Rake": {
-    image: SUNNYSIDE.tools.sand_shovel,
+    image: SUNNYSIDE.tools.salt_rake,
     description: WORKBENCH_TOOLS["Salt Rake"].description,
     translatedName: "Salt Rake",
   },
@@ -4778,12 +4782,12 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("pickled.pepper"),
   },
   "Greenhouse Glow": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: greenhouseGlow,
     description: translate("description.greenhouseGlow"),
     translatedName: translate("greenhouseGlow"),
   },
   "Greenhouse Goodie": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: greenhouseGoodie,
     description: translate("description.greenhouseGoodie"),
     translatedName: translate("greenhouseGoodie"),
   },
@@ -4794,12 +4798,12 @@ export const ITEM_DETAILS: Items = {
         description: translate("compost.sproutrootSurpriseBoosted"),
       },
     ],
-    image: SUNNYSIDE.icons.expression_confused,
+    image: sproutrootSurprise,
     description: translate("compost.sproutrootSurprise"),
     translatedName: translate("fertiliser.sproutrootSurprise"),
   },
   "Turbofruit Mix": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: turbofruitMix,
     description: translate("compost.turbofruitMix"),
     translatedName: translate("fertiliser.turbofruitMix"),
   },

@@ -1460,6 +1460,7 @@ export const SUNNYSIDE = {
     power_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/power_shovel.png`,
     rusty_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/rusty_shovel.png`,
     sand_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/sand_shovel.png`,
+    salt_rake: `${CONFIG.PROTECTED_IMAGE_URL}/tools/salt_rake.webp`,
     shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/shovel.png`,
     stone_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/stone_pickaxe.png`,
     wood_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/wood_pickaxe.png`,
