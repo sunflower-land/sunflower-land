@@ -44,8 +44,13 @@ export const AgingShed: React.FC<BuildingProps> = ({ isBuilt }) => {
 
   const hasReadyRecipe = allRackJobs.some((job) => job.readyAt <= now);
 
-  const agingShedVariant =
-    AGING_SHED_VARIANTS[agingShedLevel > 3 ? 3 : agingShedLevel];
+  const getAgingShedVariant = () => {
+    if (agingShedLevel >= 6) return AGING_SHED_VARIANTS[3];
+    if (agingShedLevel >= 4) return AGING_SHED_VARIANTS[2];
+    return AGING_SHED_VARIANTS[1];
+  };
+
+  const agingShedVariant = getAgingShedVariant();
 
   return (
     <>
