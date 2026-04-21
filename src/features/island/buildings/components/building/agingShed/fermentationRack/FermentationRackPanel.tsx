@@ -222,6 +222,10 @@ export const FermentationRackPanel: React.FC = () => {
       return t("error.noAvailableSlots");
     }
 
+    if (selectedSignature && selectedRecipeId === undefined) {
+      return t("agingShed.fermentation.selectRecipeRequired");
+    }
+
     if (selectedRecipeId && insufficientIngredient) {
       const name =
         ITEM_DETAILS[insufficientIngredient]?.translatedName ??

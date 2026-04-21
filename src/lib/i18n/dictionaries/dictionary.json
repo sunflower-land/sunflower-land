@@ -8730,6 +8730,7 @@
   "agingShed.fermentation.timeRemaining": "{{time}} left",
   "agingShed.fermentation.slotsUsed": "Slots: {{used}}/{{max}}",
   "agingShed.fermentation.insufficientIngredient": "Not enough {{item}}",
+  "agingShed.fermentation.selectRecipeRequired": "Please select a recipe",
   "agingShed.spice.spiceSlots": "Spice Slots",
   "agingShed.spice.selectRecipe": "Select recipe",
   "agingShed.spice.requirementsTitle": "Ingredients",
