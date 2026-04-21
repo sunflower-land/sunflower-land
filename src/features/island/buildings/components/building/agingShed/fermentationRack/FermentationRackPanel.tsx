@@ -38,9 +38,6 @@ import { secondsToString } from "lib/utils/time";
 import { FermentationRackEmpty } from "./FermentationRackEmpty";
 import { FermentationRackInProgress } from "./FermentationRackInProgress";
 
-const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
-const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
-
 function getMergedInventory(state: GameState): Inventory {
   return {
     ...getBasketItems(state.inventory),
@@ -147,27 +144,13 @@ export const FermentationRackPanel: React.FC = () => {
   const applyOutputGroupSelection = useCallback(
     (group: FermentationOutputGroup) => {
       setSelectedSignature(group.signature);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(OUTPUT_STORAGE_KEY, group.signature);
-      }
 
       if (group.recipeIds.length === 1) {
         setSelectedRecipeId(group.recipeIds[0]);
         return;
       }
 
-      const stored =
-        typeof window !== "undefined"
-          ? (localStorage.getItem(
-              RECIPE_STORAGE_KEY,
-            ) as FermentationRecipeName | null)
-          : null;
-
-      if (stored && group.recipeIds.includes(stored)) {
-        setSelectedRecipeId(stored);
-      } else {
-        setSelectedRecipeId(undefined);
-      }
+      setSelectedRecipeId(undefined);
     },
     [],
   );
@@ -178,10 +161,6 @@ export const FermentationRackPanel: React.FC = () => {
 
       const group = findFermentationGroupByStoredSignature(groups, sig);
       if (!group) {
-        if (typeof window !== "undefined") {
-          localStorage.removeItem(OUTPUT_STORAGE_KEY);
-        }
-
         const fallback = groups[0];
         if (fallback) {
           applyOutputGroupSelection(fallback);
@@ -200,10 +179,6 @@ export const FermentationRackPanel: React.FC = () => {
   const selectVariant = (recipeId: FermentationRecipeName) => {
     setStartError(undefined);
     setSelectedRecipeId(recipeId);
-
-    if (typeof window !== "undefined") {
-      localStorage.setItem(RECIPE_STORAGE_KEY, recipeId);
-    }
   };
 
   const handleStart = (recipeId: FermentationRecipeName) => {
@@ -245,6 +220,10 @@ export const FermentationRackPanel: React.FC = () => {
 
     if (slotsFull && selectedRecipeId !== undefined && !isInstantRecipe) {
       return t("error.noAvailableSlots");
+    }
+
+    if (selectedSignature && selectedRecipeId === undefined) {
+      return t("agingShed.fermentation.selectRecipeRequired");
     }
 
     if (selectedRecipeId && insufficientIngredient) {

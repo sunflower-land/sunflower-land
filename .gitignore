@@ -48,4 +48,8 @@ cache
 !/.cursor/rules/
 !/.cursor/rules/**
 
+# Claude Code: keep personal project rules local
+/CLAUDE.md
+/.claude/
+
 /*.json
