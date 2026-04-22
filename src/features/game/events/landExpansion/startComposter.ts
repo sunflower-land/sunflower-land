@@ -183,7 +183,6 @@ export function startComposter({
     buildings[0].producing = {
       items: {
         [produce]: produceAmount,
-        // Set on backend
         [worm]: wormAmount,
       },
       startedAt: createdAt,
