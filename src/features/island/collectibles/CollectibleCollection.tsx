@@ -2794,10 +2794,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 18}px`,
       }}
       image={ITEM_DETAILS["Crabs and Traps Banner"].image}
       alt="Crabs and Traps Banner"
