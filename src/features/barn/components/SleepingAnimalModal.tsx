@@ -106,13 +106,7 @@ export const SleepingAnimalModal = ({
           <Label type="formula" className="text-xs">
             {`Lvl. ${level}`}
           </Label>
-          {isMaxLevel && (
-            <Label
-              type="warning"
-            >
-              {"MAX"}
-            </Label>
-          )}
+          {isMaxLevel && <Label type="warning">{"MAX"}</Label>}
         </div>
 
         <div className="flex text-sm p-1 items-center">
