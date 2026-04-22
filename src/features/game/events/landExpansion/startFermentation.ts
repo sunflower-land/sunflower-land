@@ -78,8 +78,10 @@ export function startFermentation({
       game.inventory[ingredient] = count.sub(need);
     }
 
+    const agerApplied = !!game.bumpkin.skills["Ager"];
+
     if (durationSeconds === 0) {
-      grantFermentationRecipeOutputs(game, action.recipe, farmId);
+      grantFermentationRecipeOutputs(game, action.recipe, farmId, agerApplied);
       return;
     }
 
@@ -90,6 +92,8 @@ export function startFermentation({
       recipe: action.recipe,
       startedAt: createdAt,
       readyAt,
+      // Marks whether the Ager skill was applied at the time of starting
+      skills: { Ager: agerApplied },
     };
 
     game.agingShed.racks.fermentation = [...queue, job];

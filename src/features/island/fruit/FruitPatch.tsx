@@ -263,15 +263,26 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           />
         )}
         {fertiliser?.name === "Turbofruit Mix" && (
-          <img
-            className="absolute z-10 pointer-events-none"
-            src={SUNNYSIDE.icons.stopwatch}
-            style={{
-              width: `${PIXEL_SCALE * 6}px`,
-              bottom: `${PIXEL_SCALE * 16}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
+          <>
+            <img
+              className="absolute z-10 pointer-events-none"
+              src={powerup}
+              style={{
+                width: `${PIXEL_SCALE * 5}px`,
+                bottom: `${PIXEL_SCALE * 16}px`,
+                left: `${PIXEL_SCALE * 2}px`,
+              }}
+            />
+            <img
+              className="absolute z-10 pointer-events-none"
+              src={SUNNYSIDE.icons.stopwatch}
+              style={{
+                width: `${PIXEL_SCALE * 6}px`,
+                bottom: `${PIXEL_SCALE * 16}px`,
+                right: `${PIXEL_SCALE * 2}px`,
+              }}
+            />
+          </>
         )}
 
         {/* Fruit drop animation */}

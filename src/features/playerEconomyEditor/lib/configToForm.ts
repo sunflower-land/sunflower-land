@@ -612,6 +612,7 @@ export function configToForm(
       id,
       tradeable: item.tradeable === true,
       trophy: item.trophy === true,
+      isVisible: item.is_visible !== false,
       initialBalance,
       max,
       globalSupplyCap,
@@ -650,6 +651,7 @@ export function configToForm(
   return {
     slug,
     playUrl: cfg.playUrl ?? "",
+    enabled: cfg.enabled !== false,
     mainCurrencyToken,
     descriptionTitle: cfg.descriptions?.title ?? "",
     descriptionSubtitle: cfg.descriptions?.subtitle ?? "",

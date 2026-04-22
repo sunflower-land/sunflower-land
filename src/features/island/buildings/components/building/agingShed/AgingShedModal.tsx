@@ -16,8 +16,6 @@ import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BUILDING_UPGRADES } from "features/game/events/landExpansion/upgradeBuilding";
-import { getKeys } from "lib/object";
 import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
@@ -94,12 +92,6 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const maxAgingShedLevel = Math.max(
-    1,
-    ...getKeys(BUILDING_UPGRADES["Aging Shed"]).map(Number),
-  );
-  const isAgingShedMaxLevel = agingShedLevel >= maxAgingShedLevel;
-
   return (
     <Modal show={isOpen} onHide={closeUpgradeTab}>
       <img
@@ -122,7 +114,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
           showUpgradeTab && hasAgingShedAccess ? "upgrade" : currentTab
         }
         setCurrentTab={showUpgradeTab ? undefined : setCurrentTab}
-        container={isAgingShedMaxLevel ? undefined : OuterPanel}
+        container={showUpgradeTab ? undefined : OuterPanel}
       >
         <AgedShedPanel
           agingShedLevel={agingShedLevel}

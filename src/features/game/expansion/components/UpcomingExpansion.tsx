@@ -34,6 +34,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useExpansionCoinCostWithVip } from "lib/utils/hooks/useVipAccess";
+import { OuterPanel } from "components/ui/Panel";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -320,6 +321,7 @@ export const UpcomingExpansion: React.FC = () => {
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.grimbly}
           onClose={() => setShowBumpkinModal(false)}
+          container={OuterPanel}
         >
           <ExpansionRequirements
             state={state}

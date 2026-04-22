@@ -363,6 +363,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
         id: item.id,
         ...(item.tradeable ? { tradeable: true } : {}),
         ...(item.trophy ? { trophy: true } : {}),
+        ...(item.isVisible === false ? { is_visible: false as const } : {}),
         ...(init > 0 ? { initialBalance: Math.max(0, Math.floor(init)) } : {}),
         ...(item.max > 0 ? { max: Math.max(0, Math.floor(item.max)) } : {}),
         ...(item.globalSupplyCap > 0
@@ -406,6 +407,7 @@ export function formToConfig(form: EditorFormState): PlayerEconomyConfig {
 
   const config: PlayerEconomyConfig = {
     actions,
+    enabled: form.enabled,
     ...(Object.keys(items).length ? { items } : {}),
     ...(Object.keys(purchasesRecord).length > 0
       ? { purchases: purchasesRecord }

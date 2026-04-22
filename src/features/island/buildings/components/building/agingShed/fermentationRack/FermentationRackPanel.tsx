@@ -38,9 +38,6 @@ import { secondsToString } from "lib/utils/time";
 import { FermentationRackEmpty } from "./FermentationRackEmpty";
 import { FermentationRackInProgress } from "./FermentationRackInProgress";
 
-const OUTPUT_STORAGE_KEY = "lastFermentationOutputSignature";
-const RECIPE_STORAGE_KEY = "lastFermentationRecipeId";
-
 function getMergedInventory(state: GameState): Inventory {
   return {
     ...getBasketItems(state.inventory),
@@ -104,9 +101,7 @@ export const FermentationRackPanel: React.FC = () => {
 
   const groups = getFermentationOutputGroups();
 
-  const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(
-    null,
-  );
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
   >(undefined);
@@ -120,12 +115,6 @@ export const FermentationRackPanel: React.FC = () => {
   const slotsFull = queue.length >= maxSlots;
 
   const shedPlaced = hasPlacedAgingShed(state);
-  const activeSelectedSlotIndex =
-    selectedSlotIndex !== null &&
-    selectedSlotIndex < queue.length &&
-    selectedSlotIndex < maxSlots
-      ? selectedSlotIndex
-      : null;
 
   const merged = getMergedInventory(state);
 
@@ -148,35 +137,20 @@ export const FermentationRackPanel: React.FC = () => {
   const readyJobs = queue.filter((job) => job.readyAt <= now);
   const canCollect = !isVisiting && shedPlaced && readyJobs.length > 0;
 
-  const selectedJob =
-    activeSelectedSlotIndex !== null
-      ? queue[activeSelectedSlotIndex]
-      : undefined;
+  const selectedJob = selectedSlotId
+    ? queue.find((job) => job.id === selectedSlotId)
+    : undefined;
 
   const applyOutputGroupSelection = useCallback(
     (group: FermentationOutputGroup) => {
       setSelectedSignature(group.signature);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(OUTPUT_STORAGE_KEY, group.signature);
-      }
 
       if (group.recipeIds.length === 1) {
         setSelectedRecipeId(group.recipeIds[0]);
         return;
       }
 
-      const stored =
-        typeof window !== "undefined"
-          ? (localStorage.getItem(
-              RECIPE_STORAGE_KEY,
-            ) as FermentationRecipeName | null)
-          : null;
-
-      if (stored && group.recipeIds.includes(stored)) {
-        setSelectedRecipeId(stored);
-      } else {
-        setSelectedRecipeId(undefined);
-      }
+      setSelectedRecipeId(undefined);
     },
     [],
   );
@@ -187,10 +161,6 @@ export const FermentationRackPanel: React.FC = () => {
 
       const group = findFermentationGroupByStoredSignature(groups, sig);
       if (!group) {
-        if (typeof window !== "undefined") {
-          localStorage.removeItem(OUTPUT_STORAGE_KEY);
-        }
-
         const fallback = groups[0];
         if (fallback) {
           applyOutputGroupSelection(fallback);
@@ -209,10 +179,6 @@ export const FermentationRackPanel: React.FC = () => {
   const selectVariant = (recipeId: FermentationRecipeName) => {
     setStartError(undefined);
     setSelectedRecipeId(recipeId);
-
-    if (typeof window !== "undefined") {
-      localStorage.setItem(RECIPE_STORAGE_KEY, recipeId);
-    }
   };
 
   const handleStart = (recipeId: FermentationRecipeName) => {
@@ -237,6 +203,7 @@ export const FermentationRackPanel: React.FC = () => {
     try {
       gameService.send("fermentation.collected");
       gameService.send("SAVE");
+      setSelectedSlotId(null);
     } catch (e) {
       setCollectError(e instanceof Error ? e.message : String(e));
     }
@@ -253,6 +220,10 @@ export const FermentationRackPanel: React.FC = () => {
 
     if (slotsFull && selectedRecipeId !== undefined && !isInstantRecipe) {
       return t("error.noAvailableSlots");
+    }
+
+    if (selectedSignature && selectedRecipeId === undefined) {
+      return t("agingShed.fermentation.selectRecipeRequired");
     }
 
     if (selectedRecipeId && insufficientIngredient) {
@@ -285,6 +256,7 @@ export const FermentationRackPanel: React.FC = () => {
               const outputItem = getPrimaryOutputItem(job.recipe);
               const ready = job.readyAt <= now;
               const remainingSec = Math.max(0, (job.readyAt - now) / 1000);
+              const isSelected = selectedSlotId === job.id;
 
               return (
                 <div
@@ -295,10 +267,10 @@ export const FermentationRackPanel: React.FC = () => {
                     image={ITEM_DETAILS[outputItem]?.image}
                     disabled={false}
                     hideCount
-                    isSelected={activeSelectedSlotIndex === index}
+                    isSelected={isSelected}
                     onClick={() =>
-                      setSelectedSlotIndex((current) =>
-                        current === index ? null : index,
+                      setSelectedSlotId((current) =>
+                        current === job.id ? null : job.id,
                       )
                     }
                   />
@@ -316,19 +288,10 @@ export const FermentationRackPanel: React.FC = () => {
                 key={`empty-${index}`}
                 className={classNames(
                   "flex flex-col items-center max-w-[72px]",
-                  isInactiveEmpty && "opacity-40 pointer-events-none",
+                  isInactiveEmpty && "opacity-40",
                 )}
               >
-                <Box
-                  hideCount
-                  disabled={isInactiveEmpty}
-                  isSelected={activeSelectedSlotIndex === index}
-                  onClick={() =>
-                    setSelectedSlotIndex((current) =>
-                      current === index ? null : index,
-                    )
-                  }
-                >
+                <Box hideCount disabled>
                   <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
                 </Box>
               </div>

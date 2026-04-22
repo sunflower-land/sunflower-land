@@ -5,7 +5,6 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
 import { Route, Routes, useNavigate } from "react-router";
 import { Collection, preloadCollections } from "../Collection";
-import { Minigames } from "../Minigames";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "../MarketplaceProfile";
@@ -24,7 +23,6 @@ import { Button } from "components/ui/Button";
 import {
   getAccountTradedRestrictionSecondsLeft,
   isAccountTradedWithin90Days,
-  MachineState,
   selectGameState,
 } from "features/game/lib/gameMachine";
 import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidget";
@@ -40,10 +38,6 @@ import { EstimatedPrice } from "./EstimatedPrice";
 import { Filters } from "./Filters";
 import { CHAPTERS } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
-
-import { hasFeatureAccess } from "lib/flags";
-
-const _gameState = (state: MachineState) => state.context.state;
 
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
@@ -82,8 +76,6 @@ export const MarketplaceNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
-  const gameState = useSelector(gameService, _gameState);
-  const showPlayerEconomies = hasFeatureAccess(gameState, "PLAYER_ECONOMIES");
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
@@ -124,7 +116,6 @@ export const MarketplaceNavigation: React.FC = () => {
             onClose={() => setShowFilters(false)}
             farmId={farmId}
             hideLimited={hideLimited}
-            showPlayerEconomies={showPlayerEconomies}
           />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
@@ -178,11 +169,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters
-                farmId={farmId}
-                hideLimited={hideLimited}
-                showPlayerEconomies={showPlayerEconomies}
-              />
+              <Filters farmId={farmId} hideLimited={hideLimited} />
             </div>
           </InnerPanel>
 
@@ -236,7 +223,6 @@ export const MarketplaceNavigation: React.FC = () => {
                 path="/economies/:economy/:id"
                 element={<Tradeable hideLimited={hideLimited} />}
               />
-              <Route path="/economies" element={<Minigames />} />
               <Route
                 path="/collection/*"
                 element={<Collection hideLimited={hideLimited} />}

@@ -88,6 +88,7 @@ import {
 } from "./components/effects/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
+import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
@@ -165,6 +166,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimingStreamReward: false,
   claimingStreamRewardSuccess: false,
   claimingStreamRewardFailed: false,
+  exchangingEconomy: false,
+  exchangingEconomySuccess: false,
+  exchangingEconomyFailed: false,
   airdroppingRewardFailed: false,
   completingProject: false,
   completingProjectSuccess: false,
@@ -177,6 +181,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   gems: true,
   communityCoin: true,
   referralRewards: true,
+  referrals: false,
   loading: true,
   playing: false,
   autosaving: false,
@@ -258,6 +263,8 @@ const showCommunityCoin = (state: MachineState) =>
   state.matches("communityCoin");
 const _showReferralRewards = (state: MachineState) =>
   state.matches("referralRewards");
+const isReferralsAnnouncement = (state: MachineState) =>
+  state.matches("referrals");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
@@ -487,6 +494,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const hasBBs = useSelector(gameService, showGems);
   const hasCommunityCoin = useSelector(gameService, showCommunityCoin);
   const showReferralRewards = useSelector(gameService, _showReferralRewards);
+  const referralsAnnouncement = useSelector(
+    gameService,
+    isReferralsAnnouncement,
+  );
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailed = useSelector(gameService, isEffectFailed);
@@ -725,6 +736,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {onChainRaffleAcknowledgment && <OnChainRaffleRewardModal />}
         {seasonChanged && <SeasonChanged />}
         {calendarEvent && <CalendarEvent />}
+        {referralsAnnouncement && <ReferralsAnnouncement />}
         {competition && (
           <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
             <CompetitionModal

@@ -96,7 +96,10 @@ export type MarineMarvelName =
   | "Super Star"
   | "Giant Isopod"
   | "Nautilus"
-  | "Dollocaris";
+  | "Dollocaris"
+  | "Deep Sea Pig"
+  | "Deep Sea Slug"
+  | "Crystal Shrimp";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -301,6 +304,9 @@ export type ChapterFish = Extract<
   | "Giant Isopod"
   | "Nautilus"
   | "Dollocaris"
+  | "Deep Sea Pig"
+  | "Deep Sea Slug"
+  | "Crystal Shrimp"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -365,6 +371,24 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     seasons: [],
   },
   Dollocaris: {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Deep Sea Pig": {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Deep Sea Slug": {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Crystal Shrimp": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "chapter",
     likes: [],
@@ -726,6 +750,9 @@ export const MAP_PUZZLE_DIFFICULTY: Record<MarineMarvelName, number> = {
   "Giant Isopod": 2,
   Nautilus: 4,
   Dollocaris: 5,
+  "Deep Sea Pig": 3,
+  "Deep Sea Slug": 4,
+  "Crystal Shrimp": 3,
 };
 
 export function getDailyFishingCount(state: GameState): number {
@@ -759,6 +786,12 @@ export function getDailyFishingLimit(
   if (isCollectibleBuilt({ name: "Nautilus", game })) {
     limit += 5;
     boostsUsed.push({ name: "Nautilus", value: "+5" });
+  }
+
+  // +5 daily limit if player has Deep Sea Slug
+  if (isCollectibleBuilt({ name: "Deep Sea Slug", game })) {
+    limit += 5;
+    boostsUsed.push({ name: "Deep Sea Slug", value: "+5" });
   }
 
   // +5 daily limit if player had Fisherman's 5 Fold skill
@@ -895,6 +928,7 @@ export const MAP_PIECE_FISH_TRIGGERS: Partial<
   Tuna: { marvel: "Nautilus", odds: 0.002 },
   Sunfish: { marvel: "Dollocaris", odds: 0.005 },
   "Football fish": { marvel: "Dollocaris", odds: 0.005 },
+  // TODO: Add Salt Awakening fish triggers
 };
 
 export const MAP_PIECE_CHAPTERS: Partial<
@@ -904,6 +938,9 @@ export const MAP_PIECE_CHAPTERS: Partial<
   "Giant Isopod": "Crabs and Traps",
   Nautilus: "Crabs and Traps",
   Dollocaris: "Crabs and Traps",
+  "Deep Sea Pig": "Salt Awakening",
+  "Deep Sea Slug": "Salt Awakening",
+  "Crystal Shrimp": "Salt Awakening",
 };
 
 export const MAP_PIECE_MARVELS: MarineMarvelName[] = [

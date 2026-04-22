@@ -66,6 +66,14 @@ function getFlowerAmount({
   }
 
   if (
+    isCollectibleBuilt({ name: "Salt Crystal Flower", game }) &&
+    criticalDrop("Salt Crystal Flower")
+  ) {
+    amount += 1;
+    boostsUsed.push({ name: "Salt Crystal Flower", value: "+1" });
+  }
+
+  if (
     isTemporaryCollectibleActive({ name: "Moth Shrine", game }) &&
     criticalDrop("Moth Shrine")
   ) {

@@ -180,15 +180,18 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("You already have this skill");
     }
 
-    // Populate the salt farm with the new salt charges
-    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
-      populateSaltFarm({ game: stateCopy, now: createdAt });
-    }
-
     bumpkin.skills = {
       ...bumpkin.skills,
       [action.skill]: 1,
     };
+
+    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
+      populateSaltFarm({
+        gameBefore: state,
+        gameAfter: stateCopy,
+        now: createdAt,
+      });
+    }
 
     return stateCopy;
   });

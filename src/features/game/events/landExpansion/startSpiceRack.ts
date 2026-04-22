@@ -84,6 +84,8 @@ export function startSpiceRack({
       recipe: action.recipe,
       startedAt: createdAt,
       readyAt,
+      // Marks whether the Ager skill was applied at the time of starting
+      skills: { Ager: !!game.bumpkin.skills["Ager"] },
     };
 
     game.agingShed.racks.spice = [...queue, job];

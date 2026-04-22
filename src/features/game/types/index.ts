@@ -509,6 +509,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Floater: 772,
   "Ammonite Shell": 773,
   "April Fools Token 2026": 774,
+  "Skill Reset Ticket": 775,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1490,6 +1491,25 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crimson Baitfish": 2988,
 
   "Salt Sculpture": 2989,
+
+  // Salt Awakening
+  Pufferfish: 2990,
+  "Fat Crab": 2991,
+  "Navigation Table": 2992,
+  "Royal Crab Pot": 2993,
+  "Crab House": 2994,
+  "Speed Trap": 2995,
+  "Flamingo Chicken": 2996,
+  "Salt Crystal Flower": 2997,
+  "Spa Cow": 2998,
+  "Spa Sheep": 2999,
+  "Deep Sea Pig": 3000,
+  "Deep Sea Slug": 3001,
+  "Crystal Shrimp": 3002,
+  "Salt Rock": 3003,
+  "Salt Awakening Raffle Ticket": 3004,
+  "Salt Awakening Banner": 3005,
+  "Salt Dino Egg": 3006,
 };
 
 // The reverse of above

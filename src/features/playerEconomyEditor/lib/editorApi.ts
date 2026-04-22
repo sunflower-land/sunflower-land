@@ -23,7 +23,8 @@ export type PlayerEconomyEditorClientEvent =
       slug: string;
       files: { path: string; contentType: string }[];
     }
-  | { type: "economy.invalidated"; slug: string };
+  | { type: "economy.invalidated"; slug: string }
+  | { type: "economy.reset"; slug: string };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
 export type PlayerEconomyEditorEventResult = {
@@ -100,6 +101,7 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
     !Array.isArray(base.purchases)
       ? { purchases: base.purchases as PlayerEconomyConfig["purchases"] }
       : {}),
+    ...(typeof base.enabled === "boolean" ? { enabled: base.enabled } : {}),
   };
 
   return migrateLegacyPlayerEconomyConfigFields(input);

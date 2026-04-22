@@ -1,43 +1,45 @@
+import { getFishBaseXP } from "./aging";
 import {
   getAgingMaxXP,
   getAgingSaltCost,
   getAgingTimeMs,
   getAgingSlotCount,
 } from "./agingFormulas";
+import type { FishName } from "./fishing";
 
 describe("getAgingMaxXP", () => {
-  it("returns 6× max XP for fish with at most 200 base XP", () => {
-    expect(getAgingMaxXP(60)).toBe(360);
-    expect(getAgingMaxXP(100)).toBe(600);
-    expect(getAgingMaxXP(129)).toBe(774);
-    expect(getAgingMaxXP(170)).toBe(1020);
-    expect(getAgingMaxXP(200)).toBe(1200);
+  it("returns 3× base XP for fish with at most 200 base XP", () => {
+    expect(getAgingMaxXP(60)).toBe(180);
+    expect(getAgingMaxXP(100)).toBe(300);
+    expect(getAgingMaxXP(129)).toBe(387);
+    expect(getAgingMaxXP(170)).toBe(510);
+    expect(getAgingMaxXP(200)).toBe(600);
   });
 
-  it("returns 8× max XP for fish with 201–330 base XP", () => {
-    expect(getAgingMaxXP(201)).toBe(1608);
-    expect(getAgingMaxXP(270)).toBe(2160);
-    expect(getAgingMaxXP(300)).toBe(2400);
-    expect(getAgingMaxXP(330)).toBe(2640);
+  it("returns 4× base XP for fish with 201–330 base XP", () => {
+    expect(getAgingMaxXP(201)).toBe(804);
+    expect(getAgingMaxXP(270)).toBe(1080);
+    expect(getAgingMaxXP(300)).toBe(1200);
+    expect(getAgingMaxXP(330)).toBe(1320);
   });
 
-  it("returns 10× max XP for fish with more than 330 base XP", () => {
-    expect(getAgingMaxXP(331)).toBe(3310);
-    expect(getAgingMaxXP(371)).toBe(3710);
-    expect(getAgingMaxXP(700)).toBe(7000);
-    expect(getAgingMaxXP(1000)).toBe(10000);
+  it("returns 5× base XP for fish with more than 330 base XP", () => {
+    expect(getAgingMaxXP(331)).toBe(1655);
+    expect(getAgingMaxXP(371)).toBe(1855);
+    expect(getAgingMaxXP(700)).toBe(3500);
+    expect(getAgingMaxXP(1000)).toBe(5000);
   });
 
   it("handles edge cases at tier boundaries", () => {
-    expect(getAgingMaxXP(200)).toBe(1200);
-    expect(getAgingMaxXP(201)).toBe(1608);
-    expect(getAgingMaxXP(330)).toBe(2640);
-    expect(getAgingMaxXP(331)).toBe(3310);
+    expect(getAgingMaxXP(200)).toBe(600);
+    expect(getAgingMaxXP(201)).toBe(804);
+    expect(getAgingMaxXP(330)).toBe(1320);
+    expect(getAgingMaxXP(331)).toBe(1655);
   });
 });
 
 describe("getAgingSaltCost", () => {
-  it("returns round(maxXP / 100)", () => {
+  it("returns round(maxXP / 50)", () => {
     expect(getAgingSaltCost(60)).toBe(4);
     expect(getAgingSaltCost(100)).toBe(6);
     expect(getAgingSaltCost(170)).toBe(10);
@@ -45,41 +47,41 @@ describe("getAgingSaltCost", () => {
   });
 
   it("rounds fractional salt from maxXP", () => {
-    expect(getAgingSaltCost(110)).toBe(7); // round(660/100)
-    expect(getAgingSaltCost(130)).toBe(8); // round(780/100)
+    expect(getAgingSaltCost(110)).toBe(7); // round(330/50)
+    expect(getAgingSaltCost(130)).toBe(8); // round(390/50)
   });
 });
 
 describe("getAgingTimeMs", () => {
   it("uses j=300 for fish with at most 200 base XP", () => {
     const ms60 = getAgingTimeMs(60);
-    expect(ms60 / (60 * 60 * 1000)).toBeCloseTo(1.0);
+    expect(ms60 / (60 * 60 * 1000)).toBeCloseTo(0.4);
 
     const ms100 = getAgingTimeMs(100);
-    expect(ms100 / (60 * 60 * 1000)).toBeCloseTo(1.667, 2);
+    expect(ms100 / (60 * 60 * 1000)).toBeCloseTo(0.667, 2);
 
     const ms200 = getAgingTimeMs(200);
-    expect(ms200 / (60 * 60 * 1000)).toBeCloseTo(3.333, 2);
+    expect(ms200 / (60 * 60 * 1000)).toBeCloseTo(1.333, 2);
   });
 
   it("uses j=500 for fish with 201–330 base XP", () => {
     const ms201 = getAgingTimeMs(201);
-    expect(ms201 / (60 * 60 * 1000)).toBeCloseTo(2.814, 2);
+    expect(ms201 / (60 * 60 * 1000)).toBeCloseTo(1.206, 2);
 
     const ms270 = getAgingTimeMs(270);
-    expect(ms270 / (60 * 60 * 1000)).toBeCloseTo(3.78, 2);
+    expect(ms270 / (60 * 60 * 1000)).toBeCloseTo(1.62, 2);
 
     const ms330 = getAgingTimeMs(330);
-    expect(ms330 / (60 * 60 * 1000)).toBeCloseTo(4.62, 2);
+    expect(ms330 / (60 * 60 * 1000)).toBeCloseTo(1.98, 2);
   });
 
   it("uses j=1000 for fish with more than 330 base XP", () => {
     const ms = getAgingTimeMs(1000);
     const hours = ms / (60 * 60 * 1000);
-    expect(hours).toBeCloseTo(9.0);
+    expect(hours).toBeCloseTo(4.0);
 
     const ms371 = getAgingTimeMs(371);
-    expect(ms371 / (60 * 60 * 1000)).toBeCloseTo(3.339, 2);
+    expect(ms371 / (60 * 60 * 1000)).toBeCloseTo(1.484, 2);
   });
 });
 
@@ -96,4 +98,66 @@ describe("getAgingSlotCount", () => {
   it("returns 1 for level 0", () => {
     expect(getAgingSlotCount(0)).toBe(1);
   });
+});
+
+/** Locks consumables FISH experience → aging outputs for fish touched in XP rebalances. */
+describe("fish XP aging contract (consumables)", () => {
+  const cases: {
+    name: FishName;
+    baseXP: number;
+    maxXP: number;
+    salt: number;
+    timeMs: number;
+  }[] = [
+    {
+      name: "Horse Mackerel",
+      baseXP: 250,
+      maxXP: 1000,
+      salt: 20,
+      timeMs: 5400000,
+    },
+    { name: "Squid", baseXP: 250, maxXP: 1000, salt: 20, timeMs: 5400000 },
+    { name: "Moray Eel", baseXP: 220, maxXP: 880, salt: 18, timeMs: 4752000 },
+    { name: "Ray", baseXP: 430, maxXP: 2150, salt: 43, timeMs: 6192000 },
+    { name: "Oarfish", baseXP: 220, maxXP: 880, salt: 18, timeMs: 4752000 },
+    {
+      name: "Whale Shark",
+      baseXP: 1370,
+      maxXP: 6850,
+      salt: 137,
+      timeMs: 19728000,
+    },
+    {
+      name: "White Shark",
+      baseXP: 2000,
+      maxXP: 10000,
+      salt: 200,
+      timeMs: 28800000,
+    },
+    {
+      name: "Muskellunge",
+      baseXP: 250,
+      maxXP: 1000,
+      salt: 20,
+      timeMs: 5400000,
+    },
+    { name: "Weakfish", baseXP: 210, maxXP: 840, salt: 17, timeMs: 4536000 },
+    {
+      name: "Rock Blackfish",
+      baseXP: 320,
+      maxXP: 1280,
+      salt: 26,
+      timeMs: 6912000,
+    },
+  ];
+
+  it.each(cases)(
+    "%s matches base XP, max aging XP, salt cost, and aging duration",
+    ({ name, baseXP, maxXP, salt, timeMs }) => {
+      expect(getFishBaseXP(name)).toBe(baseXP);
+      expect(getAgingMaxXP(baseXP)).toBe(maxXP);
+      expect(getAgingSaltCost(baseXP)).toBe(salt);
+      expect(Math.round(getAgingTimeMs(baseXP))).toBe(timeMs);
+    },
+  );
 });

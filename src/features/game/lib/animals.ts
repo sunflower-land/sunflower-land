@@ -301,6 +301,11 @@ function getMilkYieldBoosts(game: GameState): {
     boostsUsed.push({ name: "Longhorn Cowfish", value: "+0.2" });
   }
 
+  if (isCollectibleBuilt({ name: "Spa Cow", game })) {
+    boost += 0.1;
+    boostsUsed.push({ name: "Spa Cow", value: "+0.1" });
+  }
+
   if (isWearableActive({ name: "Milk Apron", game })) {
     boost += 0.5;
     boostsUsed.push({ name: "Milk Apron", value: "+0.5" });
@@ -644,6 +649,11 @@ export function getBoostedAwakeAt({
     if (isCollectibleBuilt({ name: "Janitor Chicken", game })) {
       totalDuration *= 0.95;
       boostsUsed.push({ name: "Janitor Chicken", value: "x0.95" });
+    }
+
+    if (isCollectibleBuilt({ name: "Flamingo Chicken", game })) {
+      totalDuration *= 0.975;
+      boostsUsed.push({ name: "Flamingo Chicken", value: "x0.975" });
     }
   }
 

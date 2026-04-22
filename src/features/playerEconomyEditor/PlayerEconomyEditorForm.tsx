@@ -34,6 +34,7 @@ function normalizeEditorFormForDirtyCheck(state: EditorFormState) {
   return {
     slug: state.slug,
     playUrl: state.playUrl,
+    enabled: state.enabled,
     mainCurrencyToken: state.mainCurrencyToken,
     descriptionTitle: state.descriptionTitle,
     descriptionSubtitle: state.descriptionSubtitle,
@@ -212,6 +213,7 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             id: nextId,
             tradeable: false,
             trophy: false,
+            isVisible: true,
             initialBalance: 0,
             max: 0,
             globalSupplyCap: 0,

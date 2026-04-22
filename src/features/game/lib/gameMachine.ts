@@ -54,6 +54,7 @@ import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
   getIntroductionRead,
+  getReferralsAnnouncementLastRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
 import { getStarterOfferShown } from "./starterOfferStorage";
@@ -109,6 +110,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import { LanguageCode } from "lib/i18n/dictionaries/language";
+import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -812,6 +814,7 @@ export type BlockchainState = {
     | "gems"
     | "communityCoin"
     | "referralRewards"
+    | "referrals"
     | "dailyReward"
     | "playing"
     | "autosaving"
@@ -1073,6 +1076,7 @@ export function startGame(authContext: AuthContext) {
                 prices: response.prices,
                 apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
+                totalHelpedToday: response.totalHelpedToday,
               };
             },
             onDone: [
@@ -1229,7 +1233,6 @@ export function startGame(authContext: AuthContext) {
                 visitorState: undefined,
                 visitorNftId: undefined,
                 hasHelpedPlayerToday: undefined,
-                totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
                 nftId: context.visitorNftId,
@@ -1376,6 +1379,24 @@ export function startGame(authContext: AuthContext) {
               target: "referralRewards",
               cond: (context) => {
                 return !!context.state.referrals?.rewards;
+              },
+            },
+
+            {
+              target: "referrals",
+              cond: (context) => {
+                const experience = context.state.bumpkin?.experience ?? 0;
+                const level = getBumpkinLevel(experience);
+
+                // Only show once the player is level 10 or above
+                if (level < 10) return false;
+
+                const lastRead = getReferralsAnnouncementLastRead();
+                const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+
+                // Show if never shown, or last shown more than 30 days ago
+                if (!lastRead) return true;
+                return lastRead.getTime() < Date.now() - thirtyDaysMs;
               },
             },
 
@@ -2543,6 +2564,13 @@ export function startGame(authContext: AuthContext) {
             ],
           },
         },
+        referrals: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
 
         dailyReward: {
           on: {
@@ -2708,6 +2736,7 @@ export function startGame(authContext: AuthContext) {
           apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
           accountTradedAt: (_, event) => event.data.accountTradedAt,
+          totalHelpedToday: (_, event) => event.data.totalHelpedToday,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

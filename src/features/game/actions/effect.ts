@@ -59,7 +59,8 @@ type EffectName =
   | "leagues.updated"
   | "liquidity.registered"
   | "appInstall.generate"
-  | "farmHand.unlocked";
+  | "farmHand.unlocked"
+  | "economies.exchanged";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -124,7 +125,8 @@ export type StateMachineStateName =
   | "updatingLeagues"
   | "generatingAppInstall"
   | "pickingUpWaterTrap"
-  | "resettingPetRequests";
+  | "resettingPetRequests"
+  | "exchangingEconomy";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -185,6 +187,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
+  "economies.exchanged": "exchangingEconomy",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

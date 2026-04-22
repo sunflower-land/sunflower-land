@@ -2,6 +2,7 @@ import type { MinigameName } from "features/game/types/minigames";
 import type {
   BurnRule,
   PlayerEconomyActionDefinition,
+  PlayerEconomyBalanceItem,
   PlayerEconomyConfig,
   PlayerEconomyRuntimeState,
 } from "./types";
@@ -360,12 +361,29 @@ export function deriveShopItemsFromConfig(
   return out;
 }
 
+function isBalanceItemHiddenFromInventory(
+  meta: PlayerEconomyBalanceItem | undefined,
+): boolean {
+  if (!meta) return false;
+  const raw = meta as unknown as Record<string, unknown>;
+  const v = raw.is_visible;
+  if (v === false || v === 0) return true;
+  if (
+    typeof v === "string" &&
+    ["false", "0", "no"].includes(v.trim().toLowerCase())
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function buildInventoryItems(
   config: PlayerEconomyConfig,
 ): MinigameInventoryItemUi[] {
   const items = config.items;
   if (!items) return [];
   return Object.entries(items)
+    .filter(([, v]) => !isBalanceItemHiddenFromInventory(v))
     .map(([token, v]) => {
       const name = v.name?.trim();
       const description = v.description?.trim() ?? "";
@@ -384,6 +402,7 @@ function inventoryShortcutTokensFromProduction(
   const items = config.items ?? {};
   const out: string[] = [];
   for (const [token, meta] of Object.entries(items)) {
+    if (isBalanceItemHiddenFromInventory(meta)) continue;
     if (isGeneratorBalanceItem(meta)) out.push(token);
   }
   return out.sort((a, b) => a.localeCompare(b));

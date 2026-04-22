@@ -195,6 +195,85 @@ describe("harvestFlower", () => {
     expect(state.flowers.discovered["Yellow Pansy"]).toEqual(["Sunflower"]);
   });
 
+  it("gives +1 flower when Salt Crystal Flower is placed and the flower was marked as a critical hit", () => {
+    const flowerBedId = "123";
+    const state = harvestFlower({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Salt Crystal Flower": new Decimal(1),
+        },
+        collectibles: {
+          "Salt Crystal Flower": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              x: 0,
+              y: 0,
+              flower: {
+                name: "Red Pansy",
+                plantedAt: 0,
+                criticalHit: { "Salt Crystal Flower": 1 },
+              },
+            },
+          },
+        },
+      },
+      action: { type: "flower.harvested", id: flowerBedId },
+    });
+
+    expect(state.inventory["Red Pansy"]).toEqual(new Decimal(2));
+  });
+
+  it("does not give +1 flower when Salt Crystal Flower is placed but there is no critical hit", () => {
+    const flowerBedId = "123";
+    const state = harvestFlower({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Salt Crystal Flower": new Decimal(1),
+        },
+        collectibles: {
+          "Salt Crystal Flower": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              x: 0,
+              y: 0,
+              flower: {
+                name: "Red Pansy",
+                plantedAt: 0,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "flower.harvested", id: flowerBedId },
+    });
+
+    expect(state.inventory["Red Pansy"]).toEqual(new Decimal(1));
+  });
+
   it("adds a reward to the inventory", () => {
     const flowerBedId = "123";
     const state = harvestFlower({

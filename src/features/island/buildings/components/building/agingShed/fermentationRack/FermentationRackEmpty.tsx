@@ -23,7 +23,10 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
+import {
+  getAgingInputMultiplier,
+  getAgingOutput,
+} from "features/game/types/agingFormulas";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -116,7 +119,13 @@ export const FermentationRackEmpty: React.FC<Props> = ({
 
   const recipeOutputQuantity =
     recipeId && selectedItem
-      ? getFermentationRecipe(recipeId).outputs[selectedItem]
+      ? getAgingOutput(
+          gameState,
+          getFermentationRecipe(recipeId).outputs[selectedItem] ??
+            new Decimal(0),
+          selectedItem,
+          !!gameState.bumpkin.skills["Ager"],
+        )
       : undefined;
 
   return (
@@ -124,7 +133,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <div className="flex flex-col gap-1 mb-1">
           <Label
-            type={selectedGroup ? "info" : "default"}
+            type={"default"}
             className="text-xs ml-1"
             icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
           >

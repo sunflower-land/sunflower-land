@@ -115,7 +115,10 @@ describe("upgradeSaltFarm", () => {
       coordinates: { x: 8, y: -6 },
       salt: {
         storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
-        nextChargeAt: now + getSaltChargeGenerationTime({ gameState: state }),
+        nextChargeAt:
+          now +
+          getSaltChargeGenerationTime({ gameState: state })
+            .chargeGenerationTimeMs,
       },
     });
   });

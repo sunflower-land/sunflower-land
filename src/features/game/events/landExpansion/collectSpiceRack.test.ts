@@ -175,7 +175,7 @@ describe("collectSpiceRack", () => {
     },
   );
 
-  it("applies Ager skill to double spice rack output", () => {
+  it("applies Ager skill to double spice rack output when stamped", () => {
     const past = createdAt - 1;
 
     const state = collectSpiceRack({
@@ -191,6 +191,7 @@ describe("collectSpiceRack", () => {
                 recipe: "Salt Lick",
                 startedAt: past,
                 readyAt: past,
+                skills: { Ager: true },
               },
             ],
           },
@@ -202,6 +203,38 @@ describe("collectSpiceRack", () => {
     });
 
     expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(10);
+  });
+
+  it("ignores Ager skill activated after starting (exploit guard)", () => {
+    // Job was queued without Ager (1x input paid); activating Ager after
+    // must not double the output.
+    const past = createdAt - 1;
+
+    const state = collectSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "ager-exploit",
+                recipe: "Salt Lick",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: false },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "spiceRack.collected" },
+      createdAt,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(5);
   });
 
   describe("Refiner skill (Refined Salt output)", () => {
@@ -308,6 +341,7 @@ describe("collectSpiceRack", () => {
                   recipe: "Refined Salt",
                   startedAt: past,
                   readyAt: past,
+                  skills: { Ager: true },
                 },
               ],
             },

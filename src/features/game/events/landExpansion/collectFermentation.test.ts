@@ -296,73 +296,103 @@ describe("collectFermentation", () => {
     expect(state.agingShed.racks.fermentation).toHaveLength(0);
   });
 
-  it("collecting Capsule Bait from Aged fish recipe grants 3 Capsule Bait", () => {
-    const past = createdAt - 1;
-    const fishName = getFishNamesByTier("basic")[0];
-    const recipe =
-      `Capsule Bait (Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
+  describe.each([
+    {
+      family: "Capsule Bait" as const,
+      tier: "basic" as const,
+      activePickle: "Pickled Zucchini",
+      retiredPickle: "Pickled Pepper",
+    },
+    {
+      family: "Umbrella Bait" as const,
+      tier: "advanced" as const,
+      activePickle: "Pickled Cabbage",
+      retiredPickle: "Pickled Onion",
+    },
+    {
+      family: "Crimson Baitfish" as const,
+      tier: "expert" as const,
+      activePickle: "Pickled Radish",
+      retiredPickle: "Pickled Tomato",
+    },
+  ])(
+    "$family fermentation output",
+    ({ family, tier, activePickle, retiredPickle }) => {
+      it.each([
+        { prefix: "Aged" as const, expected: 5 },
+        { prefix: "Prime Aged" as const, expected: 10 },
+      ])(
+        `grants $expected ${family} from $prefix fish`,
+        ({ prefix, expected }) => {
+          const past = createdAt - 1;
+          const fishName = getFishNamesByTier(tier)[0];
+          const recipe =
+            `${family} (${prefix} ${fishName}, ${activePickle})` as FermentationRecipeName;
 
-    const state = collectFermentation({
-      state: createFermentationTestState({
-        agingShed: {
-          ...createInitialAgingShed(),
-          racks: {
-            ...createInitialAgingShed().racks,
-            fermentation: [
-              {
-                id: "aged-bait",
-                recipe,
-                startedAt: past,
-                readyAt: past,
+          const state = collectFermentation({
+            state: createFermentationTestState({
+              agingShed: {
+                ...createInitialAgingShed(),
+                racks: {
+                  ...createInitialAgingShed().racks,
+                  fermentation: [
+                    {
+                      id: `${family}-${prefix}`,
+                      recipe,
+                      startedAt: past,
+                      readyAt: past,
+                    },
+                  ],
+                },
               },
-            ],
-          },
+            }),
+            action: { type: "fermentation.collected" },
+            farmId: 1,
+            createdAt,
+          });
+
+          expect(state.inventory[family]?.toNumber()).toEqual(expected);
+          expect(state.agingShed.racks.fermentation).toHaveLength(0);
+          expect(state.farmActivity[`${family} Fermented`]).toEqual(expected);
         },
-      }),
-      action: { type: "fermentation.collected" },
-      farmId: 1,
-      createdAt,
-    });
+      );
 
-    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(3);
-    expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(3);
-  });
+      it(`retired ${retiredPickle} recipe still grants 5 bait from Aged fish`, () => {
+        const past = createdAt - 1;
+        const fishName = getFishNamesByTier(tier)[0];
+        const recipe =
+          `${family} (Aged ${fishName}, ${retiredPickle})` as FermentationRecipeName;
 
-  it("collecting Capsule Bait from Prime Aged fish recipe grants 6 Capsule Bait", () => {
-    const past = createdAt - 1;
-    const fishName = getFishNamesByTier("basic")[0];
-    const recipe =
-      `Capsule Bait (Prime Aged ${fishName}, Pickled Zucchini)` as FermentationRecipeName;
-
-    const state = collectFermentation({
-      state: createFermentationTestState({
-        agingShed: {
-          ...createInitialAgingShed(),
-          racks: {
-            ...createInitialAgingShed().racks,
-            fermentation: [
-              {
-                id: "prime-bait",
-                recipe,
-                startedAt: past,
-                readyAt: past,
+        const state = collectFermentation({
+          state: createFermentationTestState({
+            agingShed: {
+              ...createInitialAgingShed(),
+              racks: {
+                ...createInitialAgingShed().racks,
+                fermentation: [
+                  {
+                    id: `${family}-retired`,
+                    recipe,
+                    startedAt: past,
+                    readyAt: past,
+                  },
+                ],
               },
-            ],
-          },
-        },
-      }),
-      action: { type: "fermentation.collected" },
-      farmId: 1,
-      createdAt,
-    });
+            },
+          }),
+          action: { type: "fermentation.collected" },
+          farmId: 1,
+          createdAt,
+        });
 
-    expect(state.inventory["Capsule Bait"]?.toNumber()).toEqual(6);
-    expect(state.agingShed.racks.fermentation).toHaveLength(0);
-    expect(state.farmActivity["Capsule Bait Fermented"]).toEqual(6);
-  });
+        expect(state.inventory[family]?.toNumber()).toEqual(5);
+        expect(state.agingShed.racks.fermentation).toHaveLength(0);
+        expect(state.farmActivity[`${family} Fermented`]).toEqual(5);
+      });
+    },
+  );
 
-  it("applies Ager skill to double fermentation output", () => {
+  it("applies Ager skill to double fermentation output when stamped", () => {
     const past = createdAt - 1;
 
     const state = collectFermentation({
@@ -378,6 +408,69 @@ describe("collectFermentation", () => {
                 recipe: "Pickled Radish",
                 startedAt: past,
                 readyAt: past,
+                skills: { Ager: true },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(2);
+  });
+
+  it("ignores Ager skill activated after starting (exploit guard)", () => {
+    // Job was queued without the Ager stamp (1x input); activating Ager after
+    // must not double the output.
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "ager-exploit",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: false },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(1);
+  });
+
+  it("honours Ager stamp even when skill is deactivated after starting", () => {
+    const past = createdAt - 1;
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: {} },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "ager-stamped",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: true },
               },
             ],
           },

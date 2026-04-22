@@ -1216,12 +1216,12 @@ export const FISH: Record<FishName, Consumable> = {
   "Horse Mackerel": {
     name: "Horse Mackerel",
     description: translate("description.horsemackerel.two"),
-    experience: 440,
+    experience: 250,
   },
   Squid: {
     name: "Squid",
     description: translate("description.squid.two"),
-    experience: 410,
+    experience: 250,
   },
   "Red Snapper": {
     name: "Red Snapper",
@@ -1231,7 +1231,7 @@ export const FISH: Record<FishName, Consumable> = {
   "Moray Eel": {
     name: "Moray Eel",
     description: translate("description.morayeel.two"),
-    experience: 160,
+    experience: 220,
   },
   "Olive Flounder": {
     name: "Olive Flounder",
@@ -1256,7 +1256,7 @@ export const FISH: Record<FishName, Consumable> = {
   Ray: {
     name: "Ray",
     description: translate("description.ray.two"),
-    experience: 320,
+    experience: 430,
   },
   "Hammerhead shark": {
     name: "Hammerhead shark",
@@ -1286,7 +1286,7 @@ export const FISH: Record<FishName, Consumable> = {
   Oarfish: {
     name: "Oarfish",
     description: translate("description.oarfish.two"),
-    experience: 200,
+    experience: 220,
   },
   "Football fish": {
     name: "Football fish",
@@ -1306,7 +1306,7 @@ export const FISH: Record<FishName, Consumable> = {
   "Whale Shark": {
     name: "Whale Shark",
     description: translate("description.whaleshark.two"),
-    experience: 1240,
+    experience: 1370,
   },
   "Saw Shark": {
     name: "Saw Shark",
@@ -1316,7 +1316,7 @@ export const FISH: Record<FishName, Consumable> = {
   "White Shark": {
     name: "White Shark",
     description: translate("description.whiteshark.two"),
-    experience: 1990,
+    experience: 2000,
   },
   Angelfish: {
     description: "?",
@@ -1340,7 +1340,7 @@ export const FISH: Record<FishName, Consumable> = {
   },
   Muskellunge: {
     description: "?",
-    experience: 290,
+    experience: 250,
     name: "Muskellunge",
   },
   Trout: {
@@ -1355,12 +1355,12 @@ export const FISH: Record<FishName, Consumable> = {
   },
   Weakfish: {
     description: "?",
-    experience: 200,
+    experience: 210,
     name: "Weakfish",
   },
   "Rock Blackfish": {
     description: "?",
-    experience: 310,
+    experience: 320,
     name: "Rock Blackfish",
   },
   Cobia: {

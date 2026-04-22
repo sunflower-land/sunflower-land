@@ -18,6 +18,7 @@ import { getRelativeTime } from "lib/utils/time";
 import promote from "assets/icons/promote.webp";
 import followIcon from "assets/icons/follow.webp";
 import helpIcon from "assets/icons/help.webp";
+import cheer from "assets/icons/cheer.webp";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -48,6 +49,8 @@ import { HelpInfoPopover } from "./components/HelpInfoPopover";
 import { SearchBar } from "./components/SearchBar";
 import { Detail } from "./actions/getFollowNetworkDetails";
 import { useNow } from "lib/utils/hooks/useNow";
+import Decimal from "decimal.js-light";
+import { getHelpLimit } from "features/game/types/monuments";
 
 type Props = {
   type: "world" | "local";
@@ -60,6 +63,13 @@ const _username = (state: MachineState) =>
   (state.context.visitorState ?? state.context.state).username;
 const _farmId = (state: MachineState) =>
   state.context.visitorId ?? state.context.farmId;
+const _cheersAvailable = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).inventory["Cheer"] ??
+  new Decimal(0);
+const _totalHelpedToday = (state: MachineState) =>
+  state.context.totalHelpedToday;
+const _game = (state: MachineState) =>
+  state.context.visitorState ?? state.context.state;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -103,6 +113,14 @@ export const Feed: React.FC<Props> = ({
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
+  const cheersAvailable = useSelector(gameService, _cheersAvailable);
+  const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
+  const game = useSelector(gameService, _game);
+  const helpLimit = getHelpLimit({ game });
+  const helpRemaining =
+    totalHelpedToday == null
+      ? undefined
+      : Math.max(helpLimit - totalHelpedToday, 0);
 
   const { t } = useAppTranslation();
 
@@ -266,6 +284,12 @@ export const Feed: React.FC<Props> = ({
                 />
               )}
               <Label type="default">{t("feed")}</Label>
+              <Label type="default" icon={SUNNYSIDE.icons.drag}>
+                {`${helpRemaining ?? "--"}/${helpLimit}`}
+              </Label>
+              <Label type="default" icon={cheer}>
+                {cheersAvailable.toNumber()}
+              </Label>
               {server && <span className="text-xxs">{server}</span>}
             </div>
             <img

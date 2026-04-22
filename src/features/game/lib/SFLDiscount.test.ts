@@ -10,7 +10,7 @@ describe("SFLDiscount", () => {
   it("should return 1 when inventory does not have Dawn Breaker Banner", () => {
     // Date during Dawn Breaker Season
     const mockedDate = new Date(2023, 5, 5);
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
 
     const state = {
@@ -25,7 +25,7 @@ describe("SFLDiscount", () => {
   it("should return 1 when inventory does not have Witches' Eve Banner", () => {
     // Date during Witches' Eve Season
     const mockedDate = new Date(2023, 8, 5);
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
 
     const state = {
@@ -40,7 +40,7 @@ describe("SFLDiscount", () => {
   it("should not apply discount using a banner from another season", () => {
     // Date during Dawn Breaker Season
     const mockedDate = new Date(2023, 5, 5);
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
 
     const state = {

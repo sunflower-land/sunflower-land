@@ -19,6 +19,7 @@ import { Hopper } from "./npcs/Hopper";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
+import { SecretMinigamesHubModal } from "./kingdom/SecretMinigamesHubModal";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
@@ -297,6 +298,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
         {npc === "eldric" && <FactionShop onClose={closeModal} />}
+        {npc === "murmur" && <SecretMinigamesHubModal onClose={closeModal} />}
         {npc === "pet" && <FactionPetPanel onClose={closeModal} />}
       </Modal>
 
