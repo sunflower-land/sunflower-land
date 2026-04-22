@@ -33,6 +33,7 @@ import {
   Purchase,
 } from "../types/game";
 import { loadSession, SocialDetails } from "../actions/loadSession";
+import { resolveSocialDetails } from "./socialDetails";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { ErrorCode, ERRORS } from "lib/errors";
@@ -522,29 +523,6 @@ const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(false); // previou
 
 const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
   createPlacementEventHandlers(false);
-
-/**
- * Resolves the next `socialDetails` value from an effect response.
- *
- * Used by every effect-success transition. The contract:
- *  - If the response payload is an object that explicitly contains a
- *    `socialDetails` key (including `null` from `social.unlinked`),
- *    take its value (mapping `null` → `undefined` to clear).
- *  - Otherwise, keep the existing context value.
- *
- * Guards against `data` being a primitive — `"x" in data` would throw.
- */
-const resolveSocialDetails = (
-  data: unknown,
-  current: SocialDetails | undefined,
-): SocialDetails | undefined => {
-  if (typeof data === "object" && data !== null && "socialDetails" in data) {
-    const next = (data as { socialDetails?: SocialDetails | null })
-      .socialDetails;
-    return next ?? undefined;
-  }
-  return current;
-};
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
