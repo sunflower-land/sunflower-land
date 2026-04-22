@@ -32,7 +32,7 @@ import {
   PlacedLamp,
   Purchase,
 } from "../types/game";
-import { loadSession } from "../actions/loadSession";
+import { loadSession, SocialDetails } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { ErrorCode, ERRORS } from "lib/errors";
@@ -185,6 +185,7 @@ export interface Context {
   purchases: Purchase[];
   discordId?: string;
   fslId?: string;
+  socialDetails?: SocialDetails;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
   rawToken?: string;
@@ -629,6 +630,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
+                  socialDetails:
+                    event.data.data?.socialDetails ?? context.socialDetails,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -648,6 +651,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
+                  socialDetails:
+                    event.data.data?.socialDetails ?? context.socialDetails,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -765,6 +770,8 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
+                  socialDetails:
+                    event.data.data?.socialDetails ?? context.socialDetails,
                   data: { ...context.data, [stateName]: rest },
                   visitorState: event.data.visitorState,
                   hasHelpedPlayerToday,
@@ -2731,6 +2738,7 @@ export function startGame(authContext: AuthContext) {
           purchases: (_, event) => event.data.purchases,
           discordId: (_, event) => event.data.discordId,
           fslId: (_, event) => event.data.fslId,
+          socialDetails: (_, event) => event.data.socialDetails,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
           apiKey: (_, event) => event.data.apiKey,

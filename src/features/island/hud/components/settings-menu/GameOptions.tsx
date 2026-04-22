@@ -34,6 +34,8 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { DeveloperOptions } from "./developer-options/DeveloperOptions";
+import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
+import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -183,6 +185,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
             <span>{t("gameOptions.blockchainSettings")}</span>
           </Button>
+          <Button
+            className="p-1"
+            onClick={() => onSubMenuClick("linkedAccounts")}
+          >
+            <span>{t("gameOptions.linkedAccounts")}</span>
+          </Button>
           <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
             <span>{t("gameOptions.plazaSettings")}</span>
           </Button>
@@ -286,6 +294,8 @@ export type SettingMenuId =
   | "installApp"
   | "amoy"
   | "blockchain"
+  | "linkedAccounts"
+  | "linkAccountWallet"
   | "general"
   | "plaza"
   | "experiments"
@@ -339,6 +349,16 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
     content: BlockchainSettings,
+  },
+  linkedAccounts: {
+    title: translate("linkedAccounts.title"),
+    parent: "main",
+    content: LinkedAccounts,
+  },
+  linkAccountWallet: {
+    title: translate("linkedAccounts.linkWallet"),
+    parent: "linkedAccounts",
+    content: () => <LinkWallet />,
   },
   general: {
     title: translate("gameOptions.generalSettings"),

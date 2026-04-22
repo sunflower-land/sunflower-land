@@ -33,6 +33,7 @@ type Response = {
   purchases: Purchase[];
   discordId?: string;
   fslId?: string;
+  socialDetails?: SocialDetails;
   oauthNonce: string;
   prices: {
     sfl: {
@@ -44,6 +45,12 @@ type Response = {
 
   accountTradedAt?: string;
   totalHelpedToday: number;
+};
+
+export type SocialDetails = {
+  provider: string;
+  sub: string;
+  email: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -136,6 +143,7 @@ export async function loadSession(
     purchases,
     discordId,
     fslId,
+    socialDetails,
     oauthNonce,
     prices,
     apiKey,
@@ -160,6 +168,7 @@ export async function loadSession(
     purchases: Purchase[];
     discordId?: string;
     fslId?: string;
+    socialDetails?: SocialDetails;
     oauthNonce: string;
     prices: {
       sfl: {
@@ -190,6 +199,7 @@ export async function loadSession(
     purchases,
     fslId,
     discordId,
+    socialDetails,
     oauthNonce,
     prices,
     apiKey,
