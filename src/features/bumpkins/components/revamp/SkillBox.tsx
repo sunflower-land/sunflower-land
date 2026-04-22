@@ -29,6 +29,7 @@ export interface BoxProps {
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  isReady?: boolean;
   canBeLongPressed?: boolean;
   /**
    * This can be used a different icon when there is no count passed in.
@@ -75,6 +76,7 @@ export const SkillBox: React.FC<BoxProps> = ({
   onClick,
   disabled,
   locked,
+  isReady,
   canBeLongPressed,
   cooldownInProgress,
   showOverlay = false,
@@ -94,6 +96,7 @@ export const SkillBox: React.FC<BoxProps> = ({
   const precisionCount = setPrecision(count ?? 0, 2);
 
   const canClick = !locked && !disabled && !!onClick;
+  const showReadyState = isReady && !locked && !disabled;
 
   const longPressEvents = useLongPress(
     () => (canClick ? onClick?.() : undefined),
@@ -117,12 +120,14 @@ export const SkillBox: React.FC<BoxProps> = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <div
-        className={classNames("bg-brown-600 relative", {
-          "bg-brown-600 cursor-not-allowed opacity-75": disabled,
+        className={classNames("relative", {
+          "bg-brown-600": !showReadyState,
+          "cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
         {...clickEvents}
         style={{
+          backgroundColor: showReadyState ? "#3e8948" : undefined,
           width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           marginTop: `${PIXEL_SCALE * 3}px`,
