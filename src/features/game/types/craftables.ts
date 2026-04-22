@@ -1143,7 +1143,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Speed Chicken": { width: 1, height: 1 },
   "Ayam Cemani": { width: 1, height: 1 },
   "El Pollo Veloz": { width: 1, height: 1 },
-  "Banana Chicken": { width: 1, height: 2 },
+  "Banana Chicken": { width: 1, height: 1 },
   "Crim Peckster": { width: 1, height: 1 },
   "Knight Chicken": { width: 1, height: 1 },
   "Pharaoh Chicken": { width: 1, height: 1 },
