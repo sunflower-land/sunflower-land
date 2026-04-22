@@ -16,6 +16,8 @@ import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
 const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
+const _unlinkingSocial = (state: MachineState) =>
+  state.matches("unlinkingSocial");
 
 type GoogleLinkMessage = {
   type: "sunflower-google-link";
@@ -42,6 +44,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const socialDetails = useSelector(gameService, _socialDetails);
   const isLinking = useSelector(gameService, _linkingSocial);
+  const isUnlinking = useSelector(gameService, _unlinkingSocial);
 
   const [popupBlocked, setPopupBlocked] = useState(false);
 
@@ -85,6 +88,20 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     }
   };
 
+  // Testnet-only debug affordance. The backend also gates `social.unlinked`
+  // to non-mainnet, so this stays inert in production even if shown.
+  const onUnlinkGoogle = () => {
+    const authToken = authService.getSnapshot().context.user.rawToken as
+      | string
+      | undefined;
+    if (!authToken) return;
+
+    gameService.send("social.unlinked", {
+      effect: { type: "social.unlinked" },
+      authToken,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
@@ -110,7 +127,16 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       <div className="flex flex-col gap-1 mt-2 mx-1">
         <Label type="default">{t("linkedAccounts.google")}</Label>
         {socialDetails?.email ? (
-          <p className="text-xs break-all">{socialDetails.email}</p>
+          <>
+            <p className="text-xs break-all">{socialDetails.email}</p>
+            {CONFIG.NETWORK === "amoy" && (
+              <Button onClick={onUnlinkGoogle} disabled={isUnlinking}>
+                {isUnlinking
+                  ? t("linkedAccounts.unlinking")
+                  : t("linkedAccounts.unlinkGoogleTestnet")}
+              </Button>
+            )}
+          </>
         ) : (
           <>
             {isLinking ? (

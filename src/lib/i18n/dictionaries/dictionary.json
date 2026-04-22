@@ -2074,6 +2074,8 @@
   "linkedAccounts.linkFailed": "Linking failed. Please try again.",
   "linkedAccounts.alreadyLinkedElsewhere": "This account is already linked to another farm. Contact support if this is an error.",
   "linkedAccounts.popupBlocked": "Popup blocked. Please allow popups for this site and try again.",
+  "linkedAccounts.unlinkGoogleTestnet": "Unlink Google (testnet only)",
+  "linkedAccounts.unlinking": "Unlinking...",
   "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
   "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
   "gameOptions.blockchainSettings.swapPOLForSFL": "Swap POL for FLOWER",
