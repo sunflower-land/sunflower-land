@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import Decimal from "decimal.js-light";
 import {
-  QUEST_NPC_NAMES,
-  QuestNPCName,
-  TICKET_REWARDS,
-  deliverOrder,
-  generateDeliveryTickets,
-} from "./deliver";
-import {
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   TEST_FARM,
@@ -30,9 +23,19 @@ jest.mock("lib/flags", () => {
   };
 });
 
+// esbuild-runner/jest does not hoist `jest.mock` above imports. Load the
+// flags module and the SUT via require *after* the mock is registered so
+// the SUT binds the jest.fn wrapper rather than the real function.
 const flags = require("lib/flags") as typeof import("lib/flags") & {
   hasTimeBasedFeatureAccess: jest.Mock;
 };
+const {
+  QUEST_NPC_NAMES,
+  TICKET_REWARDS,
+  deliverOrder,
+  generateDeliveryTickets,
+} = require("./deliver") as typeof import("./deliver");
+type QuestNPCName = import("./deliver").QuestNPCName;
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
