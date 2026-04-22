@@ -699,10 +699,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   },
                 },
                 {
-                  text: t("opensea"),
+                  text: t("Marketplace"),
                   cb: () => {
                     window.open(
-                      "https://opensea.io/collection/sunflower-land-buds",
+                      "https://sunflower-land.com/play/#/marketplace/collection?filters=buds",
                       "_blank",
                     );
                   },
