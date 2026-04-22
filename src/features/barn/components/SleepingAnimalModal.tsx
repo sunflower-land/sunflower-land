@@ -108,12 +108,7 @@ export const SleepingAnimalModal = ({
           </Label>
           {isMaxLevel && (
             <Label
-              type="formula"
-              className="text-xs ml-1"
-              style={{
-                background: "#E18C00",
-                color: "#3e2731",
-              }}
+              type="warning"
             >
               {"MAX"}
             </Label>
