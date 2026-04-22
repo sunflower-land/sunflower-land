@@ -632,7 +632,9 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
                   socialDetails:
-                    event.data.data?.socialDetails ?? context.socialDetails,
+                    event.data.data && "socialDetails" in event.data.data
+                      ? (event.data.data.socialDetails ?? undefined)
+                      : context.socialDetails,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -653,7 +655,9 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
                   socialDetails:
-                    event.data.data?.socialDetails ?? context.socialDetails,
+                    event.data.data && "socialDetails" in event.data.data
+                      ? (event.data.data.socialDetails ?? undefined)
+                      : context.socialDetails,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -772,7 +776,9 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
                   socialDetails:
-                    event.data.data?.socialDetails ?? context.socialDetails,
+                    event.data.data && "socialDetails" in event.data.data
+                      ? (event.data.data.socialDetails ?? undefined)
+                      : context.socialDetails,
                   data: { ...context.data, [stateName]: rest },
                   visitorState: event.data.visitorState,
                   hasHelpedPlayerToday,
