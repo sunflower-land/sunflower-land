@@ -523,6 +523,29 @@ const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(false); // previou
 const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
   createPlacementEventHandlers(false);
 
+/**
+ * Resolves the next `socialDetails` value from an effect response.
+ *
+ * Used by every effect-success transition. The contract:
+ *  - If the response payload is an object that explicitly contains a
+ *    `socialDetails` key (including `null` from `social.unlinked`),
+ *    take its value (mapping `null` → `undefined` to clear).
+ *  - Otherwise, keep the existing context value.
+ *
+ * Guards against `data` being a primitive — `"x" in data` would throw.
+ */
+const resolveSocialDetails = (
+  data: unknown,
+  current: SocialDetails | undefined,
+): SocialDetails | undefined => {
+  if (typeof data === "object" && data !== null && "socialDetails" in data) {
+    const next = (data as { socialDetails?: SocialDetails | null })
+      .socialDetails;
+    return next ?? undefined;
+  }
+  return current;
+};
+
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
     (events, eventName) => ({
@@ -630,10 +653,10 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails:
-                    event.data.data && "socialDetails" in event.data.data
-                      ? (event.data.data.socialDetails ?? undefined)
-                      : context.socialDetails,
+                  socialDetails: resolveSocialDetails(
+                    event.data.data,
+                    context.socialDetails,
+                  ),
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -653,10 +676,10 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails:
-                    event.data.data && "socialDetails" in event.data.data
-                      ? (event.data.data.socialDetails ?? undefined)
-                      : context.socialDetails,
+                  socialDetails: resolveSocialDetails(
+                    event.data.data,
+                    context.socialDetails,
+                  ),
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -774,10 +797,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails:
-                    event.data.data && "socialDetails" in event.data.data
-                      ? (event.data.data.socialDetails ?? undefined)
-                      : context.socialDetails,
+                  socialDetails: resolveSocialDetails(
+                    event.data.data,
+                    context.socialDetails,
+                  ),
                   data: { ...context.data, [stateName]: rest },
                   visitorState: event.data.visitorState,
                   hasHelpedPlayerToday,
