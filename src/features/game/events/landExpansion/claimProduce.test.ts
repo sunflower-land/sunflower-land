@@ -473,6 +473,47 @@ describe("claimProduce", () => {
     expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
+  it("reduces the sleep time by 2.5% if a Flamingo Chicken is placed and ready", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Flamingo Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Flamingo Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "0": {
+              ...GAME_STATE.henHouse.animals["0"],
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.975;
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
   it("gives +0.25 yield for all produce for cows when a Cattlegrim is being worn", () => {
     const cowId = "123";
 
@@ -509,6 +550,50 @@ describe("claimProduce", () => {
 
     expect(newState.inventory.Milk).toEqual(new Decimal(1.25));
     expect(newState.inventory.Leather).toEqual(new Decimal(1.25));
+  });
+
+  it("gives +0.1 yield for Milk for cows when a Spa Cow is placed", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Spa Cow": new Decimal(1),
+        },
+        collectibles: {
+          "Spa Cow": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            [cowId]: {
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Milk).toEqual(new Decimal(1.1));
+    expect(newState.inventory.Leather).toEqual(new Decimal(1));
   });
 
   it("gives +0.5 yield for Milk for cows when a Milk Apron is being worn", () => {

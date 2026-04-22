@@ -2221,6 +2221,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
     },
   ],
+  "Salt Crystal Flower": () => [
+    {
+      shortDescription: translate("description.saltCrystalFlower.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.plant,
+    },
+  ],
 
   // All items go above this line
 

@@ -182,6 +182,74 @@ describe("start Compost Bin", () => {
     );
   });
 
+  it("gives +1 Earthworm when the Deep Sea Slug is placed", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
+        "Deep Sea Slug": new Decimal(1),
+      },
+      buildings: {
+        "Compost Bin": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+      collectibles: {
+        "Deep Sea Slug": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Compost Bin" },
+    });
+
+    expect(
+      newState.buildings["Compost Bin"]?.[0].producing?.items["Earthworm"],
+    ).toBe(2);
+  });
+
+  it("still gives 1 worm when the Deep Sea Slug is not placed", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Potato: new Decimal(10),
+        Cabbage: new Decimal(3),
+      },
+      buildings: {
+        "Compost Bin": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Compost Bin" },
+    });
+
+    expect(
+      newState.buildings["Compost Bin"]?.[0].producing?.items["Earthworm"],
+    ).toBe(1);
+  });
+
   it("gives +3 Sprout Mix with Efficient Bin skill", () => {
     const state: GameState = {
       ...GAME_STATE,

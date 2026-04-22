@@ -788,6 +788,12 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Nautilus", value: "+5" });
   }
 
+  // +5 daily limit if player has Deep Sea Slug
+  if (isCollectibleBuilt({ name: "Deep Sea Slug", game })) {
+    limit += 5;
+    boostsUsed.push({ name: "Deep Sea Slug", value: "+5" });
+  }
+
   // +5 daily limit if player had Fisherman's 5 Fold skill
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
