@@ -53,4 +53,3 @@ cache
 /.claude/
 
 /*.json
-!/tsconfig.test.json

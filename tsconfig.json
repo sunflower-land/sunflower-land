@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "jest"],
     "paths": {
       "features/*": ["./src/features/*"],
       "assets/*": ["./src/assets/*"],
@@ -32,6 +32,5 @@
     "./node_modules/vite-plugin-pwa/react.d.ts",
     "./node_modules/@khmyznikov/pwa-install/index.d.ts",
     "./src/types/page-lifecycle.d.ts"
-  ],
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+  ]
 }
