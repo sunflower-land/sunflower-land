@@ -82,11 +82,12 @@ export function getAgingOutput(
   state: GameState,
   baseAmount: Decimal,
   item: InventoryItemName,
+  agerApplied: boolean,
   prngArgs?: { farmId: number; itemId: number; counter: number },
 ): Decimal {
   const skills = state.bumpkin.skills;
   let output = baseAmount;
-  if (skills["Ager"]) {
+  if (agerApplied) {
     output = output.mul(2);
   }
 

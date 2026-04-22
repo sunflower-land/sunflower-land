@@ -2,6 +2,8 @@ import { getKeys } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
+import { populateSaltFarm } from "features/game/types/salt";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PaymentType = "gems" | "free" | "ticket";
 
@@ -124,6 +126,14 @@ export function resetSkills({
     }
 
     bumpkin.skills = {};
+
+    if (hasFeatureAccess(game, "SALT_FARM")) {
+      populateSaltFarm({
+        gameBefore: state,
+        gameAfter: game,
+        now: createdAt,
+      });
+    }
 
     return game;
   });
