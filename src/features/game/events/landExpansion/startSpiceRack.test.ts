@@ -206,6 +206,41 @@ describe("startSpiceRack", () => {
     expect(state.inventory.Salt?.toNumber()).toEqual(0);
   });
 
+  it("stamps Ager=true on the spice rack job when the skill is active", () => {
+    const state = startSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        agingShed: { ...createInitialAgingShed(), level: 2 },
+        inventory: { Salt: new Decimal(20) },
+      }),
+      action: {
+        type: "spiceRack.started",
+        recipe: "Refined Salt",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.spice[0].skills?.Ager).toBe(true);
+  });
+
+  it("stamps Ager=false on the spice rack job when the skill is not active", () => {
+    const state = startSpiceRack({
+      state: createFermentationTestState({
+        agingShed: { ...createInitialAgingShed(), level: 2 },
+        inventory: { Salt: new Decimal(10) },
+      }),
+      action: {
+        type: "spiceRack.started",
+        recipe: "Refined Salt",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+    expect(state.agingShed.racks.spice[0].skills?.Ager).toBe(false);
+  });
+
   it("throws when Ager doubles cost beyond available ingredients", () => {
     expect(() =>
       startSpiceRack({

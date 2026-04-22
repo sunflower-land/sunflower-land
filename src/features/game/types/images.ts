@@ -294,6 +294,7 @@ import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_ban
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
+import skillResetTicket from "assets/icons/skill_reset_ticket.webp";
 import budSeedling from "assets/icons/bud_seedling.png";
 import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
 import polygonBanner from "assets/sfts/polygon_banner.webp";
@@ -3799,6 +3800,10 @@ export const ITEM_DETAILS: Items = {
   "Bud Ticket": {
     image: budTicket,
     description: COUPONS["Bud Ticket"].description,
+  },
+  "Skill Reset Ticket": {
+    image: skillResetTicket,
+    description: COUPONS["Skill Reset Ticket"].description,
   },
   "Bud Seedling": {
     image: budSeedling,

@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "来自药水游戏的奖励。可用于在 Eins 处购买物品。",
   "select.network": "选择网络",
   "switching.network": "正在切换网络...",
-  "description.obsidianShrine.buff": "批量收获所有已成熟的庄稼和种植新种子",
   "obsidianShrine.noCrops": "没有庄稼可以收获",
   "withdraw.pets": "选择要提取的宠物",
   "marketplace.tradesCleared": "交易已移除",
@@ -8804,5 +8803,17 @@
   "description.ladybugSuit.boost": "-25% 洋葱种子硬币成本",
   "saltSculpture.buff.4": "-10% 盐耙硬币成本",
   "agingShed.fermentation.selectRecipeRequired": "请选择食谱",
-  "skill.cheapRakes": "-20% 盐耙硬币成本"
+  "skill.cheapRakes": "-20% 盐耙硬币成本",
+  "description.skillResetTicket": "一张允许您免费重置技能的门票。",
+  "description.skillResetTicketWarning": "算作宝石重置；免费计时器不变。",
+  "skillReset.ticket": "票证重置",
+  "skillReset.ticketDescription": "使用技能重置通知单来重置所有技能。",
+  "description.obsidianShrine.buff": "批量收割、种植和施肥作物和水果",
+  "obsidianShrine.fertilise": "全部受精",
+  "obsidianShrine.fertiliseAll": "将肥料应用于所有符合条件的地块和地块",
+  "obsidianShrine.selectFertiliser": "选择肥料",
+  "obsidianShrine.noFertilisers": "没有肥料可用",
+  "obsidianShrine.noEligiblePlots": "没有可施肥的土地",
+  "obsidianShrine.noEligiblePatches": "没有可受精的补丁",
+  "obsidianShrine.eligible": "{{count}} 符合条件"
 }

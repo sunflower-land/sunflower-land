@@ -6524,7 +6524,6 @@
   "description.legendaryShrine.buff.4": "+1 камень",
   "description.fossilShell": "Похоже, внутри что-то есть...",
   "description.obsidianShrine": "Святилище обсидиана",
-  "description.obsidianShrine.buff": "Полностью собирает все готовые растения и сажает семена",
   "obsidianShrine.harvest": "Собрать весь урожай",
   "obsidianShrine.plant": "Посадить {{seed}}",
   "obsidianShrine.readyCrops": "Урожай готов к сбору",
@@ -8804,5 +8803,17 @@
   "description.ladybugSuit.boost": "-25% Onion Seed coin cost",
   "saltSculpture.buff.4": "-10% salt rake coin cost",
   "agingShed.fermentation.selectRecipeRequired": "Please select a recipe",
-  "skill.cheapRakes": "-20% salt rake coin cost"
+  "skill.cheapRakes": "-20% salt rake coin cost",
+  "description.skillResetTicket": "A ticket that allows you to reset your skills for free.",
+  "description.skillResetTicketWarning": "Counts as a gem reset; free timer unchanged.",
+  "skillReset.ticket": "Ticket Reset",
+  "skillReset.ticketDescription": "Use a Skill Reset Ticket to reset all your skills.",
+  "description.obsidianShrine.buff": "Bulk harvest, plant and fertilise your crops and fruit",
+  "obsidianShrine.fertilise": "Fertilise All",
+  "obsidianShrine.fertiliseAll": "Apply fertiliser to all eligible plots and patches",
+  "obsidianShrine.selectFertiliser": "Select a fertiliser",
+  "obsidianShrine.noFertilisers": "No fertilisers available",
+  "obsidianShrine.noEligiblePlots": "No plots to fertilise",
+  "obsidianShrine.noEligiblePatches": "No patches to fertilise",
+  "obsidianShrine.eligible": "{{count}} eligible"
 }

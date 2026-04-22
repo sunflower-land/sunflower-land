@@ -292,6 +292,7 @@ export type Coupons =
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
+  | "Skill Reset Ticket"
   | "Bud Seedling"
   | "Community Coin"
   | "Arcade Token"
@@ -368,6 +369,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Bud Ticket": {
     description: translate("description.bud.ticket"),
+  },
+  "Skill Reset Ticket": {
+    description: translate("description.skillResetTicket"),
   },
   "Bud Seedling": {
     description: translate("description.bud.seedling"),

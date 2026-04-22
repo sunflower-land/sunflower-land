@@ -600,6 +600,7 @@ export const ITEM_TRADE_TYPES: {
     "Gold Pass": "instant",
     "Potion Ticket": "instant",
     "Bud Ticket": "instant",
+    "Skill Reset Ticket": "instant",
     "Bud Seedling": "onchain",
     "Catch the Kraken Banner": "instant",
     "Mermaid Scale": "instant",

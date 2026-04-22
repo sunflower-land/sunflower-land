@@ -142,6 +142,129 @@ describe("resetSkills", () => {
     });
   });
 
+  describe("ticket reset", () => {
+    it("throws when the player has no Skill Reset Ticket", () => {
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+            inventory: {},
+          },
+          action: { type: "skills.reset", paymentType: "ticket" },
+          createdAt: dateNow,
+        });
+      }).toThrow("You do not have a Skill Reset Ticket");
+    });
+
+    it("throws when the ticket balance is below 1", () => {
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+            inventory: {
+              "Skill Reset Ticket": new Decimal(0),
+            },
+          },
+          action: { type: "skills.reset", paymentType: "ticket" },
+          createdAt: dateNow,
+        });
+      }).toThrow("You do not have a Skill Reset Ticket");
+    });
+
+    it("consumes exactly 1 Skill Reset Ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(3),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(2);
+      expect(state.bumpkin?.skills).toEqual({});
+    });
+
+    it("increments paidSkillResets when using a ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            paidSkillResets: 1,
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.paidSkillResets).toEqual(2);
+    });
+
+    it("does not touch previousFreeSkillResetAt when using a ticket", () => {
+      const threeMonthsAgo = new Date(dateNow);
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: threeMonthsAgo.getTime(),
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(
+        threeMonthsAgo.getTime(),
+      );
+    });
+
+    it("does not deduct gems when using a ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(500),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory.Gem?.toNumber()).toEqual(500);
+    });
+  });
+
   describe("validation checks", () => {
     it("succeeds reset with crops in additional slots (post-split no restriction)", () => {
       const state = resetSkills({

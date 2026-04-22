@@ -6507,7 +6507,6 @@
   "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins.",
   "select.network": "Selecione Rede",
   "switching.network": "Mudando de rede...",
-  "description.obsidianShrine.buff": "Colha a granel todas as safras prontas e plante as sementes",
   "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
   "withdraw.pets": "Selecione animais de estimação para retirar",
   "marketplace.tradesCleared": "Negociações removidas",
@@ -8804,5 +8803,17 @@
   "description.ladybugSuit.boost": "-25% de custo da moeda Onion Seed",
   "saltSculpture.buff.4": "-10% de custo da moeda Salt Rake",
   "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita",
-  "skill.cheapRakes": "-20% de custo da moeda Salt Rake"
+  "skill.cheapRakes": "-20% de custo da moeda Salt Rake",
+  "description.skillResetTicket": "Um tíquete que permite que você redefina suas habilidades gratuitamente.",
+  "description.skillResetTicketWarning": "Conta como uma reinicialização de gema; o cronômetro livre não foi alterado.",
+  "skillReset.ticket": "Redefinição de tíquete",
+  "skillReset.ticketDescription": "Use um tíquete de redefinição de habilidade para redefinir todas as suas habilidades.",
+  "description.obsidianShrine.buff": "Colha, plante e fertilize suas colheitas e frutas em massa",
+  "obsidianShrine.fertilise": "Fertilize tudo",
+  "obsidianShrine.fertiliseAll": "Aplique fertilizante em todas as parcelas e áreas elegíveis",
+  "obsidianShrine.selectFertiliser": "Selecione um fertilizante",
+  "obsidianShrine.noFertilisers": "Não há fertilizantes disponíveis",
+  "obsidianShrine.noEligiblePlots": "Sem parcelas para fertilizar",
+  "obsidianShrine.noEligiblePatches": "Sem adesivos para fertilizar",
+  "obsidianShrine.eligible": "{{count}} elegível"
 }
