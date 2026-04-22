@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
@@ -26,14 +26,6 @@ type GoogleLinkMessage = {
   error?: string;
 };
 
-const apiOrigin = (() => {
-  try {
-    return new URL(CONFIG.API_URL).origin;
-  } catch {
-    return "";
-  }
-})();
-
 export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
@@ -47,20 +39,42 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const isUnlinking = useSelector(gameService, _unlinkingSocial);
 
   const [popupBlocked, setPopupBlocked] = useState(false);
+  const [linkError, setLinkError] = useState<string | null>(null);
+
+  // Track the popup window + the origin we expect messages from.
+  // Set on `onLinkGoogle`, checked in the message handler so a malicious
+  // page (or a stale message from a different origin) cannot inject an
+  // id_token. Both must match before we trust the message.
+  const popupRef = useRef<Window | null>(null);
+  const expectedOriginRef = useRef<string | null>(null);
 
   useEffect(() => {
     const handler = (event: MessageEvent<GoogleLinkMessage>) => {
-      if (apiOrigin && event.origin !== apiOrigin) return;
+      // Fail closed: if no popup is open or no expected origin is set,
+      // ignore the message entirely.
+      if (!popupRef.current || !expectedOriginRef.current) return;
+      if (event.origin !== expectedOriginRef.current) return;
+      if (event.source !== popupRef.current) return;
       if (event.data?.type !== "sunflower-google-link") return;
 
-      if (event.data.error || !event.data.idToken) {
+      // Consume the message; clear refs so the same popup can't deliver twice.
+      popupRef.current = null;
+      expectedOriginRef.current = null;
+
+      if (event.data.error) {
+        setLinkError(t("linkedAccounts.linkFailed"));
+        return;
+      }
+      if (!event.data.idToken) {
+        setLinkError(t("linkedAccounts.linkFailed"));
         return;
       }
 
-      const authToken = authService.getSnapshot().context.user.rawToken as
-        | string
-        | undefined;
-      if (!authToken) return;
+      const authToken = authService.getSnapshot().context.user.rawToken;
+      if (!authToken) {
+        setLinkError(t("linkedAccounts.linkFailed"));
+        return;
+      }
 
       gameService.send("social.linked", {
         effect: {
@@ -74,10 +88,22 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
 
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
-  }, [authService, gameService]);
+  }, [authService, gameService, t]);
 
   const onLinkGoogle = () => {
+    setLinkError(null);
     setPopupBlocked(false);
+
+    let expectedOrigin: string;
+    try {
+      expectedOrigin = new URL(CONFIG.API_URL).origin;
+    } catch {
+      // If we can't even parse the API URL, refuse to launch — we'd
+      // have no way to validate the message origin.
+      setLinkError(t("linkedAccounts.linkFailed"));
+      return;
+    }
+
     const popup = window.open(
       `${CONFIG.API_URL}/google/link/authorize`,
       "sunflower-google-link",
@@ -85,15 +111,17 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     );
     if (!popup) {
       setPopupBlocked(true);
+      return;
     }
+
+    popupRef.current = popup;
+    expectedOriginRef.current = expectedOrigin;
   };
 
   // Testnet-only debug affordance. The backend also gates `social.unlinked`
   // to non-mainnet, so this stays inert in production even if shown.
   const onUnlinkGoogle = () => {
-    const authToken = authService.getSnapshot().context.user.rawToken as
-      | string
-      | undefined;
+    const authToken = authService.getSnapshot().context.user.rawToken;
     if (!authToken) return;
 
     gameService.send("social.unlinked", {
@@ -149,6 +177,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
                 {t("linkedAccounts.popupBlocked")}
               </p>
             )}
+            {linkError && <p className="text-xs text-red-500">{linkError}</p>}
           </>
         )}
       </div>
