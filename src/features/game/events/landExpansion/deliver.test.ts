@@ -1,11 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import Decimal from "decimal.js-light";
-import {
-  QUEST_NPC_NAMES,
-  QuestNPCName,
-  TICKET_REWARDS,
-  deliverOrder,
-  generateDeliveryTickets,
-} from "./deliver";
 import {
   INITIAL_BUMPKIN,
   INITIAL_FARM,
@@ -17,23 +11,44 @@ import {
 } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
-import * as flagsModule from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { CONFIG } from "lib/config";
+
+jest.mock("lib/flags", () => {
+  const actual = jest.requireActual<typeof import("lib/flags")>("lib/flags");
+  return {
+    ...actual,
+    hasTimeBasedFeatureAccess: jest.fn(actual.hasTimeBasedFeatureAccess),
+  };
+});
+
+// esbuild-runner/jest does not hoist `jest.mock` above imports. Load the
+// flags module and the SUT via require *after* the mock is registered so
+// the SUT binds the jest.fn wrapper rather than the real function.
+const flags = require("lib/flags") as typeof import("lib/flags") & {
+  hasTimeBasedFeatureAccess: jest.Mock;
+};
+const {
+  QUEST_NPC_NAMES,
+  TICKET_REWARDS,
+  deliverOrder,
+  generateDeliveryTickets,
+} = require("./deliver") as typeof import("./deliver");
+type QuestNPCName = import("./deliver").QuestNPCName;
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
 
 describe("deliver", () => {
-  let testnetFeatureFlagSpy: jest.SpyInstance;
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
 
   beforeEach(() => {
     // Coin NPC chapter points use hasTimeBasedFeatureAccess(TICKETS_FROM_COIN_NPC),
     // which treats testnet as always past the start date. Use mainnet semantics here
     // so orders with createdAt: 0 do not hit getCurrentChapter(0).
-    testnetFeatureFlagSpy = jest
-      .spyOn(flagsModule, "testnetFeatureFlag")
-      .mockReturnValue(false);
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
     jest.useRealTimers();
     const now = new Date().getTime();
     const nowDate = new Date(now).toISOString().split("T")[0];
@@ -56,7 +71,11 @@ describe("deliver", () => {
   });
 
   afterEach(() => {
-    testnetFeatureFlagSpy.mockRestore();
+    CONFIG.NETWORK = previousNetwork;
+    flags.hasTimeBasedFeatureAccess.mockImplementation(
+      jest.requireActual<typeof import("lib/flags")>("lib/flags")
+        .hasTimeBasedFeatureAccess,
+    );
   });
 
   it("requires the order exists", () => {
@@ -2086,9 +2105,7 @@ describe("deliver", () => {
 
   it("does not award coinDelivery chapter points during holiday freeze even when flag is active", () => {
     // Use real holiday 2026-02-02; order created on holiday so no points (uses order.createdAt)
-    const flagSpy = jest
-      .spyOn(flagsModule, "hasTimeBasedFeatureAccess")
-      .mockReturnValue(true);
+    flags.hasTimeBasedFeatureAccess.mockReturnValue(true);
     const now = new Date("2026-02-02T00:00:00.000Z").getTime();
     const chapter = getCurrentChapter(now);
 
@@ -2125,7 +2142,6 @@ describe("deliver", () => {
     });
 
     expect(state.farmActivity[`${chapter} Points Earned`]).toBeUndefined();
-    flagSpy.mockRestore();
   });
 
   it("does not award coinDelivery chapter points when order was created on holiday but delivered on non-holiday", () => {
