@@ -199,6 +199,12 @@ export function useEditorApi() {
         return {};
       }
 
+      if (ev.type === "economy.reset" && ev.slug) {
+        // Mock branch: server-side runtime state isn't tracked here, so a
+        // successful no-op response is enough for local development.
+        return {};
+      }
+
       if (ev.type === "economy.invalidated" && ev.slug) {
         const idx = mockStore.findIndex((r) => r.slug === ev.slug.trim());
         if (idx < 0) {

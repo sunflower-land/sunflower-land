@@ -5,12 +5,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { ColorPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { TextInput } from "components/ui/TextInput";
 import { Dropdown } from "components/ui/Dropdown";
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { EditorFormState } from "../lib/types";
 import { SectionHeader } from "../components/SectionHeader";
@@ -37,8 +38,11 @@ export const BasicsTab: React.FC<{
   onChange: (next: Partial<EditorFormState>) => void;
 }> = ({ form, mode, onChange }) => {
   const { t } = useAppTranslation();
-  const { state: editorSession, refreshHostedSiteMetadata } =
-    usePlayerEconomyEditorSession();
+  const {
+    state: editorSession,
+    refreshHostedSiteMetadata,
+    submitEvent,
+  } = usePlayerEconomyEditorSession();
   const { authState } = useAuth();
   const { gameState } = useGame();
 
@@ -48,6 +52,10 @@ export const BasicsTab: React.FC<{
   const [playGameLoading, setPlayGameLoading] = useState(false);
   const [playGameError, setPlayGameError] = useState<string | null>(null);
   const [showUploadRequiredModal, setShowUploadRequiredModal] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetInProgress, setResetInProgress] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
+  const [resetSuccess, setResetSuccess] = useState(false);
   const playUrlSyncRef = useRef<string>("");
 
   const hasUploadedCode = editorSession.hostedSiteIndex != null;
@@ -136,6 +144,28 @@ export const BasicsTab: React.FC<{
     onChange({ playUrl: canonicalHostedMinigamePlayUrl(slugTrim) });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only fill default when slug set and playUrl empty
   }, [slugTrim]);
+
+  const handleConfirmReset = useCallback(async () => {
+    const slug = form.slug.trim();
+    if (!slug) return;
+    setResetInProgress(true);
+    setResetError(null);
+    try {
+      await submitEvent({ type: "economy.reset", slug });
+      setShowResetConfirm(false);
+      setResetSuccess(true);
+    } catch (e) {
+      setResetError(e instanceof Error ? e.message : "Reset failed");
+    } finally {
+      setResetInProgress(false);
+    }
+  }, [form.slug, submitEvent]);
+
+  useEffect(() => {
+    if (!resetSuccess) return;
+    const id = window.setTimeout(() => setResetSuccess(false), 2600);
+    return () => window.clearTimeout(id);
+  }, [resetSuccess]);
 
   const handlePlayGame = useCallback(async () => {
     setPlayGameError(null);
@@ -301,6 +331,49 @@ export const BasicsTab: React.FC<{
           />
         </FieldRow>
       </InnerPanel>
+
+      {/* Reset Player Progress — owner-only, wipes supplies + runtime state; keeps config. */}
+      {mode === "edit" && (
+        <ColorPanel type="danger" className="p-3 space-y-2">
+          <p className="text-sm leading-tight" style={{ color: "#ffffff" }}>
+            {"Would you like to reset every player's progress?"}
+          </p>
+          {resetSuccess && (
+            <p className="text-xs leading-tight" style={{ color: "#ffffff" }}>
+              {"Player progress has been reset."}
+            </p>
+          )}
+          <Button
+            disabled={!form.slug.trim() || resetInProgress}
+            onClick={() => {
+              setResetError(null);
+              setShowResetConfirm(true);
+            }}
+          >
+            {"OK"}
+          </Button>
+        </ColorPanel>
+      )}
+
+      <ConfirmationModal
+        show={showResetConfirm}
+        onHide={() => {
+          if (resetInProgress) return;
+          setShowResetConfirm(false);
+        }}
+        messages={[
+          "This will wipe all player progress (balances, supplies and runtime state) for this economy.",
+          "The economy config will be kept. This action cannot be undone.",
+          ...(resetError ? [`Error: ${resetError}`] : []),
+        ]}
+        onCancel={() => {
+          if (resetInProgress) return;
+          setShowResetConfirm(false);
+        }}
+        onConfirm={() => void handleConfirmReset()}
+        confirmButtonLabel={resetInProgress ? "Resetting..." : "Reset progress"}
+        disabled={resetInProgress}
+      />
     </div>
   );
 };

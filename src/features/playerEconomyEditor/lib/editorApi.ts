@@ -23,7 +23,8 @@ export type PlayerEconomyEditorClientEvent =
       slug: string;
       files: { path: string; contentType: string }[];
     }
-  | { type: "economy.invalidated"; slug: string };
+  | { type: "economy.invalidated"; slug: string }
+  | { type: "economy.reset"; slug: string };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
 export type PlayerEconomyEditorEventResult = {
