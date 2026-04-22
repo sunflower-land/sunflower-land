@@ -97,6 +97,11 @@ function getWormOutput({
     max += 1;
   }
 
+  if (isCollectibleBuilt({ name: "Deep Sea Slug", game: state })) {
+    min += 1;
+    max += 1;
+  }
+
   // If min/max somehow goes negative, show as 0
   if (min < 0) {
     min = 0;

@@ -193,6 +193,13 @@ export function getAnimalXP({
     animalXP += 10;
   }
 
+  if (
+    animal === "Sheep" &&
+    isCollectibleBuilt({ name: "Spa Sheep", game: state })
+  ) {
+    animalXP += 5;
+  }
+
   animalXP *= multiplier;
 
   return { animalXP };

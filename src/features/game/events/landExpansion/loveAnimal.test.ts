@@ -332,4 +332,107 @@ describe("loveAnimal", () => {
 
     expect(state.barn.animals["1"].experience).toBe(250);
   });
+
+  it.each([
+    ["Petting Hand", 30],
+    ["Brush", 45],
+    ["Music Box", 55],
+  ] as const)(
+    "gives +5 XP to Sheep when the Spa Sheep is placed (loved with %s)",
+    (item, expectedGain) => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Petting Hand": new Decimal(1),
+            Brush: new Decimal(1),
+            "Music Box": new Decimal(1),
+            "Spa Sheep": new Decimal(1),
+          },
+          collectibles: {
+            "Spa Sheep": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 0,
+              },
+            ],
+          },
+          barn: {
+            level: 1,
+            animals: {
+              "1": {
+                id: "1",
+                type: "Sheep",
+                asleepAt: now - 9 * 60 * 60 * 1000,
+                lovedAt: 0,
+                awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+                createdAt: 0,
+                experience: 200,
+                state: "idle",
+                item,
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Sheep",
+          id: "1",
+          item,
+        },
+        createdAt: now,
+      });
+
+      expect(state.barn.animals["1"].experience).toBe(200 + expectedGain);
+    },
+  );
+
+  it("does not give the Spa Sheep bonus to non-Sheep animals", () => {
+    const state = loveAnimal({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Brush: new Decimal(1),
+          "Spa Sheep": new Decimal(1),
+        },
+        collectibles: {
+          "Spa Sheep": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          level: 1,
+          animals: {
+            "1": {
+              id: "1",
+              type: "Cow",
+              asleepAt: now - 9 * 60 * 60 * 1000,
+              lovedAt: 0,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+              createdAt: 0,
+              experience: 200,
+              state: "idle",
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.loved",
+        animal: "Cow",
+        id: "1",
+        item: "Brush",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["1"].experience).toBe(240);
+  });
 });
