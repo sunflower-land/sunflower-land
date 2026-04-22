@@ -38,6 +38,8 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { DeveloperOptions } from "./developer-options/DeveloperOptions";
+import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
+import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -261,6 +263,8 @@ export type SettingMenuId =
   | "about"
   | "amoy"
   | "blockchain"
+  | "linkedAccounts"
+  | "linkAccountWallet"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -332,6 +336,16 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.blockchainSettings"),
     parent: "advanced",
     content: BlockchainSettings,
+  },
+  linkedAccounts: {
+    title: translate("linkedAccounts.title"),
+    parent: "account",
+    content: LinkedAccounts,
+  },
+  linkAccountWallet: {
+    title: translate("linkedAccounts.linkWallet"),
+    parent: "linkedAccounts",
+    content: () => <LinkWallet />,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),
