@@ -42,16 +42,11 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { RemovePetHouseModal } from "./RemovePetHouseModal";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
-import {
-  PET_SHRINES,
-  getPlacedCommonPetsCount,
-  getPlacedNFTPetsCount,
-} from "features/game/types/pets";
+import { PET_SHRINES } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
@@ -449,14 +444,6 @@ export const MoveableComponent: React.FC<
 
   const hasFlipAction = !isMobile && isCollectible(name);
 
-  const petHouseHasPets = useSelector(gameService, (state) => {
-    if (name !== "Pet House") return false;
-    const { petHouse, pets } = state.context.state;
-    return getPlacedCommonPetsCount(petHouse) + getPlacedNFTPetsCount(pets) > 0;
-  });
-
-  const [showPetHouseWarning, setShowPetHouseWarning] = useState(false);
-
   const flip = () => {
     if (isCollectible(name)) {
       landscapingMachine.send("FLIP", { id, name, location });
@@ -479,11 +466,6 @@ export const MoveableComponent: React.FC<
 
   const remove = () => {
     if (!removeAction) {
-      return;
-    }
-
-    if (name === "Pet House" && petHouseHasPets) {
-      setShowPetHouseWarning(true);
       return;
     }
 
@@ -1058,11 +1040,6 @@ export const MoveableComponent: React.FC<
               <RemoveHungryCaterpillarModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
-              />
-            )}
-            {showPetHouseWarning && (
-              <RemovePetHouseModal
-                onClose={() => setShowPetHouseWarning(false)}
               />
             )}
             {hasRemovalAction && (

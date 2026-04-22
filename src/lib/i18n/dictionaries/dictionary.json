@@ -3812,8 +3812,6 @@
   "removeHungryCaterpillar.description": "This action will remove all your flower seeds from your inventory.",
   "removeHungryCaterpillar.removeFlowerSeeds": "Remove flower seeds",
   "removeHungryCaterpillar.confirmation": "Are you sure you want to remove your Hungry Caterpillar?",
-  "removePetHouse.title": "Cannot Remove Pet House",
-  "removePetHouse.description": "You have pets placed inside the Pet House. Remove all pets before digging it up.",
   "removeKuebiko.title": "Remove Kuebiko",
   "removeKuebiko.description": "This action will remove all your seeds from your inventory.",
   "removeKuebiko.removeSeeds": "Remove seeds",
