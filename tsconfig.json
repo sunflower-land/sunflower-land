@@ -21,7 +21,9 @@
       "assets/*": ["./src/assets/*"],
       "lib/*": ["./src/lib/*"],
       "components/*": ["./src/components/*"],
-      "metadata/*": ["./metadata/*"]
+      "metadata/*": ["./metadata/*"],
+      "public/*": ["./public/*"],
+      "src/*": ["./src/*"]
     }
   },
   "include": [
