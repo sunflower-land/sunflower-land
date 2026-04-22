@@ -2050,6 +2050,8 @@
   "description.faction.mark": "Use these in the Faction Shop",
   "gameOptions.title": "Game Options",
   "gameOptions.farmId": "Farm ID #{{farmId}}",
+  "gameOptions.account": "Account",
+  "gameOptions.advanced": "Advanced",
   "gameOptions.logout": "Logout",
   "gameOptions.notifications": "Notifications",
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
