@@ -68,11 +68,17 @@ export function collectAgedFish({
         (game.farmActivity[`${agedName} Collected`] ?? 0) +
         (game.farmActivity[`${primeAgedName} Collected`] ?? 0);
 
-      const outputAmount = getAgingOutput(game, new Decimal(1), slot.fish, {
-        farmId,
-        itemId: KNOWN_IDS[slot.fish],
-        counter,
-      });
+      const outputAmount = getAgingOutput(
+        game,
+        new Decimal(1),
+        slot.fish,
+        !!slot.skills?.Ager,
+        {
+          farmId,
+          itemId: KNOWN_IDS[slot.fish],
+          counter,
+        },
+      );
 
       const isPrime = prngChance({
         farmId,

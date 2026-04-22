@@ -42,7 +42,12 @@ export function collectFermentation({
     );
 
     ready.forEach((job) => {
-      grantFermentationRecipeOutputs(game, job.recipe, farmId);
+      grantFermentationRecipeOutputs(
+        game,
+        job.recipe,
+        farmId,
+        !!job.skills?.Ager,
+      );
     });
   });
 }

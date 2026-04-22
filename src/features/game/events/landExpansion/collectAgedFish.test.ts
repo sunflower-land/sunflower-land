@@ -22,7 +22,7 @@ const PRIME_AGED_PRNG_FIXTURE = {
 };
 
 function stateWithAgingSlots(
-  slots: { fish: string; readyAt: number }[],
+  slots: { fish: string; readyAt: number; agerApplied?: boolean }[],
   extra: Record<string, unknown> = {},
 ) {
   return createFermentationTestState({
@@ -36,6 +36,7 @@ function stateWithAgingSlots(
           fish: s.fish as "Anchovy",
           startedAt: createdAt - 10000,
           readyAt: s.readyAt,
+          skills: { Ager: s.agerApplied ?? false },
         })),
       },
     },
@@ -135,9 +136,56 @@ describe("collectAgedFish", () => {
   it("applies Ager skill to grant 2 items per slot", () => {
     const past = createdAt - 1;
     const state = collectAgedFish({
-      state: stateWithAgingSlots([{ fish: "Anchovy", readyAt: past }], {
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
-      }),
+      state: stateWithAgingSlots(
+        [{ fish: "Anchovy", readyAt: past, agerApplied: true }],
+        {
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        },
+      ),
+      action: { type: "agingRack.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    const aged = state.inventory["Aged Anchovy"]?.toNumber() ?? 0;
+    const prime = state.inventory["Prime Aged Anchovy"]?.toNumber() ?? 0;
+
+    expect(aged + prime).toBe(2);
+  });
+
+  it("ignores Ager skill activated after starting (exploit guard)", () => {
+    // Slot was queued without the Ager stamp; player then activated the skill.
+    // Output must still be 1x because the input was paid at 1x.
+    const past = createdAt - 1;
+    const state = collectAgedFish({
+      state: stateWithAgingSlots(
+        [{ fish: "Anchovy", readyAt: past, agerApplied: false }],
+        {
+          bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
+        },
+      ),
+      action: { type: "agingRack.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    const aged = state.inventory["Aged Anchovy"]?.toNumber() ?? 0;
+    const prime = state.inventory["Prime Aged Anchovy"]?.toNumber() ?? 0;
+
+    expect(aged + prime).toBe(1);
+  });
+
+  it("honours Ager stamp even when skill is deactivated after starting", () => {
+    // Slot was queued with Ager active (2x input paid); skill then removed.
+    // Output must still be 2x because the slot was paid at 2x.
+    const past = createdAt - 1;
+    const state = collectAgedFish({
+      state: stateWithAgingSlots(
+        [{ fish: "Anchovy", readyAt: past, agerApplied: true }],
+        {
+          bumpkin: { ...INITIAL_BUMPKIN, skills: {} },
+        },
+      ),
       action: { type: "agingRack.collected" },
       farmId: 1,
       createdAt,

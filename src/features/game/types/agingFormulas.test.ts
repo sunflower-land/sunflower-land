@@ -47,7 +47,7 @@ describe("getAgingOutput", () => {
   it("returns base amount when no relevant skills", () => {
     const state = stateWithSkills({} as Skills);
     expect(
-      getAgingOutput(state, new Decimal(3), "Salt", {
+      getAgingOutput(state, new Decimal(3), "Salt", false, {
         farmId,
         itemId: KNOWN_IDS.Salt,
         counter: 0,
@@ -55,10 +55,34 @@ describe("getAgingOutput", () => {
     ).toBe(3);
   });
 
-  it("doubles output for Ager on any item", () => {
+  it("doubles output when agerApplied is true", () => {
     const state = stateWithSkills({ Ager: 1 } as Skills);
     expect(
-      getAgingOutput(state, new Decimal(2), "Pickled Radish", {
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", true, {
+        farmId,
+        itemId: KNOWN_IDS["Pickled Radish"],
+        counter: 0,
+      }).toNumber(),
+    ).toBe(4);
+  });
+
+  it("ignores current Ager skill when stamp says not applied", () => {
+    // Exploit guard: player activates Ager after starting; stamp was false → 1x output
+    const state = stateWithSkills({ Ager: 1 } as Skills);
+    expect(
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", false, {
+        farmId,
+        itemId: KNOWN_IDS["Pickled Radish"],
+        counter: 0,
+      }).toNumber(),
+    ).toBe(2);
+  });
+
+  it("applies Ager stamp even when current skill is off", () => {
+    // Symmetric guard: player deactivates Ager after starting; stamp was true → 2x output
+    const state = stateWithSkills({} as Skills);
+    expect(
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", true, {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
@@ -97,18 +121,24 @@ describe("getAgingOutput", () => {
     it("does not add Refiner bonus without the skill", () => {
       const base = new Decimal(2);
       expect(
-        getAgingOutput(stateWithSkills({} as Skills), base, "Refined Salt", {
-          farmId,
-          itemId: refinedSaltId,
-          counter: 4,
-        }).toNumber(),
+        getAgingOutput(
+          stateWithSkills({} as Skills),
+          base,
+          "Refined Salt",
+          false,
+          {
+            farmId,
+            itemId: refinedSaltId,
+            counter: 4,
+          },
+        ).toNumber(),
       ).toBe(2);
     });
 
     it("does not roll Refiner for non–Refined Salt items", () => {
       const stateWithRefiner = stateWithSkills({ Refiner: 1 } as Skills);
       expect(
-        getAgingOutput(stateWithRefiner, new Decimal(2), "Salt", {
+        getAgingOutput(stateWithRefiner, new Decimal(2), "Salt", false, {
           farmId,
           itemId: KNOWN_IDS.Salt,
           counter: 4,
@@ -118,7 +148,7 @@ describe("getAgingOutput", () => {
 
     it("adds +1 on PRNG hit (counter 4) from base 2", () => {
       expect(
-        getAgingOutput(state, new Decimal(2), "Refined Salt", {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", false, {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -128,7 +158,7 @@ describe("getAgingOutput", () => {
 
     it("does not add Refiner +1 on PRNG miss (counter 0) from base 2", () => {
       expect(
-        getAgingOutput(state, new Decimal(2), "Refined Salt", {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", false, {
           farmId,
           itemId: refinedSaltId,
           counter: 0,
@@ -142,7 +172,7 @@ describe("getAgingOutput", () => {
         Refiner: 1,
       } as Skills);
       expect(
-        getAgingOutput(agerRefinerState, new Decimal(2), "Refined Salt", {
+        getAgingOutput(agerRefinerState, new Decimal(2), "Refined Salt", true, {
           farmId,
           itemId: refinedSaltId,
           counter: 4,

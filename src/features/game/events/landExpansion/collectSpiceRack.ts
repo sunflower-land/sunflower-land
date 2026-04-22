@@ -51,14 +51,21 @@ export function collectSpiceRack({
       const recipeDef = getSpiceRackRecipe(job.recipe);
       const counter =
         game.farmActivity[spiceRackCollectedActivity(job.recipe)] ?? 0;
+      const agerApplied = !!job.skills?.Ager;
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        const add = getAgingOutput(game, amount ?? new Decimal(0), item, {
-          farmId,
-          itemId: KNOWN_IDS[item],
-          counter,
-        });
+        const add = getAgingOutput(
+          game,
+          amount ?? new Decimal(0),
+          item,
+          agerApplied,
+          {
+            farmId,
+            itemId: KNOWN_IDS[item],
+            counter,
+          },
+        );
 
         game.inventory[item] = prev.add(add);
       }
