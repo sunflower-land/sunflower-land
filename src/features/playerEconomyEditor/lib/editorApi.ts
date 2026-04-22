@@ -47,6 +47,24 @@ export function getPlayerEconomyEditorDataType(): string {
   );
 }
 
+/** Data-type string for the Data tab's player list endpoint. */
+export function getEconomyPlayersDataType(): string {
+  return (
+    (
+      import.meta.env.VITE_ECONOMY_PLAYERS_DATA_TYPE as string | undefined
+    )?.trim() || "economyPlayers"
+  );
+}
+
+/** Data-type string for the Data tab's supplies endpoint. */
+export function getEconomySuppliesDataType(): string {
+  return (
+    (
+      import.meta.env.VITE_ECONOMY_SUPPLIES_DATA_TYPE as string | undefined
+    )?.trim() || "economySupplies"
+  );
+}
+
 export function getPlayerEconomyEditorUploadDataType(): string {
   return (
     (
