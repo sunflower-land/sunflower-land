@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "Gübre yok",
   "obsidianShrine.noEligiblePlots": "Gübrelenecek arsa yok",
   "obsidianShrine.noEligiblePatches": "Gübrelenecek yama yok",
-  "obsidianShrine.eligible": "{{count}} uygun"
+  "obsidianShrine.eligible": "{{count}} uygun",
+  "description.saltCrystalFlower.boost": "+1 Çiçek için %5 şans"
 }

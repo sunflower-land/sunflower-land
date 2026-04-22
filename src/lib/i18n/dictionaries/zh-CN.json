@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "没有肥料可用",
   "obsidianShrine.noEligiblePlots": "没有可施肥的土地",
   "obsidianShrine.noEligiblePatches": "没有可受精的补丁",
-  "obsidianShrine.eligible": "{{count}} 符合条件"
+  "obsidianShrine.eligible": "{{count}} 符合条件",
+  "description.saltCrystalFlower.boost": "5% 几率获得 +1 朵花"
 }

@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "肥料はありません",
   "obsidianShrine.noEligiblePlots": "施肥する区画はありません",
   "obsidianShrine.noEligiblePatches": "施肥するパッチはありません",
-  "obsidianShrine.eligible": "{{count}} 対象となります"
+  "obsidianShrine.eligible": "{{count}} 対象となります",
+  "description.saltCrystalFlower.boost": "5% の確率で花1個獲得可能"
 }

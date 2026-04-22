@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "No hay abonos disponibles",
   "obsidianShrine.noEligiblePlots": "No hay parcelas que fertilizar",
   "obsidianShrine.noEligiblePatches": "No hay parches que fertilizar",
-  "obsidianShrine.eligible": "{{count}} elegible"
+  "obsidianShrine.eligible": "{{count}} elegible",
+  "description.saltCrystalFlower.boost": "5% de probabilidad de obtener +1 flor"
 }

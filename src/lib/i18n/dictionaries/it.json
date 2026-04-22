@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "Nessun fertilizzante disponibile",
   "obsidianShrine.noEligiblePlots": "Nessun appezzamento da concimare",
   "obsidianShrine.noEligiblePatches": "Nessun cerotto da concimare",
-  "obsidianShrine.eligible": "{{count}} idoneo"
+  "obsidianShrine.eligible": "{{count}} idoneo",
+  "description.saltCrystalFlower.boost": "5% di probabilità di +1 Fiore"
 }

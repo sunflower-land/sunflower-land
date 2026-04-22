@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "Tidak ada pupuk yang tersedia",
   "obsidianShrine.noEligiblePlots": "Tidak ada plot untuk dipupuk",
   "obsidianShrine.noEligiblePatches": "Tidak ada tambalan untuk dibuahi",
-  "obsidianShrine.eligible": "{{count}} memenuhi syarat"
+  "obsidianShrine.eligible": "{{count}} memenuhi syarat",
+  "description.saltCrystalFlower.boost": "5% kesempatan untuk +1 Bunga"
 }

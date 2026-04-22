@@ -8815,5 +8815,6 @@
   "obsidianShrine.noFertilisers": "Keine Düngemittel verfügbar",
   "obsidianShrine.noEligiblePlots": "Keine Parzellen zum Düngen",
   "obsidianShrine.noEligiblePatches": "Keine Flecken zum Düngen",
-  "obsidianShrine.eligible": "{{count}} berechtigt"
+  "obsidianShrine.eligible": "{{count}} berechtigt",
+  "description.saltCrystalFlower.boost": "5% Chance auf +1 Blume"
 }
