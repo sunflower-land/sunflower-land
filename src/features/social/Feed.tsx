@@ -50,7 +50,7 @@ import { SearchBar } from "./components/SearchBar";
 import { Detail } from "./actions/getFollowNetworkDetails";
 import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
-import { useHelpCounter } from "features/island/hud/components/useHelpCounter";
+import { getHelpLimit } from "features/game/types/monuments";
 
 type Props = {
   type: "world" | "local";
@@ -66,6 +66,10 @@ const _farmId = (state: MachineState) =>
 const _cheersAvailable = (state: MachineState) =>
   (state.context.visitorState ?? state.context.state).inventory["Cheer"] ??
   new Decimal(0);
+const _totalHelpedToday = (state: MachineState) =>
+  state.context.totalHelpedToday;
+const _game = (state: MachineState) =>
+  state.context.visitorState ?? state.context.state;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -110,7 +114,13 @@ export const Feed: React.FC<Props> = ({
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
-  const helpCounter = useHelpCounter(gameService);
+  const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
+  const game = useSelector(gameService, _game);
+  const helpLimit = getHelpLimit({ game });
+  const helpRemaining =
+    totalHelpedToday == null
+      ? undefined
+      : Math.max(helpLimit - totalHelpedToday, 0);
 
   const { t } = useAppTranslation();
 
@@ -275,7 +285,7 @@ export const Feed: React.FC<Props> = ({
               )}
               <Label type="default">{t("feed")}</Label>
               <Label type="default" icon={SUNNYSIDE.icons.drag}>
-                {`${helpCounter.remaining ?? "--"}/${helpCounter.total}`}
+                {`${helpRemaining ?? "--"}/${helpLimit}`}
               </Label>
               <Label type="default" icon={cheer}>
                 {cheersAvailable.toNumber()}

@@ -43,6 +43,7 @@ type Response = {
   apiKey: string;
 
   accountTradedAt?: string;
+  totalHelpedToday: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -139,6 +140,7 @@ export async function loadSession(
     prices,
     apiKey,
     accountTradedAt,
+    totalHelpedToday,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -167,6 +169,7 @@ export async function loadSession(
     };
     apiKey: string;
     accountTradedAt?: string;
+    totalHelpedToday: number;
   }>(response);
 
   saveSession(farm.id);
@@ -191,6 +194,7 @@ export async function loadSession(
     prices,
     apiKey,
     accountTradedAt,
+    totalHelpedToday,
   };
 }
 

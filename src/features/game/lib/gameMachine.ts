@@ -370,11 +370,6 @@ type PlayingEventHandlerOptions = {
   immediateSave?: boolean;
 };
 
-const isLocalVisitingHelpEvent = (
-  event: PlayingEvent | VisitingEvent,
-): event is VisitingEvent & { totalHelpedToday: number } =>
-  Object.prototype.hasOwnProperty.call(LOCAL_VISITING_EVENTS, event.type);
-
 const playingEventHandler = (
   eventName: string,
   options?: PlayingEventHandlerOptions,
@@ -442,12 +437,6 @@ const playingEventHandler = (
                 state,
                 actions,
                 visitorState,
-                totalHelpedToday:
-                  context.visitorState && isLocalVisitingHelpEvent(event)
-                    ? (context.totalHelpedToday ??
-                        event.totalHelpedToday ??
-                        0) + 1
-                    : context.totalHelpedToday,
               };
             }
 
@@ -1087,6 +1076,7 @@ export function startGame(authContext: AuthContext) {
                 prices: response.prices,
                 apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
+                totalHelpedToday: response.totalHelpedToday,
               };
             },
             onDone: [
@@ -1243,7 +1233,6 @@ export function startGame(authContext: AuthContext) {
                 visitorState: undefined,
                 visitorNftId: undefined,
                 hasHelpedPlayerToday: undefined,
-                totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
                 nftId: context.visitorNftId,
@@ -2747,6 +2736,7 @@ export function startGame(authContext: AuthContext) {
           apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
           accountTradedAt: (_, event) => event.data.accountTradedAt,
+          totalHelpedToday: (_, event) => event.data.totalHelpedToday,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
