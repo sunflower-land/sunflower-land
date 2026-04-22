@@ -699,7 +699,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   },
                 },
                 {
-                  text: t("Marketplace"),
+                  text: t("marketplace"),
                   cb: () => {
                     window.open(
                       "https://sunflower-land.com/play/#/marketplace/collection?filters=buds",
