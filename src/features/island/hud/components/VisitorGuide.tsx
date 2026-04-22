@@ -59,6 +59,9 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const username = useSelector(gameService, _username);
   const game = useSelector(gameService, _game);
 
+  const helpLimit = getHelpLimit({ game: visitorState });
+  const helpRemaining = Math.max(helpLimit - totalHelpedToday, 0);
+
   // Make a list of in home vs on land
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
@@ -118,10 +121,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
       </InnerPanel>
     );
   }
-
-  const helpLimit = getHelpLimit({
-    game: visitorState,
-  });
 
   const hasHitLimit = hasHitHelpLimit({
     game: visitorState,
@@ -198,11 +197,16 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between">
         <Label type="default">{username}</Label>
-        <img
-          src={SUNNYSIDE.icons.close}
-          onClick={onClose}
-          className="h-6 cursor-pointer"
-        />
+        <div className="flex items-center gap-1">
+          <Label type="default" icon={SUNNYSIDE.icons.drag}>
+            {`${helpRemaining}/${helpLimit}`}
+          </Label>
+          <img
+            src={SUNNYSIDE.icons.close}
+            onClick={onClose}
+            className="h-6 cursor-pointer"
+          />
+        </div>
       </div>
       <InnerPanel>
         <p className="text-xs sm:text-sm p-1 -mt-0.5">

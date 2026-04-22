@@ -1076,6 +1076,7 @@ export function startGame(authContext: AuthContext) {
                 prices: response.prices,
                 apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
+                totalHelpedToday: response.totalHelpedToday,
               };
             },
             onDone: [
@@ -1232,7 +1233,6 @@ export function startGame(authContext: AuthContext) {
                 visitorState: undefined,
                 visitorNftId: undefined,
                 hasHelpedPlayerToday: undefined,
-                totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
                 nftId: context.visitorNftId,
@@ -2736,6 +2736,7 @@ export function startGame(authContext: AuthContext) {
           apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
           accountTradedAt: (_, event) => event.data.accountTradedAt,
+          totalHelpedToday: (_, event) => event.data.totalHelpedToday,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
