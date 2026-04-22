@@ -116,33 +116,40 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const menuButtons: {
+    id: string;
     content: React.ReactNode;
     onClick: () => void;
     disabled?: boolean;
   }[] = [
     {
+      id: "preferences",
       content: <span>{t("gameOptions.generalSettings.preferences")}</span>,
       onClick: () => onSubMenuClick("preferences"),
     },
     {
+      id: "changeLanguage",
       content: <span>{t("gameOptions.generalSettings.changeLanguage")}</span>,
       onClick: () => onSubMenuClick("changeLanguage"),
     },
     {
+      id: "plaza",
       content: <span>{t("gameOptions.plazaSettings")}</span>,
       onClick: () => onSubMenuClick("plaza"),
     },
     {
+      id: "account",
       content: <span>{t("gameOptions.account")}</span>,
       onClick: () => onSubMenuClick("account"),
     },
     {
+      id: "advanced",
       content: <span>{t("gameOptions.advanced")}</span>,
       onClick: () => onSubMenuClick("advanced"),
     },
     ...(!hideRefresh
       ? [
           {
+            id: "refreshChain",
             content: (
               <>
                 {t("gameOptions.blockchainSettings.refreshChain")}
@@ -162,6 +169,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     ...(!isPWA
       ? [
           {
+            id: "installApp",
             content: <span>{t("install.app")}</span>,
             onClick: handleInstallApp,
           },
@@ -198,7 +206,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           const spanFull = isLast && menuButtons.length % 2 === 1;
           return (
             <Button
-              key={index}
+              key={button.id}
               onClick={button.onClick}
               disabled={button.disabled}
               className={`p-1 ${spanFull ? "col-span-1 sm:col-span-2" : ""}`}
