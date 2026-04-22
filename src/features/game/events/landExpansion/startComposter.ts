@@ -107,21 +107,6 @@ export function getCompostAmount({
   return { produceAmount, boostsUsed };
 }
 
-export function getWormAmount({ game }: { game: GameState }): {
-  wormAmount: number;
-  boostsUsed: { name: BoostName; value: string }[];
-} {
-  let wormAmount = 1;
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  if (isCollectibleBuilt({ name: "Deep Sea Slug", game })) {
-    wormAmount += 1;
-    boostsUsed.push({ name: "Deep Sea Slug", value: "+1" });
-  }
-
-  return { wormAmount, boostsUsed };
-}
-
 export function startComposter({
   state,
   action,
@@ -171,9 +156,6 @@ export function startComposter({
         building,
       },
     );
-    const { wormAmount, boostsUsed: wormBoostsUsed } = getWormAmount({
-      game: stateCopy,
-    });
     const { timeToFinishMilliseconds, boostsUsed } = getReadyAt({
       gameState: stateCopy,
       composter: building,
@@ -183,7 +165,8 @@ export function startComposter({
     buildings[0].producing = {
       items: {
         [produce]: produceAmount,
-        [worm]: wormAmount,
+        // Set on backend
+        [worm]: 1,
       },
       startedAt: createdAt,
       readyAt: createdAt + timeToFinishMilliseconds,
@@ -191,7 +174,7 @@ export function startComposter({
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
-      boostNames: [...boostsUsed, ...composterBoostsUsed, ...wormBoostsUsed],
+      boostNames: [...boostsUsed, ...composterBoostsUsed],
       createdAt,
     });
 
