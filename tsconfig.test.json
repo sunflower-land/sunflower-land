@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node", "vite/client"],
+    "ignoreDeprecations": "6.0"
+  },
+  "include": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.d.ts",
+    "test/**/*.ts",
+    "./node_modules/vite-plugin-pwa/react.d.ts",
+    "./node_modules/@khmyznikov/pwa-install/index.d.ts"
+  ],
+  "exclude": []
+}

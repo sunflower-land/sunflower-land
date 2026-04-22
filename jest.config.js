@@ -1,3 +1,5 @@
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-require-imports */
 require("dotenv").config();
 
 /*
@@ -27,16 +29,18 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "ts-jest",
+    "^.+\\.(js|jsx|ts|tsx)$": [
+      "ts-jest",
+      {
+        // Memory Leak Fix - Cause unknown
+        // https://github.com/kulshekhar/ts-jest/issues/1967
+        isolatedModules: true,
+        // Test-scoped config: test-only types (jest/node) and
+        // ignoreDeprecations for ts-jest's forced CommonJS/node10 output.
+        tsconfig: "<rootDir>/tsconfig.test.json",
+      },
+    ],
   },
 
   setupFiles: ["<rootDir>/test/setup.ts"],
-
-  // Memory Leak Fix - Cause unknown
-  // https://github.com/kulshekhar/ts-jest/issues/1967
-  globals: {
-    "ts-jest": {
-      isolatedModules: true,
-    },
-  },
 };

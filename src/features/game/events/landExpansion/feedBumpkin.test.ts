@@ -433,7 +433,7 @@ describe("feedBumpkin", () => {
   });
 
   it("provides a 10% more experience if the players faction pet is on a streak of 2", () => {
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(new Date("2024-07-15"));
 
     const result = feedBumpkin({
@@ -487,7 +487,7 @@ describe("feedBumpkin", () => {
   });
 
   it("provides a 20% boost if the players faction pet is on a streak of 4", () => {
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(new Date("2024-07-15"));
 
     const result = feedBumpkin({
@@ -541,7 +541,7 @@ describe("feedBumpkin", () => {
   });
 
   it("returns a boost of 50% if the players faction pet is on a streak of 10", () => {
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(new Date("2024-07-15"));
 
     const result = feedBumpkin({
