@@ -2,15 +2,7 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { acknowledgeCalendarEvent } from "./acknowledgeCalendarEvent";
 
-jest.mock("features/game/types/calendar", () => ({
-  getActiveCalendarEvent: jest.fn(() => "tornado"),
-}));
-
 describe("acknowledgeCalendarEvent", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it("throws an error if no event is not found", () => {
     expect(() =>
       acknowledgeCalendarEvent({
@@ -26,7 +18,7 @@ describe("acknowledgeCalendarEvent", () => {
       calendar: {
         dates: [],
         tornado: {
-          startedAt: new Date("2025-01-20").getTime(),
+          startedAt: Date.now(),
           triggeredAt: Date.now(),
           protected: false,
         },

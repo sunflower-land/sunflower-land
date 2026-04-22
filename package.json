@@ -18,6 +18,25 @@
     "translate": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate.ts",
     "prepare": "husky install"
   },
+  "jest": {
+    "clearMocks": true,
+    "coverageProvider": "v8",
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "^lib/(.*)": "<rootDir>/src/lib/$1",
+      "^features/(.*)": "<rootDir>/src/features/$1",
+      "^components/(.*)": "<rootDir>/src/components/$1",
+      "^assets/(.*)": "<rootDir>/test/fileTransform.js",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "esbuild-runner/jest"
+    },
+    "setupFiles": [
+      "<rootDir>/test/env.ts",
+      "<rootDir>/test/setup.ts"
+    ]
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -133,6 +152,8 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-unused-imports": "^3.1.1",
+    "esbuild": "^0.27.0",
+    "esbuild-runner": "^2.2.2",
     "husky": ">=6",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -142,7 +163,6 @@
     "prettier": "^3.3.2",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",
-    "ts-jest": "^29.4.9",
     "typescript": "^6.0.3",
     "vite": "^5.4.2",
     "vite-node": "^2.0.3",

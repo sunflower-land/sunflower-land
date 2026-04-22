@@ -1,18 +1,21 @@
 import Decimal from "decimal.js-light";
 import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "./flags";
 import { TEST_FARM } from "features/game/lib/constants";
-
-import * as config from "./config";
+import { CONFIG } from "./config";
 
 describe("hasFeatureAccess", () => {
-  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
   });
 
   it("returns true for a beta feature if the player has a beta pass", () => {
-    spy.mockReturnValue({ NETWORK: "mainnet" });
     expect(
       hasFeatureAccess(
         {
@@ -25,25 +28,25 @@ describe("hasFeatureAccess", () => {
   });
 
   it("returns false for a beta feature if the player does not have a beta pass", () => {
-    spy.mockReturnValue({ NETWORK: "mainnet" });
     expect(hasFeatureAccess(TEST_FARM, "JEST_TEST")).toBe(false);
   });
 
   it("returns true if on amoy and does not have a beta pass", () => {
-    spy.mockReturnValue({ NETWORK: "amoy" });
+    CONFIG.NETWORK = "amoy";
     expect(hasFeatureAccess(TEST_FARM, "JEST_TEST")).toBe(true);
   });
 });
 
 describe("hasTimeBasedFeatureAccess", () => {
-  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    spy.mockReturnValue({ NETWORK: "mainnet" });
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
   });
 
   afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
     jest.useRealTimers();
   });
 
