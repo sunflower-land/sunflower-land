@@ -8768,7 +8768,6 @@
   "description.crabHouse": "Ein süßes Zuhause für die Muschelbewohner am Meer. Erhöht den Ertrag von Krebstieren um 2",
   "description.speedTrap": "Schnappt zu, bevor die Krabbe es überhaupt kommen sieht. Reduziert die Fangzeit von Krabben um 20%",
   "description.navigationTable.boost": "+100% Chance auf Kartenstücke",
-  "description.royalCrabPot.boost": "Falle ohne Krabbentöpfe",
   "description.crabHouse.boost": "+2 Ertrag an Krebstieren",
   "description.speedTrap.boost": "-20% Mistfallzeit",
   "description.pistolShrimp.boost": "20% Chance, +1 Ertrag bei Krebstieren zu erhalten",
@@ -8849,5 +8848,7 @@
   "playerEconomyEditor.dataTab.col.generating": "Generieren",
   "playerEconomyEditor.dataTab.col.rules": "Regeln",
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Börsen",
-  "playerEconomyEditor.dataTab.col.updatedAt": "aktualisiert"
+  "playerEconomyEditor.dataTab.col.updatedAt": "aktualisiert",
+  "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost aktiv",
+  "description.royalCrabPot.boost": "Falle ohne Wasserfalle, Töpfe"
 }

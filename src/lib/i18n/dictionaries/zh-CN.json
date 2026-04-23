@@ -8768,7 +8768,6 @@
   "description.crabHouse": "海边贝壳居民的甜蜜家园。将甲壳类动物产量提高 2",
   "description.speedTrap": "在螃蟹看见它来临之前就关上了。捕蟹时间缩短 20%",
   "description.navigationTable.boost": "+100% 地图棋子赔率",
-  "description.royalCrabPot.boost": "没有蟹罐的陷阱",
   "description.crabHouse.boost": "+2 甲壳类动物产量",
   "description.speedTrap.boost": "-20% 废话陷阱时间",
   "description.pistolShrimp.boost": "有 20% 的几率获得 +1 甲壳类动物产量",
@@ -8849,5 +8848,7 @@
   "playerEconomyEditor.dataTab.col.generating": "正在生成",
   "playerEconomyEditor.dataTab.col.rules": "规则",
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "交易所",
-  "playerEconomyEditor.dataTab.col.updatedAt": "已更新"
+  "playerEconomyEditor.dataTab.col.updatedAt": "已更新",
+  "waterTrap.royalCrabPotActive": "皇家蟹罐强化已激活",
+  "description.royalCrabPot.boost": "没有水陷阱花盆的陷阱"
 }

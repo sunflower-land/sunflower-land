@@ -8768,7 +8768,6 @@
   "description.crabHouse": "Home sweet home pour les habitants des coquillages en bord de mer. Augmente le rendement en crustacés de 2 %",
   "description.speedTrap": "Il se ferme avant même que le crabe ne le voie arriver. Réduit la durée des pièges à crabes de 20 %",
   "description.navigationTable.boost": "+100 % de chances sur les pièces de la carte",
-  "description.royalCrabPot.boost": "Piège sans pots à crabes",
   "description.crabHouse.boost": "+2 Rendement en crustacés",
   "description.speedTrap.boost": "-20% Temps de piège à saloperies",
   "description.pistolShrimp.boost": "20 % de chances d'obtenir un rendement en crustacés de +1",
@@ -8849,5 +8848,7 @@
   "playerEconomyEditor.dataTab.col.generating": "Génération",
   "playerEconomyEditor.dataTab.col.rules": "Règles",
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Echanges",
-  "playerEconomyEditor.dataTab.col.updatedAt": "Mis à jour"
+  "playerEconomyEditor.dataTab.col.updatedAt": "Mis à jour",
+  "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost actif",
+  "description.royalCrabPot.boost": "Piège sans piège à eau Pots"
 }

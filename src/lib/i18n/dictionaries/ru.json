@@ -8768,7 +8768,6 @@
   "description.crabHouse": "Home sweet home for the seaside shell dwellers. Increases crustacean yield by 2",
   "description.speedTrap": "Snaps shut before the crab even sees it coming. Reduces Crab trap time by 20%",
   "description.navigationTable.boost": "+100% Map Piece Odds",
-  "description.royalCrabPot.boost": "Trap without Crab Pots",
   "description.crabHouse.boost": "+2 Crustacean yield",
   "description.speedTrap.boost": "-20% Crap trap time",
   "description.pistolShrimp.boost": "20% chance to get +1 crustacean yield",
@@ -8849,5 +8848,7 @@
   "playerEconomyEditor.dataTab.col.generating": "Generating",
   "playerEconomyEditor.dataTab.col.rules": "Rules",
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Exchanges",
-  "playerEconomyEditor.dataTab.col.updatedAt": "Updated"
+  "playerEconomyEditor.dataTab.col.updatedAt": "Updated",
+  "waterTrap.royalCrabPotActive": "Royal Crab Pot boost active",
+  "description.royalCrabPot.boost": "Trap without Water Trap Pots"
 }

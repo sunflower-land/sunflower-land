@@ -8768,7 +8768,6 @@
   "description.crabHouse": "Hogar, dulce hogar para los habitantes de conchas junto al mar. Aumenta en un 2% la producción de crustáceos",
   "description.speedTrap": "Se cierra antes de que el cangrejo lo vea venir. Reduce el tiempo de captura de cangrejos en un 20%",
   "description.navigationTable.boost": "Probabilidades de +100% de Map Piece",
-  "description.royalCrabPot.boost": "Trampa sin ollas para cangrejos",
   "description.crabHouse.boost": "+2 Rendimiento de crustáceos",
   "description.speedTrap.boost": "-20% de tiempo en la trampa de basura",
   "description.pistolShrimp.boost": "20% de probabilidad de obtener +1 rendimiento de crustáceos",
@@ -8849,5 +8848,7 @@
   "playerEconomyEditor.dataTab.col.generating": "Generando",
   "playerEconomyEditor.dataTab.col.rules": "Reglas",
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Intercambios",
-  "playerEconomyEditor.dataTab.col.updatedAt": "Actualizada"
+  "playerEconomyEditor.dataTab.col.updatedAt": "Actualizada",
+  "waterTrap.royalCrabPotActive": "Royal Crab Pot boost active",
+  "description.royalCrabPot.boost": "Trampa sin ollas trampa de agua"
 }
