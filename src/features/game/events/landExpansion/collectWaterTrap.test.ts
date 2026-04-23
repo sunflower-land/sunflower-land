@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { collectWaterTrap } from "./collectWaterTrap";
 import { GameState } from "features/game/types/game";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
 import { CrustaceanName } from "features/game/types/crustaceans";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
@@ -68,8 +67,8 @@ describe("collectWaterTrap", () => {
   });
 
   it("collects items from a picked up trap", () => {
-    const caught: Partial<Record<InventoryItemName, number>> = {
-      Crab: 8,
+    const caught: Partial<Record<CrustaceanName, number>> = {
+      Barnacle: 8,
     };
 
     const state = collectWaterTrap({
@@ -99,16 +98,16 @@ describe("collectWaterTrap", () => {
       createdAt,
     });
 
-    expect(state.inventory.Crab).toEqual(new Decimal(8));
+    expect(state.inventory.Barnacle).toEqual(new Decimal(8));
     expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
-    expect(state.farmActivity["Crab Caught"]).toBe(8);
+    expect(state.farmActivity["Barnacle Caught"]).toBe(1);
   });
 
   it("tracks farm activity for each caught item", () => {
-    const caught: Partial<Record<InventoryItemName, number>> = {
-      Crab: 10,
-      "Sea Bass": 5,
-      Tuna: 1,
+    const caught: Partial<Record<CrustaceanName, number>> = {
+      Barnacle: 10,
+      "Sea Slug": 5,
+      "Sea Grapes": 1,
     };
 
     const state = collectWaterTrap({
@@ -138,14 +137,14 @@ describe("collectWaterTrap", () => {
       createdAt,
     });
 
-    expect(state.farmActivity["Crab Caught"]).toBe(10);
-    expect(state.farmActivity["Sea Bass Caught"]).toBe(5);
-    expect(state.farmActivity["Tuna Caught"]).toBe(1);
+    expect(state.farmActivity["Barnacle Caught"]).toBe(1);
+    expect(state.farmActivity["Sea Slug Caught"]).toBe(1);
+    expect(state.farmActivity["Sea Grapes Caught"]).toBe(1);
   });
 
   it("removes the water trap after collection", () => {
-    const caught: Partial<Record<InventoryItemName, number>> = {
-      Crab: 8,
+    const caught: Partial<Record<CrustaceanName, number>> = {
+      Barnacle: 8,
     };
 
     const state = collectWaterTrap({

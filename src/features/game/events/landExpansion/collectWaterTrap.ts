@@ -96,13 +96,11 @@ export function collectWaterTrap({
       game.farmActivity = trackFarmActivity(
         `${itemName} Caught`,
         game.farmActivity,
-        new Decimal(caught[itemName] ?? 0),
       );
       if (waterTrap.chum) {
         game.farmActivity = trackFarmActivity(
           `${itemName} Caught with ${waterTrap.chum}`,
           game.farmActivity,
-          new Decimal(caught[itemName] ?? 0),
         );
       }
     });
