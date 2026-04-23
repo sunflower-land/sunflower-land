@@ -3,6 +3,7 @@ import { collectWaterTrap } from "./collectWaterTrap";
 import { GameState } from "features/game/types/game";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
+import { CrustaceanName } from "features/game/types/crustaceans";
 
 const trapId = "1";
 const GAME_STATE: GameState = {
@@ -179,5 +180,53 @@ describe("collectWaterTrap", () => {
 
     expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
     expect(state.crabTraps.trapSpots?.["other-trap"]?.waterTrap).toBeDefined();
+  });
+
+  it("gives extra crustaceans if the player has Crab House placed", () => {
+    const caught: Partial<Record<CrustaceanName, number>> = {
+      Barnacle: 1,
+    };
+
+    const state = collectWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: {},
+        crabTraps: {
+          trapSpots: {
+            [trapId]: {
+              x: 0,
+              y: 0,
+              waterTrap: {
+                type: "Crab Pot",
+                placedAt: createdAt - 1000,
+                readyAt: createdAt - 1000,
+                caught,
+              },
+            },
+          },
+        },
+        collectibles: {
+          "Crab House": [
+            {
+              id: "crab-house-1",
+              createdAt,
+              readyAt: createdAt,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "waterTrap.collected",
+        trapId,
+      },
+      createdAt,
+    });
+
+    // Without Crab House: 1, With Crab House: 1 + 2 = 3
+    expect(state.inventory.Barnacle).toEqual(new Decimal(3));
   });
 });

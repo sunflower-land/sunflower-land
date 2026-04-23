@@ -1,9 +1,12 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "../../types/game";
+import { GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getObjectEntries } from "lib/object";
 import { caughtCrustacean } from "features/game/types/crustaceans";
+import { BoostName } from "features/game/types/game";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getKeys } from "lib/object";
 
 export type CollectWaterTrapAction = {
   type: "waterTrap.collected";
@@ -14,6 +17,23 @@ type Options = {
   state: Readonly<GameState>;
   action: CollectWaterTrapAction;
   createdAt?: number;
+};
+
+const getCrustaceanAmount = (
+  game: GameState,
+  amount: number,
+): {
+  boostedAmount: Decimal;
+  boostsUsed: { name: BoostName; value: string }[];
+} => {
+  let boostedAmount = new Decimal(amount);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  if (isCollectibleBuilt({ name: "Crab House", game })) {
+    boostedAmount = boostedAmount.add(2);
+    boostsUsed.push({ name: "Crab House", value: "+2" });
+  }
+
+  return { boostedAmount, boostsUsed };
 };
 
 export function collectWaterTrap({
@@ -35,33 +55,36 @@ export function collectWaterTrap({
 
     const caught =
       waterTrap.caught ?? caughtCrustacean(waterTrap.type, waterTrap.chum);
-    getObjectEntries(caught).forEach(([item, amount]) => {
-      if (amount) {
-        const currentAmount =
-          game.inventory[item as InventoryItemName] ?? new Decimal(0);
-        game.inventory[item as InventoryItemName] = currentAmount.add(amount);
+    const boostsUsed: { name: BoostName; value: string }[] = [];
+    getKeys(caught).forEach((name) => {
+      const { boostedAmount, boostsUsed: caughtBoostsUsed } =
+        getCrustaceanAmount(game, caught[name] ?? 1);
+      const previous = game.inventory[name] ?? new Decimal(0);
+      game.inventory[name] = previous.add(boostedAmount);
+      boostsUsed.push(...caughtBoostsUsed);
+    });
+
+    getKeys(caught).forEach((itemName) => {
+      game.farmActivity = trackFarmActivity(
+        `${itemName} Caught`,
+        game.farmActivity,
+        new Decimal(caught[itemName] ?? 0),
+      );
+      if (waterTrap.chum) {
+        game.farmActivity = trackFarmActivity(
+          `${itemName} Caught with ${waterTrap.chum}`,
+          game.farmActivity,
+          new Decimal(caught[itemName] ?? 0),
+        );
       }
     });
 
-    getObjectEntries(caught).forEach(([itemName, amount]) => {
-      if (amount) {
-        game.farmActivity = trackFarmActivity(
-          `${itemName} Caught`,
-          game.farmActivity,
-          new Decimal(amount),
-        );
-        if (waterTrap.chum) {
-          game.farmActivity = trackFarmActivity(
-            `${itemName} Caught with ${waterTrap.chum}`,
-            game.farmActivity,
-            new Decimal(amount),
-          );
-        }
-      }
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
     });
 
     delete trapSpots[action.trapId].waterTrap;
-
-    return game;
   });
 }
