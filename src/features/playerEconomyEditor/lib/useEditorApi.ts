@@ -521,7 +521,9 @@ export function useEditorApi() {
         );
       }
 
-      const root = raw as { data?: EconomySuppliesResponse } & EconomySuppliesResponse;
+      const root = raw as {
+        data?: EconomySuppliesResponse;
+      } & EconomySuppliesResponse;
       const payload =
         root.data && typeof root.data === "object" ? root.data : root;
       return {
