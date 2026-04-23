@@ -11,7 +11,7 @@ export const BananaChicken: React.FC = () => {
           src={bananaChicken}
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 4}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 0.5}px`,
           }}
           className="absolute"
