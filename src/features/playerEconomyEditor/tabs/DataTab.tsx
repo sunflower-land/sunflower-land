@@ -20,7 +20,7 @@ const DEFAULT_LIMIT = 50;
 const TEXT = "text-xs text-[#3e2731]";
 const TABLE_WRAP =
   "w-full overflow-x-auto rounded-sm border-2 border-[#3e2731]/25 bg-[#f5f0e6]";
-const TABLE = "min-w-full text-left text-xs font-[Teeny]";
+const TABLE = "min-w-full text-left text-xs";
 const TH =
   "px-2 py-1 font-semibold border-b-2 border-[#3e2731]/25 whitespace-nowrap bg-[#e9e0c9]";
 const TD = "px-2 py-1 border-b border-[#3e2731]/10 whitespace-nowrap";
@@ -277,9 +277,7 @@ const PlayersSection: React.FC<{ slug: string }> = ({ slug }) => {
   const handleDownload = () => {
     if (!data) return;
     const suffix =
-      appliedFarmId !== undefined
-        ? `farm-${appliedFarmId}`
-        : `page-${page}`;
+      appliedFarmId !== undefined ? `farm-${appliedFarmId}` : `page-${page}`;
     downloadJson(`${slug || "economy"}-players-${suffix}.json`, data);
   };
 
@@ -374,23 +372,31 @@ const PlayersSection: React.FC<{ slug: string }> = ({ slug }) => {
               onClick={handlePrev}
               disabled={!canGoPrev || loading}
             >
-              ◀
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                alt={t("playerEconomyEditor.dataTab.previousPage")}
+                className="w-3 h-3 object-contain"
+                style={{ imageRendering: "pixelated" }}
+              />
             </Button>
             <Button
               className="text-xs w-auto px-2"
               onClick={handleNext}
               disabled={!canGoNext || loading}
             >
-              ▶
+              <img
+                src={SUNNYSIDE.icons.arrow_right}
+                alt={t("playerEconomyEditor.dataTab.nextPage")}
+                className="w-3 h-3 object-contain"
+                style={{ imageRendering: "pixelated" }}
+              />
             </Button>
           </div>
         </div>
       )}
 
       {data && data.players.length === 0 && !loading && (
-        <p className={TEXT}>
-          {t("playerEconomyEditor.dataTab.playersEmpty")}
-        </p>
+        <p className={TEXT}>{t("playerEconomyEditor.dataTab.playersEmpty")}</p>
       )}
 
       {data && data.players.length > 0 && (
@@ -449,9 +455,7 @@ export const DataTab: React.FC<{ slug: string }> = ({ slug }) => {
   if (!slug.trim()) {
     return (
       <InnerPanel className="p-3">
-        <p className={TEXT}>
-          {t("playerEconomyEditor.dataTab.slugRequired")}
-        </p>
+        <p className={TEXT}>{t("playerEconomyEditor.dataTab.slugRequired")}</p>
       </InnerPanel>
     );
   }

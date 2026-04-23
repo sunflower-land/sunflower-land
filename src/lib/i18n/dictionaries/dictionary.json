@@ -2802,6 +2802,8 @@
   "playerEconomyEditor.dataTab.farmIdPlaceholder": "Farm ID",
   "playerEconomyEditor.dataTab.farmIdInvalid": "Enter a positive farm ID.",
   "playerEconomyEditor.dataTab.pagination": "Page {{page}} of {{totalPages}} · {{total}} players",
+  "playerEconomyEditor.dataTab.previousPage": "Previous page",
+  "playerEconomyEditor.dataTab.nextPage": "Next page",
   "playerEconomyEditor.dataTab.searchingFarmId": "Showing farm {{farmId}}",
   "playerEconomyEditor.dataTab.fullPayload": "Full runtime state:",
   "playerEconomyEditor.dataTab.col.itemId": "Item ID",
