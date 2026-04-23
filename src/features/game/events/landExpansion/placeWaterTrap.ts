@@ -9,6 +9,7 @@ import {
   CRUSTACEAN_CHUM_AMOUNTS,
   caughtCrustacean,
 } from "features/game/types/crustaceans";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type PlaceWaterTrapAction = {
   trapId: string;
@@ -36,7 +37,11 @@ export function placeWaterTrap({
     }
 
     const potCount = game.inventory[action.waterTrap] ?? new Decimal(0);
-    if (potCount.lt(1)) {
+    const hasRoyalCrabPot = isCollectibleBuilt({
+      name: "Royal Crab Pot",
+      game,
+    });
+    if (!hasRoyalCrabPot && potCount.lt(1)) {
       throw new Error(`Missing ${action.waterTrap}`);
     }
 
@@ -80,7 +85,9 @@ export function placeWaterTrap({
       caught,
     };
 
-    game.inventory[action.waterTrap] = potCount.sub(1);
+    if (!hasRoyalCrabPot) {
+      game.inventory[action.waterTrap] = potCount.sub(1);
+    }
 
     game.farmActivity = trackFarmActivity(
       `${action.waterTrap} Placed`,

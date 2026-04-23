@@ -121,4 +121,32 @@ describe("placeWaterTrap", () => {
 
     expect(state.inventory["Crab Pot"]).toEqual(new Decimal(2));
   });
+
+  it("does not deduct a trap from inventory if Royal Crab Pot is built", () => {
+    const state = placeWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Crab Pot": new Decimal(1), Moonfur: new Decimal(5) },
+        collectibles: {
+          "Royal Crab Pot": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: Date.now(),
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+      action: {
+        type: "waterTrap.placed",
+        trapId,
+        waterTrap: "Crab Pot",
+        chum: "Moonfur",
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Crab Pot"]).toEqual(new Decimal(1));
+  });
 });
