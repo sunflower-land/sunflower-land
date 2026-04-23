@@ -15,7 +15,11 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { InventoryItemName } from "features/game/types/game";
-import { PetCategory, getPetLevel } from "features/game/types/pets";
+import {
+  PET_FETCHES,
+  PetCategory,
+  getPetLevel,
+} from "features/game/types/pets";
 import { getNFTTraits } from "./TradeableInfo";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
@@ -452,6 +456,12 @@ export const Collection: React.FC<{
                   selectedValues.includes(category),
                 );
               }
+              case "resource":
+                return PET_FETCHES[petTraits.type].fetches.some(
+                  ({ name, level }) =>
+                    petLevel >= level &&
+                    selectedValues.includes(toTraitValueId(name)),
+                );
               case "aura":
                 return selectedValues.includes(
                   toTraitValueId(petTraits.aura ?? ""),
