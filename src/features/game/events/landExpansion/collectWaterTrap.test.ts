@@ -288,7 +288,7 @@ describe("collectWaterTrap", () => {
           },
         },
         farmActivity: {
-          "Barnacle Caught": 1,
+          "Barnacle Caught": counter,
         },
       },
       action: {
