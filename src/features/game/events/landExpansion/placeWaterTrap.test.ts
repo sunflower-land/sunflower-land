@@ -3,6 +3,7 @@ import { placeWaterTrap } from "./placeWaterTrap";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { GameState } from "features/game/types/game";
+import { WATER_TRAP } from "features/game/types/crustaceans";
 
 const trapId = "1";
 
@@ -120,5 +121,68 @@ describe("placeWaterTrap", () => {
     });
 
     expect(state.inventory["Crab Pot"]).toEqual(new Decimal(2));
+  });
+
+  it("does not deduct a trap from inventory if Royal Crab Pot is built", () => {
+    const state = placeWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Crab Pot": new Decimal(1), Moonfur: new Decimal(5) },
+        collectibles: {
+          "Royal Crab Pot": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: Date.now(),
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+      action: {
+        type: "waterTrap.placed",
+        trapId,
+        waterTrap: "Crab Pot",
+        chum: "Moonfur",
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Crab Pot"]).toEqual(new Decimal(1));
+  });
+
+  it("reduces the ready time by 20% when Speed Trap is built", () => {
+    const createdAt = Date.now();
+    const state = placeWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Crab Pot": new Decimal(2), Moonfur: new Decimal(3) },
+        collectibles: {
+          "Speed Trap": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "waterTrap.placed",
+        trapId,
+        waterTrap: "Crab Pot",
+        chum: "Moonfur",
+      },
+      createdAt,
+    });
+
+    // Default ready time for Crab Pot is 8 hours (see WATER_TRAP config)
+    const defaultReadyTimeMs =
+      WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60 * 1000;
+    const expectedReadyTime = createdAt + defaultReadyTimeMs * 0.8;
+
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.readyAt).toBe(
+      expectedReadyTime,
+    );
   });
 });

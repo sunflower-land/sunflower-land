@@ -26,6 +26,7 @@ import {
   caughtCrustacean,
 } from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CrustaceanGuide } from "./CrustaceanGuide";
 import { getKeys } from "lib/object";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
@@ -160,7 +161,12 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   const isValidChumForTrap = selectedChum ? chums.includes(selectedChum) : true;
 
-  const hasTrap = state.inventory[selectedTrap]?.gte(1) ?? false;
+  const hasRoyalCrabPot = isCollectibleBuilt({
+    name: "Royal Crab Pot",
+    game: state,
+  });
+  const hasTrap =
+    hasRoyalCrabPot || (state.inventory[selectedTrap]?.gte(1) ?? false);
 
   const hasEnoughChum = selectedChum
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
@@ -282,10 +288,20 @@ export const WaterTrapModal: React.FC<Props> = ({
               onChange={(trap) => handleTrapChange(trap)}
             />
 
-            {!state.inventory[selectedTrap]?.gte(1) && (
-              <Label className="ml-1" type="danger">
-                {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+            {hasRoyalCrabPot ? (
+              <Label
+                className="ml-1"
+                type="success"
+                icon={ITEM_DETAILS["Royal Crab Pot"].image}
+              >
+                {t("waterTrap.royalCrabPotActive")}
               </Label>
+            ) : (
+              !hasTrap && (
+                <Label className="ml-1" type="danger">
+                  {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+                </Label>
+              )
             )}
 
             {chums.length === 0 ? (
