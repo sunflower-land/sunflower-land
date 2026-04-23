@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
@@ -12,6 +12,8 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ContentComponentProps } from "../GameOptions";
 import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
+import { useGoogleLinkPopup } from "features/auth/lib/useGoogleLinkPopup";
+import { WalletWall } from "features/wallet/components/WalletWall";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
@@ -19,12 +21,7 @@ const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
 const _unlinkingSocial = (state: MachineState) =>
   state.matches("unlinkingSocial");
 
-type GoogleLinkMessage = {
-  type: "sunflower-google-link";
-  idToken?: string;
-  email?: string;
-  error?: string;
-};
+type WalletReauth = { address: string; signature: string };
 
 export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -38,84 +35,48 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const isLinking = useSelector(gameService, _linkingSocial);
   const isUnlinking = useSelector(gameService, _unlinkingSocial);
 
-  const [popupBlocked, setPopupBlocked] = useState(false);
-  const [linkError, setLinkError] = useState<string | null>(null);
+  const google = useGoogleLinkPopup();
 
-  // Track the popup window + the origin we expect messages from.
-  // Set on `onLinkGoogle`, checked in the message handler so a malicious
-  // page (or a stale message from a different origin) cannot inject an
-  // id_token. Both must match before we trust the message.
-  const popupRef = useRef<Window | null>(null);
-  const expectedOriginRef = useRef<string | null>(null);
+  // The "Link Google" ceremony is multi-step: capture wallet sig, then
+  // open Google popup. `googleLinkMode` toggles the panel into ceremony
+  // view; `walletReauth` captures the wallet sig between steps.
+  const [googleLinkMode, setGoogleLinkMode] = useState(false);
+  const [walletReauth, setWalletReauth] = useState<WalletReauth | null>(null);
 
+  // Once both credentials are captured, fire the event exactly once.
+  // Effect deps don't change after the dispatch (we don't reset state
+  // here — that would cascade renders), so this fires at most once per
+  // wallet-sig + id_token pair. On success, `socialDetails` populates
+  // in context and the view switches to the linked state below; the
+  // captured creds become stale but invisible.
   useEffect(() => {
-    const handler = (event: MessageEvent<GoogleLinkMessage>) => {
-      // Fail closed: if no popup is open or no expected origin is set,
-      // ignore the message entirely.
-      if (!popupRef.current || !expectedOriginRef.current) return;
-      if (event.origin !== expectedOriginRef.current) return;
-      if (event.source !== popupRef.current) return;
-      if (event.data?.type !== "sunflower-google-link") return;
+    if (!walletReauth || !google.idToken) return;
 
-      // Consume the message; clear refs so the same popup can't deliver twice.
-      popupRef.current = null;
-      expectedOriginRef.current = null;
+    const authToken = authService.getSnapshot().context.user.rawToken;
+    if (!authToken) return;
 
-      if (event.data.error) {
-        setLinkError(t("linkedAccounts.linkFailed"));
-        return;
-      }
-      if (!event.data.idToken) {
-        setLinkError(t("linkedAccounts.linkFailed"));
-        return;
-      }
+    gameService.send("social.linked", {
+      effect: {
+        type: "social.linked",
+        provider: "google",
+        idToken: google.idToken,
+        walletAddress: walletReauth.address,
+        walletSignature: walletReauth.signature,
+      },
+      authToken,
+    });
+  }, [walletReauth, google.idToken, authService, gameService]);
 
-      const authToken = authService.getSnapshot().context.user.rawToken;
-      if (!authToken) {
-        setLinkError(t("linkedAccounts.linkFailed"));
-        return;
-      }
+  const startGoogleLink = () => {
+    google.reset();
+    setWalletReauth(null);
+    setGoogleLinkMode(true);
+  };
 
-      gameService.send("social.linked", {
-        effect: {
-          type: "social.linked",
-          provider: "google",
-          idToken: event.data.idToken,
-        },
-        authToken,
-      });
-    };
-
-    window.addEventListener("message", handler);
-    return () => window.removeEventListener("message", handler);
-  }, [authService, gameService, t]);
-
-  const onLinkGoogle = () => {
-    setLinkError(null);
-    setPopupBlocked(false);
-
-    let expectedOrigin: string;
-    try {
-      expectedOrigin = new URL(CONFIG.API_URL).origin;
-    } catch {
-      // If we can't even parse the API URL, refuse to launch — we'd
-      // have no way to validate the message origin.
-      setLinkError(t("linkedAccounts.linkFailed"));
-      return;
-    }
-
-    const popup = window.open(
-      `${CONFIG.API_URL}/google/link/authorize`,
-      "sunflower-google-link",
-      "width=500,height=650",
-    );
-    if (!popup) {
-      setPopupBlocked(true);
-      return;
-    }
-
-    popupRef.current = popup;
-    expectedOriginRef.current = expectedOrigin;
+  const cancelGoogleLink = () => {
+    setGoogleLinkMode(false);
+    setWalletReauth(null);
+    google.reset();
   };
 
   // Testnet-only debug affordance. The backend also gates `social.unlinked`
@@ -129,6 +90,50 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       authToken,
     });
   };
+
+  if (googleLinkMode) {
+    // Step 1: capture the wallet re-auth signature.
+    if (!walletReauth) {
+      return (
+        <div className="flex flex-col gap-2">
+          <Label type="default" className="ml-2">
+            {t("linkedAccounts.confirmExistingWallet")}
+          </Label>
+          <WalletWall
+            onSignMessage={({ address, signature }) =>
+              setWalletReauth({ address, signature })
+            }
+          />
+          <Button onClick={cancelGoogleLink}>{t("cancel")}</Button>
+        </div>
+      );
+    }
+
+    // Step 2: launch the Google popup.
+    return (
+      <div className="flex flex-col gap-2">
+        <Label type="default" className="ml-2">
+          {t("linkedAccounts.linkGoogle")}
+        </Label>
+        {isLinking ? (
+          <Button disabled>{t("linkedAccounts.linking")}</Button>
+        ) : (
+          <GoogleButton onClick={google.open} />
+        )}
+        {google.popupBlocked && (
+          <p className="text-xs text-red-500 mx-1">
+            {t("linkedAccounts.popupBlocked")}
+          </p>
+        )}
+        {google.error && (
+          <p className="text-xs text-red-500 mx-1">
+            {t("linkedAccounts.linkFailed")}
+          </p>
+        )}
+        <Button onClick={cancelGoogleLink}>{t("cancel")}</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -166,19 +171,9 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
             )}
           </>
         ) : (
-          <>
-            {isLinking ? (
-              <Button disabled>{t("linkedAccounts.linking")}</Button>
-            ) : (
-              <GoogleButton onClick={onLinkGoogle} />
-            )}
-            {popupBlocked && (
-              <p className="text-xs text-red-500">
-                {t("linkedAccounts.popupBlocked")}
-              </p>
-            )}
-            {linkError && <p className="text-xs text-red-500">{linkError}</p>}
-          </>
+          <Button onClick={startGoogleLink}>
+            {t("linkedAccounts.linkGoogle")}
+          </Button>
         )}
       </div>
     </div>
