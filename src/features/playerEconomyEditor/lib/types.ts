@@ -168,8 +168,55 @@ export type EditorTab =
   | "items"
   | "purchases"
   | "actions"
+  | "data"
   | "json"
   | "docs";
+
+/* ─── Data tab API shapes ─────────────────────────────────────── */
+
+/**
+ * Supplies row for the Data tab: one per item configured on the economy, plus any
+ * unrecognised item ids that appear in `economy_supplies`.
+ */
+export type EconomySupplyRow = {
+  itemId: string;
+  /** Empty string when the item is not present in the config. */
+  name: string;
+  count: number;
+  /** Global cap from config (`items[itemId].supply`); omitted when uncapped. */
+  maxSupply?: number;
+};
+
+export type EconomySuppliesResponse = {
+  slug: string;
+  supplies: EconomySupplyRow[];
+};
+
+/**
+ * Shape of each player row returned by the `economyPlayers` endpoint. Mirrors the
+ * server-side `PlayerEconomyRuntimeState` plus identifying metadata.
+ */
+export type EconomyPlayerRow = {
+  farmId: number;
+  playerEconomySlug: string;
+  updatedAt: string;
+  balances: Record<string, number>;
+  generating: Record<string, unknown>;
+  dailyMinted: { utcDay: string; minted: Record<string, number> };
+  activity: number;
+  dailyActivity: { date: string; count: number };
+  rules?: Record<string, { ranAt: number; count?: number }>;
+  highscore?: number;
+  exchangeCompletions?: Record<string, number>;
+};
+
+export type EconomyPlayersResponse = {
+  players: EconomyPlayerRow[];
+  total: number;
+  limit: number;
+  skip: number;
+  hasMore: boolean;
+};
 
 /* ─── Empty defaults ──────────────────────────────────────────── */
 
