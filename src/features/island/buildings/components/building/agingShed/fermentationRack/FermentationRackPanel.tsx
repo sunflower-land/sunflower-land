@@ -99,7 +99,7 @@ export const FermentationRackPanel: React.FC = () => {
     autoEndAt: fermentationClockEndAt,
   });
 
-  const groups = getFermentationOutputGroups(state);
+  const groups = getFermentationOutputGroups(state.inventory);
 
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedSignature, setSelectedSignature] = useState<

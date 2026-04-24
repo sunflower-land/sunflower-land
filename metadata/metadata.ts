@@ -13026,7 +13026,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "Tiny trees, tangy and crisp, preserved in brine.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/3006.png",
+    image: "../public/erc1155/images/3007.png",
     attributes: [
       { trait_type: "Purpose", value: "Food" },
       { trait_type: "Tradable", value: "No" },

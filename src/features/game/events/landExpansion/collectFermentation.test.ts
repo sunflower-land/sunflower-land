@@ -454,6 +454,70 @@ describe("collectFermentation", () => {
     expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(1);
   });
 
+  describe("collects retired Pickled Cabbage jobs", () => {
+    it("collects an in-progress legacy Greenhouse Glow: Pickled Cabbage job", () => {
+      const past = createdAt - 1;
+
+      const state = collectFermentation({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              fermentation: [
+                {
+                  id: "legacy-gh-glow",
+                  recipe:
+                    "Greenhouse Glow: Pickled Cabbage" as FermentationRecipeName,
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+        }),
+        action: { type: "fermentation.collected" },
+        farmId: 1,
+        createdAt,
+      });
+
+      expect(state.inventory["Greenhouse Glow"]?.toNumber()).toEqual(1);
+      expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    });
+
+    it("collects an in-progress retired Umbrella Bait (Pickled Cabbage) job", () => {
+      const past = createdAt - 1;
+      const fishName = getFishNamesByTier("advanced")[0];
+      const recipe =
+        `Umbrella Bait (Aged ${fishName}, Pickled Cabbage)` as FermentationRecipeName;
+
+      const state = collectFermentation({
+        state: createFermentationTestState({
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              fermentation: [
+                {
+                  id: "retired-umbrella",
+                  recipe,
+                  startedAt: past,
+                  readyAt: past,
+                },
+              ],
+            },
+          },
+        }),
+        action: { type: "fermentation.collected" },
+        farmId: 1,
+        createdAt,
+      });
+
+      expect(state.inventory["Umbrella Bait"]?.toNumber()).toEqual(5);
+      expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    });
+  });
+
   it("honours Ager stamp even when skill is deactivated after starting", () => {
     const past = createdAt - 1;
 

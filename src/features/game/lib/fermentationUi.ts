@@ -7,7 +7,7 @@ import {
   type FermentationRecipeName,
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
-import type { GameState, InventoryItemName } from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
@@ -165,18 +165,18 @@ export function findFermentationGroupByStoredSignature(
  * without touching the grouping loop.
  */
 const INVENTORY_GATED_RECIPES: Partial<
-  Record<FermentationRecipeName, (state: GameState) => boolean>
+  Record<FermentationRecipeName, (inventory: Inventory) => boolean>
 > = {
-  "Pickled Cabbage to Broccoli": (state) =>
-    (state.inventory["Pickled Cabbage"] ?? new Decimal(0)).gte(1),
+  "Pickled Cabbage to Broccoli": (inventory) =>
+    (inventory["Pickled Cabbage"] ?? new Decimal(0)).gte(1),
 };
 
 function isRecipeVisible(
   recipeId: FermentationRecipeName,
-  state: GameState,
+  inventory: Inventory,
 ): boolean {
   const predicate = INVENTORY_GATED_RECIPES[recipeId];
-  return predicate ? predicate(state) : true;
+  return predicate ? predicate(inventory) : true;
 }
 
 /**
@@ -184,7 +184,7 @@ function isRecipeVisible(
  * bait yields) share one dropdown row. Per-variant yields are on {@link FermentationOutputGroup.outputQuantities}.
  */
 export function getFermentationOutputGroups(
-  state: GameState,
+  inventory: Inventory,
 ): FermentationOutputGroup[] {
   const byOutputItem = new Map<string, FermentationRecipeName[]>();
   const sortMetaByRecipe = new Map<
@@ -193,7 +193,7 @@ export function getFermentationOutputGroups(
   >();
 
   const visibleRecipeIds = FERMENTATION_RECIPE_IDS.filter((id) =>
-    isRecipeVisible(id, state),
+    isRecipeVisible(id, inventory),
   );
 
   for (const recipeId of visibleRecipeIds) {

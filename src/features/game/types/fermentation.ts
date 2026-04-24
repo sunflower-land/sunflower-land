@@ -62,6 +62,12 @@ const STATIC_FERMENTATION_RECIPES = {
       "Pickled Broccoli": new Decimal(1),
     },
   },
+  /**
+   * One-way migration recipe for players holding pre-retirement Pickled Cabbage.
+   * Kept permanently so late returners aren't stuck with a dead-end inventory item
+   * — the UI gates visibility on `inventory["Pickled Cabbage"] >= 1` so it
+   * disappears once a player has converted their stock.
+   */
   "Pickled Cabbage to Broccoli": {
     durationSeconds: 0,
     ingredients: {

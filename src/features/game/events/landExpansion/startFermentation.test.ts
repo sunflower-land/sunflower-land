@@ -695,6 +695,56 @@ describe("startFermentation", () => {
     ).toThrow("Insufficient ingredient");
   });
 
+  describe("rejects retired Pickled Cabbage recipes", () => {
+    it.each(["Pickled Cabbage", "Greenhouse Glow: Pickled Cabbage"] as const)(
+      "throws when attempting to start %s",
+      (recipe) => {
+        expect(() =>
+          startFermentation({
+            state: createFermentationTestState({
+              inventory: {
+                Cabbage: new Decimal(100),
+                Salt: new Decimal(100),
+                "Refined Salt": new Decimal(10),
+                "Pickled Cabbage": new Decimal(10),
+              },
+            }),
+            action: {
+              type: "fermentation.started",
+              recipe: recipe as StartableFermentationRecipeName,
+              jobId: TEST_JOB_ID,
+            },
+            farmId: 1,
+            createdAt,
+          }),
+        ).toThrow(/no longer available/);
+      },
+    );
+
+    it("throws when attempting to start a retired Umbrella Bait (Pickled Cabbage) variant", () => {
+      const fishName = getFishNamesByTier("advanced")[0];
+      const recipe = `Umbrella Bait (Aged ${fishName}, Pickled Cabbage)`;
+
+      expect(() =>
+        startFermentation({
+          state: createFermentationTestState({
+            inventory: {
+              [`Aged ${fishName}`]: new Decimal(1),
+              "Pickled Cabbage": new Decimal(1),
+            },
+          }),
+          action: {
+            type: "fermentation.started",
+            recipe: recipe as StartableFermentationRecipeName,
+            jobId: TEST_JOB_ID,
+          },
+          farmId: 1,
+          createdAt,
+        }),
+      ).toThrow(/no longer available/);
+    });
+  });
+
   describe("Pickled Cabbage to Broccoli conversion", () => {
     it("converts 1 Pickled Cabbage into 1 Pickled Broccoli instantly", () => {
       const state = startFermentation({
