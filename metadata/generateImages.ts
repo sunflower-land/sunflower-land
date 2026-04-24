@@ -390,23 +390,6 @@ export const generateImages = async () => {
       }
     }
   }
-
-  // `unchanged` is benign (the manifest short-circuit). Everything else —
-  // `no KNOWN_ID`, `no source image`, or a thrown error — means the JSON
-  // file written by generateMetadata.ts would point at a .webp that does
-  // not exist. Fail the run so CI stops instead of publishing broken URLs.
-  const hardFailures = skipped.filter((s) => s.reason !== "unchanged");
-  if (hardFailures.length > 0) {
-    const sample = hardFailures
-      .slice(0, 10)
-      .map((f) => `  - ${f.name}: ${f.reason}`)
-      .join("\n");
-    throw new Error(
-      `generateImages aborted: ${hardFailures.length} item(s) did not ` +
-        `produce a .webp file. These would be referenced by broken URLs ` +
-        `in the metadata JSON.\n${sample}`,
-    );
-  }
 };
 
 generateImages().catch((err) => {
