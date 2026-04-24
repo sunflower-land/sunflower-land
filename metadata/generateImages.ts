@@ -17,17 +17,24 @@ import { OPEN_SEA_COLLECTIBLES } from "./metadata";
  * which crashes under Node because `window` is not defined.
  */
 function loadBoostedItemNames(): Set<string> {
-  const src = fs.readFileSync(
-    "src/features/game/types/collectibleItemBuffs.ts",
-    "utf8",
-  );
+  const SRC_PATH = "src/features/game/types/collectibleItemBuffs.ts";
+  const src = fs.readFileSync(SRC_PATH, "utf8");
   const start = src.indexOf("COLLECTIBLE_BUFF_LABELS");
-  if (start === -1) return new Set();
+  if (start === -1)
+    throw new Error(
+      `Could not find COLLECTIBLE_BUFF_LABELS declaration in ${SRC_PATH} — ` +
+        `the parser's assumptions no longer match the source file. Boost ` +
+        `overlays would be dropped from every regenerated image.`,
+    );
   // Skip over the type annotation to the `=` that terminates it, then the
   // first `{` after. A naive `indexOf("{")` hits the `{ skills, collectibles }`
   // destructuring inside the type annotation.
   const eqIdx = src.indexOf("> =", start);
-  if (eqIdx === -1) return new Set();
+  if (eqIdx === -1)
+    throw new Error(
+      `Could not find "> =" after COLLECTIBLE_BUFF_LABELS in ${SRC_PATH}. ` +
+        `The type annotation shape likely changed; update the parser.`,
+    );
   const braceOpen = src.indexOf("{", eqIdx);
   let depth = 0;
   let braceClose = -1;
@@ -42,7 +49,10 @@ function loadBoostedItemNames(): Set<string> {
       }
     }
   }
-  if (braceClose === -1) return new Set();
+  if (braceClose === -1)
+    throw new Error(
+      `Unbalanced braces in COLLECTIBLE_BUFF_LABELS object literal.`,
+    );
   const body = src.slice(braceOpen + 1, braceClose);
 
   const names = new Set<string>();
@@ -71,6 +81,11 @@ function loadBoostedItemNames(): Set<string> {
     );
     if (m) names.add(m[1] ?? m[2] ?? m[3]);
   }
+  if (names.size === 0)
+    throw new Error(
+      `Parsed 0 entries from COLLECTIBLE_BUFF_LABELS in ${SRC_PATH}. ` +
+        `This would silently drop every boost overlay — refusing to proceed.`,
+    );
   return names;
 }
 const BOOSTED_ITEMS = loadBoostedItemNames();
@@ -374,6 +389,23 @@ export const generateImages = async () => {
         console.log(`       ${items.join(", ")}`);
       }
     }
+  }
+
+  // `unchanged` is benign (the manifest short-circuit). Everything else —
+  // `no KNOWN_ID`, `no source image`, or a thrown error — means the JSON
+  // file written by generateMetadata.ts would point at a .webp that does
+  // not exist. Fail the run so CI stops instead of publishing broken URLs.
+  const hardFailures = skipped.filter((s) => s.reason !== "unchanged");
+  if (hardFailures.length > 0) {
+    const sample = hardFailures
+      .slice(0, 10)
+      .map((f) => `  - ${f.name}: ${f.reason}`)
+      .join("\n");
+    throw new Error(
+      `generateImages aborted: ${hardFailures.length} item(s) did not ` +
+        `produce a .webp file. These would be referenced by broken URLs ` +
+        `in the metadata JSON.\n${sample}`,
+    );
   }
 };
 

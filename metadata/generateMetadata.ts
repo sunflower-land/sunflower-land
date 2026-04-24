@@ -77,34 +77,41 @@ function generateWearables() {
 
   // Wearable images are uploaded manually — some are .png, some are .webp.
   // Detect the extension by looking at what's actually on disk so the URL
-  // matches the file the team uploaded.
+  // matches the file the team uploaded. If neither file is present we
+  // skip that item rather than fabricate a URL to a non-existent asset.
   const wearablesImageDir = path.join(__dirname, "../public/wearables/images");
-  const wearableExt = (id: number): string => {
+  const wearableExt = (id: number): "webp" | "png" | null => {
     if (fs.existsSync(path.join(wearablesImageDir, `${id}.webp`)))
       return "webp";
-    return "png";
+    if (fs.existsSync(path.join(wearablesImageDir, `${id}.png`))) return "png";
+    return null;
   };
+
+  const skipped: string[] = [];
 
   // Generate/update metadata files
   items.forEach((name) => {
     const metadata = OPEN_SEA_WEARABLES[name];
+    const id = ITEM_IDS[name];
+    const ext = wearableExt(id);
+    if (ext === null) {
+      skipped.push(`${name} (${id})`);
+      return;
+    }
 
     const output = {
       description: `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`,
       decimals: metadata.decimals,
       attributes: metadata.attributes,
       external_url: metadata.external_url,
-      image: `https://sunflower-land.com/play/wearables/images/${ITEM_IDS[name]}.${wearableExt(ITEM_IDS[name])}`,
+      image: `https://sunflower-land.com/play/wearables/images/${id}.${ext}`,
       name,
     };
 
-    //convert ITEM_IDS[name] to hex zero padded with 64 zeros
-    const zeroPadded = ITEM_IDS[name].toString(16).padStart(64, "0");
+    //convert id to hex zero padded with 64 zeros
+    const zeroPadded = id.toString(16).padStart(64, "0");
 
-    const jsonPath = path.join(
-      __dirname,
-      `../public/wearables/${ITEM_IDS[name]}.json`,
-    );
+    const jsonPath = path.join(__dirname, `../public/wearables/${id}.json`);
     const hexJsonPath = path.join(
       __dirname,
       `../public/wearables/${zeroPadded}.json`,
@@ -113,6 +120,13 @@ function generateWearables() {
     fs.writeFile(jsonPath, JSON.stringify(output), () => undefined);
     fs.writeFile(hexJsonPath, JSON.stringify(output), () => undefined);
   });
+
+  if (skipped.length > 0) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Skipped ${skipped.length} wearable(s) with no image on disk: ${skipped.join(", ")}`,
+    );
+  }
 
   // Clean-up old metadata files
   const metadataFolderPath = path.join(__dirname, "../public/wearables/");
