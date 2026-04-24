@@ -13,6 +13,7 @@ import { GreenHouseCropName } from "features/game/types/crops";
 import { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const selectReadyPlants = (state: MachineState) => {
   const pots = state.context.state.greenhouse.pots;
@@ -39,10 +40,14 @@ const selectReadyPlants = (state: MachineState) => {
   );
 };
 
+const selectHasActivePlants = (state: MachineState) =>
+  Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
+
 export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
 
   const readyPlants = useSelector(gameService, selectReadyPlants);
+  const hasActivePlants = useSelector(gameService, selectHasActivePlants);
 
   const navigate = useNavigate();
 
@@ -58,6 +63,17 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   return (
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Greenhouse" onClick={handleClick}>
+        {hasActivePlants && (
+          <img
+            src={SUNNYSIDE.building.smoke}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
+              left: `calc(${PIXEL_SCALE * 26}px - 50px)`,
+              bottom: `calc(${PIXEL_SCALE * 46}px + 30px)`,
+            }}
+          />
+        )}
         <img
           src={GREENHOUSE_VARIANTS[season]}
           className="absolute pointer-events-none"
