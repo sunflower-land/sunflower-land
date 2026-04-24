@@ -1,3 +1,4 @@
 public/erc1155/*.json
+public/erc1155/images/.manifest.json
 public/wearables/*.json
 dist

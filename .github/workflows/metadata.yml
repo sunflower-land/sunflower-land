@@ -6,6 +6,15 @@ on:
       - main
     paths:
       - metadata/metadata.ts
+      - metadata/generateImages.ts
+      - metadata/generateMetadata.ts
+      - src/features/game/types/index.ts
+      - src/features/game/types/images.ts
+      - src/features/game/types/collectibleItemBuffs.ts
+      - src/assets/**
+      - public/erc1155/images/3x3_bg.png
+      - public/erc1155/images/boost.png
+      - public/wearables/images/**
 
 jobs:
   metadata:
@@ -30,20 +39,33 @@ jobs:
       - name: Run metadata script
         run: yarn metadata
 
+      - name: Generate collectible images
+        run: yarn images
+
+      # Commit steps below use `if: always()` so any partial output produced
+      # before a script error still lands on main. Per-item errors are
+      # already caught as skips, but this also guards against unexpected
+      # failures at module load time, memory exhaustion, etc.
       - name: Configure Git user
+        if: always()
         run: |
           git config --global user.name "Metadata Bot"
           git config --global user.email "metadata@sunflower-land.com"
 
       - name: Pull latest changes
+        if: always()
         run: |
           git fetch origin
           git pull origin main
 
       - uses: EndBug/add-and-commit@v9
+        if: always()
         with:
-          message: "[BOT] Update metadata [skip ci]"
+          message: "[BOT] Update metadata and images [skip ci]"
           committer_name: Metadata Bot
           committer_email: metadata@sunflower-land.com
-          add: public/erc1155/*.json
+          add: |
+            public/erc1155/*.json
+            public/erc1155/images/*.webp
+            public/erc1155/images/.manifest.json
           commit: --no-verify
