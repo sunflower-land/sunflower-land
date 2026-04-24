@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Yengeç geldiğini bile görmeden kapanır. Yengeç tuzağı süresini %20 azaltır",
   "description.navigationTable.boost": "+100% Harita Parçası Oranları",
   "description.crabHouse.boost": "+2 Kabuklular verimi",
-  "description.speedTrap.boost": "-20% Saçmalık tuzak süresi",
   "description.pistolShrimp.boost": "%20 +1 kabuklu hayvan verimi elde etme şansı",
   "description.flamingoChicken": "Tuz Uyanışı tuzlu suyunda pişen pembe bir tavuk.",
   "description.saltCrystalFlower": "Kristalize tuzdan yetiştirilen yapraklar - uyanışın çiçeği.",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Borsalar",
   "playerEconomyEditor.dataTab.col.updatedAt": "Güncellendi",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot takviyesi aktif",
-  "description.royalCrabPot.boost": "Su Tuzağı Saksıları Olmayan Tuzak"
+  "description.royalCrabPot.boost": "Su Tuzağı Saksıları Olmayan Tuzak",
+  "description.speedTrap.boost": "-20% Yengeç tuzağı süresi"
 }

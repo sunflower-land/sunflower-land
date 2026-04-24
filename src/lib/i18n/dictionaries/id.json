@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Tutup sebelum kepiting melihatnya datang. Mengurangi waktu perangkap kepiting sebesar 20%",
   "description.navigationTable.boost": "Peluang Potongan Peta +100%",
   "description.crabHouse.boost": "+2 Hasil krustasea",
-  "description.speedTrap.boost": "-20% Waktu jebakan omong kosong",
   "description.pistolShrimp.boost": "Peluang 20% untuk mendapatkan hasil krustasea +1",
   "description.flamingoChicken": "Seekor unggas kemerahan yang berendam dalam air garam Kebangkitan Garam.",
   "description.saltCrystalFlower": "Kelopak tumbuh dari garam yang mengkristal - mekar kebangkitan.",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Pertukaran",
   "playerEconomyEditor.dataTab.col.updatedAt": "Diperbarui",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot boost aktif",
-  "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap Air"
+  "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap Air",
+  "description.speedTrap.boost": "-20% waktu perangkap kepiting"
 }

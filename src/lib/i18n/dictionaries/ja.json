@@ -8769,7 +8769,6 @@
   "description.speedTrap": "カニが気づく前にパチンと閉まります。カニ捕獲時間を 20% 短縮する。",
   "description.navigationTable.boost": "+100% マップピースオッズ",
   "description.crabHouse.boost": "+2 甲殻類産出量",
-  "description.speedTrap.boost": "-20% クラップトラップ時間",
   "description.pistolShrimp.boost": "20% の確率で甲殻類の産出量が+1になる",
   "description.flamingoChicken": "ソルト・アウェイクニングの塩水でふりをするバラ色の鳥。",
   "description.saltCrystalFlower": "結晶化した塩から育った花びら。覚醒の花。",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "取引所",
   "playerEconomyEditor.dataTab.col.updatedAt": "更新済み",
   "waterTrap.royalCrabPotActive": "ロイヤルクラブポットブーストアクティブ",
-  "description.royalCrabPot.boost": "ウォータートラップポットなしのトラップ"
+  "description.royalCrabPot.boost": "ウォータートラップポットなしのトラップ",
+  "description.speedTrap.boost": "-20% カニ捕獲時間"
 }

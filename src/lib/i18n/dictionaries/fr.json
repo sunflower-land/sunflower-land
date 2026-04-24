@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Il se ferme avant même que le crabe ne le voie arriver. Réduit la durée des pièges à crabes de 20 %",
   "description.navigationTable.boost": "+100 % de chances sur les pièces de la carte",
   "description.crabHouse.boost": "+2 Rendement en crustacés",
-  "description.speedTrap.boost": "-20% Temps de piège à saloperies",
   "description.pistolShrimp.boost": "20 % de chances d'obtenir un rendement en crustacés de +1",
   "description.flamingoChicken": "Une volaille rosée qui fait ses besoins dans la saumure du Salt Awakening.",
   "description.saltCrystalFlower": "Pétales cultivés à partir de sel cristallisé — fleur de l'éveil.",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Echanges",
   "playerEconomyEditor.dataTab.col.updatedAt": "Mis à jour",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost actif",
-  "description.royalCrabPot.boost": "Piège sans piège à eau Pots"
+  "description.royalCrabPot.boost": "Piège sans piège à eau Pots",
+  "description.speedTrap.boost": "-20 % Durée du piège à crabes"
 }

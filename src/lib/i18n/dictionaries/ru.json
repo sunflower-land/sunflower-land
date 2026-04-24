@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Snaps shut before the crab even sees it coming. Reduces Crab trap time by 20%",
   "description.navigationTable.boost": "+100% Map Piece Odds",
   "description.crabHouse.boost": "+2 Crustacean yield",
-  "description.speedTrap.boost": "-20% Crap trap time",
   "description.pistolShrimp.boost": "20% chance to get +1 crustacean yield",
   "description.flamingoChicken": "A rosy fowl that preens in the Salt Awakening brine.",
   "description.saltCrystalFlower": "Petals grown from crystallized salt — bloom of the awakening.",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Exchanges",
   "playerEconomyEditor.dataTab.col.updatedAt": "Updated",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot boost active",
-  "description.royalCrabPot.boost": "Trap without Water Trap Pots"
+  "description.royalCrabPot.boost": "Trap without Water Trap Pots",
+  "description.speedTrap.boost": "-20% Crab trap time"
 }

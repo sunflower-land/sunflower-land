@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Schnappt zu, bevor die Krabbe es überhaupt kommen sieht. Reduziert die Fangzeit von Krabben um 20%",
   "description.navigationTable.boost": "+100% Chance auf Kartenstücke",
   "description.crabHouse.boost": "+2 Ertrag an Krebstieren",
-  "description.speedTrap.boost": "-20% Mistfallzeit",
   "description.pistolShrimp.boost": "20% Chance, +1 Ertrag bei Krebstieren zu erhalten",
   "description.flamingoChicken": "Ein rosiges Geflügel, das sich in der Salt Awakening-Sole putzt.",
   "description.saltCrystalFlower": "Aus kristallisiertem Salz gewachsene Blütenblätter — Blüte des Erwachens.",
@@ -8850,5 +8849,6 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Börsen",
   "playerEconomyEditor.dataTab.col.updatedAt": "aktualisiert",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost aktiv",
-  "description.royalCrabPot.boost": "Falle ohne Wasserfalle, Töpfe"
+  "description.royalCrabPot.boost": "Falle ohne Wasserfalle, Töpfe",
+  "description.speedTrap.boost": "-20% Zeit zum Fallen von Krabben"
 }
