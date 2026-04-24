@@ -38,7 +38,7 @@ import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
-import { CompostName, ComposterName } from "./composters";
+import { CompostName, ComposterName, Worm } from "./composters";
 import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
@@ -143,6 +143,7 @@ export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
 export type ComposterCollectEvent = `${CompostName} Collected`;
 export type CompostedEvent = `${ComposterName} Collected`;
+export type WormCollectedEvent = `${Worm} Collected`;
 export type PlantGreenHouseFruitEvent = `${GreenHouseFruitName} Planted`;
 export type PlantGreenHouseCropEvent = `${GreenHouseCropName} Planted`;
 export type AnimalFeedMixedEvent =
@@ -230,6 +231,7 @@ export type FarmActivityName =
   | "Chore Skipped"
   | "Bud Placed"
   | ComposterCollectEvent
+  | WormCollectedEvent
   | "Crop Fertilised"
   | "Rod Casted"
   | "Farm Cheered"

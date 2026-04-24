@@ -34,7 +34,10 @@ import {
   getCompostAmount,
   getReadyAt,
 } from "features/game/events/landExpansion/startComposter";
-import { isWearableActive } from "features/game/lib/wearables";
+import {
+  getWormRange,
+  rollWormAmount,
+} from "features/game/events/landExpansion/composterBait";
 import {
   getSpeedUpCost,
   getSpeedUpTime,
@@ -47,72 +50,6 @@ import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertili
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
-
-const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
-  "Compost Bin": { min: 2, max: 4 },
-  "Turbo Composter": { min: 2, max: 3 },
-  "Premium Composter": { min: 1, max: 3 },
-};
-
-function getWormOutput({
-  state,
-  building,
-}: {
-  state: GameState;
-  building: ComposterName;
-}) {
-  const { skills } = state.bumpkin;
-  let { min, max } = WORM_OUTPUT[building];
-  if (isWearableActive({ name: "Bucket O' Worms", game: state })) {
-    min += 1;
-    max += 1;
-  }
-
-  // +1 Worm if the player has Wormy Treat skill
-  if (skills["Wormy Treat"]) {
-    min += 1;
-    max += 1;
-  }
-
-  // +2 Bait if the player has Composting Overhaul skill
-  if (skills["Composting Overhaul"]) {
-    min += 2;
-    max += 2;
-  }
-
-  // -1 bait if player has More with less skill (in exchange for +10 fishing limit)
-  if (skills["More With Less"]) {
-    min -= 1;
-    max -= 1;
-  }
-
-  // -3 worms with Composting Revamp
-  if (skills["Composting Revamp"]) {
-    min -= 3;
-    max -= 3;
-  }
-
-  if (isWearableActive({ name: "Saw Fish", game: state })) {
-    min += 1;
-    max += 1;
-  }
-
-  if (isCollectibleBuilt({ name: "Deep Sea Slug", game: state })) {
-    min += 1;
-    max += 1;
-  }
-
-  // If min/max somehow goes negative, show as 0
-  if (min < 0) {
-    min = 0;
-  }
-
-  if (max < 0) {
-    max = 0;
-  }
-
-  return { min, max };
-}
 
 export const COMPOSTER_IMAGES: Record<
   ComposterName,
@@ -273,6 +210,7 @@ const ComposterModalContent: React.FC<{
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, (state) => state.context.state);
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const now = useNow({ live: !!readyAt, autoEndAt: readyAt ?? 0 });
   const composting = !!readyAt && readyAt >= now;
@@ -293,7 +231,7 @@ const ComposterModalContent: React.FC<{
     building: composterName,
   });
 
-  const { min, max } = getWormOutput({ state, building: composterName });
+  const { min, max } = getWormRange({ state, building: composterName });
   const { timeToFinishMilliseconds, boostsUsed } = getReadyAt({
     gameState: state,
     composter: composterName,
@@ -333,6 +271,12 @@ const ComposterModalContent: React.FC<{
   }; // We could do without this const but I added it for better security
 
   if (isReady) {
+    const { worms: readyWorms } = rollWormAmount({
+      state,
+      building: composterName,
+      farmId,
+      counter: state.farmActivity[`${worm} Collected`] ?? 0,
+    });
     return (
       <>
         <Label
@@ -349,15 +293,21 @@ const ComposterModalContent: React.FC<{
           />
           <div className="mt-2 flex-1">
             <div className="flex flex-wrap">
-              {getKeys(produces).map((name) => (
-                <div
-                  key={name}
-                  className="flex space-x-2 justify-start mr-2 mb-1"
-                >
-                  <img src={ITEM_DETAILS[name].image} className="h-5" />
-                  <Label type="default">{`${produces[name]} ${name}`}</Label>
-                </div>
-              ))}
+              {getKeys(produces)
+                .filter((name) => !(name in WORM))
+                .map((name) => (
+                  <div
+                    key={name}
+                    className="flex space-x-2 justify-start mr-2 mb-1"
+                  >
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                  </div>
+                ))}
+              <div className="flex space-x-2 justify-start mr-2 mb-1">
+                <img src={ITEM_DETAILS[worm].image} className="h-5" />
+                <Label type="default">{`${readyWorms} ${worm}s`}</Label>
+              </div>
             </div>
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
@@ -395,21 +345,23 @@ const ComposterModalContent: React.FC<{
           <div className="mt-2 flex-1">
             <Timer readyAt={readyAt} />
             <div className="flex flex-wrap my-1">
-              {getKeys(produces).map((name) => (
-                <div
-                  key={name}
-                  className="flex space-x-2 justify-start mr-2 mb-1"
-                >
-                  <img src={ITEM_DETAILS[name].image} className="h-5" />
-                  <Label type="default">
-                    {name in WORM
-                      ? max === 0
-                        ? `0 ${name}s`
-                        : `${min}-${max} ${name}s`
-                      : `${produces[name]} ${name}`}
-                  </Label>
-                </div>
-              ))}
+              {getKeys(produces)
+                .filter((name) => !(name in WORM))
+                .map((name) => (
+                  <div
+                    key={name}
+                    className="flex space-x-2 justify-start mr-2 mb-1"
+                  >
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                  </div>
+                ))}
+              <div className="flex space-x-2 justify-start mr-2 mb-1">
+                <img src={ITEM_DETAILS[worm].image} className="h-5" />
+                <Label type="default">
+                  {max === 0 ? `0 ${worm}s` : `${min}-${max} ${worm}s`}
+                </Label>
+              </div>
             </div>
           </div>
         </div>
