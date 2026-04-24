@@ -402,7 +402,11 @@ const ComposterModalContent: React.FC<{
                 >
                   <img src={ITEM_DETAILS[name].image} className="h-5" />
                   <Label type="default">
-                    {name in WORM ? `? ${name}s` : `${produces[name]} ${name}`}
+                    {name in WORM
+                      ? max === 0
+                        ? `0 ${name}s`
+                        : `${min}-${max} ${name}s`
+                      : `${produces[name]} ${name}`}
                   </Label>
                 </div>
               ))}
