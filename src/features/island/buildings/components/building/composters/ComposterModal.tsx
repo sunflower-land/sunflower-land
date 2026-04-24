@@ -277,6 +277,7 @@ const ComposterModalContent: React.FC<{
       farmId,
       counter: state.farmActivity[`${worm} Collected`] ?? 0,
     });
+    const wormLabel = readyWorms === 1 ? worm : `${worm}s`;
     return (
       <>
         <Label
@@ -306,7 +307,7 @@ const ComposterModalContent: React.FC<{
                 ))}
               <div className="flex space-x-2 justify-start mr-2 mb-1">
                 <img src={ITEM_DETAILS[worm].image} className="h-5" />
-                <Label type="default">{`${readyWorms} ${worm}s`}</Label>
+                <Label type="default">{`${readyWorms} ${wormLabel}`}</Label>
               </div>
             </div>
             <div className="flex items-center">

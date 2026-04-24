@@ -21,14 +21,14 @@ type Options = {
   state: Readonly<GameState>;
   action: collectCompostAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 export function collectCompost({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { bumpkin } = stateCopy;

@@ -21,6 +21,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
+        farmId: 1,
       }),
     ).toThrow("Composter does not exist");
   });
@@ -47,6 +48,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
+        farmId: 1,
       }),
     ).toThrow("Composter is not producing anything");
   });
@@ -78,6 +80,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
+        farmId: 1,
       }),
     ).toThrow("Compost is not ready");
   });
@@ -115,6 +118,7 @@ describe("collectCompost", () => {
         buildingId: "123",
       },
       createdAt: Date.now(),
+      farmId: 1,
     });
 
     expect(state.buildings).toEqual({
