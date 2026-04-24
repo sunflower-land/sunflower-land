@@ -22,6 +22,7 @@ import { BasicsTab } from "./tabs/BasicsTab";
 import { ItemsTab } from "./tabs/ItemsTab";
 import { PurchasesTab } from "./tabs/PurchasesTab";
 import { ActionsTab } from "./tabs/ActionsTab";
+import { DataTab } from "./tabs/DataTab";
 import { DocsTab } from "./tabs/DocsTab";
 import { JsonTab } from "./tabs/JsonTab";
 import { configToForm } from "./lib/configToForm";
@@ -63,6 +64,7 @@ const TAB_DEFS: { id: EditorTab; icon: string }[] = [
   { id: "items", icon: SUNNYSIDE.icons.basket },
   { id: "purchases", icon: flowerTokenIcon },
   { id: "actions", icon: SUNNYSIDE.icons.lightning },
+  { id: "data", icon: SUNNYSIDE.icons.player },
   { id: "json", icon: SUNNYSIDE.icons.indicator },
   { id: "docs", icon: tier1BookIcon },
 ];
@@ -360,6 +362,8 @@ export const PlayerEconomyEditorForm: React.FC = () => {
             patchEmptyActionIds={patchEmptyActionIds}
           />
         );
+      case "data":
+        return <DataTab slug={form.slug} />;
       case "json":
         return (
           <JsonTab
