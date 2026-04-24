@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "Güncellendi",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot takviyesi aktif",
   "description.royalCrabPot.boost": "Su Tuzağı Saksıları Olmayan Tuzak",
-  "description.speedTrap.boost": "-20% Yengeç tuzağı süresi"
+  "description.speedTrap.boost": "-20% Yengeç tuzağı süresi",
+  "pickled.broccoli": "Brokoli Turşusu",
+  "description.pickled.broccoli": "Küçük ağaçlar, keskin ve gevrek, tuzlu suda korunmuş. Fermantasyon tarifleri için bileşen olarak kullanılır."
 }

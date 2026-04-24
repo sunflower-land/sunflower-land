@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "Updated",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot boost active",
   "description.royalCrabPot.boost": "Trap without Water Trap Pots",
-  "description.speedTrap.boost": "-20% Crab trap time"
+  "description.speedTrap.boost": "-20% Crab trap time",
+  "pickled.broccoli": "Pickled Broccoli",
+  "description.pickled.broccoli": "Tiny trees, tangy and crisp, preserved in brine. Used as ingredient for fermentation recipes."
 }

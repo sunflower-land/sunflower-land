@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "Actualizada",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot boost active",
   "description.royalCrabPot.boost": "Trampa sin ollas trampa de agua",
-  "description.speedTrap.boost": "-20% de tiempo de trampa para cangrejos"
+  "description.speedTrap.boost": "-20% de tiempo de trampa para cangrejos",
+  "pickled.broccoli": "Brócoli en escabeche",
+  "description.pickled.broccoli": "Árboles diminutos, picantes y crujientes, conservados en salmuera. Se utiliza como ingrediente para recetas de fermentación."
 }

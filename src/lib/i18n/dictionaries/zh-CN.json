@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "已更新",
   "waterTrap.royalCrabPotActive": "皇家蟹罐强化已激活",
   "description.royalCrabPot.boost": "没有水陷阱花盆的陷阱",
-  "description.speedTrap.boost": "-20% 捕蟹时间"
+  "description.speedTrap.boost": "-20% 捕蟹时间",
+  "pickled.broccoli": "腌制西兰花",
+  "description.pickled.broccoli": "小树，扑鼻而脆弱，保存在盐水中。用作发酵配方的原料。"
 }

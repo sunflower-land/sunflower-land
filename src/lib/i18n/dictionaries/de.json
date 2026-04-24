@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "aktualisiert",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost aktiv",
   "description.royalCrabPot.boost": "Falle ohne Wasserfalle, Töpfe",
-  "description.speedTrap.boost": "-20% Zeit zum Fallen von Krabben"
+  "description.speedTrap.boost": "-20% Zeit zum Fallen von Krabben",
+  "pickled.broccoli": "Eingelegter Brokkoli",
+  "description.pickled.broccoli": "Winzige Bäume, würzig und knackig, in Salzlake eingelegt. Wird als Zutat für Fermentationsrezepte verwendet."
 }

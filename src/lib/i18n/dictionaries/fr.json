@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "Mis à jour",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot Boost actif",
   "description.royalCrabPot.boost": "Piège sans piège à eau Pots",
-  "description.speedTrap.boost": "-20 % Durée du piège à crabes"
+  "description.speedTrap.boost": "-20 % Durée du piège à crabes",
+  "pickled.broccoli": "Brocoli mariné",
+  "description.pickled.broccoli": "Des arbres minuscules, acidulés et croquants, conservés dans de la saumure. Utilisé comme ingrédient pour les recettes de fermentation."
 }

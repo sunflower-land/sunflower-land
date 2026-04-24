@@ -8850,5 +8850,7 @@
   "playerEconomyEditor.dataTab.col.updatedAt": "Aggiornato",
   "waterTrap.royalCrabPotActive": "Potenziamento Royal Crab Pot attivo",
   "description.royalCrabPot.boost": "Trappola senza sifone",
-  "description.speedTrap.boost": "-20% Tempo di trappola per granchi"
+  "description.speedTrap.boost": "-20% Tempo di trappola per granchi",
+  "pickled.broccoli": "Broccoli marinati",
+  "description.pickled.broccoli": "Piccoli alberi, piccanti e croccanti, conservati in salamoia. Usato come ingrediente per ricette di fermentazione."
 }
