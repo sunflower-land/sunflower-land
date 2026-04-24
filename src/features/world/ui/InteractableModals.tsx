@@ -50,6 +50,9 @@ import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 import { FreeTrial } from "./FreeTrial";
+import { useNavigate } from "react-router";
+
+const navigate = useNavigate();
 
 type InteractableName =
   | "guardian"
@@ -701,10 +704,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                 {
                   text: t("marketplace"),
                   cb: () => {
-                    window.open(
-                      "https://sunflower-land.com/play/#/marketplace/collection?filters=buds",
-                      "_blank",
-                    );
+                     navigate("/world/marketplace/collection?filters=buds");
+                    closeModal();
                   },
                 },
               ],
