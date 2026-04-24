@@ -148,7 +148,7 @@ export function startComposter({
       );
     });
 
-    const { produce, worm } = composterDetails[building];
+    const { produce } = composterDetails[building];
 
     const { produceAmount, boostsUsed: composterBoostsUsed } = getCompostAmount(
       {
@@ -162,11 +162,11 @@ export function startComposter({
     });
 
     // start the production
+    // Worm amount is rolled at collect time via a seeded PRNG, so boosts
+    // equipped any time before collect apply to the final bait output.
     buildings[0].producing = {
       items: {
         [produce]: produceAmount,
-        // Set on backend
-        [worm]: 1,
       },
       startedAt: createdAt,
       readyAt: createdAt + timeToFinishMilliseconds,
