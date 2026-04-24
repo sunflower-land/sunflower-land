@@ -96,7 +96,7 @@ export const SkillBox: React.FC<BoxProps> = ({
   const precisionCount = setPrecision(count ?? 0, 2);
 
   const canClick = !locked && !disabled && !!onClick;
-  const showReadyState = isReady && !locked && !disabled;
+  const showReadyIndicator = isReady && !locked && !disabled;
 
   const longPressEvents = useLongPress(
     () => (canClick ? onClick?.() : undefined),
@@ -121,13 +121,12 @@ export const SkillBox: React.FC<BoxProps> = ({
     >
       <div
         className={classNames("relative", {
-          "bg-brown-600": !showReadyState,
+          "bg-brown-600": true,
           "cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
         {...clickEvents}
         style={{
-          backgroundColor: showReadyState ? "#3e8948" : undefined,
           width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           marginTop: `${PIXEL_SCALE * 3}px`,
@@ -162,6 +161,19 @@ export const SkillBox: React.FC<BoxProps> = ({
             />
           )}
         </div>
+
+        {showReadyIndicator && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            alt="Skill ready"
+            className="absolute z-20 pointer-events-none"
+            style={{
+              right: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
+        )}
 
         {/* Cool down in process overlay */}
         {!locked && cooldownInProgress && (
