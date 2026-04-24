@@ -45,6 +45,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
+import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -520,6 +521,10 @@ export const Collection: React.FC<{
               case "colour":
                 return selectedValues.includes(
                   toTraitValueId(budTraits.colour ?? ""),
+                );
+              case "boost":
+                return getBudBoostFilterLabels(budTraits).some((boost) =>
+                  selectedValues.includes(toTraitValueId(boost)),
                 );
               default:
                 return true;
