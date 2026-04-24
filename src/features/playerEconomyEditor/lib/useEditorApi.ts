@@ -5,11 +5,17 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { randomID } from "lib/utils/random";
-import type { PlayerEconomyConfigRow } from "./types";
+import type {
+  EconomyPlayersResponse,
+  EconomySuppliesResponse,
+  PlayerEconomyConfigRow,
+} from "./types";
 import {
   ECONOMY_INVALIDATE_COOLDOWN_ERROR_CODE,
   ensurePlayerEconomyConfig,
   extractSavedEditorFromEventData,
+  getEconomyPlayersDataType,
+  getEconomySuppliesDataType,
   getPlayerEconomyEditorDataType,
   getPlayerEconomyEditorUploadDataType,
   parsePlayerEconomyEditorListBody,
@@ -51,6 +57,36 @@ const MOCK_ROWS: PlayerEconomyConfigRow[] = [
 ];
 
 let mockStore = [...MOCK_ROWS];
+
+/* ─── Mock supplies + players (used when VITE_API_URL is unset) ─ */
+
+const MOCK_SUPPLIES: EconomySuppliesResponse = {
+  slug: "demo-economy",
+  supplies: [
+    { itemId: "0", name: "Coin", count: 1234, maxSupply: 100000 },
+    { itemId: "1", name: "Wood", count: 87 },
+  ],
+};
+
+function generateMockPlayers(count: number): EconomyPlayersResponse["players"] {
+  const today = new Date().toISOString().slice(0, 10);
+  return Array.from({ length: count }, (_, i) => {
+    const farmId = i + 1;
+    return {
+      farmId,
+      playerEconomySlug: "demo-economy",
+      updatedAt: new Date(Date.now() - i * 60_000).toISOString(),
+      balances: { "0": farmId * 10, "1": Math.floor(farmId / 2) },
+      generating: {},
+      dailyMinted: { utcDay: today, minted: {} },
+      activity: farmId * 3,
+      dailyActivity: { date: today, count: farmId % 5 },
+      highscore: farmId * 100,
+    };
+  });
+}
+
+const MOCK_PLAYERS = generateMockPlayers(37);
 
 export type EconomySitePresignedUpload = {
   path: string;
@@ -443,11 +479,160 @@ export function useEditorApi() {
     [isMock, token, farmId],
   );
 
+  const loadSupplies = useCallback(
+    async (slug: string): Promise<EconomySuppliesResponse> => {
+      const trimmed = slug.trim();
+      if (!trimmed) {
+        return { slug: "", supplies: [] };
+      }
+
+      if (isMock) {
+        await new Promise((r) => setTimeout(r, 200));
+        return { ...MOCK_SUPPLIES, slug: trimmed };
+      }
+
+      if (!token) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      const type = getEconomySuppliesDataType();
+      const url = new URL(`${CONFIG.API_URL}/data`);
+      url.searchParams.set("type", type);
+      url.searchParams.set("slug", trimmed);
+
+      const response = await fetch(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (response.status === 401) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      const raw: unknown = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const err = raw as { error?: string; errorCode?: string };
+        throw new Error(
+          err.errorCode ??
+            (typeof err.error === "string" ? err.error : undefined) ??
+            `Load failed (${response.status})`,
+        );
+      }
+
+      const root = raw as {
+        data?: EconomySuppliesResponse;
+      } & EconomySuppliesResponse;
+      const payload =
+        root.data && typeof root.data === "object" ? root.data : root;
+      return {
+        slug: typeof payload.slug === "string" ? payload.slug : trimmed,
+        supplies: Array.isArray(payload.supplies) ? payload.supplies : [],
+      };
+    },
+    [isMock, token],
+  );
+
+  type LoadPlayersOpts = {
+    limit: number;
+    skip: number;
+    targetFarmId?: number;
+  };
+
+  const loadPlayers = useCallback(
+    async (
+      slug: string,
+      { limit, skip, targetFarmId }: LoadPlayersOpts,
+    ): Promise<EconomyPlayersResponse> => {
+      const trimmed = slug.trim();
+      if (!trimmed) {
+        return { players: [], total: 0, limit, skip: 0, hasMore: false };
+      }
+
+      if (isMock) {
+        await new Promise((r) => setTimeout(r, 200));
+        if (typeof targetFarmId === "number") {
+          const match = MOCK_PLAYERS.find((p) => p.farmId === targetFarmId);
+          return {
+            players: match ? [match] : [],
+            total: match ? 1 : 0,
+            limit,
+            skip: 0,
+            hasMore: false,
+          };
+        }
+        const slice = MOCK_PLAYERS.slice(skip, skip + limit);
+        return {
+          players: slice,
+          total: MOCK_PLAYERS.length,
+          limit,
+          skip,
+          hasMore: skip + slice.length < MOCK_PLAYERS.length,
+        };
+      }
+
+      if (!token) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      const type = getEconomyPlayersDataType();
+      const url = new URL(`${CONFIG.API_URL}/data`);
+      url.searchParams.set("type", type);
+      url.searchParams.set("slug", trimmed);
+      url.searchParams.set("limit", String(limit));
+      url.searchParams.set("skip", String(skip));
+      if (typeof targetFarmId === "number") {
+        url.searchParams.set("targetFarmId", String(targetFarmId));
+      }
+
+      const response = await fetch(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (response.status === 401) {
+        throw new Error(ERRORS.SESSION_EXPIRED);
+      }
+
+      const raw: unknown = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const err = raw as { error?: string; errorCode?: string };
+        throw new Error(
+          err.errorCode ??
+            (typeof err.error === "string" ? err.error : undefined) ??
+            `Load failed (${response.status})`,
+        );
+      }
+
+      const root = raw as
+        | { data?: EconomyPlayersResponse }
+        | EconomyPlayersResponse;
+      const payload =
+        "data" in root && root.data && typeof root.data === "object"
+          ? root.data
+          : (root as EconomyPlayersResponse);
+
+      return {
+        players: Array.isArray(payload.players) ? payload.players : [],
+        total: typeof payload.total === "number" ? payload.total : 0,
+        limit: typeof payload.limit === "number" ? payload.limit : limit,
+        skip: typeof payload.skip === "number" ? payload.skip : skip,
+        hasMore: Boolean(payload.hasMore),
+      };
+    },
+    [isMock, token],
+  );
+
   return {
     loadRows,
     submitEvent,
     requestItemImageUploadUrl,
     prepareEconomySiteUploads,
+    loadSupplies,
+    loadPlayers,
   };
 }
 

@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
+import { BoostName, GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   WaterTrapName,
@@ -9,6 +9,8 @@ import {
   CRUSTACEAN_CHUM_AMOUNTS,
   caughtCrustacean,
 } from "features/game/types/crustaceans";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlaceWaterTrapAction = {
   trapId: string;
@@ -23,6 +25,31 @@ type Options = {
   createdAt?: number;
 };
 
+export function getWaterTrapMilliseconds(
+  game: GameState,
+  waterTrap: WaterTrapName,
+) {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  let time = WATER_TRAP[waterTrap].readyTimeHours * 60 * 60 * 1000;
+  if (isCollectibleBuilt({ name: "Speed Trap", game })) {
+    time *= 0.8;
+    boostsUsed.push({ name: "Speed Trap", value: "x0.8" });
+  }
+  return { milliseconds: time, boostsUsed };
+}
+
+function getWaterTrapReadyAt(
+  game: GameState,
+  waterTrap: WaterTrapName,
+  createdAt: number,
+) {
+  const { milliseconds, boostsUsed } = getWaterTrapMilliseconds(
+    game,
+    waterTrap,
+  );
+  return { readyAt: createdAt + milliseconds, boostsUsed };
+}
+
 export function placeWaterTrap({
   state,
   action,
@@ -36,7 +63,11 @@ export function placeWaterTrap({
     }
 
     const potCount = game.inventory[action.waterTrap] ?? new Decimal(0);
-    if (potCount.lt(1)) {
+    const hasRoyalCrabPot = isCollectibleBuilt({
+      name: "Royal Crab Pot",
+      game,
+    });
+    if (!hasRoyalCrabPot && potCount.lt(1)) {
       throw new Error(`Missing ${action.waterTrap}`);
     }
 
@@ -65,8 +96,17 @@ export function placeWaterTrap({
 
     const caught = caughtCrustacean(action.waterTrap, action.chum);
 
-    const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
-    const readyAt = createdAt + hours * 60 * 60 * 1000;
+    const { readyAt, boostsUsed } = getWaterTrapReadyAt(
+      game,
+      action.waterTrap,
+      createdAt,
+    );
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     if (!game.crabTraps.trapSpots) {
       game.crabTraps.trapSpots = {};
@@ -80,7 +120,9 @@ export function placeWaterTrap({
       caught,
     };
 
-    game.inventory[action.waterTrap] = potCount.sub(1);
+    if (!hasRoyalCrabPot) {
+      game.inventory[action.waterTrap] = potCount.sub(1);
+    }
 
     game.farmActivity = trackFarmActivity(
       `${action.waterTrap} Placed`,
