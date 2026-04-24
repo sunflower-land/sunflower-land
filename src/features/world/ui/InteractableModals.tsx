@@ -52,8 +52,6 @@ import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 import { FreeTrial } from "./FreeTrial";
 import { useNavigate } from "react-router";
 
-const navigate = useNavigate();
-
 type InteractableName =
   | "guardian"
   | "desert_noticeboard"
@@ -209,6 +207,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   };
 
   const { t } = useAppTranslation();
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -704,7 +704,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                 {
                   text: t("marketplace"),
                   cb: () => {
-                     navigate("/world/marketplace/collection?filters=buds");
+                    navigate("/world/marketplace/collection?filters=buds");
                     closeModal();
                   },
                 },
