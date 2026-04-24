@@ -306,8 +306,8 @@ describe("collectFermentation", () => {
     {
       family: "Umbrella Bait" as const,
       tier: "advanced" as const,
-      activePickle: "Pickled Cabbage",
-      retiredPickle: "Pickled Onion",
+      activePickle: "Pickled Broccoli",
+      retiredPickle: "Pickled Cabbage",
     },
     {
       family: "Crimson Baitfish" as const,

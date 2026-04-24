@@ -1510,6 +1510,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Salt Awakening Raffle Ticket": 3004,
   "Salt Awakening Banner": 3005,
   "Salt Dino Egg": 3006,
+
+  "Pickled Broccoli": 3007,
 };
 
 // The reverse of above

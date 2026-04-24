@@ -33,6 +33,7 @@ const INSTANT_FERMENTATION_RECIPES = [
   "Salt from Old Bottle",
   "Salt from Crab",
   "Salt from Bones",
+  "Pickled Cabbage to Broccoli",
 ] as const;
 
 describe("startFermentation", () => {
@@ -554,8 +555,8 @@ describe("startFermentation", () => {
     {
       family: "Umbrella Bait" as const,
       tier: "advanced" as const,
-      activePickles: ["Pickled Cabbage", "Pickled Pepper"] as const,
-      retiredPickle: "Pickled Onion" as const,
+      activePickles: ["Pickled Broccoli", "Pickled Pepper"] as const,
+      retiredPickle: "Pickled Cabbage" as const,
     },
     {
       family: "Crimson Baitfish" as const,
@@ -692,5 +693,41 @@ describe("startFermentation", () => {
         createdAt,
       }),
     ).toThrow("Insufficient ingredient");
+  });
+
+  describe("Pickled Cabbage to Broccoli conversion", () => {
+    it("converts 1 Pickled Cabbage into 1 Pickled Broccoli instantly", () => {
+      const state = startFermentation({
+        state: createFermentationTestState({
+          inventory: { "Pickled Cabbage": new Decimal(3) },
+        }),
+        action: {
+          type: "fermentation.started",
+          recipe: "Pickled Cabbage to Broccoli",
+          jobId: TEST_JOB_ID,
+        },
+        farmId: 1,
+        createdAt,
+      });
+
+      expect(state.inventory["Pickled Cabbage"]?.toNumber()).toEqual(2);
+      expect(state.inventory["Pickled Broccoli"]?.toNumber()).toEqual(1);
+      expect(state.agingShed.racks.fermentation).toHaveLength(0);
+    });
+
+    it("throws when the player has no Pickled Cabbage", () => {
+      expect(() =>
+        startFermentation({
+          state: createFermentationTestState({ inventory: {} }),
+          action: {
+            type: "fermentation.started",
+            recipe: "Pickled Cabbage to Broccoli",
+            jobId: TEST_JOB_ID,
+          },
+          farmId: 1,
+          createdAt,
+        }),
+      ).toThrow("Insufficient ingredient");
+    });
   });
 });

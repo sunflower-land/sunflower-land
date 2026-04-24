@@ -260,6 +260,7 @@ import pickledPepper from "assets/pickled_crops/pickled_pepper.webp";
 import pickledRadish from "assets/pickled_crops/pickled_radish.webp";
 import pickledZucchini from "assets/pickled_crops/pickled_zucchini.webp";
 import pickledTomato from "assets/pickled_crops/pickled_tomato.webp";
+import pickledBroccoli from "assets/pickled_crops/pickled_broccoli.webp";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -4785,6 +4786,11 @@ export const ITEM_DETAILS: Items = {
     image: pickledPepper,
     description: translate("description.pickled.pepper"),
     translatedName: translate("pickled.pepper"),
+  },
+  "Pickled Broccoli": {
+    image: pickledBroccoli,
+    description: translate("description.pickled.broccoli"),
+    translatedName: translate("pickled.broccoli"),
   },
   "Greenhouse Glow": {
     image: greenhouseGlow,

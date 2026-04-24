@@ -7,7 +7,7 @@ import {
   type FermentationRecipeName,
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
-import type { InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
@@ -160,17 +160,43 @@ export function findFermentationGroupByStoredSignature(
 }
 
 /**
+ * Recipes that should only appear in the aging shed UI when the player has a
+ * qualifying inventory state. Keyed lookup so new gated recipes can register
+ * without touching the grouping loop.
+ */
+const INVENTORY_GATED_RECIPES: Partial<
+  Record<FermentationRecipeName, (state: GameState) => boolean>
+> = {
+  "Pickled Cabbage to Broccoli": (state) =>
+    (state.inventory["Pickled Cabbage"] ?? new Decimal(0)).gte(1),
+};
+
+function isRecipeVisible(
+  recipeId: FermentationRecipeName,
+  state: GameState,
+): boolean {
+  const predicate = INVENTORY_GATED_RECIPES[recipeId];
+  return predicate ? predicate(state) : true;
+}
+
+/**
  * Groups fermentation recipes by output item so all variants (e.g. aged vs prime
  * bait yields) share one dropdown row. Per-variant yields are on {@link FermentationOutputGroup.outputQuantities}.
  */
-export function getFermentationOutputGroups(): FermentationOutputGroup[] {
+export function getFermentationOutputGroups(
+  state: GameState,
+): FermentationOutputGroup[] {
   const byOutputItem = new Map<string, FermentationRecipeName[]>();
   const sortMetaByRecipe = new Map<
     FermentationRecipeName,
     FermentationRecipeSortMeta
   >();
 
-  for (const recipeId of FERMENTATION_RECIPE_IDS) {
+  const visibleRecipeIds = FERMENTATION_RECIPE_IDS.filter((id) =>
+    isRecipeVisible(id, state),
+  );
+
+  for (const recipeId of visibleRecipeIds) {
     const { tier, xp } = getBaitVariantSortMetadata(recipeId);
     sortMetaByRecipe.set(recipeId, {
       tier,
@@ -179,7 +205,7 @@ export function getFermentationOutputGroups(): FermentationOutputGroup[] {
     });
   }
 
-  for (const recipeId of FERMENTATION_RECIPE_IDS) {
+  for (const recipeId of visibleRecipeIds) {
     const def = STARTABLE_FERMENTATION_RECIPES[recipeId];
     const [item] = getPrimaryOutput(def.outputs);
     const signature = String(item);

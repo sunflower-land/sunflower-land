@@ -997,6 +997,7 @@ export const ITEM_TRADE_TYPES: {
     "Pickled Cabbage": "instant",
     "Pickled Onion": "instant",
     "Pickled Pepper": "instant",
+    "Pickled Broccoli": "instant",
     "Greenhouse Glow": "instant",
     "Greenhouse Goodie": "instant",
     "Sproutroot Surprise": "instant",

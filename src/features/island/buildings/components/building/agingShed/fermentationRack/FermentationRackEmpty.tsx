@@ -93,7 +93,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
 
-  const groups = getFermentationOutputGroups();
+  const groups = getFermentationOutputGroups(gameState);
   const selectedGroup = selectedSignature
     ? groups.find((g) => g.signature === selectedSignature)
     : undefined;
