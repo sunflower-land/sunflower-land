@@ -14,11 +14,18 @@ function generateCollectibles() {
   items.forEach((name) => {
     const metadata = OPEN_SEA_COLLECTIBLES[name];
 
-    metadata.description = `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`;
-
-    metadata.image = `https://sunflower-land.com/play/erc1155/images/${KNOWN_IDS[name]}.webp`;
-
-    metadata.name = name;
+    // Construct the output with an explicit field order so the serialized
+    // JSON is stable across regenerations. JS preserves insertion order, so
+    // building a fresh object avoids diff churn when scripts reassign fields
+    // in a different order than the original metadata.ts entry.
+    const output = {
+      description: `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`,
+      decimals: metadata.decimals,
+      attributes: metadata.attributes,
+      external_url: metadata.external_url,
+      image: `https://sunflower-land.com/play/erc1155/images/${KNOWN_IDS[name]}.webp`,
+      name,
+    };
 
     // convert KNOWN_IDS[name] to hex zero padded with 64 zeros
     const zeroPadded = KNOWN_IDS[name].toString(16).padStart(64, "0");
@@ -32,8 +39,8 @@ function generateCollectibles() {
       `../public/erc1155/${zeroPadded}.json`,
     );
 
-    fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
-    fs.writeFile(hexJsonPath, JSON.stringify(metadata), () => undefined);
+    fs.writeFile(jsonPath, JSON.stringify(output), () => undefined);
+    fs.writeFile(hexJsonPath, JSON.stringify(output), () => undefined);
   });
 
   // Clean-up old metadata files
@@ -68,15 +75,28 @@ function generateCollectibles() {
 function generateWearables() {
   const items = getKeys(ITEM_IDS);
 
+  // Wearable images are uploaded manually — some are .png, some are .webp.
+  // Detect the extension by looking at what's actually on disk so the URL
+  // matches the file the team uploaded.
+  const wearablesImageDir = path.join(__dirname, "../public/wearables/images");
+  const wearableExt = (id: number): string => {
+    if (fs.existsSync(path.join(wearablesImageDir, `${id}.webp`)))
+      return "webp";
+    return "png";
+  };
+
   // Generate/update metadata files
   items.forEach((name) => {
     const metadata = OPEN_SEA_WEARABLES[name];
 
-    metadata.description = `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`;
-
-    metadata.image = `https://sunflower-land.com/play/wearables/images/${ITEM_IDS[name]}.png`;
-
-    metadata.name = name;
+    const output = {
+      description: `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`,
+      decimals: metadata.decimals,
+      attributes: metadata.attributes,
+      external_url: metadata.external_url,
+      image: `https://sunflower-land.com/play/wearables/images/${ITEM_IDS[name]}.${wearableExt(ITEM_IDS[name])}`,
+      name,
+    };
 
     //convert ITEM_IDS[name] to hex zero padded with 64 zeros
     const zeroPadded = ITEM_IDS[name].toString(16).padStart(64, "0");
@@ -90,8 +110,8 @@ function generateWearables() {
       `../public/wearables/${zeroPadded}.json`,
     );
 
-    fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
-    fs.writeFile(hexJsonPath, JSON.stringify(metadata), () => undefined);
+    fs.writeFile(jsonPath, JSON.stringify(output), () => undefined);
+    fs.writeFile(hexJsonPath, JSON.stringify(output), () => undefined);
   });
 
   // Clean-up old metadata files
