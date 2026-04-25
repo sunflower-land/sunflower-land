@@ -48,3 +48,9 @@ export const SUPPORTED_MINIGAMES: MinigameName[] = [
   "memory",
   "chaacs-temple",
 ];
+
+export const V2_MINIGAMES: MinigameName[] = [
+  "corn-maze",
+  "chaacs-temple",
+  "chicken-rescue-v2",
+];
