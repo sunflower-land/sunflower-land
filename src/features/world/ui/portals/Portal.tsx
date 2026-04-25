@@ -39,6 +39,8 @@ const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "chaacs-temple": "chaacs-temple.minigames",
   /** Host: `https://chicken-rescue-v2.minigames.sunflower-land.com` */
   "chicken-rescue-v2": "chicken-rescue-v2.minigames",
+  /** Host: `https://corn-maze.minigames.sunflower-land.com` */
+  "corn-maze": "corn-maze.minigames",
 };
 
 /**
