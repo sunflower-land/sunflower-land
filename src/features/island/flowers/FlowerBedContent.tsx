@@ -297,9 +297,15 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
         {selecting === "crossbreed" && seed && (
           <>
-            <Label type="default" className="mb-1">
-              {t("flowerBedContent.select.crossbreed")}
-            </Label>
+            <div className="flex flex-wrap items-center gap-x-1 gap-y-1 mb-1">
+              <Label type="default" icon={ITEM_DETAILS[seed].image}>
+                {seed}
+              </Label>
+              <span className="text-xs">{"+"}</span>
+              <Label type="default">
+                {t("flowerBedContent.select.crossbreed")}
+              </Label>
+            </div>
             <div className="flex flex-wrap mb-2">
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS[seed])
                 .filter(
