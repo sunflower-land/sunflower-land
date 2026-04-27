@@ -145,6 +145,13 @@ const FEATURE_FLAGS = {
   SALT_SKILLS: betaFeatureFlag,
   SALT_SCULPTURE: betaFeatureFlag,
 
+  /**
+   * Gates the new home-interior placement system: the /interior route, the
+   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
+   * testnet only until the feature ships to all players.
+   */
+  HOME_EXPANSIONS: betaFeatureFlag,
+
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */

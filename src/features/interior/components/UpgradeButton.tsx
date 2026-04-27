@@ -12,20 +12,27 @@ import { HomeExpansionTier } from "features/game/types/game";
 import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 
 const _island = (state: MachineState) => state.context.state.island;
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
 const _coins = (state: MachineState) => state.context.state.coins;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _hasInteriorAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
 
 /**
- * Top-right "Upgrade" button shown only inside `/interior` while the player
- * is on volcano island AND the level_one floor isn't already maxed.
+ * Flat "Upgrade" button + cost-confirmation modal — meant to be wrapped in
+ * a MapPlacement by the caller so it sits on the gameboard at a chosen tile
+ * (see UPGRADE_BUTTON_TILE in Interior.tsx / LevelOne.tsx).
+ *
+ * Self-hides for non-beta players, when the player isn't on volcano island,
+ * and when the expansion is already maxed at level-one-full.
  *
  * Clicking opens a small panel showing the next tier's coin + inventory cost
  * and a confirm button. Confirm dispatches the `interior.upgrade` event; on
- * the first upgrade the player can also jump straight to /level_one.
+ * the first upgrade the player is auto-navigated to /level_one.
  */
 export const UpgradeButton: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -35,10 +42,13 @@ export const UpgradeButton: React.FC = () => {
   const expansion = useSelector(gameService, _expansion);
   const coins = useSelector(gameService, _coins);
   const inventory = useSelector(gameService, _inventory);
+  const hasAccess = useSelector(gameService, _hasInteriorAccess);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Hide for non-beta players.
+  if (!hasAccess) return null;
   // Only show on volcano.
   if (island.type !== "volcano") return null;
 
@@ -78,12 +88,7 @@ export const UpgradeButton: React.FC = () => {
 
   return (
     <>
-      <div
-        className="absolute top-4 right-4"
-        style={{ zIndex: 60, width: "auto" }}
-      >
-        <Button onClick={() => setOpen(true)}>Upgrade</Button>
-      </div>
+      <Button onClick={() => setOpen(true)}>Upgrade</Button>
       <Modal show={open} onHide={() => setOpen(false)}>
         <CloseButtonPanel onClose={() => setOpen(false)} title="Upgrade home">
           <div className="p-2 flex flex-col gap-3">

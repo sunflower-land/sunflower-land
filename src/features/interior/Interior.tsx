@@ -5,7 +5,8 @@ import React, {
   type JSX,
 } from "react";
 import { useSelector } from "@xstate/react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -19,6 +20,8 @@ import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { hasFeatureAccess } from "lib/flags";
+import { Button } from "components/ui/Button";
 import { NON_COLLIDING_OBJECTS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { INTERIOR_CANVAS } from "features/game/expansion/placeable/lib/interiorLayouts";
 import {
@@ -37,6 +40,8 @@ const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _buds = (state: MachineState) => state.context.state.buds ?? {};
 const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
+const _hasInteriorAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
 
 const _interiorCollectibles = (state: MachineState) => {
   // Only the ground level is rendered for now. When additional levels are
@@ -81,12 +86,14 @@ export const Interior: React.FC = () => {
   const { gameService } = useContext(Context);
   const [params] = useSearchParams();
   const [scrollIntoView] = useScrollIntoView();
+  const navigate = useNavigate();
 
   const landscaping = useSelector(gameService, _landscaping);
   const bumpkin = useSelector(gameService, _bumpkin);
   const buds = useSelector(gameService, _buds);
   const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
+  const hasAccess = useSelector(gameService, _hasInteriorAccess);
 
   // Center the canvas in the viewport on mount. GenesisBlock sits at the
   // canvas centre — same anchor MapPlacement uses to render placed items
@@ -95,6 +102,22 @@ export const Interior: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Beta-only feature. Render an empty-state with a back-to-mainland button
+  // for any player without HOME_EXPANSIONS access.
+  if (!hasAccess) {
+    return (
+      <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-white text-center px-8">
+          <p>Home interiors aren&apos;t available yet.</p>
+          <p className="text-sm opacity-70">
+            This feature is in beta. Check back soon.
+          </p>
+          <Button onClick={() => navigate("/")}>Back to farm</Button>
+        </div>
+      </div>
+    );
+  }
   const interiorFarmHands = useSelector(gameService, _interiorFarmHands);
   const { collectibles, positions: interiorPositions } = useSelector(
     gameService,
@@ -207,102 +230,88 @@ export const Interior: React.FC = () => {
   return (
     <>
       {/*
-        Scrollable viewport. The 24x24 tile canvas is ~1008px square at default
-        zoom — bigger than most laptop viewports — so we make the outer
-        container scrollable. The inner flex column centers the canvas (and
-        exit button) when the viewport has room and lets the user scroll to
-        them when it doesn't.
+        Same scroll setup /home and the rest of /game/* use:
+          ScrollContainer (react-indiana-drag-scroll, click-and-drag panning),
+          inside it a huge 84×56-tile gameboard, then the canvas centred via
+          left-1/2 top-1/2 -translate. The huge gameboard means the canvas is
+          tiny relative to the scrollable area, so scroll never drifts the
+          tile grid off Placeable's drag-snap grid.
       */}
-      {/*
-        `page-scroll-container` is the class Placeable.getInitialCoordinates
-        reads `scrollLeft`/`scrollTop` from when computing the initial position
-        of a placeable. Without it on a scrollable ancestor, clicking a
-        collectible to place crashes with "Cannot read properties of undefined".
-      */}
-      <div
-        className="page-scroll-container absolute inset-0 bg-[#181425] overflow-auto"
-        style={{ imageRendering: "pixelated" }}
+      <ScrollContainer
+        className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
+        ignoreElements={"*[data-prevent-drag-scroll]"}
       >
         <div
-          className="flex flex-col items-center justify-center"
+          className="absolute bg-[#181425]"
           style={{
-            // `width: fit-content` + `min-width: 100%` = max(canvas, viewport).
-            // Same trick on the y-axis. Combined with the parent's overflow:auto
-            // this gives us "center when there's room, scroll when there isn't."
-            width: "fit-content",
-            minWidth: "100%",
-            minHeight: "100%",
-            padding: "32px 16px",
-            boxSizing: "border-box",
-            gap: "24px",
+            width: `${84 * GRID_WIDTH_PX}px`,
+            height: `${56 * GRID_WIDTH_PX}px`,
+            imageRendering: "pixelated",
           }}
         >
-          <div
-            className="relative"
-            style={{
-              width: `${canvasWidthPx}px`,
-              height: `${canvasHeightPx}px`,
-              flexShrink: 0,
-            }}
-          >
-            {/* Bottom-left anchored background. The asset is 380x320 native px. */}
-            <img
-              src={INTERIOR_BACKGROUNDS[island.type]}
-              className="absolute"
-              style={{
-                left: 0,
-                bottom: 0,
-                width: `${INTERIOR_BACKGROUND_NATIVE.width * PIXEL_SCALE}px`,
-                height: `${INTERIOR_BACKGROUND_NATIVE.height * PIXEL_SCALE}px`,
-                imageRendering: "pixelated",
-              }}
-            />
-
-            {/*
-              Zero-size sentinel at the canvas centre — Placeable.tsx anchors
-              its placement coord-system origin here, MapPlacement renders
-              placed items relative to the same point (CSS 50%/50%), and
-              `scrollIntoView` brings it into the viewport centre on mount.
-              All three agree on the same anchor.
-            */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div
-              id={Section.GenesisBlock}
-              className="absolute"
+              className="relative"
               style={{
-                left: "50%",
-                top: "50%",
-                width: 0,
-                height: 0,
+                width: `${canvasWidthPx}px`,
+                height: `${canvasHeightPx}px`,
               }}
-            />
+            >
+              {/* Bottom-left anchored background. 380x320 native px. */}
+              <img
+                src={INTERIOR_BACKGROUNDS[island.type]}
+                className="absolute"
+                style={{
+                  left: 0,
+                  bottom: 0,
+                  width: `${INTERIOR_BACKGROUND_NATIVE.width * PIXEL_SCALE}px`,
+                  height: `${INTERIOR_BACKGROUND_NATIVE.height * PIXEL_SCALE}px`,
+                  imageRendering: "pixelated",
+                }}
+              />
 
-            {debug && <InteriorGridOverlay island={island.type} />}
+              {/*
+                Zero-size sentinel at the canvas centre. Placeable anchors
+                its drag-coord origin here; MapPlacement renders placed items
+                relative to this same point (CSS 50%/50%); scrollIntoView
+                brings it into viewport centre on mount.
+              */}
+              <div
+                id={Section.GenesisBlock}
+                className="absolute"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  width: 0,
+                  height: 0,
+                }}
+              />
 
-            {landscaping && <Placeable location="interior" />}
+              {debug && <InteriorGridOverlay island={island.type} />}
 
-            {/*
-              Collectibles are rendered with the default MapPlacement origin —
-              i.e. relative to the canvas centre — so their coordinates match
-              the canvas-centre convention that `Placeable` uses when storing
-              placement coords. The bottom-left-anchored INTERIOR_LAYOUTS data
-              gets translated for the layout-mask check inside
-              `detectInteriorCollision`; nothing else needs translation here.
-            */}
-            {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
+              {landscaping && <Placeable location="interior" />}
+
+              {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
+
+              {/*
+                Upgrade button placed on the gameboard at bottom-left tile
+                (13, 21). The button self-hides off volcano / when expansion
+                is maxed / for non-beta players. Hard-coded for now; can be
+                configured later.
+                MapPlacement uses canvas-centre origin, so bl(X, Y) → cc(X-12, Y-12).
+              */}
+              {!landscaping && (
+                <MapPlacement key="upgrade-button" x={13 - 12} y={21 - 12}>
+                  <UpgradeButton />
+                </MapPlacement>
+              )}
+            </div>
           </div>
-
-          {/*
-            No bottom Exit button on /interior — the bottom-left HUD farm icon
-            is the canonical way back to the mainland. (Home / Barn / Greenhouse
-            still have their own Exit buttons.)
-          */}
         </div>
-      </div>
+      </ScrollContainer>
 
       {!landscaping && <Hud isFarming location="interior" />}
       {landscaping && <LandscapingHud location="interior" />}
-      {/* Upgrade button — appears only on volcano with non-maxed level_one. */}
-      {!landscaping && <UpgradeButton />}
     </>
   );
 };
