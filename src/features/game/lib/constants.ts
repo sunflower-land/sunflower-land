@@ -371,7 +371,7 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
 
 export const INITIAL_FARM: GameState = {
   settings: {},
-  coins: 0,
+  coins: 1000000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
@@ -384,9 +384,11 @@ export const INITIAL_FARM: GameState = {
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
-    Rug: new Decimal(1),
+    Rug: new Decimal(100),
+    "Golden Cow": new Decimal(10),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
+    Obsidian: new Decimal(100),
   },
   previousInventory: {},
   wardrobe: {},
@@ -508,6 +510,7 @@ export const INITIAL_FARM: GameState = {
       ],
     },
   },
+  interior: { ground: { collectibles: {} }, expansion: "level-one-start", level_one: { collectibles: {}}  },
   farmHands: { bumpkins: {} },
   greenhouse: {
     oil: 100,
@@ -763,6 +766,7 @@ export const TEST_FARM: GameState = {
 
   milestones: {},
   home: { collectibles: {} },
+  interior: { ground: { collectibles: {} } },
   island: { type: "basic" },
   farmHands: { bumpkins: {} },
   fishing: {
@@ -1118,6 +1122,7 @@ export const EMPTY: GameState = {
     },
   },
   home: { collectibles: {} },
+  interior: { ground: { collectibles: {} } },
   island: { type: "basic" },
   buildings: {},
   collectibles: {},

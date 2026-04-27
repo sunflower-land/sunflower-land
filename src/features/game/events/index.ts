@@ -40,6 +40,34 @@ import {
   placeCollectible,
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
+import {
+  placeInteriorItem,
+  PlaceInteriorItemAction,
+} from "./landExpansion/placeInteriorItem";
+import {
+  moveInteriorItem,
+  MoveInteriorItemAction,
+} from "./landExpansion/moveInteriorItem";
+import {
+  removeInteriorItem,
+  RemoveInteriorItemAction,
+} from "./landExpansion/removeInteriorItem";
+import {
+  upgradeInterior,
+  UpgradeInteriorAction,
+} from "./landExpansion/upgradeInterior";
+import {
+  placeLevelOneItem,
+  PlaceLevelOneItemAction,
+} from "./landExpansion/placeLevelOneItem";
+import {
+  moveLevelOneItem,
+  MoveLevelOneItemAction,
+} from "./landExpansion/moveLevelOneItem";
+import {
+  removeLevelOneItem,
+  RemoveLevelOneItemAction,
+} from "./landExpansion/removeLevelOneItem";
 import { cook, RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -827,7 +855,8 @@ export type PlayingEvent =
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction
   | StartTrialAction
-  | UpgradeSaltSculptureAction;
+  | UpgradeSaltSculptureAction
+  | UpgradeInteriorAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -893,7 +922,13 @@ export type PlacementEvent =
   | RemoveFarmHandAction
   | PlaceBumpkinAction
   | MoveBumpkinAction
-  | RemoveBumpkinPlacementAction;
+  | RemoveBumpkinPlacementAction
+  | PlaceInteriorItemAction
+  | MoveInteriorItemAction
+  | RemoveInteriorItemAction
+  | PlaceLevelOneItemAction
+  | MoveLevelOneItemAction
+  | RemoveLevelOneItemAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 
@@ -1109,6 +1144,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.removedPlacement": removeBumpkinPlacement,
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
+  "interior.upgrade": upgradeInterior,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
@@ -1180,6 +1216,12 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "collectible.flipped": flipCollectible,
+  "interior.itemPlaced": placeInteriorItem,
+  "interior.itemMoved": moveInteriorItem,
+  "interior.itemRemoved": removeInteriorItem,
+  "level_one.itemPlaced": placeLevelOneItem,
+  "level_one.itemMoved": moveLevelOneItem,
+  "level_one.itemRemoved": removeLevelOneItem,
 };
 
 export const EVENTS = {

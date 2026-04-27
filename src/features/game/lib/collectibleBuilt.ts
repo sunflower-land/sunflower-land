@@ -12,26 +12,26 @@ export function isCollectibleBuilt({
   name: CollectibleName;
   game: GameState;
 }) {
-  const placedOnFarm =
-    game.collectibles[name] &&
-    game.collectibles[name]?.some(
-      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
-    );
+  const isReady = (placed: { readyAt?: number; coordinates?: unknown }) =>
+    (placed.readyAt ?? 0) <= Date.now() && !!placed.coordinates;
 
-  const placedInHome =
-    game.home.collectibles[name] &&
-    game.home.collectibles[name]?.some(
-      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
-    );
+  const placedOnFarm = game.collectibles[name]?.some(isReady);
+  const placedInHome = game.home.collectibles[name]?.some(isReady);
+  const placedInInterior =
+    game.interior?.ground.collectibles[name]?.some(isReady);
+  const placedInLevelOne =
+    game.interior?.level_one?.collectibles[name]?.some(isReady);
 
   const placedInPetHouse =
-    isPetCollectible(name) &&
-    game.petHouse.pets[name] &&
-    game.petHouse.pets[name]?.some(
-      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
-    );
+    isPetCollectible(name) && game.petHouse.pets[name]?.some(isReady);
 
-  return !!placedOnFarm || !!placedInHome || !!placedInPetHouse;
+  return (
+    !!placedOnFarm ||
+    !!placedInHome ||
+    !!placedInInterior ||
+    !!placedInLevelOne ||
+    !!placedInPetHouse
+  );
 }
 
 export type TemporaryCollectibleName = Extract<
@@ -80,18 +80,13 @@ export function isTemporaryCollectibleActive({
   game: GameState;
 }) {
   const cooldown = EXPIRY_COOLDOWNS[name];
+  const stillFresh = (placed: { createdAt?: number }) =>
+    (placed.createdAt ?? 0) + cooldown > Date.now();
 
-  const placedOnFarm =
-    game.collectibles[name] &&
-    game.collectibles[name]?.some(
-      (placed) => (placed.createdAt ?? 0) + cooldown > Date.now(),
-    );
-
-  const placedInHome =
-    game.home.collectibles[name] &&
-    game.home.collectibles[name]?.some(
-      (placed) => (placed.createdAt ?? 0) + cooldown > Date.now(),
-    );
-
-  return !!placedOnFarm || !!placedInHome;
+  return (
+    !!game.collectibles[name]?.some(stillFresh) ||
+    !!game.home.collectibles[name]?.some(stillFresh) ||
+    !!game.interior?.ground.collectibles[name]?.some(stillFresh) ||
+    !!game.interior?.level_one?.collectibles[name]?.some(stillFresh)
+  );
 }
