@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -19,6 +20,7 @@ import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { hasFeatureAccess } from "lib/flags";
 import { NON_COLLIDING_OBJECTS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { INTERIOR_CANVAS } from "features/game/expansion/placeable/lib/interiorLayouts";
 import {
@@ -42,6 +44,8 @@ const _levelOne = (state: MachineState) =>
   state.context.state.interior.level_one;
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
+const _hasInteriorAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
 
 const EMPTY_COLLECTIBLES: Collectibles = {};
 
@@ -106,6 +110,7 @@ export const LevelOne: React.FC = () => {
   const petNFTs = useSelector(gameService, _petNFTs);
   const levelOne = useSelector(gameService, _levelOne);
   const expansion = useSelector(gameService, _expansion);
+  const hasAccess = useSelector(gameService, _hasInteriorAccess);
   const levelOneFarmHands = useSelector(gameService, _levelOneFarmHands);
   const { collectibles, positions: levelOnePositions } = useSelector(
     gameService,
@@ -131,6 +136,21 @@ export const LevelOne: React.FC = () => {
 
   const canvasWidthPx = INTERIOR_CANVAS.width * GRID_WIDTH_PX;
   const canvasHeightPx = INTERIOR_CANVAS.height * GRID_WIDTH_PX;
+
+  // Beta-only feature.
+  if (!hasAccess) {
+    return (
+      <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-white text-center px-8">
+          <p>Home interiors aren&apos;t available yet.</p>
+          <p className="text-sm opacity-70">
+            This feature is in beta. Check back soon.
+          </p>
+          <Button onClick={() => navigate("/")}>Back to farm</Button>
+        </div>
+      </div>
+    );
+  }
 
   // If the player hasn't bought their first upgrade yet, render an empty-state
   // pointing them back to /interior to upgrade.
@@ -235,73 +255,69 @@ export const LevelOne: React.FC = () => {
 
   return (
     <>
-      <div
-        className="page-scroll-container absolute inset-0 bg-[#181425] overflow-auto"
-        style={{ imageRendering: "pixelated" }}
+      {/* Same scroll setup as /home — see Interior.tsx for the rationale. */}
+      <ScrollContainer
+        className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
+        ignoreElements={"*[data-prevent-drag-scroll]"}
       >
         <div
-          className="flex flex-col items-center justify-center"
+          className="absolute bg-[#181425]"
           style={{
-            width: "fit-content",
-            minWidth: "100%",
-            minHeight: "100%",
-            padding: "32px 16px",
-            boxSizing: "border-box",
-            gap: "24px",
+            width: `${84 * GRID_WIDTH_PX}px`,
+            height: `${56 * GRID_WIDTH_PX}px`,
+            imageRendering: "pixelated",
           }}
         >
-          <div
-            className="relative"
-            style={{
-              width: `${canvasWidthPx}px`,
-              height: `${canvasHeightPx}px`,
-              flexShrink: 0,
-            }}
-          >
-            {/* Bottom-left anchored background per active expansion tier. 384x320 native. */}
-            <img
-              src={HOME_EXPANSION_BACKGROUNDS[expansion]}
-              className="absolute"
-              style={{
-                left: 0,
-                bottom: 0,
-                width: `${HOME_EXPANSION_BACKGROUND_NATIVE.width * PIXEL_SCALE}px`,
-                height: `${HOME_EXPANSION_BACKGROUND_NATIVE.height * PIXEL_SCALE}px`,
-                imageRendering: "pixelated",
-              }}
-            />
-
-            {/*
-              Zero-size sentinel at canvas-centre — agrees with MapPlacement's
-              CSS 50%/50% origin and Placeable's coord-system origin.
-              Auto-scrolled to viewport centre on mount.
-            */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div
-              id={Section.GenesisBlock}
-              className="absolute"
-              style={{ left: "50%", top: "50%", width: 0, height: 0 }}
-            />
+              className="relative"
+              style={{
+                width: `${canvasWidthPx}px`,
+                height: `${canvasHeightPx}px`,
+              }}
+            >
+              {/* Bottom-left anchored background per active expansion tier. */}
+              <img
+                src={HOME_EXPANSION_BACKGROUNDS[expansion]}
+                className="absolute"
+                style={{
+                  left: 0,
+                  bottom: 0,
+                  width: `${HOME_EXPANSION_BACKGROUND_NATIVE.width * PIXEL_SCALE}px`,
+                  height: `${HOME_EXPANSION_BACKGROUND_NATIVE.height * PIXEL_SCALE}px`,
+                  imageRendering: "pixelated",
+                }}
+              />
 
-            {debug && <LevelOneGridOverlay tier={expansion} />}
+              <div
+                id={Section.GenesisBlock}
+                className="absolute"
+                style={{ left: "50%", top: "50%", width: 0, height: 0 }}
+              />
 
-            {landscaping && <Placeable location="level_one" />}
+              {debug && <LevelOneGridOverlay tier={expansion} />}
 
-            {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
+              {landscaping && <Placeable location="level_one" />}
+
+              {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
+
+              {/*
+                In-world Upgrade button at bl tile (13, 21). Per-tier overrides
+                go here later.
+                MapPlacement uses canvas-centre origin: bl(X, Y) → cc(X-12, Y-12).
+              */}
+              {!landscaping && (
+                <MapPlacement key="upgrade-button" x={13 - 12} y={21 - 12}>
+                  <UpgradeButton />
+                </MapPlacement>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </ScrollContainer>
 
       {!landscaping && <Hud isFarming location="level_one" />}
       {landscaping && <LandscapingHud location="level_one" />}
-      {/*
-        Upgrade button is also rendered here so the player can keep buying
-        upgrades from inside /level_one. Same component as on /interior:
-        it self-hides when the player isn't on volcano OR has reached
-        level-one-full. Subsequent upgrades just advance `interior.expansion`,
-        and the new background/layout swaps in on the next render — no
-        navigation, since the player is already on the right route.
-      */}
-      {!landscaping && <UpgradeButton />}
     </>
   );
 };

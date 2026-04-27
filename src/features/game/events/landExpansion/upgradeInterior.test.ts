@@ -7,6 +7,9 @@ import {
 } from "./upgradeInterior";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "features/interior/lib/upgradeRequirements";
 
+// HOME_EXPANSIONS is a betaFeatureFlag — testnet OR Beta Pass. Tests assume
+// testnet (`CONFIG.NETWORK === "amoy"`) is true, so the flag passes for these
+// volcano-island fixtures without needing a Beta Pass in inventory.
 const richVolcanoState = (): GameState => ({
   ...TEST_FARM,
   island: { ...TEST_FARM.island, type: "volcano" },
@@ -14,6 +17,7 @@ const richVolcanoState = (): GameState => ({
   inventory: {
     ...TEST_FARM.inventory,
     Obsidian: new Decimal(10_000),
+    "Beta Pass": new Decimal(1),
   },
 });
 

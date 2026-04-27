@@ -11,8 +11,10 @@ import {
   UpgradeCost,
 } from "features/interior/lib/upgradeRequirements";
 import { getKeys } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum UPGRADE_INTERIOR_ERRORS {
+  NO_ACCESS = "Home expansions are not available for this player",
   NOT_ON_VOLCANO = "Interior upgrades are only available on volcano island",
   ALREADY_MAXED = "Interior is already at maximum tier (level-one-full)",
   INSUFFICIENT_COINS = "Not enough coins to perform this upgrade",
@@ -66,6 +68,9 @@ function chargeCost(state: GameState, cost: UpgradeCost): void {
 
 export function upgradeInterior({ state, action: _action }: Options): GameState {
   return produce(state, (game) => {
+    if (!hasFeatureAccess(game, "HOME_EXPANSIONS")) {
+      throw new Error(UPGRADE_INTERIOR_ERRORS.NO_ACCESS);
+    }
     if (game.island.type !== "volcano") {
       throw new Error(UPGRADE_INTERIOR_ERRORS.NOT_ON_VOLCANO);
     }
