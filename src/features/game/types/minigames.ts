@@ -23,16 +23,20 @@ export type MinigameName =
   | "memory"
   | "chaacs-temple";
 
+export const V2_MINIGAMES: MinigameName[] = [
+  "corn-maze",
+  "chaacs-temple",
+  "chicken-rescue-v2",
+];
+
 export const SUPPORTED_MINIGAMES: MinigameName[] = [
   "crop-boom",
   "bumpkin-fight-club",
   "bumpkin-board-game",
   "sfl-world",
   "maze-run",
-  "corn-maze",
   "board-game",
   "chicken-rescue",
-  "chicken-rescue-v2",
   "festival-of-colors",
   "crops-and-chickens",
   "farmer-football",
@@ -46,11 +50,5 @@ export const SUPPORTED_MINIGAMES: MinigameName[] = [
   "nightshade-arcade",
   "april-fools",
   "memory",
-  "chaacs-temple",
-];
-
-export const V2_MINIGAMES: MinigameName[] = [
-  "corn-maze",
-  "chaacs-temple",
-  "chicken-rescue-v2",
+  ...V2_MINIGAMES,
 ];
