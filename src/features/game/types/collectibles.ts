@@ -4,7 +4,13 @@ import { translate } from "lib/i18n/translate";
 import { CHAPTERS } from "./chapters";
 import { ExoticCropName } from "./beans";
 
-export const PLACEABLE_LOCATIONS = ["farm", "home", "petHouse"] as const;
+export const PLACEABLE_LOCATIONS = [
+  "farm",
+  "home",
+  "petHouse",
+  "interior",
+  "level_one",
+] as const;
 export type PlaceableLocation = (typeof PLACEABLE_LOCATIONS)[number];
 
 export type SeasonPassName =

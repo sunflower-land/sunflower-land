@@ -62,10 +62,15 @@ const ManekiNekoLabel = () => {
 export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const manekiNekos =
-    gameState.context.state.collectibles["Maneki Neko"] ??
-    gameState.context.state.home.collectibles["Maneki Neko"] ??
-    [];
+  // Combine all Maneki Nekos across every placement surface (farm, home,
+  // interior ground, interior level_one) so the shake cooldown is global.
+  const interior = gameState.context.state.interior;
+  const manekiNekos = [
+    ...(gameState.context.state.collectibles["Maneki Neko"] ?? []),
+    ...(gameState.context.state.home.collectibles["Maneki Neko"] ?? []),
+    ...(interior?.ground.collectibles["Maneki Neko"] ?? []),
+    ...(interior?.level_one?.collectibles["Maneki Neko"] ?? []),
+  ];
 
   const hasShakenRecently = manekiNekos.some((maneki) => {
     const shakenAt = maneki.shakenAt || 0;

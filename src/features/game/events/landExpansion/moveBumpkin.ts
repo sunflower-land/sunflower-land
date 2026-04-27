@@ -25,7 +25,12 @@ export function moveBumpkin({ state, action }: Options): GameState {
       throw new Error("Bumpkin is not placed");
     }
 
-    if (action.location !== "farm" && action.location !== "home") {
+    if (
+      action.location !== "farm" &&
+      action.location !== "home" &&
+      action.location !== "interior" &&
+      action.location !== "level_one"
+    ) {
       throw new Error("Invalid bumpkin location");
     }
 

@@ -26,7 +26,12 @@ export function placeFarmHand({ state, action }: Options): GameState {
       throw new Error("Farm hand does not exist");
     }
 
-    if (action.location !== "farm" && action.location !== "home") {
+    if (
+      action.location !== "farm" &&
+      action.location !== "home" &&
+      action.location !== "interior" &&
+      action.location !== "level_one"
+    ) {
       throw new Error("Invalid farm hand location");
     }
 

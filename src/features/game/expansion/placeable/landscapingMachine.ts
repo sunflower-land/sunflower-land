@@ -4,7 +4,10 @@ import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
 } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
+import {
+  CollectibleName,
+  COLLECTIBLES_DIMENSIONS,
+} from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import { Inventory } from "features/game/types/game";
@@ -48,7 +51,19 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 
 export function placeEvent(
   name: LandscapingPlaceable,
+  location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> {
+  // Interior uses its own dedicated event so it stays isolated from the
+  // legacy `home` / `farm` placement code paths.
+  if (location === "interior" && name in COLLECTIBLES_DIMENSIONS) {
+    return "interior.itemPlaced";
+  }
+
+  // Post-volcano level_one floor — same isolation pattern as interior.
+  if (location === "level_one" && name in COLLECTIBLES_DIMENSIONS) {
+    return "level_one.itemPlaced";
+  }
+
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
       name as ResourceName

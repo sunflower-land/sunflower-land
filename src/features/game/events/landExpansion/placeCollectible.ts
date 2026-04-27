@@ -168,8 +168,10 @@ export function placeCollectible({
           ? ["farm", "home"]
           : ["home", "petHouse"]; // farm
 
+    // NOTE: The "interior" location is handled by placeInteriorItem, not this
+    // reducer. It should never reach these helpers.
     const getCollectiblesForLocation = (
-      loc: "farm" | "home" | "petHouse",
+      loc: PlaceableLocation,
     ): PlacedItem[] => {
       switch (loc) {
         case "home":
@@ -178,6 +180,12 @@ export function placeCollectible({
           return isPetCollectible(action.name)
             ? (stateCopy.petHouse.pets[action.name] ?? [])
             : [];
+        case "interior":
+          return stateCopy.interior.ground.collectibles[action.name] ?? [];
+        case "level_one":
+          return (
+            stateCopy.interior.level_one?.collectibles[action.name] ?? []
+          );
         case "farm":
         default:
           return stateCopy.collectibles[action.name] ?? [];
@@ -185,7 +193,7 @@ export function placeCollectible({
     };
 
     const setCollectiblesForLocation = (
-      loc: "farm" | "home" | "petHouse",
+      loc: PlaceableLocation,
       items: PlacedItem[],
     ) => {
       switch (loc) {
@@ -195,6 +203,14 @@ export function placeCollectible({
         case "petHouse":
           if (isPetCollectible(action.name)) {
             stateCopy.petHouse.pets[action.name] = items;
+          }
+          break;
+        case "interior":
+          stateCopy.interior.ground.collectibles[action.name] = items;
+          break;
+        case "level_one":
+          if (stateCopy.interior.level_one) {
+            stateCopy.interior.level_one.collectibles[action.name] = items;
           }
           break;
         case "farm":

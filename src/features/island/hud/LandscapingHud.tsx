@@ -132,6 +132,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     selectedItem?.name,
     now,
     selectedCollectible,
+    location,
   );
 
   const showRemove = isMobile && selectedItem && removeAction;
@@ -235,7 +236,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 location={location}
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
-                    action: placeEvent(selected),
+                    action: placeEvent(selected, location),
                     placeable: { name: selected },
                     multiple: true,
                   });
