@@ -59,6 +59,27 @@ type Props = {
   setShowFeed: (showFeed: boolean) => void;
 };
 
+const SERVER_DISPLAY_NAMES: Record<string, string> = {
+  sunflorea_bliss: "Bliss",
+  sunflorea_dream: "Dream",
+  sunflorea_oasis: "Plaza",
+  sunflorea_brazil: "Brazil",
+  sunflorea_magic: "Magic",
+  sunflorea_kale: "Kale",
+  sunflorea_flower: "Flower",
+  sunflorea_stream: "Stream",
+  "Bumpkin Plaza": "Plaza",
+  "Bumpkin Bazaar": "Plaza",
+};
+
+const formatServerName = (server: string) =>
+  SERVER_DISPLAY_NAMES[server] ??
+  server
+    .replace(/^sunflorea[_\s-]*/i, "")
+    .replace(/^bumpkin[_\s-]*/i, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
 const _username = (state: MachineState) =>
   (state.context.visitorState ?? state.context.state).username;
 const _farmId = (state: MachineState) =>
@@ -121,6 +142,7 @@ export const Feed: React.FC<Props> = ({
     totalHelpedToday == null
       ? undefined
       : Math.max(helpLimit - totalHelpedToday, 0);
+  const serverLabel = server ? formatServerName(server) : undefined;
 
   const { t } = useAppTranslation();
 
@@ -274,7 +296,7 @@ export const Feed: React.FC<Props> = ({
       <div className="flex flex-col gap-2 h-full w-full">
         <div className="sticky top-0 flex flex-col z-10 bg-[#e4a672]">
           <div className="flex items-center gap-2 pb-1">
-            <div className="flex items-center w-full gap-2">
+            <div className="flex items-center w-full min-w-0 gap-2">
               {showFollowing && (
                 <img
                   src={SUNNYSIDE.icons.arrow_left}
@@ -290,7 +312,14 @@ export const Feed: React.FC<Props> = ({
               <Label type="default" icon={cheer}>
                 {cheersAvailable.toNumber()}
               </Label>
-              {server && <span className="text-xxs">{server}</span>}
+              {serverLabel && (
+                <span
+                  className="min-w-0 max-w-[56px] shrink truncate text-xxs"
+                  title={serverLabel}
+                >
+                  {serverLabel}
+                </span>
+              )}
             </div>
             <img
               src={SUNNYSIDE.icons.close}
