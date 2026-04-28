@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Panel, InnerPanel, ButtonPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -24,7 +24,6 @@ import {
 export const PlayerEconomyEditor: React.FC = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const { loadRows } = useEditorApi();
   const [rows, setRows] = useState<PlayerEconomyConfigRow[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -65,15 +64,7 @@ export const PlayerEconomyEditor: React.FC = () => {
               {t("playerEconomyEditor.title")}
             </Label>
           </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              const base = pathname.includes("/world")
-                ? "/world/marketplace"
-                : "/marketplace";
-              navigate(`${base}/economies`);
-            }}
-          >
+          <Button variant="secondary" onClick={() => navigate("/economy-hub")}>
             <span className="text-sm">
               {t("playerEconomyEditor.viewAllEconomiesMarketplace")}
             </span>
