@@ -1078,6 +1078,15 @@ import goblinRug from "assets/sfts/goblin_rug.webp";
 import petRug from "assets/sfts/pet_rug.webp";
 import jesterInABox from "assets/sfts/jester_in_a_box.webp";
 import theSunflowerManStatue from "assets/sfts/the_sunflower_man_statue.webp";
+import bigTable from "assets/decorations/big_table.webp";
+import crate from "assets/decorations/crate.webp";
+import emptyPot from "assets/decorations/empty_pot.webp";
+import highTable from "assets/decorations/high_table.webp";
+import largePodium from "assets/decorations/large_podium.webp";
+import longTable from "assets/decorations/long_table.webp";
+import royalPodium from "assets/decorations/royal_podium.webp";
+import squareTable from "assets/decorations/square_table.webp";
+import stool from "assets/decorations/stool.webp";
 
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
@@ -7666,5 +7675,41 @@ export const ITEM_DETAILS: Items = {
   "Salt Dino Egg": {
     image: saltDinoEgg,
     description: translate("description.saltDinoEgg"),
+  },
+  "Big Table": {
+    image: bigTable,
+    description: translate("description.big.table"),
+  },
+  Crate: {
+    image: crate,
+    description: translate("description.crate"),
+  },
+  "Empty Pot": {
+    image: emptyPot,
+    description: translate("description.empty.pot"),
+  },
+  "High Table": {
+    image: highTable,
+    description: translate("description.high.table"),
+  },
+  "Large Podium": {
+    image: largePodium,
+    description: translate("description.large.podium"),
+  },
+  "Long Table": {
+    image: longTable,
+    description: translate("description.long.table"),
+  },
+  "Royal Podium": {
+    image: royalPodium,
+    description: translate("description.royal.podium"),
+  },
+  "Square Table": {
+    image: squareTable,
+    description: translate("description.square.table"),
+  },
+  Stool: {
+    image: stool,
+    description: translate("description.stool"),
   },
 };

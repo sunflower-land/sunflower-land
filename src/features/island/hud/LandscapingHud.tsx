@@ -260,7 +260,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     : undefined
                 }
               />
-              {location === "farm" && (
+              {(location === "farm" || location === "home") && (
                 <>
                   <RoundButton
                     className="mb-3.5"
@@ -280,7 +280,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     show={showDecorations}
                     onHide={() => setShowDecorations(false)}
                   />
+                </>
+              )}
 
+              {location === "farm" && (
+                <>
                   <RoundButton
                     className="mb-3.5"
                     onClick={() => setShowCraftBuild(true)}

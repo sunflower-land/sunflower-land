@@ -390,6 +390,15 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Bumpkin Rug",
   "Goblin Rug",
   "Pet Rug",
+  "Big Table",
+  "Crate",
+  "Empty Pot",
+  "High Table",
+  "Large Podium",
+  "Long Table",
+  "Royal Podium",
+  "Square Table",
+  "Stool",
 ];
 
 function detectHomeCollision({
