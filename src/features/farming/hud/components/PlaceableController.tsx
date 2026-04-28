@@ -35,7 +35,10 @@ import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { Label } from "components/ui/Label";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
+import {
+  HOME_LANDSCAPING_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+} from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
@@ -210,7 +213,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           placeable.name !== "Bud" &&
           placeable.name !== "FarmHand" &&
           placeable.name !== "Bumpkin") ||
-          placeable.name in LANDSCAPING_DECORATIONS ||
+          (placeable.name in LANDSCAPING_DECORATIONS &&
+            !HOME_LANDSCAPING_DECORATIONS.includes(
+              placeable.name as (typeof HOME_LANDSCAPING_DECORATIONS)[number],
+            )) ||
           placeable.name === "Magic Bean")) ||
       (location === "petHouse" && !isPetCollectible && !isPetNFT)
     : false;

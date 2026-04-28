@@ -8853,5 +8853,14 @@
   "description.spaCow.boost": "+0.1 Milk",
   "description.deepSeaSlug.boost": "+5 Fishing Attempts",
   "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
-  "description.saltCrystalFlower.boost": "5% chance for +1 Flower"
+  "description.saltCrystalFlower.boost": "5% chance for +1 Flower",
+  "description.big.table": "A sturdy table with plenty of room for gatherings.",
+  "description.crate": "A simple wooden crate. Useful for storage or as a seat.",
+  "description.empty.pot": "A clay pot waiting to be filled with something.",
+  "description.high.table": "A tall table for standing around.",
+  "description.large.podium": "An impressive podium for important announcements.",
+  "description.long.table": "A long table perfect for feasts.",
+  "description.royal.podium": "A regal podium fit for a monarch.",
+  "description.square.table": "A square table, neat and symmetrical.",
+  "description.stool": "A simple stool to sit on."
 }

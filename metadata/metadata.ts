@@ -15511,6 +15511,105 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2358.webp",
     name: "The Sunflower Man Statue",
   },
+  "Big Table": {
+    description: "A sturdy table with plenty of room for gatherings.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3008.webp",
+    name: "Big Table",
+  },
+  Crate: {
+    description: "A simple wooden crate. Useful for storage or as a seat.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3009.webp",
+    name: "Crate",
+  },
+  "Empty Pot": {
+    description: "A clay pot waiting to be filled with something.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3010.webp",
+    name: "Empty Pot",
+  },
+  "High Table": {
+    description: "A tall table for standing around.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3011.webp",
+    name: "High Table",
+  },
+  "Large Podium": {
+    description: "An impressive podium for important announcements.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3012.webp",
+    name: "Large Podium",
+  },
+  "Long Table": {
+    description: "A long table perfect for feasts.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3013.webp",
+    name: "Long Table",
+  },
+  "Royal Podium": {
+    description: "A regal podium fit for a monarch.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3014.webp",
+    name: "Royal Podium",
+  },
+  "Square Table": {
+    description: "A square table, neat and symmetrical.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3015.webp",
+    name: "Square Table",
+  },
+  Stool: {
+    description: "A simple stool to sit on.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/3016.webp",
+    name: "Stool",
+  },
   "Salt Sculpture": {
     description:
       "A progressive sculpture providing Salt & Aging buffs per level",

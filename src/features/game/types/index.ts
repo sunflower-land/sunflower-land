@@ -1512,6 +1512,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Salt Dino Egg": 3006,
 
   "Pickled Broccoli": 3007,
+
+  "Big Table": 3008,
+  Crate: 3009,
+  "Empty Pot": 3010,
+  "High Table": 3011,
+  "Large Podium": 3012,
+  "Long Table": 3013,
+  "Royal Podium": 3014,
+  "Square Table": 3015,
+  Stool: 3016,
 };
 
 // The reverse of above
