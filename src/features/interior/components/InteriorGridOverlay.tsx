@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { IslandType } from "features/game/types/game";
 import {
@@ -23,15 +23,13 @@ import {
 export const InteriorGridOverlay: React.FC<{ island: IslandType }> = ({
   island,
 }) => {
-  // Local mutable copy of the valid-tile set for this island. Initialized from
-  // the constant, and reset whenever the active island changes.
-  const [validTiles, setValidTiles] = useState<Set<string>>(
-    () => new Set(INTERIOR_LAYOUTS[island]),
+  const [overrides, setOverrides] = useState<
+    Partial<Record<IslandType, Set<string>>>
+  >({});
+  const validTiles = useMemo(
+    () => overrides[island] ?? new Set(INTERIOR_LAYOUTS[island]),
+    [island, overrides],
   );
-
-  useEffect(() => {
-    setValidTiles(new Set(INTERIOR_LAYOUTS[island]));
-  }, [island]);
 
   const tiles: Array<{ x: number; y: number }> = [];
   for (let x = 0; x < INTERIOR_CANVAS.width; x++) {
@@ -52,7 +50,12 @@ export const InteriorGridOverlay: React.FC<{ island: IslandType }> = ({
     const lines: string[] = [];
     for (let i = 0; i < sorted.length; i += 8) {
       lines.push(
-        "    " + sorted.slice(i, i + 8).map((k) => `"${k}"`).join(", ") + ",",
+        "    " +
+          sorted
+            .slice(i, i + 8)
+            .map((k) => `"${k}"`)
+            .join(", ") +
+          ",",
       );
     }
     return `new Set([\n${lines.join("\n")}\n  ]),`;
@@ -77,15 +80,18 @@ export const InteriorGridOverlay: React.FC<{ island: IslandType }> = ({
   };
 
   const toggle = (key: string) => {
-    setValidTiles((prev) => {
-      const next = new Set(prev);
+    setOverrides((prev) => {
+      const current = prev[island] ?? new Set(INTERIOR_LAYOUTS[island]);
+      const next = new Set(current);
+
       if (next.has(key)) {
         next.delete(key);
       } else {
         next.add(key);
       }
+
       logPasteable(next);
-      return next;
+      return { ...prev, [island]: next };
     });
   };
 
@@ -119,9 +125,7 @@ export const InteriorGridOverlay: React.FC<{ island: IslandType }> = ({
               lineHeight: 1,
             }}
           >
-            <span>
-              {x},{y}
-            </span>
+            <span>{`${x},${y}`}</span>
           </div>
         );
       })}

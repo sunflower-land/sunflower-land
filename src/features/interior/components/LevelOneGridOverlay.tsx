@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { HomeExpansionTier } from "features/game/types/game";
 import {
@@ -16,13 +16,13 @@ import {
 export const LevelOneGridOverlay: React.FC<{ tier: HomeExpansionTier }> = ({
   tier,
 }) => {
-  const [validTiles, setValidTiles] = useState<Set<string>>(
-    () => new Set(HOME_EXPANSION_LAYOUTS[tier]),
+  const [overrides, setOverrides] = useState<
+    Partial<Record<HomeExpansionTier, Set<string>>>
+  >({});
+  const validTiles = useMemo(
+    () => overrides[tier] ?? new Set(HOME_EXPANSION_LAYOUTS[tier]),
+    [tier, overrides],
   );
-
-  useEffect(() => {
-    setValidTiles(new Set(HOME_EXPANSION_LAYOUTS[tier]));
-  }, [tier]);
 
   const tiles: Array<{ x: number; y: number }> = [];
   for (let x = 0; x < INTERIOR_CANVAS.width; x++) {
@@ -40,7 +40,12 @@ export const LevelOneGridOverlay: React.FC<{ tier: HomeExpansionTier }> = ({
     const lines: string[] = [];
     for (let i = 0; i < sorted.length; i += 8) {
       lines.push(
-        "    " + sorted.slice(i, i + 8).map((k) => `"${k}"`).join(", ") + ",",
+        "    " +
+          sorted
+            .slice(i, i + 8)
+            .map((k) => `"${k}"`)
+            .join(", ") +
+          ",",
       );
     }
     return `new Set([\n${lines.join("\n")}\n  ]),`;
@@ -65,12 +70,15 @@ export const LevelOneGridOverlay: React.FC<{ tier: HomeExpansionTier }> = ({
   };
 
   const toggle = (key: string) => {
-    setValidTiles((prev) => {
-      const next = new Set(prev);
+    setOverrides((prev) => {
+      const current = prev[tier] ?? new Set(HOME_EXPANSION_LAYOUTS[tier]);
+      const next = new Set(current);
+
       if (next.has(key)) next.delete(key);
       else next.add(key);
+
       logPasteable(next);
-      return next;
+      return { ...prev, [tier]: next };
     });
   };
 
@@ -104,9 +112,7 @@ export const LevelOneGridOverlay: React.FC<{ tier: HomeExpansionTier }> = ({
               lineHeight: 1,
             }}
           >
-            <span>
-              {x},{y}
-            </span>
+            <span>{`${x},${y}`}</span>
           </div>
         );
       })}
