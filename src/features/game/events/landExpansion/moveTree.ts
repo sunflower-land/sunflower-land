@@ -37,8 +37,6 @@ export function moveTree({
 
     trees[action.id].x = action.coordinates.x;
     trees[action.id].y = action.coordinates.y;
-    trees[action.id].oX = action.coordinates.oX;
-    trees[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

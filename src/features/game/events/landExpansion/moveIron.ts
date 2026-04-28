@@ -38,8 +38,6 @@ export function moveIron({
 
     iron[action.id].x = action.coordinates.x;
     iron[action.id].y = action.coordinates.y;
-    iron[action.id].oX = action.coordinates.oX;
-    iron[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

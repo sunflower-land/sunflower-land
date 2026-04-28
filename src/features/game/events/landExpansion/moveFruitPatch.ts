@@ -37,8 +37,6 @@ export function moveFruitPatch({
 
     fruitPatch[action.id].x = action.coordinates.x;
     fruitPatch[action.id].y = action.coordinates.y;
-    fruitPatch[action.id].oX = action.coordinates.oX;
-    fruitPatch[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

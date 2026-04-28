@@ -37,8 +37,6 @@ export function moveGold({
 
     gold[action.id].x = action.coordinates.x;
     gold[action.id].y = action.coordinates.y;
-    gold[action.id].oX = action.coordinates.oX;
-    gold[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

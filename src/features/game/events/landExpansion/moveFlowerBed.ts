@@ -29,8 +29,6 @@ export function moveFlowerBed({
 
     flowerBed.x = action.coordinates.x;
     flowerBed.y = action.coordinates.y;
-    flowerBed.oX = action.coordinates.oX;
-    flowerBed.oY = action.coordinates.oY;
 
     return stateCopy;
   });

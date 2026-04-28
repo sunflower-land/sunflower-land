@@ -31,8 +31,6 @@ export function moveBeehive({
 
     stateCopy.beehives[action.id].x = action.coordinates.x;
     stateCopy.beehives[action.id].y = action.coordinates.y;
-    stateCopy.beehives[action.id].oX = action.coordinates.oX;
-    stateCopy.beehives[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

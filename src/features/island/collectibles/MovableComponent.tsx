@@ -559,14 +559,23 @@ export const MoveableComponent: React.FC<
     }
   };
 
-  // Pixel-perfect mode is gated behind the PIXEL_PERFECT_PLACEMENT beta flag. It's
-  // available for any selected movable item (collectibles, buds, pets, buildings,
-  // bumpkins, farm hands, resources). Mobile uses LandscapingHud for selection
-  // controls so we only render the disc on non-mobile, matching flip/remove.
+  // Pixel-perfect mode is gated behind the PIXEL_PERFECT_PLACEMENT beta flag.
+  // For launch, we only enable it on placeable "characters" — collectibles,
+  // buds, pet NFTs, farm hands, and the player's bumpkin. Buildings and natural
+  // resources (trees, crops, rocks, etc.) keep their existing tile-snap-only
+  // behaviour. Mobile uses LandscapingHud for selection controls so we only
+  // render the disc on non-mobile, matching flip/remove.
   const hasPixelPerfectFeature = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "PIXEL_PERFECT_PLACEMENT"),
   );
-  const hasPixelPerfectAction = !isMobile && hasPixelPerfectFeature;
+  const isPixelPerfectAllowedFor =
+    name in COLLECTIBLES_DIMENSIONS ||
+    name === "Bud" ||
+    name === "Pet" ||
+    name === "FarmHand" ||
+    name === "Bumpkin";
+  const hasPixelPerfectAction =
+    !isMobile && hasPixelPerfectFeature && isPixelPerfectAllowedFor;
 
   const togglePixelPerfectMode = () => {
     setIsPixelPerfectMode((prev) => !prev);
@@ -578,14 +587,6 @@ export const MoveableComponent: React.FC<
   // committed offset (savedOX + pixelDelta.x, savedOY + pixelDelta.y) must stay
   // within ±8 source pixels; we clamp pixelDelta accordingly.
   const movePixel = (dx: -1 | 0 | 1, dy: -1 | 0 | 1) => {
-    // eslint-disable-next-line no-console
-    console.log("[pixel-perfect] movePixel", {
-      dx,
-      dy,
-      savedOX,
-      savedOY,
-      currentPixelDelta: pixelDelta,
-    });
     setPixelDelta((prev) => {
       const clamp = (v: number, min: number, max: number) =>
         Math.min(Math.max(v, min), max);
@@ -642,15 +643,6 @@ export const MoveableComponent: React.FC<
   useEffect(() => {
     const delta = pixelDeltaRef.current;
     const saved = savedOffsetRef.current;
-    // eslint-disable-next-line no-console
-    console.log("[pixel-perfect] deselect effect ran", {
-      isActiveCurrent: isActive.current,
-      isSelected,
-      pixelDelta: delta,
-      savedOffset: saved,
-      name,
-      id,
-    });
 
     // Commit the pixel-perfect offset (if any) whenever the item is
     // deselected, regardless of the isActive flag. pixelDelta is only ever
@@ -660,19 +652,6 @@ export const MoveableComponent: React.FC<
     if (!isSelected && (delta.x !== 0 || delta.y !== 0)) {
       const newOX = saved.savedOX + delta.x;
       const newOY = saved.savedOY + delta.y;
-
-      // eslint-disable-next-line no-console
-      console.log("[pixel-perfect] dispatching move", {
-        eventType: getMoveAction(name),
-        name,
-        id,
-        coordinates: {
-          x: coordinatesX,
-          y: coordinatesY,
-          oX: newOX,
-          oY: newOY,
-        },
-      });
 
       gameService.send(getMoveAction(name), {
         ...(name in RESOURCE_MOVE_EVENTS
@@ -858,12 +837,6 @@ export const MoveableComponent: React.FC<
         nodeRef.current &&
         !(nodeRef.current as Node).contains(event.target as Node)
       ) {
-        // eslint-disable-next-line no-console
-        console.log("[pixel-perfect] click outside detected, sending BLUR", {
-          name,
-          id,
-          target: event.target,
-        });
         landscapingMachine.send("BLUR");
         setPosition({ x: 0, y: 0 });
         onStop.flush();

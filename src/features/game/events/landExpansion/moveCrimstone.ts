@@ -53,8 +53,6 @@ export function moveCrimstone({
 
     crimstones[action.id].x = action.coordinates.x;
     crimstones[action.id].y = action.coordinates.y;
-    crimstones[action.id].oX = action.coordinates.oX;
-    crimstones[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

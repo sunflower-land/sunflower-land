@@ -37,8 +37,6 @@ export function moveStone({
 
     stones[action.id].x = action.coordinates.x;
     stones[action.id].y = action.coordinates.y;
-    stones[action.id].oX = action.coordinates.oX;
-    stones[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });
