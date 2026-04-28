@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import { NPCPlaceable, NPCProps } from "./NPC";
-import { NPCModal } from "./NPCModal";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -18,6 +17,9 @@ import { hasFeatureAccess } from "lib/flags";
 import { PlayerModal } from "features/social/PlayerModal";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Discovery } from "features/social/Discovery";
+import { Modal } from "components/ui/Modal";
+import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
+import { Bumpkin } from "features/game/types/game";
 
 const _showHelper = (state: MachineState) =>
   // First Rhubarb Tart
@@ -28,6 +30,7 @@ const _showHelper = (state: MachineState) =>
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _gameState = (state: MachineState) => state.context.state;
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
@@ -37,6 +40,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const showHelper = useSelector(gameService, _showHelper);
   const token = useSelector(authService, _token);
   const isLandscaping = useSelector(gameService, _isLandscaping);
+  const gameState = useSelector(gameService, _gameState);
   const { isVisiting } = useVisiting();
   const context = gameService.getSnapshot().context;
   const loggedInFarmId = context.visitorId ?? context.farmId;
@@ -84,7 +88,16 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
         />
       )}
 
-      <NPCModal isOpen={open} onClose={() => setOpen(false)} />
+      <Modal show={open} onHide={() => setOpen(false)} size="lg">
+        <BumpkinModal
+          initialTab="feed"
+          onClose={() => setOpen(false)}
+          bumpkin={gameState.bumpkin as Bumpkin}
+          inventory={gameState.inventory}
+          readonly={false}
+          gameState={gameState}
+        />
+      </Modal>
       <PlayerModal
         loggedInFarmId={loggedInFarmId}
         token={token}

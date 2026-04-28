@@ -387,6 +387,7 @@ export const INITIAL_FARM: GameState = {
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
+    "Honey Cake": new Decimal(1),
   },
   previousInventory: {},
   wardrobe: {},
