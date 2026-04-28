@@ -540,4 +540,90 @@ describe("Place Collectible", () => {
       expect(state.collectibles["Flicker"]).toHaveLength(1);
     });
   });
+
+  describe("interior placement", () => {
+    it("places a collectible into the interior ground floor", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Abandoned Bear": new Decimal(1),
+          },
+          interior: {
+            ground: { collectibles: {} },
+          },
+        },
+        action: {
+          id: "ground-1",
+          type: "collectible.placed",
+          name: "Abandoned Bear",
+          // (-7, -3) → layout tile (5, 9) — valid wood-floor tile on basic.
+          coordinates: { x: -7, y: -3 },
+          location: "interior",
+        },
+      });
+
+      expect(state.interior.ground.collectibles["Abandoned Bear"]).toEqual([
+        {
+          id: "ground-1",
+          coordinates: { x: -7, y: -3 },
+        },
+      ]);
+    });
+
+    it("places a collectible into the level_one floor", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Abandoned Bear": new Decimal(1),
+          },
+          interior: {
+            ground: { collectibles: {} },
+            expansion: "level-one-start",
+            level_one: { collectibles: {} },
+          },
+        },
+        action: {
+          id: "lo-1",
+          type: "collectible.placed",
+          name: "Abandoned Bear",
+          // (0, 0) → layout tile (12, 12) — valid level-one-start tile.
+          coordinates: { x: 0, y: 0 },
+          location: "level_one",
+        },
+      });
+
+      expect(state.interior.level_one!.collectibles["Abandoned Bear"]).toEqual([
+        {
+          id: "lo-1",
+          coordinates: { x: 0, y: 0 },
+        },
+      ]);
+    });
+
+    it("rejects placing on level_one before the upgrade has been bought", () => {
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              "Abandoned Bear": new Decimal(1),
+            },
+            interior: {
+              ground: { collectibles: {} },
+              // level_one purposely missing
+            },
+          },
+          action: {
+            id: "lo-1",
+            type: "collectible.placed",
+            name: "Abandoned Bear",
+            coordinates: { x: 0, y: 0 },
+            location: "level_one",
+          },
+        }),
+      ).toThrow("Level one floor has not been unlocked");
+    });
+  });
 });

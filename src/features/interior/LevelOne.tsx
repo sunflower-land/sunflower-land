@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  type JSX,
-} from "react";
+import React, { useContext, useLayoutEffect, useMemo, type JSX } from "react";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -34,7 +29,8 @@ import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { Button } from "components/ui/Button";
-import { Collectibles } from "features/game/types/game";
+import { Collectibles, HomeExpansionTier } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -90,6 +86,17 @@ const _levelOneFarmHands = (state: MachineState) => {
   );
 };
 
+const UPGRADE_POSITIONS: Partial<
+  Record<HomeExpansionTier, { x: number; y: number }>
+> = {
+  "level-one-start": { x: 11, y: 18 },
+  "level-one-2": { x: 4, y: 13 },
+  "level-one-3": { x: 18, y: 13 },
+  "level-one-4": { x: 11.5, y: 7 },
+  "level-one-5": { x: 16, y: 6.5 },
+  "level-one-6": { x: 7, y: 6.5 },
+};
+
 /**
  * Post-volcano "level_one" floor. Mounted at /level_one.
  *
@@ -142,11 +149,11 @@ export const LevelOne: React.FC = () => {
     return (
       <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-white text-center px-8">
-          <p>Home interiors aren&apos;t available yet.</p>
+          <p>{"Home interiors aren't available yet."}</p>
           <p className="text-sm opacity-70">
-            This feature is in beta. Check back soon.
+            {"This feature is in beta. Check back soon."}
           </p>
-          <Button onClick={() => navigate("/")}>Back to farm</Button>
+          <Button onClick={() => navigate("/")}>{"Back to farm"}</Button>
         </div>
       </div>
     );
@@ -158,11 +165,13 @@ export const LevelOne: React.FC = () => {
     return (
       <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-white text-center px-8">
-          <p>You haven&apos;t unlocked level one yet.</p>
+          <p>{"You haven't unlocked level one yet."}</p>
           <p className="text-sm opacity-70">
-            Visit your interior on volcano island to buy the first upgrade.
+            {"Visit your interior on volcano island to buy the first upgrade."}
           </p>
-          <Button onClick={() => navigate("/interior")}>Go to interior</Button>
+          <Button onClick={() => navigate("/interior")}>
+            {"Go to interior"}
+          </Button>
         </div>
       </div>
     );
@@ -253,6 +262,8 @@ export const LevelOne: React.FC = () => {
     );
   }
 
+  const upgradePosition = UPGRADE_POSITIONS[expansion];
+
   return (
     <>
       {/* Same scroll setup as /home — see Interior.tsx for the rationale. */}
@@ -306,9 +317,38 @@ export const LevelOne: React.FC = () => {
                 go here later.
                 MapPlacement uses canvas-centre origin: bl(X, Y) → cc(X-12, Y-12).
               */}
-              {!landscaping && (
-                <MapPlacement key="upgrade-button" x={13 - 12} y={21 - 12}>
+              {!landscaping && upgradePosition && (
+                <MapPlacement
+                  key="upgrade-button"
+                  x={upgradePosition.x - 12}
+                  y={upgradePosition.y - 12}
+                >
                   <UpgradeButton />
+                </MapPlacement>
+              )}
+
+              {!landscaping && (
+                <MapPlacement
+                  key="move-button"
+                  x={13 - 12}
+                  y={16 - 12}
+                  height={2}
+                  width={1}
+                  className="relative"
+                >
+                  <div
+                    className="h-full w-full cursor-pointer"
+                    onClick={() => navigate("/interior")}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.arrow_down}
+                    style={{
+                      width: `${PIXEL_SCALE * 9}px`,
+                      left: `${PIXEL_SCALE * 4.5}px`,
+                      top: `${PIXEL_SCALE * 2}px`,
+                    }}
+                    className="absolute inset-0 pointer-events-none"
+                  />
                 </MapPlacement>
               )}
             </div>

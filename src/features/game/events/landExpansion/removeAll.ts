@@ -42,7 +42,11 @@ export function removeAll({
         ? stateCopy.home.collectibles
         : action.location === "petHouse"
           ? stateCopy.petHouse.pets
-          : stateCopy.collectibles;
+          : action.location === "interior"
+            ? stateCopy.interior.ground.collectibles
+            : action.location === "level_one"
+              ? (stateCopy.interior.level_one?.collectibles ?? {})
+              : stateCopy.collectibles;
 
     getObjectEntries(collectibles).forEach(([name, collectibleGroup]) => {
       if (collectibleGroup) {

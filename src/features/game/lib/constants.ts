@@ -510,7 +510,11 @@ export const INITIAL_FARM: GameState = {
       ],
     },
   },
-  interior: { ground: { collectibles: {} }, expansion: "level-one-start", level_one: { collectibles: {}}  },
+  interior: {
+    ground: { collectibles: {} },
+    expansion: "level-one-6",
+    level_one: { collectibles: {} },
+  },
   farmHands: { bumpkins: {} },
   greenhouse: {
     oil: 100,

@@ -89,20 +89,6 @@ function getMoveAction(
   name: LandscapingPlaceable,
   location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> {
-  if (
-    location === "interior" &&
-    name in COLLECTIBLES_DIMENSIONS
-  ) {
-    return "interior.itemMoved";
-  }
-
-  if (
-    location === "level_one" &&
-    name in COLLECTIBLES_DIMENSIONS
-  ) {
-    return "level_one.itemMoved";
-  }
-
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
   }
@@ -207,22 +193,6 @@ export function getRemoveAction(
 ): GameEventName<PlacementEvent> | null {
   if (!name) {
     return null;
-  }
-
-  // Interior collectibles use a dedicated event.
-  if (
-    location === "interior" &&
-    name in COLLECTIBLES_DIMENSIONS
-  ) {
-    return "interior.itemRemoved";
-  }
-
-  // level_one collectibles also use a dedicated event.
-  if (
-    location === "level_one" &&
-    name in COLLECTIBLES_DIMENSIONS
-  ) {
-    return "level_one.itemRemoved";
   }
 
   if (
