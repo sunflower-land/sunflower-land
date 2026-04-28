@@ -640,72 +640,71 @@ export const MoveableComponent: React.FC<
   };
 
   useEffect(() => {
+    const delta = pixelDeltaRef.current;
+    const saved = savedOffsetRef.current;
     // eslint-disable-next-line no-console
     console.log("[pixel-perfect] deselect effect ran", {
       isActiveCurrent: isActive.current,
       isSelected,
-      pixelDelta: pixelDeltaRef.current,
-      savedOffset: savedOffsetRef.current,
+      pixelDelta: delta,
+      savedOffset: saved,
       name,
       id,
     });
+
+    // Commit the pixel-perfect offset (if any) whenever the item is
+    // deselected, regardless of the isActive flag. pixelDelta is only ever
+    // non-zero if the user actually interacted with the arrows, so it is a
+    // sufficient proof of intent on its own. (The isActive guard remains for
+    // the legacy reset path below, which clears overlay state from drag/flip.)
+    if (!isSelected && (delta.x !== 0 || delta.y !== 0)) {
+      const newOX = saved.savedOX + delta.x;
+      const newOY = saved.savedOY + delta.y;
+
+      // eslint-disable-next-line no-console
+      console.log("[pixel-perfect] dispatching move", {
+        eventType: getMoveAction(name),
+        name,
+        id,
+        coordinates: {
+          x: coordinatesX,
+          y: coordinatesY,
+          oX: newOX,
+          oY: newOY,
+        },
+      });
+
+      gameService.send(getMoveAction(name), {
+        ...(name in RESOURCE_MOVE_EVENTS
+          ? {}
+          : name === "Bud" || name === "Pet"
+            ? { nft: name }
+            : name === "FarmHand" || name === "Bumpkin"
+              ? {}
+              : { name }),
+        coordinates: {
+          x: coordinatesX,
+          y: coordinatesY,
+          oX: newOX,
+          oY: newOY,
+        },
+        ...(name === "Bumpkin" ? {} : { id }),
+        location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
+      });
+      // NOTE: do NOT reset pixelDelta here. The transform on the rendered
+      // entity is what's keeping it at the position the player chose. We
+      // wait for the saved oX/oY to update (state machine processes the
+      // move event), at which point the useLayoutEffect below resets
+      // pixelDelta in the same paint frame — no flicker, save sticks.
+    }
+
     if (isActive.current && !isSelected) {
-      // Reset
+      // Reset overlay state (used by drag/flip/remove discs).
       setCounts((prev) => prev + 1);
       setIsColliding(false);
       setShowRemoveConfirmation(false);
       setPosition({ x: 0, y: 0 });
       isActive.current = false;
-
-      // Commit the pixel-perfect offset (if any) when the item is deselected.
-      // x/y stay as the integer tile; oX/oY carries the sub-tile offset for
-      // rendering only. Collision-checking the move uses the unchanged tile
-      // (since pixelDelta only affects oX/oY), so we don't need a separate
-      // collision check here — the entity stays on the same tile by construction.
-      // Read pixelDelta and savedOX/savedOY from refs so this effect always
-      // sees the latest values regardless of effect-closure timing.
-      const delta = pixelDeltaRef.current;
-      const saved = savedOffsetRef.current;
-      if (delta.x !== 0 || delta.y !== 0) {
-        const newOX = saved.savedOX + delta.x;
-        const newOY = saved.savedOY + delta.y;
-
-        // eslint-disable-next-line no-console
-        console.log("[pixel-perfect] dispatching move", {
-          eventType: getMoveAction(name),
-          name,
-          id,
-          coordinates: {
-            x: coordinatesX,
-            y: coordinatesY,
-            oX: newOX,
-            oY: newOY,
-          },
-        });
-
-        gameService.send(getMoveAction(name), {
-          ...(name in RESOURCE_MOVE_EVENTS
-            ? {}
-            : name === "Bud" || name === "Pet"
-              ? { nft: name }
-              : name === "FarmHand" || name === "Bumpkin"
-                ? {}
-                : { name }),
-          coordinates: {
-            x: coordinatesX,
-            y: coordinatesY,
-            oX: newOX,
-            oY: newOY,
-          },
-          ...(name === "Bumpkin" ? {} : { id }),
-          location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
-        });
-        // NOTE: do NOT reset pixelDelta here. The transform on the rendered
-        // entity is what's keeping it at the position the player chose. We
-        // wait for the saved oX/oY to update (state machine processes the
-        // move event), at which point the useLayoutEffect below resets
-        // pixelDelta in the same paint frame — no flicker, save sticks.
-      }
       setIsPixelPerfectMode(false);
     }
   }, [
