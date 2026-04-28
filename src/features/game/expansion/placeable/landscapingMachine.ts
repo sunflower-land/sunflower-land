@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
@@ -9,7 +12,7 @@ import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
-import { ResourceName } from "features/game/types/resources";
+import { RESOURCES, ResourceName } from "features/game/types/resources";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
@@ -17,14 +20,64 @@ import {
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
-// placeEvent + RESOURCE_PLACE_EVENTS live in their own (xstate-free) module
-// so they can be unit-tested without spinning up the auth/wallet machinery
-// that this file pulls in transitively.
-export {
-  placeEvent,
-  RESOURCE_PLACE_EVENTS,
-  type LandscapingPlaceable,
-} from "./placeEvent";
+export const RESOURCE_PLACE_EVENTS: Partial<
+  Record<ResourceName, GameEventName<PlacementEvent>>
+> = {
+  Tree: "tree.placed",
+  "Ancient Tree": "tree.placed",
+  "Sacred Tree": "tree.placed",
+  "Stone Rock": "stone.placed",
+  "Fused Stone Rock": "stone.placed",
+  "Reinforced Stone Rock": "stone.placed",
+  "Iron Rock": "iron.placed",
+  "Refined Iron Rock": "iron.placed",
+  "Tempered Iron Rock": "iron.placed",
+  "Gold Rock": "gold.placed",
+  "Pure Gold Rock": "gold.placed",
+  "Prime Gold Rock": "gold.placed",
+  "Crimstone Rock": "crimstone.placed",
+  "Crop Plot": "plot.placed",
+  "Fruit Patch": "fruitPatch.placed",
+  Beehive: "beehive.placed",
+  "Flower Bed": "flowerBed.placed",
+  "Sunstone Rock": "sunstone.placed",
+  "Oil Reserve": "oilReserve.placed",
+  "Lava Pit": "lavaPit.placed",
+};
+
+/**
+ * Resolves a (placeable, location) pair to the action name to dispatch.
+ *
+ * No special-casing for `interior` / `level_one` — they reuse the same
+ * `collectible.placed` / `building.placed` / resource-specific paths as
+ * `home` / `farm`. Resources and buildings shouldn't reach the interior
+ * chest UI in the first place; if they somehow did, they'd route through
+ * the same code as on the farm.
+ */
+export function placeEvent(
+  name: LandscapingPlaceable,
+  _location?: PlaceableLocation,
+): GameEventName<PlacementEvent> {
+  if (name in RESOURCES) {
+    return RESOURCE_PLACE_EVENTS[
+      name as ResourceName
+    ] as GameEventName<PlacementEvent>;
+  }
+
+  if (name in BUILDINGS_DIMENSIONS) {
+    return "building.placed";
+  }
+
+  return "collectible.placed";
+}
+
+export type LandscapingPlaceable =
+  | BuildingName
+  | CollectibleName
+  | ResourceName
+  | NFTName
+  | "FarmHand"
+  | "Bumpkin";
 
 export type LandscapingPlaceableType =
   | {
