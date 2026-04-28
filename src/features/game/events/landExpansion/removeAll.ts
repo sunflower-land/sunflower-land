@@ -36,6 +36,10 @@ export function removeAll({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
+    if (action.location === "level_one" && !stateCopy.interior.level_one) {
+      throw new Error("Level one floor has not been unlocked");
+    }
+
     //   Remove Collectibles
     const collectibles =
       action.location === "home"
@@ -45,7 +49,7 @@ export function removeAll({
           : action.location === "interior"
             ? stateCopy.interior.ground.collectibles
             : action.location === "level_one"
-              ? (stateCopy.interior.level_one?.collectibles ?? {})
+              ? stateCopy.interior.level_one!.collectibles
               : stateCopy.collectibles;
 
     getObjectEntries(collectibles).forEach(([name, collectibleGroup]) => {

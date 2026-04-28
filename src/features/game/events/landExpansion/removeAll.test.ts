@@ -278,4 +278,16 @@ describe("removeAll", () => {
     expect(state.trees["1"].x).toBeDefined();
     expect(state.trees["1"].y).toBeDefined();
   });
+
+  it("throws when removing all from level_one before the floor is unlocked", () => {
+    expect(() =>
+      removeAll({
+        state: {
+          ...GAME_STATE,
+          interior: { ground: { collectibles: {} } },
+        },
+        action: { type: "items.removed", location: "level_one" },
+      }),
+    ).toThrow("Level one floor has not been unlocked");
+  });
 });
