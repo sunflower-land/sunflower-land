@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "ウォータートラップポットなしのトラップ",
   "description.speedTrap.boost": "-20% カニ捕獲時間",
   "pickled.broccoli": "ピクルスブロッコリー",
-  "description.pickled.broccoli": "ピリッとしていてさわやかな小さな木々を塩水で保存しました。発酵レシピの材料として使用されます。"
+  "description.pickled.broccoli": "ピリッとしていてさわやかな小さな木々を塩水で保存しました。発酵レシピの材料として使用されます。",
+  "skillTier.skillPoints.available": "{{points}} スキルポイント利用可能"
 }

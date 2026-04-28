@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "Trappola senza sifone",
   "description.speedTrap.boost": "-20% Tempo di trappola per granchi",
   "pickled.broccoli": "Broccoli marinati",
-  "description.pickled.broccoli": "Piccoli alberi, piccanti e croccanti, conservati in salamoia. Usato come ingrediente per ricette di fermentazione."
+  "description.pickled.broccoli": "Piccoli alberi, piccanti e croccanti, conservati in salamoia. Usato come ingrediente per ricette di fermentazione.",
+  "skillTier.skillPoints.available": "{{points}} punti abilità disponibili"
 }

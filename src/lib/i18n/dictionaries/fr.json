@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "Piège sans piège à eau Pots",
   "description.speedTrap.boost": "-20 % Durée du piège à crabes",
   "pickled.broccoli": "Brocoli mariné",
-  "description.pickled.broccoli": "Des arbres minuscules, acidulés et croquants, conservés dans de la saumure. Utilisé comme ingrédient pour les recettes de fermentation."
+  "description.pickled.broccoli": "Des arbres minuscules, acidulés et croquants, conservés dans de la saumure. Utilisé comme ingrédient pour les recettes de fermentation.",
+  "skillTier.skillPoints.available": "{{points}} points de compétence disponibles"
 }

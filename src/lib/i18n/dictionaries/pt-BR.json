@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "Armadilha sem potes de armadilha de água",
   "description.speedTrap.boost": "-20% de tempo de armadilha de caranguejo",
   "pickled.broccoli": "Brócolis em conserva",
-  "description.pickled.broccoli": "Árvores minúsculas, picantes e crocantes, preservadas em salmoura. Usado como ingrediente para receitas de fermentação."
+  "description.pickled.broccoli": "Árvores minúsculas, picantes e crocantes, preservadas em salmoura. Usado como ingrediente para receitas de fermentação.",
+  "skillTier.skillPoints.available": "{{points}} pontos de habilidade disponíveis"
 }

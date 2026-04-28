@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "没有水陷阱花盆的陷阱",
   "description.speedTrap.boost": "-20% 捕蟹时间",
   "pickled.broccoli": "腌制西兰花",
-  "description.pickled.broccoli": "小树，扑鼻而脆弱，保存在盐水中。用作发酵配方的原料。"
+  "description.pickled.broccoli": "小树，扑鼻而脆弱，保存在盐水中。用作发酵配方的原料。",
+  "skillTier.skillPoints.available": "{{points}} 技能点数可用"
 }

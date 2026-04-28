@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "Falle ohne Wasserfalle, Töpfe",
   "description.speedTrap.boost": "-20% Zeit zum Fallen von Krabben",
   "pickled.broccoli": "Eingelegter Brokkoli",
-  "description.pickled.broccoli": "Winzige Bäume, würzig und knackig, in Salzlake eingelegt. Wird als Zutat für Fermentationsrezepte verwendet."
+  "description.pickled.broccoli": "Winzige Bäume, würzig und knackig, in Salzlake eingelegt. Wird als Zutat für Fermentationsrezepte verwendet.",
+  "skillTier.skillPoints.available": "{{points}} Skillpunkte verfügbar"
 }

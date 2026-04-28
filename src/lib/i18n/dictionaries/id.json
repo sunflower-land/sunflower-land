@@ -8852,5 +8852,6 @@
   "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap Air",
   "description.speedTrap.boost": "-20% waktu perangkap kepiting",
   "pickled.broccoli": "Acar Brokoli",
-  "description.pickled.broccoli": "Pohon-pohon kecil, tajam dan renyah, diawetkan dalam air garam. Digunakan sebagai bahan untuk resep fermentasi."
+  "description.pickled.broccoli": "Pohon-pohon kecil, tajam dan renyah, diawetkan dalam air garam. Digunakan sebagai bahan untuk resep fermentasi.",
+  "skillTier.skillPoints.available": "{{points}} poin keterampilan tersedia"
 }
