@@ -371,7 +371,7 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
 
 export const INITIAL_FARM: GameState = {
   settings: {},
-  coins: 1000000,
+  coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
@@ -384,11 +384,9 @@ export const INITIAL_FARM: GameState = {
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
-    Rug: new Decimal(100),
-    "Golden Cow": new Decimal(10),
+    Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
-    Obsidian: new Decimal(100),
   },
   previousInventory: {},
   wardrobe: {},
