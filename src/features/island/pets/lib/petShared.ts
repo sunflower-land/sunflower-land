@@ -3,6 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "lib/object";
 import { PetName, isPetNFTRevealed } from "features/game/types/pets";
 import { MachineState } from "features/game/lib/gameMachine";
+import { GameState } from "features/game/types/game";
 
 import barkleyAsleep from "assets/sfts/pets/dogs/barkley_asleep.webp";
 import biscuitAsleep from "assets/sfts/pets/dogs/biscuit_asleep.webp";
@@ -195,6 +196,35 @@ export const _petData = (name: PetName) => (state: MachineState) =>
 
 export const isPetNFT = (petId: PetName | number): petId is number => {
   return typeof petId === "number";
+};
+
+// Returns true if the pet is excluded from helping because it lives inside
+// the Pet House and the Pet House building is not currently placed. Only
+// pets inside the pet house are affected — pets placed on the farm or in
+// the home are never excluded.
+export const isPetExcludedByMissingPetHouse = ({
+  pet,
+  game,
+}: {
+  pet: PetName | number;
+  game: GameState;
+}): boolean => {
+  const isPetHousePlaced = !!game.buildings["Pet House"]?.some(
+    (b) => !!b.coordinates,
+  );
+  if (isPetHousePlaced) return false;
+
+  if (isPetNFT(pet)) {
+    return game.pets?.nfts?.[pet]?.location === "petHouse";
+  }
+
+  const placedOutsidePetHouse =
+    game.collectibles[pet]?.some((p) => !!p.coordinates) ||
+    game.home.collectibles[pet]?.some((p) => !!p.coordinates);
+  const placedInPetHouse = game.petHouse?.pets[pet]?.some(
+    (p) => !!p.coordinates,
+  );
+  return !!placedInPetHouse && !placedOutsidePetHouse;
 };
 
 export const petImageDomain =

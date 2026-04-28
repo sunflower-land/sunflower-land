@@ -61,16 +61,14 @@ export const Feed: React.FC<Props> = ({ food }) => {
           <span className="w-full my-2">
             {t("statements.feed.bumpkin.two")}
           </span>
-          <div className="flex flex-col items-center">
-            <img
-              src={SUNNYSIDE.building.firePit}
-              className="my-2"
-              alt={"Fire Pit"}
-              style={{
-                width: `${PIXEL_SCALE * 47}px`,
-              }}
-            />
-          </div>
+          <img
+            src={SUNNYSIDE.building.firePit}
+            className="my-2"
+            alt={"Fire Pit"}
+            style={{
+              width: `${PIXEL_SCALE * 47}px`,
+            }}
+          />
         </div>
       </InnerPanel>
     );

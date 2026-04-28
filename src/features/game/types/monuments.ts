@@ -275,6 +275,9 @@ export function getHelpRequired({ game }: { game: GameState }) {
   const petHouseCollectibles = game.petHouse?.pets ?? {};
   const clutterLocations = game.socialFarming.clutter?.locations;
   const pets = game.pets;
+  const isPetHousePlaced = !!game.buildings["Pet House"]?.some(
+    (b) => !!b.coordinates,
+  );
 
   // Reduce clutter to get a count of each type
   const clutter = getKeys(clutterLocations ?? {}).reduce(
@@ -361,7 +364,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
         return acc;
       }
 
-      if (isPetPlacedOnPetHouse) {
+      if (isPetPlacedOnPetHouse && isPetHousePlaced) {
         acc.pendingPetHouseCommonPets = [
           ...acc.pendingPetHouseCommonPets,
           name,
@@ -403,7 +406,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
           return acc;
         }
 
-        if (pet.location === "petHouse") {
+        if (pet.location === "petHouse" && isPetHousePlaced) {
           acc.pendingPetHouseNftPets = [
             ...acc.pendingPetHouseNftPets,
             pet.name,

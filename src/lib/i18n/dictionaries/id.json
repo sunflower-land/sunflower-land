@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Tutup sebelum kepiting melihatnya datang. Mengurangi waktu perangkap kepiting sebesar 20%",
   "description.navigationTable.boost": "Peluang Potongan Peta +100%",
   "description.crabHouse.boost": "+2 Hasil krustasea",
-  "description.speedTrap.boost": "-20% Waktu jebakan omong kosong",
   "description.pistolShrimp.boost": "Peluang 20% untuk mendapatkan hasil krustasea +1",
   "description.flamingoChicken": "Seekor unggas kemerahan yang berendam dalam air garam Kebangkitan Garam.",
   "description.saltCrystalFlower": "Kelopak tumbuh dari garam yang mengkristal - mekar kebangkitan.",
@@ -8850,5 +8849,18 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Pertukaran",
   "playerEconomyEditor.dataTab.col.updatedAt": "Diperbarui",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot boost aktif",
-  "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap Air"
+  "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap Air",
+  "description.speedTrap.boost": "-20% waktu perangkap kepiting",
+  "pickled.broccoli": "Acar Brokoli",
+  "description.pickled.broccoli": "Pohon-pohon kecil, tajam dan renyah, diawetkan dalam air garam. Digunakan sebagai bahan untuk resep fermentasi.",
+  "skillTier.skillPoints.available": "{{points}} poin keterampilan tersedia",
+  "description.big.table": "Meja kokoh dengan banyak ruang untuk pertemuan.",
+  "description.crate": "Peti kayu sederhana. Berguna untuk penyimpanan atau sebagai tempat duduk.",
+  "description.empty.pot": "Sebuah pot tanah liat menunggu untuk diisi dengan sesuatu.",
+  "description.high.table": "Meja tinggi untuk berdiri di sekitar.",
+  "description.large.podium": "Podium yang mengesankan untuk pengumuman penting.",
+  "description.long.table": "Meja panjang yang sempurna untuk pesta.",
+  "description.royal.podium": "Podium agung cocok untuk seorang raja.",
+  "description.square.table": "Meja persegi, rapi dan simetris.",
+  "description.stool": "Bangku sederhana untuk duduk."
 }

@@ -8769,7 +8769,6 @@
   "description.speedTrap": "Yengeç geldiğini bile görmeden kapanır. Yengeç tuzağı süresini %20 azaltır",
   "description.navigationTable.boost": "+100% Harita Parçası Oranları",
   "description.crabHouse.boost": "+2 Kabuklular verimi",
-  "description.speedTrap.boost": "-20% Saçmalık tuzak süresi",
   "description.pistolShrimp.boost": "%20 +1 kabuklu hayvan verimi elde etme şansı",
   "description.flamingoChicken": "Tuz Uyanışı tuzlu suyunda pişen pembe bir tavuk.",
   "description.saltCrystalFlower": "Kristalize tuzdan yetiştirilen yapraklar - uyanışın çiçeği.",
@@ -8850,5 +8849,18 @@
   "playerEconomyEditor.dataTab.col.exchangeCompletions": "Borsalar",
   "playerEconomyEditor.dataTab.col.updatedAt": "Güncellendi",
   "waterTrap.royalCrabPotActive": "Royal Crab Pot takviyesi aktif",
-  "description.royalCrabPot.boost": "Su Tuzağı Saksıları Olmayan Tuzak"
+  "description.royalCrabPot.boost": "Su Tuzağı Saksıları Olmayan Tuzak",
+  "description.speedTrap.boost": "-20% Yengeç tuzağı süresi",
+  "pickled.broccoli": "Brokoli Turşusu",
+  "description.pickled.broccoli": "Küçük ağaçlar, keskin ve gevrek, tuzlu suda korunmuş. Fermantasyon tarifleri için bileşen olarak kullanılır.",
+  "skillTier.skillPoints.available": "{{points}} beceri puanları mevcut",
+  "description.big.table": "Toplantılar için bolca alana sahip sağlam bir masa.",
+  "description.crate": "Basit bir tahta sandık. Depolama için veya koltuk olarak kullanışlıdır.",
+  "description.empty.pot": "Bir şeyle doldurulmayı bekleyen bir toprak kap.",
+  "description.high.table": "Etrafta durmak için uzun bir masa.",
+  "description.large.podium": "Önemli duyurular için etkileyici bir podyum.",
+  "description.long.table": "Ziyafetler için mükemmel uzun bir masa.",
+  "description.royal.podium": "Bir hükümdar için uygun muhteşem bir podyum.",
+  "description.square.table": "Düzgün ve simetrik kare bir masa.",
+  "description.stool": "Oturmak için basit bir tabure."
 }

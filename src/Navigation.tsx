@@ -33,7 +33,6 @@ import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
-import { AIBuilder } from "features/portal-ai/AIBuilder";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
 import {
   PlayerEconomyEditor,
@@ -213,10 +212,6 @@ export const Navigation: React.FC = () => {
                                       <EconomyHub />
                                     </GameWrapper>
                                   }
-                                />
-                                <Route
-                                  path="/ai-builder"
-                                  element={<AIBuilder />}
                                 />
                                 <Route
                                   path="/economy/:slug"

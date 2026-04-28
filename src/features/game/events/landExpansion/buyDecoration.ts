@@ -9,6 +9,7 @@ import {
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
 
@@ -17,6 +18,7 @@ export type BuyDecorationAction = {
   name: ShopDecorationName | LandscapingDecorationName;
   id?: string;
   coordinates?: Coordinates;
+  location?: PlaceableLocation;
 };
 
 type Options = {
@@ -78,6 +80,7 @@ export function buyDecoration({ state, action }: Options) {
     );
 
     if (action.coordinates && action.id) {
+      const placementLocation = action.location ?? "farm";
       const dimensions = COLLECTIBLES_DIMENSIONS[name];
       const collides = detectCollision({
         state: stateCopy,
@@ -87,7 +90,7 @@ export function buyDecoration({ state, action }: Options) {
           height: dimensions.height,
           width: dimensions.width,
         },
-        location: "farm",
+        location: placementLocation,
         name,
       });
 
@@ -95,18 +98,27 @@ export function buyDecoration({ state, action }: Options) {
         throw new Error("Decoration collides");
       }
 
-      const previous = stateCopy.collectibles[name] ?? [];
+      const placed =
+        placementLocation === "home"
+          ? (stateCopy.home.collectibles[name] ?? [])
+          : (stateCopy.collectibles[name] ?? []);
 
-      if (previous.find((item) => item.id === action.id)) {
+      if (placed.find((item) => item.id === action.id)) {
         throw new Error("ID already exists");
       }
 
-      stateCopy.collectibles[name] = previous.concat({
+      const newEntry = {
         id: action.id,
         coordinates: { x: action.coordinates.x, y: action.coordinates.y },
         readyAt: Date.now(),
         createdAt: Date.now(),
-      });
+      };
+
+      if (placementLocation === "home") {
+        stateCopy.home.collectibles[name] = placed.concat(newEntry);
+      } else {
+        stateCopy.collectibles[name] = placed.concat(newEntry);
+      }
     }
 
     stateCopy.coins = stateCopy.coins - price;

@@ -4,7 +4,7 @@ import {
   isPetNapping,
   PetName,
 } from "features/game/types/pets";
-import { _petData } from "./lib/petShared";
+import { _petData, isPetExcludedByMissingPetHouse } from "./lib/petShared";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -42,6 +42,11 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     (state) => state.context.totalHelpedToday ?? 0,
   );
   const hasHelpedPet = useSelector(gameService, _hasHelpedPet(name));
+  const isExcluded = useSelector(gameService, (s) =>
+    isPetExcludedByMissingPetHouse({ pet: name, game: s.context.state }),
+  );
+
+  const canHelp = !hasHelpedPet && !isExcluded;
 
   const [showHelped, setShowHelped] = useState(false);
 
@@ -52,7 +57,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
   const isNapping = isPetNapping(petData, now);
 
   const handlePetClick = () => {
-    if (petData && visitorGameState && !hasHelpedPet) {
+    if (petData && visitorGameState && canHelp) {
       gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
 
       if (
@@ -78,9 +83,9 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
         isNeglected={isNeglected}
         isNapping={isNapping}
         onClick={handlePetClick}
-        clickable={!hasHelpedPet}
+        clickable={canHelp}
       />
-      {!hasHelpedPet && petData && (
+      {canHelp && petData && (
         <div
           className="pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {

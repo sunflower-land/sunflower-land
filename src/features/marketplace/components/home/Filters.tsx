@@ -185,6 +185,7 @@ export const Filters: React.FC<{
               };
 
               return {
+                icon: option.icon,
                 label: option.label,
                 onToggle: (checked: boolean) => {
                   ensureCollectionActive(collection);

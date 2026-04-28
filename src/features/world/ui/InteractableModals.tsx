@@ -50,6 +50,7 @@ import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 import { FreeTrial } from "./FreeTrial";
+import { useNavigate } from "react-router";
 
 type InteractableName =
   | "guardian"
@@ -206,6 +207,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   };
 
   const { t } = useAppTranslation();
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -699,12 +702,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   },
                 },
                 {
-                  text: t("opensea"),
+                  text: t("marketplace"),
                   cb: () => {
-                    window.open(
-                      "https://opensea.io/collection/sunflower-land-buds",
-                      "_blank",
-                    );
+                    navigate("/world/marketplace/collection?filters=buds");
+                    closeModal();
                   },
                 },
               ],

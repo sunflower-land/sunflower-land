@@ -17,6 +17,7 @@ import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { isHelpComplete } from "features/game/types/monuments";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetExcludedByMissingPetHouse } from "features/island/pets/lib/petShared";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -54,6 +55,10 @@ export const VisitingPetNFT: React.FC<{
   const petNFTData = useSelector(gameService, _petNFTData(id));
   const isTypeFed = useSelector(gameService, _isTypeFed(id));
   const hasHelpedPet = useSelector(gameService, _hasHelpedPet(Number(id)));
+  const isExcluded = useSelector(gameService, (s) =>
+    isPetExcludedByMissingPetHouse({ pet: Number(id), game: s.context.state }),
+  );
+  const canHelp = !hasHelpedPet && !isExcluded;
   const [showHelped, setShowHelped] = useState(false);
   const now = useNow({ live: true });
 
@@ -71,7 +76,7 @@ export const VisitingPetNFT: React.FC<{
   const isNapping = isPetNapping(petNFTData, now);
 
   const handlePetClick = () => {
-    if (petNFTData && visitorGameState && !hasHelpedPet) {
+    if (petNFTData && visitorGameState && canHelp) {
       gameService.send("pet.visitingPets", {
         pet: Number(id),
         totalHelpedToday,
@@ -107,10 +112,10 @@ export const VisitingPetNFT: React.FC<{
         isNapping={isNapping}
         isTypeFed={isTypeFed}
         onClick={handlePetClick}
-        clickable={!hasHelpedPet}
+        clickable={canHelp}
       />
 
-      {!hasHelpedPet && petNFTData && (
+      {canHelp && petNFTData && (
         <div
           className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {
