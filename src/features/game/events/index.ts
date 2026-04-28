@@ -40,6 +40,10 @@ import {
   placeCollectible,
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
+import {
+  upgradeInterior,
+  UpgradeInteriorAction,
+} from "./landExpansion/upgradeInterior";
 import { cook, RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -827,7 +831,8 @@ export type PlayingEvent =
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction
   | StartTrialAction
-  | UpgradeSaltSculptureAction;
+  | UpgradeSaltSculptureAction
+  | UpgradeInteriorAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1109,6 +1114,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.removedPlacement": removeBumpkinPlacement,
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
+  "interior.upgrade": upgradeInterior,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

@@ -171,12 +171,17 @@ export const getChestItemCount = (
   }
 
   if (name in COLLECTIBLES_DIMENSIONS) {
+    const isPlaced = (c: { coordinates?: unknown }) => !!c.coordinates;
     const placed =
-      (state.collectibles[name as CollectibleName]?.filter(
-        (collectible) => collectible.coordinates,
+      (state.collectibles[name as CollectibleName]?.filter(isPlaced).length ??
+        0) +
+      (state.home.collectibles[name as CollectibleName]?.filter(isPlaced)
+        .length ?? 0) +
+      (state.interior?.ground.collectibles[name as CollectibleName]?.filter(
+        isPlaced,
       ).length ?? 0) +
-      (state.home.collectibles[name as CollectibleName]?.filter(
-        (collectible) => collectible.coordinates,
+      (state.interior?.level_one?.collectibles[name as CollectibleName]?.filter(
+        isPlaced,
       ).length ?? 0) +
       (state.petHouse?.pets[name as PetName]?.filter((pet) => pet.coordinates)
         .length ?? 0);

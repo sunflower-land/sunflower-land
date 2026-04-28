@@ -31,6 +31,8 @@ import { RetentionDashboard } from "features/retentionDashboard/RetentionDashboa
 import { ChapterDashboard } from "features/chapterDashboard/ChapterDashboard";
 import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
+import { Interior } from "features/interior/Interior";
+import { LevelOne } from "features/interior/LevelOne";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
@@ -228,6 +230,22 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/economy-editor/edit/:slug"
                                   element={<PlayerEconomyEditorEdit />}
+                                />
+                                <Route
+                                  path="/interior"
+                                  element={
+                                    <GameWrapper>
+                                      <Interior />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/level_one"
+                                  element={
+                                    <GameWrapper>
+                                      <LevelOne />
+                                    </GameWrapper>
+                                  }
                                 />
                                 <Route
                                   path="*"

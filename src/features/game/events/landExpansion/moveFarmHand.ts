@@ -30,8 +30,17 @@ export function moveFarmHand({ state, action }: Options): GameState {
       throw new Error("Farm hand is not placed");
     }
 
-    if (action.location !== "farm" && action.location !== "home") {
+    if (
+      action.location !== "farm" &&
+      action.location !== "home" &&
+      action.location !== "interior" &&
+      action.location !== "level_one"
+    ) {
       throw new Error("Invalid farm hand location");
+    }
+
+    if (action.location === "level_one" && !game.interior.level_one) {
+      throw new Error("Level one floor has not been unlocked");
     }
 
     farmHand.coordinates = action.coordinates;

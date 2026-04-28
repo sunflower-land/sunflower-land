@@ -146,7 +146,11 @@ const applyTempCollectibleBoost = ({
   const activeItems = [
     ...(game.collectibles[collectibleName] ?? []),
     ...(game.home.collectibles[collectibleName] ?? []),
-  ];
+    ...(game.interior?.ground.collectibles[collectibleName] ?? []),
+    ...(game.interior?.level_one?.collectibles[collectibleName] ?? []),
+  ].filter((item) => item.coordinates && !item.removedAt);
+  if (activeItems.length === 0) return seconds;
+
   const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
   const cooldown = EXPIRY_COOLDOWNS[collectibleName] as number;
   const expiresAt = newestItem.createdAt! + cooldown;

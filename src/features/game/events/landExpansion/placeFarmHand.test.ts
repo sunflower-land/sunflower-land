@@ -50,6 +50,20 @@ describe("placeFarmHand", () => {
     ).toThrow("Invalid farm hand location");
   });
 
+  it("throws when placing a farm hand on level_one before the floor is unlocked", () => {
+    expect(() =>
+      placeFarmHand({
+        state: GAME_STATE,
+        action: {
+          type: "farmHand.placed",
+          id: "fh-1",
+          coordinates: { x: 1, y: 1 },
+          location: "level_one",
+        },
+      }),
+    ).toThrow("Level one floor has not been unlocked");
+  });
+
   it("places a farm hand on the farm", () => {
     const result = placeFarmHand({
       state: GAME_STATE,

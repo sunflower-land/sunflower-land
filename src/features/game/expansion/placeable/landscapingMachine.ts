@@ -12,8 +12,7 @@ import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
-import { RESOURCES } from "features/game/types/resources";
-import { ResourceName } from "features/game/types/resources";
+import { RESOURCES, ResourceName } from "features/game/types/resources";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
@@ -46,8 +45,18 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Lava Pit": "lavaPit.placed",
 };
 
+/**
+ * Resolves a (placeable, location) pair to the action name to dispatch.
+ *
+ * No special-casing for `interior` / `level_one` — they reuse the same
+ * `collectible.placed` / `building.placed` / resource-specific paths as
+ * `home` / `farm`. Resources and buildings shouldn't reach the interior
+ * chest UI in the first place; if they somehow did, they'd route through
+ * the same code as on the farm.
+ */
 export function placeEvent(
   name: LandscapingPlaceable,
+  _location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[

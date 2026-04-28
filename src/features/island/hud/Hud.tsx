@@ -99,7 +99,7 @@ const HudComponent: React.FC<{
       >
         <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         <MarketplaceButton />
-        <TravelButton />
+        <TravelButton location={location} />
       </div>
       <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
         <RaffleWidget />
@@ -128,7 +128,7 @@ const HudComponent: React.FC<{
           selectedItem={selectedItem}
           onPlace={(selected) => {
             gameService.send("LANDSCAPE", {
-              action: placeEvent(selected),
+              action: placeEvent(selected, location),
               placeable: { name: selected },
               multiple: true,
             });

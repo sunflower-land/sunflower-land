@@ -87,6 +87,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
 
 function getMoveAction(
   name: LandscapingPlaceable,
+  location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
@@ -159,7 +160,11 @@ function getOverlappingCollectibles({
       ? state.home.collectibles
       : location === "petHouse"
         ? state.petHouse.pets
-        : state.collectibles;
+        : location === "interior"
+          ? state.interior.ground.collectibles
+          : location === "level_one"
+            ? (state.interior.level_one?.collectibles ?? {})
+            : state.collectibles;
   const results: { id: string; name: LandscapingPlaceable }[] = [];
 
   getObjectEntries(source).forEach(([name, placed]) => {
@@ -184,6 +189,7 @@ export function getRemoveAction(
   name: LandscapingPlaceable | undefined,
   now: number,
   collectible?: PlacedItem,
+  location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> | null {
   if (!name) {
     return null;
@@ -438,7 +444,7 @@ export const MoveableComponent: React.FC<
   const now = useNow({ live: isShrine });
 
   const removeAction =
-    !isMobile && getRemoveAction(name, now, selectedCollectible);
+    !isMobile && getRemoveAction(name, now, selectedCollectible, location);
 
   const hasRemovalAction = !!removeAction;
 
@@ -556,7 +562,7 @@ export const MoveableComponent: React.FC<
 
         if (!collisionDetected) {
           setPosition({ x: 0, y: 0 });
-          gameService.send(getMoveAction(name), {
+          gameService.send(getMoveAction(name, location), {
             // Don't send name for resource events and Bud events
             ...(name in RESOURCE_MOVE_EVENTS
               ? {}

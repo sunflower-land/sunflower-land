@@ -31,6 +31,11 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { LandscapingPlaceable } from "../landscapingMachine";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import { getKeys, getObjectEntries } from "lib/object";
+import {
+  INTERIOR_CANVAS,
+  isValidInteriorBox,
+  isValidHomeExpansionBox,
+} from "./interiorLayouts";
 
 export type Position = {
   width: number;
@@ -737,6 +742,116 @@ function detectLandCornerCollision(
   });
 }
 
+/**
+ * Interior collision check — intentionally simpler than `detectHomeCollision`.
+ *
+ * Two rules:
+ *   1. Every cell of the placing box must be a valid (green) interior tile for
+ *      the current island per INTERIOR_LAYOUTS. Tiles not in the set are walls
+ *      / outside-the-room and block placement.
+ *   2. The placing box must not overlap any other collectible already placed
+ *      in the interior.
+ *
+ * No farm-style bounds check, no buds / pet NFTs / farmhands / bumpkin
+ * collision — just collectibles vs. red-tile mask.
+ *
+ * Coordinate convention note: the `position` passed in here is in the
+ * *canvas-center* convention used by the placement UI (Placeable.tsx), where
+ * (0, 0) is the middle of the 24×24 canvas. INTERIOR_LAYOUTS uses a
+ * *bottom-left* convention where (0, 1) is the bottom-left tile. We translate
+ * once before the layout lookup and treat everything else (overlap check) in
+ * the canvas-center convention since collectibles store their coords there.
+ */
+function detectInteriorCollision({
+  state,
+  position,
+}: {
+  state: GameState;
+  position: BoundingBox;
+}) {
+  // 1. Layout mask — translate Placeable coords → bottom-left layout coords.
+  // GenesisBlock lives at canvas-centre (12, 12) and Placeable anchors
+  // coord (0, 0) there, so the conversion is +canvas/2 on both axes.
+  // Collision and render must use matching fudges — both are 0 right now,
+  // so adjust them in lockstep if alignment drifts.
+  const layoutPosition = {
+    ...position,
+    x: position.x + INTERIOR_CANVAS.width / 2,
+    y: position.y + INTERIOR_CANVAS.height / 2,
+  };
+  if (!isValidInteriorBox(state.island.type, layoutPosition)) {
+    return true;
+  }
+
+  // 2. Overlap with any other collectible already placed in the interior.
+  const placed = state.interior.ground.collectibles;
+  const placeableBounds = getKeys(placed).flatMap((itemName) => {
+    const items = (placed[itemName] ?? []) as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[itemName];
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
+  });
+
+  return placeableBounds.some((box) => isOverlapping(position, box));
+}
+
+/**
+ * Collision check for the new post-volcano `level_one` floor.
+ *
+ * Same simple shape as detectInteriorCollision: (1) every cell of the placing
+ * box must be a valid (green) tile per HOME_EXPANSION_LAYOUTS for the player's
+ * current expansion tier, and (2) the placing box must not overlap any other
+ * collectible already placed in level_one.
+ *
+ * Returns true (collision detected) if the level_one floor or the expansion
+ * tier hasn't been bought yet.
+ */
+function detectLevelOneCollision({
+  state,
+  position,
+}: {
+  state: GameState;
+  position: BoundingBox;
+}) {
+  const levelOne = state.interior.level_one;
+  const expansion = state.interior.expansion;
+  if (!levelOne || !expansion) {
+    return true;
+  }
+
+  // Match detectInteriorCollision's translation (no fudge currently).
+  const layoutPosition = {
+    ...position,
+    x: position.x + INTERIOR_CANVAS.width / 2,
+    y: position.y + INTERIOR_CANVAS.height / 2,
+  };
+  if (!isValidHomeExpansionBox(expansion, layoutPosition)) {
+    return true;
+  }
+
+  const placed = levelOne.collectibles;
+  const placeableBounds = getKeys(placed).flatMap((itemName) => {
+    const items = (placed[itemName] ?? []) as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[itemName];
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
+  });
+
+  return placeableBounds.some((box) => isOverlapping(position, box));
+}
+
 export function detectCollision({
   state,
   position,
@@ -754,6 +869,14 @@ export function detectCollision({
 
   if (location === "petHouse") {
     return detectPetHouseCollision({ state, position, name });
+  }
+
+  if (location === "interior") {
+    return detectInteriorCollision({ state, position });
+  }
+
+  if (location === "level_one") {
+    return detectLevelOneCollision({ state, position });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;

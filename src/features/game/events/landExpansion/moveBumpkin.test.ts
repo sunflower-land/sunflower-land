@@ -54,6 +54,19 @@ describe("moveBumpkin", () => {
     ).toThrow("Invalid bumpkin location");
   });
 
+  it("throws when moving bumpkin to level_one before the floor is unlocked", () => {
+    expect(() =>
+      moveBumpkin({
+        state: GAME_STATE,
+        action: {
+          type: "bumpkin.moved",
+          coordinates: { x: 2, y: 2 },
+          location: "level_one",
+        },
+      }),
+    ).toThrow("Level one floor has not been unlocked");
+  });
+
   it("moves bumpkin to new coordinates", () => {
     const result = moveBumpkin({
       state: GAME_STATE,

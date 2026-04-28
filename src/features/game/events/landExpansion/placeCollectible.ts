@@ -139,13 +139,23 @@ export function placeCollectible({
       }
     }
 
+    // For level_one, the floor must already be unlocked (player has bought the
+    // first interior.upgrade) before any placement is allowed.
+    if (action.location === "level_one" && !stateCopy.interior.level_one) {
+      throw new Error("Level one floor has not been unlocked");
+    }
+
     // Search for existing collectible in current location
     const collectibleItems =
       action.location === "home"
         ? (stateCopy.home.collectibles[action.name] ?? [])
         : action.location === "petHouse" && isPetCollectible(action.name)
           ? (stateCopy.petHouse.pets[action.name] ?? [])
-          : (stateCopy.collectibles[action.name] ?? []);
+          : action.location === "interior"
+            ? (stateCopy.interior.ground.collectibles[action.name] ?? [])
+            : action.location === "level_one"
+              ? (stateCopy.interior.level_one!.collectibles[action.name] ?? [])
+              : (stateCopy.collectibles[action.name] ?? []);
 
     let existingCollectible = collectibleItems.find(
       (collectible) => !collectible.coordinates,
@@ -166,10 +176,14 @@ export function placeCollectible({
         ? ["farm", "petHouse"]
         : action.location === "petHouse"
           ? ["farm", "home"]
-          : ["home", "petHouse"]; // farm
+          : action.location === "interior"
+            ? ["farm", "home", "level_one"]
+            : action.location === "level_one"
+              ? ["farm", "home", "interior"]
+              : ["home", "petHouse"]; // farm
 
     const getCollectiblesForLocation = (
-      loc: "farm" | "home" | "petHouse",
+      loc: PlaceableLocation,
     ): PlacedItem[] => {
       switch (loc) {
         case "home":
@@ -178,6 +192,10 @@ export function placeCollectible({
           return isPetCollectible(action.name)
             ? (stateCopy.petHouse.pets[action.name] ?? [])
             : [];
+        case "interior":
+          return stateCopy.interior.ground.collectibles[action.name] ?? [];
+        case "level_one":
+          return stateCopy.interior.level_one?.collectibles[action.name] ?? [];
         case "farm":
         default:
           return stateCopy.collectibles[action.name] ?? [];
@@ -185,7 +203,7 @@ export function placeCollectible({
     };
 
     const setCollectiblesForLocation = (
-      loc: "farm" | "home" | "petHouse",
+      loc: PlaceableLocation,
       items: PlacedItem[],
     ) => {
       switch (loc) {
@@ -195,6 +213,14 @@ export function placeCollectible({
         case "petHouse":
           if (isPetCollectible(action.name)) {
             stateCopy.petHouse.pets[action.name] = items;
+          }
+          break;
+        case "interior":
+          stateCopy.interior.ground.collectibles[action.name] = items;
+          break;
+        case "level_one":
+          if (stateCopy.interior.level_one) {
+            stateCopy.interior.level_one.collectibles[action.name] = items;
           }
           break;
         case "farm":
@@ -249,6 +275,13 @@ export function placeCollectible({
       isPetCollectible(action.name)
     ) {
       stateCopy.petHouse.pets[action.name] = collectibleItems;
+    } else if (action.location === "interior") {
+      stateCopy.interior.ground.collectibles[action.name] = collectibleItems;
+    } else if (action.location === "level_one") {
+      // The not-unlocked check at the top of this reducer guarantees level_one
+      // exists by this point.
+      stateCopy.interior.level_one!.collectibles[action.name] =
+        collectibleItems;
     } else {
       stateCopy.collectibles[action.name] = collectibleItems;
     }
