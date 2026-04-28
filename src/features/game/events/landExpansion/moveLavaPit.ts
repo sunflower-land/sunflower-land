@@ -29,6 +29,8 @@ export function moveLavaPit({
 
   pit.x = action.coordinates.x;
   pit.y = action.coordinates.y;
+  pit.oX = action.coordinates.oX;
+  pit.oY = action.coordinates.oY;
 
   return game;
 }

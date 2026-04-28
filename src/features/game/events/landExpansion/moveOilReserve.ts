@@ -37,6 +37,8 @@ export function moveOilReserve({
 
     oilReserves[action.id].x = action.coordinates.x;
     oilReserves[action.id].y = action.coordinates.y;
+    oilReserves[action.id].oX = action.coordinates.oX;
+    oilReserves[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

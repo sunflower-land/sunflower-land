@@ -39,6 +39,8 @@ export function moveCrop({
 
     crops[action.id].x = action.coordinates.x;
     crops[action.id].y = action.coordinates.y;
+    crops[action.id].oX = action.coordinates.oX;
+    crops[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

@@ -37,6 +37,8 @@ export function moveSunstone({
 
     sunstones[action.id].x = action.coordinates.x;
     sunstones[action.id].y = action.coordinates.y;
+    sunstones[action.id].oX = action.coordinates.oX;
+    sunstones[action.id].oY = action.coordinates.oY;
 
     return stateCopy;
   });

@@ -115,7 +115,7 @@ export const PetHouseInside: React.FC = () => {
           .filter((pet) => pet.coordinates)
           .map((pet, index) => {
             const { readyAt, createdAt, coordinates, id } = pet;
-            const { x, y } = coordinates!;
+            const { x, y, oX, oY } = coordinates!;
             const dimensions = COLLECTIBLES_DIMENSIONS[name];
 
             return (
@@ -123,6 +123,8 @@ export const PetHouseInside: React.FC = () => {
                 key={`pet-${name}-${id}`}
                 x={x}
                 y={y}
+                oX={oX}
+                oY={oY}
                 height={dimensions?.height ?? 1}
                 width={dimensions?.width ?? 1}
                 z={1}
@@ -152,13 +154,15 @@ export const PetHouseInside: React.FC = () => {
         ([, petNFT]) => !!petNFT.coordinates && petNFT.location === "petHouse",
       )
       .flatMap(([id, petNFT]) => {
-        const { x, y } = petNFT.coordinates!;
+        const { x, y, oX, oY } = petNFT.coordinates!;
 
         return (
           <MapPlacement
             key={`petNFT-${id}`}
             x={x}
             y={y}
+            oX={oX}
+            oY={oY}
             height={2}
             width={2}
             z={1}
