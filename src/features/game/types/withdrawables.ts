@@ -580,6 +580,28 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
 
+  // Salt Awakening Wearables
+  "Spa Hat": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+  "Spa Robe": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+  "Spa Slippers": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+  "Bubble Aura": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+  "Deep Sea Salt Cave Background": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
     withdrawAt: new Date("2025-11-06"),
@@ -1565,6 +1587,16 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   "Crimstone Clam": {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
+  },
+
+  // Salt Awakening Collectibles
+  "Crystal Altar": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+  },
+  "Dino Egg Trophy": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
   },
   CluckCoin: {
     tradeAt: new Date("2025-01-01T00:00:00.000Z"),

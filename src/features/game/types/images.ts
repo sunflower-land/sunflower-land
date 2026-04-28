@@ -4295,6 +4295,14 @@ export const ITEM_DETAILS: Items = {
     image: fishKite,
     description: "",
   },
+  "Crystal Altar": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Dino Egg Trophy": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
   "Time Warp Totem": {
     image: timeWarpTotem,
     description: translate("description.time.warp.totem"),

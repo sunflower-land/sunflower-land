@@ -620,4 +620,119 @@ describe("buyChapterItem", () => {
       ).toThrow("Pet Egg already bought this chapter");
     });
   });
+
+  describe("Salt Awakening - coins purchases", () => {
+    const saltAwakeningDate = new Date("2026-05-10T00:00:00Z").getTime();
+
+    it("subtracts coins when buying a coins-priced item", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          coins: 20000,
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Spa Hat",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(result.coins).toEqual(10000);
+      expect(result.wardrobe["Spa Hat"]).toEqual(1);
+    });
+
+    it("throws an error if the player doesn't have enough coins", () => {
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            coins: 100,
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Spa Hat",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Insufficient coins");
+    });
+
+    it("does not deduct coins for an SFL-priced item", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          balance: new Decimal(1000),
+          coins: 5000,
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Spa Robe",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(result.coins).toEqual(5000);
+      expect(result.balance).toEqual(new Decimal(900));
+    });
+  });
+
+  describe("Salt Awakening - infinitely buyable hourglasses", () => {
+    const saltAwakeningDate = new Date("2026-05-10T00:00:00Z").getTime();
+
+    it("allows buying a hourglass twice when no limit is set", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Salt Rock": new Decimal(500),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Gourmet Hourglass",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(firstBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Salt Rock"]).toEqual(new Decimal(450));
+
+      const secondBuy = buyChapterItem({
+        state: firstBuy,
+        action: {
+          type: "chapterItem.bought",
+          name: "Gourmet Hourglass",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate + 1000,
+      });
+
+      expect(secondBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(2));
+      expect(secondBuy.inventory["Salt Rock"]).toEqual(new Decimal(400));
+    });
+
+    it("still blocks repurchase of a non-repurchasable Salt Awakening item", () => {
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Salt Rock": new Decimal(20000),
+            },
+            farmActivity: { "Crystal Altar Bought": 1 },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Crystal Altar",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("This item has already been crafted");
+    });
+  });
 });

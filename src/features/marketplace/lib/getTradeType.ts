@@ -1427,6 +1427,10 @@ export const ITEM_TRADE_TYPES: {
     "Royal Podium": "instant",
     "Square Table": "instant",
     Stool: "instant",
+
+    // Salt Awakening Megastore
+    "Crystal Altar": "instant",
+    "Dino Egg Trophy": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -1438,6 +1442,13 @@ export const ITEM_TRADE_TYPES: {
     "Fish Hook Vest": "instant",
     "Fish Hook Waders": "instant",
     "Corn Silk Hair": "instant",
+
+    // Salt Awakening Megastore
+    "Spa Hat": "instant",
+    "Spa Robe": "instant",
+    "Spa Slippers": "instant",
+    "Bubble Aura": "instant",
+    "Deep Sea Salt Cave Background": "instant",
     "New Years Crown": "instant",
     "Beige Farmer Potion": "instant",
     "Dark Brown Farmer Potion": "instant",

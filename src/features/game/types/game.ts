@@ -1438,6 +1438,7 @@ export type Christmas = {
 
 export type Currency =
   | "SFL"
+  | "Coins"
   | "Gem"
   | "Crimstone"
   | "Sunstone"

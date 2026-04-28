@@ -140,7 +140,10 @@ export type SoldOutCollectibleName =
   | "Navigation Table"
   | "Royal Crab Pot"
   | "Crab House"
-  | "Speed Trap";
+  | "Speed Trap"
+  // Salt Awakening
+  | "Crystal Altar"
+  | "Dino Egg Trophy";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

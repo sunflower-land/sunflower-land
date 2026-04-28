@@ -199,22 +199,27 @@ export function buyChapterItem({
       }
     }
 
-    // Ensure items without a cooldown, can only be bought once (except Pet Egg which uses chapter-based validation)
-    if (!item.cooldownMs && itemName !== "Pet Egg") {
-      const itemCrafted = copy.farmActivity[activityName];
-
-      if (itemCrafted) {
+    // Items with an explicit `limit` are capped at that purchase count for the chapter.
+    // Items without a `limit` are unlimited (subject to any cooldown). Pet Egg has its own
+    // chapter-based validation handled above.
+    if (item.limit !== undefined && itemName !== "Pet Egg") {
+      const purchaseCount = (copy.farmActivity[activityName] as number) ?? 0;
+      if (purchaseCount >= item.limit) {
         throw new Error("This item has already been crafted");
       }
     }
 
     // Check if player has enough resources
-    const { sfl, items } = item.cost;
+    const { sfl, items, coins = 0 } = item.cost;
 
     const _sfl = SFLDiscount(state, new Decimal(sfl), createdAt);
 
     if (copy.balance.lessThan(_sfl)) {
       throw new Error("Insufficient SFL");
+    }
+
+    if (coins > 0 && copy.coins < coins) {
+      throw new Error("Insufficient coins");
     }
 
     let costItemName: keyof typeof items;
@@ -229,6 +234,9 @@ export function buyChapterItem({
 
     // Deduct resources
     copy.balance = copy.balance.minus(_sfl);
+    if (coins > 0) {
+      copy.coins = copy.coins - coins;
+    }
     for (costItemName in items) {
       const amount = items[costItemName];
       if (amount === undefined) continue;

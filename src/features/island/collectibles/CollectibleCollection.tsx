@@ -785,6 +785,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Oaken: () => <TemplateCollectible name="Oaken" />,
   Meerkat: () => <TemplateCollectible name="Meerkat" />,
   "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
+  "Crystal Altar": () => <TemplateCollectible name="Crystal Altar" />,
+  "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Poseidon's Throne": (props: CollectibleProps) => (
     <Monument
       {...props}

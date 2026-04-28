@@ -14,6 +14,7 @@ import {
 } from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
+import coinsIcon from "assets/icons/coins.webp";
 import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 
@@ -125,6 +126,7 @@ export const ItemsList: React.FC<Props> = ({
 
   const getCurrencyIcon = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0) return token;
+    if ((item.cost.coins ?? 0) > 0) return coinsIcon;
 
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
@@ -139,6 +141,7 @@ export const ItemsList: React.FC<Props> = ({
   const getCurrency = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0)
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl), now));
+    if ((item.cost.coins ?? 0) > 0) return item.cost.coins;
 
     const currency =
       item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
@@ -367,6 +370,8 @@ export const ItemsList: React.FC<Props> = ({
                       !isItemKey &&
                       !isItemFlowerBox &&
                       !isItemPetEgg &&
+                      item.limit !== undefined &&
+                      balanceOfItem >= item.limit &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||

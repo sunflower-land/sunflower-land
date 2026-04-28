@@ -21,7 +21,8 @@ export type BumpkinBackground =
   | "Kingdom Background"
   | "Sky Island Background"
   | "Holiday Feast Background"
-  | "Faulty Barrier Background";
+  | "Faulty Barrier Background"
+  | "Deep Sea Salt Cave Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -254,7 +255,8 @@ export type BumpkinShoe =
   | "Speed Boots"
   | "Beast Shoes"
   | "Neon Noiz Shoes"
-  | "404 Chic Boots";
+  | "404 Chic Boots"
+  | "Spa Slippers";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -384,7 +386,8 @@ export type BumpkinHat =
   | "Snowman Mask"
   | "Cool Glasses"
   | "Fish Hook Hat"
-  | "Aether Specs";
+  | "Aether Specs"
+  | "Spa Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -526,7 +529,8 @@ export type BumpkinSuit =
   | "Amberfall Suit"
   | "Glacierguard Suit"
   | "Research Uniform"
-  | "Sweet Devil Dress";
+  | "Sweet Devil Dress"
+  | "Spa Robe";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -565,7 +569,8 @@ export type BumpkinAura =
   | "Wisp Aura"
   | "Diamond Snow Aura"
   | "Paw Aura"
-  | "Glitch Aura";
+  | "Glitch Aura"
+  | "Bubble Aura";
 
 export type BumpkinEyes =
   | "Bumpkin Eyes"
@@ -1196,6 +1201,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Smile": 553,
   "Neutral Mouth": 554,
   "Pistol Shrimp": 555,
+
+  // Salt Awakening Wearables
+  "Spa Hat": 556,
+  "Spa Robe": 557,
+  "Spa Slippers": 558,
+  "Bubble Aura": 559,
+  "Deep Sea Salt Cave Background": 560,
 };
 
 // The reverse of above
@@ -1266,6 +1278,11 @@ export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
 export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
+  "Spa Hat": "hat",
+  "Spa Robe": "suit",
+  "Spa Slippers": "shoes",
+  "Bubble Aura": "aura",
+  "Deep Sea Salt Cave Background": "background",
   "Walrus Onesie": "onesie",
   "Crimstone Spikes Hair": "hair",
   "Corn Silk Hair": "hair",
