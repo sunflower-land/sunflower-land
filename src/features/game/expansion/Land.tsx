@@ -439,13 +439,15 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(crops)
       .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
       .map(([id, crop], index) => {
-        const { x, y } = crop;
+        const { x, y, oX, oY } = crop;
 
         return (
           <MapPlacement
             key={`crops-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Crop Plot"]}
           >
             <Resource
@@ -466,13 +468,15 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(trees)
       .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
       .map(([id, tree], index) => {
-        const { x, y } = tree;
+        const { x, y, oX, oY } = tree;
 
         return (
           <MapPlacement
             key={`trees-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS.Tree}
           >
             <Resource
@@ -499,7 +503,7 @@ export const LandComponent: React.FC = () => {
           .filter((collectible) => collectible.coordinates)
           .map((collectible, index) => {
             const { readyAt, createdAt, coordinates, id } = collectible;
-            const { x, y } = coordinates!;
+            const { x, y, oX, oY } = coordinates!;
             const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
             return (
@@ -507,6 +511,8 @@ export const LandComponent: React.FC = () => {
                 key={`collectible-${name}-${id}`}
                 x={x}
                 y={y}
+                oX={oX}
+                oY={oY}
                 height={height}
                 width={width}
                 canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
@@ -548,7 +554,7 @@ export const LandComponent: React.FC = () => {
         return items
           .filter((building) => building.coordinates !== undefined)
           .map((building, itemIndex) => {
-            const { x, y } = building.coordinates!;
+            const { x, y, oX, oY } = building.coordinates!;
             const { width, height } = BUILDINGS_DIMENSIONS[name];
 
             return (
@@ -556,6 +562,8 @@ export const LandComponent: React.FC = () => {
                 key={`building-${name}-${building.id}`}
                 x={x}
                 y={y}
+                oX={oX}
+                oY={oY}
                 height={height}
                 width={width}
                 enableOnVisitClick={home.has(
@@ -583,13 +591,15 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(stones)
       .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
       .map(([id, stone], index) => {
-        const { x, y } = stone;
+        const { x, y, oX, oY } = stone;
 
         return (
           <MapPlacement
             key={`stones-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Stone Rock"]}
           >
             <Resource
@@ -611,13 +621,15 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(gold)
       .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
       .map(([id, gold], index) => {
-        const { x, y } = gold;
+        const { x, y, oX, oY } = gold;
 
         return (
           <MapPlacement
             key={`gold-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Gold Rock"]}
           >
             <Resource
@@ -639,13 +651,15 @@ export const LandComponent: React.FC = () => {
     return getObjectEntries(iron)
       .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
       .map(([id, iron], index) => {
-        const { x, y } = iron;
+        const { x, y, oX, oY } = iron;
 
         return (
           <MapPlacement
             key={`iron-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Iron Rock"]}
           >
             <Resource
@@ -670,13 +684,15 @@ export const LandComponent: React.FC = () => {
           crimstone.x !== undefined && crimstone.y !== undefined,
       )
       .map(([id, crimstone], index) => {
-        const { x, y } = crimstone;
+        const { x, y, oX, oY } = crimstone;
 
         return (
           <MapPlacement
             key={`crimstone-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
           >
             <Resource
@@ -700,13 +716,15 @@ export const LandComponent: React.FC = () => {
         ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
       )
       .map(([id, sunstone], index) => {
-        const { x, y } = sunstone;
+        const { x, y, oX, oY } = sunstone;
 
         return (
           <MapPlacement
             key={`ruby-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
           >
             <Resource
@@ -730,13 +748,15 @@ export const LandComponent: React.FC = () => {
         ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
       )
       .map(([id, beehive], index) => {
-        const { x, y } = beehive;
+        const { x, y, oX, oY } = beehive;
 
         return (
           <MapPlacement
             key={`beehive-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS.Beehive}
           >
             <Resource
@@ -760,13 +780,15 @@ export const LandComponent: React.FC = () => {
           flowerBed.x !== undefined && flowerBed.y !== undefined,
       )
       .map(([id, flowerBed], index) => {
-        const { x, y } = flowerBed;
+        const { x, y, oX, oY } = flowerBed;
 
         return (
           <MapPlacement
             key={`flowers-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Flower Bed"]}
           >
             <Resource
@@ -790,13 +812,15 @@ export const LandComponent: React.FC = () => {
           fruitPatch.x !== undefined && fruitPatch.y !== undefined,
       )
       .map(([id, fruitPatch], index) => {
-        const { x, y } = fruitPatch;
+        const { x, y, oX, oY } = fruitPatch;
 
         return (
           <MapPlacement
             key={`fruitPatches-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Fruit Patch"]}
           >
             <Resource
@@ -820,13 +844,15 @@ export const LandComponent: React.FC = () => {
           oilReserve.x !== undefined && oilReserve.y !== undefined,
       )
       .map(([id, oilReserve], index) => {
-        const { x, y } = oilReserve;
+        const { x, y, oX, oY } = oilReserve;
 
         return (
           <MapPlacement
             key={`oil-reserve-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Oil Reserve"]}
           >
             <Resource
@@ -849,13 +875,15 @@ export const LandComponent: React.FC = () => {
         ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
       )
       .map(([id, lavaPit], index) => {
-        const { x, y } = lavaPit;
+        const { x, y, oX, oY } = lavaPit;
 
         return (
           <MapPlacement
             key={`oil-reserve-${id}`}
             x={x!}
             y={y!}
+            oX={oX}
+            oY={oY}
             {...RESOURCE_DIMENSIONS["Lava Pit"]}
           >
             <Resource
@@ -908,12 +936,14 @@ export const LandComponent: React.FC = () => {
           !!bud.coordinates && (!bud.location || bud.location === "farm"),
       )
       .flatMap(([id, bud]) => {
-        const { x, y } = bud.coordinates!;
+        const { x, y, oX, oY } = bud.coordinates!;
         return (
           <MapPlacement
             key={`bud-${id}`}
             x={x}
             y={y}
+            oX={oX}
+            oY={oY}
             height={1}
             width={1}
             enableOnVisitClick
@@ -932,12 +962,14 @@ export const LandComponent: React.FC = () => {
           !!pet.coordinates && (!pet.location || pet.location === "farm"),
       )
       .flatMap(([id, pet]) => {
-        const { x, y } = pet.coordinates!;
+        const { x, y, oX, oY } = pet.coordinates!;
         return (
           <MapPlacement
             key={`pet-${id}`}
             x={x}
             y={y}
+            oX={oX}
+            oY={oY}
             height={2}
             width={2}
             enableOnVisitClick
@@ -954,10 +986,18 @@ export const LandComponent: React.FC = () => {
     return Object.entries(farmHands).flatMap(([id, fh]) => {
       if (!fh.coordinates || fh.location === "home") return [];
 
-      const { x, y } = fh.coordinates;
+      const { x, y, oX, oY } = fh.coordinates;
 
       return (
-        <MapPlacement key={`farmhand-${id}`} x={x} y={y} height={1} width={1}>
+        <MapPlacement
+          key={`farmhand-${id}`}
+          x={x}
+          y={y}
+          oX={oX}
+          oY={oY}
+          height={1}
+          width={1}
+        >
           <FarmHand id={id} />
         </MapPlacement>
       );
@@ -967,10 +1007,18 @@ export const LandComponent: React.FC = () => {
   const bumpkinElement = useMemo(() => {
     if (!bumpkin?.coordinates || bumpkin.location === "home") return [];
 
-    const { x, y } = bumpkin.coordinates;
+    const { x, y, oX, oY } = bumpkin.coordinates;
 
     return [
-      <MapPlacement key="main-bumpkin" x={x} y={y} height={1} width={1}>
+      <MapPlacement
+        key="main-bumpkin"
+        x={x}
+        y={y}
+        oX={oX}
+        oY={oY}
+        height={1}
+        width={1}
+      >
         <PlacedBumpkin />
       </MapPlacement>,
     ];
@@ -984,13 +1032,15 @@ export const LandComponent: React.FC = () => {
         // Only show placed chickens (V1 may have ones without coords)
         .filter((airdrop) => !!airdrop.coordinates)
         .map((airdrop) => {
-          const { x, y } = airdrop.coordinates!;
+          const { x, y, oX, oY } = airdrop.coordinates!;
 
           return (
             <MapPlacement
               key={`airdrop-${airdrop.id}`}
               x={x}
               y={y}
+              oX={oX}
+              oY={oY}
               height={1}
               width={1}
             >

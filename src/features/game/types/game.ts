@@ -772,6 +772,14 @@ export type PlantedFruit = {
 type OptionalCoordinates = {
   x?: number;
   y?: number;
+  /**
+   * Sub-tile pixel offset for rendering only, expressed as integer source
+   * pixels (range -8..8). One unit = one source pixel = PIXEL_SCALE screen
+   * pixels. Set by the pixel-perfect placement feature. Collision/AOE/
+   * adjacency logic ignores these and reads the integer x/y above.
+   */
+  oX?: number;
+  oY?: number;
 };
 
 export type Tree = {
@@ -873,7 +881,13 @@ export type Cancelled = Partial<{
 
 export type PlacedItem = {
   id: string;
-  coordinates?: { x: number; y: number };
+  /**
+   * Tile coordinates of the placed item. x/y are integer tiles.
+   * oX/oY are optional integer source-pixel offsets (range -8..8) used for
+   * rendering only — pixel-perfect placement. Collision/AOE/adjacency ignore
+   * them and read the integer x/y.
+   */
+  coordinates?: { x: number; y: number; oX?: number; oY?: number };
   readyAt?: number;
   createdAt?: number;
   removedAt?: number;

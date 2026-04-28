@@ -145,6 +145,11 @@ const FEATURE_FLAGS = {
   SALT_SKILLS: betaFeatureFlag,
   SALT_SCULPTURE: betaFeatureFlag,
 
+  /** Pixel-perfect placement: nudge selected items by sub-tile pixels via on-screen
+   * arrows + WASD/arrow keys. Stored coordinates can become decimals; collision
+   * detection rounds at read time so grid behaviour is preserved. */
+  PIXEL_PERFECT_PLACEMENT: betaFeatureFlag,
+
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */
