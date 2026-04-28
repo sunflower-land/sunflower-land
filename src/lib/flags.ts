@@ -150,7 +150,7 @@ const FEATURE_FLAGS = {
    * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
    * testnet only until the feature ships to all players.
    */
-  HOME_EXPANSIONS: betaFeatureFlag,
+  HOME_EXPANSIONS: adminFeatureFlag,
 
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,

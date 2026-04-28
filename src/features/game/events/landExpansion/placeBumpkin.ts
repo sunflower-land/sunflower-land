@@ -30,6 +30,10 @@ export function placeBumpkin({ state, action }: Options): GameState {
       throw new Error("Invalid bumpkin location");
     }
 
+    if (action.location === "level_one" && !game.interior.level_one) {
+      throw new Error("Level one floor has not been unlocked");
+    }
+
     game.bumpkin.coordinates = action.coordinates;
     game.bumpkin.location = action.location;
   });
