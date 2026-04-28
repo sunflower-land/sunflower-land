@@ -479,7 +479,7 @@ export const INITIAL_FARM: GameState = {
   },
 
   island: {
-    type: "volcano",
+    type: "basic",
   },
 
   home: {
