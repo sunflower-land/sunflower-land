@@ -371,7 +371,7 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
 
 export const INITIAL_FARM: GameState = {
   settings: {},
-  coins: 1000000,
+  coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
