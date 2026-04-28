@@ -1,10 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import {
-  UPGRADE_INTERIOR_ERRORS,
-  upgradeInterior,
-} from "./upgradeInterior";
+import { UPGRADE_INTERIOR_ERRORS, upgradeInterior } from "./upgradeInterior";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "features/interior/lib/upgradeRequirements";
 
 // HOME_EXPANSIONS is a betaFeatureFlag — testnet OR Beta Pass. Tests assume
@@ -77,9 +74,9 @@ describe("upgradeInterior (interior.upgrade)", () => {
       action: { type: "interior.upgrade" },
     });
     expect(next.interior.expansion).toBe("level-one-3");
-    expect(next.interior.level_one?.collectibles["Abandoned Bear"]).toHaveLength(
-      1,
-    );
+    expect(
+      next.interior.level_one?.collectibles["Abandoned Bear"],
+    ).toHaveLength(1);
   });
 
   it("rejects upgrade when not on volcano island", () => {
@@ -122,7 +119,10 @@ describe("upgradeInterior (interior.upgrade)", () => {
       upgradeInterior({
         state: {
           ...richVolcanoState(),
-          inventory: { ...richVolcanoState().inventory, Obsidian: new Decimal(0) },
+          inventory: {
+            ...richVolcanoState().inventory,
+            Obsidian: new Decimal(0),
+          },
         },
         action: { type: "interior.upgrade" },
       }),

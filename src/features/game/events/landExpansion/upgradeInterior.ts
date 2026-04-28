@@ -66,7 +66,10 @@ function chargeCost(state: GameState, cost: UpgradeCost): void {
   }
 }
 
-export function upgradeInterior({ state, action: _action }: Options): GameState {
+export function upgradeInterior({
+  state,
+  action: _action,
+}: Options): GameState {
   return produce(state, (game) => {
     if (!hasFeatureAccess(game, "HOME_EXPANSIONS")) {
       throw new Error(UPGRADE_INTERIOR_ERRORS.NO_ACCESS);

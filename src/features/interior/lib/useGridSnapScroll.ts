@@ -17,9 +17,9 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
  *   the first place — so we measure GenesisBlock's actual screen position and
  *   nudge scroll by the sub-grid remainder.
  */
-export function useGridSnapScroll<T extends HTMLElement>(): React.RefObject<
-  T | null
-> {
+export function useGridSnapScroll<
+  T extends HTMLElement,
+>(): React.RefObject<T | null> {
   const ref = useRef<T | null>(null);
 
   useEffect(() => {
