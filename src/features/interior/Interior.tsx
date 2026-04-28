@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  type JSX,
-} from "react";
+import React, { useContext, useLayoutEffect, useMemo, type JSX } from "react";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -34,6 +29,7 @@ import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -42,6 +38,8 @@ const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
 const _hasInteriorAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
+const _expansion = (state: MachineState) =>
+  state.context.state.interior.expansion;
 
 const _interiorCollectibles = (state: MachineState) => {
   // Only the ground level is rendered for now. When additional levels are
@@ -76,9 +74,11 @@ const _interiorFarmHands = (state: MachineState) => {
 
 /**
  * The new, isolated interior placement surface — entirely separate from the
- * legacy `home` field. See `interiorLayouts.ts` for the tile-level shape and
- * `placeInteriorItem.ts` / `moveInteriorItem.ts` / `removeInteriorItem.ts` for
- * the reducers.
+ * legacy `home` field. See `interiorLayouts.ts` for the tile-level shape.
+ * Placement, move, and remove all reuse the shared
+ * `collectible.placed` / `collectible.moved` / `collectible.removed` reducers
+ * with `location: "interior"`. The `interior.upgrade` event remains the only
+ * interior-specific landscaping event.
  *
  * Mounted at /interior.
  */
@@ -94,7 +94,7 @@ export const Interior: React.FC = () => {
   const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
   const hasAccess = useSelector(gameService, _hasInteriorAccess);
-
+  const expansion = useSelector(gameService, _expansion);
   // Center the canvas in the viewport on mount. GenesisBlock sits at the
   // canvas centre — same anchor MapPlacement uses to render placed items
   // and Placeable uses for its drag-coord origin.
@@ -103,21 +103,6 @@ export const Interior: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Beta-only feature. Render an empty-state with a back-to-mainland button
-  // for any player without HOME_EXPANSIONS access.
-  if (!hasAccess) {
-    return (
-      <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4 text-white text-center px-8">
-          <p>Home interiors aren&apos;t available yet.</p>
-          <p className="text-sm opacity-70">
-            This feature is in beta. Check back soon.
-          </p>
-          <Button onClick={() => navigate("/")}>Back to farm</Button>
-        </div>
-      </div>
-    );
-  }
   const interiorFarmHands = useSelector(gameService, _interiorFarmHands);
   const { collectibles, positions: interiorPositions } = useSelector(
     gameService,
@@ -135,6 +120,22 @@ export const Interior: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [interiorPositions],
   );
+
+  // Beta-only feature. Render an empty-state with a back-to-mainland button
+  // for any player without HOME_EXPANSIONS access.
+  if (!hasAccess) {
+    return (
+      <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-white text-center px-8">
+          <p>{"Home interiors aren't available yet."}</p>
+          <p className="text-sm opacity-70">
+            {"This feature is in beta. Check back soon."}
+          </p>
+          <Button onClick={() => navigate("/")}>{"Back to farm"}</Button>
+        </div>
+      </div>
+    );
+  }
 
   const canvasWidthPx = INTERIOR_CANVAS.width * GRID_WIDTH_PX;
   const canvasHeightPx = INTERIOR_CANVAS.height * GRID_WIDTH_PX;
@@ -194,9 +195,7 @@ export const Interior: React.FC = () => {
 
   mapPlacements.push(
     ...Object.entries(petNFTs)
-      .filter(
-        ([, p]) => !!p.coordinates && p.location === "interior",
-      )
+      .filter(([, p]) => !!p.coordinates && p.location === "interior")
       .flatMap(([id, p]) => {
         const { x, y } = p.coordinates!;
         return (
@@ -300,9 +299,33 @@ export const Interior: React.FC = () => {
                 configured later.
                 MapPlacement uses canvas-centre origin, so bl(X, Y) → cc(X-12, Y-12).
               */}
-              {!landscaping && (
-                <MapPlacement key="upgrade-button" x={13 - 12} y={21 - 12}>
+              {!landscaping && !expansion && (
+                <MapPlacement key="upgrade-button" x={2} y={9.5}>
                   <UpgradeButton />
+                </MapPlacement>
+              )}
+              {expansion && (
+                <MapPlacement
+                  key="upgrade-button"
+                  x={14 - 12}
+                  y={20 - 12}
+                  height={2}
+                  width={1}
+                  className="relative"
+                >
+                  <div
+                    className="h-full w-full cursor-pointer"
+                    onClick={() => navigate("/level_one")}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.arrow_up}
+                    style={{
+                      width: `${PIXEL_SCALE * 9}px`,
+                      left: `${PIXEL_SCALE * 2}px`,
+                      top: `${PIXEL_SCALE * -2}px`,
+                    }}
+                    className="absolute inset-0 pointer-events-none"
+                  />
                 </MapPlacement>
               )}
             </div>

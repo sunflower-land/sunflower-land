@@ -41,33 +41,9 @@ import {
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
 import {
-  placeInteriorItem,
-  PlaceInteriorItemAction,
-} from "./landExpansion/placeInteriorItem";
-import {
-  moveInteriorItem,
-  MoveInteriorItemAction,
-} from "./landExpansion/moveInteriorItem";
-import {
-  removeInteriorItem,
-  RemoveInteriorItemAction,
-} from "./landExpansion/removeInteriorItem";
-import {
   upgradeInterior,
   UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
-import {
-  placeLevelOneItem,
-  PlaceLevelOneItemAction,
-} from "./landExpansion/placeLevelOneItem";
-import {
-  moveLevelOneItem,
-  MoveLevelOneItemAction,
-} from "./landExpansion/moveLevelOneItem";
-import {
-  removeLevelOneItem,
-  RemoveLevelOneItemAction,
-} from "./landExpansion/removeLevelOneItem";
 import { cook, RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -922,13 +898,7 @@ export type PlacementEvent =
   | RemoveFarmHandAction
   | PlaceBumpkinAction
   | MoveBumpkinAction
-  | RemoveBumpkinPlacementAction
-  | PlaceInteriorItemAction
-  | MoveInteriorItemAction
-  | RemoveInteriorItemAction
-  | PlaceLevelOneItemAction
-  | MoveLevelOneItemAction
-  | RemoveLevelOneItemAction;
+  | RemoveBumpkinPlacementAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 
@@ -1216,12 +1186,6 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "collectible.flipped": flipCollectible,
-  "interior.itemPlaced": placeInteriorItem,
-  "interior.itemMoved": moveInteriorItem,
-  "interior.itemRemoved": removeInteriorItem,
-  "level_one.itemPlaced": placeLevelOneItem,
-  "level_one.itemMoved": moveLevelOneItem,
-  "level_one.itemRemoved": removeLevelOneItem,
 };
 
 export const EVENTS = {

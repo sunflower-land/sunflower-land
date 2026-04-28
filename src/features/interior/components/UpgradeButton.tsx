@@ -8,11 +8,14 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { HomeExpansionTier } from "features/game/types/game";
+import { HomeExpansionTier, InventoryItemName } from "features/game/types/game";
 import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
+import upgradeImage from "assets/icons/upgrade_disc.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 const _island = (state: MachineState) => state.context.state.island;
 const _expansion = (state: MachineState) =>
@@ -62,14 +65,21 @@ export const UpgradeButton: React.FC = () => {
   const cost = HOME_EXPANSION_UPGRADE_REQUIREMENTS[targetTier];
 
   const hasCoins = coins >= cost.coins;
-  const inventoryCheck: Array<{ name: string; required: Decimal; owned: Decimal }> =
-    getKeys(cost.inventory).map((name) => ({
-      name: String(name),
-      required: cost.inventory[name] ?? new Decimal(0),
-      owned: inventory[name] ?? new Decimal(0),
-    }));
+  const inventoryCheck: Array<{
+    name: InventoryItemName;
+    required: Decimal;
+    owned: Decimal;
+  }> = getKeys(cost.inventory).map((name) => ({
+    name,
+    required: cost.inventory[name] ?? new Decimal(0),
+    owned: inventory[name] ?? new Decimal(0),
+  }));
   const hasInventory = inventoryCheck.every((c) => c.owned.gte(c.required));
   const canAfford = hasCoins && hasInventory;
+
+  // First upgrade unlocks a new floor; subsequent upgrades unlock new rooms
+  // on the same floor.
+  const upgradeCopy = expansion ? "Unlock new room" : "Unlock new floor";
 
   const onConfirm = () => {
     setError(null);
@@ -88,30 +98,32 @@ export const UpgradeButton: React.FC = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Upgrade</Button>
+      <img
+        src={upgradeImage}
+        onClick={() => setOpen(true)}
+        className="cursor-pointer"
+        style={{ width: `${PIXEL_SCALE * 20}px` }}
+      />
       <Modal show={open} onHide={() => setOpen(false)}>
         <CloseButtonPanel onClose={() => setOpen(false)} title="Upgrade home">
           <div className="p-2 flex flex-col gap-3">
-            <p className="text-sm">
-              {expansion
-                ? `Upgrade to ${targetTier}.`
-                : `Unlock the new floor (${targetTier}).`}
-            </p>
-            <div className="flex flex-col gap-1 text-sm">
-              <div className={hasCoins ? "" : "text-red-500"}>
-                Coins: {cost.coins.toLocaleString()}{" "}
-                <span className="opacity-70">(you have {coins})</span>
-              </div>
+            <p className="text-sm">{upgradeCopy}</p>
+            <div className="flex flex-col gap-1">
+              <RequirementLabel
+                type="coins"
+                balance={coins}
+                showLabel
+                requirement={cost.coins}
+              />
               {inventoryCheck.map((c) => (
-                <div
+                <RequirementLabel
                   key={c.name}
-                  className={c.owned.gte(c.required) ? "" : "text-red-500"}
-                >
-                  {c.name}: {c.required.toString()}{" "}
-                  <span className="opacity-70">
-                    (you have {c.owned.toString()})
-                  </span>
-                </div>
+                  type="item"
+                  item={c.name}
+                  balance={c.owned}
+                  showLabel
+                  requirement={c.required}
+                />
               ))}
             </div>
             {error && <div className="text-red-500 text-sm">{error}</div>}

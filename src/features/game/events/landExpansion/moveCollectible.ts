@@ -39,6 +39,14 @@ export function moveCollectible({ state, action }: Options): GameState {
           );
         }
         return stateCopy.petHouse.pets[name];
+      } else if (location === "interior") {
+        return stateCopy.interior.ground.collectibles[name];
+      } else if (location === "level_one") {
+        const levelOne = stateCopy.interior.level_one;
+        if (!levelOne) {
+          throw new Error("Level one floor has not been unlocked");
+        }
+        return levelOne.collectibles[name];
       } else {
         return stateCopy.collectibles[name];
       }
