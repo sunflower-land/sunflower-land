@@ -5893,6 +5893,7 @@
   "skillPath.skills": "{{skillPath}} Skills",
   "skillTier.skillPoints.singular": "{{points}} Skill Point",
   "skillTier.skillPoints.plural": "{{points}} Skill Points",
+  "skillTier.skillPoints.available": "{{points}} skill points available",
   "skillTier.number": "Tier {{number}}",
   "powerSkills.title": "Power Skills",
   "powerSkills.ready": "Power Skill Ready",

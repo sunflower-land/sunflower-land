@@ -264,8 +264,6 @@ export const BumpkinProfile: React.FC = () => {
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
 
-  const hasPowerSkills = powerSkillsUnlocked.length > 0;
-
   const powerSkillsReady = powerSkillsUnlocked
     .filter((skill: BumpkinSkillRevamp) => {
       const fertiliserSkill: BumpkinRevampSkillName[] = [
@@ -291,14 +289,12 @@ export const BumpkinProfile: React.FC = () => {
       {/* Bumpkin modal */}
       <Modal show={showModal} onHide={handleHideModal} size="lg">
         <BumpkinModal
-          initialTab={viewSkillsTab ? "skills" : "info"}
+          initialTab={viewSkillsTab ? "skills" : "feed"}
           onClose={handleHideModal}
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
           gameState={gameState.context.state}
-          powerSkillsReady={powerSkillsReady}
-          hasPowerSkills={hasPowerSkills}
         />
       </Modal>
 
