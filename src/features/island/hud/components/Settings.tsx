@@ -9,6 +9,7 @@ import {
   getGoblinSongCount,
 } from "assets/songs/playlist";
 import settings from "assets/icons/settings.png";
+import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
 import { RoundButton } from "components/ui/RoundButton";
@@ -22,6 +23,8 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
+  const { pathname } = useLocation();
+  const isVisiting = pathname.includes("visit");
 
   const button = useSound("button");
 
@@ -70,31 +73,35 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         muted={true}
         controls
       />
-      <GameOptionsModal
-        show={openSettingsMenu}
-        onClose={() => setOpenSettingsMenu(false)}
-      />
-      <div
-        className="relative"
-        style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
-      >
-        <RoundButton
-          onClick={() => {
-            button.play();
-            setOpenSettingsMenu(true);
-          }}
-        >
-          <img
-            src={settings}
-            className="absolute group-active:translate-y-[2px]"
-            style={{
-              top: `${PIXEL_SCALE * 4}px`,
-              left: `${PIXEL_SCALE * 4}px`,
-              width: `${PIXEL_SCALE * 14}px`,
-            }}
+      {!isVisiting && (
+        <>
+          <GameOptionsModal
+            show={openSettingsMenu}
+            onClose={() => setOpenSettingsMenu(false)}
           />
-        </RoundButton>
-      </div>
+          <div
+            className="relative"
+            style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
+          >
+            <RoundButton
+              onClick={() => {
+                button.play();
+                setOpenSettingsMenu(true);
+              }}
+            >
+              <img
+                src={settings}
+                className="absolute group-active:translate-y-[2px]"
+                style={{
+                  top: `${PIXEL_SCALE * 4}px`,
+                  left: `${PIXEL_SCALE * 4}px`,
+                  width: `${PIXEL_SCALE * 14}px`,
+                }}
+              />
+            </RoundButton>
+          </div>
+        </>
+      )}
     </AudioControlsProvider>
   );
 };
