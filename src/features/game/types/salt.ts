@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
+import { isWearableActive } from "../lib/wearables";
 
 export type SaltNode = {
   createdAt: number;
@@ -160,6 +161,16 @@ export function getSaltYieldPerRake(gameState: GameState): {
   if (gameState.bumpkin?.skills["Wide Rakes"]) {
     saltYield += 2;
     boostsUsed.push({ name: "Wide Rakes", value: "+2" });
+  }
+
+  if (
+    isWearableActive({
+      game: gameState,
+      name: "Deep Sea Salt Cave Background",
+    })
+  ) {
+    saltYield += 5;
+    boostsUsed.push({ name: "Deep Sea Salt Cave Background", value: "+5" });
   }
 
   return { saltYield, boostsUsed };

@@ -42,17 +42,17 @@ export function getProcessedResourceAmount({
 
   if (
     farmId !== undefined &&
-    isWearableActive({ game, name: "Deep Sea Salt Cave Background" }) &&
+    isWearableActive({ game, name: "Bubble Aura" }) &&
     prngChance({
       farmId,
       itemId: KNOWN_IDS[resource],
       counter: game.farmActivity[`${resource} Processed`] ?? 0,
       chance: 20,
-      criticalHitName: "Deep Sea Salt Cave Background",
+      criticalHitName: "Bubble Aura",
     })
   ) {
     amount = amount.add(1);
-    boostsUsed.push("Deep Sea Salt Cave Background");
+    boostsUsed.push("Bubble Aura");
   }
 
   return { amount, boostsUsed };

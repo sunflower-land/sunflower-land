@@ -219,6 +219,85 @@ describe("harvestSalt", () => {
     expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(1);
   });
 
+  it("grants +5 salt per harvest with Deep Sea Salt Cave Background equipped", () => {
+    const state = harvestSalt({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Salt: new Decimal(0),
+          "Salt Rake": new Decimal(2),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            background: "Deep Sea Salt Cave Background",
+          },
+        },
+        saltFarm: {
+          ...INITIAL_FARM.saltFarm,
+          nodes: {
+            "0": {
+              createdAt: now - 1000,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                storedCharges: 2,
+                nextChargeAt: now + 10_000,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "salt.harvested", id: "0" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD + 5));
+  });
+
+  it("stacks +5 Deep Sea Salt Cave Background with +2 Wide Rakes", () => {
+    const state = harvestSalt({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Salt: new Decimal(0),
+          "Salt Rake": new Decimal(2),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Wide Rakes": 1 },
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            background: "Deep Sea Salt Cave Background",
+          },
+        },
+        saltFarm: {
+          ...INITIAL_FARM.saltFarm,
+          nodes: {
+            "0": {
+              createdAt: now - 1000,
+              coordinates: { x: 0, y: 0 },
+              salt: {
+                storedCharges: 2,
+                nextChargeAt: now + 10_000,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "salt.harvested", id: "0" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt"]).toEqual(
+      new Decimal(BASE_SALT_YIELD + 2 + 5),
+    );
+  });
+
   describe("Sea Blessed", () => {
     it("does not recharge all nodes without the skill", () => {
       const state = harvestSalt({

@@ -1072,15 +1072,21 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
+    {
+      shortDescription: translate("description.bubbleAura.boost.two"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
   ],
   "Deep Sea Salt Cave Background": [
     {
       shortDescription: translate(
         "description.deepSeaSaltCaveBackground.boost",
       ),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
-      boostedItemIcon: SUNNYSIDE.icons.fish,
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Salt.image,
     },
   ],
 
