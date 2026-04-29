@@ -182,7 +182,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/3008.png",
     name: "Crystal Altar",
   },
   "Dino Egg Trophy": {
@@ -194,7 +193,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/3009.png",
     name: "Dino Egg Trophy",
   },
   CluckCoin: {
@@ -21053,7 +21051,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/556.png",
     name: "Spa Hat",
   },
   "Spa Robe": {
@@ -21064,7 +21061,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/557.png",
     name: "Spa Robe",
   },
   "Spa Slippers": {
@@ -21075,7 +21071,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/558.png",
     name: "Spa Slippers",
   },
   "Bubble Aura": {
@@ -21086,7 +21081,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/559.png",
     name: "Bubble Aura",
   },
   "Deep Sea Salt Cave Background": {
@@ -21097,7 +21091,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/560.png",
     name: "Deep Sea Salt Cave Background",
   },
 };
