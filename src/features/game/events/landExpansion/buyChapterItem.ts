@@ -205,7 +205,7 @@ export function buyChapterItem({
     if (item.limit !== undefined && itemName !== "Pet Egg") {
       const purchaseCount = (copy.farmActivity[activityName] as number) ?? 0;
       if (purchaseCount >= item.limit) {
-        throw new Error("This item has already been crafted");
+        throw new Error("Purchase limit reached");
       }
     }
 
@@ -218,7 +218,9 @@ export function buyChapterItem({
       throw new Error("Insufficient SFL");
     }
 
-    if (coins > 0 && copy.coins < coins) {
+    const currentCoins = copy.coins ?? 0;
+
+    if (coins > 0 && currentCoins < coins) {
       throw new Error("Insufficient coins");
     }
 
@@ -235,7 +237,7 @@ export function buyChapterItem({
     // Deduct resources
     copy.balance = copy.balance.minus(_sfl);
     if (coins > 0) {
-      copy.coins = copy.coins - coins;
+      copy.coins = currentCoins - coins;
     }
     for (costItemName in items) {
       const amount = items[costItemName];

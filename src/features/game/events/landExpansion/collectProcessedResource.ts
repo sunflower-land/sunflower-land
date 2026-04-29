@@ -14,6 +14,7 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type CollectProcessedResourceAction = {
   type: "processedResource.collected";
@@ -25,7 +26,7 @@ type Options = {
   state: Readonly<GameState>;
   action: CollectProcessedResourceAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 export function getProcessedResourceAmount({
@@ -35,13 +36,12 @@ export function getProcessedResourceAmount({
 }: {
   game: GameState;
   resource: ProcessedResource;
-  farmId?: number;
-}): { amount: Decimal; boostsUsed: BoostName[] } {
+  farmId: number;
+}): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = new Decimal(1);
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
-    farmId !== undefined &&
     isWearableActive({ game, name: "Bubble Aura" }) &&
     prngChance({
       farmId,
@@ -52,7 +52,7 @@ export function getProcessedResourceAmount({
     })
   ) {
     amount = amount.add(1);
-    boostsUsed.push("Bubble Aura");
+    boostsUsed.push({ name: "Bubble Aura", value: "+1" });
   }
 
   return { amount, boostsUsed };
@@ -95,12 +95,15 @@ export function collectProcessedResource({
       (processed) => processed.readyAt > createdAt,
     );
 
+    const boostsUsed: { name: BoostName; value: string }[] = [];
+
     ready.forEach((processed) => {
-      const { amount } = getProcessedResourceAmount({
+      const { amount, boostsUsed: itemBoosts } = getProcessedResourceAmount({
         game,
         resource: processed.name as ProcessedResource,
         farmId,
       });
+      boostsUsed.push(...itemBoosts);
 
       const previous = game.inventory[processed.name] ?? new Decimal(0);
       game.inventory[processed.name] = previous.add(amount);
@@ -110,5 +113,13 @@ export function collectProcessedResource({
         game.farmActivity,
       );
     });
+
+    if (boostsUsed.length > 0) {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: boostsUsed,
+        createdAt,
+      });
+    }
   });
 }

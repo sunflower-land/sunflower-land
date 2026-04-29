@@ -189,7 +189,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Treasure Key item is already crafted", () => {
@@ -247,7 +247,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Rare Key item is already crafted", () => {
@@ -313,7 +313,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Luxury Key item is already crafted", () => {
@@ -388,7 +388,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   // Pet Egg tests - one per chapter limit
@@ -732,7 +732,7 @@ describe("buyChapterItem", () => {
           },
           createdAt: saltAwakeningDate,
         }),
-      ).toThrow("This item has already been crafted");
+      ).toThrow("Purchase limit reached");
     });
   });
 });

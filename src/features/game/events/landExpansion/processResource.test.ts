@@ -185,6 +185,7 @@ describe("collectProcessedFish", () => {
           buildingName: "Fire Pit" as ProcessingBuildingName,
         },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow("Invalid resource processing building");
   });
@@ -225,6 +226,7 @@ describe("collectProcessedFish", () => {
         buildingName: "Fish Market",
       } as CollectProcessedResourceAction,
       createdAt,
+      farmId: 1,
     });
 
     expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));

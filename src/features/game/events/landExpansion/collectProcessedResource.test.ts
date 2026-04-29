@@ -41,6 +41,7 @@ describe("collectProcessedFood", () => {
           buildingId: "123",
           buildingName: "Fire Pit" as ProcessingBuildingName,
         },
+        farmId: 1,
       });
     }).toThrow("Invalid resource processing building");
   });
@@ -75,6 +76,7 @@ describe("collectProcessedFood", () => {
           buildingId: "123",
           buildingName: "Fish Market",
         },
+        farmId: 1,
       });
     }).toThrow("No processed food ready");
   });
@@ -88,6 +90,7 @@ describe("collectProcessedFood", () => {
           buildingId: "missing",
           buildingName: "Fish Market",
         },
+        farmId: 1,
       });
     }).toThrow("Fish Market does not exist");
   });
@@ -125,6 +128,7 @@ describe("collectProcessedFood", () => {
         buildingName: "Fish Market",
       } as CollectProcessedResourceAction,
       createdAt,
+      farmId: 1,
     });
 
     expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
@@ -191,19 +195,6 @@ describe("collectProcessedFood", () => {
         } as CollectProcessedResourceAction,
         createdAt,
         farmId: 42,
-      });
-      expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
-    });
-
-    it("yields exactly 1 when farmId is missing even if Bubble Aura is equipped", () => {
-      const updated = collectProcessedResource({
-        state: stateWith({ auraEquipped: true }),
-        action: {
-          type: "processedResource.collected",
-          buildingId: "123",
-          buildingName: "Fish Market",
-        } as CollectProcessedResourceAction,
-        createdAt,
       });
       expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
     });

@@ -2,7 +2,7 @@ import { FlowerBox } from "../events/landExpansion/buyChapterItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { ChapterName } from "./chapters";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 
 export type ChapterTierItemName =
   | ChapterCollectibleName
