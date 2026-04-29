@@ -236,7 +236,13 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     );
     setShow(true);
     setActiveTab(
-      hasReadyCrops ? "harvest" : hasAvailablePlots ? "plant" : "fertilise",
+      hasReadyCrops
+        ? "harvest"
+        : hasAvailablePlots
+          ? "plant"
+          : hasFertiliseAccess
+            ? "fertilise"
+            : "harvest",
     );
   };
 
