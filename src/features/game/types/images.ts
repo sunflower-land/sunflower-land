@@ -118,6 +118,8 @@ import crabsAndFishRug from "assets/sfts/crabs_and_fish_rug.webp";
 import fishFlags from "assets/sfts/fish_flags.webp";
 import fishDryingRack from "assets/sfts/fish_drying_rack.webp";
 import yellowSubmarineTrophy from "assets/sfts/yellow_submarine_trophy.webp";
+import fishTrophyCaseEmpty from "assets/milestones/fish_shelf_empty.webp";
+import flowerTrophyCaseEmpty from "assets/milestones/flower_shelf_empty.webp";
 import oaken from "assets/sfts/oaken.webp";
 import meerkat from "assets/sfts/meerkat.webp";
 import pearlBed from "assets/sfts/pearl_bed.webp";
@@ -4270,6 +4272,14 @@ export const ITEM_DETAILS: Items = {
   "Yellow Submarine Trophy": {
     image: yellowSubmarineTrophy,
     description: "",
+  },
+  "Fish Trophy Case": {
+    image: fishTrophyCaseEmpty,
+    description: "A trophy case displaying your fishing achievements.",
+  },
+  "Flower Trophy Case": {
+    image: flowerTrophyCaseEmpty,
+    description: "A trophy case displaying your flower achievements.",
   },
   Oaken: {
     image: oaken,
