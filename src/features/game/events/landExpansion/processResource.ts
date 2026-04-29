@@ -14,6 +14,18 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ProcessingBuildingName } from "features/game/types/buildings";
+import { isWearableActive } from "features/game/lib/wearables";
+
+export function getFishProcessingTimeMs(
+  item: ProcessedResource,
+  game: GameState,
+): number {
+  let time = FISH_PROCESSING_TIME_SECONDS[item] * 1000;
+  if (isWearableActive({ game, name: "Bubble Aura" })) {
+    time *= 0.8;
+  }
+  return time;
+}
 
 export type ProcessProcessedResourceAction = {
   type: "processedResource.processed";
@@ -88,7 +100,7 @@ export function processProcessedResource({
       startAt = lastReadyAt;
     }
 
-    const readyAt = startAt + FISH_PROCESSING_TIME_SECONDS[item] * 1000;
+    const readyAt = startAt + getFishProcessingTimeMs(item, game);
 
     building.processing = [
       ...processingQueue,

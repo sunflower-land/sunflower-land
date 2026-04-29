@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2,5 % de temps de sommeil des poulets",
   "description.spaSheep.boost": "+5 points d'expérience pour les animaux grâce à Animal Affection",
   "description.spaCow.boost": "+0,1 Lait",
-  "description.deepSeaSlug.boost": "+5 tentatives de pêche",
   "description.deepSeaSlug.boost.2": "+1 ver provenant du compostage",
   "referral.share": "Partagez sur :",
   "referral.share.message": "Rejoignez-moi à Sunflower Land ! 🌻 Utilisez mon lien de recommandation pour obtenir un package de démarrage lors de votre inscription. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "Un tabouret simple pour s'asseoir.",
   "description.speedTrap": "Il se ferme avant même que le crabe ne le voie arriver. Réduit la durée du piège de 20 %",
   "description.royalCrabPot.boost": "Piège sans casiers",
-  "description.speedTrap.boost": "-20 % de temps passé à Trap Pot"
+  "description.speedTrap.boost": "-20 % de temps passé à Trap Pot",
+  "description.bonusSaltRock.boost": "+1 Salt Rock",
+  "description.crystalAltar.boost": "-5 % de temps passé au Crab Pot et au Mariner Pot",
+  "description.bubbleAura.boost": "-20 % Temps de traitement du marché aux poissons",
+  "description.bubbleAura.boost.two": "20 % de chances d'obtenir un rendement de +1 avec Fish Processing",
+  "description.deepSeaSaltCaveBackground.boost": "+5 sel par récolte",
+  "description.deepSeaSlug.boost": "+5 moulinets de pêche quotidiens",
+  "gameOptions.account": "Compte",
+  "gameOptions.advanced": "Avancé",
+  "gameOptions.about": "À propos",
+  "gameOptions.about.discord": "Rejoignez-nous sur Discord",
+  "gameOptions.about.github": "Notes de publication",
+  "gameOptions.about.terms": "Conditions générales d'utilisation",
+  "gameOptions.about.version": "Version cliente",
+  "gameOptions.generalSettings.audio": "Audio"
 }

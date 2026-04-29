@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2,5% Schlafzeit bei Hühnern",
   "description.spaSheep.boost": "+5 Tier-EP für Animal Affection",
   "description.spaCow.boost": "+0.1 Milch",
-  "description.deepSeaSlug.boost": "+5 Fangversuche",
   "description.deepSeaSlug.boost.2": "+1 Wurm aus der Kompostierung",
   "referral.share": "Teilen auf:",
   "referral.share.message": "Begleite mich ins Sonnenblumenland! 🌻 Benutze meinen Empfehlungslink, um ein Starterpaket zu erhalten, wenn du dich anmeldest. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "Ein einfacher Hocker zum Sitzen.",
   "description.speedTrap": "Schnappt zu, bevor die Krabbe es überhaupt kommen sieht. Reduziert die Fallentopf-Zeit um 20%",
   "description.royalCrabPot.boost": "Falle ohne Fallentöpfe",
-  "description.speedTrap.boost": "-20% Trap Pot Time"
+  "description.speedTrap.boost": "-20% Trap Pot Time",
+  "description.bonusSaltRock.boost": "+1 Salzstein",
+  "description.crystalAltar.boost": "-5% Crab Pot & Mariner Pottime",
+  "description.bubbleAura.boost": "-20% Bearbeitungszeit für den Fischmarkt",
+  "description.bubbleAura.boost.two": "20% Chance auf +1 Ertrag durch Fischverarbeitung",
+  "description.deepSeaSaltCaveBackground.boost": "+5 Salz pro Ernte",
+  "description.deepSeaSlug.boost": "+5 tägliche Angelrollen",
+  "gameOptions.account": "Konto",
+  "gameOptions.advanced": "Fortgeschritten",
+  "gameOptions.about": "Über",
+  "gameOptions.about.discord": "Begleite uns auf Discord",
+  "gameOptions.about.github": "Hinweise zur Veröffentlichung",
+  "gameOptions.about.terms": "Nutzungsbedingungen",
+  "gameOptions.about.version": "Client-Version",
+  "gameOptions.generalSettings.audio": "Audio"
 }

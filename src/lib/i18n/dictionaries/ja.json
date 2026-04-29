@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2.5% チキンスリープタイム",
   "description.spaSheep.boost": "アニマル・アフェクションによる動物経験値+5",
   "description.spaCow.boost": "+0.1 ミルク",
-  "description.deepSeaSlug.boost": "+5回釣りの試行",
   "description.deepSeaSlug.boost.2": "コンポストからのワーム+1",
   "referral.share": "シェア:",
   "referral.share.message": "サンフラワーランドに参加しよう！🌻 サインアップ時に私の紹介リンクを使ってスターターパッケージを入手してください。#SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "座るだけのシンプルなスツール。",
   "description.speedTrap": "カニが気づく前にパチンと閉まります。トラップポットの時間を 20% 短縮する。",
   "description.royalCrabPot.boost": "トラップ (トラップポットなし)",
-  "description.speedTrap.boost": "-20% トラップポット時間"
+  "description.speedTrap.boost": "-20% トラップポット時間",
+  "description.bonusSaltRock.boost": "+1 ソルト・ロック",
+  "description.crystalAltar.boost": "-5% カニポット&マリナーポットタイム",
+  "description.bubbleAura.boost": "-20% フィッシュマーケットの処理時間",
+  "description.bubbleAura.boost.two": "20% の確率で水産加工で収穫量が+1される",
+  "description.deepSeaSaltCaveBackground.boost": "収穫1回につき +5 塩",
+  "description.deepSeaSlug.boost": "+5 デイリーフィッシングリール",
+  "gameOptions.account": "アカウント",
+  "gameOptions.advanced": "上級者向け",
+  "gameOptions.about": "について",
+  "gameOptions.about.discord": "Discordにぜひご参加ください",
+  "gameOptions.about.github": "リリースノート",
+  "gameOptions.about.terms": "サービス規約",
+  "gameOptions.about.version": "クライアントバージョン",
+  "gameOptions.generalSettings.audio": "オーディオ"
 }

@@ -1266,12 +1266,13 @@ import obsidianShrine from "assets/sfts/shrines/obsidian_shrine.webp";
 import tradingShrine from "assets/sfts/shrines/trading_shrine.webp";
 import divingHelmet from "assets/sfts/diving_helmet.webp";
 
+import crystalAltar from "assets/monuments/crystal_altar_3.webp";
+import dinoEggTrophy from "assets/sfts/dino_egg_trophy.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-
-//Golden Crop Event
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -4293,6 +4294,14 @@ export const ITEM_DETAILS: Items = {
   },
   "Fish Kite": {
     image: fishKite,
+    description: "",
+  },
+  "Crystal Altar": {
+    image: crystalAltar,
+    description: "",
+  },
+  "Dino Egg Trophy": {
+    image: dinoEggTrophy,
     description: "",
   },
   "Time Warp Totem": {

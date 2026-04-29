@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2.5% Chicken Sleep Time",
   "description.spaSheep.boost": "+5 Animal XP from Animal Affection",
   "description.spaCow.boost": "+0.1 Milk",
-  "description.deepSeaSlug.boost": "+5 Fishing Attempts",
   "description.deepSeaSlug.boost.2": "+1 Worm from Composting",
   "referral.share": "Share on:",
   "referral.share.message": "Join me in Sunflower Land! 🌻 Use my referral link to get a starter package when you sign up. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "A simple stool to sit on.",
   "description.speedTrap": "Snaps shut before the crab even sees it coming. Reduces Trap Pot time by 20%",
   "description.royalCrabPot.boost": "Trap without Trap Pots",
-  "description.speedTrap.boost": "-20% Trap Pot time"
+  "description.speedTrap.boost": "-20% Trap Pot time",
+  "description.bonusSaltRock.boost": "+1 Salt Rock",
+  "description.crystalAltar.boost": "-5% Crab Pot & Mariner Pot time",
+  "description.bubbleAura.boost": "-20% Fish Market processing time",
+  "description.bubbleAura.boost.two": "20% chance for +1 yield from Fish Processing",
+  "description.deepSeaSaltCaveBackground.boost": "+5 Salt per harvest",
+  "description.deepSeaSlug.boost": "+5 daily fishing reels",
+  "gameOptions.account": "Account",
+  "gameOptions.advanced": "Advanced",
+  "gameOptions.about": "About",
+  "gameOptions.about.discord": "Join us on Discord",
+  "gameOptions.about.github": "Release notes",
+  "gameOptions.about.terms": "Terms of Service",
+  "gameOptions.about.version": "Client version",
+  "gameOptions.generalSettings.audio": "Audio"
 }

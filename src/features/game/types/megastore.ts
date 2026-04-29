@@ -2,12 +2,14 @@ import { FlowerBox } from "../events/landExpansion/buyChapterItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { ChapterName } from "./chapters";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 
 export type ChapterTierItemName =
   | ChapterCollectibleName
   | ChapterWearableName
   | MegastoreKeys
   | FlowerBox
+  | HourglassType
   | "Pet Egg";
 
 export type ChapterCollectibleName =
@@ -67,7 +69,11 @@ export type ChapterCollectibleName =
   | "Meerkat"
   | "Crimstone Clam"
   | "Poseidon's Throne"
-  | "Oaken";
+  | "Oaken"
+
+  // Salt Awakening
+  | "Crystal Altar"
+  | "Dino Egg Trophy";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -112,6 +118,13 @@ export type ChapterWearableName = Extract<
   | "Fish Hook Vest"
   | "Fish Hook Waders"
   | "Corn Silk Hair"
+
+  // Salt Awakening
+  | "Spa Hat"
+  | "Spa Robe"
+  | "Spa Slippers"
+  | "Bubble Aura"
+  | "Deep Sea Salt Cave Background"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -120,15 +133,23 @@ type SeasonalStoreBase = {
   cost: {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
+    coins?: number;
   };
   cooldownMs?: number;
+  // Maximum purchases of this item per chapter. Omit for unlimited.
+  limit?: number;
 };
 
 export type ChapterStoreWearable = SeasonalStoreBase & {
   wearable: ChapterWearableName;
 };
 export type ChapterStoreCollectible = SeasonalStoreBase & {
-  collectible: ChapterCollectibleName | MegastoreKeys | FlowerBox | "Pet Egg";
+  collectible:
+    | ChapterCollectibleName
+    | MegastoreKeys
+    | FlowerBox
+    | HourglassType
+    | "Pet Egg";
 };
 
 export type ChapterStoreItem = ChapterStoreWearable | ChapterStoreCollectible;
@@ -175,6 +196,7 @@ const EMPTY_SEASONAL_STORE: ChapterStore = {
 const PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Red Farmer Shirt" as ChapterWearableName,
+    limit: 1,
     cost: {
       items: {},
       sfl: 5,
@@ -182,6 +204,7 @@ const PHARAOH_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Basic Bear" as ChapterCollectibleName,
+    limit: 1,
     cost: {
       items: {
         Wood: 1,
@@ -204,6 +227,7 @@ const PHARAOH_ITEMS: ChapterStoreItem[] = [
 const RARE_PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Rancher Hair" as ChapterWearableName,
+    limit: 1,
     cost: {
       items: {
         Wood: 1,
@@ -214,6 +238,7 @@ const RARE_PHARAOH_ITEMS: ChapterStoreItem[] = [
   },
   {
     wearable: "Axe" as ChapterWearableName,
+    limit: 1,
     cost: {
       items: {
         Wood: 1,
@@ -223,6 +248,7 @@ const RARE_PHARAOH_ITEMS: ChapterStoreItem[] = [
   },
   {
     wearable: "Yellow Farmer Shirt" as ChapterWearableName,
+    limit: 1,
     cost: {
       items: {
         Wood: 1,
@@ -244,6 +270,7 @@ const RARE_PHARAOH_ITEMS: ChapterStoreItem[] = [
 const EPIC_PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Blue Farmer Shirt" as ChapterWearableName,
+    limit: 1,
     cost: {
       items: {
         Wood: 1,
@@ -266,6 +293,7 @@ const EPIC_PHARAOH_ITEMS: ChapterStoreItem[] = [
 const BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Hat",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 300,
@@ -275,6 +303,7 @@ const BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     wearable: "Cowgirl Skirt",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 50,
@@ -284,6 +313,7 @@ const BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Cow Scratcher",
+    limit: 1,
     cost: {
       items: {
         "Cow Skull": 20,
@@ -293,6 +323,7 @@ const BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Spinning Wheel",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 250,
@@ -315,6 +346,7 @@ const BULL_RUN_ITEMS: ChapterStoreItem[] = [
 const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Shirt",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 600,
@@ -324,6 +356,7 @@ const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     wearable: "Dream Scarf",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 1250,
@@ -333,6 +366,7 @@ const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Sleepy Rug",
+    limit: 1,
     cost: {
       items: {},
       sfl: 50,
@@ -340,6 +374,7 @@ const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Meteorite",
+    limit: 1,
     cost: {
       items: {
         "Cow Skull": 60,
@@ -362,6 +397,7 @@ const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
 const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Trouser",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 750,
@@ -371,6 +407,7 @@ const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     wearable: "Milk Apron",
+    limit: 1,
     cost: {
       items: {
         "Cow Skull": 225,
@@ -380,6 +417,7 @@ const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Mechanical Bull",
+    limit: 1,
     cost: {
       items: {},
       sfl: 500,
@@ -397,6 +435,7 @@ const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Crop Circle",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 1250,
@@ -409,6 +448,7 @@ const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
 const MEGA_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     collectible: "Sheaf of Plenty",
+    limit: 1,
     cost: {
       items: {
         Horseshoe: 2500,
@@ -421,6 +461,7 @@ const MEGA_BULL_RUN_ITEMS: ChapterStoreItem[] = [
 const WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Acorn Hat",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 250,
@@ -430,6 +471,7 @@ const WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Kite",
+    limit: 1,
     cost: {
       items: {
         "Ancient Clock": 20,
@@ -439,6 +481,7 @@ const WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Acorn House",
+    limit: 1,
     cost: {
       items: {},
       sfl: 5,
@@ -446,6 +489,7 @@ const WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Spring Duckling",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 50,
@@ -478,6 +522,7 @@ const WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
 const RARE_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Ladybug Suit",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 1250,
@@ -487,6 +532,7 @@ const RARE_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Igloo",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 600,
@@ -496,6 +542,7 @@ const RARE_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Ugly Duckling",
+    limit: 1,
     cost: {
       items: {},
       sfl: 50,
@@ -503,6 +550,7 @@ const RARE_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Lake Rug",
+    limit: 1,
     cost: {
       items: {
         "Ancient Clock": 80,
@@ -536,6 +584,7 @@ const RARE_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
 const EPIC_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Crab Hat",
+    limit: 1,
     cost: {
       items: {
         "Ancient Clock": 200,
@@ -545,6 +594,7 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Hammock",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 1500,
@@ -554,6 +604,7 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Cup of Chocolate",
+    limit: 1,
     cost: {
       items: {},
       sfl: 500,
@@ -561,6 +612,7 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   },
   {
     collectible: "Mammoth",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 2000,
@@ -594,6 +646,7 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
 const MEGA_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Sickle",
+    limit: 1,
     cost: {
       items: {
         Timeshard: 4500,
@@ -608,18 +661,22 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Balloon Rug",
+        limit: 1,
         cost: { sfl: 5, items: {} },
       },
       {
         wearable: "Amberfall Suit",
+        limit: 1,
         cost: { sfl: 0, items: { "Broken Pillar": 20 } },
       },
       {
         wearable: "Embersteel Suit",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 50 } },
       },
       {
         wearable: "Flower Mask",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 300 } },
       },
       {
@@ -643,14 +700,17 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
     items: [
       {
         wearable: "Glacierguard Suit",
+        limit: 1,
         cost: { sfl: 60, items: {} },
       },
       {
         wearable: "Bloomwarden Suit",
+        limit: 1,
         cost: { sfl: 0, items: { "Broken Pillar": 80 } },
       },
       {
         collectible: "Giant Yam",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 2000 } },
       },
       {
@@ -660,6 +720,7 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
       },
       {
         wearable: "Love Charm Shirt",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 650 } },
       },
       {
@@ -679,6 +740,7 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Flower-Scribed Statue",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 1500 } },
       },
       {
@@ -688,14 +750,17 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
       },
       {
         wearable: "Frost Sword",
+        limit: 1,
         cost: { sfl: 0, items: { "Broken Pillar": 180 } },
       },
       {
         collectible: "Heart Air Balloon",
+        limit: 1,
         cost: { sfl: 400, items: {} },
       },
       {
         collectible: "Giant Zucchini",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 3000 } },
       },
       {
@@ -715,10 +780,12 @@ const GREAT_BLOOM_ITEMS: ChapterStore = {
     items: [
       {
         wearable: "Oracle Syringe",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 8500 } },
       },
       {
         collectible: "Giant Kale",
+        limit: 1,
         cost: { sfl: 0, items: { Geniseed: 6000 } },
       },
     ],
@@ -731,14 +798,17 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Floor Mirror",
+        limit: 1,
         cost: { sfl: 5, items: {} },
       },
       {
         collectible: "Long Rug",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 50 } },
       },
       {
         collectible: "Garbage Bin",
+        limit: 1,
         cost: { sfl: 0, items: { Coprolite: 25 } },
       },
       {
@@ -753,6 +823,7 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
       },
       {
         wearable: "Garbage Bin Hat",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 300 } },
       },
     ],
@@ -761,10 +832,12 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Wheelbarrow",
+        limit: 1,
         cost: { sfl: 60, items: {} },
       },
       {
         collectible: "Snail King",
+        limit: 1,
         cost: { sfl: 0, items: { Coprolite: 85 } },
       },
       {
@@ -779,10 +852,12 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
       },
       {
         wearable: "Architect Ruler",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 2500 } },
       },
       {
         wearable: "Raccoon Onesie",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 700 } },
       },
     ],
@@ -792,14 +867,17 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Reelmaster's Chair",
+        limit: 1,
         cost: { sfl: 0, items: { Coprolite: 160 } },
       },
       {
         collectible: "Rat King",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 1250 } },
       },
       {
         collectible: "Fruit Tune Box",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 3500 } },
       },
       {
@@ -814,10 +892,12 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
       },
       {
         collectible: "Double Bed",
+        limit: 1,
         cost: { sfl: 0, items: { Wool: 5000, Gem: 2500, Bracelet: 1250 } },
       },
       {
         wearable: "Recycle Shirt",
+        limit: 1,
         cost: { sfl: 400, items: {} },
       },
     ],
@@ -827,14 +907,17 @@ const BETTER_TOGETHER_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Giant Artichoke",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 5500 } },
       },
       {
         wearable: "Pickaxe Shark",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 8000 } },
       },
       {
         collectible: "Teamwork Monument",
+        limit: 1,
         cost: { sfl: 0, items: { Bracelet: 1000 } },
       },
     ],
@@ -847,14 +930,17 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Petnip Plant",
+        limit: 1,
         cost: { sfl: 10, items: {} },
       },
       {
         collectible: "Pet Kennel",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 50 } },
       },
       {
         collectible: "Pet Toys",
+        limit: 1,
         cost: { sfl: 0, items: { "Moon Crystal": 44 } },
       },
       {
@@ -869,6 +955,7 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       },
       {
         wearable: "Pet Specialist Hat",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 350 } },
       },
     ],
@@ -877,10 +964,12 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Pet Playground",
+        limit: 1,
         cost: { sfl: 70, items: {} },
       },
       {
         collectible: "Fish Bowl",
+        limit: 1,
         cost: { sfl: 0, items: { "Moon Crystal": 88 } },
       },
       {
@@ -895,14 +984,17 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Giant Gold Bone",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 2500 } },
       },
       {
         wearable: "Pet Specialist Pants",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 700 } },
       },
       {
         collectible: "Giant Acorn",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
       },
     ],
@@ -912,10 +1004,12 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
     items: [
       {
         wearable: "Saw Fish",
+        limit: 1,
         cost: { sfl: 0, items: { "Moon Crystal": 160 } },
       },
       {
         collectible: "Lunar Temple",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 3500 } },
       },
       {
@@ -930,6 +1024,7 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Messy Bed",
+        limit: 1,
         cost: {
           sfl: 0,
           items: { "Merino Wool": 6000, Crimstone: 300, "Pet Cookie": 2000 },
@@ -937,10 +1032,12 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       },
       {
         wearable: "Pet Specialist Shirt",
+        limit: 1,
         cost: { sfl: 400, items: {} },
       },
       {
         collectible: "Pet Egg",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
       },
     ],
@@ -950,10 +1047,12 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
     items: [
       {
         collectible: "Magma Stone",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 8500 } },
       },
       {
         collectible: "Cornucopia",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 1000 } },
       },
     ],
@@ -966,27 +1065,112 @@ const CRABS_AND_TRAPS_ITEMS: ChapterStore = {
     items: [
       {
         wearable: "Fish Hook Waders",
+        limit: 1,
         cost: { sfl: 100, items: {} },
       },
       {
         wearable: "Fish Hook Vest",
+        limit: 1,
         cost: { sfl: 200, items: {} },
       },
       {
         collectible: "Meerkat",
+        limit: 1,
         cost: { sfl: 0, items: { "Ammonite Shell": 250 } },
       },
       {
         collectible: "Crimstone Clam",
+        limit: 1,
         cost: { sfl: 0, items: { Floater: 6000 } },
       },
       {
         collectible: "Poseidon's Throne",
+        limit: 1,
         cost: { sfl: 0, items: { Floater: 3000 } },
       },
       {
         wearable: "Corn Silk Hair",
+        limit: 1,
         cost: { sfl: 0, items: { Floater: 6000 } },
+      },
+    ],
+  },
+  rare: {
+    items: [],
+    requirement: 0,
+  },
+  epic: {
+    items: [],
+    requirement: 0,
+  },
+  mega: {
+    items: [],
+    requirement: 0,
+  },
+};
+
+const SALT_AWAKENING_ITEMS: ChapterStore = {
+  basic: {
+    items: [
+      // Spa shop items
+      {
+        wearable: "Spa Hat",
+        limit: 1,
+        cost: { coins: 10000, sfl: 0, items: {} },
+      },
+      {
+        wearable: "Spa Robe",
+        limit: 1,
+        cost: { sfl: 100, items: {} },
+      },
+      {
+        wearable: "Spa Slippers",
+        limit: 1,
+        cost: { sfl: 200, items: {} },
+      },
+
+      // Hourglasses (infinitely buyable throughout the chapter)
+      {
+        collectible: "Gourmet Hourglass",
+        cost: { sfl: 0, items: { "Salt Rock": 50 } },
+      },
+      {
+        collectible: "Ore Hourglass",
+        cost: { sfl: 0, items: { "Salt Rock": 200 } },
+      },
+      {
+        collectible: "Timber Hourglass",
+        cost: { sfl: 0, items: { "Salt Rock": 100 } },
+      },
+      {
+        collectible: "Blossom Hourglass",
+        cost: { sfl: 0, items: { "Salt Rock": 150 } },
+      },
+      {
+        collectible: "Orchard Hourglass",
+        cost: { sfl: 0, items: { "Salt Rock": 100 } },
+      },
+
+      // Premium chapter items
+      {
+        wearable: "Bubble Aura",
+        limit: 1,
+        cost: { sfl: 0, items: { "Salt Rock": 10000 } },
+      },
+      {
+        collectible: "Crystal Altar",
+        limit: 1,
+        cost: { sfl: 0, items: { "Salt Rock": 3000 } },
+      },
+      {
+        wearable: "Deep Sea Salt Cave Background",
+        limit: 1,
+        cost: { sfl: 0, items: { "Salt Rock": 6000 } },
+      },
+      {
+        collectible: "Dino Egg Trophy",
+        limit: 1,
+        cost: { sfl: 0, items: { "Salt Dino Egg": 250 } },
       },
     ],
   },
@@ -1012,7 +1196,7 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Spring Blossom": EMPTY_SEASONAL_STORE,
   "Witches' Eve": EMPTY_SEASONAL_STORE,
   "Crabs and Traps": CRABS_AND_TRAPS_ITEMS,
-  "Salt Awakening": EMPTY_SEASONAL_STORE, // TODO: Add Salt Awakening items
+  "Salt Awakening": SALT_AWAKENING_ITEMS,
   "Pharaoh's Treasure": {
     basic: {
       items: PHARAOH_ITEMS,

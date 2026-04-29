@@ -1300,6 +1300,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Poseidon's Throne": { width: 3, height: 3 },
   "Fish Kite": { width: 1, height: 1 },
 
+  // Salt Awakening
+  "Crystal Altar": { width: 3, height: 2 },
+  "Dino Egg Trophy": { width: 2, height: 1 },
+
   // Spring Blossom SFTs
   "Flower Cart": { width: 2, height: 2 },
   "Blossom Royale": { width: 2, height: 2 },

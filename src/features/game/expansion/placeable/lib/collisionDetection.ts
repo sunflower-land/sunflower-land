@@ -774,9 +774,11 @@ function detectLandCornerCollision(
 function detectInteriorCollision({
   state,
   position,
+  name,
 }: {
   state: GameState;
   position: BoundingBox;
+  name: LandscapingPlaceable;
 }) {
   // 1. Layout mask — translate Placeable coords → bottom-left layout coords.
   // GenesisBlock lives at canvas-centre (12, 12) and Placeable anchors
@@ -792,9 +794,21 @@ function detectInteriorCollision({
     return true;
   }
 
-  // 2. Overlap with any other collectible already placed in the interior.
+  // Non-colliding items (rugs, tiles, tables, stools, …) can stack on top of
+  // anything that's already placed — and anything else can stack on top of
+  // them. Mirrors the home/farm behaviour so players can dress an interior
+  // with a long table and then drop chairs / decorations on it.
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+    return false;
+  }
+
+  // 2. Overlap with any other collectible already placed in the interior,
+  //    skipping the non-colliding ones so the placing item can sit on top.
   const placed = state.interior.ground.collectibles;
-  const placeableBounds = getKeys(placed).flatMap((itemName) => {
+  const collidingItems = getKeys(placed).filter(
+    (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
+  );
+  const placeableBounds = collidingItems.flatMap((itemName) => {
     const items = (placed[itemName] ?? []) as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[itemName];
     return items
@@ -824,9 +838,11 @@ function detectInteriorCollision({
 function detectLevelOneCollision({
   state,
   position,
+  name,
 }: {
   state: GameState;
   position: BoundingBox;
+  name: LandscapingPlaceable;
 }) {
   const levelOne = state.interior.level_one;
   const expansion = state.interior.expansion;
@@ -844,8 +860,17 @@ function detectLevelOneCollision({
     return true;
   }
 
+  // Non-colliding items (rugs, tiles, tables, stools, …) stack freely on
+  // level_one too — same rule as ground / home / farm.
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+    return false;
+  }
+
   const placed = levelOne.collectibles;
-  const placeableBounds = getKeys(placed).flatMap((itemName) => {
+  const collidingItems = getKeys(placed).filter(
+    (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
+  );
+  const placeableBounds = collidingItems.flatMap((itemName) => {
     const items = (placed[itemName] ?? []) as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[itemName];
     return items
@@ -881,11 +906,11 @@ export function detectCollision({
   }
 
   if (location === "interior") {
-    return detectInteriorCollision({ state, position });
+    return detectInteriorCollision({ state, position, name });
   }
 
   if (location === "level_one") {
-    return detectLevelOneCollision({ state, position });
+    return detectLevelOneCollision({ state, position, name });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;

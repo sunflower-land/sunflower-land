@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2,5% de tempo de sono do frango",
   "description.spaSheep.boost": "+5 EXP Animal da Animal Affection",
   "description.spaCow.boost": "+0.1 Leite",
-  "description.deepSeaSlug.boost": "+5 tentativas de pesca",
   "description.deepSeaSlug.boost.2": "+1 minhoca da compostagem",
   "referral.share": "Compartilhe em:",
   "referral.share.message": "Junte-se a mim na Terra do Girassol! 🌻 Use meu link de indicação para obter um pacote inicial ao se inscrever. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "Um banquinho simples para sentar.",
   "description.speedTrap": "Fecha-se antes mesmo que o caranguejo o veja chegando. Reduz o tempo do Trap Pot em 20%",
   "description.royalCrabPot.boost": "Armadilha sem potes de armadilha",
-  "description.speedTrap.boost": "-20% de tempo do Trap Pot"
+  "description.speedTrap.boost": "-20% de tempo do Trap Pot",
+  "description.bonusSaltRock.boost": "+1 Pedra Salgada",
+  "description.crystalAltar.boost": "-5% de tempo de Crab Pot e Mariner Pot",
+  "description.bubbleAura.boost": "-20% de tempo de processamento do Fish Market",
+  "description.bubbleAura.boost.two": "20% de chance de +1 rendimento com o processamento de pescado",
+  "description.deepSeaSaltCaveBackground.boost": "+5 Sal por colheita",
+  "description.deepSeaSlug.boost": "+5 bobinas de pesca diárias",
+  "gameOptions.account": "Conta",
+  "gameOptions.advanced": "Avançado",
+  "gameOptions.about": "Sobre",
+  "gameOptions.about.discord": "Junte-se a nós no Discord",
+  "gameOptions.about.github": "Notas de lançamento",
+  "gameOptions.about.terms": "Termos de serviço",
+  "gameOptions.about.version": "Versão do cliente",
+  "gameOptions.generalSettings.audio": "Áudio"
 }

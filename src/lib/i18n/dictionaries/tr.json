@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-% 2.5 Tavuk Uyku Süresi",
   "description.spaSheep.boost": "Hayvan Sevgisinden +5 Hayvan DP'si",
   "description.spaCow.boost": "+0.1 Süt",
-  "description.deepSeaSlug.boost": "+5 Balıkçılık Denemesi",
   "description.deepSeaSlug.boost.2": "+1 Kompostlamadan Solucan",
   "referral.share": "Paylaş:",
   "referral.share.message": "Ayçiçeği Ülkesinde bana katılın! 🌻 Kaydolduğunuzda bir başlangıç paketi almak için tavsiye bağlantımı kullanın. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "Oturmak için basit bir tabure.",
   "description.speedTrap": "Yengeç geldiğini bile görmeden kapanır. Trap Pot süresini %20 azaltır",
   "description.royalCrabPot.boost": "Tuzak Saksıları Olmayan Tuzak",
-  "description.speedTrap.boost": "-20% Tuzak Potu süresi"
+  "description.speedTrap.boost": "-20% Tuzak Potu süresi",
+  "description.bonusSaltRock.boost": "+1 Saltrock",
+  "description.crystalAltar.boost": "-5% Yengeç Tenceresi ve Mariner Pot zamanı",
+  "description.bubbleAura.boost": "-20% Balık Pazarı işleme süresi",
+  "description.bubbleAura.boost.two": "Balık İşlemeden +1 verim için %20 şans",
+  "description.deepSeaSaltCaveBackground.boost": "Hasat başına +5 tuz",
+  "description.deepSeaSlug.boost": "+5 günlük balıkçılık makarası",
+  "gameOptions.account": "Hesap",
+  "gameOptions.advanced": "Gelişmiş",
+  "gameOptions.about": "Hakkında",
+  "gameOptions.about.discord": "Discord'da bize katılın",
+  "gameOptions.about.github": "Sürüm notları",
+  "gameOptions.about.terms": "Hizmet Şartları",
+  "gameOptions.about.version": "İstemci sürümü",
+  "gameOptions.generalSettings.audio": "Ses"
 }

@@ -111,11 +111,10 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Fish Hook Vest",
     epic: "Fish Hook Waders",
   },
-  // TODO: Add Salt Awakening items
   "Salt Awakening": {
-    basic: "Cow Scratcher",
-    rare: "Cow Scratcher",
-    epic: "Cow Scratcher",
+    basic: "Spa Hat",
+    rare: "Spa Robe",
+    epic: "Spa Slippers",
   },
 };
 

@@ -174,6 +174,27 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Fish Kite",
   },
+  "Crystal Altar": {
+    description: "A crystalline altar humming with salty energy.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Altar",
+  },
+  "Dino Egg Trophy": {
+    description:
+      "A trophy carved in the likeness of a salt-fossilised dino egg.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Dino Egg Trophy",
+  },
   CluckCoin: {
     description:
       "A minigame currency from Chicken Rescue. Not withdrawable. No in-game utility yet; trading is experimental.",
@@ -21021,5 +21042,55 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Pistol Shrimp",
+  },
+  "Spa Hat": {
+    description: "A relaxing spa hat fit for a salt soak.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spa Hat",
+  },
+  "Spa Robe": {
+    description: "A cozy spa robe for the Salt Awakening.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spa Robe",
+  },
+  "Spa Slippers": {
+    description: "Slippers for steamy spa days.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spa Slippers",
+  },
+  "Bubble Aura": {
+    description: "An effervescent bubble aura.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Bubble Aura",
+  },
+  "Deep Sea Salt Cave Background": {
+    description: "A salt-encrusted deep sea cave backdrop.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Deep Sea Salt Cave Background",
   },
 };

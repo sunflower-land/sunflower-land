@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
@@ -17,7 +17,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentChapter,
   getChapterTicket,
-  CHAPTERS,
 } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -34,7 +33,7 @@ import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
-  isBoughtWithinCurrentChapter,
+  getChapterPurchaseCount,
   isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
@@ -59,6 +58,7 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _coins = (state: MachineState) => state.context.state.coins;
 const _state = (state: MachineState) => state.context.state;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
@@ -74,6 +74,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
+  const coinBalance = useSelector(gameService, _coins);
   const state = useSelector(gameService, _state);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -132,38 +133,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const boughtAt = state.megastore?.boughtAt[itemName] ?? 0;
   const itemInCooldown = !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > now;
 
-  const itemCrafted = state.farmActivity[`${itemName} Bought`];
-
-  // Check if Pet Egg was already bought this chapter
-  const petEggBoughtAt = state.megastore?.boughtAt["Pet Egg"];
-  const petEggPurchaseCount = state.farmActivity["Pet Egg Bought"] ?? 0;
-
-  const isPetEggBoughtThisChapter = useMemo(() => {
-    if (itemName !== "Pet Egg") return false;
-
-    // Primary check: boughtAt timestamp is within current chapter
-    if (isBoughtWithinCurrentChapter(petEggBoughtAt, now)) {
-      return true;
-    }
-
-    // Fallback for legacy data: if farmActivity shows a purchase but boughtAt is missing,
-    // and we're in the chapter where Pet Egg was introduced, treat conservatively
-    if (!petEggBoughtAt && petEggPurchaseCount > 0) {
-      const petEggChapter = CHAPTERS["Paw Prints"];
-      const nowDate = new Date(now);
-      const isInPetEggChapter =
-        nowDate >= petEggChapter.startDate && nowDate <= petEggChapter.endDate;
-
-      if (isInPetEggChapter) {
-        return true;
-      }
-    }
-
-    return false;
-  }, [itemName, petEggBoughtAt, petEggPurchaseCount, now]);
+  const chapterPurchaseCount = getChapterPurchaseCount({
+    game: state,
+    itemName,
+    currentChapter,
+    now,
+  });
 
   const description = getItemDescription(item);
-  const { sfl = 0 } = item?.cost || {};
+  const { sfl = 0, coins: coinsCost = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
 
   useLayoutEffect(() => {
@@ -187,11 +165,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const canBuy = () => {
     if (!item) return false;
 
-    // Pet Egg: one per chapter limit
-    if (isPetEggBoughtThisChapter) {
-      return false;
-    }
-
     if (item.cooldownMs) {
       if (itemInCooldown) return false;
     }
@@ -202,13 +175,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
 
-    // For non-cooldown items (except keys and Pet Egg), check if already crafted
-    if (
-      !item.cooldownMs &&
-      !isKey(itemName as InventoryItemName) &&
-      itemName !== "Pet Egg"
-    ) {
-      if (itemCrafted) {
+    // Items with an explicit `limit` are capped per chapter. Items without `limit` are unlimited.
+    if (item.limit !== undefined) {
+      if (chapterPurchaseCount >= item.limit) {
         return false;
       }
     }
@@ -222,6 +191,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (!hasRequirements) return false;
     }
 
+    if (coinsCost > 0 && coinBalance < coinsCost) {
+      return false;
+    }
+
     return sflBalance.greaterThanOrEqualTo(
       SFLDiscount(state, new Decimal(sfl), now),
     );
@@ -233,15 +206,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
-          ? "Seasonal Ticket"
-          : "SFL";
+        : coinsCost > 0
+          ? "Coins"
+          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
+            ? "Seasonal Ticket"
+            : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
-          ? (item.cost?.items[chapterTicket] ?? 0)
-          : sfl;
+        : coinsCost > 0
+          ? coinsCost
+          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
+            ? (item.cost?.items[chapterTicket] ?? 0)
+            : sfl;
     const itemName = isWearable
       ? (item as ChapterStoreWearable).wearable
       : (item as ChapterStoreCollectible).collectible;
@@ -382,16 +359,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {description}
                       </span>
                     )}
-                    {itemName === "Pet Egg" ? (
-                      <Label
-                        type={isPetEggBoughtThisChapter ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {isPetEggBoughtThisChapter
-                          ? t("season.megastore.crafting.limit", { limit: 1 })
-                          : t("season.megastore.crafting.limit", { limit: 0 })}
-                      </Label>
-                    ) : itemName && item?.cooldownMs ? (
+                    {itemName && item?.cooldownMs ? (
                       <Label
                         type={itemInCooldown ? "danger" : "default"}
                         className="text-xxs"
@@ -407,13 +375,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                           ),
                         })}
                       </Label>
-                    ) : (
+                    ) : item?.limit === undefined ? null : (
                       <Label
-                        type={!itemCrafted ? "default" : "danger"}
+                        type={
+                          chapterPurchaseCount >= item.limit
+                            ? "danger"
+                            : "default"
+                        }
                         className="text-xxs"
                       >
                         {t("season.megastore.crafting.limit", {
-                          limit: !itemCrafted ? 0 : 1,
+                          limit: Math.min(chapterPurchaseCount, item.limit),
                         })}
                       </Label>
                     )}
@@ -453,6 +425,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                             new Decimal(item.cost.sfl),
                             now,
                           )}
+                        />
+                      </div>
+                    )}
+                    {item && coinsCost > 0 && (
+                      <div className="flex flex-1 items-end">
+                        <RequirementLabel
+                          type="coins"
+                          balance={coinBalance}
+                          requirement={coinsCost}
                         />
                       </div>
                     )}

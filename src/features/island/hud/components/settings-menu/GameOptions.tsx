@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
-import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import * as Auth from "features/auth/lib/Provider";
@@ -12,10 +11,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { translate } from "lib/i18n/translate";
 
-import { removeJWT } from "features/auth/actions/social";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import { About } from "./about/About";
+import { AppearanceSettings } from "./general-settings/AppearanceSettings";
+import { AudioSettings } from "./general-settings/AudioSettings";
+import { BehaviourSettings } from "./general-settings/BehaviourSettings";
+import { Notifications } from "./general-settings/Notifications";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
@@ -29,7 +32,8 @@ import {
 } from "mobile-device-detect";
 import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
 import { AddSFL } from "../AddSFL";
-import { GeneralSettings } from "./general-settings/GeneralSettings";
+import { Account } from "./account/Account";
+import { Advanced } from "./advanced/Advanced";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
@@ -37,8 +41,6 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import lockIcon from "assets/icons/lock.png";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
@@ -79,11 +81,9 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   onClose,
 }) => {
   const { gameService } = useContext(GameContext);
-  const { authService } = useContext(Auth.Context);
 
   const { t } = useAppTranslation();
 
-  const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
 
   const copypaste = useSound("copypaste");
@@ -106,18 +106,49 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     }
   };
 
-  const refreshSession = () => {
-    gameService.send("RESET");
-    onClose();
-  };
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
-  const onLogout = () => {
-    removeJWT();
-    authService.send("LOGOUT");
-  };
-
-  const canRefresh = !gameService.getSnapshot().context.state.transaction;
-  const hideRefresh = !gameService.getSnapshot().context.nftId;
+  const menuButtons: {
+    id: string;
+    content: React.ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
+  }[] = [
+    {
+      id: "preferences",
+      content: <span>{t("gameOptions.generalSettings.preferences")}</span>,
+      onClick: () => onSubMenuClick("preferences"),
+    },
+    {
+      id: "plaza",
+      content: <span>{t("gameOptions.plazaSettings")}</span>,
+      onClick: () => onSubMenuClick("plaza"),
+    },
+    {
+      id: "account",
+      content: <span>{t("gameOptions.account")}</span>,
+      onClick: () => onSubMenuClick("account"),
+    },
+    {
+      id: "advanced",
+      content: <span>{t("gameOptions.advanced")}</span>,
+      onClick: () => onSubMenuClick("advanced"),
+    },
+    {
+      id: "about",
+      content: <span>{t("gameOptions.about")}</span>,
+      onClick: () => onSubMenuClick("about"),
+    },
+    ...(!isPWA
+      ? [
+          {
+            id: "installApp",
+            content: <span>{t("install.app")}</span>,
+            onClick: handleInstallApp,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -135,88 +166,29 @@ const GameOptions: React.FC<ContentComponentProps> = ({
                 setShowFarm(false);
               }, 2000);
               copypaste.play();
-              clipboard.copy(
-                gameService.getSnapshot()?.context?.farmId.toString() as string,
-              );
+              clipboard.copy(farmId.toString());
             }}
           >
-            {t("gameOptions.farmId", {
-              farmId: gameService.getSnapshot()?.context?.farmId,
-            })}
+            {t("gameOptions.farmId", { farmId })}
           </Label>
         </div>
       </>
-      <div className="flex flex-col gap-1">
-        {(!isPWA || !hideRefresh) && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-            {!isPWA && (
-              <Button
-                onClick={handleInstallApp}
-                className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
-              >
-                <span>{t("install.app")}</span>
-              </Button>
-            )}
-
-            {!hideRefresh && (
-              <Button
-                disabled={!canRefresh}
-                onClick={refreshSession}
-                className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
-              >
-                {t("gameOptions.blockchainSettings.refreshChain")}
-
-                {!canRefresh && (
-                  <img
-                    src={lockIcon}
-                    className="absolute right-1 top-0.5 h-7"
-                  />
-                )}
-              </Button>
-            )}
-          </div>
-        )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
-            <span>{t("gameOptions.generalSettings")}</span>
-          </Button>
-          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
-            <span>{t("gameOptions.blockchainSettings")}</span>
-          </Button>
-          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
-            <span>{t("gameOptions.plazaSettings")}</span>
-          </Button>
-          <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
-            <span>{t("gameOptions.developerOptions")}</span>
-          </Button>
-          <Button
-            className="p-1 col-span-1 sm:col-span-2"
-            onClick={() => showConfirmLogoutModal(true)}
-          >
-            {t("gameOptions.logout")}
-          </Button>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+        {menuButtons.map((button, index) => {
+          const isLast = index === menuButtons.length - 1;
+          const spanFull = isLast && menuButtons.length % 2 === 1;
+          return (
+            <Button
+              key={button.id}
+              onClick={button.onClick}
+              disabled={button.disabled}
+              className={`p-1 ${spanFull ? "col-span-1 sm:col-span-2" : ""}`}
+            >
+              {button.content}
+            </Button>
+          );
+        })}
       </div>
-      <div className="flex justify-between">
-        <p className="mx-1 text-xxs">
-          <a
-            href="https://github.com/sunflower-land/sunflower-land/releases"
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {CONFIG.RELEASE_VERSION?.split("-")[0]}
-          </a>
-        </p>
-      </div>
-      <ConfirmationModal
-        show={isConfirmLogoutModalOpen}
-        onHide={() => showConfirmLogoutModal(false)}
-        messages={[t("gameOptions.confirmLogout")]}
-        onCancel={() => showConfirmLogoutModal(false)}
-        onConfirm={onLogout}
-        confirmButtonLabel={t("gameOptions.logout")}
-      />
     </>
   );
 };
@@ -284,9 +256,11 @@ export type SettingMenuId =
   // Game Options
   | "main"
   | "installApp"
+  | "account"
+  | "advanced"
+  | "about"
   | "amoy"
   | "blockchain"
-  | "general"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -298,10 +272,14 @@ export type SettingMenuId =
   | "dequip"
   | "transfer"
 
-  // General Settings
+  // Account / Preferences
   | "discord"
   | "changeLanguage"
   | "preferences"
+  | "appearance"
+  | "behaviour"
+  | "audio"
+  | "notifications"
   | "apiKey"
 
   // Amoy Testnet Actions
@@ -330,20 +308,30 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: InstallAppModal,
   },
+  account: {
+    title: translate("gameOptions.account"),
+    parent: "main",
+    content: Account,
+  },
+  advanced: {
+    title: translate("gameOptions.advanced"),
+    parent: "main",
+    content: Advanced,
+  },
+  about: {
+    title: translate("gameOptions.about"),
+    parent: "main",
+    content: About,
+  },
   amoy: {
     title: translate("gameOptions.developerOptions"),
-    parent: "main",
+    parent: "advanced",
     content: DeveloperOptions,
   },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
-    parent: "main",
+    parent: "advanced",
     content: BlockchainSettings,
-  },
-  general: {
-    title: translate("gameOptions.generalSettings"),
-    parent: "main",
-    content: GeneralSettings,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),
@@ -383,28 +371,50 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: AddSFL,
   },
 
-  // General Settings
+  // Account
   faceRecognition: {
     title: translate("gameOptions.faceRecognition"),
-    parent: "general",
+    parent: "account",
     content: FaceRecognitionSettings,
   },
-  discord: { title: "Discord", parent: "general", content: Discord },
+  discord: { title: "Discord", parent: "account", content: Discord },
+
+  // Preferences hub + leaves
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
+    parent: "main",
+    content: Preferences,
+  },
+  appearance: {
+    title: translate("gameOptions.generalSettings.appearance"),
+    parent: "preferences",
+    content: () => <AppearanceSettings />,
+  },
+  behaviour: {
+    title: translate("gameOptions.generalSettings.behaviour"),
+    parent: "preferences",
+    content: () => <BehaviourSettings />,
+  },
+  audio: {
+    title: translate("gameOptions.generalSettings.audio"),
+    parent: "preferences",
+    content: AudioSettings,
+  },
   changeLanguage: {
     title: translate("gameOptions.generalSettings.changeLanguage"),
-    parent: "general",
+    parent: "preferences",
     content: LanguageSwitcher,
+  },
+  notifications: {
+    title: translate("gameOptions.generalSettings.notifications"),
+    parent: "preferences",
+    content: Notifications,
   },
 
   apiKey: {
     title: translate("share.apiKey"),
     parent: "amoy",
     content: ApiKey,
-  },
-  preferences: {
-    title: translate("gameOptions.generalSettings.preferences"),
-    parent: "general",
-    content: Preferences,
   },
 
   // Developer Options

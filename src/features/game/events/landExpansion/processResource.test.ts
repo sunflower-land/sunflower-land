@@ -86,6 +86,34 @@ describe("processProcessedFood", () => {
     });
   });
 
+  it("applies -20% Bubble Aura boost to fish processing time when equipped", () => {
+    const state = processProcessedResource({
+      state: {
+        ...SPRING_STATE,
+        bumpkin: {
+          ...SPRING_STATE.bumpkin!,
+          equipped: {
+            ...SPRING_STATE.bumpkin!.equipped,
+            aura: "Bubble Aura",
+          },
+        },
+      },
+      action: {
+        type: "processedResource.processed",
+        item: "Fish Flake",
+        buildingId: "123",
+        buildingName: "Fish Market",
+      },
+      createdAt,
+    });
+
+    const processing = state.buildings["Fish Market"]?.[0].processing ?? [];
+    expect(processing).toHaveLength(1);
+    expect(processing[0].readyAt).toEqual(
+      createdAt + FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000 * 0.8,
+    );
+  });
+
   it("queues behind an in-progress request", () => {
     const readyAt =
       createdAt + FISH_PROCESSING_TIME_SECONDS["Fish Stick"] * 1000;
@@ -157,6 +185,7 @@ describe("collectProcessedFish", () => {
           buildingName: "Fire Pit" as ProcessingBuildingName,
         },
         createdAt,
+        farmId: 1,
       }),
     ).toThrow("Invalid resource processing building");
   });
@@ -197,6 +226,7 @@ describe("collectProcessedFish", () => {
         buildingName: "Fish Market",
       } as CollectProcessedResourceAction,
       createdAt,
+      farmId: 1,
     });
 
     expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));

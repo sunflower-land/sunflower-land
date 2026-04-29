@@ -185,4 +185,80 @@ describe("placeWaterTrap", () => {
       expectedReadyTime,
     );
   });
+
+  it("applies -5% boost when Crystal Altar monument is active", () => {
+    const state = placeWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Crab Pot": new Decimal(2) },
+        collectibles: {
+          "Crystal Altar": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt,
+              readyAt: createdAt,
+            },
+          ],
+        },
+        socialFarming: {
+          ...GAME_STATE.socialFarming,
+          villageProjects: {
+            ...GAME_STATE.socialFarming.villageProjects,
+            "Crystal Altar": { cheers: 1000 },
+          },
+        },
+      },
+      action: {
+        type: "waterTrap.placed",
+        trapId,
+        waterTrap: "Crab Pot",
+      },
+      createdAt,
+    });
+
+    const defaultReadyTimeMs =
+      WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60 * 1000;
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.readyAt).toBe(
+      createdAt + defaultReadyTimeMs * 0.95,
+    );
+  });
+
+  it("does NOT apply Crystal Altar boost when monument has not received enough cheers", () => {
+    const state = placeWaterTrap({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Crab Pot": new Decimal(2) },
+        collectibles: {
+          "Crystal Altar": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt,
+              readyAt: createdAt,
+            },
+          ],
+        },
+        socialFarming: {
+          ...GAME_STATE.socialFarming,
+          villageProjects: {
+            ...GAME_STATE.socialFarming.villageProjects,
+            "Crystal Altar": { cheers: 999 },
+          },
+        },
+      },
+      action: {
+        type: "waterTrap.placed",
+        trapId,
+        waterTrap: "Crab Pot",
+      },
+      createdAt,
+    });
+
+    const defaultReadyTimeMs =
+      WATER_TRAP["Crab Pot"].readyTimeHours * 60 * 60 * 1000;
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.readyAt).toBe(
+      createdAt + defaultReadyTimeMs,
+    );
+  });
 });

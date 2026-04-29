@@ -1438,6 +1438,7 @@ export type Christmas = {
 
 export type Currency =
   | "SFL"
+  | "Coins"
   | "Gem"
   | "Crimstone"
   | "Sunstone"
@@ -2153,6 +2154,11 @@ export interface GameState {
   };
   megastore?: {
     boughtAt: Partial<Record<ChapterTierItemName, number>>;
+    // Per-item, per-chapter purchase count. Used by the `limit` enforcement
+    // so a recurring item from a previous chapter doesn't stay blocked.
+    purchases?: Partial<
+      Record<ChapterTierItemName, { chapter: ChapterName; count: number }>
+    >;
   };
   withdrawals?: {
     amount: number;

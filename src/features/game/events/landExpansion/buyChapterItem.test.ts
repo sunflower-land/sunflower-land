@@ -181,6 +181,9 @@ describe("buyChapterItem", () => {
             "Acorn House": new Decimal(0),
           },
           farmActivity: { "Acorn House Bought": 1 },
+          megastore: {
+            boughtAt: { "Acorn House": new Date("2025-02-05").getTime() },
+          },
         },
         action: {
           type: "chapterItem.bought",
@@ -189,7 +192,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Treasure Key item is already crafted", () => {
@@ -239,6 +242,9 @@ describe("buyChapterItem", () => {
             "Acorn Hat Bought": 1,
             "Igloo Bought": 1,
           },
+          megastore: {
+            boughtAt: { Igloo: new Date("2025-02-05").getTime() },
+          },
         },
         action: {
           type: "chapterItem.bought",
@@ -247,7 +253,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Rare Key item is already crafted", () => {
@@ -305,6 +311,9 @@ describe("buyChapterItem", () => {
             "Lake Rug Bought": 1,
             "Mammoth Bought": 1,
           },
+          megastore: {
+            boughtAt: { Mammoth: new Date("2025-02-05").getTime() },
+          },
         },
         action: {
           type: "chapterItem.bought",
@@ -313,7 +322,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   it("does not throw an error if Luxury Key item is already crafted", () => {
@@ -380,6 +389,9 @@ describe("buyChapterItem", () => {
             "Cup of Chocolate Bought": 1,
             "Sickle Bought": 1,
           },
+          megastore: {
+            boughtAt: { Sickle: new Date("2025-02-05").getTime() },
+          },
         },
         action: {
           type: "chapterItem.bought",
@@ -388,7 +400,7 @@ describe("buyChapterItem", () => {
         },
         createdAt: new Date("2025-02-05").getTime(),
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Purchase limit reached");
   });
 
   // Pet Egg tests - one per chapter limit
@@ -460,7 +472,7 @@ describe("buyChapterItem", () => {
           },
           createdAt: pawPrintsDate,
         }),
-      ).toThrow("Pet Egg already bought this chapter");
+      ).toThrow("Purchase limit reached");
     });
 
     it("allows buying Pet Egg even with high farmActivity count if not bought this chapter", () => {
@@ -617,7 +629,255 @@ describe("buyChapterItem", () => {
           },
           createdAt: pawPrintsDate,
         }),
-      ).toThrow("Pet Egg already bought this chapter");
+      ).toThrow("Purchase limit reached");
+    });
+  });
+
+  describe("Salt Awakening - coins purchases", () => {
+    const saltAwakeningDate = new Date("2026-05-10T00:00:00Z").getTime();
+
+    it("subtracts coins when buying a coins-priced item", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          coins: 20000,
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Spa Hat",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(result.coins).toEqual(10000);
+      expect(result.wardrobe["Spa Hat"]).toEqual(1);
+    });
+
+    it("throws an error if the player doesn't have enough coins", () => {
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            coins: 100,
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Spa Hat",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Insufficient coins");
+    });
+
+    it("does not deduct coins for an SFL-priced item", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          balance: new Decimal(1000),
+          coins: 5000,
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Spa Robe",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(result.coins).toEqual(5000);
+      expect(result.balance).toEqual(new Decimal(900));
+    });
+  });
+
+  describe("Salt Awakening - infinitely buyable hourglasses", () => {
+    const saltAwakeningDate = new Date("2026-05-10T00:00:00Z").getTime();
+
+    it("allows buying a hourglass twice when no limit is set", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Salt Rock": new Decimal(500),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Gourmet Hourglass",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(firstBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Salt Rock"]).toEqual(new Decimal(450));
+
+      const secondBuy = buyChapterItem({
+        state: firstBuy,
+        action: {
+          type: "chapterItem.bought",
+          name: "Gourmet Hourglass",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate + 1000,
+      });
+
+      expect(secondBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(2));
+      expect(secondBuy.inventory["Salt Rock"]).toEqual(new Decimal(400));
+    });
+
+    it("still blocks repurchase of a non-repurchasable Salt Awakening item within the same chapter", () => {
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Salt Rock": new Decimal(20000),
+            },
+            farmActivity: { "Crystal Altar Bought": 1 },
+            megastore: {
+              boughtAt: { "Crystal Altar": saltAwakeningDate },
+              purchases: {
+                "Crystal Altar": {
+                  chapter: "Salt Awakening",
+                  count: 1,
+                },
+              },
+            },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Crystal Altar",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+  });
+
+  describe("Chapter-scoped limit", () => {
+    const saltAwakeningDate = new Date("2026-05-10T00:00:00Z").getTime();
+
+    it("allows buying a recurring item again in a new chapter even if a previous chapter purchase is on record", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Salt Rock": new Decimal(20000),
+          },
+          // Player bought Crystal Altar in a prior chapter.
+          farmActivity: { "Crystal Altar Bought": 1 },
+          megastore: {
+            boughtAt: {
+              "Crystal Altar": new Date("2026-04-10T00:00:00Z").getTime(),
+            },
+            purchases: {
+              "Crystal Altar": {
+                chapter: "Crabs and Traps",
+                count: 1,
+              },
+            },
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Crystal Altar",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(result.inventory["Crystal Altar"]).toEqual(new Decimal(1));
+      expect(result.megastore?.purchases?.["Crystal Altar"]).toEqual({
+        chapter: "Salt Awakening",
+        count: 1,
+      });
+    });
+
+    it("blocks the second purchase of a limit:1 item within the same chapter", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Salt Rock": new Decimal(20000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Crystal Altar",
+          tier: "basic",
+        },
+        createdAt: saltAwakeningDate,
+      });
+
+      expect(firstBuy.megastore?.purchases?.["Crystal Altar"]).toEqual({
+        chapter: "Salt Awakening",
+        count: 1,
+      });
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Crystal Altar",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("backfills from farmActivity when state is missing purchases but boughtAt is in the current chapter", () => {
+      // Pre-migration shape: only farmActivity + boughtAt within current chapter.
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Salt Rock": new Decimal(20000),
+            },
+            farmActivity: { "Crystal Altar Bought": 1 },
+            megastore: {
+              boughtAt: { "Crystal Altar": saltAwakeningDate },
+            },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Crystal Altar",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("backfills from farmActivity when boughtAt is missing entirely (legacy migration)", () => {
+      // Legacy shape: farmActivity records the purchase but boughtAt was never
+      // written. The migration assumes the prior purchase happened in the
+      // current chapter, blocking re-purchase.
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Salt Rock": new Decimal(20000),
+            },
+            farmActivity: { "Crystal Altar Bought": 1 },
+            megastore: {
+              boughtAt: {},
+            },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Crystal Altar",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Purchase limit reached");
     });
   });
 });

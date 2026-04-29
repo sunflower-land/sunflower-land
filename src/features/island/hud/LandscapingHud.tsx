@@ -189,7 +189,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         ? state.context.state.home.collectibles[name]
         : location === "petHouse" && isPetCollectible(name)
           ? state.context.state.petHouse.pets[name]
-          : state.context.state.collectibles[name];
+          : location === "interior"
+            ? state.context.state.interior.ground.collectibles[name]
+            : location === "level_one"
+              ? state.context.state.interior.level_one?.collectibles[name]
+              : state.context.state.collectibles[name];
     return (
       collectibles?.find((collectible) => collectible.id === selectedItem.id)
         ?.flipped ?? false
@@ -261,7 +265,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     : undefined
                 }
               />
-              {(location === "farm" || location === "home") && (
+              {(location === "farm" ||
+                location === "home" ||
+                location === "interior" ||
+                location === "level_one") && (
                 <>
                   <RoundButton
                     className="mb-3.5"

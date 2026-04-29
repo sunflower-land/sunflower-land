@@ -10,6 +10,7 @@ import {
   caughtCrustacean,
 } from "features/game/types/crustaceans";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isMonumentActive } from "features/game/types/monuments";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlaceWaterTrapAction = {
@@ -34,6 +35,10 @@ export function getWaterTrapMilliseconds(
   if (isCollectibleBuilt({ name: "Speed Trap", game })) {
     time *= 0.8;
     boostsUsed.push({ name: "Speed Trap", value: "x0.8" });
+  }
+  if (isMonumentActive({ game, monument: "Crystal Altar" })) {
+    time *= 0.95;
+    boostsUsed.push({ name: "Crystal Altar", value: "x0.95" });
   }
   return { milliseconds: time, boostsUsed };
 }

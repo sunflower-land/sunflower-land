@@ -64,6 +64,10 @@ import cornucopiaThree from "assets/monuments/cornucopia_monument_stage3.webp";
 import poseidonThroneOne from "assets/monuments/poseidons_throne_stage1.webp";
 import poseidonThroneTwo from "assets/monuments/poseidons_throne_stage2.webp";
 
+import crystalAltarOne from "assets/monuments/crystal_altar_1.webp";
+import crystalAltarTwo from "assets/monuments/crystal_altar_2.webp";
+import crystalAltarThree from "assets/monuments/crystal_altar_3.webp";
+
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
@@ -146,6 +150,11 @@ export const PROJECT_IMAGES: Record<
     empty: poseidonThroneOne,
     halfway: poseidonThroneTwo,
     ready: ITEM_DETAILS["Poseidon's Throne"].image,
+  },
+  "Crystal Altar": {
+    empty: crystalAltarOne,
+    halfway: crystalAltarTwo,
+    ready: crystalAltarThree,
   },
 };
 

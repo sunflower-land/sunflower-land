@@ -785,6 +785,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Oaken: () => <TemplateCollectible name="Oaken" />,
   Meerkat: () => <TemplateCollectible name="Meerkat" />,
   "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
+  "Crystal Altar": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      alt="Crystal Altar"
+      project="Crystal Altar"
+    />
+  ),
+  "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Poseidon's Throne": (props: CollectibleProps) => (
     <Monument
       {...props}

@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2,5% Waktu Tidur Ayam",
   "description.spaSheep.boost": "+5 XP Hewan dari Animal Affection",
   "description.spaCow.boost": "+0.1 Susu",
-  "description.deepSeaSlug.boost": "+5 Upaya Memancing",
   "description.deepSeaSlug.boost.2": "+1 Cacing dari Pengomposan",
   "referral.share": "Bagikan di:",
   "referral.share.message": "Bergabunglah dengan saya di Tanah Bunga Matahari! 🌻 Gunakan tautan rujukan saya untuk mendapatkan paket starter saat Anda mendaftar. #SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "Bangku sederhana untuk duduk.",
   "description.speedTrap": "Tutup sebelum kepiting melihatnya datang. Mengurangi waktu Trap Pot sebesar 20%",
   "description.royalCrabPot.boost": "Perangkap tanpa Pot Perangkap",
-  "description.speedTrap.boost": "-20% Waktu Trap Pot"
+  "description.speedTrap.boost": "-20% Waktu Trap Pot",
+  "description.bonusSaltRock.boost": "+1 Saltrock",
+  "description.crystalAltar.boost": "-5% Waktu Pot Kepiting & Mariner Pot",
+  "description.bubbleAura.boost": "-20% waktu pemrosesan Pasar Ikan",
+  "description.bubbleAura.boost.two": "Peluang 20% untuk hasil +1 dari Pengolahan Ikan",
+  "description.deepSeaSaltCaveBackground.boost": "+5 Garam per panen",
+  "description.deepSeaSlug.boost": "+5 gulungan memancing harian",
+  "gameOptions.account": "Akun",
+  "gameOptions.advanced": "Tingkat Lanjut",
+  "gameOptions.about": "Tentang",
+  "gameOptions.about.discord": "Bergabunglah dengan kami di Discord",
+  "gameOptions.about.github": "Catatan rilis",
+  "gameOptions.about.terms": "Ketentuan Layanan",
+  "gameOptions.about.version": "Versi klien",
+  "gameOptions.generalSettings.audio": "Audio"
 }

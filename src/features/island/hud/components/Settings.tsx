@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { AudioMenu } from "features/game/components/AudioMenu";
+import { AudioControlsProvider } from "features/game/components/AudioControlsContext";
 import {
   getFarmingSong,
   getFarmingSongCount,
@@ -10,7 +10,6 @@ import {
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
 import settings from "assets/icons/settings.png";
-import sound_on from "assets/icons/sound_on.png";
 import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -25,7 +24,6 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [showMoreButtons, setShowMoreButtons] = useState(false);
-  const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
   const { pathname } = useLocation();
 
@@ -48,11 +46,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
-
-  const handleCloseAudioMenu = () => {
-    setOpenAudioMenu(false);
-    setShowMoreButtons(false);
-  };
 
   const handleCloseSettingsMenu = () => {
     setOpenSettingsMenu(false);
@@ -136,23 +129,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       />,
     );
 
-  const audioButton = (index: number) =>
-    createButton(
-      index,
-      () => {
-        setOpenAudioMenu(true);
-      },
-      <img
-        src={sound_on}
-        className="absolute group-active:translate-y-[2px]"
-        style={{
-          top: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 5}px`,
-          width: `${PIXEL_SCALE * 13}px`,
-        }}
-      />,
-    );
-
   const moreButton = (index: number) =>
     createButton(
       index,
@@ -171,14 +147,15 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     );
 
   // list of buttons to show in the HUD from right to left in order
-  const buttons = [
-    gearButton,
-    audioButton,
-    ...(!showLimitedButtons ? [moreButton] : []),
-  ];
+  const buttons = [gearButton, ...(!showLimitedButtons ? [moreButton] : [])];
 
   return (
-    <>
+    <AudioControlsProvider
+      musicPlayer={musicPlayer}
+      song={song}
+      handlePreviousSong={handlePreviousSong}
+      handleNextSong={handleNextSong}
+    >
       <audio
         ref={musicPlayer}
         onEnded={handleNextSong}
@@ -192,14 +169,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         show={openSettingsMenu}
         onClose={handleCloseSettingsMenu}
       />
-      <AudioMenu
-        musicPlayer={musicPlayer}
-        song={song}
-        handlePreviousSong={handlePreviousSong}
-        handleNextSong={handleNextSong}
-        show={openAudioMenu}
-        onClose={handleCloseAudioMenu}
-      />
       <div
         className="relative"
         style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
@@ -207,6 +176,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       >
         {buttons.map((item, index) => item(index)).reverse()}
       </div>
-    </>
+    </AudioControlsProvider>
   );
 };

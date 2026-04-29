@@ -8783,7 +8783,6 @@
   "description.flamingoChicken.boost": "-2.5% 小鸡睡眠时间",
   "description.spaSheep.boost": "+5 来自动物情感的动物经验值",
   "description.spaCow.boost": "+0.1 牛奶",
-  "description.deepSeaSlug.boost": "+5 次钓鱼尝试",
   "description.deepSeaSlug.boost.2": "+1 堆肥产生的蠕虫",
   "referral.share": "分享到：",
   "referral.share.message": "加入我的向日葵乐园！🌻 注册时使用我的推荐链接获取入门套餐。#SunflowerLand",
@@ -8862,5 +8861,19 @@
   "description.stool": "一个可以坐的简单凳子。",
   "description.speedTrap": "在螃蟹看见它来临之前就关上了。将 Trap Pot 时间缩短 20%",
   "description.royalCrabPot.boost": "没有陷阱罐的陷阱",
-  "description.speedTrap.boost": "-20% 陷阱时间"
+  "description.speedTrap.boost": "-20% 陷阱时间",
+  "description.bonusSaltRock.boost": "+1 盐岩",
+  "description.crystalAltar.boost": "-5% Crab Pot & Mariner Pot 时间",
+  "description.bubbleAura.boost": "-20% 鱼市场处理时间",
+  "description.bubbleAura.boost.two": "鱼类加工获得 +1 产量的几率为 20%",
+  "description.deepSeaSaltCaveBackground.boost": "每次收获 +5 盐",
+  "description.deepSeaSlug.boost": "每日 +5 个钓鱼卷轴",
+  "gameOptions.account": "账户",
+  "gameOptions.advanced": "高级",
+  "gameOptions.about": "关于",
+  "gameOptions.about.discord": "在 Discord 上加入我们",
+  "gameOptions.about.github": "发行说明",
+  "gameOptions.about.terms": "服务条款",
+  "gameOptions.about.version": "客户机版本",
+  "gameOptions.generalSettings.audio": "音频"
 }
