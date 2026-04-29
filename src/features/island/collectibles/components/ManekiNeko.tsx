@@ -79,9 +79,11 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
   });
 
   const [isRevealing, setIsRevealing] = useState(false);
+  const [shouldShake, setShouldShake] = useState(false);
 
   const shake = () => {
     setIsRevealing(true);
+    setShouldShake(true);
 
     // Can only shake a Maneki every 24 hours (even if you have multiple)
     if (hasShakenRecently) {
@@ -117,7 +119,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
           className="absolute pointer-events-none"
         />
         <img
-          src={open ? manekiNekoShaking : manekiNeko}
+          src={shouldShake ? manekiNekoShaking : manekiNeko}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
