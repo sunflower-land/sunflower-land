@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FilterOption, type FilterOptionProps } from "./FilterOption";
@@ -30,12 +31,23 @@ import {
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { Context } from "features/game/GameProvider";
+import * as Auth from "features/auth/lib/Provider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { loadProfile } from "features/marketplace/actions/loadProfile";
+
+const _trades = (state: MachineState) => state.context.state.trades;
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
   hideLimited?: boolean;
 }> = ({ onClose, farmId, hideLimited }) => {
+  const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -58,6 +70,37 @@ export const Filters: React.FC<{
     Record<string, boolean>
   >({});
   const [userChapterExpanded, setUserChapterExpanded] = useState(false);
+  const [hasTradeHistory, setHasTradeHistory] = useState(false);
+  const trades = useSelector(gameService, _trades);
+  const token = useSelector(authService, _authToken);
+
+  const hasActiveTrades =
+    getKeys(trades.offers ?? {}).length > 0 ||
+    getKeys(trades.listings ?? {}).length > 0;
+
+  useEffect(() => {
+    if (!pathname.includes("/profile")) return;
+
+    let cancelled = false;
+
+    loadProfile({
+      token,
+      id: farmId,
+    })
+      .then((profile) => {
+        if (cancelled) return;
+        setHasTradeHistory((profile.trades ?? []).length > 0);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setHasTradeHistory(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [farmId, pathname, token]);
+
   const isChapterExpanded = !!chapterParam || userChapterExpanded;
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
@@ -295,6 +338,66 @@ export const Filters: React.FC<{
     });
   };
 
+  const profilePath = (path: string) => `profile/${farmId}${path}`;
+  const profileLandingPath = hasActiveTrades
+    ? profilePath("/trades")
+    : profilePath("");
+  const profileOptions: FilterOptionProps[] = [
+    ...(hasActiveTrades
+      ? [
+          {
+            icon: tradeIcon,
+            label: `${t("active")} ${t("marketplace.trades")}`,
+            onClick: () =>
+              navigateTo({
+                path: profilePath("/trades"),
+              }),
+            isActive: pathname === `${baseUrl}/${profilePath("/trades")}`,
+          },
+        ]
+      : []),
+    {
+      icon: SUNNYSIDE.icons.lightning,
+      label: t("marketplace.stats"),
+      onClick: () =>
+        navigateTo({
+          path: profilePath(""),
+        }),
+      isActive: pathname === `${baseUrl}/${profilePath("")}`,
+    },
+    ...(hasTradeHistory
+      ? [
+          {
+            icon: SUNNYSIDE.icons.stopwatch,
+            label: t("marketplace.saleHistory"),
+            onClick: () =>
+              navigateTo({
+                path: profilePath("/history"),
+              }),
+            isActive: pathname === `${baseUrl}/${profilePath("/history")}`,
+          },
+        ]
+      : []),
+    {
+      icon: SUNNYSIDE.icons.treasure,
+      label: t("marketplace.collection"),
+      onClick: () =>
+        navigateTo({
+          path: profilePath("/collection"),
+        }),
+      isActive: pathname === `${baseUrl}/${profilePath("/collection")}`,
+    },
+    {
+      icon: trade_point,
+      label: t("marketplace.rewards"),
+      onClick: () =>
+        navigateTo({
+          path: "profile/rewards",
+        }),
+      isActive: pathname === `${baseUrl}/profile/rewards`,
+    },
+  ];
+
   const filterOptions: FilterOptionProps[] = [
     // Trending
     {
@@ -469,40 +572,10 @@ export const Filters: React.FC<{
       onClick: () => {
         setExpandedTraitGroups({});
         navigateTo({
-          path: `profile/${farmId}`,
+          path: profileLandingPath,
         });
       },
-      options: pathname.includes("profile")
-        ? [
-            {
-              icon: SUNNYSIDE.icons.lightning,
-              label: t("marketplace.stats"),
-              onClick: () =>
-                navigateTo({
-                  path: `profile/${farmId}`,
-                }),
-              isActive: pathname === `${baseUrl}/profile/${farmId}`,
-            },
-            {
-              icon: tradeIcon,
-              label: t("marketplace.trades"),
-              onClick: () =>
-                navigateTo({
-                  path: `profile/${farmId}/trades`,
-                }),
-              isActive: pathname === `${baseUrl}/profile/${farmId}/trades`,
-            },
-            {
-              icon: trade_point,
-              label: t("marketplace.rewards"),
-              onClick: () =>
-                navigateTo({
-                  path: "profile/rewards",
-                }),
-              isActive: pathname === `${baseUrl}/profile/rewards`,
-            },
-          ]
-        : undefined,
+      options: pathname.includes("profile") ? profileOptions : undefined,
     },
     // Favorites
     {
