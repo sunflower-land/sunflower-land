@@ -138,8 +138,6 @@ const FEATURE_FLAGS = {
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
   SALT_FARM: betaFeatureFlag,
 
-  OBSIDIAN_SHRINE_BULK_FERTILISE: betaFeatureFlag,
-
   AGING_SHED: betaFeatureFlag,
 
   SALT_SKILLS: betaFeatureFlag,
