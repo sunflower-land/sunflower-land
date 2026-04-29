@@ -821,6 +821,9 @@ export const MoveableComponent: React.FC<
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [nodeRef, isSelected, landscapingMachine, onStop]);
 
   /**
@@ -1231,7 +1234,7 @@ export const MoveableComponent: React.FC<
             </InnerPanel>
           </div>
         )}
-        {isSelected && (
+        {isSelected && !isPixelPerfectMode && (
           <div
             className="absolute z-20 flex"
             style={{
@@ -1240,9 +1243,7 @@ export const MoveableComponent: React.FC<
             }}
           >
             <div
-              className={classNames("relative mr-2", {
-                invisible: isPixelPerfectMode,
-              })}
+              className="relative mr-2"
               style={{ width: `${PIXEL_SCALE * 18}px` }}
             >
               <img className="w-full" src={SUNNYSIDE.icons.disc} />
@@ -1270,9 +1271,7 @@ export const MoveableComponent: React.FC<
             </div>
             {hasFlipAction && (
               <div
-                className={classNames("relative mr-2", {
-                  invisible: isPixelPerfectMode,
-                })}
+                className="relative mr-2"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={flip}
               >
@@ -1302,10 +1301,7 @@ export const MoveableComponent: React.FC<
             )}
             {hasPixelPerfectAction && (
               <div
-                className={classNames("relative mr-2 cursor-pointer", {
-                  "opacity-100": isPixelPerfectMode,
-                  "opacity-90": !isPixelPerfectMode,
-                })}
+                className="relative mr-2 cursor-pointer"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={togglePixelPerfectMode}
               >
@@ -1335,9 +1331,7 @@ export const MoveableComponent: React.FC<
             )}
             {hasRemovalAction && (
               <div
-                className={classNames("group relative cursor-pointer", {
-                  invisible: isPixelPerfectMode,
-                })}
+                className="group relative cursor-pointer"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={(e) => {
                   remove();
@@ -1412,6 +1406,12 @@ export const MoveableComponent: React.FC<
                     -pixelDelta.y * PIXEL_SCALE
                   }px)`
                 : undefined,
+            // A CSS transform creates a new stacking context. Without an
+            // explicit z-index the context sits at z=auto (below the z-20
+            // control disc panel), which hides the z-30 arrows behind it.
+            // Setting zIndex:30 keeps the arrows above the disc panel whenever
+            // pixel-perfect mode is active.
+            zIndex: isPixelPerfectMode ? 30 : undefined,
           }}
         >
           {isSelected &&
