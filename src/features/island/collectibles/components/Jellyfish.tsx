@@ -11,6 +11,7 @@ export const Jellyfish: React.FC = () => {
         src={jellyfish}
         style={{
           width: `${PIXEL_SCALE * 32}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
