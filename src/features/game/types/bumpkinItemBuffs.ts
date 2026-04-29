@@ -1065,6 +1065,24 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
   ],
+  "Bubble Aura": [
+    {
+      shortDescription: translate("description.bubbleAura.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Deep Sea Salt Cave Background": [
+    {
+      shortDescription: translate(
+        "description.deepSeaSaltCaveBackground.boost",
+      ),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
 
   // Add items above this line
   ...SPECIAL_ITEM_LABELS,

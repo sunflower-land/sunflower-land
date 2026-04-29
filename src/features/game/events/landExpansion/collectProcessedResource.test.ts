@@ -131,4 +131,164 @@ describe("collectProcessedFood", () => {
     const processing = updated.buildings["Fish Market"]?.[0].processing ?? [];
     expect(processing).toHaveLength(0);
   });
+
+  describe("Deep Sea Salt Cave Background bonus", () => {
+    const readyAt =
+      createdAt - FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000;
+
+    const stateWith = (params: {
+      backgroundEquipped: boolean;
+      processedCounter?: number;
+    }): GameState => ({
+      ...SPRING_STATE,
+      bumpkin: {
+        ...SPRING_STATE.bumpkin!,
+        equipped: {
+          ...SPRING_STATE.bumpkin!.equipped,
+          background: params.backgroundEquipped
+            ? "Deep Sea Salt Cave Background"
+            : SPRING_STATE.bumpkin!.equipped.background,
+        },
+      },
+      farmActivity:
+        params.processedCounter !== undefined
+          ? {
+              ...SPRING_STATE.farmActivity,
+              "Fish Flake Processed": params.processedCounter,
+            }
+          : SPRING_STATE.farmActivity,
+      buildings: {
+        ...SPRING_STATE.buildings,
+        "Fish Market": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt,
+            processing: [
+              {
+                name: "Fish Flake",
+                startedAt:
+                  readyAt - FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000,
+                readyAt,
+                requirements: {},
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    // The PRNG is deterministic given (farmId, itemId, counter, chance, name).
+    // We sweep counters until we deterministically observe a hit and a miss for
+    // the same farm + item + chance, so the test pins both branches.
+    it("yields exactly 1 when the background is not equipped (no roll)", () => {
+      const updated = collectProcessedResource({
+        state: stateWith({ backgroundEquipped: false }),
+        action: {
+          type: "processedResource.collected",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        } as CollectProcessedResourceAction,
+        createdAt,
+        farmId: 42,
+      });
+      expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
+    });
+
+    it("yields exactly 1 when farmId is missing even if background is equipped", () => {
+      const updated = collectProcessedResource({
+        state: stateWith({ backgroundEquipped: true }),
+        action: {
+          type: "processedResource.collected",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        } as CollectProcessedResourceAction,
+        createdAt,
+      });
+      expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
+    });
+
+    it("yields 2 when the prng roll passes (deterministic hit counter)", () => {
+      // Sweep counters to find a deterministic prng hit for this (farmId, itemId, chance)
+      const { prngChance } = jest.requireActual(
+        "lib/prng",
+      ) as typeof import("lib/prng");
+      const { KNOWN_IDS } = jest.requireActual(
+        "features/game/types",
+      ) as typeof import("features/game/types");
+      const farmId = 42;
+      let hitCounter = -1;
+      for (let counter = 0; counter < 200; counter++) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Fish Flake"],
+            counter,
+            chance: 20,
+            criticalHitName: "Deep Sea Salt Cave Background",
+          })
+        ) {
+          hitCounter = counter;
+          break;
+        }
+      }
+      expect(hitCounter).toBeGreaterThanOrEqual(0);
+
+      const updated = collectProcessedResource({
+        state: stateWith({
+          backgroundEquipped: true,
+          processedCounter: hitCounter,
+        }),
+        action: {
+          type: "processedResource.collected",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        } as CollectProcessedResourceAction,
+        createdAt,
+        farmId,
+      });
+      expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(2));
+    });
+
+    it("yields 1 when the prng roll fails (deterministic miss counter)", () => {
+      const { prngChance } = jest.requireActual(
+        "lib/prng",
+      ) as typeof import("lib/prng");
+      const { KNOWN_IDS } = jest.requireActual(
+        "features/game/types",
+      ) as typeof import("features/game/types");
+      const farmId = 42;
+      let missCounter = -1;
+      for (let counter = 0; counter < 200; counter++) {
+        if (
+          !prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Fish Flake"],
+            counter,
+            chance: 20,
+            criticalHitName: "Deep Sea Salt Cave Background",
+          })
+        ) {
+          missCounter = counter;
+          break;
+        }
+      }
+      expect(missCounter).toBeGreaterThanOrEqual(0);
+
+      const updated = collectProcessedResource({
+        state: stateWith({
+          backgroundEquipped: true,
+          processedCounter: missCounter,
+        }),
+        action: {
+          type: "processedResource.collected",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        } as CollectProcessedResourceAction,
+        createdAt,
+        farmId,
+      });
+      expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
+    });
+  });
 });

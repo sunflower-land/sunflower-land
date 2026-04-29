@@ -1266,7 +1266,7 @@ import obsidianShrine from "assets/sfts/shrines/obsidian_shrine.webp";
 import tradingShrine from "assets/sfts/shrines/trading_shrine.webp";
 import divingHelmet from "assets/sfts/diving_helmet.webp";
 
-import crystalAltar from "assets/sfts/crystal_altar.webp";
+import crystalAltar from "assets/monuments/crystal_altar_3.webp";
 import dinoEggTrophy from "assets/sfts/dino_egg_trophy.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";

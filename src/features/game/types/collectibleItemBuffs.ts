@@ -2085,6 +2085,20 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: helpIcon,
     },
   ],
+  "Crystal Altar": () => [
+    {
+      shortDescription: translate("description.crystalAltar.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("megastore.monument.helpsNeeded", {
+        count: 1000,
+      }),
+      labelType: "info",
+      boostTypeIcon: helpIcon,
+    },
+  ],
   "Crimstone Clam": () => [
     {
       shortDescription: translate("description.crimstoneClam.boost"),
