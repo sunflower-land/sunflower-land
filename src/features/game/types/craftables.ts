@@ -1301,8 +1301,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Fish Kite": { width: 1, height: 1 },
 
   // Salt Awakening
-  "Crystal Altar": { width: 2, height: 2 },
-  "Dino Egg Trophy": { width: 1, height: 1 },
+  "Crystal Altar": { width: 1, height: 2 },
+  "Dino Egg Trophy": { width: 2, height: 1 },
 
   // Spring Blossom SFTs
   "Flower Cart": { width: 2, height: 2 },
