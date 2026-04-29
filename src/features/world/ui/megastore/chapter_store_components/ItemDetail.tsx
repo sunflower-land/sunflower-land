@@ -208,7 +208,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? "SFL"
         : coinsCost > 0
           ? "Coins"
-          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
             ? "Seasonal Ticket"
             : "SFL";
     const price =
@@ -216,7 +216,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : coinsCost > 0
           ? coinsCost
-          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+          : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
             ? (item.cost?.items[chapterTicket] ?? 0)
             : sfl;
     const itemName = isWearable

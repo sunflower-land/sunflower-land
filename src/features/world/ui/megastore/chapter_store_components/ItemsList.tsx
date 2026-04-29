@@ -82,13 +82,12 @@ export const ItemsList: React.FC<Props> = ({
     const itemName: ChapterTierItemName | undefined =
       type === "wearables" || (!type && "wearable" in item)
         ? ((item as ChapterStoreWearable).wearable as ChapterTierItemName)
-        : type === "collectibles" || (!type && "collectible" in item)
+        : type === "collectibles" ||
+            type === "keys" ||
+            (!type && "collectible" in item)
           ? ((item as ChapterStoreCollectible)
               .collectible as ChapterTierItemName)
-          : type === "keys" || (!type && "key" in item)
-            ? ((item as ChapterStoreCollectible)
-                .collectible as ChapterTierItemName)
-            : undefined;
+          : undefined;
 
     if (!itemName) return 0;
 
@@ -103,9 +102,11 @@ export const ItemsList: React.FC<Props> = ({
   const getItemName = (item: ChapterStoreItem): string => {
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (item as ChapterStoreWearable).wearable as BumpkinItem;
-    } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      return (item as ChapterStoreCollectible).collectible as InventoryItemName;
-    } else if (type === "keys" || (!type && "key" in item)) {
+    } else if (
+      type === "collectibles" ||
+      type === "keys" ||
+      (!type && "collectible" in item)
+    ) {
       return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     }
 
@@ -117,7 +118,11 @@ export const ItemsList: React.FC<Props> = ({
         // Filter by type if provided
         if (type === "wearables" && "wearable" in item) return true;
         if (type === "collectibles" && "collectible" in item) return true;
-        if (type === "keys" && "key" in item) return true;
+        if (type === "keys" && "collectible" in item) {
+          return (
+            (item as ChapterStoreCollectible).collectible in ARTEFACT_SHOP_KEYS
+          );
+        }
         return false;
       })
     : items; // If no type provided, show all items
@@ -127,9 +132,9 @@ export const ItemsList: React.FC<Props> = ({
     if ((item.cost.coins ?? 0) > 0) return coinsIcon;
 
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
         ? chapterTicket
-        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0) > 0
           ? chapterArtefact
           : Object.keys(item.cost.items)[0];
 
@@ -142,11 +147,11 @@ export const ItemsList: React.FC<Props> = ({
     if ((item.cost.coins ?? 0) > 0) return item.cost.coins;
 
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0) > 0
         ? chapterTicket
         : chapterArtefact;
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
+      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0) > 0
         ? item.cost?.items[currency]
         : item.cost?.items[
             Object.keys(item.cost.items)[0] as InventoryItemName

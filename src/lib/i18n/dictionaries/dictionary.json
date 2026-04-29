@@ -5508,7 +5508,7 @@
   "description.meerkat.boost": "+5 daily Desert Digs attempts",
   "description.meerkat.boost.two": "+1 Sand",
   "description.poseidonsThrone.boost": "+1 Weed & Dung per farm help",
-  "description.crystalAltar.boost": "-5% Crab Trap time",
+  "description.crystalAltar.boost": "-5% Crab Pot & Mariner Pot time",
   "description.bubbleAura.boost": "-20% Fish Market processing time",
   "description.bubbleAura.boost.two": "20% chance for +1 yield from Fish Processing",
   "description.deepSeaSaltCaveBackground.boost": "+5 Salt per harvest",
