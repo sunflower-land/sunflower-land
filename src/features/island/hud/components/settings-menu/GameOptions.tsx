@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
-import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import * as Auth from "features/auth/lib/Provider";
@@ -15,6 +14,11 @@ import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import { About } from "./about/About";
+import { AppearanceSettings } from "./general-settings/AppearanceSettings";
+import { AudioSettings } from "./general-settings/AudioSettings";
+import { BehaviourSettings } from "./general-settings/BehaviourSettings";
+import { Notifications } from "./general-settings/Notifications";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
@@ -37,7 +41,6 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
-import lockIcon from "assets/icons/lock.png";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
@@ -103,16 +106,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     }
   };
 
-  const refreshSession = () => {
-    gameService.send("RESET");
-    onClose();
-  };
-
-  const canRefresh = useSelector(
-    gameService,
-    (state) => !state.context.state.transaction,
-  );
-  const hideRefresh = useSelector(gameService, (state) => !state.context.nftId);
   const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const menuButtons: {
@@ -125,11 +118,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       id: "preferences",
       content: <span>{t("gameOptions.generalSettings.preferences")}</span>,
       onClick: () => onSubMenuClick("preferences"),
-    },
-    {
-      id: "changeLanguage",
-      content: <span>{t("gameOptions.generalSettings.changeLanguage")}</span>,
-      onClick: () => onSubMenuClick("changeLanguage"),
     },
     {
       id: "plaza",
@@ -146,26 +134,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       content: <span>{t("gameOptions.advanced")}</span>,
       onClick: () => onSubMenuClick("advanced"),
     },
-    ...(!hideRefresh
-      ? [
-          {
-            id: "refreshChain",
-            content: (
-              <>
-                {t("gameOptions.blockchainSettings.refreshChain")}
-                {!canRefresh && (
-                  <img
-                    src={lockIcon}
-                    className="absolute right-1 top-0.5 h-7"
-                  />
-                )}
-              </>
-            ),
-            onClick: refreshSession,
-            disabled: !canRefresh,
-          },
-        ]
-      : []),
+    {
+      id: "about",
+      content: <span>{t("gameOptions.about")}</span>,
+      onClick: () => onSubMenuClick("about"),
+    },
     ...(!isPWA
       ? [
           {
@@ -215,18 +188,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             </Button>
           );
         })}
-      </div>
-      <div className="flex justify-between">
-        <p className="mx-1 text-xxs">
-          <a
-            href="https://github.com/sunflower-land/sunflower-land/releases"
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {CONFIG.RELEASE_VERSION?.split("-")[0]}
-          </a>
-        </p>
       </div>
     </>
   );
@@ -297,6 +258,7 @@ export type SettingMenuId =
   | "installApp"
   | "account"
   | "advanced"
+  | "about"
   | "amoy"
   | "blockchain"
   | "plaza"
@@ -314,6 +276,10 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "preferences"
+  | "appearance"
+  | "behaviour"
+  | "audio"
+  | "notifications"
   | "apiKey"
 
   // Amoy Testnet Actions
@@ -351,6 +317,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.advanced"),
     parent: "main",
     content: Advanced,
+  },
+  about: {
+    title: translate("gameOptions.about"),
+    parent: "main",
+    content: About,
   },
   amoy: {
     title: translate("gameOptions.developerOptions"),
@@ -408,16 +379,36 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
   discord: { title: "Discord", parent: "account", content: Discord },
 
-  // Preferences (root-level)
-  changeLanguage: {
-    title: translate("gameOptions.generalSettings.changeLanguage"),
-    parent: "main",
-    content: LanguageSwitcher,
-  },
+  // Preferences hub + leaves
   preferences: {
     title: translate("gameOptions.generalSettings.preferences"),
     parent: "main",
     content: Preferences,
+  },
+  appearance: {
+    title: translate("gameOptions.generalSettings.appearance"),
+    parent: "preferences",
+    content: () => <AppearanceSettings />,
+  },
+  behaviour: {
+    title: translate("gameOptions.generalSettings.behaviour"),
+    parent: "preferences",
+    content: () => <BehaviourSettings />,
+  },
+  audio: {
+    title: translate("gameOptions.generalSettings.audio"),
+    parent: "preferences",
+    content: AudioSettings,
+  },
+  changeLanguage: {
+    title: translate("gameOptions.generalSettings.changeLanguage"),
+    parent: "preferences",
+    content: LanguageSwitcher,
+  },
+  notifications: {
+    title: translate("gameOptions.generalSettings.notifications"),
+    parent: "preferences",
+    content: Notifications,
   },
 
   apiKey: {

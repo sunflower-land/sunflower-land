@@ -9,7 +9,7 @@ export const AppearanceSettings: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex flex-col items-start gap-2 p-2">
       <h1 className="text-lg">{t("gameOptions.generalSettings.appearance")}</h1>
       <FontSettings />
       <Switch

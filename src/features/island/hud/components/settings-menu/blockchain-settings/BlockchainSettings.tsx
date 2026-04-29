@@ -17,7 +17,8 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { GameWallet } from "features/wallet/Wallet";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
-const _state = (state: MachineState) => state.context.state;
+const _nftId = (state: MachineState) => state.context.nftId;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 
 export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -27,9 +28,10 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
 
   const { gameService } = useContext(GameContext);
   const { openModal } = useContext(ModalContext);
+  const nftId = useSelector(gameService, _nftId);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
 
   const farmAddress = useSelector(gameService, _farmAddress);
-  const state = useSelector(gameService, _state);
   const isFullUser = farmAddress !== "";
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
@@ -40,10 +42,10 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const copypaste = useSound("copypaste");
 
   return (
-    <GameWallet action="linkWallet">
-      <div className="flex flex-col gap-1">
+    <GameWallet action="blockchainSettings">
+      <div className="flex flex-col gap-1 mt-1">
         <div className="flex justify-between">
-          {gameService.getSnapshot()?.context?.nftId !== undefined ? (
+          {nftId !== undefined && (
             <Label
               type="default"
               icon={ticket}
@@ -55,22 +57,15 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
                   setShowNftId(false);
                 }, 2000);
                 copypaste.play();
-                clipboard.copy(
-                  gameService.getSnapshot()?.context?.nftId?.toString() || "",
-                );
+                clipboard.copy(String(nftId));
               }}
             >
-              {`NFT ID #${gameService.getSnapshot()?.context?.nftId}`}
+              {`NFT ID #${nftId}`}
             </Label>
-          ) : (
-            <div className="w-10" />
           )}
-          {gameService.getSnapshot()?.context?.linkedWallet && (
+          {linkedWallet && (
             <WalletAddressLabel
-              walletAddress={
-                (gameService.getSnapshot()?.context?.linkedWallet as string) ||
-                "XXXX"
-              }
+              walletAddress={linkedWallet}
               showLabelTitle={false}
             />
           )}
