@@ -1037,6 +1037,7 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Pet Egg",
+        limit: 1,
         cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
       },
     ],

@@ -40,6 +40,7 @@ import {
   FLOWER_BOXES,
   FlowerBox,
   getChapterItemsCrafted,
+  getChapterPurchaseCount,
   getStore,
   isBoxBoughtWithinChapter,
   isKeyBoughtWithinChapter,
@@ -76,30 +77,27 @@ export const ItemsList: React.FC<Props> = ({
   ] = useActor(gameService);
 
   const getBalanceOfItem = (item: ChapterStoreItem): number => {
-    // Handling all types or specific ones if provided
-    if (type === "wearables" || (!type && "wearable" in item)) {
-      return (
-        state.farmActivity[
-          `${(item as ChapterStoreWearable).wearable as ChapterTierItemName} Bought`
-        ] ?? 0
-      );
-    } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      const collectibleName = (item as ChapterStoreCollectible).collectible;
-      const activityName = `${collectibleName} Bought` as const;
-      const result =
-        (state.farmActivity[activityName as keyof typeof state.farmActivity] as
-          | number
-          | undefined) ?? 0;
-      return result;
-    } else if (type === "keys" || (!type && "key" in item)) {
-      return (
-        state.farmActivity[
-          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
-        ] ?? 0
-      );
-    }
+    // Use chapter-scoped purchase count so a recurring item from a previous
+    // chapter doesn't show as already-bought in the new chapter.
+    const itemName: ChapterTierItemName | undefined =
+      type === "wearables" || (!type && "wearable" in item)
+        ? ((item as ChapterStoreWearable).wearable as ChapterTierItemName)
+        : type === "collectibles" || (!type && "collectible" in item)
+          ? ((item as ChapterStoreCollectible)
+              .collectible as ChapterTierItemName)
+          : type === "keys" || (!type && "key" in item)
+            ? ((item as ChapterStoreCollectible)
+                .collectible as ChapterTierItemName)
+            : undefined;
 
-    return 0;
+    if (!itemName) return 0;
+
+    return getChapterPurchaseCount({
+      game: state,
+      itemName,
+      currentChapter,
+      now,
+    });
   };
 
   const getItemName = (item: ChapterStoreItem): string => {
