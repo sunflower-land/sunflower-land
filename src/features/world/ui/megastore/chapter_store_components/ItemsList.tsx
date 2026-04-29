@@ -10,7 +10,6 @@ import {
   getCurrentChapter,
   getChapterArtefact,
   getChapterTicket,
-  CHAPTERS,
 } from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
@@ -197,27 +196,10 @@ export const ItemsList: React.FC<Props> = ({
   const isFlowerBox = (name: InventoryItemName): name is FlowerBox =>
     name in FLOWER_BOXES;
 
-  const isPetEgg = (name: InventoryItemName | string): name is "Pet Egg" =>
-    name === "Pet Egg";
-
   // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinChapter(state, tiers, now) ? 0 : 1;
   // For Current Tier Box - Unlocked(0) / Locked(1)
   const isBoxCounted = isBoxBoughtWithinChapter(state, tiers, now) ? 0 : 1;
-  // For Pet Egg - Unlocked(0) / Locked(1) - only show checkmark if bought from megastore in current chapter
-  const petEggBoughtAt =
-    state.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
-  const isPetEggBoughtInCurrentChapter = petEggBoughtAt
-    ? (() => {
-        const chapterTime = CHAPTERS[currentChapter];
-        const boughtDate = new Date(petEggBoughtAt);
-        return (
-          boughtDate >= chapterTime.startDate &&
-          boughtDate <= chapterTime.endDate
-        );
-      })()
-    : false;
-  const isPetEggCounted = isPetEggBoughtInCurrentChapter ? 0 : 1;
 
   // Reduction is by getting the lower tier of current tier
   const keyReduction = isKeyBoughtWithinChapter(state, tiers, now, true)
@@ -339,7 +321,6 @@ export const ItemsList: React.FC<Props> = ({
             const isItemFlowerBox = isFlowerBox(
               getItemName(item) as unknown as InventoryItemName,
             );
-            const isItemPetEgg = isPetEgg(getItemName(item));
 
             const balanceOfItem = getBalanceOfItem(item);
 
@@ -372,7 +353,6 @@ export const ItemsList: React.FC<Props> = ({
                     {balanceOfItem > 0 &&
                       !isItemKey &&
                       !isItemFlowerBox &&
-                      !isItemPetEgg &&
                       item.limit !== undefined &&
                       balanceOfItem >= item.limit &&
                       (tier === "basic" ||
@@ -411,25 +391,6 @@ export const ItemsList: React.FC<Props> = ({
                     {isItemFlowerBox &&
                       !isItemKey &&
                       isBoxCounted === 0 &&
-                      (tier === "basic" ||
-                        (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked) ||
-                        (tier === "mega" && isMegaUnlocked)) && (
-                        <img
-                          src={SUNNYSIDE.icons.confirm}
-                          className="absolute -right-2 -top-3"
-                          style={{
-                            width: `${PIXEL_SCALE * 9}px`,
-                          }}
-                          alt="crop"
-                        />
-                      )}
-
-                    {/* Confirm Icon for Pet Egg items */}
-                    {isItemPetEgg &&
-                      !isItemKey &&
-                      !isItemFlowerBox &&
-                      isPetEggCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||
