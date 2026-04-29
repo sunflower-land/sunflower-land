@@ -1293,6 +1293,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Fish Flags": { width: 2, height: 1 },
   "Fish Drying Rack": { width: 2, height: 1 },
   "Yellow Submarine Trophy": { width: 2, height: 2 },
+  "Fish Trophy Case": { width: 3, height: 2 },
+  "Flower Trophy Case": { width: 3, height: 2 },
   Oaken: { width: 1, height: 1 },
   Meerkat: { width: 1, height: 1 },
   "Pearl Bed": { width: 2, height: 1 },

@@ -335,6 +335,8 @@ import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
+import { FishTrophyCase } from "./components/FishTrophyCase";
+import { FlowerTrophyCase } from "./components/FlowerTrophyCase";
 import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
@@ -4083,6 +4085,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+  "Fish Trophy Case": () => <FishTrophyCase />,
+  "Flower Trophy Case": () => <FlowerTrophyCase />,
   "Flamingo Chicken": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

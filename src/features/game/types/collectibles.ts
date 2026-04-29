@@ -140,7 +140,9 @@ export type SoldOutCollectibleName =
   | "Navigation Table"
   | "Royal Crab Pot"
   | "Crab House"
-  | "Speed Trap";
+  | "Speed Trap"
+  | "Fish Trophy Case"
+  | "Flower Trophy Case";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
