@@ -70,6 +70,7 @@ export const Filters: React.FC<{
     Record<string, boolean>
   >({});
   const [userChapterExpanded, setUserChapterExpanded] = useState(false);
+  const [userProfileExpanded, setUserProfileExpanded] = useState(false);
   const [hasTradeHistory, setHasTradeHistory] = useState(false);
   const trades = useSelector(gameService, _trades);
   const token = useSelector(authService, _authToken);
@@ -102,6 +103,9 @@ export const Filters: React.FC<{
   }, [farmId, pathname, token]);
 
   const isChapterExpanded = !!chapterParam || userChapterExpanded;
+  const isProfileExpanded =
+    pathname.includes("/profile") || userProfileExpanded;
+  const isMobileFilters = !!onClose;
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
   const filterTokens = (filters ?? "")
@@ -571,11 +575,16 @@ export const Filters: React.FC<{
       label: t("marketplace.myProfile"),
       onClick: () => {
         setExpandedTraitGroups({});
+        if (isMobileFilters) {
+          setUserProfileExpanded((prev) => !prev);
+          return;
+        }
+
         navigateTo({
           path: profileLandingPath,
         });
       },
-      options: pathname.includes("profile") ? profileOptions : undefined,
+      options: isProfileExpanded ? profileOptions : undefined,
     },
     // Favorites
     {
