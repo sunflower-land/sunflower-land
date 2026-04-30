@@ -195,6 +195,46 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Dino Egg Trophy",
   },
+  "Salt Lamp": {
+    description: "A warm lamp carved from a glowing salt crystal.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Lamp",
+  },
+  "Salt Crystal Bed": {
+    description: "A bed wrapped in shimmering salt crystals.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Crystal Bed",
+  },
+  "World Map Rug": {
+    description: "A woven rug charting the saltwater seas.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "World Map Rug",
+  },
+  "Ripped Salt Bag": {
+    description: "A torn sack leaking precious sea salt.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ripped Salt Bag",
+  },
   CluckCoin: {
     description:
       "A minigame currency from Chicken Rescue. Not withdrawable. No in-game utility yet; trading is experimental.",

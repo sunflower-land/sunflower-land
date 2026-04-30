@@ -541,6 +541,339 @@ const CRABS_AND_TRAPS_CHAPTER_TRACKS: ChapterTrack = {
   ],
 };
 
+const SALT_AWAKENING_CHAPTER_TRACKS: ChapterTrack = {
+  milestones: [
+    // Level 1
+    { points: 10, free: { coins: 500 }, premium: { flower: 3 } },
+    // Level 2
+    {
+      points: 20,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 3
+    {
+      points: 66,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 4
+    {
+      points: 134,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { flower: 3 },
+    },
+    // Level 5
+    {
+      points: 213,
+      free: { items: { "Ripped Salt Bag": 1 } },
+      premium: { items: { "Silver Tool Box": 1 } },
+    },
+    // Level 6
+    { points: 300, free: { coins: 500 }, premium: { coins: 2000 } },
+    // Level 7
+    {
+      points: 395,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 8
+    {
+      points: 495,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 9
+    {
+      points: 600,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { coins: 2000 },
+    },
+    // Level 10
+    {
+      points: 710,
+      free: { items: { "Treasure Key": 1 } },
+      premium: { items: { "World Map Rug": 1 } },
+    },
+    // Level 11
+    {
+      points: 824,
+      free: { coins: 500 },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 12
+    {
+      points: 942,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 13
+    {
+      points: 1064,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 14
+    {
+      points: 1189,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 15
+    {
+      points: 1317,
+      free: { items: { "Salt Lamp": 1 } },
+      premium: { items: { "Luxury Key": 1 } },
+    },
+    // Level 16
+    { points: 1448, free: { coins: 500 }, premium: { flower: 3 } },
+    // Level 17
+    {
+      points: 1582,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 18
+    {
+      points: 1719,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 19
+    {
+      points: 1858,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { flower: 3 },
+    },
+    // Level 20
+    {
+      points: 2000,
+      free: { items: { "Bronze Flower Box": 1 } },
+      premium: { items: { "Fat Crab": 1 } },
+    },
+    // Level 21
+    { points: 2135, free: { coins: 500 }, premium: { coins: 2000 } },
+    // Level 22
+    {
+      points: 2395,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 23
+    {
+      points: 2740,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 24
+    {
+      points: 3155,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { coins: 2000 },
+    },
+    // Level 25
+    {
+      points: 3633,
+      free: { coins: 1000 },
+      premium: { items: { "Silver Tool Box": 1 } },
+    },
+    // Level 26
+    {
+      points: 4166,
+      free: { coins: 500 },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 27
+    {
+      points: 4751,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 28
+    {
+      points: 5383,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 29
+    {
+      points: 6061,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 30
+    {
+      points: 6781,
+      free: { items: { "Rare Key": 1 } },
+      premium: { items: { "Fish Kite": 1 } },
+    },
+    // Level 31
+    { points: 7542, free: { coins: 500 }, premium: { flower: 3 } },
+    // Level 32
+    {
+      points: 8343,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 33
+    {
+      points: 9180,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 34
+    {
+      points: 10054,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { flower: 3 },
+    },
+    // Level 35
+    {
+      points: 10963,
+      free: { items: { "Treasure Key": 1 } },
+      premium: { items: { "Silver Tool Box": 1 } },
+    },
+    // Level 36
+    { points: 11906, free: { coins: 500 }, premium: { coins: 2000 } },
+    // Level 37
+    {
+      points: 12882,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 38
+    {
+      points: 13891,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 39
+    {
+      points: 14930,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { coins: 2000 },
+    },
+    // Level 40
+    {
+      points: 16000,
+      free: { items: { "Pet Egg": 1 } },
+      premium: { items: { "Salt Crystal Bed": 1 } },
+    },
+    // Level 41
+    {
+      points: 16133,
+      free: { coins: 500 },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 42
+    {
+      points: 16480,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 43
+    {
+      points: 17017,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 44
+    {
+      points: 17731,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 45
+    {
+      points: 18616,
+      free: { items: { "Gourmet Hourglass": 1 } },
+      premium: { items: { "Silver Tool Box": 1 } },
+    },
+    // Level 46
+    { points: 19666, free: { coins: 500 }, premium: { flower: 3 } },
+    // Level 47
+    {
+      points: 20875,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 48
+    {
+      points: 22242,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 49
+    {
+      points: 23761,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { flower: 3 },
+    },
+    // Level 50
+    {
+      points: 25431,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { items: { "Luxury Key": 1 } },
+    },
+    // Level 51
+    { points: 27250, free: { coins: 500 }, premium: { coins: 2000 } },
+    // Level 52
+    {
+      points: 29215,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 53
+    {
+      points: 31324,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 54
+    {
+      points: 33576,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { coins: 2000 },
+    },
+    // Level 55
+    {
+      points: 35968,
+      free: { items: { "Gourmet Hourglass": 1 } },
+      premium: { items: { "Silver Tool Box": 1 } },
+    },
+    // Level 56
+    {
+      points: 38501,
+      free: { coins: 500 },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 57
+    {
+      points: 41171,
+      free: { items: { "Salt Rock": 10 } },
+      premium: { flower: 3 },
+    },
+    // Level 58
+    {
+      points: 43979,
+      free: { items: { "Salt Awakening Raffle Ticket": 10 } },
+      premium: { coins: 2000 },
+    },
+    // Level 59
+    {
+      points: 46922,
+      free: { items: { "Bronze Food Box": 1 } },
+      premium: { items: { "Salt Rock": 10 } },
+    },
+    // Level 60
+    {
+      points: 50000,
+      free: { items: { "Luxury Key": 1 } },
+      premium: { items: { "Gold Flower Box": 1 } },
+    },
+  ],
+};
+
 export const CHAPTER_TRACKS: Partial<Record<ChapterName, ChapterTrack>> = {
   // We keep this one for testing
   "Better Together": TEST_CHAPTER_TRACK,
@@ -548,4 +881,5 @@ export const CHAPTER_TRACKS: Partial<Record<ChapterName, ChapterTrack>> = {
   // Beta testing track
   "Paw Prints": PAW_PRINTS_CHAPTER_TRACKS,
   "Crabs and Traps": CRABS_AND_TRAPS_CHAPTER_TRACKS,
+  "Salt Awakening": SALT_AWAKENING_CHAPTER_TRACKS,
 };

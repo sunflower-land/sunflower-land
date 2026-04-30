@@ -1431,6 +1431,10 @@ export const ITEM_TRADE_TYPES: {
     // Salt Awakening Megastore
     "Crystal Altar": "instant",
     "Dino Egg Trophy": "instant",
+    "Salt Lamp": "instant",
+    "Salt Crystal Bed": "instant",
+    "World Map Rug": "instant",
+    "Ripped Salt Bag": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",

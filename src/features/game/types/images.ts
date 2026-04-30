@@ -4304,6 +4304,22 @@ export const ITEM_DETAILS: Items = {
     image: dinoEggTrophy,
     description: "",
   },
+  "Salt Lamp": {
+    image: saltAwakeningBanner,
+    description: "",
+  },
+  "Salt Crystal Bed": {
+    image: saltAwakeningBanner,
+    description: "",
+  },
+  "World Map Rug": {
+    image: saltAwakeningBanner,
+    description: "",
+  },
+  "Ripped Salt Bag": {
+    image: saltAwakeningBanner,
+    description: "",
+  },
   "Time Warp Totem": {
     image: timeWarpTotem,
     description: translate("description.time.warp.totem"),
