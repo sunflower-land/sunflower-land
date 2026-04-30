@@ -28,6 +28,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Crate: new Decimal("1"),
     "Long Table": new Decimal("5"),
     "Large Podium": new Decimal("1"),
+    "Super Totem": new Decimal(1),
   },
   farmActivity: {
     "welcome Bonus Claimed": 1, // Skip welcome screen

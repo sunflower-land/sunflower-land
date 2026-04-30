@@ -55,9 +55,10 @@ import {
 } from "features/game/types/craftables";
 import { getBudImage } from "lib/buds/types";
 import { getPetImage } from "features/island/pets/lib/petShared";
-import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import {
+  needsPlacementConfirmation,
+  PlacementConfirmationModal,
+} from "features/game/expansion/placeable/PlacementConfirmationModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -94,12 +95,6 @@ const ALL_DIMENSIONS: Record<string, { width: number; height: number }> = {
 const getItemDims = (name: string) =>
   ALL_DIMENSIONS[name] ?? { width: 1, height: 1 };
 
-const needsConfirmation = (name: string) =>
-  name === "Gnome" ||
-  HOURGLASSES.includes(name as HourglassType) ||
-  name === "Time Warp Totem" ||
-  name === "Super Totem";
-
 interface DragOrigin {
   startX: number;
   startY: number;
@@ -129,8 +124,11 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const isIdle = useSelector(child, (s) => s.matches({ editing: "idle" }));
 
   const [activeTab, setActiveTab] = useState<TabId>("decorations");
-  const [confirmItem, setConfirmItem] =
-    useState<LandscapingPlaceableType | null>(null);
+  const [pendingDragPlacement, setPendingDragPlacement] = useState<{
+    gridX: number;
+    gridY: number;
+    item: LandscapingPlaceableType;
+  } | null>(null);
 
   // ── Quick drag-and-drop state ──────────────────────────────────────────
   const dragRef = useRef<DragOrigin | null>(null);
@@ -234,8 +232,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
 
       if (!drag?.activated) return;
 
-      onQuickDragChange(false);
-
       const { gridX, gridY } = computeGridPos(e.clientX, e.clientY);
       const snap = gameService.getSnapshot().context.state;
       const dims = getItemDims(drag.item.name);
@@ -245,6 +241,20 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         location,
         name: drag.item.name as CollectibleName,
       });
+
+      // Confirmation-required items: stay in dragging state and show modal.
+      // The ghost remains visible at the drop position while the user decides.
+      if (!collision && needsPlacementConfirmation(drag.item.name)) {
+        const freshChild = gameService.getSnapshot().children
+          .landscaping as MachineInterpreter;
+        freshChild.send({
+          type: "UPDATE",
+          coordinates: { x: gridX, y: gridY },
+          collisionDetected: false,
+        });
+        setPendingDragPlacement({ gridX, gridY, item: drag.item });
+        return;
+      }
 
       const freshChild = gameService.getSnapshot().children
         .landscaping as MachineInterpreter;
@@ -262,6 +272,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         });
         freshChild.send({ type: "PLACE", location } as any);
       }
+
+      onQuickDragChange(false);
     };
 
     const handleCancel = () => {
@@ -470,16 +482,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       wasDragRef.current = false;
       return;
     }
-    const name = item.name;
-    if (
-      name !== "Bud" &&
-      name !== "Pet" &&
-      name !== "FarmHand" &&
-      needsConfirmation(name)
-    ) {
-      setConfirmItem(item);
-      return;
-    }
     doPlace(item);
   };
 
@@ -499,7 +501,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
     const wrapBox = (
       key: string,
       item: LandscapingPlaceableType,
-      image: string,
       boxNode: React.ReactNode,
     ) => (
       <div
@@ -523,7 +524,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
             return wrapBox(
               `bud-${budId}`,
               item,
-              image,
               <Box
                 image={image}
                 iconClassName={classNames(
@@ -547,7 +547,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
             return wrapBox(
               `pet-${petId}`,
               item,
-              image,
               <Box
                 image={image}
                 className={!revealed ? "opacity-50" : ""}
@@ -564,7 +563,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
             return wrapBox(
               `farmhand-${id}`,
               item,
-              image,
               <Box image={image} onClick={() => handleClick(item)}>
                 <NPCPlaceable
                   parts={farmHands[id].equipped}
@@ -584,7 +582,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           return wrapBox(
             name,
             item,
-            image,
             <Box
               count={chestMap[name]}
               image={image}
@@ -602,7 +599,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           return wrapBox(
             name,
             item,
-            image,
             <Box
               count={chestMap[name]}
               image={image}
@@ -620,7 +616,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           return wrapBox(
             name,
             item,
-            image,
             <Box
               count={chestMap[name]}
               image={image}
@@ -638,7 +633,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           return wrapBox(
             name,
             item,
-            image,
             <Box
               count={chestMap[name]}
               image={image}
@@ -656,7 +650,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           return wrapBox(
             name,
             item,
-            image,
             <Box
               count={chestMap[name]}
               image={image}
@@ -759,17 +752,31 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         </div>
       )}
 
-      {confirmItem && (
-        <ConfirmationModal
-          show
-          onHide={() => setConfirmItem(null)}
-          messages={[`Place ${confirmItem.name} on the map?`]}
-          onCancel={() => setConfirmItem(null)}
-          onConfirm={() => {
-            doPlace(confirmItem);
-            setConfirmItem(null);
+      {pendingDragPlacement && (
+        <PlacementConfirmationModal
+          itemName={pendingDragPlacement.item.name}
+          onCancel={() => {
+            const freshChild = gameService.getSnapshot().children
+              .landscaping as MachineInterpreter;
+            freshChild.send("DROP");
+            freshChild.send("BACK");
+            onQuickDragChange(false);
+            setPendingDragPlacement(null);
           }}
-          confirmButtonLabel={t("place")}
+          onConfirm={() => {
+            const { gridX, gridY } = pendingDragPlacement;
+            const freshChild = gameService.getSnapshot().children
+              .landscaping as MachineInterpreter;
+            freshChild.send("DROP");
+            freshChild.send({
+              type: "UPDATE",
+              coordinates: { x: gridX, y: gridY },
+              collisionDetected: false,
+            });
+            freshChild.send({ type: "PLACE", location } as any);
+            onQuickDragChange(false);
+            setPendingDragPlacement(null);
+          }}
         />
       )}
     </>
