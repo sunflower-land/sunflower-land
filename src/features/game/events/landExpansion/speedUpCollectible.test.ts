@@ -154,4 +154,73 @@ describe("speedUpCollectible", () => {
     expect(state.gems.history).toHaveProperty(dateKey);
     expect(state.gems.history?.[dateKey]?.spent).toBe(1);
   });
+
+  describe("Dino Egg Trophy coin payment", () => {
+    it("throws when paymentMethod is 'coins' without a placed Dino Egg Trophy", () => {
+      expect(() =>
+        speedUpCollectible({
+          action: {
+            type: "collectible.spedUp",
+            name: "Basic Scarecrow",
+            id: "123",
+            paymentMethod: "coins",
+          },
+          state: {
+            ...INITIAL_FARM,
+            coins: 100_000,
+            collectibles: {
+              "Basic Scarecrow": [
+                {
+                  id: "123",
+                  createdAt: 100,
+                  coordinates: { x: 0, y: 0 },
+                  readyAt: Date.now() + 1000,
+                },
+              ],
+            },
+          },
+        }),
+      ).toThrow("Dino Egg Trophy required");
+    });
+
+    it("charges coins at 50 per gem when trophy is placed", () => {
+      const now = Date.now();
+      const state = speedUpCollectible({
+        action: {
+          type: "collectible.spedUp",
+          name: "Basic Scarecrow",
+          id: "123",
+          paymentMethod: "coins",
+        },
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          coins: 1000,
+          inventory: { Gem: new Decimal(0) },
+          collectibles: {
+            "Basic Scarecrow": [
+              {
+                id: "123",
+                createdAt: 100,
+                coordinates: { x: 0, y: 0 },
+                readyAt: now + 1000,
+              },
+            ],
+            "Dino Egg Trophy": [
+              {
+                id: "trophy-1",
+                createdAt: 0,
+                coordinates: { x: 5, y: 5 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+      });
+
+      expect(state.coins).toBe(950);
+      expect(state.inventory.Gem).toEqual(new Decimal(0));
+      expect(state.collectibles["Basic Scarecrow"]![0].readyAt).toBe(now);
+    });
+  });
 });

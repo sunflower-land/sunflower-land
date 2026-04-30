@@ -3,6 +3,12 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { trackFarmActivity } from "../types/farmActivity";
 import Decimal from "decimal.js-light";
 import { getObjectEntries } from "lib/object";
+import { isCollectibleBuilt } from "./collectibleBuilt";
+
+export const COINS_PER_GEM = 50;
+export const DAILY_COIN_SPEEDUP_LIMIT = 20_000;
+
+export type SpeedUpPaymentMethod = "gems" | "coins";
 
 const SECONDS_TO_GEMS = {
   60: 1,
@@ -102,6 +108,102 @@ export function makeGemHistory({
     "Instant Gems Spent",
     game.farmActivity,
     new Decimal(amount),
+  );
+
+  return game;
+}
+
+export function getInstantCoins({
+  readyAt,
+  now,
+  game,
+}: {
+  readyAt: number;
+  now: number;
+  game: GameState;
+}): number {
+  return getInstantGems({ readyAt, now, game }) * COINS_PER_GEM;
+}
+
+export function useRealTimeInstantCoins({
+  readyAt,
+  game,
+}: {
+  readyAt: number;
+  game: GameState;
+}) {
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  return getInstantCoins({ readyAt, now, game });
+}
+
+export function hasDinoEggTrophyBoost(game: GameState): boolean {
+  return isCollectibleBuilt({ name: "Dino Egg Trophy", game });
+}
+
+export function getCoinsSpentOnSpeedUpsToday(
+  game: GameState,
+  now: number,
+): number {
+  const today = new Date(now).toISOString().substring(0, 10);
+  return game.gems.history?.[today]?.coinsSpent ?? 0;
+}
+
+/**
+ * Charges the player coins for a speed-up (Dino Egg Trophy boost). Throws if
+ * the trophy is not placed, the daily coin cap would be exceeded, or the
+ * player has insufficient coins.
+ *
+ * The gem-equivalent is also added to `gems.history[today].spent` so that the
+ * exponential gem-cost ramp keeps applying regardless of payment method —
+ * players cannot dodge the daily ramp by switching to coins.
+ */
+export function chargeCoinsForSpeedUp({
+  game,
+  gems,
+  createdAt,
+}: {
+  game: GameState;
+  gems: number;
+  createdAt: number;
+}): GameState {
+  if (!hasDinoEggTrophyBoost(game)) {
+    throw new Error("Dino Egg Trophy required");
+  }
+
+  const coins = gems * COINS_PER_GEM;
+  const spentToday = getCoinsSpentOnSpeedUpsToday(game, createdAt);
+
+  if (spentToday + coins > DAILY_COIN_SPEEDUP_LIMIT) {
+    throw new Error("Daily coin speed-up limit reached");
+  }
+
+  if (game.coins < coins) {
+    throw new Error("Insufficient coins");
+  }
+
+  game.coins -= coins;
+
+  const today = new Date(createdAt).toISOString().substring(0, 10);
+  const prev = game.gems.history?.[today] ?? { spent: 0 };
+
+  // Remove other dates (consistent with makeGemHistory).
+  game.gems.history = {
+    [today]: {
+      spent: new Decimal(prev.spent).add(gems).toNumber(),
+      coinsSpent: new Decimal(prev.coinsSpent ?? 0).add(coins).toNumber(),
+    },
+  };
+
+  game.farmActivity = trackFarmActivity(
+    "Instant Gems Spent",
+    game.farmActivity,
+    new Decimal(gems),
+  );
+
+  game.farmActivity = trackFarmActivity(
+    "Instant Coins Spent",
+    game.farmActivity,
+    new Decimal(coins),
   );
 
   return game;

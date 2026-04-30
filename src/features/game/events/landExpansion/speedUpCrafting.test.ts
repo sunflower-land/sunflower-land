@@ -533,4 +533,72 @@ describe("speedUpCrafting", () => {
       gemsNeeded,
     );
   });
+
+  describe("Dino Egg Trophy coin payment", () => {
+    it("throws when paymentMethod is 'coins' without a placed Dino Egg Trophy", () => {
+      expect(() =>
+        speedUpCrafting({
+          state: {
+            ...INITIAL_FARM,
+            coins: 100_000,
+            craftingBox: {
+              status: "crafting",
+              queue: [
+                {
+                  id: "doll-1",
+                  name: "Doll",
+                  startedAt: createdAt,
+                  readyAt: createdAt + 10000,
+                  type: "collectible",
+                },
+              ],
+              recipes: {},
+            },
+          },
+          action: { type: "crafting.spedUp", paymentMethod: "coins" },
+          createdAt,
+        }),
+      ).toThrow("Dino Egg Trophy required");
+    });
+
+    it("charges coins at 50 per gem when trophy is placed", () => {
+      const state: GameState = {
+        ...INITIAL_FARM,
+        coins: 1000,
+        inventory: { Gem: new Decimal(0) },
+        collectibles: {
+          "Dino Egg Trophy": [
+            {
+              id: "trophy-1",
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+            },
+          ],
+        },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: createdAt,
+              readyAt: createdAt + 10000,
+              type: "collectible",
+            },
+          ],
+          recipes: {},
+        },
+      };
+      const newState = speedUpCrafting({
+        state,
+        action: { type: "crafting.spedUp", paymentMethod: "coins" },
+        createdAt,
+      });
+
+      // 10s remaining ⇒ 1 gem ⇒ 50 coins.
+      expect(newState.coins).toBe(950);
+      expect(newState.inventory.Gem).toEqual(new Decimal(0));
+    });
+  });
 });

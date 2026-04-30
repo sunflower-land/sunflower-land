@@ -24,7 +24,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
+import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
+import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
 import { gameAnalytics } from "lib/gameAnalytics";
 import classNames from "classnames";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -80,15 +81,19 @@ const InProgressCollectible: React.FC<Props> = ({
     callback: () => setShowModal(true),
   });
 
-  const onSpeedUp = (gems: number) => {
+  const onSpeedUp = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
     gameService.send("collectible.spedUp", {
       name,
       id,
+      paymentMethod,
     });
 
     gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
       item: "Instant Build",
       type: "Fee",
     });
@@ -255,7 +260,7 @@ export const Collectible: React.FC<Omit<Props, "showTimers" | "skills">> = (
 
 export const Building: React.FC<{
   onClose: () => void;
-  onInstantBuilt: (gems: number) => void;
+  onInstantBuilt: (cost: number, paymentMethod?: "gems" | "coins") => void;
   readyAt: number;
   createdAt: number;
   name: CollectibleName;
@@ -266,7 +271,13 @@ export const Building: React.FC<{
   const totalSeconds = (readyAt - createdAt) / 1000;
   const { totalSeconds: secondsLeft, ...ready } = useCountdown(readyAt ?? 0);
 
-  const gems = useRealTimeInstantGems({ readyAt, game: state });
+  const payment = useSpeedUpPayment({ readyAt, game: state });
+  const cost =
+    payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
+  const costIcon =
+    payment.paymentMethod === "coins"
+      ? SUNNYSIDE.ui.coins
+      : ITEM_DETAILS.Gem.image;
 
   // Automatically close when readyAt time is reached (no re-renders)
   useWhenTime({
@@ -295,6 +306,7 @@ export const Building: React.FC<{
             </div>
           </div>
         </div>
+        <SpeedUpPaymentSelector payment={payment} />
       </div>
 
       <div className="flex">
@@ -302,18 +314,20 @@ export const Building: React.FC<{
           {t("close")}
         </Button>
         <Button
-          disabled={!state.inventory.Gem?.gte(gems)}
+          disabled={!payment.canAfford}
           className="relative ml-1"
-          onClick={() => onInstantBuilt(gems)}
+          onClick={() => onInstantBuilt(cost, payment.paymentMethod)}
         >
           {t("gems.speedUp")}
-          <Label
-            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-            icon={ITEM_DETAILS.Gem.image}
-            className="flex absolute right-0 top-0.5"
-          >
-            {gems}
-          </Label>
+          {!payment.canPayWithCoins && (
+            <Label
+              type={payment.canAfford ? "default" : "danger"}
+              icon={costIcon}
+              className="flex absolute right-0 top-0.5"
+            >
+              {cost}
+            </Label>
+          )}
         </Button>
       </div>
     </>

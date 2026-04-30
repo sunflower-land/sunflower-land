@@ -59,11 +59,15 @@ export const FishMarket: React.FC<BuildingProps> = ({
     }
   };
 
-  const handleInstantProcess = () => {
+  const handleInstantProcess = (
+    _cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
     gameService?.send({
       type: "processing.spedUp",
       buildingId,
       buildingName: "Fish Market",
+      paymentMethod,
     });
   };
 

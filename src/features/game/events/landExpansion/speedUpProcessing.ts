@@ -3,8 +3,10 @@ import { ProcessingBuildingName } from "features/game/types/buildings";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
+  chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
+  SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import { recalculateProcessingQueue } from "./cancelProcessedResource";
 
@@ -12,6 +14,7 @@ export type SpeedUpProcessingAction = {
   type: "processing.spedUp";
   buildingId: string;
   buildingName: ProcessingBuildingName;
+  paymentMethod?: SpeedUpPaymentMethod;
 };
 
 type Options = {
@@ -54,30 +57,28 @@ export const speedUpProcessing = ({
       throw new Error("Nothing is processing");
     }
 
-    const gemsRequired = getInstantGems({
-      readyAt: currentProcessingItem.readyAt,
-      now: createdAt,
-      game,
-    });
-
-    const gemsInventory = game.inventory["Gem"] ?? new Decimal(0);
-
-    if (!gemsInventory.gte(gemsRequired)) {
-      throw new Error("Insufficient gems");
-    }
-
     const gems = getInstantGems({
       readyAt: currentProcessingItem.readyAt,
       now: createdAt,
       game,
     });
 
-    game.inventory["Gem"] = gemsInventory.sub(gems);
+    if (action.paymentMethod === "coins") {
+      game = chargeCoinsForSpeedUp({ game, gems, createdAt });
+    } else {
+      const gemsInventory = game.inventory["Gem"] ?? new Decimal(0);
+
+      if (!gemsInventory.gte(gems)) {
+        throw new Error("Insufficient gems");
+      }
+
+      game.inventory["Gem"] = gemsInventory.sub(gems);
+      game = makeGemHistory({ game, amount: gems, createdAt });
+    }
+
     game.inventory[currentProcessingItem.name] = (
       game.inventory[currentProcessingItem.name] ?? new Decimal(0)
     ).add(1);
-
-    game = makeGemHistory({ game, amount: gems, createdAt });
 
     const queue = building.processing ?? [];
     const queueWithoutSpedUpItem = queue.filter(

@@ -13,14 +13,17 @@ import {
 } from "features/game/types/consumables";
 import { getCookingAmount } from "./collectRecipe";
 import {
+  chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
+  SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
   buildingId: string;
   buildingName: BuildingName;
+  paymentMethod?: SpeedUpPaymentMethod;
 };
 
 type Options = {
@@ -72,11 +75,19 @@ export function speedUpRecipe({
       game,
     });
 
-    if (!game.inventory["Gem"]?.gte(gems)) {
-      throw new Error("Insufficient gems");
-    }
+    if (action.paymentMethod === "coins") {
+      game = chargeCoinsForSpeedUp({ game, gems, createdAt });
+    } else {
+      if (!game.inventory["Gem"]?.gte(gems)) {
+        throw new Error("Insufficient gems");
+      }
 
-    game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
+      game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(
+        gems,
+      );
+
+      game = makeGemHistory({ game, amount: gems, createdAt });
+    }
     const cookableName = assertCookableName(recipe.name);
 
     const amount = getCookingAmount({
@@ -101,8 +112,6 @@ export function speedUpRecipe({
       isInstantCook: true,
       game,
     });
-
-    game = makeGemHistory({ game, amount: gems, createdAt });
 
     game.farmActivity = trackFarmActivity(
       `${cookableName} Cooked`,

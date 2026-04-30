@@ -1,14 +1,17 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
+  chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
+  SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
 
 export type InstantCraftAction = {
   type: "crafting.spedUp";
+  paymentMethod?: SpeedUpPaymentMethod;
 };
 
 type Options = {
@@ -50,15 +53,19 @@ export function speedUpCrafting({
       game,
     });
 
-    const inventoryGems = inventory["Gem"] ?? new Decimal(0);
+    if (action.paymentMethod === "coins") {
+      game = chargeCoinsForSpeedUp({ game, gems, createdAt });
+    } else {
+      const inventoryGems = inventory["Gem"] ?? new Decimal(0);
 
-    if (!inventoryGems.gte(gems)) {
-      throw new Error("Insufficient gems");
+      if (!inventoryGems.gte(gems)) {
+        throw new Error("Insufficient gems");
+      }
+
+      inventory["Gem"] = inventoryGems.sub(gems);
+
+      game = makeGemHistory({ game, amount: gems, createdAt });
     }
-
-    inventory["Gem"] = inventoryGems.sub(gems);
-
-    game = makeGemHistory({ game, amount: gems, createdAt });
 
     if (queue.length > 0) {
       const readyItems = queue.filter((q) => q.readyAt <= createdAt);

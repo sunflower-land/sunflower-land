@@ -131,15 +131,19 @@ export const Recipes: React.FC<Props> = ({
     });
   };
 
-  const handleInstantCook = (gems: number) => {
+  const handleInstantCook = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
     gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
+      paymentMethod,
     });
 
     gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
       item: "Instant Cook",
       type: "Fee",
     });

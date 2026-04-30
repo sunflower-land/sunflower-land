@@ -39,7 +39,7 @@ interface Props {
   onClose: () => void;
   onProcess: (item: ProcessedResource) => void;
   onCollect: () => void;
-  onInstantProcess: (gems: number) => void;
+  onInstantProcess: (cost: number, paymentMethod?: "gems" | "coins") => void;
   processing?: BuildingProduct;
   queue: BuildingProduct[];
   ready: BuildingProduct[];

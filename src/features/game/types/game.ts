@@ -1880,7 +1880,7 @@ export interface GameState {
   verified?: boolean;
 
   gems: {
-    history?: Record<string, { spent: number }>;
+    history?: Record<string, { spent: number; coinsSpent?: number }>;
   };
 
   flower: {

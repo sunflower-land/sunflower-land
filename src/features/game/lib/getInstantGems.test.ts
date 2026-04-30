@@ -1,6 +1,11 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
+  chargeCoinsForSpeedUp,
+  COINS_PER_GEM,
+  DAILY_COIN_SPEEDUP_LIMIT,
+  getCoinsSpentOnSpeedUpsToday,
   getInstantGems,
+  hasDinoEggTrophyBoost,
   makeGemHistory,
 } from "features/game/lib/getInstantGems";
 import { GameState } from "features/game/types/game";
@@ -347,5 +352,193 @@ describe("makeGemHistory", () => {
       createdAt: now,
     });
     expect(result.farmActivity["Instant Gems Spent"]).toBe(10);
+  });
+});
+
+describe("Dino Egg Trophy coin-based speed-up", () => {
+  const createdAt = new Date("2024-06-15T12:00:00Z").getTime();
+  const today = "2024-06-15";
+
+  function gameWithTrophy(overrides: Partial<GameState> = {}): GameState {
+    return {
+      ...INITIAL_FARM,
+      coins: 100_000,
+      gems: {},
+      collectibles: {
+        "Dino Egg Trophy": [
+          {
+            id: "1",
+            createdAt: 0,
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+          },
+        ],
+      },
+      ...overrides,
+    };
+  }
+
+  describe("hasDinoEggTrophyBoost", () => {
+    it("returns false when trophy is not placed", () => {
+      expect(hasDinoEggTrophyBoost({ ...INITIAL_FARM })).toBe(false);
+    });
+
+    it("returns true when trophy is placed on the farm", () => {
+      expect(hasDinoEggTrophyBoost(gameWithTrophy())).toBe(true);
+    });
+
+    it("returns false when trophy is owned but not placed", () => {
+      const game: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Dino Egg Trophy": [
+            {
+              id: "1",
+              createdAt: 0,
+              coordinates: undefined,
+              readyAt: 0,
+            },
+          ],
+        },
+      };
+      expect(hasDinoEggTrophyBoost(game)).toBe(false);
+    });
+  });
+
+  describe("getCoinsSpentOnSpeedUpsToday", () => {
+    it("returns 0 when no history exists", () => {
+      expect(getCoinsSpentOnSpeedUpsToday(gameWithTrophy(), createdAt)).toBe(0);
+    });
+
+    it("returns coinsSpent for today only", () => {
+      const game = gameWithTrophy({
+        gems: {
+          history: {
+            [today]: { spent: 5, coinsSpent: 1234 },
+          },
+        },
+      });
+      expect(getCoinsSpentOnSpeedUpsToday(game, createdAt)).toBe(1234);
+    });
+
+    it("returns 0 when only an older date has coinsSpent", () => {
+      const game = gameWithTrophy({
+        gems: {
+          history: {
+            "2024-06-14": { spent: 5, coinsSpent: 1234 },
+          },
+        },
+      });
+      expect(getCoinsSpentOnSpeedUpsToday(game, createdAt)).toBe(0);
+    });
+  });
+
+  describe("chargeCoinsForSpeedUp", () => {
+    it("throws when Dino Egg Trophy is not placed", () => {
+      const game: GameState = { ...INITIAL_FARM, coins: 100_000 };
+      expect(() => chargeCoinsForSpeedUp({ game, gems: 5, createdAt })).toThrow(
+        "Dino Egg Trophy required",
+      );
+    });
+
+    it("throws when daily coin cap would be exceeded", () => {
+      const game = gameWithTrophy({
+        gems: {
+          history: {
+            [today]: {
+              spent: 0,
+              coinsSpent: DAILY_COIN_SPEEDUP_LIMIT - 49,
+            },
+          },
+        },
+      });
+      expect(() => chargeCoinsForSpeedUp({ game, gems: 1, createdAt })).toThrow(
+        "Daily coin speed-up limit reached",
+      );
+    });
+
+    it("allows spending exactly up to the daily cap", () => {
+      const game = gameWithTrophy({
+        gems: {
+          history: {
+            [today]: {
+              spent: 0,
+              coinsSpent: DAILY_COIN_SPEEDUP_LIMIT - 50,
+            },
+          },
+        },
+      });
+      const result = chargeCoinsForSpeedUp({ game, gems: 1, createdAt });
+      expect(result.gems.history?.[today]?.coinsSpent).toBe(
+        DAILY_COIN_SPEEDUP_LIMIT,
+      );
+    });
+
+    it("throws when player has insufficient coins", () => {
+      const game = gameWithTrophy({ coins: 49 });
+      expect(() => chargeCoinsForSpeedUp({ game, gems: 1, createdAt })).toThrow(
+        "Insufficient coins",
+      );
+    });
+
+    it("converts gems to coins at COINS_PER_GEM (50) ratio and decrements coins", () => {
+      const game = gameWithTrophy({ coins: 1000 });
+      const result = chargeCoinsForSpeedUp({ game, gems: 5, createdAt });
+      expect(result.coins).toBe(1000 - 5 * COINS_PER_GEM);
+    });
+
+    it("records both coinsSpent and gem-equivalent spent for today", () => {
+      const game = gameWithTrophy();
+      const result = chargeCoinsForSpeedUp({ game, gems: 7, createdAt });
+      expect(result.gems.history?.[today]?.coinsSpent).toBe(7 * COINS_PER_GEM);
+      expect(result.gems.history?.[today]?.spent).toBe(7);
+    });
+
+    it("accumulates coinsSpent across multiple coin speed-ups in the same day", () => {
+      let game = gameWithTrophy();
+      game = chargeCoinsForSpeedUp({ game, gems: 3, createdAt });
+      game = chargeCoinsForSpeedUp({ game, gems: 4, createdAt });
+      expect(game.gems.history?.[today]?.coinsSpent).toBe(7 * COINS_PER_GEM);
+      expect(game.gems.history?.[today]?.spent).toBe(7);
+    });
+
+    it("clears entries from older days (single-day bucket)", () => {
+      const game = gameWithTrophy({
+        gems: {
+          history: {
+            "2024-06-14": { spent: 99, coinsSpent: 9999 },
+          },
+        },
+      });
+      const result = chargeCoinsForSpeedUp({ game, gems: 1, createdAt });
+      expect(result.gems.history?.["2024-06-14"]).toBeUndefined();
+      expect(result.gems.history?.[today]).toBeDefined();
+    });
+
+    it("tracks the gem-equivalent under farmActivity 'Instant Gems Spent'", () => {
+      const game = gameWithTrophy();
+      const result = chargeCoinsForSpeedUp({ game, gems: 6, createdAt });
+      expect(result.farmActivity["Instant Gems Spent"]).toBe(6);
+    });
+
+    it("tracks the coin amount under farmActivity 'Instant Coins Spent'", () => {
+      const game = gameWithTrophy();
+      const result = chargeCoinsForSpeedUp({ game, gems: 6, createdAt });
+      expect(result.farmActivity["Instant Coins Spent"]).toBe(
+        6 * COINS_PER_GEM,
+      );
+    });
+
+    it("makes subsequent gem cost ramp via the multiplier", () => {
+      let game: GameState = gameWithTrophy({ coins: 1_000_000 });
+      const readyAt = createdAt + 60 * 60 * 1000; // 1 hour
+      const initialCost = getInstantGems({ readyAt, now: createdAt, game });
+      expect(initialCost).toBe(5);
+
+      game = chargeCoinsForSpeedUp({ game, gems: 100, createdAt });
+
+      const rampedCost = getInstantGems({ readyAt, now: createdAt, game });
+      expect(rampedCost).toBe(6); // round(5 * 1.15) = 6
+    });
   });
 });

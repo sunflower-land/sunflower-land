@@ -11,7 +11,6 @@ import { Panel } from "components/ui/Panel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -30,14 +29,16 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
   const { totalSeconds: secondsLeft } = useCountdown(readyAt);
 
   const [showModal, setShowModal] = useState(false);
-  const gems = useRealTimeInstantGems({ readyAt, game: state });
 
-  const onInstantExpand = () => {
-    gameService.send("expansion.spedUp");
+  const onInstantExpand = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
+    gameService.send("expansion.spedUp", { paymentMethod });
 
     gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
       item: "Instant Expand",
       type: "Fee",
     });
@@ -56,7 +57,6 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
             onClose={() => setShowModal(false)}
             state={state}
             readyAt={readyAt}
-            gems={gems}
             onInstantExpanded={onInstantExpand}
           />
         </Panel>

@@ -964,6 +964,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Pumpkin Soup"].image,
     },
   ],
+  "Dino Egg Trophy": () => [
+    {
+      shortDescription: translate("dinoEggTrophy.boost.description"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+  ],
   "Treasure Map": () => [
     {
       shortDescription: translate("description.treasure.map.boost"),

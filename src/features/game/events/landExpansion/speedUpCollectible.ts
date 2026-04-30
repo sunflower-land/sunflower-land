@@ -3,14 +3,17 @@ import { produce } from "immer";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import {
+  chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
+  SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 
 export type SpeedUpCollectible = {
   type: "collectible.spedUp";
   name: CollectibleName;
   id: string;
+  paymentMethod?: SpeedUpPaymentMethod;
 };
 
 type Options = {
@@ -43,15 +46,21 @@ export function speedUpCollectible({
       game,
     });
 
-    if (!game.inventory["Gem"]?.gte(gems)) {
-      throw new Error("Insufficient Gems");
+    if (action.paymentMethod === "coins") {
+      game = chargeCoinsForSpeedUp({ game, gems, createdAt });
+    } else {
+      if (!game.inventory["Gem"]?.gte(gems)) {
+        throw new Error("Insufficient Gems");
+      }
+
+      game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(
+        gems,
+      );
+
+      game = makeGemHistory({ game, amount: gems, createdAt });
     }
 
-    game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
-
     collectible.readyAt = createdAt;
-
-    game = makeGemHistory({ game, amount: gems, createdAt });
 
     return game;
   });

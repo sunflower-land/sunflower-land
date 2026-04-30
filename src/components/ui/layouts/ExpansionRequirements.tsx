@@ -23,6 +23,8 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
+import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
@@ -196,14 +198,14 @@ export const ExpansionRequirements: React.FC<Props> = ({
       </InnerPanel>
 
       {!hasLevel && (
-        <>
-          <Label type="danger" icon={SUNNYSIDE.icons.lock} className="my-2">
+        <InnerPanel className="mb-1">
+          <Label type="danger" icon={SUNNYSIDE.icons.lock}>
             {t("warning.level.required", {
               lvl: requirements.bumpkinLevel,
             })}
           </Label>
-          <p className="text-xs mb-2">{t("statements.visit.firePit")}</p>
-        </>
+          <p className="text-xs">{t("statements.visit.firePit")}</p>
+        </InnerPanel>
       )}
       <Button onClick={onExpand} disabled={!canExpand}>
         {t("expand")}
@@ -215,10 +217,9 @@ export const ExpansionRequirements: React.FC<Props> = ({
 export const Expanding: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantExpanded: () => void;
+  onInstantExpanded: (cost: number, paymentMethod?: "gems" | "coins") => void;
   readyAt: number;
-  gems: number;
-}> = ({ state, onClose, onInstantExpanded, readyAt, gems }) => {
+}> = ({ state, onClose, onInstantExpanded, readyAt }) => {
   const { t } = useAppTranslation();
 
   const { requirements } = expansionRequirements({ game: state });
@@ -228,6 +229,14 @@ export const Expanding: React.FC<{
   );
 
   const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
+
+  const payment = useSpeedUpPayment({ readyAt, game: state });
+  const cost =
+    payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
+  const costIcon =
+    payment.paymentMethod === "coins"
+      ? SUNNYSIDE.ui.coins
+      : ITEM_DETAILS.Gem.image;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -260,24 +269,27 @@ export const Expanding: React.FC<{
             </div>
           </div>
         </div>
+        {hasAccess && <SpeedUpPaymentSelector payment={payment} />}
       </div>
 
       <div className="flex">
         <Button onClick={onClose}>{t("close")}</Button>
         {hasAccess && (
           <Button
-            disabled={!state.inventory.Gem?.gte(gems)}
+            disabled={!payment.canAfford}
             className="relative ml-1"
-            onClick={onInstantExpanded}
+            onClick={() => onInstantExpanded(cost, payment.paymentMethod)}
           >
             {t("gems.speedUp")}
-            <Label
-              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-              icon={ITEM_DETAILS.Gem.image}
-              className="flex absolute right-0 -top-5"
-            >
-              {gems}
-            </Label>
+            {!payment.canPayWithCoins && (
+              <Label
+                type={payment.canAfford ? "default" : "danger"}
+                icon={costIcon}
+                className="flex absolute right-0 -top-5"
+              >
+                {cost}
+              </Label>
+            )}
           </Button>
         )}
       </div>
