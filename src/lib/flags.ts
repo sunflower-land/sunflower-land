@@ -154,6 +154,9 @@ const FEATURE_FLAGS = {
    */
   HOME_EXPANSIONS: adminFeatureFlag,
 
+  /** Quick drag-and-drop landscaping panel shown at the bottom of the screen. */
+  QUICK_LANDSCAPING_PANEL: adminFeatureFlag,
+
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */

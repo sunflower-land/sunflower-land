@@ -1,4 +1,5 @@
 import React, { useContext, useLayoutEffect, useMemo, type JSX } from "react";
+import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -341,6 +342,22 @@ export const LevelOne: React.FC = () => {
               />
 
               {debug && <LevelOneGridOverlay tier={expansion} />}
+
+              <div
+                className={classNames(
+                  "absolute inset-0 pointer-events-none transition-opacity z-10",
+                  {
+                    "opacity-0": !landscaping,
+                    "opacity-100": landscaping,
+                  },
+                )}
+                style={{
+                  backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                  backgroundImage: `
+                    linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+                }}
+              />
 
               {landscaping && <Placeable location="level_one" />}
 
