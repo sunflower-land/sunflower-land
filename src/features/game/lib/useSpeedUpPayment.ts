@@ -25,22 +25,29 @@ export function useSpeedUpPayment({
 
   const canPayWithCoins = hasDinoEggTrophyBoost(game);
   const coinsSpentToday = getCoinsSpentOnSpeedUpsToday(game, now);
-  const dailyCapReached = coinsSpentToday + coinCost > DAILY_COIN_SPEEDUP_LIMIT;
+
+  // Matches the reducer's gate: `spentToday + coinCost > LIMIT`. Named
+  // explicitly so callers can't mistake it for "already at the cap".
+  const wouldExceedDailyCoinLimit =
+    coinsSpentToday + coinCost > DAILY_COIN_SPEEDUP_LIMIT;
+
+  const hasEnoughGems = !!game.inventory.Gem?.gte(gemCost);
+  const hasEnoughCoins = game.coins >= coinCost;
+  const coinsAvailable =
+    canPayWithCoins && !wouldExceedDailyCoinLimit && hasEnoughCoins;
 
   const [paymentMethod, setPaymentMethod] =
     useState<SpeedUpPaymentMethod>("gems");
 
-  const effectiveMethod: SpeedUpPaymentMethod = canPayWithCoins
-    ? paymentMethod
-    : "gems";
-
-  const hasEnoughGems = !!game.inventory.Gem?.gte(gemCost);
-  const hasEnoughCoins = game.coins >= coinCost;
+  // Transparently fall back to gems whenever coins aren't actually usable —
+  // missing trophy, cap would be exceeded, or insufficient coin balance.
+  // Without this, the UI can stay on a coin selection that the reducer will
+  // reject, leaving the user stuck on an unfulfillable payment.
+  const effectiveMethod: SpeedUpPaymentMethod =
+    paymentMethod === "coins" && coinsAvailable ? "coins" : "gems";
 
   const canAfford =
-    effectiveMethod === "coins"
-      ? canPayWithCoins && !dailyCapReached && hasEnoughCoins
-      : hasEnoughGems;
+    effectiveMethod === "coins" ? coinsAvailable : hasEnoughGems;
 
   return {
     paymentMethod: effectiveMethod,
@@ -50,7 +57,7 @@ export function useSpeedUpPayment({
     canPayWithCoins,
     coinsSpentToday,
     dailyLimit: DAILY_COIN_SPEEDUP_LIMIT,
-    dailyCapReached,
+    wouldExceedDailyCoinLimit,
     hasEnoughGems,
     hasEnoughCoins,
     canAfford,

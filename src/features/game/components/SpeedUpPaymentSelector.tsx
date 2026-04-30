@@ -32,7 +32,7 @@ export const SpeedUpPaymentSelector: React.FC<Props> = ({ payment }) => {
     coinCost,
     coinsSpentToday,
     dailyLimit,
-    dailyCapReached,
+    wouldExceedDailyCoinLimit,
     hasEnoughGems,
     hasEnoughCoins,
   } = payment;
@@ -58,20 +58,24 @@ export const SpeedUpPaymentSelector: React.FC<Props> = ({ payment }) => {
         <div className="flex items-center gap-2">
           <Checkbox
             checked={paymentMethod === "coins"}
-            onChange={() => !dailyCapReached && setPaymentMethod("coins")}
-            disabled={dailyCapReached}
+            onChange={() =>
+              !wouldExceedDailyCoinLimit && setPaymentMethod("coins")
+            }
+            disabled={wouldExceedDailyCoinLimit}
           />
           <span className="text-sm">{t("speedUp.payWithCoins")}</span>
         </div>
         <Label
-          type={dailyCapReached || !hasEnoughCoins ? "danger" : "default"}
+          type={
+            wouldExceedDailyCoinLimit || !hasEnoughCoins ? "danger" : "default"
+          }
           icon={SUNNYSIDE.ui.coins}
         >
           {coinCost}
         </Label>
       </div>
       <span className="text-xxs ml-1">
-        {dailyCapReached
+        {wouldExceedDailyCoinLimit
           ? t("speedUp.dailyCoinLimitReached")
           : t("speedUp.dailyCoinLimit", {
               used: setPrecision(new Decimal(coinsSpentToday), 0).toString(),

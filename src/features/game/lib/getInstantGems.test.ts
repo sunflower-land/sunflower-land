@@ -515,10 +515,13 @@ describe("Dino Egg Trophy coin-based speed-up", () => {
       expect(result.gems.history?.[today]).toBeDefined();
     });
 
-    it("tracks the gem-equivalent under farmActivity 'Instant Gems Spent'", () => {
+    it("does NOT track 'Instant Gems Spent' in the coin path", () => {
+      // The gem-equivalent is recorded in `gems.history[today].spent` for
+      // the cost-ramp; analytics that read "Instant Gems Spent" should only
+      // see actual gem burns.
       const game = gameWithTrophy();
       const result = chargeCoinsForSpeedUp({ game, gems: 6, createdAt });
-      expect(result.farmActivity["Instant Gems Spent"]).toBe(6);
+      expect(result.farmActivity["Instant Gems Spent"]).toBeUndefined();
     });
 
     it("tracks the coin amount under farmActivity 'Instant Coins Spent'", () => {
@@ -539,6 +542,31 @@ describe("Dino Egg Trophy coin-based speed-up", () => {
 
       const rampedCost = getInstantGems({ readyAt, now: createdAt, game });
       expect(rampedCost).toBe(6); // round(5 * 1.15) = 6
+    });
+
+    it("preserves coinsSpent when a gem-paid speed-up runs the same day", () => {
+      // Regression: coin -> gem -> coin near cap. A gem-paid speed-up
+      // calling makeGemHistory must not reset gems.history[today].coinsSpent,
+      // otherwise the player can spend another full daily cap of coins.
+      let game = gameWithTrophy({ coins: 1_000_000 });
+      // First coin spend: 100 gem-equivalents = 5,000 coins.
+      game = chargeCoinsForSpeedUp({ game, gems: 100, createdAt });
+      expect(game.gems.history?.[today]?.coinsSpent).toBe(5_000);
+
+      // Now perform a gem-paid speed-up via makeGemHistory.
+      game = makeGemHistory({ game, amount: 10, createdAt });
+
+      // coinsSpent must still be tracked.
+      expect(game.gems.history?.[today]?.coinsSpent).toBe(5_000);
+      // The gem-equivalent counter accumulates both spends.
+      expect(game.gems.history?.[today]?.spent).toBe(110);
+
+      // Pushing another coin spend that would exceed the cap when added to
+      // the existing 5,000 must still be rejected.
+      const oversize = (DAILY_COIN_SPEEDUP_LIMIT - 5_000) / COINS_PER_GEM + 1;
+      expect(() =>
+        chargeCoinsForSpeedUp({ game, gems: oversize, createdAt }),
+      ).toThrow("Daily coin speed-up limit reached");
     });
   });
 });

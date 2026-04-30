@@ -92,15 +92,14 @@ export function makeGemHistory({
   createdAt: number;
 }): GameState {
   const today = new Date(createdAt).toISOString().substring(0, 10);
+  const previous = game.gems.history?.[today];
 
-  game.gems.history = game.gems.history ?? {};
-
-  // Remove other dates
+  // Remove other dates, but preserve today's coinsSpent so a gem-paid
+  // speed-up cannot reset the daily coin cap counter.
   game.gems.history = {
     [today]: {
-      spent: new Decimal(game.gems.history[today]?.spent ?? 0)
-        .add(amount)
-        .toNumber(),
+      ...previous,
+      spent: new Decimal(previous?.spent ?? 0).add(amount).toNumber(),
     },
   };
 
@@ -194,12 +193,10 @@ export function chargeCoinsForSpeedUp({
     },
   };
 
-  game.farmActivity = trackFarmActivity(
-    "Instant Gems Spent",
-    game.farmActivity,
-    new Decimal(gems),
-  );
-
+  // Coin payments are only counted under "Instant Coins Spent" — the
+  // gem-equivalent is recorded in `gems.history[today].spent` (above) so the
+  // exponential ramp keeps applying, but downstream analytics that read
+  // "Instant Gems Spent" should only see actual gem burns.
   game.farmActivity = trackFarmActivity(
     "Instant Coins Spent",
     game.farmActivity,
