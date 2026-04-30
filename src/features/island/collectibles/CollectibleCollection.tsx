@@ -236,6 +236,8 @@ import { Capybara } from "./components/Capybara";
 import { PrismPetal } from "./components/PrismPetal";
 import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
 import { PrimulaEnigma } from "./components/PrimulaEnigma";
+import { PlaceableFlower } from "./components/PlaceableFlower";
+import { FLOWERS, PlaceableFlowerName } from "features/game/types/flowers";
 import { Blossombeard } from "./components/Blossombeard";
 import { CrimPeckster } from "./components/CrimPeckster";
 import { FlowerRug } from "./components/FlowerRug";
@@ -410,6 +412,16 @@ export const COLLECTIBLE_COMPONENTS: Record<
       [name]: () => <Pet name={name} />,
     }),
     {} as Record<PetName, React.FC<CollectibleProps>>,
+  ),
+
+  ...getKeys(FLOWERS).reduce<
+    Record<PlaceableFlowerName, React.FC<CollectibleProps>>
+  >(
+    (previous, name) => ({
+      ...previous,
+      [name]: () => <PlaceableFlower name={name as PlaceableFlowerName} />,
+    }),
+    {} as Record<PlaceableFlowerName, React.FC<CollectibleProps>>,
   ),
 
   "Baby Cow": BabyCow,
