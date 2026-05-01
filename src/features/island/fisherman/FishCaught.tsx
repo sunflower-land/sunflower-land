@@ -223,6 +223,7 @@ export const FishCaught: React.FC<Props> = ({
             name in FISH &&
             (!farmActivity[`${name} Caught`] ||
               farmActivity[`${name} Caught`] === 0);
+          const shrimpBonus = shrimpOnesieBonus?.[name] ?? 0;
 
           return (
             <div
@@ -236,6 +237,11 @@ export const FishCaught: React.FC<Props> = ({
                 </Label>
               )}
               <span className="text-sm mb-2">{name}</span>
+              {shrimpBonus > 0 && (
+                <Label type="vibrant" icon={lightning} className="mb-2">
+                  {t("fishing.shrimpOnesie.bonus", { amount: shrimpBonus })}
+                </Label>
+              )}
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
               <span className="text-xs text-center mb-2">
                 {ITEM_DETAILS[name].description}
