@@ -1383,6 +1383,12 @@ type FishingSpot = {
   bait?: FishingBait;
   chum?: InventoryItemName;
   caught?: Partial<Record<InventoryItemName, number>>;
+  /**
+   * Per-fish breakdown of bonus units the Shrimp Onesie added during this
+   * cast. Already included in `caught`; surfaced separately so the catch
+   * UI can attribute the extra fish to the wearable.
+   */
+  shrimpOnesieBonus?: Partial<Record<InventoryItemName, number>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
   /**
