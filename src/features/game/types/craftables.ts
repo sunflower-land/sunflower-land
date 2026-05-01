@@ -1309,7 +1309,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crystal Altar": { width: 3, height: 2 },
   "Dino Egg Trophy": { width: 2, height: 1 },
   "Salt Lamp": { width: 1, height: 1 },
-  "Salt Crystal Bed": { width: 2, height: 2 },
+  "Salt Crystal Bed": { width: 1, height: 1 },
   "World Map Rug": { width: 3, height: 2 },
   "Ripped Salt Bag": { width: 1, height: 1 },
 

@@ -392,6 +392,7 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Long Rug",
   "Paw Prints Rug",
   "Crabs and Fish Rug",
+  "World Map Rug",
   "Bumpkin Rug",
   "Goblin Rug",
   "Pet Rug",

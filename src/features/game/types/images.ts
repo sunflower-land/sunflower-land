@@ -1268,6 +1268,10 @@ import divingHelmet from "assets/sfts/diving_helmet.webp";
 
 import crystalAltar from "assets/monuments/crystal_altar_3.webp";
 import dinoEggTrophy from "assets/sfts/dino_egg_trophy.webp";
+import saltLamp from "assets/sfts/salt_lamp.webp";
+import saltCrystalBed from "assets/sfts/salt_crystal_bed.webp";
+import worldMapRug from "assets/sfts/world_map_rug.webp";
+import rippedSaltBag from "assets/sfts/ripped_salt_bag.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4305,20 +4309,20 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Salt Lamp": {
-    image: saltAwakeningBanner,
-    description: "",
+    image: saltLamp,
+    description: translate("description.saltLamp"),
   },
   "Salt Crystal Bed": {
-    image: saltAwakeningBanner,
-    description: "",
+    image: saltCrystalBed,
+    description: translate("description.saltCrystalBed"),
   },
   "World Map Rug": {
-    image: saltAwakeningBanner,
-    description: "",
+    image: worldMapRug,
+    description: translate("description.worldMapRug"),
   },
   "Ripped Salt Bag": {
-    image: saltAwakeningBanner,
-    description: "",
+    image: rippedSaltBag,
+    description: translate("description.rippedSaltBag"),
   },
   "Time Warp Totem": {
     image: timeWarpTotem,
