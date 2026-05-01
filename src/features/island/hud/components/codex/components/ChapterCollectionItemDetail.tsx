@@ -103,7 +103,7 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
         <div className="flex items-center gap-1">
           <SquareIcon icon={image} width={9} />
           <Label type="transparent" className="ml-2">
-            <span className="text-xs whitespace-nowrap">{itemName}</span>
+            <span className="text-xs">{itemName}</span>
           </Label>
         </div>
 
