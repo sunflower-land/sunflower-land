@@ -42,6 +42,7 @@ export function getChapterMegastoreCollectibles(
     "Bronze Flower Box",
     "Silver Flower Box",
     "Gold Flower Box",
+    ...HOURGLASSES,
   ];
   // Runtime type guard to ensure result is ChapterCollectibleName
   function isChapterCollectible(
