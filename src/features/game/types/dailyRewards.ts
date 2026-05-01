@@ -2,6 +2,7 @@ import { BuffName } from "./buffs";
 import { BoostName, GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
 import {
+  CHAPTER_ORDER,
   getChapterBanner,
   getChapterTicket,
   getCurrentChapter,
@@ -309,7 +310,10 @@ export function getRewardsForStreak({
 
   const currentChapter = getCurrentChapter(now);
 
-  if (hasVipAccess({ game, now }) && currentChapter === "Crabs and Traps") {
+  if (
+    hasVipAccess({ game, now }) &&
+    CHAPTER_ORDER[currentChapter] >= CHAPTER_ORDER["Crabs and Traps"]
+  ) {
     const currentBanner = getChapterBanner(now);
     const bannerCount = game.inventory[currentBanner];
     if (!bannerCount || bannerCount.lt(1)) {
