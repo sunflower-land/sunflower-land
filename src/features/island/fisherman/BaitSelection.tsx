@@ -36,6 +36,7 @@ import {
   getReelsPackGemPrice,
   getRemainingReels,
 } from "features/game/events/landExpansion/castRod";
+import { SHRIMP_ONESIE_REEL_INTERVAL } from "features/game/events/landExpansion/reelRod";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
@@ -200,7 +201,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const fishingLimitReached = reelsLeft <= 0 || effectiveMultiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
 
-  const SHRIMP_ONESIE_REEL_INTERVAL = 15;
   const shrimpOnesieActive = isWearableActive({
     name: "Shrimp Onesie",
     game: state,

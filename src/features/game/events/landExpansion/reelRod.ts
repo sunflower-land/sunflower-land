@@ -8,7 +8,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
-const SHRIMP_ONESIE_REEL_INTERVAL = 15;
+export const SHRIMP_ONESIE_REEL_INTERVAL = 15;
 
 export type ReelRodAction = {
   type: "rod.reeled";
