@@ -11,6 +11,7 @@ on:
       - src/features/game/types/index.ts
       - src/features/game/types/images.ts
       - src/features/game/types/collectibleItemBuffs.ts
+      - src/features/game/types/bumpkinItemBuffs.ts
       - src/assets/**
       - public/erc1155/images/3x3_bg.png
       - public/erc1155/images/boost.png
@@ -68,4 +69,10 @@ jobs:
             public/erc1155/*.json
             public/erc1155/images/*.webp
             public/erc1155/images/.manifest.json
+            public/wearables/*.json
+            public/wearables/images/*.png
+            public/wearables/images/*.webp
+            public/wearables/images/.manifest.json
+            metadata/wearable-originals/*.png
+            metadata/wearable-originals/*.webp
           commit: --no-verify
