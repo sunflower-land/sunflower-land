@@ -29,43 +29,56 @@ export function reelRod({ state, createdAt = Date.now() }: Options): GameState {
 
     const caught = game.fishing.wharf.caught ?? {};
 
-    const totalReels = (game.farmActivity["Rod Reeled"] ?? 0) + 1;
-    const isMilestoneReel =
-      totalReels > 0 && totalReels % SHRIMP_ONESIE_REEL_INTERVAL === 0;
+    const reelsReeled = game.fishing.wharf.multiplier ?? 1;
+    const previousReels = game.farmActivity["Rod Reeled"] ?? 0;
+    const milestoneReels =
+      Math.floor((previousReels + reelsReeled) / SHRIMP_ONESIE_REEL_INTERVAL) -
+      Math.floor(previousReels / SHRIMP_ONESIE_REEL_INTERVAL);
+
     const shrimpOnesieActive = isWearableActive({
       game,
       name: "Shrimp Onesie",
     });
-    const shrimpOnesieTriggered = isMilestoneReel && shrimpOnesieActive;
+    const shrimpOnesieBonus =
+      milestoneReels > 0 && shrimpOnesieActive ? milestoneReels : 0;
+
+    // Bonus only applies to fish actually caught — never mints from
+    // zero-valued / undefined catch entries.
+    const adjustedAmount = (amount: number | undefined) => {
+      const baseAmount = amount ?? 0;
+      return baseAmount > 0 ? baseAmount + shrimpOnesieBonus : baseAmount;
+    };
 
     getObjectEntries(caught).forEach(([name, amount]) => {
-      const baseAmount = amount ?? 0;
-      const totalAmount = shrimpOnesieTriggered ? baseAmount + 1 : baseAmount;
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(totalAmount);
+      game.inventory[name] = previous.add(adjustedAmount(amount));
     });
 
     // Track farm activity
     getObjectEntries(caught).forEach(([itemName, amount]) => {
-      const baseAmount = amount ?? 0;
-      const totalAmount = shrimpOnesieTriggered ? baseAmount + 1 : baseAmount;
       game.farmActivity = trackFarmActivity(
         `${itemName} Caught`,
         game.farmActivity,
-        new Decimal(totalAmount),
+        new Decimal(adjustedAmount(amount)),
       );
     });
 
     game.farmActivity = trackFarmActivity(
       "Rod Reeled",
       game.farmActivity,
-      new Decimal(1),
+      new Decimal(reelsReeled),
     );
 
-    if (shrimpOnesieTriggered) {
+    const fishWasCaught = Object.values(caught).some((a) => (a ?? 0) > 0);
+    if (shrimpOnesieBonus > 0 && fishWasCaught) {
       game.boostsUsedAt = updateBoostUsed({
         game,
-        boostNames: [{ name: "Shrimp Onesie", value: "+1 of each fish" }],
+        boostNames: [
+          {
+            name: "Shrimp Onesie",
+            value: `+${shrimpOnesieBonus} of each fish`,
+          },
+        ],
         createdAt,
       });
     }
