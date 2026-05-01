@@ -8,7 +8,9 @@ import {
   ChapterBanner,
   ChapterName,
   CHAPTERS,
+  hasChapterStarted,
 } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
@@ -36,11 +38,13 @@ export const ChapterCollections: React.FC<Props> = ({
   onClose,
 }) => {
   const { inventory, wardrobe } = state;
+  const now = useNow({ live: true });
 
   return (
     <div className="flex flex-col h-full overflow-y-auto scrollable">
       <div className="space-y-2 mt-1 px-1">
         {getKeys(CHAPTER_COLLECTIONS)
+          .filter((chapter) => hasChapterStarted(chapter, now))
           .filter((chapter) => !selected || chapter === selected)
           .sort((chapterA, chapterB) => {
             const chapterBStartDate = CHAPTERS[chapterB].startDate;
