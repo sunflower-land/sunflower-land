@@ -155,11 +155,7 @@ export const FishCaught: React.FC<Props> = ({
                           <span className="text-xs">{name}</span>
                           <div className="flex items-center gap-1">
                             {shrimpBonus > 0 && (
-                              <Label
-                                type="vibrant"
-                                className="text-[10px] px-1 py-0.5"
-                                icon={lightning}
-                              >
+                              <Label type="vibrant" icon={lightning}>
                                 {t("fishing.shrimpOnesie.bonus", {
                                   amount: shrimpBonus,
                                 })}
@@ -168,7 +164,6 @@ export const FishCaught: React.FC<Props> = ({
                             {isNew && (
                               <Label
                                 type="warning"
-                                className="text-[10px] px-1 py-0.5"
                                 icon={SUNNYSIDE.icons.search}
                               >
                                 {t("new")}
