@@ -401,6 +401,23 @@ export const CHAPTER_COLLECTIONS: Partial<
       other: { collectibles: ["Crabs and Traps Banner"] },
     },
   }),
+  "Salt Awakening": buildChapterCollection({
+    chapter: "Salt Awakening",
+    overrides: {
+      auctioneer: {
+        collectibles: [
+          "Pufferfish",
+          "Fat Crab",
+          "Navigation Table",
+          "Royal Crab Pot",
+          "Crab House",
+          "Speed Trap",
+        ],
+        wearables: ["Pistol Shrimp"],
+      },
+      other: { collectibles: ["Salt Awakening Banner"] },
+    },
+  }),
 };
 
 /** Flattens source-keyed collection into collectibles and wearables arrays for the grid. */
