@@ -1383,13 +1383,6 @@ type FishingSpot = {
   bait?: FishingBait;
   chum?: InventoryItemName;
   caught?: Partial<Record<InventoryItemName, number>>;
-  /**
-   * Per-reel catches for bulk casts (one entry per reel). The aggregate of
-   * these entries is mirrored into `caught`. Used by reel-indexed boosts
-   * (e.g. Shrimp Onesie) so the bonus can be tied to a specific reel rather
-   * than the bulk catch as a whole.
-   */
-  caughtPerReel?: Array<Partial<Record<InventoryItemName, number>>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
   /**

@@ -36,7 +36,6 @@ import {
   getReelsPackGemPrice,
   getRemainingReels,
 } from "features/game/events/landExpansion/castRod";
-import { SHRIMP_ONESIE_REEL_INTERVAL } from "features/game/events/landExpansion/reelRod";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
@@ -200,18 +199,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const fishingLimitReached = reelsLeft <= 0 || effectiveMultiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
-
-  const shrimpOnesieActive = isWearableActive({
-    name: "Shrimp Onesie",
-    game: state,
-  });
-  const totalReelsBefore = state.farmActivity["Rod Reeled"] ?? 0;
-  // Number of upcoming reels in this cast that land on a multiple of 15.
-  const shrimpOnesieMilestones = shrimpOnesieActive
-    ? Math.floor(
-        (totalReelsBefore + effectiveMultiplier) / SHRIMP_ONESIE_REEL_INTERVAL,
-      ) - Math.floor(totalReelsBefore / SHRIMP_ONESIE_REEL_INTERVAL)
-    : 0;
   const rodsRequired = hasAncientRod ? 0 : effectiveMultiplier;
   // Get reels required to make the cast
   const packsRequired = fishingLimitReached ? getExtraReelPacksRequired() : 0;
@@ -367,15 +354,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 ? t("fishing.oneReelLeft")
                 : t("fishing.reelsLeft", { reelsLeft })}
             </Label>
-            {shrimpOnesieMilestones > 0 && (
-              <Label icon={lightning} type="vibrant">
-                {shrimpOnesieMilestones === 1
-                  ? t("fishing.shrimpOnesie.singleReel")
-                  : t("fishing.shrimpOnesie.bulkReel", {
-                      reels: shrimpOnesieMilestones,
-                    })}
-              </Label>
-            )}
           </div>
         </InnerPanel>
         <DropdownPanel
