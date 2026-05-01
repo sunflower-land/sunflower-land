@@ -1996,6 +1996,8 @@ export const ITEM_TRADE_TYPES: {
     "Infernal Smile": "instant",
     "Neutral Mouth": "instant",
     "Pistol Shrimp": "onchain",
+    "Clam Shell Hat": "instant",
+    "Shrimp Onesie": "instant",
   },
 };
 

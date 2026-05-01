@@ -1065,6 +1065,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
   ],
+  "Shrimp Onesie": [
+    {
+      shortDescription: translate("description.shrimpOnesie.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
   "Bubble Aura": [
     {
       shortDescription: translate("description.bubbleAura.boost"),

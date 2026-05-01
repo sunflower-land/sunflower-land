@@ -21133,4 +21133,24 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Deep Sea Salt Cave Background",
   },
+  "Clam Shell Hat": {
+    description: "A polished clam shell perched atop your head.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Clam Shell Hat",
+  },
+  "Shrimp Onesie": {
+    description: "Snug, salty, and a little bit pinchy.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Shrimp Onesie",
+  },
 };

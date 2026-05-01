@@ -387,7 +387,8 @@ export type BumpkinHat =
   | "Cool Glasses"
   | "Fish Hook Hat"
   | "Aether Specs"
-  | "Spa Hat";
+  | "Spa Hat"
+  | "Clam Shell Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -508,7 +509,8 @@ export type BumpkinOnesie =
   | "Red Pepper Onesie"
   | "Raccoon Onesie"
   | "Frank Onesie"
-  | "Cozy Reindeer Onesie";
+  | "Cozy Reindeer Onesie"
+  | "Shrimp Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -1208,6 +1210,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Spa Slippers": 558,
   "Bubble Aura": 559,
   "Deep Sea Salt Cave Background": 560,
+  "Clam Shell Hat": 561,
+  "Shrimp Onesie": 562,
 };
 
 // The reverse of above
@@ -1833,6 +1837,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Smile": "mouth",
   "Neutral Mouth": "mouth",
   "Pistol Shrimp": "tool",
+  "Clam Shell Hat": "hat",
+  "Shrimp Onesie": "onesie",
 };
 
 /**Copied from BE just for hoarding checks */

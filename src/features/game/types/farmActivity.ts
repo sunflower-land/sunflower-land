@@ -234,6 +234,7 @@ export type FarmActivityName =
   | WormCollectedEvent
   | "Crop Fertilised"
   | "Rod Casted"
+  | "Rod Reeled"
   | "Farm Cheered"
   | "Farm Helped"
   | `${MonumentName} Completed`

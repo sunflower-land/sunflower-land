@@ -5,7 +5,10 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+
+const SHRIMP_ONESIE_REEL_INTERVAL = 15;
 
 export type ReelRodAction = {
   type: "rod.reeled";
@@ -25,19 +28,47 @@ export function reelRod({ state, createdAt = Date.now() }: Options): GameState {
     }
 
     const caught = game.fishing.wharf.caught ?? {};
+
+    const totalReels = (game.farmActivity["Rod Reeled"] ?? 0) + 1;
+    const isMilestoneReel =
+      totalReels > 0 && totalReels % SHRIMP_ONESIE_REEL_INTERVAL === 0;
+    const shrimpOnesieActive = isWearableActive({
+      game,
+      name: "Shrimp Onesie",
+    });
+    const shrimpOnesieTriggered = isMilestoneReel && shrimpOnesieActive;
+
     getObjectEntries(caught).forEach(([name, amount]) => {
+      const baseAmount = amount ?? 0;
+      const totalAmount = shrimpOnesieTriggered ? baseAmount + 1 : baseAmount;
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(amount ?? 0);
+      game.inventory[name] = previous.add(totalAmount);
     });
 
     // Track farm activity
     getObjectEntries(caught).forEach(([itemName, amount]) => {
+      const baseAmount = amount ?? 0;
+      const totalAmount = shrimpOnesieTriggered ? baseAmount + 1 : baseAmount;
       game.farmActivity = trackFarmActivity(
         `${itemName} Caught`,
         game.farmActivity,
-        new Decimal(amount ?? 0),
+        new Decimal(totalAmount),
       );
     });
+
+    game.farmActivity = trackFarmActivity(
+      "Rod Reeled",
+      game.farmActivity,
+      new Decimal(1),
+    );
+
+    if (shrimpOnesieTriggered) {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: [{ name: "Shrimp Onesie", value: "+1 of each fish" }],
+        createdAt,
+      });
+    }
 
     const maps = game.fishing.wharf.maps;
 
