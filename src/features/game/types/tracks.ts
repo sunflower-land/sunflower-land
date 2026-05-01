@@ -649,7 +649,7 @@ const SALT_AWAKENING_CHAPTER_TRACKS: ChapterTrack = {
     {
       points: 2000,
       free: { items: { "Bronze Flower Box": 1 } },
-      premium: { items: { "Fat Crab": 1 } },
+      premium: { wearables: { "Clam Shell Hat": 1 } },
     },
     // Level 21
     { points: 2135, free: { coins: 500 }, premium: { coins: 2000 } },
@@ -675,7 +675,7 @@ const SALT_AWAKENING_CHAPTER_TRACKS: ChapterTrack = {
     {
       points: 3633,
       free: { coins: 1000 },
-      premium: { items: { "Silver Tool Box": 1 } },
+      premium: { wearables: { "Shrimp Onesie": 1 } },
     },
     // Level 26
     {
