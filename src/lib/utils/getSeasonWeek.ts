@@ -1,5 +1,10 @@
 import { SeasonWeek } from "features/game/types/game";
-import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import {
+  CHAPTERS,
+  CHAPTER_ORDER,
+  ChapterName,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/access";
 
 /**
@@ -56,7 +61,71 @@ export function getChapterChangeover({
 }
 
 /**
- * The days that Bumpkins are on holiday (no deliveries)
+ * From this chapter onwards, holidays are computed deterministically:
+ * the holiday window runs from the chapter's startDate (inclusive) until
+ * midnight UTC of the 2nd Monday of the chapter's start month (exclusive).
+ *
+ * Chapters before this still use the hardcoded HOLIDAYS list below.
+ */
+const COMPUTED_HOLIDAY_FROM_CHAPTER: ChapterName = "Salt Awakening";
+
+function isComputedHolidayChapter(chapter: ChapterName): boolean {
+  return CHAPTER_ORDER[chapter] >= CHAPTER_ORDER[COMPUTED_HOLIDAY_FROM_CHAPTER];
+}
+
+/**
+ * Returns the holiday window for a chapter using the 2nd-Monday rule.
+ * `start` is inclusive, `end` is exclusive (midnight UTC of the 2nd Monday).
+ */
+export function getChapterHolidayPeriod(chapter: ChapterName): {
+  start: Date;
+  end: Date;
+} {
+  const start = CHAPTERS[chapter].startDate;
+  const year = start.getUTCFullYear();
+  const monthIdx = start.getUTCMonth();
+
+  const firstOfMonth = new Date(Date.UTC(year, monthIdx, 1));
+  const dayOfWeek = firstOfMonth.getUTCDay(); // 0 = Sun … 1 = Mon … 6 = Sat
+  const daysToFirstMonday = (1 - dayOfWeek + 7) % 7;
+  const secondMondayDay = 1 + daysToFirstMonday + 7;
+
+  const end = new Date(Date.UTC(year, monthIdx, secondMondayDay));
+
+  return { start, end };
+}
+
+/**
+ * The holiday window for the chapter that contains `now`, or undefined if
+ * the chapter has no holiday. Used by tests to step around the freeze.
+ */
+export function getCurrentChapterHolidayPeriod(
+  now: number,
+): { start: Date; end: Date } | undefined {
+  const chapter = getCurrentChapter(now);
+
+  if (isComputedHolidayChapter(chapter)) {
+    return getChapterHolidayPeriod(chapter);
+  }
+
+  const chapterStart = CHAPTERS[chapter].startDate.getTime();
+  const chapterEnd = CHAPTERS[chapter].endDate.getTime();
+  const inChapter = HOLIDAYS.filter((d) => {
+    const t = new Date(d).getTime();
+    return t >= chapterStart && t < chapterEnd;
+  });
+  if (inChapter.length === 0) return undefined;
+
+  const start = new Date(inChapter[0]);
+  const lastDay = new Date(inChapter[inChapter.length - 1]);
+  const end = new Date(lastDay.getTime() + 24 * 60 * 60 * 1000);
+  return { start, end };
+}
+
+/**
+ * The days that Bumpkins are on holiday (no deliveries) — legacy, hand-maintained.
+ * Only covers chapters before {@link COMPUTED_HOLIDAY_FROM_CHAPTER}; from that
+ * chapter onwards holidays are computed via {@link getChapterHolidayPeriod}.
  */
 export const HOLIDAYS: string[] = [
   "2024-11-01",
@@ -109,19 +178,40 @@ export const HOLIDAYS: string[] = [
   "2026-02-08",
 ];
 
-export function getBumpkinHoliday({ now }: { now: number }) {
-  // Get upcoming holiday, return today if there is one today.
+export function getBumpkinHoliday({ now }: { now: number }): {
+  holiday: string | undefined;
+} {
   const todayKey = new Date(now).toISOString().split("T")[0];
 
+  // Active legacy holiday today
   if (HOLIDAYS.includes(todayKey)) {
     return { holiday: todayKey };
   }
 
-  const nextHoliday = HOLIDAYS.find(
-    (holiday) => new Date(holiday) > new Date(now),
+  // Active computed holiday today, and earliest upcoming computed holiday.
+  // Iterate directly so we don't call getCurrentChapter() for timestamps
+  // that fall outside any chapter range (e.g. createdAt: 0).
+  let nextComputed: string | undefined;
+  for (const chapter of Object.keys(CHAPTERS) as ChapterName[]) {
+    if (!isComputedHolidayChapter(chapter)) continue;
+    const { start, end } = getChapterHolidayPeriod(chapter);
+    if (now >= start.getTime() && now < end.getTime()) {
+      return { holiday: todayKey };
+    }
+    if (!nextComputed && start.getTime() > now) {
+      nextComputed = start.toISOString().split("T")[0];
+    }
+  }
+
+  // Next upcoming legacy holiday.
+  const nextLegacy = HOLIDAYS.find(
+    (holiday) => new Date(holiday).getTime() > now,
   );
 
-  return { holiday: nextHoliday };
+  if (nextLegacy && nextComputed) {
+    return { holiday: nextLegacy < nextComputed ? nextLegacy : nextComputed };
+  }
+  return { holiday: nextLegacy ?? nextComputed };
 }
 
 /**
