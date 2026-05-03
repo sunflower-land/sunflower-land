@@ -9,7 +9,7 @@ const SALT_AWAKENING_NOW = new Date("2026-06-01T00:00:00.000Z").getTime();
 
 const vipFarm = (now: number): GameState => ({
   ...TEST_FARM,
-  vip: { expiresAt: now + 1000 * 60 * 60 * 24 * 30 },
+  vip: { expiresAt: now + 1000 * 60 * 60 * 24 * 30, bundles: [] },
 });
 
 describe("getRewardsForStreak — VIP banner perk chapter cutoff", () => {
