@@ -18,7 +18,6 @@ import {
 } from "features/game/events/landExpansion/npcRestock";
 import { capitalize } from "lodash";
 import { getObjectEntries } from "lib/object";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { useSelector } from "@xstate/react";
 
 interface RestockModalProps {
@@ -41,10 +40,6 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
 
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const hasSaltChapterAccess = useTimeBasedFeatureAccess({
-    featureName: "SALT_CHAPTER",
-    game: state,
-  });
 
   const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
   const canRestock = state.inventory["Gem"]?.gte(gemPrice);
@@ -71,9 +66,9 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
   const { labelText, icon } = categoryLabel;
   const restockables = INITIAL_STOCK(state);
 
-  const restockItems = getObjectEntries(restockables)
-    .filter((item) => item[0] in restockItem)
-    .filter(([item]) => item !== "Salt Rake" || hasSaltChapterAccess);
+  const restockItems = getObjectEntries(restockables).filter(
+    (item) => item[0] in restockItem,
+  );
 
   return (
     <>

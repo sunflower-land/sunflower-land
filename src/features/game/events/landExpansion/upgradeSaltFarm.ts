@@ -9,7 +9,6 @@ import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type UpgradeSaltFarmAction = {
@@ -27,15 +26,6 @@ export function upgradeSaltFarm({
   action: _action,
   createdAt,
 }: Options): GameState {
-  if (
-    !hasTimeBasedFeatureAccess({
-      featureName: "SALT_CHAPTER",
-      game: state,
-      now: createdAt,
-    })
-  ) {
-    throw new Error("Salt farm not enabled");
-  }
   return produce(state, (copy) => {
     const { saltFarm } = copy;
     const nextLevel = saltFarm.level + 1;

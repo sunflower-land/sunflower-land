@@ -12,7 +12,6 @@ import {
   SaltSyncOptions,
 } from "features/game/types/salt";
 import { produce } from "immer";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -23,7 +22,6 @@ export enum HARVEST_SALT_ERRORS {
   SALT_NODE_NOT_FOUND = "Salt node not found",
   NOT_ENOUGH_CHARGES = "Not enough salt charges",
   NOT_ENOUGH_SALT_RAKES = "Not enough Salt Rakes",
-  SALT_FARM_NOT_ENABLED = "Salt farm not enabled",
 }
 
 export type HarvestSaltAction = {
@@ -44,16 +42,6 @@ export function harvestSalt({
   createdAt = Date.now(),
   farmId,
 }: Options): GameState {
-  if (
-    !hasTimeBasedFeatureAccess({
-      featureName: "SALT_CHAPTER",
-      game: state,
-      now: createdAt,
-    })
-  ) {
-    throw new Error(HARVEST_SALT_ERRORS.SALT_FARM_NOT_ENABLED);
-  }
-
   return produce(state, (copy) => {
     const saltNode = copy.saltFarm.nodes[action.id];
     if (!saltNode) {

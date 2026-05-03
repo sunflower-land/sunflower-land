@@ -6,7 +6,6 @@ import {
 } from "features/game/types/saltSculpture";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export type UpgradeSaltSculptureAction = {
   type: "saltSculpture.upgraded";
@@ -23,16 +22,6 @@ export function upgradeSaltSculpture({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "SALT_CHAPTER",
-        game,
-        now: createdAt,
-      })
-    ) {
-      throw new Error("Salt Sculpture not enabled");
-    }
-
     const sculpture = game.sculptures?.["Salt Sculpture"];
     if (!sculpture) {
       throw new Error("Salt Sculpture not crafted");
@@ -80,18 +69,10 @@ export function upgradeSaltSculpture({
       upgradedAt: createdAt,
     };
 
-    if (
-      hasTimeBasedFeatureAccess({
-        featureName: "SALT_CHAPTER",
-        game,
-        now: createdAt,
-      })
-    ) {
-      populateSaltFarm({
-        gameBefore: state,
-        gameAfter: game,
-        now: createdAt,
-      });
-    }
+    populateSaltFarm({
+      gameBefore: state,
+      gameAfter: game,
+      now: createdAt,
+    });
   });
 }

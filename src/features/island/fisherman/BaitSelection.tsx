@@ -48,7 +48,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -123,10 +122,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   };
 
   const isVip = useVipAccess({ game: state });
-  const hasSaltChapterAccess = useTimeBasedFeatureAccess({
-    featureName: "SALT_CHAPTER",
-    game: state,
-  });
   const currentSeason = state.season.season;
   const now = useNow();
 
@@ -383,13 +378,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
           </div>
         </InnerPanel>
         <DropdownPanel
-          options={BAIT.filter(
-            (bait) =>
-              (bait !== "Capsule Bait" &&
-                bait !== "Umbrella Bait" &&
-                bait !== "Crimson Baitfish") ||
-              hasSaltChapterAccess,
-          ).map((bait) => ({
+          options={BAIT.map((bait) => ({
             value: bait,
             label: (
               <div className="flex flex-col gap-1">

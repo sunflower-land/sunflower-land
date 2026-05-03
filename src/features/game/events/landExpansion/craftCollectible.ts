@@ -21,7 +21,6 @@ import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 type CraftableCollectibleItem =
   | HeliosBlacksmithItem
@@ -196,15 +195,6 @@ export function craftCollectible({
     };
 
     if (action.name === "Salt Sculpture") {
-      if (
-        !hasTimeBasedFeatureAccess({
-          featureName: "SALT_CHAPTER",
-          game: stateCopy,
-          now: createdAt,
-        })
-      ) {
-        throw new Error("Salt Sculpture not enabled");
-      }
       if (!stateCopy.sculptures) stateCopy.sculptures = {};
       stateCopy.sculptures["Salt Sculpture"] = {
         level: 1,

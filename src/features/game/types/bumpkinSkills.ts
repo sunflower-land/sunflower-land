@@ -3454,17 +3454,13 @@ export const SKILL_TREE_CATEGORIES = Array.from(
 
 export const getRevampSkillTreeCategoriesByIsland = (
   islandType: IslandType,
-  hasSaltChapterAccess: boolean,
 ) => {
   return Array.from(
     new Set(
       getKeys(BUMPKIN_REVAMP_SKILL_TREE)
         .filter((skillName) => {
           const skill = BUMPKIN_REVAMP_SKILL_TREE[skillName];
-          return (
-            skill.requirements.island === islandType &&
-            (skill.tree !== "Aging" || hasSaltChapterAccess)
-          );
+          return skill.requirements.island === islandType;
         })
         .map((skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree),
     ),

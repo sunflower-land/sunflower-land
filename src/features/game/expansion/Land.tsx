@@ -56,7 +56,6 @@ import {
   getSaltNodesWithPositions,
 } from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 export const LAND_WIDTH = 6;
 
@@ -376,11 +375,6 @@ export const LandComponent: React.FC = () => {
     _saltNodePositions,
     compareSaltFarmSlice,
   );
-  const gameState = useSelector(gameService, (s) => s.context.state);
-  const hasSaltFarmAccess = useTimeBasedFeatureAccess({
-    featureName: "SALT_CHAPTER",
-    game: gameState,
-  });
   const { mushrooms } = useSelector(
     gameService,
     _mushroomPositions,
@@ -1251,8 +1245,8 @@ export const LandComponent: React.FC = () => {
 
         {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
         {!landscaping && waterTrapElements}
-        {!landscaping && hasSaltFarmAccess && saltPlaceholderElements}
-        {!landscaping && hasSaltFarmAccess && saltNodeElements}
+        {!landscaping && saltPlaceholderElements}
+        {!landscaping && saltNodeElements}
 
         {/* Background darkens in landscaping */}
         <div

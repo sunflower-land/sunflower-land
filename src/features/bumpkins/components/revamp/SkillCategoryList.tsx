@@ -32,8 +32,6 @@ import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
-
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -61,11 +59,6 @@ export const SkillCategoryList: React.FC<{
   const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
   const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
     useState(false);
-
-  const hasSaltChapterAccess = useTimeBasedFeatureAccess({
-    featureName: "SALT_CHAPTER",
-    game: state,
-  });
 
   const { bumpkin, inventory } = state;
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -143,10 +136,7 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
-          const categories = getRevampSkillTreeCategoriesByIsland(
-            islandType,
-            hasSaltChapterAccess,
-          );
+          const categories = getRevampSkillTreeCategoriesByIsland(islandType);
           if (categories.length <= 0) return;
 
           return (

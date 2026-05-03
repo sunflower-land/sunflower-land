@@ -69,7 +69,6 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
-  SALT_CHAPTER: { start: new Date("2026-05-04T00:00:00Z"), end: null },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -85,7 +84,6 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
 > = {
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  SALT_CHAPTER: betaTimePeriodFeatureFlag,
 };
 
 /**

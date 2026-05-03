@@ -29,7 +29,6 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "lib/object";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -44,10 +43,6 @@ export const Tools: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
-  const hasSaltChapterAccess = useTimeBasedFeatureAccess({
-    featureName: "SALT_CHAPTER",
-    game: state,
-  });
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
@@ -245,9 +240,7 @@ export const Tools: React.FC = () => {
             {t("waterTools")}
           </Label>
           <div className="flex flex-wrap mb-2">
-            {WATER_TOOLS.filter(
-              ([toolName]) => toolName !== "Salt Rake" || hasSaltChapterAccess,
-            ).map(([toolName, tool]) => {
+            {WATER_TOOLS.map(([toolName, tool]) => {
               const { requiredIsland } = tool;
               const isLocked =
                 !hasRequiredIslandExpansion(
