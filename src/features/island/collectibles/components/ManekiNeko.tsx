@@ -99,14 +99,13 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
     });
   };
 
-  useEffect(() => {
-  if (open) {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    shake();
-    return;  
-  }
-  setShouldShake(false);  
-}, [open]);
+ useEffect(() => {
+    if (open) {
+      shake();
+      return;
+    }
+    setShouldShake(false);
+  }, [open]);
 
   return (
     <>
