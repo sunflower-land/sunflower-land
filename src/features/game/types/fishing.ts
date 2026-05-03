@@ -918,7 +918,7 @@ const BASE_MAP_PIECE_TRIGGERS = {
   "Hammerhead shark": { marvel: "Radiant Ray", odds: 0.05 },
   "Mahi Mahi": { marvel: "Phantom Barracuda", odds: 0.0018 },
   Squid: { marvel: "Phantom Barracuda", odds: 0.05 },
-} satisfies Record<string, MapPieceFishTrigger>;
+} satisfies Partial<Record<FishName, MapPieceFishTrigger>>;
 
 type BaseMapPieceFishName = keyof typeof BASE_MAP_PIECE_TRIGGERS;
 
@@ -951,12 +951,16 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
   },
 };
 
-export function getMapPieceFishTriggers(now: number) {
+export function getMapPieceFishTriggers(
+  now: number,
+): Partial<Record<FishName, MapPieceFishTrigger>> {
   const currentChapter = getCurrentChapter(now);
-  return {
+  const triggers: Partial<Record<FishName, MapPieceFishTrigger>> = {
     ...BASE_MAP_PIECE_TRIGGERS,
     ...CHAPTER_MAP_PIECE_TRIGGERS[currentChapter],
   };
+
+  return triggers;
 }
 
 export const MAP_PIECE_CHAPTERS: Partial<
