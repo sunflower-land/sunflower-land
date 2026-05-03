@@ -8834,7 +8834,7 @@
   "description.sproutroot.surprise.boost": "+0.2 Crop Plot Yield",
   "description.sproutroot.surprise.boost.2": "-50% Crop Plot Growth Time",
   "description.turbofruit.mix.boost": "-20% Fruit Patch Growth Time",
-  "description.greenhouse.glow.boost": "-20% Greenhouse Pot Growth Time",
+  "description.greenhouse.glow.boost": "-20% Greenhouse Plot Growth Time",
   "description.greenhouse.goodie.boost": "+0.2 Greenhouse Produce Yield",
   "description.salt.lick.boost": "+5% Animal Produce Yield",
   "description.honey.treat.boost": "-25% Animal Feed",
