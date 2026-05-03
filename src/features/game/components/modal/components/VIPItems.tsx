@@ -371,6 +371,14 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     },
                   ]
                 : []),
+              ...(currentChapter === "Salt Awakening"
+                ? [
+                    {
+                      text: t("vip.benefit.bonusSaltYield"),
+                      icon: ITEM_DETAILS["Salt"].image,
+                    },
+                  ]
+                : []),
             ]}
           />
         </div>

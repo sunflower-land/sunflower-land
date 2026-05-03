@@ -3,6 +3,8 @@ import { Coordinates } from "../expansion/components/MapPlacement";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
 import { isWearableActive } from "../lib/wearables";
+import { hasVipAccess } from "../lib/vipAccess";
+import { getCurrentChapter } from "./chapters";
 
 export type SaltNode = {
   createdAt: number;
@@ -151,7 +153,10 @@ export function rechargeAllSaltNodes(game: GameState, now: number): GameState {
   return game;
 }
 
-export function getSaltYieldPerRake(gameState: GameState): {
+export function getSaltYieldPerRake(
+  gameState: GameState,
+  now: number,
+): {
   saltYield: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
@@ -171,6 +176,14 @@ export function getSaltYieldPerRake(gameState: GameState): {
   ) {
     saltYield += 5;
     boostsUsed.push({ name: "Deep Sea Salt Cave Background", value: "+5" });
+  }
+
+  if (
+    hasVipAccess({ game: gameState, now }) &&
+    getCurrentChapter(now) === "Salt Awakening"
+  ) {
+    saltYield += 2;
+    boostsUsed.push({ name: "VIP Access", value: "+2" });
   }
 
   return { saltYield, boostsUsed };
