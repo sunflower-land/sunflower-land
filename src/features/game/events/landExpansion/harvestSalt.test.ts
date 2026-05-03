@@ -3,6 +3,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   BASE_SALT_YIELD,
   SALT_CHARGE_GENERATION_TIME,
+  getSaltYieldPerRake,
 } from "features/game/types/salt";
 import { CHAPTERS } from "features/game/types/chapters";
 import { HARVEST_SALT_ERRORS, harvestSalt } from "./harvestSalt";
@@ -401,6 +402,24 @@ describe("harvestSalt", () => {
       });
 
       expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+    });
+
+    it("does not grant the +2 perk for active VIP outside Salt Awakening", () => {
+      const crabsAndTrapsStart =
+        CHAPTERS["Crabs and Traps"].startDate.getTime();
+
+      const { saltYield } = getSaltYieldPerRake(
+        {
+          ...INITIAL_FARM,
+          vip: {
+            expiresAt: crabsAndTrapsStart + 1000 * 60 * 60 * 24,
+            bundles: [],
+          },
+        },
+        crabsAndTrapsStart,
+      );
+
+      expect(saltYield).toEqual(BASE_SALT_YIELD);
     });
 
     it("stacks the VIP perk with Wide Rakes and Deep Sea Salt Cave Background", () => {
