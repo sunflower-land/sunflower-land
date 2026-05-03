@@ -99,7 +99,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
     });
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (open) {
       shake();
       return;
