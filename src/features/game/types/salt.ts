@@ -200,8 +200,6 @@ export type SaltSyncOptions = {
   maxCharges?: number;
 };
 
-export type SaltHarvestSlot = { startedAt: number; readyAt: number };
-
 function rollNextChargeBoundary(
   nextChargeAt: number,
   now: number,
