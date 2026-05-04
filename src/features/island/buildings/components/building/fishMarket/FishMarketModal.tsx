@@ -27,7 +27,6 @@ import {
   getFishProcessingTimeMs,
   MAX_FISH_PROCESSING_SLOTS,
 } from "features/game/events/landExpansion/processResource";
-import { isWearableActive } from "features/game/lib/wearables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InProgressInfo } from "../InProgressInfo";
@@ -115,14 +114,11 @@ export const FishMarketModal: React.FC<Props> = ({
   const baseTimeSeconds = isProcessedFood(selected)
     ? FISH_PROCESSING_TIME_SECONDS[selected]
     : 0;
-  const totalSeconds = isProcessedFood(selected)
-    ? getFishProcessingTimeMs(selected, state) / 1000
-    : 0;
-  const timeBoostsUsed: { name: BoostName; value: string }[] = isWearableActive(
-    { game: state, name: "Bubble Aura" },
-  )
-    ? [{ name: "Bubble Aura", value: "x0.8" }]
-    : [];
+  const fishProcessingTime = isProcessedFood(selected)
+    ? getFishProcessingTimeMs(selected, state)
+    : { reducedMs: 0, boostsUsed: [] as { name: BoostName; value: string }[] };
+  const totalSeconds = fishProcessingTime.reducedMs / 1000;
+  const timeBoostsUsed = fishProcessingTime.boostsUsed;
 
   return (
     <Modal show={isOpen} onHide={onClose}>

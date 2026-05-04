@@ -72,8 +72,11 @@ export function recalculateProcessingQueue({
   if (isInstantReady) {
     const updatedProcessing = upcoming.reduce((items, item, index) => {
       const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
-      const readyAt =
-        startAt + getFishProcessingTimeMs(item.name as ProcessedResource, game);
+      const { reducedMs } = getFishProcessingTimeMs(
+        item.name as ProcessedResource,
+        game,
+      );
+      const readyAt = startAt + reducedMs;
 
       return [...items, { ...item, readyAt }];
     }, [] as BuildingProduct[]);
@@ -87,8 +90,11 @@ export function recalculateProcessingQueue({
 
   const updatedRemaining = remaining.reduce((items, item, index) => {
     const startAt = index === 0 ? current.readyAt : items[index - 1].readyAt;
-    const readyAt =
-      startAt + getFishProcessingTimeMs(item.name as ProcessedResource, game);
+    const { reducedMs } = getFishProcessingTimeMs(
+      item.name as ProcessedResource,
+      game,
+    );
+    const readyAt = startAt + reducedMs;
 
     return [
       ...items,
