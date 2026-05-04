@@ -74,7 +74,7 @@ export const BASIC_REWARDS = (now: number): RewardBoxReward[] => [
   { items: { "Fancy Fries": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
-  ...getChapterMegastoreChestRewards(now, 20 * CHEST_MULTIPLIER),
+  ...getChapterMegastoreChestRewards(now, 5 * CHEST_MULTIPLIER),
 ];
 
 export const RARE_REWARDS = (now: number): RewardBoxReward[] => [
@@ -105,7 +105,7 @@ export const RARE_REWARDS = (now: number): RewardBoxReward[] => [
   { items: { "Grape Juice": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { Sunstone: 1 }, weighting: 15 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
-  ...getChapterMegastoreChestRewards(now, 50 * CHEST_MULTIPLIER),
+  ...getChapterMegastoreChestRewards(now, 25 * CHEST_MULTIPLIER),
 ];
 
 export const LUXURY_REWARDS = (now: number): RewardBoxReward[] => [
