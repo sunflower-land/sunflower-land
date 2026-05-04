@@ -5,7 +5,6 @@ import { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 import {
   getSaltChargeGenerationTime,
-  getSaltNodeCoordinates,
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_FARM_UPGRADES,
 } from "features/game/types/salt";
@@ -71,12 +70,6 @@ export function upgradeSaltFarm({
         salt: {
           storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
           nextChargeAt: createdAt + interval,
-        },
-        coordinates: {
-          ...getSaltNodeCoordinates(
-            copy.inventory["Basic Land"]?.toNumber() ?? 3,
-            `${currentNodes + i}`,
-          ),
         },
       };
     }

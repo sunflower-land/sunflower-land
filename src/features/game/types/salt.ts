@@ -9,7 +9,6 @@ import { getCurrentChapter } from "./chapters";
 export type SaltNode = {
   createdAt: number;
   salt: Salt;
-  coordinates: Coordinates;
 };
 
 export type Salt = {
@@ -350,13 +349,56 @@ export function getSaltNodeCoordinates(
 ): Coordinates {
   let offsetX = 0;
   let offsetY = 0;
-  if (expansions < 7) {
-    offsetX = 13;
-    offsetY = 12;
-  }
-  if (expansions >= 7 && expansions < 21) {
-    offsetX = 6;
-    offsetY = 6;
+  // if (expansions < 7) {
+  //   offsetX = 13;
+  //   offsetY = 12;
+  // }
+  // if (expansions >= 7 && expansions < 21) {
+  //   offsetX = 6;
+  //   offsetY = 6;
+  // }
+
+  switch (expansions) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+      offsetX = 6;
+      offsetY = 10;
+      break;
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 18:
+    case 19:
+    case 20:
+      offsetX = 6;
+      offsetY = 6;
+      break;
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+    case 29:
+    case 30:
+    default:
+      offsetX = 0;
+      offsetY = 0;
+      break;
   }
 
   return {
@@ -365,23 +407,25 @@ export function getSaltNodeCoordinates(
   };
 }
 
+export type SaltNodePosition = "top" | "bottom" | "left" | "right" | undefined;
+
 export function getSaltNodePosition(
-  saltNode: SaltNode,
+  coordinates: Coordinates,
   highestY: number,
   lowestY: number,
   leftestX: number,
   rightestX: number,
-): "top" | "bottom" | "left" | "right" | undefined {
-  if (saltNode.coordinates.y === highestY) {
+): SaltNodePosition {
+  if (coordinates.y === highestY) {
     return "top";
   }
-  if (saltNode.coordinates.y === lowestY) {
+  if (coordinates.y === lowestY) {
     return "bottom";
   }
-  if (saltNode.coordinates.x === leftestX) {
+  if (coordinates.x === leftestX) {
     return "left";
   }
-  if (saltNode.coordinates.x === rightestX) {
+  if (coordinates.x === rightestX) {
     return "right";
   }
   return undefined;
@@ -389,47 +433,43 @@ export function getSaltNodePosition(
 
 export function getSaltNodesWithPositions(
   saltNodes: SaltNodes,
+  expansions: number,
 ): Record<
   string,
-  SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+  SaltNode & { coordinates: Coordinates; position: SaltNodePosition }
 > {
-  const highestY = Math.max(
-    ...Object.values(saltNodes).map((node) => node.coordinates.y),
-  );
-  const lowestY = Math.min(
-    ...Object.values(saltNodes).map((node) => node.coordinates.y),
-  );
-  const leftestX = Math.min(
-    ...Object.values(saltNodes).map((node) => node.coordinates.x),
-  );
-  const rightestX = Math.max(
-    ...Object.values(saltNodes).map((node) => node.coordinates.x),
-  );
+  const idsWithCoords = getObjectEntries(saltNodes).map<
+    [string, SaltNode, Coordinates]
+  >(([id, node]) => [id, node, getSaltNodeCoordinates(expansions, id)]);
 
-  const saltNodesWithPosition = getObjectEntries(saltNodes).map<
-    [
-      string,
-      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined },
-    ]
-  >(([id, node]) => {
-    const position = getSaltNodePosition(
-      node,
-      highestY,
-      lowestY,
-      leftestX,
-      rightestX,
-    );
-    return [id, { ...node, position }];
-  });
+  if (idsWithCoords.length === 0) {
+    return {};
+  }
 
-  return saltNodesWithPosition.reduce<
+  const ys = idsWithCoords.map(([, , c]) => c.y);
+  const xs = idsWithCoords.map(([, , c]) => c.x);
+  const highestY = Math.max(...ys);
+  const lowestY = Math.min(...ys);
+  const leftestX = Math.min(...xs);
+  const rightestX = Math.max(...xs);
+
+  return idsWithCoords.reduce<
     Record<
       string,
-      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+      SaltNode & { coordinates: Coordinates; position: SaltNodePosition }
     >
-  >((acc, [id, node]) => {
-    acc[id] = node;
-
+  >((acc, [id, node, coordinates]) => {
+    acc[id] = {
+      ...node,
+      coordinates,
+      position: getSaltNodePosition(
+        coordinates,
+        highestY,
+        lowestY,
+        leftestX,
+        rightestX,
+      ),
+    };
     return acc;
   }, {});
 }

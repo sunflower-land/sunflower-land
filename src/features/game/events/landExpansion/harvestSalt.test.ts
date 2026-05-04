@@ -25,7 +25,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -59,7 +58,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 1,
                 nextChargeAt: now + 10_000,
@@ -101,7 +99,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: preservedBoundary,
@@ -136,7 +133,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 3,
                 nextChargeAt: previousBoundary,
@@ -169,7 +165,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 0,
                   nextChargeAt: now + 10_000,
@@ -203,7 +198,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -242,7 +236,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -281,7 +274,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -321,7 +313,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: saltChapterStart - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 1,
                   nextChargeAt: saltChapterStart + 10_000,
@@ -352,7 +343,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: saltChapterStart - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 1,
                   nextChargeAt: saltChapterStart + 10_000,
@@ -387,7 +377,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: saltChapterStart - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 1,
                   nextChargeAt: saltChapterStart + 10_000,
@@ -448,7 +437,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: saltChapterStart - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 1,
                   nextChargeAt: saltChapterStart + 10_000,
@@ -483,12 +471,10 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 0, nextChargeAt: now + 10_000 },
               },
             },
@@ -524,17 +510,14 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 50_000 },
               },
               "2": {
                 createdAt: now - 1000,
-                coordinates: { x: 2, y: 0 },
                 salt: { storedCharges: 3, nextChargeAt: now + 50_000 },
               },
             },
@@ -568,12 +551,10 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 0, nextChargeAt: now + 50_000 },
               },
             },

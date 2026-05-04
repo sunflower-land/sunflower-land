@@ -31,6 +31,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Super Totem": new Decimal(1),
     "Beach Umbrella": new Decimal(1),
     "Aging Shed": new Decimal(1),
+    "Basic Land": new Decimal(30),
   },
   buildings: {
     ...INITIAL_FARM.buildings,
@@ -46,6 +47,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
   agingShed: {
     ...INITIAL_FARM.agingShed,
     level: 5,
+  },
+  saltFarm: {
+    level: 4,
+    nodes: Object.fromEntries(
+      Array.from({ length: 6 }, (_, i) => [
+        String(i),
+        {
+          createdAt: 0,
+          salt: {
+            storedCharges: 3,
+            nextChargeAt: 0,
+          },
+        },
+      ]),
+    ),
   },
   farmActivity: {
     "welcome Bonus Claimed": 1, // Skip welcome screen
