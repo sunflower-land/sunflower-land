@@ -349,14 +349,6 @@ export function getSaltNodeCoordinates(
 ): Coordinates {
   let offsetX = 0;
   let offsetY = 0;
-  // if (expansions < 7) {
-  //   offsetX = 13;
-  //   offsetY = 12;
-  // }
-  // if (expansions >= 7 && expansions < 21) {
-  //   offsetX = 6;
-  //   offsetY = 6;
-  // }
 
   switch (expansions) {
     case 0:
