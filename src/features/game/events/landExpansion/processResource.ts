@@ -18,7 +18,7 @@ import { ProcessingBuildingName } from "features/game/types/buildings";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
-export function getFishProcessingTimeMs(
+export function getFishProcessingTime(
   item: ProcessedResource,
   game: GameState,
 ): { reducedMs: number; boostsUsed: { name: BoostName; value: string }[] } {
@@ -106,7 +106,7 @@ export function processProcessedResource({
       startAt = lastReadyAt;
     }
 
-    const { reducedMs, boostsUsed } = getFishProcessingTimeMs(item, game);
+    const { reducedMs, boostsUsed } = getFishProcessingTime(item, game);
     const readyAt = startAt + reducedMs;
 
     building.processing = [

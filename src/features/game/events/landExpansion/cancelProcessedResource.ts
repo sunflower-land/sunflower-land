@@ -15,7 +15,7 @@ import {
   PROCESSED_RESOURCES,
   ProcessedResource,
 } from "features/game/types/processedFood";
-import { getFishProcessingTimeMs } from "./processResource";
+import { getFishProcessingTime } from "./processResource";
 
 export type CancelProcessedResourceAction = {
   type: "processedResource.cancelled";
@@ -72,7 +72,7 @@ export function recalculateProcessingQueue({
   if (isInstantReady) {
     const updatedProcessing = upcoming.reduce((items, item, index) => {
       const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
-      const { reducedMs } = getFishProcessingTimeMs(
+      const { reducedMs } = getFishProcessingTime(
         item.name as ProcessedResource,
         game,
       );
@@ -90,7 +90,7 @@ export function recalculateProcessingQueue({
 
   const updatedRemaining = remaining.reduce((items, item, index) => {
     const startAt = index === 0 ? current.readyAt : items[index - 1].readyAt;
-    const { reducedMs } = getFishProcessingTimeMs(
+    const { reducedMs } = getFishProcessingTime(
       item.name as ProcessedResource,
       game,
     );

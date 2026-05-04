@@ -24,7 +24,7 @@ import {
 import { ProcessedResource } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  getFishProcessingTimeMs,
+  getFishProcessingTime,
   MAX_FISH_PROCESSING_SLOTS,
 } from "features/game/events/landExpansion/processResource";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -115,7 +115,7 @@ export const FishMarketModal: React.FC<Props> = ({
     ? FISH_PROCESSING_TIME_SECONDS[selected]
     : 0;
   const fishProcessingTime = isProcessedFood(selected)
-    ? getFishProcessingTimeMs(selected, state)
+    ? getFishProcessingTime(selected, state)
     : { reducedMs: 0, boostsUsed: [] as { name: BoostName; value: string }[] };
   const totalSeconds = fishProcessingTime.reducedMs / 1000;
   const timeBoostsUsed = fishProcessingTime.boostsUsed;

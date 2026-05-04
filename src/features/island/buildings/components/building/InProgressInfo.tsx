@@ -15,7 +15,7 @@ import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { getFishProcessingTimeMs } from "features/game/events/landExpansion/processResource";
+import { getFishProcessingTime } from "features/game/events/landExpansion/processResource";
 import { ProcessedResource } from "features/game/types/processedFood";
 
 interface Props {
@@ -45,7 +45,7 @@ export const InProgressInfo: React.FC<Props> = ({
       return COOKABLES[product.name].cookingSeconds;
     }
 
-    const { reducedMs } = getFishProcessingTimeMs(
+    const { reducedMs } = getFishProcessingTime(
       product.name as ProcessedResource,
       state,
     );
