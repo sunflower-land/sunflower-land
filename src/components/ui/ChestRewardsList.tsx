@@ -128,13 +128,14 @@ export const ChestRewardsList: React.FC<{
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
   const now = useNow();
+  const chestLoot = CHEST_LOOT(state, now);
 
   const isChestRewardType = (
     type: ChestRewardType | RewardBoxName,
-  ): type is ChestRewardType => type in CHEST_LOOT(state, now);
+  ): type is ChestRewardType => type in chestLoot;
 
   const rewards: RewardBoxReward[] = isChestRewardType(type)
-    ? CHEST_LOOT(state, now)[type]
+    ? chestLoot[type]
     : REWARD_BOXES[type].rewards;
 
   // Based on total weighting for each list
