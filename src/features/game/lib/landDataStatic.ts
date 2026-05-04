@@ -33,9 +33,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Aging Shed": new Decimal(1),
     "Basic Land": new Decimal(30),
   },
+  bumpkin: { 
+    ...INITIAL_FARM.bumpkin,
+    experience: 100000,
+  },
   buildings: {
     ...INITIAL_FARM.buildings,
-    "Aging Shed": [
+
+       "Crafting Box": [
       {
         id: "aging-shed-1",
         coordinates: { x: -5, y: -3 },

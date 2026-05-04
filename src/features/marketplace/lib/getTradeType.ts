@@ -131,6 +131,8 @@ export const ITEM_TRADE_TYPES: {
     "Cosmo Doll": "instant",
     "Bigfin Doll": "instant",
     "Solar Doll": "instant",
+    "Salt Doll": "instant",
+    "Jacuzzi Bear": "instant",
     "Gold Cooking Trophy": "instant",
     "Silver Cooking Trophy": "instant",
     "Bronze Cooking Trophy": "instant",
