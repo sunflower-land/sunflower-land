@@ -348,9 +348,7 @@ describe("instantProcessing", () => {
         ...INITIAL_FARM.bumpkin!,
         equipped: {
           ...INITIAL_FARM.bumpkin!.equipped,
-          aura: overrides.auraEquipped
-            ? ("Bubble Aura" as const)
-            : INITIAL_FARM.bumpkin!.equipped.aura,
+          aura: overrides.auraEquipped ? "Bubble Aura" : undefined,
         },
       },
       inventory: { Gem: new Decimal(100) },
@@ -415,6 +413,7 @@ describe("instantProcessing", () => {
       }
       expect(hitCounter).toBeGreaterThanOrEqual(0);
 
+      const createdAt = Date.now();
       const state = speedUpProcessing({
         farmId,
         action: {
@@ -426,11 +425,12 @@ describe("instantProcessing", () => {
           auraEquipped: true,
           processedCounter: hitCounter,
         }),
-        createdAt: Date.now(),
+        createdAt,
       });
 
       expect(state.inventory["Fish Flake"]).toEqual(new Decimal(2));
       expect(state.farmActivity["Fish Flake Processed"]).toBe(hitCounter + 1);
+      expect(state.boostsUsedAt?.["Bubble Aura"]).toBe(createdAt);
     });
 
     it("yields 1 when the aura misses (deterministic miss)", () => {
@@ -458,6 +458,7 @@ describe("instantProcessing", () => {
       }
       expect(missCounter).toBeGreaterThanOrEqual(0);
 
+      const createdAt = Date.now();
       const state = speedUpProcessing({
         farmId,
         action: {
@@ -469,11 +470,12 @@ describe("instantProcessing", () => {
           auraEquipped: true,
           processedCounter: missCounter,
         }),
-        createdAt: Date.now(),
+        createdAt,
       });
 
       expect(state.inventory["Fish Flake"]).toEqual(new Decimal(1));
       expect(state.farmActivity["Fish Flake Processed"]).toBe(missCounter + 1);
+      expect(state.boostsUsedAt?.["Bubble Aura"]).toBeUndefined();
     });
   });
 
