@@ -259,17 +259,7 @@ export const RECIPES: Recipes = {
   ...BEAR_RECIPES,
   "Basic Bear": {
     name: "Basic Bear",
-    ingredients: [
-      null,
-      { collectible: "Merino Wool" },
-      null,
-      { collectible: "Merino Wool" },
-      { collectible: "Merino Wool" },
-      { collectible: "Merino Wool" },
-      { collectible: "Merino Wool" },
-      { collectible: "Merino Wool" },
-      { collectible: "Merino Wool" },
-    ],
+    ingredients: [],
     time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
@@ -277,7 +267,9 @@ export const RECIPES: Recipes = {
 
 // Maps craftable items to the chapter they are available in.
 // Items in this config are only shown in the crafting box UI during that chapter.
-export const CHAPTER_CRAFTING_ITEMS: Partial<Record<RecipeCollectibleName, ChapterName>> = {
+export const CHAPTER_CRAFTING_ITEMS: Partial<
+  Record<RecipeCollectibleName, ChapterName>
+> = {
   "Salt Doll": "Salt Awakening",
   "Jacuzzi Bear": "Salt Awakening",
 };
