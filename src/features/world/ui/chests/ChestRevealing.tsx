@@ -31,6 +31,7 @@ import {
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { RewardBoxReward } from "features/game/types/rewardBoxes";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export type ChestRewardType =
   | Keys
@@ -53,10 +54,11 @@ interface Props {
 
 export const CHEST_LOOT: (
   game: GameState,
-) => Record<ChestRewardType, RewardBoxReward[]> = (state) => ({
-  "Treasure Key": BASIC_REWARDS,
-  "Rare Key": RARE_REWARDS,
-  "Luxury Key": LUXURY_REWARDS,
+  now: number,
+) => Record<ChestRewardType, RewardBoxReward[]> = (state, now) => ({
+  "Treasure Key": BASIC_REWARDS(now),
+  "Rare Key": RARE_REWARDS(now),
+  "Luxury Key": LUXURY_REWARDS(now),
   "Bud Box": BUD_BOX_REWARDS,
   "Gift Giver": GIFT_GIVER_REWARDS,
   "Basic Desert Rewards": BASIC_DESERT_STREAK,
@@ -79,8 +81,9 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
 
-  const chestLoot = useMemo(() => CHEST_LOOT(state), [state]);
+  const chestLoot = useMemo(() => CHEST_LOOT(state, now), [state, now]);
   const items = chestLoot[type];
 
   useEffect(() => {

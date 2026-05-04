@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHEST_LOOT,
   ChestRewardType,
@@ -126,13 +127,14 @@ export const ChestRewardsList: React.FC<{
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
 
   const isChestRewardType = (
     type: ChestRewardType | RewardBoxName,
-  ): type is ChestRewardType => type in CHEST_LOOT(state);
+  ): type is ChestRewardType => type in CHEST_LOOT(state, now);
 
   const rewards: RewardBoxReward[] = isChestRewardType(type)
-    ? CHEST_LOOT(state)[type]
+    ? CHEST_LOOT(state, now)[type]
     : REWARD_BOXES[type].rewards;
 
   // Based on total weighting for each list
