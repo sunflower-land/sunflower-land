@@ -16,6 +16,7 @@ import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 import { ProcessedResource } from "features/game/types/processedFood";
+import { GameState } from "features/game/types/game";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -334,6 +335,145 @@ describe("instantProcessing", () => {
       [new Date(now).toISOString().substring(0, 10)]: {
         spent: 40,
       },
+    });
+  });
+
+  describe("Bubble Aura on the gem path", () => {
+    const baseStateWithProcessing = (overrides: {
+      auraEquipped: boolean;
+      processedCounter?: number;
+    }): GameState => ({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin!,
+        equipped: {
+          ...INITIAL_FARM.bumpkin!.equipped,
+          aura: overrides.auraEquipped
+            ? ("Bubble Aura" as const)
+            : INITIAL_FARM.bumpkin!.equipped.aura,
+        },
+      },
+      inventory: { Gem: new Decimal(100) },
+      farmActivity:
+        overrides.processedCounter !== undefined
+          ? {
+              ...INITIAL_FARM.farmActivity,
+              "Fish Flake Processed": overrides.processedCounter,
+            }
+          : INITIAL_FARM.farmActivity,
+      buildings: {
+        "Fish Market": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            processing: [{ name: "Fish Flake", readyAt: Date.now() + 30000 }],
+          },
+        ],
+      },
+    });
+
+    it("increments the `${name} Processed` counter even without the aura", () => {
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({ auraEquipped: false }),
+        createdAt: Date.now(),
+      });
+
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(1);
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(1));
+    });
+
+    it("yields 2 and bumps the counter when the aura procs (deterministic hit)", () => {
+      const { prngChance } = jest.requireActual(
+        "lib/prng",
+      ) as typeof import("lib/prng");
+      const { KNOWN_IDS } = jest.requireActual(
+        "features/game/types",
+      ) as typeof import("features/game/types");
+
+      let hitCounter = -1;
+      for (let counter = 0; counter < 200; counter++) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Fish Flake"],
+            counter,
+            chance: 20,
+            criticalHitName: "Bubble Aura",
+          })
+        ) {
+          hitCounter = counter;
+          break;
+        }
+      }
+      expect(hitCounter).toBeGreaterThanOrEqual(0);
+
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({
+          auraEquipped: true,
+          processedCounter: hitCounter,
+        }),
+        createdAt: Date.now(),
+      });
+
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(2));
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(hitCounter + 1);
+    });
+
+    it("yields 1 when the aura misses (deterministic miss)", () => {
+      const { prngChance } = jest.requireActual(
+        "lib/prng",
+      ) as typeof import("lib/prng");
+      const { KNOWN_IDS } = jest.requireActual(
+        "features/game/types",
+      ) as typeof import("features/game/types");
+
+      let missCounter = -1;
+      for (let counter = 0; counter < 200; counter++) {
+        if (
+          !prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Fish Flake"],
+            counter,
+            chance: 20,
+            criticalHitName: "Bubble Aura",
+          })
+        ) {
+          missCounter = counter;
+          break;
+        }
+      }
+      expect(missCounter).toBeGreaterThanOrEqual(0);
+
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({
+          auraEquipped: true,
+          processedCounter: missCounter,
+        }),
+        createdAt: Date.now(),
+      });
+
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(1));
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(missCounter + 1);
     });
   });
 
