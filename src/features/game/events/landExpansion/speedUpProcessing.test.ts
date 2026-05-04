@@ -477,6 +477,66 @@ describe("instantProcessing", () => {
       expect(state.farmActivity["Fish Flake Processed"]).toBe(missCounter + 1);
       expect(state.boostsUsedAt?.["Bubble Aura"]).toBeUndefined();
     });
+
+    it("preserves the -20% Bubble Aura time boost on the recalculated queue", () => {
+      const now = Date.now();
+      const PROCESSING_TIME_MS = (name: ProcessedResource) =>
+        FISH_PROCESSING_TIME_SECONDS[name] * 1000;
+
+      // Existing queue was built while Bubble Aura was equipped, so each
+      // readyAt is +0.8 * baseTime from the previous one.
+      const fishStick = now + 0.8 * PROCESSING_TIME_MS("Fish Stick");
+      const oil1 = fishStick + 0.8 * PROCESSING_TIME_MS("Fish Oil");
+      const oil2 = oil1 + 0.8 * PROCESSING_TIME_MS("Fish Oil");
+
+      const state = speedUpProcessing({
+        farmId,
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin!,
+            equipped: {
+              ...INITIAL_FARM.bumpkin!.equipped,
+              aura: "Bubble Aura",
+            },
+          },
+          inventory: { Gem: new Decimal(100) },
+          buildings: {
+            "Fish Market": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                processing: [
+                  { name: "Fish Stick", readyAt: fishStick },
+                  { name: "Fish Oil", readyAt: oil1 },
+                  { name: "Fish Oil", readyAt: oil2 },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fish Market"]?.[0].processing;
+
+      // After speeding up the head Fish Stick the two remaining Fish Oil
+      // items should be re-anchored at `now` and still use the boosted
+      // 0.8 × base processing time.
+      expect(queue?.[0].readyAt).toBe(
+        now + 0.8 * PROCESSING_TIME_MS("Fish Oil"),
+      );
+      expect(queue?.[1].readyAt).toBe(
+        now + 2 * 0.8 * PROCESSING_TIME_MS("Fish Oil"),
+      );
+    });
   });
 
   describe("Dino Egg Trophy coin payment", () => {

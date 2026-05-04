@@ -113,6 +113,7 @@ export const speedUpProcessing = ({
       queue: queueWithoutSpedUpItem,
       isInstantReady: true,
       createdAt,
+      game,
     });
   });
 };
