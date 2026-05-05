@@ -41,7 +41,6 @@ import {
   GREENHOUSE_COMPOST,
   GreenhouseCompostName,
 } from "features/game/types/composters";
-import { MAX_POTS } from "features/game/events/landExpansion/plantGreenhouse";
 import { getReadyAt as getGreenhouseReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -556,23 +555,22 @@ const getEligibleGreenhousePotIds = (
   state: GameState,
   now: number,
 ): number[] => {
-  const ids: number[] = [];
-  for (let id = 1; id <= MAX_POTS; id++) {
-    const pot = state.greenhouse.pots[id];
-    if (pot?.fertiliser) continue;
-    if (
-      pot?.plant &&
-      now >=
-        getGreenhouseReadyAt({
-          plant: pot.plant.name,
-          createdAt: pot.plant.plantedAt,
-        })
-    ) {
-      continue;
-    }
-    ids.push(id);
-  }
-  return ids;
+  return Object.entries(state.greenhouse.pots)
+    .filter(([, pot]) => {
+      if (!pot || pot.fertiliser) return false;
+      if (
+        pot.plant &&
+        now >=
+          getGreenhouseReadyAt({
+            plant: pot.plant.name,
+            createdAt: pot.plant.plantedAt,
+          })
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .map(([id]) => Number(id));
 };
 
 const getEligibleCount = (
@@ -693,9 +691,9 @@ const FertiliseAll: React.FC<{
                 {COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
                   skills: state.bumpkin?.skills ?? {},
                   collectibles: state.collectibles,
-                })?.map((buff, index) => (
+                })?.map((buff) => (
                   <Label
-                    key={index}
+                    key={`${buff.labelType}-${buff.shortDescription}`}
                     type={buff.labelType}
                     icon={buff.boostTypeIcon}
                     secondaryIcon={buff.boostedItemIcon}
