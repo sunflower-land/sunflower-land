@@ -42,10 +42,10 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   miranda: 2,
   finley: 2,
   raven: 3,
-  finn: 3,
+  finn: 4,
   timmy: 4,
   cornwell: 4,
-  tywin: 5,
+  tywin: 10,
   jester: 4,
   pharaoh: 5,
 };
