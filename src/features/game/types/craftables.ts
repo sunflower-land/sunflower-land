@@ -1501,7 +1501,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Deep Sea Pig": { width: 2, height: 2 },
   "Deep Sea Slug": { width: 2, height: 2 },
   "Crystal Shrimp": { width: 2, height: 2 },
-  "Salt Awakening Banner": { width: 1, height: 1 },
+  "Salt Awakening Banner": { width: 1, height: 2 },
 
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },

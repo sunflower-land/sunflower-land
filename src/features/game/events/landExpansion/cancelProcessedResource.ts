@@ -1,10 +1,7 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
-import {
-  FISH_PROCESSING_TIME_SECONDS,
-  getFishProcessingRequirements,
-} from "features/game/types/fishProcessing";
+import { getFishProcessingRequirements } from "features/game/types/fishProcessing";
 import {
   BuildingProduct,
   GameState,
@@ -18,6 +15,7 @@ import {
   PROCESSED_RESOURCES,
   ProcessedResource,
 } from "features/game/types/processedFood";
+import { getFishProcessingTime } from "./processResource";
 
 export type CancelProcessedResourceAction = {
   type: "processedResource.cancelled";
@@ -61,10 +59,12 @@ export function recalculateProcessingQueue({
   queue,
   isInstantReady,
   createdAt,
+  game,
 }: {
   queue: BuildingProduct[];
   isInstantReady: boolean;
   createdAt: number;
+  game: GameState;
 }): BuildingProduct[] {
   const ready = queue.filter((item) => item.readyAt <= createdAt);
   const upcoming = queue.filter((item) => item.readyAt > createdAt);
@@ -72,9 +72,11 @@ export function recalculateProcessingQueue({
   if (isInstantReady) {
     const updatedProcessing = upcoming.reduce((items, item, index) => {
       const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
-      const readyAt =
-        startAt +
-        FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedResource] * 1000;
+      const { reducedMs } = getFishProcessingTime(
+        item.name as ProcessedResource,
+        game,
+      );
+      const readyAt = startAt + reducedMs;
 
       return [...items, { ...item, readyAt }];
     }, [] as BuildingProduct[]);
@@ -88,9 +90,11 @@ export function recalculateProcessingQueue({
 
   const updatedRemaining = remaining.reduce((items, item, index) => {
     const startAt = index === 0 ? current.readyAt : items[index - 1].readyAt;
-    const readyAt =
-      startAt +
-      FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedResource] * 1000;
+    const { reducedMs } = getFishProcessingTime(
+      item.name as ProcessedResource,
+      game,
+    );
+    const readyAt = startAt + reducedMs;
 
     return [
       ...items,
@@ -179,6 +183,7 @@ export function cancelProcessedResource({
       queue: remainingQueue,
       isInstantReady: false,
       createdAt,
+      game,
     });
 
     return game;

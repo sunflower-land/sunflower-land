@@ -157,7 +157,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
         {runtime === 0 ? (
           <Label
             type={"default"}
-            className="ml-1.5 mt-2.5 cursor-pointer"
+            className="ml-1.5 cursor-pointer"
             icon={ITEM_DETAILS.Oil.image}
             secondaryIcon={SUNNYSIDE.ui.add_button}
             onClick={() => setShowAddOilModal(true)}
@@ -168,7 +168,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
           <div>
             <Label
               type={"default"}
-              className="ml-1.5 mt-2.5"
+              className="ml-1.5"
               icon={ITEM_DETAILS.Oil.image}
               secondaryIcon={SUNNYSIDE.ui.add_button}
               onClick={() => setShowAddOilModal(true)}

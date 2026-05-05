@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "Reúne la bandera: el despertar de la sal ha comenzado.",
   "description.saltDinoEgg": "Un huevo fosilizado se partió de las salinas. ¿Quién puso esto?",
   "description.flamingoChicken.boost": "-2,5% del tiempo de sueño de los pollos",
-  "description.spaSheep.boost": "+5 puntos de EXP animal por afecto animal",
   "description.spaCow.boost": "+0.1 Leche",
   "description.deepSeaSlug.boost.2": "+1 lombriz procedente del compostaje",
   "referral.share": "Comparte en:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "Cuenta como el restablecimiento de una gema; el temporizador gratuito no cambia.",
   "skillReset.ticket": "Restablecimiento de entradas",
   "skillReset.ticketDescription": "Usa un ticket de restablecimiento de habilidades para restablecer todas tus habilidades.",
-  "description.obsidianShrine.buff": "Coseche, plante y fertilice sus cultivos y frutas a granel",
   "obsidianShrine.fertilise": "Fertilizar todo",
-  "obsidianShrine.fertiliseAll": "Aplique fertilizante a todas las parcelas y parches elegibles",
   "obsidianShrine.selectFertiliser": "Selecciona un fertilizante",
   "obsidianShrine.noFertilisers": "No hay abonos disponibles",
   "obsidianShrine.noEligiblePlots": "No hay parcelas que fertilizar",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "+1 pez aleatorio cada 15 carrete",
   "description.clamShellHat": "Una concha de almeja pulida posada sobre tu cabeza.",
   "description.shrimpOnesie": "Acogedor, salado y un poco pellizcado.",
-  "vip.benefit.bonusSaltYield": "+2 de sal por rastrillo durante el capítulo El despertar de la sal"
+  "vip.benefit.bonusSaltYield": "+2 de sal por rastrillo durante el capítulo El despertar de la sal",
+  "statements.blacklist.discord": "Habla con nosotros en Discord, abre un ticket.",
+  "statements.blacklist.noDiscord": "¿No tienes Discord? Ponte en contacto con nosotros aquí.",
+  "description.spaSheep.boost": "+5 puntos de EXP para ovejas gracias a las herramientas de afecto animal",
+  "description.obsidianShrine.buff": "Coseche, plante y fertilice a granel sus cultivos, frutas e invernaderos",
+  "obsidianShrine.fertiliseAll": "Aplique fertilizante a todas las parcelas, parches y macetas de invernadero que cumplan con los requisitos",
+  "obsidianShrine.noEligiblePots": "No hay macetas de invernadero para fertilizar"
 }

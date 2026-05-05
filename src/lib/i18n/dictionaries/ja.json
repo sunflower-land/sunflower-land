@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "ラリー・ザ・フラッグ — ソルト・アウェイクニングが始まった。",
   "description.saltDinoEgg": "塩田で割れた化石卵。これを置いたのは誰だ？",
   "description.flamingoChicken.boost": "-2.5% チキンスリープタイム",
-  "description.spaSheep.boost": "アニマル・アフェクションによる動物経験値+5",
   "description.spaCow.boost": "+0.1 ミルク",
   "description.deepSeaSlug.boost.2": "コンポストからのワーム+1",
   "referral.share": "シェア:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "ジェムリセットとしてカウントされます。フリータイマーは変わりません。",
   "skillReset.ticket": "チケットリセット",
   "skillReset.ticketDescription": "スキルリセットチケットを使用して、すべてのスキルをリセットします。",
-  "description.obsidianShrine.buff": "作物や果物の大量収穫、植え付け、施肥を行います",
   "obsidianShrine.fertilise": "すべて施肥する",
-  "obsidianShrine.fertiliseAll": "対象となるすべての区画とパッチに肥料を適用します",
   "obsidianShrine.selectFertiliser": "肥料を選択する",
   "obsidianShrine.noFertilisers": "肥料はありません",
   "obsidianShrine.noEligiblePlots": "施肥する区画はありません",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "15番目のリールごとに+1ランダムフィッシュ",
   "description.clamShellHat": "頭上には磨き上げられたアサリの殻がのっています。",
   "description.shrimpOnesie": "心地よく、塩辛く、少しピンチがあります。",
-  "vip.benefit.bonusSaltYield": "「塩の覚醒」チャプター中、レーキ1つにつき +2 塩"
+  "vip.benefit.bonusSaltYield": "「塩の覚醒」チャプター中、レーキ1つにつき +2 塩",
+  "statements.blacklist.discord": "Discordで私たちと話して、チケットを開いてください。",
+  "statements.blacklist.noDiscord": "Discordを持っていないのですか？こちらからお問い合わせください。",
+  "description.spaSheep.boost": "アニマル・アフェクションツールから獲得する羊経験値+5",
+  "description.obsidianShrine.buff": "作物、果物、温室の大量収穫、植え付け、施肥を行います",
+  "obsidianShrine.fertiliseAll": "対象となるすべての区画、パッチ、温室ポットに肥料を適用します",
+  "obsidianShrine.noEligiblePots": "施肥する温室の鉢はありません"
 }

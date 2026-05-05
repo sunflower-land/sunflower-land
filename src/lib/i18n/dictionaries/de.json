@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "Runter die Flagge — das Salt Awakening hat begonnen.",
   "description.saltDinoEgg": "Ein versteinertes Ei, das aus den Salinen herausgebrochen ist. Wer hat das gelegt?",
   "description.flamingoChicken.boost": "-2,5% Schlafzeit bei Hühnern",
-  "description.spaSheep.boost": "+5 Tier-EP für Animal Affection",
   "description.spaCow.boost": "+0.1 Milch",
   "description.deepSeaSlug.boost.2": "+1 Wurm aus der Kompostierung",
   "referral.share": "Teilen auf:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "Gilt als Edelstein-Reset; die freie Zeit bleibt unverändert.",
   "skillReset.ticket": "Ticket zurücksetzen",
   "skillReset.ticketDescription": "Benutze ein Skill Reset Ticket, um alle deine Fähigkeiten zurückzusetzen.",
-  "description.obsidianShrine.buff": "Ernten, pflanzen und düngen Sie Ihre Pflanzen und Früchte in großen Mengen",
   "obsidianShrine.fertilise": "Alles düngen",
-  "obsidianShrine.fertiliseAll": "Düngen Sie alle infrage kommenden Parzellen und Beete",
   "obsidianShrine.selectFertiliser": "Wählen Sie einen Dünger",
   "obsidianShrine.noFertilisers": "Keine Düngemittel verfügbar",
   "obsidianShrine.noEligiblePlots": "Keine Parzellen zum Düngen",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "+1 zufälliger Fisch auf jeder 15. Walze",
   "description.clamShellHat": "Eine polierte Muschelschale thront auf deinem Kopf.",
   "description.shrimpOnesie": "Kuschelig, salzig und ein bisschen knifflig.",
-  "vip.benefit.bonusSaltYield": "+2 Salz pro Rake während des Kapitels „Das Erwachen des Salzes“"
+  "vip.benefit.bonusSaltYield": "+2 Salz pro Rake während des Kapitels „Das Erwachen des Salzes“",
+  "statements.blacklist.discord": "Sprich mit uns auf Discord, öffne ein Ticket.",
+  "statements.blacklist.noDiscord": "Du hast keinen Discord? Kontaktiere uns hier.",
+  "description.spaSheep.boost": "+5 Schaf-EP für Animal Affection Tools",
+  "description.obsidianShrine.buff": "Ernten, pflanzen und düngen Sie Ihre Pflanzen, Ihr Obst und Ihr Gewächshaus in großen Mengen",
+  "obsidianShrine.fertiliseAll": "Düngen Sie alle geeigneten Parzellen, Beete und Gewächshaustöpfe",
+  "obsidianShrine.noEligiblePots": "Keine Gewächshaustöpfe zum Düngen"
 }

@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "Bayrağı toplayın - Tuz Uyanışı başladı.",
   "description.saltDinoEgg": "Tuz yataklarından çatlamış fosilleşmiş bir yumurta. Bunu kim koydu?",
   "description.flamingoChicken.boost": "-% 2.5 Tavuk Uyku Süresi",
-  "description.spaSheep.boost": "Hayvan Sevgisinden +5 Hayvan DP'si",
   "description.spaCow.boost": "+0.1 Süt",
   "description.deepSeaSlug.boost.2": "+1 Kompostlamadan Solucan",
   "referral.share": "Paylaş:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "Mücevher sıfırlaması olarak sayılır; serbest zamanlayıcı değişmedi.",
   "skillReset.ticket": "Bilet Sıfırlama",
   "skillReset.ticketDescription": "Tüm becerilerinizi sıfırlamak için Beceri Sıfırlama Bileti kullanın.",
-  "description.obsidianShrine.buff": "Mahsullerinizi ve meyvelerinizi toplu olarak hasat edin, ekin ve gübreleyin",
   "obsidianShrine.fertilise": "Tümünü Gübreleyin",
-  "obsidianShrine.fertiliseAll": "Tüm uygun arazilere ve yamalara gübre uygulayın",
   "obsidianShrine.selectFertiliser": "Bir gübre seçin",
   "obsidianShrine.noFertilisers": "Gübre yok",
   "obsidianShrine.noEligiblePlots": "Gübrelenecek arsa yok",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "Her 15. makarada +1 rastgele balık",
   "description.clamShellHat": "Başınızın üstüne cilalı bir deniz tarağı kabuğu.",
   "description.shrimpOnesie": "Rahat, tuzlu ve biraz kıvırcık.",
-  "vip.benefit.bonusSaltYield": "Tuz Uyanışı Bölümü sırasında Tırmık başına +2 Tuz"
+  "vip.benefit.bonusSaltYield": "Tuz Uyanışı Bölümü sırasında Tırmık başına +2 Tuz",
+  "statements.blacklist.discord": "Discord'da bizimle konuş, bir bilet aç.",
+  "statements.blacklist.noDiscord": "Discord'un yok mu? Bize buradan ulaşın.",
+  "description.spaSheep.boost": "Hayvan Sevgisi araçlarından +5 Koyun DP'si",
+  "description.obsidianShrine.buff": "Mahsullerinizi, meyvelerinizi ve seralarınızı toplu olarak hasat edin, ekin ve gübreleyin",
+  "obsidianShrine.fertiliseAll": "Tüm uygun arazilere, yamalara ve sera saksılarına gübre uygulayın",
+  "obsidianShrine.noEligiblePots": "Gübrelenecek sera saksısı yok"
 }

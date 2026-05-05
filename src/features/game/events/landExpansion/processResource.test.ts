@@ -172,6 +172,67 @@ describe("processProcessedFood", () => {
       readyAt + FISH_PROCESSING_TIME_SECONDS["Fish Stick"] * 1000,
     );
   });
+
+  describe("Bubble Aura at queue time", () => {
+    const auraState: GameState = {
+      ...SPRING_STATE,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          aura: "Bubble Aura",
+        },
+      },
+    };
+
+    it("applies the -20% time boost to readyAt", () => {
+      const updated = processProcessedResource({
+        state: auraState,
+        action: {
+          type: "processedResource.processed",
+          item: "Fish Flake",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        },
+        createdAt,
+      });
+
+      const processing = updated.buildings["Fish Market"]?.[0].processing ?? [];
+      expect(processing[0].readyAt).toEqual(
+        createdAt + 0.8 * FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000,
+      );
+    });
+
+    it("records boostsUsedAt[Bubble Aura] = createdAt at queue time", () => {
+      const updated = processProcessedResource({
+        state: auraState,
+        action: {
+          type: "processedResource.processed",
+          item: "Fish Flake",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        },
+        createdAt,
+      });
+
+      expect(updated.boostsUsedAt?.["Bubble Aura"]).toBe(createdAt);
+    });
+
+    it("does not record boostsUsedAt when the aura is not equipped", () => {
+      const updated = processProcessedResource({
+        state: SPRING_STATE,
+        action: {
+          type: "processedResource.processed",
+          item: "Fish Flake",
+          buildingId: "123",
+          buildingName: "Fish Market",
+        },
+        createdAt,
+      });
+
+      expect(updated.boostsUsedAt?.["Bubble Aura"]).toBeUndefined();
+    });
+  });
 });
 
 describe("collectProcessedFish", () => {

@@ -16,6 +16,7 @@ import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 import { ProcessedResource } from "features/game/types/processedFood";
+import { GameState } from "features/game/types/game";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -334,6 +335,285 @@ describe("instantProcessing", () => {
       [new Date(now).toISOString().substring(0, 10)]: {
         spent: 40,
       },
+    });
+  });
+
+  describe("Bubble Aura on the gem path", () => {
+    // The Bubble Aura PRNG is deterministic given (farmId, itemId, counter,
+    // chance, criticalHitName). Sweep counters until the predicate returns
+    // true so each test pins one branch (hit / miss).
+    const findCounter = (predicate: (counter: number) => boolean): number => {
+      for (let counter = 0; counter < 200; counter++) {
+        if (predicate(counter)) return counter;
+      }
+      throw new Error("No matching deterministic Bubble Aura counter found");
+    };
+    const rollFishFlake = (counter: number): boolean => {
+      const { prngChance } = jest.requireActual(
+        "lib/prng",
+      ) as typeof import("lib/prng");
+      const { KNOWN_IDS } = jest.requireActual(
+        "features/game/types",
+      ) as typeof import("features/game/types");
+      return prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Fish Flake"],
+        counter,
+        chance: 20,
+        criticalHitName: "Bubble Aura",
+      });
+    };
+
+    const baseStateWithProcessing = (overrides: {
+      auraEquipped: boolean;
+      processedCounter?: number;
+    }): GameState => ({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin!,
+        equipped: {
+          ...INITIAL_FARM.bumpkin!.equipped,
+          aura: overrides.auraEquipped ? "Bubble Aura" : undefined,
+        },
+      },
+      inventory: { Gem: new Decimal(100) },
+      farmActivity:
+        overrides.processedCounter !== undefined
+          ? {
+              ...INITIAL_FARM.farmActivity,
+              "Fish Flake Processed": overrides.processedCounter,
+            }
+          : INITIAL_FARM.farmActivity,
+      buildings: {
+        "Fish Market": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            processing: [{ name: "Fish Flake", readyAt: Date.now() + 30000 }],
+          },
+        ],
+      },
+    });
+
+    it("increments the `${name} Processed` counter even without the aura", () => {
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({ auraEquipped: false }),
+        createdAt: Date.now(),
+      });
+
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(1);
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(1));
+    });
+
+    it("yields 2 and bumps the counter when the aura procs (deterministic hit)", () => {
+      const hitCounter = findCounter(rollFishFlake);
+      const createdAt = Date.now();
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({
+          auraEquipped: true,
+          processedCounter: hitCounter,
+        }),
+        createdAt,
+      });
+
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(2));
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(hitCounter + 1);
+      expect(state.boostsUsedAt?.["Bubble Aura"]).toBe(createdAt);
+    });
+
+    it("yields 1 when the aura misses (deterministic miss)", () => {
+      const missCounter = findCounter((c) => !rollFishFlake(c));
+      const createdAt = Date.now();
+      const state = speedUpProcessing({
+        farmId,
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        state: baseStateWithProcessing({
+          auraEquipped: true,
+          processedCounter: missCounter,
+        }),
+        createdAt,
+      });
+
+      expect(state.inventory["Fish Flake"]).toEqual(new Decimal(1));
+      expect(state.farmActivity["Fish Flake Processed"]).toBe(missCounter + 1);
+      expect(state.boostsUsedAt?.["Bubble Aura"]).toBeUndefined();
+    });
+
+    it("preserves the -20% Bubble Aura time boost on the recalculated queue", () => {
+      const now = Date.now();
+      const PROCESSING_TIME_MS = (name: ProcessedResource) =>
+        FISH_PROCESSING_TIME_SECONDS[name] * 1000;
+
+      // Existing queue was built while Bubble Aura was equipped, so each
+      // readyAt is +0.8 * baseTime from the previous one.
+      const fishStick = now + 0.8 * PROCESSING_TIME_MS("Fish Stick");
+      const oil1 = fishStick + 0.8 * PROCESSING_TIME_MS("Fish Oil");
+      const oil2 = oil1 + 0.8 * PROCESSING_TIME_MS("Fish Oil");
+
+      const state = speedUpProcessing({
+        farmId,
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin!,
+            equipped: {
+              ...INITIAL_FARM.bumpkin!.equipped,
+              aura: "Bubble Aura",
+            },
+          },
+          inventory: { Gem: new Decimal(100) },
+          buildings: {
+            "Fish Market": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                processing: [
+                  { name: "Fish Stick", readyAt: fishStick },
+                  { name: "Fish Oil", readyAt: oil1 },
+                  { name: "Fish Oil", readyAt: oil2 },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fish Market"]?.[0].processing;
+
+      // After speeding up the head Fish Stick the two remaining Fish Oil
+      // items should be re-anchored at `now` and still use the boosted
+      // 0.8 × base processing time.
+      expect(queue?.[0].readyAt).toBe(
+        now + 0.8 * PROCESSING_TIME_MS("Fish Oil"),
+      );
+      expect(queue?.[1].readyAt).toBe(
+        now + 2 * 0.8 * PROCESSING_TIME_MS("Fish Oil"),
+      );
+    });
+
+    // The next two tests document a known intentional behaviour: queue recalc
+    // (after gem-instant or cancel) consults the player's CURRENT aura, not
+    // the aura state at queue time. This matches cooking's recalculateQueue
+    // pattern. If we ever lock duration at queue time we'd update both.
+    it("[intentional] re-expands queued items to base time if Bubble Aura was unequipped before gem-cook", () => {
+      const now = Date.now();
+      const PROCESSING_TIME_MS = (name: ProcessedResource) =>
+        FISH_PROCESSING_TIME_SECONDS[name] * 1000;
+
+      // Queue was built with Bubble Aura equipped (boosted readyAts).
+      const fishStick = now + 0.8 * PROCESSING_TIME_MS("Fish Stick");
+      const oil1 = fishStick + 0.8 * PROCESSING_TIME_MS("Fish Oil");
+
+      const state = speedUpProcessing({
+        farmId,
+        // Aura is NOT equipped at the time of gem-cook.
+        state: {
+          ...INITIAL_FARM,
+          inventory: { Gem: new Decimal(100) },
+          buildings: {
+            "Fish Market": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                processing: [
+                  { name: "Fish Stick", readyAt: fishStick },
+                  { name: "Fish Oil", readyAt: oil1 },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fish Market"]?.[0].processing;
+      // Remaining Fish Oil now uses the unboosted base duration.
+      expect(queue?.[0].readyAt).toBe(now + PROCESSING_TIME_MS("Fish Oil"));
+    });
+
+    it("[intentional] retroactively shortens queued items if Bubble Aura was equipped before gem-cook", () => {
+      const now = Date.now();
+      const PROCESSING_TIME_MS = (name: ProcessedResource) =>
+        FISH_PROCESSING_TIME_SECONDS[name] * 1000;
+
+      // Queue was built without Bubble Aura (unboosted readyAts).
+      const fishStick = now + PROCESSING_TIME_MS("Fish Stick");
+      const oil1 = fishStick + PROCESSING_TIME_MS("Fish Oil");
+
+      const state = speedUpProcessing({
+        farmId,
+        // Aura IS equipped at the time of gem-cook.
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin!,
+            equipped: {
+              ...INITIAL_FARM.bumpkin!.equipped,
+              aura: "Bubble Aura",
+            },
+          },
+          inventory: { Gem: new Decimal(100) },
+          buildings: {
+            "Fish Market": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                processing: [
+                  { name: "Fish Stick", readyAt: fishStick },
+                  { name: "Fish Oil", readyAt: oil1 },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          buildingId: "123",
+          buildingName: "Fish Market",
+          type: "processing.spedUp",
+        },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fish Market"]?.[0].processing;
+      // Remaining Fish Oil retroactively gets the boosted duration.
+      expect(queue?.[0].readyAt).toBe(
+        now + 0.8 * PROCESSING_TIME_MS("Fish Oil"),
+      );
     });
   });
 

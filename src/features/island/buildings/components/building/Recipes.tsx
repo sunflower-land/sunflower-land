@@ -254,6 +254,13 @@ export const Recipes: React.FC<Props> = ({
               />
             )}
 
+            {buildingId && (
+              <BuildingOilTank
+                buildingName={buildingName}
+                buildingId={buildingId}
+              />
+            )}
+
             <div className="w-full">
               <Label
                 className="mr-3 ml-2 mb-1"
@@ -278,12 +285,6 @@ export const Recipes: React.FC<Props> = ({
                 />
               ))}
             </div>
-            {buildingId && (
-              <BuildingOilTank
-                buildingName={buildingName}
-                buildingId={buildingId}
-              />
-            )}
           </>
         }
       />

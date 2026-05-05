@@ -56,8 +56,8 @@ export const CHEST_LOOT: (
   game: GameState,
   now: number,
 ) => Record<ChestRewardType, RewardBoxReward[]> = (state, now) => ({
-  "Treasure Key": BASIC_REWARDS,
-  "Rare Key": RARE_REWARDS,
+  "Treasure Key": BASIC_REWARDS(now),
+  "Rare Key": RARE_REWARDS(now),
   "Luxury Key": LUXURY_REWARDS(now),
   "Bud Box": BUD_BOX_REWARDS,
   "Gift Giver": GIFT_GIVER_REWARDS,

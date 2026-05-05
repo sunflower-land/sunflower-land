@@ -10,6 +10,10 @@ import {
   isWearable,
 } from "../events/landExpansion/buyChapterItem";
 import { INVENTORY_RELEASES, WEARABLE_RELEASES } from "./withdrawables";
+import {
+  getChapterTrackCollectibles,
+  getChapterTrackWearables,
+} from "./collections";
 
 export const CHEST_MULTIPLIER = 900;
 
@@ -46,8 +50,31 @@ function getChapterMegastoreChestRewards(
   return rewards;
 }
 
-export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
-export const BASIC_REWARDS: RewardBoxReward[] = [
+function getChapterTrackChestRewards(
+  now: number,
+  weight: number,
+): RewardBoxReward[] {
+  const chapter = getCurrentChapter(now);
+  const { startDate, endDate } = CHAPTERS[chapter];
+  const nowDate = new Date(now);
+  if (nowDate < startDate || nowDate >= endDate) return [];
+
+  const rewards: RewardBoxReward[] = [];
+
+  for (const name of getChapterTrackCollectibles(chapter)) {
+    if (!INVENTORY_RELEASES[name]?.withdrawAt) continue;
+    rewards.push({ items: { [name]: 1 }, weighting: weight });
+  }
+
+  for (const name of getChapterTrackWearables(chapter)) {
+    if (!WEARABLE_RELEASES[name]?.withdrawAt) continue;
+    rewards.push({ wearables: { [name]: 1 }, weighting: weight });
+  }
+
+  return rewards;
+}
+
+export const BASIC_REWARDS = (now: number): RewardBoxReward[] => [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
@@ -74,9 +101,10 @@ export const BASIC_REWARDS: RewardBoxReward[] = [
   { items: { "Fancy Fries": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
+  ...getChapterTrackChestRewards(now, 2.5 * CHEST_MULTIPLIER),
 ];
 
-export const RARE_REWARDS: RewardBoxReward[] = [
+export const RARE_REWARDS = (now: number): RewardBoxReward[] => [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
@@ -104,6 +132,7 @@ export const RARE_REWARDS: RewardBoxReward[] = [
   { items: { "Grape Juice": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { Sunstone: 1 }, weighting: 15 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
+  ...getChapterTrackChestRewards(now, 2.5 * CHEST_MULTIPLIER),
 ];
 
 export const LUXURY_REWARDS = (now: number): RewardBoxReward[] => [

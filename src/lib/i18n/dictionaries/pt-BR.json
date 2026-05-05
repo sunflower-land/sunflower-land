@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "Reúna a bandeira — o Despertar do Sal começou.",
   "description.saltDinoEgg": "Um ovo fossilizado saiu das salinas. Quem colocou isso?",
   "description.flamingoChicken.boost": "-2,5% de tempo de sono do frango",
-  "description.spaSheep.boost": "+5 EXP Animal da Animal Affection",
   "description.spaCow.boost": "+0.1 Leite",
   "description.deepSeaSlug.boost.2": "+1 minhoca da compostagem",
   "referral.share": "Compartilhe em:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "Conta como uma reinicialização de gema; o cronômetro livre não foi alterado.",
   "skillReset.ticket": "Redefinição de tíquete",
   "skillReset.ticketDescription": "Use um tíquete de redefinição de habilidade para redefinir todas as suas habilidades.",
-  "description.obsidianShrine.buff": "Colha, plante e fertilize suas colheitas e frutas em massa",
   "obsidianShrine.fertilise": "Fertilize tudo",
-  "obsidianShrine.fertiliseAll": "Aplique fertilizante em todas as parcelas e áreas elegíveis",
   "obsidianShrine.selectFertiliser": "Selecione um fertilizante",
   "obsidianShrine.noFertilisers": "Não há fertilizantes disponíveis",
   "obsidianShrine.noEligiblePlots": "Sem parcelas para fertilizar",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "+1 peixe aleatório a cada 15ª bobina",
   "description.clamShellHat": "Uma concha de molusco polida empoleirada sobre sua cabeça.",
   "description.shrimpOnesie": "Confortável, salgado e um pouco picante.",
-  "vip.benefit.bonusSaltYield": "+2 sal por ancinho durante o capítulo Salt Awakening"
+  "vip.benefit.bonusSaltYield": "+2 sal por ancinho durante o capítulo Salt Awakening",
+  "statements.blacklist.discord": "Fale conosco no Discord, abra um ticket.",
+  "statements.blacklist.noDiscord": "Não tem Discord? Entre em contato conosco aqui.",
+  "description.spaSheep.boost": "+5 XP de ovelhas das ferramentas Animal Affection",
+  "description.obsidianShrine.buff": "Colha a granel, plante e fertilize suas plantações, frutas e estufa",
+  "obsidianShrine.fertiliseAll": "Aplique fertilizante em todas as parcelas, canteiros e vasos de estufa elegíveis",
+  "obsidianShrine.noEligiblePots": "Sem vasos de estufa para fertilizar"
 }
