@@ -1,6 +1,11 @@
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
-import { CHAPTER_CRAFTING_ITEMS, CRAFTABLE_BEARS, DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
+import {
+  CHAPTER_CRAFTING_ITEMS,
+  CRAFTABLE_BEARS,
+  DOLLS,
+  RECIPE_CRAFTABLES,
+} from "features/game/lib/crafting";
 import { CROPS } from "features/game/types/crops";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
@@ -73,7 +78,9 @@ export const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Timber",
 
   ...getKeys(DOLLS).filter((name) => !(name in CHAPTER_CRAFTING_ITEMS)),
-  ...getKeys(CRAFTABLE_BEARS).filter((name) => !(name in CHAPTER_CRAFTING_ITEMS)),
+  ...getKeys(CRAFTABLE_BEARS).filter(
+    (name) => !(name in CHAPTER_CRAFTING_ITEMS),
+  ),
 ];
 
 // Resources that are only shown in the crafting ingredient picker during a specific chapter,

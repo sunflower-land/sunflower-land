@@ -88,22 +88,21 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const now = Date.now();
+  const [now] = useState(() => Date.now());
   const currentChapter = getCurrentChapter(now);
   const chapterSecondsLeft = secondsLeftInChapter(now);
 
   // Separate chapter-specific recipes from regular ones.
   // Chapter items are sourced from the global RECIPES constant so they always
   // appear regardless of whether they're in the player's craftingBox.recipes.
-  const regularRecipes = getObjectEntries(recipes || {}).reduce<Partial<Recipes>>(
-    (acc, [name, recipe]) => {
-      if (!CHAPTER_CRAFTING_ITEMS[name]) {
-        acc[name] = recipe;
-      }
-      return acc;
-    },
-    {},
-  );
+  const regularRecipes = getObjectEntries(recipes || {}).reduce<
+    Partial<Recipes>
+  >((acc, [name, recipe]) => {
+    if (!CHAPTER_CRAFTING_ITEMS[name]) {
+      acc[name] = recipe;
+    }
+    return acc;
+  }, {});
 
   const chapterRecipes = getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
     (acc, [name, recipe]) => {
@@ -497,7 +496,11 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
           <>
             <div className="flex items-center justify-between my-2">
               <Label type="vibrant">{t("chapterCrafting")}</Label>
-              <Label type="info" className="flex items-center mr-0.5" icon={SUNNYSIDE.icons.stopwatch}>
+              <Label
+                type="info"
+                className="flex items-center mr-0.5"
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
                 {secondsToString(chapterSecondsLeft, {
                   length: "short",
                   isShortFormat: true,
@@ -507,10 +510,14 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-2">
               {Object.values(filteredChapterRecipes || {}).map((recipe) => {
-                const isDiscovered = !!recipes[recipe.name as RecipeCollectibleName];
+                const isDiscovered =
+                  !!recipes[recipe.name as RecipeCollectibleName];
                 const canCraft = isDiscovered && hasRequiredIngredients(recipe);
                 const isCraftButtonDisabled =
-                  !isDiscovered || isPending || !canCraft || (isCrafting && !canAddToQueue);
+                  !isDiscovered ||
+                  isPending ||
+                  !canCraft ||
+                  (isCrafting && !canAddToQueue);
                 const { seconds: boostedCraftTime, boostsUsed } =
                   getBoostedCraftingTime({
                     game: state,

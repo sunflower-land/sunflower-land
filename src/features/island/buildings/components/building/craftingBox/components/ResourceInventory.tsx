@@ -1,7 +1,11 @@
 import React from "react";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
-import { CRAFTABLE_BEARS, RecipeIngredient, RECIPES } from "features/game/lib/crafting";
+import {
+  CRAFTABLE_BEARS,
+  RecipeIngredient,
+  RECIPES,
+} from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
@@ -59,9 +63,9 @@ export const ResourceInventory: React.FC<Props> = ({
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
           {validCraftingResourcesSorted({
-              currentChapter,
-              inventory: remainingInventory,
-            })
+            currentChapter,
+            inventory: remainingInventory,
+          })
             .filter(
               (itemName) =>
                 !(itemName in RECIPES) ||
