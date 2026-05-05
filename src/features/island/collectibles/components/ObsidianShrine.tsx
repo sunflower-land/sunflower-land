@@ -53,6 +53,7 @@ import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { FarmActivityName } from "features/game/types/farmActivity";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -456,6 +457,13 @@ const PlantAll: React.FC<{
     const availablePlots = getAvailablePlots(updatedState.context.state);
 
     if (availablePlots.length === 0) {
+      const game = updatedState.context.state;
+      const hasWings =
+        isWearableActive({ game, name: "Angel Wings" }) ||
+        isWearableActive({ game, name: "Devil Wings" });
+      if (hasWings) {
+        gameService.send("SAVE");
+      }
       onAllPlanted();
     }
   };
