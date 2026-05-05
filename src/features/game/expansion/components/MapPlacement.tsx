@@ -71,6 +71,7 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
 
   return (
     <div
+      data-map-placement
       className={classNames("absolute", className, {
         "pointer-events-none": !enableOnVisitClick && isVisiting,
       })}

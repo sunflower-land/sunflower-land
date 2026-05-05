@@ -75,7 +75,9 @@ export const SpiceRackPanel: React.FC = () => {
     autoEndAt: spiceClockEndAt,
   });
 
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(
+    () => queue.find((job) => job.readyAt <= now)?.id ?? null,
+  );
   const [selectedRecipeId, setSelectedRecipeId] = useState<
     SpiceRackRecipeName | undefined
   >();

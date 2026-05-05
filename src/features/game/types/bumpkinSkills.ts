@@ -2,8 +2,7 @@ import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
-import { GameState, Inventory, IslandType } from "./game";
-import { hasFeatureAccess } from "lib/flags";
+import { Inventory, IslandType } from "./game";
 import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
@@ -3455,17 +3454,13 @@ export const SKILL_TREE_CATEGORIES = Array.from(
 
 export const getRevampSkillTreeCategoriesByIsland = (
   islandType: IslandType,
-  state: GameState,
 ) => {
   return Array.from(
     new Set(
       getKeys(BUMPKIN_REVAMP_SKILL_TREE)
         .filter((skillName) => {
           const skill = BUMPKIN_REVAMP_SKILL_TREE[skillName];
-          return (
-            skill.requirements.island === islandType &&
-            (skill.tree !== "Aging" || hasFeatureAccess(state, "SALT_SKILLS"))
-          );
+          return skill.requirements.island === islandType;
         })
         .map((skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree),
     ),

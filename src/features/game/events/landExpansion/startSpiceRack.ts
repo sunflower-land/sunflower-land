@@ -12,7 +12,6 @@ import { getObjectEntries } from "lib/object";
 import { GameState } from "features/game/types/game";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
-import { hasFeatureAccess } from "lib/flags";
 
 export type StartSpiceRackAction = {
   type: "spiceRack.started";
@@ -32,10 +31,6 @@ export function startSpiceRack({
   action,
   createdAt,
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "AGING_SHED")) {
-    throw new Error("Aging Shed not enabled");
-  }
-
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
       throw new Error("Required building does not exist");

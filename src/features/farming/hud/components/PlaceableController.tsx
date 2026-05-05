@@ -53,6 +53,10 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
+  needsPlacementConfirmation,
+  PlacementConfirmationModal,
+} from "features/game/expansion/placeable/PlacementConfirmationModal";
+import {
   getPetType,
   getPlacedCommonPetTypesInPetHouse,
   getPlacedNFTPetTypesInPetHouse,
@@ -129,6 +133,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const [previousPosition, setPreviousPosition] = useState<
     Coordinates | undefined
   >();
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
 
   const now = useNow();
 
@@ -249,12 +254,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     return { width: 0, height: 0 };
   }, [placeable]);
 
-  const handleConfirmPlacement = useCallback(() => {
-    // prevents multiple toasts while spam clicking place button
-    if (!placingState) {
-      return;
-    }
-
+  const executePlacement = useCallback(() => {
     const state = gameService.getSnapshot().context.state;
 
     if (!placeable) return;
@@ -343,11 +343,23 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     location,
     maximum,
     placeable,
-    placingState,
     previousPosition,
     requirements,
     send,
   ]);
+
+  const handleConfirmPlacement = useCallback(() => {
+    // prevents multiple toasts while spam clicking place button
+    if (!placingState) return;
+    if (!placeable) return;
+
+    if (needsPlacementConfirmation(placeable.name)) {
+      setPendingConfirmation(true);
+      return;
+    }
+
+    executePlacement();
+  }, [placingState, placeable, executePlacement]);
 
   const handleCancelPlacement = useCallback(() => {
     send("BACK");
@@ -540,6 +552,17 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           </Button>
         </div>
       </OuterPanel>
+
+      {pendingConfirmation && placeable && (
+        <PlacementConfirmationModal
+          itemName={placeable.name}
+          onCancel={() => setPendingConfirmation(false)}
+          onConfirm={() => {
+            setPendingConfirmation(false);
+            executePlacement();
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -406,7 +406,6 @@ export const landscapingMachine = createMachine<
                 cond: (context) =>
                   // When buying/crafting items, return them to playing mode once bought
                   context.action === "collectible.crafted" ||
-                  context.action === "collectible.placed" ||
                   context.action === "building.constructed",
                 actions: [
                   sendParent(

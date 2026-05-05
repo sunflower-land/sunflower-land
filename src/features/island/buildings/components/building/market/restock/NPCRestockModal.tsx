@@ -18,7 +18,6 @@ import {
 } from "features/game/events/landExpansion/npcRestock";
 import { capitalize } from "lodash";
 import { getObjectEntries } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 
 interface RestockModalProps {
@@ -67,11 +66,9 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
   const { labelText, icon } = categoryLabel;
   const restockables = INITIAL_STOCK(state);
 
-  const restockItems = getObjectEntries(restockables)
-    .filter((item) => item[0] in restockItem)
-    .filter(
-      ([item]) => item !== "Salt Rake" || hasFeatureAccess(state, "SALT_FARM"),
-    );
+  const restockItems = getObjectEntries(restockables).filter(
+    (item) => item[0] in restockItem,
+  );
 
   return (
     <>

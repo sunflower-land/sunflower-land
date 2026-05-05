@@ -18,7 +18,6 @@ import blueVipIcon from "assets/icons/blue_vip.webp";
 import purpleVipIcon from "assets/icons/purple_vip.webp";
 import multiCast from "src/assets/icons/multi-cast.webp";
 
-import trophyIcon from "assets/icons/trophy.png";
 import shopIcon from "assets/icons/shop.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -354,20 +353,11 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     }
                   : undefined,
               },
-              { text: t("vip.benefit.competition"), icon: trophyIcon },
-              ...(currentChapter === "Paw Prints"
+              ...(currentChapter === "Salt Awakening"
                 ? [
                     {
-                      text: t("vip.benefit.bonusPetEnergy"),
-                      icon: SUNNYSIDE.icons.lightning,
-                    },
-                  ]
-                : []),
-              ...(currentChapter === "Crabs and Traps"
-                ? [
-                    {
-                      text: t("vip.benefit.bonusFishingAttempts"),
-                      icon: ITEM_DETAILS["Rod"].image,
+                      text: t("vip.benefit.bonusSaltYield"),
+                      icon: ITEM_DETAILS["Salt"].image,
                     },
                   ]
                 : []),

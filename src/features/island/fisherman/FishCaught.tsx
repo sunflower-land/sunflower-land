@@ -1,4 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
+import lightning from "assets/icons/lightning.png";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
@@ -16,6 +17,7 @@ interface Props {
   maps: Partial<Record<MarineMarvelName, number>>;
   farmActivity: GameState["farmActivity"];
   caught: Partial<Record<InventoryItemName, number>>;
+  shrimpOnesieBonus?: Partial<Record<InventoryItemName, number>>;
   onClaim: () => void;
   multiplier?: number;
   difficultCatch: {
@@ -28,6 +30,7 @@ interface Props {
 export const FishCaught: React.FC<Props> = ({
   farmActivity,
   caught,
+  shrimpOnesieBonus,
   maps,
   onClaim,
   multiplier = 1,
@@ -135,6 +138,7 @@ export const FishCaught: React.FC<Props> = ({
                     name in FISH &&
                     (!farmActivity[`${name} Caught`] ||
                       farmActivity[`${name} Caught`] === 0);
+                  const shrimpBonus = shrimpOnesieBonus?.[name] ?? 0;
 
                   return (
                     <InnerPanel
@@ -150,10 +154,16 @@ export const FishCaught: React.FC<Props> = ({
                         <div className="flex justify-between items-center w-full pr-1">
                           <span className="text-xs">{name}</span>
                           <div className="flex items-center gap-1">
+                            {shrimpBonus > 0 && (
+                              <Label type="vibrant" icon={lightning}>
+                                {t("fishing.shrimpOnesie.bonus", {
+                                  amount: shrimpBonus,
+                                })}
+                              </Label>
+                            )}
                             {isNew && (
                               <Label
                                 type="warning"
-                                className="text-[10px] px-1 py-0.5"
                                 icon={SUNNYSIDE.icons.search}
                               >
                                 {t("new")}
@@ -213,6 +223,7 @@ export const FishCaught: React.FC<Props> = ({
             name in FISH &&
             (!farmActivity[`${name} Caught`] ||
               farmActivity[`${name} Caught`] === 0);
+          const shrimpBonus = shrimpOnesieBonus?.[name] ?? 0;
 
           return (
             <div
@@ -226,6 +237,11 @@ export const FishCaught: React.FC<Props> = ({
                 </Label>
               )}
               <span className="text-sm mb-2">{name}</span>
+              {shrimpBonus > 0 && (
+                <Label type="vibrant" icon={lightning} className="mb-2">
+                  {t("fishing.shrimpOnesie.bonus", { amount: shrimpBonus })}
+                </Label>
+              )}
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
               <span className="text-xs text-center mb-2">
                 {ITEM_DETAILS[name].description}

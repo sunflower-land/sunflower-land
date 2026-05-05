@@ -29,6 +29,7 @@ import { Bumpkin, IslandType } from "features/game/types/game";
 import {
   HOME_BOUNDS,
   NON_COLLIDING_OBJECTS,
+  FURNITURE_OBJECTS,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bud } from "features/island/buds/Bud";
 import { InteriorBumpkins } from "./components/InteriorBumpkins";
@@ -173,7 +174,13 @@ export const Home: React.FC = () => {
                 oY={oY}
                 height={height}
                 width={width}
-                z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+                z={
+                  FURNITURE_OBJECTS.includes(name)
+                    ? 1
+                    : NON_COLLIDING_OBJECTS.includes(name)
+                      ? 0
+                      : 2
+                }
                 enableOnVisitClick
               >
                 <Collectible

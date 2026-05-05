@@ -359,37 +359,37 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     seasons: [],
   },
   "Giant Isopod": {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
   },
   Nautilus: {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
   },
   Dollocaris: {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
   },
   "Deep Sea Pig": {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
   },
   "Deep Sea Slug": {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
   },
   "Crystal Shrimp": {
-    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    baits: [],
     type: "chapter",
     likes: [],
     seasons: [],
@@ -907,9 +907,7 @@ export type MapPieceFishTrigger = {
   odds: number;
 };
 
-export const MAP_PIECE_FISH_TRIGGERS: Partial<
-  Record<FishName, MapPieceFishTrigger>
-> = {
+const BASE_MAP_PIECE_TRIGGERS = {
   Halibut: { marvel: "Starlight Tuna", odds: 0.025 },
   "Horse Mackerel": { marvel: "Starlight Tuna", odds: 0.36 },
   Clownfish: { marvel: "Twilight Anglerfish", odds: 0.025 },
@@ -920,16 +918,50 @@ export const MAP_PIECE_FISH_TRIGGERS: Partial<
   "Hammerhead shark": { marvel: "Radiant Ray", odds: 0.05 },
   "Mahi Mahi": { marvel: "Phantom Barracuda", odds: 0.0018 },
   Squid: { marvel: "Phantom Barracuda", odds: 0.05 },
-  "Red Snapper": { marvel: "Super Star", odds: 0.01 },
-  "Whale Shark": { marvel: "Super Star", odds: 0.1 },
-  Anchovy: { marvel: "Giant Isopod", odds: 0.008 },
-  Oarfish: { marvel: "Giant Isopod", odds: 0.03 },
-  "Sea Horse": { marvel: "Nautilus", odds: 0.01 },
-  Tuna: { marvel: "Nautilus", odds: 0.002 },
-  Sunfish: { marvel: "Dollocaris", odds: 0.005 },
-  "Football fish": { marvel: "Dollocaris", odds: 0.005 },
-  // TODO: Add Salt Awakening fish triggers
+} satisfies Partial<Record<FishName, MapPieceFishTrigger>>;
+
+type BaseMapPieceFishName = keyof typeof BASE_MAP_PIECE_TRIGGERS;
+
+type MapPieceTriggers = Partial<
+  Record<Exclude<FishName, BaseMapPieceFishName>, MapPieceFishTrigger>
+>;
+
+const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
+  Record<ChapterName, MapPieceTriggers>
+> = {
+  "Paw Prints": {
+    "Red Snapper": { marvel: "Super Star", odds: 0.01 },
+    "Whale Shark": { marvel: "Super Star", odds: 0.1 },
+  },
+  "Crabs and Traps": {
+    Anchovy: { marvel: "Giant Isopod", odds: 0.008 },
+    Oarfish: { marvel: "Giant Isopod", odds: 0.03 },
+    "Sea Horse": { marvel: "Nautilus", odds: 0.01 },
+    Tuna: { marvel: "Nautilus", odds: 0.002 },
+    Sunfish: { marvel: "Dollocaris", odds: 0.005 },
+    "Football fish": { marvel: "Dollocaris", odds: 0.005 },
+  },
+  "Salt Awakening": {
+    Tuna: { marvel: "Crystal Shrimp", odds: 0.008 },
+    "Sea Bass": { marvel: "Crystal Shrimp", odds: 0.03 },
+    Surgeonfish: { marvel: "Deep Sea Slug", odds: 0.001 },
+    "Barred Knifejaw": { marvel: "Deep Sea Slug", odds: 0.01 },
+    Sunfish: { marvel: "Deep Sea Pig", odds: 0.005 },
+    Coelacanth: { marvel: "Deep Sea Pig", odds: 0.005 },
+  },
 };
+
+export function getMapPieceFishTriggers(
+  now: number,
+): Partial<Record<FishName, MapPieceFishTrigger>> {
+  const currentChapter = getCurrentChapter(now);
+  const triggers: Partial<Record<FishName, MapPieceFishTrigger>> = {
+    ...BASE_MAP_PIECE_TRIGGERS,
+    ...CHAPTER_MAP_PIECE_TRIGGERS[currentChapter],
+  };
+
+  return triggers;
+}
 
 export const MAP_PIECE_CHAPTERS: Partial<
   Record<MarineMarvelName, ChapterName>
@@ -944,5 +976,12 @@ export const MAP_PIECE_CHAPTERS: Partial<
 };
 
 export const MAP_PIECE_MARVELS: MarineMarvelName[] = [
-  ...new Set(Object.values(MAP_PIECE_FISH_TRIGGERS).map((t) => t.marvel)),
+  ...new Set(
+    [
+      ...Object.values(BASE_MAP_PIECE_TRIGGERS),
+      ...Object.values(CHAPTER_MAP_PIECE_TRIGGERS).flatMap((t) =>
+        Object.values(t ?? {}),
+      ),
+    ].map((t) => t.marvel),
+  ),
 ];

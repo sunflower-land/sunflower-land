@@ -583,23 +583,35 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   // Salt Awakening Wearables
   "Spa Hat": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   "Spa Robe": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   "Spa Slippers": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   "Bubble Aura": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   "Deep Sea Salt Cave Background": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Clam Shell Hat": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Shrimp Onesie": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Pistol Shrimp": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
 
   "Moonseeker Potion": {
@@ -1580,30 +1592,86 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
-  "Pearl Bed": {
-    tradeAt: CHAPTERS["Crabs and Traps"].endDate,
-    withdrawAt: new Date("2026-06-04T00:00:00Z"),
-  },
   "Crimstone Clam": {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
 
   // Salt Awakening Collectibles
-  "Crystal Altar": {
-    tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
-  },
   "Dino Egg Trophy": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Salt Lamp": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Ripped Salt Bag": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "World Map Rug": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Flamingo Chicken": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Salt Crystal Flower": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Deep Sea Pig": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Deep Sea Slug": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Crystal Shrimp": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Spa Cow": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Spa Sheep": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  Pufferfish: {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Fat Crab": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Navigation Table": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Royal Crab Pot": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Crab House": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
+  },
+  "Speed Trap": {
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   CluckCoin: {
     tradeAt: new Date("2025-01-01T00:00:00.000Z"),
   },
   "Fish Kite": {
-    tradeAt: CHAPTERS["Crabs and Traps"].endDate,
-    withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    tradeAt: CHAPTERS["Salt Awakening"].endDate,
+    withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
   "Diving Helmet": {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,

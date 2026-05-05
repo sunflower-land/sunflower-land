@@ -154,4 +154,76 @@ describe("speedUpBuilding", () => {
     expect(state.gems.history).toHaveProperty(dateKey);
     expect(state.gems.history?.[dateKey]?.spent).toBe(1);
   });
+
+  describe("Dino Egg Trophy coin payment", () => {
+    it("throws when paymentMethod is 'coins' without a placed Dino Egg Trophy", () => {
+      expect(() =>
+        speedUpBuilding({
+          action: {
+            type: "building.spedUp",
+            id: "123",
+            name: "Workbench",
+            paymentMethod: "coins",
+          },
+          state: {
+            ...INITIAL_FARM,
+            coins: 100_000,
+            buildings: {
+              Workbench: [
+                {
+                  coordinates: { x: 0, y: 0 },
+                  createdAt: 100,
+                  id: "123",
+                  readyAt: Date.now() + 1000,
+                },
+              ],
+            },
+          },
+        }),
+      ).toThrow("Dino Egg Trophy required");
+    });
+
+    it("charges coins at 50 per gem and finishes the building when trophy is placed", () => {
+      const now = Date.now();
+      const state = speedUpBuilding({
+        action: {
+          type: "building.spedUp",
+          id: "123",
+          name: "Workbench",
+          paymentMethod: "coins",
+        },
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          coins: 1000,
+          inventory: { Gem: new Decimal(0) },
+          collectibles: {
+            "Dino Egg Trophy": [
+              {
+                id: "trophy-1",
+                createdAt: 0,
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+              },
+            ],
+          },
+          buildings: {
+            Workbench: [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 100,
+                id: "123",
+                readyAt: now + 1000,
+              },
+            ],
+          },
+        },
+      });
+
+      // 1s remaining ⇒ 1 gem ⇒ 50 coins.
+      expect(state.coins).toBe(950);
+      expect(state.inventory.Gem).toEqual(new Decimal(0));
+      expect(state.buildings.Workbench![0].readyAt).toBe(now);
+    });
+  });
 });

@@ -32,7 +32,6 @@ import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
-
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -137,10 +136,7 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
-          const categories = getRevampSkillTreeCategoriesByIsland(
-            islandType,
-            state,
-          );
+          const categories = getRevampSkillTreeCategoriesByIsland(islandType);
           if (categories.length <= 0) return;
 
           return (

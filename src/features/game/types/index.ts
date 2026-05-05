@@ -1525,6 +1525,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Crystal Altar": 3017,
   "Dino Egg Trophy": 3018,
+  "Salt Lamp": 3019,
+  "Salt Crystal Bed": 3020,
+  "World Map Rug": 3021,
+  "Ripped Salt Bag": 3022,
 };
 
 // The reverse of above

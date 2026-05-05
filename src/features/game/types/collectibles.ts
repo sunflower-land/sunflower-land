@@ -149,7 +149,11 @@ export type SoldOutCollectibleName =
   | "Speed Trap"
   // Salt Awakening
   | "Crystal Altar"
-  | "Dino Egg Trophy";
+  | "Dino Egg Trophy"
+  | "Salt Lamp"
+  | "Salt Crystal Bed"
+  | "World Map Rug"
+  | "Ripped Salt Bag";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

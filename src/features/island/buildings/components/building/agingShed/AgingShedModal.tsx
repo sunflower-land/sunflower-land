@@ -14,7 +14,6 @@ import { FermentationRackPanel } from "./fermentationRack/FermentationRackPanel"
 import { AgingRackPanel } from "./agingRack/AgingRackPanel";
 import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
-import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -33,9 +32,6 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const agingShedLevel = useSelector(
     gameService,
     (state) => state.context.state.agingShed.level,
-  );
-  const hasAgingShedAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "AGING_SHED"),
   );
   const agingShedRacks = useSelector(
     gameService,
@@ -57,6 +53,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     (slot) => slot.readyAt <= now,
   );
   const hasReadySpiceRack = spice.some((slot) => slot.readyAt <= now);
+  const isMaxedLevel = agingShedLevel >= 6;
 
   const tabs: PanelTabs<AgingShedTabs>[] = [
     {
@@ -107,18 +104,13 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
       />
       <CloseButtonPanel<AgingShedTabs>
         onClose={closeUpgradeTab}
-        tabs={
-          !hasAgingShedAccess ? undefined : showUpgradeTab ? upgradeTab : tabs
-        }
-        currentTab={
-          showUpgradeTab && hasAgingShedAccess ? "upgrade" : currentTab
-        }
+        tabs={showUpgradeTab ? upgradeTab : tabs}
+        currentTab={showUpgradeTab ? "upgrade" : currentTab}
         setCurrentTab={showUpgradeTab ? undefined : setCurrentTab}
-        container={showUpgradeTab ? undefined : OuterPanel}
+        container={isMaxedLevel && showUpgradeTab ? undefined : OuterPanel}
       >
         <AgedShedPanel
           agingShedLevel={agingShedLevel}
-          hasAgingShedAccess={hasAgingShedAccess}
           setShowUpgradeTab={setShowUpgradeTab}
           closeUpgradeTab={closeUpgradeTab}
           showUpgradeTab={showUpgradeTab}
@@ -131,29 +123,18 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
 const AgedShedPanel: React.FC<{
   agingShedLevel: number;
-  hasAgingShedAccess: boolean;
   setShowUpgradeTab: React.Dispatch<React.SetStateAction<boolean>>;
   closeUpgradeTab: () => void;
   showUpgradeTab: boolean;
   currentTab: AgingShedTabs;
 }> = ({
   agingShedLevel,
-  hasAgingShedAccess,
   setShowUpgradeTab,
   closeUpgradeTab,
   showUpgradeTab,
   currentTab,
 }) => {
-  const { t } = useAppTranslation();
   const nextAgingShedLevel = agingShedLevel + 1;
-
-  if (!hasAgingShedAccess) {
-    return (
-      <div className="p-2">
-        <p className="text-sm">{t("coming.soon")}</p>
-      </div>
-    );
-  }
 
   if (showUpgradeTab) {
     return (

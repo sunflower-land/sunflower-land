@@ -3,11 +3,12 @@ import { Coordinates } from "../expansion/components/MapPlacement";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
 import { isWearableActive } from "../lib/wearables";
+import { hasVipAccess } from "../lib/vipAccess";
+import { getCurrentChapter } from "./chapters";
 
 export type SaltNode = {
   createdAt: number;
   salt: Salt;
-  coordinates: Coordinates;
 };
 
 export type Salt = {
@@ -151,7 +152,10 @@ export function rechargeAllSaltNodes(game: GameState, now: number): GameState {
   return game;
 }
 
-export function getSaltYieldPerRake(gameState: GameState): {
+export function getSaltYieldPerRake(
+  gameState: GameState,
+  now: number,
+): {
   saltYield: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
@@ -173,6 +177,14 @@ export function getSaltYieldPerRake(gameState: GameState): {
     boostsUsed.push({ name: "Deep Sea Salt Cave Background", value: "+5" });
   }
 
+  if (
+    hasVipAccess({ game: gameState, now }) &&
+    getCurrentChapter(now) === "Salt Awakening"
+  ) {
+    saltYield += 2;
+    boostsUsed.push({ name: "VIP Access", value: "+2" });
+  }
+
   return { saltYield, boostsUsed };
 }
 
@@ -187,8 +199,6 @@ export type SaltSyncOptions = {
   chargeIntervalMs?: number;
   maxCharges?: number;
 };
-
-export type SaltHarvestSlot = { startedAt: number; readyAt: number };
 
 function rollNextChargeBoundary(
   nextChargeAt: number,
@@ -337,10 +347,12 @@ export function getSaltNodeCoordinates(
 ): Coordinates {
   let offsetX = 0;
   let offsetY = 0;
+
   if (expansions < 7) {
-    offsetX = 13;
-    offsetY = 12;
+    offsetX = 6;
+    offsetY = 10;
   }
+
   if (expansions >= 7 && expansions < 21) {
     offsetX = 6;
     offsetY = 6;
@@ -352,23 +364,25 @@ export function getSaltNodeCoordinates(
   };
 }
 
+export type SaltNodePosition = "top" | "bottom" | "left" | "right" | undefined;
+
 export function getSaltNodePosition(
-  saltNode: SaltNode,
+  coordinates: Coordinates,
   highestY: number,
   lowestY: number,
   leftestX: number,
   rightestX: number,
-): "top" | "bottom" | "left" | "right" | undefined {
-  if (saltNode.coordinates.y === highestY) {
+): SaltNodePosition {
+  if (coordinates.y === highestY) {
     return "top";
   }
-  if (saltNode.coordinates.y === lowestY) {
+  if (coordinates.y === lowestY) {
     return "bottom";
   }
-  if (saltNode.coordinates.x === leftestX) {
+  if (coordinates.x === leftestX) {
     return "left";
   }
-  if (saltNode.coordinates.x === rightestX) {
+  if (coordinates.x === rightestX) {
     return "right";
   }
   return undefined;
@@ -376,47 +390,43 @@ export function getSaltNodePosition(
 
 export function getSaltNodesWithPositions(
   saltNodes: SaltNodes,
+  expansions: number,
 ): Record<
   string,
-  SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+  SaltNode & { coordinates: Coordinates; position: SaltNodePosition }
 > {
-  const highestY = Math.max(
-    ...Object.values(saltNodes).map((node) => node.coordinates.y),
-  );
-  const lowestY = Math.min(
-    ...Object.values(saltNodes).map((node) => node.coordinates.y),
-  );
-  const leftestX = Math.min(
-    ...Object.values(saltNodes).map((node) => node.coordinates.x),
-  );
-  const rightestX = Math.max(
-    ...Object.values(saltNodes).map((node) => node.coordinates.x),
-  );
+  const idsWithCoords = getObjectEntries(saltNodes).map<
+    [string, SaltNode, Coordinates]
+  >(([id, node]) => [id, node, getSaltNodeCoordinates(expansions, id)]);
 
-  const saltNodesWithPosition = getObjectEntries(saltNodes).map<
-    [
-      string,
-      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined },
-    ]
-  >(([id, node]) => {
-    const position = getSaltNodePosition(
-      node,
-      highestY,
-      lowestY,
-      leftestX,
-      rightestX,
-    );
-    return [id, { ...node, position }];
-  });
+  if (idsWithCoords.length === 0) {
+    return {};
+  }
 
-  return saltNodesWithPosition.reduce<
+  const ys = idsWithCoords.map(([, , c]) => c.y);
+  const xs = idsWithCoords.map(([, , c]) => c.x);
+  const highestY = Math.max(...ys);
+  const lowestY = Math.min(...ys);
+  const leftestX = Math.min(...xs);
+  const rightestX = Math.max(...xs);
+
+  return idsWithCoords.reduce<
     Record<
       string,
-      SaltNode & { position: "top" | "bottom" | "left" | "right" | undefined }
+      SaltNode & { coordinates: Coordinates; position: SaltNodePosition }
     >
-  >((acc, [id, node]) => {
-    acc[id] = node;
-
+  >((acc, [id, node, coordinates]) => {
+    acc[id] = {
+      ...node,
+      coordinates,
+      position: getSaltNodePosition(
+        coordinates,
+        highestY,
+        lowestY,
+        leftestX,
+        rightestX,
+      ),
+    };
     return acc;
   }, {});
 }

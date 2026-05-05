@@ -14,7 +14,6 @@ import {
 } from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 
 export type StartAgingAction = {
@@ -36,10 +35,6 @@ export function startAging({
   createdAt = Date.now(),
   farmId: _farmId,
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "AGING_SHED")) {
-    throw new Error("Aging Shed not enabled");
-  }
-
   return produce(state, (game) => {
     if (!hasPlacedAgingShed(game)) {
       throw new Error(translate("error.requiredBuildingNotExist"));

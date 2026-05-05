@@ -52,7 +52,9 @@ export const AgingRackPanel: React.FC = () => {
 
   const now = useNow({ live: queue.length > 0, autoEndAt: agingClockEndAt });
 
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(
+    () => queue.find((slot) => slot.readyAt <= now)?.id ?? null,
+  );
   const [selectedFish, setSelectedFish] = useState<FishName | undefined>();
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();

@@ -3,9 +3,12 @@ import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { RecipeIngredient } from "features/game/lib/crafting";
-import { Inventory, Wardrobe } from "features/game/types/game";
+import { GameState, Inventory, Wardrobe } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
+import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
 import fastForward from "assets/icons/fast_forward.png";
 import vipIcon from "assets/icons/vip.webp";
 
@@ -21,8 +24,9 @@ export const CraftButton: React.FC<{
   selectedItems: (RecipeIngredient | null)[];
   inventory: Inventory;
   wardrobe: Wardrobe;
-  gems: number;
-  onInstantCraft: (gems: number) => void;
+  state: GameState;
+  readyAt: number;
+  onInstantCraft: (cost: number, paymentMethod?: "gems" | "coins") => void;
   isQueueFull?: boolean;
   isPreparingQueueSlot?: boolean;
   isViewingQueuedRecipe?: boolean;
@@ -38,7 +42,8 @@ export const CraftButton: React.FC<{
   selectedItems,
   inventory,
   wardrobe,
-  gems,
+  state,
+  readyAt,
   onInstantCraft,
   isQueueFull = false,
   isPreparingQueueSlot = false,
@@ -46,6 +51,18 @@ export const CraftButton: React.FC<{
 }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const payment = useSpeedUpPayment({ readyAt, game: state });
+  const cost =
+    payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
+  const costIcon =
+    payment.paymentMethod === "coins"
+      ? SUNNYSIDE.ui.coins
+      : ITEM_DETAILS["Gem"].image;
+  const confirmationCostMessage =
+    payment.paymentMethod === "coins"
+      ? t("instantCook.coinCostMessage", { coins: cost })
+      : t("instantCook.costMessage", { gems: cost });
 
   const hasRequiredIngredients = useMemo(() => {
     return selectedItems.every((ingredient) => {
@@ -105,13 +122,17 @@ export const CraftButton: React.FC<{
         )}
         {!isPreparingQueueSlot && !isViewingReadyItem && (
           <Button
-            disabled={!inventory.Gem?.gte(gems) || isPending}
+            disabled={!payment.canAfford || isPending}
             onClick={() => setShowConfirmation(true)}
           >
             <div className="flex items-center justify-center gap-1">
               <img src={fastForward} className="h-5" />
-              <span className="text-sm flex items-center">{gems}</span>
-              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+              {!payment.canPayWithCoins && (
+                <>
+                  <span className="text-sm flex items-center">{cost}</span>
+                  <img src={costIcon} className="h-5" />
+                </>
+              )}
             </div>
           </Button>
         )}
@@ -120,14 +141,15 @@ export const CraftButton: React.FC<{
           onHide={() => setShowConfirmation(false)}
           onCancel={() => setShowConfirmation(false)}
           onConfirm={() => {
-            onInstantCraft(gems);
+            onInstantCraft(cost, payment.paymentMethod);
             setShowConfirmation(false);
           }}
           messages={[
             t("instantCook.confirmationMessage"),
-            t("instantCook.costMessage", { gems }),
+            confirmationCostMessage,
           ]}
           confirmButtonLabel={t("instantCook.finish")}
+          bodyContent={<SpeedUpPaymentSelector payment={payment} />}
         />
       </div>
     );

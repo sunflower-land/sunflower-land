@@ -711,7 +711,7 @@ describe("buyChapterItem", () => {
       });
 
       expect(firstBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(1));
-      expect(firstBuy.inventory["Salt Rock"]).toEqual(new Decimal(450));
+      expect(firstBuy.inventory["Salt Rock"]).toEqual(new Decimal(400));
 
       const secondBuy = buyChapterItem({
         state: firstBuy,
@@ -724,7 +724,7 @@ describe("buyChapterItem", () => {
       });
 
       expect(secondBuy.inventory["Gourmet Hourglass"]).toEqual(new Decimal(2));
-      expect(secondBuy.inventory["Salt Rock"]).toEqual(new Decimal(400));
+      expect(secondBuy.inventory["Salt Rock"]).toEqual(new Decimal(300));
     });
 
     it("still blocks repurchase of a non-repurchasable Salt Awakening item within the same chapter", () => {

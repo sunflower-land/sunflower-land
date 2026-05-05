@@ -42,6 +42,7 @@ export function getChapterMegastoreCollectibles(
     "Bronze Flower Box",
     "Silver Flower Box",
     "Gold Flower Box",
+    ...HOURGLASSES,
   ];
   // Runtime type guard to ensure result is ChapterCollectibleName
   function isChapterCollectible(
@@ -399,6 +400,23 @@ export const CHAPTER_COLLECTIONS: Partial<
         ],
       },
       other: { collectibles: ["Crabs and Traps Banner"] },
+    },
+  }),
+  "Salt Awakening": buildChapterCollection({
+    chapter: "Salt Awakening",
+    overrides: {
+      auctioneer: {
+        collectibles: [
+          "Pufferfish",
+          "Fat Crab",
+          "Navigation Table",
+          "Royal Crab Pot",
+          "Crab House",
+          "Speed Trap",
+        ],
+        wearables: ["Pistol Shrimp"],
+      },
+      other: { collectibles: ["Salt Awakening Banner"] },
     },
   }),
 };

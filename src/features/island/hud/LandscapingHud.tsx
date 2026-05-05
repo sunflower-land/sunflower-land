@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -48,7 +49,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
+import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
 import classNames from "classnames";
+import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -81,11 +84,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
+  // Flush pending actions every minute so the API never receives actions
+  // older than its acceptance window.
+  useInterval(() => {
+    gameService.send("SAVE");
+  }, 1000 * 60);
+
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
   const [showRemoveAllConfirmation, setShowRemoveAllConfirmation] =
     useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showCraftBuild, setShowCraftBuild] = useState(false);
+  const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
 
   const child = gameService.getSnapshot().children
@@ -114,6 +124,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
   const gameState = useSelector(gameService, (state) => state.context.state);
+  const hasQuickPanel = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "QUICK_LANDSCAPING_PANEL"),
+  );
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
   const hasNoBuildings = !gameState.buildings["Water Well"];
 
@@ -510,7 +523,16 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         </div>
       )}
 
-      <PlaceableController location={location} />
+      {hasQuickPanel && (
+        <LandscapingQuickPanel
+          location={location}
+          onQuickDragChange={setQuickDragging}
+        />
+      )}
+
+      {(!hasQuickPanel || !quickDragging) && (
+        <PlaceableController location={location} />
+      )}
     </HudContainer>
   );
 };

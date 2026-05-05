@@ -8,7 +8,11 @@ import React, {
 } from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  PIXEL_SCALE,
+  SQUARE_WIDTH,
+} from "features/game/lib/constants";
 import { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
@@ -149,6 +153,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
   const nodeRef = useRef<HTMLDivElement>(null);
+  const [pixelPerfect, setPixelPerfect] = useState(false);
 
   const hintResetToken = useMemo(
     () => Symbol(`origin-${origin?.x ?? "none"}-${origin?.y ?? "none"}`),
@@ -233,25 +238,31 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     [coordinates.x, coordinates.y],
   );
 
-  // Arrow/WASD keyboard movement to move the ghost placeable on the grid
+  // Arrow/WASD keyboard movement + p for pixel-perfect toggle
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!placeable) return;
-
-      // Only while placing; ignore if typing in inputs
       if (document.activeElement?.tagName === "INPUT") return;
+
+      if (e.key === "p") {
+        setPixelPerfect((prev) => !prev);
+        return;
+      }
+
+      // One grid unit normally; one in-game pixel (1/SQUARE_WIDTH) in pixel-perfect mode
+      const step = pixelPerfect ? 1 / SQUARE_WIDTH : 1;
 
       let deltaX = 0;
       let deltaY = 0;
 
       if (e.key === "ArrowUp" || e.key === "w") {
-        deltaY = 1;
+        deltaY = step;
       } else if (e.key === "ArrowDown" || e.key === "s") {
-        deltaY = -1;
+        deltaY = -step;
       } else if (e.key === "ArrowLeft" || e.key === "a") {
-        deltaX = -1;
+        deltaX = -step;
       } else if (e.key === "ArrowRight" || e.key === "d") {
-        deltaX = 1;
+        deltaX = step;
       } else {
         return;
       }
@@ -264,7 +275,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [placeable, coordinates.x, coordinates.y, detect, hideHint]);
+  }, [placeable, pixelPerfect, coordinates.x, coordinates.y, detect, hideHint]);
 
   if (!placeable) return null;
 
@@ -295,25 +306,34 @@ export const Placeable: React.FC<Props> = ({ location }) => {
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
           nodeRef={nodeRef as React.RefObject<HTMLElement>}
-          grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+          grid={[
+            (pixelPerfect ? PIXEL_SCALE : GRID_WIDTH_PX) * scale.get(),
+            (pixelPerfect ? PIXEL_SCALE : GRID_WIDTH_PX) * scale.get(),
+          ]}
           scale={scale.get()}
           onStart={() => {
-            // reset
             send("DRAG");
           }}
           onDrag={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round(-data.y / GRID_WIDTH_PX);
+            const x = pixelPerfect
+              ? Math.round(data.x / PIXEL_SCALE) / SQUARE_WIDTH
+              : Math.round(data.x / GRID_WIDTH_PX);
+            const y = pixelPerfect
+              ? -Math.round(data.y / PIXEL_SCALE) / SQUARE_WIDTH
+              : Math.round(-data.y / GRID_WIDTH_PX);
 
             detect({ x, y });
             hideHint();
           }}
           onStop={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round(-data.y / GRID_WIDTH_PX);
+            const x = pixelPerfect
+              ? Math.round(data.x / PIXEL_SCALE) / SQUARE_WIDTH
+              : Math.round(data.x / GRID_WIDTH_PX);
+            const y = pixelPerfect
+              ? -Math.round(data.y / PIXEL_SCALE) / SQUARE_WIDTH
+              : Math.round(-data.y / GRID_WIDTH_PX);
 
             detect({ x, y });
-
             send("DROP");
           }}
           position={position}
@@ -336,6 +356,14 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 <span className="text-white text-sm">
                   {t("landscape.dragMe")}
                 </span>
+              </div>
+            )}
+            {pixelPerfect && (
+              <div
+                className="flex absolute pointer-events-none z-50 bg-[#000000af] px-1.5 py-0.5 rounded w-max"
+                style={{ bottom: "-24px" }}
+              >
+                <span className="text-white text-xs">{"Pixel perfect"}</span>
               </div>
             )}
             <div

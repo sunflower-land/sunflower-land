@@ -38,7 +38,7 @@ const _token = (state: AuthMachineState) =>
 export const ChapterDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { gameService } = useContext(GameContext);
+  const { gameService, fromRoute } = useContext(GameContext);
   const { authService } = useContext(AuthProvider.Context);
   const farmId = useSelector(gameService, _farmId);
   const gameState = useSelector(gameService, _gameState);
@@ -50,13 +50,20 @@ export const ChapterDashboard: React.FC = () => {
   const effectiveFarmId = farmId || 1;
   const effectiveToken = token || "offline";
 
-  const showClose = pathname.includes("/game") || pathname === "/chapter";
+  const showClose =
+    pathname.includes("/game") ||
+    pathname.includes("/world") ||
+    pathname === "/chapter";
 
   const safeAreaPaddingTop = useSafeAreaPaddingTop(50);
 
   const handleClose = useCallback(() => {
+    if (pathname.includes("/world")) {
+      navigate(fromRoute ?? "/world/plaza");
+      return;
+    }
     navigate(-1);
-  }, [navigate]);
+  }, [navigate, pathname, fromRoute]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

@@ -33,8 +33,8 @@ import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import { getKeys, getObjectEntries } from "lib/object";
 import {
   INTERIOR_CANVAS,
-  isValidInteriorBox,
-  isValidHomeExpansionBox,
+  isValidInteriorBase,
+  isValidHomeExpansionBase,
 } from "./interiorLayouts";
 
 export type Position = {
@@ -392,9 +392,24 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Long Rug",
   "Paw Prints Rug",
   "Crabs and Fish Rug",
+  "World Map Rug",
   "Bumpkin Rug",
   "Goblin Rug",
   "Pet Rug",
+  "Big Table",
+  "Crate",
+  "Empty Pot",
+  "High Table",
+  "Large Podium",
+  "Long Table",
+  "Royal Podium",
+  "Square Table",
+  "Stool",
+];
+
+// Subset of NON_COLLIDING_OBJECTS that represent furniture (tables, stools, podiums).
+// These render above rugs (z=1) but below regular collectables (z=2).
+export const FURNITURE_OBJECTS: InventoryItemName[] = [
   "Big Table",
   "Crate",
   "Empty Pot",
@@ -790,20 +805,18 @@ function detectInteriorCollision({
     x: position.x + INTERIOR_CANVAS.width / 2,
     y: position.y + INTERIOR_CANVAS.height / 2,
   };
-  if (!isValidInteriorBox(state.island.type, layoutPosition)) {
+  if (!isValidInteriorBase(state.island.type, layoutPosition)) {
     return true;
   }
 
-  // Non-colliding items (rugs, tiles, tables, stools, …) can stack on top of
-  // anything that's already placed — and anything else can stack on top of
-  // them. Mirrors the home/farm behaviour so players can dress an interior
-  // with a long table and then drop chairs / decorations on it.
-  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+  // Decorations (everything except utility NPCs) can be stacked freely on
+  // any valid interior tile — players should be able to pixel-perfect arrange
+  // collectibles without collision getting in the way.
+  if (name !== "FarmHand" && name !== "Bumpkin") {
     return false;
   }
 
-  // 2. Overlap with any other collectible already placed in the interior,
-  //    skipping the non-colliding ones so the placing item can sit on top.
+  // Utility NPCs (FarmHand, Bumpkin) still check against each other.
   const placed = state.interior.ground.collectibles;
   const collidingItems = getKeys(placed).filter(
     (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
@@ -856,13 +869,13 @@ function detectLevelOneCollision({
     x: position.x + INTERIOR_CANVAS.width / 2,
     y: position.y + INTERIOR_CANVAS.height / 2,
   };
-  if (!isValidHomeExpansionBox(expansion, layoutPosition)) {
+  if (!isValidHomeExpansionBase(expansion, layoutPosition)) {
     return true;
   }
 
-  // Non-colliding items (rugs, tiles, tables, stools, …) stack freely on
-  // level_one too — same rule as ground / home / farm.
-  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+  // Same decoration-first policy as the ground floor: only FarmHand and
+  // Bumpkin are utility items that need to avoid overlapping each other.
+  if (name !== "FarmHand" && name !== "Bumpkin") {
     return false;
   }
 

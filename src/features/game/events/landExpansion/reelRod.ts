@@ -65,6 +65,7 @@ export function reelRod({ state, createdAt = Date.now() }: Options): GameState {
     delete game.fishing.wharf.multiplier;
     delete game.fishing.wharf.guaranteedCatch;
     delete game.fishing.wharf.maps;
+    delete game.fishing.wharf.shrimpOnesieBonus;
 
     return game;
   });

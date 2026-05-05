@@ -107,6 +107,8 @@ export type Set2FlowerName =
 
 export type FlowerName = Set1FlowerName | Set2FlowerName;
 
+export type PlaceableFlowerName = Exclude<FlowerName, EpicFlowerName>;
+
 export type FlowerSeedName = keyof FlowerSeeds;
 
 export function isFlowerSeed(seed: SeedName): seed is FlowerSeedName {

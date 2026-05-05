@@ -1,4 +1,5 @@
 import React, { useContext, useLayoutEffect, useMemo, type JSX } from "react";
+import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -17,7 +18,10 @@ import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { hasFeatureAccess } from "lib/flags";
 import { Button } from "components/ui/Button";
-import { NON_COLLIDING_OBJECTS } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  NON_COLLIDING_OBJECTS,
+  FURNITURE_OBJECTS,
+} from "features/game/expansion/placeable/lib/collisionDetection";
 import { INTERIOR_CANVAS } from "features/game/expansion/placeable/lib/interiorLayouts";
 import {
   INTERIOR_BACKGROUNDS,
@@ -162,7 +166,13 @@ export const Interior: React.FC = () => {
                 oY={oY}
                 height={height}
                 width={width}
-                z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+                z={
+                  FURNITURE_OBJECTS.includes(name)
+                    ? 1
+                    : NON_COLLIDING_OBJECTS.includes(name)
+                      ? 0
+                      : 2
+                }
               >
                 <Collectible
                   location="interior"
@@ -321,6 +331,22 @@ export const Interior: React.FC = () => {
               />
 
               {debug && <InteriorGridOverlay island={island.type} />}
+
+              <div
+                className={classNames(
+                  "absolute inset-0 pointer-events-none transition-opacity z-10",
+                  {
+                    "opacity-0": !landscaping,
+                    "opacity-100": landscaping,
+                  },
+                )}
+                style={{
+                  backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                  backgroundImage: `
+                    linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+                }}
+              />
 
               {landscaping && <Placeable location="interior" />}
 

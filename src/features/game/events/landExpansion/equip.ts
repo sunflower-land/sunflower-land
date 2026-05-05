@@ -4,7 +4,6 @@ import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { populateSaltFarm } from "features/game/types/salt";
-import { hasFeatureAccess } from "lib/flags";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -33,9 +32,7 @@ export function equip({
 
     bumpkin.equipped = action.equipment;
 
-    if (hasFeatureAccess(game, "SALT_FARM")) {
-      populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
-    }
+    populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
 
     return game;
   });

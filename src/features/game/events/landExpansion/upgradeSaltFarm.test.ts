@@ -5,7 +5,6 @@ import {
   getSaltChargeGenerationTime,
   SALT_CHARGE_GENERATION_TIME,
   MAX_STORED_SALT_CHARGES_PER_NODE,
-  SALT_NODE_COORDINATES,
   SaltNode,
 } from "features/game/types/salt";
 import { upgradeSaltFarm } from "./upgradeSaltFarm";
@@ -16,7 +15,6 @@ const makeSaltFarmTestNodes = (count: number) =>
     (nodes, _, i) => {
       nodes[String(i)] = {
         createdAt: 0,
-        coordinates: SALT_NODE_COORDINATES[String(i)],
         salt: {
           storedCharges: 1,
           nextChargeAt: SALT_CHARGE_GENERATION_TIME,
@@ -112,7 +110,6 @@ describe("upgradeSaltFarm", () => {
     expect(state.saltFarm.level).toBe(1);
     expect(Object.keys(state.saltFarm.nodes)).toHaveLength(1);
     expect(state.saltFarm.nodes["0"]).toMatchObject({
-      coordinates: { x: 8, y: -6 },
       salt: {
         storedCharges: MAX_STORED_SALT_CHARGES_PER_NODE,
         nextChargeAt:
@@ -141,7 +138,6 @@ describe("upgradeSaltFarm", () => {
           nodes: {
             "0": {
               createdAt: 0,
-              coordinates: { x: -16, y: -18 },
               salt: {
                 storedCharges: 1,
                 nextChargeAt: SALT_CHARGE_GENERATION_TIME,
@@ -149,7 +145,6 @@ describe("upgradeSaltFarm", () => {
             },
             "1": {
               createdAt: 0,
-              coordinates: { x: -16, y: -16 },
               salt: {
                 storedCharges: 1,
                 nextChargeAt: SALT_CHARGE_GENERATION_TIME,
@@ -169,8 +164,6 @@ describe("upgradeSaltFarm", () => {
     expect(state.farmActivity["Coins Spent"]).toBe(4_000);
     expect(state.saltFarm.level).toBe(3);
     expect(Object.keys(state.saltFarm.nodes)).toHaveLength(4);
-    expect(state.saltFarm.nodes["2"].coordinates).toEqual({ x: 7, y: -6 });
-    expect(state.saltFarm.nodes["3"].coordinates).toEqual({ x: 7, y: -5 });
   });
 
   it("covers all upgrade iterations (1 to 4)", () => {

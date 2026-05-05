@@ -101,7 +101,9 @@ export const FermentationRackPanel: React.FC = () => {
 
   const groups = getFermentationOutputGroups(state.inventory);
 
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(
+    () => queue.find((job) => job.readyAt <= now)?.id ?? null,
+  );
   const [selectedSignature, setSelectedSignature] = useState<
     string | undefined
   >(undefined);

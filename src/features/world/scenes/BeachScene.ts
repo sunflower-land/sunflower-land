@@ -29,7 +29,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { EventObject } from "xstate/lib/types";
 
 const convertToSnakeCase = (str: string) => {
-  return str.replace(" ", "_").toLowerCase();
+  return str.replaceAll(" ", "_").toLowerCase();
 };
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -158,6 +158,7 @@ export class BeachScene extends BaseScene {
     this.load.image("moon_crystal", "world/moon_crystal.webp");
     this.load.image("sand", "world/sand.webp");
     this.load.image("ammonite_shell", "world/ammonite_shell.webp");
+    this.load.image("salt_dino_egg", "world/salt_dino_egg.webp");
 
     this.load.image("shovel_select", "world/shovel_select_new.webp");
     this.load.image("confirm_select", "world/select_confirm_new.webp");

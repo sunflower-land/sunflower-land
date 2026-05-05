@@ -190,18 +190,21 @@ export const PATCH_FRUIT: Record<PatchFruitName, PatchFruit> = {
     name: "Celestine",
     sellPrice: 200,
     seed: "Celestine Seed",
+    isBush: true,
   },
   Lunara: {
     description: translate("description.lunara"),
     name: "Lunara",
     sellPrice: 500,
     seed: "Lunara Seed",
+    isBush: true,
   },
   Duskberry: {
     description: translate("description.duskberry"),
     name: "Duskberry",
     sellPrice: 1000,
     seed: "Duskberry Seed",
+    isBush: true,
   },
 };
 

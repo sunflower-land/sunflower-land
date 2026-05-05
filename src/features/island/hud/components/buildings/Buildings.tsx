@@ -25,7 +25,6 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 
@@ -52,9 +51,7 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Barn",
     "Fish Market",
     "Pet House",
-    ...(hasFeatureAccess(state, "AGING_SHED")
-      ? (["Aging Shed"] as BuildingName[])
-      : []),
+    "Aging Shed",
   ];
 
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(

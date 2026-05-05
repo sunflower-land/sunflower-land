@@ -149,6 +149,14 @@ export const Navigation: React.FC = () => {
                                       </div>
                                     }
                                   />
+                                  <Route
+                                    path="chapter"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <ChapterDashboard />
+                                      </div>
+                                    }
+                                  />
                                   <Route path=":name" element={null} />
                                 </Route>
                                 <Route

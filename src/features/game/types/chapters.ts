@@ -17,6 +17,7 @@ import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "lib/object";
+import { CONFIG } from "lib/config";
 
 export type ChapterName =
   | "Solar Flare"
@@ -245,6 +246,10 @@ export function getCurrentChapter(now: number): ChapterName {
   });
 
   if (!currentChapter) {
+    if (CONFIG.PORTAL_APP) {
+      return "Salt Awakening";
+    }
+
     throw new Error("No Chapter found");
   }
 

@@ -73,7 +73,11 @@ export type ChapterCollectibleName =
 
   // Salt Awakening
   | "Crystal Altar"
-  | "Dino Egg Trophy";
+  | "Dino Egg Trophy"
+  | "Salt Lamp"
+  | "Salt Crystal Bed"
+  | "World Map Rug"
+  | "Ripped Salt Bag";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -1132,15 +1136,15 @@ const SALT_AWAKENING_ITEMS: ChapterStore = {
       // Hourglasses (infinitely buyable throughout the chapter)
       {
         collectible: "Gourmet Hourglass",
-        cost: { sfl: 0, items: { "Salt Rock": 50 } },
+        cost: { sfl: 0, items: { "Salt Rock": 100 } },
       },
       {
         collectible: "Ore Hourglass",
-        cost: { sfl: 0, items: { "Salt Rock": 200 } },
+        cost: { sfl: 0, items: { "Salt Rock": 400 } },
       },
       {
         collectible: "Timber Hourglass",
-        cost: { sfl: 0, items: { "Salt Rock": 100 } },
+        cost: { sfl: 0, items: { "Salt Rock": 200 } },
       },
       {
         collectible: "Blossom Hourglass",
@@ -1148,7 +1152,7 @@ const SALT_AWAKENING_ITEMS: ChapterStore = {
       },
       {
         collectible: "Orchard Hourglass",
-        cost: { sfl: 0, items: { "Salt Rock": 100 } },
+        cost: { sfl: 0, items: { "Salt Rock": 200 } },
       },
 
       // Premium chapter items

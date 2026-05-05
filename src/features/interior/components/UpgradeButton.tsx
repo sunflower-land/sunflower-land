@@ -106,7 +106,7 @@ export const UpgradeButton: React.FC = () => {
       />
       <Modal show={open} onHide={() => setOpen(false)}>
         <CloseButtonPanel onClose={() => setOpen(false)} title="Upgrade home">
-          <div className="p-2 flex flex-col gap-3">
+          <div className="p-2 flex flex-col gap-3 mb-1">
             <p className="text-sm">{upgradeCopy}</p>
             <div className="flex flex-col gap-1">
               <RequirementLabel
@@ -127,10 +127,10 @@ export const UpgradeButton: React.FC = () => {
               ))}
             </div>
             {error && <div className="text-red-500 text-sm">{error}</div>}
-            <Button disabled={!canAfford} onClick={onConfirm}>
-              {canAfford ? "Confirm" : "Not enough resources"}
-            </Button>
           </div>
+          <Button disabled={!canAfford} onClick={onConfirm}>
+            {canAfford ? "Confirm" : "Not enough resources"}
+          </Button>
         </CloseButtonPanel>
       </Modal>
     </>

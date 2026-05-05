@@ -2079,3 +2079,44 @@ export function isValidHomeExpansionBox(
   }
   return true;
 }
+
+/**
+ * Returns true iff every tile in the BOTTOM ROW of the box is a valid
+ * interior tile. Used for decorations that may be taller than the floor
+ * area — only their base needs to rest on valid tiles.
+ */
+export function isValidInteriorBase(
+  island: IslandType,
+  box: { x: number; y: number; width: number; height: number },
+): boolean {
+  // Skip the top row (dy=0) for tall items so the top pixel can overhang walls.
+  // For height=1 items the single row is still checked.
+  const startDy = box.height > 1 ? 1 : 0;
+  for (let dy = startDy; dy < box.height; dy++) {
+    for (let dx = 0; dx < box.width; dx++) {
+      if (!isValidInteriorTile(island, box.x + dx, box.y - dy)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * Returns true iff every tile in the box EXCEPT the top row is a valid
+ * home-expansion tile. Used for decorations on level_one.
+ */
+export function isValidHomeExpansionBase(
+  tier: HomeExpansionTier,
+  box: { x: number; y: number; width: number; height: number },
+): boolean {
+  const startDy = box.height > 1 ? 1 : 0;
+  for (let dy = startDy; dy < box.height; dy++) {
+    for (let dx = 0; dx < box.width; dx++) {
+      if (!isValidHomeExpansionTile(tier, box.x + dx, box.y - dy)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

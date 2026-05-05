@@ -10,7 +10,10 @@ import {
   getCurrentChapter,
 } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
+import {
+  getBumpkinHoliday,
+  getCurrentChapterHolidayPeriod,
+} from "lib/utils/getSeasonWeek";
 import { GameState } from "features/game/types/game";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { CONFIG } from "lib/config";
@@ -55,18 +58,11 @@ describe("deliver", () => {
 
     if (getBumpkinHoliday({ now }).holiday === nowDate) {
       jest.useFakeTimers();
-      // Find the latest holiday
-      const latestHoliday = HOLIDAYS.reduce((latest, holiday) => {
-        const holidayDate = new Date(holiday);
-        return holidayDate > latest ? holidayDate : latest;
-      }, new Date(now));
-
-      // Set the system time to the day after the latest holiday
-      const calculatedSystemDate = latestHoliday.setDate(
-        latestHoliday.getDate() + 1,
-      );
-
-      jest.setSystemTime(new Date(calculatedSystemDate));
+      const period = getCurrentChapterHolidayPeriod(now);
+      if (period) {
+        // Set the system time to the first instant after the chapter's holiday window
+        jest.setSystemTime(period.end);
+      }
     }
   });
 

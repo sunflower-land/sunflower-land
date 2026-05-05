@@ -458,6 +458,26 @@ export const MoveableComponent: React.FC<
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
+  // Elevate the nearest MapPlacement ancestor when selected so the disc panel
+  // and pixel-perfect arrows always render above sibling collectibles. Without
+  // this, react-draggable's CSS transform creates a stacking context on each
+  // item, and later-rendered items (higher DOM order) paint on top regardless
+  // of the inner z-50 on nodeRef. Only mutate the DOM when selected; restore
+  // the exact original value on cleanup so depth-sorted z-indexes set by
+  // callers (e.g. furniture, rugs) are never cleared for non-selected items.
+  useEffect(() => {
+    if (!isSelected) return;
+    const mapPlacement = nodeRef.current?.closest<HTMLElement>(
+      "[data-map-placement]",
+    );
+    if (!mapPlacement) return;
+    const originalZIndex = mapPlacement.style.zIndex;
+    mapPlacement.style.zIndex = "10000";
+    return () => {
+      mapPlacement.style.zIndex = originalZIndex;
+    };
+  }, [isSelected]);
+
   const selectedCollectible = useSelector(
     gameService,
     getSelectedCollectible(name, id, location),
@@ -574,11 +594,13 @@ export const MoveableComponent: React.FC<
   };
 
   // Pixel-perfect mode is gated behind the PIXEL_PERFECT_PLACEMENT beta flag.
-  // For launch, we only enable it on placeable "characters" — collectibles,
-  // buds, pet NFTs, farm hands, and the player's bumpkin. Buildings and natural
-  // resources (trees, crops, rocks, etc.) keep their existing tile-snap-only
-  // behaviour. Mobile uses LandscapingHud for selection controls so we only
-  // render the disc on non-mobile, matching flip/remove.
+  // We enable it on placeable "characters" (collectibles, buds, pet NFTs,
+  // farm hands, the player's bumpkin) AND on buildings, since the saved oX/oY
+  // round-trip the same way for both — they're stored on the entity's
+  // `coordinates` and the renderer already feeds them into MapPlacement.
+  // Natural resources (trees, crops, rocks, etc.) keep their existing
+  // tile-snap-only behaviour. Mobile uses LandscapingHud for selection
+  // controls so we only render the disc on non-mobile, matching flip/remove.
   const hasPixelPerfectFeature = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "PIXEL_PERFECT_PLACEMENT"),
   );
@@ -589,6 +611,7 @@ export const MoveableComponent: React.FC<
       name !== "Stone Fence" &&
       name !== "Golden Fence" &&
       name !== "Golden Stone Fence") ||
+    name in BUILDINGS_DIMENSIONS ||
     name === "Bud" ||
     name === "Pet" ||
     name === "FarmHand" ||
@@ -598,6 +621,30 @@ export const MoveableComponent: React.FC<
 
   const togglePixelPerfectMode = () => {
     setIsPixelPerfectMode((prev) => !prev);
+  };
+
+  const hasPixelOffset =
+    savedOX !== 0 || savedOY !== 0 || pixelDelta.x !== 0 || pixelDelta.y !== 0;
+
+  const resetPixelOffset = () => {
+    setPixelDelta({ x: 0, y: 0 });
+    if (savedOX !== 0 || savedOY !== 0) {
+      gameService.send(getMoveAction(name), {
+        ...(name in RESOURCE_MOVE_EVENTS
+          ? {}
+          : name === "Bud" || name === "Pet"
+            ? { nft: name }
+            : name === "FarmHand" || name === "Bumpkin"
+              ? {}
+              : { name }),
+        coordinates:
+          name in RESOURCE_MOVE_EVENTS
+            ? { x: coordinatesX, y: coordinatesY }
+            : { x: coordinatesX, y: coordinatesY, oX: 0, oY: 0 },
+        ...(name === "Bumpkin" ? {} : { id }),
+        location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
+      });
+    }
   };
 
   // dx, dy are direction multipliers in {-1, 0, 1}. y is inverted on screen
@@ -684,12 +731,10 @@ export const MoveableComponent: React.FC<
             : name === "FarmHand" || name === "Bumpkin"
               ? {}
               : { name }),
-        coordinates: {
-          x: coordinatesX,
-          y: coordinatesY,
-          oX: newOX,
-          oY: newOY,
-        },
+        coordinates:
+          name in RESOURCE_MOVE_EVENTS
+            ? { x: coordinatesX, y: coordinatesY }
+            : { x: coordinatesX, y: coordinatesY, oX: newOX, oY: newOY },
         ...(name === "Bumpkin" ? {} : { id }),
         location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
       });
@@ -804,7 +849,17 @@ export const MoveableComponent: React.FC<
                 : name === "FarmHand" || name === "Bumpkin"
                   ? {}
                   : { name }),
-            coordinates: { x, y },
+            coordinates:
+              name in RESOURCE_MOVE_EVENTS
+                ? { x, y }
+                : {
+                    x,
+                    y,
+                    oX:
+                      savedOffsetRef.current.savedOX + pixelDeltaRef.current.x,
+                    oY:
+                      savedOffsetRef.current.savedOY + pixelDeltaRef.current.y,
+                  },
             // Don't pass id for Bumpkin
             ...(name === "Bumpkin" ? {} : { id }),
             // Resources do not require location to be passed
@@ -834,7 +889,6 @@ export const MoveableComponent: React.FC<
     function handleClickOutside(event: MouseEvent) {
       if (
         isSelected &&
-        (event as any).target.id === "genesisBlock" &&
         nodeRef.current &&
         !(nodeRef.current as any).contains(event.target)
       ) {
@@ -1190,7 +1244,6 @@ export const MoveableComponent: React.FC<
         className={classNames("h-full relative", {
           "cursor-grabbing": isDragging,
           "cursor-pointer": !isDragging,
-          "z-10": isSelected,
           "z-[1000000]": showOverlapMenu,
         })}
       >
@@ -1262,7 +1315,7 @@ export const MoveableComponent: React.FC<
             className="absolute z-20 flex"
             style={{
               right: `${PIXEL_SCALE * -(hasRemovalAction ? 34 : 12)}px`,
-              top: `${PIXEL_SCALE * -12}px`,
+              bottom: `calc(100% + ${PIXEL_SCALE * 2}px)`,
             }}
           >
             <div
@@ -1523,6 +1576,33 @@ export const MoveableComponent: React.FC<
                         top: `calc(50% - ${PIXEL_SCALE * 5}px)`,
                       }}
                     />
+                  )}
+                  {/* Reset pixel offset — top-right corner, only visible when there is an offset */}
+                  {hasPixelOffset && (
+                    <div
+                      className="absolute z-30 cursor-pointer"
+                      style={{
+                        width: `${PIXEL_SCALE * 14}px`,
+                        top: `${-PIXEL_SCALE * 18}px`,
+                        right: `${-PIXEL_SCALE * 18}px`,
+                      }}
+                      onPointerDown={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        resetPixelOffset();
+                      }}
+                    >
+                      <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                      <img
+                        className="absolute"
+                        src={SUNNYSIDE.icons.cancel}
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          top: `${PIXEL_SCALE * 3}px`,
+                          left: `${PIXEL_SCALE * 3}px`,
+                        }}
+                      />
+                    </div>
                   )}
                 </>
               );

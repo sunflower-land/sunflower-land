@@ -1,10 +1,10 @@
 import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React from "react";
-import { useGame } from "features/game/GameProvider";
+import React, { useContext } from "react";
+import { Context, useGame } from "features/game/GameProvider";
 import { isMobile } from "mobile-device-detect";
 import giftIcon from "assets/icons/chapter_icon_3.webp";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -30,7 +30,9 @@ const _bumpkinExperience = (state: MachineState) =>
 
 export const RewardsButton: React.FC = () => {
   const { gameService } = useGame();
+  const { setFromRoute } = useContext(Context);
   const navigate = useNavigate();
+  const location = useLocation();
   const now = useNow({ live: true });
   const bumpkinExperience = useSelector(gameService, _bumpkinExperience);
   const bumpkinLevel = getBumpkinLevel(bumpkinExperience);
@@ -62,7 +64,12 @@ export const RewardsButton: React.FC = () => {
           if (latestEventAt > 0) {
             setChapterRewardsAcknowledged(latestEventAt);
           }
-          navigate("/chapter");
+          setFromRoute(location.pathname);
+          navigate(
+            location.pathname.includes("/world")
+              ? "/world/chapter"
+              : "/chapter",
+          );
         }}
       >
         <div

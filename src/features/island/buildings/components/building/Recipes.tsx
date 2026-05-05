@@ -131,15 +131,19 @@ export const Recipes: React.FC<Props> = ({
     });
   };
 
-  const handleInstantCook = (gems: number) => {
+  const handleInstantCook = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
     gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
+      paymentMethod,
     });
 
     gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
       item: "Instant Cook",
       type: "Fee",
     });
@@ -250,6 +254,13 @@ export const Recipes: React.FC<Props> = ({
               />
             )}
 
+            {buildingId && (
+              <BuildingOilTank
+                buildingName={buildingName}
+                buildingId={buildingId}
+              />
+            )}
+
             <div className="w-full">
               <Label
                 className="mr-3 ml-2 mb-1"
@@ -274,12 +285,6 @@ export const Recipes: React.FC<Props> = ({
                 />
               ))}
             </div>
-            {buildingId && (
-              <BuildingOilTank
-                buildingName={buildingName}
-                buildingId={buildingId}
-              />
-            )}
           </>
         }
       />

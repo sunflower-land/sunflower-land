@@ -18,7 +18,6 @@ describe("salt nextChargeAt regen", () => {
   function nodeFrom(salt: Salt): SaltNode {
     return {
       createdAt: t0,
-      coordinates: { x: 0, y: 0 },
       salt,
     };
   }
@@ -88,7 +87,6 @@ describe("populateSaltFarm", () => {
         nodes: {
           "0": {
             createdAt: t0,
-            coordinates: { x: 0, y: 0 },
             salt: {
               storedCharges: 0,
               nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,
@@ -174,7 +172,6 @@ describe("populateSaltFarm", () => {
         nodes: {
           "0": {
             createdAt: t0,
-            coordinates: { x: 0, y: 0 },
             salt: {
               storedCharges: 0,
               nextChargeAt: t0 + boostedInterval,
@@ -220,7 +217,6 @@ describe("populateSaltFarm", () => {
         nodes: {
           "0": {
             createdAt: t0,
-            coordinates: { x: 0, y: 0 },
             salt: {
               storedCharges: 0,
               nextChargeAt: t0,
@@ -255,7 +251,6 @@ describe("populateSaltFarm", () => {
         nodes: {
           "0": {
             createdAt: t0,
-            coordinates: { x: 0, y: 0 },
             salt: {
               storedCharges: 3,
               nextChargeAt: t0,
@@ -299,7 +294,6 @@ describe("rechargeAllSaltNodes", () => {
     for (const id of nodeIds) {
       nodes[id] = {
         createdAt: t0,
-        coordinates: { x: 0, y: 0 },
         salt: {
           storedCharges: 0,
           nextChargeAt: t0 + SALT_CHARGE_GENERATION_TIME,

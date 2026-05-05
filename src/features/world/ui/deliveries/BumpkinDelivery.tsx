@@ -36,7 +36,10 @@ import {
   isCoinNPC,
   isTicketNPC,
 } from "features/island/delivery/lib/delivery";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -117,12 +120,14 @@ const OrderCard: React.FC<{
     ) {
       if (areBumpkinsOnHoliday(order.createdAt)) {
         return 0;
-      } else {
-        return getChapterTaskPoints({
-          task: "coinDelivery",
-          points: 10,
-        });
       }
+      if (getCurrentChapter(order.createdAt) !== getCurrentChapter(now)) {
+        return 0;
+      }
+      return getChapterTaskPoints({
+        task: "coinDelivery",
+        points: 10,
+      });
     }
     return getChapterTaskPoints({
       task: "delivery",

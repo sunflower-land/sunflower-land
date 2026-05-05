@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { getFishBaseXP, isFishName } from "features/game/types/aging";
+import { getFishBaseXP } from "features/game/types/aging";
 import {
   getBoostedAgingFishCost,
   getBoostedAgingSaltCost,
@@ -26,7 +26,7 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
-import { getObjectEntries } from "lib/object";
+import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Consumable, CONSUMABLES, FISH } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
@@ -77,13 +77,9 @@ export const AgingRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const merged = getMergedInventory(gameState);
 
-  const fishOptions = getObjectEntries(merged)
-    .filter(
-      (entry): entry is [FishName, Decimal | undefined] =>
-        isFishName(entry[0]) && (entry[1]?.gte(1) ?? false),
-    )
-    .sort(([a], [b]) => FISH[a].experience - FISH[b].experience)
-    .map(([fishName]) => {
+  const fishOptions = getKeys(FISH)
+    .sort((a, b) => FISH[a].experience - FISH[b].experience)
+    .map((fishName) => {
       const baseXP = getFishBaseXP(fishName);
       const saltCost = getBoostedAgingSaltCost(baseXP, gameState);
       const timeMs = getBoostedAgingTimeMs(baseXP, gameState);

@@ -22,7 +22,6 @@ import {
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
-import { hasFeatureAccess } from "lib/flags";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -291,13 +290,11 @@ export function placeCollectible({
       stateCopy.farmActivity,
     );
 
-    if (hasFeatureAccess(stateCopy, "SALT_FARM")) {
-      populateSaltFarm({
-        gameBefore: state,
-        gameAfter: stateCopy,
-        now: createdAt,
-      });
-    }
+    populateSaltFarm({
+      gameBefore: state,
+      gameAfter: stateCopy,
+      now: createdAt,
+    });
 
     return stateCopy;
   });

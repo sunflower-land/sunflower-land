@@ -593,12 +593,40 @@ export const ChapterTracksPreview: React.FC = () => {
 
   const isComplete = progress.points >= finalMilestonePoints;
 
-  if (isComplete) {
+  const totalMilestones = track?.milestones.length ?? 0;
+  const hasUnclaimedFinalReward =
+    progress.free < totalMilestones ||
+    (hasVip && progress.premium < totalMilestones);
+
+  if (isComplete && !hasUnclaimedFinalReward) {
     return (
       <InnerPanel className="flex flex-wrap justify-between ">
         <Label type="success">{t("completed")}</Label>
         <img src={medalMilestoneComplete} className="h-8" />
       </InnerPanel>
+    );
+  }
+
+  if (isComplete) {
+    return (
+      <>
+        <InnerPanel className="flex flex-wrap justify-between items-center">
+          <div className="flex items-center">
+            <img src={giftIcon} className="h-8 mr-1" />
+            <Label type="warning">{t("rewards")}</Label>
+          </div>
+          <img src={medalMilestoneComplete} className="h-8" />
+        </InnerPanel>
+        <Button
+          className="w-full relative mt-1"
+          onClick={() => openModal("CHAPTER_TRACKS")}
+        >
+          <span className="flex items-center justify-center gap-2 w-full">
+            <span>{t("claim")}</span>
+            <img src={giftIcon} className="h-5" />
+          </span>
+        </Button>
+      </>
     );
   }
   if (!track) {

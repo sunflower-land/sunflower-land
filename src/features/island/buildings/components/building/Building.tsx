@@ -20,7 +20,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import confetti from "canvas-confetti";
-import { useRealTimeInstantGems } from "features/game/lib/getInstantGems";
+import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
+import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
 import { gameAnalytics } from "lib/gameAnalytics";
 import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
@@ -82,16 +83,19 @@ const InProgressBuilding: React.FC<Prop> = ({
 
   const isUpgradable = useSelector(gameService, _isUpgradable(name));
 
-  const onSpeedUp = (gems: number) => {
+  const onSpeedUp = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
     if (isUpgradable) {
-      gameService.send("upgrade.spedUp", { name });
+      gameService.send("upgrade.spedUp", { name, paymentMethod });
     } else {
-      gameService.send("building.spedUp", { name, id });
+      gameService.send("building.spedUp", { name, id, paymentMethod });
     }
 
     gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
       item: "Instant Build",
       type: "Fee",
     });
@@ -389,7 +393,7 @@ export const Building = React.memo(MoveableBuilding);
 export const Constructing: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantBuilt: (gems: number) => void;
+  onInstantBuilt: (cost: number, paymentMethod?: "gems" | "coins") => void;
   readyAt: number;
   createdAt: number;
   name: BuildingName;
@@ -400,10 +404,13 @@ export const Constructing: React.FC<{
 
   const { days: _days, ...ready } = useCountdown(readyAt ?? 0);
 
-  const gems = useRealTimeInstantGems({
-    readyAt,
-    game: state,
-  });
+  const payment = useSpeedUpPayment({ readyAt, game: state });
+  const cost =
+    payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
+  const costIcon =
+    payment.paymentMethod === "coins"
+      ? SUNNYSIDE.ui.coins
+      : ITEM_DETAILS.Gem.image;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -436,6 +443,7 @@ export const Constructing: React.FC<{
             </div>
           </div>
         </div>
+        <SpeedUpPaymentSelector payment={payment} />
       </div>
 
       <div className="flex">
@@ -443,18 +451,20 @@ export const Constructing: React.FC<{
           {t("close")}
         </Button>
         <Button
-          disabled={!state.inventory.Gem?.gte(gems)}
+          disabled={!payment.canAfford}
           className="relative ml-1"
-          onClick={() => onInstantBuilt(gems)}
+          onClick={() => onInstantBuilt(cost, payment.paymentMethod)}
         >
           {t("gems.speedUp")}
-          <Label
-            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-            icon={ITEM_DETAILS.Gem.image}
-            className="flex absolute right-0 top-0.5"
-          >
-            {gems}
-          </Label>
+          {!payment.canPayWithCoins && (
+            <Label
+              type={payment.canAfford ? "default" : "danger"}
+              icon={costIcon}
+              className="flex absolute right-0 top-0.5"
+            >
+              {cost}
+            </Label>
+          )}
         </Button>
       </div>
     </>

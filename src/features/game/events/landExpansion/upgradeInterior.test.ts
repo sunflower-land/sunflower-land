@@ -13,6 +13,11 @@ const richVolcanoState = (): GameState => ({
   coins: 1_000_000,
   inventory: {
     ...TEST_FARM.inventory,
+    Wood: new Decimal(100_000),
+    Stone: new Decimal(50_000),
+    Iron: new Decimal(10_000),
+    Gold: new Decimal(10_000),
+    Crimstone: new Decimal(10_000),
     Obsidian: new Decimal(10_000),
     "Beta Pass": new Decimal(1),
   },
@@ -29,7 +34,7 @@ describe("upgradeInterior (interior.upgrade)", () => {
     expect(next.interior.level_one?.collectibles).toEqual({});
   });
 
-  it("deducts the coin and Obsidian cost on the first upgrade", () => {
+  it("deducts the coin and Wood cost on the first upgrade", () => {
     const before = richVolcanoState();
     const next = upgradeInterior({
       state: before,
@@ -37,8 +42,8 @@ describe("upgradeInterior (interior.upgrade)", () => {
     });
     const cost = HOME_EXPANSION_UPGRADE_REQUIREMENTS["level-one-start"];
     expect(next.coins).toBe(before.coins - cost.coins);
-    expect(next.inventory.Obsidian?.toNumber()).toBe(
-      before.inventory.Obsidian!.minus(cost.inventory.Obsidian!).toNumber(),
+    expect(next.inventory.Wood?.toNumber()).toBe(
+      before.inventory.Wood!.minus(cost.inventory.Wood!).toNumber(),
     );
   });
 
@@ -114,14 +119,14 @@ describe("upgradeInterior (interior.upgrade)", () => {
     ).toThrow(UPGRADE_INTERIOR_ERRORS.INSUFFICIENT_COINS);
   });
 
-  it("rejects upgrade when player lacks Obsidian", () => {
+  it("rejects upgrade when player lacks Wood", () => {
     expect(() =>
       upgradeInterior({
         state: {
           ...richVolcanoState(),
           inventory: {
             ...richVolcanoState().inventory,
-            Obsidian: new Decimal(0),
+            Wood: new Decimal(0),
           },
         },
         action: { type: "interior.upgrade" },

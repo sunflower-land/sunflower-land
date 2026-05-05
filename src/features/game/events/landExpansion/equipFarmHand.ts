@@ -3,7 +3,6 @@ import { Equipped } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type EquipFarmHandAction = {
   type: "farmHand.equipped";
@@ -37,9 +36,7 @@ export function equipFarmhand({
 
     bumpkin.equipped = action.equipment;
 
-    if (hasFeatureAccess(game, "SALT_FARM")) {
-      populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
-    }
+    populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
 
     return game;
   });

@@ -33,6 +33,14 @@ export function flipCollectible({ state, action }: Options) {
           );
         }
         return game.petHouse.pets[name];
+      } else if (location === "interior") {
+        return game.interior.ground.collectibles[name];
+      } else if (location === "level_one") {
+        const levelOne = game.interior.level_one;
+        if (!levelOne) {
+          throw new Error("Level one floor has not been unlocked");
+        }
+        return levelOne.collectibles[name];
       } else {
         return game.collectibles[name];
       }

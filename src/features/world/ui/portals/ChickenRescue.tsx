@@ -13,7 +13,6 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { PortalLeaderboard } from "./PortalLeaderboard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
-import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 interface Props {
   onClose: () => void;
@@ -29,8 +28,6 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   const game = useSelector(gameService, _game);
   const minigame = minigames.games["chicken-rescue"];
   const prize = minigames.prizes["chicken-rescue"];
-
-  const chickenRescueVipCluckCoin = useVipAccess({ game, type: "full" });
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -69,13 +66,11 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
     const claimItems = {
       ...prize.items,
-      ...(chickenRescueVipCluckCoin ? { CluckCoin: 1 } : {}),
     };
 
     return (
       <ClaimReward
         onClaim={onClaim}
-        vipGiftItem={chickenRescueVipCluckCoin ? "CluckCoin" : undefined}
         reward={{
           message:
             "Congratulations, you rescued the chickens! Here is your reward.",
@@ -115,7 +110,6 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           prize={prize}
           history={dailyAttempt}
           mission={`Mission: Rescue ${prize?.score} chickens`}
-          extraItems={chickenRescueVipCluckCoin ? { CluckCoin: 1 } : undefined}
         />
       </div>
       <div className="flex">

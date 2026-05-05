@@ -3,7 +3,9 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   BASE_SALT_YIELD,
   SALT_CHARGE_GENERATION_TIME,
+  getSaltYieldPerRake,
 } from "features/game/types/salt";
+import { CHAPTERS } from "features/game/types/chapters";
 import { HARVEST_SALT_ERRORS, harvestSalt } from "./harvestSalt";
 
 const now = Date.now();
@@ -23,7 +25,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -57,7 +58,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 1,
                 nextChargeAt: now + 10_000,
@@ -99,7 +99,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: preservedBoundary,
@@ -134,7 +133,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 3,
                 nextChargeAt: previousBoundary,
@@ -167,7 +165,6 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: {
                   storedCharges: 0,
                   nextChargeAt: now + 10_000,
@@ -201,7 +198,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -240,7 +236,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -279,7 +274,6 @@ describe("harvestSalt", () => {
           nodes: {
             "0": {
               createdAt: now - 1000,
-              coordinates: { x: 0, y: 0 },
               salt: {
                 storedCharges: 2,
                 nextChargeAt: now + 10_000,
@@ -298,6 +292,170 @@ describe("harvestSalt", () => {
     );
   });
 
+  describe("VIP Salt Awakening perk", () => {
+    const saltChapterStart = CHAPTERS["Salt Awakening"].startDate.getTime();
+
+    it("grants +2 salt for VIP during Salt Awakening", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          vip: {
+            expiresAt: saltChapterStart + 1000 * 60 * 60 * 24,
+            bundles: [],
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: saltChapterStart - 1000,
+                salt: {
+                  storedCharges: 1,
+                  nextChargeAt: saltChapterStart + 10_000,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: saltChapterStart,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD + 2));
+    });
+
+    it("does not grant the +2 perk for non-VIP during Salt Awakening", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: saltChapterStart - 1000,
+                salt: {
+                  storedCharges: 1,
+                  nextChargeAt: saltChapterStart + 10_000,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: saltChapterStart,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+    });
+
+    it("does not grant the +2 perk for expired VIP during Salt Awakening", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          vip: {
+            expiresAt: saltChapterStart - 1000,
+            bundles: [],
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: saltChapterStart - 1000,
+                salt: {
+                  storedCharges: 1,
+                  nextChargeAt: saltChapterStart + 10_000,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: saltChapterStart,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+    });
+
+    it("does not grant the +2 perk for active VIP outside Salt Awakening", () => {
+      const crabsAndTrapsStart =
+        CHAPTERS["Crabs and Traps"].startDate.getTime();
+
+      const { saltYield } = getSaltYieldPerRake(
+        {
+          ...INITIAL_FARM,
+          vip: {
+            expiresAt: crabsAndTrapsStart + 1000 * 60 * 60 * 24,
+            bundles: [],
+          },
+        },
+        crabsAndTrapsStart,
+      );
+
+      expect(saltYield).toEqual(BASE_SALT_YIELD);
+    });
+
+    it("stacks the VIP perk with Wide Rakes and Deep Sea Salt Cave Background", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(1),
+          },
+          vip: {
+            expiresAt: saltChapterStart + 1000 * 60 * 60 * 24,
+            bundles: [],
+          },
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Wide Rakes": 1 },
+            equipped: {
+              ...INITIAL_FARM.bumpkin.equipped,
+              background: "Deep Sea Salt Cave Background",
+            },
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: saltChapterStart - 1000,
+                salt: {
+                  storedCharges: 1,
+                  nextChargeAt: saltChapterStart + 10_000,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: saltChapterStart,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(
+        new Decimal(BASE_SALT_YIELD + 2 + 5 + 2),
+      );
+    });
+  });
+
   describe("Sea Blessed", () => {
     it("does not recharge all nodes without the skill", () => {
       const state = harvestSalt({
@@ -313,12 +471,10 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 0, nextChargeAt: now + 10_000 },
               },
             },
@@ -354,17 +510,14 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 50_000 },
               },
               "2": {
                 createdAt: now - 1000,
-                coordinates: { x: 2, y: 0 },
                 salt: { storedCharges: 3, nextChargeAt: now + 50_000 },
               },
             },
@@ -398,12 +551,10 @@ describe("harvestSalt", () => {
             nodes: {
               "0": {
                 createdAt: now - 1000,
-                coordinates: { x: 0, y: 0 },
                 salt: { storedCharges: 1, nextChargeAt: now + 10_000 },
               },
               "1": {
                 createdAt: now - 1000,
-                coordinates: { x: 1, y: 0 },
                 salt: { storedCharges: 0, nextChargeAt: now + 50_000 },
               },
             },
