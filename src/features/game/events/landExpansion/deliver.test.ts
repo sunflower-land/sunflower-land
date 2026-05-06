@@ -1925,7 +1925,9 @@ describe("deliver", () => {
       createdAt: now,
     });
 
-    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(10));
+    expect(state.inventory[getChapterTicket(now)]).toEqual(
+      new Decimal(TICKET_REWARDS.tywin * 2),
+    );
   });
 
   it("returns 0 tickets for coin NPC (no tickets from coin deliveries)", () => {
