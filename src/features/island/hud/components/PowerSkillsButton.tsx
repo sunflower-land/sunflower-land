@@ -58,7 +58,7 @@ export const PowerSkillsButton: React.FC = () => {
     intervalMs: 30000,
   });
 
-  const powerSkillsReady = nextSkillUseTimes.some((t) => t < now);
+  const powerSkillsReady = nextSkillUseTimes.some((t) => t <= now);
 
   return (
     <>
