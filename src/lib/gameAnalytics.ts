@@ -249,7 +249,7 @@ class GameAnalyticTracker {
     source,
   }: {
     chapter: string;
-    source: "delivery" | "chore" | "bounty" | "coinDelivery";
+    source: "delivery" | "chore" | "bounty" | "coinDelivery" | "flowerDelivery";
   }) {
     try {
       GameAnalytics.addDesignEvent(`Tracks:Activated:${chapter}:${source}`);
@@ -265,7 +265,7 @@ class GameAnalyticTracker {
     points,
   }: {
     chapter: string;
-    source: "delivery" | "chore" | "bounty" | "coinDelivery";
+    source: "delivery" | "chore" | "bounty" | "coinDelivery" | "flowerDelivery";
     points: number;
   }) {
     try {
