@@ -49,9 +49,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
-import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
 import classNames from "classnames";
-import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -124,9 +122,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
   const gameState = useSelector(gameService, (state) => state.context.state);
-  const hasQuickPanel = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "QUICK_LANDSCAPING_PANEL"),
-  );
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
   const hasNoBuildings = !gameState.buildings["Water Well"];
 
@@ -523,16 +518,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         </div>
       )}
 
-      {hasQuickPanel && (
-        <LandscapingQuickPanel
-          location={location}
-          onQuickDragChange={setQuickDragging}
-        />
-      )}
-
-      {(!hasQuickPanel || !quickDragging) && (
-        <PlaceableController location={location} />
-      )}
+      {!quickDragging && <PlaceableController location={location} />}
     </HudContainer>
   );
 };

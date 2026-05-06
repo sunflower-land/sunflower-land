@@ -59,7 +59,6 @@ import { getPetImage } from "../pets/lib/petShared";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 import { getBudImage } from "lib/buds/types";
-import { hasFeatureAccess } from "lib/flags";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -593,17 +592,6 @@ export const MoveableComponent: React.FC<
     }
   };
 
-  // Pixel-perfect mode is gated behind the PIXEL_PERFECT_PLACEMENT beta flag.
-  // We enable it on placeable "characters" (collectibles, buds, pet NFTs,
-  // farm hands, the player's bumpkin) AND on buildings, since the saved oX/oY
-  // round-trip the same way for both — they're stored on the entity's
-  // `coordinates` and the renderer already feeds them into MapPlacement.
-  // Natural resources (trees, crops, rocks, etc.) keep their existing
-  // tile-snap-only behaviour. Mobile uses LandscapingHud for selection
-  // controls so we only render the disc on non-mobile, matching flip/remove.
-  const hasPixelPerfectFeature = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "PIXEL_PERFECT_PLACEMENT"),
-  );
   const isPixelPerfectAllowedFor =
     (name in COLLECTIBLES_DIMENSIONS &&
       name !== "Dirt Path" &&
@@ -616,8 +604,7 @@ export const MoveableComponent: React.FC<
     name === "Pet" ||
     name === "FarmHand" ||
     name === "Bumpkin";
-  const hasPixelPerfectAction =
-    hasPixelPerfectFeature && isPixelPerfectAllowedFor;
+  const hasPixelPerfectAction = isPixelPerfectAllowedFor;
 
   const togglePixelPerfectMode = () => {
     setIsPixelPerfectMode((prev) => !prev);

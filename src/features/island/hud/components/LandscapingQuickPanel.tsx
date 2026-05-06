@@ -84,7 +84,7 @@ type TabId =
 let _savedScrollLeft = 0;
 let _savedPage = 0;
 
-const TWO_ROW_HEIGHT_PX = PIXEL_SCALE * (13.7 + 4 + 3 + 2) * 2;
+const TWO_ROW_HEIGHT_PX = PIXEL_SCALE * (13.7 + 4 + 3 + 2) * 2 + 8;
 
 const DRAG_THRESHOLD_PX = 8;
 
@@ -769,7 +769,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
                 <div
                   ref={scrollContainerRef}
                   className={classNames("flex items-center", {
-                    "overflow-x-auto overflow-y-hidden": !isMobile,
+                    "overflow-x-auto scrollable overflow-y-hidden pb-1":
+                      !isMobile,
                   })}
                   style={{ height: `${TWO_ROW_HEIGHT_PX}px` }}
                 >

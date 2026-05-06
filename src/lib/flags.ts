@@ -138,19 +138,12 @@ const FEATURE_FLAGS = {
 
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
 
-  /** Pixel-perfect placement: nudge selected items by sub-tile pixels via on-screen
-   * arrows + WASD/arrow keys. Stored coordinates can become decimals; collision
-   * detection rounds at read time so grid behaviour is preserved. */
-  PIXEL_PERFECT_PLACEMENT: betaFeatureFlag,
   /**
    * Gates the new home-interior placement system: the /interior route, the
    * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
    * testnet only until the feature ships to all players.
    */
   HOME_EXPANSIONS: betaFeatureFlag,
-
-  /** Quick drag-and-drop landscaping panel shown at the bottom of the screen. */
-  QUICK_LANDSCAPING_PANEL: betaFeatureFlag,
 
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
