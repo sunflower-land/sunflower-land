@@ -28,7 +28,11 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 
-import { isCoinNPC, isTicketNPC } from "features/island/delivery/lib/delivery";
+import {
+  isCoinNPC,
+  isSFLNPC,
+  isTicketNPC,
+} from "features/island/delivery/lib/delivery";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -476,6 +480,37 @@ export function deliverOrder({
         "FLOWER Order Delivered",
         game.farmActivity,
       );
+
+      // Take the timestamp of the order
+      const flowerCreatedAt = order.createdAt;
+      const isFlowerTasksFrozen = areBumpkinsOnHoliday(flowerCreatedAt);
+
+      if (
+        isSFLNPC(order.from) &&
+        hasTimeBasedFeatureAccess({
+          featureName: "TICKETS_FROM_FLOWER_NPC",
+          now: flowerCreatedAt,
+          game,
+        }) &&
+        !isFlowerTasksFrozen
+      ) {
+        const flowerChapter = getCurrentChapter(flowerCreatedAt);
+
+        handleChapterAnalytics({
+          task: "flowerDelivery",
+          points: 10,
+          farmActivity: game.farmActivity,
+          createdAt: flowerCreatedAt,
+        });
+
+        game.farmActivity = trackFarmActivity(
+          `${flowerChapter} Points Earned`,
+          game.farmActivity,
+          new Decimal(
+            getChapterTaskPoints({ task: "flowerDelivery", points: 10 }),
+          ),
+        );
+      }
     }
     const chapter = getCurrentChapter(createdAt);
 
