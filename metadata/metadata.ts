@@ -179,7 +179,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Crystal Altar",
@@ -210,7 +210,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Salt Crystal Bed",
