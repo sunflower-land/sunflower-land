@@ -37,6 +37,27 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ...INITIAL_FARM.bumpkin,
     experience: 100000,
   },
+  craftingBox: {
+    recipes: {
+      "Salt Doll": {
+        ingredients: [
+          null,
+          { collectible: "Refined Salt" },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+        ],
+        name: "Salt Doll",
+        time: 100,
+        type: "collectible",
+      },
+    },
+    status: "idle",
+  },
   buildings: {
     ...INITIAL_FARM.buildings,
     "Crafting Box": [

@@ -108,7 +108,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
     (acc, [name, recipe]) => {
       const requiredChapter = CHAPTER_CRAFTING_ITEMS[name];
       if (requiredChapter && requiredChapter === currentChapter) {
-        acc[name] = recipe;
+        // Prefer the player's discovered recipe data (which has actual ingredients
+        // from the server) over the static recipe that has an empty ingredients array.
+        const playerRecipe = recipes[name as RecipeCollectibleName];
+        acc[name] = playerRecipe ?? recipe;
       }
       return acc;
     },
