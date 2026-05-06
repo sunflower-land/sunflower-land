@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 XP de ovelhas das ferramentas Animal Affection",
   "description.obsidianShrine.buff": "Colha a granel, plante e fertilize suas plantações, frutas e estufa",
   "obsidianShrine.fertiliseAll": "Aplique fertilizante em todas as parcelas, canteiros e vasos de estufa elegíveis",
-  "obsidianShrine.noEligiblePots": "Sem vasos de estufa para fertilizar"
+  "obsidianShrine.noEligiblePots": "Sem vasos de estufa para fertilizar",
+  "description.saltDoll": "Temperado com uma pitada de sal e muito charme.",
+  "description.jacuzziBear": "Mergulhando em águas salgadas, vivendo uma vida boa.",
+  "chapterCrafting": "Exclusivos do capítulo"
 }

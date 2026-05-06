@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 points d'expérience pour les moutons grâce aux outils Animal Affection",
   "description.obsidianShrine.buff": "Récoltez, plantez et fertilisez en vrac vos cultures, vos fruits et vos serres",
   "obsidianShrine.fertiliseAll": "Appliquez de l'engrais sur toutes les parcelles, parcelles et pots de serre éligibles",
-  "obsidianShrine.noEligiblePots": "Pas de pots de serre à fertiliser"
+  "obsidianShrine.noEligiblePots": "Pas de pots de serre à fertiliser",
+  "description.saltDoll": "Assaisonné avec une pincée de sel et beaucoup de charme.",
+  "description.jacuzziBear": "Se baigner dans des eaux salées, vivre une belle vie.",
+  "chapterCrafting": "Exclusions des chapitres"
 }

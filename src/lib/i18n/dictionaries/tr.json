@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "Hayvan Sevgisi araçlarından +5 Koyun DP'si",
   "description.obsidianShrine.buff": "Mahsullerinizi, meyvelerinizi ve seralarınızı toplu olarak hasat edin, ekin ve gübreleyin",
   "obsidianShrine.fertiliseAll": "Tüm uygun arazilere, yamalara ve sera saksılarına gübre uygulayın",
-  "obsidianShrine.noEligiblePots": "Gübrelenecek sera saksısı yok"
+  "obsidianShrine.noEligiblePots": "Gübrelenecek sera saksısı yok",
+  "description.saltDoll": "Bir tutama tuz ve çok fazla çekicilik ile tatlandırılmış.",
+  "description.jacuzziBear": "Tuzlu sularda ıslatmak, iyi bir hayat yaşamak.",
+  "chapterCrafting": "Bölüm Ayrıcalıkları"
 }

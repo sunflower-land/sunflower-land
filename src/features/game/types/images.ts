@@ -1149,6 +1149,8 @@ import frostyDoll from "assets/sfts/dolls/frosty_doll.webp";
 import cosmoDoll from "assets/sfts/dolls/cosmo_doll.webp";
 import bigfinDoll from "assets/sfts/dolls/bigfin_doll.webp";
 import solarDoll from "assets/sfts/dolls/solar_doll.webp";
+import saltDoll from "assets/sfts/dolls/salt_doll.webp";
+import spaBear from "assets/sfts/bears/spa_bear.webp";
 import anglerDoll from "assets/sfts/dolls/angler_doll.webp";
 import harvestDoll from "assets/sfts/dolls/harvest_doll.webp";
 import sizzleDoll from "assets/sfts/dolls/sizzler_doll.webp";
@@ -2991,7 +2993,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Basic Bear": {
     image: basicBear,
-    description: LANDSCAPING_DECORATIONS["Basic Bear"].description,
+    description: translate("description.basic.bear"),
   },
   "Chef Bear": {
     image: chefBear,
@@ -7042,6 +7044,14 @@ export const ITEM_DETAILS: Items = {
   "Solar Doll": {
     image: solarDoll,
     description: translate("description.solarDoll"),
+  },
+  "Salt Doll": {
+    image: saltDoll,
+    description: translate("description.saltDoll"),
+  },
+  "Jacuzzi Bear": {
+    image: spaBear,
+    description: translate("description.jacuzziBear"),
   },
   Trash: {
     image: trash,

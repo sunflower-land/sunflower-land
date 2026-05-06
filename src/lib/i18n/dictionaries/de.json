@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 Schaf-EP für Animal Affection Tools",
   "description.obsidianShrine.buff": "Ernten, pflanzen und düngen Sie Ihre Pflanzen, Ihr Obst und Ihr Gewächshaus in großen Mengen",
   "obsidianShrine.fertiliseAll": "Düngen Sie alle geeigneten Parzellen, Beete und Gewächshaustöpfe",
-  "obsidianShrine.noEligiblePots": "Keine Gewächshaustöpfe zum Düngen"
+  "obsidianShrine.noEligiblePots": "Keine Gewächshaustöpfe zum Düngen",
+  "description.saltDoll": "Gewürzt mit einer Prise Salz und viel Charme.",
+  "description.jacuzziBear": "In salzigem Wasser baden, ein gutes Leben führen.",
+  "chapterCrafting": "Kapitel Exklusiv"
 }

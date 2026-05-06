@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 puntos de EXP para ovejas gracias a las herramientas de afecto animal",
   "description.obsidianShrine.buff": "Coseche, plante y fertilice a granel sus cultivos, frutas e invernaderos",
   "obsidianShrine.fertiliseAll": "Aplique fertilizante a todas las parcelas, parches y macetas de invernadero que cumplan con los requisitos",
-  "obsidianShrine.noEligiblePots": "No hay macetas de invernadero para fertilizar"
+  "obsidianShrine.noEligiblePots": "No hay macetas de invernadero para fertilizar",
+  "description.saltDoll": "Condimentado con una pizca de sal y mucho encanto.",
+  "description.jacuzziBear": "Sumergirse en aguas saladas, vivir la buena vida.",
+  "chapterCrafting": "Exclusivas del capítulo"
 }

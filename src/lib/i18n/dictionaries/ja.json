@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "アニマル・アフェクションツールから獲得する羊経験値+5",
   "description.obsidianShrine.buff": "作物、果物、温室の大量収穫、植え付け、施肥を行います",
   "obsidianShrine.fertiliseAll": "対象となるすべての区画、パッチ、温室ポットに肥料を適用します",
-  "obsidianShrine.noEligiblePots": "施肥する温室の鉢はありません"
+  "obsidianShrine.noEligiblePots": "施肥する温室の鉢はありません",
+  "description.saltDoll": "ひとつまみの塩とたっぷりの魅力で味付けしました。",
+  "description.jacuzziBear": "塩水に浸かって、良い生活を送ってください。",
+  "chapterCrafting": "チャプター限定"
 }

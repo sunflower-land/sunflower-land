@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 Sheep XP dagli strumenti Animal Affection",
   "description.obsidianShrine.buff": "Raccogli, pianta e concima in massa le tue colture, la frutta e la serra",
   "obsidianShrine.fertiliseAll": "Applica il fertilizzante a tutti i terreni, gli appezzamenti e i vasi da serra idonei",
-  "obsidianShrine.noEligiblePots": "Nessun vaso da serra da concimare"
+  "obsidianShrine.noEligiblePots": "Nessun vaso da serra da concimare",
+  "description.saltDoll": "Condito con un pizzico di sale e molto fascino.",
+  "description.jacuzziBear": "Immergersi nelle acque salate, vivere una bella vita.",
+  "chapterCrafting": "Capitolo Esclusivi"
 }

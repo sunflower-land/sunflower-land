@@ -8896,5 +8896,8 @@
   "description.spaSheep.boost": "+5 XP Domba dari alat Animal Affection",
   "description.obsidianShrine.buff": "Panen massal, tanam, dan pupuk tanaman, buah, dan rumah kaca Anda",
   "obsidianShrine.fertiliseAll": "Terapkan pupuk ke semua plot, petak, dan pot rumah kaca yang memenuhi syarat",
-  "obsidianShrine.noEligiblePots": "Tidak ada pot rumah kaca untuk dipupuk"
+  "obsidianShrine.noEligiblePots": "Tidak ada pot rumah kaca untuk dipupuk",
+  "description.saltDoll": "Dibumbui dengan sedikit garam dan banyak pesona.",
+  "description.jacuzziBear": "Berendam di air asin, menjalani kehidupan yang baik.",
+  "chapterCrafting": "Bab Eksklusif"
 }
