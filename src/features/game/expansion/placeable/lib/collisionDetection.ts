@@ -247,12 +247,27 @@ function detectPlaceableCollision(
       width: 1,
     }));
 
+  const bumpkinBoundingBox =
+    name !== "Bumpkin" &&
+    state.bumpkin?.coordinates &&
+    (!state.bumpkin.location || state.bumpkin.location === "farm")
+      ? [
+          {
+            x: state.bumpkin.coordinates.x,
+            y: state.bumpkin.coordinates.y,
+            height: 1,
+            width: 1,
+          },
+        ]
+      : [];
+
   const boundingBoxes = [
     ...placeableBounds,
     ...resourceBoundingBoxes,
     ...budsBoundingBox,
     ...petNFTBoundingBox,
     ...farmHandBoundingBox,
+    ...bumpkinBoundingBox,
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
