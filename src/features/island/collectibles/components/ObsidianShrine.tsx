@@ -400,8 +400,9 @@ const PlantSection: React.FC<{
 
   const availableSeeds = seasonalSeeds.reduce(
     (acc, seed) => {
-      if (state.inventory[seed]) {
-        acc[seed] = state.inventory[seed].toNumber();
+      const amount = state.inventory[seed] ?? new Decimal(0);
+      if (amount.greaterThan(0)) {
+        acc[seed] = amount.toNumber();
       }
       return acc;
     },
