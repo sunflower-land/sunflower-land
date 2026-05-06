@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "Gabungkan bendera — Kebangkitan Garam telah dimulai.",
   "description.saltDinoEgg": "Sebuah fosil telur retak dari dataran garam. Siapa yang meletakkan ini?",
   "description.flamingoChicken.boost": "-2,5% Waktu Tidur Ayam",
-  "description.spaSheep.boost": "+5 XP Hewan dari Animal Affection",
   "description.spaCow.boost": "+0.1 Susu",
   "description.deepSeaSlug.boost.2": "+1 Cacing dari Pengomposan",
   "referral.share": "Bagikan di:",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "Dihitung sebagai reset permata; timer gratis tidak berubah.",
   "skillReset.ticket": "Reset Tiket",
   "skillReset.ticketDescription": "Gunakan Tiket Reset Keterampilan untuk mengatur ulang semua keterampilan Anda.",
-  "description.obsidianShrine.buff": "Panen massal, tanam, dan pupuk tanaman dan buah Anda",
   "obsidianShrine.fertilise": "Pupuk Semua",
-  "obsidianShrine.fertiliseAll": "Terapkan pupuk ke semua plot dan petak yang memenuhi syarat",
   "obsidianShrine.selectFertiliser": "Pilih pupuk",
   "obsidianShrine.noFertilisers": "Tidak ada pupuk yang tersedia",
   "obsidianShrine.noEligiblePlots": "Tidak ada plot untuk dipupuk",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "+1 ikan acak setiap gulungan ke-15",
   "description.clamShellHat": "Cangkang kerang yang dipoles bertengger di atas kepala Anda.",
   "description.shrimpOnesie": "Nyaman, asin, dan sedikit keriting.",
-  "vip.benefit.bonusSaltYield": "+2 Garam per Rake selama Bab Kebangkitan Garam"
+  "vip.benefit.bonusSaltYield": "+2 Garam per Rake selama Bab Kebangkitan Garam",
+  "statements.blacklist.discord": "Bicaralah dengan kami di Discord, buka tiket.",
+  "statements.blacklist.noDiscord": "Tidak punya Discord? Hubungi kami di sini.",
+  "description.spaSheep.boost": "+5 XP Domba dari alat Animal Affection",
+  "description.obsidianShrine.buff": "Panen massal, tanam, dan pupuk tanaman, buah, dan rumah kaca Anda",
+  "obsidianShrine.fertiliseAll": "Terapkan pupuk ke semua plot, petak, dan pot rumah kaca yang memenuhi syarat",
+  "obsidianShrine.noEligiblePots": "Tidak ada pot rumah kaca untuk dipupuk"
 }

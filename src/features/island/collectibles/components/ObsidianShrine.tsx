@@ -38,7 +38,10 @@ import {
   CropCompostName,
   FRUIT_COMPOST,
   FruitCompostName,
+  GREENHOUSE_COMPOST,
+  GreenhouseCompostName,
 } from "features/game/types/composters";
+import { getReadyAt as getGreenhouseReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -48,6 +51,8 @@ import { selectGameState, selectVerified } from "features/game/lib/gameMachine";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { FarmActivityName } from "features/game/types/farmActivity";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -313,7 +318,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             <PlantAll
               availablePlots={availablePlots}
               state={state}
-              close={close}
+              onAllPlanted={() => setActiveTab("fertilise")}
             />
           )}
           {activeTab === "fertilise" && (
@@ -411,8 +416,8 @@ const getPlantSeconds = (
 const PlantAll: React.FC<{
   availablePlots: [string, CropPlot][];
   state: GameState;
-  close: () => void;
-}> = ({ availablePlots, state, close }) => {
+  onAllPlanted: () => void;
+}> = ({ availablePlots, state, onAllPlanted }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
@@ -450,9 +455,15 @@ const PlantAll: React.FC<{
 
     const availablePlots = getAvailablePlots(updatedState.context.state);
 
-    // Close if all plots were planted
     if (availablePlots.length === 0) {
-      close();
+      const game = updatedState.context.state;
+      const hasWings =
+        isWearableActive({ game, name: "Angel Wings" }) ||
+        isWearableActive({ game, name: "Devil Wings" });
+      if (hasWings) {
+        gameService.send("SAVE");
+      }
+      onAllPlanted();
     }
   };
 
@@ -524,16 +535,42 @@ const PlantAll: React.FC<{
   );
 };
 
-type AnyCompostName = CropCompostName | FruitCompostName;
+type AnyCompostName =
+  | CropCompostName
+  | FruitCompostName
+  | GreenhouseCompostName;
 
 const getOwnedFertilisers = (state: GameState): AnyCompostName[] => {
   const all: AnyCompostName[] = [
     ...(Object.keys(CROP_COMPOST) as CropCompostName[]),
     ...(Object.keys(FRUIT_COMPOST) as FruitCompostName[]),
+    ...(Object.keys(GREENHOUSE_COMPOST) as GreenhouseCompostName[]),
   ];
   return all.filter((name) =>
     (state.inventory[name] ?? new Decimal(0)).greaterThan(0),
   );
+};
+
+const getEligibleGreenhousePotIds = (
+  state: GameState,
+  now: number,
+): number[] => {
+  return Object.entries(state.greenhouse.pots)
+    .filter(([, pot]) => {
+      if (!pot || pot.fertiliser) return false;
+      if (
+        pot.plant &&
+        now >=
+          getGreenhouseReadyAt({
+            plant: pot.plant.name,
+            createdAt: pot.plant.plantedAt,
+          })
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .map(([id]) => Number(id));
 };
 
 const getEligibleCount = (
@@ -543,6 +580,9 @@ const getEligibleCount = (
 ): number => {
   if (fertiliser in CROP_COMPOST) {
     return getPlotsToFertilise(state, now).length;
+  }
+  if (fertiliser in GREENHOUSE_COMPOST) {
+    return getEligibleGreenhousePotIds(state, now).length;
   }
   return Object.values(state.fruitPatches).filter((patch) => !patch.fertiliser)
     .length;
@@ -586,6 +626,16 @@ const FertiliseAll: React.FC<{
       gameService.send("plots.bulkFertilised", {
         fertiliser: effectiveFertiliser as CropCompostName,
       });
+    } else if (effectiveFertiliser in GREENHOUSE_COMPOST) {
+      let remaining = ownedCount;
+      for (const id of getEligibleGreenhousePotIds(state, now)) {
+        if (remaining === 0) break;
+        gameService.send("greenhouse.fertilised", {
+          id,
+          fertiliser: effectiveFertiliser as GreenhouseCompostName,
+        });
+        remaining -= 1;
+      }
     } else {
       let remaining = ownedCount;
       for (const [id, patch] of Object.entries(state.fruitPatches)) {
@@ -626,16 +676,31 @@ const FertiliseAll: React.FC<{
               />
             ))}
             {effectiveFertiliser && (
-              <div className="flex flex-wrap justify-between w-full px-2">
-                <Label
-                  type="default"
-                  icon={ITEM_DETAILS[effectiveFertiliser].image}
-                >
-                  {effectiveFertiliser}
-                </Label>
-                <Label type="info">
-                  {t("obsidianShrine.eligible", { count: eligibleCount })}
-                </Label>
+              <div className="flex flex-col gap-1 w-full px-2">
+                <div className="flex flex-wrap justify-between">
+                  <Label
+                    type="default"
+                    icon={ITEM_DETAILS[effectiveFertiliser].image}
+                  >
+                    {effectiveFertiliser}
+                  </Label>
+                  <Label type="info">
+                    {t("obsidianShrine.eligible", { count: eligibleCount })}
+                  </Label>
+                </div>
+                {COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
+                  skills: state.bumpkin?.skills ?? {},
+                  collectibles: state.collectibles,
+                })?.map((buff) => (
+                  <Label
+                    key={`${buff.labelType}-${buff.shortDescription}`}
+                    type={buff.labelType}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                ))}
               </div>
             )}
             <Button
@@ -650,7 +715,10 @@ const FertiliseAll: React.FC<{
                   ? t("obsidianShrine.noEligiblePlots")
                   : eligibleCount === 0 && effectiveFertiliser in FRUIT_COMPOST
                     ? t("obsidianShrine.noEligiblePatches")
-                    : t("obsidianShrine.fertilise")}
+                    : eligibleCount === 0 &&
+                        effectiveFertiliser in GREENHOUSE_COMPOST
+                      ? t("obsidianShrine.noEligiblePots")
+                      : t("obsidianShrine.fertilise")}
             </Button>
           </div>
         </>

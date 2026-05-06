@@ -8781,7 +8781,6 @@
   "description.saltAwakeningBanner": "集结旗帜——盐业觉醒已经开始。",
   "description.saltDinoEgg": "一个从盐滩裂开的化石蛋。谁放了这个？",
   "description.flamingoChicken.boost": "-2.5% 小鸡睡眠时间",
-  "description.spaSheep.boost": "+5 来自动物情感的动物经验值",
   "description.spaCow.boost": "+0.1 牛奶",
   "description.deepSeaSlug.boost.2": "+1 堆肥产生的蠕虫",
   "referral.share": "分享到：",
@@ -8804,9 +8803,7 @@
   "description.skillResetTicketWarning": "算作宝石重置；免费计时器不变。",
   "skillReset.ticket": "票证重置",
   "skillReset.ticketDescription": "使用技能重置通知单来重置所有技能。",
-  "description.obsidianShrine.buff": "批量收割、种植和施肥作物和水果",
   "obsidianShrine.fertilise": "全部受精",
-  "obsidianShrine.fertiliseAll": "将肥料应用于所有符合条件的地块和地块",
   "obsidianShrine.selectFertiliser": "选择肥料",
   "obsidianShrine.noFertilisers": "没有肥料可用",
   "obsidianShrine.noEligiblePlots": "没有可施肥的土地",
@@ -8893,5 +8890,11 @@
   "description.shrimpOnesie.boost": "每第 15 个卷轴 +1 条随机鱼",
   "description.clamShellHat": "抛光的蛤壳栖息在你的头顶。",
   "description.shrimpOnesie": "很舒服，很咸，还有一点点点。",
-  "vip.benefit.bonusSaltYield": "在 Salt Awakening 章节中，每把佣金 +2"
+  "vip.benefit.bonusSaltYield": "在 Salt Awakening 章节中，每把佣金 +2",
+  "statements.blacklist.discord": "在 Discord 上和我们交谈，开票。",
+  "statements.blacklist.noDiscord": "没有 Discord？在这里联系我们。",
+  "description.spaSheep.boost": "+5 来自动物情感工具的绵羊经验值",
+  "description.obsidianShrine.buff": "批量收割、种植和施肥作物、水果和温室",
+  "obsidianShrine.fertiliseAll": "向所有符合条件的地块、地块和温室花盆施肥",
+  "obsidianShrine.noEligiblePots": "没有温室花盆可以施肥"
 }

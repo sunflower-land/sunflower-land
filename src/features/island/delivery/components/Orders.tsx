@@ -626,43 +626,31 @@ export const DeliveryOrders: React.FC<Props> = ({
                       <span className="text-xs ml-1">{t("reward")}</span>
                     </div>
                     <div className="flex flex-col items-end gap-1">
-                      {isFrozenQuestOrder && !hasRewardAmount ? (
-                        <Label
-                          type="danger"
-                          className="whitespace-nowrap"
-                          icon={SUNNYSIDE.icons.stopwatch}
-                        >
+                      {hasRewardAmount && (
+                        <Label type="warning" className="whitespace-nowrap">
                           <span className={!isMobile ? "text-xxs" : ""}>
-                            {t("deliveries.closed")}
+                            {`${rewardDisplayValue} ${
+                              previewOrder.reward.coins
+                                ? t("coins")
+                                : previewOrder.reward.sfl
+                                  ? "FLOWER"
+                                  : chapterTicket
+                            }`}
                           </span>
                         </Label>
-                      ) : (
-                        <>
-                          {hasRewardAmount && (
-                            <Label type="warning" className="whitespace-nowrap">
-                              <span className={!isMobile ? "text-xxs" : ""}>
-                                {`${rewardDisplayValue} ${
-                                  previewOrder.reward.coins
-                                    ? t("coins")
-                                    : previewOrder.reward.sfl
-                                      ? "FLOWER"
-                                      : chapterTicket
-                                }`}
-                              </span>
-                            </Label>
-                          )}
-                          {!!ticketDisplay && (
-                            <Label
-                              type="warning"
-                              className="whitespace-nowrap"
-                              icon={ITEM_DETAILS[chapterTicket].image}
-                            >
-                              <span className={!isMobile ? "text-xxs" : ""}>
-                                {`${ticketDisplay} ${chapterTicket}`}
-                              </span>
-                            </Label>
-                          )}
-                        </>
+                      )}
+                      {(!!ticketDisplay || isFrozenQuestOrder) && (
+                        <Label
+                          type="warning"
+                          className="whitespace-nowrap"
+                          icon={ITEM_DETAILS[chapterTicket].image}
+                        >
+                          <span className={!isMobile ? "text-xxs" : ""}>
+                            {`${
+                              isFrozenQuestOrder ? baseTickets : ticketDisplay
+                            } ${chapterTicket}`}
+                          </span>
+                        </Label>
                       )}
                     </div>
                   </div>

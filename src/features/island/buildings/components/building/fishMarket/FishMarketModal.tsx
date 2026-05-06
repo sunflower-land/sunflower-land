@@ -11,7 +11,11 @@ import { Button } from "components/ui/Button";
 import vipIcon from "assets/icons/vip.webp";
 
 import { Context } from "features/game/GameProvider";
-import { BuildingProduct, InventoryItemName } from "features/game/types/game";
+import {
+  BoostName,
+  BuildingProduct,
+  InventoryItemName,
+} from "features/game/types/game";
 import {
   FISH_PROCESSING_TIME_SECONDS,
   getFishProcessingRequirements,
@@ -19,7 +23,10 @@ import {
 } from "features/game/types/fishProcessing";
 import { ProcessedResource } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MAX_FISH_PROCESSING_SLOTS } from "features/game/events/landExpansion/processResource";
+import {
+  getFishProcessingTime,
+  MAX_FISH_PROCESSING_SLOTS,
+} from "features/game/events/landExpansion/processResource";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InProgressInfo } from "../InProgressInfo";
@@ -75,6 +82,7 @@ export const FishMarketModal: React.FC<Props> = ({
     PROCESSED_ITEMS[0],
   );
   const [showQueueInformation, setShowQueueInformation] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   const requirements = getFishProcessingRequirements({
     item: selected,
@@ -103,9 +111,14 @@ export const FishMarketModal: React.FC<Props> = ({
   const totalQueued = ready.length + queue.length + (processing ? 1 : 0);
   const isQueueFull = totalQueued >= availableSlots;
 
-  const totalSeconds = isProcessedFood(selected)
+  const baseTimeSeconds = isProcessedFood(selected)
     ? FISH_PROCESSING_TIME_SECONDS[selected]
     : 0;
+  const fishProcessingTime = isProcessedFood(selected)
+    ? getFishProcessingTime(selected, state)
+    : { reducedMs: 0, boostsUsed: [] as { name: BoostName; value: string }[] };
+  const totalSeconds = fishProcessingTime.reducedMs / 1000;
+  const timeBoostsUsed = fishProcessingTime.boostsUsed;
 
   return (
     <Modal show={isOpen} onHide={onClose}>
@@ -129,7 +142,11 @@ export const FishMarketModal: React.FC<Props> = ({
               requirements={{
                 resources: requirements,
                 timeSeconds: totalSeconds,
+                baseTimeSeconds,
+                timeBoostsUsed,
               }}
+              showTimeBoosts={showTimeBoosts}
+              setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <div className="flex flex-col gap-1">
                   {isProcessedFood(selected) && (

@@ -11,6 +11,7 @@ export const BattleFish: React.FC = () => {
         src={battleFish}
         style={{
           width: `${PIXEL_SCALE * 32}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
