@@ -153,10 +153,13 @@ export function castRod({
       throw new Error(`Daily attempts exhausted`);
     }
 
+    const extraRodCost = game.bumpkin.skills["More With Less"] ? multiplier : 0;
+    const totalRodCost = multiplier + extraRodCost;
+
     const rodCount = game.inventory.Rod ?? new Decimal(0);
     // Requires Rod
     if (
-      rodCount.lt(multiplier) &&
+      rodCount.lt(totalRodCost) &&
       !isWearableActive({ name: "Ancient Rod", game })
     ) {
       throw new Error(translate("error.missingRod"));
@@ -213,7 +216,13 @@ export function castRod({
 
     // Subtracts Rod
     if (!isWearableActive({ name: "Ancient Rod", game })) {
-      game.inventory.Rod = rodCount.sub(multiplier);
+      game.inventory.Rod = rodCount.sub(totalRodCost);
+      if (extraRodCost > 0) {
+        boostsUsed.push({
+          name: "More With Less",
+          value: `+${extraRodCost} Rod`,
+        });
+      }
     } else {
       game.boostsUsedAt = updateBoostUsed({
         game,

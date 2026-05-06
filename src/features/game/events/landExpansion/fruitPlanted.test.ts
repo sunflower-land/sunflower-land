@@ -1126,7 +1126,7 @@ describe("getFruitTime", () => {
 
     expect(time).toEqual(plantSeconds * 0.9);
   });
-  it("takes 2x faster to grow Apples with Long Pickings skill, but Oranges take 2x longer to grow", () => {
+  it("takes 25% faster to grow Apples with Long Pickings skill, but Oranges take 10% longer to grow", () => {
     const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
     const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
@@ -1147,10 +1147,10 @@ describe("getFruitTime", () => {
         },
       },
     });
-    expect(appleTime).toEqual(applePlantSeconds * 0.5);
-    expect(orangeTime).toEqual(orangePlantSeconds * 2);
+    expect(appleTime).toEqual(applePlantSeconds * 0.75);
+    expect(orangeTime).toEqual(orangePlantSeconds * 1.1);
   });
-  it("takes 2x faster to grow Orange with Short Pickings skill, but Apples take 2x longer to grow", () => {
+  it("takes 25% faster to grow Orange with Short Pickings skill, but Apples take 10% longer to grow", () => {
     const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
     const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
@@ -1171,7 +1171,7 @@ describe("getFruitTime", () => {
         },
       },
     });
-    expect(appleTime).toEqual(applePlantSeconds * 2);
-    expect(orangeTime).toEqual(orangePlantSeconds * 0.5);
+    expect(appleTime).toEqual(applePlantSeconds * 1.1);
+    expect(orangeTime).toEqual(orangePlantSeconds * 0.75);
   });
 });
