@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0,35 Rendement en cuir",
   "skill.leathercraftMasteryDebuff": "-0,1 Rendement en plumes et en laine mérinos",
   "skill.compostingRevamp.debuff": "-2 vers",
-  "skill.moreWithLess.buff": "+10 moulinets de pêche quotidiens"
+  "skill.moreWithLess.buff": "+10 moulinets de pêche quotidiens",
+  "statements.blacklist.multiAccounting": "Cette ferme a été bannie pour cause de multicomptabilité.",
+  "statements.blacklist.funnelling": "Cette ferme a été interdite pour ses entonnoirs.",
+  "statements.blacklist.whatIsThis": "Qu'est-ce que c'est ?",
+  "statements.blacklist.reason": "Motif",
+  "statements.blacklist.tos.multiAccounting": "La multicomptabilité constitue une violation de nos conditions d'utilisation. L'exploitation de plusieurs comptes nuit à l'équité du jeu et a un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté.",
+  "statements.blacklist.tos.funnelling": "Le funnelling constitue une violation de nos conditions d'utilisation. Le transfert de ressources entre comptes pour obtenir un avantage injuste porte atteinte à l'intégrité du jeu et a un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté.",
+  "statements.blacklist.contactUs": "Nous contacter"
 }

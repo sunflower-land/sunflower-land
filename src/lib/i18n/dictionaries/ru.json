@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0.35 Leather yield",
   "skill.leathercraftMasteryDebuff": "-0.1 Feather & Merino Wool yield",
   "skill.compostingRevamp.debuff": "-2 Worms",
-  "skill.moreWithLess.buff": "+10 daily fishing reels"
+  "skill.moreWithLess.buff": "+10 daily fishing reels",
+  "statements.blacklist.multiAccounting": "This farm has been banned for multi-accounting.",
+  "statements.blacklist.funnelling": "This farm has been banned for funnelling.",
+  "statements.blacklist.whatIsThis": "What is this?",
+  "statements.blacklist.reason": "Reason",
+  "statements.blacklist.tos.multiAccounting": "Multi-accounting is a violation of our Terms of Service. Operating multiple accounts undermines the fairness of the game and negatively impacts all players. This restriction has been applied to maintain a fair environment for the community.",
+  "statements.blacklist.tos.funnelling": "Funnelling is a violation of our Terms of Service. Transferring resources between accounts to gain an unfair advantage undermines the integrity of the game and negatively impacts all players. This restriction has been applied to maintain a fair environment for the community.",
+  "statements.blacklist.contactUs": "Contact us"
 }

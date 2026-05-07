@@ -631,13 +631,13 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   if (blacklisted) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 49 }}>
+      <Ocean>
         <Modal show backdrop={false}>
           <Panel>
             <Blacklisted banReason={banReason} />
           </Panel>
         </Modal>
-      </div>
+      </Ocean>
     );
   }
 

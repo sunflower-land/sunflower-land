@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0,35 Resa della pelle",
   "skill.leathercraftMasteryDebuff": "-0,1 resa in piuma e lana merino",
   "skill.compostingRevamp.debuff": "-2 Vermi",
-  "skill.moreWithLess.buff": "+10 mulinelli da pesca giornalieri"
+  "skill.moreWithLess.buff": "+10 mulinelli da pesca giornalieri",
+  "statements.blacklist.multiAccounting": "Questa fattoria è stata bandita per la contabilità multipla.",
+  "statements.blacklist.funnelling": "Questa fattoria è stata bandita per imcanalamento.",
+  "statements.blacklist.whatIsThis": "Che cos'è questo?",
+  "statements.blacklist.reason": "Motivo",
+  "statements.blacklist.tos.multiAccounting": "La contabilità multipla è una violazione dei nostri Termini di servizio. La gestione di più account compromette l'equità del gioco e ha un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità.",
+  "statements.blacklist.tos.funnelling": "L'incanalamento è una violazione dei nostri Termini di servizio. Il trasferimento di risorse tra account per ottenere un vantaggio sleale mina l'integrità del gioco e ha un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità.",
+  "statements.blacklist.contactUs": "Contattaci"
 }

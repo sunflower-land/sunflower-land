@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0.35 レザー生産量",
   "skill.leathercraftMasteryDebuff": "-0.1 フェザー＆メリノウールの生産量",
   "skill.compostingRevamp.debuff": "-2 ワーム",
-  "skill.moreWithLess.buff": "+10 デイリーフィッシングリール"
+  "skill.moreWithLess.buff": "+10 デイリーフィッシングリール",
+  "statements.blacklist.multiAccounting": "このファームはマルチアカウンティングが禁止されています。",
+  "statements.blacklist.funnelling": "この農場はファネリングが禁止されています。",
+  "statements.blacklist.whatIsThis": "これは何？",
+  "statements.blacklist.reason": "理由",
+  "statements.blacklist.tos.multiAccounting": "マルチアカウンティングは利用規約の違反です。複数のアカウントを使用するとゲームの公平性が損なわれ、すべてのプレイヤーに悪影響が及びます。この制限は、コミュニティにとって公平な環境を維持するために適用されたものです。",
+  "statements.blacklist.tos.funnelling": "ファネリングは利用規約違反です。不当なアドバンテージを得るためにアカウント間でリソースを移転すると、ゲームの完全性が損なわれ、すべてのプレイヤーに悪影響が及びます。この制限は、コミュニティにとって公平な環境を維持するために適用されました。",
+  "statements.blacklist.contactUs": "お問い合わせ"
 }

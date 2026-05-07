@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0.35 Rendimento de couro",
   "skill.leathercraftMasteryDebuff": "-0,1 Rendimento de lã de penas e merino",
   "skill.compostingRevamp.debuff": "-2 Minhocas",
-  "skill.moreWithLess.buff": "+10 bobinas de pesca diárias"
+  "skill.moreWithLess.buff": "+10 bobinas de pesca diárias",
+  "statements.blacklist.multiAccounting": "Esta fazenda foi banida por várias contas.",
+  "statements.blacklist.funnelling": "Esta fazenda foi proibida por canalização.",
+  "statements.blacklist.whatIsThis": "O que é isso?",
+  "statements.blacklist.reason": "Razão",
+  "statements.blacklist.tos.multiAccounting": "A contabilidade múltipla é uma violação dos nossos Termos de Serviço. Operar várias contas prejudica a imparcialidade do jogo e afeta negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade.",
+  "statements.blacklist.tos.funnelling": "O canalização é uma violação dos nossos Termos de Serviço. A transferência de recursos entre contas para obter uma vantagem injusta prejudica a integridade do jogo e afeta negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade.",
+  "statements.blacklist.contactUs": "Entre em contato conosco"
 }

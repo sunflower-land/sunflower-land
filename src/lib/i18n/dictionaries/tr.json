@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0,35 Deri verimi",
   "skill.leathercraftMasteryDebuff": "-0.1 Tüy ve Merinos Yünü verimi",
   "skill.compostingRevamp.debuff": "-2 Vörms",
-  "skill.moreWithLess.buff": "+10 günlük balıkçılık makaraları"
+  "skill.moreWithLess.buff": "+10 günlük balıkçılık makaraları",
+  "statements.blacklist.multiAccounting": "Bu çiftlik çoklu muhasebe nedeniyle yasaklandı.",
+  "statements.blacklist.funnelling": "Bu çiftlik huni açma nedeniyle yasaklandı.",
+  "statements.blacklist.whatIsThis": "Bu nedir?",
+  "statements.blacklist.reason": "Sebep",
+  "statements.blacklist.tos.multiAccounting": "Çoklu muhasebe, Hizmet Koşullarımızın ihlalidir. Birden fazla hesap çalıştırmak oyunun adaletini baltalıyor ve tüm oyuncuları olumsuz yönde etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır..",
+  "statements.blacklist.tos.funnelling": "Havalandırma, Hizmet Koşullarımızın ihlalidir. Haksız bir avantaj elde etmek için hesaplar arasında kaynak aktarmak, oyunun bütünlüğünü zayıflatır ve tüm oyuncuları olumsuz etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır..",
+  "statements.blacklist.contactUs": "Bize Ulaşın"
 }

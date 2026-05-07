@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0,35 Hasil kulit",
   "skill.leathercraftMasteryDebuff": "-0.1 Hasil bulu & Merino Wol",
   "skill.compostingRevamp.debuff": "-2 Worms",
-  "skill.moreWithLess.buff": "+10 gulungan memancing harian"
+  "skill.moreWithLess.buff": "+10 gulungan memancing harian",
+  "statements.blacklist.multiAccounting": "Peternakan ini telah dilarang karena multi-akuntansi.",
+  "statements.blacklist.funnelling": "Peternakan ini telah dilarang untuk disalurkan.",
+  "statements.blacklist.whatIsThis": "Apa ini?",
+  "statements.blacklist.reason": "Alasan",
+  "statements.blacklist.tos.multiAccounting": "Multi-akuntansi merupakan pelanggaran terhadap Ketentuan Layanan kami. Mengoperasikan beberapa akun merusak keadilan permainan dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat.",
+  "statements.blacklist.tos.funnelling": "Funnelling merupakan pelanggaran terhadap Ketentuan Layanan kami. Mentransfer sumber daya antar akun untuk mendapatkan keuntungan yang tidak adil merusak integritas permainan dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat.",
+  "statements.blacklist.contactUs": "Hubungi kami"
 }

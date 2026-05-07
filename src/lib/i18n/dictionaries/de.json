@@ -8902,5 +8902,12 @@
   "skill.leathercraftMasteryBuff": "+0.35 Lederausbeute",
   "skill.leathercraftMasteryDebuff": "-0.1 Ertrag aus Federn- und Merinowolle",
   "skill.compostingRevamp.debuff": "-2 Würmer",
-  "skill.moreWithLess.buff": "+10 tägliche Angelrollen"
+  "skill.moreWithLess.buff": "+10 tägliche Angelrollen",
+  "statements.blacklist.multiAccounting": "Diese Farm wurde wegen Mehrfachbuchhaltung gesperrt.",
+  "statements.blacklist.funnelling": "Diese Farm wurde wegen des Trichters verboten.",
+  "statements.blacklist.whatIsThis": "Was ist das?",
+  "statements.blacklist.reason": "Grund",
+  "statements.blacklist.tos.multiAccounting": "Multi-Accounting ist ein Verstoß gegen unsere Nutzungsbedingungen. Der Betrieb mehrerer Konten untergräbt die Fairness des Spiels und wirkt sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten.",
+  "statements.blacklist.tos.funnelling": "Funnelling ist ein Verstoß gegen unsere Nutzungsbedingungen. Die Übertragung von Ressourcen zwischen Konten, um sich einen unfairen Vorteil zu verschaffen, untergräbt die Integrität des Spiels und wirkt sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten.",
+  "statements.blacklist.contactUs": "Kontaktiere uns"
 }
