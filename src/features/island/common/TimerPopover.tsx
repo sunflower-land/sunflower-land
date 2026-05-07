@@ -33,7 +33,6 @@ export const TimerPopover: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const hasSecondRow = secondaryImage != null || secondaryDescription != null;
-  const hasBoosts = !!boosts?.length && !!state;
 
   return (
     <InnerPanel
@@ -61,14 +60,15 @@ export const TimerPopover: React.FC<Props> = ({
         <span className="flex-1 text-center font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>
-        {hasBoosts &&
+        {!!boosts?.length &&
+          !!state &&
           boosts.map((buff, index) => (
             <div
               key={`${buff.name}-${buff.value}-${index}`}
               className="flex items-center max-w-[10rem]"
             >
               <img
-                src={getBoostIcon(buff.name, state!)}
+                src={getBoostIcon(buff.name, state)}
                 className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
               />
               <span className="truncate text-xxs">

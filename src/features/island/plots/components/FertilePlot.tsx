@@ -20,7 +20,7 @@ import { MachineState, selectGameState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getPlotBoosts } from "../lib/getPlotBoosts";
+import { getCropYieldAmount } from "features/game/events/landExpansion/harvest";
 
 interface Props {
   cropName?: CropName;
@@ -112,18 +112,15 @@ export const FertilePlot: React.FC<Props> = ({
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
-  const plotBoosts = useMemo(
-    () =>
-      cropName && showTimerPopover
-        ? getPlotBoosts({
-            game,
-            plot,
-            cropName,
-            createdAt: readyAt,
-          })
-        : [],
-    [game, plot, cropName, readyAt, showTimerPopover],
-  );
+  const plotBoosts =
+    cropName && showTimerPopover
+      ? getCropYieldAmount({
+          game,
+          plot,
+          crop: cropName,
+          createdAt: readyAt,
+        }).boostsUsed
+      : [];
 
   const handleMouseEnter = () => {
     // show details if field is growing
