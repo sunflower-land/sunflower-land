@@ -27,6 +27,82 @@ import { getBudImage } from "lib/buds/types";
 
 const BOOSTS_PANEL_ESTIMATED_HEIGHT = 220;
 
+const isBumpkinSkill = (boost: BoostName): boost is BumpkinRevampSkillName =>
+  boost in BUMPKIN_REVAMP_SKILL_TREE;
+
+const isCollectible = (boost: BoostName): boost is InventoryItemName =>
+  boost in KNOWN_IDS;
+
+const isWearable = (boost: BoostName): boost is BumpkinItem =>
+  boost in ITEM_IDS;
+
+const isBud = (boost: BoostName): boost is BudNFTName =>
+  boost.startsWith("Bud #");
+
+const isCalendarEvent = (boost: BoostName): boost is SeasonalEventName =>
+  boost in CALENDAR_EVENT_ICONS;
+
+export const getBoostLabel = (
+  name: BoostName,
+  t: (key: TranslationKeys) => string,
+): string => {
+  if (isCalendarEvent(name)) {
+    const key: TranslationKeys = `calendar.events.${name}.title`;
+    const translated = t(key);
+    return translated !== key ? translated : startCase(name);
+  }
+  // startCase strips/alters punctuation (e.g. "Luna's Hat" → "Lunas Hat", "Dr." → "Dr"), so preserve names that have it
+  if (/[^a-zA-Z0-9 ]/.test(name)) {
+    return name;
+  }
+  return startCase(name);
+};
+
+export const getBoostIcon = (boost: BoostName, state: GameState): string => {
+  if (boost === "Building Oil") {
+    return SUNNYSIDE.icons.stopwatch;
+  }
+
+  if (isCalendarEvent(boost)) {
+    return CALENDAR_EVENT_ICONS[boost];
+  }
+
+  if (isBumpkinSkill(boost)) {
+    const {
+      image,
+      tree,
+      boosts: {
+        buff: { boostedItemIcon },
+      },
+    } = BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp;
+
+    return getSkillImage(image, boostedItemIcon, tree);
+  }
+
+  if (isCollectible(boost)) {
+    return getTradeableDisplay({
+      id: KNOWN_IDS[boost],
+      type: "collectibles",
+      state,
+    }).image;
+  }
+
+  if (isWearable(boost)) {
+    return getTradeableDisplay({
+      id: ITEM_IDS[boost],
+      type: "wearables",
+      state,
+    }).image;
+  }
+
+  if (isBud(boost)) {
+    const budId = Number(boost.split("#")[1]);
+    return getBudImage(budId);
+  }
+
+  return SUNNYSIDE.icons.lightning;
+};
+
 export const BoostsDisplay: React.FC<{
   boosts: { name: BoostName; value: string }[];
   show: boolean;
@@ -65,82 +141,6 @@ export const BoostsDisplay: React.FC<{
       });
     }
   }, [show, anchorRef]);
-  const isBumpkinSkill = (
-    boost: BoostName,
-  ): boost is BumpkinRevampSkillName => {
-    return boost in BUMPKIN_REVAMP_SKILL_TREE;
-  };
-
-  const isCollectible = (boost: BoostName): boost is InventoryItemName => {
-    return boost in KNOWN_IDS;
-  };
-  const isWearable = (boost: BoostName): boost is BumpkinItem => {
-    return boost in ITEM_IDS;
-  };
-  const isBud = (boost: BoostName): boost is BudNFTName => {
-    return boost.startsWith("Bud #");
-  };
-  const isCalendarEvent = (boost: BoostName): boost is SeasonalEventName => {
-    return boost in CALENDAR_EVENT_ICONS;
-  };
-
-  const getBoostLabel = (name: BoostName): string => {
-    if (isCalendarEvent(name)) {
-      const key: TranslationKeys = `calendar.events.${name}.title`;
-      const translated = t(key);
-      return translated !== key ? translated : startCase(name);
-    }
-    // startCase strips/alters punctuation (e.g. "Luna's Hat" → "Lunas Hat", "Dr." → "Dr"), so preserve names that have it
-    if (/[^a-zA-Z0-9 ]/.test(name)) {
-      return name;
-    }
-    return startCase(name);
-  };
-
-  const getBoostIcon = (boost: BoostName) => {
-    if (boost === "Building Oil") {
-      return SUNNYSIDE.icons.stopwatch;
-    }
-
-    if (isCalendarEvent(boost)) {
-      return CALENDAR_EVENT_ICONS[boost];
-    }
-
-    if (isBumpkinSkill(boost)) {
-      const {
-        image,
-        tree,
-        boosts: {
-          buff: { boostedItemIcon },
-        },
-      } = BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp;
-
-      return getSkillImage(image, boostedItemIcon, tree);
-    }
-
-    if (isCollectible(boost)) {
-      return getTradeableDisplay({
-        id: KNOWN_IDS[boost],
-        type: "collectibles",
-        state,
-      }).image;
-    }
-
-    if (isWearable(boost)) {
-      return getTradeableDisplay({
-        id: ITEM_IDS[boost],
-        type: "wearables",
-        state,
-      }).image;
-    }
-
-    if (isBud(boost)) {
-      const budId = Number(boost.split("#")[1]);
-      return getBudImage(budId);
-    }
-
-    return SUNNYSIDE.icons.lightning;
-  };
 
   const panelContent = (
     <AnimatedPanel
@@ -162,10 +162,10 @@ export const BoostsDisplay: React.FC<{
             <Label
               key={`${buff.name}-${buff.value}-${index}`}
               type="transparent"
-              icon={getBoostIcon(buff.name)}
+              icon={getBoostIcon(buff.name, state)}
               className="ml-3"
             >
-              {`${buff.value} ${getBoostLabel(buff.name)}`}
+              {`${buff.value} ${getBoostLabel(buff.name, t)}`}
             </Label>
           ))}
         </div>

@@ -3,6 +3,14 @@ import React from "react";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
+import { BoostName, GameState } from "features/game/types/game";
+import { Label } from "components/ui/Label";
+import {
+  getBoostIcon,
+  getBoostLabel,
+} from "components/ui/layouts/BoostsDisplay";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   showPopover: boolean;
@@ -11,7 +19,8 @@ interface Props {
   timeLeft: number;
   secondaryImage?: string | undefined;
   secondaryDescription?: string;
-  boosts?: { image: string; description: string }[];
+  boosts?: { name: BoostName; value: string }[];
+  state?: GameState;
 }
 
 export const TimerPopover: React.FC<Props> = ({
@@ -22,8 +31,11 @@ export const TimerPopover: React.FC<Props> = ({
   secondaryImage,
   secondaryDescription,
   boosts,
+  state,
 }) => {
+  const { t } = useAppTranslation();
   const hasSecondRow = secondaryImage != null || secondaryDescription != null;
+  const hasBoosts = !!boosts?.length && !!state;
 
   return (
     <InnerPanel
@@ -48,18 +60,33 @@ export const TimerPopover: React.FC<Props> = ({
             {secondaryDescription && <span>{secondaryDescription}</span>}
           </div>
         )}
-        {boosts?.map((boost, i) => (
-          <div
-            key={`${boost.description}-${i}`}
-            className="flex flex-1 items-center justify-center"
-          >
-            <img src={boost.image} className="w-4 mr-1" />
-            <span>{boost.description}</span>
-          </div>
-        ))}
         <span className="flex-1 text-center font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>
+        {hasBoosts && (
+          <>
+            <div className="flex items-center mt-1">
+              <img
+                src={SUNNYSIDE.icons.lightning}
+                alt="Boost"
+                className="w-3 mr-1"
+              />
+              <span>{t("faction.boostsApplied")}</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              {boosts!.map((buff, index) => (
+                <Label
+                  key={`${buff.name}-${buff.value}-${index}`}
+                  type="transparent"
+                  icon={getBoostIcon(buff.name, state!)}
+                  className="ml-1"
+                >
+                  {`${buff.value} ${getBoostLabel(buff.name, t)}`}
+                </Label>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </InnerPanel>
   );

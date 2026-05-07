@@ -34,6 +34,7 @@ interface Props {
 
 const _island = (state: MachineState) => state.context.state.island;
 const _calendar = (state: MachineState) => state.context.state.calendar;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
@@ -87,6 +88,12 @@ export const FertilePlot: React.FC<Props> = ({
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
   const game = useSelector(gameService, selectGameState);
+  const farmId = useSelector(gameService, _farmId);
+  const activityCount = useSelector(gameService, (state) =>
+    cropName
+      ? (state.context.state.farmActivity[`${cropName} Harvested`] ?? 0)
+      : 0,
+  );
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
   const { harvestSeconds, readyAt } = useMemo(
@@ -113,8 +120,26 @@ export const FertilePlot: React.FC<Props> = ({
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
   const plotBoosts = useMemo(
-    () => (cropName ? getPlotBoosts({ game, plot, cropName }) : []),
-    [game, plot, cropName],
+    () =>
+      cropName && showTimerPopover
+        ? getPlotBoosts({
+            game,
+            plot,
+            cropName,
+            createdAt: currentTime,
+            farmId,
+            counter: activityCount,
+          })
+        : [],
+    [
+      game,
+      plot,
+      cropName,
+      currentTime,
+      farmId,
+      activityCount,
+      showTimerPopover,
+    ],
   );
 
   const handleMouseEnter = () => {
@@ -252,6 +277,7 @@ export const FertilePlot: React.FC<Props> = ({
             showPopover={showTimerPopover}
             timeLeft={timeLeft}
             boosts={plotBoosts}
+            state={game}
           />
         </div>
       )}
