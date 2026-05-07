@@ -247,9 +247,9 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     setShowConfirmationModal(false);
   };
 
-  const missingRod =
-    !hasAncientRod &&
-    (!state.inventory["Rod"] || state.inventory.Rod.lt(rodsRequired));
+  const missingRod = (state.inventory["Rod"] ?? new Decimal(0)).lt(
+    rodsRequired,
+  );
   const guaranteedCatchOptions = selectedBait
     ? getGuaranteedOptions(selectedBait)
     : [];
