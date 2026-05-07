@@ -79,18 +79,21 @@ export const getBoostIcon = (boost: BoostName, state: GameState): string => {
     return getSkillImage(image, boostedItemIcon, tree);
   }
 
-  if (isCollectible(boost)) {
-    return getTradeableDisplay({
-      id: KNOWN_IDS[boost],
-      type: "collectibles",
-      state,
-    }).image;
-  }
-
+  // Wearable check runs before collectible because some boost sources
+  // (e.g. "Green Amulet") are listed in both KNOWN_IDS and ITEM_IDS — the
+  // boost is granted by the worn item, so the wearable image is correct.
   if (isWearable(boost)) {
     return getTradeableDisplay({
       id: ITEM_IDS[boost],
       type: "wearables",
+      state,
+    }).image;
+  }
+
+  if (isCollectible(boost)) {
+    return getTradeableDisplay({
+      id: KNOWN_IDS[boost],
+      type: "collectibles",
       state,
     }).image;
   }

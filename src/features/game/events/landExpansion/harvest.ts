@@ -140,16 +140,27 @@ const getMultiplicativeCropYield = ({
 }: CropYieldAmountArgs) => {
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
+  const chanceBoostsUsed: { name: BoostName; value: string; chance: number }[] =
+    [];
 
   const { inventory } = game;
 
   const itemId = KNOWN_IDS[crop];
-  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    !!prngArgs && prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+  const criticalDrop = (
+    criticalHitName: CriticalHitName,
+    chance: number,
+    value: string,
+  ) => {
+    if (!prngArgs) {
+      chanceBoostsUsed.push({ name: criticalHitName, value, chance });
+      return false;
+    }
+    return prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+  };
 
   if (
     isWearableActive({ name: "Green Amulet", game }) &&
-    criticalDrop("Green Amulet", 10)
+    criticalDrop("Green Amulet", 10, "x10")
   ) {
     amount *= 10;
     boostsUsed.push({ name: "Green Amulet", value: "x10" });
@@ -210,7 +221,7 @@ const getMultiplicativeCropYield = ({
     boostsUsed.push({ name: "Coder", value: "x1.2" });
   }
 
-  return { amount, boostsUsed };
+  return { amount, boostsUsed, chanceBoostsUsed };
 };
 
 /**
@@ -226,23 +237,36 @@ export function getCropYieldAmount({
   amount: number;
   aoe: AOE;
   boostsUsed: { name: BoostName; value: string }[];
+  chanceBoostsUsed: { name: BoostName; value: string; chance: number }[];
 } {
-  const { amount: multiplicativeAmount, boostsUsed } =
-    getMultiplicativeCropYield({
-      crop,
-      game,
-      plot,
-      createdAt,
-      prngArgs,
-    });
+  const {
+    amount: multiplicativeAmount,
+    boostsUsed,
+    chanceBoostsUsed,
+  } = getMultiplicativeCropYield({
+    crop,
+    game,
+    plot,
+    createdAt,
+    prngArgs,
+  });
   let amount = multiplicativeAmount;
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
   const skills = bumpkin?.skills ?? {};
   const itemId = KNOWN_IDS[crop];
-  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    !!prngArgs && prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+  const criticalDrop = (
+    criticalHitName: CriticalHitName,
+    chance: number,
+    value: string,
+  ) => {
+    if (!prngArgs) {
+      chanceBoostsUsed.push({ name: criticalHitName, value, chance });
+      return false;
+    }
+    return prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+  };
 
   if (isBuffActive({ buff: "Power hour", game, now: createdAt })) {
     amount += 0.2;
@@ -251,7 +275,7 @@ export function getCropYieldAmount({
   if (
     crop === "Potato" &&
     isCollectibleBuilt({ name: "Peeled Potato", game }) &&
-    criticalDrop("Peeled Potato", 20)
+    criticalDrop("Peeled Potato", 20, "+1")
   ) {
     amount += 1;
     boostsUsed.push({ name: "Peeled Potato", value: "+1" });
@@ -260,7 +284,7 @@ export function getCropYieldAmount({
   if (
     crop === "Potato" &&
     isCollectibleBuilt({ name: "Potent Potato", game }) &&
-    criticalDrop("Potent Potato", 10 / 3)
+    criticalDrop("Potent Potato", 10 / 3, "+10")
   ) {
     amount += 10;
     boostsUsed.push({ name: "Potent Potato", value: "+10" });
@@ -269,7 +293,7 @@ export function getCropYieldAmount({
   if (
     crop === "Sunflower" &&
     isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
-    criticalDrop("Stellar Sunflower", 10 / 3)
+    criticalDrop("Stellar Sunflower", 10 / 3, "+10")
   ) {
     amount += 10;
     boostsUsed.push({ name: "Stellar Sunflower", value: "+10" });
@@ -278,7 +302,7 @@ export function getCropYieldAmount({
   if (
     crop === "Radish" &&
     isCollectibleBuilt({ name: "Radical Radish", game }) &&
-    criticalDrop("Radical Radish", 10 / 3)
+    criticalDrop("Radical Radish", 10 / 3, "+10")
   ) {
     amount += 10;
     boostsUsed.push({ name: "Radical Radish", value: "+10" });
@@ -487,9 +511,9 @@ export function getCropYieldAmount({
           boostsUsed.push({ name: "Horror Mike", value: "+0.3" });
         } else {
           amount = amount + 0.2;
+          boostsUsed.push({ name: "Scary Mike", value: "+0.2" });
         }
       }
-      boostsUsed.push({ name: "Scary Mike", value: "+0.2" });
     }
   }
 
@@ -826,6 +850,7 @@ export function getCropYieldAmount({
     amount: Number(setPrecision(amount)),
     aoe: updatedAoe,
     boostsUsed,
+    chanceBoostsUsed,
   };
 }
 

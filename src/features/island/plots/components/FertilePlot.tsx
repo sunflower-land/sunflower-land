@@ -112,15 +112,18 @@ export const FertilePlot: React.FC<Props> = ({
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
-  const plotBoosts =
-    cropName && showTimerPopover
-      ? getCropYieldAmount({
-          game,
-          plot,
-          crop: cropName,
-          createdAt: readyAt,
-        }).boostsUsed
-      : [];
+  const { plotBoosts, plotChanceBoosts } = useMemo(() => {
+    if (!cropName || !showTimerPopover) {
+      return { plotBoosts: [], plotChanceBoosts: [] };
+    }
+    const { boostsUsed, chanceBoostsUsed } = getCropYieldAmount({
+      game,
+      plot,
+      crop: cropName,
+      createdAt: readyAt,
+    });
+    return { plotBoosts: boostsUsed, plotChanceBoosts: chanceBoostsUsed };
+  }, [cropName, showTimerPopover, game, plot, readyAt]);
 
   const handleMouseEnter = () => {
     // show details if field is growing
@@ -257,6 +260,7 @@ export const FertilePlot: React.FC<Props> = ({
             showPopover={showTimerPopover}
             timeLeft={timeLeft}
             boosts={plotBoosts}
+            chanceBoosts={plotChanceBoosts}
             state={game}
           />
         </div>
