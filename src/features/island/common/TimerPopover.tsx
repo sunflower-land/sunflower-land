@@ -79,7 +79,7 @@ export const TimerPopover: React.FC<Props> = ({
               >
                 <img
                   src={getBoostIcon(buff.name, state!)}
-                  className="w-4 mr-1 flex-shrink-0"
+                  className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
                 />
                 <span className="truncate">
                   {`${buff.value} ${getBoostLabel(buff.name, t)}`}
