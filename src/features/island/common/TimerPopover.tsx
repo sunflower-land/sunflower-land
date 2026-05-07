@@ -11,6 +11,7 @@ interface Props {
   timeLeft: number;
   secondaryImage?: string | undefined;
   secondaryDescription?: string;
+  boosts?: { image: string; description: string }[];
 }
 
 export const TimerPopover: React.FC<Props> = ({
@@ -20,6 +21,7 @@ export const TimerPopover: React.FC<Props> = ({
   timeLeft,
   secondaryImage,
   secondaryDescription,
+  boosts,
 }) => {
   const hasSecondRow = secondaryImage != null || secondaryDescription != null;
 
@@ -46,6 +48,15 @@ export const TimerPopover: React.FC<Props> = ({
             {secondaryDescription && <span>{secondaryDescription}</span>}
           </div>
         )}
+        {boosts?.map((boost, i) => (
+          <div
+            key={`${boost.description}-${i}`}
+            className="flex flex-1 items-center justify-center"
+          >
+            <img src={boost.image} className="w-4 mr-1" />
+            <span>{boost.description}</span>
+          </div>
+        ))}
         <span className="flex-1 text-center font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>

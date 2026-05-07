@@ -16,10 +16,11 @@ import classNames from "classnames";
 import { CropFertiliser, CropPlot } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
-import { MachineState } from "features/game/lib/gameMachine";
+import { MachineState, selectGameState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getPlotBoosts } from "../lib/getPlotBoosts";
 
 interface Props {
   cropName?: CropName;
@@ -85,6 +86,7 @@ export const FertilePlot: React.FC<Props> = ({
 
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
+  const game = useSelector(gameService, selectGameState);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
   const { harvestSeconds, readyAt } = useMemo(
@@ -109,6 +111,11 @@ export const FertilePlot: React.FC<Props> = ({
   const stage = getGrowthStage(cropName, growPercentage);
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
+
+  const plotBoosts = useMemo(
+    () => (cropName ? getPlotBoosts({ game, plot, cropName }) : []),
+    [game, plot, cropName],
+  );
 
   const handleMouseEnter = () => {
     // show details if field is growing
@@ -244,6 +251,7 @@ export const FertilePlot: React.FC<Props> = ({
             description={cropName}
             showPopover={showTimerPopover}
             timeLeft={timeLeft}
+            boosts={plotBoosts}
           />
         </div>
       )}
