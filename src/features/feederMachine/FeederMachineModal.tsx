@@ -12,7 +12,7 @@ import type {
   InventoryItemName,
 } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -86,7 +86,8 @@ export const FeederMachineModal: React.FC<Props> = ({
   const hasSpices = spices.length > 0;
   const selectedSpiceItem = spices.includes(selectedSpice)
     ? selectedSpice
-    : spices[0];
+    : undefined;
+  const nextAvailableSpice = selectedSpiceItem ?? spices[0];
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
     getBulkMixRequirements(state, building);
 
@@ -116,13 +117,51 @@ export const FeederMachineModal: React.FC<Props> = ({
   // selection has to fall back to the food tab rather than render an empty
   // panel.
   const activeTab = hasSpices ? tab : "food";
-  const setActiveTab: React.Dispatch<React.SetStateAction<Tab>> = (nextTab) => {
-    setTab((currentTab) => {
-      const resolvedTab =
-        typeof nextTab === "function" ? nextTab(currentTab) : nextTab;
 
-      return resolvedTab === "spices" && !hasSpices ? "food" : resolvedTab;
+  useEffect(() => {
+    if (tab !== "spices") {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      if (!hasSpices) {
+        setTab("food");
+        shortcutItem(selectedName);
+        return;
+      }
+
+      if (nextAvailableSpice && nextAvailableSpice !== selectedSpice) {
+        setSelectedSpice(nextAvailableSpice);
+        shortcutItem(nextAvailableSpice);
+      }
     });
+
+    return () => window.clearTimeout(timeout);
+  }, [
+    hasSpices,
+    nextAvailableSpice,
+    selectedName,
+    selectedSpice,
+    shortcutItem,
+    tab,
+  ]);
+
+  const setActiveTab: React.Dispatch<React.SetStateAction<Tab>> = (nextTab) => {
+    const resolvedTab =
+      typeof nextTab === "function" ? nextTab(activeTab) : nextTab;
+
+    if (resolvedTab === "spices" && !hasSpices) {
+      shortcutItem(selectedName);
+      setTab("food");
+      return;
+    }
+
+    if (resolvedTab === "spices" && nextAvailableSpice) {
+      setSelectedSpice(nextAvailableSpice);
+      shortcutItem(nextAvailableSpice);
+    }
+
+    setTab(resolvedTab);
   };
 
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
@@ -558,10 +597,14 @@ export const FeederMachineModal: React.FC<Props> = ({
           {activeTab === "spices" && (
             <SplitScreenView
               panel={
-                <InventoryItemDetails
-                  game={state}
-                  details={{ item: selectedSpiceItem as InventoryItemName }}
-                />
+                selectedSpiceItem ? (
+                  <InventoryItemDetails
+                    game={state}
+                    details={{ item: selectedSpiceItem as InventoryItemName }}
+                  />
+                ) : (
+                  <></>
+                )
               }
               content={
                 <div className="flex flex-col">
