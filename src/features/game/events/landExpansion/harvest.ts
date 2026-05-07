@@ -589,9 +589,9 @@ export function getCropYieldAmount({
           boostsUsed.push({ name: "Laurie's Gains", value: "+0.3" });
         } else {
           amount = amount + 0.2;
+          boostsUsed.push({ name: "Laurie the Chuckle Crow", value: "+0.2" });
         }
       }
-      boostsUsed.push({ name: "Laurie the Chuckle Crow", value: "+0.2" });
     }
   }
 
