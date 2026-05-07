@@ -1294,7 +1294,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.moreWithLess.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS.Rod.image,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
       },
     },
     disabled: false,
