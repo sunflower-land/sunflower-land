@@ -119,10 +119,10 @@ export const FertilePlot: React.FC<Props> = ({
             game,
             plot,
             cropName,
-            createdAt: currentTime,
+            createdAt: readyAt,
           })
         : [],
-    [game, plot, cropName, currentTime, showTimerPopover],
+    [game, plot, cropName, readyAt, showTimerPopover],
   );
 
   const handleMouseEnter = () => {
