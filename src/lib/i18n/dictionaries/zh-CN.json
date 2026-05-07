@@ -8904,11 +8904,11 @@
   "skill.leathercraftMasteryDebuff": "-0.1 羽毛和美利奴羊毛产量",
   "skill.compostingRevamp.debuff": "-2 蠕虫",
   "skill.moreWithLess.buff": "+10 每日钓鱼次数",
-  "statements.blacklist.multiAccounting": "该农场因多账户而被禁止。",
-  "statements.blacklist.funnelling": "这个农场因漏斗而被禁止。",
+  "statements.blacklist.multiAccounting": "此农场因多开账号已被封禁。",
+  "statements.blacklist.funnelling": "此农场因违规输送已被封禁。",
   "statements.blacklist.whatIsThis": "这是什么？",
   "statements.blacklist.reason": "原因",
-  "statements.blacklist.tos.multiAccounting": "多账户违反了我们的服务条款。运营多个账户会破坏游戏的公平性，并对所有玩家产生负面影响。适用此限制是为了维护社区的公平环境。",
-  "statements.blacklist.tos.funnelling": "漏斗违反了我们的服务条款。在账户之间转移资源以获得不公平的优势会破坏游戏的完整性，并对所有玩家产生负面影响。适用此限制是为了维护社区的公平环境。",
-  "statements.blacklist.contactUs": "联系我们"
+  "statements.blacklist.tos.multiAccounting": "多开账号违反了我们的服务条款。操作多个账号会破坏游戏的公平性，并对所有玩家造成负面影响。为了维护社区的公平环境，我们已采取此限制措施。",
+  "statements.blacklist.tos.funnelling": "违规输送违反了我们的服务条款。在账号间转移以获取不公平的优势，会破坏游戏的生态健康，并对所有玩家造成负面影响。为了维护社区的公平环境，我们已采取此限制措施。",
+  "statements.blacklist.contactUs": "与我们联系"
 }
