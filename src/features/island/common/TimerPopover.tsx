@@ -4,7 +4,6 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
 import { BoostName, GameState } from "features/game/types/game";
-import { Label } from "components/ui/Label";
 import {
   getBoostIcon,
   getBoostLabel,
@@ -73,18 +72,20 @@ export const TimerPopover: React.FC<Props> = ({
               />
               <span>{t("faction.boostsApplied")}</span>
             </div>
-            <div className="flex flex-col gap-1">
-              {boosts!.map((buff, index) => (
-                <Label
-                  key={`${buff.name}-${buff.value}-${index}`}
-                  type="transparent"
-                  icon={getBoostIcon(buff.name, state!)}
-                  className="ml-1"
-                >
+            {boosts!.map((buff, index) => (
+              <div
+                key={`${buff.name}-${buff.value}-${index}`}
+                className="flex items-center max-w-[10rem]"
+              >
+                <img
+                  src={getBoostIcon(buff.name, state!)}
+                  className="w-4 mr-1 flex-shrink-0"
+                />
+                <span className="truncate">
                   {`${buff.value} ${getBoostLabel(buff.name, t)}`}
-                </Label>
-              ))}
-            </div>
+                </span>
+              </div>
+            ))}
           </>
         )}
       </div>
