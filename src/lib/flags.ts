@@ -150,6 +150,8 @@ const FEATURE_FLAGS = {
    */
   HOME_EXPANSIONS: betaFeatureFlag,
 
+  BOOSTS_DISPLAY: betaFeatureFlag,
+
   /** Player economies: token dashboard, portal player-economy API, marketplace minigames row. */
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */

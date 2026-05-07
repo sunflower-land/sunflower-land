@@ -9,6 +9,7 @@ import {
   getBoostLabel,
 } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   showPopover: boolean;
@@ -62,6 +63,7 @@ export const TimerPopover: React.FC<Props> = ({
         </span>
         {!!boosts?.length &&
           !!state &&
+          hasFeatureAccess(state, "BOOSTS_DISPLAY") &&
           boosts.map((buff, index) => (
             <div
               key={`${buff.name}-${buff.value}-${index}`}
