@@ -260,7 +260,7 @@ export const RECIPES: Recipes = {
   "Basic Bear": {
     name: "Basic Bear",
     ingredients: [],
-    time: 8 * 60 * 60 * 1000,
+    time: 10 * 60 * 1000,
     type: "collectible",
   },
 };

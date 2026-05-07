@@ -85,11 +85,6 @@ export function getCompostAmount({
     boostsUsed.push({ name: "Premium Worms", value: "+10" });
   }
 
-  if (skills["Composting Overhaul"]) {
-    produceAmount -= 5;
-    boostsUsed.push({ name: "Composting Overhaul", value: "-5" });
-  }
-
   if (skills["Composting Revamp"]) {
     produceAmount += 5;
     boostsUsed.push({ name: "Composting Revamp", value: "+5" });

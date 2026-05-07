@@ -35,6 +35,7 @@ import Decimal from "decimal.js-light";
 import {
   getReelsPackGemPrice,
   getRemainingReels,
+  getRodCost,
 } from "features/game/events/landExpansion/castRod";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
@@ -211,7 +212,10 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
       ) - Math.floor(previousCasts / SHRIMP_ONESIE_REEL_INTERVAL)
     : 0;
 
-  const rodsRequired = hasAncientRod ? 0 : effectiveMultiplier;
+  const { totalRodCost: rodsRequired, extraRodCost } = getRodCost({
+    game: state,
+    multiplier: effectiveMultiplier,
+  });
   // Get reels required to make the cast
   const packsRequired = fishingLimitReached ? getExtraReelPacksRequired() : 0;
   // Get the gems cost for the reels
@@ -426,11 +430,20 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
         <InnerPanel>
           <div className="flex flex-col justify-between space-y-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Label type="default" className="text-xs ml-1" icon={multiCast}>
                 {t("fishing.multiCast")}
               </Label>
               <img src={vipIcon} alt="VIP" className="w-6 cursor-pointer" />
+              {extraRodCost > 0 && (
+                <Label
+                  type="warning"
+                  className="text-xs"
+                  icon={SUNNYSIDE.tools.fishing_rod}
+                >
+                  {t("fishing.moreWithLess.rodCost", { count: rodsRequired })}
+                </Label>
+              )}
             </div>
             <div className="flex items-center space-x-2 p-1">
               {hasAncientRod ? (

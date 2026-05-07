@@ -50,6 +50,7 @@ import { getChestItems } from "./components/inventory/utils/inventory";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import classNames from "classnames";
+import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -517,6 +518,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           </RoundButton>
         </div>
       )}
+
+      <LandscapingQuickPanel
+        location={location}
+        onQuickDragChange={setQuickDragging}
+      />
 
       {!quickDragging && <PlaceableController location={location} />}
     </HudContainer>

@@ -24,30 +24,30 @@ export const HOME_EXPANSION_UPGRADE_REQUIREMENTS: Record<
   "level-one-start": {
     // Unlock the Level One Floor
     coins: 1_000,
-    inventory: { Wood: new Decimal(10000) },
+    inventory: { Wood: new Decimal(2500) },
   },
   "level-one-2": {
     coins: 10_000,
-    inventory: { Stone: new Decimal(5000) },
+    inventory: { Stone: new Decimal(2000) },
   },
   "level-one-3": {
     coins: 50_000,
-    inventory: { Iron: new Decimal(750), Obsidian: new Decimal(10) },
+    inventory: { Iron: new Decimal(500), Obsidian: new Decimal(1) },
   },
   "level-one-4": {
     coins: 100_000,
-    inventory: { Gold: new Decimal(100), Obsidian: new Decimal(20) },
+    inventory: { Gold: new Decimal(100), Obsidian: new Decimal(5) },
   },
   "level-one-5": {
     coins: 150_000,
-    inventory: { Crimstone: new Decimal(100), Obsidian: new Decimal(30) },
+    inventory: { Crimstone: new Decimal(100), Obsidian: new Decimal(10) },
   },
   "level-one-6": {
     coins: 250_000,
-    inventory: { Gold: new Decimal(250), Obsidian: new Decimal(50) },
+    inventory: { Gold: new Decimal(250), Wood: new Decimal(5000) },
   },
   "level-one-full": {
     coins: 500_000,
-    inventory: { Crimstone: new Decimal(250), Obsidian: new Decimal(100) },
+    inventory: { Crimstone: new Decimal(250), Obsidian: new Decimal(35) },
   },
 };
