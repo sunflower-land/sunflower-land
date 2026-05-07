@@ -217,12 +217,6 @@ export function castRod({
     // Subtracts Rod
     if (!isWearableActive({ name: "Ancient Rod", game })) {
       game.inventory.Rod = rodCount.sub(totalRodCost);
-      if (extraRodCost > 0) {
-        boostsUsed.push({
-          name: "More With Less",
-          value: `+${extraRodCost} Rod`,
-        });
-      }
     } else {
       game.boostsUsedAt = updateBoostUsed({
         game,
