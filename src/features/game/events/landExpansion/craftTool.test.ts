@@ -300,58 +300,6 @@ describe("craftTool", () => {
     expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
   });
 
-  it("costs 5 wood instead of 3 to craft a Rod with the More With Less skill", () => {
-    const state = craftTool({
-      state: {
-        ...GAME_STATE,
-        coins: 100,
-        inventory: {
-          Wood: new Decimal(5),
-          Stone: new Decimal(1),
-        },
-        bumpkin: {
-          ...GAME_STATE.bumpkin,
-          skills: {
-            "More With Less": 1,
-          },
-        },
-      },
-      action: {
-        type: "tool.crafted",
-        tool: "Rod",
-      },
-    });
-
-    expect(state.inventory["Wood"]).toEqual(new Decimal(0));
-    expect(state.inventory["Stone"]).toEqual(new Decimal(0));
-    expect(state.inventory["Rod"]).toEqual(new Decimal(1));
-  });
-
-  it("does not craft a Rod with More With Less if wood is below the increased cost", () => {
-    expect(() =>
-      craftTool({
-        state: {
-          ...GAME_STATE,
-          coins: 100,
-          inventory: {
-            Wood: new Decimal(3),
-            Stone: new Decimal(1),
-          },
-          bumpkin: {
-            ...GAME_STATE.bumpkin,
-            skills: {
-              "More With Less": 1,
-            },
-          },
-        },
-        action: {
-          type: "tool.crafted",
-          tool: "Rod",
-        },
-      }),
-    ).toThrow("Insufficient ingredient: Wood");
-  });
-
   it("does not craft a tool if the bumpkin level is below the required level", () => {
     expect(() =>
       craftTool({

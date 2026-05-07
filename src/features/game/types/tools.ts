@@ -93,8 +93,8 @@ export const WORKBENCH_TOOLS: Record<
     name: "Rod",
     description: translate("description.rod"),
     price: 20,
-    ingredients: (skills) => ({
-      Wood: new Decimal(skills?.["More With Less"] ? 5 : 3),
+    ingredients: () => ({
+      Wood: new Decimal(3),
       Stone: new Decimal(1),
     }),
     stock: new Decimal(50),
