@@ -1821,6 +1821,7 @@
   "fishingPuzzle.success": "Great job! You reached the top.",
   "fishingPuzzle.failedAttempts": "You ran out of attempts.",
   "fishing.multiCast": "Multi cast",
+  "fishing.moreWithLess.rodCost": "{{count}} Rod / cast",
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "quest.basic.fish": "Catch each basic fish",
   "quest.advanced.fish": "Catch each advanced fish",
