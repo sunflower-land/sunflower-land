@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Gübrelemek",
   "obsidianShrine.crops.ready": "{{count}} hazır",
   "obsidianShrine.plots.empty": "{{count}} boş",
-  "fishing.moreWithLess.rodCost": "{{count}} Çubuk/döküm",
   "skill.longPickings.buff": "-25% Elma ve Muz büyüme süresi",
   "skill.longPickings.debuff": "Diğer tüm meyve yaması meyveleri için+10% büyüme süresi",
   "skill.shortPickings.buff": "-25% Yabanmersini ve Portakal büyüme süresi",
   "skill.shortPickings.debuff": "Diğer tüm meyve yaması meyveleri için+10% büyüme süresi",
-  "skill.moreWithLess.buff": "+25 günlük balıkçılık makaraları",
-  "skill.moreWithLess.debuff": "Döküm başına +1 Çubuk maliyeti",
   "skill.featherweightBuff": "+0,35 Tüy verimi",
   "skill.featherweightDebuff": "-0.1 Deri ve Merinos Yünü verimi",
   "skill.merinoWhispererBuff": "+0.35 Merinos Yünü verimi",
   "skill.merinoWhispererDebuff": "-0.1 Deri ve Tüy verimi",
   "skill.leathercraftMasteryBuff": "+0,35 Deri verimi",
   "skill.leathercraftMasteryDebuff": "-0.1 Tüy ve Merinos Yünü verimi",
-  "skill.compostingRevamp.debuff": "-2 Vörms"
+  "skill.compostingRevamp.debuff": "-2 Vörms",
+  "skill.moreWithLess.buff": "+10 günlük balıkçılık makaraları"
 }

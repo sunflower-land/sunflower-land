@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Fertilizzare",
   "obsidianShrine.crops.ready": "{{count}} pronto",
   "obsidianShrine.plots.empty": "{{count}} vuoto",
-  "fishing.moreWithLess.rodCost": "{{count}} Asta/cast",
   "skill.longPickings.buff": "-25% tempo di crescita di mele e banane",
   "skill.longPickings.debuff": "+10% di tempo di crescita per tutti gli altri frutti da orto",
   "skill.shortPickings.buff": "-25% Tempo di crescita di mirtilli e arance",
   "skill.shortPickings.debuff": "+10% di tempo di crescita per tutti gli altri frutti da orto",
-  "skill.moreWithLess.buff": "+25 mulinelli da pesca giornalieri",
-  "skill.moreWithLess.debuff": "+1 Costo della canna per lancio",
   "skill.featherweightBuff": "+0,35 Resa in piuma",
   "skill.featherweightDebuff": "-0,1 Rendimento in pelle e lana merino",
   "skill.merinoWhispererBuff": "+0,35 resa in lana Merino",
   "skill.merinoWhispererDebuff": "-0,1 Rendimento in pelle e piuma",
   "skill.leathercraftMasteryBuff": "+0,35 Resa della pelle",
   "skill.leathercraftMasteryDebuff": "-0,1 resa in piuma e lana merino",
-  "skill.compostingRevamp.debuff": "-2 Vermi"
+  "skill.compostingRevamp.debuff": "-2 Vermi",
+  "skill.moreWithLess.buff": "+10 mulinelli da pesca giornalieri"
 }

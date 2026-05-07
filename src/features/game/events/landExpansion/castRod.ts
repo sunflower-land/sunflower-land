@@ -61,17 +61,16 @@ export function getRodCost({
 }: {
   game: GameState;
   multiplier: number;
-}): { baseRodCost: number; extraRodCost: number; totalRodCost: number } {
-  // Ancient Rod waives the entire rod cost, including the More With Less debuff.
+}): { rodCost: number; boostsUsed: { name: BoostName; value: string }[] } {
+  let rodCost = multiplier;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
   if (isWearableActive({ name: "Ancient Rod", game })) {
-    return { baseRodCost: 0, extraRodCost: 0, totalRodCost: 0 };
+    boostsUsed.push({ name: "Ancient Rod", value: "Free" });
+    rodCost = 0;
   }
-  const extraRodCost = game.bumpkin?.skills["More With Less"] ? multiplier : 0;
-  return {
-    baseRodCost: multiplier,
-    extraRodCost,
-    totalRodCost: multiplier + extraRodCost,
-  };
+
+  return { rodCost, boostsUsed };
 }
 
 export function getReelsPackGemPrice({
@@ -172,11 +171,15 @@ export function castRod({
       throw new Error(`Daily attempts exhausted`);
     }
 
-    const { totalRodCost } = getRodCost({ game, multiplier });
+    const { rodCost, boostsUsed: rodBoostsUsed } = getRodCost({
+      game,
+      multiplier,
+    });
+    boostsUsed.push(...rodBoostsUsed);
 
     const rodCount = game.inventory.Rod ?? new Decimal(0);
     // Requires Rod
-    if (rodCount.lt(totalRodCost)) {
+    if (rodCount.lt(rodCost)) {
       throw new Error(translate("error.missingRod"));
     }
 
@@ -230,14 +233,8 @@ export function castRod({
     }
 
     // Subtracts Rod
-    if (totalRodCost > 0) {
-      game.inventory.Rod = rodCount.sub(totalRodCost);
-    } else if (isWearableActive({ name: "Ancient Rod", game })) {
-      game.boostsUsedAt = updateBoostUsed({
-        game,
-        boostNames: [{ name: "Ancient Rod", value: "Free" }],
-        createdAt,
-      });
+    if (rodCost > 0) {
+      game.inventory.Rod = rodCount.sub(rodCost);
     }
 
     // Subtracts Bait

@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Fertiliser",
   "obsidianShrine.crops.ready": "{{count}} prêt",
   "obsidianShrine.plots.empty": "{{count}} vide",
-  "fishing.moreWithLess.rodCost": "{{count}} Canne à pêche",
   "skill.longPickings.buff": "-25 % de temps de croissance des pommes et des bananes",
   "skill.longPickings.debuff": "Temps de croissance supérieur à 10 % pour tous les autres fruits du potager",
   "skill.shortPickings.buff": "-25 % de temps de croissance des bleuets et des oranges",
   "skill.shortPickings.debuff": "Temps de croissance supérieur à 10 % pour tous les autres fruits du potager",
-  "skill.moreWithLess.buff": "+25 moulinets de pêche quotidiens",
-  "skill.moreWithLess.debuff": "+1 canne à pêche par lancer",
   "skill.featherweightBuff": "+0,35 Rendement en plumes",
   "skill.featherweightDebuff": "-0,1 Rendement en cuir et laine mérinos",
   "skill.merinoWhispererBuff": "Rendement en laine mérinos +0,35",
   "skill.merinoWhispererDebuff": "-0,1 Rendement en cuir et en plumes",
   "skill.leathercraftMasteryBuff": "+0,35 Rendement en cuir",
   "skill.leathercraftMasteryDebuff": "-0,1 Rendement en plumes et en laine mérinos",
-  "skill.compostingRevamp.debuff": "-2 vers"
+  "skill.compostingRevamp.debuff": "-2 vers",
+  "skill.moreWithLess.buff": "+10 moulinets de pêche quotidiens"
 }

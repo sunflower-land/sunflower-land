@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Düngen",
   "obsidianShrine.crops.ready": "{{count}} bereit",
   "obsidianShrine.plots.empty": "{{count}} leer",
-  "fishing.moreWithLess.rodCost": "{{count}} Rute/Besetzung",
   "skill.longPickings.buff": "-25% Wachstumszeit von Äpfeln und Bananen",
   "skill.longPickings.debuff": "+10% Wachstumszeit für alle anderen Fruchtbeetfrüchte",
   "skill.shortPickings.buff": "-25% Wachstumszeit von Blaubeeren und Orangen",
   "skill.shortPickings.debuff": "+10% Wachstumszeit für alle anderen Fruchtbeetfrüchte",
-  "skill.moreWithLess.buff": "+25 tägliche Angelrollen",
-  "skill.moreWithLess.debuff": "+1 Rutenkosten pro Wurf",
   "skill.featherweightBuff": "+0.35 Federertrag",
   "skill.featherweightDebuff": "-0.1 Ertrag aus Leder und Merinowolle",
   "skill.merinoWhispererBuff": "+0.35 Ertrag aus Merinowolle",
   "skill.merinoWhispererDebuff": "-0.1 Leder- und Federertrag",
   "skill.leathercraftMasteryBuff": "+0.35 Lederausbeute",
   "skill.leathercraftMasteryDebuff": "-0.1 Ertrag aus Federn- und Merinowolle",
-  "skill.compostingRevamp.debuff": "-2 Würmer"
+  "skill.compostingRevamp.debuff": "-2 Würmer",
+  "skill.moreWithLess.buff": "+10 tägliche Angelrollen"
 }

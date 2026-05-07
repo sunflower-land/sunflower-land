@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "受精させる",
   "obsidianShrine.crops.ready": "{{count}} 準備完了",
   "obsidianShrine.plots.empty": "{{count}} 空です",
-  "fishing.moreWithLess.rodCost": "{{count}} ロッド/キャスト",
   "skill.longPickings.buff": "-25% リンゴとバナナの成長時間",
   "skill.longPickings.debuff": "他のすべてのフルーツパッチフルーツの成長時間は+10％",
   "skill.shortPickings.buff": "-25% ブルーベリーとオレンジの成長時間",
   "skill.shortPickings.debuff": "他のすべてのフルーツパッチフルーツの成長時間は+10％",
-  "skill.moreWithLess.buff": "+25 デイリーフィッシングリール",
-  "skill.moreWithLess.debuff": "キャスト毎のロッドコスト+1",
   "skill.featherweightBuff": "+0.35 フェザーイールド",
   "skill.featherweightDebuff": "-0.1 レザー & メリノウールの生産量",
   "skill.merinoWhispererBuff": "+0.35 メリノウールの収量",
   "skill.merinoWhispererDebuff": "-0.1 レザー&フェザー生産量",
   "skill.leathercraftMasteryBuff": "+0.35 レザー生産量",
   "skill.leathercraftMasteryDebuff": "-0.1 フェザー＆メリノウールの生産量",
-  "skill.compostingRevamp.debuff": "-2 ワーム"
+  "skill.compostingRevamp.debuff": "-2 ワーム",
+  "skill.moreWithLess.buff": "+10 デイリーフィッシングリール"
 }

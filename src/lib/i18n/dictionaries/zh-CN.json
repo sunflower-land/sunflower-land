@@ -8893,16 +8893,15 @@
   "obsidianShrine.plots.empty": "{{count}} 个闲置",
   "fishing.moreWithLess.rodCost": "{{count}} 钓竿 / 抛竿",
   "skill.longPickings.buff": "-25% 苹果和香蕉的生长时间",
-  "skill.longPickings.debuff": "所有其他果坑水果的生长时间 +10%",
-  "skill.shortPickings.buff": "-25% 蓝莓和香橙的生长时间",
-  "skill.shortPickings.debuff": "所有其他果坑水果的生长时间 +10%",
-  "skill.moreWithLess.buff": "+25 每日钓鱼次数",
-  "skill.moreWithLess.debuff": "+1 每次抛竿钓竿消耗",
+  "skill.longPickings.debuff": "所有其他水果补丁水果的生长时间 +10%",
+  "skill.shortPickings.buff": "-25% 蓝莓和橙子的生长时间",
+  "skill.shortPickings.debuff": "所有其他水果补丁水果的生长时间 +10%",
   "skill.featherweightBuff": "+0.35 羽毛产量",
   "skill.featherweightDebuff": "-0.1 皮革和美利奴羊毛产量",
   "skill.merinoWhispererBuff": "+0.35 美利奴羊毛产量",
   "skill.merinoWhispererDebuff": "-0.1 皮革和羽毛产量",
   "skill.leathercraftMasteryBuff": "+0.35 皮革产量",
   "skill.leathercraftMasteryDebuff": "-0.1 羽毛和美利奴羊毛产量",
-  "skill.compostingRevamp.debuff": "-2 蠕虫"
+  "skill.compostingRevamp.debuff": "-2 蠕虫",
+  "skill.moreWithLess.buff": "+10 每日钓鱼次数"
 }

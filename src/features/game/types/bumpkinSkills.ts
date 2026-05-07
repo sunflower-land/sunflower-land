@@ -1290,12 +1290,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
-      debuff: {
-        shortDescription: translate("skill.moreWithLess.debuff"),
-        labelType: "danger",
-        boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS.Rod.image,
-      },
     },
     disabled: false,
     image: moreWithLess,

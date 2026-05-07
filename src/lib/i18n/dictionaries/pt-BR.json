@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Fertilizar",
   "obsidianShrine.crops.ready": "{{count}} pronto",
   "obsidianShrine.plots.empty": "{{count}} vazio",
-  "fishing.moreWithLess.rodCost": "{{count}} Vareta/fundição",
   "skill.longPickings.buff": "-25% de tempo de crescimento de maçã e banana",
   "skill.longPickings.debuff": "+10% de tempo de crescimento para todas as outras frutas da horta",
   "skill.shortPickings.buff": "-25% de tempo de crescimento de mirtilo e laranja",
   "skill.shortPickings.debuff": "+10% de tempo de crescimento para todas as outras frutas da horta",
-  "skill.moreWithLess.buff": "+25 bobinas de pesca diárias",
-  "skill.moreWithLess.debuff": "+1 custo da vara por lançamento",
   "skill.featherweightBuff": "+0,35 Rendimento de penas",
   "skill.featherweightDebuff": "-0,1 Rendimento de couro e lã merino",
   "skill.merinoWhispererBuff": "+0,35 Rendimento de lã merino",
   "skill.merinoWhispererDebuff": "-0,1 Rendimento de couro e penas",
   "skill.leathercraftMasteryBuff": "+0.35 Rendimento de couro",
   "skill.leathercraftMasteryDebuff": "-0,1 Rendimento de lã de penas e merino",
-  "skill.compostingRevamp.debuff": "-2 Minhocas"
+  "skill.compostingRevamp.debuff": "-2 Minhocas",
+  "skill.moreWithLess.buff": "+10 bobinas de pesca diárias"
 }

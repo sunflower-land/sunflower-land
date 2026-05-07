@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Memupuk",
   "obsidianShrine.crops.ready": "{{count}} siap",
   "obsidianShrine.plots.empty": "{{count}} kosong",
-  "fishing.moreWithLess.rodCost": "{{count}} Batang/pemeran",
   "skill.longPickings.buff": "-25% Waktu pertumbuhan Apel dan Pisang",
   "skill.longPickings.debuff": "+10% waktu pertumbuhan untuk semua buah petak buah lainnya",
   "skill.shortPickings.buff": "-25% Waktu pertumbuhan Blueberry dan Jeruk",
   "skill.shortPickings.debuff": "+10% waktu pertumbuhan untuk semua buah petak buah lainnya",
-  "skill.moreWithLess.buff": "+25 gulungan memancing harian",
-  "skill.moreWithLess.debuff": "+1 Biaya batang per pemeran",
   "skill.featherweightBuff": "+0,35 Hasil bulu",
   "skill.featherweightDebuff": "-0.1 Hasil Wol Kulit & Merino",
   "skill.merinoWhispererBuff": "+0.35 Hasil Wol Merino",
   "skill.merinoWhispererDebuff": "-0.1 Hasil Kulit & Bulu",
   "skill.leathercraftMasteryBuff": "+0,35 Hasil kulit",
   "skill.leathercraftMasteryDebuff": "-0.1 Hasil bulu & Merino Wol",
-  "skill.compostingRevamp.debuff": "-2 Worms"
+  "skill.compostingRevamp.debuff": "-2 Worms",
+  "skill.moreWithLess.buff": "+10 gulungan memancing harian"
 }

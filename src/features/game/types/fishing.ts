@@ -806,10 +806,10 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Fisherman's 10 Fold", value: "+10" });
   }
 
-  // +25 daily limit if player has the More With Less skill
+  // +10 daily limit if player has the More With Less skill
   if (game.bumpkin?.skills["More With Less"]) {
-    limit += 25;
-    boostsUsed.push({ name: "More With Less", value: "+25" });
+    limit += 10;
+    boostsUsed.push({ name: "More With Less", value: "+10" });
   }
 
   // +5 daily limit if player has Saw Fish

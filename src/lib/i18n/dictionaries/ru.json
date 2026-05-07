@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Fertilise",
   "obsidianShrine.crops.ready": "{{count}} ready",
   "obsidianShrine.plots.empty": "{{count}} empty",
-  "fishing.moreWithLess.rodCost": "{{count}} Rod / cast",
   "skill.longPickings.buff": "-25% Apple and Banana growth time",
   "skill.longPickings.debuff": "+10% growth time for all other fruit patch fruits",
   "skill.shortPickings.buff": "-25% Blueberry and Orange growth time",
   "skill.shortPickings.debuff": "+10% growth time for all other fruit patch fruits",
-  "skill.moreWithLess.buff": "+25 daily fishing reels",
-  "skill.moreWithLess.debuff": "+1 Rod cost per cast",
   "skill.featherweightBuff": "+0.35 Feather yield",
   "skill.featherweightDebuff": "-0.1 Leather & Merino Wool yield",
   "skill.merinoWhispererBuff": "+0.35 Merino Wool yield",
   "skill.merinoWhispererDebuff": "-0.1 Leather & Feather yield",
   "skill.leathercraftMasteryBuff": "+0.35 Leather yield",
   "skill.leathercraftMasteryDebuff": "-0.1 Feather & Merino Wool yield",
-  "skill.compostingRevamp.debuff": "-2 Worms"
+  "skill.compostingRevamp.debuff": "-2 Worms",
+  "skill.moreWithLess.buff": "+10 daily fishing reels"
 }

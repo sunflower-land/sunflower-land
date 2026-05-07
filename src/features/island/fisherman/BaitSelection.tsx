@@ -212,7 +212,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
       ) - Math.floor(previousCasts / SHRIMP_ONESIE_REEL_INTERVAL)
     : 0;
 
-  const { totalRodCost: rodsRequired, extraRodCost } = getRodCost({
+  const { rodCost: rodsRequired } = getRodCost({
     game: state,
     multiplier: effectiveMultiplier,
   });
@@ -247,9 +247,9 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     setShowConfirmationModal(false);
   };
 
-  const missingRod =
-    !hasAncientRod &&
-    (!state.inventory["Rod"] || state.inventory.Rod.lt(rodsRequired));
+  const missingRod = (state.inventory["Rod"] ?? new Decimal(0)).lt(
+    rodsRequired,
+  );
   const guaranteedCatchOptions = selectedBait
     ? getGuaranteedOptions(selectedBait)
     : [];
@@ -435,15 +435,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 {t("fishing.multiCast")}
               </Label>
               <img src={vipIcon} alt="VIP" className="w-6 cursor-pointer" />
-              {extraRodCost > 0 && (
-                <Label
-                  type="warning"
-                  className="text-xs"
-                  icon={SUNNYSIDE.tools.fishing_rod}
-                >
-                  {t("fishing.moreWithLess.rodCost", { count: rodsRequired })}
-                </Label>
-              )}
             </div>
             <div className="flex items-center space-x-2 p-1">
               {hasAncientRod ? (

@@ -8891,18 +8891,16 @@
   "obsidianShrine.section.fertilise": "Fertilizar",
   "obsidianShrine.crops.ready": "{{count}} listo",
   "obsidianShrine.plots.empty": "{{count}} vacío",
-  "fishing.moreWithLess.rodCost": "{{count}} Varilla/elenco",
   "skill.longPickings.buff": "-25% de tiempo de crecimiento de manzanas y plátanos",
   "skill.longPickings.debuff": "+10% de tiempo de crecimiento para todas las demás frutas de huerto",
   "skill.shortPickings.buff": "-25% de tiempo de crecimiento de arándanos y naranjas",
   "skill.shortPickings.debuff": "+10% de tiempo de crecimiento para todas las demás frutas de huerto",
-  "skill.moreWithLess.buff": "+25 carretes de pesca diarios",
-  "skill.moreWithLess.debuff": "+1 coste de varilla por lanzamiento",
   "skill.featherweightBuff": "+0.35 Rendimiento de plumas",
   "skill.featherweightDebuff": "-0.1 Rendimiento de cuero y lana merino",
   "skill.merinoWhispererBuff": "+0.35 Rendimiento de lana merino",
   "skill.merinoWhispererDebuff": "-0.1 Rendimiento de cuero y plumas",
   "skill.leathercraftMasteryBuff": "+0.35 Rendimiento de piel",
   "skill.leathercraftMasteryDebuff": "-0,1 Rendimiento en plumas y lana merino",
-  "skill.compostingRevamp.debuff": "-2 gusanos"
+  "skill.compostingRevamp.debuff": "-2 gusanos",
+  "skill.moreWithLess.buff": "+10 carretes de pesca diarios"
 }
