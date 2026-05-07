@@ -112,6 +112,19 @@ export const FeederMachineModal: React.FC<Props> = ({
     toggleFeed(item);
   };
 
+  // The spices tab disappears once the player runs out, so a stale "spices"
+  // selection has to fall back to the food tab rather than render an empty
+  // panel.
+  const activeTab = hasSpices ? tab : "food";
+  const setActiveTab: React.Dispatch<React.SetStateAction<Tab>> = (nextTab) => {
+    setTab((currentTab) => {
+      const resolvedTab =
+        typeof nextTab === "function" ? nextTab(currentTab) : nextTab;
+
+      return resolvedTab === "spices" && !hasSpices ? "food" : resolvedTab;
+    });
+  };
+
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
       const type = ANIMAL_FOODS[item].type;
@@ -307,10 +320,10 @@ export const FeederMachineModal: React.FC<Props> = ({
                 ]
               : []),
           ]}
-          currentTab={tab}
-          setCurrentTab={setTab}
+          currentTab={activeTab}
+          setCurrentTab={setActiveTab}
         >
-          {tab === "food" && (
+          {activeTab === "food" && (
             <SplitScreenView
               panel={
                 <CraftingRequirements
@@ -362,7 +375,7 @@ export const FeederMachineModal: React.FC<Props> = ({
               }
             />
           )}
-          {tab === "automaticMixer" && showBulkMixer && (
+          {activeTab === "automaticMixer" && showBulkMixer && (
             <InnerPanel className="flex flex-col gap-2 p-1 w-full">
               {freeFeeding ? (
                 <>
@@ -542,7 +555,7 @@ export const FeederMachineModal: React.FC<Props> = ({
               )}
             </InnerPanel>
           )}
-          {tab === "spices" && (
+          {activeTab === "spices" && (
             <SplitScreenView
               panel={
                 <InventoryItemDetails
