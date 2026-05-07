@@ -125,7 +125,12 @@ type CropYieldAmountArgs = {
   plot?: CropPlot;
   game: GameState;
   createdAt: number;
-  prngArgs: { farmId: number; counter: number };
+  /**
+   * When omitted, all chance-based crit drops resolve to `false`. Use
+   * this for previews / hover tooltips where probabilistic boosts must
+   * not appear.
+   */
+  prngArgs?: { farmId: number; counter: number };
 };
 
 const getMultiplicativeCropYield = ({
@@ -140,7 +145,7 @@ const getMultiplicativeCropYield = ({
 
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+    !!prngArgs && prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
   if (
     isWearableActive({ name: "Green Amulet", game }) &&
@@ -237,7 +242,7 @@ export function getCropYieldAmount({
   const skills = bumpkin?.skills ?? {};
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+    !!prngArgs && prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
   if (isBuffActive({ buff: "Power hour", game, now: createdAt })) {
     amount += 0.2;
