@@ -6,13 +6,21 @@ import {
   type BumpkinRevampSkillTree,
   type BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
-import type { Bumpkin, GameState } from "features/game/types/game";
+import type { Bumpkin, GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
+import Decimal from "decimal.js-light";
+import { canResetForFree, getGemCost, PaymentType } from "./resetSkills";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
   skill: BumpkinRevampSkillName;
+};
+
+export type UpdateSkillsAction = {
+  type: "skills.updated";
+  skills: Skills;
+  paymentType: PaymentType;
 };
 
 type Options = {
@@ -38,6 +46,15 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 
   return bumpkinLevel - totalUsedSkillPoints;
 };
+
+export const getAvailableBumpkinSkillPointsForSkills = (
+  bumpkin: Bumpkin,
+  skills: Skills,
+) =>
+  getAvailableBumpkinSkillPoints({
+    ...bumpkin,
+    skills,
+  });
 
 export const SKILL_POINTS_PER_TIER: Record<
   BumpkinRevampSkillTree,
@@ -140,6 +157,53 @@ export const getUnlockedTierForTree = (
   return { availableTier, totalUsedSkillPoints };
 };
 
+export const validateSkillSelection = ({
+  state,
+  skills,
+}: {
+  state: GameState;
+  skills: Skills;
+}) => {
+  const { bumpkin, island } = state;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin!");
+  }
+
+  if (getAvailableBumpkinSkillPointsForSkills(bumpkin, skills) < 0) {
+    throw new Error("You do not have enough skill points");
+  }
+
+  const draftBumpkin = {
+    ...bumpkin,
+    skills,
+  };
+
+  const selectedSkills = Object.keys(skills).filter(
+    (skillName): skillName is BumpkinRevampSkillName =>
+      !!skills[skillName as keyof Skills] &&
+      !!BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName],
+  );
+
+  selectedSkills.forEach((skillName) => {
+    const { requirements, tree, disabled } =
+      BUMPKIN_REVAMP_SKILL_TREE[skillName];
+    const { availableTier } = getUnlockedTierForTree(tree, draftBumpkin);
+
+    if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
+      throw new Error("You are not at the correct island!");
+    }
+
+    if (requirements.tier > availableTier) {
+      throw new Error(`You need to unlock tier ${requirements.tier} first`);
+    }
+
+    if (disabled) {
+      throw new Error("This skill is disabled");
+    }
+  });
+};
+
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
@@ -179,6 +243,75 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       ...bumpkin.skills,
       [action.skill]: 1,
     };
+
+    populateSaltFarm({
+      gameBefore: state,
+      gameAfter: stateCopy,
+      now: createdAt,
+    });
+
+    return stateCopy;
+  });
+}
+
+export function updateSkills({
+  state,
+  action,
+  createdAt = Date.now(),
+}: {
+  state: GameState;
+  action: UpdateSkillsAction;
+  createdAt?: number;
+}) {
+  return produce(state, (stateCopy) => {
+    const { paidSkillResets = 0, previousFreeSkillResetAt = 0 } =
+      stateCopy.bumpkin;
+
+    validateSkillSelection({
+      state: stateCopy,
+      skills: action.skills,
+    });
+
+    switch (action.paymentType) {
+      case "free": {
+        if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
+          throw new Error("Free skill edit is not available yet");
+        }
+
+        stateCopy.bumpkin.paidSkillResets = 0;
+        stateCopy.bumpkin.previousFreeSkillResetAt = createdAt;
+        break;
+      }
+      case "gems": {
+        const gemCost = getGemCost(paidSkillResets);
+
+        if (stateCopy.inventory.Gem?.lt(gemCost)) {
+          throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
+        }
+
+        stateCopy.inventory.Gem = stateCopy.inventory.Gem?.minus(gemCost);
+        stateCopy.bumpkin.paidSkillResets = paidSkillResets + 1;
+        break;
+      }
+      case "ticket": {
+        const ticketBalance =
+          stateCopy.inventory["Skill Reset Ticket"] ?? new Decimal(0);
+
+        if (ticketBalance.lt(1)) {
+          throw new Error("You do not have a Skill Reset Ticket");
+        }
+
+        stateCopy.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
+        stateCopy.bumpkin.paidSkillResets = paidSkillResets + 1;
+        break;
+      }
+      default: {
+        const _exhaustive: never = action.paymentType;
+        throw new Error(`Unknown payment type: ${_exhaustive}`);
+      }
+    }
+
+    stateCopy.bumpkin.skills = action.skills;
 
     populateSaltFarm({
       gameBefore: state,

@@ -19,8 +19,10 @@ import { SkillSquareIcon } from "./SkillSquareIcon";
 // Function imports
 import {
   getAvailableBumpkinSkillPoints,
+  getAvailableBumpkinSkillPointsForSkills,
   getUnlockedTierForTree,
   SKILL_POINTS_PER_TIER,
+  validateSkillSelection,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -33,12 +35,17 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
+import { Skills } from "features/game/types/game";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
   skillsInPath: BumpkinSkillRevamp[];
   readonly: boolean;
   onBack: () => void;
+  skills: Skills;
+  isEditing: boolean;
+  validationError?: string;
+  onToggleDraftSkill: (skill: BumpkinRevampSkillName) => void;
 }
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -61,6 +68,10 @@ export const SkillPathDetails: React.FC<Props> = ({
   skillsInPath,
   readonly,
   onBack,
+  skills,
+  isEditing,
+  validationError,
+  onToggleDraftSkill,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -78,22 +89,60 @@ export const SkillPathDetails: React.FC<Props> = ({
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
   const { buff, debuff } = boosts;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const displayedBumpkin = {
+    ...bumpkin,
+    skills,
+  };
+  const availableSkillPoints = isEditing
+    ? getAvailableBumpkinSkillPointsForSkills(bumpkin, skills)
+    : getAvailableBumpkinSkillPoints(bumpkin);
   const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
-    bumpkin,
+    displayedBumpkin,
   );
-  const hasSelectedSkill = !!bumpkin.skills[name as BumpkinRevampSkillName];
-  const missingPointRequirement = points > availableSkillPoints;
-  const missingSkillsRequirement = tier > availableTier;
-  const isClaimDisabled =
-    hasSelectedSkill ||
-    missingPointRequirement ||
-    missingSkillsRequirement ||
-    disabled ||
-    readonly;
+  const hasSelectedSkill = !!skills[name as BumpkinRevampSkillName];
+  const missingPointRequirement =
+    !hasSelectedSkill && points > availableSkillPoints;
+  const missingSkillsRequirement = !hasSelectedSkill && tier > availableTier;
+  const editDisabledReason = (() => {
+    if (!isEditing) return;
+    if (hasSelectedSkill) {
+      const nextSkills = { ...skills };
+      delete nextSkills[name as keyof Skills];
+
+      try {
+        validateSkillSelection({ state, skills: nextSkills });
+      } catch (error) {
+        return error instanceof Error
+          ? error.message
+          : "Remove dependent skills first";
+      }
+
+      return;
+    }
+
+    if (missingPointRequirement) {
+      return "You do not have enough skill points";
+    }
+
+    if (missingSkillsRequirement) {
+      return `You need to unlock tier ${tier} first`;
+    }
+  })();
+  const isClaimDisabled = isEditing
+    ? disabled || readonly || !!editDisabledReason
+    : hasSelectedSkill ||
+      missingPointRequirement ||
+      missingSkillsRequirement ||
+      disabled ||
+      readonly;
 
   const handleClaim = () => {
+    if (isEditing) {
+      onToggleDraftSkill(name as BumpkinRevampSkillName);
+      return;
+    }
+
     setShowConfirmation(false);
     const state = gameService.send("skill.chosen", { skill: name });
 
@@ -199,13 +248,29 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skillTier.skillDisabled")}
                 </Label>
               )}
+              {isEditing && validationError && (
+                <Label type="danger" className="mb-2">
+                  {validationError}
+                </Label>
+              )}
             </div>
           </div>
 
           {/* Claim/Claimed/Use Button */}
           {!readonly && (
             <div className="flex sm:flex-col w-full">
-              {showConfirmation ? (
+              {isEditing ? (
+                <div className="flex flex-col w-full">
+                  <Button disabled={isClaimDisabled} onClick={handleClaim}>
+                    {hasSelectedSkill ? "Remove Skill" : "Add Skill"}
+                  </Button>
+                  {editDisabledReason && (
+                    <Label type="warning" className="mt-1">
+                      {editDisabledReason}
+                    </Label>
+                  )}
+                </div>
+              ) : showConfirmation ? (
                 <>
                   <Button
                     className="mr-1 sm:mr-0"
@@ -258,11 +323,11 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Skills */}
           <div className="flex flex-col gap-1">
             {Object.entries(createRevampSkillPath(skillsInPath)).map(
-              ([tier, skills]) => {
-                const { requirements, tree } = skills[0];
+              ([tier, tierSkills]) => {
+                const { requirements, tree } = tierSkills[0];
                 const { tier: tierRequirement } = requirements;
                 const tierUnlocked = tierRequirement <= availableTier;
-                const availableSkills = skills.filter(
+                const availableSkills = tierSkills.filter(
                   (skill) => !skill.disabled,
                 );
                 const pointsRequired =
@@ -286,10 +351,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                     </div>
                     <div className="flex flex-row flex-wrap gap-0">
                       {availableSkills.map((skill) => {
-                        const hasSkill =
-                          !!bumpkin.skills[
-                            skill.name as BumpkinRevampSkillName
-                          ];
+                        const hasSkill = !!(
+                          skills as Partial<
+                            Record<BumpkinRevampSkillName, number>
+                          >
+                        )[skill.name as BumpkinRevampSkillName];
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
