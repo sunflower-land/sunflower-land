@@ -271,6 +271,42 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
   });
 
+  it("prevents updating to an island-restricted skill build", () => {
+    expect(() =>
+      updateSkills({
+        state: {
+          ...TEST_FARM,
+          island: {
+            ...TEST_FARM.island,
+            type: "spring",
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: {
+              "Green Thumb": 1,
+              "Young Farmer": 1,
+              "Experienced Farmer": 1,
+              "Strong Roots": 1,
+            },
+          },
+        },
+        action: {
+          type: "skills.updated",
+          skills: {
+            "Green Thumb": 1,
+            "Young Farmer": 1,
+            "Experienced Farmer": 1,
+            "Strong Roots": 1,
+            "Oil Gadget": 1,
+          },
+          paymentType: "free",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("You are not at the correct island!");
+  });
+
   it("prevents updating to tier 2 without enough lower-tier points", () => {
     expect(() =>
       updateSkills({
