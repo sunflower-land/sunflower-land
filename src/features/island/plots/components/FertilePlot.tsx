@@ -97,7 +97,11 @@ export const FertilePlot: React.FC<Props> = ({
   showTimers,
 }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const isApplyingFertiliser = !!selectedItem && selectedItem in CROP_COMPOST;
+  // Only treat the player as "applying fertiliser" when the plot is still
+  // empty — applying onto an already-fertilised plot is a no-op, so the
+  // tooltip should still show in that case.
+  const isApplyingFertiliser =
+    !!selectedItem && selectedItem in CROP_COMPOST && !fertiliser;
 
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
