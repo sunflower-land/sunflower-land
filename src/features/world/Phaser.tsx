@@ -269,6 +269,10 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     game.current?.registry.set("selectedItem", selectedItem);
   }, [selectedItem]);
 
+  const previousSceneOverride = (
+    location.state as { previousSceneId?: SpawnFromId } | null
+  )?.previousSceneId;
+
   // When route changes, switch scene
   useEffect(() => {
     if (!loaded || !route) return;
@@ -277,10 +281,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       .getScenes(false)
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
-
-    const previousSceneOverride = (
-      location.state as { previousSceneId?: SpawnFromId } | null
-    )?.previousSceneId;
 
     // The auto-derived previous scene is always a real SceneId — used both
     // as the SPAWNS lookup key (when no override is supplied) and as the
@@ -293,6 +293,18 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     const spawn = SPAWNS()[route][spawnFromKey] ?? SPAWNS()[route].default;
 
     if (activeScene && activeScene.scene.key !== route) {
+      // Stash the override so the destination scene's BaseScene.create() can
+      // resolve the same SPAWNS entry we just resolved here. Without this,
+      // create() would only see mmoService.context.previousSceneId (the
+      // auto-derived SceneId) and pick the wrong spawn for sentinels like
+      // "digging" or "default".
+      if (previousSceneOverride) {
+        game.current?.registry.set(
+          "initialPreviousSceneId",
+          previousSceneOverride,
+        );
+      }
+
       activeScene.scene.start(route);
       mmoService.send("SWITCH_SCENE", {
         sceneId: route,
@@ -311,7 +323,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       };
       baseScene.currentPlayer?.setPosition(spawn.x, spawn.y);
     }
-  }, [route, location.key]);
+  }, [route, location.key, previousSceneOverride]);
 
   useEffect(() => {
     // Listen to moderation events

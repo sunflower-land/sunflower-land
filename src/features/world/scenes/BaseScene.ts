@@ -11,7 +11,7 @@ import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
-import { SPAWNS } from "../lib/spawn";
+import { SPAWNS, SpawnFromId } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -356,18 +356,22 @@ export abstract class BaseScene extends Phaser.Scene {
       // Phaser.tsx handles subsequent navigations).
       const initialPreviousSceneId = this.registry.get(
         "initialPreviousSceneId",
-      ) as string | undefined;
+      ) as SpawnFromId | undefined;
       if (initialPreviousSceneId) {
         this.registry.remove("initialPreviousSceneId");
       }
 
-      const from = (initialPreviousSceneId ??
-        this.mmoService?.state.context.previousSceneId) as SceneId;
+      const from: SpawnFromId | undefined =
+        initialPreviousSceneId ??
+        this.mmoService?.getSnapshot().context.previousSceneId ??
+        undefined;
 
       let spawn = this.options.player.spawn;
 
       if (SPAWNS()[this.sceneId]) {
-        spawn = SPAWNS()[this.sceneId][from] ?? SPAWNS()[this.sceneId].default;
+        spawn =
+          (from && SPAWNS()[this.sceneId][from]) ??
+          SPAWNS()[this.sceneId].default;
       }
 
       this.createPlayer({
