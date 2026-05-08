@@ -51,6 +51,30 @@ interface Props {
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _state = (state: MachineState) => state.context.state;
 
+export const getSkillSelectionErrorMessage = (
+  error: unknown,
+  t: ReturnType<typeof useAppTranslation>["t"],
+) => {
+  if (!(error instanceof Error)) {
+    return t("skillEdit.invalidSkillBuild");
+  }
+
+  const tierMatch = error.message.match(/You need to unlock tier (\d+) first/);
+
+  if (tierMatch) {
+    return t("skillEdit.unlockTierFirst", { tier: tierMatch[1] });
+  }
+
+  const errorMessages: Record<string, ReturnType<typeof t>> = {
+    "You do not have a Bumpkin!": t("skillEdit.noBumpkin"),
+    "You do not have enough skill points": t("skillEdit.notEnoughSkillPoints"),
+    "You are not at the correct island!": t("skillEdit.wrongIsland"),
+    "This skill is disabled": t("skillTier.skillDisabled"),
+  };
+
+  return errorMessages[error.message] ?? t("skillEdit.invalidSkillBuild");
+};
+
 export const getSkillImage = (
   image: string | undefined,
   boostedItemIcon: string | undefined,
@@ -113,9 +137,7 @@ export const SkillPathDetails: React.FC<Props> = ({
       try {
         validateSkillSelection({ state, skills: nextSkills });
       } catch (error) {
-        return error instanceof Error
-          ? error.message
-          : t("skillEdit.removeDependentSkillsFirst");
+        return getSkillSelectionErrorMessage(error, t);
       }
 
       return;
@@ -350,8 +372,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                       {!tierUnlocked && (
                         <Label type="default" className="ml-1">
                           {t("skillTier.pointsToUnlock", {
-                            points: totalUsedSkillPoints,
-                            required: pointsRequired,
+                            points: `${totalUsedSkillPoints}/${pointsRequired}`,
                           })}
                         </Label>
                       )}
