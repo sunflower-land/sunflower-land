@@ -21,6 +21,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getCropYieldAmount } from "features/game/events/landExpansion/harvest";
+import { CROP_COMPOST } from "features/game/types/composters";
 
 interface Props {
   cropName?: CropName;
@@ -95,7 +96,8 @@ export const FertilePlot: React.FC<Props> = ({
   touchCount,
   showTimers,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
+  const isApplyingFertiliser = !!selectedItem && selectedItem in CROP_COMPOST;
 
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
@@ -139,6 +141,10 @@ export const FertilePlot: React.FC<Props> = ({
   }, [cropName, showTimerPopover, game, plot, readyAt]);
 
   const handleMouseEnter = () => {
+    // Suppress the boost/timer popover while the player is applying a crop
+    // fertiliser — the tooltip would block the click target and isn't useful
+    // to that flow.
+    if (isApplyingFertiliser) return;
     // show details if field is growing
     if (isGrowing) {
       // set state to show details
@@ -270,7 +276,7 @@ export const FertilePlot: React.FC<Props> = ({
           <TimerPopover
             image={ITEM_DETAILS[cropName].image}
             description={cropName}
-            showPopover={showTimerPopover}
+            showPopover={showTimerPopover && !isApplyingFertiliser}
             timeLeft={timeLeft}
             boosts={plotBoosts}
             chanceBoosts={plotChanceBoosts}
