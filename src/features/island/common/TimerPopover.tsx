@@ -68,36 +68,41 @@ export const TimerPopover: React.FC<Props> = ({
         </span>
         {!!state &&
           hasFeatureAccess(state, "BOOSTS_DISPLAY") &&
-          boosts?.map((buff, index) => (
-            <div
-              key={`${buff.name}-${buff.value}-${index}`}
-              className="flex items-center max-w-[10rem]"
-            >
-              <img
-                src={getBoostIcon(buff.name, state)}
-                className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
-              />
-              <span className="truncate text-xxs">
-                {`${buff.value} ${getBoostLabel(buff.name, t)}`}
-              </span>
-            </div>
-          ))}
+          boosts?.map((buff) => {
+            const label = getBoostLabel(buff.name, t);
+            return (
+              <div key={buff.name} className="flex items-center max-w-[10rem]">
+                <img
+                  src={getBoostIcon(buff.name, state)}
+                  alt={label}
+                  className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
+                />
+                <span className="truncate text-xxs">
+                  {`${buff.value} ${label}`}
+                </span>
+              </div>
+            );
+          })}
         {!!state &&
           hasFeatureAccess(state, "BOOSTS_DISPLAY") &&
-          chanceBoosts?.map((buff, index) => (
-            <div
-              key={`chance-${buff.name}-${buff.value}-${index}`}
-              className="flex items-center max-w-[10rem]"
-            >
-              <img
-                src={getBoostIcon(buff.name, state)}
-                className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
-              />
-              <span className="text-xxs">
-                {`${buff.value} ${getBoostLabel(buff.name, t)} (${formatChance(buff.chance)})`}
-              </span>
-            </div>
-          ))}
+          chanceBoosts?.map((buff) => {
+            const label = getBoostLabel(buff.name, t);
+            return (
+              <div
+                key={`chance-${buff.name}`}
+                className="flex items-center max-w-[10rem]"
+              >
+                <img
+                  src={getBoostIcon(buff.name, state)}
+                  alt={label}
+                  className="w-4 h-4 mr-1 flex-shrink-0 object-contain"
+                />
+                <span className="text-xxs">
+                  {`${buff.value} ${label} (${formatChance(buff.chance)})`}
+                </span>
+              </div>
+            );
+          })}
       </div>
     </InnerPanel>
   );

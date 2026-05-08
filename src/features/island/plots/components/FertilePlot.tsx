@@ -13,7 +13,7 @@ import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import classNames from "classnames";
-import { CropFertiliser, CropPlot } from "features/game/types/game";
+import { CropFertiliser, CropPlot, GameState } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { MachineState, selectGameState } from "features/game/lib/gameMachine";
@@ -34,6 +34,19 @@ interface Props {
 
 const _island = (state: MachineState) => state.context.state.island;
 const _calendar = (state: MachineState) => state.context.state.calendar;
+
+// Custom equality so FertilePlot only rerenders when a slice that affects
+// yield-boost computation changes. Immer preserves references for untouched
+// slices, so reference comparison is enough.
+const isGameEqualForBoosts = (a: GameState, b: GameState) =>
+  a.collectibles === b.collectibles &&
+  a.bumpkin === b.bumpkin &&
+  a.inventory === b.inventory &&
+  a.season === b.season &&
+  a.calendar === b.calendar &&
+  a.aoe === b.aoe &&
+  a.buds === b.buds &&
+  a.faction === b.faction;
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
@@ -86,7 +99,7 @@ export const FertilePlot: React.FC<Props> = ({
 
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
-  const game = useSelector(gameService, selectGameState);
+  const game = useSelector(gameService, selectGameState, isGameEqualForBoosts);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
   const { harvestSeconds, readyAt } = useMemo(
