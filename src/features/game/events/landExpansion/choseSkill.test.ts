@@ -362,13 +362,13 @@ describe("choseSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: 0,
+            experience: LEVEL_EXPERIENCE[1],
             skills: {},
           },
         },
         action: {
           type: "skills.updated",
-          skills: { "Green Thumb": 1 },
+          skills: { "Green Thumb": 1, "Young Farmer": 1 },
           paymentType: "free",
         },
         createdAt: dateNow,
