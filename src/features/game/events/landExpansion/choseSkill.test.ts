@@ -322,6 +322,32 @@ describe("choseSkill", () => {
     ).toThrow("You do not have enough skill points");
   });
 
+  it("prevents paid skill updates when gems are missing", () => {
+    expect(() =>
+      updateSkills({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            ...TEST_FARM.inventory,
+            Gem: undefined,
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[3],
+            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: dateNow,
+          },
+        },
+        action: {
+          type: "skills.updated",
+          skills: { "Young Farmer": 1 },
+          paymentType: "gems",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("Not enough gems");
+  });
+
   describe("getAvailableBumpkinSkillPoints", () => {
     it("makes sure level 1 bumpkin with no skills has 1 skill point", () => {
       const result = getAvailableBumpkinSkillPoints({

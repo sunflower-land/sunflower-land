@@ -317,12 +317,13 @@ export function updateSkills({
       }
       case "gems": {
         const gemCost = getGemCost(paidSkillResets);
+        const gemBalance = stateCopy.inventory.Gem ?? new Decimal(0);
 
-        if (stateCopy.inventory.Gem?.lt(gemCost)) {
+        if (gemBalance.lt(gemCost)) {
           throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
         }
 
-        stateCopy.inventory.Gem = stateCopy.inventory.Gem?.minus(gemCost);
+        stateCopy.inventory.Gem = gemBalance.minus(gemCost);
         stateCopy.bumpkin.paidSkillResets = paidSkillResets + 1;
         break;
       }
