@@ -229,6 +229,23 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
   });
 
+  it("prevents updating skills without a Bumpkin", () => {
+    expect(() =>
+      updateSkills({
+        state: {
+          ...TEST_FARM,
+          bumpkin: undefined,
+        } as unknown as typeof TEST_FARM,
+        action: {
+          type: "skills.updated",
+          skills: { "Young Farmer": 1 },
+          paymentType: "free",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("You do not have a Bumpkin!");
+  });
+
   it("removes invalid skill entries when updating skills", () => {
     const result = updateSkills({
       state: {

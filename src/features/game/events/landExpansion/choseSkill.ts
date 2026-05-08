@@ -296,6 +296,10 @@ export function updateSkills({
   createdAt?: number;
 }) {
   return produce(state, (stateCopy) => {
+    if (!stateCopy.bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
+
     const { paidSkillResets = 0, previousFreeSkillResetAt = 0 } =
       stateCopy.bumpkin;
     const skills = sanitizeSkillSelection(action.skills);
