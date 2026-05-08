@@ -169,7 +169,8 @@ export const FertilePlot: React.FC<Props> = ({
     >
       <div
         className={classNames("w-full h-full relative", {
-          "cursor-pointer hover:img-highlight": !stage || stage === "ready",
+          "cursor-pointer hover:img-highlight":
+            !stage || stage === "ready" || isApplyingFertiliser,
         })}
       >
         {/* Crop base image */}
