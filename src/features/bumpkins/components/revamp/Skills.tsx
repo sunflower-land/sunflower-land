@@ -7,13 +7,17 @@ import {
 } from "features/game/types/bumpkinSkills";
 
 import { SkillCategoryList } from "./SkillCategoryList";
-import { SkillPathDetails } from "./SkillPathDetails";
+import {
+  getSkillSelectionErrorMessage,
+  SkillPathDetails,
+} from "./SkillPathDetails";
 import { Skills as BumpkinSkills } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { validateSkillSelection } from "features/game/events/landExpansion/choseSkill";
 import { PaymentType } from "features/game/events/landExpansion/resetSkills";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   readonly: boolean;
@@ -28,6 +32,7 @@ const getSkillKey = (skills: BumpkinSkills) =>
     .join("|");
 
 export const Skills: React.FC<Props> = ({ readonly }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const [selectedSkillPath, setSelectedSkillPath] =
@@ -47,7 +52,7 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
     try {
       validateSkillSelection({ state, skills: draftSkills });
     } catch (error) {
-      return error instanceof Error ? error.message : "Invalid skill build";
+      return getSkillSelectionErrorMessage(error, t);
     }
   })();
 
