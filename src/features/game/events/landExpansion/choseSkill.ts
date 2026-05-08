@@ -174,11 +174,6 @@ export const validateSkillSelection = ({
     throw new Error("You do not have enough skill points");
   }
 
-  const draftBumpkin = {
-    ...bumpkin,
-    skills,
-  };
-
   const selectedSkills = Object.keys(skills).filter(
     (skillName): skillName is BumpkinRevampSkillName =>
       !!skills[skillName as keyof Skills] &&
@@ -186,21 +181,43 @@ export const validateSkillSelection = ({
   );
 
   selectedSkills.forEach((skillName) => {
-    const { requirements, tree, disabled } =
-      BUMPKIN_REVAMP_SKILL_TREE[skillName];
-    const { availableTier } = getUnlockedTierForTree(tree, draftBumpkin);
+    const { requirements, disabled } = BUMPKIN_REVAMP_SKILL_TREE[skillName];
 
     if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
       throw new Error("You are not at the correct island!");
     }
 
-    if (requirements.tier > availableTier) {
-      throw new Error(`You need to unlock tier ${requirements.tier} first`);
-    }
-
     if (disabled) {
       throw new Error("This skill is disabled");
     }
+  });
+
+  Object.keys(SKILL_POINTS_PER_TIER).forEach((tree) => {
+    const skillTree = tree as BumpkinRevampSkillTree;
+    const acceptedSkills: Skills = {};
+
+    ([1, 2, 3] as BumpkinSkillTier[]).forEach((tier) => {
+      const tierSkills = selectedSkills.filter((skillName) => {
+        const skill = BUMPKIN_REVAMP_SKILL_TREE[skillName];
+
+        return skill.tree === skillTree && skill.requirements.tier === tier;
+      });
+
+      if (tierSkills.length === 0) return;
+
+      const { availableTier } = getUnlockedTierForTree(skillTree, {
+        ...bumpkin,
+        skills: acceptedSkills,
+      });
+
+      if (tier > availableTier) {
+        throw new Error(`You need to unlock tier ${tier} first`);
+      }
+
+      tierSkills.forEach((skillName) => {
+        acceptedSkills[skillName as keyof Skills] = 1;
+      });
+    });
   });
 };
 

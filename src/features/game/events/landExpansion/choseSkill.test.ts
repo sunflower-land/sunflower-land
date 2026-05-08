@@ -254,6 +254,53 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
   });
 
+  it("prevents updating to tier 2 without enough lower-tier points", () => {
+    expect(() =>
+      updateSkills({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: {},
+          },
+        },
+        action: {
+          type: "skills.updated",
+          skills: { "Strong Roots": 1 },
+          paymentType: "free",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("You need to unlock tier 2 first");
+  });
+
+  it("prevents removing lower-tier skills while keeping higher-tier skills", () => {
+    expect(() =>
+      updateSkills({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: {
+              "Green Thumb": 1,
+              "Young Farmer": 1,
+              "Old Farmer": 1,
+              "Strong Roots": 1,
+            },
+          },
+        },
+        action: {
+          type: "skills.updated",
+          skills: { "Strong Roots": 1 },
+          paymentType: "free",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("You need to unlock tier 2 first");
+  });
+
   it("prevents updating to a skill build with too many points", () => {
     expect(() =>
       updateSkills({
