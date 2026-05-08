@@ -130,16 +130,21 @@ export const SkillPathDetails: React.FC<Props> = ({
   const missingSkillsRequirement = !hasSelectedSkill && tier > availableTier;
   const editDisabledReason = (() => {
     if (!isEditing) return;
+    const nextSkills = { ...skills };
+
     if (hasSelectedSkill) {
-      const nextSkills = { ...skills };
       delete nextSkills[name as keyof Skills];
+    } else {
+      nextSkills[name as keyof Skills] = 1;
+    }
 
-      try {
-        validateSkillSelection({ state, skills: nextSkills });
-      } catch (error) {
-        return getSkillSelectionErrorMessage(error, t);
-      }
+    try {
+      validateSkillSelection({ state, skills: nextSkills });
+    } catch (error) {
+      return getSkillSelectionErrorMessage(error, t);
+    }
 
+    if (hasSelectedSkill) {
       return;
     }
 
