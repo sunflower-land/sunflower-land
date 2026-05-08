@@ -157,7 +157,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     }
   })();
   const isClaimDisabled = isEditing
-    ? disabled || readonly || !!editDisabledReason
+    ? (disabled && !hasSelectedSkill) || readonly || !!editDisabledReason
     : hasSelectedSkill ||
       missingPointRequirement ||
       missingSkillsRequirement ||
