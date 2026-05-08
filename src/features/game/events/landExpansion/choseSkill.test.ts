@@ -1,4 +1,5 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import Decimal from "decimal.js-light";
 import { Skills } from "features/game/types/game";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import {
@@ -361,13 +362,13 @@ describe("choseSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[1],
+            experience: 0,
             skills: {},
           },
         },
         action: {
           type: "skills.updated",
-          skills: { "Strong Roots": 1 },
+          skills: { "Green Thumb": 1 },
           paymentType: "free",
         },
         createdAt: dateNow,
@@ -399,6 +400,33 @@ describe("choseSkill", () => {
         createdAt: dateNow,
       }),
     ).toThrow("Not enough gems");
+  });
+
+  it("updates skills and deducts gems when paid with gems", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Gem: new Decimal(250),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          previousFreeSkillResetAt: dateNow,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+        paymentType: "gems",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
+    expect(result.inventory.Gem).toEqual(new Decimal(50));
   });
 
   describe("getAvailableBumpkinSkillPoints", () => {
