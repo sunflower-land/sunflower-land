@@ -115,18 +115,18 @@ export const SkillPathDetails: React.FC<Props> = ({
       } catch (error) {
         return error instanceof Error
           ? error.message
-          : "Remove dependent skills first";
+          : t("skillEdit.removeDependentSkillsFirst");
       }
 
       return;
     }
 
     if (missingPointRequirement) {
-      return "You do not have enough skill points";
+      return t("skillEdit.notEnoughSkillPoints");
     }
 
     if (missingSkillsRequirement) {
-      return `You need to unlock tier ${tier} first`;
+      return t("skillEdit.unlockTierFirst", { tier });
     }
   })();
   const isClaimDisabled = isEditing
@@ -262,7 +262,11 @@ export const SkillPathDetails: React.FC<Props> = ({
               {isEditing ? (
                 <div className="flex flex-col w-full">
                   <Button disabled={isClaimDisabled} onClick={handleClaim}>
-                    {hasSelectedSkill ? "Remove Skill" : "Add Skill"}
+                    {t(
+                      hasSelectedSkill
+                        ? "skillEdit.removeSkill"
+                        : "skillEdit.addSkill",
+                    )}
                   </Button>
                   {editDisabledReason && (
                     <Label type="warning" className="mt-1">
@@ -345,7 +349,10 @@ export const SkillPathDetails: React.FC<Props> = ({
                       </Label>
                       {!tierUnlocked && (
                         <Label type="default" className="ml-1">
-                          {`Points to unlock: ${totalUsedSkillPoints}/${pointsRequired}`}
+                          {t("skillTier.pointsToUnlock", {
+                            points: totalUsedSkillPoints,
+                            required: pointsRequired,
+                          })}
                         </Label>
                       )}
                     </div>

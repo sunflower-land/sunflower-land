@@ -123,10 +123,10 @@ export const SkillCategoryList: React.FC<{
 
   const editCostLabel =
     resetType === "free"
-      ? "Free"
+      ? t("skillEdit.cost.free")
       : resetType === "ticket"
-        ? "1 Ticket"
-        : `${gemCost} Gems`;
+        ? t("skillEdit.cost.ticket")
+        : t("skillEdit.cost.gems", { gemCost });
 
   const handleSkillsReset = () => {
     gameService.send({
@@ -178,9 +178,11 @@ export const SkillCategoryList: React.FC<{
           {isEditing && (
             <>
               <Label type={validationError ? "danger" : "info"}>
-                {validationError ?? "Draft skill build"}
+                {validationError ?? t("skillEdit.draftSkillBuild")}
               </Label>
-              {!hasChanges && <Label type="warning">{"No changes"}</Label>}
+              {!hasChanges && (
+                <Label type="warning">{t("skillEdit.noChanges")}</Label>
+              )}
             </>
           )}
         </div>
@@ -266,7 +268,7 @@ export const SkillCategoryList: React.FC<{
                   className="text-xs cursor-pointer underline py-1"
                   onClick={() => setShowEditSkillsModal(true)}
                 >
-                  {"Edit Skills"}
+                  {t("skillEdit.editSkills")}
                 </p>
                 <p
                   className="text-xs cursor-pointer underline py-1"
@@ -291,7 +293,7 @@ export const SkillCategoryList: React.FC<{
                   })}
                   onClick={() => onApplyEditing(resetType)}
                 >
-                  {"Apply Changes"}
+                  {t("skillEdit.applyChanges")}
                 </p>
                 <Label
                   type={
@@ -344,7 +346,7 @@ export const SkillCategoryList: React.FC<{
         <OuterPanel>
           <InnerPanel className="flex flex-col items-center">
             <div className="flex flex-col items-center w-full gap-2 my-1">
-              <Label type="default">{"Edit Skills"}</Label>
+              <Label type="default">{t("skillEdit.editSkills")}</Label>
               <Label
                 type={
                   resetType === "free"
@@ -362,22 +364,20 @@ export const SkillCategoryList: React.FC<{
                 }
               >
                 {resetType === "free"
-                  ? "Free Edit"
+                  ? t("skillEdit.freeEdit")
                   : resetType === "ticket"
-                    ? "Ticket Edit"
-                    : "Gem Edit"}
+                    ? t("skillEdit.ticketEdit")
+                    : t("skillEdit.gemEdit")}
               </Label>
               <p className="text-xs text-center">
-                {
-                  "Move a limited set of skills without rebuilding your whole tree. Changes are drafted first and only applied after you confirm the final build."
-                }
+                {t("skillEdit.description")}
               </p>
               <Label type="warning">
                 {resetType === "free"
-                  ? "You can do this once every 180 days."
+                  ? t("skillReset.180Days")
                   : resetType === "ticket"
-                    ? "A Skill Reset Ticket will be used after applying changes."
-                    : `${gemCost} Gems will be used after applying changes.`}
+                    ? t("skillEdit.ticketWarning")
+                    : t("skillEdit.gemsWarning", { gemCost })}
               </Label>
               {resetType !== "free" && (
                 <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
@@ -388,14 +388,14 @@ export const SkillCategoryList: React.FC<{
                 </Label>
               )}
               {!canEditSkills() && (
-                <Label type="danger">{"You cannot edit skills yet"}</Label>
+                <Label type="danger">{t("skillEdit.cannotEditYet")}</Label>
               )}
               <Button
                 className="w-full"
                 disabled={!canEditSkills()}
                 onClick={handleStartEditing}
               >
-                {"Start Editing"}
+                {t("skillEdit.startEditing")}
               </Button>
             </div>
           </InnerPanel>
