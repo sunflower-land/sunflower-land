@@ -350,7 +350,19 @@ export abstract class BaseScene extends Phaser.Scene {
         this.initialiseControls();
       }
 
-      const from = this.mmoService?.state.context.previousSceneId as SceneId;
+      // Boot-time override stashed by Phaser.tsx when the world component
+      // was mounted via `navigate(..., { state: { previousSceneId } })`.
+      // Used once for the very first scene load (the route-change effect in
+      // Phaser.tsx handles subsequent navigations).
+      const initialPreviousSceneId = this.registry.get(
+        "initialPreviousSceneId",
+      ) as string | undefined;
+      if (initialPreviousSceneId) {
+        this.registry.remove("initialPreviousSceneId");
+      }
+
+      const from = (initialPreviousSceneId ??
+        this.mmoService?.state.context.previousSceneId) as SceneId;
 
       let spawn = this.options.player.spawn;
 
