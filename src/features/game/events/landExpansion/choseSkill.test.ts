@@ -1,4 +1,5 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { Skills } from "features/game/types/game";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import {
   choseSkill,
@@ -220,6 +221,31 @@ describe("choseSkill", () => {
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
+        paymentType: "free",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
+  });
+
+  it("removes invalid skill entries when updating skills", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: {
+          "Young Farmer": 1,
+          "Green Thumb": 0,
+          Unknown: 1,
+        } as Skills,
         paymentType: "free",
       },
       createdAt: dateNow,

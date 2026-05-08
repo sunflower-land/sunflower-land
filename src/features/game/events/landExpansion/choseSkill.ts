@@ -204,6 +204,21 @@ export const validateSkillSelection = ({
   });
 };
 
+export const sanitizeSkillSelection = (skills: Skills): Skills =>
+  Object.entries(skills).reduce<Skills>(
+    (selectedSkills, [skillName, value]) => {
+      if (
+        !!value &&
+        BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName]
+      ) {
+        selectedSkills[skillName as keyof Skills] = 1;
+      }
+
+      return selectedSkills;
+    },
+    {},
+  );
+
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
@@ -266,10 +281,11 @@ export function updateSkills({
   return produce(state, (stateCopy) => {
     const { paidSkillResets = 0, previousFreeSkillResetAt = 0 } =
       stateCopy.bumpkin;
+    const skills = sanitizeSkillSelection(action.skills);
 
     validateSkillSelection({
       state: stateCopy,
-      skills: action.skills,
+      skills,
     });
 
     switch (action.paymentType) {
@@ -311,7 +327,7 @@ export function updateSkills({
       }
     }
 
-    stateCopy.bumpkin.skills = action.skills;
+    stateCopy.bumpkin.skills = skills;
 
     populateSaltFarm({
       gameBefore: state,
