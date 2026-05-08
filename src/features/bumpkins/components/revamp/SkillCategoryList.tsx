@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import {
   type BumpkinRevampSkillTree,
   getRevampSkills,
@@ -13,10 +13,13 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import {
+  getAvailableBumpkinSkillPoints,
+  getAvailableBumpkinSkillPointsForSkills,
+} from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ISLAND_EXPANSIONS } from "features/game/types/game";
+import { ISLAND_EXPANSIONS, Skills } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -32,6 +35,7 @@ import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
+import { Button } from "components/ui/Button";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -51,17 +55,36 @@ const _state = (state: MachineState) => state.context.state;
 
 export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-}> = ({ onClick }) => {
+  skills: Skills;
+  isEditing: boolean;
+  hasChanges: boolean;
+  validationError?: string;
+  onStartEditing: () => void;
+  onCancelEditing: () => void;
+  onApplyEditing: (paymentType: PaymentType) => void;
+}> = ({
+  onClick,
+  skills: displayedSkills,
+  isEditing,
+  hasChanges,
+  validationError,
+  onStartEditing,
+  onCancelEditing,
+  onApplyEditing,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
+  const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
   const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
     useState(false);
 
   const { bumpkin, inventory } = state;
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = isEditing
+    ? getAvailableBumpkinSkillPointsForSkills(bumpkin, displayedSkills)
+    : getAvailableBumpkinSkillPoints(bumpkin);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;
@@ -98,6 +121,13 @@ export const SkillCategoryList: React.FC<{
       ? "ticket"
       : "gems";
 
+  const editCostLabel =
+    resetType === "free"
+      ? "Free"
+      : resetType === "ticket"
+        ? "1 Ticket"
+        : `${gemCost} Gems`;
+
   const handleSkillsReset = () => {
     gameService.send({
       type: "skills.reset",
@@ -125,11 +155,34 @@ export const SkillCategoryList: React.FC<{
     return true;
   };
 
+  const canEditSkills = () => {
+    if (!hasSkills) return false;
+    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
+      return false;
+    if (resetType === "ticket" && !hasTicket) return false;
+    if (resetType === "gems" && !hasEnoughGems) return false;
+
+    return true;
+  };
+
+  const handleStartEditing = () => {
+    onStartEditing();
+    setShowEditSkillsModal(false);
+  };
+
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div className="flex flex-row mt-2 mb-1 items-center">
+        <div className="flex flex-row flex-wrap mt-2 mb-1 items-center gap-1">
           <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
+          {isEditing && (
+            <>
+              <Label type={validationError ? "danger" : "info"}>
+                {validationError ?? "Draft skill build"}
+              </Label>
+              {!hasChanges && <Label type="warning">{"No changes"}</Label>}
+            </>
+          )}
         </div>
         {ISLAND_EXPANSIONS.map((islandType) => {
           const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
@@ -168,7 +221,7 @@ export const SkillCategoryList: React.FC<{
                   const skills = getRevampSkills(category);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
                   const skillsAcquiredInCategoryCount = getKeys({
-                    ...bumpkin?.skills,
+                    ...displayedSkills,
                   }).filter((acquiredSkillName) =>
                     skills.find((skill) => skill.name === acquiredSkillName),
                   ).length;
@@ -205,13 +258,62 @@ export const SkillCategoryList: React.FC<{
             </div>
           );
         })}
-        <div className="flex flex-row items-center m-1">
-          <p
-            className="text-xs cursor-pointer underline py-1"
-            onClick={() => setShowSkillsResetModal(true)}
-          >
-            {t("skillReset.resetSkills")}
-          </p>
+        <div className="flex flex-col m-1">
+          <div className="flex flex-row items-center gap-3">
+            {!isEditing ? (
+              <>
+                <p
+                  className="text-xs cursor-pointer underline py-1"
+                  onClick={() => setShowEditSkillsModal(true)}
+                >
+                  {"Edit Skills"}
+                </p>
+                <p
+                  className="text-xs cursor-pointer underline py-1"
+                  onClick={() => setShowSkillsResetModal(true)}
+                >
+                  {t("skillReset.resetSkills")}
+                </p>
+              </>
+            ) : (
+              <>
+                <p
+                  className="text-xs cursor-pointer underline py-1"
+                  onClick={onCancelEditing}
+                >
+                  {t("cancel")}
+                </p>
+                <p
+                  className={classNames("text-xs underline py-1", {
+                    "cursor-pointer": hasChanges && !validationError,
+                    "opacity-50 cursor-not-allowed":
+                      !hasChanges || !!validationError,
+                  })}
+                  onClick={() => onApplyEditing(resetType)}
+                >
+                  {"Apply Changes"}
+                </p>
+                <Label
+                  type={
+                    resetType === "free"
+                      ? "success"
+                      : resetType === "ticket"
+                        ? "success"
+                        : "vibrant"
+                  }
+                  icon={
+                    resetType === "gems"
+                      ? ITEM_DETAILS.Gem.image
+                      : resetType === "ticket"
+                        ? ITEM_DETAILS["Skill Reset Ticket"].image
+                        : undefined
+                  }
+                >
+                  {editCostLabel}
+                </Label>
+              </>
+            )}
+          </div>
         </div>
       </InnerPanel>
 
@@ -234,6 +336,70 @@ export const SkillCategoryList: React.FC<{
           showSkillsResetConfirmation={showSkillsResetConfirmation}
           setShowSkillsResetConfirmation={setShowSkillsResetConfirmation}
         />
+      </Modal>
+      <Modal
+        show={showEditSkillsModal}
+        onHide={() => setShowEditSkillsModal(false)}
+      >
+        <OuterPanel>
+          <InnerPanel className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full gap-2 my-1">
+              <Label type="default">{"Edit Skills"}</Label>
+              <Label
+                type={
+                  resetType === "free"
+                    ? "success"
+                    : resetType === "ticket"
+                      ? "success"
+                      : "vibrant"
+                }
+                icon={
+                  resetType === "gems"
+                    ? ITEM_DETAILS.Gem.image
+                    : resetType === "ticket"
+                      ? ITEM_DETAILS["Skill Reset Ticket"].image
+                      : undefined
+                }
+              >
+                {resetType === "free"
+                  ? "Free Edit"
+                  : resetType === "ticket"
+                    ? "Ticket Edit"
+                    : "Gem Edit"}
+              </Label>
+              <p className="text-xs text-center">
+                {
+                  "Move a limited set of skills without rebuilding your whole tree. Changes are drafted first and only applied after you confirm the final build."
+                }
+              </p>
+              <Label type="warning">
+                {resetType === "free"
+                  ? "You can do this once every 180 days."
+                  : resetType === "ticket"
+                    ? "A Skill Reset Ticket will be used after applying changes."
+                    : `${gemCost} Gems will be used after applying changes.`}
+              </Label>
+              {resetType !== "free" && (
+                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                  {t("skillReset.nextFreeReset", {
+                    date: getNextResetDateAndTime().date,
+                    time: getNextResetDateAndTime().time,
+                  })}
+                </Label>
+              )}
+              {!canEditSkills() && (
+                <Label type="danger">{"You cannot edit skills yet"}</Label>
+              )}
+              <Button
+                className="w-full"
+                disabled={!canEditSkills()}
+                onClick={handleStartEditing}
+              >
+                {"Start Editing"}
+              </Button>
+            </div>
+          </InnerPanel>
+        </OuterPanel>
       </Modal>
     </>
   );

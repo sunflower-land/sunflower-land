@@ -90,7 +90,12 @@ import {
   type FeedBumpkinAction,
 } from "./landExpansion/feedBumpkin";
 import { detectBot, type DetectBotAction } from "./detectBot";
-import { choseSkill, type ChoseSkillAction } from "./landExpansion/choseSkill";
+import {
+  choseSkill,
+  type ChoseSkillAction,
+  updateSkills,
+  type UpdateSkillsAction,
+} from "./landExpansion/choseSkill";
 import {
   resetSkills,
   type ResetSkillsAction,
@@ -822,6 +827,7 @@ export type PlayingEvent =
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
+  | UpdateSkillsAction
   | ResetSkillsAction
   | SeedBoughtAction
   | ClaimAchievementAction
@@ -1113,6 +1119,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.feed": feedBumpkin,
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
+  "skills.updated": updateSkills,
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
