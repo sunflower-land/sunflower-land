@@ -14,7 +14,6 @@ import {
   CommodityName,
   MushroomName,
   ResourceName,
-  ResourceTier,
   TreeName,
 } from "./resources";
 import { LegacyBadgeName } from "./skills";
@@ -786,9 +785,7 @@ export type Tree = {
   wood: Wood;
   createdAt?: number;
   removedAt?: number;
-  tier?: ResourceTier;
   name?: TreeName;
-  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Stone = {
@@ -806,9 +803,7 @@ export type Rock = {
   stone: Stone;
   createdAt?: number;
   removedAt?: number;
-  tier?: ResourceTier;
   name?: RockName;
-  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Oil = {

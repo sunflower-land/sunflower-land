@@ -20,7 +20,12 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
+import {
+  RESOURCE_DIMENSIONS,
+  RESOURCE_VARIANT,
+  RockName,
+  StoneRockName,
+} from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
@@ -158,7 +163,9 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = game.stones[id]?.multiplier ?? 1;
+  const multiplier =
+    RESOURCE_VARIANT[(game.stones[id]?.name ?? "Stone Rock") as StoneRockName]
+      .multiplier;
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -331,11 +338,13 @@ export function getStoneDropAmount({
   amount *= multiplier;
 
   // Add yield boost for upgraded stones
-  if (rock.tier === 2) {
+  const tier =
+    RESOURCE_VARIANT[(rock.name ?? "Stone Rock") as StoneRockName].tier;
+  if (tier === 2) {
     amount += 0.5;
   }
 
-  if (rock.tier === 3) {
+  if (tier === 3) {
     amount += 2.5;
   }
 
@@ -353,7 +362,10 @@ export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const multiplier = gameState.stones[id]?.multiplier ?? 1;
+  const multiplier =
+    RESOURCE_VARIANT[
+      (gameState.stones[id]?.name ?? "Stone Rock") as StoneRockName
+    ].multiplier;
   return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
@@ -438,7 +450,7 @@ export function mineStone({
     stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",
       stateCopy.farmActivity,
-      new Decimal(rock?.multiplier ?? 1),
+      new Decimal(RESOURCE_VARIANT[stoneName as StoneRockName].multiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(

@@ -13,6 +13,7 @@ import {
   UpgradedResourceName,
   ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
+  RESOURCE_VARIANT,
   RockName,
   RESOURCES,
   UpgradeableResource,
@@ -76,7 +77,10 @@ export const getUpgradeableNodes = (
   const upgradeableNodes = Object.entries(
     RESOURCE_STATE_ACCESSORS[upgradeTo](game),
   ).filter(([, node]) => {
-    const tier = "tier" in node ? node.tier : 1;
+    const tier =
+      "name" in node
+        ? RESOURCE_VARIANT[node.name as UpgradeableResource].tier
+        : 1;
     const isPlaced = node.x !== undefined && node.y !== undefined;
     return (
       isPlaced &&

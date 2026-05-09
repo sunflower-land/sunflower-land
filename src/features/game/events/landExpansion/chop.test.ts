@@ -147,8 +147,7 @@ describe("chop", () => {
         ...GAME_STATE,
         trees: {
           "123": {
-            multiplier: 4,
-            tier: 2,
+            name: "Ancient Tree",
             wood: { choppedAt: 0 },
             createdAt: now,
             x: 1,

@@ -1,10 +1,5 @@
 import { GameState, Tree } from "features/game/types/game";
-import {
-  ADVANCED_RESOURCES,
-  RESOURCE_MULTIPLIER,
-  TreeName,
-  UpgradedResourceName,
-} from "features/game/types/resources";
+import { TreeName } from "features/game/types/resources";
 import { produce } from "immer";
 import {
   findExistingUnplacedNode,
@@ -70,8 +65,6 @@ export function placeTree({
       y: action.coordinates.y,
       wood: { choppedAt: 0 },
       name: action.name,
-      multiplier: RESOURCE_MULTIPLIER[action.name],
-      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
     };
 
     game.trees = {

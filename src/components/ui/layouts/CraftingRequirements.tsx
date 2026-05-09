@@ -383,11 +383,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                     requiredTier === undefined
                       ? activeNodes
                       : activeNodes.filter((node) => {
-                          // Prefer `tier` for correctness; `name` may be absent on-chain/older state.
-                          if (typeof node.tier === "number") {
-                            return node.tier === requiredTier;
-                          }
-
                           if (typeof node.name === "string") {
                             return node.name === ingredientName;
                           }

@@ -390,19 +390,34 @@ export const BASIC_RESOURCES: BasicResourceName[] = [
 
 export const REQUIRED_NODES_TO_FORGE = 4;
 
-export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {
-  "Stone Rock": 1,
-  "Fused Stone Rock": REQUIRED_NODES_TO_FORGE,
-  "Reinforced Stone Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  Tree: 1,
-  "Ancient Tree": REQUIRED_NODES_TO_FORGE,
-  "Sacred Tree": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  "Iron Rock": 1,
-  "Refined Iron Rock": REQUIRED_NODES_TO_FORGE,
-  "Tempered Iron Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  "Gold Rock": 1,
-  "Pure Gold Rock": REQUIRED_NODES_TO_FORGE,
-  "Prime Gold Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+export const RESOURCE_VARIANT: Record<
+  UpgradeableResource,
+  { tier: ResourceTier; multiplier: number }
+> = {
+  "Stone Rock": { tier: 1, multiplier: 1 },
+  "Fused Stone Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Reinforced Stone Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  Tree: { tier: 1, multiplier: 1 },
+  "Ancient Tree": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Sacred Tree": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  "Iron Rock": { tier: 1, multiplier: 1 },
+  "Refined Iron Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Tempered Iron Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  "Gold Rock": { tier: 1, multiplier: 1 },
+  "Pure Gold Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Prime Gold Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
 };
 
 export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
@@ -428,7 +443,7 @@ export function getTotalBaseResourceEquivalents(
     return (
       total +
       (game.inventory[resource]?.toNumber() ?? 0) *
-        RESOURCE_MULTIPLIER[resource]
+        RESOURCE_VARIANT[resource].multiplier
     );
   }, 0);
 }

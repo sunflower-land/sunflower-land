@@ -1,10 +1,5 @@
 import { GameState, Rock } from "features/game/types/game";
-import {
-  RESOURCE_MULTIPLIER,
-  GoldRockName,
-  ADVANCED_RESOURCES,
-  UpgradedResourceName,
-} from "features/game/types/resources";
+import { GoldRockName } from "features/game/types/resources";
 import { produce } from "immer";
 import {
   findExistingUnplacedNode,
@@ -71,9 +66,7 @@ export function placeGold({
       stone: {
         minedAt: 0,
       },
-      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       name: action.name,
-      multiplier: RESOURCE_MULTIPLIER[action.name],
     };
 
     game.gold = {

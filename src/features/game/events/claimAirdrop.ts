@@ -16,10 +16,7 @@ import {
 import { PLACEABLE_LOCATIONS } from "../types/collectibles";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
 import { isPetCollectible } from "./landExpansion/placeCollectible";
-import {
-  RESOURCE_STATE_ACCESSORS,
-  RESOURCE_MULTIPLIER,
-} from "../types/resources";
+import { RESOURCE_STATE_ACCESSORS, RESOURCE_VARIANT } from "../types/resources";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "../types/bumpkin";
 
 export function addVipDays({
@@ -204,7 +201,10 @@ export function claimAirdrop({
           placedNodes,
         ).filter(([, node]: [string, ResourceItem]) => {
           if (isTreeOrRock(node) && isUpgradableResource(itemName)) {
-            return (node.multiplier ?? 1) === RESOURCE_MULTIPLIER[itemName];
+            const isBasic = RESOURCE_VARIANT[itemName].tier === 1;
+            return (
+              node.name === itemName || (isBasic && node.name === undefined)
+            );
           }
 
           return true;

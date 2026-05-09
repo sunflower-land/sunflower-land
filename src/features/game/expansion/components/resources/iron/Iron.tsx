@@ -15,7 +15,11 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import { IronRockName, RockName } from "features/game/types/resources";
+import {
+  IronRockName,
+  RESOURCE_VARIANT,
+  RockName,
+} from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
 
@@ -26,7 +30,8 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   ironRock: Rock,
 ) => {
-  const requiredToolAmount = ironRock.multiplier ?? 1;
+  const requiredToolAmount =
+    RESOURCE_VARIANT[(ironRock.name ?? "Iron Rock") as IronRockName].multiplier;
   if (requiredToolAmount <= 0) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -174,7 +179,13 @@ export const Iron: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             ironRockName={ironRockName}
-            requiredToolAmount={new Decimal(resource.multiplier ?? 1)}
+            requiredToolAmount={
+              new Decimal(
+                RESOURCE_VARIANT[
+                  (resource.name ?? "Iron Rock") as IronRockName
+                ].multiplier,
+              )
+            }
             inventory={inventory}
           />
         </div>

@@ -562,7 +562,6 @@ describe("claimAirdrop", () => {
             createdAt: dateNow,
             removedAt: dateNow,
             stone: { minedAt: dateNow },
-            multiplier: 1,
           },
           456: {
             x: 0,
@@ -570,7 +569,6 @@ describe("claimAirdrop", () => {
             createdAt: dateNow,
             removedAt: dateNow,
             stone: { minedAt: dateNow },
-            multiplier: 4,
             name: "Pure Gold Rock",
           },
         },
@@ -614,7 +612,6 @@ describe("claimAirdrop", () => {
             createdAt: dateNow,
             removedAt: dateNow,
             stone: { minedAt: dateNow },
-            multiplier: 1,
           },
           456: {
             x: 0,
@@ -622,7 +619,6 @@ describe("claimAirdrop", () => {
             createdAt: dateNow,
             removedAt: dateNow,
             stone: { minedAt: dateNow },
-            multiplier: 4,
             name: "Pure Gold Rock",
           },
         },
