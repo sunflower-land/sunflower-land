@@ -1515,7 +1515,7 @@ describe("chop", () => {
       const stateWithNamedTree: GameState = {
         ...INITIAL_FARM,
         bumpkin: TEST_BUMPKIN,
-        inventory: { Axe: new Decimal(10) },
+        inventory: { Axe: new Decimal(20) },
         trees: {
           0: {
             name: "Sacred Tree",
