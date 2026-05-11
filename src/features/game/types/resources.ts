@@ -421,35 +421,16 @@ export const RESOURCE_VARIANT: Record<
 };
 
 /**
- * Resolves a resource node's variant (tier + multiplier) safely:
- * 1. Prefer the variant looked up by `name`.
- * 2. Fall back to legacy `tier` / `multiplier` fields for saves that pre-date
- *    the name-based variant lookup.
- * 3. Default to the supplied `fallback` (the family's basic variant).
- *
- * Guards against non-upgradeable names (e.g. Sunstone/Crimstone in the stone
- * collection) that would otherwise return `undefined` from RESOURCE_VARIANT.
- */
-export function getResourceVariant(
-  node: Tree | Rock | undefined,
-  fallback: BasicResourceName,
-): { tier: ResourceTier; multiplier: number } {
-  if (node?.name && node.name in RESOURCE_VARIANT) {
-    return RESOURCE_VARIANT[node.name as UpgradeableResource];
-  }
-  if (node?.tier !== undefined || node?.multiplier !== undefined) {
-    return { tier: node.tier ?? 1, multiplier: node.multiplier ?? 1 };
-  }
-  return RESOURCE_VARIANT[fallback];
-}
-
-/**
  * Resolves a resource node's canonical variant name. Used wherever the
  * downstream lookup needs the name itself (KNOWN_IDS, farm-activity keys,
  * UI rendering) rather than just the derived tier/multiplier.
  *
- * For legacy nodes that only carry `tier`/`multiplier`, the name is
- * reconstructed by matching those fields against the family's variants.
+ * Resolution order:
+ *  1. The node's `name`, if it maps to a known variant.
+ *  2. Reconstruction from legacy `tier`/`multiplier` fields, matched against
+ *     the family. Whichever fields are present must agree with the variant —
+ *     this guarantees the returned variant always exists in RESOURCE_VARIANT.
+ *  3. The supplied `fallback` (the family's basic variant).
  */
 export function getUpgradeableResourceName(
   node: Tree | Rock | undefined,
@@ -458,8 +439,6 @@ export function getUpgradeableResourceName(
   if (node?.name && node.name in RESOURCE_VARIANT) {
     return node.name as UpgradeableResource;
   }
-  // Match on whichever legacy fields are actually present so nodes that
-  // only persisted `tier` (or only `multiplier`) still reconstruct correctly.
   const hasTier = node?.tier !== undefined;
   const hasMultiplier = node?.multiplier !== undefined;
   if (!hasTier && !hasMultiplier) {
@@ -469,13 +448,26 @@ export function getUpgradeableResourceName(
   return (
     family.find((candidate) => {
       const entry = RESOURCE_VARIANT[candidate];
-      if (hasTier && hasMultiplier) {
-        return entry.tier === node.tier && entry.multiplier === node.multiplier;
-      }
-      if (hasTier) return entry.tier === node.tier;
-      return entry.multiplier === node.multiplier;
+      return (
+        (!hasTier || entry.tier === node.tier) &&
+        (!hasMultiplier || entry.multiplier === node.multiplier)
+      );
     }) ?? fallback
   );
+}
+
+/**
+ * Resolves a resource node's variant (tier + multiplier) safely. Delegates
+ * to `getUpgradeableResourceName` so the returned pair is always one of the
+ * canonical entries in `RESOURCE_VARIANT` — a legacy `{ tier: 2 }`-only node
+ * resolves to its family's tier-2 variant rather than the impossible
+ * `{ tier: 2, multiplier: 1 }`.
+ */
+export function getResourceVariant(
+  node: Tree | Rock | undefined,
+  fallback: BasicResourceName,
+): { tier: ResourceTier; multiplier: number } {
+  return RESOURCE_VARIANT[getUpgradeableResourceName(node, fallback)];
 }
 
 export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
