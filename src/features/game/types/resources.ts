@@ -432,7 +432,7 @@ export const RESOURCE_VARIANT: Record<
  */
 export function getResourceVariant(
   node: Tree | Rock | undefined,
-  fallback: UpgradeableResource,
+  fallback: BasicResourceName,
 ): { tier: ResourceTier; multiplier: number } {
   if (node?.name && node.name in RESOURCE_VARIANT) {
     return RESOURCE_VARIANT[node.name as UpgradeableResource];
@@ -453,20 +453,27 @@ export function getResourceVariant(
  */
 export function getUpgradeableResourceName(
   node: Tree | Rock | undefined,
-  fallback: UpgradeableResource,
+  fallback: BasicResourceName,
 ): UpgradeableResource {
   if (node?.name && node.name in RESOURCE_VARIANT) {
     return node.name as UpgradeableResource;
   }
-  const variant = getResourceVariant(node, fallback);
-  const familyBase = UPGRADEABLE_FAMILY_BASE[fallback];
-  const family = UPGRADEABLE_RESOURCE_FAMILIES[familyBase] ?? [];
+  // Match on whichever legacy fields are actually present so nodes that
+  // only persisted `tier` (or only `multiplier`) still reconstruct correctly.
+  const hasTier = node?.tier !== undefined;
+  const hasMultiplier = node?.multiplier !== undefined;
+  if (!hasTier && !hasMultiplier) {
+    return fallback;
+  }
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[fallback] ?? [];
   return (
     family.find((candidate) => {
       const entry = RESOURCE_VARIANT[candidate];
-      return (
-        entry.tier === variant.tier && entry.multiplier === variant.multiplier
-      );
+      if (hasTier && hasMultiplier) {
+        return entry.tier === node.tier && entry.multiplier === node.multiplier;
+      }
+      if (hasTier) return entry.tier === node.tier;
+      return entry.multiplier === node.multiplier;
     }) ?? fallback
   );
 }

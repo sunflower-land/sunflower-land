@@ -206,9 +206,13 @@ export function claimAirdrop({
           placedNodes,
         ).filter(([, node]: [string, ResourceItem]) => {
           if (isTreeOrRock(node) && isUpgradableResource(itemName)) {
-            const targetTier = RESOURCE_VARIANT[itemName].tier;
+            const target = RESOURCE_VARIANT[itemName];
             const familyBase = UPGRADEABLE_FAMILY_BASE[itemName];
-            return getResourceVariant(node, familyBase).tier === targetTier;
+            const variant = getResourceVariant(node, familyBase);
+            return (
+              variant.tier === target.tier &&
+              variant.multiplier === target.multiplier
+            );
           }
 
           return true;
