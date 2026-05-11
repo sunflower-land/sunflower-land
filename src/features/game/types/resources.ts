@@ -432,28 +432,34 @@ export const RESOURCE_VARIANT: Record<
  *     this guarantees the returned variant always exists in RESOURCE_VARIANT.
  *  3. The supplied `fallback` (the family's basic variant).
  */
+const isKnownResourceVariant = (name: string): name is UpgradeableResource =>
+  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, name);
+
 export function getUpgradeableResourceName(
   node: Tree | Rock | undefined,
   fallback: BasicResourceName,
 ): UpgradeableResource {
-  if (node?.name && node.name in RESOURCE_VARIANT) {
-    return node.name as UpgradeableResource;
-  }
-  const hasTier = node?.tier !== undefined;
-  const hasMultiplier = node?.multiplier !== undefined;
-  if (!hasTier && !hasMultiplier) {
-    return fallback;
+  if (node?.name && isKnownResourceVariant(node.name)) {
+    return node.name;
   }
   const family = UPGRADEABLE_RESOURCE_FAMILIES[fallback] ?? [];
-  return (
-    family.find((candidate) => {
-      const entry = RESOURCE_VARIANT[candidate];
-      return (
-        (!hasTier || entry.tier === node.tier) &&
-        (!hasMultiplier || entry.multiplier === node.multiplier)
-      );
-    }) ?? fallback
-  );
+  // Prefer `tier` when present (it uniquely identifies a family variant);
+  // fall back to `multiplier` if tier is unavailable or unmatched. Legacy
+  // saves where the two fields drifted out of sync resolve to the tier
+  // variant rather than silently downgrading to the base resource.
+  if (node?.tier !== undefined) {
+    const byTier = family.find(
+      (candidate) => RESOURCE_VARIANT[candidate].tier === node.tier,
+    );
+    if (byTier) return byTier;
+  }
+  if (node?.multiplier !== undefined) {
+    const byMultiplier = family.find(
+      (candidate) => RESOURCE_VARIANT[candidate].multiplier === node.multiplier,
+    );
+    if (byMultiplier) return byMultiplier;
+  }
+  return fallback;
 }
 
 /**

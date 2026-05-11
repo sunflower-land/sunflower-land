@@ -288,4 +288,5 @@ export const isTreeOrRock = (node: ResourceItem): node is Tree | Rock =>
 
 export const isUpgradableResource = (
   itemName: ResourceName,
-): itemName is UpgradeableResource => itemName in RESOURCE_VARIANT;
+): itemName is UpgradeableResource =>
+  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, itemName);
