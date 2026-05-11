@@ -22,6 +22,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   getResourceVariant,
+  getUpgradeableResourceName,
   RESOURCE_DIMENSIONS,
   RockName,
 } from "features/game/types/resources";
@@ -403,7 +404,10 @@ export function mineStone({
       throw new Error("Not enough pickaxes");
     }
 
-    const stoneName: RockName = rock.name ?? "Stone Rock";
+    const stoneName: RockName = getUpgradeableResourceName(
+      rock,
+      "Stone Rock",
+    ) as RockName;
     const counter = stateCopy.farmActivity[`${stoneName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[stoneName];
 

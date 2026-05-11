@@ -9,7 +9,11 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getResourceVariant } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  TreeName,
+} from "features/game/types/resources";
 
 import {
   BoostName,
@@ -402,7 +406,7 @@ export function chop({
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }
 
-    const treeName = tree.name ?? "Tree";
+    const treeName = getUpgradeableResourceName(tree, "Tree") as TreeName;
     const treeMultiplier = getResourceVariant(tree, "Tree").multiplier;
     const prngObject = {
       farmId,

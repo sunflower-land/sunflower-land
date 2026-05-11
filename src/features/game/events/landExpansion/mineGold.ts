@@ -23,6 +23,8 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, BoostName, Rock, AOE } from "features/game/types/game";
 import {
   getResourceVariant,
+  getUpgradeableResourceName,
+  GoldRockName,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -345,7 +347,10 @@ export function mineGold({
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("No pickaxes left");
     }
-    const goldRockName = goldRock.name ?? "Gold Rock";
+    const goldRockName = getUpgradeableResourceName(
+      goldRock,
+      "Gold Rock",
+    ) as GoldRockName;
     const counter = stateCopy.farmActivity[`${goldRockName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[goldRockName];
     const prngObject = {

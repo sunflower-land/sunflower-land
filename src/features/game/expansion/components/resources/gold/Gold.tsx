@@ -17,6 +17,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import {
   getResourceVariant,
+  getUpgradeableResourceName,
   GoldRockName,
 } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -103,7 +104,10 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const skills = useSelector(gameService, selectSkills, compareSkills);
   const state = useSelector(gameService, selectGame);
   const currentCounter = useSelector(gameService, (state) => {
-    const rockName = state.context.state.gold[id]?.name ?? "Gold Rock";
+    const rockName = getUpgradeableResourceName(
+      state.context.state.gold[id],
+      "Gold Rock",
+    ) as GoldRockName;
     return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
   });
   const season = useSelector(gameService, _selectSeason);
@@ -113,7 +117,10 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const now = useNow({ live: true, autoEndAt: readyAt });
 
   const hasTool = HasTool(inventory, resource);
-  const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
+  const goldRockName = getUpgradeableResourceName(
+    resource,
+    "Gold Rock",
+  ) as GoldRockName;
   const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME, now);
   const mined = !canMine(resource, goldRockName);
 
@@ -167,7 +174,10 @@ export const Gold: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const goldRockName = resource.name ?? "Gold Rock";
+    const goldRockName = getUpgradeableResourceName(
+      resource,
+      "Gold Rock",
+    ) as GoldRockName;
     const itemId = KNOWN_IDS[goldRockName];
     const goldMined = new Decimal(
       resource.stone.amount ??

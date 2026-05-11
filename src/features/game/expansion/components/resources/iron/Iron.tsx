@@ -17,6 +17,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import {
   getResourceVariant,
+  getUpgradeableResourceName,
   IronRockName,
   RockName,
 } from "features/game/types/resources";
@@ -94,9 +95,15 @@ export const Iron: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.iron[id],
     compareResource,
   );
-  const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
+  const ironRockName = getUpgradeableResourceName(
+    resource,
+    "Iron Rock",
+  ) as IronRockName;
   const activityCount = useSelector(gameService, (state) => {
-    const rockName = state.context.state.iron[id]?.name ?? "Iron Rock";
+    const rockName = getUpgradeableResourceName(
+      state.context.state.iron[id],
+      "Iron Rock",
+    ) as IronRockName;
     return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
   });
   const inventory = useSelector(
@@ -137,7 +144,10 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const ironName: RockName = resource.name ?? "Iron Rock";
+    const ironName: RockName = getUpgradeableResourceName(
+      resource,
+      "Iron Rock",
+    ) as RockName;
     const itemId = KNOWN_IDS[ironName];
     const ironMined = new Decimal(
       resource.stone.amount ??

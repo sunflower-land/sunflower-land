@@ -443,6 +443,34 @@ export function getResourceVariant(
   return RESOURCE_VARIANT[fallback];
 }
 
+/**
+ * Resolves a resource node's canonical variant name. Used wherever the
+ * downstream lookup needs the name itself (KNOWN_IDS, farm-activity keys,
+ * UI rendering) rather than just the derived tier/multiplier.
+ *
+ * For legacy nodes that only carry `tier`/`multiplier`, the name is
+ * reconstructed by matching those fields against the family's variants.
+ */
+export function getUpgradeableResourceName(
+  node: Tree | Rock | undefined,
+  fallback: UpgradeableResource,
+): UpgradeableResource {
+  if (node?.name && node.name in RESOURCE_VARIANT) {
+    return node.name as UpgradeableResource;
+  }
+  const variant = getResourceVariant(node, fallback);
+  const familyBase = UPGRADEABLE_FAMILY_BASE[fallback];
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[familyBase] ?? [];
+  return (
+    family.find((candidate) => {
+      const entry = RESOURCE_VARIANT[candidate];
+      return (
+        entry.tier === variant.tier && entry.multiplier === variant.multiplier
+      );
+    }) ?? fallback
+  );
+}
+
 export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
   Record<ResourceName, UpgradeableResource[]>
 > = {
