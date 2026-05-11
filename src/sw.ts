@@ -101,7 +101,7 @@ const protectedBaseHref = hasProtectedPath
   ? `${normalizedProtectedUrl.origin}${normalizedProtectedPath}/`
   : null;
 
-// Accept any request whose absolute URL or pathname aligns with a known protected category.
+// Accept requests whose absolute URL or pathname aligns with a known protected category.
 const isProtectedCategoryUrl = (url: URL) =>
   protectedCategoryMatchers.some(
     ({ urlPrefix, pathPrefix }) =>
