@@ -170,7 +170,7 @@ if (import.meta.env.PROD) {
       new StaleWhileRevalidate({
         cacheName: `protected-${category}`,
         plugins: [
-          new CacheableResponsePlugin({ statuses: [200] }),
+          new CacheableResponsePlugin({ statuses: [0, 200] }),
           new ExpirationPlugin({
             maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
             maxEntries:
@@ -190,7 +190,7 @@ if (import.meta.env.PROD) {
       new StaleWhileRevalidate({
         cacheName: "protected-misc",
         plugins: [
-          new CacheableResponsePlugin({ statuses: [200] }),
+          new CacheableResponsePlugin({ statuses: [0, 200] }),
           new ExpirationPlugin({
             maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
             maxEntries: MAX_ENTRIES_DEFAULT,
@@ -210,7 +210,7 @@ if (import.meta.env.PROD) {
     new StaleWhileRevalidate({
       cacheName: `${gameAssetsCacheName}`,
       plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
+        new CacheableResponsePlugin({ statuses: [0, 200] }),
         new ExpirationPlugin({
           maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
           maxEntries: MAX_ENTRIES_DEFAULT,
