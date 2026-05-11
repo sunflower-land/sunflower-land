@@ -366,6 +366,24 @@ export function getSaltNodeCoordinates(
 
 export type SaltNodePosition = "top" | "bottom" | "left" | "right" | undefined;
 
+export function getSaltGuideCoordinates(
+  expansions: number,
+  nodeIds: string[],
+): Coordinates {
+  const coordinates = (nodeIds.length > 0 ? nodeIds : ["0"]).map((id) =>
+    getSaltNodeCoordinates(expansions, id),
+  );
+  const topY = Math.max(...coordinates.map(({ y }) => y));
+  const rightX = Math.max(
+    ...coordinates.filter(({ y }) => y === topY).map(({ x }) => x),
+  );
+
+  return {
+    x: rightX + 1,
+    y: topY,
+  };
+}
+
 export function getSaltNodePosition(
   coordinates: Coordinates,
   highestY: number,
