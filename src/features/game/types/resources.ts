@@ -420,33 +420,35 @@ export const RESOURCE_VARIANT: Record<
   },
 };
 
+const isKnownResourceVariant = (name: string): name is UpgradeableResource =>
+  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, name);
+
 /**
  * Resolves a resource node's canonical variant name. Used wherever the
  * downstream lookup needs the name itself (KNOWN_IDS, farm-activity keys,
  * UI rendering) rather than just the derived tier/multiplier.
  *
  * Resolution order:
- *  1. The node's `name`, if it maps to a known variant.
- *  2. Reconstruction from legacy `tier`/`multiplier` fields, matched against
- *     the family. Whichever fields are present must agree with the variant —
- *     this guarantees the returned variant always exists in RESOURCE_VARIANT.
+ *  1. The node's `name`, if it maps to a known variant in the requested
+ *     family. A cross-family name (e.g. "Ancient Tree" in `game.stones`)
+ *     is treated as stale and falls through to legacy reconstruction.
+ *  2. Reconstruction from legacy `tier`/`multiplier` fields against the
+ *     family. `tier` wins when both are present and disagree, because tier
+ *     uniquely identifies a variant within its family.
  *  3. The supplied `fallback` (the family's basic variant).
  */
-const isKnownResourceVariant = (name: string): name is UpgradeableResource =>
-  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, name);
-
 export function getUpgradeableResourceName(
   node: Tree | Rock | undefined,
   fallback: BasicResourceName,
 ): UpgradeableResource {
-  if (node?.name && isKnownResourceVariant(node.name)) {
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[fallback] ?? [];
+  if (
+    node?.name &&
+    isKnownResourceVariant(node.name) &&
+    family.includes(node.name)
+  ) {
     return node.name;
   }
-  const family = UPGRADEABLE_RESOURCE_FAMILIES[fallback] ?? [];
-  // Prefer `tier` when present (it uniquely identifies a family variant);
-  // fall back to `multiplier` if tier is unavailable or unmatched. Legacy
-  // saves where the two fields drifted out of sync resolve to the tier
-  // variant rather than silently downgrading to the base resource.
   if (node?.tier !== undefined) {
     const byTier = family.find(
       (candidate) => RESOURCE_VARIANT[candidate].tier === node.tier,
