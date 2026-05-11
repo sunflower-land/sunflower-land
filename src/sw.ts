@@ -151,6 +151,8 @@ self.addEventListener("activate", (event) => {
         );
         await versionCache.put("version", new Response(String(CACHE_VERSION)));
       }
+
+      await self.clients.claim();
     })(),
   );
 });
