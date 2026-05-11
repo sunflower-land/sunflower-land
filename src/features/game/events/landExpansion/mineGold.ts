@@ -22,9 +22,8 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, BoostName, Rock, AOE } from "features/game/types/game";
 import {
-  GoldRockName,
+  getResourceVariant,
   RESOURCE_DIMENSIONS,
-  RESOURCE_VARIANT,
 } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
@@ -293,7 +292,7 @@ export function getGoldDropAmount({
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
-  const variant = RESOURCE_VARIANT[(rock.name ?? "Gold Rock") as GoldRockName];
+  const variant = getResourceVariant(rock, "Gold Rock");
   amount *= variant.multiplier;
   if (variant.tier === 2) {
     amount += 0.5;
@@ -340,9 +339,7 @@ export function mineGold({
     }
 
     const toolAmount = inventory["Iron Pickaxe"] || new Decimal(0);
-    const goldMultiplier =
-      RESOURCE_VARIANT[(goldRock.name ?? "Gold Rock") as GoldRockName]
-        .multiplier;
+    const goldMultiplier = getResourceVariant(goldRock, "Gold Rock").multiplier;
     const requiredToolAmount = goldMultiplier;
 
     if (toolAmount.lessThan(requiredToolAmount)) {

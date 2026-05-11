@@ -21,10 +21,9 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
+  getResourceVariant,
   RESOURCE_DIMENSIONS,
-  RESOURCE_VARIANT,
   RockName,
-  StoneRockName,
 } from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -163,9 +162,10 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier =
-    RESOURCE_VARIANT[(game.stones[id]?.name ?? "Stone Rock") as StoneRockName]
-      .multiplier;
+  const multiplier = getResourceVariant(
+    game.stones[id],
+    "Stone Rock",
+  ).multiplier;
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -338,8 +338,7 @@ export function getStoneDropAmount({
   amount *= multiplier;
 
   // Add yield boost for upgraded stones
-  const tier =
-    RESOURCE_VARIANT[(rock.name ?? "Stone Rock") as StoneRockName].tier;
+  const tier = getResourceVariant(rock, "Stone Rock").tier;
   if (tier === 2) {
     amount += 0.5;
   }
@@ -362,10 +361,10 @@ export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const multiplier =
-    RESOURCE_VARIANT[
-      (gameState.stones[id]?.name ?? "Stone Rock") as StoneRockName
-    ].multiplier;
+  const multiplier = getResourceVariant(
+    gameState.stones[id],
+    "Stone Rock",
+  ).multiplier;
   return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
@@ -450,7 +449,7 @@ export function mineStone({
     stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",
       stateCopy.farmActivity,
-      new Decimal(RESOURCE_VARIANT[stoneName as StoneRockName].multiplier),
+      new Decimal(getResourceVariant(rock, "Stone Rock").multiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(

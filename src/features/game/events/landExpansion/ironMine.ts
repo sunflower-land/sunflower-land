@@ -21,9 +21,8 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
-  IronRockName,
+  getResourceVariant,
   RESOURCE_DIMENSIONS,
-  RESOURCE_VARIANT,
   RockName,
 } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -271,7 +270,7 @@ export function getIronDropAmount({
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
-  const variant = RESOURCE_VARIANT[(rock.name ?? "Iron Rock") as IronRockName];
+  const variant = getResourceVariant(rock, "Iron Rock");
   amount *= variant.multiplier;
 
   if (variant.tier === 2) {
@@ -319,9 +318,7 @@ export function mineIron({
     }
 
     const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
-    const ironMultiplier =
-      RESOURCE_VARIANT[(ironRock.name ?? "Iron Rock") as IronRockName]
-        .multiplier;
+    const ironMultiplier = getResourceVariant(ironRock, "Iron Rock").multiplier;
     const requiredToolAmount = ironMultiplier;
 
     if (toolAmount.lessThan(requiredToolAmount)) {

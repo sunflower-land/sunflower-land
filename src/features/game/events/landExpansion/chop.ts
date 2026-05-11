@@ -9,7 +9,7 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { RESOURCE_VARIANT } from "features/game/types/resources";
+import { getResourceVariant } from "features/game/types/resources";
 
 import {
   BoostName,
@@ -79,7 +79,7 @@ export function getWoodDropAmount({
 }): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   const { bumpkin, inventory } = game;
 
-  const variant = RESOURCE_VARIANT[tree?.name ?? "Tree"];
+  const variant = getResourceVariant(tree, "Tree");
   const multiplier = variant.multiplier;
   let amount = new Decimal(1);
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -357,8 +357,7 @@ export function getRequiredAxeAmount(
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const multiplier =
-    RESOURCE_VARIANT[gameState.trees[id]?.name ?? "Tree"].multiplier;
+  const multiplier = getResourceVariant(gameState.trees[id], "Tree").multiplier;
 
   if (inventory.Logger?.gte(1)) {
     boostsUsed.push({ name: "Logger", value: "x0.5" });
@@ -404,7 +403,7 @@ export function chop({
     }
 
     const treeName = tree.name ?? "Tree";
-    const treeMultiplier = RESOURCE_VARIANT[treeName].multiplier;
+    const treeMultiplier = getResourceVariant(tree, "Tree").multiplier;
     const prngObject = {
       farmId,
       itemId: KNOWN_IDS[treeName],

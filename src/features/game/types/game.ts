@@ -14,6 +14,7 @@ import {
   CommodityName,
   MushroomName,
   ResourceName,
+  ResourceTier,
   TreeName,
 } from "./resources";
 import { LegacyBadgeName } from "./skills";
@@ -786,6 +787,10 @@ export type Tree = {
   createdAt?: number;
   removedAt?: number;
   name?: TreeName;
+  // Legacy fields: no longer written, kept for back-compat with saves that
+  // pre-date the name-based variant lookup. Read via getResourceVariant.
+  tier?: ResourceTier;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Stone = {
@@ -804,6 +809,10 @@ export type Rock = {
   createdAt?: number;
   removedAt?: number;
   name?: RockName;
+  // Legacy fields: no longer written, kept for back-compat with saves that
+  // pre-date the name-based variant lookup. Read via getResourceVariant.
+  tier?: ResourceTier;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Oil = {

@@ -420,6 +420,29 @@ export const RESOURCE_VARIANT: Record<
   },
 };
 
+/**
+ * Resolves a resource node's variant (tier + multiplier) safely:
+ * 1. Prefer the variant looked up by `name`.
+ * 2. Fall back to legacy `tier` / `multiplier` fields for saves that pre-date
+ *    the name-based variant lookup.
+ * 3. Default to the supplied `fallback` (the family's basic variant).
+ *
+ * Guards against non-upgradeable names (e.g. Sunstone/Crimstone in the stone
+ * collection) that would otherwise return `undefined` from RESOURCE_VARIANT.
+ */
+export function getResourceVariant(
+  node: Tree | Rock | undefined,
+  fallback: UpgradeableResource,
+): { tier: ResourceTier; multiplier: number } {
+  if (node?.name && node.name in RESOURCE_VARIANT) {
+    return RESOURCE_VARIANT[node.name as UpgradeableResource];
+  }
+  if (node?.tier !== undefined || node?.multiplier !== undefined) {
+    return { tier: node.tier ?? 1, multiplier: node.multiplier ?? 1 };
+  }
+  return RESOURCE_VARIANT[fallback];
+}
+
 export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
   Record<ResourceName, UpgradeableResource[]>
 > = {
@@ -427,6 +450,24 @@ export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
   "Stone Rock": ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
   "Iron Rock": ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
   "Gold Rock": ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+};
+
+export const UPGRADEABLE_FAMILY_BASE: Record<
+  UpgradeableResource,
+  BasicResourceName
+> = {
+  Tree: "Tree",
+  "Ancient Tree": "Tree",
+  "Sacred Tree": "Tree",
+  "Stone Rock": "Stone Rock",
+  "Fused Stone Rock": "Stone Rock",
+  "Reinforced Stone Rock": "Stone Rock",
+  "Iron Rock": "Iron Rock",
+  "Refined Iron Rock": "Iron Rock",
+  "Tempered Iron Rock": "Iron Rock",
+  "Gold Rock": "Gold Rock",
+  "Pure Gold Rock": "Gold Rock",
+  "Prime Gold Rock": "Gold Rock",
 };
 
 export function getTotalBaseResourceEquivalents(

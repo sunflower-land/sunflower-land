@@ -13,13 +13,14 @@ import {
   UpgradedResourceName,
   ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
-  RESOURCE_VARIANT,
   RockName,
   RESOURCES,
   UpgradeableResource,
+  UPGRADEABLE_FAMILY_BASE,
   TreeName,
   BASIC_RESOURCES,
   BasicResourceName,
+  getResourceVariant,
 } from "../types/resources";
 
 export const canGatherResource = (
@@ -74,13 +75,11 @@ export const getUpgradeableNodes = (
   upgradeTo: UpgradedResourceName,
 ) => {
   const advancedResource = ADVANCED_RESOURCES[upgradeTo];
+  const familyBase = UPGRADEABLE_FAMILY_BASE[upgradeTo];
   const upgradeableNodes = Object.entries(
     RESOURCE_STATE_ACCESSORS[upgradeTo](game),
   ).filter(([, node]) => {
-    const tier =
-      "name" in node
-        ? RESOURCE_VARIANT[node.name as UpgradeableResource].tier
-        : 1;
+    const tier = getResourceVariant(node as Tree | Rock, familyBase).tier;
     const isPlaced = node.x !== undefined && node.y !== undefined;
     return (
       isPlaced &&

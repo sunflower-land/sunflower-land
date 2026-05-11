@@ -39,6 +39,8 @@ import {
   ADVANCED_RESOURCES,
   UpgradedResourceName,
   RESOURCE_STATE_ACCESSORS,
+  getResourceVariant,
+  UPGRADEABLE_FAMILY_BASE,
 } from "features/game/types/resources";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { capitalize } from "lib/utils/capitalize";
@@ -383,12 +385,14 @@ export const CraftingRequirements: React.FC<Props> = ({
                     requiredTier === undefined
                       ? activeNodes
                       : activeNodes.filter((node) => {
-                          if (typeof node.name === "string") {
-                            return node.name === ingredientName;
-                          }
-
-                          // No metadata: treat as base tier-1 node only.
-                          return requiredTier === 1;
+                          const familyBase =
+                            UPGRADEABLE_FAMILY_BASE[
+                              ingredientName as UpgradedResourceName
+                            ];
+                          return (
+                            getResourceVariant(node, familyBase).tier ===
+                            requiredTier
+                          );
                         });
 
                   balance = new Decimal(matchingNodes.length);

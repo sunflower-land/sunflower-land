@@ -3,9 +3,9 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   ADVANCED_RESOURCES,
-  RESOURCE_VARIANT,
+  getResourceVariant,
   TreeName,
-  UpgradeableResource,
+  UPGRADEABLE_FAMILY_BASE,
 } from "features/game/types/resources";
 import { GameState, InventoryItemName, Tree } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
@@ -85,12 +85,11 @@ export function upgradeTree({
     let placement: { x: number; y: number } | undefined;
 
     const upgradeableTrees = getUpgradeableNodes(game, action.upgradeTo);
+    const familyBase = UPGRADEABLE_FAMILY_BASE[action.upgradeTo];
 
     for (let i = 0; i < upgradeableTrees.length && treesToRemove > 0; i++) {
       const [treeId, tree] = upgradeableTrees[i];
-      const tier = tree.name
-        ? RESOURCE_VARIANT[tree.name as TreeName & UpgradeableResource].tier
-        : 1;
+      const tier = getResourceVariant(tree as Tree, familyBase).tier;
 
       if (tier === advancedResource.preRequires.tier) {
         if (!placement && tree.x && tree.y) {

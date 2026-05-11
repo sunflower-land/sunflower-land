@@ -15,7 +15,10 @@ import { RecoveredGold } from "./components/RecoveredGold";
 import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
-import { GoldRockName, RESOURCE_VARIANT } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  GoldRockName,
+} from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
@@ -28,8 +31,10 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   goldRock: Rock,
 ) => {
-  const requiredToolAmount =
-    RESOURCE_VARIANT[(goldRock.name ?? "Gold Rock") as GoldRockName].multiplier;
+  const requiredToolAmount = getResourceVariant(
+    goldRock,
+    "Gold Rock",
+  ).multiplier;
   if (requiredToolAmount <= 0) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -220,11 +225,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             goldRockName={goldRockName}
             requiredToolAmount={
-              new Decimal(
-                RESOURCE_VARIANT[
-                  (resource.name ?? "Gold Rock") as GoldRockName
-                ].multiplier,
-              )
+              new Decimal(getResourceVariant(resource, "Gold Rock").multiplier)
             }
             inventory={inventory}
           />
