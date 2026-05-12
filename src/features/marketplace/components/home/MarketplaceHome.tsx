@@ -9,6 +9,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "../MarketplaceProfile";
 import { MyTrades } from "../profile/MyTrades";
+import { MyCollection } from "../profile/MyCollection";
 import { MarketplaceRewards } from "../MarketplaceRewards";
 import { Tradeable } from "../Tradeable";
 import { MarketplaceHotNow } from "../MarketplaceHotNow";
@@ -231,8 +232,16 @@ export const MarketplaceNavigation: React.FC = () => {
                 path="/:collection/:id"
                 element={<Tradeable hideLimited={hideLimited} />}
               />
-              <Route path="/profile/:id" element={<MarketplaceUser />} />
               <Route path="/profile/:id/trades" element={<MyTrades />} />
+              <Route path="/profile/:id" element={<MarketplaceUser />} />
+              <Route
+                path="/profile/:id/history"
+                element={<MarketplaceUser view="history" />}
+              />
+              <Route
+                path="/profile/:id/collection"
+                element={<MyCollection />}
+              />
               <Route path="/profile/rewards" element={<MarketplaceRewards />} />
               {/* default to hot */}
               <Route path="/" element={<MarketplaceHotNow />} />
