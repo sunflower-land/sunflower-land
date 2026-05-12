@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
+import { ChooseFarm } from "./components/ChooseFarm";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { Game3WinnerWidget } from "features/announcements/Game3WinnerWidget";
@@ -96,6 +97,9 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("walletInUse") && <WalletInUse />}
             {authState.matches("authorising") && <Loading />}
+            {(authState.matches("loadingCandidates") ||
+              authState.matches("chooseFarm") ||
+              authState.matches("resolvingFarm")) && <ChooseFarm />}
             {authState.matches("verifying") && <Verifying />}
             {(authState.matches("idle") || authState.matches("signIn")) && (
               <SignIn />

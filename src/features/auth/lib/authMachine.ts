@@ -6,7 +6,14 @@ import {
   saveReferrerId,
   getReferrerId as getReferrerIdFromLS,
 } from "../actions/createAccount";
-import { login, Token, decodeToken } from "../actions/login";
+import {
+  fetchLoginCandidates,
+  login,
+  LoginCandidate,
+  resolveFarmSelection,
+  Token,
+  decodeToken,
+} from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession } from "features/game/actions/loadSession";
@@ -28,6 +35,16 @@ const getDiscordCode = () => {
   const code = new URLSearchParams(window.location.search).get("code");
 
   return code;
+};
+
+const getDisambiguationTokenFromUrl = () =>
+  new URLSearchParams(window.location.search).get("disambiguationToken");
+
+const clearDisambiguationParamsFromUrl = () => {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("disambiguationToken");
+  url.searchParams.delete("requiresFarmSelection");
+  window.history.pushState({}, "", url.pathname + url.search + url.hash);
 };
 
 const getReferrerID = () => {
@@ -87,12 +104,18 @@ interface Authentication {
   rawToken?: string;
 }
 
+export interface DisambiguationState {
+  token: string;
+  candidates: LoginCandidate[];
+}
+
 export interface Context {
   user: Authentication;
   errorCode?: ErrorCode;
   transactionId?: string;
   visitingFarmId?: number;
   showPWAInstallPrompt?: boolean;
+  disambiguation?: DisambiguationState;
 }
 
 type StartEvent = Farm & {
@@ -130,6 +153,11 @@ type ClaimFarmEvent = {
   id: number;
 };
 
+type FarmSelectedEvent = {
+  type: "FARM_SELECTED";
+  farmId: number;
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ReturnEvent
@@ -137,6 +165,7 @@ export type BlockchainEvent =
   | LoadFarmEvent
   | ConnectedWalletEvent
   | PWAInstallPromptShown
+  | FarmSelectedEvent
   | {
       type: "REFRESH";
     }
@@ -168,7 +197,10 @@ export type BlockchainState = {
     | "noAccount"
     | "walletInUse"
     | "creating"
-    | "claiming";
+    | "claiming"
+    | "loadingCandidates"
+    | "chooseFarm"
+    | "resolvingFarm";
   context: Context;
 };
 
@@ -185,6 +217,9 @@ type AuthService = {
   loadFarm: { data: Awaited<ReturnType<typeof loadSession>> };
   setupContracts: { data: void };
   createFarm: { data: void };
+  login: { data: Awaited<ReturnType<typeof login>> };
+  loadCandidates: { data: { candidates: LoginCandidate[] } };
+  resolveFarm: { data: { token: string } };
 };
 
 export const authMachine = createMachine(
@@ -211,6 +246,11 @@ export const authMachine = createMachine(
           storeUTMs();
         },
         always: [
+          {
+            target: "loadingCandidates",
+            cond: () => !!getDisambiguationTokenFromUrl(),
+            actions: ["assignDisambiguationTokenFromUrl"],
+          },
           {
             target: "authorised",
             cond: () => !!getToken(),
@@ -272,6 +312,11 @@ export const authMachine = createMachine(
           src: "login",
           onDone: [
             {
+              target: "chooseFarm",
+              cond: (_, event: any) => !!event.data?.requiresFarmSelection,
+              actions: ["assignDisambiguationFromLogin"],
+            },
+            {
               target: "verifying",
               actions: ["assignToken"],
             },
@@ -279,6 +324,58 @@ export const authMachine = createMachine(
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
+          },
+        },
+      },
+      loadingCandidates: {
+        invoke: {
+          src: "loadCandidates",
+          onDone: {
+            target: "chooseFarm",
+            actions: ["assignCandidates"],
+          },
+          onError: {
+            target: "unauthorised",
+            actions: [
+              "assignErrorMessage",
+              "clearDisambiguation",
+              "clearDisambiguationParamsFromUrl",
+            ],
+          },
+        },
+      },
+      chooseFarm: {
+        on: {
+          FARM_SELECTED: {
+            target: "resolvingFarm",
+          },
+          BACK: {
+            target: "welcome",
+            actions: [
+              "clearDisambiguation",
+              "clearDisambiguationParamsFromUrl",
+            ],
+          },
+        },
+      },
+      resolvingFarm: {
+        invoke: {
+          src: "resolveFarm",
+          onDone: {
+            target: "verifying",
+            actions: [
+              "assignToken",
+              "clearDisambiguation",
+              "clearDisambiguationParamsFromUrl",
+            ],
+          },
+          onError: {
+            target: "unauthorised",
+            actions: [
+              "assignErrorMessage",
+              "clearDisambiguation",
+              "clearDisambiguationParamsFromUrl",
+            ],
           },
         },
       },
@@ -435,16 +532,24 @@ export const authMachine = createMachine(
   },
   {
     services: {
-      login: async (context, event): Promise<{ token: string | null }> => {
+      login: async (context, event) => {
         const { address, signature } = event as any as ConnectedWalletEvent;
 
-        const { token } = await login({
+        return await login({
           transactionId: context.transactionId as string,
           address,
           signature,
         });
-
-        return { token };
+      },
+      loadCandidates: async (context) => {
+        const token = context.disambiguation?.token as string;
+        const candidates = await fetchLoginCandidates(token);
+        return { candidates };
+      },
+      resolveFarm: async (context, event) => {
+        const token = context.disambiguation?.token as string;
+        const { farmId } = event as FarmSelectedEvent;
+        return await resolveFarmSelection(token, farmId);
       },
     },
     actions: {
@@ -503,6 +608,30 @@ export const authMachine = createMachine(
       unsetShowPWAInstallPrompt: assign<Context, any>({
         showPWAInstallPrompt: () => false,
       }),
+      assignDisambiguationTokenFromUrl: assign<Context, any>({
+        disambiguation: () => ({
+          token: getDisambiguationTokenFromUrl() as string,
+          candidates: [],
+        }),
+      }),
+      assignDisambiguationFromLogin: assign<Context, any>({
+        disambiguation: (_context, event) => ({
+          token: event.data.disambiguationToken as string,
+          candidates: event.data.candidates as LoginCandidate[],
+        }),
+      }),
+      assignCandidates: assign<Context, any>({
+        disambiguation: (context, event) => ({
+          token: context.disambiguation?.token as string,
+          candidates: event.data.candidates as LoginCandidate[],
+        }),
+      }),
+      clearDisambiguation: assign<Context, any>({
+        disambiguation: () => undefined,
+      }),
+      clearDisambiguationParamsFromUrl: () => {
+        clearDisambiguationParamsFromUrl();
+      },
     },
     guards: {
       isVisitingUrl: () => window.location.href.includes("visit"),

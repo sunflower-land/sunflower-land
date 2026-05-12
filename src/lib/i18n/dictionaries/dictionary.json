@@ -1,4 +1,12 @@
 {
+  "auth.chooseFarm.title": "Choose a farm",
+  "auth.chooseFarm.description": "We found multiple farms linked to this login. Pick the one you'd like to play. The others will no longer be reachable from this login.",
+  "auth.chooseFarm.empty": "No eligible farms found. Please try logging in again.",
+  "auth.chooseFarm.loggingIn": "Logging in to your farm",
+  "auth.chooseFarm.farmNumber": "Farm #{{id}}",
+  "auth.chooseFarm.today": "Played today",
+  "auth.chooseFarm.daysAgo": "{{days}}d ago",
+  "auth.chooseFarm.neverPlayed": "Never played",
   "signup.createBumpkin": "Create your Bumpkin",
   "signup.createBumpkinConfirmation": "Are you sure you want to go with this Bumpkin?",
   "signup.createBumpkinConfirmation.two": "This is your only free chance to customise. You will need to buy wearables from wardrobe or marketplace if you want to change your look.",

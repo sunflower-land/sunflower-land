@@ -116,6 +116,24 @@ export async function loadSession(
   }
 
   if (response.status === 403) {
+    // Inspect the body so we can distinguish "ambiguous identity, please
+    // re-login through the picker" from a generic client error. Use clone()
+    // because we still want to fall through to the SESSION_CLIENT_ERROR
+    // path if parsing fails.
+    try {
+      const body = await response.clone().json();
+      if (body?.errorCode === "REAUTH_REQUIRED_DISAMBIGUATION") {
+        throw new Error(ERRORS.REAUTH_REQUIRED_DISAMBIGUATION);
+      }
+    } catch (e) {
+      if (
+        e instanceof Error &&
+        e.message === ERRORS.REAUTH_REQUIRED_DISAMBIGUATION
+      ) {
+        throw e;
+      }
+    }
+
     throw new Error(ERRORS.SESSION_CLIENT_ERROR);
   }
 

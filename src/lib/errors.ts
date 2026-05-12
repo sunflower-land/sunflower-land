@@ -16,6 +16,12 @@ export const ERRORS = {
   // Blockchain session has changed - they are doing something sneaky refreshing the browser
   SESSION_EXPIRED: "SESSION_EXPIRED",
 
+  // Backend has detected that this JWT's identity now resolves to multiple
+  // farms (e.g. it was issued before the disambiguation flow shipped, with
+  // a silent farmIds[0] pick). The client must clear the JWT and re-login
+  // so the user goes through the farm picker.
+  REAUTH_REQUIRED_DISAMBIGUATION: "REAUTH_REQUIRED_DISAMBIGUATION",
+
   // Server errors
   DISCORD_USER_EXISTS: "DISCORD_USER_EXISTS",
   DISCORD_NOT_ON_SERVER: "DISCORD_NOT_ON_SERVER",

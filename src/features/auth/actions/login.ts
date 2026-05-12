@@ -9,9 +9,27 @@ type Request = {
   transactionId: string;
 };
 
+export type LoginCandidate = {
+  farmId: number;
+  username?: string;
+  experience: number;
+  balance: string;
+  islandType?: string;
+  equipped?: Record<string, string>;
+  lastActivityAt: number;
+};
+
+export type LoginResponse =
+  | { token: string; requiresFarmSelection?: false }
+  | {
+      requiresFarmSelection: true;
+      disambiguationToken: string;
+      candidates: LoginCandidate[];
+    };
+
 const API_URL = CONFIG.API_URL;
 
-export async function loginRequest(request: Request) {
+export async function loginRequest(request: Request): Promise<LoginResponse> {
   const response = await window.fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
@@ -28,9 +46,43 @@ export async function loginRequest(request: Request) {
     throw new Error(ERRORS.LOGIN_SERVER_ERROR);
   }
 
-  const { token } = await response.json();
+  return (await response.json()) as LoginResponse;
+}
 
-  return { token };
+export async function fetchLoginCandidates(
+  disambiguationToken: string,
+): Promise<LoginCandidate[]> {
+  const response = await window.fetch(`${API_URL}/login/candidates`, {
+    method: "POST",
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ disambiguationToken }),
+  });
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.LOGIN_SERVER_ERROR);
+  }
+
+  const { candidates } = (await response.json()) as {
+    candidates: LoginCandidate[];
+  };
+  return candidates;
+}
+
+export async function resolveFarmSelection(
+  disambiguationToken: string,
+  farmId: number,
+): Promise<{ token: string }> {
+  const response = await window.fetch(`${API_URL}/login/resolve`, {
+    method: "POST",
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ disambiguationToken, farmId }),
+  });
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.LOGIN_SERVER_ERROR);
+  }
+
+  return (await response.json()) as { token: string };
 }
 
 const host = window.location.host.replace(/^www\./, "");
@@ -114,12 +166,10 @@ export async function login({
   transactionId: string;
   address: string;
   signature: string;
-}): Promise<{ token: string }> {
-  const { token } = await loginRequest({
+}): Promise<LoginResponse> {
+  return await loginRequest({
     address,
     signature,
     transactionId,
   });
-
-  return { token };
 }
