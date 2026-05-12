@@ -6,7 +6,6 @@ import { Label } from "components/ui/Label";
 import walletIcon from "assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import { Context as AuthContext } from "features/auth/lib/Provider";
@@ -25,8 +24,6 @@ const _linkingSocialSuccess = (state: MachineState) =>
   state.matches("linkingSocialSuccess");
 const _linkingSocialFailed = (state: MachineState) =>
   state.matches("linkingSocialFailed");
-const _unlinkingSocial = (state: MachineState) =>
-  state.matches("unlinkingSocial");
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 
 type WalletReauth = { address: string; signature: string };
@@ -53,7 +50,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const socialDetails = useSelector(gameService, _socialDetails);
 
   const isLinking = useSelector(gameService, _linkingSocial);
-  const isUnlinking = useSelector(gameService, _unlinkingSocial);
   const isLinkingSocialSuccess = useSelector(
     gameService,
     _linkingSocialSuccess,
@@ -97,18 +93,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     google.reset();
     setWalletReauth(null);
     setGoogleLinkMode(true);
-  };
-
-  // Testnet-only debug affordance. The backend also gates `social.unlinked`
-  // to non-mainnet, so this stays inert in production even if shown.
-  const onUnlinkGoogle = () => {
-    const authToken = authService.getSnapshot().context.user.rawToken;
-    if (!authToken) return;
-
-    gameService.send("social.unlinked", {
-      effect: { type: "social.unlinked" },
-      authToken,
-    });
   };
 
   // Once `socialDetails.email` is populated by the game machine the link is
@@ -212,13 +196,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
                 alt={emailRevealed ? "Hide email" : "Reveal email"}
               />
             </div>
-            {CONFIG.NETWORK === "amoy" && (
-              <Button onClick={onUnlinkGoogle} disabled={isUnlinking}>
-                {isUnlinking
-                  ? t("linkedAccounts.unlinking")
-                  : t("linkedAccounts.unlinkGoogleTestnet")}
-              </Button>
-            )}
           </>
         ) : (
           <Button onClick={startGoogleLink}>
