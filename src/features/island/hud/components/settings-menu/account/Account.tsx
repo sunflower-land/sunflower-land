@@ -10,7 +10,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { removeJWT } from "features/auth/actions/social";
 import { useSelector } from "@xstate/react";
-import { CONFIG } from "lib/config";
 
 export const Account: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -52,7 +51,7 @@ export const Account: React.FC<ContentComponentProps> = ({
         <Button onClick={() => onSubMenuClick("discord")}>
           <span>{`Discord`}</span>
         </Button>
-        {CONFIG.NETWORK === "amoy" && (
+        {hasFeatureAccess(state, "DUAL_LOGIN") && (
           <Button onClick={() => onSubMenuClick("linkedAccounts")}>
             <span>{t("gameOptions.linkedAccounts")}</span>
           </Button>

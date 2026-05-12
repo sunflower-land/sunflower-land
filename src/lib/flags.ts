@@ -156,6 +156,8 @@ const FEATURE_FLAGS = {
   PLAYER_ECONOMIES: (game) => !!game.settings.economiesEnabled,
   /** @deprecated Use PLAYER_ECONOMIES */
   TOKEN_MINIGAMES: (game) => !!game.settings.economiesEnabled,
+
+  DUAL_LOGIN: usernameFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
