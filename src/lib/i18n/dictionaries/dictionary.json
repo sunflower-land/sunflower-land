@@ -2094,6 +2094,7 @@
   "linkedAccounts.confirmExistingWallet": "First, confirm your existing wallet.",
   "linkedAccounts.unlinkGoogleTestnet": "Unlink Google (testnet only)",
   "linkedAccounts.unlinking": "Unlinking...",
+  "linkedAccounts.googleLinkingComingSoon": "Google linking is coming soon.",
   "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
   "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
   "gameOptions.blockchainSettings.swapPOLForSFL": "Swap POL for FLOWER",
