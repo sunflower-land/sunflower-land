@@ -678,6 +678,25 @@ describe("castRod", () => {
     expect(state.inventory.Rod).toEqual(new Decimal(3));
   });
 
+  it("subtracts only 1 rod per cast with the More With Less skill", () => {
+    const state = castRod({
+      action: { bait: "Earthworm", type: "rod.casted" },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "More With Less": 1 },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.inventory.Rod).toEqual(new Decimal(2));
+  });
+
   it("subtracts extra reels", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];

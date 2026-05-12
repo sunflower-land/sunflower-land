@@ -1,5 +1,18 @@
 export {};
 
+jest.doMock("lib/utils/hooks/useSound", () => ({
+  useSound: () => ({ play: jest.fn(), stop: jest.fn() }),
+}));
+
+jest.doMock(
+  "features/island/buildings/components/building/market/SeasonalSeeds",
+  () => ({ SEASON_ICONS: {} }),
+);
+
+jest.doMock("metadata/metadata", () => ({ OPEN_SEA_WEARABLES: {} }), {
+  virtual: true,
+});
+
 jest.doMock("assets/sunnyside", () => ({
   SUNNYSIDE: {
     achievement: {},

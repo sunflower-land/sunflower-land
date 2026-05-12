@@ -3724,15 +3724,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
-  "Basic Bear": {
-    description: "A basic bear. Use this to craft advanced bears!",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-  },
   "Bear Trap": {
     description:
       "It's a trap! Unlock the high roller achievement to claim this bear",
@@ -9403,6 +9394,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     }),
     {} as Record<TemplateDecorationName, Metadata>,
   ),
+
+  "Basic Bear": {
+    description: "A basic bear. Use this to craft advanced bears!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 
   Caponata: {
     name: "Caponata",

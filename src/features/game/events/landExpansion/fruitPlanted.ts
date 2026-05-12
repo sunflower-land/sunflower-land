@@ -208,24 +208,24 @@ export const getFruitPatchTime = (
     boostsUsed.push({ name: "Catchup", value: "x0.9" });
   }
 
-  // Long Pickings - -50% growth in Apple and Banana, but 2x in the rest
+  // Long Pickings - -25% growth in Apple and Banana, but +10% in the rest
   if (bumpkin.skills["Long Pickings"]) {
     if (isAdvancedFruitSeed(patchFruitSeedName)) {
-      seconds = seconds * 0.5;
-      boostsUsed.push({ name: "Long Pickings", value: "x0.5" });
+      seconds = seconds * 0.75;
+      boostsUsed.push({ name: "Long Pickings", value: "x0.75" });
     } else {
-      seconds = seconds * 2;
-      boostsUsed.push({ name: "Long Pickings", value: "x2" });
+      seconds = seconds * 1.1;
+      boostsUsed.push({ name: "Long Pickings", value: "x1.1" });
     }
   }
 
   if (bumpkin.skills["Short Pickings"]) {
     if (isBasicFruitSeed(patchFruitSeedName)) {
-      seconds = seconds * 0.5;
-      boostsUsed.push({ name: "Short Pickings", value: "x0.5" });
+      seconds = seconds * 0.75;
+      boostsUsed.push({ name: "Short Pickings", value: "x0.75" });
     } else {
-      seconds = seconds * 2;
-      boostsUsed.push({ name: "Short Pickings", value: "x2" });
+      seconds = seconds * 1.1;
+      boostsUsed.push({ name: "Short Pickings", value: "x1.1" });
     }
   }
 

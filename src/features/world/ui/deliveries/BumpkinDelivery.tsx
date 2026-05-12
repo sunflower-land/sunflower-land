@@ -34,6 +34,7 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
   isCoinNPC,
+  isSFLNPC,
   isTicketNPC,
 } from "features/island/delivery/lib/delivery";
 import {
@@ -126,6 +127,25 @@ const OrderCard: React.FC<{
       }
       return getChapterTaskPoints({
         task: "coinDelivery",
+        points: 10,
+      });
+    }
+    if (
+      isSFLNPC(order.from) &&
+      hasTimeBasedFeatureAccess({
+        featureName: "TICKETS_FROM_FLOWER_NPC",
+        now: order.createdAt,
+        game,
+      })
+    ) {
+      if (areBumpkinsOnHoliday(order.createdAt)) {
+        return 0;
+      }
+      if (getCurrentChapter(order.createdAt) !== getCurrentChapter(now)) {
+        return 0;
+      }
+      return getChapterTaskPoints({
+        task: "flowerDelivery",
         points: 10,
       });
     }

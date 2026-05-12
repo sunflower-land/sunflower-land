@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, type JSX } from "react";
+import React, { useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { AudioControlsProvider } from "features/game/components/AudioControlsContext";
@@ -8,12 +8,11 @@ import {
   getGoblinSong,
   getGoblinSongCount,
 } from "assets/songs/playlist";
-import { SUNNYSIDE } from "assets/sunnyside";
 import settings from "assets/icons/settings.png";
-import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
 import { RoundButton } from "components/ui/RoundButton";
+import { useVisiting } from "lib/utils/visitUtils";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -23,34 +22,10 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
-  const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
-  const { pathname } = useLocation();
+  const { isVisiting } = useVisiting();
 
   const button = useSound("button");
-
-  // The actions included in this more buttons should not be shown if the player is visiting another farm
-  const showLimitedButtons = pathname.includes("visit");
-
-  const cogRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (cogRef.current && !cogRef.current.contains(event.target)) {
-        setShowMoreButtons(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
-
-  const handleCloseSettingsMenu = () => {
-    setOpenSettingsMenu(false);
-    setShowMoreButtons(false);
-  };
 
   // music controls
 
@@ -79,75 +54,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     }
   };
 
-  const getSong = () => {
-    return isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
-  };
+  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
-  const song = getSong();
-
-  // buttons
-
-  const createButton = (
-    index: number,
-    onClick: () => void,
-    children: JSX.Element,
-  ) => {
-    const rightMargin = 8;
-
-    return (
-      <div
-        key={`button-${index}`}
-        className="absolute"
-        style={{
-          transition: "transform 250ms ease",
-          transform: "translateX(0)",
-          ...(showMoreButtons && {
-            transform: `translateX(-${(buttonWidth + rightMargin) * index}px)`,
-          }),
-        }}
-      >
-        <RoundButton onClick={onClick}>{children}</RoundButton>
-      </div>
-    );
-  };
-
-  const gearButton = (index: number) =>
-    createButton(
-      index,
-      () => {
-        button.play();
-        setShowMoreButtons(!showMoreButtons);
-      },
-      <img
-        src={settings}
-        className="absolute group-active:translate-y-[2px]"
-        style={{
-          top: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          width: `${PIXEL_SCALE * 14}px`,
-        }}
-      />,
-    );
-
-  const moreButton = (index: number) =>
-    createButton(
-      index,
-      () => {
-        setOpenSettingsMenu(true);
-      },
-      <img
-        src={SUNNYSIDE.ui.more}
-        className="absolute group-active:translate-y-[2px]"
-        style={{
-          top: `${PIXEL_SCALE * 10}px`,
-          left: `${PIXEL_SCALE * 6}px`,
-          width: `${PIXEL_SCALE * 10}px`,
-        }}
-      />,
-    );
-
-  // list of buttons to show in the HUD from right to left in order
-  const buttons = [gearButton, ...(!showLimitedButtons ? [moreButton] : [])];
+  if (isVisiting) {
+    return null;
+  }
 
   return (
     <AudioControlsProvider
@@ -165,17 +76,33 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         muted={true}
         controls
       />
-      <GameOptionsModal
-        show={openSettingsMenu}
-        onClose={handleCloseSettingsMenu}
-      />
-      <div
-        className="relative"
-        style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
-        ref={cogRef}
-      >
-        {buttons.map((item, index) => item(index)).reverse()}
-      </div>
+      <>
+        <GameOptionsModal
+          show={openSettingsMenu}
+          onClose={() => setOpenSettingsMenu(false)}
+        />
+        <div
+          className="relative"
+          style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
+        >
+          <RoundButton
+            onClick={() => {
+              button.play();
+              setOpenSettingsMenu(true);
+            }}
+          >
+            <img
+              src={settings}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 4}px`,
+                left: `${PIXEL_SCALE * 4}px`,
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+            />
+          </RoundButton>
+        </div>
+      </>
     </AudioControlsProvider>
   );
 };

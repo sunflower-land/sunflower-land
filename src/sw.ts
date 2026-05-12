@@ -8,6 +8,7 @@ import { registerRoute } from "workbox-routing";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
+import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { CONFIG } from "./lib/config";
 import { getMessaging, isSupported } from "firebase/messaging/sw";
 import { onBackgroundMessage } from "firebase/messaging/sw";
@@ -53,7 +54,19 @@ const PROTECTED_IMAGE_CATEGORIES = [
   "volcano",
   "world",
 ] as const;
+// Cache limits are intentionally conservative to prevent mobile browsers from
+// evicting the entire origin's storage when quota is exceeded. A smaller cache
+// that persists reliably is better than a large one the OS wipes between sessions.
+// - 30 days: assets rarely change between chapters (~3 months); no need to expire sooner.
+// - 300 entries: no category except "land" has more than ~150 unique assets.
+// - 500 for land: it has ~420 unique tile/cloud/background sprites.
 const THIRTY_DAYS_IN_SECONDS = 60 * 60 * 24 * 30;
+const MAX_ENTRIES_DEFAULT = 300;
+const MAX_ENTRIES_LAND = 500;
+
+// Bump this version to trigger a one-time runtime cache purge on activation.
+// This gives devices stuck with bloated caches a clean slate.
+const CACHE_VERSION = 1;
 // Resolve the protected asset base URL into a consistent origin/path pair so routing
 // works whether the config is absolute (https://cdn/.../game-assets) or relative (/game-assets).
 const normalizedProtectedUrl = (() => {
@@ -88,7 +101,7 @@ const protectedBaseHref = hasProtectedPath
   ? `${normalizedProtectedUrl.origin}${normalizedProtectedPath}/`
   : null;
 
-// Accept any request whose absolute URL or pathname aligns with a known protected category.
+// Accept requests whose absolute URL or pathname aligns with a known protected category.
 const isProtectedCategoryUrl = (url: URL) =>
   protectedCategoryMatchers.some(
     ({ urlPrefix, pathPrefix }) =>
@@ -114,6 +127,36 @@ self.addEventListener("message", (event) => {
   }
 });
 
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    (async () => {
+      const versionCache = await caches.open("sw-cache-version");
+      const versionResponse = await versionCache.match("version");
+      const parsedVersion = versionResponse
+        ? parseInt(await versionResponse.text(), 10)
+        : 0;
+      const storedVersion = Number.isFinite(parsedVersion) ? parsedVersion : 0;
+
+      if (storedVersion < CACHE_VERSION) {
+        const names = await caches.keys();
+        await Promise.all(
+          names
+            .filter(
+              (name) =>
+                name.startsWith("protected-") ||
+                name === "game-assets" ||
+                name === "testnet-assets",
+            )
+            .map((name) => caches.delete(name)),
+        );
+        await versionCache.put("version", new Response(String(CACHE_VERSION)));
+      }
+
+      await self.clients.claim();
+    })(),
+  );
+});
+
 // Precaching strategy
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
@@ -127,9 +170,11 @@ if (import.meta.env.PROD) {
       new StaleWhileRevalidate({
         cacheName: `protected-${category}`,
         plugins: [
+          new CacheableResponsePlugin({ statuses: [0, 200] }),
           new ExpirationPlugin({
             maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
-            maxEntries: 2000,
+            maxEntries:
+              category === "land" ? MAX_ENTRIES_LAND : MAX_ENTRIES_DEFAULT,
             purgeOnQuotaError: true,
           }),
         ],
@@ -145,9 +190,10 @@ if (import.meta.env.PROD) {
       new StaleWhileRevalidate({
         cacheName: "protected-misc",
         plugins: [
+          new CacheableResponsePlugin({ statuses: [0, 200] }),
           new ExpirationPlugin({
             maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
-            maxEntries: 2000,
+            maxEntries: MAX_ENTRIES_DEFAULT,
             purgeOnQuotaError: true,
           }),
         ],
@@ -164,9 +210,10 @@ if (import.meta.env.PROD) {
     new StaleWhileRevalidate({
       cacheName: `${gameAssetsCacheName}`,
       plugins: [
+        new CacheableResponsePlugin({ statuses: [0, 200] }),
         new ExpirationPlugin({
           maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
-          maxEntries: 2000,
+          maxEntries: MAX_ENTRIES_DEFAULT,
           purgeOnQuotaError: true,
         }),
       ],

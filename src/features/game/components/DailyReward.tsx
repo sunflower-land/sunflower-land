@@ -51,6 +51,8 @@ export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
   "weekly-mega-box": ITEM_DETAILS["Weekly Mega Box"].image,
   "streak-one-year": streakBox,
   "streak-two-year": streakBox,
+  "streak-three-year": streakBox,
+  "streak-four-year": streakBox,
 };
 
 const _bumpkinExperience = (state: MachineState) =>

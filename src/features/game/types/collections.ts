@@ -23,10 +23,11 @@ import { CHAPTER_MUTANTS, MutantsChapterName } from "./chapterMutants";
 import { ChapterFish } from "./fishing";
 import { MutantFlowerName } from "./flowers";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
-import { getKeys } from "lib/object";
+import { getKeys, getObjectEntries } from "lib/object";
 import { REWARD_BOXES } from "./rewardBoxes";
 import { CHAPTER_TRACKS } from "./tracks";
 import { COMMODITIES } from "./resources";
+import { CHAPTER_CRAFTING_ITEMS } from "../lib/crafting";
 
 export function getChapterMegastoreCollectibles(
   chapter: ChapterName,
@@ -416,7 +417,14 @@ export const CHAPTER_COLLECTIONS: Partial<
         ],
         wearables: ["Pistol Shrimp"],
       },
-      other: { collectibles: ["Salt Awakening Banner"] },
+      other: {
+        collectibles: [
+          "Salt Awakening Banner",
+          ...getObjectEntries(CHAPTER_CRAFTING_ITEMS)
+            .filter((item) => item[1] === "Salt Awakening")
+            .map((item) => item[0]),
+        ],
+      },
     },
   }),
 };

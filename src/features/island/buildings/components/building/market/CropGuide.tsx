@@ -1,6 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
@@ -32,11 +32,30 @@ import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { BoostName, GameState } from "features/game/types/game";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
+import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
+import {
+  getGreenhouseCropTime,
+  SEED_TO_PLANT,
+} from "features/game/events/landExpansion/plantGreenhouse";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { useNow } from "lib/utils/hooks/useNow";
+
+type GrowthTime = {
+  seconds: number;
+  boostsUsed: { name: BoostName; value: string }[];
+};
 
 export const CropGuide = () => {
   const { gameState } = useGame();
-  const inventory = gameState.context.state.inventory;
+  const state = gameState.context.state;
+  const inventory = state.inventory;
   const { t } = useAppTranslation();
+  const now = useNow();
+  const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
+
   return (
     <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll">
       <div className="p-1">
@@ -74,7 +93,11 @@ export const CropGuide = () => {
             seed={seed}
             seconds={CROPS[crop].harvestSeconds}
             coins={CROPS[crop].sellPrice}
+            state={state}
+            now={now}
             alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
           />
         );
       })}
@@ -97,7 +120,11 @@ export const CropGuide = () => {
             crop={crop}
             seconds={PATCH_FRUIT_SEEDS[seed].plantSeconds}
             coins={PATCH_FRUIT[crop].sellPrice}
+            state={state}
+            now={now}
             alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
           />
         );
       })}
@@ -120,7 +147,11 @@ export const CropGuide = () => {
               seed={seed}
               seconds={GREENHOUSE_CROP_TIME_SECONDS[crop]}
               coins={SELLABLE[crop].sellPrice}
+              state={state}
+              now={now}
               alternateBg={index % 2 === 0}
+              showBoostsKey={showBoostsKey}
+              setShowBoostsKey={setShowBoostsKey}
             />
           );
         },
@@ -141,7 +172,10 @@ export const CropGuide = () => {
             key={seed}
             seed={seed}
             seconds={FLOWER_SEEDS[seed].plantSeconds}
+            state={state}
             alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
           />
         );
       })}
@@ -171,13 +205,31 @@ export const CropRow: React.FC<{
   seed: SeedName;
   seconds: number;
   coins: number;
+  state: GameState;
+  now: number;
   alternateBg?: boolean;
-}> = ({ crop, seed, seconds, coins, alternateBg }) => {
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+}> = ({
+  crop,
+  seed,
+  seconds,
+  coins,
+  state,
+  now,
+  alternateBg,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => {
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
-  const showMediumTime = seconds > 24 * 60 * 60;
   const { t } = useAppTranslation();
+  const boostedTime = useMemo(
+    () => getSeedGrowthTime({ crop, seed, state, now }),
+    [crop, seed, state, now],
+  );
+
   return (
     <div
       className={`flex justify-between items-center p-1 ${
@@ -193,14 +245,14 @@ export const CropRow: React.FC<{
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="flex items-center mr-2">
-            <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
-            <p className="text-xxs">
-              {secondsToString(seconds, {
-                length: showMediumTime ? "medium" : "short",
-              })}
-            </p>
-          </div>
+          <GrowthTimeCell
+            boostKey={`${seed}-growth-time`}
+            baseSeconds={seconds}
+            boostedTime={boostedTime}
+            state={state}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
           <div className="flex items-center">
             <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" />
             <p className="text-xxs">{coins.toLocaleString()}</p>
@@ -221,11 +273,23 @@ export const CropRow: React.FC<{
 export const FlowerRow: React.FC<{
   seed: FlowerSeedName;
   seconds: number;
+  state: GameState;
   alternateBg?: boolean;
-}> = ({ seed, seconds, alternateBg }) => {
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+}> = ({
+  seed,
+  seconds,
+  state,
+  alternateBg,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => {
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
+  const boostedTime = useMemo(() => getFlowerTime(seed, state), [seed, state]);
+
   return (
     <div
       className={`flex justify-between items-center p-1 ${
@@ -241,12 +305,14 @@ export const FlowerRow: React.FC<{
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="flex items-center mr-2">
-            <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
-            <p className="text-xxs">
-              {secondsToString(seconds, { length: "short" })}
-            </p>
-          </div>
+          <GrowthTimeCell
+            boostKey={`${seed}-growth-time`}
+            baseSeconds={seconds}
+            boostedTime={boostedTime}
+            state={state}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
         </div>
       </div>
 
@@ -256,6 +322,120 @@ export const FlowerRow: React.FC<{
         ))}
       </div>
     </div>
+  );
+};
+
+const getSeedGrowthTime = ({
+  crop,
+  seed,
+  state,
+  now,
+}: {
+  crop: ProduceName;
+  seed: SeedName;
+  state: GameState;
+  now: number;
+}): GrowthTime => {
+  if (seed in CROP_SEEDS) {
+    const { time: seconds, boostsUsed } = getCropPlotTime({
+      crop: crop as CropName,
+      game: state,
+      createdAt: now,
+    });
+
+    return { seconds, boostsUsed };
+  }
+
+  if (seed in PATCH_FRUIT_SEEDS) {
+    return getFruitPatchTime(seed as keyof typeof PATCH_FRUIT_SEEDS, state);
+  }
+
+  if (seed in GREENHOUSE_FRUIT_SEEDS || seed in GREENHOUSE_SEEDS) {
+    return getGreenhouseCropTime({
+      crop: SEED_TO_PLANT[seed as keyof typeof SEED_TO_PLANT],
+      game: state,
+    });
+  }
+
+  return { seconds: 0, boostsUsed: [] };
+};
+
+const GrowthTimeCell: React.FC<{
+  boostKey: string;
+  baseSeconds: number;
+  boostedTime: GrowthTime;
+  state: GameState;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+}> = ({
+  boostKey,
+  baseSeconds,
+  boostedTime,
+  state,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => {
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const isTimeBoosted =
+    boostedTime.boostsUsed.length > 0 && boostedTime.seconds !== baseSeconds;
+  const showMediumTime =
+    Math.max(baseSeconds, boostedTime.seconds) > 24 * 60 * 60;
+
+  if (!isTimeBoosted) {
+    return (
+      <div className="flex items-center mr-2">
+        <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
+        <p className="text-xxs">
+          {secondsToString(baseSeconds, {
+            length: showMediumTime ? "medium" : "short",
+          })}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      ref={anchorRef}
+      type="button"
+      className="flex items-center mr-2 cursor-pointer relative"
+      aria-expanded={showBoostsKey === boostKey}
+      aria-controls={`${boostKey}-panel`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.icons.lightning} className="w-3 mr-1" />
+          <p className="text-xxs">
+            {secondsToString(boostedTime.seconds, {
+              length: showMediumTime ? "medium" : "short",
+            })}
+          </p>
+        </div>
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
+          <p className="text-xxs line-through">
+            {secondsToString(baseSeconds, {
+              length: showMediumTime ? "medium" : "short",
+            })}
+          </p>
+        </div>
+      </div>
+      <BoostsDisplay
+        boosts={boostedTime.boostsUsed}
+        show={showBoostsKey === boostKey}
+        state={state}
+        onClick={() =>
+          setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey)
+        }
+        className="-translate-x-1/2"
+        portalAlign="center"
+        anchorRef={anchorRef}
+      />
+    </button>
   );
 };
 

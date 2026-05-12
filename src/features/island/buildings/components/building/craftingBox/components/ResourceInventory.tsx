@@ -1,12 +1,16 @@
 import React from "react";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
-import { RecipeIngredient } from "features/game/lib/crafting";
-import { RECIPES } from "features/game/lib/crafting";
+import {
+  CRAFTABLE_BEARS,
+  RecipeIngredient,
+  RECIPES,
+} from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
+import { ChapterName } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { validCraftingResourcesSorted } from "./craftingTabConstants";
 
@@ -23,6 +27,7 @@ interface Props {
   isPending: boolean;
   disabled: boolean;
   discoveredRecipes: Partial<Record<string, unknown>>;
+  currentChapter?: ChapterName;
 }
 
 export const ResourceInventory: React.FC<Props> = ({
@@ -34,6 +39,7 @@ export const ResourceInventory: React.FC<Props> = ({
   isPending,
   disabled,
   discoveredRecipes,
+  currentChapter,
 }) => {
   const { t } = useAppTranslation();
 
@@ -56,11 +62,15 @@ export const ResourceInventory: React.FC<Props> = ({
       </div>
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
-          {validCraftingResourcesSorted()
+          {validCraftingResourcesSorted({
+            currentChapter,
+            inventory: remainingInventory,
+          })
             .filter(
               (itemName) =>
                 !(itemName in RECIPES) ||
-                (itemName in RECIPES && itemName in discoveredRecipes),
+                itemName in CRAFTABLE_BEARS ||
+                itemName in discoveredRecipes,
             )
             .map((itemName) => {
               const amount = remainingInventory[itemName] || new Decimal(0);

@@ -29,6 +29,7 @@ export interface BoxProps {
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  isReady?: boolean;
   canBeLongPressed?: boolean;
   /**
    * This can be used a different icon when there is no count passed in.
@@ -75,6 +76,7 @@ export const SkillBox: React.FC<BoxProps> = ({
   onClick,
   disabled,
   locked,
+  isReady,
   canBeLongPressed,
   cooldownInProgress,
   showOverlay = false,
@@ -157,6 +159,19 @@ export const SkillBox: React.FC<BoxProps> = ({
             />
           )}
         </div>
+
+        {isReady && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            alt="Skill ready"
+            className="absolute z-20 pointer-events-none animate-pulsate"
+            style={{
+              left: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 3}px`,
+            }}
+          />
+        )}
 
         {/* Cool down in process overlay */}
         {!locked && cooldownInProgress && (

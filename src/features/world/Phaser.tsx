@@ -33,7 +33,7 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
@@ -66,7 +66,7 @@ import { MachineState as GameMachineState } from "features/game/lib/gameMachine"
 import { RewardModal } from "features/social/RewardModal";
 import { WaveModal } from "features/social/WaveModal";
 import { Discovery } from "features/social/Discovery";
-import { SPAWNS } from "./lib/spawn";
+import { SPAWNS, SpawnFromId } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
 
 const _roomState = (state: MachineState) => state.value;
@@ -132,6 +132,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   const [loaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const game = useRef<Game>(undefined);
 
@@ -210,6 +211,17 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", loggedInFarmId);
     game.current.registry.set("initialScene", scene);
+    // Consumed once by the first BaseScene to compute its spawn — see
+    // BaseScene.create(). Lets a navigation like
+    // navigate("/world/beach", { state: { previousSceneId: "digging" } })
+    // pick the right SPAWNS entry on the very first scene load, not just
+    // on subsequent route changes.
+    const bootPreviousSceneId = (
+      location.state as { previousSceneId?: SpawnFromId } | null
+    )?.previousSceneId;
+    if (bootPreviousSceneId) {
+      game.current.registry.set("initialPreviousSceneId", bootPreviousSceneId);
+    }
     game.current.registry.set("navigate", navigate);
     game.current.registry.set("selectedItem", selectedItem);
     game.current.registry.set("shortcutItem", shortcutItem);
@@ -257,6 +269,10 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     game.current?.registry.set("selectedItem", selectedItem);
   }, [selectedItem]);
 
+  const previousSceneOverride = (
+    location.state as { previousSceneId?: SpawnFromId } | null
+  )?.previousSceneId;
+
   // When route changes, switch scene
   useEffect(() => {
     if (!loaded || !route) return;
@@ -266,22 +282,48 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
-    const previousSceneId =
+    // The auto-derived previous scene is always a real SceneId — used both
+    // as the SPAWNS lookup key (when no override is supplied) and as the
+    // value sent to the mmo machine on SWITCH_SCENE.
+    const autoDerivedPreviousSceneId =
       (game.current?.scene.getScenes(true)[0]?.scene.key as SceneId) ?? scene;
-    const spawn = SPAWNS()[route][previousSceneId] ?? SPAWNS()[route].default;
+    // The spawn-lookup key may be a non-scene sentinel like "digging" or
+    // "default" supplied via location.state.
+    const spawnFromKey = previousSceneOverride ?? autoDerivedPreviousSceneId;
+    const spawn = SPAWNS()[route][spawnFromKey] ?? SPAWNS()[route].default;
 
     if (activeScene && activeScene.scene.key !== route) {
+      // Stash the override so the destination scene's BaseScene.create() can
+      // resolve the same SPAWNS entry we just resolved here. Without this,
+      // create() would only see mmoService.context.previousSceneId (the
+      // auto-derived SceneId) and pick the wrong spawn for sentinels like
+      // "digging" or "default".
+      if (previousSceneOverride) {
+        game.current?.registry.set(
+          "initialPreviousSceneId",
+          previousSceneOverride,
+        );
+      }
+
       activeScene.scene.start(route);
       mmoService.send("SWITCH_SCENE", {
         sceneId: route,
-        previousSceneId,
+        previousSceneId: autoDerivedPreviousSceneId,
         playerCoordinates: {
           x: spawn.x,
           y: spawn.y,
         },
       });
+    } else if (activeScene && previousSceneOverride) {
+      // Same-scene teleport: caller asked for a specific spawn while already
+      // in this scene. Move the local player; the existing position-sync loop
+      // broadcasts the new position to the server.
+      const baseScene = activeScene as unknown as {
+        currentPlayer?: { setPosition: (x: number, y: number) => void };
+      };
+      baseScene.currentPlayer?.setPosition(spawn.x, spawn.y);
     }
-  }, [route]);
+  }, [route, location.key, previousSceneOverride]);
 
   useEffect(() => {
     // Listen to moderation events

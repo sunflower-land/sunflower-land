@@ -12,7 +12,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
@@ -54,6 +53,14 @@ import { FarmActivityName } from "features/game/types/farmActivity";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { isWearableActive } from "features/game/lib/wearables";
 
+type AnyCompostName =
+  | CropCompostName
+  | FruitCompostName
+  | GreenhouseCompostName;
+
+const SEED_STORAGE_KEY = "obsidianShrineSeed";
+const FERTILISER_STORAGE_KEY = "obsidianShrineFertiliser";
+
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
   id,
@@ -63,16 +70,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const { gameService, showTimers, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const [showRenewalModal, setShowRenewalModal] = useState(false);
-
   const [show, setShow] = useState(false);
-  type Tab = "harvest" | "plant" | "fertilise";
-  const [activeTab, setActiveTab] = useState<Tab>("harvest");
   const [reward, setReward] = useState<Reward>();
-  const [initialFertiliser, setInitialFertiliser] =
-    useState<AnyCompostName | null>(null);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
-
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
@@ -82,13 +83,12 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const state = useSelector(gameService, selectGameState);
   const verified = useSelector(gameService, selectVerified);
-  const farmId = useSelector(gameService, (state) => state.context.farmId);
+  const farmId = useSelector(gameService, (s) => s.context.farmId);
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
   const availablePlots = getAvailablePlots(state);
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
-  const hasAvailablePlots = availablePlots.length > 0;
 
   const combinedReward = useMemo(() => {
     const rewardItems: Partial<Record<InventoryItemName, Decimal>> = {};
@@ -145,7 +145,6 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const doHarvestAll = () => {
     gameService.send("crops.bulkHarvested", {});
-    setActiveTab("plant");
   };
 
   const harvestAll = () => {
@@ -153,14 +152,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       setReward(combinedReward);
       return;
     }
-
     doHarvestAll();
   };
 
-  const handleRenewClick = () => {
-    setShowRenewalModal(true);
-  };
-
+  const handleRenewClick = () => setShowRenewalModal(true);
   const shrineDimensions = PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"];
 
   if (hasExpired) {
@@ -229,20 +224,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setReward(undefined);
   };
 
-  const handleShrineClick = () => {
-    setInitialFertiliser(
-      localStorage.getItem("obsidianShrineFertiliser") as AnyCompostName | null,
-    );
-    setShow(true);
-    setActiveTab(
-      hasReadyCrops ? "harvest" : hasAvailablePlots ? "plant" : "fertilise",
-    );
-  };
-
   return (
     <>
       <div
-        onClick={isVisiting ? undefined : handleShrineClick}
+        onClick={isVisiting ? undefined : () => setShow(true)}
         className={classNames("absolute", {
           "cursor-pointer hover:img-highlight": !isVisiting,
         })}
@@ -274,31 +259,24 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       </div>
 
       <Modal show={show} onHide={close}>
-        <CloseButtonPanel
-          tabs={[
-            {
-              id: "harvest",
-              icon: SUNNYSIDE.icons.seeds,
-              name: "Harvest",
-            },
-            {
-              id: "plant",
-              icon: SUNNYSIDE.icons.plant,
-              name: "Plant",
-            },
-            {
-              id: "fertilise",
-              icon: ITEM_DETAILS["Sprout Mix"].image,
-              name: "Fertilise",
-            },
-          ]}
-          currentTab={activeTab}
-          setCurrentTab={setActiveTab}
-          onClose={close}
-          container={OuterPanel}
-        >
-          {activeTab === "harvest" &&
-            (reward ? (
+        <OuterPanel>
+          <div className="flex items-center justify-between flex-wrap gap-1 px-1 mb-1">
+            <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
+              {"Obsidian Shrine"}
+            </Label>
+            <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+              {t("time.remaining", {
+                time: secondsToString(secondsToExpire, {
+                  length: "medium",
+                  isShortFormat: true,
+                  removeTrailingZeros: true,
+                }),
+              })}
+            </Label>
+          </div>
+
+          {reward ? (
+            <InnerPanel>
               <ChestReward
                 inline
                 collectedItem={undefined}
@@ -311,42 +289,15 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
                   // No-op - reward is applied in bulk harvest, this is just for the chest animation
                 }}
               />
-            ) : (
-              <HarvestAll readyCrops={readyCrops} harvestAll={harvestAll} />
-            ))}
-          {activeTab === "plant" && (
-            <PlantAll
-              availablePlots={availablePlots}
-              state={state}
-              onAllPlanted={() => setActiveTab("fertilise")}
-            />
+            </InnerPanel>
+          ) : hasReadyCrops ? (
+            <HarvestSection readyCrops={readyCrops} onHarvest={harvestAll} />
+          ) : availablePlots.length > 0 ? (
+            <PlantSection state={state} availablePlots={availablePlots} />
+          ) : (
+            <FertiliseSection state={state} />
           )}
-          {activeTab === "fertilise" && (
-            <FertiliseAll
-              state={state}
-              close={close}
-              initialFertiliser={initialFertiliser}
-            />
-          )}
-        </CloseButtonPanel>
-
-        <div className="absolute -top-8 -mt-[2px] right-0 mr-[5.5px]">
-          <Label
-            type="info"
-            secondaryIcon={SUNNYSIDE.icons.stopwatch}
-            className="mt-2 mb-2"
-          >
-            <span className="text-xs">
-              {t("time.remaining", {
-                time: secondsToString(secondsToExpire, {
-                  length: "medium",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }),
-              })}
-            </span>
-          </Label>
-        </div>
+        </OuterPanel>
       </Modal>
 
       {hasReadyCrops && (
@@ -362,37 +313,55 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   );
 };
 
-const HarvestAll: React.FC<{
+const SectionHeader: React.FC<{
+  icon: string;
+  title: string;
+  status?: React.ReactNode;
+}> = ({ icon, title, status }) => (
+  <div className="flex items-center justify-between flex-wrap gap-1 mb-2">
+    <Label type="default" icon={icon}>
+      {title}
+    </Label>
+    {status}
+  </div>
+);
+
+const HarvestSection: React.FC<{
   readyCrops: Record<CropName, number>;
-  harvestAll: () => void;
-}> = ({ readyCrops, harvestAll }) => {
+  onHarvest: () => void;
+}> = ({ readyCrops, onHarvest }) => {
   const { t } = useAppTranslation();
+  const totalReady = Object.values(readyCrops).reduce((s, n) => s + n, 0);
+  const hasReady = totalReady > 0;
 
   return (
     <InnerPanel>
-      {Object.keys(readyCrops).length > 0 ? (
-        <>
-          <Label type="success" className="my-2">
-            {t("obsidianShrine.readyCrops")}
+      <SectionHeader
+        icon={SUNNYSIDE.icons.seeds}
+        title={t("obsidianShrine.section.harvest")}
+        status={
+          <Label type={hasReady ? "success" : "default"}>
+            {t("obsidianShrine.crops.ready", { count: totalReady })}
           </Label>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(readyCrops).map(([cropName, count]) => {
-              return (
-                <Box
-                  key={cropName}
-                  className="flex items-center justify-center"
-                  image={ITEM_DETAILS[cropName as CropName].image}
-                  count={new Decimal(count)}
-                />
-              );
-            })}
-            <Button onClick={harvestAll}>{t("obsidianShrine.harvest")}</Button>
+        }
+      />
+      {hasReady ? (
+        <>
+          <div className="flex flex-wrap gap-1">
+            {Object.entries(readyCrops).map(([crop, count]) => (
+              <Box
+                key={crop}
+                image={ITEM_DETAILS[crop as CropName].image}
+                count={new Decimal(count)}
+              />
+            ))}
           </div>
+          <Button onClick={onHarvest} className="mt-2">
+            {t("obsidianShrine.harvest")}
+          </Button>
         </>
       ) : (
-        <Label type="default" className="my-2 text-center">
-          {t("obsidianShrine.noCrops")}
-        </Label>
+        <p className="text-xs px-1 py-2">{t("obsidianShrine.noCrops")}</p>
       )}
     </InnerPanel>
   );
@@ -413,132 +382,127 @@ const getPlantSeconds = (
   return time;
 };
 
-const PlantAll: React.FC<{
-  availablePlots: [string, CropPlot][];
+const PlantSection: React.FC<{
   state: GameState;
-  onAllPlanted: () => void;
-}> = ({ availablePlots, state, onAllPlanted }) => {
+  availablePlots: [string, CropPlot][];
+}> = ({ state, availablePlots }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
-    localStorage.getItem("obsidianShrineSeed") as CropSeedName | null,
-  );
-
   const now = useNow({ live: true });
 
-  const currentSeason = state.season.season;
-  const seasonalSeeds = SEASONAL_SEEDS[currentSeason].filter(
+  const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
+    () => localStorage.getItem(SEED_STORAGE_KEY) as CropSeedName | null,
+  );
+
+  const seasonalSeeds = SEASONAL_SEEDS[state.season.season].filter(
     (seed) => SEEDS[seed].plantingSpot === "Crop Plot",
   ) as CropSeedName[];
 
   const availableSeeds = seasonalSeeds.reduce(
-    (acc, seed: CropSeedName) => {
-      if (state.inventory[seed]) {
-        acc[seed] = state.inventory[seed].toNumber();
+    (acc, seed) => {
+      const amount = state.inventory[seed] ?? new Decimal(0);
+      if (amount.greaterThan(0)) {
+        acc[seed] = amount.toNumber();
       }
       return acc;
     },
     {} as Record<CropSeedName, number>,
   );
 
-  // If the saved seed is out of season - default to the first available seed
-  if (selectedSeed && !(selectedSeed in availableSeeds)) {
-    setSelectedSeed(Object.keys(availableSeeds)[0] as CropSeedName);
-  }
+  const effectiveSeed: CropSeedName | null =
+    selectedSeed && selectedSeed in availableSeeds
+      ? selectedSeed
+      : ((Object.keys(availableSeeds)[0] as CropSeedName | undefined) ?? null);
+
+  const selectSeed = (seed: CropSeedName) => {
+    localStorage.setItem(SEED_STORAGE_KEY, seed);
+    setSelectedSeed(seed);
+  };
 
   const plantAll = () => {
-    if (!selectedSeed) return;
+    if (!effectiveSeed) return;
 
     const updatedState = gameService.send("seeds.bulkPlanted", {
-      seed: selectedSeed,
+      seed: effectiveSeed,
     });
 
-    const availablePlots = getAvailablePlots(updatedState.context.state);
-
-    if (availablePlots.length === 0) {
+    const remainingPlots = getAvailablePlots(updatedState.context.state);
+    if (remainingPlots.length === 0) {
       const game = updatedState.context.state;
       const hasWings =
         isWearableActive({ game, name: "Angel Wings" }) ||
         isWearableActive({ game, name: "Devil Wings" });
-      if (hasWings) {
-        gameService.send("SAVE");
-      }
-      onAllPlanted();
+      if (hasWings) gameService.send("SAVE");
     }
   };
 
-  const selectSeed = (seed: CropSeedName) => {
-    localStorage.setItem("obsidianShrineSeed", seed);
-    setSelectedSeed(seed);
-  };
+  const hasSeeds = Object.keys(availableSeeds).length > 0;
+  const plotsCount = availablePlots.length;
 
   return (
     <InnerPanel>
-      {Object.keys(availableSeeds).length > 0 ? (
-        <>
-          <Label type="default" className="my-2">
-            {t("obsidianShrine.plantAll")}
+      <SectionHeader
+        icon={SUNNYSIDE.icons.plant}
+        title={t("obsidianShrine.section.plant")}
+        status={
+          <Label type={plotsCount > 0 ? "info" : "default"}>
+            {t("obsidianShrine.plots.empty", { count: plotsCount })}
           </Label>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(availableSeeds).map(([seed, count]) => {
-              return (
-                <Box
-                  key={seed}
-                  image={
-                    ITEM_DETAILS[SEEDS[seed as SeedName]?.yield as CropName]
-                      ?.image
-                  }
-                  onClick={() => selectSeed(seed as CropSeedName)}
-                  isSelected={selectedSeed === seed}
-                  count={new Decimal(count)}
-                />
-              );
-            })}
-            {selectedSeed && (
-              <div className="flex flex-wrap justify-between w-full px-2">
-                <Label
-                  type="default"
-                  icon={
-                    ITEM_DETAILS[SEEDS[selectedSeed].yield as CropName]?.image
-                  }
-                >
-                  {selectedSeed}
-                </Label>
-                <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(getPlantSeconds(selectedSeed, state, now), {
-                    length: "medium",
-                    removeTrailingZeros: true,
-                  })}
-                </Label>
-              </div>
-            )}
-            <Button
-              onClick={plantAll}
-              disabled={!selectedSeed || availablePlots.length === 0}
-            >
-              {availablePlots.length > 0
-                ? selectedSeed
-                  ? t("obsidianShrine.plant", {
-                      seed: selectedSeed,
-                    })
-                  : t("obsidianShrine.selectSeed")
-                : t("obsidianShrine.noPlots")}
-            </Button>
-          </div>
-        </>
+        }
+      />
+
+      {!hasSeeds ? (
+        <p className="text-xs px-1 py-2">{t("obsidianShrine.noSeeds")}</p>
       ) : (
-        <Label type="default" className="my-2 text-center">
-          {t("obsidianShrine.noSeeds")}
-        </Label>
+        <>
+          <div className="flex flex-wrap gap-1">
+            {Object.entries(availableSeeds).map(([seed, count]) => (
+              <Box
+                key={seed}
+                image={
+                  ITEM_DETAILS[SEEDS[seed as SeedName]?.yield as CropName]
+                    ?.image
+                }
+                onClick={() => selectSeed(seed as CropSeedName)}
+                isSelected={effectiveSeed === seed}
+                count={new Decimal(count)}
+              />
+            ))}
+          </div>
+          {effectiveSeed && (
+            <div className="flex flex-wrap justify-between gap-1 my-2 px-1">
+              <Label
+                type="default"
+                icon={
+                  ITEM_DETAILS[SEEDS[effectiveSeed].yield as CropName]?.image
+                }
+              >
+                {effectiveSeed}
+              </Label>
+              <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+                {secondsToString(getPlantSeconds(effectiveSeed, state, now), {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}
+              </Label>
+            </div>
+          )}
+          <Button
+            onClick={plantAll}
+            disabled={!effectiveSeed || plotsCount === 0}
+            className="mt-2"
+          >
+            {plotsCount === 0
+              ? t("obsidianShrine.noPlots")
+              : effectiveSeed
+                ? t("obsidianShrine.plant", { seed: effectiveSeed })
+                : t("obsidianShrine.selectSeed")}
+          </Button>
+        </>
       )}
     </InnerPanel>
   );
 };
-
-type AnyCompostName =
-  | CropCompostName
-  | FruitCompostName
-  | GreenhouseCompostName;
 
 const getOwnedFertilisers = (state: GameState): AnyCompostName[] => {
   const all: AnyCompostName[] = [
@@ -588,17 +552,18 @@ const getEligibleCount = (
     .length;
 };
 
-const FertiliseAll: React.FC<{
+const FertiliseSection: React.FC<{
   state: GameState;
-  close: () => void;
-  initialFertiliser: AnyCompostName | null;
-}> = ({ state, close, initialFertiliser }) => {
+}> = ({ state }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
 
   const [selectedFertiliser, setSelectedFertiliser] =
-    useState<AnyCompostName | null>(initialFertiliser);
+    useState<AnyCompostName | null>(
+      () =>
+        localStorage.getItem(FERTILISER_STORAGE_KEY) as AnyCompostName | null,
+    );
 
   const ownedFertilisers = getOwnedFertilisers(state);
 
@@ -608,7 +573,7 @@ const FertiliseAll: React.FC<{
       : (ownedFertilisers[0] ?? null);
 
   const selectFertiliser = (name: AnyCompostName) => {
-    localStorage.setItem("obsidianShrineFertiliser", name);
+    localStorage.setItem(FERTILISER_STORAGE_KEY, name);
     setSelectedFertiliser(name);
   };
 
@@ -649,23 +614,46 @@ const FertiliseAll: React.FC<{
         }
       }
     }
-
-    const remainingOwned = getOwnedFertilisers(
-      gameService.getSnapshot().context.state,
-    );
-    if (remainingOwned.length === 0) {
-      close();
-    }
   };
+
+  const hasFertilisers = ownedFertilisers.length > 0;
+
+  const buffs =
+    effectiveFertiliser &&
+    COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
+      skills: state.bumpkin?.skills ?? {},
+      collectibles: state.collectibles,
+    });
+
+  const buttonLabel = !effectiveFertiliser
+    ? t("obsidianShrine.selectFertiliser")
+    : eligibleCount === 0 && effectiveFertiliser in CROP_COMPOST
+      ? t("obsidianShrine.noEligiblePlots")
+      : eligibleCount === 0 && effectiveFertiliser in FRUIT_COMPOST
+        ? t("obsidianShrine.noEligiblePatches")
+        : eligibleCount === 0 && effectiveFertiliser in GREENHOUSE_COMPOST
+          ? t("obsidianShrine.noEligiblePots")
+          : t("obsidianShrine.fertilise");
 
   return (
     <InnerPanel>
-      {ownedFertilisers.length > 0 ? (
+      <SectionHeader
+        icon={ITEM_DETAILS["Sprout Mix"].image}
+        title={t("obsidianShrine.section.fertilise")}
+        status={
+          effectiveFertiliser ? (
+            <Label type={eligibleCount > 0 ? "info" : "default"}>
+              {t("obsidianShrine.eligible", { count: eligibleCount })}
+            </Label>
+          ) : undefined
+        }
+      />
+
+      {!hasFertilisers ? (
+        <p className="text-xs px-1 py-2">{t("obsidianShrine.noFertilisers")}</p>
+      ) : (
         <>
-          <Label type="default" className="my-2">
-            {t("obsidianShrine.fertiliseAll")}
-          </Label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1">
             {ownedFertilisers.map((name) => (
               <Box
                 key={name}
@@ -675,57 +663,38 @@ const FertiliseAll: React.FC<{
                 count={state.inventory[name] ?? new Decimal(0)}
               />
             ))}
-            {effectiveFertiliser && (
-              <div className="flex flex-col gap-1 w-full px-2">
-                <div className="flex flex-wrap justify-between">
-                  <Label
-                    type="default"
-                    icon={ITEM_DETAILS[effectiveFertiliser].image}
-                  >
-                    {effectiveFertiliser}
-                  </Label>
-                  <Label type="info">
-                    {t("obsidianShrine.eligible", { count: eligibleCount })}
-                  </Label>
-                </div>
-                {COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
-                  skills: state.bumpkin?.skills ?? {},
-                  collectibles: state.collectibles,
-                })?.map((buff) => (
-                  <Label
-                    key={`${buff.labelType}-${buff.shortDescription}`}
-                    type={buff.labelType}
-                    icon={buff.boostTypeIcon}
-                    secondaryIcon={buff.boostedItemIcon}
-                  >
-                    {buff.shortDescription}
-                  </Label>
-                ))}
-              </div>
-            )}
-            <Button
-              onClick={applyAll}
-              disabled={
-                !effectiveFertiliser || eligibleCount === 0 || ownedCount === 0
-              }
-            >
-              {!effectiveFertiliser
-                ? t("obsidianShrine.selectFertiliser")
-                : eligibleCount === 0 && effectiveFertiliser in CROP_COMPOST
-                  ? t("obsidianShrine.noEligiblePlots")
-                  : eligibleCount === 0 && effectiveFertiliser in FRUIT_COMPOST
-                    ? t("obsidianShrine.noEligiblePatches")
-                    : eligibleCount === 0 &&
-                        effectiveFertiliser in GREENHOUSE_COMPOST
-                      ? t("obsidianShrine.noEligiblePots")
-                      : t("obsidianShrine.fertilise")}
-            </Button>
           </div>
+          {effectiveFertiliser && (
+            <div className="flex flex-wrap gap-1 my-2 px-1">
+              <Label
+                type="default"
+                icon={ITEM_DETAILS[effectiveFertiliser].image}
+              >
+                {effectiveFertiliser}
+              </Label>
+              {buffs?.map((buff) => (
+                <Label
+                  key={`${buff.labelType}-${buff.shortDescription}`}
+                  type={buff.labelType}
+                  icon={buff.boostTypeIcon}
+                  secondaryIcon={buff.boostedItemIcon}
+                >
+                  {buff.shortDescription}
+                </Label>
+              ))}
+            </div>
+          )}
+
+          <Button
+            onClick={applyAll}
+            disabled={
+              !effectiveFertiliser || eligibleCount === 0 || ownedCount === 0
+            }
+            className="mt-2"
+          >
+            {buttonLabel}
+          </Button>
         </>
-      ) : (
-        <Label type="default" className="my-2 text-center">
-          {t("obsidianShrine.noFertilisers")}
-        </Label>
       )}
     </InnerPanel>
   );
