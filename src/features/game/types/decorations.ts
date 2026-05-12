@@ -42,7 +42,6 @@ export type LandscapingDecorationName =
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
-  | "Basic Bear"
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
   | "Town Sign"
@@ -611,6 +610,28 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  "Basic Bear": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  // Salt Awakening
+  "Salt Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Jacuzzi Bear": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
@@ -777,10 +798,6 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   Cactus: {
-    height: 1,
-    width: 1,
-  },
-  "Basic Bear": {
     height: 1,
     width: 1,
   },
@@ -1724,13 +1741,6 @@ export const LANDSCAPING_DECORATIONS: Record<
     coins: 80,
     ingredients: {},
   },
-  "Basic Bear": {
-    name: "Basic Bear",
-    description: translate("description.basic.bear"),
-    coins: 200,
-    ingredients: {},
-  },
-
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",
     description: translate("description.bonnies.tombstone"),

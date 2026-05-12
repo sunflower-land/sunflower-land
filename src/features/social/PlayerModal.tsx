@@ -111,10 +111,11 @@ export const PlayerModal: React.FC<Props> = ({
   const player = data?.data;
 
   useEffect(() => {
-    playerModalManager.listen((npc) => {
+    const unsubscribe = playerModalManager.listen((npc) => {
       setInitialPlayer(npc.farmId);
       setShowPlayerModal(true);
     });
+    return unsubscribe;
   }, [loggedInFarmId, setInitialPlayer]);
 
   useEffect(() => {

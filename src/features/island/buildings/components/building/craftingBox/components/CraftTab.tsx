@@ -10,6 +10,7 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { RecipeIngredient, RECIPES } from "features/game/lib/crafting";
+import { getCurrentChapter } from "features/game/types/chapters";
 import {
   getRecipeIngredientsForName,
   padRecipeIngredients,
@@ -83,6 +84,7 @@ export const CraftTab: React.FC<Props> = ({
     now,
   } = useCraftingQueue(craftingBox);
 
+  const currentChapter = getCurrentChapter(Date.now());
   const isVIP = useVipAccess({ game: state });
   const availableSlots = isVIP ? MAX_CRAFTING_SLOTS : 1;
   const isQueueFull = craftingQueue.length >= availableSlots;
@@ -615,6 +617,7 @@ export const CraftTab: React.FC<Props> = ({
         isPending={isPending}
         disabled={isViewingMode || isPending || (isCrafting && !canAddToQueue)}
         discoveredRecipes={state.craftingBox.recipes}
+        currentChapter={currentChapter}
       />
 
       <ModalOverlay

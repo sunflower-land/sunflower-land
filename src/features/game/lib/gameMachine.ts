@@ -197,6 +197,7 @@ export interface Context {
   method?: "google" | "wallet" | "wechat" | "fsl";
   accountTradedAt?: string;
   onChainRaffleReward?: RaffleSnapshotWinner;
+  banReason?: string;
 }
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
@@ -1077,6 +1078,7 @@ export function startGame(authContext: AuthContext) {
                 apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
                 totalHelpedToday: response.totalHelpedToday,
+                banReason: response.banReason,
               };
             },
             onDone: [
@@ -1090,6 +1092,9 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => {
                   return event.data.state.ban.status === "permanent";
                 },
+                actions: assign((_, event) => ({
+                  banReason: event.data.banReason,
+                })),
               },
               {
                 target: "portalling",

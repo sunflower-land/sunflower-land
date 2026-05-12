@@ -24,7 +24,7 @@ import { CONSUMABLES } from "../types/consumables";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { ANIMAL_FOODS } from "../types/animals";
 import { EXOTIC_CROPS } from "../types/beans";
-import { DOLLS, RECIPE_CRAFTABLES } from "./crafting";
+import { CRAFTABLE_BEARS, DOLLS, RECIPE_CRAFTABLES } from "./crafting";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { BUILDINGS } from "../types/buildings";
 import { FLOWERS } from "../types/flowers";
@@ -59,6 +59,7 @@ export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
     ...ANIMAL_FOODS,
     ...EXOTIC_CROPS,
     ...DOLLS,
+    ...CRAFTABLE_BEARS,
     ...LAND_BIOMES,
     ...WORKBENCH_MONUMENTS,
     ...PET_SHRINES,

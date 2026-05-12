@@ -43,10 +43,14 @@ export type DailyRewardName =
   | "weekly-mega-box"
   | "streak-one-year"
   | "streak-two-year"
+  | "streak-three-year"
+  | "streak-four-year"
   | "weekly-day-6-coin-stash"
   | "weekly-mega-box"
   | "streak-one-year"
-  | "streak-two-year";
+  | "streak-two-year"
+  | "streak-three-year"
+  | "streak-four-year";
 
 // The first 7 rewards, players can claim without losing a streak
 const ONBOARDING_REWARDS: DailyRewardDefinition[] = [
@@ -233,6 +237,34 @@ const STREAK_MILESTONES: StreakMilestone[] = [
         "Super Totem": 1,
         Gem: 320,
         "Luxury Key": 1,
+      },
+    },
+  },
+  {
+    days: 1094,
+    reward: {
+      id: "streak-three-year",
+      label: "Three Year Streak Reward",
+      coins: 10000,
+      items: {
+        "Pirate Cake": 15,
+        "Treasure Key": 2,
+        "Rare Key": 2,
+        "Luxury Key": 2,
+      },
+    },
+  },
+  {
+    days: 1459,
+    reward: {
+      id: "streak-four-year",
+      label: "Four Year Streak Reward",
+      coins: 20000,
+      items: {
+        "Pizza Margherita": 10,
+        "Super Totem": 1,
+        Gem: 500,
+        "Luxury Key": 2,
       },
     },
   },

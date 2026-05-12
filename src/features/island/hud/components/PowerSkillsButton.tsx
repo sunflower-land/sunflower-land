@@ -13,6 +13,8 @@ import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Modal } from "components/ui/Modal";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 
 const FERTILISER_SKILLS: BumpkinRevampSkillName[] = [
   "Sprout Surge",
@@ -20,32 +22,43 @@ const FERTILISER_SKILLS: BumpkinRevampSkillName[] = [
   "Blend-tastic",
 ];
 
+const _state = (state: MachineState) => state.context.state;
+
 export const PowerSkillsButton: React.FC = () => {
   const [show, setShow] = useState(false);
   const { gameService } = useContext(Context);
-  const bumpkin = useSelector(
-    gameService,
-    (state) => state.context.state.bumpkin,
-  );
-  const { skills, previousPowerUseAt } = bumpkin;
+  const state = useSelector(gameService, _state);
+  const { skills, previousPowerUseAt } = state.bumpkin;
 
-  const now = useNow({ live: true, intervalMs: 30000 });
-
-  const powerSkillsUnlocked = getPowerSkills().filter(
-    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  const alertablePowerSkills = getPowerSkills().filter(
+    (skill: BumpkinSkillRevamp) =>
+      !!skills[skill.name as BumpkinRevampSkillName] &&
+      !FERTILISER_SKILLS.includes(skill.name as BumpkinRevampSkillName),
   );
 
-  const powerSkillsReady = powerSkillsUnlocked
-    .filter(
-      (skill: BumpkinSkillRevamp) =>
-        !FERTILISER_SKILLS.includes(skill.name as BumpkinRevampSkillName),
-    )
-    .some((skill: BumpkinSkillRevamp) => {
-      const nextSkillUse =
+  const nextSkillUseTimes = alertablePowerSkills.map(
+    (skill: BumpkinSkillRevamp) => {
+      const cooldown = getSkillCooldown({
+        cooldown: skill.requirements.cooldown ?? 0,
+        state,
+      });
+      return (
         (previousPowerUseAt?.[skill.name as BumpkinRevampSkillName] ?? 0) +
-        (skill.requirements.cooldown ?? 0);
-      return nextSkillUse < now;
-    });
+        cooldown
+      );
+    },
+  );
+
+  const earliestSkillReadyAt =
+    nextSkillUseTimes.length > 0 ? Math.min(...nextSkillUseTimes) : undefined;
+
+  const now = useNow({
+    live: earliestSkillReadyAt !== undefined,
+    autoEndAt: earliestSkillReadyAt,
+    intervalMs: 30000,
+  });
+
+  const powerSkillsReady = nextSkillUseTimes.some((t) => t <= now);
 
   return (
     <>

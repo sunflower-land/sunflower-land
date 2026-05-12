@@ -44,6 +44,7 @@ type Response = {
 
   accountTradedAt?: string;
   totalHelpedToday: number;
+  banReason?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -141,6 +142,7 @@ export async function loadSession(
     apiKey,
     accountTradedAt,
     totalHelpedToday,
+    banReason,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -170,6 +172,7 @@ export async function loadSession(
     apiKey: string;
     accountTradedAt?: string;
     totalHelpedToday: number;
+    banReason?: string;
   }>(response);
 
   saveSession(farm.id);
@@ -195,6 +198,7 @@ export async function loadSession(
     apiKey,
     accountTradedAt,
     totalHelpedToday,
+    banReason,
   };
 }
 

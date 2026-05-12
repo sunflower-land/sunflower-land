@@ -1,6 +1,7 @@
 import { getKeys } from "lib/object";
 import { BumpkinItem } from "../types/bumpkin";
 import { BedName, InventoryItemName, RecipeCraftableName } from "../types/game";
+import { ChapterName } from "../types/chapters";
 
 export type DollName =
   | "Doll"
@@ -26,7 +27,9 @@ export type DollName =
   | "Frosty Doll"
   | "Cosmo Doll"
   | "Bigfin Doll"
-  | "Solar Doll";
+  | "Solar Doll"
+  // Salt Awakening
+  | "Salt Doll";
 
 export const DOLLS: Record<DollName, object> = {
   Doll: {},
@@ -53,12 +56,26 @@ export const DOLLS: Record<DollName, object> = {
   "Cosmo Doll": {},
   "Bigfin Doll": {},
   "Solar Doll": {},
+  // Salt Awakening
+  "Salt Doll": {},
+};
+
+export type CraftableBearName =
+  | "Basic Bear"
+  // Salt Awakening
+  | "Jacuzzi Bear";
+
+export const CRAFTABLE_BEARS: Record<CraftableBearName, object> = {
+  "Basic Bear": {},
+  // Salt Awakening
+  "Jacuzzi Bear": {},
 };
 
 export type RecipeCollectibleName = Extract<
   | RecipeCraftableName
   | Exclude<BedName, "Double Bed" | "Messy Bed" | "Pearl Bed">
-  | DollName,
+  | DollName
+  | CraftableBearName,
   InventoryItemName
 >;
 
@@ -82,6 +99,21 @@ export type Recipe = {
 );
 
 export type Recipes = Record<RecipeCollectibleName, Recipe>;
+
+const BEAR_RECIPES = getKeys(CRAFTABLE_BEARS).reduce<
+  Record<CraftableBearName, Recipe>
+>(
+  (acc, bear) => {
+    acc[bear] = {
+      name: bear,
+      ingredients: [],
+      time: 8 * 60 * 60 * 1000,
+      type: "collectible",
+    };
+    return acc;
+  },
+  {} as Record<CraftableBearName, Recipe>,
+);
 
 const DOLL_RECIPES = getKeys(DOLLS).reduce<Record<DollName, Recipe>>(
   (acc, doll) => {
@@ -224,6 +256,22 @@ export const RECIPES: Recipes = {
   },
 
   ...DOLL_RECIPES,
+  ...BEAR_RECIPES,
+  "Basic Bear": {
+    name: "Basic Bear",
+    ingredients: [],
+    time: 10 * 60 * 1000,
+    type: "collectible",
+  },
+};
+
+// Maps craftable items to the chapter they are available in.
+// Items in this config are only shown in the crafting box UI during that chapter.
+export const CHAPTER_CRAFTING_ITEMS: Partial<
+  Record<RecipeCollectibleName, ChapterName>
+> = {
+  "Salt Doll": "Salt Awakening",
+  "Jacuzzi Bear": "Salt Awakening",
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {

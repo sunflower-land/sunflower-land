@@ -55,6 +55,24 @@ export const getRemainingReels = (state: GameState, now = new Date()) => {
   return reelsLeft;
 };
 
+export function getRodCost({
+  game,
+  multiplier,
+}: {
+  game: GameState;
+  multiplier: number;
+}): { rodCost: number; boostsUsed: { name: BoostName; value: string }[] } {
+  let rodCost = multiplier;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  if (isWearableActive({ name: "Ancient Rod", game })) {
+    boostsUsed.push({ name: "Ancient Rod", value: "Free" });
+    rodCost = 0;
+  }
+
+  return { rodCost, boostsUsed };
+}
+
 export function getReelsPackGemPrice({
   state,
   packs,
@@ -153,12 +171,15 @@ export function castRod({
       throw new Error(`Daily attempts exhausted`);
     }
 
+    const { rodCost, boostsUsed: rodBoostsUsed } = getRodCost({
+      game,
+      multiplier,
+    });
+    boostsUsed.push(...rodBoostsUsed);
+
     const rodCount = game.inventory.Rod ?? new Decimal(0);
     // Requires Rod
-    if (
-      rodCount.lt(multiplier) &&
-      !isWearableActive({ name: "Ancient Rod", game })
-    ) {
+    if (rodCount.lt(rodCost)) {
       throw new Error(translate("error.missingRod"));
     }
 
@@ -212,14 +233,8 @@ export function castRod({
     }
 
     // Subtracts Rod
-    if (!isWearableActive({ name: "Ancient Rod", game })) {
-      game.inventory.Rod = rodCount.sub(multiplier);
-    } else {
-      game.boostsUsedAt = updateBoostUsed({
-        game,
-        boostNames: [{ name: "Ancient Rod", value: "Free" }],
-        createdAt,
-      });
+    if (rodCost > 0) {
+      game.inventory.Rod = rodCount.sub(rodCost);
     }
 
     // Subtracts Bait

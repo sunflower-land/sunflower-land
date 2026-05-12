@@ -203,18 +203,18 @@ function getFeatherYieldBoosts(game: GameState): {
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.1" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
-    boost += 0.25;
-    boostsUsed.push({ name: "Featherweight", value: "+0.25" });
+    boost += 0.35;
+    boostsUsed.push({ name: "Featherweight", value: "+0.35" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Merino Whisperer", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Merino Whisperer", value: "-0.1" });
   }
 
   return { amount: boost, boostsUsed };
@@ -273,18 +273,18 @@ function getMerinoWoolYieldBoosts(game: GameState): {
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.1" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Featherweight", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Featherweight", value: "-0.1" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost += 0.25;
-    boostsUsed.push({ name: "Merino Whisperer", value: "+0.25" });
+    boost += 0.35;
+    boostsUsed.push({ name: "Merino Whisperer", value: "+0.35" });
   }
 
   return { amount: boost, boostsUsed };
@@ -347,18 +347,18 @@ function getLeatherYieldBoosts(game: GameState): {
   }
 
   if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost += 0.25;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "+0.25" });
+    boost += 0.35;
+    boostsUsed.push({ name: "Leathercraft Mastery", value: "+0.35" });
   }
 
   if (game.bumpkin.skills["Featherweight"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Featherweight", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Featherweight", value: "-0.1" });
   }
 
   if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost -= 0.35;
-    boostsUsed.push({ name: "Merino Whisperer", value: "-0.35" });
+    boost -= 0.1;
+    boostsUsed.push({ name: "Merino Whisperer", value: "-0.1" });
   }
 
   if (isWearableActive({ name: "Training Whistle", game })) {

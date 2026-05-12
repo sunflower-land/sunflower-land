@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
-import logo from "assets/brand/crabs_and_traps.png";
+import logo from "assets/brand/salt_awakening.png";
 
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";

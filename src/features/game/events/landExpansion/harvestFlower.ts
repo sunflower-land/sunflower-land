@@ -22,7 +22,7 @@ type Options = {
   createdAt?: number;
 };
 
-function getFlowerAmount({
+export function getFlowerAmount({
   game,
   criticalDrop = () => false,
 }: {
