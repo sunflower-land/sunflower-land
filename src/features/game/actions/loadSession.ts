@@ -122,7 +122,7 @@ export async function loadSession(
     // path if parsing fails.
     try {
       const body = await response.clone().json();
-      if (body?.errorCode === "REAUTH_REQUIRED_DISAMBIGUATION") {
+      if (body?.errorCode === ERRORS.REAUTH_REQUIRED_DISAMBIGUATION) {
         throw new Error(ERRORS.REAUTH_REQUIRED_DISAMBIGUATION);
       }
     } catch (e) {

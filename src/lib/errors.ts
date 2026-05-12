@@ -22,6 +22,19 @@ export const ERRORS = {
   // so the user goes through the farm picker.
   REAUTH_REQUIRED_DISAMBIGUATION: "REAUTH_REQUIRED_DISAMBIGUATION",
 
+  // Disambiguation token was malformed, expired, or has already been
+  // consumed by a previous /login/resolve call. Client must restart login.
+  DISAMBIGUATION_TOKEN_INVALID: "DISAMBIGUATION_TOKEN_INVALID",
+
+  // Caller picked a farmId that wasn't in the disambiguation token's
+  // candidate set. Distinct from a bad token — the token itself is fine.
+  FARM_NOT_IN_DISAMBIGUATION_CANDIDATES:
+    "FARM_NOT_IN_DISAMBIGUATION_CANDIDATES",
+
+  // Chosen farm became banned / pending-transfer between token issuance
+  // and the resolve call.
+  FARM_NO_LONGER_ELIGIBLE: "FARM_NO_LONGER_ELIGIBLE",
+
   // Server errors
   DISCORD_USER_EXISTS: "DISCORD_USER_EXISTS",
   DISCORD_NOT_ON_SERVER: "DISCORD_NOT_ON_SERVER",

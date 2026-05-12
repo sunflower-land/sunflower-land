@@ -107,6 +107,10 @@ interface Authentication {
 export interface DisambiguationState {
   token: string;
   candidates: LoginCandidate[];
+  // Epoch ms snapshot taken at machine-transition time, used by the
+  // picker to compute "last played" labels without calling Date.now()
+  // during render (React Compiler purity rule).
+  shownAt: number;
 }
 
 export interface Context {
@@ -612,18 +616,21 @@ export const authMachine = createMachine(
         disambiguation: () => ({
           token: getDisambiguationTokenFromUrl() as string,
           candidates: [],
+          shownAt: Date.now(),
         }),
       }),
       assignDisambiguationFromLogin: assign<Context, any>({
         disambiguation: (_context, event) => ({
           token: event.data.disambiguationToken as string,
           candidates: event.data.candidates as LoginCandidate[],
+          shownAt: Date.now(),
         }),
       }),
       assignCandidates: assign<Context, any>({
         disambiguation: (context, event) => ({
           token: context.disambiguation?.token as string,
           candidates: event.data.candidates as LoginCandidate[],
+          shownAt: Date.now(),
         }),
       }),
       clearDisambiguation: assign<Context, any>({

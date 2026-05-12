@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -16,7 +16,7 @@ import basicIsland from "assets/icons/islands/basic.webp";
 import springIsland from "assets/icons/islands/spring.webp";
 import desertIsland from "assets/icons/islands/desert.webp";
 import volcanoIsland from "assets/icons/islands/volcano.webp";
-import sflIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 
 const ISLAND_ICON: Record<IslandType, string> = {
   basic: basicIsland,
@@ -39,12 +39,16 @@ export const ChooseFarm: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
   const { t } = useAppTranslation();
-  // Snapshot "now" once at mount. The picker is shown for a few seconds
-  // and per-row "last played" labels do not need to tick. Avoids calling
-  // `Date.now()` during render (project rule via React Compiler).
-  const [now] = useState(() => Date.now());
+  // `shownAt` is captured at machine-transition time (see authMachine
+  // `assignDisambiguation*` actions) so the picker stays pure across
+  // re-renders and reads a stable timestamp from context.
+  const now = authState.context.disambiguation?.shownAt ?? 0;
 
-  const candidates = authState.context.disambiguation?.candidates ?? [];
+  // Sort defensively — the BE returns most-recent-first already, but a
+  // local sort makes the UI ordering a frontend guarantee.
+  const candidates = [
+    ...(authState.context.disambiguation?.candidates ?? []),
+  ].sort((a, b) => (b.lastActivityAt ?? 0) - (a.lastActivityAt ?? 0));
 
   if (authState.matches("loadingCandidates")) {
     return <Loading />;
@@ -55,14 +59,16 @@ export const ChooseFarm: React.FC = () => {
   }
 
   return (
-    <div className="p-1">
-      <Label type="default" className="mb-2">
-        {t("auth.chooseFarm.title")}
-      </Label>
-      <p className="text-xs mb-2">{t("auth.chooseFarm.description")}</p>
-      {candidates.length === 0 && (
-        <p className="text-xs">{t("auth.chooseFarm.empty")}</p>
-      )}
+    <>
+      <div className="p-1">
+        <Label type="default" className="mb-2">
+          {t("auth.chooseFarm.title")}
+        </Label>
+        <p className="text-xs mb-1">{t("auth.chooseFarm.description")}</p>
+        {candidates.length === 0 && (
+          <p className="text-xs">{t("auth.chooseFarm.empty")}</p>
+        )}
+      </div>
       <div className="overflow-y-auto max-h-[60vh] scrollable">
         {candidates.map((c) => (
           <CandidateRow
@@ -73,7 +79,7 @@ export const ChooseFarm: React.FC = () => {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -117,7 +123,7 @@ const CandidateRow: React.FC<{
           <span>{t("level.number", { level })}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src={sflIcon} className="w-3 h-3" />
+          <img src={flowerIcon} className="w-3 h-3" alt="FLOWER Token" />
           <span>{formatBalance(candidate.balance)}</span>
         </div>
         {islandIcon && (
