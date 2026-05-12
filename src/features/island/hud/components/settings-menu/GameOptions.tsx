@@ -212,8 +212,9 @@ const preloadSubscriptions = async (token: string, farmId: number) => {
 const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
 const _linkingSocialSuccess = (state: MachineState) =>
   state.matches("linkingSocialSuccess");
-const _linkingSocialFailed = (state: MachineState) =>
-  state.matches("linkingSocialFailed");
+const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");
+const _linkingWalletSuccess = (state: MachineState) =>
+  state.matches("linkingWalletSuccess");
 
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
@@ -230,6 +231,16 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     gameService,
     _linkingSocialSuccess,
   );
+  const isLinkingWallet = useSelector(gameService, _linkingWallet);
+  const isLinkingWalletSuccess = useSelector(
+    gameService,
+    _linkingWalletSuccess,
+  );
+  const isLinkingInFlight =
+    isLinkingSocial ||
+    isLinkingSocialSuccess ||
+    isLinkingWallet ||
+    isLinkingWalletSuccess;
 
   useEffect(() => {
     if (farmId) preloadSubscriptions(token, farmId);
@@ -245,18 +256,15 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const SelectedComponent = settingMenus[selected].content;
 
   return (
-    <Modal
-      show={show}
-      onHide={isLinkingSocial || isLinkingSocialSuccess ? undefined : onHide}
-    >
+    <Modal show={show} onHide={isLinkingInFlight ? undefined : onHide}>
       <CloseButtonPanel
         title={settingMenus[selected].title}
         onBack={
-          !(isLinkingSocial || isLinkingSocialSuccess) && selected !== "main"
+          !isLinkingInFlight && selected !== "main"
             ? () => setSelected(settingMenus[selected].parent)
             : undefined
         }
-        onClose={isLinkingSocial || isLinkingSocialSuccess ? undefined : onHide}
+        onClose={isLinkingInFlight ? undefined : onHide}
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
@@ -356,7 +364,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   linkAccountWallet: {
     title: translate("linkedAccounts.linkWallet"),
     parent: "linkedAccounts",
-    content: () => <LinkWallet />,
+    content: LinkWallet,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),

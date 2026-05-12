@@ -179,6 +179,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   linkingSocial: false,
   linkingSocialSuccess: false,
   linkingSocialFailed: false,
+  linkingWallet: false,
+  linkingWalletSuccess: false,
+  linkingWalletFailed: false,
 
   // Every new state should be added below here
   gems: true,

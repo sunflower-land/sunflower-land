@@ -21,6 +21,7 @@ import { MarketplaceListingNotClaimed } from "./components/MarketplaceListingNot
 import { ClientOutdated } from "./components/ClientOutdated";
 import { DuplicateWithdraw } from "./components/DuplicateWithdraw";
 import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
+import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
 
 interface Props {
   errorCode: ErrorCode;
@@ -58,6 +59,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.SOCIAL_IDENTITY_HAS_FARM) {
     return <SocialIdentityHasFarm />;
+  }
+
+  if (errorCode === ERRORS.LINKED_WALLET_HAS_FARM) {
+    return <LinkedWalletHasFarm />;
   }
 
   if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {
