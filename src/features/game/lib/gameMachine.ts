@@ -632,10 +632,15 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails: resolveSocialDetails(
-                    event.data.data,
-                    context.socialDetails,
-                  ),
+                  // Effects run while visiting another farm return the
+                  // visited farm's response payload. Never let that
+                  // overwrite the visitor's own socialDetails.
+                  socialDetails: context.visitorId
+                    ? context.socialDetails
+                    : resolveSocialDetails(
+                        event.data.data,
+                        context.socialDetails,
+                      ),
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -655,10 +660,15 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails: resolveSocialDetails(
-                    event.data.data,
-                    context.socialDetails,
-                  ),
+                  // Effects run while visiting another farm return the
+                  // visited farm's response payload. Never let that
+                  // overwrite the visitor's own socialDetails.
+                  socialDetails: context.visitorId
+                    ? context.socialDetails
+                    : resolveSocialDetails(
+                        event.data.data,
+                        context.socialDetails,
+                      ),
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -776,10 +786,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  socialDetails: resolveSocialDetails(
-                    event.data.data,
-                    context.socialDetails,
-                  ),
+                  // Intentionally do NOT touch socialDetails here: the
+                  // payload is the visited farm's response, and merging
+                  // any `socialDetails` field would leak/clobber the
+                  // visitor's own identity in context.
                   data: { ...context.data, [stateName]: rest },
                   visitorState: event.data.visitorState,
                   hasHelpedPlayerToday,
