@@ -73,7 +73,10 @@ export const CRAFTABLE_BEARS: Record<CraftableBearName, object> = {
 
 export type RecipeCollectibleName = Extract<
   | RecipeCraftableName
-  | Exclude<BedName, "Double Bed" | "Messy Bed" | "Pearl Bed">
+  | Exclude<
+      BedName,
+      "Double Bed" | "Messy Bed" | "Pearl Bed" | "Salt Crystal Bed"
+    >
   | DollName
   | CraftableBearName,
   InventoryItemName

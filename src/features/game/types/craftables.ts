@@ -1068,7 +1068,7 @@ const bedsDimension = getKeys(BED_FARMHAND_COUNT).reduce(
     ...previous,
     [bedName]: { width: 1, height: 1 },
   }),
-  {} as Record<Exclude<BedName, "Double Bed">, Dimensions>,
+  {} as Record<Exclude<BedName, "Double Bed" | "Pearl Bed">, Dimensions>,
 );
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
@@ -1309,7 +1309,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crystal Altar": { width: 3, height: 2 },
   "Dino Egg Trophy": { width: 2, height: 1 },
   "Salt Lamp": { width: 1, height: 1 },
-  "Salt Crystal Bed": { width: 1, height: 1 },
   "World Map Rug": { width: 3, height: 2 },
   "Ripped Salt Bag": { width: 1, height: 1 },
 
