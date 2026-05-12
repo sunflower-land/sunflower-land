@@ -8902,7 +8902,7 @@
   "obsidianShrine.section.plant": "Посадка",
   "obsidianShrine.section.fertilise": "Удобрение",
   "obsidianShrine.crops.ready": "Готово: {{count}}",
-  "obsidianShrine.plots.empty": "Пусто: {{count}}",
+  "obsidianShrine.plots.empty": "Свободно: {{count}}",
   "statements.blacklist.multiAccounting": "Эта ферма заблокирована за мультиаккаунтинг.",
   "statements.blacklist.funnelling": "Эта ферма заблокирована за перелив ресурсов.",
   "statements.blacklist.whatIsThis": "Что это?",
