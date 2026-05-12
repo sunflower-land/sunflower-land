@@ -62,8 +62,7 @@ const ManekiNekoLabel = () => {
 export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  // Combine all Maneki Nekos across every placement surface (farm, home,
-  // interior ground, interior level_one) so the shake cooldown is global.
+
   const interior = gameState.context.state.interior;
   const manekiNekos = [
     ...(gameState.context.state.collectibles["Maneki Neko"] ?? []),
@@ -74,7 +73,6 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
 
   const hasShakenRecently = manekiNekos.some((maneki) => {
     const shakenAt = maneki.shakenAt || 0;
-
     return !canShake(shakenAt);
   });
 
@@ -83,7 +81,6 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
   const shake = () => {
     setIsRevealing(true);
 
-    // Can only shake a Maneki every 24 hours (even if you have multiple)
     if (hasShakenRecently) {
       return;
     }
@@ -117,7 +114,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
           className="absolute pointer-events-none"
         />
         <img
-          src={open ? manekiNekoShaking : manekiNeko}
+          src={hasShakenRecently ? manekiNekoShaking : manekiNeko}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
