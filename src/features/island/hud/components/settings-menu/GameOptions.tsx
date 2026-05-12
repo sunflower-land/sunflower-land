@@ -78,10 +78,7 @@ export const subscriptionsFetcher = ([, token, farmId]: [
   return getSubscriptionsForFarmId(farmId, token);
 };
 
-const GameOptions: React.FC<ContentComponentProps> = ({
-  onSubMenuClick,
-  onClose,
-}) => {
+const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
   const { gameService } = useContext(GameContext);
 
   const { t } = useAppTranslation();
@@ -212,6 +209,12 @@ const preloadSubscriptions = async (token: string, farmId: number) => {
   );
 };
 
+const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
+const _linkingSocialSuccess = (state: MachineState) =>
+  state.matches("linkingSocialSuccess");
+const _linkingSocialFailed = (state: MachineState) =>
+  state.matches("linkingSocialFailed");
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
@@ -222,6 +225,11 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const { gameService } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
   const [selected, setSelected] = useState<SettingMenuId>("main");
+  const isLinkingSocial = useSelector(gameService, _linkingSocial);
+  const isLinkingSocialSuccess = useSelector(
+    gameService,
+    _linkingSocialSuccess,
+  );
 
   useEffect(() => {
     if (farmId) preloadSubscriptions(token, farmId);
@@ -237,15 +245,18 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const SelectedComponent = settingMenus[selected].content;
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal
+      show={show}
+      onHide={isLinkingSocial || isLinkingSocialSuccess ? undefined : onHide}
+    >
       <CloseButtonPanel
         title={settingMenus[selected].title}
         onBack={
-          selected !== "main"
+          !(isLinkingSocial || isLinkingSocialSuccess) && selected !== "main"
             ? () => setSelected(settingMenus[selected].parent)
             : undefined
         }
-        onClose={onHide}
+        onClose={isLinkingSocial || isLinkingSocialSuccess ? undefined : onHide}
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>

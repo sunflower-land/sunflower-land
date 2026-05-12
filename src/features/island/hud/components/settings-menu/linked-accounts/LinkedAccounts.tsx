@@ -4,6 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import walletIcon from "assets/icons/wallet.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -14,14 +15,32 @@ import { ContentComponentProps } from "../GameOptions";
 import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 import { useGoogleLinkPopup } from "features/auth/lib/useGoogleLinkPopup";
 import { WalletWall } from "features/wallet/components/WalletWall";
+import { Loading } from "features/auth/components";
+import { ErrorMessage } from "features/auth/ErrorMessage";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
 const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
+const _linkingSocialSuccess = (state: MachineState) =>
+  state.matches("linkingSocialSuccess");
+const _linkingSocialFailed = (state: MachineState) =>
+  state.matches("linkingSocialFailed");
 const _unlinkingSocial = (state: MachineState) =>
   state.matches("unlinkingSocial");
+const getErrorCode = (state: MachineState) => state.context.errorCode;
 
 type WalletReauth = { address: string; signature: string };
+
+const maskEmail = (email: string): string => {
+  const [local, domain] = email.split("@");
+  if (!domain) return email;
+  const visibleLocal = local.slice(0, Math.min(2, local.length));
+  const localMask = "*".repeat(Math.max(3, local.length - visibleLocal.length));
+  const tld = domain.includes(".") ? domain.slice(domain.lastIndexOf(".")) : "";
+  const domainBody = tld ? domain.slice(0, -tld.length) : domain;
+  const domainMask = "*".repeat(Math.max(3, domainBody.length));
+  return `${visibleLocal}${localMask}@${domainMask}${tld}`;
+};
 
 export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -32,9 +51,15 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
 
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const socialDetails = useSelector(gameService, _socialDetails);
+
   const isLinking = useSelector(gameService, _linkingSocial);
   const isUnlinking = useSelector(gameService, _unlinkingSocial);
-
+  const isLinkingSocialSuccess = useSelector(
+    gameService,
+    _linkingSocialSuccess,
+  );
+  const isLinkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
+  const errorCode = useSelector(gameService, getErrorCode);
   const google = useGoogleLinkPopup();
 
   // The "Link Google" ceremony is multi-step: capture wallet sig, then
@@ -42,6 +67,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   // view; `walletReauth` captures the wallet sig between steps.
   const [googleLinkMode, setGoogleLinkMode] = useState(false);
   const [walletReauth, setWalletReauth] = useState<WalletReauth | null>(null);
+  const [emailRevealed, setEmailRevealed] = useState(false);
 
   // Once both credentials are captured, fire the event exactly once.
   // Effect deps don't change after the dispatch (we don't reset state
@@ -73,12 +99,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     setGoogleLinkMode(true);
   };
 
-  const cancelGoogleLink = () => {
-    setGoogleLinkMode(false);
-    setWalletReauth(null);
-    google.reset();
-  };
-
   // Testnet-only debug affordance. The backend also gates `social.unlinked`
   // to non-mainnet, so this stays inert in production even if shown.
   const onUnlinkGoogle = () => {
@@ -91,6 +111,8 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     });
   };
 
+  // Once `socialDetails.email` is populated by the game machine the link is
+  // complete — fall through to the main view regardless of stale local state.
   if (googleLinkMode) {
     // Step 1: capture the wallet re-auth signature.
     if (!walletReauth) {
@@ -104,7 +126,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
               setWalletReauth({ address, signature })
             }
           />
-          <Button onClick={cancelGoogleLink}>{t("cancel")}</Button>
         </div>
       );
     }
@@ -116,7 +137,23 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
           {t("linkedAccounts.linkGoogle")}
         </Label>
         {isLinking ? (
-          <Button disabled>{t("linkedAccounts.linking")}</Button>
+          <Loading text={t("linkedAccounts.linking")} />
+        ) : isLinkingSocialSuccess ? (
+          <>
+            <p className="text-sm mb-2 ml-2">
+              {t("linkedAccounts.linkingSuccess")}
+            </p>
+            <Button
+              onClick={() => {
+                gameService.send("CONTINUE");
+                setGoogleLinkMode(false);
+              }}
+            >
+              {t("continue")}
+            </Button>
+          </>
+        ) : isLinkingSocialFailed ? (
+          <ErrorMessage errorCode={errorCode!} />
         ) : (
           <GoogleButton onClick={google.open} />
         )}
@@ -130,7 +167,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
             {t("linkedAccounts.linkFailed")}
           </p>
         )}
-        <Button onClick={cancelGoogleLink}>{t("cancel")}</Button>
       </div>
     );
   }
@@ -161,7 +197,21 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         <Label type="default">{t("linkedAccounts.google")}</Label>
         {socialDetails?.email ? (
           <>
-            <p className="text-xs break-all">{socialDetails.email}</p>
+            <div
+              className="flex items-center gap-1 cursor-pointer select-none"
+              onClick={() => setEmailRevealed((v) => !v)}
+            >
+              <p className="text-xs break-all">
+                {emailRevealed
+                  ? socialDetails.email
+                  : maskEmail(socialDetails.email)}
+              </p>
+              <img
+                src={SUNNYSIDE.icons.search}
+                className="h-4 shrink-0"
+                alt={emailRevealed ? "Hide email" : "Reveal email"}
+              />
+            </div>
             {CONFIG.NETWORK === "amoy" && (
               <Button onClick={onUnlinkGoogle} disabled={isUnlinking}>
                 {isUnlinking

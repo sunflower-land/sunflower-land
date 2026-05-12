@@ -1093,6 +1093,7 @@ export function startGame(authContext: AuthContext) {
                 accountTradedAt: response.accountTradedAt,
                 totalHelpedToday: response.totalHelpedToday,
                 banReason: response.banReason,
+                socialDetails: response.socialDetails,
               };
             },
             onDone: [

@@ -20,6 +20,7 @@ import { MarketplaceTransferInProgress } from "./components/MarketplaceTransferI
 import { MarketplaceListingNotClaimed } from "./components/MarketplaceListingNotClaimed";
 import { ClientOutdated } from "./components/ClientOutdated";
 import { DuplicateWithdraw } from "./components/DuplicateWithdraw";
+import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
 
 interface Props {
   errorCode: ErrorCode;
@@ -53,6 +54,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.DISCORD_USER_EXISTS) {
     return <DuplicateUser />;
+  }
+
+  if (errorCode === ERRORS.SOCIAL_IDENTITY_HAS_FARM) {
+    return <SocialIdentityHasFarm />;
   }
 
   if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {
