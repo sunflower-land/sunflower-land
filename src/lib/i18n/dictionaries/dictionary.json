@@ -7559,6 +7559,8 @@
   "pets.foodOwnedCount": "Have {{count}}",
   "pets.missingFoodPets": "Pets: {{pets}}",
   "pets.missingFoodLevel": "Level: {{level}}",
+  "pets.source.common": "common",
+  "pets.source.nft": "NFT",
   "pets.yourPets": "Your Pets ({{count}})",
   "pets.confirmFeed": "Confirm Feed",
   "pets.feedSelected": "Feed Selected: {{count}}",

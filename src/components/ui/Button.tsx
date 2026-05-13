@@ -9,7 +9,11 @@ import secondaryButton from "assets/ui/secondary_button.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-interface Props {
+interface Props
+  extends Pick<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    "aria-controls" | "aria-expanded"
+  > {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
   className?: string;
@@ -23,6 +27,8 @@ interface Props {
   contentAlign?: "start" | "center" | "end";
 }
 export const Button: React.FC<React.PropsWithChildren<Props>> = ({
+  "aria-controls": ariaControls,
+  "aria-expanded": ariaExpanded,
   children,
   onClick,
   disabled,
@@ -78,6 +84,8 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
         )}
         type={type}
         disabled={disabled}
+        aria-controls={ariaControls}
+        aria-expanded={ariaExpanded}
         style={{
           ...buttonVariables,
           borderStyle: "solid",

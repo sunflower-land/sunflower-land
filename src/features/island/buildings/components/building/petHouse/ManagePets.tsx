@@ -1,4 +1,5 @@
 import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -8,6 +9,7 @@ import {
   getPetFoodRequests,
   getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "lib/object";
 import { CookableName } from "features/game/types/consumables";
@@ -26,7 +28,7 @@ import {
   isPetNFT,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext, useId, useState } from "react";
 import { isFoodAlreadyFed } from "./PetCard";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PetInfo } from "./PetInfo";
@@ -52,15 +54,22 @@ type MissingFoodRequest = {
   petNames: string[];
 };
 
+type PetSourceLabels = {
+  common: string;
+  nft: string;
+};
+
 export const getMissingFoodRequests = ({
   activePets,
   inventory,
   now,
+  petSourceLabels,
   state,
 }: {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
   inventory: Inventory;
   now: number;
+  petSourceLabels: PetSourceLabels;
   state: GameState;
 }): MissingFoodRequest[] => {
   const requiredFeedAmount = getRequiredFeedAmount(state);
@@ -83,7 +92,9 @@ export const getMissingFoodRequests = ({
       const requested = requestedFood[food]?.requested ?? 0;
       const owned = inventory[food]?.toNumber() ?? 0;
       const petNames = requestedFood[food]?.petNames ?? [];
-      const petLabel = `${pet.name} (${isPetNFT(pet) ? "NFT" : "common"})`;
+      const petLabel = `${pet.name} (${
+        isPetNFT(pet) ? petSourceLabels.nft : petSourceLabels.common
+      })`;
 
       requestedFood[food] = {
         requested: requested + requiredFeedAmount,
@@ -112,8 +123,80 @@ export const getMissingFoodRequests = ({
     .sort((a, b) => b.missing - a.missing || a.food.localeCompare(b.food));
 };
 
+const MissingFoodsPanel: React.FC<{
+  id: string;
+  missingFoodRequests: MissingFoodRequest[];
+  onClose: () => void;
+}> = ({ id, missingFoodRequests, onClose }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <InnerPanel id={id} className="flex flex-col gap-1 mb-1 p-1 w-full">
+      <div className="relative flex items-center justify-center">
+        <span className="text-sm sm:text-base">{t("pets.missingFoods")}</span>
+        <button
+          aria-label={t("close")}
+          className="absolute right-0 cursor-pointer"
+          onClick={onClose}
+          type="button"
+        >
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="block"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              height: `${PIXEL_SCALE * 7}px`,
+            }}
+          />
+        </button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+        {missingFoodRequests.map(
+          ({ food, difficulty, missing, owned, petNames }) => (
+            <div
+              key={food}
+              className="flex flex-col gap-1 text-xs p-1 bg-brown-200"
+            >
+              <div className="flex items-center justify-between gap-1">
+                <div className="flex items-center gap-1 min-w-0">
+                  <img
+                    src={ITEM_DETAILS[food].image}
+                    alt={food}
+                    className="w-6 h-6 object-contain shrink-0"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                  <span className="truncate">{food}</span>
+                </div>
+                <div className="flex gap-1 shrink-0">
+                  <Label type="danger">
+                    {t("pets.missingFoodCount", { count: missing })}
+                  </Label>
+                  <Label type="default">
+                    {t("pets.foodOwnedCount", { count: owned })}
+                  </Label>
+                </div>
+              </div>
+              <p className="text-xxs">
+                {t("pets.missingFoodPets", {
+                  pets: petNames.join(", "),
+                })}
+              </p>
+              {difficulty && (
+                <p className="text-xxs capitalize">
+                  {t("pets.missingFoodLevel", { level: difficulty })}
+                </p>
+              )}
+            </div>
+          ),
+        )}
+      </div>
+    </InnerPanel>
+  );
+};
+
 export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
+  const missingFoodsPanelId = useId();
   const now = useNow({ live: true });
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const [showMissingFoods, setShowMissingFoods] = useState(false);
@@ -315,6 +398,10 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     activePets,
     inventory,
     now,
+    petSourceLabels: {
+      common: t("pets.source.common"),
+      nft: t("pets.source.nft"),
+    },
     state,
   });
 
@@ -381,8 +468,11 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
         <div className="flex flex-row gap-1 w-full">
           <Button
             className="flex-1 min-w-0"
-            disabled={display === "feeding"}
-            onClick={() => setDisplay("feeding")}
+            disabled={display === "feeding" && !showMissingFoods}
+            onClick={() => {
+              setDisplay("feeding");
+              setShowMissingFoods(false);
+            }}
           >
             {t("pets.feed")}
           </Button>
@@ -423,8 +513,10 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           )}
           {!isBulkFeed && display === "feeding" && (
             <Button
+              aria-controls={missingFoodsPanelId}
+              aria-expanded={showMissingFoods}
               className="flex-1 min-w-0"
-              disabled={missingFoodRequests.length === 0}
+              disabled={showMissingFoods || missingFoodRequests.length === 0}
               onClick={() => setShowMissingFoods(!showMissingFoods)}
             >
               {t("pets.missingFoods")}
@@ -436,77 +528,40 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
             </Button>
           )}
         </div>
-        {showMissingFoods && display === "feeding" && !isBulkFeed && (
-          <div className="flex flex-col gap-1 p-1 bg-brown-200">
-            <Label type="warning">{t("pets.missingFoods")}</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-              {missingFoodRequests.map(
-                ({ food, difficulty, missing, owned, petNames }) => (
-                  <div
-                    key={food}
-                    className="flex flex-col gap-1 text-xs p-1 bg-brown-200"
-                  >
-                    <div className="flex items-center justify-between gap-1">
-                      <div className="flex items-center gap-1 min-w-0">
-                        <img
-                          src={ITEM_DETAILS[food].image}
-                          alt={food}
-                          className="w-6 h-6 object-contain shrink-0"
-                          style={{ imageRendering: "pixelated" }}
-                        />
-                        <span className="truncate">{food}</span>
-                      </div>
-                      <div className="flex gap-1 shrink-0">
-                        <Label type="danger">
-                          {t("pets.missingFoodCount", { count: missing })}
-                        </Label>
-                        <Label type="default">
-                          {t("pets.foodOwnedCount", { count: owned })}
-                        </Label>
-                      </div>
-                    </div>
-                    <p className="text-xxs">
-                      {t("pets.missingFoodPets", {
-                        pets: petNames.join(", "),
-                      })}
-                    </p>
-                    {difficulty && (
-                      <p className="text-xxs capitalize">
-                        {t("pets.missingFoodLevel", { level: difficulty })}
-                      </p>
-                    )}
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
-        )}
       </InnerPanel>
-      <div className="flex flex-col gap-1">
-        {activePetsSortedByType.map(([petName, pet]) => {
-          if (!pet) return null;
-          return (
-            <PetInfo key={petName} petData={pet} nftPets={state.pets?.nfts}>
-              <PetCard
-                petData={pet}
-                petName={petName}
-                state={state}
-                display={display}
-                hasViewedFetching={hasViewedFetching}
-                handleFeed={handleFeed}
-                handleFetch={handleFetch}
-                handleNeglectPet={handleNeglectPet}
-                handlePetPet={handlePetPet}
-                isBulkFeed={isBulkFeed}
-                selectedFeed={selectedFeed}
-                setSelectedFeed={setSelectedFeed}
-                handleResetRequests={() => handleResetRequests(petName)}
-                onAcknowledged={() => gameService.send("CONTINUE")}
-              />
-            </PetInfo>
-          );
-        })}
-      </div>{" "}
+      {showMissingFoods && display === "feeding" && !isBulkFeed ? (
+        <MissingFoodsPanel
+          id={missingFoodsPanelId}
+          missingFoodRequests={missingFoodRequests}
+          onClose={() => setShowMissingFoods(false)}
+        />
+      ) : (
+        <div className="flex flex-col gap-1">
+          {activePetsSortedByType.map(([petName, pet]) => {
+            if (!pet) return null;
+            return (
+              <PetInfo key={petName} petData={pet} nftPets={state.pets?.nfts}>
+                <PetCard
+                  petData={pet}
+                  petName={petName}
+                  state={state}
+                  display={display}
+                  hasViewedFetching={hasViewedFetching}
+                  handleFeed={handleFeed}
+                  handleFetch={handleFetch}
+                  handleNeglectPet={handleNeglectPet}
+                  handlePetPet={handlePetPet}
+                  isBulkFeed={isBulkFeed}
+                  selectedFeed={selectedFeed}
+                  setSelectedFeed={setSelectedFeed}
+                  handleResetRequests={() => handleResetRequests(petName)}
+                  onAcknowledged={() => gameService.send("CONTINUE")}
+                />
+              </PetInfo>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };
