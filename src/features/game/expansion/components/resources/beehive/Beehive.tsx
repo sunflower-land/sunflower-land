@@ -21,8 +21,6 @@ import {
   BeehiveMachineState,
   MachineInterpreter,
   beehiveMachine,
-  getCurrentHoneyProduced,
-  getCurrentSpeed,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "components/ui/Modal";
@@ -47,6 +45,10 @@ import {
   getHoneyMultiplier,
 } from "features/game/events/landExpansion/harvestBeehive";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  getCurrentHoneyProduced,
+  getCurrentSpeed,
+} from "features/game/lib/beehiveProduction";
 
 interface Props {
   id: string;

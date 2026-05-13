@@ -3,17 +3,9 @@ import {
   getActiveFlower,
   getCurrentHoneyProduced,
   getCurrentSpeed,
-  areBeehivesEmpty,
 } from "features/game/lib/beehiveProduction";
 import { Beehive, GameState } from "features/game/types/game";
 import { Interpreter, State, createMachine, assign } from "xstate";
-
-export {
-  getActiveFlower,
-  getCurrentHoneyProduced,
-  getCurrentSpeed,
-  areBeehivesEmpty,
-};
 
 export type AttachedFlower = {
   id: string;
