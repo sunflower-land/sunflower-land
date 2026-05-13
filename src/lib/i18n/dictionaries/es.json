@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Primero, confirma tu monedero actual.",
   "linkedAccounts.unlinkGoogleTestnet": "Desvincular Google (solo testnet)",
   "linkedAccounts.unlinking": "Desvinculando...",
-  "linkedAccounts.googleLinkingComingSoon": "Los enlaces de Google llegarán pronto."
+  "linkedAccounts.googleLinkingComingSoon": "Los enlaces de Google llegarán pronto.",
+  "agingShed.upgradeForMoreSlots": "Mejora tu cobertizo de envejecimiento para obtener más espacios",
+  "agingShed.upgradeForMoreSlotsTooltip": "Mejora tu cobertizo de envejecimiento para obtener más espacios"
 }

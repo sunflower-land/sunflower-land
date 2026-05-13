@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Primeiro, confirme sua carteira existente.",
   "linkedAccounts.unlinkGoogleTestnet": "Desvincular o Google (somente testnet)",
   "linkedAccounts.unlinking": "Desvinculando...",
-  "linkedAccounts.googleLinkingComingSoon": "A vinculação do Google estará disponível em breve."
+  "linkedAccounts.googleLinkingComingSoon": "A vinculação do Google estará disponível em breve.",
+  "agingShed.upgradeForMoreSlots": "Atualize seu Aging Shed para obter mais vagas",
+  "agingShed.upgradeForMoreSlotsTooltip": "Atualize seu Aging Shed para obter mais vagas"
 }

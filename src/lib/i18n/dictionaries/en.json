@@ -8824,6 +8824,8 @@
   "agingShed.agingRack.primeAgedFishLabel": "Prime Aged {{fish}}",
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",
   "agingShed.agingRack.slotLocked": "Upgrade Aging Shed to unlock",
+  "agingShed.upgradeForMoreSlots": "Upgrade your Aging Shed for more slots",
+  "agingShed.upgradeForMoreSlotsTooltip": "Upgrade your Aging Shed for more slots",
   "agingShed.agingRack.insufficientSalt": "Not enough Salt",
   "agingShed.agingRack.insufficientFish": "Not enough {{item}}",
   "agingShed.fermentationRack": "Fermentation",

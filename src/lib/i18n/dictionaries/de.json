@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Bestätigen Sie zunächst Ihr vorhandenes Wallet.",
   "linkedAccounts.unlinkGoogleTestnet": "Verknüpfung mit Google aufheben (nur Testnet)",
   "linkedAccounts.unlinking": "Verknüpfung aufheben...",
-  "linkedAccounts.googleLinkingComingSoon": "Die Google-Verlinkung kommt bald."
+  "linkedAccounts.googleLinkingComingSoon": "Die Google-Verlinkung kommt bald.",
+  "agingShed.upgradeForMoreSlots": "Verbessere deinen Aging Shed für mehr Slots",
+  "agingShed.upgradeForMoreSlotsTooltip": "Verbessere deinen Aging Shed für mehr Slots"
 }

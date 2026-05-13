@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "まず、既存のウォレットを確認します。",
   "linkedAccounts.unlinkGoogleTestnet": "Google のリンクを解除 (テストネットのみ)",
   "linkedAccounts.unlinking": "リンク解除中...。",
-  "linkedAccounts.googleLinkingComingSoon": "Googleリンクは間もなく開始されます。"
+  "linkedAccounts.googleLinkingComingSoon": "Googleリンクは間もなく開始されます。",
+  "agingShed.upgradeForMoreSlots": "エイジングシェッドをアップグレードしてスロットを増やしましょう",
+  "agingShed.upgradeForMoreSlotsTooltip": "エイジングシェッドをアップグレードしてスロットを増やしましょう"
 }

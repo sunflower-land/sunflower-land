@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Pertama, konfirmasikan dompet Anda yang ada.",
   "linkedAccounts.unlinkGoogleTestnet": "Putuskan tautan Google (hanya testnet)",
   "linkedAccounts.unlinking": "Memutuskan tautan...",
-  "linkedAccounts.googleLinkingComingSoon": "Google link akan segera hadir."
+  "linkedAccounts.googleLinkingComingSoon": "Google link akan segera hadir.",
+  "agingShed.upgradeForMoreSlots": "Tingkatkan Aging Shed Anda untuk lebih banyak slot",
+  "agingShed.upgradeForMoreSlotsTooltip": "Tingkatkan Aging Shed Anda untuk lebih banyak slot"
 }

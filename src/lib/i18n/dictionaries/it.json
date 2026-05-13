@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Innanzitutto, conferma il tuo portafoglio esistente.",
   "linkedAccounts.unlinkGoogleTestnet": "Scollegare Google (solo testnet)",
   "linkedAccounts.unlinking": "Scollegamento in corso...",
-  "linkedAccounts.googleLinkingComingSoon": "Il collegamento a Google sarà presto disponibile."
+  "linkedAccounts.googleLinkingComingSoon": "Il collegamento a Google sarà presto disponibile.",
+  "agingShed.upgradeForMoreSlots": "Aggiorna il tuo Aging Shed per avere più posti",
+  "agingShed.upgradeForMoreSlotsTooltip": "Aggiorna il tuo Aging Shed per avere più posti"
 }

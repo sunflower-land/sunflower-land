@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "Tout d'abord, confirmez votre portefeuille existant.",
   "linkedAccounts.unlinkGoogleTestnet": "Dissocier Google (testnet uniquement)",
   "linkedAccounts.unlinking": "Dissociation...",
-  "linkedAccounts.googleLinkingComingSoon": "Les liens vers Google seront bientôt disponibles."
+  "linkedAccounts.googleLinkingComingSoon": "Les liens vers Google seront bientôt disponibles.",
+  "agingShed.upgradeForMoreSlots": "Améliorez votre Aging Shed pour obtenir plus de machines à sous",
+  "agingShed.upgradeForMoreSlotsTooltip": "Améliorez votre Aging Shed pour obtenir plus de machines à sous"
 }

@@ -8934,5 +8934,7 @@
   "linkedAccounts.confirmExistingWallet": "İlk önce mevcut cüzdanınızı onaylayın.",
   "linkedAccounts.unlinkGoogleTestnet": "Google'ın bağlantısını kaldırın (yalnızca testnet)",
   "linkedAccounts.unlinking": "Bağlantıyı kaldırma...",
-  "linkedAccounts.googleLinkingComingSoon": "Google Linkleri Yakında Geliyor"
+  "linkedAccounts.googleLinkingComingSoon": "Google Linkleri Yakında Geliyor",
+  "agingShed.upgradeForMoreSlots": "Daha fazla slot için Yaşlanma Kulübenizi yükseltin",
+  "agingShed.upgradeForMoreSlotsTooltip": "Daha fazla slot için Yaşlanma Kulübenizi yükseltin"
 }

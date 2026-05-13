@@ -110,6 +110,9 @@ const LAND_NODES_WITH_RECOVERY: LandNodeWithRecovery[] = [
     getRecovery: ({ game }) => getOilRecoveryTimeForDisplay({ game }),
     resourceLabelKey: "resource.oilRecoveryTime",
   },
+];
+
+const WATER_NODES_WITH_RECOVERY: LandNodeWithRecovery[] = [
   {
     nodeImage: saltNodeStage3,
     nodeIconWidth: ICON_SIZE - 2,
@@ -154,6 +157,19 @@ export const ToolsGuide: React.FC = () => {
             node={node}
             state={state}
             alternateBg={index % 2 === 0}
+            showBoostsKey={showBoostsKey}
+            setShowBoostsKey={setShowBoostsKey}
+          />
+        ))}
+        <div className="w-full pt-2 pb-0">
+          <Label type="default">{t("waterTools")}</Label>
+        </div>
+        {WATER_NODES_WITH_RECOVERY.map((node, index) => (
+          <NodeRow
+            key={`${node.toolName}-${node.resourceName}`}
+            node={node}
+            state={state}
+            alternateBg={(index + LAND_NODES_WITH_RECOVERY.length) % 2 === 0}
             showBoostsKey={showBoostsKey}
             setShowBoostsKey={setShowBoostsKey}
           />
