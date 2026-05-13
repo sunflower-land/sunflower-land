@@ -16,7 +16,6 @@ import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/
 import {
   BUILDING_DAILY_OIL_CONSUMPTION,
   BUILDING_OIL_BOOSTS,
-  isCookingBuilding,
 } from "features/game/events/landExpansion/cook";
 import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -26,6 +25,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { isCookingBuilding } from "features/game/events/landExpansion/isCookingBuilding";
 
 interface OilTankProps {
   buildingName: BuildingName;

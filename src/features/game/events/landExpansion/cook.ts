@@ -14,12 +14,8 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
-import {
-  BuildingName,
-  CookingBuildingName,
-} from "features/game/types/buildings";
+import { CookingBuildingName } from "features/game/types/buildings";
 import { produce } from "immer";
-import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCookingAmount } from "./collectRecipe";
@@ -55,12 +51,6 @@ export const BUILDING_OIL_BOOSTS: (
   Bakery: 0.35,
   Deli: skills["Fry Frenzy"] ? 0.6 : 0.4,
 });
-
-// `isCookingBuilding` lives in ./isCookingBuilding so cook.ts and
-// collectRecipe.ts can both import it without forming a Vite-fragile
-// circular import. Re-exported here for backwards compatibility with
-// downstream callers.
-export { isCookingBuilding };
 
 export function getCookingOilBoost(
   item: CookableName,
