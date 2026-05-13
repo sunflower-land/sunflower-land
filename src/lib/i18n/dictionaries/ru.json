@@ -8810,7 +8810,7 @@
   "obsidianShrine.noEligiblePlots": "Нет грядок для удобрения",
   "obsidianShrine.noEligiblePatches": "Нет фруктовых грядок для удобрения",
   "obsidianShrine.eligible": "Подходит: {{count}}",
-  "description.saltCrystalFlower.boost": "5% шанс получить +1 FLOWER",
+  "description.saltCrystalFlower.boost": "5% шанс получить +1 Цветок",
   "playerEconomyEditor.tab.data": "Данные",
   "playerEconomyEditor.dataTab.suppliesHeading": "Запасы",
   "playerEconomyEditor.dataTab.playersHeading": "Игроки",
