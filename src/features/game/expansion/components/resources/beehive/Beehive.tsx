@@ -46,6 +46,7 @@ import {
   calculateSwarmBoost,
   getHoneyMultiplier,
 } from "features/game/events/landExpansion/harvestBeehive";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   id: string;
@@ -86,12 +87,13 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
   const gameState = useSelector(gameService, _state);
+  const now = useNow({ live: true });
 
   const beehiveContext: BeehiveContext = {
     gameState,
     hive,
-    honeyProduced: getCurrentHoneyProduced(hive),
-    currentSpeed: getCurrentSpeed(hive),
+    honeyProduced: getCurrentHoneyProduced(hive, now),
+    currentSpeed: getCurrentSpeed(hive, now),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
