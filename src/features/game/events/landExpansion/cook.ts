@@ -23,6 +23,7 @@ import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCookingAmount } from "./collectRecipe";
+import { isCookingBuilding } from "./isCookingBuilding";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type RecipeCookedAction = {
@@ -55,11 +56,11 @@ export const BUILDING_OIL_BOOSTS: (
   Deli: skills["Fry Frenzy"] ? 0.6 : 0.4,
 });
 
-export function isCookingBuilding(
-  building: BuildingName,
-): building is CookingBuildingName {
-  return Object.keys(BUILDING_DAILY_OIL_CAPACITY).includes(building);
-}
+// `isCookingBuilding` lives in ./isCookingBuilding so cook.ts and
+// collectRecipe.ts can both import it without forming a Vite-fragile
+// circular import. Re-exported here for backwards compatibility with
+// downstream callers.
+export { isCookingBuilding };
 
 export function getCookingOilBoost(
   item: CookableName,
@@ -251,7 +252,7 @@ export function cook({
     );
 
     if (isInstantFishRecipe(item)) {
-      const amount = getCookingAmount({
+      const { amount, boostsUsed } = getCookingAmount({
         building: requiredBuilding,
         game: stateCopy,
         recipe: {
@@ -270,6 +271,12 @@ export function cook({
         `${item} Cooked`,
         stateCopy.farmActivity,
       );
+
+      stateCopy.boostsUsedAt = updateBoostUsed({
+        game: stateCopy,
+        boostNames: boostsUsed,
+        createdAt,
+      });
 
       return stateCopy;
     }
