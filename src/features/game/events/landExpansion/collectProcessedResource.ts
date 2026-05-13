@@ -33,10 +33,17 @@ export function getProcessedResourceAmount({
   game,
   resource,
   farmId,
+  counter,
 }: {
   game: GameState;
   resource: ProcessedResource;
   farmId: number;
+  // PRNG counter seed for the Bubble Aura roll. Callers that don't
+  // care about precise batch prediction can pass
+  // `game.farmActivity[`${resource} Processed`] ?? 0`; callers that
+  // predict a batch of pending jobs thread their own per-slot counter
+  // so successive same-resource jobs roll independent dice.
+  counter: number;
 }): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = new Decimal(1);
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -46,7 +53,7 @@ export function getProcessedResourceAmount({
     prngChance({
       farmId,
       itemId: KNOWN_IDS[resource],
-      counter: game.farmActivity[`${resource} Processed`] ?? 0,
+      counter,
       chance: 20,
       criticalHitName: "Bubble Aura",
     })
@@ -98,10 +105,12 @@ export function collectProcessedResource({
     const boostsUsed: { name: BoostName; value: string }[] = [];
 
     ready.forEach((processed) => {
+      const resource = processed.name as ProcessedResource;
       const { amount, boostsUsed: itemBoosts } = getProcessedResourceAmount({
         game,
-        resource: processed.name as ProcessedResource,
+        resource,
         farmId,
+        counter: game.farmActivity[`${resource} Processed`] ?? 0,
       });
       boostsUsed.push(...itemBoosts);
 
