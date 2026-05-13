@@ -62,7 +62,6 @@ import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
-import { removeJWT } from "features/auth/actions/social";
 import { Announcements } from "../types/announcements";
 import {
   Currency,
@@ -1134,17 +1133,6 @@ export function startGame(authContext: AuthContext) {
               },
             ],
             onError: [
-              {
-                // BE has detected the JWT identity now resolves to multiple
-                // farms. Drop the stored token and reload so the auth flow
-                // restarts and the user lands on the picker.
-                cond: (_, event: any) =>
-                  event.data?.message === ERRORS.REAUTH_REQUIRED_DISAMBIGUATION,
-                actions: () => {
-                  removeJWT();
-                  window.location.reload();
-                },
-              },
               {
                 target: "error",
                 actions: "assignErrorMessage",

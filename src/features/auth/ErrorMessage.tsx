@@ -73,7 +73,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <Congestion />;
   }
 
-  if (errorCode === ERRORS.SESSION_EXPIRED) {
+  if (
+    errorCode === ERRORS.SESSION_EXPIRED ||
+    errorCode === ERRORS.REAUTH_REQUIRED_DISAMBIGUATION
+  ) {
     return <SessionExpired />;
   }
 
