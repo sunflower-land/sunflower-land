@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ButtonPanel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Loading } from ".";
 import { Label } from "components/ui/Label";
@@ -50,12 +51,45 @@ export const ChooseFarm: React.FC = () => {
     ...(authState.context.disambiguation?.candidates ?? []),
   ].sort((a, b) => (b.lastActivityAt ?? 0) - (a.lastActivityAt ?? 0));
 
+  // Click on a row stages the choice; the user confirms on the next
+  // screen before we dispatch FARM_SELECTED (which is destructive —
+  // detaches the identity from the rejected farms with no FE undo).
+  const [pending, setPending] = useState<LoginCandidate | null>(null);
+
   if (authState.matches("loadingCandidates")) {
     return <Loading />;
   }
 
   if (authState.matches("resolvingFarm")) {
     return <Loading text={t("auth.chooseFarm.loggingIn")} />;
+  }
+
+  if (pending) {
+    return (
+      <>
+        <div className="p-1">
+          <Label type="default" className="mb-2">
+            {t("auth.chooseFarm.confirm.title")}
+          </Label>
+        </div>
+        <CandidateRow candidate={pending} now={now} />
+        <Label type="danger" className="text-xs px-2 mt-1 mb-2">
+          {t("auth.chooseFarm.confirm.warning")}
+        </Label>
+        <div className="flex gap-1 px-1">
+          <Button onClick={() => setPending(null)}>
+            {t("auth.chooseFarm.confirm.back")}
+          </Button>
+          <Button
+            onClick={() =>
+              send({ type: "FARM_SELECTED", farmId: pending.farmId })
+            }
+          >
+            {t("auth.chooseFarm.confirm.proceed")}
+          </Button>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -75,7 +109,7 @@ export const ChooseFarm: React.FC = () => {
             key={c.farmId}
             candidate={c}
             now={now}
-            onSelect={() => send({ type: "FARM_SELECTED", farmId: c.farmId })}
+            onSelect={() => setPending(c)}
           />
         ))}
       </div>
@@ -86,7 +120,9 @@ export const ChooseFarm: React.FC = () => {
 const CandidateRow: React.FC<{
   candidate: LoginCandidate;
   now: number;
-  onSelect: () => void;
+  // When omitted, the ButtonPanel renders as a static preview — used
+  // by the confirmation screen to reuse the same visual.
+  onSelect?: () => void;
 }> = ({ candidate, now, onSelect }) => {
   const { t } = useAppTranslation();
   const islandIcon = candidate.islandType
