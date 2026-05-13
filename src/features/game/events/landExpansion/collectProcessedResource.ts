@@ -38,11 +38,10 @@ export function getProcessedResourceAmount({
   game: GameState;
   resource: ProcessedResource;
   farmId: number;
-  // PRNG counter seed for the Bubble Aura roll. Callers that don't
-  // care about precise batch prediction can pass
-  // `game.farmActivity[`${resource} Processed`] ?? 0`; callers that
-  // predict a batch of pending jobs thread their own per-slot counter
-  // so successive same-resource jobs roll independent dice.
+  // Processed count for this resource *before* this item is collected.
+  // In-game callers pass `farmActivity[`${resource} Processed`] ?? 0`.
+  // Batch predictors must increment this per same-resource slot so
+  // successive jobs roll independent Bubble Aura dice.
   counter: number;
 }): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   let amount = new Decimal(1);
