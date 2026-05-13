@@ -119,11 +119,13 @@ export function speedUpRecipe({
       game.farmActivity,
     );
 
-    game.boostsUsedAt = updateBoostUsed({
-      game,
-      boostNames: boostsUsed,
-      createdAt,
-    });
+    if (boostsUsed.length > 0) {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: boostsUsed,
+        createdAt,
+      });
+    }
 
     return game;
   });

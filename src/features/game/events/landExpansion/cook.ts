@@ -272,11 +272,13 @@ export function cook({
         stateCopy.farmActivity,
       );
 
-      stateCopy.boostsUsedAt = updateBoostUsed({
-        game: stateCopy,
-        boostNames: boostsUsed,
-        createdAt,
-      });
+      if (boostsUsed.length > 0) {
+        stateCopy.boostsUsedAt = updateBoostUsed({
+          game: stateCopy,
+          boostNames: boostsUsed,
+          createdAt,
+        });
+      }
 
       return stateCopy;
     }
