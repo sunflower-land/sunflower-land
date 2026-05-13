@@ -20,6 +20,7 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
+  getChestFlowers,
   getChestFarmHands,
   getChestItems,
   getChestPets,
@@ -78,6 +79,7 @@ type TabId =
   | "buildings"
   | "boosts"
   | "projects"
+  | "flowers"
   | "decorations";
 
 // Persists scroll position across panel unmount/remount (item select → place → idle)
@@ -366,6 +368,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
+  const flowers = getChestFlowers(collectibleNames);
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
@@ -376,6 +379,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const bedsSet = new Set(beds);
   const bannersSet = new Set(banners);
   const weatherItemsSet = new Set(weatherItems);
+  const flowersSet = new Set<string>(flowers);
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
 
@@ -391,7 +395,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         !buildingsSet.has(name) &&
         !monumentsSet.has(name) &&
         !villageProjectsSet.has(name) &&
-        !bedsSet.has(name),
+        !bedsSet.has(name) &&
+        !flowersSet.has(name),
     );
 
   const boostsSet = new Set(boosts);
@@ -407,6 +412,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       !monumentsSet.has(name) &&
       !dollsSet.has(name) &&
       !petsSet.has(name) &&
+      !flowersSet.has(name) &&
       !villageProjectsSet.has(name),
   );
 
@@ -452,6 +458,13 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         dolls.length > 0 ||
         pets.length > 0 ||
         decorations.length > 0,
+    },
+    {
+      id: "flowers",
+      label: t("flowers"),
+      emptyLabel: "No flowers available.",
+      icon: ITEM_DETAILS["Prism Petal"].image,
+      hasItems: flowers.length > 0,
     },
     {
       id: "projects",
@@ -666,6 +679,23 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
 
       case "decorations":
         return [...banners, ...dolls, ...pets, ...decorations].map((name) => {
+          const image = getItemImage(name as CollectibleName);
+          const item: LandscapingPlaceableType = {
+            name: name as CollectibleName | BuildingName | ResourceName,
+          };
+          return wrapBox(
+            name,
+            item,
+            <Box
+              count={chestMap[name]}
+              image={image}
+              onClick={() => handleClick(item)}
+            />,
+          );
+        });
+
+      case "flowers":
+        return flowers.map((name) => {
           const image = getItemImage(name as CollectibleName);
           const item: LandscapingPlaceableType = {
             name: name as CollectibleName | BuildingName | ResourceName,
