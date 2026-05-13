@@ -12,6 +12,7 @@ import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
+import { FLOWERS } from "features/game/types/flowers";
 import { getKeys } from "lib/object";
 import {
   FarmHands,
@@ -45,6 +46,42 @@ const PLACEABLE_DIMENSIONS = {
   ...COLLECTIBLES_DIMENSIONS,
   ...RESOURCE_DIMENSIONS,
 };
+
+export const DECORATIVE_FLOWER_NAMES: CollectibleName[] = [
+  "Dawn Flower",
+  "Rainbow Flower",
+  "Definitely not a Flower",
+  "Desert Rose",
+  "Chicory",
+  "Chamomile",
+  "Lunalist",
+  "Venus Bumpkin Trap",
+  "Black Hole Flower",
+  "Anemone Flower",
+  "Salt Crystal Flower",
+];
+
+const sortChestFlowers = (a: CollectibleName, b: CollectibleName) => {
+  const decorativeA = DECORATIVE_FLOWER_NAMES.indexOf(a);
+  const decorativeB = DECORATIVE_FLOWER_NAMES.indexOf(b);
+  const isDecorativeA = decorativeA !== -1;
+  const isDecorativeB = decorativeB !== -1;
+
+  if (isDecorativeA && isDecorativeB) return decorativeA - decorativeB;
+  if (isDecorativeA) return -1;
+  if (isDecorativeB) return 1;
+
+  return a.localeCompare(b);
+};
+
+export const getChestFlowers = (items: InventoryItemName[]) =>
+  items
+    .filter(
+      (name): name is CollectibleName =>
+        name in FLOWERS ||
+        DECORATIVE_FLOWER_NAMES.includes(name as CollectibleName),
+    )
+    .sort(sortChestFlowers);
 
 type ListedItems = Record<
   CollectionName,
