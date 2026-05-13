@@ -111,6 +111,9 @@ export interface DisambiguationState {
   // picker to compute "last played" labels without calling Date.now()
   // during render (React Compiler purity rule).
   shownAt: number;
+  // Transient flag set when /login/resolve returned
+  // FARM_NO_LONGER_ELIGIBLE; cleared when the user stages a new pick.
+  pickerError?: "FARM_NO_LONGER_ELIGIBLE";
 }
 
 export interface Context {
@@ -162,6 +165,10 @@ type FarmSelectedEvent = {
   farmId: number;
 };
 
+type ClearPickerErrorEvent = {
+  type: "CLEAR_PICKER_ERROR";
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ReturnEvent
@@ -170,6 +177,7 @@ export type BlockchainEvent =
   | ConnectedWalletEvent
   | PWAInstallPromptShown
   | FarmSelectedEvent
+  | ClearPickerErrorEvent
   | {
       type: "REFRESH";
     }
@@ -353,6 +361,9 @@ export const authMachine = createMachine(
           FARM_SELECTED: {
             target: "resolvingFarm",
           },
+          CLEAR_PICKER_ERROR: {
+            actions: ["clearPickerError"],
+          },
           BACK: {
             target: "welcome",
             actions: [
@@ -373,14 +384,27 @@ export const authMachine = createMachine(
               "clearDisambiguationParamsFromUrl",
             ],
           },
-          onError: {
-            target: "unauthorised",
-            actions: [
-              "assignErrorMessage",
-              "clearDisambiguation",
-              "clearDisambiguationParamsFromUrl",
-            ],
-          },
+          onError: [
+            {
+              // Chosen farm became banned / pending-transfer between
+              // picker render and resolve. Keep the user on the picker,
+              // refresh the candidate list (BE will now filter the
+              // ineligible farm out), and stamp pickerError so the UI
+              // can surface a warning.
+              cond: (_, event: { data?: { message?: string } }) =>
+                event.data?.message === ERRORS.FARM_NO_LONGER_ELIGIBLE,
+              target: "loadingCandidates",
+              actions: ["assignPickerError"],
+            },
+            {
+              target: "unauthorised",
+              actions: [
+                "assignErrorMessage",
+                "clearDisambiguation",
+                "clearDisambiguationParamsFromUrl",
+              ],
+            },
+          ],
         },
       },
       verifying: {
@@ -631,7 +655,25 @@ export const authMachine = createMachine(
           token: context.disambiguation?.token as string,
           candidates: event.data.candidates as LoginCandidate[],
           shownAt: Date.now(),
+          // Preserve pickerError across the refetch so the warning is
+          // still visible when the new candidate list lands.
+          pickerError: context.disambiguation?.pickerError,
         }),
+      }),
+      assignPickerError: assign<Context, any>({
+        disambiguation: (context) =>
+          context.disambiguation
+            ? {
+                ...context.disambiguation,
+                pickerError: "FARM_NO_LONGER_ELIGIBLE" as const,
+              }
+            : undefined,
+      }),
+      clearPickerError: assign<Context, any>({
+        disambiguation: (context) =>
+          context.disambiguation
+            ? { ...context.disambiguation, pickerError: undefined }
+            : undefined,
       }),
       clearDisambiguation: assign<Context, any>({
         disambiguation: () => undefined,
