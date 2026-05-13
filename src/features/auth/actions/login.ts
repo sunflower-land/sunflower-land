@@ -17,6 +17,10 @@ export type LoginCandidate = {
   islandType?: string;
   equipped?: Record<string, string>;
   lastActivityAt: number;
+  // Ineligible candidates are still returned so the picker can show
+  // them disabled with a reason label, but they can't be picked.
+  eligible: boolean;
+  ineligibleReason?: "banned" | "pendingTransfer";
 };
 
 export type LoginResponse =
@@ -79,6 +83,19 @@ export async function resolveFarmSelection(
   });
 
   if (response.status >= 400) {
+    // Surface FARM_NO_LONGER_ELIGIBLE so the auth machine can keep the
+    // user on the picker (refresh the candidate list + show a warning)
+    // instead of dumping them into unauthorised.
+    try {
+      const body = await response.clone().json();
+      if (body?.errorCode === ERRORS.FARM_NO_LONGER_ELIGIBLE) {
+        throw new Error(ERRORS.FARM_NO_LONGER_ELIGIBLE);
+      }
+    } catch (e) {
+      if (e instanceof Error && e.message === ERRORS.FARM_NO_LONGER_ELIGIBLE) {
+        throw e;
+      }
+    }
     throw new Error(ERRORS.LOGIN_SERVER_ERROR);
   }
 

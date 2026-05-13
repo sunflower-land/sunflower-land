@@ -45,16 +45,35 @@ export const ChooseFarm: React.FC = () => {
   // re-renders and reads a stable timestamp from context.
   const now = authState.context.disambiguation?.shownAt ?? 0;
 
-  // Sort defensively — the BE returns most-recent-first already, but a
-  // local sort makes the UI ordering a frontend guarantee.
+  // Sort defensively — the BE returns eligible-first + recent-first
+  // already, but a local sort makes the UI ordering a frontend guarantee.
   const candidates = [
     ...(authState.context.disambiguation?.candidates ?? []),
-  ].sort((a, b) => (b.lastActivityAt ?? 0) - (a.lastActivityAt ?? 0));
+  ].sort((a, b) => {
+    if (a.eligible !== b.eligible) return a.eligible ? -1 : 1;
+    return (b.lastActivityAt ?? 0) - (a.lastActivityAt ?? 0);
+  });
 
   // Click on a row stages the choice; the user confirms on the next
   // screen before we dispatch FARM_SELECTED (which is destructive —
   // detaches the identity from the rejected farms with no FE undo).
   const [pending, setPending] = useState<LoginCandidate | null>(null);
+
+  const pickerError = authState.context.disambiguation?.pickerError;
+
+  // If a mid-flight ban fired, drop the staged pick: the row the user
+  // confirmed against is now ineligible. Showing them back at the list
+  // (with the "no longer available" warning and the now-banned row
+  // greyed out) is the recovery path.
+  const effectivePending = pickerError ? null : pending;
+
+  // Wrap setPending so staging a new pick also clears the
+  // "farm unavailable" warning from the previous misclick.
+  const stagePending = (c: LoginCandidate) => {
+    if (!c.eligible) return;
+    if (pickerError) send({ type: "CLEAR_PICKER_ERROR" });
+    setPending(c);
+  };
 
   if (authState.matches("loadingCandidates")) {
     return <Loading />;
@@ -64,7 +83,7 @@ export const ChooseFarm: React.FC = () => {
     return <Loading text={t("auth.chooseFarm.loggingIn")} />;
   }
 
-  if (pending) {
+  if (effectivePending) {
     return (
       <>
         <div className="p-1">
@@ -72,7 +91,7 @@ export const ChooseFarm: React.FC = () => {
             {t("auth.chooseFarm.confirm.title")}
           </Label>
         </div>
-        <CandidateRow candidate={pending} now={now} />
+        <CandidateRow candidate={effectivePending} now={now} />
         <Label type="danger" className="text-xs px-2 mt-1 mb-2">
           {t("auth.chooseFarm.confirm.warning")}
         </Label>
@@ -82,7 +101,10 @@ export const ChooseFarm: React.FC = () => {
           </Button>
           <Button
             onClick={() =>
-              send({ type: "FARM_SELECTED", farmId: pending.farmId })
+              send({
+                type: "FARM_SELECTED",
+                farmId: effectivePending.farmId,
+              })
             }
           >
             {t("auth.chooseFarm.confirm.proceed")}
@@ -99,6 +121,11 @@ export const ChooseFarm: React.FC = () => {
           {t("auth.chooseFarm.title")}
         </Label>
         <p className="text-xs mb-1">{t("auth.chooseFarm.description")}</p>
+        {pickerError === "FARM_NO_LONGER_ELIGIBLE" && (
+          <Label type="danger" className="mb-1">
+            {t("auth.chooseFarm.farmUnavailable")}
+          </Label>
+        )}
         {candidates.length === 0 && (
           <p className="text-xs">{t("auth.chooseFarm.empty")}</p>
         )}
@@ -109,7 +136,7 @@ export const ChooseFarm: React.FC = () => {
             key={c.farmId}
             candidate={c}
             now={now}
-            onSelect={() => setPending(c)}
+            onSelect={() => stagePending(c)}
           />
         ))}
       </div>
@@ -138,10 +165,23 @@ const CandidateRow: React.FC<{
       ? t("auth.chooseFarm.today")
       : t("auth.chooseFarm.daysAgo", { days: Math.floor(diff / dayMs) });
 
+  // Ineligible rows are visible but disabled: they still need to live
+  // in the candidate list so the resolve step can detach their
+  // identity, but the user can't pick one.
+  const disabled = !candidate.eligible;
+  const reasonKey =
+    candidate.ineligibleReason === "banned"
+      ? "auth.chooseFarm.banned"
+      : candidate.ineligibleReason === "pendingTransfer"
+        ? "auth.chooseFarm.pendingTransfer"
+        : undefined;
+
   return (
     <ButtonPanel
-      className="flex flex-row items-center gap-2 mx-1 my-1 text-xs"
-      onClick={onSelect}
+      className={`flex flex-row items-center gap-2 mx-1 my-1 text-xs ${
+        disabled ? "opacity-60 cursor-not-allowed" : ""
+      }`}
+      onClick={disabled ? undefined : onSelect}
     >
       {candidate.equipped && (
         <NPCIcon parts={candidate.equipped as unknown as BumpkinParts} />
@@ -153,6 +193,11 @@ const CandidateRow: React.FC<{
         </div>
         <div className="text-xxs opacity-80">{`#${candidate.farmId}`}</div>
         <div className="text-xxs opacity-80">{lastPlayed}</div>
+        {reasonKey && (
+          <Label type="danger" className="mt-1">
+            {t(reasonKey)}
+          </Label>
+        )}
       </div>
       <div className="flex flex-col items-end gap-1 shrink-0">
         <div className="flex items-center gap-1">
