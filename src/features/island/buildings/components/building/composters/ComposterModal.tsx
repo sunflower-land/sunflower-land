@@ -163,11 +163,18 @@ const FertiliserLabel: React.FC<{
           type="success"
           className="text-xs whitespace-pre-line"
         >
-          {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
-            ? "+0.4"
-            : "+0.2"}{" "}
-          {t("crops")}
+          {"+0.2"} {t("crops")}
         </Label>
+        {isCollectibleBuilt({ name: "Knowledge Crab", game: state }) && (
+          <Label
+            icon={powerup}
+            secondaryIcon={ITEM_DETAILS["Sprout Mix"].image}
+            type="success"
+            className="text-xs whitespace-pre-line"
+          >
+            {t("description.knowledge.crab.yield.boost")}
+          </Label>
+        )}
         <Label
           icon={SUNNYSIDE.icons.stopwatch}
           secondaryIcon={SUNNYSIDE.icons.plant}
@@ -182,14 +189,34 @@ const FertiliserLabel: React.FC<{
 
   if (fertiliser === "Turbofruit Mix") {
     return (
-      <Label
-        icon={SUNNYSIDE.icons.stopwatch}
-        secondaryIcon={ITEM_DETAILS.Apple.image}
-        type="info"
-        className="text-xs whitespace-pre-line"
-      >
-        {t("guide.compost.fruitGrowthTime")}
-      </Label>
+      <div className="flex flex-col gap-1">
+        <Label
+          icon={powerup}
+          secondaryIcon={ITEM_DETAILS.Apple.image}
+          type="success"
+          className="text-xs whitespace-pre-line"
+        >
+          {"+0.1"} {t("fruit")}
+        </Label>
+        {state.bumpkin?.skills["Fruitful Bounty"] && (
+          <Label
+            icon={powerup}
+            secondaryIcon={ITEM_DETAILS["Fruitful Blend"].image}
+            type="success"
+            className="text-xs whitespace-pre-line"
+          >
+            {t("description.fruitful.bounty.skill.boost")}
+          </Label>
+        )}
+        <Label
+          icon={SUNNYSIDE.icons.stopwatch}
+          secondaryIcon={ITEM_DETAILS.Apple.image}
+          type="info"
+          className="text-xs whitespace-pre-line"
+        >
+          {t("guide.compost.fruitGrowthTime")}
+        </Label>
+      </div>
     );
   }
 

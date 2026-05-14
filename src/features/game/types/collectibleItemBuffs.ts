@@ -348,13 +348,27 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
-  "Sproutroot Surprise": () => [
+  "Sproutroot Surprise": ({ collectibles }) => [
     {
       shortDescription: translate("description.sprout.mix.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
+    ...(collectibles["Knowledge Crab"]?.some(
+      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
+    )
+      ? [
+          {
+            shortDescription: translate(
+              "description.knowledge.crab.yield.boost",
+            ),
+            labelType: "success" as const,
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+          },
+        ]
+      : []),
     {
       shortDescription: translate("description.rapid.root.boost"),
       labelType: "info",
@@ -362,13 +376,25 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
-  "Turbofruit Mix": () => [
+  "Turbofruit Mix": ({ skills }) => [
     {
       shortDescription: translate("description.fruitful.blend.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
     },
+    ...(skills["Fruitful Bounty"]
+      ? [
+          {
+            shortDescription: translate(
+              "description.fruitful.bounty.skill.boost",
+            ),
+            labelType: "success" as const,
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
+          },
+        ]
+      : []),
     {
       shortDescription: translate("description.turbofruit.mix.boost"),
       labelType: "info",
