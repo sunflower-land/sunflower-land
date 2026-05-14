@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import { CollectibleName } from "features/game/types/craftables";
 import {
   BoostName,
   GameState,
@@ -12,7 +11,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -24,9 +22,9 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
 import { BuildingName } from "features/game/types/buildings";
-import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 
 /**
  * The props for the details for items.
@@ -108,23 +106,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
       ] ?? item.image;
     const title = item.translatedName ?? details.item;
 
-    let description = item.description;
-
-    if (item.boostedDescriptions) {
-      for (const boostedDescription of item.boostedDescriptions) {
-        if (
-          isCollectibleBuilt({
-            name: boostedDescription.name as CollectibleName,
-            game,
-          }) ||
-          game.bumpkin?.skills[
-            boostedDescription.name as BumpkinRevampSkillName
-          ]
-        ) {
-          description = boostedDescription.description;
-        }
-      }
-    }
+    const description = getItemDescription({ item: details.item, game });
 
     const boost = COLLECTIBLE_BUFF_LABELS[details.item]?.({
       skills: game.bumpkin.skills,
