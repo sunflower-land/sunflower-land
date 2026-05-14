@@ -2061,4 +2061,111 @@ describe("feedAnimal", () => {
 
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.25));
   });
+
+  it("records Golden Cow in boostsUsedAt when feeding a cow for free", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+  });
+
+  it("records Golden Sheep in boostsUsedAt when feeding a sheep for free", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Golden Sheep": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Sheep",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    expect(state.boostsUsedAt?.["Golden Sheep"]).toEqual(now);
+  });
+
+  it("records Gold Egg in boostsUsedAt when feeding a chicken for free", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Gold Egg": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "0": {
+              ...GAME_STATE.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    expect(state.boostsUsedAt?.["Gold Egg"]).toEqual(now);
+  });
 });
