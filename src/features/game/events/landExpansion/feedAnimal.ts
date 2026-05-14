@@ -267,7 +267,11 @@ export function feedAnimal({
 
     // Handle Golden Egg Free Food
     if (action.animal === "Chicken" && hasGoldenEggPlaced) {
-      boostsUsed.push({ name: "Gold Egg", value: "Free" });
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: [{ name: "Gold Egg", value: "Free" }],
+        createdAt,
+      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
@@ -278,7 +282,11 @@ export function feedAnimal({
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
-      boostsUsed.push({ name: "Golden Cow", value: "Free" });
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: [{ name: "Golden Cow", value: "Free" }],
+        createdAt,
+      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
@@ -289,7 +297,11 @@ export function feedAnimal({
 
     // Handle Golden Sheep Free Food
     if (action.animal === "Sheep" && hasGoldenSheepPlaced) {
-      boostsUsed.push({ name: "Golden Sheep", value: "Free" });
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: [{ name: "Golden Sheep", value: "Free" }],
+        createdAt,
+      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
