@@ -124,7 +124,10 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
 
                   <td className="p-1.5 hidden sm:table-cell min-w-[70px]">
                     <div className="flex items-center mb-1">
-                      <img src={details.image} className="w-4 mr-1" />
+                      <img
+                        src={details.image}
+                        className="w-4 h-4 object-contain mr-1"
+                      />
                       {quantity > 1 && (
                         <p className="text-xs sm:text-sm mr-1.5">{`${quantity} x `}</p>
                       )}
@@ -148,7 +151,10 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                   </td>
                   <td className="p-1.5 table-cell sm:hidden">
                     <div className="flex items-center mb-1">
-                      <img src={details.image} className="w-4 mr-1" />
+                      <img
+                        src={details.image}
+                        className="w-4 h-4 object-contain mr-1"
+                      />
                       {quantity > 1 && (
                         <p className="text-xs sm:text-sm mr-1.5">{`${quantity} x `}</p>
                       )}

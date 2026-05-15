@@ -93,7 +93,7 @@ export const RemoveOffer: React.FC<Props> = ({
               <img src={bg} className="w-full rounded" />
               <img
                 src={display.image}
-                className="w-1/2 absolute"
+                className="h-1/2 max-w-[50%] object-contain absolute"
                 style={{
                   left: "50%",
                   transform: "translate(-50%, 50%)",
