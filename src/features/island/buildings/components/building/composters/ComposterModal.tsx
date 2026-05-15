@@ -164,9 +164,9 @@ const FertiliserLabel: React.FC<{
 
     return (
       <div className="flex flex-col gap-1">
-        {labels.map((label) => (
+        {labels.map((label, index) => (
           <Label
-            key={label.shortDescription}
+            key={`${fertiliser}-${index}`}
             icon={label.boostTypeIcon}
             secondaryIcon={label.boostedItemIcon}
             type={label.labelType}
@@ -188,9 +188,9 @@ const FertiliserLabel: React.FC<{
 
     return (
       <div className="flex flex-col gap-1">
-        {labels.map((label) => (
+        {labels.map((label, index) => (
           <Label
-            key={label.shortDescription}
+            key={`${fertiliser}-${index}`}
             icon={label.boostTypeIcon}
             secondaryIcon={label.boostedItemIcon}
             type={label.labelType}
