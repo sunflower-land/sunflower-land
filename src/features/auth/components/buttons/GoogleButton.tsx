@@ -22,7 +22,7 @@ export const GoogleButton: React.FC<{ onClick: () => void }> = ({
       }}
       onClick={onClick}
     >
-      <img src={SUNNYSIDE.icons.googleIcon} />
+      <img src={SUNNYSIDE.icons.signInWithGoogle} />
     </button>
   );
 };
