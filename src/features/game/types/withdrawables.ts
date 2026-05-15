@@ -1596,6 +1596,14 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Crabs and Traps"].endDate,
     withdrawAt: new Date("2026-06-04T00:00:00Z"),
   },
+  "Giant Isopod": {
+    tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+    withdrawAt: new Date("2026-06-04T00:00:00Z"),
+  },
+  Nautilus: {
+    tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+    withdrawAt: new Date("2026-06-04T00:00:00Z"),
+  },
 
   // Salt Awakening Collectibles
   "Dino Egg Trophy": {
