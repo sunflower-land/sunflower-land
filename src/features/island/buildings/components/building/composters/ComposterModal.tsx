@@ -50,6 +50,7 @@ import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertili
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { getCompoundFertiliserBuffLabels } from "features/game/types/collectibleItemBuffs";
 
 export const COMPOSTER_IMAGES: Record<
   ComposterName,
@@ -155,67 +156,49 @@ const FertiliserLabel: React.FC<{
   }
 
   if (fertiliser === "Sproutroot Surprise") {
+    const labels = getCompoundFertiliserBuffLabels({
+      fertiliser,
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    });
+
     return (
       <div className="flex flex-col gap-1">
-        <Label
-          icon={powerup}
-          secondaryIcon={SUNNYSIDE.icons.plant}
-          type="success"
-          className="text-xs whitespace-pre-line"
-        >
-          {"+0.2"} {t("crops")}
-        </Label>
-        {isCollectibleBuilt({ name: "Knowledge Crab", game: state }) && (
+        {labels.map((label) => (
           <Label
-            icon={powerup}
-            secondaryIcon={ITEM_DETAILS["Sprout Mix"].image}
-            type="success"
+            key={label.shortDescription}
+            icon={label.boostTypeIcon}
+            secondaryIcon={label.boostedItemIcon}
+            type={label.labelType}
             className="text-xs whitespace-pre-line"
           >
-            {t("description.knowledge.crab.yield.boost")}
+            {label.shortDescription}
           </Label>
-        )}
-        <Label
-          icon={SUNNYSIDE.icons.stopwatch}
-          secondaryIcon={SUNNYSIDE.icons.plant}
-          type="info"
-          className="text-xs whitespace-pre-line"
-        >
-          {t("guide.compost.cropGrowthTime")}
-        </Label>
+        ))}
       </div>
     );
   }
 
   if (fertiliser === "Turbofruit Mix") {
+    const labels = getCompoundFertiliserBuffLabels({
+      fertiliser,
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    });
+
     return (
       <div className="flex flex-col gap-1">
-        <Label
-          icon={powerup}
-          secondaryIcon={ITEM_DETAILS.Apple.image}
-          type="success"
-          className="text-xs whitespace-pre-line"
-        >
-          {"+0.1"} {t("fruit")}
-        </Label>
-        {state.bumpkin?.skills["Fruitful Bounty"] && (
+        {labels.map((label) => (
           <Label
-            icon={powerup}
-            secondaryIcon={ITEM_DETAILS["Fruitful Blend"].image}
-            type="success"
+            key={label.shortDescription}
+            icon={label.boostTypeIcon}
+            secondaryIcon={label.boostedItemIcon}
+            type={label.labelType}
             className="text-xs whitespace-pre-line"
           >
-            {t("description.fruitful.bounty.skill.boost")}
+            {label.shortDescription}
           </Label>
-        )}
-        <Label
-          icon={SUNNYSIDE.icons.stopwatch}
-          secondaryIcon={ITEM_DETAILS.Apple.image}
-          type="info"
-          className="text-xs whitespace-pre-line"
-        >
-          {t("guide.compost.fruitGrowthTime")}
-        </Label>
+        ))}
       </div>
     );
   }
