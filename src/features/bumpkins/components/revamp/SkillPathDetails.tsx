@@ -134,14 +134,18 @@ export const SkillPathDetails: React.FC<Props> = ({
   const missingPointRequirement =
     !hasSelectedSkill && points > availableSkillPoints;
   const missingSkillsRequirement = !hasSelectedSkill && tier > availableTier;
-  const editDisabledReason = (() => {
+  const getEditDisabledReason = (skill: BumpkinSkillRevamp) => {
     if (!isEditing) return;
+
+    const skillName = skill.name as BumpkinRevampSkillName;
+    const hasSkill = !!skills[skillName];
+    const { points, tier } = skill.requirements;
     const nextSkills = { ...skills };
 
-    if (hasSelectedSkill) {
-      delete nextSkills[name as keyof Skills];
+    if (hasSkill) {
+      delete nextSkills[skillName as keyof Skills];
     } else {
-      nextSkills[name as keyof Skills] = 1;
+      nextSkills[skillName as keyof Skills] = 1;
     }
 
     try {
@@ -150,18 +154,19 @@ export const SkillPathDetails: React.FC<Props> = ({
       return getSkillSelectionErrorMessage(error, t);
     }
 
-    if (hasSelectedSkill) {
+    if (hasSkill) {
       return;
     }
 
-    if (missingPointRequirement) {
+    if (points > availableSkillPoints) {
       return t("skillEdit.notEnoughSkillPoints");
     }
 
-    if (missingSkillsRequirement) {
+    if (tier > availableTier) {
       return t("skillEdit.unlockTierFirst", { tier });
     }
-  })();
+  };
+  const editDisabledReason = getEditDisabledReason(selectedSkill);
   const isClaimDisabled = isEditing
     ? (disabled && !hasSelectedSkill) || readonly || !!editDisabledReason
     : hasSelectedSkill ||
@@ -294,17 +299,6 @@ export const SkillPathDetails: React.FC<Props> = ({
             <div className="flex sm:flex-col w-full">
               {isEditing ? (
                 <div className="flex flex-col w-full">
-                  <p
-                    className={classNames("text-xs underline mb-1", {
-                      "cursor-pointer": hasSkillsInPath,
-                      "opacity-50 cursor-not-allowed": !hasSkillsInPath,
-                    })}
-                    onClick={
-                      hasSkillsInPath ? onClearDraftSkillPath : undefined
-                    }
-                  >
-                    {t("skillEdit.clearBranchSkills")}
-                  </p>
                   <Button disabled={isClaimDisabled} onClick={handleClaim}>
                     {t(
                       hasSelectedSkill
@@ -401,13 +395,17 @@ export const SkillPathDetails: React.FC<Props> = ({
                     </div>
                     <div className="flex flex-row flex-wrap gap-0">
                       {availableSkills.map((skill) => {
-                        const hasSkill = !!(
-                          skills as Partial<
-                            Record<BumpkinRevampSkillName, number>
-                          >
-                        )[skill.name as BumpkinRevampSkillName];
+                        const skillName = skill.name as BumpkinRevampSkillName;
+                        const hasSkill = !!skills[skillName];
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
+                        const skillEditDisabledReason =
+                          getEditDisabledReason(skill);
+                        const isSkillToggleDisabled =
+                          isEditing &&
+                          ((skill.disabled && !hasSkill) ||
+                            readonly ||
+                            !!skillEditDisabledReason);
 
                         return (
                           <SkillBox
@@ -417,6 +415,10 @@ export const SkillPathDetails: React.FC<Props> = ({
                             onClick={() => {
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
+
+                              if (isEditing && !isSkillToggleDisabled) {
+                                onToggleDraftSkill(skillName);
+                              }
                             }}
                             showOverlay={hasSkill || !tierUnlocked}
                             overlayIcon={
@@ -453,6 +455,19 @@ export const SkillPathDetails: React.FC<Props> = ({
               },
             )}
           </div>
+          {isEditing && (
+            <div className="flex flex-row items-center justify-between m-1">
+              <p
+                className={classNames("text-xs underline py-1", {
+                  "cursor-pointer": hasSkillsInPath,
+                  "opacity-50 cursor-not-allowed": !hasSkillsInPath,
+                })}
+                onClick={hasSkillsInPath ? onClearDraftSkillPath : undefined}
+              >
+                {t("skillEdit.clearBranchSkills")}
+              </p>
+            </div>
+          )}
         </div>
       }
     />

@@ -76,6 +76,8 @@ export const SkillCategoryList: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
+  const [showApplyChangesConfirmation, setShowApplyChangesConfirmation] =
+    useState(false);
   const [resetReferenceTime] = useState(() => Date.now());
 
   const { bumpkin, inventory } = state;
@@ -137,6 +139,16 @@ export const SkillCategoryList: React.FC<{
   const handleStartEditing = () => {
     onStartEditing();
     setShowEditSkillsModal(false);
+  };
+
+  const handleCancelEditing = () => {
+    onCancelEditing();
+    setShowApplyChangesConfirmation(false);
+  };
+
+  const handleApplyEditing = () => {
+    onApplyEditing(resetType);
+    setShowApplyChangesConfirmation(false);
   };
 
   return (
@@ -230,7 +242,7 @@ export const SkillCategoryList: React.FC<{
           );
         })}
         <div className="flex flex-col m-1">
-          <div className="flex flex-row items-center gap-3">
+          <div className="flex flex-row items-center justify-between gap-3">
             {!isEditing ? (
               <p
                 className="text-xs cursor-pointer underline py-1"
@@ -241,48 +253,59 @@ export const SkillCategoryList: React.FC<{
             ) : (
               <>
                 <p
-                  className="text-xs cursor-pointer underline py-1"
-                  onClick={onCancelEditing}
-                >
-                  {t("cancel")}
-                </p>
-                <p
                   className={classNames("text-xs underline py-1", {
-                    "cursor-pointer": hasDisplayedSkills,
+                    "cursor-pointer":
+                      hasDisplayedSkills && !showApplyChangesConfirmation,
                     "opacity-50 cursor-not-allowed": !hasDisplayedSkills,
                   })}
-                  onClick={hasDisplayedSkills ? onRemoveAllSkills : undefined}
+                  onClick={
+                    hasDisplayedSkills && !showApplyChangesConfirmation
+                      ? onRemoveAllSkills
+                      : undefined
+                  }
                 >
                   {t("skillEdit.removeAllSkills")}
                 </p>
-                <p
-                  className={classNames("text-xs underline py-1", {
-                    "cursor-pointer": hasChanges && !validationError,
-                    "opacity-50 cursor-not-allowed":
-                      !hasChanges || !!validationError,
-                  })}
-                  onClick={() => onApplyEditing(resetType)}
-                >
-                  {t("skillEdit.applyChanges")}
-                </p>
-                <Label
-                  type={
-                    resetType === "free"
-                      ? "success"
-                      : resetType === "ticket"
-                        ? "success"
-                        : "vibrant"
-                  }
-                  icon={
-                    resetType === "gems"
-                      ? ITEM_DETAILS.Gem.image
-                      : resetType === "ticket"
-                        ? ITEM_DETAILS["Skill Reset Ticket"].image
+                <div className="flex flex-row items-center gap-3">
+                  <p
+                    className="text-xs cursor-pointer underline py-1"
+                    onClick={handleCancelEditing}
+                  >
+                    {t("cancel")}
+                  </p>
+                  <p
+                    className={classNames("text-xs underline py-1", {
+                      "cursor-pointer": hasChanges && !validationError,
+                      "opacity-50 cursor-not-allowed":
+                        !hasChanges || !!validationError,
+                    })}
+                    onClick={
+                      hasChanges && !validationError
+                        ? () => setShowApplyChangesConfirmation(true)
                         : undefined
-                  }
-                >
-                  {editCostLabel}
-                </Label>
+                    }
+                  >
+                    {t("skillEdit.applyChanges")}
+                  </p>
+                  <Label
+                    type={
+                      resetType === "free"
+                        ? "success"
+                        : resetType === "ticket"
+                          ? "success"
+                          : "vibrant"
+                    }
+                    icon={
+                      resetType === "gems"
+                        ? ITEM_DETAILS.Gem.image
+                        : resetType === "ticket"
+                          ? ITEM_DETAILS["Skill Reset Ticket"].image
+                          : undefined
+                    }
+                  >
+                    {editCostLabel}
+                  </Label>
+                </div>
               </>
             )}
           </div>
@@ -347,6 +370,58 @@ export const SkillCategoryList: React.FC<{
               >
                 {t("skillEdit.startEditing")}
               </Button>
+            </div>
+          </InnerPanel>
+        </OuterPanel>
+      </Modal>
+      <Modal
+        show={showApplyChangesConfirmation}
+        onHide={() => setShowApplyChangesConfirmation(false)}
+      >
+        <OuterPanel>
+          <InnerPanel className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full gap-2 my-1">
+              <Label type="default">{t("skillEdit.applyChanges")}</Label>
+              <Label
+                type={
+                  resetType === "free"
+                    ? "success"
+                    : resetType === "ticket"
+                      ? "success"
+                      : "vibrant"
+                }
+                icon={
+                  resetType === "gems"
+                    ? ITEM_DETAILS.Gem.image
+                    : resetType === "ticket"
+                      ? ITEM_DETAILS["Skill Reset Ticket"].image
+                      : undefined
+                }
+              >
+                {editCostLabel}
+              </Label>
+              <p className="text-xs text-center">
+                {resetType === "free"
+                  ? t("skillEdit.applyFreeConfirmation")
+                  : resetType === "ticket"
+                    ? t("skillEdit.applyTicketConfirmation")
+                    : t("skillEdit.applyGemsConfirmation", { gemCost })}
+              </p>
+              <div className="flex justify-between gap-2 w-full">
+                <Button
+                  className="w-full"
+                  onClick={() => setShowApplyChangesConfirmation(false)}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button
+                  className="w-full"
+                  onClick={handleApplyEditing}
+                  disabled={!hasChanges || !!validationError}
+                >
+                  {t("confirm")}
+                </Button>
+              </div>
             </div>
           </InnerPanel>
         </OuterPanel>
