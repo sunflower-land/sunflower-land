@@ -90,7 +90,8 @@ export const SkillCategoryList: React.FC<{
 
   const getNextResetDateAndTime = () => {
     const nextResetTime =
-      resetReferenceTime + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
+      resetReferenceTime +
+      getTimeUntilNextFreeReset(previousFreeSkillResetAt, resetReferenceTime);
     const nextResetDate = new Date(nextResetTime);
 
     return {
