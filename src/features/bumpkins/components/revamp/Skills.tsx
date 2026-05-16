@@ -76,6 +76,28 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
     setDraftSkills(null);
   };
 
+  const removeAllDraftSkills = () => {
+    if (!draftSkills) return;
+
+    setDraftSkills({});
+  };
+
+  const clearDraftSkillPath = () => {
+    if (!draftSkills) return;
+
+    setDraftSkills((current) => {
+      if (!current) return current;
+
+      const next = { ...current };
+
+      skillsInPath.forEach(({ name }) => {
+        delete next[name as keyof BumpkinSkills];
+      });
+
+      return next;
+    });
+  };
+
   const applyEditing = (paymentType: PaymentType) => {
     if (!draftSkills || validationError || !hasChanges) return;
 
@@ -117,6 +139,7 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
           validationError={validationError}
           onStartEditing={startEditing}
           onCancelEditing={cancelEditing}
+          onRemoveAllSkills={removeAllDraftSkills}
           onApplyEditing={applyEditing}
         />
       )}
@@ -130,6 +153,7 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
           isEditing={isEditing}
           validationError={validationError}
           onToggleDraftSkill={toggleDraftSkill}
+          onClearDraftSkillPath={clearDraftSkillPath}
         />
       )}
     </div>
