@@ -2102,6 +2102,8 @@
   "linkedAccounts.unlinkGoogleTestnet": "Unlink Google (testnet only)",
   "linkedAccounts.unlinking": "Unlinking...",
   "linkedAccounts.googleLinkingComingSoon": "Google linking is coming soon.",
+  "linkedAccounts.linkAccounts": "Link Accounts",
+  "linkedAccounts.linkAccountsDescription": "Linking accounts has been paused temporarily while we are migrating to a new linking integration. Please check back soon. If you have any questions or concerns, please reach out to our support team.",
   "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
   "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
   "gameOptions.blockchainSettings.swapPOLForSFL": "Swap POL for FLOWER",
