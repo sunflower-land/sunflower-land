@@ -36,6 +36,7 @@ import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 import { Skills } from "features/game/types/game";
+import classNames from "classnames";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -46,6 +47,7 @@ interface Props {
   isEditing: boolean;
   validationError?: string;
   onToggleDraftSkill: (skill: BumpkinRevampSkillName) => void;
+  onClearDraftSkillPath: () => void;
 }
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -96,6 +98,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   isEditing,
   validationError,
   onToggleDraftSkill,
+  onClearDraftSkillPath,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -125,6 +128,9 @@ export const SkillPathDetails: React.FC<Props> = ({
     displayedBumpkin,
   );
   const hasSelectedSkill = !!skills[name as BumpkinRevampSkillName];
+  const hasSkillsInPath = skillsInPath.some(
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  );
   const missingPointRequirement =
     !hasSelectedSkill && points > availableSkillPoints;
   const missingSkillsRequirement = !hasSelectedSkill && tier > availableTier;
@@ -288,6 +294,17 @@ export const SkillPathDetails: React.FC<Props> = ({
             <div className="flex sm:flex-col w-full">
               {isEditing ? (
                 <div className="flex flex-col w-full">
+                  <p
+                    className={classNames("text-xs underline mb-1", {
+                      "cursor-pointer": hasSkillsInPath,
+                      "opacity-50 cursor-not-allowed": !hasSkillsInPath,
+                    })}
+                    onClick={
+                      hasSkillsInPath ? onClearDraftSkillPath : undefined
+                    }
+                  >
+                    {t("skillEdit.clearBranchSkills")}
+                  </p>
                   <Button disabled={isClaimDisabled} onClick={handleClaim}>
                     {t(
                       hasSelectedSkill

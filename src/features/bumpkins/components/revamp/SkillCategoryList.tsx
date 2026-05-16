@@ -24,16 +24,13 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { gameAnalytics } from "lib/gameAnalytics";
 import {
   canResetForFree,
   getGemCost,
   type PaymentType,
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
-import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
-import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
 import { Button } from "components/ui/Button";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -61,6 +58,7 @@ export const SkillCategoryList: React.FC<{
   validationError?: string;
   onStartEditing: () => void;
   onCancelEditing: () => void;
+  onRemoveAllSkills: () => void;
   onApplyEditing: (paymentType: PaymentType) => void;
 }> = ({
   onClick,
@@ -70,16 +68,15 @@ export const SkillCategoryList: React.FC<{
   validationError,
   onStartEditing,
   onCancelEditing,
+  onRemoveAllSkills,
   onApplyEditing,
 }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
   const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
-  const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
-    useState(false);
+  const [resetReferenceTime] = useState(() => Date.now());
 
   const { bumpkin, inventory } = state;
   const availableSkillPoints = isEditing
@@ -91,7 +88,7 @@ export const SkillCategoryList: React.FC<{
 
   const getNextResetDateAndTime = () => {
     const nextResetTime =
-      Date.now() + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
+      resetReferenceTime + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
     const nextResetDate = new Date(nextResetTime);
 
     return {
@@ -111,9 +108,8 @@ export const SkillCategoryList: React.FC<{
   const gemCost = getGemCost(paidSkillResets);
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
-  const gemBalance = inventory.Gem ?? new Decimal(0);
-  const ticketBalance = inventory["Skill Reset Ticket"] ?? new Decimal(0);
-  const hasTicket = ticketBalance.gte(1);
+  const hasTicket = inventory["Skill Reset Ticket"]?.gte(1) ?? false;
+  const hasDisplayedSkills = getKeys(displayedSkills).length > 0;
 
   const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
     ? "free"
@@ -127,33 +123,6 @@ export const SkillCategoryList: React.FC<{
       : resetType === "ticket"
         ? t("skillEdit.cost.ticket")
         : t("skillEdit.cost.gems", { gemCost });
-
-  const handleSkillsReset = () => {
-    gameService.send({
-      type: "skills.reset",
-      paymentType: resetType,
-    });
-    setShowSkillsResetModal(false);
-
-    if (resetType === "gems") {
-      gameAnalytics.trackSink({
-        currency: "Gem",
-        amount: gemCost,
-        item: "Skills Reset",
-        type: "Fee",
-      });
-    }
-  };
-
-  const canResetSkills = () => {
-    if (!hasSkills) return false;
-    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
-      return false;
-    if (resetType === "ticket" && !hasTicket) return false;
-    if (resetType === "gems" && !hasEnoughGems) return false;
-
-    return true;
-  };
 
   const canEditSkills = () => {
     if (!hasSkills) return false;
@@ -263,20 +232,12 @@ export const SkillCategoryList: React.FC<{
         <div className="flex flex-col m-1">
           <div className="flex flex-row items-center gap-3">
             {!isEditing ? (
-              <>
-                <p
-                  className="text-xs cursor-pointer underline py-1"
-                  onClick={() => setShowEditSkillsModal(true)}
-                >
-                  {t("skillEdit.editSkills")}
-                </p>
-                <p
-                  className="text-xs cursor-pointer underline py-1"
-                  onClick={() => setShowSkillsResetModal(true)}
-                >
-                  {t("skillReset.resetSkills")}
-                </p>
-              </>
+              <p
+                className="text-xs cursor-pointer underline py-1"
+                onClick={() => setShowEditSkillsModal(true)}
+              >
+                {t("skillEdit.editSkills")}
+              </p>
             ) : (
               <>
                 <p
@@ -284,6 +245,15 @@ export const SkillCategoryList: React.FC<{
                   onClick={onCancelEditing}
                 >
                   {t("cancel")}
+                </p>
+                <p
+                  className={classNames("text-xs underline py-1", {
+                    "cursor-pointer": hasDisplayedSkills,
+                    "opacity-50 cursor-not-allowed": !hasDisplayedSkills,
+                  })}
+                  onClick={hasDisplayedSkills ? onRemoveAllSkills : undefined}
+                >
+                  {t("skillEdit.removeAllSkills")}
                 </p>
                 <p
                   className={classNames("text-xs underline py-1", {
@@ -320,26 +290,6 @@ export const SkillCategoryList: React.FC<{
       </InnerPanel>
 
       <Modal
-        show={showSkillsResetModal}
-        onHide={() => {
-          setShowSkillsResetModal(false);
-          setShowSkillsResetConfirmation(false);
-        }}
-      >
-        <SkillReset
-          resetType={resetType}
-          gemCost={gemCost}
-          gemBalance={gemBalance}
-          ticketBalance={ticketBalance}
-          getNextResetDateAndTime={getNextResetDateAndTime}
-          hasSkills={hasSkills}
-          canResetSkills={canResetSkills}
-          handleSkillsReset={handleSkillsReset}
-          showSkillsResetConfirmation={showSkillsResetConfirmation}
-          setShowSkillsResetConfirmation={setShowSkillsResetConfirmation}
-        />
-      </Modal>
-      <Modal
         show={showEditSkillsModal}
         onHide={() => setShowEditSkillsModal(false)}
       >
@@ -374,7 +324,7 @@ export const SkillCategoryList: React.FC<{
               </p>
               <Label type="warning">
                 {resetType === "free"
-                  ? t("skillReset.180Days")
+                  ? t("skillEdit.freeWarning")
                   : resetType === "ticket"
                     ? t("skillEdit.ticketWarning")
                     : t("skillEdit.gemsWarning", { gemCost })}
