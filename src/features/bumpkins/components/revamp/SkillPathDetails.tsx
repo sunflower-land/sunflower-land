@@ -464,7 +464,9 @@ export const SkillPathDetails: React.FC<Props> = ({
                 })}
                 onClick={hasSkillsInPath ? onClearDraftSkillPath : undefined}
               >
-                {t("skillEdit.clearBranchSkills")}
+                {t("skillEdit.clearBranchSkills", {
+                  skillPath: selectedSkillPath,
+                })}
               </p>
             </div>
           )}
