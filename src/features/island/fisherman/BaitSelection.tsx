@@ -16,7 +16,10 @@ import {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   CHUM_AMOUNTS,
   Chum,
@@ -386,7 +389,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
             value: bait,
             label: (
               <div className="flex flex-col gap-1">
-                <p className="text-xs">{`${effectiveMultiplier} x ${bait} (${items[bait]?.toString() ?? 0})`}</p>
+                <p className="text-xs">{`${effectiveMultiplier} x ${getTranslatedItemName(bait)} (${items[bait]?.toString() ?? 0})`}</p>
                 <p className="text-xxs">{ITEM_DETAILS[bait].description}</p>
               </div>
             ),
@@ -398,7 +401,9 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         />
         {notEnoughBait && (
           <Label className="ml-1" type="danger">
-            {t("fishing.dont.have.enough.bait", { bait: selectedBait })}
+            {t("fishing.dont.have.enough.bait", {
+              bait: getTranslatedItemName(selectedBait),
+            })}
           </Label>
         )}
         {selectedBait && isGuaranteedBait(selectedBait) && guaranteedCatch && (
@@ -483,7 +488,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                   >
                     {t("fishermanModal.chum", {
                       count: CHUM_AMOUNTS[chum] * effectiveMultiplier,
-                      type: chum,
+                      type: getTranslatedItemName(chum),
                     })}
                   </Label>
                 </div>

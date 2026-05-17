@@ -5,7 +5,10 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
@@ -82,13 +85,13 @@ export const ChumSelection: React.FC<{
               className="mb-1"
               icon={ITEM_DETAILS[selected].image}
             >
-              {selected}
+              {getTranslatedItemName(selected)}
             </Label>
             <Label
               type={!hasRequirements ? "danger" : "default"}
               className="mb-1"
             >
-              {`${CHUM_AMOUNTS[selected]} ${selected}`}
+              {`${CHUM_AMOUNTS[selected]} ${getTranslatedItemName(selected)}`}
             </Label>
           </div>
           <p className="text-xs">{CHUM_DETAILS[selected]}</p>

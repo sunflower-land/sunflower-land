@@ -139,7 +139,7 @@ export const Discord: React.FC = () => {
               </Label>
             </div>
             <Button
-              className="text-xs h-8 w-20"
+              className="text-xs h-8 max-w-45"
               onClick={() => addRole(group.role)}
               disabled={!group.items.some((name) => inventory[name])}
             >
@@ -167,7 +167,7 @@ export const Discord: React.FC = () => {
             </Label>
           </div>
           <Button
-            className="text-xs h-8 w-20"
+            className="text-xs h-8 max-w-45"
             onClick={() => addRole("bud-clubhouse")}
             disabled={Object.keys(buds ?? {}).length === 0}
           >
@@ -187,7 +187,7 @@ export const Discord: React.FC = () => {
               <Label type="default" className="text-sm">{`#${faction}`}</Label>
             </div>
             <Button
-              className="text-xs h-8 w-20"
+              className="text-xs h-8 max-w-45"
               onClick={() => addRole(faction)}
               disabled={faction === undefined}
             >

@@ -1326,6 +1326,13 @@ export interface ItemDetails {
   translatedName?: string;
 }
 
+export const getTranslatedItemName = (
+  itemName: InventoryItemName | AchievementName,
+): string => {
+  const itemDetails = ITEM_DETAILS[itemName];
+  return itemDetails?.translatedName || itemName;
+};
+
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 export const ITEM_DETAILS: Items = {
