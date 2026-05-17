@@ -59,19 +59,19 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     {
       id: "agingRack",
       name: t("agingShed.agingRack"),
-      icon: SUNNYSIDE.icons.expression_confused,
+      icon: ITEM_DETAILS["Aged Anchovy"].image,
       alert: hasReadyAgingRack,
     },
     {
       id: "fermentationRack",
       name: t("agingShed.fermentationRack"),
-      icon: SUNNYSIDE.icons.expression_confused,
+      icon: ITEM_DETAILS["Pickled Broccoli"].image,
       alert: hasReadyFermentationRack,
     },
     {
       id: "spiceRack",
       name: t("agingShed.spiceRack"),
-      icon: SUNNYSIDE.icons.expression_confused,
+      icon: ITEM_DETAILS["Refined Salt"].image,
       alert: hasReadySpiceRack,
     },
   ];
