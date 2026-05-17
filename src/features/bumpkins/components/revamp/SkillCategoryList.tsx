@@ -127,8 +127,7 @@ export const SkillCategoryList: React.FC<{
         ? t("skillEdit.cost.ticket")
         : t("skillEdit.cost.gems", { gemCost });
 
-  const canEditSkills = () => {
-    if (!hasSkills) return false;
+  const canApplySkillChanges = () => {
     if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
       return false;
     if (resetType === "ticket" && !hasTicket) return false;
@@ -321,52 +320,15 @@ export const SkillCategoryList: React.FC<{
           <InnerPanel className="flex flex-col items-center">
             <div className="flex flex-col items-center w-full gap-2 my-1">
               <Label type="default">{t("skillEdit.editSkills")}</Label>
-              <Label
-                type={
-                  resetType === "free"
-                    ? "success"
-                    : resetType === "ticket"
-                      ? "success"
-                      : "vibrant"
-                }
-                icon={
-                  resetType === "gems"
-                    ? ITEM_DETAILS.Gem.image
-                    : resetType === "ticket"
-                      ? ITEM_DETAILS["Skill Reset Ticket"].image
-                      : undefined
-                }
-              >
-                {resetType === "free"
-                  ? t("skillEdit.freeEdit")
-                  : resetType === "ticket"
-                    ? t("skillEdit.ticketEdit")
-                    : t("skillEdit.gemEdit")}
-              </Label>
               <p className="text-xs text-center">
                 {t("skillEdit.description")}
               </p>
-              <Label type="warning">
-                {resetType === "free"
-                  ? t("skillEdit.freeWarning")
-                  : resetType === "ticket"
-                    ? t("skillEdit.ticketWarning")
-                    : t("skillEdit.gemsWarning", { gemCost })}
-              </Label>
-              {resetType !== "free" && (
-                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                  {t("skillReset.nextFreeReset", {
-                    date: getNextResetDateAndTime().date,
-                    time: getNextResetDateAndTime().time,
-                  })}
-                </Label>
-              )}
-              {!canEditSkills() && (
+              {!hasSkills && (
                 <Label type="danger">{t("skillEdit.cannotEditYet")}</Label>
               )}
               <Button
                 className="w-full"
-                disabled={!canEditSkills()}
+                disabled={!hasSkills}
                 onClick={handleStartEditing}
               >
                 {t("skillEdit.startEditing")}
@@ -402,12 +364,26 @@ export const SkillCategoryList: React.FC<{
                 {editCostLabel}
               </Label>
               <p className="text-xs text-center">
-                {resetType === "free"
-                  ? t("skillEdit.applyFreeConfirmation")
-                  : resetType === "ticket"
-                    ? t("skillEdit.applyTicketConfirmation")
-                    : t("skillEdit.applyGemsConfirmation", { gemCost })}
+                {t("skillEdit.applyConfirmation")}
               </p>
+              {resetType === "free" ? (
+                <Label type="warning">{t("skillReset.180Days")}</Label>
+              ) : (
+                <>
+                  {resetType === "gems" && (
+                    <Label type="warning">{t("skillReset.costDoubles")}</Label>
+                  )}
+                  <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                    {t("skillReset.nextFreeReset", {
+                      date: getNextResetDateAndTime().date,
+                      time: getNextResetDateAndTime().time,
+                    })}
+                  </Label>
+                </>
+              )}
+              {!canApplySkillChanges() && (
+                <Label type="danger">{t("skillEdit.cannotApplyChanges")}</Label>
+              )}
               <div className="flex justify-between gap-2 w-full">
                 <Button
                   className="w-full"
@@ -418,7 +394,9 @@ export const SkillCategoryList: React.FC<{
                 <Button
                   className="w-full"
                   onClick={handleApplyEditing}
-                  disabled={!hasChanges || !!validationError}
+                  disabled={
+                    !hasChanges || !!validationError || !canApplySkillChanges()
+                  }
                 >
                   {t("confirm")}
                 </Button>
