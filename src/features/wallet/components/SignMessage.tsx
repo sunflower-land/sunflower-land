@@ -25,7 +25,7 @@ const SignMessageErrorMessage: React.FC<{
   }
 };
 
-export const SignMessage: React.FC<{
+export const SignMessageBody: React.FC<{
   onSignMessage: ({
     address,
     signature,
@@ -69,18 +69,6 @@ export const SignMessage: React.FC<{
 
   return (
     <>
-      <div className="flex justify-between items-center mt-1 ml-2">
-        <div>
-          <Label type="default" icon={walletIcon}>
-            {connector?.name ?? "Connected"}
-          </Label>
-        </div>
-        <div>
-          <Label type="default" icon={getWalletIcon(connector)}>
-            {shortAddress(address ?? "")}
-          </Label>
-        </div>
-      </div>
       {isError && <SignMessageErrorMessage error={error} />}
       {!isError && (
         <div className="p-2">
@@ -104,6 +92,40 @@ export const SignMessage: React.FC<{
           {t("walletWall.signMessage")}
         </Button>
       </div>
+    </>
+  );
+};
+
+export const SignMessage: React.FC<{
+  onSignMessage: ({
+    address,
+    signature,
+  }: {
+    address: string;
+    signature: string;
+  }) => void;
+  onDisconnect: () => void;
+}> = ({ onSignMessage, onDisconnect }) => {
+  const { address, connector } = useConnection();
+
+  return (
+    <>
+      <div className="flex justify-between items-center mt-1 ml-2">
+        <div>
+          <Label type="default" icon={walletIcon}>
+            {connector?.name ?? "Connected"}
+          </Label>
+        </div>
+        <div>
+          <Label type="default" icon={getWalletIcon(connector)}>
+            {shortAddress(address ?? "")}
+          </Label>
+        </div>
+      </div>
+      <SignMessageBody
+        onSignMessage={onSignMessage}
+        onDisconnect={onDisconnect}
+      />
     </>
   );
 };

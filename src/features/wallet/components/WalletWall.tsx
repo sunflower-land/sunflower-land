@@ -129,13 +129,9 @@ const displayUriListener = (uri: string) => {
 export const WalletWall: React.FC<{
   header?: React.ReactNode;
   screen?: "signin" | "signup" | "walletWall";
-  onSignMessage: ({
-    address,
-    signature,
-  }: {
-    address: string;
-    signature: string;
-  }) => void;
+  onSignMessage:
+    | (({ address, signature }: { address: string; signature: string }) => void)
+    | null;
 }> = ({ header, screen = "walletWall", onSignMessage }) => {
   const { authService } = useContext(AuthContext);
   const { t } = useAppTranslation();
@@ -148,8 +144,8 @@ export const WalletWall: React.FC<{
   >(null);
 
   const { isConnecting, isConnected } = useConnection();
-  const { mutate: connect, reset, error, isError } = useConnect();
-  const { mutate: disconnect } = useDisconnect();
+  const { mutateAsync: asyncConnect, reset, error, isError } = useConnect();
+  const { mutateAsync: asyncDisconnect } = useDisconnect();
   const connections = useConnections();
   const connectors = useConnectors();
 
@@ -199,16 +195,19 @@ export const WalletWall: React.FC<{
     );
   };
 
-  const onConnect = (connector: Connector | CreateConnectorFn) => {
+  const onConnect = async (connector: Connector | CreateConnectorFn) => {
     setHasClickedWallet(true);
-    connect({ connector });
+    // Disconnect first
+    await onDisconnect();
+    // Connect
+    await asyncConnect({ connector });
   };
 
-  const onDisconnect = () => {
-    disconnect();
-    connections.forEach((connection) =>
-      disconnect({ connector: connection.connector }),
-    );
+  const onDisconnect = async () => {
+    await asyncDisconnect();
+    for (const connection of connections) {
+      await asyncDisconnect({ connector: connection.connector });
+    }
   };
 
   if (showLoading) {
@@ -216,14 +215,14 @@ export const WalletWall: React.FC<{
   }
 
   if (isConnecting) {
-    return <ConnectingToWallet disconnect={disconnect} />;
+    return <ConnectingToWallet disconnect={onDisconnect} />;
   }
 
   if (isError) {
     return <ConnectError error={error} disconnect={reset} />;
   }
 
-  if (isConnected && (!isLoginScreen || hasClickedWallet)) {
+  if (isConnected && onSignMessage && (!isLoginScreen || hasClickedWallet)) {
     return (
       <SignMessage onSignMessage={onSignMessage} onDisconnect={onDisconnect} />
     );
