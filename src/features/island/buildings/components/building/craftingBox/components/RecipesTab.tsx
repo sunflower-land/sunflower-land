@@ -37,6 +37,8 @@ import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { randomID } from "lib/utils/random";
+import { padRecipeIngredients } from "./craftingBoxUtils";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -192,6 +194,32 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const targetSlot = canAddToQueue ? (craftingQueue?.length ?? 0) : 0;
 
+  const isRecipeCraftButtonDisabled = ({
+    recipe,
+    canCraft,
+    isDiscovered = true,
+  }: {
+    recipe: Recipe;
+    canCraft: boolean;
+    isDiscovered?: boolean;
+  }) =>
+    !isDiscovered ||
+    isPending ||
+    !canCraft ||
+    (isCrafting && !canAddToQueue && recipe.time !== 0);
+
+  const handleRecipeCraft = (recipe: Recipe, targetSlot?: number) => {
+    if (recipe.time === 0) {
+      gameService.send("crafting.started", {
+        ingredients: padRecipeIngredients(recipe),
+        queueItemId: randomID(),
+      });
+      return;
+    }
+
+    handleSetupRecipe(recipe, targetSlot);
+  };
+
   return (
     <div className="flex flex-col">
       <Label type="default" className="mb-2">
@@ -207,8 +235,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);
-            const isCraftButtonDisabled =
-              isPending || !canCraft || (isCrafting && !canAddToQueue);
+            const isCraftButtonDisabled = isRecipeCraftButtonDisabled({
+              recipe,
+              canCraft,
+            });
             const { seconds: boostedCraftTime, boostsUsed } =
               getBoostedCraftingTime({
                 game: state,
@@ -247,7 +277,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                           ? undefined
                           : (e) => {
                               e.stopPropagation();
-                              handleSetupRecipe(recipe, targetSlot);
+                              handleRecipeCraft(recipe, targetSlot);
                             }
                       }
                       disabled={isCraftButtonDisabled}
@@ -263,7 +293,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                         onClick={
                           isCraftButtonDisabled
                             ? undefined
-                            : () => handleSetupRecipe(recipe, targetSlot)
+                            : () => handleRecipeCraft(recipe, targetSlot)
                         }
                         className={classNames("!p-0", {
                           "cursor-not-allowed": isCraftButtonDisabled,
@@ -516,11 +546,11 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                 const isDiscovered =
                   !!recipes[recipe.name as RecipeCollectibleName];
                 const canCraft = isDiscovered && hasRequiredIngredients(recipe);
-                const isCraftButtonDisabled =
-                  !isDiscovered ||
-                  isPending ||
-                  !canCraft ||
-                  (isCrafting && !canAddToQueue);
+                const isCraftButtonDisabled = isRecipeCraftButtonDisabled({
+                  recipe,
+                  canCraft,
+                  isDiscovered,
+                });
                 const { seconds: boostedCraftTime, boostsUsed } =
                   getBoostedCraftingTime({
                     game: state,
@@ -561,7 +591,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                               ? undefined
                               : (e) => {
                                   e.stopPropagation();
-                                  handleSetupRecipe(recipe, targetSlot);
+                                  handleRecipeCraft(recipe, targetSlot);
                                 }
                           }
                           disabled={isCraftButtonDisabled}
@@ -577,7 +607,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                             onClick={
                               isCraftButtonDisabled
                                 ? undefined
-                                : () => handleSetupRecipe(recipe, targetSlot)
+                                : () => handleRecipeCraft(recipe, targetSlot)
                             }
                             className={classNames("!p-0", {
                               "cursor-not-allowed": isCraftButtonDisabled,

@@ -18,7 +18,10 @@ type Options = {
   createdAt?: number;
 };
 
-function collectQueueItem(item: CraftingQueueItem, game: GameState): void {
+export function grantCraftedItem(
+  item: CraftingQueueItem,
+  game: GameState,
+): void {
   if (item.type === "collectible") {
     const name = item.name as InventoryItemName;
     game.inventory[name] = (game.inventory[name] || new Decimal(0)).plus(1);
@@ -51,7 +54,7 @@ export function collectCrafting({
 
     const remainingQueue = queue.filter((item) => {
       if (item.readyAt <= createdAt) {
-        collectQueueItem(item, copy);
+        grantCraftedItem(item, copy);
         return false;
       }
       return true;
