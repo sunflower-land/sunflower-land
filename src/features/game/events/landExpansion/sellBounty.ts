@@ -133,6 +133,21 @@ export function generateBountyCoins({
   return { coins };
 }
 
+export function canSellBounty(state: GameState, requestId: string): boolean {
+  const request = state.bounties.requests.find((deal) => deal.id === requestId);
+  if (!request) return false;
+
+  const completed = state.bounties.completed.find((c) => c.id === requestId);
+  if (completed) return false;
+
+  const { count: availableCount } = getCountAndType(state, request.name);
+  const required = BOUNTY_CATEGORIES["Mark Bounties"](request)
+    ? request.quantity
+    : 1;
+
+  return availableCount.gte(required);
+}
+
 export function sellBounty({
   state,
   action,

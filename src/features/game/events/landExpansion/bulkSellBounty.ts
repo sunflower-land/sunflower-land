@@ -1,6 +1,5 @@
 import { GameState } from "features/game/types/game";
-import { produce } from "immer";
-import { sellBounty } from "./sellBounty";
+import { canSellBounty, sellBounty } from "./sellBounty";
 
 export type BulkSellBountyAction = {
   type: "bounty.bulkSold";
@@ -17,20 +16,25 @@ export function bulkSellBounty({
   state,
   action,
   createdAt = Date.now(),
-}: Options) {
-  return produce(state, (stateCopy) => {
-    action.requestIds.forEach((requestId) => {
-      try {
-        stateCopy = sellBounty({
-          state: stateCopy,
-          action: { type: "bounty.sold", requestId },
-          createdAt,
-        });
-      } catch (error) {
-        // Skip individual bounty failures (e.g. ran out of inventory mid-loop)
-      }
-    });
+}: Options): GameState {
+  let nextState = state;
 
-    return stateCopy;
+  action.requestIds.forEach((requestId) => {
+    // Unknown IDs are a real client/server divergence and should surface, not
+    // silently no-op.
+    const request = nextState.bounties.requests.find((r) => r.id === requestId);
+    if (!request) throw new Error("Bounty does not exist");
+
+    // Skip transient failures (already completed, inventory exhausted mid-loop)
+    // — these can happen on legitimate race conditions in bulk mode.
+    if (!canSellBounty(nextState, requestId)) return;
+
+    nextState = sellBounty({
+      state: nextState,
+      action: { type: "bounty.sold", requestId },
+      createdAt,
+    });
   });
+
+  return nextState;
 }

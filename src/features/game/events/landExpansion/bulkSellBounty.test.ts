@@ -4,8 +4,8 @@ import { GameState } from "features/game/types/game";
 import { bulkSellBounty } from "./bulkSellBounty";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 
-describe("bulkSellBounty", () => {
-  const GAME_STATE: GameState = {
+const makeGameState = (): GameState =>
+  ({
     ...TEST_FARM,
     bumpkin: INITIAL_BUMPKIN,
     inventory: {
@@ -15,31 +15,20 @@ describe("bulkSellBounty", () => {
     },
     bounties: {
       requests: [
-        {
-          id: "1",
-          name: "Red Pansy",
-          coins: 100,
-        },
-        {
-          id: "2",
-          name: "Blue Pansy",
-          coins: 50,
-        },
-        {
-          id: "3",
-          name: "Yellow Pansy",
-          coins: 25,
-        },
+        { id: "1", name: "Red Pansy", coins: 100 },
+        { id: "2", name: "Blue Pansy", coins: 50 },
+        { id: "3", name: "Yellow Pansy", coins: 25 },
       ],
       completed: [],
     },
     coins: 0,
     farmActivity: {},
-  } as GameState;
+  }) as GameState;
 
+describe("bulkSellBounty", () => {
   it("sells multiple bounties in one action", () => {
     const result = bulkSellBounty({
-      state: GAME_STATE,
+      state: makeGameState(),
       action: {
         type: "bounty.bulkSold",
         requestIds: ["1", "2", "3"],
@@ -56,7 +45,7 @@ describe("bulkSellBounty", () => {
   it("skips bounties the player cannot fulfill instead of throwing", () => {
     const result = bulkSellBounty({
       state: {
-        ...GAME_STATE,
+        ...makeGameState(),
         inventory: {
           "Red Pansy": new Decimal(1),
         },
@@ -73,11 +62,12 @@ describe("bulkSellBounty", () => {
   });
 
   it("skips already-completed bounties", () => {
+    const state = makeGameState();
     const result = bulkSellBounty({
       state: {
-        ...GAME_STATE,
+        ...state,
         bounties: {
-          ...GAME_STATE.bounties,
+          ...state.bounties,
           completed: [{ id: "1", soldAt: 1 }],
         },
       },
@@ -91,9 +81,34 @@ describe("bulkSellBounty", () => {
     expect(result.coins).toEqual(50);
   });
 
+  it("throws on an unknown requestId so client/server divergence surfaces", () => {
+    expect(() =>
+      bulkSellBounty({
+        state: makeGameState(),
+        action: {
+          type: "bounty.bulkSold",
+          requestIds: ["1", "nope"],
+        },
+      }),
+    ).toThrow("Bounty does not exist");
+  });
+
+  it("duplicate IDs only sell once (second pass is skipped as completed)", () => {
+    const result = bulkSellBounty({
+      state: makeGameState(),
+      action: {
+        type: "bounty.bulkSold",
+        requestIds: ["1", "1"],
+      },
+    });
+
+    expect(result.bounties.completed).toHaveLength(1);
+    expect(result.coins).toEqual(100);
+  });
+
   it("handles an empty list", () => {
     const result = bulkSellBounty({
-      state: GAME_STATE,
+      state: makeGameState(),
       action: {
         type: "bounty.bulkSold",
         requestIds: [],

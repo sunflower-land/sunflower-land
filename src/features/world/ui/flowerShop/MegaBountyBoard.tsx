@@ -193,10 +193,13 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     return selected;
   };
 
+  const autoSelection = computeAutoSelection();
+  const canBulkSellAnything = autoSelection.length > 0;
+
   const handleBulkSell = () => {
     if (!isBulkSell) {
       setIsBulkSell(true);
-      setSelectedSells(computeAutoSelection());
+      setSelectedSells(autoSelection);
     } else {
       handleConfirmBulkSell();
     }
@@ -217,28 +220,26 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   };
 
   const toggleSellSelection = (bounty: BountyRequest) => {
-    if (selectedSells.includes(bounty.id)) {
-      setSelectedSells(selectedSells.filter((id) => id !== bounty.id));
-      return;
-    }
-
-    // Check inventory accounting for other already-selected bounties of the same item
-    const { count } = getCountAndType(state, bounty.name);
-    const required = getRequiredCount(bounty);
-    const usedByOthers = selectedSells.reduce((sum, id) => {
-      const b = exchange.requests.find((r) => r.id === id);
-      if (b && b.name === bounty.name) {
-        return sum + getRequiredCount(b);
+    setSelectedSells((current) => {
+      if (current.includes(bounty.id)) {
+        return current.filter((id) => id !== bounty.id);
       }
-      return sum;
-    }, 0);
 
-    if (count.gte(usedByOthers + required)) {
-      setSelectedSells([...selectedSells, bounty.id]);
-    }
+      // Check inventory accounting for other already-selected bounties of the same item
+      const { count } = getCountAndType(state, bounty.name);
+      const required = getRequiredCount(bounty);
+      const usedByOthers = current.reduce((sum, id) => {
+        const b = exchange.requests.find((r) => r.id === id);
+        if (b && b.name === bounty.name) {
+          return sum + getRequiredCount(b);
+        }
+        return sum;
+      }, 0);
+
+      if (!count.gte(usedByOthers + required)) return current;
+      return [...current, bounty.id];
+    });
   };
-
-  const canBulkSellAnything = computeAutoSelection().length > 0;
 
   return (
     <>
