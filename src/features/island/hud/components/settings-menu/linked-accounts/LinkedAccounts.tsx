@@ -13,8 +13,12 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ContentComponentProps } from "../GameOptions";
 import { hasFeatureAccess } from "lib/flags";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _custodialWallet = (state: MachineState) => state.context.custodialWallet;
+const _gameState = (state: MachineState) => state.context.state;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
 const _linkingWallet = (state: MachineState) =>
   state.matches("linkingWallet") || state.matches("linkingWalletSuccess");
@@ -57,6 +61,8 @@ interface RowProps {
   status: RowStatus;
   subtext: string;
   onClick?: () => void;
+  /** Extra disable signal independent of status (e.g. reputation gate). */
+  disabledOverride?: boolean;
 }
 
 const ProviderRow: React.FC<RowProps> = ({
@@ -65,9 +71,11 @@ const ProviderRow: React.FC<RowProps> = ({
   status,
   subtext,
   onClick,
+  disabledOverride,
 }) => {
   const { t } = useAppTranslation();
-  const disabled = status === "linked" || status === "linking";
+  const disabled =
+    !!disabledOverride || status === "linked" || status === "linking";
   const pill = PILL[status];
 
   return (
@@ -98,11 +106,26 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   );
 
   const linkedWallet = useSelector(gameService, _linkedWallet);
+  const custodialWallet = useSelector(gameService, _custodialWallet);
+  const gameState = useSelector(gameService, _gameState);
+  const now = useNow();
+  const hasSeedlingReputation = hasReputation({
+    game: gameState,
+    reputation: Reputation.Seedling,
+    now,
+  });
   const socialDetails = useSelector(gameService, _socialDetails);
   const linkingWallet = useSelector(gameService, _linkingWallet);
   const linkingWalletFailed = useSelector(gameService, _linkingWalletFailed);
   const linkingSocial = useSelector(gameService, _linkingSocial);
   const linkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
+
+  // Custodial farms can only link a wallet once the player has shown
+  // engagement (Seedling reputation). This compensates for the auto-mint
+  // at signup: anyone can grab a Google farm + NFT, but only engaged
+  // players can take real custody.
+  const walletLinkBlockedByReputation =
+    !linkedWallet && !!custodialWallet && !hasSeedlingReputation;
 
   const walletStatus: RowStatus = linkingWallet
     ? "linking"
@@ -127,7 +150,9 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         ? t("linkedAccounts.waitingForWallet")
         : walletStatus === "failed"
           ? t("linkedAccounts.linkFailed")
-          : t("linkedAccounts.noWallet");
+          : walletLinkBlockedByReputation
+            ? t("linkedAccounts.needSeedlingToLink")
+            : t("linkedAccounts.noWallet");
 
   const googleSubtext =
     googleStatus === "linked" && socialDetails?.email
@@ -151,9 +176,22 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     );
   }
 
+  const isCustodial = !linkedWallet && !!custodialWallet;
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
+
+      {isCustodial && (
+        <>
+          <Label type="info" icon={walletIcon}>
+            {t("linkedAccounts.custodialBannerTitle")}
+          </Label>
+          <p className="text-xs mx-1">
+            {t("linkedAccounts.custodialBannerBody")}
+          </p>
+        </>
+      )}
 
       <Label type="warning">{t("linkedAccounts.permanenceWarning")}</Label>
 
@@ -163,6 +201,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         status={walletStatus}
         subtext={walletSubtext}
         onClick={() => onSubMenuClick("linkAccountWallet")}
+        disabledOverride={walletLinkBlockedByReputation}
       />
 
       <ProviderRow

@@ -179,6 +179,12 @@ export interface Context {
   moderation: Moderation;
   saveQueued: boolean;
   linkedWallet?: string;
+  /**
+   * Address of the platform-managed smart account holding this farm's
+   * NFT while the player hasn't linked a wallet of their own. Set for
+   * Google-only signups; cleared once `linkedWallet` is set.
+   */
+  custodialWallet?: string;
   wallet?: string;
   nftId?: number;
   paused?: boolean;
@@ -629,6 +635,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   onChainRaffleReward: prize,
                   linkedWallet:
                     event.data.data?.linkedWallet ?? context.linkedWallet,
+                  custodialWallet:
+                    event.data.data?.custodialWallet ?? context.custodialWallet,
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
@@ -660,6 +668,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
+                  custodialWallet:
+                    event.data.data?.custodialWallet ?? context.custodialWallet,
                   // Effects run while visiting another farm return the
                   // visited farm's response payload. Never let that
                   // overwrite the visitor's own socialDetails.
@@ -783,6 +793,8 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   state: event.data.state,
                   linkedWallet:
                     event.data.data?.linkedWallet ?? context.linkedWallet,
+                  custodialWallet:
+                    event.data.data?.custodialWallet ?? context.custodialWallet,
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
@@ -1091,6 +1103,7 @@ export function startGame(authContext: AuthContext) {
                 farmAddress: response.farmAddress,
                 analyticsId: response.analyticsId,
                 linkedWallet: response.linkedWallet,
+                custodialWallet: response.custodialWallet,
                 nftId: response.nftId,
                 wallet: response.wallet,
                 verified: response.verified,
@@ -2762,6 +2775,7 @@ export function startGame(authContext: AuthContext) {
           discordId: (_, event) => event.data.discordId,
           fslId: (_, event) => event.data.fslId,
           socialDetails: (_, event) => event.data.socialDetails,
+          custodialWallet: (_, event) => event.data.custodialWallet,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
           apiKey: (_, event) => event.data.apiKey,
