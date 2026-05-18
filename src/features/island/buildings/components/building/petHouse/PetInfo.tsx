@@ -81,6 +81,8 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           />
         </div>
         <div className="flex flex-col w-2/3">
+          <span className="text-sm truncate mb-1">{petData.name}</span>
+
           {/* Pet Type and Categories */}
           <div className="flex flex-wrap gap-1 mb-2">
             <Label type="info" className="text-xs">
