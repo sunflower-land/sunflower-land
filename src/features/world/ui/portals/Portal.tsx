@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
-import { MinigameName } from "features/game/types/minigames";
+import { MinigameName, V2_MINIGAMES } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
@@ -31,14 +31,13 @@ type PortalPurchase = {
 };
 
 /**
- * For minigames where the key is different to the hosted domain name
+ * For legacy minigames where the slug is different to the hosted subdomain.
+ * V2 minigames live at `{portalName}.minigames.sunflower-land.com` and are
+ * handled via the V2_MINIGAMES list instead.
  */
 const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "festival-of-colors-2025": "festival-of-colors",
   "april-fools": "halloween",
-  "chaacs-temple": "chaacs-temple.minigames",
-  /** Host: `https://chicken-rescue-v2.minigames.sunflower-land.com` */
-  "chicken-rescue-v2": "chicken-rescue-v2.minigames",
 };
 
 /**
@@ -46,7 +45,8 @@ const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
  * 1. `iframeBaseUrl` when set (e.g. player economy dashboard → `*.economies.sunflower-land.com`).
  * 2. `VITE_PORTAL_GAME_URL` when set (local / override).
  * 3. `apiPlayUrl` from the minigame session API when provided.
- * 4. `DOMAIN_MAP` / default `https://{portalName}.sunflower-land.com`.
+ * 4. V2 minigames → `https://{portalName}.minigames.sunflower-land.com`.
+ * 5. `DOMAIN_MAP` / default `https://{portalName}.sunflower-land.com`.
  */
 function resolveMinigameIframeBaseUrl(
   portalName: MinigameName,
@@ -66,6 +66,10 @@ function resolveMinigameIframeBaseUrl(
   const fromApi = apiPlayUrl?.trim();
   if (fromApi) {
     return fromApi.replace(/\/$/, "");
+  }
+
+  if (V2_MINIGAMES.includes(portalName)) {
+    return `https://${portalName}.minigames.sunflower-land.com`;
   }
 
   const slug = DOMAIN_MAP[portalName] ?? portalName;
