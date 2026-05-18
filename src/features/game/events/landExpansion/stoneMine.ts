@@ -20,7 +20,12 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  RESOURCE_DIMENSIONS,
+  RockName,
+} from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
@@ -158,7 +163,10 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = game.stones[id]?.multiplier ?? 1;
+  const multiplier = getResourceVariant(
+    game.stones[id],
+    "Stone Rock",
+  ).multiplier;
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -331,11 +339,12 @@ export function getStoneDropAmount({
   amount *= multiplier;
 
   // Add yield boost for upgraded stones
-  if (rock.tier === 2) {
+  const tier = getResourceVariant(rock, "Stone Rock").tier;
+  if (tier === 2) {
     amount += 0.5;
   }
 
-  if (rock.tier === 3) {
+  if (tier === 3) {
     amount += 2.5;
   }
 
@@ -353,7 +362,10 @@ export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const multiplier = gameState.stones[id]?.multiplier ?? 1;
+  const multiplier = getResourceVariant(
+    gameState.stones[id],
+    "Stone Rock",
+  ).multiplier;
   return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
@@ -392,7 +404,10 @@ export function mineStone({
       throw new Error("Not enough pickaxes");
     }
 
-    const stoneName: RockName = rock.name ?? "Stone Rock";
+    const stoneName: RockName = getUpgradeableResourceName(
+      rock,
+      "Stone Rock",
+    ) as RockName;
     const counter = stateCopy.farmActivity[`${stoneName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[stoneName];
 
@@ -438,7 +453,7 @@ export function mineStone({
     stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",
       stateCopy.farmActivity,
-      new Decimal(rock?.multiplier ?? 1),
+      new Decimal(getResourceVariant(rock, "Stone Rock").multiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(

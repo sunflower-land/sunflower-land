@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { upgradeRock, UpgradeRockAction } from "./upgradeRock";
 import { GameState } from "features/game/types/game";
-import { RESOURCE_MULTIPLIER } from "features/game/types/resources";
 
 describe("upgradeRock", () => {
   const GAME_STATE: GameState = {
@@ -72,9 +71,7 @@ describe("upgradeRock", () => {
         stone: { minedAt: 0 },
         x: 1,
         y: 1,
-        tier: 2,
         name: "Fused Stone Rock",
-        multiplier: RESOURCE_MULTIPLIER["Fused Stone Rock"],
       });
 
       // Should track farm activity
@@ -113,7 +110,6 @@ describe("upgradeRock", () => {
                 stone: { minedAt: 0 },
                 x: 1,
                 y: 1,
-                tier: 1,
               },
             },
           },
@@ -188,28 +184,28 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 2,
+              name: "Fused Stone Rock",
             },
             "1": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 2,
+              name: "Fused Stone Rock",
             },
             "2": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 2,
+              name: "Fused Stone Rock",
             },
             "3": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 2,
+              name: "Fused Stone Rock",
             },
           },
         },
@@ -236,9 +232,7 @@ describe("upgradeRock", () => {
         stone: { minedAt: 0 },
         x: 1,
         y: 1,
-        tier: 3,
         name: "Reinforced Stone Rock",
-        multiplier: RESOURCE_MULTIPLIER["Reinforced Stone Rock"],
       });
     });
   });
@@ -266,28 +260,24 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 1,
             },
             "1": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 1,
             },
             "2": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 1,
             },
             "3": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 1,
             },
           },
         },
@@ -301,9 +291,7 @@ describe("upgradeRock", () => {
         stone: { minedAt: 0 },
         x: 1,
         y: 1,
-        tier: 2,
         name: "Refined Iron Rock",
-        multiplier: RESOURCE_MULTIPLIER["Refined Iron Rock"],
       });
 
       // Should remove original iron rocks
@@ -334,28 +322,24 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 1,
             },
             "1": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 1,
             },
             "2": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 1,
             },
             "3": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 1,
             },
           },
         },
@@ -369,9 +353,7 @@ describe("upgradeRock", () => {
         stone: { minedAt: 0 },
         x: 1,
         y: 1,
-        tier: 2,
         name: "Pure Gold Rock",
-        multiplier: RESOURCE_MULTIPLIER["Pure Gold Rock"],
       });
     });
 
@@ -397,28 +379,28 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 2,
+              name: "Pure Gold Rock",
             },
             "1": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 2,
+              name: "Pure Gold Rock",
             },
             "2": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 2,
+              name: "Pure Gold Rock",
             },
             "3": {
               createdAt: now,
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 2,
+              name: "Pure Gold Rock",
             },
           },
         },
@@ -432,9 +414,7 @@ describe("upgradeRock", () => {
         stone: { minedAt: 0 },
         x: 1,
         y: 1,
-        tier: 3,
         name: "Prime Gold Rock",
-        multiplier: RESOURCE_MULTIPLIER["Prime Gold Rock"],
       });
     });
   });
@@ -456,35 +436,31 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 2,
+              name: "Fused Stone Rock",
             },
             "1": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 1,
             },
             "2": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 1,
             },
             "3": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 1,
             },
             "4": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 5,
               y: 5,
-              tier: 1,
             },
           },
         },
@@ -542,28 +518,24 @@ describe("upgradeRock", () => {
               stone: { minedAt: 0 },
               x: 1,
               y: 1,
-              tier: 1,
             },
             "1": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 2,
               y: 2,
-              tier: 1,
             },
             "2": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 3,
               y: 3,
-              tier: 1,
             },
             "3": {
               createdAt: Date.now(),
               stone: { minedAt: 0 },
               x: 4,
               y: 4,
-              tier: 1,
             },
           },
         },

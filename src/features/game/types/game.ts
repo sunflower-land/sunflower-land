@@ -786,8 +786,10 @@ export type Tree = {
   wood: Wood;
   createdAt?: number;
   removedAt?: number;
-  tier?: ResourceTier;
   name?: TreeName;
+  // Legacy fields: no longer written, kept for back-compat with saves that
+  // pre-date the name-based variant lookup. Read via getResourceVariant.
+  tier?: ResourceTier;
   multiplier?: number;
 } & OptionalCoordinates;
 
@@ -806,8 +808,10 @@ export type Rock = {
   stone: Stone;
   createdAt?: number;
   removedAt?: number;
-  tier?: ResourceTier;
   name?: RockName;
+  // Legacy fields: no longer written, kept for back-compat with saves that
+  // pre-date the name-based variant lookup. Read via getResourceVariant.
+  tier?: ResourceTier;
   multiplier?: number;
 } & OptionalCoordinates;
 

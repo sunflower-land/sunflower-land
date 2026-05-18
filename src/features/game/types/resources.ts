@@ -390,20 +390,93 @@ export const BASIC_RESOURCES: BasicResourceName[] = [
 
 export const REQUIRED_NODES_TO_FORGE = 4;
 
-export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {
-  "Stone Rock": 1,
-  "Fused Stone Rock": REQUIRED_NODES_TO_FORGE,
-  "Reinforced Stone Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  Tree: 1,
-  "Ancient Tree": REQUIRED_NODES_TO_FORGE,
-  "Sacred Tree": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  "Iron Rock": 1,
-  "Refined Iron Rock": REQUIRED_NODES_TO_FORGE,
-  "Tempered Iron Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
-  "Gold Rock": 1,
-  "Pure Gold Rock": REQUIRED_NODES_TO_FORGE,
-  "Prime Gold Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+export const RESOURCE_VARIANT: Record<
+  UpgradeableResource,
+  { tier: ResourceTier; multiplier: number }
+> = {
+  "Stone Rock": { tier: 1, multiplier: 1 },
+  "Fused Stone Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Reinforced Stone Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  Tree: { tier: 1, multiplier: 1 },
+  "Ancient Tree": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Sacred Tree": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  "Iron Rock": { tier: 1, multiplier: 1 },
+  "Refined Iron Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Tempered Iron Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
+  "Gold Rock": { tier: 1, multiplier: 1 },
+  "Pure Gold Rock": { tier: 2, multiplier: REQUIRED_NODES_TO_FORGE },
+  "Prime Gold Rock": {
+    tier: 3,
+    multiplier: REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
+  },
 };
+
+const isKnownResourceVariant = (name: string): name is UpgradeableResource =>
+  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, name);
+
+/**
+ * Resolves a resource node's canonical variant name. Used wherever the
+ * downstream lookup needs the name itself (KNOWN_IDS, farm-activity keys,
+ * UI rendering) rather than just the derived tier/multiplier.
+ *
+ * Resolution order:
+ *  1. The node's `name`, if it maps to a known variant in the requested
+ *     family. A cross-family name (e.g. "Ancient Tree" in `game.stones`)
+ *     is treated as stale and falls through to legacy reconstruction.
+ *  2. Reconstruction from legacy `tier`/`multiplier` fields against the
+ *     family. `tier` wins when both are present and disagree, because tier
+ *     uniquely identifies a variant within its family.
+ *  3. The supplied `fallback` (the family's basic variant).
+ */
+export function getUpgradeableResourceName(
+  node: Tree | Rock | undefined,
+  fallback: BasicResourceName,
+): UpgradeableResource {
+  const family = UPGRADEABLE_RESOURCE_FAMILIES[fallback] ?? [];
+  if (
+    node?.name &&
+    isKnownResourceVariant(node.name) &&
+    family.includes(node.name)
+  ) {
+    return node.name;
+  }
+  if (node?.tier !== undefined) {
+    const byTier = family.find(
+      (candidate) => RESOURCE_VARIANT[candidate].tier === node.tier,
+    );
+    if (byTier) return byTier;
+  }
+  if (node?.multiplier !== undefined) {
+    const byMultiplier = family.find(
+      (candidate) => RESOURCE_VARIANT[candidate].multiplier === node.multiplier,
+    );
+    if (byMultiplier) return byMultiplier;
+  }
+  return fallback;
+}
+
+/**
+ * Resolves a resource node's variant (tier + multiplier) safely. Delegates
+ * to `getUpgradeableResourceName` so the returned pair is always one of the
+ * canonical entries in `RESOURCE_VARIANT` — a legacy `{ tier: 2 }`-only node
+ * resolves to its family's tier-2 variant rather than the impossible
+ * `{ tier: 2, multiplier: 1 }`.
+ */
+export function getResourceVariant(
+  node: Tree | Rock | undefined,
+  fallback: BasicResourceName,
+): { tier: ResourceTier; multiplier: number } {
+  return RESOURCE_VARIANT[getUpgradeableResourceName(node, fallback)];
+}
 
 export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
   Record<ResourceName, UpgradeableResource[]>
@@ -412,6 +485,24 @@ export const UPGRADEABLE_RESOURCE_FAMILIES: Partial<
   "Stone Rock": ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
   "Iron Rock": ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
   "Gold Rock": ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+};
+
+export const UPGRADEABLE_FAMILY_BASE: Record<
+  UpgradeableResource,
+  BasicResourceName
+> = {
+  Tree: "Tree",
+  "Ancient Tree": "Tree",
+  "Sacred Tree": "Tree",
+  "Stone Rock": "Stone Rock",
+  "Fused Stone Rock": "Stone Rock",
+  "Reinforced Stone Rock": "Stone Rock",
+  "Iron Rock": "Iron Rock",
+  "Refined Iron Rock": "Iron Rock",
+  "Tempered Iron Rock": "Iron Rock",
+  "Gold Rock": "Gold Rock",
+  "Pure Gold Rock": "Gold Rock",
+  "Prime Gold Rock": "Gold Rock",
 };
 
 export function getTotalBaseResourceEquivalents(
@@ -428,7 +519,7 @@ export function getTotalBaseResourceEquivalents(
     return (
       total +
       (game.inventory[resource]?.toNumber() ?? 0) *
-        RESOURCE_MULTIPLIER[resource]
+        RESOURCE_VARIANT[resource].multiplier
     );
   }, 0);
 }

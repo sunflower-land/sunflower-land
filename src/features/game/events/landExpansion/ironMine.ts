@@ -20,7 +20,12 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  RESOURCE_DIMENSIONS,
+  RockName,
+} from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -266,15 +271,15 @@ export function getIronDropAmount({
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
-  const multiplier = rock.multiplier ?? 1;
-  amount *= multiplier;
+  const variant = getResourceVariant(rock, "Iron Rock");
+  amount *= variant.multiplier;
 
-  if (rock.tier === 2) {
+  if (variant.tier === 2) {
     amount += 0.5;
     boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
 
-  if (rock.tier === 3) {
+  if (variant.tier === 3) {
     amount += 2.5;
     boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
@@ -314,13 +319,17 @@ export function mineIron({
     }
 
     const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
-    const requiredToolAmount = ironRock.multiplier ?? 1;
+    const ironMultiplier = getResourceVariant(ironRock, "Iron Rock").multiplier;
+    const requiredToolAmount = ironMultiplier;
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("No pickaxes left");
     }
 
-    const ironName: RockName = ironRock.name ?? "Iron Rock";
+    const ironName: RockName = getUpgradeableResourceName(
+      ironRock,
+      "Iron Rock",
+    ) as RockName;
     const counter = stateCopy.farmActivity[`${ironName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[ironName];
 
@@ -367,7 +376,7 @@ export function mineIron({
     stateCopy.farmActivity = trackFarmActivity(
       "Iron Mined",
       stateCopy.farmActivity,
-      new Decimal(ironRock.multiplier ?? 1),
+      new Decimal(ironMultiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(

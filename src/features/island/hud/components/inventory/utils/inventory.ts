@@ -30,7 +30,7 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
   ResourceName,
-  RESOURCE_MULTIPLIER,
+  RESOURCE_VARIANT,
   UpgradeableResource,
   BASIC_RESOURCES,
   BasicResourceName,
@@ -288,4 +288,5 @@ export const isTreeOrRock = (node: ResourceItem): node is Tree | Rock =>
 
 export const isUpgradableResource = (
   itemName: ResourceName,
-): itemName is UpgradeableResource => itemName in RESOURCE_MULTIPLIER;
+): itemName is UpgradeableResource =>
+  Object.prototype.hasOwnProperty.call(RESOURCE_VARIANT, itemName);

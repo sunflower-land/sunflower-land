@@ -17,8 +17,10 @@ import { PLACEABLE_LOCATIONS } from "../types/collectibles";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
 import { isPetCollectible } from "./landExpansion/placeCollectible";
 import {
+  getResourceVariant,
   RESOURCE_STATE_ACCESSORS,
-  RESOURCE_MULTIPLIER,
+  RESOURCE_VARIANT,
+  UPGRADEABLE_FAMILY_BASE,
 } from "../types/resources";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "../types/bumpkin";
 
@@ -204,7 +206,13 @@ export function claimAirdrop({
           placedNodes,
         ).filter(([, node]: [string, ResourceItem]) => {
           if (isTreeOrRock(node) && isUpgradableResource(itemName)) {
-            return (node.multiplier ?? 1) === RESOURCE_MULTIPLIER[itemName];
+            const target = RESOURCE_VARIANT[itemName];
+            const familyBase = UPGRADEABLE_FAMILY_BASE[itemName];
+            const variant = getResourceVariant(node, familyBase);
+            return (
+              variant.tier === target.tier &&
+              variant.multiplier === target.multiplier
+            );
           }
 
           return true;

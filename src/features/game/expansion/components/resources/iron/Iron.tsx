@@ -15,7 +15,12 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import { IronRockName, RockName } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  IronRockName,
+  RockName,
+} from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
 
@@ -26,7 +31,10 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   ironRock: Rock,
 ) => {
-  const requiredToolAmount = ironRock.multiplier ?? 1;
+  const requiredToolAmount = getResourceVariant(
+    ironRock,
+    "Iron Rock",
+  ).multiplier;
   if (requiredToolAmount <= 0) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -87,9 +95,15 @@ export const Iron: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.iron[id],
     compareResource,
   );
-  const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
+  const ironRockName = getUpgradeableResourceName(
+    resource,
+    "Iron Rock",
+  ) as IronRockName;
   const activityCount = useSelector(gameService, (state) => {
-    const rockName = state.context.state.iron[id]?.name ?? "Iron Rock";
+    const rockName = getUpgradeableResourceName(
+      state.context.state.iron[id],
+      "Iron Rock",
+    ) as IronRockName;
     return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
   });
   const inventory = useSelector(
@@ -130,7 +144,10 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const ironName: RockName = resource.name ?? "Iron Rock";
+    const ironName: RockName = getUpgradeableResourceName(
+      resource,
+      "Iron Rock",
+    ) as RockName;
     const itemId = KNOWN_IDS[ironName];
     const ironMined = new Decimal(
       resource.stone.amount ??
@@ -174,7 +191,9 @@ export const Iron: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             ironRockName={ironRockName}
-            requiredToolAmount={new Decimal(resource.multiplier ?? 1)}
+            requiredToolAmount={
+              new Decimal(getResourceVariant(resource, "Iron Rock").multiplier)
+            }
             inventory={inventory}
           />
         </div>

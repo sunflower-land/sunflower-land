@@ -21,7 +21,12 @@ import { KNOWN_IDS } from "features/game/types";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, BoostName, Rock, AOE } from "features/game/types/game";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  GoldRockName,
+  RESOURCE_DIMENSIONS,
+} from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
@@ -289,13 +294,13 @@ export function getGoldDropAmount({
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
-  const multiplier = rock.multiplier ?? 1;
-  amount *= multiplier;
-  if (rock.tier === 2) {
+  const variant = getResourceVariant(rock, "Gold Rock");
+  amount *= variant.multiplier;
+  if (variant.tier === 2) {
     amount += 0.5;
     boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
-  if (rock.tier === 3) {
+  if (variant.tier === 3) {
     amount += 2.5;
     boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
@@ -336,12 +341,16 @@ export function mineGold({
     }
 
     const toolAmount = inventory["Iron Pickaxe"] || new Decimal(0);
-    const requiredToolAmount = goldRock.multiplier ?? 1;
+    const goldMultiplier = getResourceVariant(goldRock, "Gold Rock").multiplier;
+    const requiredToolAmount = goldMultiplier;
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("No pickaxes left");
     }
-    const goldRockName = goldRock.name ?? "Gold Rock";
+    const goldRockName = getUpgradeableResourceName(
+      goldRock,
+      "Gold Rock",
+    ) as GoldRockName;
     const counter = stateCopy.farmActivity[`${goldRockName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[goldRockName];
     const prngObject = {
@@ -394,7 +403,7 @@ export function mineGold({
     stateCopy.farmActivity = trackFarmActivity(
       "Gold Mined",
       stateCopy.farmActivity,
-      new Decimal(goldRock.multiplier ?? 1),
+      new Decimal(goldMultiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(

@@ -679,7 +679,7 @@ describe("resourceNodes", () => {
             },
             x: 1,
             y: 1,
-            tier: 2, // Wrong tier
+            name: "Fused Stone Rock", // Wrong tier
           },
           1: {
             createdAt: Date.now(),
@@ -688,7 +688,7 @@ describe("resourceNodes", () => {
             },
             x: 2,
             y: 2,
-            tier: 1, // Correct tier
+            // Correct tier (default base tier 1)
           },
         },
       };

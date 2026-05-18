@@ -3,8 +3,9 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   ADVANCED_RESOURCES,
-  RESOURCE_MULTIPLIER,
+  getResourceVariant,
   RockName,
+  UPGRADEABLE_FAMILY_BASE,
 } from "features/game/types/resources";
 import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
@@ -93,9 +94,10 @@ export function upgradeRock({
     const upgradeableRocks = getUpgradeableNodes(game, action.upgradeTo);
 
     const rockStateKeyAccessor = STATE_ACCESSOR_KEYS[action.upgradeTo];
+    const familyBase = UPGRADEABLE_FAMILY_BASE[action.upgradeTo];
     for (let i = 0; i < upgradeableRocks.length && rocksToRemove > 0; i++) {
       const [rockId, rock] = upgradeableRocks[i];
-      const tier = "tier" in rock ? rock.tier : 1;
+      const tier = getResourceVariant(rock as Rock, familyBase).tier;
 
       if (tier === advancedResource.preRequires.tier) {
         if (!placement && rock.x && rock.y) {
@@ -113,9 +115,7 @@ export function upgradeRock({
         stone: { minedAt: 0 },
         x: placement.x,
         y: placement.y,
-        tier: advancedResource.preRequires.tier === 1 ? 2 : 3,
         name: action.upgradeTo,
-        multiplier: RESOURCE_MULTIPLIER[action.upgradeTo],
       };
 
       game[rockStateKeyAccessor] = {

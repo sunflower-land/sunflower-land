@@ -9,6 +9,11 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import {
+  getResourceVariant,
+  getUpgradeableResourceName,
+  TreeName,
+} from "features/game/types/resources";
 
 import {
   BoostName,
@@ -78,7 +83,8 @@ export function getWoodDropAmount({
 }): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   const { bumpkin, inventory } = game;
 
-  const multiplier = tree?.multiplier ?? 1;
+  const variant = getResourceVariant(tree, "Tree");
+  const multiplier = variant.multiplier;
   let amount = new Decimal(1);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -187,12 +193,12 @@ export function getWoodDropAmount({
 
   amount = amount.mul(multiplier);
 
-  if (tree?.tier === 2) {
+  if (variant.tier === 2) {
     amount = amount.add(0.5);
     boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
 
-  if (tree?.tier === 3) {
+  if (variant.tier === 3) {
     amount = amount.add(2.5);
     boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
@@ -355,7 +361,7 @@ export function getRequiredAxeAmount(
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const multiplier = gameState.trees[id]?.multiplier ?? 1;
+  const multiplier = getResourceVariant(gameState.trees[id], "Tree").multiplier;
 
   if (inventory.Logger?.gte(1)) {
     boostsUsed.push({ name: "Logger", value: "x0.5" });
@@ -400,7 +406,8 @@ export function chop({
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }
 
-    const treeName = tree.name ?? "Tree";
+    const treeName = getUpgradeableResourceName(tree, "Tree") as TreeName;
+    const treeMultiplier = getResourceVariant(tree, "Tree").multiplier;
     const prngObject = {
       farmId,
       itemId: KNOWN_IDS[treeName],
@@ -443,8 +450,7 @@ export function chop({
         });
 
     if (treeReward?.coins) {
-      stateCopy.coins =
-        stateCopy.coins + treeReward.coins * (tree.multiplier ?? 1);
+      stateCopy.coins = stateCopy.coins + treeReward.coins * treeMultiplier;
     }
 
     if (treeReward?.items) {
@@ -458,7 +464,7 @@ export function chop({
     stateCopy.farmActivity = trackFarmActivity(
       "Tree Chopped",
       stateCopy.farmActivity,
-      new Decimal(tree.multiplier ?? 1),
+      new Decimal(treeMultiplier),
     );
 
     stateCopy.farmActivity = trackFarmActivity(
