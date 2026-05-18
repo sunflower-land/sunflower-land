@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Atualize seu Aging Shed para obter mais vagas",
   "gameOptions.linkedAccounts": "Contas vinculadas",
   "linkedAccounts.title": "Contas vinculadas",
-  "linkedAccounts.description": "Vincule uma carteira e uma conta do Google para que você possa fazer login nesta fazenda com qualquer um dos métodos.",
-  "linkedAccounts.permanenceWarning": "A vinculação é permanente. Você poderá fazer login com qualquer um dos métodos, mas se perder o acesso a ambos, perderá o acesso à sua fazenda — não há recuperação.",
   "linkedAccounts.wallet": "Carteira",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Carteira Link",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Primeiro, confirme sua carteira existente.",
   "linkedAccounts.unlinkGoogleTestnet": "Desvincular o Google (somente testnet)",
   "linkedAccounts.unlinking": "Desvinculando...",
-  "linkedAccounts.googleLinkingComingSoon": "A vinculação do Google estará disponível em breve."
+  "linkedAccounts.googleLinkingComingSoon": "A vinculação do Google estará disponível em breve.",
+  "linkedAccounts.description": "Faça login nesta fazenda com uma carteira, Google ou ambos.",
+  "linkedAccounts.permanenceWarning": "A vinculação é permanente. Se você perder o acesso aos dois métodos, perderá sua Fazenda.",
+  "linkedAccounts.linked": "Vinculado",
+  "linkedAccounts.notLinked": "Não vinculado",
+  "linkedAccounts.failedPill": "Falhou",
+  "linkedAccounts.noWallet": "Nenhuma carteira vinculada ainda",
+  "linkedAccounts.noGoogle": "Ainda não há nenhuma conta do Google vinculada",
+  "linkedAccounts.waitingForWallet": "Aguardando a assinatura da carteira...",
+  "linkedAccounts.waitingForGoogle": "Aguardando o login do Google...",
+  "linkedAccounts.linkAccounts": "Vincular contas",
+  "linkedAccounts.linkAccountsDescription": "A vinculação de contas foi pausada temporariamente enquanto estamos migrando para uma nova integração de vinculação. Por favor, volte em breve. Se você tiver alguma dúvida ou preocupação, entre em contato com nossa equipe de suporte."
 }

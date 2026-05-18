@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "升级老化棚以获得更多老虎机",
   "gameOptions.linkedAccounts": "关联账户",
   "linkedAccounts.title": "关联账户",
-  "linkedAccounts.description": "关联钱包和 Google 帐户，这样您就可以使用任何一种方法登录到这个农场。",
-  "linkedAccounts.permanenceWarning": "链接是永久的。您可以使用任何一种方法登录，但是如果您同时无法访问这两种方法，您将无法访问您的农场——无法恢复。",
   "linkedAccounts.wallet": "钱包",
   "linkedAccounts.google": "谷歌",
   "linkedAccounts.linkWallet": "链接钱包",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "首先，确认您现有的钱包。",
   "linkedAccounts.unlinkGoogleTestnet": "取消与谷歌的关联（仅限测试网）",
   "linkedAccounts.unlinking": "正在取消链接...",
-  "linkedAccounts.googleLinkingComingSoon": "谷歌链接即将推出。"
+  "linkedAccounts.googleLinkingComingSoon": "谷歌链接即将推出。",
+  "linkedAccounts.description": "使用钱包、谷歌或两者同时登录这个农场。",
+  "linkedAccounts.permanenceWarning": "链接是永久的。如果你无法使用这两种方法，你就会失去你的农场。",
+  "linkedAccounts.linked": "已关联",
+  "linkedAccounts.notLinked": "未关联",
+  "linkedAccounts.failedPill": "失败",
+  "linkedAccounts.noWallet": "还没有关联钱包",
+  "linkedAccounts.noGoogle": "尚未关联谷歌账号",
+  "linkedAccounts.waitingForWallet": "正在等待钱包签名...",
+  "linkedAccounts.waitingForGoogle": "正在等待谷歌登录...",
+  "linkedAccounts.linkAccounts": "关联账户",
+  "linkedAccounts.linkAccountsDescription": "在我们迁移到新的关联集成时，关联账户已暂时暂停。请稍后再回来查看。如果您有任何问题或疑虑，请联系我们的支持团队。"
 }

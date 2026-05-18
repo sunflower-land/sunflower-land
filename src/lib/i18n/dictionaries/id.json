@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Tingkatkan Aging Shed Anda untuk lebih banyak slot",
   "gameOptions.linkedAccounts": "Akun Tertaut",
   "linkedAccounts.title": "Akun Tertaut",
-  "linkedAccounts.description": "Tautkan dompet dan akun Google sehingga Anda dapat masuk ke peternakan ini dengan salah satu metode.",
-  "linkedAccounts.permanenceWarning": "Menghubungkan bersifat permanen. Anda akan dapat masuk dengan salah satu metode, tetapi jika Anda kehilangan akses ke keduanya, Anda akan kehilangan akses ke peternakan Anda — tidak ada pemulihan.",
   "linkedAccounts.wallet": "Dompet",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Tautan dompet",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Pertama, konfirmasikan dompet Anda yang ada.",
   "linkedAccounts.unlinkGoogleTestnet": "Putuskan tautan Google (hanya testnet)",
   "linkedAccounts.unlinking": "Memutuskan tautan...",
-  "linkedAccounts.googleLinkingComingSoon": "Google link akan segera hadir."
+  "linkedAccounts.googleLinkingComingSoon": "Google link akan segera hadir.",
+  "linkedAccounts.description": "Masuk ke Farm ini dengan dompet, Google, atau keduanya.",
+  "linkedAccounts.permanenceWarning": "Menghubungkan bersifat permanen. Jika Anda kehilangan akses ke kedua metode, Anda kehilangan Farm Anda.",
+  "linkedAccounts.linked": "Tertaut",
+  "linkedAccounts.notLinked": "Tidak tertaut",
+  "linkedAccounts.failedPill": "Gagal",
+  "linkedAccounts.noWallet": "Belum ada dompet yang ditautkan",
+  "linkedAccounts.noGoogle": "Belum ada akun Google yang ditautkan",
+  "linkedAccounts.waitingForWallet": "Menunggu tanda tangan dompet...",
+  "linkedAccounts.waitingForGoogle": "Menunggu login Google...",
+  "linkedAccounts.linkAccounts": "Tautkan Akun",
+  "linkedAccounts.linkAccountsDescription": "Menautkan akun telah dijeda sementara saat kami bermigrasi ke integrasi penautan baru. Silakan periksa kembali segera. Jika Anda memiliki pertanyaan atau masalah, silakan hubungi tim dukungan kami."
 }

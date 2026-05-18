@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Améliorez votre Aging Shed pour obtenir plus de machines à sous",
   "gameOptions.linkedAccounts": "Comptes liés",
   "linkedAccounts.title": "Comptes liés",
-  "linkedAccounts.description": "Associez un portefeuille et un compte Google afin de pouvoir vous connecter à cette ferme de l'une ou l'autre des méthodes.",
-  "linkedAccounts.permanenceWarning": "Les liens sont permanents. Vous pourrez vous connecter de l'une ou l'autre des deux méthodes, mais si vous perdez l'accès aux deux, vous perdrez l'accès à votre ferme. Il n'y a pas de solution pour le récupérer.",
   "linkedAccounts.wallet": "Portefeuille",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Portefeuille Link",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Tout d'abord, confirmez votre portefeuille existant.",
   "linkedAccounts.unlinkGoogleTestnet": "Dissocier Google (testnet uniquement)",
   "linkedAccounts.unlinking": "Dissociation...",
-  "linkedAccounts.googleLinkingComingSoon": "Les liens vers Google seront bientôt disponibles."
+  "linkedAccounts.googleLinkingComingSoon": "Les liens vers Google seront bientôt disponibles.",
+  "linkedAccounts.description": "Connectez-vous à cette ferme avec un portefeuille, Google ou les deux.",
+  "linkedAccounts.permanenceWarning": "Les liens sont permanents. Si vous perdez l'accès aux deux méthodes, vous perdez votre ferme.",
+  "linkedAccounts.linked": "Lié",
+  "linkedAccounts.notLinked": "Non lié",
+  "linkedAccounts.failedPill": "Échoué",
+  "linkedAccounts.noWallet": "Aucun portefeuille n'est encore associé",
+  "linkedAccounts.noGoogle": "Aucun compte Google n'a encore été associé",
+  "linkedAccounts.waitingForWallet": "En attente de la signature du portefeuille...",
+  "linkedAccounts.waitingForGoogle": "En attente de connexion à Google...",
+  "linkedAccounts.linkAccounts": "Associer des comptes",
+  "linkedAccounts.linkAccountsDescription": "L'association de comptes a été temporairement suspendue pendant la migration vers une nouvelle intégration de liaison. Revenez bientôt. Si vous avez des questions ou des préoccupations, veuillez contacter notre équipe d'assistance."
 }

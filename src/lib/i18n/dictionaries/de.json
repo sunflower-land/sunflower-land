@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Verbessere deinen Aging Shed für mehr Slots",
   "gameOptions.linkedAccounts": "Verknüpfte Konten",
   "linkedAccounts.title": "Verknüpfte Konten",
-  "linkedAccounts.description": "Verknüpfen Sie eine Wallet und ein Google-Konto, damit Sie sich mit beiden Methoden bei dieser Farm anmelden können.",
-  "linkedAccounts.permanenceWarning": "Die Verlinkung ist dauerhaft. Sie können sich mit beiden Methoden anmelden, aber wenn Sie den Zugriff auf beide verlieren, verlieren Sie den Zugriff auf Ihre Farm — es gibt keine Wiederherstellung.",
   "linkedAccounts.wallet": "Geldbörse",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Link-Brieftasche",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Bestätigen Sie zunächst Ihr vorhandenes Wallet.",
   "linkedAccounts.unlinkGoogleTestnet": "Verknüpfung mit Google aufheben (nur Testnet)",
   "linkedAccounts.unlinking": "Verknüpfung aufheben...",
-  "linkedAccounts.googleLinkingComingSoon": "Die Google-Verlinkung kommt bald."
+  "linkedAccounts.googleLinkingComingSoon": "Die Google-Verlinkung kommt bald.",
+  "linkedAccounts.description": "Melde dich mit einer Wallet, Google oder beidem bei dieser Farm an.",
+  "linkedAccounts.permanenceWarning": "Die Verlinkung ist dauerhaft. Wenn du den Zugriff auf beide Methoden verlierst, verlierst du deine Farm.",
+  "linkedAccounts.linked": "Verknüpft",
+  "linkedAccounts.notLinked": "Nicht verknüpft",
+  "linkedAccounts.failedPill": "Fehlgeschlagen",
+  "linkedAccounts.noWallet": "Noch kein Wallet verknüpft",
+  "linkedAccounts.noGoogle": "Noch kein Google-Konto verknüpft",
+  "linkedAccounts.waitingForWallet": "Ich warte auf die Brieftaschensignatur...",
+  "linkedAccounts.waitingForGoogle": "Ich warte auf die Google-Anmeldung...",
+  "linkedAccounts.linkAccounts": "Konten verknüpfen",
+  "linkedAccounts.linkAccountsDescription": "Das Verknüpfen von Konten wurde vorübergehend unterbrochen, während wir zu einer neuen Verbindungsintegration migrieren. Bitte schauen Sie bald wieder vorbei. Wenn Sie Fragen oder Bedenken haben, wenden Sie sich bitte an unser Support-Team."
 }

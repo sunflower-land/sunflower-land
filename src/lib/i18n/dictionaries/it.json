@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Aggiorna il tuo Aging Shed per avere più posti",
   "gameOptions.linkedAccounts": "Account collegati",
   "linkedAccounts.title": "Account collegati",
-  "linkedAccounts.description": "Collega un portafoglio e un account Google in modo da poter accedere a questa fattoria con entrambi i metodi.",
-  "linkedAccounts.permanenceWarning": "Il collegamento è permanente. Potrai accedere con entrambi i metodi, ma se perdi l'accesso a entrambi, perderai l'accesso alla tua fattoria, senza possibilità di ripristino.",
   "linkedAccounts.wallet": "Portafoglio",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Portafoglio Link",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Innanzitutto, conferma il tuo portafoglio esistente.",
   "linkedAccounts.unlinkGoogleTestnet": "Scollegare Google (solo testnet)",
   "linkedAccounts.unlinking": "Scollegamento in corso...",
-  "linkedAccounts.googleLinkingComingSoon": "Il collegamento a Google sarà presto disponibile."
+  "linkedAccounts.googleLinkingComingSoon": "Il collegamento a Google sarà presto disponibile.",
+  "linkedAccounts.description": "Accedi a questa fattoria con un portafoglio, Google o entrambi.",
+  "linkedAccounts.permanenceWarning": "Il collegamento è permanente. Se perdi l'accesso a entrambi i metodi, perderai la tua fattoria.",
+  "linkedAccounts.linked": "Collegato",
+  "linkedAccounts.notLinked": "Non collegato",
+  "linkedAccounts.failedPill": "Fallito",
+  "linkedAccounts.noWallet": "Nessun portafoglio ancora collegato",
+  "linkedAccounts.noGoogle": "Nessun account Google ancora collegato",
+  "linkedAccounts.waitingForWallet": "In attesa della firma del portafoglio...",
+  "linkedAccounts.waitingForGoogle": "In attesa dell'accesso a Google...",
+  "linkedAccounts.linkAccounts": "Collega gli account",
+  "linkedAccounts.linkAccountsDescription": "Il collegamento degli account è stato temporaneamente sospeso durante la migrazione a una nuova integrazione di collegamento. Ricontrolla presto. Se hai domande o dubbi, contatta il nostro team di supporto."
 }

@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Upgrade your Aging Shed for more slots",
   "gameOptions.linkedAccounts": "Linked Accounts",
   "linkedAccounts.title": "Linked Accounts",
-  "linkedAccounts.description": "Link a wallet and a Google account so you can sign in to this farm with either method.",
-  "linkedAccounts.permanenceWarning": "Linking is permanent. You'll be able to sign in with either method, but if you lose access to both, you'll lose access to your farm — there's no recovery.",
   "linkedAccounts.wallet": "Wallet",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Link wallet",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "First, confirm your existing wallet.",
   "linkedAccounts.unlinkGoogleTestnet": "Unlink Google (testnet only)",
   "linkedAccounts.unlinking": "Unlinking...",
-  "linkedAccounts.googleLinkingComingSoon": "Google linking is coming soon."
+  "linkedAccounts.googleLinkingComingSoon": "Google linking is coming soon.",
+  "linkedAccounts.description": "Sign in to this Farm with a wallet, Google, or both.",
+  "linkedAccounts.permanenceWarning": "Linking is permanent. If you lose access to both methods, you lose your Farm.",
+  "linkedAccounts.linked": "Linked",
+  "linkedAccounts.notLinked": "Not linked",
+  "linkedAccounts.failedPill": "Failed",
+  "linkedAccounts.noWallet": "No wallet linked yet",
+  "linkedAccounts.noGoogle": "No Google account linked yet",
+  "linkedAccounts.waitingForWallet": "Waiting for wallet signature...",
+  "linkedAccounts.waitingForGoogle": "Waiting for Google sign-in...",
+  "linkedAccounts.linkAccounts": "Link Accounts",
+  "linkedAccounts.linkAccountsDescription": "Linking accounts has been paused temporarily while we are migrating to a new linking integration. Please check back soon. If you have any questions or concerns, please reach out to our support team."
 }

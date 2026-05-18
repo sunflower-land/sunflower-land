@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "Mejora tu cobertizo de envejecimiento para obtener más espacios",
   "gameOptions.linkedAccounts": "Cuentas vinculadas",
   "linkedAccounts.title": "Cuentas vinculadas",
-  "linkedAccounts.description": "Vincula un monedero y una cuenta de Google para poder iniciar sesión en esta granja con cualquiera de los dos métodos.",
-  "linkedAccounts.permanenceWarning": "La vinculación es permanente. Podrás iniciar sesión con cualquiera de los dos métodos, pero si pierdes el acceso a ambos, perderás el acceso a tu granja, sin posibilidad de recuperación.",
   "linkedAccounts.wallet": "Billetera",
   "linkedAccounts.google": "Google",
   "linkedAccounts.linkWallet": "Monedero Link",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "Primero, confirma tu monedero actual.",
   "linkedAccounts.unlinkGoogleTestnet": "Desvincular Google (solo testnet)",
   "linkedAccounts.unlinking": "Desvinculando...",
-  "linkedAccounts.googleLinkingComingSoon": "Los enlaces de Google llegarán pronto."
+  "linkedAccounts.googleLinkingComingSoon": "Los enlaces de Google llegarán pronto.",
+  "linkedAccounts.description": "Inicia sesión en esta granja con una billetera, Google o ambos.",
+  "linkedAccounts.permanenceWarning": "La vinculación es permanente. Si pierdes el acceso a ambos métodos, perderás tu granja.",
+  "linkedAccounts.linked": "Vinculado",
+  "linkedAccounts.notLinked": "No vinculado",
+  "linkedAccounts.failedPill": "Falló",
+  "linkedAccounts.noWallet": "Aún no hay ninguna billetera vinculada",
+  "linkedAccounts.noGoogle": "Aún no hay ninguna cuenta de Google vinculada",
+  "linkedAccounts.waitingForWallet": "Esperando la firma del monedero...",
+  "linkedAccounts.waitingForGoogle": "Esperando el inicio de sesión de Google...",
+  "linkedAccounts.linkAccounts": "Vincular cuentas",
+  "linkedAccounts.linkAccountsDescription": "La vinculación de cuentas se ha detenido temporalmente mientras estamos migrando a una nueva integración de vinculación. Vuelva a comprobarlo pronto. Si tienes alguna pregunta o duda, ponte en contacto con nuestro equipo de soporte."
 }

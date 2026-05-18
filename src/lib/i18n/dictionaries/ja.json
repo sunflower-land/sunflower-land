@@ -8917,8 +8917,6 @@
   "agingShed.upgradeForMoreSlotsTooltip": "エイジングシェッドをアップグレードしてスロットを増やしましょう",
   "gameOptions.linkedAccounts": "リンクされたアカウント",
   "linkedAccounts.title": "リンクされたアカウント",
-  "linkedAccounts.description": "ウォレットと Google アカウントをリンクすると、どちらの方法でもこのファームにログインできます。",
-  "linkedAccounts.permanenceWarning": "リンクは永続的です。どちらの方法でもサインインできますが、両方にアクセスできなくなると、ファームにアクセスできなくなります。回復はできません。",
   "linkedAccounts.wallet": "財布",
   "linkedAccounts.google": "グーグル",
   "linkedAccounts.linkWallet": "リンクウォレット",
@@ -8936,5 +8934,16 @@
   "linkedAccounts.confirmExistingWallet": "まず、既存のウォレットを確認します。",
   "linkedAccounts.unlinkGoogleTestnet": "Google のリンクを解除 (テストネットのみ)",
   "linkedAccounts.unlinking": "リンク解除中...。",
-  "linkedAccounts.googleLinkingComingSoon": "Googleリンクは間もなく開始されます。"
+  "linkedAccounts.googleLinkingComingSoon": "Googleリンクは間もなく開始されます。",
+  "linkedAccounts.description": "ウォレット、Google、またはその両方でこのファームにログインします。",
+  "linkedAccounts.permanenceWarning": "リンクは永続的です。両方の方法にアクセスできなくなると、ファームも失われます。",
+  "linkedAccounts.linked": "リンク済み",
+  "linkedAccounts.notLinked": "リンクなし",
+  "linkedAccounts.failedPill": "失敗",
+  "linkedAccounts.noWallet": "ウォレットはまだリンクされていません",
+  "linkedAccounts.noGoogle": "Google アカウントはまだリンクされていません",
+  "linkedAccounts.waitingForWallet": "ウォレットの署名を待っています...",
+  "linkedAccounts.waitingForGoogle": "Google ログインを待っています...",
+  "linkedAccounts.linkAccounts": "アカウントをリンク",
+  "linkedAccounts.linkAccountsDescription": "新しいリンク統合への移行中、アカウントのリンクは一時的に停止されました。しばらくしてからもう一度確認してください。ご質問やご不明な点がございましたら、サポートチームまでご連絡ください。"
 }
