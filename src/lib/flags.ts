@@ -8,7 +8,7 @@ export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-export const usernameFeatureFlag = (game: GameState) => {
+const usernameFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
     TEAM_USERNAMES.map((name) => name.toLowerCase()).includes(
@@ -17,7 +17,7 @@ export const usernameFeatureFlag = (game: GameState) => {
   );
 };
 
-export const betaFeatureFlag = ({ inventory }: GameState) =>
+const betaFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
@@ -29,7 +29,7 @@ const testnetLocalStorageFeatureFlag = (key: string) => () => {
   return testnetFeatureFlag() || localStorageFeatureFlag(key);
 };
 
-export const timePeriodFeatureFlag =
+const timePeriodFeatureFlag =
   ({ start, end }: TimeBasedFeatureWindow) =>
   () =>
   (now: number) => {
@@ -42,7 +42,7 @@ export const timePeriodFeatureFlag =
     );
   };
 
-export const betaTimePeriodFeatureFlag =
+const betaTimePeriodFeatureFlag =
   ({ start, end }: TimeBasedFeatureWindow) =>
   (game: GameState) =>
   (now: number) => {
@@ -117,7 +117,7 @@ export function hasTimeBasedFeatureAccess({
  *
  * Do not delete JEST_TEST.
  */
-export const FEATURE_FLAGS = {
+const FEATURE_FLAGS = {
   // For testing
   JEST_TEST: betaFeatureFlag,
 
@@ -157,7 +157,7 @@ export const FEATURE_FLAGS = {
   /** @deprecated Use PLAYER_ECONOMIES */
   TOKEN_MINIGAMES: (game) => !!game.settings.economiesEnabled,
 
-  DUAL_LOGIN: usernameFeatureFlag,
+  DUAL_LOGIN: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
