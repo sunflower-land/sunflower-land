@@ -7,7 +7,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useContext } from "react";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -24,6 +24,12 @@ const _linkingSocial = (state: MachineState) =>
   state.matches("linkingSocial") || state.matches("linkingSocialSuccess");
 const _linkingSocialFailed = (state: MachineState) =>
   state.matches("linkingSocialFailed");
+
+const maskWalletAddress = (address: string): string => {
+  if (address.length <= 10) return address;
+
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
 
 const maskEmail = (email: string): string => {
   const [local, domain] = email.split("@");
@@ -116,7 +122,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
 
   const walletSubtext =
     walletStatus === "linked" && linkedWallet
-      ? linkedWallet
+      ? maskWalletAddress(linkedWallet)
       : walletStatus === "linking"
         ? t("linkedAccounts.waitingForWallet")
         : walletStatus === "failed"
