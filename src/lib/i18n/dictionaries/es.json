@@ -8945,5 +8945,7 @@
   "linkedAccounts.waitingForWallet": "Esperando la firma del monedero...",
   "linkedAccounts.waitingForGoogle": "Esperando el inicio de sesión de Google...",
   "linkedAccounts.linkAccounts": "Vincular cuentas",
-  "linkedAccounts.linkAccountsDescription": "La vinculación de cuentas se ha detenido temporalmente mientras estamos migrando a una nueva integración de vinculación. Vuelva a comprobarlo pronto. Si tienes alguna pregunta o duda, ponte en contacto con nuestro equipo de soporte."
+  "linkedAccounts.linkAccountsDescription": "La vinculación de cuentas se ha detenido temporalmente mientras estamos migrando a una nueva integración de vinculación. Vuelva a comprobarlo pronto. Si tienes alguna pregunta o duda, ponte en contacto con nuestro equipo de soporte.",
+  "deposit.connectedWallet": "Billetera conectada:",
+  "walletWall.requiresLinkedWallet": "Esta acción requiere una conexión a la cartera vinculada de la granja"
 }

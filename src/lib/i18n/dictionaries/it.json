@@ -8945,5 +8945,7 @@
   "linkedAccounts.waitingForWallet": "In attesa della firma del portafoglio...",
   "linkedAccounts.waitingForGoogle": "In attesa dell'accesso a Google...",
   "linkedAccounts.linkAccounts": "Collega gli account",
-  "linkedAccounts.linkAccountsDescription": "Il collegamento degli account è stato temporaneamente sospeso durante la migrazione a una nuova integrazione di collegamento. Ricontrolla presto. Se hai domande o dubbi, contatta il nostro team di supporto."
+  "linkedAccounts.linkAccountsDescription": "Il collegamento degli account è stato temporaneamente sospeso durante la migrazione a una nuova integrazione di collegamento. Ricontrolla presto. Se hai domande o dubbi, contatta il nostro team di supporto.",
+  "deposit.connectedWallet": "Portafoglio connesso:",
+  "walletWall.requiresLinkedWallet": "Questa azione richiede una connessione al portafoglio collegato della farm"
 }

@@ -8945,5 +8945,7 @@
   "linkedAccounts.waitingForWallet": "En attente de la signature du portefeuille...",
   "linkedAccounts.waitingForGoogle": "En attente de connexion à Google...",
   "linkedAccounts.linkAccounts": "Associer des comptes",
-  "linkedAccounts.linkAccountsDescription": "L'association de comptes a été temporairement suspendue pendant la migration vers une nouvelle intégration de liaison. Revenez bientôt. Si vous avez des questions ou des préoccupations, veuillez contacter notre équipe d'assistance."
+  "linkedAccounts.linkAccountsDescription": "L'association de comptes a été temporairement suspendue pendant la migration vers une nouvelle intégration de liaison. Revenez bientôt. Si vous avez des questions ou des préoccupations, veuillez contacter notre équipe d'assistance.",
+  "deposit.connectedWallet": "Portefeuille connecté :",
+  "walletWall.requiresLinkedWallet": "Cette action nécessite une connexion au portefeuille associé de la ferme"
 }

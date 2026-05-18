@@ -8945,5 +8945,7 @@
   "linkedAccounts.waitingForWallet": "Ich warte auf die Brieftaschensignatur...",
   "linkedAccounts.waitingForGoogle": "Ich warte auf die Google-Anmeldung...",
   "linkedAccounts.linkAccounts": "Konten verknüpfen",
-  "linkedAccounts.linkAccountsDescription": "Das Verknüpfen von Konten wurde vorübergehend unterbrochen, während wir zu einer neuen Verbindungsintegration migrieren. Bitte schauen Sie bald wieder vorbei. Wenn Sie Fragen oder Bedenken haben, wenden Sie sich bitte an unser Support-Team."
+  "linkedAccounts.linkAccountsDescription": "Das Verknüpfen von Konten wurde vorübergehend unterbrochen, während wir zu einer neuen Verbindungsintegration migrieren. Bitte schauen Sie bald wieder vorbei. Wenn Sie Fragen oder Bedenken haben, wenden Sie sich bitte an unser Support-Team.",
+  "deposit.connectedWallet": "Verbundene Geldbörse:",
+  "walletWall.requiresLinkedWallet": "Für diese Aktion ist eine Verbindung zum verknüpften Wallet der Farm erforderlich"
 }

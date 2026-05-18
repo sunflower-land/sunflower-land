@@ -8945,5 +8945,7 @@
   "linkedAccounts.waitingForWallet": "ウォレットの署名を待っています...",
   "linkedAccounts.waitingForGoogle": "Google ログインを待っています...",
   "linkedAccounts.linkAccounts": "アカウントをリンク",
-  "linkedAccounts.linkAccountsDescription": "新しいリンク統合への移行中、アカウントのリンクは一時的に停止されました。しばらくしてからもう一度確認してください。ご質問やご不明な点がございましたら、サポートチームまでご連絡ください。"
+  "linkedAccounts.linkAccountsDescription": "新しいリンク統合への移行中、アカウントのリンクは一時的に停止されました。しばらくしてからもう一度確認してください。ご質問やご不明な点がございましたら、サポートチームまでご連絡ください。",
+  "deposit.connectedWallet": "接続されたウォレット:",
+  "walletWall.requiresLinkedWallet": "このアクションには、ファームのリンクされたウォレットへの接続が必要です"
 }
