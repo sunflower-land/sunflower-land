@@ -153,38 +153,24 @@ export function sellBounty({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  // Single source of truth for sell eligibility — covers "request doesn't
+  // exist", "already completed", and "insufficient inventory" in one place.
+  if (!canSellBounty(state, action.requestId)) {
+    throw new Error("Cannot sell bounty");
+  }
+
   return produce(state, (draft) => {
+    // canSellBounty already guaranteed the request exists.
     const request = draft.bounties.requests.find(
       (deal) => deal.id === action.requestId,
-    );
-
-    if (!request) {
-      throw new Error("Bounty does not exist");
-    }
-
-    const completed = draft.bounties.completed.find(
-      (c) => c.id === action.requestId,
-    );
-    if (completed) {
-      throw new Error("Bounty already completed");
-    }
+    )!;
 
     const tickets = generateBountyTicket({
       game: draft,
       bounty: request,
     });
 
-    // Remove the item from the inventory
     const item = draft.inventory[request.name] ?? new Decimal(0);
-    const { count: availableCount } = getCountAndType(draft, request.name);
-
-    if (
-      availableCount.lt(
-        BOUNTY_CATEGORIES["Mark Bounties"](request) ? request.quantity : 1,
-      )
-    ) {
-      throw new Error("You do not have the ingredients to sell this bounty");
-    }
 
     if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {
       draft.inventory[request.name] = item.minus(request.quantity);

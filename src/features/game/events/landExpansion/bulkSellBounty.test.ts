@@ -93,6 +93,24 @@ describe("bulkSellBounty", () => {
     ).toThrow("Bounty does not exist");
   });
 
+  it("does not partially sell earlier bounties when a later ID is unknown", () => {
+    const initial = makeGameState();
+
+    expect(() =>
+      bulkSellBounty({
+        state: initial,
+        action: {
+          type: "bounty.bulkSold",
+          requestIds: ["1", "nope"],
+        },
+      }),
+    ).toThrow("Bounty does not exist");
+
+    expect(initial.bounties.completed).toHaveLength(0);
+    expect(initial.coins).toEqual(0);
+    expect(initial.inventory["Red Pansy"]?.toNumber()).toEqual(1);
+  });
+
   it("throws on duplicate IDs so client/server divergence surfaces", () => {
     expect(() =>
       bulkSellBounty({
