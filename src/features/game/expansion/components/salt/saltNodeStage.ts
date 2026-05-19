@@ -2,8 +2,8 @@ import saltNodeEmpty from "assets/buildings/salt/salt_node_empty.webp";
 import saltNodeStage1 from "assets/buildings/salt/salt_node_stage_1.webp";
 import saltNodeStage2 from "assets/buildings/salt/salt_node_stage_2.webp";
 import saltNodeStage3 from "assets/buildings/salt/salt_node_stage_3.webp";
-import saltNodeStage3 from "assets/buildings/salt/salt_node_stage_4.webp";
-import saltNodeStage3 from "assets/buildings/salt/salt_node_stage_5.webp";
+import saltNodeStage4 from "assets/buildings/salt/salt_node_stage_4.webp";
+import saltNodeStage5 from "assets/buildings/salt/salt_node_stage_5.webp";
 
 export function getSaltNodeSprite(storedCharges: number): string {
   if (storedCharges >= 5) return saltNodeStage5;
