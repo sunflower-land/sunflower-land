@@ -117,7 +117,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
           className="absolute pointer-events-none"
         />
         <img
-          src={open ? manekiNekoShaking : manekiNeko}
+          src={hasShakenRecently ? manekiNekoShaking : manekiNeko}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
