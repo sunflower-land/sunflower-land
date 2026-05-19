@@ -25,7 +25,7 @@ type Options = {
   createdAt?: number;
 };
 
-const getCrustaceanAmount = (
+export const getCrustaceanAmount = (
   game: GameState,
   amount: number,
   crustaceanName: CrustaceanName,
