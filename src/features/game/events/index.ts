@@ -84,7 +84,12 @@ import {
 } from "./landExpansion/collectSpiceRack";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
-import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
+import {
+  choseSkill,
+  ChoseSkillAction,
+  updateSkills,
+  UpdateSkillsAction,
+} from "./landExpansion/choseSkill";
 import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
 import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
 import {
@@ -696,6 +701,7 @@ export type PlayingEvent =
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
+  | UpdateSkillsAction
   | ResetSkillsAction
   | SeedBoughtAction
   | ClaimAchievementAction
@@ -987,6 +993,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.feed": feedBumpkin,
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
+  "skills.updated": updateSkills,
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
