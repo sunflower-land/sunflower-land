@@ -151,7 +151,6 @@ export type SoldOutCollectibleName =
   | "Crystal Altar"
   | "Dino Egg Trophy"
   | "Salt Lamp"
-  | "Salt Crystal Bed"
   | "World Map Rug"
   | "Ripped Salt Bag";
 
