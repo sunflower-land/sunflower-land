@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -14,7 +14,6 @@ import {
   BountyRequest,
   InventoryItemName,
 } from "features/game/types/game";
-import { ANIMALS } from "features/game/types/craftables";
 import { getObjectEntries, getKeys } from "lib/object";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -31,6 +30,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Decimal } from "decimal.js-light";
 import {
   BOUNTY_CATEGORIES,
+  canSellBounty,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
 import { Button } from "components/ui/Button";
@@ -42,6 +42,8 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { hasFeatureAccess } from "lib/flags";
+import { ANIMALS } from "features/game/types/animals";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -62,11 +64,16 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   </CloseButtonPanel>
 );
 
-const isBonusClaimed = (exchange: Bounties) => {
-  const now = Date.now();
-  const currentWeek = getWeekKey();
+// Module-scope so it's a stable reference (used by both the autoSelection
+// memo and canAddBountyToSelection).
+const getRequiredCount = (bounty: BountyRequest) =>
+  BOUNTY_CATEGORIES["Mark Bounties"](bounty) ? bounty.quantity : 1;
+
+const isBonusClaimed = (exchange: Bounties, now: number) => {
+  const nowDate = new Date(now);
+  const currentWeek = getWeekKey({ date: nowDate });
   const weekStart = new Date(currentWeek).getTime();
-  const weekEnd = weekResetsAt();
+  const weekEnd = weekResetsAt({ date: nowDate });
   const lastClaim = exchange.bonusClaimedAt ?? 0;
 
   return lastClaim > weekStart && lastClaim < now && now < weekEnd;
@@ -76,17 +83,19 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   readonly,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const now = useNow();
 
   const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
+  const [isBulkSell, setIsBulkSell] = useState(false);
+  const [selectedSells, setSelectedSells] = useState<string[]>([]);
 
   const state = useSelector(gameService, (state) => state.context.state);
   const exchange = useSelector(
     gameService,
     (state) => state.context.state.bounties,
   );
-  const [bonusClaimed, setBonusClaimed] = useState(isBonusClaimed(exchange));
+  const bonusClaimed = isBonusClaimed(exchange, now);
 
   const endTime = weekResetsAt();
   const { totalSeconds: secondsRemaining } = useCountdown(endTime);
@@ -108,8 +117,14 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     return result;
   };
   const bountiesByCategory = getBountiesByCategory();
-  const allBounties = exchange.requests.filter(
-    (bounty) => !Object.keys(ANIMALS).includes(bounty.name),
+  // Memoised so it's a stable reference dependency for the autoSelection memo
+  // — otherwise we'd re-derive it on every render and defeat the memo below.
+  const allBounties = useMemo(
+    () =>
+      exchange.requests.filter(
+        (bounty) => !Object.keys(ANIMALS).includes(bounty.name),
+      ),
+    [exchange.requests],
   );
 
   const getCurrencyInfo = (bounty: BountyRequest) => {
@@ -164,7 +179,123 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
   const handleBonusClaim = () => {
     gameService.send("claim.bountyBoardBonus");
-    setBonusClaimed(true);
+  };
+
+  // Self-contained memo: declares its helpers inside so the dependency list
+  // can be exhaustive (`allBounties`, `exchange.completed`, `state`) — no
+  // exhaustive-deps suppression, friendly to the React Compiler.
+  const autoSelection = useMemo(() => {
+    // Rough reward weight so the greedy auto-selector picks the most
+    // valuable bounty first when several share a finite inventory pool
+    // (e.g. two Mark bounties competing for the same Marks).
+    const getRewardScoreFor = (bounty: BountyRequest) => {
+      const tickets = generateBountyTicket({ game: state, bounty });
+      const coins = bounty.coins ?? 0;
+      const sfl = BOUNTY_CATEGORIES["Obsidian Bounties"](bounty)
+        ? (bounty.sfl ?? 0)
+        : 0;
+      return tickets * 50 + coins + sfl * 100;
+    };
+
+    const allocation: Partial<Record<InventoryItemName, number>> = {};
+    const selected: string[] = [];
+
+    const ranked = [...allBounties].sort(
+      (a, b) => getRewardScoreFor(b) - getRewardScoreFor(a),
+    );
+
+    ranked.forEach((bounty) => {
+      const isSold = exchange.completed.some((c) => c.id === bounty.id);
+      if (isSold) return;
+
+      const { count } = getCountAndType(state, bounty.name);
+      const required = getRequiredCount(bounty);
+      const used = allocation[bounty.name] ?? 0;
+
+      if (count.gte(used + required)) {
+        selected.push(bounty.id);
+        allocation[bounty.name] = used + required;
+      }
+    });
+
+    return selected;
+  }, [allBounties, exchange.completed, state]);
+  const canBulkSellAnything = autoSelection.length > 0;
+
+  const handleBulkSell = () => {
+    if (!isBulkSell) {
+      setIsBulkSell(true);
+      setSelectedSells(autoSelection);
+    } else {
+      handleConfirmBulkSell();
+    }
+  };
+
+  const handleConfirmBulkSell = () => {
+    // Drop selections that have gone stale (inventory consumed elsewhere,
+    // already completed in another tab) and walk them in order so we don't
+    // ship an over-allocated payload when several selected bounties share
+    // the same item pool (e.g. two Mark bounties on a depleted Mark stash).
+    const allocation: Partial<Record<InventoryItemName, number>> = {};
+    const validSells = selectedSells.filter((id) => {
+      const bounty = exchange.requests.find((r) => r.id === id);
+      if (!bounty || !canSellBounty(state, id)) return false;
+      const { count } = getCountAndType(state, bounty.name);
+      const required = getRequiredCount(bounty);
+      const used = allocation[bounty.name] ?? 0;
+      if (!count.gte(used + required)) return false;
+      allocation[bounty.name] = used + required;
+      return true;
+    });
+
+    if (validSells.length === 0) {
+      setSelectedSells([]);
+      setIsBulkSell(false);
+      return;
+    }
+
+    gameService.send("bounty.bulkSold", {
+      requestIds: validSells,
+    });
+    if (showAnimations) confetti();
+    setSelectedSells([]);
+    setIsBulkSell(false);
+  };
+
+  const handleCancelBulkSell = () => {
+    setSelectedSells([]);
+    setIsBulkSell(false);
+  };
+
+  // Whether `bounty` can be added on top of `current` without exceeding
+  // available inventory (the shared pool matters for same-name bounties like
+  // multiple Marks).
+  const canAddBountyToSelection = (
+    bounty: BountyRequest,
+    current: string[],
+  ): boolean => {
+    const { count } = getCountAndType(state, bounty.name);
+    const required = getRequiredCount(bounty);
+    const usedByOthers = current.reduce((sum, id) => {
+      if (id === bounty.id) return sum;
+      const b = exchange.requests.find((r) => r.id === id);
+      if (b && b.name === bounty.name) {
+        return sum + getRequiredCount(b);
+      }
+      return sum;
+    }, 0);
+    return count.gte(usedByOthers + required);
+  };
+
+  const toggleSellSelection = (bounty: BountyRequest) => {
+    setSelectedSells((current) => {
+      if (current.includes(bounty.id)) {
+        return current.filter((id) => id !== bounty.id);
+      }
+
+      if (!canAddBountyToSelection(bounty, current)) return current;
+      return [...current, bounty.id];
+    });
   };
 
   return (
@@ -189,7 +320,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
         </ModalOverlay>
       )}
       <InnerPanel className="flex flex-col gap-2 mb-1">
-        <div className="flex justify-between px-2 flex-wrap pb-1">
+        <div className="flex justify-between px-2 flex-wrap">
           <Label type="default" className="mb-1">
             {"Poppy"}
           </Label>
@@ -238,15 +369,44 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                           const isSold = !!exchange.completed.find(
                             (request) => request.id === bounty.id,
                           );
+                          const isSelected = selectedSells.includes(bounty.id);
+                          // In bulk mode, a card is "unavailable" when the
+                          // player can't currently add it to the selection —
+                          // either it's already sold, or they don't have
+                          // inventory left after accounting for other selected
+                          // same-item bounties. Surface that visually so the
+                          // click doesn't appear to silently fail.
+                          const isUnavailableInBulk =
+                            isBulkSell &&
+                            !isSelected &&
+                            (isSold ||
+                              !canAddBountyToSelection(bounty, selectedSells));
                           return (
                             <div
                               key={`${bounty.name}-${bounty.id}-bounty-card`}
                               className="flex flex-col space-y-1"
                             >
                               <div
-                                className="bg-brown-600 cursor-pointer relative"
+                                className={classNames("relative", {
+                                  "cursor-pointer": !isUnavailableInBulk,
+                                  "cursor-not-allowed": isUnavailableInBulk,
+                                  "bg-brown-600":
+                                    isSold || !isBulkSell || !isSelected,
+                                  "bg-brown-100":
+                                    !isSold && isBulkSell && isSelected,
+                                  "opacity-50":
+                                    isBulkSell && !isSelected && !isSold,
+                                  grayscale: isBulkSell && isUnavailableInBulk,
+                                })}
                                 style={pixelDarkBorderStyle}
-                                onClick={() => setSelectedBounty(bounty)}
+                                onClick={() => {
+                                  if (isBulkSell) {
+                                    if (isUnavailableInBulk) return;
+                                    toggleSellSelection(bounty);
+                                  } else {
+                                    setSelectedBounty(bounty);
+                                  }
+                                }}
                               >
                                 <div className="flex justify-center items-center w-full h-full z-20">
                                   <SquareIcon
@@ -265,6 +425,18 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                                       alt="Completed"
                                     />
                                   )}
+                                  {!isSold &&
+                                    isBulkSell &&
+                                    selectedSells.includes(bounty.id) && (
+                                      <img
+                                        src={SUNNYSIDE.icons.basket}
+                                        className="absolute -right-2 -top-3"
+                                        style={{
+                                          width: `${PIXEL_SCALE * 9}px`,
+                                        }}
+                                        alt="Selected"
+                                      />
+                                    )}
                                   <div className="absolute px-4 bottom-3 -left-4 object-contain">
                                     <Label
                                       icon={icon}
@@ -291,6 +463,44 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             )}
           </div>
         </div>
+        {!readonly &&
+          allBounties.length > 0 &&
+          hasFeatureAccess(state, "BULK_SELL_BOUNTY") && (
+            <>
+              {isBulkSell && (
+                <div className="flex items-center gap-1 px-1 pb-1">
+                  <Label type="vibrant">{t("bounties.bulkSellMode")}</Label>
+                  <Label type="warning">
+                    {t("bounties.sellSelected", {
+                      count: selectedSells.length,
+                    })}
+                  </Label>
+                </div>
+              )}
+              <div className="flex flex-row gap-1 w-full">
+                <Button
+                  className="flex-1 min-w-0"
+                  disabled={
+                    (!isBulkSell && !canBulkSellAnything) ||
+                    (isBulkSell && selectedSells.length === 0)
+                  }
+                  onClick={handleBulkSell}
+                >
+                  {isBulkSell
+                    ? t("bounties.confirmSell")
+                    : t("bounties.bulkSell")}
+                </Button>
+                {isBulkSell && (
+                  <Button
+                    className="flex-1 min-w-0"
+                    onClick={handleCancelBulkSell}
+                  >
+                    {t("cancel")}
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
       </InnerPanel>
       {!noBonusBountiesWeek && !readonly && (
         <InnerPanel className="flex flex-col justify-center gap-2 mb-1">
