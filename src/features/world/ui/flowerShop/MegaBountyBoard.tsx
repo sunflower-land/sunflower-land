@@ -478,6 +478,14 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                 </div>
               )}
               <div className="flex flex-row gap-1 w-full">
+                {isBulkSell && (
+                  <Button
+                    className="flex-1 min-w-0"
+                    onClick={handleCancelBulkSell}
+                  >
+                    {t("cancel")}
+                  </Button>
+                )}
                 <Button
                   className="flex-1 min-w-0"
                   disabled={
@@ -490,14 +498,6 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                     ? t("bounties.confirmSell")
                     : t("bounties.bulkSell")}
                 </Button>
-                {isBulkSell && (
-                  <Button
-                    className="flex-1 min-w-0"
-                    onClick={handleCancelBulkSell}
-                  >
-                    {t("cancel")}
-                  </Button>
-                )}
               </div>
             </>
           )}
