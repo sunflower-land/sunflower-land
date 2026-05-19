@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -14,7 +14,6 @@ import {
   BountyRequest,
   InventoryItemName,
 } from "features/game/types/game";
-import { ANIMALS } from "features/game/types/craftables";
 import { getObjectEntries, getKeys } from "lib/object";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -31,6 +30,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Decimal } from "decimal.js-light";
 import {
   BOUNTY_CATEGORIES,
+  canSellBounty,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
 import { Button } from "components/ui/Button";
@@ -43,6 +43,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { hasFeatureAccess } from "lib/flags";
+import { ANIMALS } from "features/game/types/animals";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -63,11 +64,11 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   </CloseButtonPanel>
 );
 
-const isBonusClaimed = (exchange: Bounties) => {
-  const now = Date.now();
-  const currentWeek = getWeekKey();
+const isBonusClaimed = (exchange: Bounties, now: number) => {
+  const nowDate = new Date(now);
+  const currentWeek = getWeekKey({ date: nowDate });
   const weekStart = new Date(currentWeek).getTime();
-  const weekEnd = weekResetsAt();
+  const weekEnd = weekResetsAt({ date: nowDate });
   const lastClaim = exchange.bonusClaimedAt ?? 0;
 
   return lastClaim > weekStart && lastClaim < now && now < weekEnd;
@@ -89,7 +90,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     gameService,
     (state) => state.context.state.bounties,
   );
-  const [bonusClaimed, setBonusClaimed] = useState(isBonusClaimed(exchange));
+  const bonusClaimed = isBonusClaimed(exchange, now);
 
   const endTime = weekResetsAt();
   const { totalSeconds: secondsRemaining } = useCountdown(endTime);
@@ -167,17 +168,35 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
   const handleBonusClaim = () => {
     gameService.send("claim.bountyBoardBonus");
-    setBonusClaimed(true);
   };
 
   const getRequiredCount = (bounty: BountyRequest) =>
     BOUNTY_CATEGORIES["Mark Bounties"](bounty) ? bounty.quantity : 1;
 
-  const computeAutoSelection = () => {
+  // Rough reward weight so the greedy auto-selector picks the most valuable
+  // bounty first when several share a finite inventory pool (e.g. two Mark
+  // bounties competing for the same Marks).
+  const getRewardScore = (bounty: BountyRequest) => {
+    const tickets = generateBountyTicket({ game: state, bounty });
+    const coins = bounty.coins ?? 0;
+    const sfl = BOUNTY_CATEGORIES["Obsidian Bounties"](bounty)
+      ? (bounty.sfl ?? 0)
+      : 0;
+    return tickets * 50 + coins + sfl * 100;
+  };
+
+  // Recomputes only when state changes (skipping the per-second useNow ticks).
+  // All helpers used inside derive from `state` / `exchange`, both of which
+  // are stable references between game-state transitions.
+  const autoSelection = useMemo(() => {
     const allocation: Partial<Record<InventoryItemName, number>> = {};
     const selected: string[] = [];
 
-    allBounties.forEach((bounty) => {
+    const ranked = [...allBounties].sort(
+      (a, b) => getRewardScore(b) - getRewardScore(a),
+    );
+
+    ranked.forEach((bounty) => {
       const isSold = exchange.completed.find((c) => c.id === bounty.id);
       if (isSold) return;
 
@@ -192,9 +211,8 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     });
 
     return selected;
-  };
-
-  const autoSelection = computeAutoSelection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, exchange]);
   const canBulkSellAnything = autoSelection.length > 0;
 
   const handleBulkSell = () => {
@@ -207,8 +225,20 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   };
 
   const handleConfirmBulkSell = () => {
+    // Drop any selections that have gone stale (inventory consumed elsewhere,
+    // already completed in another tab, etc.) so we don't ship a list the BE
+    // would have to skip and so confetti only fires when something actually
+    // sells.
+    const validSells = selectedSells.filter((id) => canSellBounty(state, id));
+
+    if (validSells.length === 0) {
+      setSelectedSells([]);
+      setIsBulkSell(false);
+      return;
+    }
+
     gameService.send("bounty.bulkSold", {
-      requestIds: selectedSells,
+      requestIds: validSells,
     });
     if (showAnimations) confetti();
     setSelectedSells([]);
@@ -220,24 +250,33 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     setIsBulkSell(false);
   };
 
+  // Whether `bounty` can be added on top of `current` without exceeding
+  // available inventory (the shared pool matters for same-name bounties like
+  // multiple Marks).
+  const canAddBountyToSelection = (
+    bounty: BountyRequest,
+    current: string[],
+  ): boolean => {
+    const { count } = getCountAndType(state, bounty.name);
+    const required = getRequiredCount(bounty);
+    const usedByOthers = current.reduce((sum, id) => {
+      if (id === bounty.id) return sum;
+      const b = exchange.requests.find((r) => r.id === id);
+      if (b && b.name === bounty.name) {
+        return sum + getRequiredCount(b);
+      }
+      return sum;
+    }, 0);
+    return count.gte(usedByOthers + required);
+  };
+
   const toggleSellSelection = (bounty: BountyRequest) => {
     setSelectedSells((current) => {
       if (current.includes(bounty.id)) {
         return current.filter((id) => id !== bounty.id);
       }
 
-      // Check inventory accounting for other already-selected bounties of the same item
-      const { count } = getCountAndType(state, bounty.name);
-      const required = getRequiredCount(bounty);
-      const usedByOthers = current.reduce((sum, id) => {
-        const b = exchange.requests.find((r) => r.id === id);
-        if (b && b.name === bounty.name) {
-          return sum + getRequiredCount(b);
-        }
-        return sum;
-      }, 0);
-
-      if (!count.gte(usedByOthers + required)) return current;
+      if (!canAddBountyToSelection(bounty, current)) return current;
       return [...current, bounty.id];
     });
   };
@@ -313,33 +352,39 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                           const isSold = !!exchange.completed.find(
                             (request) => request.id === bounty.id,
                           );
+                          const isSelected = selectedSells.includes(bounty.id);
+                          // In bulk mode, a card is "unavailable" when the
+                          // player can't currently add it to the selection —
+                          // either it's already sold, or they don't have
+                          // inventory left after accounting for other selected
+                          // same-item bounties. Surface that visually so the
+                          // click doesn't appear to silently fail.
+                          const isUnavailableInBulk =
+                            isBulkSell &&
+                            !isSelected &&
+                            (isSold ||
+                              !canAddBountyToSelection(bounty, selectedSells));
                           return (
                             <div
                               key={`${bounty.name}-${bounty.id}-bounty-card`}
                               className="flex flex-col space-y-1"
                             >
                               <div
-                                className={classNames(
-                                  "cursor-pointer relative",
-                                  {
-                                    "bg-brown-600":
-                                      isSold ||
-                                      !isBulkSell ||
-                                      !selectedSells.includes(bounty.id),
-                                    "bg-brown-100":
-                                      !isSold &&
-                                      isBulkSell &&
-                                      selectedSells.includes(bounty.id),
-                                    "opacity-50":
-                                      isBulkSell &&
-                                      !selectedSells.includes(bounty.id) &&
-                                      !isSold,
-                                  },
-                                )}
+                                className={classNames("relative", {
+                                  "cursor-pointer": !isUnavailableInBulk,
+                                  "cursor-not-allowed": isUnavailableInBulk,
+                                  "bg-brown-600":
+                                    isSold || !isBulkSell || !isSelected,
+                                  "bg-brown-100":
+                                    !isSold && isBulkSell && isSelected,
+                                  "opacity-50":
+                                    isBulkSell && !isSelected && !isSold,
+                                  grayscale: isBulkSell && isUnavailableInBulk,
+                                })}
                                 style={pixelDarkBorderStyle}
                                 onClick={() => {
                                   if (isBulkSell) {
-                                    if (isSold) return;
+                                    if (isUnavailableInBulk) return;
                                     toggleSellSelection(bounty);
                                   } else {
                                     setSelectedBounty(bounty);

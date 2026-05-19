@@ -17,6 +17,16 @@ export function bulkSellBounty({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  // Mirrors the autosave Joi schema (`min(1).unique()`): the UI never produces
+  // these shapes, so seeing one means a bug or a hostile client and we want it
+  // to throw locally rather than be quietly accepted by the optimistic update.
+  if (action.requestIds.length === 0) {
+    throw new Error("No bounties selected");
+  }
+  if (new Set(action.requestIds).size !== action.requestIds.length) {
+    throw new Error("Duplicate bounty IDs");
+  }
+
   let nextState = state;
 
   action.requestIds.forEach((requestId) => {

@@ -93,29 +93,27 @@ describe("bulkSellBounty", () => {
     ).toThrow("Bounty does not exist");
   });
 
-  it("duplicate IDs only sell once (second pass is skipped as completed)", () => {
-    const result = bulkSellBounty({
-      state: makeGameState(),
-      action: {
-        type: "bounty.bulkSold",
-        requestIds: ["1", "1"],
-      },
-    });
-
-    expect(result.bounties.completed).toHaveLength(1);
-    expect(result.coins).toEqual(100);
+  it("throws on duplicate IDs so client/server divergence surfaces", () => {
+    expect(() =>
+      bulkSellBounty({
+        state: makeGameState(),
+        action: {
+          type: "bounty.bulkSold",
+          requestIds: ["1", "1"],
+        },
+      }),
+    ).toThrow("Duplicate bounty IDs");
   });
 
-  it("handles an empty list", () => {
-    const result = bulkSellBounty({
-      state: makeGameState(),
-      action: {
-        type: "bounty.bulkSold",
-        requestIds: [],
-      },
-    });
-
-    expect(result.coins).toEqual(0);
-    expect(result.bounties.completed).toHaveLength(0);
+  it("throws on an empty list (mirrors the autosave schema)", () => {
+    expect(() =>
+      bulkSellBounty({
+        state: makeGameState(),
+        action: {
+          type: "bounty.bulkSold",
+          requestIds: [],
+        },
+      }),
+    ).toThrow("No bounties selected");
   });
 });
