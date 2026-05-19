@@ -51,6 +51,9 @@ import { Detail } from "./actions/getFollowNetworkDetails";
 import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
 import { getHelpLimit } from "features/game/types/monuments";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PickServer } from "features/island/hud/components/settings-menu/plaza-settings/PickServer";
 
 type Props = {
   type: "world" | "local";
@@ -130,6 +133,7 @@ export const Feed: React.FC<Props> = ({
   const feedRef = useRef<HTMLDivElement>(null);
   const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
   const [searchResults, setSearchResults] = useState<Detail[]>([]);
+  const [showPickServer, setShowPickServer] = useState(false);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -275,6 +279,10 @@ export const Feed: React.FC<Props> = ({
     setShowFeed(false);
   };
 
+  const handleServerLabelClick = () => {
+    setShowPickServer(true);
+  };
+
   const showMobileFeed = showFeed && isMobile;
   const showDesktopFeed = showFeed && !isMobile;
   const hideMobileFeed = !showFeed && isMobile;
@@ -293,6 +301,14 @@ export const Feed: React.FC<Props> = ({
       )}
       divRef={feedRef}
     >
+      <Modal show={showPickServer} onHide={() => setShowPickServer(false)}>
+        <CloseButtonPanel
+          title={t("gameOptions.plazaSettings.pickServer")}
+          onClose={() => setShowPickServer(false)}
+        >
+          <PickServer onClose={() => setShowPickServer(false)} />
+        </CloseButtonPanel>
+      </Modal>
       <div className="flex flex-col gap-2 h-full w-full">
         <div className="sticky top-0 flex flex-col z-10 bg-[#e4a672]">
           <div className="flex items-center gap-2 pb-1">
@@ -313,12 +329,14 @@ export const Feed: React.FC<Props> = ({
                 {cheersAvailable.toNumber()}
               </Label>
               {serverLabel && (
-                <span
-                  className="min-w-0 max-w-[56px] shrink truncate text-xxs"
+                <button
+                  type="button"
+                  className="min-w-0 max-w-[56px] shrink cursor-pointer truncate bg-transparent p-0 text-left text-xxs hover:underline"
                   title={serverLabel}
+                  onClick={handleServerLabelClick}
                 >
                   {serverLabel}
-                </span>
+                </button>
               )}
             </div>
             <img
