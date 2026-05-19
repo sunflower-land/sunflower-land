@@ -32,6 +32,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -158,7 +159,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                 </Label>
               ))}
               <p className="text-xs ml-1">
-                {ITEM_DETAILS[selectedItem]?.description}
+                {getItemDescription({ item: selectedItem, game: gameState })}
               </p>
             </>
           )}

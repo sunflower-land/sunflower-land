@@ -17,6 +17,100 @@ import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
 
+type FertiliserBuffLabelName =
+  | "Sprout Mix"
+  | "Fruitful Blend"
+  | "Sproutroot Surprise"
+  | "Turbofruit Mix";
+
+export function getFertiliserBuffLabels({
+  fertiliser,
+  skills,
+  collectibles,
+}: {
+  fertiliser: FertiliserBuffLabelName;
+  skills: GameState["bumpkin"]["skills"];
+  collectibles: GameState["collectibles"];
+}): BuffLabel[] {
+  if (fertiliser === "Sprout Mix") {
+    return [
+      {
+        shortDescription: translate("description.sprout.mix.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+      },
+      ...(collectibles["Knowledge Crab"]?.some(
+        (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
+      )
+        ? [
+            {
+              shortDescription: translate(
+                "description.knowledge.crab.yield.boost",
+              ),
+              labelType: "success" as const,
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+            },
+          ]
+        : []),
+    ];
+  }
+
+  if (fertiliser === "Fruitful Blend") {
+    return [
+      {
+        shortDescription: translate("description.fruitful.blend.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+      },
+      ...(skills["Fruitful Bounty"]
+        ? [
+            {
+              shortDescription: translate(
+                "description.fruitful.bounty.skill.boost",
+              ),
+              labelType: "success" as const,
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
+            },
+          ]
+        : []),
+    ];
+  }
+
+  if (fertiliser === "Sproutroot Surprise") {
+    return [
+      ...getFertiliserBuffLabels({
+        fertiliser: "Sprout Mix",
+        skills,
+        collectibles,
+      }),
+      {
+        shortDescription: translate("description.rapid.root.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+      },
+    ];
+  }
+
+  return [
+    ...getFertiliserBuffLabels({
+      fertiliser: "Fruitful Blend",
+      skills,
+      collectibles,
+    }),
+    {
+      shortDescription: translate("description.turbofruit.mix.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+    },
+  ];
+}
+
 export const COLLECTIBLE_BUFF_LABELS: Partial<
   Record<
     InventoryItemName,
@@ -324,22 +418,18 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Fertilisers
-  "Sprout Mix": () => [
-    {
-      shortDescription: translate("description.sprout.mix.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
-    },
-  ],
-  "Fruitful Blend": () => [
-    {
-      shortDescription: translate("description.fruitful.blend.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
-    },
-  ],
+  "Sprout Mix": ({ collectibles, skills }) =>
+    getFertiliserBuffLabels({
+      fertiliser: "Sprout Mix",
+      collectibles,
+      skills,
+    }),
+  "Fruitful Blend": ({ collectibles, skills }) =>
+    getFertiliserBuffLabels({
+      fertiliser: "Fruitful Blend",
+      collectibles,
+      skills,
+    }),
   "Rapid Root": () => [
     {
       shortDescription: translate("description.rapid.root.boost"),
@@ -348,34 +438,18 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
-  "Sproutroot Surprise": () => [
-    {
-      shortDescription: translate("description.sprout.mix.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
-    },
-    {
-      shortDescription: translate("description.rapid.root.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
-    },
-  ],
-  "Turbofruit Mix": () => [
-    {
-      shortDescription: translate("description.fruitful.blend.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
-    },
-    {
-      shortDescription: translate("description.turbofruit.mix.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
-    },
-  ],
+  "Sproutroot Surprise": ({ collectibles, skills }) =>
+    getFertiliserBuffLabels({
+      fertiliser: "Sproutroot Surprise",
+      collectibles,
+      skills,
+    }),
+  "Turbofruit Mix": ({ collectibles, skills }) =>
+    getFertiliserBuffLabels({
+      fertiliser: "Turbofruit Mix",
+      collectibles,
+      skills,
+    }),
   "Greenhouse Glow": () => [
     {
       shortDescription: translate("description.greenhouse.glow.boost"),
