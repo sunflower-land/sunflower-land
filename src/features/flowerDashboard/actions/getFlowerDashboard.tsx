@@ -15,9 +15,7 @@ export type FlowerDashboardData = {
   };
   pools: {
     community: number;
-    admin: number;
     rewards: number;
-    auction: number;
   };
   tokenInfo: {
     liquidity: number;
