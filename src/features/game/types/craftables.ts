@@ -1063,13 +1063,15 @@ const flagsDimension = getKeys(FLAGS).reduce(
   {} as Record<Flag, Dimensions>,
 );
 
-const bedsDimension = getKeys(BED_FARMHAND_COUNT).reduce(
-  (previous, bedName) => ({
-    ...previous,
-    [bedName]: { width: 1, height: 1 },
-  }),
-  {} as Record<Exclude<BedName, "Double Bed" | "Pearl Bed">, Dimensions>,
-);
+const bedsDimension = getKeys(BED_FARMHAND_COUNT)
+  .filter((bedName) => bedName !== "Double Bed" && bedName !== "Pearl Bed")
+  .reduce(
+    (previous, bedName) => ({
+      ...previous,
+      [bedName]: { width: 1, height: 1 },
+    }),
+    {} as Record<Exclude<BedName, "Double Bed" | "Pearl Bed">, Dimensions>,
+  );
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
