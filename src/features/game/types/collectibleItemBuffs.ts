@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName } from "./game";
+import { BedName, GameState, InventoryItemName } from "./game";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
@@ -14,7 +14,8 @@ import { getChapterTicket, CHAPTERS, getCurrentChapter } from "./chapters";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
-import { getObjectEntries } from "lib/object";
+import { getKeys, getObjectEntries } from "lib/object";
+import { BED_FARMHAND_COUNT } from "./beds";
 
 export const COLLECTIBLE_BUFF_LABELS: Partial<
   Record<
@@ -1708,13 +1709,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
     },
   ],
-  "Double Bed": () => [
-    {
-      shortDescription: translate("description.doubleBed.boost"),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
-    },
-  ],
   "Giant Artichoke": () => [
     {
       shortDescription: translate("description.giantArtichoke.boost"),
@@ -2120,20 +2114,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: lightning,
     },
   ],
-  "Pearl Bed": () => [
-    {
-      shortDescription: translate("description.pearlBed.boost"),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
-    },
-  ],
-  "Messy Bed": () => [
-    {
-      shortDescription: translate("description.messyBed.buff"),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
-    },
-  ],
   "Magma Stone": () => [
     {
       shortDescription: translate("description.magmaStone.buff.one"),
@@ -2253,6 +2233,40 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // All items go above this line
+
+  ...getKeys(BED_FARMHAND_COUNT).reduce<
+    Record<
+      BedName,
+      ({
+        skills,
+        collectibles,
+      }: {
+        skills: GameState["bumpkin"]["skills"];
+        collectibles: GameState["collectibles"];
+      }) => BuffLabel[]
+    >
+  >(
+    (acc, farmhand) => {
+      acc[farmhand] = () => [
+        {
+          shortDescription: translate("description.pearlBed.boost"),
+          labelType: "vibrant",
+          boostTypeIcon: lightning,
+        },
+      ];
+      return acc;
+    },
+    {} as Record<
+      BedName,
+      ({
+        skills,
+        collectibles,
+      }: {
+        skills: GameState["bumpkin"]["skills"];
+        collectibles: GameState["collectibles"];
+      }) => BuffLabel[]
+    >,
+  ),
 
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
