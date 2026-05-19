@@ -15,6 +15,8 @@ import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { MachineState } from "features/game/lib/gameMachine";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");
 const _linkingWalletSuccess = (state: MachineState) =>
@@ -22,6 +24,9 @@ const _linkingWalletSuccess = (state: MachineState) =>
 const _linkingWalletFailed = (state: MachineState) =>
   state.matches("linkingWalletFailed");
 const _errorCode = (state: MachineState) => state.context.errorCode;
+const _custodialWallet = (state: MachineState) => state.context.custodialWallet;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _gameState = (state: MachineState) => state.context.state;
 
 type WalletSig = { address: string; signature: string };
 
@@ -64,6 +69,22 @@ export const LinkWallet: React.FC<Partial<ContentComponentProps>> = ({
   const isLinkingSuccess = useSelector(gameService, _linkingWalletSuccess);
   const isLinkingFailed = useSelector(gameService, _linkingWalletFailed);
   const errorCode = useSelector(gameService, _errorCode);
+  const custodialWallet = useSelector(gameService, _custodialWallet);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
+  const gameState = useSelector(gameService, _gameState);
+  const now = useNow();
+  const hasSeedlingReputation = hasReputation({
+    game: gameState,
+    reputation: Reputation.Seedling,
+    now,
+  });
+
+  // Custodial farms (Google signup, no wallet yet) need Seedling
+  // reputation before linking. Block the flow before either credential
+  // is collected; the BE also rejects with CUSTODIAL_REPUTATION_TOO_LOW
+  // as a backstop.
+  const blockedByReputation =
+    !linkedWallet && !!custodialWallet && !hasSeedlingReputation;
 
   const [walletSig, setWalletSig] = useState<WalletSig | null>(null);
 
@@ -121,6 +142,22 @@ export const LinkWallet: React.FC<Partial<ContentComponentProps>> = ({
 
   if (isLinkingFailed) {
     return <ErrorMessage errorCode={errorCode!} />;
+  }
+
+  // Gate custodial farms behind Seedling before either credential is
+  // collected.
+  if (blockedByReputation) {
+    return (
+      <div className="flex flex-col gap-2">
+        <LinkHeader />
+        <Label type="warning" className="ml-2">
+          {t("linkedAccounts.needSeedlingToLink")}
+        </Label>
+        <p className="text-xs mx-1 mb-2">
+          {t("linkedAccounts.needSeedlingToLinkExplainer")}
+        </p>
+      </div>
+    );
   }
 
   // Step 1: capture the Google id_token (existing-identity re-auth).

@@ -28,6 +28,7 @@ type Response = {
   sessionId: string;
   analyticsId: string;
   linkedWallet?: string;
+  custodialWallet?: string;
   wallet?: string;
   nftId?: number;
   purchases: Purchase[];
@@ -139,6 +140,7 @@ export async function loadSession(
     farmAddress,
     analyticsId,
     linkedWallet,
+    custodialWallet,
     wallet,
     nftId,
     purchases,
@@ -166,6 +168,7 @@ export async function loadSession(
     farmAddress?: string;
     nftId?: number;
     linkedWallet?: string;
+    custodialWallet?: string;
     wallet?: string;
     purchases: Purchase[];
     discordId?: string;
@@ -197,6 +200,7 @@ export async function loadSession(
     moderation,
     analyticsId,
     linkedWallet,
+    custodialWallet,
     wallet,
     nftId,
     purchases,
