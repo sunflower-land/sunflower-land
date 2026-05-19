@@ -41,7 +41,7 @@ export function bulkSellBounty({
     }
   });
 
-  let nextState = { ...state };
+  let nextState = state;
 
   action.requestIds.forEach((requestId) => {
     // Skip transient failures (already completed, inventory exhausted mid-loop)

@@ -64,6 +64,11 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   </CloseButtonPanel>
 );
 
+// Module-scope so it's a stable reference (used by both the autoSelection
+// memo and canAddBountyToSelection).
+const getRequiredCount = (bounty: BountyRequest) =>
+  BOUNTY_CATEGORIES["Mark Bounties"](bounty) ? bounty.quantity : 1;
+
 const isBonusClaimed = (exchange: Bounties, now: number) => {
   const nowDate = new Date(now);
   const currentWeek = getWeekKey({ date: nowDate });
@@ -112,8 +117,14 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     return result;
   };
   const bountiesByCategory = getBountiesByCategory();
-  const allBounties = exchange.requests.filter(
-    (bounty) => !Object.keys(ANIMALS).includes(bounty.name),
+  // Memoised so it's a stable reference dependency for the autoSelection memo
+  // — otherwise we'd re-derive it on every render and defeat the memo below.
+  const allBounties = useMemo(
+    () =>
+      exchange.requests.filter(
+        (bounty) => !Object.keys(ANIMALS).includes(bounty.name),
+      ),
+    [exchange.requests],
   );
 
   const getCurrencyInfo = (bounty: BountyRequest) => {
@@ -170,34 +181,31 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     gameService.send("claim.bountyBoardBonus");
   };
 
-  const getRequiredCount = (bounty: BountyRequest) =>
-    BOUNTY_CATEGORIES["Mark Bounties"](bounty) ? bounty.quantity : 1;
-
-  // Rough reward weight so the greedy auto-selector picks the most valuable
-  // bounty first when several share a finite inventory pool (e.g. two Mark
-  // bounties competing for the same Marks).
-  const getRewardScore = (bounty: BountyRequest) => {
-    const tickets = generateBountyTicket({ game: state, bounty });
-    const coins = bounty.coins ?? 0;
-    const sfl = BOUNTY_CATEGORIES["Obsidian Bounties"](bounty)
-      ? (bounty.sfl ?? 0)
-      : 0;
-    return tickets * 50 + coins + sfl * 100;
-  };
-
-  // Recomputes only when state changes (skipping the per-second useNow ticks).
-  // All helpers used inside derive from `state` / `exchange`, both of which
-  // are stable references between game-state transitions.
+  // Self-contained memo: declares its helpers inside so the dependency list
+  // can be exhaustive (`allBounties`, `exchange.completed`, `state`) — no
+  // exhaustive-deps suppression, friendly to the React Compiler.
   const autoSelection = useMemo(() => {
+    // Rough reward weight so the greedy auto-selector picks the most
+    // valuable bounty first when several share a finite inventory pool
+    // (e.g. two Mark bounties competing for the same Marks).
+    const getRewardScoreFor = (bounty: BountyRequest) => {
+      const tickets = generateBountyTicket({ game: state, bounty });
+      const coins = bounty.coins ?? 0;
+      const sfl = BOUNTY_CATEGORIES["Obsidian Bounties"](bounty)
+        ? (bounty.sfl ?? 0)
+        : 0;
+      return tickets * 50 + coins + sfl * 100;
+    };
+
     const allocation: Partial<Record<InventoryItemName, number>> = {};
     const selected: string[] = [];
 
     const ranked = [...allBounties].sort(
-      (a, b) => getRewardScore(b) - getRewardScore(a),
+      (a, b) => getRewardScoreFor(b) - getRewardScoreFor(a),
     );
 
     ranked.forEach((bounty) => {
-      const isSold = exchange.completed.find((c) => c.id === bounty.id);
+      const isSold = exchange.completed.some((c) => c.id === bounty.id);
       if (isSold) return;
 
       const { count } = getCountAndType(state, bounty.name);
@@ -211,8 +219,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     });
 
     return selected;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, exchange]);
+  }, [allBounties, exchange.completed, state]);
   const canBulkSellAnything = autoSelection.length > 0;
 
   const handleBulkSell = () => {
@@ -225,11 +232,21 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   };
 
   const handleConfirmBulkSell = () => {
-    // Drop any selections that have gone stale (inventory consumed elsewhere,
-    // already completed in another tab, etc.) so we don't ship a list the BE
-    // would have to skip and so confetti only fires when something actually
-    // sells.
-    const validSells = selectedSells.filter((id) => canSellBounty(state, id));
+    // Drop selections that have gone stale (inventory consumed elsewhere,
+    // already completed in another tab) and walk them in order so we don't
+    // ship an over-allocated payload when several selected bounties share
+    // the same item pool (e.g. two Mark bounties on a depleted Mark stash).
+    const allocation: Partial<Record<InventoryItemName, number>> = {};
+    const validSells = selectedSells.filter((id) => {
+      const bounty = exchange.requests.find((r) => r.id === id);
+      if (!bounty || !canSellBounty(state, id)) return false;
+      const { count } = getCountAndType(state, bounty.name);
+      const required = getRequiredCount(bounty);
+      const used = allocation[bounty.name] ?? 0;
+      if (!count.gte(used + required)) return false;
+      allocation[bounty.name] = used + required;
+      return true;
+    });
 
     if (validSells.length === 0) {
       setSelectedSells([]);
