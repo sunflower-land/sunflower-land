@@ -8947,5 +8947,9 @@
   "linkedAccounts.linkAccounts": "关联账户",
   "linkedAccounts.linkAccountsDescription": "在我们迁移到新的关联集成时，关联账户已暂时暂停。请稍后再回来查看。如果您有任何问题或疑虑，请联系我们的支持团队。",
   "deposit.connectedWallet": "联网钱包：",
-  "walletWall.requiresLinkedWallet": "此操作需要连接到农场的关联钱包"
+  "walletWall.requiresLinkedWallet": "此操作需要连接到农场的关联钱包",
+  "bounties.bulkSell": "批量出售",
+  "bounties.bulkSellMode": "批量销售模式",
+  "bounties.confirmSell": "确认出售",
+  "bounties.sellSelected": "卖出精选商品：{{count}}"
 }

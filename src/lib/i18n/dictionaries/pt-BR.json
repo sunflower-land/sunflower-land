@@ -8947,5 +8947,9 @@
   "linkedAccounts.linkAccounts": "Vincular contas",
   "linkedAccounts.linkAccountsDescription": "A vinculação de contas foi pausada temporariamente enquanto estamos migrando para uma nova integração de vinculação. Por favor, volte em breve. Se você tiver alguma dúvida ou preocupação, entre em contato com nossa equipe de suporte.",
   "deposit.connectedWallet": "Carteira conectada:",
-  "walletWall.requiresLinkedWallet": "Essa ação requer uma conexão com a carteira vinculada da fazenda"
+  "walletWall.requiresLinkedWallet": "Essa ação requer uma conexão com a carteira vinculada da fazenda",
+  "bounties.bulkSell": "Venda a granel",
+  "bounties.bulkSellMode": "Modo de venda em massa",
+  "bounties.confirmSell": "Confirme a venda",
+  "bounties.sellSelected": "Venda selecionada: {{count}}"
 }

@@ -8947,5 +8947,9 @@
   "linkedAccounts.linkAccounts": "アカウントをリンク",
   "linkedAccounts.linkAccountsDescription": "新しいリンク統合への移行中、アカウントのリンクは一時的に停止されました。しばらくしてからもう一度確認してください。ご質問やご不明な点がございましたら、サポートチームまでご連絡ください。",
   "deposit.connectedWallet": "接続されたウォレット:",
-  "walletWall.requiresLinkedWallet": "このアクションには、ファームのリンクされたウォレットへの接続が必要です"
+  "walletWall.requiresLinkedWallet": "このアクションには、ファームのリンクされたウォレットへの接続が必要です",
+  "bounties.bulkSell": "一括販売",
+  "bounties.bulkSellMode": "一括販売モード",
+  "bounties.confirmSell": "売却を確認",
+  "bounties.sellSelected": "選択した売却:{{count}}"
 }

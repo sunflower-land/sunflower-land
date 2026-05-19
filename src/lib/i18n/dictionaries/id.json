@@ -8947,5 +8947,9 @@
   "linkedAccounts.linkAccounts": "Tautkan Akun",
   "linkedAccounts.linkAccountsDescription": "Menautkan akun telah dijeda sementara saat kami bermigrasi ke integrasi penautan baru. Silakan periksa kembali segera. Jika Anda memiliki pertanyaan atau masalah, silakan hubungi tim dukungan kami.",
   "deposit.connectedWallet": "Dompet Terhubung:",
-  "walletWall.requiresLinkedWallet": "Tindakan ini memerlukan koneksi ke dompet tertaut peternakan"
+  "walletWall.requiresLinkedWallet": "Tindakan ini memerlukan koneksi ke dompet tertaut peternakan",
+  "bounties.bulkSell": "Jual Massal",
+  "bounties.bulkSellMode": "Mode Penjualan Massal",
+  "bounties.confirmSell": "Konfirmasikan Jual",
+  "bounties.sellSelected": "Jual Terpilih: {{count}}"
 }

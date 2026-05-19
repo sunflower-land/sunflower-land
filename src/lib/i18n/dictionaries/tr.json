@@ -8947,5 +8947,9 @@
   "linkedAccounts.linkAccounts": "Hesapları Bağla",
   "linkedAccounts.linkAccountsDescription": "Yeni bir bağlantı entegrasyonuna geçerken bağlama hesapları geçici olarak duraklatıldı. Lütfen yakında tekrar kontrol edin. Herhangi bir sorunuz veya endişeniz varsa, lütfen destek ekibimize ulaşın.",
   "deposit.connectedWallet": "Bağlı Cüzdan:",
-  "walletWall.requiresLinkedWallet": "Bu işlem çiftliğin bağlantılı cüzdanına bağlantı gerektirir"
+  "walletWall.requiresLinkedWallet": "Bu işlem çiftliğin bağlantılı cüzdanına bağlantı gerektirir",
+  "bounties.bulkSell": "Toplu Satış",
+  "bounties.bulkSellMode": "Toplu Satış Modu",
+  "bounties.confirmSell": "Satışı Onayla",
+  "bounties.sellSelected": "Seçilen Satım: {{count}}"
 }
