@@ -13,7 +13,12 @@ import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 import { useGoogleLinkPopup } from "features/auth/lib/useGoogleLinkPopup";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  BlockchainEvent,
+  Context as GameContextType,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
 
 const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");
@@ -66,6 +71,25 @@ export const LinkWallet: React.FC<Partial<ContentComponentProps>> = ({
   const errorCode = useSelector(gameService, _errorCode);
 
   const [walletSig, setWalletSig] = useState<WalletSig | null>(null);
+
+  // On successful link, the BE returns an `upgradedToken` for Google
+  // callers — pick it up so the rest of the session is wallet-authed and
+  // the next marketplace action skips the step-up modal.
+  useOnMachineTransition<GameContextType, BlockchainEvent>(
+    gameService,
+    "linkingWallet",
+    "linkingWalletSuccess",
+    () => {
+      const upgradedToken = (
+        gameService.getSnapshot().context.data as {
+          linkingWallet?: { upgradedToken?: string };
+        }
+      )?.linkingWallet?.upgradedToken;
+      if (upgradedToken) {
+        authService.send("UPDATE_TOKEN", { token: upgradedToken });
+      }
+    },
+  );
 
   // Once both credentials are captured, fire the event exactly once.
   // Effect deps don't change after the dispatch (we don't reset state

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable } from "features/game/types/marketplace";
@@ -18,6 +18,10 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -71,18 +75,41 @@ export const BulkPurchaseModalContent: React.FC<
     oldWardrobe: previousWardrobe,
   });
 
-  const confirm = async () => {
+  const [pendingPurchase, setPendingPurchase] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
+
+  const dispatchBulkPurchase = (token: string) => {
     gameService.send("marketplace.buyBulkResources", {
       effect: {
         type: "marketplace.buyBulkResources",
         itemId: tradeable.id,
         listingIds,
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
+
+  const confirm = async () => {
+    if (needsStepUp) {
+      setPendingPurchase(true);
+      return;
+    }
+    dispatchBulkPurchase(authToken);
+  };
+
+  if (pendingPurchase) {
+    return (
+      <MarketplaceAuthGate
+        onProceed={(token) => {
+          setPendingPurchase(false);
+          dispatchBulkPurchase(token);
+        }}
+        onCancel={() => setPendingPurchase(false)}
+      />
+    );
+  }
 
   const estTradePoints =
     price === 0

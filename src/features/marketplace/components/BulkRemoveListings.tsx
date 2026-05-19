@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 interface Props {
   ids: string[];
@@ -20,15 +24,17 @@ export const BulkRemoveTrades: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [pendingCancel, setPendingCancel] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
 
-  const confirm = () => {
+  const dispatchCancel = (token: string) => {
     if (type === "listings") {
       gameService.send("marketplace.bulkListingsCancelled", {
         effect: {
           type: "marketplace.bulkListingsCancelled",
           ids,
         },
-        authToken,
+        authToken: token,
       });
     } else {
       gameService.send("marketplace.bulkOffersCancelled", {
@@ -36,12 +42,34 @@ export const BulkRemoveTrades: React.FC<Props> = ({
           type: "marketplace.bulkOffersCancelled",
           ids,
         },
-        authToken,
+        authToken: token,
       });
     }
 
     onClose();
   };
+
+  const confirm = () => {
+    if (needsStepUp) {
+      setPendingCancel(true);
+      return;
+    }
+    dispatchCancel(authToken);
+  };
+
+  if (pendingCancel) {
+    return (
+      <Panel>
+        <MarketplaceAuthGate
+          onProceed={(token) => {
+            setPendingCancel(false);
+            dispatchCancel(token);
+          }}
+          onCancel={() => setPendingCancel(false)}
+        />
+      </Panel>
+    );
+  }
 
   return (
     <Panel>

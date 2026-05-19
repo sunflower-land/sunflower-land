@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
@@ -18,6 +18,10 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -79,17 +83,40 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     oldWardrobe: previousWardrobe,
   });
 
-  const confirm = async () => {
+  const [pendingPurchase, setPendingPurchase] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
+
+  const dispatchPurchase = (token: string) => {
     gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",
         id: listingId,
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
+
+  const confirm = async () => {
+    if (needsStepUp) {
+      setPendingPurchase(true);
+      return;
+    }
+    dispatchPurchase(authToken);
+  };
+
+  if (pendingPurchase) {
+    return (
+      <MarketplaceAuthGate
+        onProceed={(token) => {
+          setPendingPurchase(false);
+          dispatchPurchase(token);
+        }}
+        onCancel={() => setPendingPurchase(false)}
+      />
+    );
+  }
 
   const estTradePoints =
     price === 0

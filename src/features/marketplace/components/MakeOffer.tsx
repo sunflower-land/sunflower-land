@@ -9,6 +9,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
@@ -55,6 +59,10 @@ export const MakeOffer: React.FC<{
   const [offer, setOffer] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState<{
+    signature?: string;
+  } | null>(null);
+  const needsStepUp = useNeedsMarketplaceStepUp();
 
   const isResource =
     display.type === "collectibles" &&
@@ -79,21 +87,29 @@ export const MakeOffer: React.FC<{
     setShowConfirmation(true);
   };
 
-  const confirm = async ({ signature }: { signature?: string }) => {
+  const dispatchOffer = (token: string, payload: { signature?: string }) => {
     gameService.send("marketplace.offerMade", {
       effect: {
         type: "marketplace.offerMade",
         id: itemId,
         collection: display.type,
-        signature,
+        signature: payload.signature,
         quantity: Math.max(1, quantity),
         sfl: offer,
         ...(display.type === "economies" && economy ? { economy } : {}),
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
+  };
+
+  const confirm = async ({ signature }: { signature?: string }) => {
+    if (needsStepUp) {
+      setPendingSubmit({ signature });
+      return;
+    }
+    dispatchOffer(authToken, { signature });
   };
 
   const estTradePoints =
@@ -106,6 +122,19 @@ export const MakeOffer: React.FC<{
 
   const needsLinkedWallet =
     tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
+  if (pendingSubmit) {
+    return (
+      <MarketplaceAuthGate
+        onProceed={(token) => {
+          const payload = pendingSubmit;
+          setPendingSubmit(null);
+          dispatchOffer(token, payload);
+        }}
+        onCancel={() => setPendingSubmit(null)}
+      />
+    );
+  }
 
   if (offerCount >= 100) {
     return (

@@ -44,6 +44,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -76,6 +80,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [quantity, setQuantity] = useState(0);
   /** Number of identical listings to create (1–20). Only for resources */
   const [multiple, setMultiple] = useState(1);
+  const [pendingSubmit, setPendingSubmit] = useState<{
+    signature?: string;
+  } | null>(null);
+  const needsStepUp = useNeedsMarketplaceStepUp();
 
   const game = useSelector(gameService, selectGameState);
   const now = useNow();
@@ -147,7 +155,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     setShowConfirmation(true);
   };
 
-  const confirm = async ({ signature }: { signature?: string }) => {
+  const dispatchListing = (token: string, payload: { signature?: string }) => {
     if (accountTradedRecently) return;
     gameService.send("marketplace.listed", {
       effect: {
@@ -155,18 +163,40 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         itemId: id,
         collection: display.type,
         sfl: price,
-        signature,
+        signature: payload.signature,
         quantity: Math.max(1, quantity),
         multiple,
         ...(display.type === "economies" && economy ? { economy } : {}),
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
 
+  const confirm = async ({ signature }: { signature?: string }) => {
+    if (accountTradedRecently) return;
+    if (needsStepUp) {
+      setPendingSubmit({ signature });
+      return;
+    }
+    dispatchListing(authToken, { signature });
+  };
+
   const available = getAvailable();
+
+  if (pendingSubmit) {
+    return (
+      <MarketplaceAuthGate
+        onProceed={(token) => {
+          const payload = pendingSubmit;
+          setPendingSubmit(null);
+          dispatchListing(token, payload);
+        }}
+        onCancel={() => setPendingSubmit(null)}
+      />
+    );
+  }
 
   if (showItemInUseWarning) {
     return (

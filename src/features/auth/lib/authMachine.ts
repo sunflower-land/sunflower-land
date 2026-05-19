@@ -130,6 +130,8 @@ type ClaimFarmEvent = {
   id: number;
 };
 
+export type UpdateTokenEvent = { type: "UPDATE_TOKEN"; token: string };
+
 export type BlockchainEvent =
   | StartEvent
   | ReturnEvent
@@ -151,6 +153,7 @@ export type BlockchainEvent =
   | { type: "SKIP" }
   | { type: "VERIFIED" }
   | ClaimFarmEvent
+  | UpdateTokenEvent
   | { type: "SIGN_IN" };
 
 export type BlockchainState = {
@@ -431,6 +434,9 @@ export const authMachine = createMachine(
         target: "idle",
         actions: "refreshFarm",
       },
+      UPDATE_TOKEN: {
+        actions: ["updateToken", "persistUpdatedToken"],
+      },
     },
   },
   {
@@ -474,6 +480,16 @@ export const authMachine = createMachine(
           rawToken: getToken() as string,
         }),
       }),
+      updateToken: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(event.token),
+          rawToken: event.token,
+        }),
+      }),
+      persistUpdatedToken: (_context, event: any) => {
+        saveJWT(event.token);
+      },
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),

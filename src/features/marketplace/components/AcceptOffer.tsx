@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -39,6 +39,10 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -76,18 +80,42 @@ const AcceptOfferContent: React.FC<{
     confetti,
   );
 
-  const confirm = async () => {
+  const [pendingAccept, setPendingAccept] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
+
+  const dispatchAccept = (token: string) => {
     if (accountTradedRecently) return;
     gameService.send("marketplace.offerAccepted", {
       effect: {
         type: "marketplace.offerAccepted",
         id: offer.tradeId,
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
+
+  const confirm = async () => {
+    if (accountTradedRecently) return;
+    if (needsStepUp) {
+      setPendingAccept(true);
+      return;
+    }
+    dispatchAccept(authToken);
+  };
+
+  if (pendingAccept) {
+    return (
+      <MarketplaceAuthGate
+        onProceed={(token) => {
+          setPendingAccept(false);
+          dispatchAccept(token);
+        }}
+        onCancel={() => setPendingAccept(false)}
+      />
+    );
+  }
 
   let hasItem = false;
 
