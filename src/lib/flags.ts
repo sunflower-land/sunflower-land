@@ -158,6 +158,7 @@ const FEATURE_FLAGS = {
   TOKEN_MINIGAMES: (game) => !!game.settings.economiesEnabled,
 
   DUAL_LOGIN: betaFeatureFlag,
+  BULK_SELL_BOUNTY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

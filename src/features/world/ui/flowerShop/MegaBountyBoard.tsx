@@ -42,6 +42,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { hasFeatureAccess } from "lib/flags";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -400,40 +401,44 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             )}
           </div>
         </div>
-        {!readonly && allBounties.length > 0 && (
-          <>
-            {isBulkSell && (
-              <div className="flex items-center gap-1 px-1 pb-1">
-                <Label type="vibrant">{t("bounties.bulkSellMode")}</Label>
-                <Label type="warning">
-                  {t("bounties.sellSelected", { count: selectedSells.length })}
-                </Label>
-              </div>
-            )}
-            <div className="flex flex-row gap-1 w-full">
-              <Button
-                className="flex-1 min-w-0"
-                disabled={
-                  (!isBulkSell && !canBulkSellAnything) ||
-                  (isBulkSell && selectedSells.length === 0)
-                }
-                onClick={handleBulkSell}
-              >
-                {isBulkSell
-                  ? t("bounties.confirmSell")
-                  : t("bounties.bulkSell")}
-              </Button>
+        {!readonly &&
+          allBounties.length > 0 &&
+          hasFeatureAccess(state, "BULK_SELL_BOUNTY") && (
+            <>
               {isBulkSell && (
+                <div className="flex items-center gap-1 px-1 pb-1">
+                  <Label type="vibrant">{t("bounties.bulkSellMode")}</Label>
+                  <Label type="warning">
+                    {t("bounties.sellSelected", {
+                      count: selectedSells.length,
+                    })}
+                  </Label>
+                </div>
+              )}
+              <div className="flex flex-row gap-1 w-full">
                 <Button
                   className="flex-1 min-w-0"
-                  onClick={handleCancelBulkSell}
+                  disabled={
+                    (!isBulkSell && !canBulkSellAnything) ||
+                    (isBulkSell && selectedSells.length === 0)
+                  }
+                  onClick={handleBulkSell}
                 >
-                  {t("cancel")}
+                  {isBulkSell
+                    ? t("bounties.confirmSell")
+                    : t("bounties.bulkSell")}
                 </Button>
-              )}
-            </div>
-          </>
-        )}
+                {isBulkSell && (
+                  <Button
+                    className="flex-1 min-w-0"
+                    onClick={handleCancelBulkSell}
+                  >
+                    {t("cancel")}
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
       </InnerPanel>
       {!noBonusBountiesWeek && !readonly && (
         <InnerPanel className="flex flex-col justify-center gap-2 mb-1">
