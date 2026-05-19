@@ -117,15 +117,18 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   }, [honeyReady, beehiveService]);
 
   const handleHarvestHoney = () => {
-    if (hive.swarm && honeyReady) {
+    setShowHoneyLevelModal(false);
+
+    const hadSwarm = hive.swarm;
+    const state = gameService.send("beehive.harvested", { id });
+    const updatedHive = state.context.state.beehives[id];
+
+    if (hadSwarm && updatedHive?.swarm === false) {
       setShowSwarmModal(true);
     }
 
-    setShowHoneyLevelModal(false);
-
-    const state = gameService.send("beehive.harvested", { id });
     beehiveService.send("HARVEST_HONEY", {
-      updatedHive: state.context.state.beehives[id],
+      updatedHive,
     });
   };
 
