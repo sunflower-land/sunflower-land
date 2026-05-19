@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
@@ -16,6 +16,10 @@ import {
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 
@@ -46,21 +50,46 @@ export const RemoveListing: React.FC<Props> = ({
   const isBeingPurchased =
     !!initiatedAt && now - initiatedAt < TRADE_INITIATION_MS;
 
-  const confirm = async () => {
+  const [pendingCancel, setPendingCancel] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
+
+  const dispatchCancel = (token: string) => {
     gameService.send("marketplace.listingCancelled", {
       effect: {
         type: "marketplace.listingCancelled",
         id: listingId,
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
 
+  const confirm = async () => {
+    if (needsStepUp) {
+      setPendingCancel(true);
+      return;
+    }
+    dispatchCancel(authToken);
+  };
+
   const itemId = getListingItem({ listing });
   const collection = getListingCollection({ listing });
   const display = getTradeableDisplay({ id: itemId, type: collection, state });
+
+  if (pendingCancel) {
+    return (
+      <Panel>
+        <MarketplaceAuthGate
+          onProceed={(token) => {
+            setPendingCancel(false);
+            dispatchCancel(token);
+          }}
+          onCancel={() => setPendingCancel(false)}
+        />
+      </Panel>
+    );
+  }
 
   if (isBeingPurchased) {
     return (

@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
@@ -17,6 +17,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { TradeInitiated } from "./RemoveListing";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  MarketplaceAuthGate,
+  useNeedsMarketplaceStepUp,
+} from "./MarketplaceAuthGate";
 
 interface Props {
   id: string;
@@ -37,20 +41,45 @@ export const RemoveOffer: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
   const now = useNow({ live: true });
 
-  const confirm = async () => {
+  const [pendingCancel, setPendingCancel] = useState(false);
+  const needsStepUp = useNeedsMarketplaceStepUp();
+
+  const dispatchCancel = (token: string) => {
     gameService.send("marketplace.offerCancelled", {
       effect: {
         type: "marketplace.offerCancelled",
         id,
       },
-      authToken,
+      authToken: token,
     });
 
     onClose();
   };
 
+  const confirm = async () => {
+    if (needsStepUp) {
+      setPendingCancel(true);
+      return;
+    }
+    dispatchCancel(authToken);
+  };
+
   if (!offer || !id) {
     return null;
+  }
+
+  if (pendingCancel) {
+    return (
+      <Panel>
+        <MarketplaceAuthGate
+          onProceed={(token) => {
+            setPendingCancel(false);
+            dispatchCancel(token);
+          }}
+          onCancel={() => setPendingCancel(false)}
+        />
+      </Panel>
+    );
   }
 
   const itemId = tradeToId({ details: offer });
