@@ -52,6 +52,8 @@ export type SocialDetails = {
   provider: string;
   sub: string;
   email: string;
+  /** When true, this social identity is linked but cannot be used to log in. */
+  disabled?: boolean;
 };
 
 const API_URL = CONFIG.API_URL;

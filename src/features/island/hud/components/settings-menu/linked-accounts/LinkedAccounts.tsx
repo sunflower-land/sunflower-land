@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Label, LabelType } from "components/ui/Label";
@@ -8,7 +8,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { useContext } from "react";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ContentComponentProps } from "../GameOptions";
@@ -54,21 +53,33 @@ const PILL: Record<RowStatus, { type: LabelType; key: TranslationKeys }> = {
 interface RowProps {
   icon: string;
   title: string;
+  /** Short role/category badge shown next to the title — e.g. "Owner", "Sign-in". */
+  role: { type: LabelType; key: TranslationKeys };
+  /** Italic one-liner explaining what this provider does for the farm. */
+  rationale: string;
   status: RowStatus;
+  /** Status detail line — wallet address, masked email, or a "no X" placeholder. */
   subtext: string;
   onClick?: () => void;
+  /** Allow the row to remain clickable when in the "linked" state — for providers that have a manage panel. */
+  clickableWhenLinked?: boolean;
 }
 
 const ProviderRow: React.FC<RowProps> = ({
   icon,
   title,
+  role,
+  rationale,
   status,
   subtext,
   onClick,
+  clickableWhenLinked,
 }) => {
   const { t } = useAppTranslation();
-  const disabled = status === "linked" || status === "linking";
+  const disabled =
+    status === "linking" || (status === "linked" && !clickableWhenLinked);
   const pill = PILL[status];
+  const showManageHint = status === "linked" && clickableWhenLinked;
 
   return (
     <ButtonPanel
@@ -77,12 +88,27 @@ const ProviderRow: React.FC<RowProps> = ({
       onClick={disabled ? undefined : onClick}
     >
       <div className="flex items-center justify-between gap-2">
-        <Label type="default" icon={icon}>
-          {title}
-        </Label>
+        <div className="flex items-center gap-1 flex-wrap">
+          <Label type="default" icon={icon}>
+            {title}
+          </Label>
+          <Label type={role.type}>{t(role.key)}</Label>
+        </div>
         <Label type={pill.type}>{t(pill.key)}</Label>
       </div>
-      <p className="text-xs break-all mt-1 ml-1">{subtext}</p>
+
+      <p className="text-xs italic mt-1 ml-1 opacity-75">{rationale}</p>
+
+      <div className="flex items-center justify-between gap-2 mt-1">
+        <p className="text-xs break-all ml-1">{subtext}</p>
+        {showManageHint && (
+          <img
+            src={SUNNYSIDE.icons.chevron_right}
+            alt=""
+            className="w-3 mr-1 shrink-0"
+          />
+        )}
+      </div>
     </ButtonPanel>
   );
 };
@@ -135,7 +161,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : googleStatus === "linking"
         ? t("linkedAccounts.waitingForGoogle")
         : googleStatus === "failed"
-          ? t("linkedAccounts.linkFailed")
+          ? t("linkedAccounts.signInCancelled")
           : t("linkedAccounts.noGoogle");
 
   if (!hasLinkingAccess) {
@@ -151,15 +177,38 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
     );
   }
 
+  // Wireframe: the warning copy depends on whether the wallet is the
+  // active owner of the NFT or merely the future owner. Wallet linked
+  // → emphasise NFT ownership being on the wallet. Wallet not linked
+  // → emphasise that linking later cements ownership.
+  const warningKey: TranslationKeys =
+    walletStatus === "linked"
+      ? "linkedAccounts.warning.walletLinked"
+      : "linkedAccounts.warning.walletNotLinked";
+
+  // Wallet rationale shifts with link status — "holds" vs "will hold".
+  const walletRationale =
+    walletStatus === "linked"
+      ? t("linkedAccounts.rationale.walletLinked")
+      : t("linkedAccounts.rationale.walletNotLinked");
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
 
-      <Label type="warning">{t("linkedAccounts.permanenceWarning")}</Label>
+      <Label type="warning">{t(warningKey)}</Label>
 
       <ProviderRow
         icon={walletIcon}
         title={t("linkedAccounts.wallet")}
+        role={{
+          type: walletStatus === "linked" ? "warning" : "chill",
+          key:
+            walletStatus === "linked"
+              ? "linkedAccounts.role.owner"
+              : "linkedAccounts.role.futureOwner",
+        }}
+        rationale={walletRationale}
         status={walletStatus}
         subtext={walletSubtext}
         onClick={() => onSubMenuClick("linkAccountWallet")}
@@ -168,9 +217,18 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       <ProviderRow
         icon={SUNNYSIDE.icons.googleIcon}
         title={t("linkedAccounts.google")}
+        role={{ type: "default", key: "linkedAccounts.role.signIn" }}
+        rationale={t("linkedAccounts.rationale.google")}
         status={googleStatus}
         subtext={googleSubtext}
-        onClick={() => onSubMenuClick("linkAccountGoogle")}
+        clickableWhenLinked
+        onClick={() =>
+          onSubMenuClick(
+            socialDetails?.email
+              ? "linkAccountGoogleManage"
+              : "linkAccountGoogle",
+          )
+        }
       />
     </div>
   );

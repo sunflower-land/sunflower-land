@@ -22,6 +22,7 @@ import { ClientOutdated } from "./components/ClientOutdated";
 import { DuplicateWithdraw } from "./components/DuplicateWithdraw";
 import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
 import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
+import { GoogleLoginDisabled } from "./components/GoogleLoginDisabled";
 
 interface Props {
   errorCode: ErrorCode;
@@ -63,6 +64,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.LINKED_WALLET_HAS_FARM) {
     return <LinkedWalletHasFarm />;
+  }
+
+  if (errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
+    return <GoogleLoginDisabled />;
   }
 
   if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {

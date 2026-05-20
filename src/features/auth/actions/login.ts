@@ -70,6 +70,12 @@ export type Token = {
     verified?: boolean;
   };
   farmId?: number;
+  /** SSO provider this session was issued for (e.g. "google"). Absent for wallet sessions. */
+  provider?: string;
+  sub?: string;
+  email?: string;
+  /** JWT "issued at" (epoch seconds) — usable as a proxy for "last signed in on this device". */
+  iat?: number;
 };
 
 export function decodeToken(token: string): Token {

@@ -41,6 +41,7 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
+import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -286,6 +287,7 @@ export type SettingMenuId =
   | "linkedAccounts"
   | "linkAccountWallet"
   | "linkAccountGoogle"
+  | "linkAccountGoogleManage"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -372,6 +374,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("linkedAccounts.linkGoogle"),
     parent: "linkedAccounts",
     content: LinkGoogle,
+  },
+  linkAccountGoogleManage: {
+    title: translate("linkedAccounts.googleSignIn.title"),
+    parent: "linkedAccounts",
+    content: LinkedGooglePanel,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),
