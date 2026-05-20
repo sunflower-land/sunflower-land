@@ -29,9 +29,10 @@ import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getChapterTicket } from "features/game/types/chapters";
+import { ANIMALS } from "features/game/types/animals";
+import { BountyRequest } from "features/game/types/game";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ANIMALS } from "features/game/types/animals";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
@@ -51,6 +52,23 @@ const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+/**
+ * Codex bounties tab: mega board (all non-animal requests) + animal ticket rows
+ * only. Animal coin and gem deals are omitted from the count; mega bounties
+ * are not filtered by reward type.
+ */
+function shouldCountIncompleteBountyForCodex(
+  deal: BountyRequest,
+  now: number,
+): boolean {
+  if (deal.name in ANIMALS) {
+    const ticket = getChapterTicket(now);
+    return (deal.items?.[ticket] ?? 0) > 0;
+  }
+
+  return true;
+}
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
@@ -109,15 +127,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
-  // Use Set for O(1) lookup instead of Object.keys().includes()
-  const animalNamesSet = new Set(Object.keys(ANIMALS));
-  const incompleteMegaBounties = bounties.requests.filter(
-    (deal) => !animalNamesSet.has(deal.name),
-  );
-  // Optimize: Use Set for O(1) lookup instead of array.find()
   const completedBountyIds = new Set(bounties.completed.map((r) => r.id));
-  const incompleteMegaBountiesCount = incompleteMegaBounties.filter(
-    (deal) => !completedBountyIds.has(deal.id),
+  const incompleteBountiesCount = bounties.requests.filter(
+    (deal) =>
+      shouldCountIncompleteBountyForCodex(deal, now) &&
+      !completedBountyIds.has(deal.id),
   ).length;
 
   const incompleteDeliveries = delivery.orders.filter(
@@ -153,7 +167,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard",
       icon: ITEM_DETAILS[chapterTicket].image,
-      count: incompleteMegaBountiesCount,
+      count: incompleteBountiesCount,
     },
     {
       name: "Checklist",

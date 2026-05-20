@@ -64,7 +64,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const todayDate = new Date(now).toISOString().split("T")[0];
   const isHoliday = holiday === todayDate;
 
-  const baseTickets = generateDeliveryTickets({
+  const { amount: baseTickets } = generateDeliveryTickets({
     game: state,
     npc: npcName,
     now,

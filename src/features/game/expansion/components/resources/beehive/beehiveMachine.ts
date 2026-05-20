@@ -1,4 +1,9 @@
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
+import {
+  getActiveFlower,
+  getCurrentHoneyProduced,
+  getCurrentSpeed,
+} from "features/game/lib/beehiveProduction";
 import { Beehive, GameState } from "features/game/types/game";
 import { Interpreter, State, createMachine, assign } from "xstate";
 
@@ -55,47 +60,6 @@ export type MachineInterpreter = Interpreter<
   BeehiveEvent,
   BeehiveState
 >;
-
-export const getActiveFlower = (hive: Beehive) => {
-  const now = Date.now();
-  const activeFlower = hive.flowers.find((flower) => {
-    return flower.attachedAt <= now && flower.attachedUntil > now;
-  });
-
-  return activeFlower;
-};
-
-export const getCurrentHoneyProduced = (hive: Beehive) => {
-  const attachedFlowers = hive.flowers
-    .slice()
-    .sort((a, b) => a.attachedAt - b.attachedAt);
-
-  return attachedFlowers.reduce((produced, attachedFlower) => {
-    const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
-    const end = Math.min(Date.now(), attachedFlower.attachedUntil);
-
-    // Prevent future dates
-    const honey = Math.max(end - start, 0) * (attachedFlower.rate ?? 1);
-
-    return (produced += honey);
-  }, hive.honey.produced);
-};
-
-export const getCurrentSpeed = (hive: Beehive) => {
-  const attachedFlowers = hive.flowers
-    .slice()
-    .sort((a, b) => a.attachedAt - b.attachedAt);
-
-  return attachedFlowers.reduce((rate, attachedFlower) => {
-    if (
-      attachedFlower.attachedUntil <= Date.now() ||
-      attachedFlower.attachedAt > Date.now()
-    )
-      return rate;
-
-    return (rate += attachedFlower.rate ?? 1);
-  }, 0);
-};
 
 export const beehiveMachine = createMachine<
   BeehiveContext,
@@ -256,11 +220,3 @@ export const beehiveMachine = createMachine<
     },
   },
 );
-
-export function areBeehivesEmpty(game: GameState): boolean {
-  const beehiveProducing = Object.values(game.beehives).every(
-    (hive) =>
-      getCurrentHoneyProduced(hive) <= DEFAULT_HONEY_PRODUCTION_TIME * 0.01,
-  );
-  return beehiveProducing;
-}

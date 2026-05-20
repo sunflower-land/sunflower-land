@@ -38,6 +38,9 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { DeveloperOptions } from "./developer-options/DeveloperOptions";
+import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
+import { LinkWallet } from "features/wallet/components/LinkWallet";
+import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -76,10 +79,7 @@ export const subscriptionsFetcher = ([, token, farmId]: [
   return getSubscriptionsForFarmId(farmId, token);
 };
 
-const GameOptions: React.FC<ContentComponentProps> = ({
-  onSubMenuClick,
-  onClose,
-}) => {
+const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
   const { gameService } = useContext(GameContext);
 
   const { t } = useAppTranslation();
@@ -210,6 +210,13 @@ const preloadSubscriptions = async (token: string, farmId: number) => {
   );
 };
 
+const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
+const _linkingSocialSuccess = (state: MachineState) =>
+  state.matches("linkingSocialSuccess");
+const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");
+const _linkingWalletSuccess = (state: MachineState) =>
+  state.matches("linkingWalletSuccess");
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
@@ -220,6 +227,21 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const { gameService } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
   const [selected, setSelected] = useState<SettingMenuId>("main");
+  const isLinkingSocial = useSelector(gameService, _linkingSocial);
+  const isLinkingSocialSuccess = useSelector(
+    gameService,
+    _linkingSocialSuccess,
+  );
+  const isLinkingWallet = useSelector(gameService, _linkingWallet);
+  const isLinkingWalletSuccess = useSelector(
+    gameService,
+    _linkingWalletSuccess,
+  );
+  const isLinkingInFlight =
+    isLinkingSocial ||
+    isLinkingSocialSuccess ||
+    isLinkingWallet ||
+    isLinkingWalletSuccess;
 
   useEffect(() => {
     if (farmId) preloadSubscriptions(token, farmId);
@@ -235,15 +257,15 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const SelectedComponent = settingMenus[selected].content;
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={isLinkingInFlight ? undefined : onHide}>
       <CloseButtonPanel
         title={settingMenus[selected].title}
         onBack={
-          selected !== "main"
+          !isLinkingInFlight && selected !== "main"
             ? () => setSelected(settingMenus[selected].parent)
             : undefined
         }
-        onClose={onHide}
+        onClose={isLinkingInFlight ? undefined : onHide}
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
@@ -261,6 +283,9 @@ export type SettingMenuId =
   | "about"
   | "amoy"
   | "blockchain"
+  | "linkedAccounts"
+  | "linkAccountWallet"
+  | "linkAccountGoogle"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -332,6 +357,21 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.blockchainSettings"),
     parent: "advanced",
     content: BlockchainSettings,
+  },
+  linkedAccounts: {
+    title: translate("linkedAccounts.title"),
+    parent: "account",
+    content: LinkedAccounts,
+  },
+  linkAccountWallet: {
+    title: translate("linkedAccounts.linkWallet"),
+    parent: "linkedAccounts",
+    content: LinkWallet,
+  },
+  linkAccountGoogle: {
+    title: translate("linkedAccounts.linkGoogle"),
+    parent: "linkedAccounts",
+    content: LinkGoogle,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),

@@ -81,10 +81,12 @@ export const speedUpProcessing = ({
       game = makeGemHistory({ game, amount: gems, createdAt });
     }
 
+    const resource = currentProcessingItem.name as ProcessedResource;
     const { amount, boostsUsed } = getProcessedResourceAmount({
       game,
-      resource: currentProcessingItem.name as ProcessedResource,
+      resource,
       farmId,
+      counter: game.farmActivity[`${resource} Processed`] ?? 0,
     });
 
     game.inventory[currentProcessingItem.name] = (

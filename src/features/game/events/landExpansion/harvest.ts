@@ -752,15 +752,20 @@ export function getCropYieldAmount({
   }
 
   if (plot?.beeSwarm) {
-    let beeSwarmBonus = 0.2;
-    boostsUsed.push({ name: "Bee Swarm Bonus", value: "+0.2" });
+    const count = plot.beeSwarm.count;
+    let perSwarm = 0.2;
+    boostsUsed.push({
+      name: "Bee Swarm Bonus",
+      value: `+${(0.2 * count).toFixed(1)}`,
+    });
     if (skills["Pollen Power Up"]) {
-      beeSwarmBonus += 0.1;
-      boostsUsed.push({ name: "Pollen Power Up", value: "+0.1" });
+      perSwarm += 0.1;
+      boostsUsed.push({
+        name: "Pollen Power Up",
+        value: `+${(0.1 * count).toFixed(1)}`,
+      });
     }
-    // Multiply by the amount of stacked beeswarms
-    beeSwarmBonus *= plot.beeSwarm.count;
-    amount += beeSwarmBonus;
+    amount += perSwarm * count;
   }
 
   if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {

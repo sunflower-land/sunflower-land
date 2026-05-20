@@ -25,7 +25,11 @@ const SelectLinkedWalletHeader: React.FC<{
           {shortAddress(address)}
         </Label>
       </div>
-      <p className="text-xs p-2"></p>
+      <p className="text-xs p-2">{t("walletWall.requiresLinkedWallet")}</p>
+      <div className="flex text-xs sm:text-xs space-x-1 p-2 pt-0">
+        <span className="whitespace-nowrap">{`${t("deposit.connectedWallet")}`}</span>
+        <CopyAddress address={address} />
+      </div>
       <div className="flex text-xs sm:text-xs space-x-1 p-2 pt-0">
         <span className="whitespace-nowrap">
           {`${t("deposit.linkedWallet")}`}
@@ -50,7 +54,7 @@ export const SelectLinkedWallet: React.FC<{
           icon={getWalletIcon(connector)}
         />
       }
-      onSignMessage={() => null}
+      onSignMessage={null}
     />
   );
 };

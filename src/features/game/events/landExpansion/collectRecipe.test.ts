@@ -312,4 +312,119 @@ describe("collect Recipes", () => {
 
     expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(3));
   });
+
+  describe("boostsUsedAt tracking", () => {
+    it("records Double Nom in boostsUsedAt when it adds yield", () => {
+      const state = collectRecipe({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: dateNow - 5 * 1000,
+                    skills: { "Double Nom": true },
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.boostsUsedAt?.["Double Nom"]).toBe(dateNow);
+    });
+
+    it("records Fiery Jackpot in boostsUsedAt on a deterministic prng hit", () => {
+      const state = collectRecipe({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: dateNow - 5 * 1000,
+                  },
+                ],
+              },
+            ],
+          },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: { "Fiery Jackpot": 1 },
+          } as GameState["bumpkin"],
+          farmActivity: {
+            "Boiled Eggs Cooked": getPrngCounter(
+              "Boiled Eggs",
+              "Fiery Jackpot",
+              20,
+            ),
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.boostsUsedAt?.["Fiery Jackpot"]).toBe(dateNow);
+    });
+
+    it("leaves boostsUsedAt undefined when no cooking boost fires", () => {
+      const fresh: GameState = { ...GAME_STATE, boostsUsedAt: undefined };
+
+      const state = collectRecipe({
+        farmId,
+        state: {
+          ...fresh,
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: dateNow - 5 * 1000,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.boostsUsedAt).toBeUndefined();
+    });
+  });
 });

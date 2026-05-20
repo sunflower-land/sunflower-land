@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
-import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { v4 as uuidv4 } from "uuid";
 import confetti from "canvas-confetti";
@@ -29,6 +28,10 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { secondsToString } from "lib/utils/time";
 import { AgingRackEmpty } from "./AgingRackEmpty";
 import { AgingRackInProgress } from "./AgingRackInProgress";
+import {
+  EmptyAgingShedRackSlot,
+  MAX_AGING_SHED_RACK_SLOTS,
+} from "../AgingShedRackSlot";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -129,7 +132,11 @@ export const AgingRackPanel: React.FC = () => {
   const validationMessage = (() => {
     if (isVisiting) return undefined;
     if (!shedPlaced) return t("error.requiredBuildingNotExist");
-    if (slotsFull) return t("error.noAvailableSlots");
+    if (slotsFull) {
+      return maxSlots >= MAX_AGING_SHED_RACK_SLOTS
+        ? t("error.noAvailableSlots")
+        : t("agingShed.upgradeForMoreSlots");
+    }
     if (selectedFish && !hasSalt)
       return t("agingShed.agingRack.insufficientSalt");
     if (selectedFish && !hasFish) {
@@ -153,8 +160,9 @@ export const AgingRackPanel: React.FC = () => {
         </p>
 
         <div className="flex flex-wrap gap-1 px-1 pb-1 items-start">
-          {Array.from({ length: maxSlots }).map((_, index) => {
+          {Array.from({ length: MAX_AGING_SHED_RACK_SLOTS }).map((_, index) => {
             const isFilled = index < queue.length;
+            const isLocked = index >= maxSlots;
             const isInactiveEmpty = index > queue.length;
 
             if (isFilled) {
@@ -189,17 +197,12 @@ export const AgingRackPanel: React.FC = () => {
             }
 
             return (
-              <div
+              <EmptyAgingShedRackSlot
                 key={`empty-${index}`}
-                className={classNames(
-                  "flex flex-col items-center max-w-[72px]",
-                  isInactiveEmpty && "opacity-40",
-                )}
-              >
-                <Box hideCount disabled>
-                  <div className="w-full h-full border border-dashed border-[#181425]/35 opacity-60 rounded-sm" />
-                </Box>
-              </div>
+                isInactive={isLocked ? false : isInactiveEmpty}
+                isLocked={isLocked}
+                lockedTooltip={t("agingShed.upgradeForMoreSlotsTooltip")}
+              />
             );
           })}
         </div>

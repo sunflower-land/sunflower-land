@@ -40,9 +40,10 @@ const BeeComponent: React.FC<Props> = ({
     getFlowerBedById(flowerId),
     compareFlowerBed,
   );
-  const { x: flowerX, y: flowerY } = flower;
 
-  if (flowerX === undefined || flowerY === undefined) return null;
+  if (!flower || flower.x === undefined || flower.y === undefined) return null;
+
+  const { x: flowerX, y: flowerY } = flower;
 
   return (
     <AnimatedBeeComponent

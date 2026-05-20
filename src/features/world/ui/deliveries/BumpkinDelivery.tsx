@@ -96,7 +96,7 @@ const OrderCard: React.FC<{
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
 
-  const baseTickets = generateDeliveryTickets({
+  const { amount: baseTickets } = generateDeliveryTickets({
     game,
     npc: order.from,
     now,
@@ -791,7 +791,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const baseTickets = generateDeliveryTickets({
+  const { amount: baseTickets } = generateDeliveryTickets({
     game,
     npc,
     now,

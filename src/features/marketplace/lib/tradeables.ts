@@ -121,6 +121,7 @@ export function getTradeableDisplay({
 
   if (type === "pets") {
     const name = `Pet #${id}` as PetNFTName;
+    const petExperience = experience ?? state.pets?.nfts?.[id]?.experience;
 
     return {
       name,
@@ -128,7 +129,7 @@ export function getTradeableDisplay({
       image: getPetImageForMarketplace(id),
       type,
       buffs: getItemBuffs({ state, item: name, collection: "pets" }),
-      experience,
+      experience: petExperience,
     };
   }
 

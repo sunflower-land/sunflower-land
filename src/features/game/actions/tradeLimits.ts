@@ -94,7 +94,7 @@ export const TRADE_LIMITS: Record<TradeResource, number> = {
   Iron: 200,
   Gold: 100,
   Crimstone: 20,
-  Salt: 100,
+  Salt: 500,
 
   // Animal Produce
   Egg: 500,

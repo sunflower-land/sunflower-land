@@ -112,38 +112,122 @@ export const BoostsDisplay: React.FC<{
   state: GameState;
   onClick: () => void;
   className?: string;
+  portalAlign?: "left" | "center" | "right";
   /** When provided, renders in a portal to avoid clipping by scroll containers. Positions above trigger when it would clip below. */
   anchorRef?: React.RefObject<HTMLElement | null>;
-}> = ({ boosts, show, state, onClick, className, anchorRef }) => {
+}> = ({
+  boosts,
+  show,
+  state,
+  onClick,
+  className,
+  portalAlign = "right",
+  anchorRef,
+}) => {
   const { t } = useAppTranslation();
   const [portalStyle, setPortalStyle] = useState<React.CSSProperties>({});
+  const [anchorVisible, setAnchorVisible] = useState(true);
 
   useEffect(() => {
     if (!show || !anchorRef?.current) return;
-    const rect = anchorRef.current.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const positionAbove = spaceBelow < BOOSTS_PANEL_ESTIMATED_HEIGHT;
 
-    if (positionAbove) {
-      setPortalStyle({
-        position: "fixed",
-        bottom: window.innerHeight - rect.top,
-        right: window.innerWidth - rect.right,
-        left: "auto",
-        top: "auto",
-        zIndex: 50,
-      });
-    } else {
-      setPortalStyle({
-        position: "fixed",
-        top: rect.bottom + 4,
-        right: window.innerWidth - rect.right,
-        left: "auto",
-        bottom: "auto",
-        zIndex: 50,
-      });
+    const anchor = anchorRef.current;
+
+    const scrollableAncestors: HTMLElement[] = [];
+    let parent: HTMLElement | null = anchor.parentElement;
+    while (parent) {
+      const { overflowY, overflowX, overflow } =
+        window.getComputedStyle(parent);
+      if (/(auto|scroll|overlay)/.test(overflowY + overflowX + overflow)) {
+        scrollableAncestors.push(parent);
+      }
+      parent = parent.parentElement;
     }
-  }, [show, anchorRef]);
+
+    const isAnchorInView = (rect: DOMRect) => {
+      for (const ancestor of scrollableAncestors) {
+        const aRect = ancestor.getBoundingClientRect();
+        if (
+          rect.bottom <= aRect.top ||
+          rect.top >= aRect.bottom ||
+          rect.right <= aRect.left ||
+          rect.left >= aRect.right
+        ) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const computeAndSetPortalStyle = () => {
+      const rect = anchor.getBoundingClientRect();
+      const visible = isAnchorInView(rect);
+      setAnchorVisible(visible);
+      if (!visible) return;
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const positionAbove = spaceBelow < BOOSTS_PANEL_ESTIMATED_HEIGHT;
+
+      const horizontalStyle =
+        portalAlign === "center"
+          ? {
+              left: rect.left + rect.width / 2,
+              right: "auto",
+            }
+          : portalAlign === "left"
+            ? {
+                left: rect.left,
+                right: "auto",
+              }
+            : {
+                right: window.innerWidth - rect.right,
+                left: "auto",
+              };
+
+      if (positionAbove) {
+        setPortalStyle({
+          position: "fixed",
+          bottom: window.innerHeight - rect.top,
+          top: "auto",
+          zIndex: 50,
+          ...horizontalStyle,
+        });
+      } else {
+        setPortalStyle({
+          position: "fixed",
+          top: rect.bottom + 4,
+          bottom: "auto",
+          zIndex: 50,
+          ...horizontalStyle,
+        });
+      }
+    };
+
+    computeAndSetPortalStyle();
+
+    let rafId: number | null = null;
+    const scheduleUpdate = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        computeAndSetPortalStyle();
+      });
+    };
+
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("scroll", scheduleUpdate, true);
+    scrollableAncestors.forEach((el) =>
+      el.addEventListener("scroll", scheduleUpdate),
+    );
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("scroll", scheduleUpdate, true);
+      scrollableAncestors.forEach((el) =>
+        el.removeEventListener("scroll", scheduleUpdate),
+      );
+    };
+  }, [show, anchorRef, portalAlign]);
 
   const panelContent = (
     <AnimatedPanel
@@ -177,6 +261,7 @@ export const BoostsDisplay: React.FC<{
   );
 
   if (anchorRef && show) {
+    if (!anchorVisible) return null;
     return createPortal(panelContent, document.body);
   }
 

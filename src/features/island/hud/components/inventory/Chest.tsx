@@ -67,6 +67,21 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";
+import { FLOWERS } from "features/game/types/flowers";
+
+const DECORATIVE_FLOWER_NAMES: CollectibleName[] = [
+  "Dawn Flower",
+  "Rainbow Flower",
+  "Definitely not a Flower",
+  "Desert Rose",
+  "Chicory",
+  "Chamomile",
+  "Lunalist",
+  "Venus Bumpkin Trap",
+  "Black Hole Flower",
+  "Anemone Flower",
+  "Salt Crystal Flower",
+];
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,
@@ -363,6 +378,20 @@ export const Chest: React.FC<Props> = ({
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
 
+  const flowers = collectibleNames
+    .filter((name) => name in FLOWERS || DECORATIVE_FLOWER_NAMES.includes(name))
+    .sort((a, b) => {
+      const decorativeA = DECORATIVE_FLOWER_NAMES.indexOf(a);
+      const decorativeB = DECORATIVE_FLOWER_NAMES.indexOf(b);
+      const isDecorativeA = decorativeA !== -1;
+      const isDecorativeB = decorativeB !== -1;
+
+      if (isDecorativeA && isDecorativeB) return decorativeA - decorativeB;
+      if (isDecorativeA) return -1;
+      if (isDecorativeB) return 1;
+
+      return a.localeCompare(b);
+    });
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
@@ -376,6 +405,7 @@ export const Chest: React.FC<Props> = ({
   const weatherItemsSet = new Set(weatherItems);
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
+  const flowersSet = new Set(flowers);
 
   const boosts = collectibleNames
     .filter(
@@ -394,7 +424,8 @@ export const Chest: React.FC<Props> = ({
         !buildingsSet.has(name) &&
         !monumentsSet.has(name) &&
         !villageProjectsSet.has(name) &&
-        !bedsSet.has(name),
+        !bedsSet.has(name) &&
+        !flowersSet.has(name),
     );
 
   const boostsSet = new Set(boosts);
@@ -410,6 +441,7 @@ export const Chest: React.FC<Props> = ({
       !monumentsSet.has(name) &&
       !dollsSet.has(name) &&
       !petsSet.has(name) &&
+      !flowersSet.has(name) &&
       !villageProjectsSet.has(name),
   );
 
@@ -467,6 +499,11 @@ export const Chest: React.FC<Props> = ({
       items: dolls,
       label: "dolls",
       icon: ITEM_DETAILS["Doll"].image,
+    },
+    {
+      items: flowers,
+      label: "flowers",
+      icon: ITEM_DETAILS["Prism Petal"].image,
     },
     {
       items: decorations,

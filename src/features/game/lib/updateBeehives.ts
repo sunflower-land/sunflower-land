@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   Beehive,
   Beehives,
@@ -133,9 +132,6 @@ const getFlowerReadyAt = (flowerId: string, flowerBeds: FlowerBeds) => {
   const plantedFlower = flowerBeds[flowerId].flower;
 
   if (!plantedFlower) {
-    console.error(
-      `Unexpected! Flower ${flowerId} does not exist when calculating ready time.`,
-    );
     return 0;
   }
 
@@ -153,7 +149,7 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
   const activeBeehives = getActiveBeehives(beehives);
 
   // Update the honey production for each active beehive
-  Object.entries(activeBeehives).forEach(([hiveId, hive]) => {
+  Object.entries(activeBeehives).forEach(([_id, hive]) => {
     const attachedFlowers = hive.flowers
       .slice()
       .sort((a, b) => a.attachedAt - b.attachedAt);
@@ -162,9 +158,6 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
       const plantedFlower = flowers.flowerBeds[attachedFlower.id].flower;
 
       if (!plantedFlower) {
-        console.error(
-          `Unexpected! Flower ${attachedFlower.id} does not exist, but is attached to a beehive ${hiveId}.`,
-        );
         return;
       }
 
@@ -196,7 +189,6 @@ const removeInactiveFlowers = ({
 
   Object.values(activeBeehives).forEach((hive) => {
     hive.flowers = hive.flowers.filter((flower) => {
-      console.log({ flowerId: flower.id });
       const flowerDetails = activeFlowerBeds[flower.id];
 
       if (!flowerDetails || !flowerDetails.flower) return false;

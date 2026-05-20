@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { fromWei } from "web3-utils";
 import {
   Bumpkin,
   GameState,
@@ -1064,8 +1063,8 @@ export const INITIAL_EQUIPPED: Equipped = {
 export const EMPTY: GameState = {
   settings: {},
   coins: 0,
-  balance: new Decimal(fromWei("0")),
-  previousBalance: new Decimal(fromWei("0")),
+  balance: new Decimal(0),
+  previousBalance: new Decimal(0),
   createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),

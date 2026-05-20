@@ -666,7 +666,8 @@ export const SUNNYSIDE = {
     okxIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/okx.svg`,
     cryptoComIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/crypto-com-logo.svg`,
     bitgetIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/bitget_logo.svg`,
-    googleIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sign_in_with_google.svg`,
+    signInWithGoogle: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sign_in_with_google.svg`,
+    googleIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/google.png`,
     wechatIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/wechat.png`,
     //Buildings Icon
     marketIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/market_icon.png`,

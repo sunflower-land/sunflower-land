@@ -51,6 +51,9 @@ export const Account: React.FC<ContentComponentProps> = ({
         <Button onClick={() => onSubMenuClick("discord")}>
           <span>{`Discord`}</span>
         </Button>
+        <Button onClick={() => onSubMenuClick("linkedAccounts")}>
+          <span>{t("gameOptions.linkedAccounts")}</span>
+        </Button>
         {hasFeatureAccess(state, "FACE_RECOGNITION_TEST") && (
           <Button onClick={() => onSubMenuClick("faceRecognition")}>
             <span>{t("gameOptions.faceRecognition")}</span>

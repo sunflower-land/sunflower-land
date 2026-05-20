@@ -422,6 +422,10 @@ import {
 } from "./landExpansion/applyAnimalFeedBuff";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
+  bulkSellBounty,
+  BulkSellBountyAction,
+} from "./landExpansion/bulkSellBounty";
+import {
   buyChapterItem,
   BuyChapterItemAction,
 } from "./landExpansion/buyChapterItem";
@@ -655,6 +659,7 @@ export type PlayingEvent =
   | SacrificeBearAction
   | SpeedUpCollectible
   | SellBountyAction
+  | BulkSellBountyAction
   | ClaimBountyBonusAction
   | FeedMixedAction
   | InstantExpand
@@ -939,6 +944,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
   "bounty.sold": sellBounty,
+  "bounty.bulkSold": bulkSellBounty,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "faction.left": leaveFaction,

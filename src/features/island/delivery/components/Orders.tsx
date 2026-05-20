@@ -247,7 +247,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
     .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
-  const baseTickets = generateDeliveryTickets({
+  const { amount: baseTickets } = generateDeliveryTickets({
     game: state,
     npc: previewOrder.from,
     now,

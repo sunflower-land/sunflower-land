@@ -1114,7 +1114,8 @@ export type BedName =
   | "Royal Bed"
   | "Pearl Bed"
   | "Double Bed"
-  | "Messy Bed";
+  | "Messy Bed"
+  | "Salt Crystal Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1806,7 +1807,8 @@ export type SpecialBoostName =
   | "Tier 3 Bonus"
   | "Streak Bonus"
   | "Bee Swarm Bonus"
-  | "Building Oil";
+  | "Building Oil"
+  | "Double Delivery";
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 

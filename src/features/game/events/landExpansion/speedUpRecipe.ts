@@ -18,6 +18,7 @@ import {
   makeGemHistory,
   SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -90,7 +91,7 @@ export function speedUpRecipe({
     }
     const cookableName = assertCookableName(recipe.name);
 
-    const amount = getCookingAmount({
+    const { amount, boostsUsed } = getCookingAmount({
       building: action.buildingName,
       game,
       recipe,
@@ -117,6 +118,14 @@ export function speedUpRecipe({
       `${cookableName} Cooked`,
       game.farmActivity,
     );
+
+    if (boostsUsed.length > 0) {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: boostsUsed,
+        createdAt,
+      });
+    }
 
     return game;
   });

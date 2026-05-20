@@ -1943,8 +1943,86 @@ describe("deliver", () => {
         game,
         npc: "betty",
         now,
-      }),
+      }).amount,
     ).toEqual(0);
+  });
+
+  it("surfaces boostsUsed entries for each contributing source", () => {
+    // Bull Run chapter (Cowboy Hat is a chapter ticket boost item).
+    // Fake timers are required: `getActiveCalendarEvent` reads the real
+    // clock to gate the Double Delivery window. Restore real timers in
+    // the finally so this test does not leak state into later tests.
+    const mockDate = new Date("2024-11-25T00:00:01Z");
+    const now = mockDate.getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    try {
+      const game: GameState = {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Lifetime Farmer Banner": new Decimal(1),
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+        npcs: {},
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date(now).toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: now,
+            startedAt: now,
+          },
+        },
+      };
+
+      const { amount, boostsUsed } = generateDeliveryTickets({
+        game,
+        npc: "pumpkin' pete",
+        now,
+      });
+
+      // base 1 + VIP 2 + Cowboy Hat 1 = 4, then doubleDelivery * 2 = 8.
+      expect(amount).toEqual(8);
+      expect(boostsUsed).toEqual(
+        expect.arrayContaining([
+          { name: "VIP Access", value: "+2" },
+          { name: "Cowboy Hat", value: "+1" },
+          { name: "Double Delivery", value: "x2" },
+        ]),
+      );
+      expect(boostsUsed).toHaveLength(3);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it("returns empty boostsUsed for a coin NPC", () => {
+    const now = new Date("2026-02-20T00:00:01Z").getTime();
+    const game: GameState = {
+      ...INITIAL_FARM,
+      npcs: {},
+      calendar: { dates: [] },
+    };
+
+    const { amount, boostsUsed } = generateDeliveryTickets({
+      game,
+      npc: "betty",
+      now,
+    });
+
+    expect(amount).toEqual(0);
+    expect(boostsUsed).toEqual([]);
   });
 
   it("returns 0 tickets for coin NPC even when double delivery is active", () => {
@@ -1966,7 +2044,7 @@ describe("deliver", () => {
       },
     };
 
-    const tickets = generateDeliveryTickets({
+    const { amount: tickets } = generateDeliveryTickets({
       game,
       npc: "betty",
       now,

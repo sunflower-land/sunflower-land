@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import {
   SEA_BLESSED_CHANCE,
   SEA_BLESSED_NODE_COUNT,
+  SALT_CHARGE_GENERATION_TIME,
   getSaltChargeGenerationTime,
   getSaltYieldPerRake,
   getStoredSaltCharges,
@@ -28,6 +29,26 @@ export type HarvestSaltAction = {
   type: "salt.harvested";
   id: string;
 };
+
+export function getSaltChargeGenerationTimeForDisplay({
+  game,
+}: {
+  game: GameState;
+}): {
+  baseTimeMs: number;
+  recoveryTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const { chargeGenerationTimeMs, boostsUsed } = getSaltChargeGenerationTime({
+    gameState: game,
+  });
+
+  return {
+    baseTimeMs: SALT_CHARGE_GENERATION_TIME,
+    recoveryTimeMs: chargeGenerationTimeMs,
+    boostsUsed,
+  };
+}
 
 type Options = {
   state: Readonly<GameState>;

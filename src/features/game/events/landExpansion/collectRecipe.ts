@@ -3,13 +3,18 @@ import { KNOWN_IDS } from "features/game/types";
 import { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
-import { BuildingProduct, GameState } from "features/game/types/game";
+import {
+  BoostName,
+  BuildingProduct,
+  GameState,
+} from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { prngChance } from "lib/prng";
-import { isCookingBuilding } from "./cook";
+import { isCookingBuilding } from "./isCookingBuilding";
 import { isWearableActive } from "features/game/lib/wearables";
 import { assertCookableName } from "features/game/types/consumables";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type CollectRecipeAction = {
   type: "recipes.collected";
@@ -36,13 +41,15 @@ export const getCookingAmount = ({
   farmId: number;
   counter: number;
   game: GameState;
-}): number => {
+}): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const recipeName = assertCookableName(recipe.name);
   let amount = 1;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // Double Nom - Guarantee +1 food
   if (recipe.skills?.["Double Nom"] && isCookingBuilding(building)) {
     amount += 1;
+    boostsUsed.push({ name: "Double Nom", value: "+1" });
   }
 
   // Fiery Jackpot - 20% Chance to double the amount from Fire Pit
@@ -58,6 +65,7 @@ export const getCookingAmount = ({
     })
   ) {
     amount += 1;
+    boostsUsed.push({ name: "Fiery Jackpot", value: "+1" });
   }
 
   if (
@@ -71,9 +79,10 @@ export const getCookingAmount = ({
     })
   ) {
     amount += 1;
+    boostsUsed.push({ name: "Master Chef's Cleaver", value: "+1" });
   }
 
-  return amount;
+  return { amount, boostsUsed };
 };
 
 export function collectRecipe({
@@ -112,7 +121,7 @@ export function collectRecipe({
       if (recipe.readyAt <= createdAt) {
         const cookableName = assertCookableName(recipe.name);
 
-        const amount = getCookingAmount({
+        const { amount, boostsUsed } = getCookingAmount({
           building: action.building,
           game,
           recipe,
@@ -126,6 +135,14 @@ export function collectRecipe({
           `${cookableName} Cooked`,
           game.farmActivity,
         );
+
+        if (boostsUsed.length > 0) {
+          game.boostsUsedAt = updateBoostUsed({
+            game,
+            boostNames: boostsUsed,
+            createdAt,
+          });
+        }
 
         return acc;
       }
