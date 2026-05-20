@@ -12,13 +12,14 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { MachineState } from "features/game/lib/gameMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 import { GameWallet } from "features/wallet/Wallet";
 import { SignMessageBody } from "features/wallet/components/SignMessage";
 import { removeJWT } from "features/auth/actions/social";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getRelativeTime } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
+import type { ContentComponentProps } from "../../island/hud/components/settings-menu/types";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
@@ -29,7 +30,8 @@ const _togglingFailed = (state: MachineState) =>
   state.matches("togglingSocialLoginFailed");
 const _errorCode = (state: MachineState) => state.context.errorCode;
 
-type WalletReauth = { address: string; signature: string };
+const _sessionToken = (state: AuthMachineState) => state.context.user.token;
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 /**
  * Manage panel for an already-linked Google account. Lets the player
@@ -72,9 +74,9 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
   const isTogglingFailed = useSelector(gameService, _togglingFailed);
   const errorCode = useSelector(gameService, _errorCode);
 
-  const sessionToken = authService.getSnapshot().context.user.token;
-  const currentProvider = sessionToken?.provider;
-  const isLoggedInViaGoogle = currentProvider === "google";
+  const sessionToken = useSelector(authService, _sessionToken);
+  const rawToken = useSelector(authService, _rawToken);
+  const isLoggedInViaGoogle = sessionToken?.provider === "google";
 
   const currentlyEnabled = !socialDetails?.disabled;
   const hasWallet = !!linkedWallet;
@@ -84,29 +86,32 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
   const [pendingToggle, setPendingToggle] = useState<
     null | "enable" | "disable"
   >(null);
-  const [walletReauth, setWalletReauth] = useState<WalletReauth | null>(null);
   const [showInlineConfirm, setShowInlineConfirm] = useState(false);
 
-  // Once we have a wallet signature and a pending toggle, fire the
-  // event exactly once. Effect dispatches to an xstate machine; we
-  // don't reset state here (see CLAUDE.md — no setState cascades).
-  useEffect(() => {
-    if (!walletReauth || !pendingToggle) return;
-
-    const authToken = authService.getSnapshot().context.user.rawToken;
-    if (!authToken) return;
+  // Wallet sign-message succeeded → dispatch the toggle event directly.
+  // Doing this in the callback (rather than via an effect keyed off
+  // state) avoids the extra render and the React-Compiler-unfriendly
+  // effect-as-action pattern.
+  const submitToggle = ({
+    address,
+    signature,
+  }: {
+    address: string;
+    signature: string;
+  }) => {
+    if (!pendingToggle || !rawToken) return;
 
     gameService.send("social.loginToggled", {
       effect: {
         type: "social.loginToggled",
         provider: "google",
         enabled: pendingToggle === "enable",
-        walletAddress: walletReauth.address,
-        walletSignature: walletReauth.signature,
+        walletAddress: address,
+        walletSignature: signature,
       },
-      authToken,
+      authToken: rawToken,
     });
-  }, [walletReauth, pendingToggle, authService, gameService]);
+  };
 
   // After a successful disable while logged in via Google, log the
   // user out so they land on WalletWall.
@@ -171,13 +176,11 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
   }
 
   // Step: wallet re-auth (after the user has confirmed the toggle).
-  if (pendingToggle && !walletReauth) {
+  if (pendingToggle) {
     return (
       <GameWallet action="linkGoogle">
         <SignMessageBody
-          onSignMessage={({ address, signature }) =>
-            setWalletReauth({ address, signature })
-          }
+          onSignMessage={submitToggle}
           onDisconnect={onDisconnect}
         />
       </GameWallet>

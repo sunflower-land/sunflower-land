@@ -66,11 +66,9 @@ import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
+import type { ContentComponentProps, SettingMenuId } from "./types";
 
-export interface ContentComponentProps {
-  onSubMenuClick: (id: SettingMenuId) => void;
-  onClose: () => void;
-}
+export type { ContentComponentProps, SettingMenuId };
 
 export const subscriptionsFetcher = ([, token, farmId]: [
   string,
@@ -274,48 +272,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     </Modal>
   );
 };
-
-export type SettingMenuId =
-  // Game Options
-  | "main"
-  | "installApp"
-  | "account"
-  | "advanced"
-  | "about"
-  | "amoy"
-  | "blockchain"
-  | "linkedAccounts"
-  | "linkAccountWallet"
-  | "linkAccountGoogle"
-  | "linkAccountGoogleManage"
-  | "plaza"
-  | "experiments"
-  | "economyEditor"
-  | "admin"
-  | "faceRecognition"
-  // Blockchain Settings
-  | "deposit"
-  | "swapSFL"
-  | "dequip"
-  | "transfer"
-
-  // Account / Preferences
-  | "discord"
-  | "changeLanguage"
-  | "preferences"
-  | "appearance"
-  | "behaviour"
-  | "audio"
-  | "notifications"
-  | "apiKey"
-
-  // Amoy Testnet Actions
-  | "hoardingCheck"
-  | "playerSearch"
-  | "errorSearch"
-  // Plaza Settings
-  | "pickServer"
-  | "shader";
 
 interface SettingMenu {
   title: string;

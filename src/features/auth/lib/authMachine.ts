@@ -33,7 +33,11 @@ const getDiscordCode = () => {
 const getUrlErrorCode = (): ErrorCode | undefined => {
   const errorParam = new URLSearchParams(window.location.search).get("error");
   if (!errorParam) return undefined;
-  return errorParam in ERRORS ? (errorParam as ErrorCode) : undefined;
+  // hasOwn — `in` also matches inherited props like `toString`, which
+  // would let any URL param masquerade as a valid error code.
+  return Object.prototype.hasOwnProperty.call(ERRORS, errorParam)
+    ? (errorParam as ErrorCode)
+    : undefined;
 };
 
 const clearUrlErrorParam = () => {

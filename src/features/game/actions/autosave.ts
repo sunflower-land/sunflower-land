@@ -173,6 +173,13 @@ export async function autosave(request: Request, retries = 0) {
   }
 
   if (response.status === 401) {
+    // The BE tags disabled-login as a 401 with a structured body so we
+    // can route the user to the dedicated GoogleLoginDisabled screen
+    // instead of the generic SessionExpired one.
+    const data = await response.json().catch(() => null);
+    if (data?.errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
+      throw new Error(ERRORS.GOOGLE_LOGIN_DISABLED);
+    }
     throw new Error(ERRORS.SESSION_EXPIRED);
   }
 
