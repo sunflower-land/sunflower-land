@@ -672,9 +672,9 @@ const FertiliseSection: React.FC<{
               >
                 {effectiveFertiliser}
               </Label>
-              {buffs?.map((buff) => (
+              {buffs?.map((buff, index) => (
                 <Label
-                  key={`${buff.labelType}-${buff.shortDescription}`}
+                  key={`${effectiveFertiliser}-${index}`}
                   type={buff.labelType}
                   icon={buff.boostTypeIcon}
                   secondaryIcon={buff.boostedItemIcon}
