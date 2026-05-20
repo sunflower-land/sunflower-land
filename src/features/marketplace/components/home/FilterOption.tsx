@@ -42,27 +42,33 @@ export const FilterOption: React.FC<FilterOptionProps> = ({
   return (
     <div className="mb-1">
       <div
-        className={classNames(
-          "flex justify-between items-center cursor-pointer mb-1 ",
-          { "bg-brown-100 px-2 py-0.5 -mx-2": isActive },
-        )}
+        className={classNames("flex items-center cursor-pointer mb-1 gap-1", {
+          "bg-brown-100 px-2 py-0.5 -mx-2": isActive,
+        })}
         onClick={isCheckbox || onClick ? handleClick : undefined}
       >
         <div
-          className="flex items-center"
+          className="flex min-w-0 flex-1 items-center"
           style={{
             marginLeft: level > 0 ? `${level * levelIndentValue}px` : undefined,
           }}
         >
-          {icon && <SquareIcon icon={icon} width={10} />}
+          {icon && (
+            <div className="shrink-0">
+              <SquareIcon icon={icon} width={10} />
+            </div>
+          )}
           <span
-            className={`${level > 0 ? "text-xs truncate py-1" : "text-sm"} ml-2`}
+            className={`${
+              level > 0 ? "text-xs truncate py-1" : "text-sm"
+            } ml-2 min-w-0`}
           >
             {label}
           </span>
         </div>
         {isCheckbox ? (
           <div
+            className="shrink-0"
             onClick={(event) => event.stopPropagation()}
             style={{ marginRight: level > 0 ? `${level * 20}px` : undefined }}
           >
@@ -78,7 +84,7 @@ export const FilterOption: React.FC<FilterOptionProps> = ({
                 ? SUNNYSIDE.icons.chevron_down
                 : SUNNYSIDE.icons.chevron_right
             }
-            className={`${options?.length ? "w-6" : "w-[18px]"}`}
+            className={`${options?.length ? "w-6" : "w-[18px]"} shrink-0`}
             style={{ marginRight: level > 0 ? `${level * 20}px` : undefined }}
           />
         ) : null}
