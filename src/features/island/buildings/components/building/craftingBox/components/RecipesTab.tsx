@@ -293,7 +293,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                         onClick={
                           isCraftButtonDisabled
                             ? undefined
-                            : () => handleRecipeCraft(recipe, targetSlot)
+                            : (e) => {
+                                e.stopPropagation();
+                                handleRecipeCraft(recipe, targetSlot);
+                              }
                         }
                         className={classNames("!p-0", {
                           "cursor-not-allowed": isCraftButtonDisabled,
@@ -607,7 +610,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                             onClick={
                               isCraftButtonDisabled
                                 ? undefined
-                                : () => handleRecipeCraft(recipe, targetSlot)
+                                : (e) => {
+                                    e.stopPropagation();
+                                    handleRecipeCraft(recipe, targetSlot);
+                                  }
                             }
                             className={classNames("!p-0", {
                               "cursor-not-allowed": isCraftButtonDisabled,
