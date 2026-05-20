@@ -1,10 +1,11 @@
 /* eslint-disable no-var */
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
+import { RecipeCollectibleName, RECIPES } from "features/game/lib/crafting";
 
 describe("startCrafting", () => {
   const farmId = 1;
@@ -60,21 +61,21 @@ describe("startCrafting", () => {
     expect(newState.craftingBox.status).toBe("pending");
   });
 
-  it("if recipes exists - sets the crafting status to crafting", () => {
+  it("crafts base instant recipes immediately", () => {
     gameState.craftingBox.recipes = {
-      Doll: {
-        name: "Doll",
+      Timber: {
+        name: "Timber",
         type: "collectible",
         ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { collectible: "Stone" },
-          null,
-          null,
-          null,
-          null,
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
         ],
         time: 0,
       },
@@ -84,22 +85,87 @@ describe("startCrafting", () => {
       type: "crafting.started",
       queueItemId: "test-id",
       ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { collectible: "Stone" },
-        null,
-        null,
-        null,
-        null,
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
       ],
     };
 
     const newState = startCrafting({ farmId, state: gameState, action });
 
-    expect(newState.craftingBox.status).toBe("crafting");
+    expect(newState.craftingBox.status).toBe("idle");
+    expect(newState.craftingBox.queue).toHaveLength(0);
+    expect(newState.inventory.Wood).toStrictEqual(new Decimal(1));
+    expect(newState.inventory.Timber).toStrictEqual(new Decimal(1));
+    expect(newState.craftingBox.recipes.Timber).toBeDefined();
+    expect(newState.farmActivity["Timber Crafting Started"]).toBe(1);
+    expect(newState.farmActivity["Timber Crafted"]).toBe(1);
   });
+
+  const instantRecipeFixtures: [RecipeCollectibleName, InventoryItemName][] = [
+    ["Bee Box", "Honey"],
+    ["Crimsteel", "Crimstone"],
+    ["Cushion", "Feather"],
+    ["Hardened Leather", "Leather"],
+    ["Kelp Fibre", "Seaweed"],
+    ["Merino Cushion", "Merino Wool"],
+    ["Ocean's Treasure", "Pearl"],
+    ["Royal Bedding", "Cushion"],
+    ["Royal Ornament", "Gold"],
+    ["Synthetic Fabric", "Wool"],
+    ["Timber", "Wood"],
+  ];
+
+  it("keeps fixtures aligned with all zero-time recipes", () => {
+    const zeroTimeRecipes = Object.values(RECIPES)
+      .filter((recipe) => recipe.time === 0)
+      .map((recipe) => recipe.name)
+      .sort();
+
+    expect(instantRecipeFixtures.map(([name]) => name).sort()).toEqual(
+      zeroTimeRecipes,
+    );
+  });
+
+  it.each(instantRecipeFixtures)(
+    "crafts %s immediately",
+    (recipeName, ingredientName) => {
+      const ingredients = Array.from({ length: 9 }, () => ({
+        collectible: ingredientName,
+      }));
+
+      gameState.inventory[ingredientName] = new Decimal(9);
+      gameState.craftingBox.recipes = {
+        [recipeName]: {
+          ...RECIPES[recipeName],
+          ingredients,
+        },
+      };
+
+      const state = startCrafting({
+        farmId,
+        state: gameState,
+        action: {
+          type: "crafting.started",
+          queueItemId: "test-id",
+          ingredients,
+        },
+      });
+
+      expect(state.craftingBox.status).toBe("idle");
+      expect(state.craftingBox.queue).toHaveLength(0);
+      expect(state.inventory[ingredientName]).toStrictEqual(new Decimal(0));
+      expect(state.inventory[recipeName]).toStrictEqual(new Decimal(1));
+      expect(state.farmActivity[`${recipeName} Crafting Started`]).toBe(1);
+      expect(state.farmActivity[`${recipeName} Crafted`]).toBe(1);
+    },
+  );
 
   it("throws an error if the player doesn't have a Crafting Box", () => {
     gameState.buildings["Crafting Box"] = [];
@@ -213,21 +279,21 @@ describe("startCrafting", () => {
       startedAt: now,
       readyAt: now + 60000,
       recipes: {
-        Timber: {
-          name: "Timber",
+        Doll: {
+          name: "Doll",
           type: "collectible",
           ingredients: [
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
-            { collectible: "Wood" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
           ],
-          time: 0,
+          time: 2 * 60 * 60 * 1000,
         },
       },
     };
@@ -258,6 +324,61 @@ describe("startCrafting", () => {
         },
       ],
       recipes: {
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      queueItemId: "test-id",
+      ingredients: [
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+      ],
+    };
+
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
+      "No available slots",
+    );
+  });
+
+  it("crafts base instant recipes without collecting existing ready queue items", () => {
+    const now = Date.now();
+    gameState.inventory.Wood = new Decimal(19);
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          id: "ready-bed",
+          name: "Basic Bed",
+          startedAt: now - 60000,
+          readyAt: now - 1000,
+          type: "collectible",
+        },
+      ],
+      recipes: {
         Timber: {
           name: "Timber",
           type: "collectible",
@@ -279,7 +400,7 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      queueItemId: "test-id",
+      queueItemId: "timber-2",
       ingredients: [
         { collectible: "Wood" },
         { collectible: "Wood" },
@@ -293,9 +414,85 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
-      "No available slots",
-    );
+    const state = startCrafting({
+      farmId,
+      state: gameState,
+      action,
+      createdAt: now,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(1);
+    expect(state.craftingBox.queue?.[0].id).toBe("ready-bed");
+    expect(state.inventory["Basic Bed"]).toBeUndefined();
+    expect(state.inventory.Timber).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(10));
+    expect(state.farmActivity["Timber Crafting Started"]).toBe(1);
+    expect(state.farmActivity["Timber Crafted"]).toBe(1);
+  });
+
+  it("crafts base instant recipes when all queue slots are full", () => {
+    const now = Date.now();
+    gameState.inventory.Wood = new Decimal(19);
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          id: "busy-slot",
+          name: "Basic Bed",
+          startedAt: now,
+          readyAt: now + 60000,
+          type: "collectible",
+        },
+      ],
+      recipes: {
+        Timber: {
+          name: "Timber",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+            { collectible: "Wood" },
+          ],
+          time: 0,
+        },
+      },
+    };
+
+    const state = startCrafting({
+      farmId,
+      state: gameState,
+      action: {
+        type: "crafting.started",
+        queueItemId: "timber-2",
+        ingredients: [
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+          { collectible: "Wood" },
+        ],
+      },
+      createdAt: now,
+    });
+
+    expect(state.craftingBox.status).toBe("crafting");
+    expect(state.craftingBox.queue).toHaveLength(1);
+    expect(state.craftingBox.queue?.[0].id).toBe("busy-slot");
+    expect(state.inventory["Basic Bed"]).toBeUndefined();
+    expect(state.inventory.Timber).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(10));
+    expect(state.farmActivity["Timber Crafting Started"]).toBe(1);
+    expect(state.farmActivity["Timber Crafted"]).toBe(1);
   });
 
   it("throws an error if the player provides less than 9 ingredients", () => {
