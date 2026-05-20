@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
+import { useConnections, useDisconnect } from "wagmi";
 
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
-import { WalletWall } from "features/wallet/components/WalletWall";
+import { GameWallet } from "features/wallet/Wallet";
+import { SignMessageBody } from "features/wallet/components/SignMessage";
 
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
@@ -41,10 +43,11 @@ type Props = {
  * JWT from `address: google:…` to `address: 0x…`. Subsequent actions in
  * the session reuse the upgraded JWT and bypass.
  *
- * Rendered as inline panel content (no Modal wrapper) so callers can
- * replace their main UI when step-up is active — marketplace components
- * are already inside a parent `<Modal>` and a nested modal would stack
- * awkwardly.
+ * Wraps `SignMessageBody` inside `<GameWallet action="marketplaceStepUp">`
+ * so the standard wallet UX kicks in: wallet picker, connection state,
+ * wrong-wallet detection (SelectLinkedWallet) if the connected wallet
+ * doesn't match `farm.linkedWallet`. Mirrors the LinkGoogle pattern
+ * (commit eef1da40f) so behavior is consistent across the app.
  *
  * Callers consult [[useNeedsMarketplaceStepUp]] to know when to mount
  * this component at all:
@@ -61,6 +64,16 @@ export const MarketplaceAuthGate: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const rawToken = useSelector(authService, _rawToken);
+
+  const { mutate: disconnect } = useDisconnect();
+  const connections = useConnections();
+
+  const onDisconnect = () => {
+    disconnect();
+    connections.forEach((connection) =>
+      disconnect({ connector: connection.connector }),
+    );
+  };
 
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
@@ -109,10 +122,12 @@ export const MarketplaceAuthGate: React.FC<Props> = ({
         {t("marketplace.stepUp.title")}
       </Label>
       <p className="text-xs mx-1 mb-2">{t("marketplace.stepUp.body")}</p>
-      <WalletWall onSignMessage={handleSignMessage} />
-      <Button className="mt-2" onClick={onCancel}>
-        {t("cancel")}
-      </Button>
+      <GameWallet action="marketplaceStepUp">
+        <SignMessageBody
+          onSignMessage={handleSignMessage}
+          onDisconnect={onDisconnect}
+        />
+      </GameWallet>
     </>
   );
 };

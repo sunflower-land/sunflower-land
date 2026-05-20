@@ -114,7 +114,8 @@ export type WalletAction =
   | "auction"
   | "linkWallet"
   | "blockchainSettings"
-  | "linkGoogle";
+  | "linkGoogle"
+  | "marketplaceStepUp";
 
 interface Props {
   action: WalletAction;
@@ -265,6 +266,20 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
   linkGoogle: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
+    },
+  },
+  marketplaceStepUp: {
+    // Players linked a wallet but may not have minted the farm NFT yet
+    // — proof-of-ownership of the linked wallet is enough.
+    requiresLinkedWallet: true,
+    requiresNFT: false,
+    // Populated so `requiresConnection` is true, which gates the
+    // "connected wallet must equal linkedWallet" check (SelectLinkedWallet
+    // surfaces when the wrong wallet is connected).
     chains: {
       [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
       [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
@@ -449,6 +464,7 @@ const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
   linkWallet: "link wallet",
   blockchainSettings: "manage blockchain settings",
   linkGoogle: "link Google",
+  marketplaceStepUp: "verify wallet for marketplace",
 };
 
 const SelectChain: React.FC<{
