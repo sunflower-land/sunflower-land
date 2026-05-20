@@ -11,6 +11,221 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
+      - name: Notify engineers of release start
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DISCORD_MAIN_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_MAIN_ALERT_WEBHOOK_URL }}
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          node <<'EOF'
+          const {
+            GITHUB_TOKEN,
+            OPENAI_API_KEY,
+            DISCORD_MAIN_ALERT_WEBHOOK_URL,
+            RELEASE_NAME,
+            RELEASE_TAG,
+            RELEASE_URL,
+            RELEASE_BODY,
+            REPOSITORY,
+            RUN_URL,
+          } = process.env;
+
+          if (!DISCORD_MAIN_ALERT_WEBHOOK_URL) {
+            console.log("DISCORD_MAIN_ALERT_WEBHOOK_URL not configured; skipping notification.");
+            process.exit(0);
+          }
+
+          const [owner, repo] = REPOSITORY.split("/");
+
+          function truncate(value, limit) {
+            if (!value || value.length <= limit) return value;
+            return `${value.slice(0, limit - 3)}...`;
+          }
+
+          function escapeDiscord(value) {
+            return value.replace(/@/g, "@​").replace(/[`*_~|]/g, "\\$&");
+          }
+
+          async function gh(path) {
+            const res = await fetch(`https://api.github.com${path}`, {
+              headers: {
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
+                Accept: "application/vnd.github+json",
+                "User-Agent": "mainnet-release-alert",
+              },
+            });
+            if (!res.ok) throw new Error(`GitHub ${path} failed: ${res.status} ${await res.text()}`);
+            return res.json();
+          }
+
+          async function summarizeWithAi({ previousTag, commits, files }) {
+            if (!OPENAI_API_KEY) {
+              console.log("OPENAI_API_KEY not available; skipping AI summary.");
+              return null;
+            }
+
+            const commitList = commits
+              .map((c) => `- ${c.sha.slice(0, 7)} ${c.commit.message.split("\n")[0]}`)
+              .join("\n");
+
+            const response = await fetch("https://api.openai.com/v1/responses", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                model: "gpt-4.1-mini",
+                max_output_tokens: 400,
+                input: [
+                  {
+                    role: "system",
+                    content:
+                      "You summarize a software release for an internal engineering Discord alert. Write a short markdown summary (3-6 bullet points) of the most notable changes in this release compared to the previous tag. Group related commits, ignore noise like translation/metadata bot commits, and call out anything risky, user-facing, or operationally relevant. Be factual and concise. Do not include a heading.",
+                  },
+                  {
+                    role: "user",
+                    content: [
+                      `Repository: ${REPOSITORY}`,
+                      `Release: ${RELEASE_NAME || RELEASE_TAG}`,
+                      `Tag: ${RELEASE_TAG}`,
+                      `Previous tag: ${previousTag}`,
+                      `Release notes (may be empty):`,
+                      RELEASE_BODY || "(none)",
+                      "",
+                      `Commits (${commits.length}):`,
+                      commitList,
+                      "",
+                      `Changed files (${files.length}):`,
+                      truncate(files.join(", "), 4000) || "(none)",
+                    ].join("\n"),
+                  },
+                ],
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`OpenAI request failed: ${response.status} ${await response.text()}`);
+            }
+
+            const payload = await response.json();
+            const summaryText =
+              payload.output_text?.trim() ||
+              (payload.output ?? [])
+                .flatMap((item) => item.content ?? [])
+                .filter((item) => item.type === "output_text" && typeof item.text === "string")
+                .map((item) => item.text.trim())
+                .filter(Boolean)
+                .join("\n")
+                .trim();
+
+            return summaryText || null;
+          }
+
+          function fallbackSummary(commits) {
+            const bullets = commits
+              .slice(0, 15)
+              .map((c) => {
+                const subject = c.commit.message.split("\n")[0];
+                return `- [\`${c.sha.slice(0, 7)}\`](${c.html_url}) ${escapeDiscord(subject)}`;
+              });
+
+            if (commits.length > 15) {
+              bullets.push(`- ...and ${commits.length - 15} more commit(s).`);
+            }
+
+            return bullets.join("\n") || "No commits found between the two tags.";
+          }
+
+          async function main() {
+            const releases = await gh(`/repos/${owner}/${repo}/releases?per_page=20`);
+            const currentIdx = releases.findIndex((r) => r.tag_name === RELEASE_TAG);
+            const previousTag =
+              currentIdx >= 0 ? releases[currentIdx + 1]?.tag_name : releases[0]?.tag_name;
+
+            let description;
+            let previousTagLine = "";
+
+            if (previousTag) {
+              try {
+                const compare = await gh(
+                  `/repos/${owner}/${repo}/compare/${previousTag}...${RELEASE_TAG}`,
+                );
+                const commits = compare.commits || [];
+                const files = (compare.files || []).map((f) => f.filename);
+                const totalCommits = compare.total_commits ?? commits.length;
+                const truncatedCommits = totalCommits > commits.length;
+                const commitCountLabel = truncatedCommits
+                  ? `${totalCommits} commit(s) (showing first ${commits.length})`
+                  : `${totalCommits} commit(s)`;
+                previousTagLine = `**Changes since [\`${previousTag}\`](https://github.com/${REPOSITORY}/releases/tag/${previousTag}) — ${commitCountLabel}**`;
+
+                let aiSummary = null;
+                try {
+                  aiSummary = await summarizeWithAi({ previousTag, commits, files });
+                } catch (err) {
+                  console.log(`AI summary failed: ${err.message}`);
+                }
+
+                description = `${previousTagLine}\n\n${aiSummary || fallbackSummary(commits)}`;
+              } catch (err) {
+                console.log(`compare failed: ${err.message}`);
+                description = `Unable to compute changes since \`${previousTag}\`: ${err.message}`;
+              }
+            } else {
+              description = "No previous release found for comparison.";
+            }
+
+            const payload = {
+              username: "Mainnet Release",
+              avatar_url:
+                "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
+              content: "<@&1260758874189729867>",
+              allowed_mentions: { roles: ["1260758874189729867"] },
+              embeds: [
+                {
+                  title: `${REPOSITORY} releasing ${truncate(RELEASE_NAME || RELEASE_TAG, 200)}`,
+                  url: RELEASE_URL,
+                  color: 3447003,
+                  description: truncate(description, 4000),
+                  fields: [
+                    { name: "Repository", value: escapeDiscord(REPOSITORY), inline: true },
+                    {
+                      name: "Tag",
+                      value: `[\`${escapeDiscord(RELEASE_TAG)}\`](${RELEASE_URL})`,
+                      inline: true,
+                    },
+                    { name: "Workflow run", value: `[Open run](${RUN_URL})`, inline: true },
+                  ],
+                  footer: { text: "Mainnet release started." },
+                  timestamp: new Date().toISOString(),
+                },
+              ],
+            };
+
+            const res = await fetch(DISCORD_MAIN_ALERT_WEBHOOK_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (!res.ok) {
+              throw new Error(`Discord webhook failed: ${res.status} ${await res.text()}`);
+            }
+          }
+
+          main().catch((err) => {
+            console.error(err);
+            process.exit(1);
+          });
+          EOF
+
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M')"
