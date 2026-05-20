@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify engineers of release start
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -159,7 +160,12 @@ jobs:
                 );
                 const commits = compare.commits || [];
                 const files = (compare.files || []).map((f) => f.filename);
-                previousTagLine = `**Changes since [\`${previousTag}\`](https://github.com/${REPOSITORY}/releases/tag/${previousTag}) — ${commits.length} commit(s)**`;
+                const totalCommits = compare.total_commits ?? commits.length;
+                const truncatedCommits = totalCommits > commits.length;
+                const commitCountLabel = truncatedCommits
+                  ? `${totalCommits} commit(s) (showing first ${commits.length})`
+                  : `${totalCommits} commit(s)`;
+                previousTagLine = `**Changes since [\`${previousTag}\`](https://github.com/${REPOSITORY}/releases/tag/${previousTag}) — ${commitCountLabel}**`;
 
                 let aiSummary = null;
                 try {
