@@ -1630,10 +1630,6 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
     withdrawAt: new Date("2026-08-31T00:00:00Z"),
   },
-  "Deep Sea Pig": {
-    tradeAt: CHAPTERS["Salt Awakening"].endDate,
-    withdrawAt: new Date("2026-08-31T00:00:00Z"),
-  },
   "Deep Sea Slug": {
     tradeAt: CHAPTERS["Salt Awakening"].endDate,
     withdrawAt: new Date("2026-08-31T00:00:00Z"),
