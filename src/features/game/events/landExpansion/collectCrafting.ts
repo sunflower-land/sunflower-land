@@ -19,7 +19,7 @@ type Options = {
 };
 
 export function grantCraftedItem(
-  item: CraftingQueueItem,
+  item: Pick<CraftingQueueItem, "type" | "name">,
   game: GameState,
 ): void {
   if (item.type === "collectible") {

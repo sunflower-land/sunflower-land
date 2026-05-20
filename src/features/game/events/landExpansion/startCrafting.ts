@@ -1,10 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  Recipe,
-  RecipeIngredient,
-  Recipes,
-  RECIPES,
-} from "features/game/lib/crafting";
+import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
 import {
   BoostName,
   CraftingQueueItem,
@@ -118,11 +113,10 @@ export function startCrafting({
       throw new Error("Invalid queue item id");
     }
 
-    // Find matching recipe. Discovered recipes carry the ingredient layout in
-    // game state; RECIPES is a fallback for any static recipes with ingredients.
-    const recipe =
-      findMatchingRecipe(ingredients, copy.craftingBox.recipes) ??
-      findMatchingRecipe(ingredients, RECIPES);
+    // Discovered recipes carry the ingredient layout in game state. The static
+    // RECIPES on the FE only holds time/type metadata (ingredients are []), so
+    // matching against it would never succeed.
+    const recipe = findMatchingRecipe(ingredients, copy.craftingBox.recipes);
     const isBaseInstantRecipe = recipe?.time === 0;
     const availableSlots = hasVipAccess({ game: copy, now: createdAt }) ? 4 : 1;
 
@@ -180,15 +174,7 @@ export function startCrafting({
     );
 
     if (isBaseInstantRecipe) {
-      grantCraftedItem(
-        {
-          id: action.queueItemId,
-          readyAt: createdAt,
-          startedAt: createdAt,
-          ...recipe,
-        },
-        copy,
-      );
+      grantCraftedItem({ type: recipe.type, name: recipe.name }, copy);
 
       copy.craftingBox = {
         status: effectiveQueue.length > 0 ? "crafting" : "idle",
