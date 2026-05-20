@@ -104,37 +104,25 @@ const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
   );
 };
 
+const LABEL_FERTILISERS = [
+  "Sprout Mix",
+  "Fruitful Blend",
+  "Sproutroot Surprise",
+  "Turbofruit Mix",
+] as const satisfies readonly CompostName[];
+
+const isLabelFertiliser = (
+  fertiliser: CompostName,
+): fertiliser is (typeof LABEL_FERTILISERS)[number] =>
+  LABEL_FERTILISERS.includes(fertiliser as (typeof LABEL_FERTILISERS)[number]);
+
 const FertiliserLabel: React.FC<{
   fertiliser: CompostName;
   state: GameState;
 }> = ({ fertiliser, state }) => {
   const { t } = useAppTranslation();
 
-  if (fertiliser === "Sprout Mix") {
-    const labels = getFertiliserBuffLabels({
-      fertiliser,
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    });
-
-    return (
-      <div className="flex flex-col gap-1">
-        {labels.map((label, index) => (
-          <Label
-            key={`${fertiliser}-${index}`}
-            icon={label.boostTypeIcon}
-            secondaryIcon={label.boostedItemIcon}
-            type={label.labelType}
-            className="text-xs whitespace-pre-line"
-          >
-            {label.shortDescription}
-          </Label>
-        ))}
-      </div>
-    );
-  }
-
-  if (fertiliser === "Fruitful Blend") {
+  if (isLabelFertiliser(fertiliser)) {
     const labels = getFertiliserBuffLabels({
       fertiliser,
       skills: state.bumpkin.skills,
@@ -168,54 +156,6 @@ const FertiliserLabel: React.FC<{
       >
         {t("guide.compost.cropGrowthTime")}
       </Label>
-    );
-  }
-
-  if (fertiliser === "Sproutroot Surprise") {
-    const labels = getFertiliserBuffLabels({
-      fertiliser,
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    });
-
-    return (
-      <div className="flex flex-col gap-1">
-        {labels.map((label, index) => (
-          <Label
-            key={`${fertiliser}-${index}`}
-            icon={label.boostTypeIcon}
-            secondaryIcon={label.boostedItemIcon}
-            type={label.labelType}
-            className="text-xs whitespace-pre-line"
-          >
-            {label.shortDescription}
-          </Label>
-        ))}
-      </div>
-    );
-  }
-
-  if (fertiliser === "Turbofruit Mix") {
-    const labels = getFertiliserBuffLabels({
-      fertiliser,
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    });
-
-    return (
-      <div className="flex flex-col gap-1">
-        {labels.map((label, index) => (
-          <Label
-            key={`${fertiliser}-${index}`}
-            icon={label.boostTypeIcon}
-            secondaryIcon={label.boostedItemIcon}
-            type={label.labelType}
-            className="text-xs whitespace-pre-line"
-          >
-            {label.shortDescription}
-          </Label>
-        ))}
-      </div>
     );
   }
 
