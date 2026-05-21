@@ -2201,7 +2201,8 @@ export type FaceRecognitionEvent =
         faceId: string;
         farmId: number;
       }[];
-    };
+    }
+  | { event: "reverifyRequired"; createdAt: number };
 
 export interface Context {
   state?: GameState;
