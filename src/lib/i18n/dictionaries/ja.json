@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Google ログインを無効にしています...",
   "linkedAccounts.turningOnGoogleLogin": "Google ログインを有効にしています...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "Google ログインが正常にオフになりました！",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "Google ログインが正常に有効になりました！"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "Google ログインが正常に有効になりました！",
+  "linkedAccounts.googleSignIn.revealEmail": "メール全体を表示",
+  "linkedAccounts.googleSignIn.hideEmail": "メールを非表示にする",
+  "linkedAccounts.revealWallet": "完全な住所を表示",
+  "linkedAccounts.hideWallet": "住所を非表示にする"
 }

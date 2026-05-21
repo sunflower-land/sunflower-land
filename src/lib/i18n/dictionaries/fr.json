@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Désactiver la connexion à Google...",
   "linkedAccounts.turningOnGoogleLogin": "Activer la connexion à Google...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "La connexion à Google a été désactivée avec succès !",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "La connexion à Google a été activée avec succès !"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "La connexion à Google a été activée avec succès !",
+  "linkedAccounts.googleSignIn.revealEmail": "Afficher l'e-mail complet",
+  "linkedAccounts.googleSignIn.hideEmail": "Masquer l'e-mail",
+  "linkedAccounts.revealWallet": "Afficher l'adresse complète",
+  "linkedAccounts.hideWallet": "Masquer l'adresse"
 }

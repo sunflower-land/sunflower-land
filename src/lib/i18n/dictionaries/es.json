@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Desactivando el inicio de sesión de Google...",
   "linkedAccounts.turningOnGoogleLogin": "Activando el inicio de sesión de Google...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "¡El inicio de sesión de Google se ha desactivado correctamente!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "¡El inicio de sesión de Google se activó correctamente!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "¡El inicio de sesión de Google se activó correctamente!",
+  "linkedAccounts.googleSignIn.revealEmail": "Mostrar correo electrónico completo",
+  "linkedAccounts.googleSignIn.hideEmail": "Ocultar correo electrónico",
+  "linkedAccounts.revealWallet": "Mostrar dirección completa",
+  "linkedAccounts.hideWallet": "Ocultar dirección"
 }

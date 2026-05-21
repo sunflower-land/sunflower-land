@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Google girişini kapatma...",
   "linkedAccounts.turningOnGoogleLogin": "Google girişini açıyorum...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "Google girişi başarıyla kapatıldı!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "Google girişi başarıyla açıldı!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "Google girişi başarıyla açıldı!",
+  "linkedAccounts.googleSignIn.revealEmail": "E-postanın tamamını göster",
+  "linkedAccounts.googleSignIn.hideEmail": "E-postayı gizle",
+  "linkedAccounts.revealWallet": "Tam adresi göster",
+  "linkedAccounts.hideWallet": "Adresi gizle"
 }

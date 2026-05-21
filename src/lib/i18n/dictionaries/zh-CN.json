@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "关闭谷歌登录...",
   "linkedAccounts.turningOnGoogleLogin": "开启谷歌登录...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "谷歌登录成功关闭！",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "谷歌登录成功开启！"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "谷歌登录成功开启！",
+  "linkedAccounts.googleSignIn.revealEmail": "显示完整的电子邮件",
+  "linkedAccounts.googleSignIn.hideEmail": "隐藏电子邮件",
+  "linkedAccounts.revealWallet": "显示完整地址",
+  "linkedAccounts.hideWallet": "隐藏地址"
 }

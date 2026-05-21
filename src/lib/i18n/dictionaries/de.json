@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Google-Anmeldung wird deaktiviert...",
   "linkedAccounts.turningOnGoogleLogin": "Google-Anmeldung wird aktiviert...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "Die Google-Anmeldung wurde erfolgreich deaktiviert!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "Die Google-Anmeldung wurde erfolgreich aktiviert!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "Die Google-Anmeldung wurde erfolgreich aktiviert!",
+  "linkedAccounts.googleSignIn.revealEmail": "Vollständige E-Mail anzeigen",
+  "linkedAccounts.googleSignIn.hideEmail": "E-Mail ausblenden",
+  "linkedAccounts.revealWallet": "Vollständige Adresse anzeigen",
+  "linkedAccounts.hideWallet": "Adresse verbergen"
 }

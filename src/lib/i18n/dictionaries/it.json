@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Disattivazione dell'accesso a Google...",
   "linkedAccounts.turningOnGoogleLogin": "Attivazione dell'accesso a Google...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "L'accesso a Google è stato disattivato con successo!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "L'accesso a Google è stato attivato con successo!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "L'accesso a Google è stato attivato con successo!",
+  "linkedAccounts.googleSignIn.revealEmail": "Mostra email completa",
+  "linkedAccounts.googleSignIn.hideEmail": "Nascondi email",
+  "linkedAccounts.revealWallet": "Mostra indirizzo completo",
+  "linkedAccounts.hideWallet": "Nascondi indirizzo"
 }

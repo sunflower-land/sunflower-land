@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Turning off Google login...",
   "linkedAccounts.turningOnGoogleLogin": "Turning on Google login...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "Google login turned off successfully!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "Google login turned on successfully!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "Google login turned on successfully!",
+  "linkedAccounts.googleSignIn.revealEmail": "Show full email",
+  "linkedAccounts.googleSignIn.hideEmail": "Hide email",
+  "linkedAccounts.revealWallet": "Show full address",
+  "linkedAccounts.hideWallet": "Hide address"
 }

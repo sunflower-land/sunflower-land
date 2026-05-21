@@ -8983,5 +8983,9 @@
   "linkedAccounts.turningOffGoogleLogin": "Mematikan login Google...",
   "linkedAccounts.turningOnGoogleLogin": "Mengaktifkan login Google...",
   "linkedAccounts.turningOffGoogleLoginSuccess": "Login Google berhasil dimatikan!",
-  "linkedAccounts.turningOnGoogleLoginSuccess": "Login Google berhasil diaktifkan!"
+  "linkedAccounts.turningOnGoogleLoginSuccess": "Login Google berhasil diaktifkan!",
+  "linkedAccounts.googleSignIn.revealEmail": "Tampilkan email lengkap",
+  "linkedAccounts.googleSignIn.hideEmail": "Sembunyikan email",
+  "linkedAccounts.revealWallet": "Tampilkan alamat lengkap",
+  "linkedAccounts.hideWallet": "Sembunyikan alamat"
 }
