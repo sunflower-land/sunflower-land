@@ -145,8 +145,7 @@ export const AuctionHistory: React.FC = () => {
   if (selectedAuction) {
     const selectedDisplay = getAuctionItemDisplay({
       auction: selectedAuction,
-      skills: game.bumpkin.skills,
-      collectibles: game.collectibles,
+      game: game,
     });
 
     return (
@@ -245,8 +244,7 @@ export const AuctionHistory: React.FC = () => {
                 typeLabel,
               } = getAuctionItemDisplay({
                 auction: item.auction,
-                skills: game.bumpkin.skills,
-                collectibles: game.collectibles,
+                game: game,
               });
 
               return (

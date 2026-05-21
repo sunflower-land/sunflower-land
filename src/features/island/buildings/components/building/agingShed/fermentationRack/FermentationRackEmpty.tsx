@@ -144,20 +144,19 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           </Label>
           {selectedItem && (
             <>
-              {COLLECTIBLE_BUFF_LABELS[selectedItem]?.({
-                skills,
-                collectibles: gameState.collectibles,
-              })?.map((label) => (
-                <Label
-                  key={label.shortDescription}
-                  type={label.labelType}
-                  className="text-xs ml-1"
-                  secondaryIcon={label.boostedItemIcon}
-                  icon={label.boostTypeIcon}
-                >
-                  {label.shortDescription}
-                </Label>
-              ))}
+              {COLLECTIBLE_BUFF_LABELS[selectedItem]?.(gameState)?.map(
+                (label) => (
+                  <Label
+                    key={label.shortDescription}
+                    type={label.labelType}
+                    className="text-xs ml-1"
+                    secondaryIcon={label.boostedItemIcon}
+                    icon={label.boostTypeIcon}
+                  >
+                    {label.shortDescription}
+                  </Label>
+                ),
+              )}
               <p className="text-xs ml-1">
                 {getItemDescription({ item: selectedItem, game: gameState })}
               </p>

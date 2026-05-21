@@ -620,10 +620,7 @@ const FertiliseSection: React.FC<{
 
   const buffs =
     effectiveFertiliser &&
-    COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
-      skills: state.bumpkin?.skills ?? {},
-      collectibles: state.collectibles,
-    });
+    COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.(state);
 
   const buttonLabel = !effectiveFertiliser
     ? t("obsidianShrine.selectFertiliser")

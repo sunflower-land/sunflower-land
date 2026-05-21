@@ -58,10 +58,7 @@ export const Detail: React.FC<Props> = ({
     image.src = ITEM_DETAILS[name].image;
   }, []);
 
-  const buff = COLLECTIBLE_BUFF_LABELS[name]?.({
-    skills: state.bumpkin.skills,
-    collectibles: state.collectibles,
-  });
+  const buff = COLLECTIBLE_BUFF_LABELS[name]?.(state);
 
   const isChapterFish = name in CHAPTER_FISH;
 

@@ -84,10 +84,7 @@ export const Forge: React.FC = () => {
             details={{
               item: selectedResource,
             }}
-            boost={COLLECTIBLE_BUFF_LABELS[selectedResource]?.({
-              skills: state.bumpkin.skills,
-              collectibles: state.collectibles,
-            })}
+            boost={COLLECTIBLE_BUFF_LABELS[selectedResource]?.(state)}
             requirements={
               forgingSoon
                 ? undefined

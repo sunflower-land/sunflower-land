@@ -16,6 +16,7 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 type FertiliserBuffLabelName =
   | "Sprout Mix"
@@ -25,12 +26,10 @@ type FertiliserBuffLabelName =
 
 export function getFertiliserBuffLabels({
   fertiliser,
-  skills,
-  collectibles,
+  game,
 }: {
   fertiliser: FertiliserBuffLabelName;
-  skills: GameState["bumpkin"]["skills"];
-  collectibles: GameState["collectibles"];
+  game: GameState;
 }): BuffLabel[] {
   if (fertiliser === "Sprout Mix") {
     return [
@@ -40,9 +39,7 @@ export function getFertiliserBuffLabels({
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
       },
-      ...(collectibles["Knowledge Crab"]?.some(
-        (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
-      )
+      ...(isCollectibleBuilt({ game, name: "Knowledge Crab" })
         ? [
             {
               shortDescription: translate(
@@ -65,7 +62,7 @@ export function getFertiliserBuffLabels({
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
       },
-      ...(skills["Fruitful Bounty"]
+      ...(game.bumpkin.skills["Fruitful Bounty"]
         ? [
             {
               shortDescription: translate(
@@ -84,8 +81,7 @@ export function getFertiliserBuffLabels({
     return [
       ...getFertiliserBuffLabels({
         fertiliser: "Sprout Mix",
-        skills,
-        collectibles,
+        game,
       }),
       {
         shortDescription: translate("description.rapid.root.boost"),
@@ -99,8 +95,7 @@ export function getFertiliserBuffLabels({
   return [
     ...getFertiliserBuffLabels({
       fertiliser: "Fruitful Blend",
-      skills,
-      collectibles,
+      game,
     }),
     {
       shortDescription: translate("description.turbofruit.mix.boost"),
@@ -112,60 +107,51 @@ export function getFertiliserBuffLabels({
 }
 
 export const COLLECTIBLE_BUFF_LABELS: Partial<
-  Record<
-    InventoryItemName,
-    ({
-      skills,
-      collectibles,
-    }: {
-      skills: GameState["bumpkin"]["skills"];
-      collectibles: GameState["collectibles"];
-    }) => BuffLabel[]
-  >
+  Record<InventoryItemName, (game: GameState) => BuffLabel[]>
 > = {
   // Crop Boosts
-  "Basic Scarecrow": ({ skills }) => [
+  "Basic Scarecrow": ({ bumpkin }) => [
     {
-      shortDescription: skills["Chonky Scarecrow"]
+      shortDescription: bumpkin.skills["Chonky Scarecrow"]
         ? translate("description.basic.scarecrow.boost.skill")
         : translate("description.basic.scarecrow.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: skills["Chonky Scarecrow"]
+      shortDescription: bumpkin.skills["Chonky Scarecrow"]
         ? translate("description.basic.scarecrow.boost.aoe.skill")
         : translate("description.basic.scarecrow.boost.aoe"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
     },
   ],
-  "Scary Mike": ({ skills }) => [
+  "Scary Mike": ({ bumpkin }) => [
     {
-      shortDescription: skills["Horror Mike"]
+      shortDescription: bumpkin.skills["Horror Mike"]
         ? translate("description.scary.mike.boost.skill")
         : translate("description.scary.mike.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
     {
-      shortDescription: skills["Horror Mike"]
+      shortDescription: bumpkin.skills["Horror Mike"]
         ? translate("description.scary.mike.boost.aoe.skill")
         : translate("description.scary.mike.boost.aoe"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
     },
   ],
-  "Laurie the Chuckle Crow": ({ skills }) => [
+  "Laurie the Chuckle Crow": ({ bumpkin }) => [
     {
-      shortDescription: skills["Laurie's Gains"]
+      shortDescription: bumpkin.skills["Laurie's Gains"]
         ? translate("description.laurie.chuckle.crow.boost.skill")
         : translate("description.laurie.chuckle.crow.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
     {
-      shortDescription: skills["Laurie's Gains"]
+      shortDescription: bumpkin.skills["Laurie's Gains"]
         ? translate("description.laurie.chuckle.crow.boost.aoe.skill")
         : translate("description.laurie.chuckle.crow.boost.aoe"),
       labelType: "vibrant",
@@ -291,9 +277,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
     },
   ],
-  "Cabbage Boy": ({ collectibles }) => [
+  "Cabbage Boy": (game) => [
     {
-      shortDescription: collectibles["Cabbage Girl"]
+      shortDescription: isCollectibleBuilt({ game, name: "Cabbage Girl" })
         ? translate("description.cabbage.boy.boost.boosted")
         : translate("description.cabbage.boy.boost"),
       labelType: "success",
@@ -309,8 +295,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
     },
   ],
-  Karkinos: ({ collectibles }) => [
-    ...(collectibles["Cabbage Boy"]
+  Karkinos: (game) => [
+    ...(isCollectibleBuilt({ game, name: "Cabbage Boy" })
       ? []
       : ([
           {
@@ -418,17 +404,15 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Fertilisers
-  "Sprout Mix": ({ collectibles, skills }) =>
+  "Sprout Mix": (game) =>
     getFertiliserBuffLabels({
       fertiliser: "Sprout Mix",
-      collectibles,
-      skills,
+      game,
     }),
-  "Fruitful Blend": ({ collectibles, skills }) =>
+  "Fruitful Blend": (game) =>
     getFertiliserBuffLabels({
       fertiliser: "Fruitful Blend",
-      collectibles,
-      skills,
+      game,
     }),
   "Rapid Root": () => [
     {
@@ -438,17 +422,15 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
   ],
-  "Sproutroot Surprise": ({ collectibles, skills }) =>
+  "Sproutroot Surprise": (game) =>
     getFertiliserBuffLabels({
       fertiliser: "Sproutroot Surprise",
-      collectibles,
-      skills,
+      game,
     }),
-  "Turbofruit Mix": ({ collectibles, skills }) =>
+  "Turbofruit Mix": (game) =>
     getFertiliserBuffLabels({
       fertiliser: "Turbofruit Mix",
-      collectibles,
-      skills,
+      game,
     }),
   "Greenhouse Glow": () => [
     {
@@ -525,9 +507,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Fruit Boosts
-  "Immortal Pear": ({ skills }) => [
+  "Immortal Pear": ({ bumpkin }) => [
     {
-      shortDescription: skills["Pear Turbocharge"]
+      shortDescription: bumpkin.skills["Pear Turbocharge"]
         ? translate("description.immortal.pear.boosted.boost")
         : translate("description.immortal.pear.boost"),
       labelType: "success",
@@ -730,19 +712,19 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-  Bale: ({ skills }) => [
+  Bale: ({ bumpkin }) => [
     {
-      shortDescription: skills["Double Bale"]
+      shortDescription: bumpkin.skills["Double Bale"]
         ? translate("description.bale.eggBoost.boosted")
         : translate("description.bale.eggBoost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.egg,
     },
-    ...(skills["Bale Economy"]
+    ...(bumpkin.skills["Bale Economy"]
       ? ([
           {
-            shortDescription: skills["Double Bale"]
+            shortDescription: bumpkin.skills["Double Bale"]
               ? translate("description.bale.milkBoost.boosted")
               : translate("description.bale.milkBoost"),
             labelType: "success",
@@ -750,7 +732,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
             boostedItemIcon: SUNNYSIDE.resource.milk,
           },
           {
-            shortDescription: skills["Double Bale"]
+            shortDescription: bumpkin.skills["Double Bale"]
               ? translate("description.bale.woolBoost.boosted")
               : translate("description.bale.woolBoost"),
             labelType: "success",
@@ -1401,9 +1383,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
-  Macaw: ({ skills }) => [
+  Macaw: ({ bumpkin }) => [
     {
-      shortDescription: skills["Loyal Macaw"]
+      shortDescription: bumpkin.skills["Loyal Macaw"]
         ? translate("description.macaw.boosted.boost")
         : translate("description.macaw.boost"),
       labelType: "success",
@@ -2309,16 +2291,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   // All items go above this line
 
   ...getKeys(BED_FARMHAND_COUNT).reduce<
-    Record<
-      BedName,
-      ({
-        skills,
-        collectibles,
-      }: {
-        skills: GameState["bumpkin"]["skills"];
-        collectibles: GameState["collectibles"];
-      }) => BuffLabel[]
-    >
+    Record<BedName, (game: GameState) => BuffLabel[]>
   >(
     (acc, farmhand) => {
       acc[farmhand] = () => [
@@ -2330,16 +2303,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       ];
       return acc;
     },
-    {} as Record<
-      BedName,
-      ({
-        skills,
-        collectibles,
-      }: {
-        skills: GameState["bumpkin"]["skills"];
-        collectibles: GameState["collectibles"];
-      }) => BuffLabel[]
-    >,
+    {} as Record<BedName, (game: GameState) => BuffLabel[]>,
   ),
 
   ...Object.fromEntries(

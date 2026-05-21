@@ -127,6 +127,7 @@ const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _gameState = (state: MachineState) => state.context.state;
 
 const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   flower,
@@ -148,6 +149,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const season = useSelector(gameService, _season);
   const bumpkin = useSelector(gameService, _bumpkin);
   const collectibles = useSelector(gameService, _collectibles);
+  const gameState = useSelector(gameService, _gameState);
 
   // Keep growth calculations in seconds to match `useCountdown`, and only use
   // milliseconds for the countdown target date.
@@ -304,10 +306,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
                     {t("reward")}
                   </Label>
                   {(reward.items ?? []).map((item) => {
-                    const boost = COLLECTIBLE_BUFF_LABELS[item.name]?.({
-                      skills: bumpkin.skills,
-                      collectibles: collectibles,
-                    });
+                    const boost =
+                      COLLECTIBLE_BUFF_LABELS[item.name]?.(gameState);
 
                     return (
                       <>

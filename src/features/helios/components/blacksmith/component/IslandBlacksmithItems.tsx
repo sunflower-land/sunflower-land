@@ -232,10 +232,7 @@ export const IslandBlacksmithItems: React.FC = () => {
             from: selectedItem?.from,
             to: selectedItem?.to,
           }}
-          boost={COLLECTIBLE_BUFF_LABELS[selectedName]?.({
-            skills: state.bumpkin.skills,
-            collectibles: state.collectibles,
-          })}
+          boost={COLLECTIBLE_BUFF_LABELS[selectedName]?.(state)}
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,

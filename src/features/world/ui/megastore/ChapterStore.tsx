@@ -60,10 +60,7 @@ export const getItemBuffLabel = (
     return BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   }
 
-  return COLLECTIBLE_BUFF_LABELS[item.collectible]?.({
-    skills: state.bumpkin.skills,
-    collectibles: state.collectibles,
-  });
+  return COLLECTIBLE_BUFF_LABELS[item.collectible]?.(state);
 };
 export const getItemDescription = (item: ChapterStoreItem | null): string => {
   if (!item) return "";

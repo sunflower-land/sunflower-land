@@ -125,8 +125,7 @@ const FertiliserLabel: React.FC<{
   if (isLabelFertiliser(fertiliser)) {
     const labels = getFertiliserBuffLabels({
       fertiliser,
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
+      game: state,
     });
 
     return (

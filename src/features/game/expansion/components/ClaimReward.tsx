@@ -199,10 +199,7 @@ export const Rewards: React.FC<{
 
       {itemNames.length > 0 &&
         itemNames.map((name) => {
-          const buff = COLLECTIBLE_BUFF_LABELS[name]?.({
-            skills: game.bumpkin.skills,
-            collectibles: game.collectibles,
-          });
+          const buff = COLLECTIBLE_BUFF_LABELS[name]?.(game);
           const isVipGift = vipGiftItem === name;
           return (
             <ButtonPanel

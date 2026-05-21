@@ -479,10 +479,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                             icon={
                               COLLECTIBLE_BUFF_LABELS[
                                 recipe.name as InventoryItemName
-                              ]?.({
-                                skills: state.bumpkin.skills,
-                                collectibles: state.collectibles,
-                              })?.length
+                              ]?.(state)?.length
                                 ? lightningIcon
                                 : SUNNYSIDE.icons.expression_confused
                             }

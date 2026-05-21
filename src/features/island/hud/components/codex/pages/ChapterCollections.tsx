@@ -115,11 +115,7 @@ export const ChapterCollections: React.FC<Props> = ({
 
                         const buff = COLLECTIBLE_BUFF_LABELS[itemName];
                         const showBoostIcon = !!(
-                          buff &&
-                          buff({
-                            skills: state.bumpkin.skills,
-                            collectibles: state.collectibles,
-                          }).length > 0
+                          buff && buff(state).length > 0
                         );
 
                         return (

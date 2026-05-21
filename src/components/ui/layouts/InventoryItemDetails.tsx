@@ -108,10 +108,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
 
     const description = getItemDescription({ item: details.item, game });
 
-    const boost = COLLECTIBLE_BUFF_LABELS[details.item]?.({
-      skills: game.bumpkin.skills,
-      collectibles: game.collectibles,
-    });
+    const boost = COLLECTIBLE_BUFF_LABELS[details.item]?.(game);
 
     return (
       <>

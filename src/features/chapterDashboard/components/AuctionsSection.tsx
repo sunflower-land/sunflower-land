@@ -95,8 +95,7 @@ function groupAuctions({
         name: getAuctionItemType(auction),
         image: getAuctionItemDisplay({
           auction,
-          skills: {},
-          collectibles: {},
+          game: {} as GameState,
         }).image,
       } as AuctionSummary,
     ];

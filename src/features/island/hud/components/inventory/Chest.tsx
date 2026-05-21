@@ -411,12 +411,7 @@ export const Chest: React.FC<Props> = ({
     .filter(
       (name) =>
         name in COLLECTIBLE_BUFF_LABELS &&
-        (
-          COLLECTIBLE_BUFF_LABELS[name]?.({
-            skills: state.bumpkin.skills,
-            collectibles: state.collectibles,
-          }) ?? []
-        ).length > 0,
+        (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0,
     )
     .filter(
       (name) =>

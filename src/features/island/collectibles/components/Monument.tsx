@@ -42,10 +42,7 @@ const ProjectModal: React.FC<{
   const { t } = useAppTranslation();
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
-  const boostLabel = COLLECTIBLE_BUFF_LABELS[project]?.({
-    skills: state.bumpkin.skills,
-    collectibles: state.collectibles,
-  });
+  const boostLabel = COLLECTIBLE_BUFF_LABELS[project]?.(state);
 
   return (
     <Panel>

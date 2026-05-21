@@ -150,10 +150,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.({
-    skills: state.bumpkin.skills,
-    collectibles: state.collectibles,
-  });
+  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.(state);
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -397,12 +394,7 @@ export const TreasureShopBuy: React.FC = () => {
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
                 alternateIcon={
-                  COLLECTIBLE_BUFF_LABELS[name]?.({
-                    skills: state.bumpkin.skills,
-                    collectibles: state.collectibles,
-                  })
-                    ? lightning
-                    : undefined
+                  COLLECTIBLE_BUFF_LABELS[name]?.(state) ? lightning : undefined
                 }
                 key={name}
                 onClick={() => setSelectedName(name)}
@@ -416,10 +408,7 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS[name]?.({
-                      skills: state.bumpkin.skills,
-                      collectibles: state.collectibles,
-                    })
+                    COLLECTIBLE_BUFF_LABELS[name]?.(state)
                       ? lightning
                       : undefined
                   }
@@ -469,10 +458,7 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS[name]?.({
-                      skills: state.bumpkin.skills,
-                      collectibles: state.collectibles,
-                    })
+                    COLLECTIBLE_BUFF_LABELS[name]?.(state)
                       ? lightning
                       : undefined
                   }
