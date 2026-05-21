@@ -111,6 +111,42 @@ describe("isFaceVerified", () => {
     expect(isFaceVerified({ game })).toBe(false);
   });
 
+  it("resolves createdAt ties in favour of the entry appended later", () => {
+    // Append-only history: when two entries share the same
+    // millisecond, the one appended later wins so an `ownerChanged`
+    // appended right after a `succeeded` still flips to unverified.
+    const game: GameState = {
+      ...INITIAL_FARM,
+      verified: false,
+      faceRecognition: {
+        history: [
+          { event: "succeeded", createdAt: 1_000_000, confidence: 0.99 },
+          { event: "ownerChanged", createdAt: 1_000_000 },
+        ],
+      },
+    };
+
+    expect(isFaceVerified({ game })).toBe(false);
+  });
+
+  it("does not mutate the history array", () => {
+    const history = [
+      { event: "ownerChanged" as const, createdAt: 3_000_000 },
+      { event: "failed" as const, createdAt: 1_000_000, confidence: 0.1 },
+      { event: "succeeded" as const, createdAt: 2_000_000, confidence: 0.99 },
+    ];
+    const snapshot = [...history];
+    const game: GameState = {
+      ...INITIAL_FARM,
+      verified: false,
+      faceRecognition: { history },
+    };
+
+    isFaceVerified({ game });
+
+    expect(game.faceRecognition?.history).toEqual(snapshot);
+  });
+
   it("determines the latest event by createdAt, not by array order", () => {
     // The 'succeeded' entry has the highest createdAt, so the user
     // should be verified even if it appears earlier in the array.
