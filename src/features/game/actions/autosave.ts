@@ -9,6 +9,7 @@ import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 import { GameState } from "../types/game";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
+import { flushMetrics } from "../lib/interactionMetrics";
 import { getRecordHash } from "lib/stateHash";
 
 type StateHash = Record<keyof GameState, string>;
@@ -114,6 +115,7 @@ export async function autosaveRequest(
         cachedKey,
         deviceTrackerId: request.deviceTrackerId,
         stateHash: request.stateHash,
+        metrics: flushMetrics(),
       }),
       signal: controller.signal,
     });

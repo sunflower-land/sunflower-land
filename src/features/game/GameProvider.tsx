@@ -24,6 +24,7 @@ import {
   cacheShowTimersSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
+import { initInteractionMetrics } from "./lib/interactionMetrics";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
@@ -52,6 +53,10 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
+
+  useEffect(() => {
+    initInteractionMetrics();
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = () => {
