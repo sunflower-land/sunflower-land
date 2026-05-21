@@ -193,6 +193,11 @@ export interface Context {
   visitorId?: number;
   visitorState?: GameState;
   visitorNftId?: number;
+  // Stash for the visitor's own socialDetails while they're on another
+  // farm. Cleared into `socialDetails` on END_VISIT so we don't leak
+  // their email through the LinkedAccounts UI while visiting, and don't
+  // need a refetch on the way back.
+  visitorSocialDetails?: SocialDetails;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
   apiKey?: string;
@@ -634,7 +639,9 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                     event.data.data?.farmAddress ?? context.farmAddress,
                   // Effects run while visiting another farm return the
                   // visited farm's response payload. Never let that
-                  // overwrite the visitor's own socialDetails.
+                  // overwrite socialDetails — visitor's own value is
+                  // stashed in `visitorSocialDetails` and restored on
+                  // END_VISIT, so we just leave the active field alone.
                   socialDetails: context.visitorId
                     ? context.socialDetails
                     : resolveSocialDetails(
@@ -662,7 +669,9 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                     event.data.data?.farmAddress ?? context.farmAddress,
                   // Effects run while visiting another farm return the
                   // visited farm's response payload. Never let that
-                  // overwrite the visitor's own socialDetails.
+                  // overwrite socialDetails — visitor's own value is
+                  // stashed in `visitorSocialDetails` and restored on
+                  // END_VISIT, so we just leave the active field alone.
                   socialDetails: context.visitorId
                     ? context.socialDetails
                     : resolveSocialDetails(
@@ -1225,6 +1234,14 @@ export function startGame(authContext: AuthContext) {
                 visitorState: (_, event) => event.data.visitorState,
                 nftId: (_, event) => event.data.visitedFarmNftId,
                 visitorNftId: (context) => context.nftId,
+                // Stash the visitor's own socialDetails so the UI on the
+                // visited farm can't read their email; restored by END_VISIT.
+                // Preserve any existing stash so a visit-to-visit hop (without
+                // END_VISIT in between) doesn't overwrite the original value
+                // with the already-cleared `undefined`.
+                visitorSocialDetails: (context) =>
+                  context.visitorSocialDetails ?? context.socialDetails,
+                socialDetails: () => undefined,
                 hasHelpedPlayerToday: (_, event) =>
                   event.data.hasHelpedPlayerToday,
                 totalHelpedToday: (_, event) => event.data.totalHelpedToday,
@@ -1266,6 +1283,8 @@ export function startGame(authContext: AuthContext) {
                 state: context.visitorState,
                 farmId: context.visitorId,
                 nftId: context.visitorNftId,
+                socialDetails: context.visitorSocialDetails,
+                visitorSocialDetails: undefined,
                 actions: [],
               })),
             },
