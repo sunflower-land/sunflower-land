@@ -13,8 +13,13 @@ export function isFaceVerified({ game }: { game: GameState }) {
     return false;
   }
 
-  const lastAttempt =
-    faceRecognition.history[faceRecognition.history.length - 1];
+  // Non-mutating max-by-createdAt. Using `>=` so that when timestamps
+  // tie, the entry appended later in the array wins — important for
+  // append-only history where an `ownerChanged` event with the same
+  // millisecond as a prior `succeeded` must still stale verification.
+  const lastAttempt = faceRecognition.history.reduce((latest, attempt) =>
+    attempt.createdAt >= latest.createdAt ? attempt : latest,
+  );
 
   return lastAttempt.event === "succeeded";
 }
