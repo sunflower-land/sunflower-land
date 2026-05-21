@@ -225,7 +225,7 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
   const toggleDisabled = !hasWallet;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       {/* Card 1 — Google account display */}
       <ButtonPanel variant="card">
         <div className="flex items-start gap-2">

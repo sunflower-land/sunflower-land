@@ -193,7 +193,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : t("linkedAccounts.rationale.walletNotLinked");
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
 
       <Label type="warning">{t(warningKey)}</Label>
