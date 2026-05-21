@@ -10,6 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { maskEmail } from "lib/utils/maskEmail";
 import { ContentComponentProps } from "../GameOptions";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -27,17 +28,6 @@ const maskWalletAddress = (address: string): string => {
   if (address.length <= 10) return address;
 
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
-const maskEmail = (email: string): string => {
-  const [local, domain] = email.split("@");
-  if (!domain) return email;
-  const visibleLocal = local.slice(0, Math.min(2, local.length));
-  const localMask = "*".repeat(Math.max(3, local.length - visibleLocal.length));
-  const tld = domain.includes(".") ? domain.slice(domain.lastIndexOf(".")) : "";
-  const domainBody = tld ? domain.slice(0, -tld.length) : domain;
-  const domainMask = "*".repeat(Math.max(3, domainBody.length));
-  return `${visibleLocal}${localMask}@${domainMask}${tld}`;
 };
 
 type RowStatus = "linked" | "notLinked" | "linking" | "failed";
@@ -81,11 +71,7 @@ const ProviderRow: React.FC<RowProps> = ({
   const showManageHint = status === "linked" && clickableWhenLinked;
 
   return (
-    <ButtonPanel
-      variant="card"
-      disabled={disabled}
-      onClick={disabled ? undefined : onClick}
-    >
+    <ButtonPanel variant="card" onClick={disabled ? undefined : onClick}>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1 flex-wrap">
           <Label type="default" icon={icon}>

@@ -2124,6 +2124,8 @@
   "linkedAccounts.googleSignIn.turnOff": "Turn off",
   "linkedAccounts.googleSignIn.signedInThisDevice": "Signed in on this device",
   "linkedAccounts.googleSignIn.lastSignedInThisDevice": "Last signed in {{time}} · this device",
+  "linkedAccounts.googleSignIn.revealEmail": "Show full email",
+  "linkedAccounts.googleSignIn.hideEmail": "Hide email",
   "linkedAccounts.googleLoginEnabled": "Allow login with Google",
   "linkedAccounts.linkWalletFirst": "Link a wallet first so you can still log in.",
   "linkedAccounts.disableGoogleSelfWarning": "You are currently logged in via Google. Disabling will log you out. Continue?",

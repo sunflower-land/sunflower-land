@@ -18,6 +18,7 @@ import { SignMessageBody } from "features/wallet/components/SignMessage";
 import { removeJWT } from "features/auth/actions/social";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getRelativeTime } from "lib/utils/time";
+import { maskEmail } from "lib/utils/maskEmail";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/types";
 
@@ -87,6 +88,7 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
     null | "enable" | "disable"
   >(null);
   const [showInlineConfirm, setShowInlineConfirm] = useState(false);
+  const [revealEmail, setRevealEmail] = useState(false);
 
   // Wallet sign-message succeeded → dispatch the toggle event directly.
   // Doing this in the callback (rather than via an effect keyed off
@@ -241,7 +243,22 @@ export const LinkedGooglePanel: React.FC<Partial<ContentComponentProps>> = ({
               </span>
               <Label type="default">{t("linkedAccounts.role.signIn")}</Label>
             </div>
-            <p className="text-xs break-all mt-1">{socialDetails.email}</p>
+            <p
+              className="text-xs break-all mt-1 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                setRevealEmail((prev) => !prev);
+              }}
+              title={t(
+                revealEmail
+                  ? "linkedAccounts.googleSignIn.hideEmail"
+                  : "linkedAccounts.googleSignIn.revealEmail",
+              )}
+            >
+              {revealEmail
+                ? socialDetails.email
+                : maskEmail(socialDetails.email)}
+            </p>
             {signedInLine && (
               <p className="text-xs italic opacity-75 mt-1">{signedInLine}</p>
             )}
