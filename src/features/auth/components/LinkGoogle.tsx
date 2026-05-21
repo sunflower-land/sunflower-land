@@ -12,7 +12,6 @@ import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { MachineState } from "features/game/lib/gameMachine";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/types";
-import { hasFeatureAccess } from "lib/flags";
 import { GameWallet } from "features/wallet/Wallet";
 import { SignMessageBody } from "features/wallet/components/SignMessage";
 import { useConnections, useDisconnect } from "wagmi";
@@ -23,8 +22,6 @@ const _linkingSocialSuccess = (state: MachineState) =>
 const _linkingSocialFailed = (state: MachineState) =>
   state.matches("linkingSocialFailed");
 const _errorCode = (state: MachineState) => state.context.errorCode;
-const _hasDualLogin = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "DUAL_LOGIN");
 
 type WalletReauth = { address: string; signature: string };
 
@@ -60,7 +57,6 @@ export const LinkGoogle: React.FC<Partial<ContentComponentProps>> = ({
   const isLinkingSuccess = useSelector(gameService, _linkingSocialSuccess);
   const isLinkingFailed = useSelector(gameService, _linkingSocialFailed);
   const errorCode = useSelector(gameService, _errorCode);
-  const hasDualLogin = useSelector(gameService, _hasDualLogin);
 
   const [walletReauth, setWalletReauth] = useState<WalletReauth | null>(null);
 
@@ -85,19 +81,6 @@ export const LinkGoogle: React.FC<Partial<ContentComponentProps>> = ({
       authToken,
     });
   }, [walletReauth, google.idToken, authService, gameService]);
-
-  if (!hasDualLogin) {
-    return (
-      <div className="flex flex-col gap-2 items-center p-4">
-        <Label type="default" className="ml-2">
-          {t("linkedAccounts.linkGoogle")}
-        </Label>
-        <p className="text-sm text-center mt-2">
-          {t("linkedAccounts.googleLinkingComingSoon")}
-        </p>
-      </div>
-    );
-  }
 
   if (isLinking) {
     return (

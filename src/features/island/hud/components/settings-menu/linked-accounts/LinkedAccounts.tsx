@@ -11,7 +11,6 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ContentComponentProps } from "../GameOptions";
-import { hasFeatureAccess } from "lib/flags";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
@@ -119,10 +118,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(GameContext);
 
-  const hasLinkingAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "DUAL_LOGIN"),
-  );
-
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const socialDetails = useSelector(gameService, _socialDetails);
   const linkingWallet = useSelector(gameService, _linkingWallet);
@@ -163,19 +158,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         : googleStatus === "failed"
           ? t("linkedAccounts.signInCancelled")
           : t("linkedAccounts.noGoogle");
-
-  if (!hasLinkingAccess) {
-    return (
-      <div className="flex flex-col gap-2 items-center p-4">
-        <Label type="default" className="ml-2">
-          {t("linkedAccounts.linkAccounts")}
-        </Label>
-        <p className="text-sm text-center mt-2">
-          {t("linkedAccounts.linkAccountsDescription")}
-        </p>
-      </div>
-    );
-  }
 
   // Wireframe: the warning copy depends on whether the wallet is the
   // active owner of the NFT or merely the future owner. Wallet linked
