@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Label, LabelType } from "components/ui/Label";
@@ -52,6 +52,9 @@ interface RowProps {
   onClick?: () => void;
   /** Allow the row to remain clickable when in the "linked" state — for providers that have a manage panel. */
   clickableWhenLinked?: boolean;
+  /** Optional click handler bound to the subtext only (stops propagation). Used for click-to-reveal. */
+  onSubtextClick?: () => void;
+  subtextTitle?: string;
 }
 
 const ProviderRow: React.FC<RowProps> = ({
@@ -63,6 +66,8 @@ const ProviderRow: React.FC<RowProps> = ({
   subtext,
   onClick,
   clickableWhenLinked,
+  onSubtextClick,
+  subtextTitle,
 }) => {
   const { t } = useAppTranslation();
   const disabled =
@@ -85,7 +90,22 @@ const ProviderRow: React.FC<RowProps> = ({
       <p className="text-xs italic mt-1 ml-1 opacity-75">{rationale}</p>
 
       <div className="flex items-center justify-between gap-2 mt-1">
-        <p className="text-xs break-all ml-1">{subtext}</p>
+        <p
+          className={`text-xs break-all ml-1 ${
+            onSubtextClick ? "cursor-pointer" : ""
+          }`}
+          onClick={
+            onSubtextClick
+              ? (e) => {
+                  e.stopPropagation();
+                  onSubtextClick();
+                }
+              : undefined
+          }
+          title={subtextTitle}
+        >
+          {subtext}
+        </p>
         {showManageHint && (
           <img
             src={SUNNYSIDE.icons.chevron_right}
@@ -111,6 +131,8 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const linkingSocial = useSelector(gameService, _linkingSocial);
   const linkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
 
+  const [revealWallet, setRevealWallet] = useState(false);
+
   const walletStatus: RowStatus = linkingWallet
     ? "linking"
     : linkingWalletFailed
@@ -129,7 +151,9 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
 
   const walletSubtext =
     walletStatus === "linked" && linkedWallet
-      ? maskWalletAddress(linkedWallet)
+      ? revealWallet
+        ? linkedWallet
+        : maskWalletAddress(linkedWallet)
       : walletStatus === "linking"
         ? t("linkedAccounts.waitingForWallet")
         : walletStatus === "failed"
@@ -180,6 +204,20 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         status={walletStatus}
         subtext={walletSubtext}
         onClick={() => onSubMenuClick("linkAccountWallet")}
+        onSubtextClick={
+          walletStatus === "linked" && linkedWallet
+            ? () => setRevealWallet((prev) => !prev)
+            : undefined
+        }
+        subtextTitle={
+          walletStatus === "linked" && linkedWallet
+            ? t(
+                revealWallet
+                  ? "linkedAccounts.hideWallet"
+                  : "linkedAccounts.revealWallet",
+              )
+            : undefined
+        }
       />
 
       <ProviderRow
