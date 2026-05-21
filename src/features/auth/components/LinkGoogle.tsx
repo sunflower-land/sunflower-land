@@ -11,7 +11,7 @@ import { useGoogleLinkPopup } from "features/auth/lib/useGoogleLinkPopup";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { MachineState } from "features/game/lib/gameMachine";
-import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
+import type { ContentComponentProps } from "../../island/hud/components/settings-menu/types";
 import { hasFeatureAccess } from "lib/flags";
 import { GameWallet } from "features/wallet/Wallet";
 import { SignMessageBody } from "features/wallet/components/SignMessage";

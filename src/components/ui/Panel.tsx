@@ -202,15 +202,23 @@ export const ButtonPanel: React.FC<
     "--button-pressed-image": `url(${borderImagePressed})`,
   };
 
+  // Treat as interactive only when a click handler is wired AND the
+  // panel isn't disabled. Without this, decorative cards still showed
+  // a pointer cursor and animated on press.
+  const interactive = !disabled && !!onClick;
+
   return (
     <div
       className={classNames(
-        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.997] ${className}`,
+        "![border-image:var(--button-image)_3_3_4_3_fill]",
         "relative",
+        className,
         {
           "opacity-50": !!disabled,
-          "cursor-pointer": !disabled,
-          "hover:brightness-90": !disabled,
+          "cursor-pointer": interactive,
+          "hover:brightness-90": interactive,
+          "transition-transform active:scale-[0.997] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill]":
+            interactive,
           // "img-highlight": selected,
         },
       )}
@@ -225,7 +233,7 @@ export const ButtonPanel: React.FC<
         color: "#674544",
         ...style,
       }}
-      onClick={disabled ? undefined : onClick}
+      onClick={interactive ? onClick : undefined}
       {...otherDivProps}
     >
       {children}

@@ -41,6 +41,7 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
+import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -65,11 +66,9 @@ import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
+import type { ContentComponentProps, SettingMenuId } from "./types";
 
-export interface ContentComponentProps {
-  onSubMenuClick: (id: SettingMenuId) => void;
-  onClose: () => void;
-}
+export type { ContentComponentProps, SettingMenuId };
 
 export const subscriptionsFetcher = ([, token, farmId]: [
   string,
@@ -274,47 +273,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   );
 };
 
-export type SettingMenuId =
-  // Game Options
-  | "main"
-  | "installApp"
-  | "account"
-  | "advanced"
-  | "about"
-  | "amoy"
-  | "blockchain"
-  | "linkedAccounts"
-  | "linkAccountWallet"
-  | "linkAccountGoogle"
-  | "plaza"
-  | "experiments"
-  | "economyEditor"
-  | "admin"
-  | "faceRecognition"
-  // Blockchain Settings
-  | "deposit"
-  | "swapSFL"
-  | "dequip"
-  | "transfer"
-
-  // Account / Preferences
-  | "discord"
-  | "changeLanguage"
-  | "preferences"
-  | "appearance"
-  | "behaviour"
-  | "audio"
-  | "notifications"
-  | "apiKey"
-
-  // Amoy Testnet Actions
-  | "hoardingCheck"
-  | "playerSearch"
-  | "errorSearch"
-  // Plaza Settings
-  | "pickServer"
-  | "shader";
-
 interface SettingMenu {
   title: string;
   parent: SettingMenuId;
@@ -372,6 +330,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("linkedAccounts.linkGoogle"),
     parent: "linkedAccounts",
     content: LinkGoogle,
+  },
+  linkAccountGoogleManage: {
+    title: translate("linkedAccounts.googleSignIn.title"),
+    parent: "linkedAccounts",
+    content: LinkedGooglePanel,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),
