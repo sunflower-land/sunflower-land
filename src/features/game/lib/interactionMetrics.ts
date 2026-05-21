@@ -2,7 +2,7 @@ let count = 0;
 let initialized = false;
 
 function record(event: MouseEvent) {
-  if (event.isTrusted === false) count++;
+  if (!event.isTrusted) count++;
 }
 
 export function initInteractionMetrics() {
