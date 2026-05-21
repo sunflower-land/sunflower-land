@@ -13,8 +13,9 @@ export function isFaceVerified({ game }: { game: GameState }) {
     return false;
   }
 
-  const lastAttempt =
-    faceRecognition.history[faceRecognition.history.length - 1];
+  const lastAttempt = faceRecognition.history.sort(
+    (a, b) => b.createdAt - a.createdAt,
+  )[0];
 
   return lastAttempt.event === "succeeded";
 }

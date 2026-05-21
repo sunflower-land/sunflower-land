@@ -2202,7 +2202,7 @@ export type FaceRecognitionEvent =
         farmId: number;
       }[];
     }
-  | { event: "reverifyRequired"; createdAt: number };
+  | { event: "ownerChanged"; createdAt: number };
 
 export interface Context {
   state?: GameState;
