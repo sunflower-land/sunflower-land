@@ -30,6 +30,8 @@ import { useNow } from "lib/utils/hooks/useNow";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _custodialWallet = (state: MachineState) => state.context.custodialWallet;
 
 export const MakeOffer: React.FC<{
   display: TradeableDisplay;
@@ -104,8 +106,14 @@ export const MakeOffer: React.FC<{
           points: tradeType === "instant" ? 2 : 4,
         }).multipliedPoints;
 
+  const linkedWallet = useSelector(gameService, _linkedWallet);
+  const custodialWallet = useSelector(gameService, _custodialWallet);
+  // Custodial farms (Google signup, no linked wallet, but a platform
+  // smart account) can make onchain offers — the BE no longer gates
+  // on linkedWallet here. Only require the user to connect a wallet
+  // when they have neither a linked nor a custodial address.
   const needsLinkedWallet =
-    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+    tradeType === "onchain" && !linkedWallet && !custodialWallet;
 
   if (offerCount >= 100) {
     return (

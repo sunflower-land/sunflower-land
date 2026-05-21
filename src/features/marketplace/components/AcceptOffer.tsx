@@ -198,7 +198,21 @@ export const AcceptOffer: React.FC<{
   itemId: number;
   onOfferAccepted: () => void;
 }> = ({ onClose, authToken, display, offer, itemId, onOfferAccepted }) => {
-  if (offer.type === "onchain") {
+  const { gameService } = useContext(Context);
+  const linkedWallet = useSelector(gameService, (s) => s.context.linkedWallet);
+  const custodialWallet = useSelector(
+    gameService,
+    (s) => s.context.custodialWallet,
+  );
+
+  // Custodial farms can accept onchain offers — settlement uses the
+  // platform-controlled smart account on their behalf. Only ask the
+  // user to connect a wallet when neither a linked nor custodial
+  // address exists.
+  const needsWallet =
+    offer.type === "onchain" && !linkedWallet && !custodialWallet;
+
+  if (needsWallet) {
     return (
       <GameWallet action="marketplace">
         <AcceptOfferContent

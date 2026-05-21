@@ -15,6 +15,7 @@ import { ContentComponentProps } from "../GameOptions";
 import { hasFeatureAccess } from "lib/flags";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isCustodialWalletLinkBlocked } from "features/wallet/lib/custodialGate";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _custodialWallet = (state: MachineState) => state.context.custodialWallet;
@@ -120,12 +121,11 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const linkingSocial = useSelector(gameService, _linkingSocial);
   const linkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
 
-  // Custodial farms can only link a wallet once the player has shown
-  // engagement (Seedling reputation). This compensates for the auto-mint
-  // at signup: anyone can grab a Google farm + NFT, but only engaged
-  // players can take real custody.
-  const walletLinkBlockedByReputation =
-    !linkedWallet && !!custodialWallet && !hasSeedlingReputation;
+  const walletLinkBlockedByReputation = isCustodialWalletLinkBlocked({
+    linkedWallet,
+    custodialWallet,
+    hasSeedlingReputation,
+  });
 
   const walletStatus: RowStatus = linkingWallet
     ? "linking"

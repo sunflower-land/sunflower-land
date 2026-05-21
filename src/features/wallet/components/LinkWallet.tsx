@@ -17,6 +17,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isCustodialWalletLinkBlocked } from "features/wallet/lib/custodialGate";
 
 const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");
 const _linkingWalletSuccess = (state: MachineState) =>
@@ -83,8 +84,11 @@ export const LinkWallet: React.FC<Partial<ContentComponentProps>> = ({
   // reputation before linking. Block the flow before either credential
   // is collected; the BE also rejects with CUSTODIAL_REPUTATION_TOO_LOW
   // as a backstop.
-  const blockedByReputation =
-    !linkedWallet && !!custodialWallet && !hasSeedlingReputation;
+  const blockedByReputation = isCustodialWalletLinkBlocked({
+    linkedWallet,
+    custodialWallet,
+    hasSeedlingReputation,
+  });
 
   const [walletSig, setWalletSig] = useState<WalletSig | null>(null);
 

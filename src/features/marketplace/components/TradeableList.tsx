@@ -87,6 +87,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
+  const linkedWallet = useSelector(gameService, (s) => s.context.linkedWallet);
+  const custodialWallet = useSelector(
+    gameService,
+    (s) => s.context.custodialWallet,
+  );
 
   const { state } = gameState.context;
 
@@ -198,8 +203,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return <FaceRecognition />;
   }
 
+  // Custodial farms (Google signup, no linked wallet, but a platform
+  // smart account) can list onchain — the BE no longer gates on
+  // linkedWallet here. Only require a wallet connection when neither
+  // a linked nor a custodial address exists.
   const needsLinkedWallet =
-    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+    tradeType === "onchain" && !linkedWallet && !custodialWallet;
 
   if (showConfirmation) {
     if (needsLinkedWallet) {

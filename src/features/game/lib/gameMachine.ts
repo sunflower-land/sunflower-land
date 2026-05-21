@@ -635,8 +635,15 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   onChainRaffleReward: prize,
                   linkedWallet:
                     event.data.data?.linkedWallet ?? context.linkedWallet,
+                  // Clear the custodial address once a linked wallet is
+                  // present — handoff has completed and the farm is no
+                  // longer treated as custodial in the UI for the rest
+                  // of this session.
                   custodialWallet:
-                    event.data.data?.custodialWallet ?? context.custodialWallet,
+                    (event.data.data?.linkedWallet ?? context.linkedWallet)
+                      ? undefined
+                      : (event.data.data?.custodialWallet ??
+                        context.custodialWallet),
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
@@ -793,8 +800,15 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   state: event.data.state,
                   linkedWallet:
                     event.data.data?.linkedWallet ?? context.linkedWallet,
+                  // Clear the custodial address once a linked wallet is
+                  // present — handoff has completed and the farm is no
+                  // longer treated as custodial in the UI for the rest
+                  // of this session.
                   custodialWallet:
-                    event.data.data?.custodialWallet ?? context.custodialWallet,
+                    (event.data.data?.linkedWallet ?? context.linkedWallet)
+                      ? undefined
+                      : (event.data.data?.custodialWallet ??
+                        context.custodialWallet),
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
