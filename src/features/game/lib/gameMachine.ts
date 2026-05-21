@@ -1236,7 +1236,11 @@ export function startGame(authContext: AuthContext) {
                 visitorNftId: (context) => context.nftId,
                 // Stash the visitor's own socialDetails so the UI on the
                 // visited farm can't read their email; restored by END_VISIT.
-                visitorSocialDetails: (context) => context.socialDetails,
+                // Preserve any existing stash so a visit-to-visit hop (without
+                // END_VISIT in between) doesn't overwrite the original value
+                // with the already-cleared `undefined`.
+                visitorSocialDetails: (context) =>
+                  context.visitorSocialDetails ?? context.socialDetails,
                 socialDetails: () => undefined,
                 hasHelpedPlayerToday: (_, event) =>
                   event.data.hasHelpedPlayerToday,
