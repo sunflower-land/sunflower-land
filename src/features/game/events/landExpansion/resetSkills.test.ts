@@ -80,7 +80,7 @@ describe("resetSkills", () => {
   });
 
   describe("gem reset", () => {
-    it("charges 1 gem per skill point at history 0", () => {
+    it("charges nothing for resets inside the first 200 points of history", () => {
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
@@ -97,11 +97,55 @@ describe("resetSkills", () => {
       });
 
       expect(state.bumpkin?.skills).toEqual({});
-      expect(state.inventory.Gem?.toNumber()).toEqual(9);
+      expect(state.inventory.Gem?.toNumber()).toEqual(10);
       expect(state.bumpkin?.skillPointsUsed).toEqual(1);
     });
 
-    it("requires enough gems to cover the cost", () => {
+    it("starts charging 1 gem per point once history passes 200", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            skillPointsUsed: 200,
+            previousFreeSkillResetAt: dateNow,
+          },
+          inventory: {
+            Gem: new Decimal(10),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory.Gem?.toNumber()).toEqual(9);
+      expect(state.bumpkin?.skillPointsUsed).toEqual(201);
+    });
+
+    it("doubles the gem rate every 200 points past the free window", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            skillPointsUsed: 400,
+            previousFreeSkillResetAt: dateNow,
+          },
+          inventory: {
+            Gem: new Decimal(10),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory.Gem?.toNumber()).toEqual(8);
+      expect(state.bumpkin?.skillPointsUsed).toEqual(401);
+    });
+
+    it("requires enough gems to cover the cost once past the free window", () => {
       expect(() => {
         resetSkills({
           state: {
@@ -109,6 +153,8 @@ describe("resetSkills", () => {
             bumpkin: {
               ...TEST_BUMPKIN,
               skills: { "Green Thumb": 1 },
+              skillPointsUsed: 200,
+              previousFreeSkillResetAt: dateNow,
             },
             inventory: {
               Gem: new Decimal(0),
@@ -120,14 +166,18 @@ describe("resetSkills", () => {
       }).toThrow("Not enough gems. Cost: 1 gems");
     });
 
-    it("doubles the gem rate past 200 points used", () => {
+    it("auto-resets skillPointsUsed and stamps the timer when the 180-day window has elapsed", () => {
+      const sixMonthsAgo = new Date(dateNow);
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
           bumpkin: {
             ...TEST_BUMPKIN,
             skills: { "Green Thumb": 1 },
-            skillPointsUsed: 200,
+            skillPointsUsed: 500,
+            previousFreeSkillResetAt: sixMonthsAgo.getTime(),
           },
           inventory: {
             Gem: new Decimal(10),
@@ -137,26 +187,27 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.inventory.Gem?.toNumber()).toEqual(8);
-      expect(state.bumpkin?.skillPointsUsed).toEqual(201);
+      // Window had expired, so history is treated as 0 and the 1 point removed
+      // sits inside the new free window. No gem cost; new timer stamped.
+      expect(state.inventory.Gem?.toNumber()).toEqual(10);
+      expect(state.bumpkin?.skillPointsUsed).toEqual(1);
+      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
     });
 
-    it("splits gem cost across a 200-point boundary", () => {
-      // Player has 190 history. Removing 20 points costs:
-      //   first 10 points at rate 1 = 10 gems
-      //   next  10 points at rate 2 = 20 gems
-      //   total 30 gems; history ends at 210
-      // We can't easily make `skills` total exactly 20 points without a long
-      // list, so this case is covered by the unit test on getGemCostForSkillPoints.
-      expect(getGemCostForSkillPoints(20, 190)).toEqual(30);
-      expect(getGemCostForSkillPoints(10, 0)).toEqual(10);
-      expect(getGemCostForSkillPoints(10, 190)).toEqual(10);
-      expect(getGemCostForSkillPoints(10, 200)).toEqual(20);
-      expect(getGemCostForSkillPoints(400, 0)).toEqual(0 + 200 + 400);
-    });
-
-    it("does not write to skillPointsUsed nor charge gems on pure addition (not reachable via reset, but ensures helper is safe)", () => {
+    it("computes the cost ramp correctly across the free window and rate doublings", () => {
+      // First 200 are free.
       expect(getGemCostForSkillPoints(0, 100)).toEqual(0);
+      expect(getGemCostForSkillPoints(200, 0)).toEqual(0);
+      // Single-point cost at each doubling boundary.
+      expect(getGemCostForSkillPoints(1, 200)).toEqual(1);
+      expect(getGemCostForSkillPoints(1, 400)).toEqual(2);
+      expect(getGemCostForSkillPoints(1, 600)).toEqual(4);
+      // Split across the free-window boundary.
+      expect(getGemCostForSkillPoints(20, 190)).toEqual(10); // 10 free + 10 at 1/pt
+      // Split across a doubling boundary inside the paid window.
+      expect(getGemCostForSkillPoints(20, 390)).toEqual(30); // 10 at 1/pt + 10 at 2/pt
+      // Sweep from 0 across two ramps: 200 free + 200 at 1/pt + 200 at 2/pt.
+      expect(getGemCostForSkillPoints(600, 0)).toEqual(0 + 200 + 400);
     });
   });
 
@@ -225,6 +276,7 @@ describe("resetSkills", () => {
             ...TEST_BUMPKIN,
             skills: { "Green Thumb": 1 },
             skillPointsUsed: 10,
+            previousFreeSkillResetAt: dateNow,
           },
           inventory: {
             "Skill Reset Ticket": new Decimal(1),

@@ -18,9 +18,10 @@ type Options = {
   createdAt?: number;
 };
 
-// Cost ramp: 1 gem/point at 0–199 history, doubles every 200 points used
-// (200–399 → 2, 400–599 → 4, …). Transactions that span a boundary pay
-// split-rate.
+// Cost ramp: the first 200 points removed in the 180-day window are free,
+// then 1 gem/point from 200–399, doubling every 200 thereafter (400–599 →
+// 2/pt, 600–799 → 4/pt, …). Transactions that span a boundary pay split-rate.
+const FREE_POINTS = 200;
 const POINTS_PER_TIER = 200;
 
 export const getGemCostForSkillPoints = (
@@ -32,10 +33,19 @@ export const getGemCostForSkillPoints = (
   let history = skillPointsUsed;
 
   while (remaining > 0) {
-    const tierEnd =
-      (Math.floor(history / POINTS_PER_TIER) + 1) * POINTS_PER_TIER;
+    let rate: number;
+    let tierEnd: number;
+
+    if (history < FREE_POINTS) {
+      rate = 0;
+      tierEnd = FREE_POINTS;
+    } else {
+      const tierIndex = Math.floor((history - FREE_POINTS) / POINTS_PER_TIER);
+      rate = Math.pow(2, tierIndex);
+      tierEnd = FREE_POINTS + (tierIndex + 1) * POINTS_PER_TIER;
+    }
+
     const inTier = Math.min(remaining, tierEnd - history);
-    const rate = Math.pow(2, Math.floor(history / POINTS_PER_TIER));
     cost += inTier * rate;
     history += inTier;
     remaining -= inTier;
@@ -70,6 +80,17 @@ export function canResetForFree(
   return timeUntilNextReset <= 0;
 }
 
+// Treats `skillPointsUsed` as 0 once the 180-day window has elapsed, so callers
+// (cost computation, UI labels) see the auto-reset without having to wait for
+// the next paid edit to actually persist it.
+export function getEffectiveSkillPointsUsed(
+  bumpkin: { skillPointsUsed?: number; previousFreeSkillResetAt?: number },
+  now = Date.now(),
+): number {
+  if (canResetForFree(bumpkin.previousFreeSkillResetAt ?? 0, now)) return 0;
+  return bumpkin.skillPointsUsed ?? 0;
+}
+
 // Shared by resetSkills and updateSkills so the two paths cannot drift in cost.
 export function chargeSkillEdit({
   game,
@@ -92,11 +113,15 @@ export function chargeSkillEdit({
   // charge for, so don't burn a cooldown / ticket either.
   if (pointsRemoved <= 0) return;
 
-  const { skillPointsUsed = 0, previousFreeSkillResetAt = 0 } = bumpkin;
+  const { previousFreeSkillResetAt = 0 } = bumpkin;
+  // Auto-reset: once the 180-day window has elapsed we treat history as 0,
+  // and any paid edit also opens a fresh window by stamping previousFreeSkillResetAt.
+  const windowExpired = canResetForFree(previousFreeSkillResetAt, createdAt);
+  const skillPointsUsed = windowExpired ? 0 : (bumpkin.skillPointsUsed ?? 0);
 
   switch (paymentType) {
     case "free": {
-      if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
+      if (!windowExpired) {
         const timeToNextFreeResetInMilliseconds = getTimeUntilNextFreeReset(
           previousFreeSkillResetAt,
           createdAt,
@@ -123,6 +148,7 @@ export function chargeSkillEdit({
 
       game.inventory.Gem = gemBalance.minus(gemCost);
       bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
+      if (windowExpired) bumpkin.previousFreeSkillResetAt = createdAt;
       break;
     }
     case "ticket": {
@@ -135,6 +161,7 @@ export function chargeSkillEdit({
 
       game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
       bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
+      if (windowExpired) bumpkin.previousFreeSkillResetAt = createdAt;
       break;
     }
     default: {

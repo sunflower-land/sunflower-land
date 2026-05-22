@@ -195,7 +195,7 @@ describe("updateSkills", () => {
     ).toThrow("You do not have enough skill points");
   });
 
-  it("prevents paid skill updates when gems are missing", () => {
+  it("prevents paid skill updates when gems are missing once past the free window", () => {
     expect(() =>
       updateSkills({
         state: {
@@ -208,6 +208,7 @@ describe("updateSkills", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[3],
             skills: { "Green Thumb": 1 },
+            skillPointsUsed: 200,
             previousFreeSkillResetAt: dateNow,
           },
         },
@@ -221,7 +222,7 @@ describe("updateSkills", () => {
     ).toThrow("Not enough gems");
   });
 
-  it("charges 1 gem per removed point and increments skillPointsUsed", () => {
+  it("does not charge while skillPointsUsed is still inside the free window", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
@@ -245,11 +246,11 @@ describe("updateSkills", () => {
     });
 
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
-    expect(result.inventory.Gem?.toNumber()).toEqual(9);
+    expect(result.inventory.Gem?.toNumber()).toEqual(10);
     expect(result.bumpkin?.skillPointsUsed).toEqual(1);
   });
 
-  it("doubles gem rate past 200 skill points used", () => {
+  it("charges 1 gem per point once history passes the free 200", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
@@ -273,8 +274,36 @@ describe("updateSkills", () => {
       createdAt: dateNow,
     });
 
-    expect(result.inventory.Gem?.toNumber()).toEqual(8);
+    expect(result.inventory.Gem?.toNumber()).toEqual(9);
     expect(result.bumpkin?.skillPointsUsed).toEqual(201);
+  });
+
+  it("doubles the gem rate every 200 points past the free window", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Gem: new Decimal(10),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          skillPointsUsed: 400,
+          previousFreeSkillResetAt: dateNow,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+        paymentType: "gems",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.inventory.Gem?.toNumber()).toEqual(8);
+    expect(result.bumpkin?.skillPointsUsed).toEqual(401);
   });
 
   it("does not charge or burn cooldown for pure additions", () => {
