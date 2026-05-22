@@ -474,10 +474,9 @@ describe("getNextLoveAvailableAt", () => {
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
     const animal = { ...baseAnimal, lovedAt: 0 };
     const openAt = getNextLoveAvailableAt(animal);
-    // strict-less-than gate in isAnimalNeedingLove, so it's still false at
-    // the boundary itself and true one tick after.
-    expect(isAnimalNeedingLove(animal, openAt)).toBe(false);
-    expect(isAnimalNeedingLove(animal, openAt + 1)).toBe(true);
+    // Gate opens at the boundary — false strictly before, true at and after.
+    expect(isAnimalNeedingLove(animal, openAt - 1)).toBe(false);
+    expect(isAnimalNeedingLove(animal, openAt)).toBe(true);
   });
 
   it("returns a value >= awakeAt when no slot remains this cycle", () => {
