@@ -9,18 +9,10 @@ import {
 import type { Bumpkin, GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import Decimal from "decimal.js-light";
-import { canResetForFree, getGemCost, PaymentType } from "./resetSkills";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
   skill: BumpkinRevampSkillName;
-};
-
-export type UpdateSkillsAction = {
-  type: "skills.updated";
-  skills: Skills;
-  paymentType: PaymentType;
 };
 
 type Options = {
@@ -275,81 +267,6 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       ...bumpkin.skills,
       [action.skill]: 1,
     };
-
-    populateSaltFarm({
-      gameBefore: state,
-      gameAfter: stateCopy,
-      now: createdAt,
-    });
-
-    return stateCopy;
-  });
-}
-
-export function updateSkills({
-  state,
-  action,
-  createdAt = Date.now(),
-}: {
-  state: GameState;
-  action: UpdateSkillsAction;
-  createdAt?: number;
-}) {
-  return produce(state, (stateCopy) => {
-    if (!stateCopy.bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-
-    const { paidSkillResets = 0, previousFreeSkillResetAt = 0 } =
-      stateCopy.bumpkin;
-    const skills = sanitizeSkillSelection(action.skills);
-
-    validateSkillSelection({
-      state: stateCopy,
-      skills,
-    });
-
-    switch (action.paymentType) {
-      case "free": {
-        if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
-          throw new Error("Free skill edit is not available yet");
-        }
-
-        stateCopy.bumpkin.paidSkillResets = 0;
-        stateCopy.bumpkin.previousFreeSkillResetAt = createdAt;
-        break;
-      }
-      case "gems": {
-        const gemCost = getGemCost(paidSkillResets);
-        const gemBalance = stateCopy.inventory.Gem ?? new Decimal(0);
-
-        if (gemBalance.lt(gemCost)) {
-          throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
-        }
-
-        stateCopy.inventory.Gem = gemBalance.minus(gemCost);
-        stateCopy.bumpkin.paidSkillResets = paidSkillResets + 1;
-        break;
-      }
-      case "ticket": {
-        const ticketBalance =
-          stateCopy.inventory["Skill Reset Ticket"] ?? new Decimal(0);
-
-        if (ticketBalance.lt(1)) {
-          throw new Error("You do not have a Skill Reset Ticket");
-        }
-
-        stateCopy.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
-        stateCopy.bumpkin.paidSkillResets = paidSkillResets + 1;
-        break;
-      }
-      default: {
-        const _exhaustive: never = action.paymentType;
-        throw new Error(`Unknown payment type: ${_exhaustive}`);
-      }
-    }
-
-    stateCopy.bumpkin.skills = skills;
 
     populateSaltFarm({
       gameBefore: state,
