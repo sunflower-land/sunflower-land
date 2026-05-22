@@ -152,7 +152,7 @@ const PowerSkillsContent: React.FC<{
     createdAt: now,
   });
 
-  const isPowerSkillReady = (skill: BumpkinSkillRevamp) => {
+  const isPowerSkillCooldownReady = (skill: BumpkinSkillRevamp) => {
     if (!skill.power) return false;
 
     const skillName = skill.name as BumpkinRevampSkillName;
@@ -163,13 +163,7 @@ const PowerSkillsContent: React.FC<{
     const nextSkillUse =
       (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
 
-    if (nextSkillUse >= now) return false;
-
-    return !powerSkillDisabledConditions({
-      state,
-      skillTree: skill,
-      createdAt: now,
-    }).disabled;
+    return nextSkillUse < now;
   };
 
   return (
@@ -377,7 +371,7 @@ const PowerSkillsContent: React.FC<{
                       }}
                       tier={requirements.tier}
                       npc={npc}
-                      isReady={isPowerSkillReady(skill)}
+                      isReady={isPowerSkillCooldownReady(skill)}
                       secondaryImage={
                         boosts.debuff
                           ? tradeOffs
@@ -434,7 +428,7 @@ const PowerSkillsContent: React.FC<{
                       }}
                       tier={requirements.tier}
                       npc={npc}
-                      isReady={isPowerSkillReady(skill)}
+                      isReady={isPowerSkillCooldownReady(skill)}
                       secondaryImage={
                         boosts.debuff
                           ? tradeOffs
