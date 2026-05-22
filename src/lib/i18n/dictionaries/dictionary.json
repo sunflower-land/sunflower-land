@@ -5036,6 +5036,7 @@
   "skillReset.freeDescription": "Reset all your skills for free.",
   "skillReset.gemsDescription": "Reset all your skills using gems.",
   "skillReset.costDoubles": "Cost doubles every 200 points removed.",
+  "skillReset.pointsRemovedSinceLastFree": "{{count}} skill points removed since last free edit",
   "skillReset.nextFreeReset": "Next free reset on {{date}} at {{time}}",
   "skillReset.noSkills": "No skills to reset",
   "skillReset.resetSkills": "Reset Skills",

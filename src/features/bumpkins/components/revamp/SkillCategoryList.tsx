@@ -165,6 +165,13 @@ export const SkillCategoryList: React.FC<{
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
         <div className="flex flex-row flex-wrap mt-2 mb-1 items-center gap-1">
           <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
+          {skillPointsUsed > 0 && (
+            <Label type="default">
+              {t("skillReset.pointsRemovedSinceLastFree", {
+                count: skillPointsUsed,
+              })}
+            </Label>
+          )}
           {isEditing && (
             <>
               <Label type={validationError ? "danger" : "info"}>
