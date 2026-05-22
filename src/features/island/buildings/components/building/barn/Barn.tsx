@@ -9,9 +9,11 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 import { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LandBiomeName } from "features/island/biomes/biomes";
+import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 
 export const BARN_IMAGES: Record<
@@ -120,13 +122,7 @@ const _hasSickAnimals = (state: MachineState) => {
   );
 };
 
-const _animalsNeedLove = (state: MachineState) => {
-  return Object.values(state.context.state.barn.animals).some(
-    (animal) =>
-      animal.asleepAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now() &&
-      animal.lovedAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now(),
-  );
-};
+const _barnAnimals = (state: MachineState) => state.context.state.barn.animals;
 
 const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
@@ -141,8 +137,16 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { play: barnAudio } = useSound("barn");
 
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
-  const animalsNeedLove = useSelector(gameService, _animalsNeedLove);
+  const barnAnimals = useSelector(gameService, _barnAnimals);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
+
+  // useNow drives a tick every second so the alert flips on as soon as
+  // the love window opens — the underlying gate values only change on
+  // game-state events, which wouldn't fire when crossing the time gate.
+  const now = useNow({ live: true });
+  const animalsNeedLove = Object.values(barnAnimals).some((animal) =>
+    isAnimalNeedingLove(animal, now),
+  );
   const handleClick = () => {
     if (isBuilt) {
       // Add future on click actions here
