@@ -399,13 +399,6 @@ export const SkillPathDetails: React.FC<Props> = ({
                         const hasSkill = !!skills[skillName];
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
-                        const skillEditDisabledReason =
-                          getEditDisabledReason(skill);
-                        const isSkillToggleDisabled =
-                          isEditing &&
-                          ((skill.disabled && !hasSkill) ||
-                            readonly ||
-                            !!skillEditDisabledReason);
 
                         return (
                           <SkillBox
@@ -415,10 +408,6 @@ export const SkillPathDetails: React.FC<Props> = ({
                             onClick={() => {
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
-
-                              if (isEditing && !isSkillToggleDisabled) {
-                                onToggleDraftSkill(skillName);
-                              }
                             }}
                             showOverlay={hasSkill || !tierUnlocked}
                             overlayIcon={
