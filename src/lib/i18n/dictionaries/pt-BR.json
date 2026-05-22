@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Mostrar e-mail completo",
   "linkedAccounts.googleSignIn.hideEmail": "Ocultar e-mail",
   "linkedAccounts.revealWallet": "Mostrar endereço completo",
-  "linkedAccounts.hideWallet": "Ocultar endereço"
+  "linkedAccounts.hideWallet": "Ocultar endereço",
+  "compost.turbofruitMixBoosted": "O Turbofruit Mix aumenta o rendimento do canteiro de frutas em +0,2 e reduz o tempo de crescimento do canteiro de frutas em 20%.",
+  "description.knowledge.crab.yield.boost": "+0,2 Rendimento da parcela de safra do caranguejo do conhecimento",
+  "description.fruitful.bounty.skill.boost": "+0.1 Rendimento da horta de frutas com a habilidade Fruitful Bounty"
 }

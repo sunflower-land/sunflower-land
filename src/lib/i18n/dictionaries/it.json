@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Mostra email completa",
   "linkedAccounts.googleSignIn.hideEmail": "Nascondi email",
   "linkedAccounts.revealWallet": "Mostra indirizzo completo",
-  "linkedAccounts.hideWallet": "Nascondi indirizzo"
+  "linkedAccounts.hideWallet": "Nascondi indirizzo",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix aumenta la resa dell'orto di +0,2 e riduce il tempo di crescita dell'orto del 20%.",
+  "description.knowledge.crab.yield.boost": "+0,2 Rendimento del terreno raccolto da Knowledge Crab",
+  "description.fruitful.bounty.skill.boost": "+0.1 Rendimento in Fruit Patch grazie all'abilità Fruitful Bounty"
 }

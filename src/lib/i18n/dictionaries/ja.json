@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "メール全体を表示",
   "linkedAccounts.googleSignIn.hideEmail": "メールを非表示にする",
   "linkedAccounts.revealWallet": "完全な住所を表示",
-  "linkedAccounts.hideWallet": "住所を非表示にする"
+  "linkedAccounts.hideWallet": "住所を非表示にする",
+  "compost.turbofruitMixBoosted": "ターボフルーツミックスはフルーツパッチの収穫量を+0.2増やし、フルーツパッチの成長時間を20％短縮します。",
+  "description.knowledge.crab.yield.boost": "+0.2 ナレッジクラブからの農地収量",
+  "description.fruitful.bounty.skill.boost": "フルーツフルバウンティスキルによるフルーツパッチ生成量+0.1"
 }

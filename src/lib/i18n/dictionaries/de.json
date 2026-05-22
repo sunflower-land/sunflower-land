@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Vollständige E-Mail anzeigen",
   "linkedAccounts.googleSignIn.hideEmail": "E-Mail ausblenden",
   "linkedAccounts.revealWallet": "Vollständige Adresse anzeigen",
-  "linkedAccounts.hideWallet": "Adresse verbergen"
+  "linkedAccounts.hideWallet": "Adresse verbergen",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix erhöht den Ertrag Ihrer Fruchtbeete um +0,2 und reduziert die Wachstumszeit der Fruchtbeete um 20%.",
+  "description.knowledge.crab.yield.boost": "+0.2 Ertrag der Anbaufläche durch Wissenskrabbe",
+  "description.fruitful.bounty.skill.boost": "+0.1 Ertrag aus Fruchtfeldern durch die Fertigkeit Fruchtbares Kopfgeld"
 }

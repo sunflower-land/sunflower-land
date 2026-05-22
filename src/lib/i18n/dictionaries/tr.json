@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "E-postanın tamamını göster",
   "linkedAccounts.googleSignIn.hideEmail": "E-postayı gizle",
   "linkedAccounts.revealWallet": "Tam adresi göster",
-  "linkedAccounts.hideWallet": "Adresi gizle"
+  "linkedAccounts.hideWallet": "Adresi gizle",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix, meyve yaması veriminizi +0.2 artırır ve meyve yaması büyüme süresini %20 azaltır.",
+  "description.knowledge.crab.yield.boost": "Bilgi Yengeçinden +0.2 Mahsul Arsa Verimi",
+  "description.fruitful.bounty.skill.boost": "Verimli Ödül Becerisinden +0.1 Meyve Yaması Verimi"
 }

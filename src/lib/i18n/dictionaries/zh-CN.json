@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "显示完整的电子邮件",
   "linkedAccounts.googleSignIn.hideEmail": "隐藏电子邮件",
   "linkedAccounts.revealWallet": "显示完整地址",
-  "linkedAccounts.hideWallet": "隐藏地址"
+  "linkedAccounts.hideWallet": "隐藏地址",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix 可将您的水果地产量提高 +0.2，并将水果地的生长时间缩短 20%。",
+  "description.knowledge.crab.yield.boost": "知识蟹的农作物产量 +0.2",
+  "description.fruitful.bounty.skill.boost": "+0.1 丰硕赏金技能的水果补丁产量"
 }

@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Afficher l'e-mail complet",
   "linkedAccounts.googleSignIn.hideEmail": "Masquer l'e-mail",
   "linkedAccounts.revealWallet": "Afficher l'adresse complète",
-  "linkedAccounts.hideWallet": "Masquer l'adresse"
+  "linkedAccounts.hideWallet": "Masquer l'adresse",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix augmente le rendement de vos parcelles de fruits de +0,2 % et réduit le temps de croissance de celles-ci de 20 %.",
+  "description.knowledge.crab.yield.boost": "+0,2 Rendement des parcelles cultivées grâce au Knowledge Crab",
+  "description.fruitful.bounty.skill.boost": "+0,1 Rendement des parcelles de fruits grâce à la compétence Fruitful Bounty"
 }

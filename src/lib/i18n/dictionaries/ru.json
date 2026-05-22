@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Show full email",
   "linkedAccounts.googleSignIn.hideEmail": "Hide email",
   "linkedAccounts.revealWallet": "Show full address",
-  "linkedAccounts.hideWallet": "Hide address"
+  "linkedAccounts.hideWallet": "Hide address",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix increases your fruit patch yield by +0.2 and reduces fruit patch growth time by 20%.",
+  "description.knowledge.crab.yield.boost": "+0.2 Crop Plot Yield from Knowledge Crab",
+  "description.fruitful.bounty.skill.boost": "+0.1 Fruit Patch Yield from Fruitful Bounty Skill"
 }

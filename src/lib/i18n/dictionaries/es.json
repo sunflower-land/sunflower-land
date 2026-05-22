@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Mostrar correo electrónico completo",
   "linkedAccounts.googleSignIn.hideEmail": "Ocultar correo electrónico",
   "linkedAccounts.revealWallet": "Mostrar dirección completa",
-  "linkedAccounts.hideWallet": "Ocultar dirección"
+  "linkedAccounts.hideWallet": "Ocultar dirección",
+  "compost.turbofruitMixBoosted": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,2 y reduce el tiempo de crecimiento de los huertos en un 20%.",
+  "description.knowledge.crab.yield.boost": "+0.2 Rendimiento de parcelas de cultivo de Knowledge Crab",
+  "description.fruitful.bounty.skill.boost": "+0.1 Rendimiento de huerto con la habilidad Fruitful Bounty"
 }

@@ -8987,5 +8987,8 @@
   "linkedAccounts.googleSignIn.revealEmail": "Tampilkan email lengkap",
   "linkedAccounts.googleSignIn.hideEmail": "Sembunyikan email",
   "linkedAccounts.revealWallet": "Tampilkan alamat lengkap",
-  "linkedAccounts.hideWallet": "Sembunyikan alamat"
+  "linkedAccounts.hideWallet": "Sembunyikan alamat",
+  "compost.turbofruitMixBoosted": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,2 dan mengurangi waktu pertumbuhan petak buah sebesar 20%.",
+  "description.knowledge.crab.yield.boost": "+0.2 Hasil Plot Tanaman dari Kepiting Pengetahuan",
+  "description.fruitful.bounty.skill.boost": "+0.1 Hasil Petak Buah dari Skill Fruitful Bounty"
 }
