@@ -103,22 +103,21 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           </Label>
           {selectedRecipeId && (
             <>
-              {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.({
-                skills,
-                collectibles: gameState.collectibles,
-              }).map((label) => {
-                return (
-                  <Label
-                    key={label.shortDescription}
-                    type={label.labelType}
-                    className="text-xs ml-1"
-                    secondaryIcon={label.boostedItemIcon}
-                    icon={label.boostTypeIcon}
-                  >
-                    {label.shortDescription}
-                  </Label>
-                );
-              })}
+              {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.(gameState).map(
+                (label) => {
+                  return (
+                    <Label
+                      key={label.shortDescription}
+                      type={label.labelType}
+                      className="text-xs ml-1"
+                      secondaryIcon={label.boostedItemIcon}
+                      icon={label.boostTypeIcon}
+                    >
+                      {label.shortDescription}
+                    </Label>
+                  );
+                },
+              )}
               <p className="text-xs ml-1">
                 {ITEM_DETAILS[selectedRecipeId]?.description}
               </p>

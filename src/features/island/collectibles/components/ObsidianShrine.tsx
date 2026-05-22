@@ -620,10 +620,7 @@ const FertiliseSection: React.FC<{
 
   const buffs =
     effectiveFertiliser &&
-    COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.({
-      skills: state.bumpkin?.skills ?? {},
-      collectibles: state.collectibles,
-    });
+    COLLECTIBLE_BUFF_LABELS[effectiveFertiliser]?.(state);
 
   const buttonLabel = !effectiveFertiliser
     ? t("obsidianShrine.selectFertiliser")
@@ -672,9 +669,9 @@ const FertiliseSection: React.FC<{
               >
                 {effectiveFertiliser}
               </Label>
-              {buffs?.map((buff) => (
+              {buffs?.map((buff, index) => (
                 <Label
-                  key={`${buff.labelType}-${buff.shortDescription}`}
+                  key={`${effectiveFertiliser}-${index}`}
                   type={buff.labelType}
                   icon={buff.boostTypeIcon}
                   secondaryIcon={buff.boostedItemIcon}

@@ -367,17 +367,13 @@ const BoostDigItems: (
   now,
 ) => ({
   "Pharaoh Chicken": {
-    buff: COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"]?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"]?.(state) as BuffLabel[],
     location: "Marketplace",
   },
   "Heart of Davy Jones": {
-    buff: COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"]?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"]?.(
+      state,
+    ) as BuffLabel[],
     location: "Marketplace",
   },
   "Bionic Drill": {
@@ -385,10 +381,7 @@ const BoostDigItems: (
     location: "Artefact Shop",
   },
   Meerkat: {
-    buff: COLLECTIBLE_BUFF_LABELS.Meerkat?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS.Meerkat?.(state) as BuffLabel[],
     location: "Megastore",
   },
   ...(getCurrentChapter(now) === "Pharaoh's Treasure"

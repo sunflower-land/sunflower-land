@@ -117,8 +117,7 @@ export const AuctionDetails: React.FC<Props> = ({
   const { image, buffLabels, item, typeLabel, description } =
     getAuctionItemDisplay({
       auction,
-      skills: game.bumpkin.skills,
-      collectibles: game.collectibles,
+      game: game,
     });
 
   const isCollectible =

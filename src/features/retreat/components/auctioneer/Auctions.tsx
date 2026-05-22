@@ -45,8 +45,7 @@ export const Auctions: React.FC<Props> = ({
       {currentAuctions.map((auction) => {
         const { image, buffLabels, item, typeLabel } = getAuctionItemDisplay({
           auction,
-          skills: game.bumpkin.skills,
-          collectibles: game.collectibles,
+          game: game,
         });
 
         const hasBuff = buffLabels && buffLabels.length > 0;

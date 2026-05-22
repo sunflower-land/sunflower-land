@@ -35,19 +35,14 @@ type Display = {
 
 export function getAuctionItemDisplay({
   auction,
-  skills,
-  collectibles,
+  game,
 }: {
   auction: Auction | NFTAuction;
-  skills: GameState["bumpkin"]["skills"];
-  collectibles: GameState["collectibles"];
+  game: GameState;
 }): Display {
   if (auction.type === "collectible") {
     const image = ITEM_DETAILS[auction.collectible].image;
-    const buffLabels = COLLECTIBLE_BUFF_LABELS[auction.collectible]?.({
-      skills,
-      collectibles,
-    });
+    const buffLabels = COLLECTIBLE_BUFF_LABELS[auction.collectible]?.(game);
 
     return {
       image,

@@ -6,7 +6,6 @@ import { ConfirmButton } from "components/ui/ConfirmButton";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import powerup from "assets/icons/level_up.png";
 import compost from "assets/composters/compost.png";
 
 import {
@@ -42,14 +41,13 @@ import {
   getSpeedUpCost,
   getSpeedUpTime,
 } from "features/game/events/landExpansion/accelerateComposter";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { SEASON_ICONS } from "../market/SeasonalSeeds";
 import { RecipeInfoPanel } from "../craftingBox/components/RecipeInfoPanel";
 import { secondsTillWeekReset } from "features/game/lib/factions";
-import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertiliseFruitPatch";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { getFertiliserBuffLabels } from "features/game/types/collectibleItemBuffs";
 
 export const COMPOSTER_IMAGES: Record<
   ComposterName,
@@ -106,38 +104,44 @@ const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
   );
 };
 
+const LABEL_FERTILISERS = [
+  "Sprout Mix",
+  "Fruitful Blend",
+  "Sproutroot Surprise",
+  "Turbofruit Mix",
+] as const satisfies readonly CompostName[];
+
+const isLabelFertiliser = (
+  fertiliser: CompostName,
+): fertiliser is (typeof LABEL_FERTILISERS)[number] =>
+  LABEL_FERTILISERS.includes(fertiliser as (typeof LABEL_FERTILISERS)[number]);
+
 const FertiliserLabel: React.FC<{
   fertiliser: CompostName;
   state: GameState;
 }> = ({ fertiliser, state }) => {
   const { t } = useAppTranslation();
 
-  if (fertiliser === "Sprout Mix") {
-    return (
-      <Label
-        icon={powerup}
-        secondaryIcon={SUNNYSIDE.icons.plant}
-        type="success"
-        className="text-xs whitespace-pre-line"
-      >
-        {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
-          ? "+0.4"
-          : "+0.2"}{" "}
-        {t("crops")}
-      </Label>
-    );
-  }
+  if (isLabelFertiliser(fertiliser)) {
+    const labels = getFertiliserBuffLabels({
+      fertiliser,
+      game: state,
+    });
 
-  if (fertiliser === "Fruitful Blend") {
     return (
-      <Label
-        icon={powerup}
-        secondaryIcon={ITEM_DETAILS.Apple.image}
-        type="success"
-        className="text-xs whitespace-pre-line"
-      >
-        {`+${getFruitfulBlendBuff(state).amount}`} {t("fruit")}
-      </Label>
+      <div className="flex flex-col gap-1">
+        {labels.map((label, index) => (
+          <Label
+            key={`${fertiliser}-${index}`}
+            icon={label.boostTypeIcon}
+            secondaryIcon={label.boostedItemIcon}
+            type={label.labelType}
+            className="text-xs whitespace-pre-line"
+          >
+            {label.shortDescription}
+          </Label>
+        ))}
+      </div>
     );
   }
 
@@ -150,45 +154,6 @@ const FertiliserLabel: React.FC<{
         className="text-xs whitespace-pre-line"
       >
         {t("guide.compost.cropGrowthTime")}
-      </Label>
-    );
-  }
-
-  if (fertiliser === "Sproutroot Surprise") {
-    return (
-      <div className="flex flex-col gap-1">
-        <Label
-          icon={powerup}
-          secondaryIcon={SUNNYSIDE.icons.plant}
-          type="success"
-          className="text-xs whitespace-pre-line"
-        >
-          {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
-            ? "+0.4"
-            : "+0.2"}{" "}
-          {t("crops")}
-        </Label>
-        <Label
-          icon={SUNNYSIDE.icons.stopwatch}
-          secondaryIcon={SUNNYSIDE.icons.plant}
-          type="info"
-          className="text-xs whitespace-pre-line"
-        >
-          {t("guide.compost.cropGrowthTime")}
-        </Label>
-      </div>
-    );
-  }
-
-  if (fertiliser === "Turbofruit Mix") {
-    return (
-      <Label
-        icon={SUNNYSIDE.icons.stopwatch}
-        secondaryIcon={ITEM_DETAILS.Apple.image}
-        type="info"
-        className="text-xs whitespace-pre-line"
-      >
-        {t("guide.compost.fruitGrowthTime")}
       </Label>
     );
   }

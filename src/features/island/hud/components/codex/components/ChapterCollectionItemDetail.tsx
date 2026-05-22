@@ -69,10 +69,7 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   const buff =
     type === "wearable"
       ? BUMPKIN_ITEM_BUFF_LABELS[itemName as BumpkinItem]
-      : COLLECTIBLE_BUFF_LABELS[itemName as InventoryItemName]?.({
-          skills: state.bumpkin.skills,
-          collectibles: state.collectibles,
-        });
+      : COLLECTIBLE_BUFF_LABELS[itemName as InventoryItemName]?.(state);
 
   const howToObtainKey =
     source === "unknown" ? null : HOW_TO_OBTAIN_I18N_KEY[source];

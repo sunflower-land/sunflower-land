@@ -115,8 +115,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 
   const { image, buffLabels, item } = getAuctionItemDisplay({
     auction: nextDrop,
-    skills: game.bumpkin.skills,
-    collectibles: game.collectibles,
+    game: game,
   });
 
   const nextDropTime = new Date(nextDrop.startAt).toLocaleString("en-AU", {
@@ -248,8 +247,7 @@ const Drops: React.FC<{
 
   const { buffLabels, typeLabel } = getAuctionItemDisplay({
     auction,
-    skills: game.bumpkin.skills,
-    collectibles: game.collectibles,
+    game: game,
   });
   const currentChapter = getCurrentChapter(now);
   const chapter = CHAPTERS[currentChapter];
@@ -490,8 +488,7 @@ export const ChapterAuctions: React.FC<Props> = ({
               const { item, image, buffLabels, typeLabel } =
                 getAuctionItemDisplay({
                   auction,
-                  skills: gameState.bumpkin.skills,
-                  collectibles: gameState.collectibles,
+                  game: gameState,
                 });
 
               const remainingAuctions = details.auctions.filter(

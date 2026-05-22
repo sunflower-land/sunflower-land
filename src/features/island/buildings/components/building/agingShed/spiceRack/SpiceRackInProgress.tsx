@@ -89,10 +89,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
         </div>
         <div className="flex flex-wrap gap-1 mt-1">
           {outputItem &&
-            COLLECTIBLE_BUFF_LABELS[outputItem]?.({
-              skills,
-              collectibles: state.collectibles,
-            }).map((label) => {
+            COLLECTIBLE_BUFF_LABELS[outputItem]?.(state).map((label) => {
               return (
                 <Label
                   key={label.shortDescription}

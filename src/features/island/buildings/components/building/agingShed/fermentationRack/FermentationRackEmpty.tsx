@@ -32,6 +32,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -143,22 +144,21 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           </Label>
           {selectedItem && (
             <>
-              {COLLECTIBLE_BUFF_LABELS[selectedItem]?.({
-                skills,
-                collectibles: gameState.collectibles,
-              })?.map((label) => (
-                <Label
-                  key={label.shortDescription}
-                  type={label.labelType}
-                  className="text-xs ml-1"
-                  secondaryIcon={label.boostedItemIcon}
-                  icon={label.boostTypeIcon}
-                >
-                  {label.shortDescription}
-                </Label>
-              ))}
+              {COLLECTIBLE_BUFF_LABELS[selectedItem]?.(gameState)?.map(
+                (label) => (
+                  <Label
+                    key={label.shortDescription}
+                    type={label.labelType}
+                    className="text-xs ml-1"
+                    secondaryIcon={label.boostedItemIcon}
+                    icon={label.boostTypeIcon}
+                  >
+                    {label.shortDescription}
+                  </Label>
+                ),
+              )}
               <p className="text-xs ml-1">
-                {ITEM_DETAILS[selectedItem]?.description}
+                {getItemDescription({ item: selectedItem, game: gameState })}
               </p>
             </>
           )}

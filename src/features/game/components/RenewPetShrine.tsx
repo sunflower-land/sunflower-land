@@ -13,7 +13,7 @@ import { PlaceableLocation } from "../types/collectibles";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { PET_SHOP_ITEMS } from "../types/petShop";
-import { Collectibles, Inventory, Skills } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import { EXPIRY_COOLDOWNS } from "../lib/collectibleBuilt";
@@ -30,8 +30,7 @@ type Props = {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _coinBalance = (state: MachineState) => state.context.state.coins;
-const _skills = (state: MachineState) => state.context.state.bumpkin.skills;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _gameState = (state: MachineState) => state.context.state;
 
 export const RenewPetShrine: React.FC<Props> = ({
   show,
@@ -44,8 +43,7 @@ export const RenewPetShrine: React.FC<Props> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const coinBalance = useSelector(gameService, _coinBalance);
-  const skills = useSelector(gameService, _skills);
-  const collectibles = useSelector(gameService, _collectibles);
+  const gameState = useSelector(gameService, _gameState);
 
   const handleRenew = () => {
     gameService.send("petShrine.renewed", { name, location, id });
@@ -59,8 +57,7 @@ export const RenewPetShrine: React.FC<Props> = ({
           name={name}
           inventory={inventory}
           coinBalance={coinBalance}
-          skills={skills}
-          collectibles={collectibles}
+          gameState={gameState}
         />
       </CloseButtonPanel>
     </Modal>
@@ -72,9 +69,8 @@ const RenewPetShrineContent: React.FC<{
   name: PetShrineName | "Obsidian Shrine";
   inventory: Inventory;
   coinBalance: number;
-  skills: Skills;
-  collectibles: Collectibles;
-}> = ({ handleRenew, name, inventory, coinBalance, skills, collectibles }) => {
+  gameState: GameState;
+}> = ({ handleRenew, name, inventory, coinBalance, gameState }) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -100,10 +96,7 @@ const RenewPetShrineContent: React.FC<{
 
   const isRenewable = canRenew();
 
-  const shrineBoostLabel = COLLECTIBLE_BUFF_LABELS[name]?.({
-    skills,
-    collectibles,
-  });
+  const shrineBoostLabel = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
 
   const shrineCooldown = EXPIRY_COOLDOWNS[name];
 

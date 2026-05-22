@@ -10,6 +10,7 @@ import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -286,9 +287,8 @@ const ProjectComplete: React.FC<{
             </Label>
 
             <p className="text-xs ml-0.5">
-              {ITEM_DETAILS[rewardItem.item]?.description
-                ? ITEM_DETAILS[rewardItem.item].description
-                : t("reward.collectible")}
+              {getItemDescription({ item: rewardItem.item, game: state }) ||
+                t("reward.collectible")}
             </p>
           </div>
         </ButtonPanel>

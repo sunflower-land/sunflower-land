@@ -7,6 +7,7 @@ import React, { type JSX } from "react";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 
 /**
  * The props for the details for items.
@@ -54,7 +55,12 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.item;
-    const description = item.description;
+    const description = properties?.gameState
+      ? getItemDescription({
+          item: details.item,
+          game: properties.gameState,
+        })
+      : item.description;
 
     return (
       <>

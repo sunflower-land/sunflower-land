@@ -45,10 +45,7 @@ const BoostReelItems: (
   state: GameState,
 ) => Partial<Record<FishingReelBoostName, BoostReelItem>> = (state) => ({
   "Reelmaster's Chair": {
-    buff: COLLECTIBLE_BUFF_LABELS["Reelmaster's Chair"]?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS["Reelmaster's Chair"]?.(state) as BuffLabel[],
     location: "Marketplace",
   },
   "Angler Waders": {
@@ -64,17 +61,11 @@ const BoostReelItems: (
     location: "Fishing Skill Tree",
   },
   Nautilus: {
-    buff: COLLECTIBLE_BUFF_LABELS["Nautilus"]?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS["Nautilus"]?.(state) as BuffLabel[],
     location: "Marine Marvel",
   },
   "Deep Sea Slug": {
-    buff: COLLECTIBLE_BUFF_LABELS["Deep Sea Slug"]?.({
-      skills: state.bumpkin.skills,
-      collectibles: state.collectibles,
-    }) as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS["Deep Sea Slug"]?.(state) as BuffLabel[],
     location: "Marine Marvel",
   },
   "More With Less": {
