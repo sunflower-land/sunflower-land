@@ -18,6 +18,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 import coins from "assets/icons/coins.webp";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
@@ -166,9 +167,8 @@ const ClaimReward: React.FC<ClaimRewardProps> = ({ onClaim, onClose }) => {
                     </div>
 
                     <p className="text-xs ml-0.5">
-                      {ITEM_DETAILS[name]?.description
-                        ? ITEM_DETAILS[name].description
-                        : t("reward.collectible")}
+                      {getItemDescription({ item: name, game }) ||
+                        t("reward.collectible")}
                     </p>
                   </div>
                 </ButtonPanel>

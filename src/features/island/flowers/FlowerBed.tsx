@@ -14,6 +14,7 @@ import {
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -317,7 +318,10 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
                           className="h-12 mb-2"
                         />
                         <span className="text-xs text-center mb-2">
-                          {ITEM_DETAILS[item.name].description}
+                          {getItemDescription({
+                            item: item.name,
+                            game: gameState,
+                          })}
                         </span>
                         {boost && (
                           <div className="flex flex-col gap-1">

@@ -43,6 +43,7 @@ import {
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { capitalize } from "lib/utils/capitalize";
 import classNames from "classnames";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 
 function getResourceTier(name: UpgradedResourceName): number | undefined {
   if (name in ADVANCED_RESOURCES) {
@@ -161,11 +162,8 @@ function getDetails(
       ? INVENTORY_LIMIT(game)[details.item]
       : undefined;
 
-    const {
-      description,
-      image: defaultImage,
-      translatedName,
-    } = ITEM_DETAILS[details.item];
+    const { image: defaultImage, translatedName } = ITEM_DETAILS[details.item];
+    const description = getItemDescription({ item: details.item, game });
 
     const image =
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[

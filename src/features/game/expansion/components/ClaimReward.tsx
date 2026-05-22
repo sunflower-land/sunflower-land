@@ -11,6 +11,7 @@ import xpIcon from "assets/icons/xp.png";
 import recipeIcon from "assets/decorations/page.png";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getItemDescription } from "features/game/lib/getItemDescription";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
@@ -262,9 +263,8 @@ export const Rewards: React.FC<{
                   </div>
                 ) : (
                   <p className="text-xs ml-0.5">
-                    {ITEM_DETAILS[name]?.description
-                      ? ITEM_DETAILS[name].description
-                      : t("reward.collectible")}
+                    {getItemDescription({ item: name, game }) ||
+                      t("reward.collectible")}
                   </p>
                 )}
               </div>
