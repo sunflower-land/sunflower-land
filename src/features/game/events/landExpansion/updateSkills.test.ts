@@ -15,12 +15,12 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
+          previousFreeSkillResetAt: dateNow,
         },
       },
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "free",
       },
       createdAt: dateNow,
     });
@@ -42,7 +42,6 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Green Thumb": 1 },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
@@ -59,7 +58,6 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Young Farmer": 1 },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
@@ -74,6 +72,7 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
+          previousFreeSkillResetAt: dateNow,
         },
       },
       action: {
@@ -83,7 +82,6 @@ describe("updateSkills", () => {
           "Green Thumb": 0,
           Unknown: 1,
         } as Skills,
-        paymentType: "free",
       },
       createdAt: dateNow,
     });
@@ -120,7 +118,6 @@ describe("updateSkills", () => {
             "Strong Roots": 1,
             "Oil Gadget": 1,
           },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
@@ -141,7 +138,6 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Strong Roots": 1 },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
@@ -167,7 +163,6 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Strong Roots": 1 },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
@@ -188,14 +183,13 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Green Thumb": 1, "Young Farmer": 1 },
-          paymentType: "free",
         },
         createdAt: dateNow,
       }),
     ).toThrow("You do not have enough skill points");
   });
 
-  it("prevents paid skill updates when gems are missing once past the free window", () => {
+  it("prevents the edit when gems are missing past the free window", () => {
     expect(() =>
       updateSkills({
         state: {
@@ -215,7 +209,6 @@ describe("updateSkills", () => {
         action: {
           type: "skills.updated",
           skills: { "Young Farmer": 1 },
-          paymentType: "gems",
         },
         createdAt: dateNow,
       }),
@@ -240,7 +233,6 @@ describe("updateSkills", () => {
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "gems",
       },
       createdAt: dateNow,
     });
@@ -269,7 +261,6 @@ describe("updateSkills", () => {
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "gems",
       },
       createdAt: dateNow,
     });
@@ -297,7 +288,6 @@ describe("updateSkills", () => {
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "gems",
       },
       createdAt: dateNow,
     });
@@ -306,13 +296,14 @@ describe("updateSkills", () => {
     expect(result.bumpkin?.skillPointsUsed).toEqual(401);
   });
 
-  it("does not charge or burn cooldown for pure additions", () => {
+  it("does not charge or burn anything for pure additions", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
           Gem: new Decimal(0),
+          "Skill Reset Ticket": new Decimal(1),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -325,7 +316,6 @@ describe("updateSkills", () => {
       action: {
         type: "skills.updated",
         skills: { "Green Thumb": 1, "Young Farmer": 1 },
-        paymentType: "free",
       },
       createdAt: dateNow,
     });
@@ -336,9 +326,10 @@ describe("updateSkills", () => {
     });
     expect(result.bumpkin?.skillPointsUsed).toEqual(50);
     expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+    expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(1);
   });
 
-  it("zeroes skillPointsUsed when paid as a free update", () => {
+  it("auto-resets skillPointsUsed and stamps the timer after the 180-day window expires", () => {
     const sixMonthsAgo = new Date(dateNow);
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
@@ -349,23 +340,23 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          skillPointsUsed: 50,
+          skillPointsUsed: 500,
           previousFreeSkillResetAt: sixMonthsAgo.getTime(),
         },
       },
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "free",
       },
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin?.skillPointsUsed).toEqual(0);
+    // 1 point removed inside the fresh free window — no gem cost.
+    expect(result.bumpkin?.skillPointsUsed).toEqual(1);
     expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
   });
 
-  it("skips gem cost but increments skillPointsUsed when paid by ticket", () => {
+  it("auto-consumes a ticket to absorb paid points instead of charging gems", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
@@ -378,20 +369,20 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          skillPointsUsed: 10,
+          skillPointsUsed: 200,
           previousFreeSkillResetAt: dateNow,
         },
       },
       action: {
         type: "skills.updated",
         skills: { "Young Farmer": 1 },
-        paymentType: "ticket",
       },
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin?.skillPointsUsed).toEqual(11);
+    // 1 paid point at history 200 → ticket absorbs it, no gems charged.
     expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(0);
     expect(result.inventory.Gem?.toNumber()).toEqual(0);
+    expect(result.bumpkin?.skillPointsUsed).toEqual(201);
   });
 });

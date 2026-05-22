@@ -21,16 +21,14 @@ import {
 } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ISLAND_EXPANSIONS, Skills } from "features/game/types/game";
+import { ISLAND_EXPANSIONS, type Skills } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  canResetForFree,
   getEffectiveSkillPointsUsed,
-  getGemCostForSkillPoints,
-  type PaymentType,
+  getSkillEditCost,
 } from "features/game/events/landExpansion/resetSkills";
 import { useNow } from "lib/utils/hooks/useNow";
 import fruits from "assets/fruit/fruits.png";
@@ -62,7 +60,7 @@ export const SkillCategoryList: React.FC<{
   onStartEditing: () => void;
   onCancelEditing: () => void;
   onRemoveAllSkills: () => void;
-  onApplyEditing: (paymentType: PaymentType) => void;
+  onApplyEditing: () => void;
 }> = ({
   onClick,
   skills: displayedSkills,
@@ -119,40 +117,40 @@ export const SkillCategoryList: React.FC<{
     };
   };
 
-  const gemCost = getGemCostForSkillPoints(pointsRemoved, skillPointsUsed);
-  // Edits that owe nothing (pure additions, or removals fully inside the
-  // free 200) shouldn't burn the free-reset cooldown or a ticket — fall back
-  // to gems where chargeSkillEdit is a no-op for the player.
-  const isCostless = gemCost === 0;
+  const ticketBalance = inventory["Skill Reset Ticket"]?.toNumber() ?? 0;
+  const { gemCost, ticketsToUse } = getSkillEditCost(
+    pointsRemoved,
+    skillPointsUsed,
+    ticketBalance,
+  );
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
-  const hasTicket = inventory["Skill Reset Ticket"]?.gte(1) ?? false;
   const hasDisplayedSkills = getKeys(displayedSkills).length > 0;
 
-  const resetType: PaymentType = isCostless
-    ? "gems"
-    : canResetForFree(previousFreeSkillResetAt, now)
-      ? "free"
-      : hasTicket
-        ? "ticket"
-        : "gems";
+  const ticketCostLabel =
+    ticketsToUse === 1 ? t("skillEdit.cost.ticket") : `${ticketsToUse} Tickets`;
+  const gemsCostLabel = t("skillEdit.cost.gems", { gemCost });
 
-  const editCostLabel = isCostless
-    ? t("skillEdit.cost.free")
-    : resetType === "free"
-      ? t("skillEdit.cost.free")
-      : resetType === "ticket"
-        ? t("skillEdit.cost.ticket")
-        : t("skillEdit.cost.gems", { gemCost });
+  const canApplySkillChanges = () => gemCost === 0 || hasEnoughGems;
 
-  const canApplySkillChanges = () => {
-    if (isCostless) return true;
-    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt, now))
-      return false;
-    if (resetType === "ticket" && !hasTicket) return false;
-    if (resetType === "gems" && !hasEnoughGems) return false;
-
-    return true;
+  const renderEditCostLabels = () => {
+    if (gemCost === 0 && ticketsToUse === 0) {
+      return <Label type="success">{t("skillEdit.cost.free")}</Label>;
+    }
+    return (
+      <>
+        {ticketsToUse > 0 && (
+          <Label type="success" icon={ITEM_DETAILS["Skill Reset Ticket"].image}>
+            {ticketCostLabel}
+          </Label>
+        )}
+        {gemCost > 0 && (
+          <Label type="vibrant" icon={ITEM_DETAILS.Gem.image}>
+            {gemsCostLabel}
+          </Label>
+        )}
+      </>
+    );
   };
 
   const handleStartEditing = () => {
@@ -166,7 +164,7 @@ export const SkillCategoryList: React.FC<{
   };
 
   const handleApplyEditing = () => {
-    onApplyEditing(resetType);
+    onApplyEditing();
     setShowApplyChangesConfirmation(false);
   };
 
@@ -313,24 +311,7 @@ export const SkillCategoryList: React.FC<{
                   >
                     {t("skillEdit.applyChanges")}
                   </p>
-                  <Label
-                    type={
-                      resetType === "free"
-                        ? "success"
-                        : resetType === "ticket"
-                          ? "success"
-                          : "vibrant"
-                    }
-                    icon={
-                      resetType === "gems"
-                        ? ITEM_DETAILS.Gem.image
-                        : resetType === "ticket"
-                          ? ITEM_DETAILS["Skill Reset Ticket"].image
-                          : undefined
-                    }
-                  >
-                    {editCostLabel}
-                  </Label>
+                  {renderEditCostLabels()}
                 </div>
               </>
             )}
@@ -371,42 +352,19 @@ export const SkillCategoryList: React.FC<{
           <InnerPanel className="flex flex-col items-center">
             <div className="flex flex-col items-center w-full gap-2 my-1">
               <Label type="default">{t("skillEdit.applyChanges")}</Label>
-              <Label
-                type={
-                  resetType === "free"
-                    ? "success"
-                    : resetType === "ticket"
-                      ? "success"
-                      : "vibrant"
-                }
-                icon={
-                  resetType === "gems"
-                    ? ITEM_DETAILS.Gem.image
-                    : resetType === "ticket"
-                      ? ITEM_DETAILS["Skill Reset Ticket"].image
-                      : undefined
-                }
-              >
-                {editCostLabel}
-              </Label>
+              {renderEditCostLabels()}
               <p className="text-xs text-center">
                 {t("skillEdit.applyConfirmation")}
               </p>
-              {resetType === "free" ? (
-                <Label type="warning">{t("skillReset.180Days")}</Label>
-              ) : (
-                <>
-                  {resetType === "gems" && (
-                    <Label type="warning">{t("skillReset.costDoubles")}</Label>
-                  )}
-                  <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                    {t("skillReset.nextFreeReset", {
-                      date: getNextResetDateAndTime().date,
-                      time: getNextResetDateAndTime().time,
-                    })}
-                  </Label>
-                </>
+              {gemCost > 0 && (
+                <Label type="warning">{t("skillReset.costDoubles")}</Label>
               )}
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("skillReset.nextFreeReset", {
+                  date: getNextResetDateAndTime().date,
+                  time: getNextResetDateAndTime().time,
+                })}
+              </Label>
               {!canApplySkillChanges() && (
                 <Label type="danger">{t("skillEdit.cannotApplyChanges")}</Label>
               )}

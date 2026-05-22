@@ -5,11 +5,8 @@ import Decimal from "decimal.js-light";
 import { populateSaltFarm } from "features/game/types/salt";
 import { getSkillPointsForSkills } from "./choseSkill";
 
-export type PaymentType = "gems" | "free" | "ticket";
-
 export type ResetSkillsAction = {
   type: "skills.reset";
-  paymentType: PaymentType;
 };
 
 type Options = {
@@ -91,15 +88,50 @@ export function getEffectiveSkillPointsUsed(
   return bumpkin.skillPointsUsed ?? 0;
 }
 
+const TICKET_ABSORPTION_POINTS = 200;
+
+// Returns the gem cost + how many Skill Reset Tickets to auto-consume to absorb
+// would-be-paid points (200 points absorbed per ticket, lowest-position first).
+// Tickets are only consumed when the transaction actually has paid points;
+// purely free removals (inside the natural free 200) don't burn a ticket.
+export function getSkillEditCost(
+  pointsRemoved: number,
+  skillPointsUsed: number,
+  ticketBalance: number,
+): { gemCost: number; ticketsToUse: number } {
+  if (pointsRemoved <= 0) return { gemCost: 0, ticketsToUse: 0 };
+
+  const paidPoints =
+    Math.max(0, skillPointsUsed + pointsRemoved - FREE_POINTS) -
+    Math.max(0, skillPointsUsed - FREE_POINTS);
+
+  if (paidPoints <= 0) return { gemCost: 0, ticketsToUse: 0 };
+
+  const ticketsNeeded = Math.ceil(paidPoints / TICKET_ABSORPTION_POINTS);
+  const ticketsToUse = Math.min(ticketBalance, ticketsNeeded);
+  const absorbed = Math.min(
+    paidPoints,
+    ticketsToUse * TICKET_ABSORPTION_POINTS,
+  );
+  const remainingPaid = paidPoints - absorbed;
+
+  if (remainingPaid <= 0) return { gemCost: 0, ticketsToUse };
+
+  // Tickets absorb the lowest-position paid points, so the gem cost falls on
+  // the highest-position tail of the transaction.
+  const remainingPaidStart = Math.max(skillPointsUsed, FREE_POINTS) + absorbed;
+  const gemCost = getGemCostForSkillPoints(remainingPaid, remainingPaidStart);
+
+  return { gemCost, ticketsToUse };
+}
+
 // Shared by resetSkills and updateSkills so the two paths cannot drift in cost.
 export function chargeSkillEdit({
   game,
-  paymentType,
   pointsRemoved,
   createdAt,
 }: {
   game: Draft<GameState>;
-  paymentType: PaymentType;
   pointsRemoved: number;
   createdAt: number;
 }) {
@@ -119,56 +151,31 @@ export function chargeSkillEdit({
   const windowExpired = canResetForFree(previousFreeSkillResetAt, createdAt);
   const skillPointsUsed = windowExpired ? 0 : (bumpkin.skillPointsUsed ?? 0);
 
-  switch (paymentType) {
-    case "free": {
-      if (!windowExpired) {
-        const timeToNextFreeResetInMilliseconds = getTimeUntilNextFreeReset(
-          previousFreeSkillResetAt,
-          createdAt,
-        );
-        const daysRemaining = Math.ceil(
-          timeToNextFreeResetInMilliseconds / (24 * 60 * 60 * 1000),
-        );
-        throw new Error(
-          `Wait ${daysRemaining} more days for free reset or use gems`,
-        );
-      }
+  const ticketBalance = (
+    game.inventory["Skill Reset Ticket"] ?? new Decimal(0)
+  ).toNumber();
+  const { gemCost, ticketsToUse } = getSkillEditCost(
+    pointsRemoved,
+    skillPointsUsed,
+    ticketBalance,
+  );
 
-      bumpkin.skillPointsUsed = 0;
-      bumpkin.previousFreeSkillResetAt = createdAt;
-      break;
+  if (gemCost > 0) {
+    const gemBalance = game.inventory.Gem ?? new Decimal(0);
+    if (gemBalance.lt(gemCost)) {
+      throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
     }
-    case "gems": {
-      const gemCost = getGemCostForSkillPoints(pointsRemoved, skillPointsUsed);
-      const gemBalance = game.inventory.Gem ?? new Decimal(0);
-
-      if (gemBalance.lt(gemCost)) {
-        throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
-      }
-
-      game.inventory.Gem = gemBalance.minus(gemCost);
-      bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
-      if (windowExpired) bumpkin.previousFreeSkillResetAt = createdAt;
-      break;
-    }
-    case "ticket": {
-      const ticketBalance =
-        game.inventory["Skill Reset Ticket"] ?? new Decimal(0);
-
-      if (ticketBalance.lt(1)) {
-        throw new Error("You do not have a Skill Reset Ticket");
-      }
-
-      game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
-      bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
-      if (windowExpired) bumpkin.previousFreeSkillResetAt = createdAt;
-      break;
-    }
-    default: {
-      const _exhaustive: never = paymentType;
-      throw new Error(`Unknown payment type: ${_exhaustive}`);
-    }
+    game.inventory.Gem = gemBalance.minus(gemCost);
   }
+
+  if (ticketsToUse > 0) {
+    game.inventory["Skill Reset Ticket"] = (
+      game.inventory["Skill Reset Ticket"] ?? new Decimal(0)
+    ).minus(ticketsToUse);
+  }
+
+  bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
+  if (windowExpired) bumpkin.previousFreeSkillResetAt = createdAt;
 }
 
 export function resetSkills({
@@ -189,7 +196,6 @@ export function resetSkills({
 
     chargeSkillEdit({
       game,
-      paymentType: action.paymentType,
       pointsRemoved: getSkillPointsForSkills(bumpkin.skills),
       createdAt,
     });

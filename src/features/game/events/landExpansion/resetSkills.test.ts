@@ -3,6 +3,7 @@ import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   getGemCostForSkillPoints,
+  getSkillEditCost,
   getTimeUntilNextFreeReset,
   resetSkills,
 } from "./resetSkills";
@@ -20,79 +21,27 @@ describe("resetSkills", () => {
             skills: {},
           },
         },
-        action: { type: "skills.reset", paymentType: "free" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
     }).toThrow("You do not have any skills to reset");
   });
 
-  describe("free reset", () => {
-    it("requires Bumpkin to wait 180 days before free reset", () => {
-      const oneSeventyDaysAgo = new Date(dateNow);
-      oneSeventyDaysAgo.setDate(oneSeventyDaysAgo.getDate() - 170);
-
-      const timeUntilNextReset = getTimeUntilNextFreeReset(
-        oneSeventyDaysAgo.getTime(),
-        dateNow,
-      );
-      const daysRemaining = Math.ceil(
-        timeUntilNextReset / (1000 * 60 * 60 * 24),
-      );
-
-      expect(() => {
-        resetSkills({
-          state: {
-            ...INITIAL_FARM,
-            bumpkin: {
-              ...TEST_BUMPKIN,
-              skills: { "Green Thumb": 1 },
-              previousFreeSkillResetAt: oneSeventyDaysAgo.getTime(),
-            },
-          },
-          action: { type: "skills.reset", paymentType: "free" },
-          createdAt: dateNow,
-        });
-      }).toThrow(`Wait ${daysRemaining} more days for free reset or use gems`);
-    });
-
-    it("resets Bumpkin skills after 6 months for free and zeroes skillPointsUsed", () => {
-      const sixMonthsAgo = new Date(dateNow);
-      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
+  describe("cost ramp", () => {
+    it("charges nothing while history stays inside the free 200", () => {
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
           bumpkin: {
             ...TEST_BUMPKIN,
             skills: { "Green Thumb": 1 },
-            previousFreeSkillResetAt: sixMonthsAgo.getTime(),
-            skillPointsUsed: 50,
-          },
-        },
-        action: { type: "skills.reset", paymentType: "free" },
-        createdAt: dateNow,
-      });
-
-      expect(state.bumpkin?.skills).toEqual({});
-      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
-      expect(state.bumpkin?.skillPointsUsed).toEqual(0);
-    });
-  });
-
-  describe("gem reset", () => {
-    it("charges nothing for resets inside the first 200 points of history", () => {
-      const state = resetSkills({
-        state: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: dateNow,
           },
           inventory: {
             Gem: new Decimal(10),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
@@ -115,7 +64,7 @@ describe("resetSkills", () => {
             Gem: new Decimal(10),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
@@ -137,7 +86,7 @@ describe("resetSkills", () => {
             Gem: new Decimal(10),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
@@ -160,7 +109,7 @@ describe("resetSkills", () => {
               Gem: new Decimal(0),
             },
           },
-          action: { type: "skills.reset", paymentType: "gems" },
+          action: { type: "skills.reset" },
           createdAt: dateNow,
         });
       }).toThrow("Not enough gems. Cost: 1 gems");
@@ -183,113 +132,131 @@ describe("resetSkills", () => {
             Gem: new Decimal(10),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
-      // Window had expired, so history is treated as 0 and the 1 point removed
-      // sits inside the new free window. No gem cost; new timer stamped.
+      // History was treated as 0, so the 1 point sits inside the new free
+      // window — no gem cost — and the timer is stamped to now.
       expect(state.inventory.Gem?.toNumber()).toEqual(10);
       expect(state.bumpkin?.skillPointsUsed).toEqual(1);
       expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
     });
 
     it("computes the cost ramp correctly across the free window and rate doublings", () => {
-      // First 200 are free.
       expect(getGemCostForSkillPoints(0, 100)).toEqual(0);
       expect(getGemCostForSkillPoints(200, 0)).toEqual(0);
-      // Single-point cost at each doubling boundary.
       expect(getGemCostForSkillPoints(1, 200)).toEqual(1);
       expect(getGemCostForSkillPoints(1, 400)).toEqual(2);
       expect(getGemCostForSkillPoints(1, 600)).toEqual(4);
-      // Split across the free-window boundary.
-      expect(getGemCostForSkillPoints(20, 190)).toEqual(10); // 10 free + 10 at 1/pt
-      // Split across a doubling boundary inside the paid window.
-      expect(getGemCostForSkillPoints(20, 390)).toEqual(30); // 10 at 1/pt + 10 at 2/pt
-      // Sweep from 0 across two ramps: 200 free + 200 at 1/pt + 200 at 2/pt.
+      expect(getGemCostForSkillPoints(20, 190)).toEqual(10);
+      expect(getGemCostForSkillPoints(20, 390)).toEqual(30);
       expect(getGemCostForSkillPoints(600, 0)).toEqual(0 + 200 + 400);
     });
   });
 
-  describe("ticket reset", () => {
-    it("throws when the player has no Skill Reset Ticket", () => {
-      expect(() => {
-        resetSkills({
-          state: {
-            ...INITIAL_FARM,
-            bumpkin: {
-              ...TEST_BUMPKIN,
-              skills: { "Green Thumb": 1 },
-            },
-            inventory: {},
-          },
-          action: { type: "skills.reset", paymentType: "ticket" },
-          createdAt: dateNow,
-        });
-      }).toThrow("You do not have a Skill Reset Ticket");
-    });
-
-    it("throws when the ticket balance is below 1", () => {
-      expect(() => {
-        resetSkills({
-          state: {
-            ...INITIAL_FARM,
-            bumpkin: {
-              ...TEST_BUMPKIN,
-              skills: { "Green Thumb": 1 },
-            },
-            inventory: {
-              "Skill Reset Ticket": new Decimal(0),
-            },
-          },
-          action: { type: "skills.reset", paymentType: "ticket" },
-          createdAt: dateNow,
-        });
-      }).toThrow("You do not have a Skill Reset Ticket");
-    });
-
-    it("consumes exactly 1 Skill Reset Ticket", () => {
+  describe("ticket auto-use", () => {
+    it("auto-consumes a ticket to absorb the next 200 paid points", () => {
+      const TestBumpkin = {
+        ...TEST_BUMPKIN,
+        // Player has used 200 points already (so the build below puts another
+        // 200 into the paid window).
+        skillPointsUsed: 200,
+        previousFreeSkillResetAt: dateNow,
+        // A made-up build large enough to bring skillPointsUsed past 200.
+        // We use multiple skills totalling many points; for simplicity we keep
+        // just one skill in the build and lean on the helper test below for
+        // proportionate absorption math.
+        skills: { "Green Thumb": 1 },
+      };
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            skills: { "Green Thumb": 1 },
-          },
+          bumpkin: TestBumpkin,
           inventory: {
-            "Skill Reset Ticket": new Decimal(3),
+            "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(0),
           },
         },
-        action: { type: "skills.reset", paymentType: "ticket" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
-      expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(2);
-      expect(state.bumpkin?.skills).toEqual({});
+      // Removing 1 point at history 200 = 1 paid point → ticket covers it.
+      expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(0);
+      expect(state.inventory.Gem?.toNumber()).toEqual(0);
+      expect(state.bumpkin?.skillPointsUsed).toEqual(201);
     });
 
-    it("increments skillPointsUsed by points removed even without paying gems", () => {
+    it("does not consume a ticket when the transaction has no paid points", () => {
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
           bumpkin: {
             ...TEST_BUMPKIN,
             skills: { "Green Thumb": 1 },
-            skillPointsUsed: 10,
             previousFreeSkillResetAt: dateNow,
           },
           inventory: {
             "Skill Reset Ticket": new Decimal(1),
           },
         },
-        action: { type: "skills.reset", paymentType: "ticket" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.skillPointsUsed).toEqual(11);
+      expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(1);
+      expect(state.bumpkin?.skillPointsUsed).toEqual(1);
+    });
+  });
+
+  describe("ticket cost helper", () => {
+    it("returns no cost and no tickets when all removals are inside the free window", () => {
+      expect(getSkillEditCost(50, 100, 5)).toEqual({
+        gemCost: 0,
+        ticketsToUse: 0,
+      });
     });
 
-    it("does not touch previousFreeSkillResetAt when using a ticket", () => {
+    it("absorbs the next 200 paid points with one ticket", () => {
+      // Player at history 250 removes 200, 1 ticket available
+      // → ticket covers positions 251–450, no gem cost.
+      expect(getSkillEditCost(200, 250, 1)).toEqual({
+        gemCost: 0,
+        ticketsToUse: 1,
+      });
+    });
+
+    it("falls back to gems on the highest-position remainder when tickets run out", () => {
+      // Player at history 250 removes 300, 1 ticket.
+      // Paid points = 300; ticket absorbs the first 200 (positions 251–450).
+      // Remaining 100 paid points sit at positions 451–550 (rate 2/pt).
+      expect(getSkillEditCost(300, 250, 1)).toEqual({
+        gemCost: 200,
+        ticketsToUse: 1,
+      });
+    });
+
+    it("stacks multiple tickets when one is not enough", () => {
+      // Player at history 250 removes 300, 2 tickets.
+      // Paid points = 300; tickets absorb the first 400 → all 300 covered.
+      // Both tickets consumed (no fractional consumption).
+      expect(getSkillEditCost(300, 250, 2)).toEqual({
+        gemCost: 0,
+        ticketsToUse: 2,
+      });
+    });
+
+    it("returns 0/0 for pure additions", () => {
+      expect(getSkillEditCost(0, 250, 5)).toEqual({
+        gemCost: 0,
+        ticketsToUse: 0,
+      });
+    });
+  });
+
+  describe("180-day cooldown", () => {
+    it("does not move previousFreeSkillResetAt for in-window edits", () => {
       const threeMonthsAgo = new Date(dateNow);
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
@@ -302,10 +269,10 @@ describe("resetSkills", () => {
             previousFreeSkillResetAt: threeMonthsAgo.getTime(),
           },
           inventory: {
-            "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(100),
           },
         },
-        action: { type: "skills.reset", paymentType: "ticket" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
@@ -314,24 +281,11 @@ describe("resetSkills", () => {
       );
     });
 
-    it("does not deduct gems when using a ticket", () => {
-      const state = resetSkills({
-        state: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            skills: { "Green Thumb": 1 },
-          },
-          inventory: {
-            "Skill Reset Ticket": new Decimal(1),
-            Gem: new Decimal(500),
-          },
-        },
-        action: { type: "skills.reset", paymentType: "ticket" },
-        createdAt: dateNow,
-      });
-
-      expect(state.inventory.Gem?.toNumber()).toEqual(500);
+    it("reports a sane next-reset time via getTimeUntilNextFreeReset", () => {
+      // Sanity check that the helper is exported (used by UI as well).
+      expect(getTimeUntilNextFreeReset(dateNow, dateNow)).toEqual(
+        180 * 24 * 60 * 60 * 1000,
+      );
     });
   });
 
@@ -362,7 +316,7 @@ describe("resetSkills", () => {
             Gem: new Decimal(50),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
@@ -395,7 +349,7 @@ describe("resetSkills", () => {
             Gem: new Decimal(50),
           },
         },
-        action: { type: "skills.reset", paymentType: "gems" },
+        action: { type: "skills.reset" },
         createdAt: dateNow,
       });
 
