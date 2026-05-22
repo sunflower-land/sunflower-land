@@ -10,6 +10,8 @@ import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
+import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 
 const _hasHungryChickens = (state: MachineState) => {
@@ -24,13 +26,8 @@ const _hasSickChickens = (state: MachineState) => {
   );
 };
 
-const _chickensNeedLove = (state: MachineState) => {
-  return Object.values(state.context.state.henHouse.animals).some(
-    (animal) =>
-      animal.asleepAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now() &&
-      animal.lovedAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now(),
-  );
-};
+const _henHouseAnimals = (state: MachineState) =>
+  state.context.state.henHouse.animals;
 
 const _buildingLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
@@ -41,8 +38,16 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
   const hasSickChickens = useSelector(gameService, _hasSickChickens);
-  const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
+  const henHouseAnimals = useSelector(gameService, _henHouseAnimals);
   const buildingLevel = useSelector(gameService, _buildingLevel);
+
+  // useNow drives a tick every second so the alert flips on as soon as
+  // the love window opens — the underlying gate values only change on
+  // game-state events, which wouldn't fire when crossing the time gate.
+  const now = useNow({ live: true });
+  const chickensNeedLove = Object.values(henHouseAnimals).some((animal) =>
+    isAnimalNeedingLove(animal, now),
+  );
 
   const { play: barnAudio } = useSound("barn");
 

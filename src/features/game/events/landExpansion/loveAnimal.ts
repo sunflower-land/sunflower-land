@@ -5,8 +5,33 @@ import {
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
-import { GameState, LoveAnimalItem } from "features/game/types/game";
+import { Animal, GameState, LoveAnimalItem } from "features/game/types/game";
 import { produce } from "immer";
+
+/**
+ * Earliest timestamp at which this animal's current sleep cycle would
+ * permit `loveAnimal`. Mirrors the two throw-gates below: both
+ * `asleepAt + period` and `lovedAt + period` must have elapsed, where
+ * `period = (awakeAt - asleepAt) / 3`. Callers should still check
+ * `t < animal.awakeAt` — once the animal is awake the cycle is over
+ * and no further love applies. The returned value can therefore be
+ * `>= awakeAt` when no slot remains in this cycle (e.g. both slots
+ * already used); the caller decides how to render that.
+ */
+export function getNextLoveAvailableAt(animal: Animal): number {
+  const third = (animal.awakeAt - animal.asleepAt) / 3;
+  return Math.max(animal.asleepAt + third, animal.lovedAt + third);
+}
+
+/**
+ * Boolean form of {@link getNextLoveAvailableAt}: has the love window opened by `now`?
+ * `<=` (not `<`) so love is accepted at exactly the boundary timestamp — matches
+ * the original `loveAnimal` reducer's `if (createdAt < boundary) throw` semantics
+ * (rejects strictly before, accepts at equality).
+ */
+export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
+  return getNextLoveAvailableAt(animal) <= now;
+}
 
 export type LoveAnimalAction = {
   type: "animal.loved";
@@ -35,15 +60,9 @@ export function loveAnimal({
       throw new Error("The animal is not sleeping");
     }
 
-    // You can love an animal twice in a night
-    const loveAnimalPeriod = (animal.awakeAt - animal.asleepAt) / 3;
-
-    if (createdAt < animal.asleepAt + loveAnimalPeriod) {
-      throw new Error("The animal has not been sleeping for more than 8 hours");
-    }
-
-    if (createdAt < animal.lovedAt + loveAnimalPeriod) {
-      throw new Error("The animal was loved in the last 8 hours");
+    // You can love an animal twice in a night — see getNextLoveAvailableAt.
+    if (!isAnimalNeedingLove(animal, createdAt)) {
+      throw new Error("The animal cannot be loved yet");
     }
 
     if (animal.item !== action.item) {

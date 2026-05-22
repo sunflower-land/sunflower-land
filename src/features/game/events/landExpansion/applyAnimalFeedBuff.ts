@@ -7,6 +7,7 @@ import {
   GameState,
 } from "features/game/types/game";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { isAnimalNeedingLove } from "./loveAnimal";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
   "Salt Lick",
@@ -19,13 +20,6 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   ALREADY_BUFFED = "Animal already has a feed buff",
   SICK = "Cannot apply feed buff while animal is sick",
   NEEDS_LOVE = "Pet your animal before using this",
-}
-
-/** Matches `animalMachine` `isAnimalNeedsLove` (uses event time, not wall clock). */
-export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
-  const nap = animal.awakeAt - animal.asleepAt;
-  const third = nap / 3;
-  return animal.asleepAt + third < now && animal.lovedAt + third < now;
 }
 
 function isAnimalAsleep(animal: Animal, now: number): boolean {

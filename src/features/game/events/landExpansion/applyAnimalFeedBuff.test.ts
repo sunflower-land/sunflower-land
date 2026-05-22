@@ -2,8 +2,8 @@ import Decimal from "decimal.js-light";
 import {
   applyAnimalFeedBuff,
   APPLY_ANIMAL_FEED_BUFF_ERRORS,
-  isAnimalNeedingLove,
 } from "./applyAnimalFeedBuff";
+import { isAnimalNeedingLove } from "./loveAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
