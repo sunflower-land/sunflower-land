@@ -90,12 +90,12 @@ import {
   type FeedBumpkinAction,
 } from "./landExpansion/feedBumpkin";
 import { detectBot, type DetectBotAction } from "./detectBot";
+import { choseSkill, type ChoseSkillAction } from "./landExpansion/choseSkill";
 import {
-  choseSkill,
-  type ChoseSkillAction,
   updateSkills,
   type UpdateSkillsAction,
-} from "./landExpansion/choseSkill";
+} from "./landExpansion/updateSkills";
+
 import {
   resetSkills,
   type ResetSkillsAction,
