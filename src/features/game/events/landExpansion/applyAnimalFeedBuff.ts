@@ -28,6 +28,21 @@ export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
   return animal.asleepAt + third < now && animal.lovedAt + third < now;
 }
 
+/**
+ * Earliest timestamp at which this animal's current sleep cycle would
+ * permit `loveAnimal`. Mirrors the gates in `loveAnimal` (loveAnimal.ts):
+ * both `asleepAt + period` and `lovedAt + period` must have elapsed,
+ * where `period = (awakeAt - asleepAt) / 3`. Callers should still check
+ * `t < animal.awakeAt` — once the animal is awake the cycle is over and
+ * no further love applies. The returned value can therefore be `>= awakeAt`
+ * when no slot remains in this cycle (e.g. both slots already used); the
+ * caller decides how to render that.
+ */
+export function getNextLoveAvailableAt(animal: Animal): number {
+  const third = (animal.awakeAt - animal.asleepAt) / 3;
+  return Math.max(animal.asleepAt + third, animal.lovedAt + third);
+}
+
 function isAnimalAsleep(animal: Animal, now: number): boolean {
   return now < animal.awakeAt;
 }
