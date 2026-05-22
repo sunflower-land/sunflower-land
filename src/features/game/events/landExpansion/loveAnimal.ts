@@ -23,6 +23,11 @@ export function getNextLoveAvailableAt(animal: Animal): number {
   return Math.max(animal.asleepAt + third, animal.lovedAt + third);
 }
 
+/** Boolean form of {@link getNextLoveAvailableAt}: has the love window opened by `now`? */
+export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
+  return getNextLoveAvailableAt(animal) < now;
+}
+
 export type LoveAnimalAction = {
   type: "animal.loved";
   animal: AnimalType;

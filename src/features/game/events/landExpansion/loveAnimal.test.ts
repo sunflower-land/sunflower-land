@@ -1,6 +1,9 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { getNextLoveAvailableAt, loveAnimal } from "./loveAnimal";
-import { isAnimalNeedingLove } from "./applyAnimalFeedBuff";
+import {
+  getNextLoveAvailableAt,
+  isAnimalNeedingLove,
+  loveAnimal,
+} from "./loveAnimal";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 
