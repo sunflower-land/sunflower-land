@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
 import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
 import shadow from "assets/npcs/shadow16px.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -60,8 +61,9 @@ const ManekiNekoLabel = () => {
 };
 
 export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
+  useUiRefresher();
   // Combine all Maneki Nekos across every placement surface (farm, home,
   // interior ground, interior level_one) so the shake cooldown is global.
   const interior = gameState.context.state.interior;
@@ -126,6 +128,22 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
           className="absolute pointer-events-none"
           alt="Maneki Neko"
         />
+        {!hasShakenRecently && (
+          <div
+            className="flex justify-center absolute w-full pointer-events-none z-30"
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+            }}
+          >
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              className={showAnimations ? "ready" : ""}
+              style={{
+                width: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+          </div>
+        )}
       </div>
       {gameState.matches("revealing") && isRevealing && (
         <Modal show>
