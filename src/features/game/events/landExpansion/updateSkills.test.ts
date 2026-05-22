@@ -221,13 +221,13 @@ describe("updateSkills", () => {
     ).toThrow("Not enough gems");
   });
 
-  it("updates skills and deducts gems when paid with gems", () => {
+  it("charges 1 gem per removed point and increments skillPointsUsed", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          Gem: new Decimal(250),
+          Gem: new Decimal(10),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -245,6 +245,124 @@ describe("updateSkills", () => {
     });
 
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
-    expect(result.inventory.Gem).toEqual(new Decimal(50));
+    expect(result.inventory.Gem?.toNumber()).toEqual(9);
+    expect(result.bumpkin?.skillPointsUsed).toEqual(1);
+  });
+
+  it("doubles gem rate past 200 skill points used", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Gem: new Decimal(10),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          skillPointsUsed: 200,
+          previousFreeSkillResetAt: dateNow,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+        paymentType: "gems",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.inventory.Gem?.toNumber()).toEqual(8);
+    expect(result.bumpkin?.skillPointsUsed).toEqual(201);
+  });
+
+  it("does not charge or burn cooldown for pure additions", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Gem: new Decimal(0),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          skillPointsUsed: 50,
+          previousFreeSkillResetAt: dateNow,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Green Thumb": 1, "Young Farmer": 1 },
+        paymentType: "free",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills).toEqual({
+      "Green Thumb": 1,
+      "Young Farmer": 1,
+    });
+    expect(result.bumpkin?.skillPointsUsed).toEqual(50);
+    expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+  });
+
+  it("zeroes skillPointsUsed when paid as a free update", () => {
+    const sixMonthsAgo = new Date(dateNow);
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          skillPointsUsed: 50,
+          previousFreeSkillResetAt: sixMonthsAgo.getTime(),
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+        paymentType: "free",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skillPointsUsed).toEqual(0);
+    expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+  });
+
+  it("skips gem cost but increments skillPointsUsed when paid by ticket", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Skill Reset Ticket": new Decimal(1),
+          Gem: new Decimal(0),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          skillPointsUsed: 10,
+          previousFreeSkillResetAt: dateNow,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+        paymentType: "ticket",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skillPointsUsed).toEqual(11);
+    expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(0);
+    expect(result.inventory.Gem?.toNumber()).toEqual(0);
   });
 });

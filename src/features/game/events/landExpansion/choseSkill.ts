@@ -48,6 +48,24 @@ export const getAvailableBumpkinSkillPointsForSkills = (
     skills,
   });
 
+export const getSkillPointsForSkills = (skills: Skills): number =>
+  Object.keys(skills).reduce((total, skillName) => {
+    if (!skills[skillName as keyof Skills]) return total;
+    const data = BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName];
+    return data ? total + data.requirements.points : total;
+  }, 0);
+
+export const getPointsRemoved = (
+  currentSkills: Skills,
+  newSkills: Skills,
+): number =>
+  Object.keys(currentSkills).reduce((total, skillName) => {
+    if (!currentSkills[skillName as keyof Skills]) return total;
+    if (newSkills[skillName as keyof Skills]) return total;
+    const data = BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName];
+    return data ? total + data.requirements.points : total;
+  }, 0);
+
 export const SKILL_POINTS_PER_TIER: Record<
   BumpkinRevampSkillTree,
   Record<BumpkinSkillTier, number>

@@ -536,7 +536,12 @@ export type Bumpkin = {
   activity?: Partial<Record<FarmActivityName, number>>;
   previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
+  /**
+   * @deprecated Replaced by skillPointsUsed. Retained for backwards
+   * compatibility with previously-stored saves.
+   */
   paidSkillResets?: number;
+  skillPointsUsed?: number;
   coordinates?: Coordinates;
   location?: Exclude<PlaceableLocation, "petHouse">;
 };
