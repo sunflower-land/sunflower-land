@@ -55,15 +55,9 @@ export function loveAnimal({
       throw new Error("The animal is not sleeping");
     }
 
-    // You can love an animal twice in a night
-    const loveAnimalPeriod = (animal.awakeAt - animal.asleepAt) / 3;
-
-    if (createdAt < animal.asleepAt + loveAnimalPeriod) {
-      throw new Error("The animal has not been sleeping for more than 8 hours");
-    }
-
-    if (createdAt < animal.lovedAt + loveAnimalPeriod) {
-      throw new Error("The animal was loved in the last 8 hours");
+    // You can love an animal twice in a night — see getNextLoveAvailableAt.
+    if (!isAnimalNeedingLove(animal, createdAt)) {
+      throw new Error("The animal cannot be loved yet");
     }
 
     if (animal.item !== action.item) {

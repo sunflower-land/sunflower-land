@@ -73,7 +73,7 @@ describe("loveAnimal", () => {
         },
         createdAt: now,
       }),
-    ).toThrow("The animal has not been sleeping for more than 8 hours");
+    ).toThrow("The animal cannot be loved yet");
   });
 
   it("throws if the animal was loved less than 8 hours ago", () => {
@@ -106,7 +106,7 @@ describe("loveAnimal", () => {
         },
         createdAt: now,
       }),
-    ).toThrow("The animal was loved in the last 8 hours");
+    ).toThrow("The animal cannot be loved yet");
   });
 
   it("requires the correct item", () => {
