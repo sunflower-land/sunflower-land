@@ -28,10 +28,11 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
   canResetForFree,
+  getEffectiveSkillPointsUsed,
   getGemCostForSkillPoints,
   type PaymentType,
-  getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
+import { useNow } from "lib/utils/hooks/useNow";
 import fruits from "assets/fruit/fruits.png";
 import { capitalize } from "lib/utils/capitalize";
 import { Button } from "components/ui/Button";
@@ -80,13 +81,20 @@ export const SkillCategoryList: React.FC<{
   const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
   const [showApplyChangesConfirmation, setShowApplyChangesConfirmation] =
     useState(false);
-  const [resetReferenceTime] = useState(() => Date.now());
 
   const { bumpkin, inventory } = state;
+  const { previousFreeSkillResetAt = 0, skills } = bumpkin;
+
+  const nextFreeResetAt = previousFreeSkillResetAt + 180 * 24 * 60 * 60 * 1000;
+  const now = useNow({ live: true, autoEndAt: nextFreeResetAt });
+  // Auto-reset means the stored counter is effectively 0 once the 180-day
+  // window has elapsed — mirror that here so cost/UI reflect the player's
+  // upcoming experience without waiting for the next save.
+  const skillPointsUsed = getEffectiveSkillPointsUsed(bumpkin, now);
+
   const availableSkillPoints = isEditing
     ? getAvailableBumpkinSkillPointsForSkills(bumpkin, displayedSkills)
     : getAvailableBumpkinSkillPoints(bumpkin);
-  const { previousFreeSkillResetAt = 0, skillPointsUsed = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;
 
@@ -95,10 +103,7 @@ export const SkillCategoryList: React.FC<{
     : getSkillPointsForSkills(skills);
 
   const getNextResetDateAndTime = () => {
-    const nextResetTime =
-      resetReferenceTime +
-      getTimeUntilNextFreeReset(previousFreeSkillResetAt, resetReferenceTime);
-    const nextResetDate = new Date(nextResetTime);
+    const nextResetDate = new Date(nextFreeResetAt);
 
     return {
       date: nextResetDate.toLocaleDateString(navigator.language, {
@@ -115,17 +120,22 @@ export const SkillCategoryList: React.FC<{
   };
 
   const gemCost = getGemCostForSkillPoints(pointsRemoved, skillPointsUsed);
-  const isCostless = pointsRemoved === 0;
+  // Edits that owe nothing (pure additions, or removals fully inside the
+  // free 200) shouldn't burn the free-reset cooldown or a ticket — fall back
+  // to gems where chargeSkillEdit is a no-op for the player.
+  const isCostless = gemCost === 0;
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const hasTicket = inventory["Skill Reset Ticket"]?.gte(1) ?? false;
   const hasDisplayedSkills = getKeys(displayedSkills).length > 0;
 
-  const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
-    ? "free"
-    : hasTicket
-      ? "ticket"
-      : "gems";
+  const resetType: PaymentType = isCostless
+    ? "gems"
+    : canResetForFree(previousFreeSkillResetAt, now)
+      ? "free"
+      : hasTicket
+        ? "ticket"
+        : "gems";
 
   const editCostLabel = isCostless
     ? t("skillEdit.cost.free")
@@ -137,7 +147,7 @@ export const SkillCategoryList: React.FC<{
 
   const canApplySkillChanges = () => {
     if (isCostless) return true;
-    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
+    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt, now))
       return false;
     if (resetType === "ticket" && !hasTicket) return false;
     if (resetType === "gems" && !hasEnoughGems) return false;
