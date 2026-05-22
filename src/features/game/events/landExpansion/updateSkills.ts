@@ -6,12 +6,11 @@ import {
   sanitizeSkillSelection,
   validateSkillSelection,
 } from "./choseSkill";
-import { chargeSkillEdit, PaymentType } from "./resetSkills";
+import { chargeSkillEdit } from "./resetSkills";
 
 export type UpdateSkillsAction = {
   type: "skills.updated";
   skills: Skills;
-  paymentType: PaymentType;
 };
 
 type Options = {
@@ -50,7 +49,6 @@ export function updateSkills({
 
     chargeSkillEdit({
       game: stateCopy,
-      paymentType: action.paymentType,
       pointsRemoved: getPointsRemoved(stateCopy.bumpkin.skills, skills),
       createdAt,
     });

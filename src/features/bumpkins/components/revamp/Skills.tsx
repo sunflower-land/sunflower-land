@@ -16,7 +16,6 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { validateSkillSelection } from "features/game/events/landExpansion/choseSkill";
-import { PaymentType } from "features/game/events/landExpansion/resetSkills";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -98,10 +97,10 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
     });
   };
 
-  const applyEditing = (paymentType: PaymentType) => {
+  const applyEditing = () => {
     if (!draftSkills || validationError || !hasChanges) return;
 
-    gameService.send("skills.updated", { skills: draftSkills, paymentType });
+    gameService.send("skills.updated", { skills: draftSkills });
     setDraftSkills(null);
   };
 
