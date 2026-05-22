@@ -16,6 +16,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import {
   getAvailableBumpkinSkillPoints,
   getAvailableBumpkinSkillPointsForSkills,
+  getPointsRemoved,
+  getSkillPointsForSkills,
 } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -26,7 +28,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
   canResetForFree,
-  getGemCost,
+  getGemCostForSkillPoints,
   type PaymentType,
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
@@ -84,9 +86,13 @@ export const SkillCategoryList: React.FC<{
   const availableSkillPoints = isEditing
     ? getAvailableBumpkinSkillPointsForSkills(bumpkin, displayedSkills)
     : getAvailableBumpkinSkillPoints(bumpkin);
-  const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
+  const { previousFreeSkillResetAt = 0, skillPointsUsed = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;
+
+  const pointsRemoved = isEditing
+    ? getPointsRemoved(skills, displayedSkills)
+    : getSkillPointsForSkills(skills);
 
   const getNextResetDateAndTime = () => {
     const nextResetTime =
@@ -108,7 +114,8 @@ export const SkillCategoryList: React.FC<{
     };
   };
 
-  const gemCost = getGemCost(paidSkillResets);
+  const gemCost = getGemCostForSkillPoints(pointsRemoved, skillPointsUsed);
+  const isCostless = pointsRemoved === 0;
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const hasTicket = inventory["Skill Reset Ticket"]?.gte(1) ?? false;
@@ -120,14 +127,16 @@ export const SkillCategoryList: React.FC<{
       ? "ticket"
       : "gems";
 
-  const editCostLabel =
-    resetType === "free"
+  const editCostLabel = isCostless
+    ? t("skillEdit.cost.free")
+    : resetType === "free"
       ? t("skillEdit.cost.free")
       : resetType === "ticket"
         ? t("skillEdit.cost.ticket")
         : t("skillEdit.cost.gems", { gemCost });
 
   const canApplySkillChanges = () => {
+    if (isCostless) return true;
     if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
       return false;
     if (resetType === "ticket" && !hasTicket) return false;

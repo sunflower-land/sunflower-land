@@ -3,6 +3,7 @@ import type { GameState } from "features/game/types/game";
 import { produce, Draft } from "immer";
 import Decimal from "decimal.js-light";
 import { populateSaltFarm } from "features/game/types/salt";
+import { getSkillPointsForSkills } from "./choseSkill";
 
 export type PaymentType = "gems" | "free" | "ticket";
 
@@ -17,8 +18,31 @@ type Options = {
   createdAt?: number;
 };
 
-export const getGemCost = (paidSkillResets: number) =>
-  200 * Math.pow(2, paidSkillResets);
+// Cost ramp: 1 gem/point at 0–199 history, doubles every 200 points used
+// (200–399 → 2, 400–599 → 4, …). Transactions that span a boundary pay
+// split-rate.
+const POINTS_PER_TIER = 200;
+
+export const getGemCostForSkillPoints = (
+  pointsRemoved: number,
+  skillPointsUsed: number,
+): number => {
+  let cost = 0;
+  let remaining = pointsRemoved;
+  let history = skillPointsUsed;
+
+  while (remaining > 0) {
+    const tierEnd =
+      (Math.floor(history / POINTS_PER_TIER) + 1) * POINTS_PER_TIER;
+    const inTier = Math.min(remaining, tierEnd - history);
+    const rate = Math.pow(2, Math.floor(history / POINTS_PER_TIER));
+    cost += inTier * rate;
+    history += inTier;
+    remaining -= inTier;
+  }
+
+  return cost;
+};
 
 export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
@@ -50,10 +74,12 @@ export function canResetForFree(
 export function chargeSkillEdit({
   game,
   paymentType,
+  pointsRemoved,
   createdAt,
 }: {
   game: Draft<GameState>;
   paymentType: PaymentType;
+  pointsRemoved: number;
   createdAt: number;
 }) {
   const { bumpkin } = game;
@@ -62,7 +88,11 @@ export function chargeSkillEdit({
     throw new Error("You do not have a Bumpkin!");
   }
 
-  const { paidSkillResets = 0, previousFreeSkillResetAt = 0 } = bumpkin;
+  // Pure additions (no removals) are free of charge — there's nothing to
+  // charge for, so don't burn a cooldown / ticket either.
+  if (pointsRemoved <= 0) return;
+
+  const { skillPointsUsed = 0, previousFreeSkillResetAt = 0 } = bumpkin;
 
   switch (paymentType) {
     case "free": {
@@ -79,12 +109,12 @@ export function chargeSkillEdit({
         );
       }
 
-      bumpkin.paidSkillResets = 0;
+      bumpkin.skillPointsUsed = 0;
       bumpkin.previousFreeSkillResetAt = createdAt;
       break;
     }
     case "gems": {
-      const gemCost = getGemCost(paidSkillResets);
+      const gemCost = getGemCostForSkillPoints(pointsRemoved, skillPointsUsed);
       const gemBalance = game.inventory.Gem ?? new Decimal(0);
 
       if (gemBalance.lt(gemCost)) {
@@ -92,7 +122,7 @@ export function chargeSkillEdit({
       }
 
       game.inventory.Gem = gemBalance.minus(gemCost);
-      bumpkin.paidSkillResets = paidSkillResets + 1;
+      bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
       break;
     }
     case "ticket": {
@@ -104,7 +134,7 @@ export function chargeSkillEdit({
       }
 
       game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
-      bumpkin.paidSkillResets = paidSkillResets + 1;
+      bumpkin.skillPointsUsed = skillPointsUsed + pointsRemoved;
       break;
     }
     default: {
@@ -130,7 +160,12 @@ export function resetSkills({
       throw new Error("You do not have any skills to reset");
     }
 
-    chargeSkillEdit({ game, paymentType: action.paymentType, createdAt });
+    chargeSkillEdit({
+      game,
+      paymentType: action.paymentType,
+      pointsRemoved: getSkillPointsForSkills(bumpkin.skills),
+      createdAt,
+    });
 
     bumpkin.skills = {};
 

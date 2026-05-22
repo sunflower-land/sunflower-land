@@ -1,7 +1,11 @@
 import { GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import { sanitizeSkillSelection, validateSkillSelection } from "./choseSkill";
+import {
+  getPointsRemoved,
+  sanitizeSkillSelection,
+  validateSkillSelection,
+} from "./choseSkill";
 import { chargeSkillEdit, PaymentType } from "./resetSkills";
 
 export type UpdateSkillsAction = {
@@ -47,6 +51,7 @@ export function updateSkills({
     chargeSkillEdit({
       game: stateCopy,
       paymentType: action.paymentType,
+      pointsRemoved: getPointsRemoved(stateCopy.bumpkin.skills, skills),
       createdAt,
     });
 
