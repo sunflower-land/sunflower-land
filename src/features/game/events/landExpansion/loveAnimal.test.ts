@@ -1,5 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { loveAnimal } from "./loveAnimal";
+import { getNextLoveAvailableAt, loveAnimal } from "./loveAnimal";
+import { isAnimalNeedingLove } from "./applyAnimalFeedBuff";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 
@@ -434,5 +435,52 @@ describe("loveAnimal", () => {
     });
 
     expect(state.barn.animals["1"].experience).toBe(240);
+  });
+});
+
+describe("getNextLoveAvailableAt", () => {
+  const asleepAt = 1_000_000;
+  const napMs = 3_600_000;
+  const awakeAt = asleepAt + napMs;
+  const third = napMs / 3;
+
+  const baseAnimal = {
+    id: "c1",
+    type: "Chicken" as const,
+    state: "idle" as const,
+    createdAt: 0,
+    experience: 0,
+    asleepAt,
+    awakeAt,
+    item: "Petting Hand" as const,
+  };
+
+  it("opens at asleepAt + period when the animal has never been loved", () => {
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 })).toBe(
+      asleepAt + third,
+    );
+  });
+
+  it("opens at lovedAt + period after a love inside the current cycle", () => {
+    const lovedAt = asleepAt + third + 1_000;
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt })).toBe(
+      lovedAt + third,
+    );
+  });
+
+  it("agrees with isAnimalNeedingLove at the gate boundary", () => {
+    const animal = { ...baseAnimal, lovedAt: 0 };
+    const openAt = getNextLoveAvailableAt(animal);
+    // strict-less-than gate in isAnimalNeedingLove, so it's still false at
+    // the boundary itself and true one tick after.
+    expect(isAnimalNeedingLove(animal, openAt)).toBe(false);
+    expect(isAnimalNeedingLove(animal, openAt + 1)).toBe(true);
+  });
+
+  it("returns a value >= awakeAt when no slot remains this cycle", () => {
+    const lovedAt = asleepAt + 2 * third + 1_000;
+    expect(
+      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }),
+    ).toBeGreaterThanOrEqual(awakeAt);
   });
 });

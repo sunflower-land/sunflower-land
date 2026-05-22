@@ -1,5 +1,6 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
+import { getNextLoveAvailableAt } from "../events/landExpansion/loveAnimal";
 
 interface TContext {
   animal?: Animal;
@@ -51,14 +52,7 @@ const isAnimalSleeping = (context: TContext) => {
 const isAnimalNeedsLove = (context: TContext) => {
   if (!context.animal) return false;
 
-  return (
-    context.animal.asleepAt +
-      (context.animal.awakeAt - context.animal.asleepAt) / 3 <
-      Date.now() &&
-    context.animal.lovedAt +
-      (context.animal.awakeAt - context.animal.asleepAt) / 3 <
-      Date.now()
-  );
+  return getNextLoveAvailableAt(context.animal) < Date.now();
 };
 
 export const animalMachine = createMachine<TContext, TEvent, TState>({
