@@ -42,6 +42,9 @@ import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
+import { LinkedTwitterPanel } from "features/auth/components/Twitter/LinkedTwitterPanel";
+import { LinkedTelegramPanel } from "features/auth/components/Telegram/LinkedTelegramPanel";
+import { LinkedDiscordPanel } from "./linked-accounts/LinkedDiscordPanel";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -335,6 +338,21 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("linkedAccounts.googleSignIn.title"),
     parent: "linkedAccounts",
     content: LinkedGooglePanel,
+  },
+  linkAccountTwitter: {
+    title: translate("linkedAccounts.twitter"),
+    parent: "linkedAccounts",
+    content: LinkedTwitterPanel,
+  },
+  linkAccountTelegram: {
+    title: translate("linkedAccounts.telegram"),
+    parent: "linkedAccounts",
+    content: LinkedTelegramPanel,
+  },
+  linkAccountDiscord: {
+    title: translate("linkedAccounts.discord"),
+    parent: "linkedAccounts",
+    content: LinkedDiscordPanel,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),

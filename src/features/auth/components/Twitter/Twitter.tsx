@@ -39,7 +39,7 @@ export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
 
 const VERIFY_COOLDOWN_MS = 15 * 60 * 1000;
 
-const TwitterRewards: React.FC = () => {
+export const TwitterRewards: React.FC = () => {
   const [selected, setSelected] = useState<TwitterPostName>();
   const { gameState } = useGame();
   const now = useNow();

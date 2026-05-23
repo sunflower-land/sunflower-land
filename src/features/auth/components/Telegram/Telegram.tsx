@@ -14,14 +14,14 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Loading } from "..";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+export const TelegramBody: React.FC = () => {
   const { gameState } = useGame();
   const telegram = gameState.context.state.telegram;
 
   const { t } = useAppTranslation();
 
   return (
-    <CloseButtonPanel onClose={onClose} container={OuterPanel}>
+    <>
       <InnerPanel className="p-1">
         <div className="flex mb-2 ">
           <Label type="default" className="mr-2">
@@ -36,10 +36,6 @@ export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
         <NoticeboardItems
           items={[
-            // {
-            //   text: t("telegram.notifications"),
-            //   icon: SUNNYSIDE.icons.expression_chat,
-            // },
             {
               text: t("telegram.community"),
               icon: SUNNYSIDE.icons.player,
@@ -73,9 +69,15 @@ export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </InnerPanel>
       <TelegramConnect />
-    </CloseButtonPanel>
+    </>
   );
 };
+
+export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => (
+  <CloseButtonPanel onClose={onClose} container={OuterPanel}>
+    <TelegramBody />
+  </CloseButtonPanel>
+);
 
 const TelegramConnect: React.FC = () => {
   const { gameService, gameState } = useGame();
