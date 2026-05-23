@@ -19,6 +19,7 @@ export type SettingMenuId =
   | "linkAccountTwitter"
   | "linkAccountTelegram"
   | "linkAccountDiscord"
+  | "streams"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -31,7 +32,6 @@ export type SettingMenuId =
   | "transfer"
 
   // Account / Preferences
-  | "discord"
   | "changeLanguage"
   | "preferences"
   | "appearance"

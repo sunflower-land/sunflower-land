@@ -10,12 +10,15 @@ import { hasFeatureAccess } from "lib/flags";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { removeJWT } from "features/auth/actions/social";
 import { useSelector } from "@xstate/react";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const Account: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
+  onClose,
 }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
@@ -48,11 +51,16 @@ export const Account: React.FC<ContentComponentProps> = ({
             />
           )}
         </Button>
-        <Button onClick={() => onSubMenuClick("discord")}>
-          <span>{`Discord`}</span>
-        </Button>
         <Button onClick={() => onSubMenuClick("linkedAccounts")}>
           <span>{t("gameOptions.linkedAccounts")}</span>
+        </Button>
+        <Button
+          onClick={() => {
+            onClose();
+            openModal("REFERRAL");
+          }}
+        >
+          <span>{t("gameOptions.account.referFriend")}</span>
         </Button>
         {hasFeatureAccess(state, "FACE_RECOGNITION_TEST") && (
           <Button onClick={() => onSubMenuClick("faceRecognition")}>

@@ -2,13 +2,14 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ContentComponentProps } from "../GameOptions";
 
 const DISCORD_INVITE = "https://discord.gg/sunflowerland";
 const TERMS_URL = "https://docs.sunflower-land.com/support/terms-of-service";
 const RELEASES_URL =
   "https://github.com/sunflower-land/sunflower-land/releases";
 
-export const About: React.FC = () => {
+export const About: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
   const { t } = useAppTranslation();
   const version = CONFIG.RELEASE_VERSION?.split("-")[0];
 
@@ -23,6 +24,9 @@ export const About: React.FC = () => {
       </Button>
       <Button onClick={() => window.open(DISCORD_INVITE, "_blank")}>
         {t("gameOptions.about.discord")}
+      </Button>
+      <Button onClick={() => onSubMenuClick("streams")}>
+        {t("gameOptions.about.streams")}
       </Button>
       <Button onClick={() => window.open(TERMS_URL, "_blank")}>
         {t("gameOptions.about.terms")}

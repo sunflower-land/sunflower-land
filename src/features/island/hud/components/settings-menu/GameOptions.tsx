@@ -42,10 +42,9 @@ import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
-import { LinkedTwitterPanel } from "features/auth/components/Twitter/LinkedTwitterPanel";
 import { LinkedTelegramPanel } from "features/auth/components/Telegram/LinkedTelegramPanel";
 import { LinkedDiscordPanel } from "./linked-accounts/LinkedDiscordPanel";
-import { Discord } from "./general-settings/DiscordModal";
+import { StreamsContent } from "features/game/components/modal/components/Streams";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
@@ -70,6 +69,7 @@ import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
+import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 
 export type { ContentComponentProps, SettingMenuId };
 
@@ -256,15 +256,15 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     setSelected("main");
   };
 
-  const SelectedComponent = settingMenus[selected].content;
+  const SelectedComponent = SETTING_MENUS[selected].content;
 
   return (
     <Modal show={show} onHide={isLinkingInFlight ? undefined : onHide}>
       <CloseButtonPanel
-        title={settingMenus[selected].title}
+        title={SETTING_MENUS[selected].title}
         onBack={
           !isLinkingInFlight && selected !== "main"
-            ? () => setSelected(settingMenus[selected].parent)
+            ? () => setSelected(SETTING_MENUS[selected].parent)
             : undefined
         }
         onClose={isLinkingInFlight ? undefined : onHide}
@@ -282,7 +282,7 @@ interface SettingMenu {
   content: React.FC<ContentComponentProps>;
 }
 
-export const settingMenus: Record<SettingMenuId, SettingMenu> = {
+export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   // Game Options
   main: {
     title: translate("gameOptions.title"),
@@ -308,6 +308,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.about"),
     parent: "main",
     content: About,
+  },
+  streams: {
+    title: translate("streams.title"),
+    parent: "about",
+    content: StreamsContent,
   },
   amoy: {
     title: translate("gameOptions.developerOptions"),
@@ -342,7 +347,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   linkAccountTwitter: {
     title: translate("linkedAccounts.twitter"),
     parent: "linkedAccounts",
-    content: LinkedTwitterPanel,
+    content: TwitterRewards,
   },
   linkAccountTelegram: {
     title: translate("linkedAccounts.telegram"),
@@ -398,8 +403,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "account",
     content: FaceRecognitionSettings,
   },
-  discord: { title: "Discord", parent: "account", content: Discord },
-
   // Preferences hub + leaves
   preferences: {
     title: translate("gameOptions.generalSettings.preferences"),

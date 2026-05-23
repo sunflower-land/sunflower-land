@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { PropsWithChildren, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Label, LabelType } from "components/ui/Label";
@@ -126,12 +126,8 @@ const ProviderRow: React.FC<RowProps> = ({
   );
 };
 
-const SectionHeader: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <p className="text-xxs uppercase tracking-wider opacity-60 mx-1 mt-2 mb-0.5">
-    {children}
-  </p>
+const SectionHeader: React.FC<PropsWithChildren> = ({ children }) => (
+  <Label type="default">{children}</Label>
 );
 
 export const LinkedAccounts: React.FC<ContentComponentProps> = ({
@@ -258,7 +254,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : t("linkedAccounts.rationale.walletNotLinked");
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 overflow-auto max-h-[400px] scrollable">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
 
       <Label type="warning">{t(warningKey)}</Label>
@@ -317,7 +313,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       <ProviderRow
         icon={SUNNYSIDE.icons.discord}
         title={t("linkedAccounts.discord")}
-        role={{ type: "chill", key: "linkedAccounts.role.communityRequired" }}
+        role={{ type: "chill", key: "linkedAccounts.role.recommended" }}
         rationale={t("linkedAccounts.rationale.discord")}
         status={discordStatus}
         subtext={discordSubtext}
