@@ -25,7 +25,6 @@ const _linkingSocialFailed = (state: MachineState) =>
   state.matches("linkingSocialFailed");
 const _twitter = (state: MachineState) => state.context.state.twitter;
 const _telegram = (state: MachineState) => state.context.state.telegram;
-const _discordContext = (state: MachineState) => state.context.discordId;
 const _discordState = (state: MachineState) => state.context.state.discord;
 
 const maskWalletAddress = (address: string): string => {
@@ -149,7 +148,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const linkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
   const twitter = useSelector(gameService, _twitter);
   const telegram = useSelector(gameService, _telegram);
-  const discordId = useSelector(gameService, _discordContext);
   const discordState = useSelector(gameService, _discordState);
 
   const [revealWallet, setRevealWallet] = useState(false);
@@ -188,12 +186,14 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       ? "linked"
       : "partial";
 
-  // Discord: discordId is the OAuth handshake; verified flips after the
-  // server confirms guild membership. The flag distinguishes "connected
-  // but not on the official server" from "fully verified".
-  const discordStatus: RowStatus = !discordId
+  // Discord: `connected` is the OAuth handshake flag; `verified` flips
+  // after the server confirms guild membership. The flag distinguishes
+  // "connected but not on the official server" from "fully verified".
+  // Use `connected` rather than the stale `discordId` so a stored ID
+  // without an active connection isn't mis-shown as linked.
+  const discordStatus: RowStatus = !discordState?.connected
     ? "notLinked"
-    : discordState?.verified
+    : discordState.verified
       ? "linked"
       : "partial";
 
@@ -222,9 +222,11 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       ? t("linkedAccounts.subtext.twitterNotLinked")
       : twitterStatus === "partial"
         ? t("linkedAccounts.subtext.twitterPartial")
-        : // Fully linked — no public handle exposed in state, so fall back
-          // to the rationale instead of a placeholder.
-          t("linkedAccounts.rationale.twitter");
+        : // Fully linked — surface the connected handle when present,
+          // fall back to the rationale only if the username is missing.
+          twitter?.username
+          ? `@${twitter.username}`
+          : t("linkedAccounts.rationale.twitter");
 
   const telegramSubtext =
     telegramStatus === "notLinked"
