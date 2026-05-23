@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import giftIcon from "assets/icons/gift.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
@@ -21,60 +21,66 @@ export const TelegramBody: React.FC = () => {
   const { t } = useAppTranslation();
 
   return (
-    <>
-      <InnerPanel className="p-1">
-        <div className="flex mb-2 ">
-          <Label type="default" className="mr-2">
+    <div className="flex flex-col gap-1">
+      <ButtonPanel variant="card">
+        <div className="flex items-center justify-between gap-2">
+          <Label type="default" icon={SUNNYSIDE.icons.telegram}>
             {t("telegram.title")}
           </Label>
-          <Label type="info" className="mr-2">
-            {t("beta")}
-          </Label>
-          {telegram?.joinedAt && (
-            <Label type="success">{t("telegram.joinedAt")}</Label>
-          )}
+          <div className="flex gap-1">
+            <Label type="info">{t("beta")}</Label>
+            {telegram?.joinedAt && (
+              <Label type="success">{t("telegram.joinedAt")}</Label>
+            )}
+          </div>
         </div>
-        <NoticeboardItems
-          items={[
-            {
-              text: t("telegram.community"),
-              icon: SUNNYSIDE.icons.player,
-            },
-            {
-              text: t("telegram.rewards"),
-              icon: giftIcon,
-            },
-          ]}
-        />
-        <div className="flex gap-4 mb-1">
-          <span
-            className="underline text-xs cursor-pointer"
-            onClick={() => {
-              window.open(`https://t.me/SunflowerLandAnnouncements`, "_blank");
-            }}
-          >
-            {t("telegram.announcements")}
-          </span>
-          <span
-            className="underline text-xs cursor-pointer"
-            onClick={() => {
-              window.open(
-                `https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`,
-                "_blank",
-              );
-            }}
-          >
-            {t("telegram.bot")}
-          </span>
+        <div className="mt-2">
+          <NoticeboardItems
+            items={[
+              {
+                text: t("telegram.community"),
+                icon: SUNNYSIDE.icons.player,
+              },
+              {
+                text: t("telegram.rewards"),
+                icon: giftIcon,
+              },
+            ]}
+          />
+          <div className="flex gap-4 mt-2 ml-1">
+            <span
+              className="underline text-xs cursor-pointer"
+              onClick={() => {
+                window.open(
+                  `https://t.me/SunflowerLandAnnouncements`,
+                  "_blank",
+                );
+              }}
+            >
+              {t("telegram.announcements")}
+            </span>
+            <span
+              className="underline text-xs cursor-pointer"
+              onClick={() => {
+                window.open(
+                  `https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`,
+                  "_blank",
+                );
+              }}
+            >
+              {t("telegram.bot")}
+            </span>
+          </div>
         </div>
-      </InnerPanel>
+      </ButtonPanel>
+
       <TelegramConnect />
-    </>
+    </div>
   );
 };
 
 export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-  <CloseButtonPanel onClose={onClose} container={OuterPanel}>
+  <CloseButtonPanel onClose={onClose}>
     <TelegramBody />
   </CloseButtonPanel>
 );
@@ -92,8 +98,8 @@ const TelegramConnect: React.FC = () => {
 
   if (!telegram) {
     return (
-      <InnerPanel className="p-1  mt-1">
-        <div className="flex justify-between">
+      <ButtonPanel variant="card">
+        <div className="flex items-center justify-between gap-2">
           <Label type="default">{t("telegram.step1")}</Label>
           <div className="flex gap-1">
             <img src={SUNNYSIDE.ui.dot} className="h-4" />
@@ -101,26 +107,25 @@ const TelegramConnect: React.FC = () => {
             <img src={SUNNYSIDE.ui.dot} className="h-4" />
           </div>
         </div>
-
-        <div className="p-2">
+        <div className="flex justify-center mt-2">
           <TelegramLogin />
         </div>
-      </InnerPanel>
+      </ButtonPanel>
     );
   }
 
   if (!telegram?.joinedAt && gameState.matches("autosaving")) {
     return (
-      <InnerPanel className="p-1  mt-1">
+      <ButtonPanel variant="card">
         <Loading />
-      </InnerPanel>
+      </ButtonPanel>
     );
   }
 
   if (!telegram.startedAt) {
     return (
-      <InnerPanel className="p-1 mt-1">
-        <div className="flex justify-between">
+      <ButtonPanel variant="card">
+        <div className="flex items-center justify-between gap-2">
           <Label type="default">{t("telegram.step2")}</Label>
           <div className="flex gap-1">
             <img src={SUNNYSIDE.icons.confirm} className="h-4" />
@@ -128,8 +133,8 @@ const TelegramConnect: React.FC = () => {
             <img src={SUNNYSIDE.ui.dot} className="h-4" />
           </div>
         </div>
-        <p className="text-xs p-2">{t("telegram.botDescription")}</p>
-        <div className="flex flex-wrap gap-x-1">
+        <p className="text-xs mt-2 ml-1">{t("telegram.botDescription")}</p>
+        <div className="flex flex-wrap gap-1 mt-2">
           {!!startedBotAt && (
             <Button
               onClick={() => {
@@ -166,18 +171,23 @@ const TelegramConnect: React.FC = () => {
             {t("telegram.startBot")}
           </Button>
         </div>
-      </InnerPanel>
+      </ButtonPanel>
     );
   }
 
   if (!telegram.joinedAt) {
     return (
-      <InnerPanel className="p-1 mt-1">
-        <div className="flex justify-between mb-2">
+      <ButtonPanel variant="card">
+        <div className="flex items-center justify-between gap-2">
           <Label type="default">{t("telegram.step3")}</Label>
+          <div className="flex gap-1">
+            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+            <img src={SUNNYSIDE.ui.dot} className="h-4" />
+          </div>
         </div>
-        <p className="text-xs p-2">{t("telegram.prompts")}</p>
-      </InnerPanel>
+        <p className="text-xs mt-2 ml-1">{t("telegram.prompts")}</p>
+      </ButtonPanel>
     );
   }
 

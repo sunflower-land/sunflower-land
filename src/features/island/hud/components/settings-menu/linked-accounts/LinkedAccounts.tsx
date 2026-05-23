@@ -101,31 +101,33 @@ const ProviderRow: React.FC<RowProps> = ({
 
       <p className="text-xs italic mt-1 ml-1 opacity-75">{rationale}</p>
 
-      <div className="flex items-center justify-between gap-2 mt-1">
-        <p
-          className={`text-xs break-all ml-1 ${
-            onSubtextClick ? "cursor-pointer" : ""
-          }`}
-          onClick={
-            onSubtextClick
-              ? (e) => {
-                  e.stopPropagation();
-                  onSubtextClick();
-                }
-              : undefined
-          }
-          title={subtextTitle}
-        >
-          {subtext}
-        </p>
-        {showManageHint && (
-          <img
-            src={SUNNYSIDE.icons.chevron_right}
-            alt=""
-            className="w-3 mr-1 shrink-0"
-          />
-        )}
-      </div>
+      {(subtext || showManageHint) && (
+        <div className="flex items-center justify-between gap-2 mt-1">
+          <p
+            className={`text-xs break-all ml-1 ${
+              onSubtextClick ? "cursor-pointer" : ""
+            }`}
+            onClick={
+              onSubtextClick
+                ? (e) => {
+                    e.stopPropagation();
+                    onSubtextClick();
+                  }
+                : undefined
+            }
+            title={subtextTitle}
+          >
+            {subtext}
+          </p>
+          {showManageHint && (
+            <img
+              src={SUNNYSIDE.icons.chevron_right}
+              alt=""
+              className="w-3 mr-1 shrink-0"
+            />
+          )}
+        </div>
+      )}
     </ButtonPanel>
   );
 };
@@ -250,10 +252,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         ? t("linkedAccounts.subtext.discordPartial")
         : t("linkedAccounts.subtext.discordLinked");
 
-  const fslSubtext =
-    fslStatus === "linked" && fslId
-      ? fslId
-      : t("linkedAccounts.subtext.fslNotLinked");
+  const fslSubtext = fslStatus === "linked" && fslId ? fslId : "";
 
   // Wireframe: the warning copy depends on whether the wallet is the
   // active owner of the NFT or merely the future owner. Wallet linked
