@@ -22,55 +22,73 @@ export const TelegramBody: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-1">
+      {telegram?.linkedAt && (
+        <ButtonPanel variant="card">
+          <div className="flex items-start gap-2">
+            <img
+              src={SUNNYSIDE.icons.telegram}
+              alt="Telegram"
+              className="w-8 h-8 mt-1"
+            />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-sm font-semibold">
+                  {t("linkedAccounts.telegram")}
+                </span>
+                <div className="flex gap-1">
+                  <Label type="info">{t("beta")}</Label>
+                  {telegram.joinedAt ? (
+                    <Label type="success">{t("telegram.joinedAt")}</Label>
+                  ) : (
+                    <Label type="warning">
+                      {t("linkedAccounts.partialPill")}
+                    </Label>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ButtonPanel>
+      )}
+
       <ButtonPanel variant="card">
-        <div className="flex items-center justify-between gap-2">
-          <Label type="default" icon={SUNNYSIDE.icons.telegram}>
-            {t("telegram.title")}
-          </Label>
-          <div className="flex gap-1">
+        {!telegram?.linkedAt && (
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <Label type="default" icon={SUNNYSIDE.icons.telegram}>
+              {t("telegram.title")}
+            </Label>
             <Label type="info">{t("beta")}</Label>
-            {telegram?.joinedAt && (
-              <Label type="success">{t("telegram.joinedAt")}</Label>
-            )}
           </div>
-        </div>
-        <div className="mt-2">
-          <NoticeboardItems
-            items={[
-              {
-                text: t("telegram.community"),
-                icon: SUNNYSIDE.icons.player,
-              },
-              {
-                text: t("telegram.rewards"),
-                icon: giftIcon,
-              },
-            ]}
-          />
-          <div className="flex gap-4 mt-2 ml-1">
-            <span
-              className="underline text-xs cursor-pointer"
-              onClick={() => {
-                window.open(
-                  `https://t.me/SunflowerLandAnnouncements`,
-                  "_blank",
-                );
-              }}
-            >
-              {t("telegram.announcements")}
-            </span>
-            <span
-              className="underline text-xs cursor-pointer"
-              onClick={() => {
-                window.open(
-                  `https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`,
-                  "_blank",
-                );
-              }}
-            >
-              {t("telegram.bot")}
-            </span>
-          </div>
+        )}
+        <NoticeboardItems
+          items={[
+            {
+              text: t("telegram.community"),
+              icon: SUNNYSIDE.icons.player,
+            },
+            {
+              text: t("telegram.rewards"),
+              icon: giftIcon,
+            },
+          ]}
+        />
+        <div className="flex gap-4 mt-2 ml-1">
+          <a
+            className="underline text-xs cursor-pointer"
+            href="https://t.me/SunflowerLandAnnouncements"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("telegram.announcements")}
+          </a>
+          <a
+            className="underline text-xs cursor-pointer"
+            href={`https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("telegram.bot")}
+          </a>
         </div>
       </ButtonPanel>
 
