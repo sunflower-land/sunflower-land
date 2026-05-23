@@ -45,6 +45,7 @@ import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
 import { LinkedTelegramPanel } from "features/auth/components/Telegram/LinkedTelegramPanel";
 import { LinkedDiscordPanel } from "./linked-accounts/LinkedDiscordPanel";
 import { StreamsContent } from "features/game/components/modal/components/Streams";
+import { ReferralInfo } from "features/island/hud/components/referral/Referral";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
@@ -298,6 +299,11 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.account"),
     parent: "main",
     content: Account,
+  },
+  referAFriend: {
+    title: translate("gameOptions.account.referFriend"),
+    parent: "account",
+    content: ReferralInfo,
   },
   advanced: {
     title: translate("gameOptions.advanced"),

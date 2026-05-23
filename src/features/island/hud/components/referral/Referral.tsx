@@ -1,6 +1,7 @@
 import { useSelector } from "@xstate/react";
 import { CopyField } from "components/ui/CopyField";
 import { Label } from "components/ui/Label";
+import { Modal } from "components/ui/Modal";
 import { Context, useGame } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CONFIG } from "lib/config";
@@ -9,7 +10,6 @@ import React, { useContext, useState } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import vipIcon from "assets/icons/vip.webp";
-import promoteIcon from "assets/icons/promote.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chest from "assets/icons/chest.png";
@@ -38,6 +38,7 @@ import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { Panel } from "components/ui/Panel";
 
 interface ReferralProps {
   onHide: () => void;
@@ -49,34 +50,11 @@ const REFERRAL_PACKAGE: Partial<Record<InventoryItemName, number>> = {
   "Love Charm": 25,
 };
 
-export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
-  const { t } = useAppTranslation();
-  const [tab, setTab] = useState<"Refer a friend" | "Referred">(
-    "Refer a friend",
-  );
-  return (
-    <CloseButtonPanel
-      onClose={onHide}
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[
-        {
-          icon: promoteIcon,
-          name: t("socialTask.referFriend"),
-          id: "Refer a friend",
-        },
-        {
-          icon: SUNNYSIDE.icons.player,
-          name: t("referral.referred"),
-          id: "Referred",
-        },
-      ]}
-    >
-      {tab === "Refer a friend" && <ReferralInfo />}
-      {tab === "Referred" && <Referrees />}
-    </CloseButtonPanel>
-  );
-};
+export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => (
+  <CloseButtonPanel onClose={onHide}>
+    <ReferralInfo />
+  </CloseButtonPanel>
+);
 
 const fetcher = async ([token, farmId]: [string, number]) => {
   return getReferrees({ token, farmId });
@@ -176,12 +154,22 @@ export const Referrees: React.FC = () => {
 export const ReferralInfo: React.FC = () => {
   const { t } = useAppTranslation();
   const [showFarm, setShowFarm] = useState(false);
+  const [showReferrees, setShowReferrees] = useState(false);
   const { gameService } = useContext(Context);
+  const { authState } = useAuth();
   const farmId = useSelector(gameService, (state) => state.context.farmId);
   const username = useSelector(
     gameService,
     (state) => state.context.state.username,
   );
+
+  // Same SWR key as <Referrees/>, so opening the nested modal reuses the
+  // cached response instead of refetching.
+  const { data: referreesData } = useSWR(
+    [authState.context.user.rawToken as string, farmId],
+    fetcher,
+  );
+  const referredCount = referreesData?.data.referrees.length ?? 0;
 
   const gameLink =
     CONFIG.NETWORK === "mainnet"
@@ -214,20 +202,29 @@ export const ReferralInfo: React.FC = () => {
       </div>
       {/* Referral Link */}
       <div className="flex flex-col gap-2">
-        <Label
-          type="default"
-          popup={showFarm}
-          onClick={() => {
-            setShowFarm(true);
-            setTimeout(() => {
-              setShowFarm(false);
-            }, 2000);
-            copypaste.play();
-            clipboard.copy(referralCode);
-          }}
-        >
-          {t("noaccount.referralCodeLabel", { referralId: referralCode })}
-        </Label>
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            type="default"
+            popup={showFarm}
+            onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
+              copypaste.play();
+              clipboard.copy(referralCode);
+            }}
+          >
+            {t("noaccount.referralCodeLabel", { referralId: referralCode })}
+          </Label>
+          <Label
+            type="vibrant"
+            icon={SUNNYSIDE.icons.player}
+            onClick={() => setShowReferrees(true)}
+          >
+            {`${referredCount} ${t("referral.referred")}`}
+          </Label>
+        </div>
         <CopyField
           text={referralLink}
           copyFieldMessage={t("share.CopyReferralLink")}
@@ -315,6 +312,15 @@ export const ReferralInfo: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Referred-list modal — layers on top of whatever parent modal
+          contains the referral content. Kept inside ReferralInfo so the
+          settings sub-menu doesn't have to plumb its own state. */}
+      <Modal show={showReferrees} onHide={() => setShowReferrees(false)}>
+        <Panel>
+          <Referrees />
+        </Panel>
+      </Modal>
     </div>
   );
 };

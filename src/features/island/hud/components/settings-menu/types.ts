@@ -19,6 +19,7 @@ export type SettingMenuId =
   | "linkAccountTwitter"
   | "linkAccountTelegram"
   | "linkAccountDiscord"
+  | "referAFriend"
   | "streams"
   | "plaza"
   | "experiments"
