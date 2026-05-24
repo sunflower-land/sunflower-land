@@ -70,10 +70,10 @@ export const Referrees: React.FC = () => {
   );
   const now = useNow();
 
-  if (isLoading) return <Loading />;
   if (error) return <SomethingWentWrong />;
+  if (isLoading || !data) return <Loading />;
 
-  const referrees = data!.data.referrees.sort(
+  const referrees = data.data.referrees.sort(
     (a, b) => (b.flower ?? 0) - (a.flower ?? 0),
   );
   const totalReferrees = referrees?.length ?? 0;
