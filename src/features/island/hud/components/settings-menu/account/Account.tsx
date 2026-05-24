@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { hasFeatureAccess } from "lib/flags";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { removeJWT } from "features/auth/actions/social";

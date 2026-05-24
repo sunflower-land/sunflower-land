@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";

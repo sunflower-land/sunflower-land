@@ -5,7 +5,7 @@ import React, { ChangeEvent, useContext, useState } from "react";
 import GameABI from "lib/blockchain/abis/SunflowerLandGame";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";

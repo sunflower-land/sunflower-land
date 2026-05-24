@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "components/ui/Button";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ExperimentsSettings: React.FC<ContentComponentProps> = ({

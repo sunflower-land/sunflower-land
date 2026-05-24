@@ -13,7 +13,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
 import { connectToFSL } from "features/auth/actions/oauth";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;

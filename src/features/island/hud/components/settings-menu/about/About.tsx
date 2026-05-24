@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 
 const DISCORD_INVITE = "https://discord.gg/sunflowerland";
 const TERMS_URL = "https://docs.sunflower-land.com/support/terms-of-service";

@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import Switch from "components/ui/Switch";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import React, { useContext } from "react";
