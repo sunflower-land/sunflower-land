@@ -42,7 +42,6 @@ import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
-import { LinkedDiscordPanel } from "./linked-accounts/LinkedDiscordPanel";
 import { StreamsContent } from "features/game/components/modal/components/Streams";
 import { ReferralInfo } from "features/island/hud/components/referral/Referral";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
@@ -71,6 +70,7 @@ import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyE
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
+import { Discord } from "./general-settings/DiscordModal";
 
 export type { ContentComponentProps, SettingMenuId };
 
@@ -363,7 +363,7 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   linkAccountDiscord: {
     title: translate("linkedAccounts.discord"),
     parent: "linkedAccounts",
-    content: LinkedDiscordPanel,
+    content: Discord,
   },
   plaza: {
     title: translate("gameOptions.plazaSettings"),
