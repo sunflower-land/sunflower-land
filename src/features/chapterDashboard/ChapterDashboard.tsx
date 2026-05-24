@@ -25,7 +25,6 @@ import { ChapterIntroSection } from "./components/ChapterIntroSection";
 import { ChapterTracksPreview } from "features/world/ui/tracks/ChapterTracks";
 import { ChapterTimer } from "./components/ChapterTimer";
 import { ChapterMarketplaceWidget } from "./components/ChapterMarketplaceWidget";
-import { SocialRewardsWidget } from "./components/SocialRewardsWidget";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _gameState = (state: MachineState) => state.context.state;
@@ -165,7 +164,6 @@ export const ChapterDashboard: React.FC = () => {
               token={effectiveToken}
             />
             <ChapterMarketplaceWidget />
-            <SocialRewardsWidget />
           </div>
         </div>
       </OuterPanel>

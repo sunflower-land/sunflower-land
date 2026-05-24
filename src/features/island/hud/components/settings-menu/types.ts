@@ -16,6 +16,11 @@ export type SettingMenuId =
   | "linkAccountWallet"
   | "linkAccountGoogle"
   | "linkAccountGoogleManage"
+  | "linkAccountTwitter"
+  | "linkAccountTelegram"
+  | "linkAccountDiscord"
+  | "referAFriend"
+  | "streams"
   | "plaza"
   | "experiments"
   | "economyEditor"
@@ -28,7 +33,6 @@ export type SettingMenuId =
   | "transfer"
 
   // Account / Preferences
-  | "discord"
   | "changeLanguage"
   | "preferences"
   | "appearance"

@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useActor } from "@xstate/react";

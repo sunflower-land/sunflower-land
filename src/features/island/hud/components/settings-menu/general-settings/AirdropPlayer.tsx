@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";

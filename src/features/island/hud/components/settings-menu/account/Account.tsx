@@ -3,9 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { ContentComponentProps } from "../GameOptions";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { connectToFSL } from "features/auth/actions/oauth";
+import { ContentComponentProps } from "../types";
 import { hasFeatureAccess } from "lib/flags";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { removeJWT } from "features/auth/actions/social";
@@ -25,34 +23,16 @@ export const Account: React.FC<ContentComponentProps> = ({
     authService.send("LOGOUT");
   };
 
-  const fslId = useSelector(gameService, (state) => state.context.fslId);
-  const oauthNonce = useSelector(
-    gameService,
-    (state) => state.context.oauthNonce,
-  );
   const state = useSelector(gameService, (state) => state.context.state);
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-        <Button
-          disabled={!!fslId}
-          onClick={() => connectToFSL({ nonce: oauthNonce })}
-          className="relative"
-        >
-          {`Connect FSL ID`}
-          {!!fslId && (
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              className="absolute right-1 top-1 h-5"
-            />
-          )}
-        </Button>
-        <Button onClick={() => onSubMenuClick("discord")}>
-          <span>{`Discord`}</span>
-        </Button>
         <Button onClick={() => onSubMenuClick("linkedAccounts")}>
           <span>{t("gameOptions.linkedAccounts")}</span>
+        </Button>
+        <Button onClick={() => onSubMenuClick("referAFriend")}>
+          <span>{t("gameOptions.account.referFriend")}</span>
         </Button>
         {hasFeatureAccess(state, "FACE_RECOGNITION_TEST") && (
           <Button onClick={() => onSubMenuClick("faceRecognition")}>

@@ -2,7 +2,7 @@
 import { Button } from "components/ui/Button";
 import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { Loading } from "features/auth/components";
 import { NumberInput } from "components/ui/NumberInput";
 import { VisitGameState } from "features/game/actions/loadGameStateForVisit";

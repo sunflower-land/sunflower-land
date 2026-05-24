@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { PropsWithChildren, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Label, LabelType } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import walletIcon from "assets/icons/wallet.png";
+import fslIcon from "assets/icons/fsl_id.svg";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -11,7 +12,8 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
-import { ContentComponentProps } from "../GameOptions";
+import { connectToFSL } from "features/auth/actions/oauth";
+import { ContentComponentProps } from "../types";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
@@ -23,6 +25,11 @@ const _linkingSocial = (state: MachineState) =>
   state.matches("linkingSocial") || state.matches("linkingSocialSuccess");
 const _linkingSocialFailed = (state: MachineState) =>
   state.matches("linkingSocialFailed");
+const _twitter = (state: MachineState) => state.context.state.twitter;
+const _telegram = (state: MachineState) => state.context.state.telegram;
+const _discordState = (state: MachineState) => state.context.state.discord;
+const _fslId = (state: MachineState) => state.context.fslId;
+const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
 
 const maskWalletAddress = (address: string): string => {
   if (address.length <= 10) return address;
@@ -30,13 +37,14 @@ const maskWalletAddress = (address: string): string => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-type RowStatus = "linked" | "notLinked" | "linking" | "failed";
+type RowStatus = "linked" | "notLinked" | "linking" | "failed" | "partial";
 
 const PILL: Record<RowStatus, { type: LabelType; key: TranslationKeys }> = {
   linked: { type: "success", key: "linkedAccounts.linked" },
   notLinked: { type: "default", key: "linkedAccounts.notLinked" },
   linking: { type: "warning", key: "linkedAccounts.linking" },
   failed: { type: "danger", key: "linkedAccounts.failedPill" },
+  partial: { type: "warning", key: "linkedAccounts.partialPill" },
 };
 
 interface RowProps {
@@ -73,7 +81,11 @@ const ProviderRow: React.FC<RowProps> = ({
   const disabled =
     status === "linking" || (status === "linked" && !clickableWhenLinked);
   const pill = PILL[status];
-  const showManageHint = status === "linked" && clickableWhenLinked;
+  // Show the manage-chevron whenever the row is clickable post-link —
+  // both the fully-linked "manage" path and the partial-setup
+  // "continue setup" path benefit from the affordance.
+  const showManageHint =
+    (status === "linked" && clickableWhenLinked) || status === "partial";
 
   return (
     <ButtonPanel variant="card" onClick={disabled ? undefined : onClick}>
@@ -89,34 +101,40 @@ const ProviderRow: React.FC<RowProps> = ({
 
       <p className="text-xs italic mt-1 ml-1 opacity-75">{rationale}</p>
 
-      <div className="flex items-center justify-between gap-2 mt-1">
-        <p
-          className={`text-xs break-all ml-1 ${
-            onSubtextClick ? "cursor-pointer" : ""
-          }`}
-          onClick={
-            onSubtextClick
-              ? (e) => {
-                  e.stopPropagation();
-                  onSubtextClick();
-                }
-              : undefined
-          }
-          title={subtextTitle}
-        >
-          {subtext}
-        </p>
-        {showManageHint && (
-          <img
-            src={SUNNYSIDE.icons.chevron_right}
-            alt=""
-            className="w-3 mr-1 shrink-0"
-          />
-        )}
-      </div>
+      {(subtext || showManageHint) && (
+        <div className="flex items-center justify-between gap-2 mt-1">
+          <p
+            className={`text-xs break-all ml-1 ${
+              onSubtextClick ? "cursor-pointer" : ""
+            }`}
+            onClick={
+              onSubtextClick
+                ? (e) => {
+                    e.stopPropagation();
+                    onSubtextClick();
+                  }
+                : undefined
+            }
+            title={subtextTitle}
+          >
+            {subtext}
+          </p>
+          {showManageHint && (
+            <img
+              src={SUNNYSIDE.icons.chevron_right}
+              alt=""
+              className="w-3 mr-1 shrink-0"
+            />
+          )}
+        </div>
+      )}
     </ButtonPanel>
   );
 };
+
+const SectionHeader: React.FC<PropsWithChildren> = ({ children }) => (
+  <Label type="default">{children}</Label>
+);
 
 export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -130,6 +148,11 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const linkingWalletFailed = useSelector(gameService, _linkingWalletFailed);
   const linkingSocial = useSelector(gameService, _linkingSocial);
   const linkingSocialFailed = useSelector(gameService, _linkingSocialFailed);
+  const twitter = useSelector(gameService, _twitter);
+  const telegram = useSelector(gameService, _telegram);
+  const discordState = useSelector(gameService, _discordState);
+  const fslId = useSelector(gameService, _fslId);
+  const oauthNonce = useSelector(gameService, _oauthNonce);
 
   const [revealWallet, setRevealWallet] = useState(false);
 
@@ -148,6 +171,41 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : socialDetails?.email
         ? "linked"
         : "notLinked";
+
+  // X (Twitter): three sub-steps — OAuth (isAuthorised) → follow → first
+  // verified post. Treat fully-set-up only after all three; OAuth-only or
+  // followed-only counts as partial so the row keeps a "more to do" hint.
+  const twitterStatus: RowStatus = !twitter?.isAuthorised
+    ? "notLinked"
+    : twitter.followedAt && twitter.verifiedPostsAt
+      ? "linked"
+      : "partial";
+
+  // Telegram: linkedAt → startedAt (bot) → joinedAt (channel). joinedAt
+  // is the BE-confirmed completion signal, so anything before that is
+  // partial.
+  const telegramStatus: RowStatus = !telegram?.linkedAt
+    ? "notLinked"
+    : telegram.joinedAt
+      ? "linked"
+      : "partial";
+
+  // Discord: `connected` is the OAuth handshake flag; `verified` flips
+  // after the server confirms guild membership. The flag distinguishes
+  // "connected but not on the official server" from "fully verified".
+  // Use `connected` rather than the stale `discordId` so a stored ID
+  // without an active connection isn't mis-shown as linked.
+  const discordStatus: RowStatus = !discordState?.connected
+    ? "notLinked"
+    : discordState.verified
+      ? "linked"
+      : "partial";
+
+  // FSL: one-shot link. Partner integration kept post-deprecation so
+  // players who still have an FSL ID can claim the Morchi airdrop.
+  // No partial/linking state — the SDK popup redirects the page on
+  // success, so we only ever observe linked or not-linked.
+  const fslStatus: RowStatus = fslId ? "linked" : "notLinked";
 
   const walletSubtext =
     walletStatus === "linked" && linkedWallet
@@ -169,6 +227,33 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
           ? t("linkedAccounts.signInCancelled")
           : t("linkedAccounts.noGoogle");
 
+  const twitterSubtext =
+    twitterStatus === "notLinked"
+      ? t("linkedAccounts.subtext.twitterNotLinked")
+      : twitterStatus === "partial"
+        ? t("linkedAccounts.subtext.twitterPartial")
+        : // Fully linked — surface the connected handle when present,
+          // fall back to the rationale only if the username is missing.
+          twitter?.username
+          ? `@${twitter.username}`
+          : t("linkedAccounts.rationale.twitter");
+
+  const telegramSubtext =
+    telegramStatus === "notLinked"
+      ? t("linkedAccounts.subtext.telegramNotLinked")
+      : telegramStatus === "partial"
+        ? t("linkedAccounts.subtext.telegramPartial")
+        : t("linkedAccounts.rationale.telegram");
+
+  const discordSubtext =
+    discordStatus === "notLinked"
+      ? t("linkedAccounts.subtext.discordNotLinked")
+      : discordStatus === "partial"
+        ? t("linkedAccounts.subtext.discordPartial")
+        : t("linkedAccounts.subtext.discordLinked");
+
+  const fslSubtext = fslStatus === "linked" && fslId ? fslId : "";
+
   // Wireframe: the warning copy depends on whether the wallet is the
   // active owner of the NFT or merely the future owner. Wallet linked
   // → emphasise NFT ownership being on the wallet. Wallet not linked
@@ -185,10 +270,12 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : t("linkedAccounts.rationale.walletNotLinked");
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 overflow-auto max-h-[400px] scrollable">
       <p className="text-xs mx-1">{t("linkedAccounts.description")}</p>
 
       <Label type="warning">{t(warningKey)}</Label>
+
+      <SectionHeader>{t("linkedAccounts.sectionLogin")}</SectionHeader>
 
       <ProviderRow
         icon={walletIcon}
@@ -235,6 +322,51 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
               : "linkAccountGoogle",
           )
         }
+      />
+
+      <SectionHeader>{t("linkedAccounts.sectionSocial")}</SectionHeader>
+
+      <ProviderRow
+        icon={SUNNYSIDE.icons.discord}
+        title={t("linkedAccounts.discord")}
+        role={{ type: "chill", key: "linkedAccounts.role.recommended" }}
+        rationale={t("linkedAccounts.rationale.discord")}
+        status={discordStatus}
+        subtext={discordSubtext}
+        clickableWhenLinked
+        onClick={() => onSubMenuClick("linkAccountDiscord")}
+      />
+
+      <ProviderRow
+        icon={SUNNYSIDE.icons.x}
+        title={t("linkedAccounts.twitter")}
+        role={{ type: "default", key: "linkedAccounts.role.rewards" }}
+        rationale={t("linkedAccounts.rationale.twitter")}
+        status={twitterStatus}
+        subtext={twitterSubtext}
+        clickableWhenLinked
+        onClick={() => onSubMenuClick("linkAccountTwitter")}
+      />
+
+      <ProviderRow
+        icon={SUNNYSIDE.icons.telegram}
+        title={t("linkedAccounts.telegram")}
+        role={{ type: "default", key: "linkedAccounts.role.community" }}
+        rationale={t("linkedAccounts.rationale.telegram")}
+        status={telegramStatus}
+        subtext={telegramSubtext}
+        clickableWhenLinked
+        onClick={() => onSubMenuClick("linkAccountTelegram")}
+      />
+
+      <ProviderRow
+        icon={fslIcon}
+        title={t("linkedAccounts.fsl")}
+        role={{ type: "default", key: "linkedAccounts.role.partner" }}
+        rationale={t("linkedAccounts.rationale.fsl")}
+        status={fslStatus}
+        subtext={fslSubtext}
+        onClick={() => connectToFSL({ nonce: oauthNonce })}
       />
     </div>
   );

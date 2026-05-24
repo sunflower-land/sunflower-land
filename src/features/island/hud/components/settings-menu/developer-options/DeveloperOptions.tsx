@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { createPortal } from "react-dom";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import { CONFIG } from "lib/config";
 import { Context as GameContext } from "features/game/GameProvider";
 import { hasFeatureAccess } from "lib/flags";

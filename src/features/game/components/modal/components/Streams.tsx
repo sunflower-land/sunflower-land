@@ -232,7 +232,7 @@ export function getStream(): StreamNotification | null {
   return nextStream;
 }
 
-export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+export const StreamsContent: React.FC = () => {
   const { t } = useAppTranslation();
   const { startTime: thursdayStream, isOngoing: thursdayOngoing } =
     getNextStreamTime(
@@ -269,11 +269,8 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
   const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.streamer} onClose={onClose}>
+    <>
       <div className="p-2">
-        <Label className="mb-2" type="default">
-          {t("streams.title")}
-        </Label>
         <p className="text-xs mb-2">{t("streams.description")}</p>
         <section className="flex flex-col gap-1">
           <Label
@@ -332,6 +329,12 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {t("streams.discord")}
         </Button>
       </div>
-    </CloseButtonPanel>
+    </>
   );
 };
+
+export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => (
+  <CloseButtonPanel bumpkinParts={NPC_WEARABLES.streamer} onClose={onClose}>
+    <StreamsContent />
+  </CloseButtonPanel>
+);

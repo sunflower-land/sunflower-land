@@ -4,7 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ContentComponentProps } from "../GameOptions";
+import { ContentComponentProps } from "../types";
 import lockIcon from "assets/icons/lock.png";
 
 const _canRefresh = (state: MachineState) => !state.context.state.transaction;

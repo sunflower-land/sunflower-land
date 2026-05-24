@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
-import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -39,7 +39,7 @@ export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
 
 const VERIFY_COOLDOWN_MS = 15 * 60 * 1000;
 
-const TwitterRewards: React.FC = () => {
+export const TwitterRewards: React.FC = () => {
   const [selected, setSelected] = useState<TwitterPostName>();
   const { gameState } = useGame();
   const now = useNow();
@@ -55,14 +55,28 @@ const TwitterRewards: React.FC = () => {
   }
 
   return (
-    <InnerPanel className="p-2  mt-1">
+    <>
+      {twitter?.isAuthorised && (
+        <ButtonPanel variant="card" className="mb-2">
+          <div className="flex items-start gap-2">
+            <img src={SUNNYSIDE.icons.x} alt="X" className="w-8 h-8 mt-1" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-semibold">
+                  {t("linkedAccounts.twitter")}
+                </span>
+                <Label type="success">{t("linkedAccounts.linked")}</Label>
+              </div>
+              {twitter.username && (
+                <p className="text-xs break-all mt-1">{`@${twitter.username}`}</p>
+              )}
+            </div>
+          </div>
+        </ButtonPanel>
+      )}
+
       <div className="flex gap-1 items-center mb-2">
         <Label type="default">{t("twitter.share.earn")}</Label>
-        {twitter?.isAuthorised && (
-          <Label type="success" className="mr-2">
-            {t("twitter.connected")}
-          </Label>
-        )}
       </div>
 
       <p className="text-xs mb-2 px-2">{t("twitter.rewards.description")}</p>
@@ -121,7 +135,7 @@ const TwitterRewards: React.FC = () => {
           {`x.com/0xsunflowerland`}
         </span>
       </div>
-    </InnerPanel>
+    </>
   );
 };
 
@@ -154,7 +168,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
 
   if (!twitter?.isAuthorised) {
     return (
-      <InnerPanel className="p-1  mt-1">
+      <>
         <Label type="default" className="mb-2">
           {t("twitter.share.earn")}
         </Label>
@@ -170,13 +184,13 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
         >
           {t("twitter.connect")}
         </Button>
-      </InnerPanel>
+      </>
     );
   }
 
   if (!twitter.followedAt) {
     return (
-      <InnerPanel className="p-1  mt-1">
+      <>
         <Label type="default" className="mb-2">
           {t("twitter.share.earn")}
         </Label>
@@ -197,7 +211,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
             {t("twitter.follow")}
           </Button>
         </div>
-      </InnerPanel>
+      </>
     );
   }
 
@@ -209,7 +223,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
 
   if (showConfirm) {
     return (
-      <InnerPanel className="p-2  mt-1">
+      <>
         <Label type="default" className="mb-2">
           {t("twitter.verify.ready")}
         </Label>
@@ -235,7 +249,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
             {t("twitter.verify.button")}
           </Button>
         </div>
-      </InnerPanel>
+      </>
     );
   }
 
@@ -244,7 +258,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   const inCooldown = cooldown > 0;
   // Stage 2 - testing only
   return (
-    <InnerPanel className="p-2  mt-1">
+    <>
       <Component
         onClose={onClose}
         onVerify={inCooldown ? undefined : () => setShowConfirm(true)}
@@ -259,7 +273,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
           </p>
         </>
       )}
-    </InnerPanel>
+    </>
   );
 };
 
