@@ -42,7 +42,6 @@ import { LinkedAccounts } from "./linked-accounts/LinkedAccounts";
 import { LinkWallet } from "features/wallet/components/LinkWallet";
 import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
-import { LinkedTelegramPanel } from "features/auth/components/Telegram/LinkedTelegramPanel";
 import { LinkedDiscordPanel } from "./linked-accounts/LinkedDiscordPanel";
 import { StreamsContent } from "features/game/components/modal/components/Streams";
 import { ReferralInfo } from "features/island/hud/components/referral/Referral";
@@ -71,6 +70,7 @@ import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings"
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
+import { TelegramBody } from "features/auth/components/Telegram/Telegram";
 
 export type { ContentComponentProps, SettingMenuId };
 
@@ -358,7 +358,7 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   linkAccountTelegram: {
     title: translate("linkedAccounts.telegram"),
     parent: "linkedAccounts",
-    content: LinkedTelegramPanel,
+    content: TelegramBody,
   },
   linkAccountDiscord: {
     title: translate("linkedAccounts.discord"),
