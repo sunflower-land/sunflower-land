@@ -38,7 +38,6 @@ import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { Panel } from "components/ui/Panel";
 
 interface ReferralProps {
   onHide: () => void;
@@ -56,7 +55,7 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => (
   </CloseButtonPanel>
 );
 
-const fetcher = async ([token, farmId]: [string, number]) => {
+const fetcher = async ([token, farmId]: readonly [string, number]) => {
   return getReferrees({ token, farmId });
 };
 
@@ -64,8 +63,9 @@ export const Referrees: React.FC = () => {
   const { t } = useAppTranslation();
   const { authState } = useAuth();
   const { gameState } = useGame();
+  const token = authState.context.user.rawToken;
   const { data, isLoading, error } = useSWR(
-    [authState.context.user.rawToken as string, gameState.context.farmId],
+    token ? ([token, gameState.context.farmId] as const) : null,
     fetcher,
   );
   const now = useNow();
@@ -165,8 +165,9 @@ export const ReferralInfo: React.FC = () => {
 
   // Same SWR key as <Referrees/>, so opening the nested modal reuses the
   // cached response instead of refetching.
+  const token = authState.context.user.rawToken;
   const { data: referreesData } = useSWR(
-    [authState.context.user.rawToken as string, farmId],
+    token ? ([token, farmId] as const) : null,
     fetcher,
   );
   const referredCount = referreesData?.data.referrees.length ?? 0;
@@ -317,9 +318,12 @@ export const ReferralInfo: React.FC = () => {
           contains the referral content. Kept inside ReferralInfo so the
           settings sub-menu doesn't have to plumb its own state. */}
       <Modal show={showReferrees} onHide={() => setShowReferrees(false)}>
-        <Panel>
+        <CloseButtonPanel
+          title={t("referral.referred")}
+          onClose={() => setShowReferrees(false)}
+        >
           <Referrees />
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
     </div>
   );

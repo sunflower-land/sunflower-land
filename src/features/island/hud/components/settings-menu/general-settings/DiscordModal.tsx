@@ -62,9 +62,14 @@ export const Discord: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  // `state.discord.connected` reflects the live OAuth link; `discordId`
+  // can persist after a disconnect. See LinkedAccounts.tsx for the same
+  // distinction.
+  const isDiscordConnected = !!gameState.context.state.discord?.connected;
+
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(gameState.context.discordId ? "idle" : "noDiscord");
+  >(isDiscordConnected ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
   const faction = gameState.context.state.faction?.name;
@@ -75,7 +80,7 @@ export const Discord: React.FC = () => {
   };
 
   const addRole = async (role: DiscordRole) => {
-    if (!gameState.context.discordId) {
+    if (!isDiscordConnected) {
       setState("noDiscord");
       return;
     }
@@ -128,7 +133,7 @@ export const Discord: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-1">
-      {gameState.context.discordId && (
+      {isDiscordConnected && (
         <ButtonPanel variant="card">
           <div className="flex items-start gap-2">
             <img
@@ -143,9 +148,11 @@ export const Discord: React.FC = () => {
                 </span>
                 <Label type="success">{t("linkedAccounts.linked")}</Label>
               </div>
-              <p className="text-xs break-all mt-1">
-                {gameState.context.discordId}
-              </p>
+              {gameState.context.discordId && (
+                <p className="text-xs break-all mt-1">
+                  {gameState.context.discordId}
+                </p>
+              )}
             </div>
           </div>
         </ButtonPanel>
