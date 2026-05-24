@@ -274,16 +274,16 @@ export const ReferralInfo: React.FC = () => {
       </div>
       {/* Referral Package */}
       <div className="flex flex-col gap-2">
-        <Label type="default">{`Referral Package`}</Label>
+        <Label type="default">{t("referral.package")}</Label>
         <div className="flex flex-col gap-4">
           <NoticeboardItems
             items={[
               {
-                text: "Refer your friends and they will receive the following starter package!",
+                text: t("referral.starterPackage"),
                 icon: chest,
               },
               ...getObjectEntries(REFERRAL_PACKAGE).map(([key, value]) => ({
-                text: `${value} ${key}${(value ?? 0 > 1) ? "s" : ""}`,
+                text: `${value} ${key}${(value ?? 0) > 1 ? "s" : ""}`,
                 icon: ITEM_DETAILS[key].image,
               })),
             ]}
