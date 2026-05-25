@@ -19,7 +19,6 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 const GROUPS: {
   channel: string;
@@ -133,31 +132,6 @@ export const Discord: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-1">
-      {isDiscordConnected && (
-        <ButtonPanel variant="card">
-          <div className="flex items-start gap-2">
-            <img
-              src={SUNNYSIDE.icons.discord}
-              alt="Discord"
-              className="w-8 h-8 mt-1"
-            />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-semibold">
-                  {t("linkedAccounts.discord")}
-                </span>
-                <Label type="success">{t("linkedAccounts.linked")}</Label>
-              </div>
-              {gameState.context.discordId && (
-                <p className="text-xs break-all mt-1">
-                  {gameState.context.discordId}
-                </p>
-              )}
-            </div>
-          </div>
-        </ButtonPanel>
-      )}
-
       <p className="text-xs mx-1 mb-1">{t("getContent.getAccess")}</p>
 
       {GROUPS.map((group) => (

@@ -232,11 +232,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       ? t("linkedAccounts.subtext.twitterNotLinked")
       : twitterStatus === "partial"
         ? t("linkedAccounts.subtext.twitterPartial")
-        : // Fully linked — surface the connected handle when present,
-          // fall back to the rationale only if the username is missing.
-          twitter?.username
-          ? `@${twitter.username}`
-          : t("linkedAccounts.rationale.twitter");
+        : t("linkedAccounts.rationale.twitter");
 
   const telegramSubtext =
     telegramStatus === "notLinked"
