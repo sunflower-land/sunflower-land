@@ -39,6 +39,13 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
   const isOutOfRange =
     customAmount.greaterThan(itemAmount) || customAmount.lessThanOrEqualTo(0);
 
+  const minValid = setPrecision(
+    new Decimal(1).div(10 ** maxDecimalPlaces),
+    maxDecimalPlaces,
+  );
+
+  const isHalfDisabled = itemAmount.lessThan(minValid.mul(2));
+
   return (
     <Modal show={show} onHide={onHide}>
       <Panel className="w-4/5 m-auto" bumpkinParts={bumpkinParts}>
@@ -54,11 +61,18 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
               onValueChange={setCustomAmount}
             />
             <Button
-              onClick={() =>
-                setCustomAmount(
-                  setPrecision(itemAmount.mul(0.5), maxDecimalPlaces),
-                )
-              }
+              disabled={isHalfDisabled}
+              onClick={() => {
+                const half = setPrecision(
+                  itemAmount.mul(0.5),
+                  maxDecimalPlaces,
+                );
+                const safeValue = Decimal.min(
+                  Decimal.max(half, minValid),
+                  itemAmount,
+                );
+                setCustomAmount(safeValue);
+              }}
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}
@@ -71,11 +85,11 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
             </Button>
           </div>
           <div className="inline-flex items-center">
-            {`${t("bumpkinTrade.youWillReceive")}: ${coinAmount}`}
+            {`${t("bumpkinTrade.youWillReceive")}: ${setPrecision(coinAmount, maxDecimalPlaces)}`}
             <img src={coins} alt="coins" className="ml-2 mt-1" />
           </div>
         </div>
-        <div className="flex justify-content-around mt-2 space-x-1">
+        <div className="flex justify-around mt-2 space-x-1">
           <Button onClick={onCancel}>{t("cancel")}</Button>
           <Button disabled={isOutOfRange} onClick={onSell}>
             {t("sell")}
