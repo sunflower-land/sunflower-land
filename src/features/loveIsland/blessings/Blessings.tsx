@@ -30,7 +30,6 @@ import type {
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { NumberInput } from "components/ui/NumberInput";
-import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import giftIcon from "assets/icons/gift.png";
 import { Maintenance } from "features/auth/components/Maintenance";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -174,7 +173,6 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const inventory =
     gameState.context.state.inventory[offering.item] ?? new Decimal(0);
 
-  const max = MAX_INVENTORY_ITEMS[offering.item as InventoryItemName] ?? 10000;
   return (
     <div>
       <div className="flex justify-between mb-1">
@@ -193,9 +191,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
             value={amount}
             onValueChange={(value) => setAmount(value.toNumber())}
             maxDecimalPlaces={0}
-            isOutOfRange={
-              new Decimal(amount).gt(inventory) || new Decimal(amount).gt(max)
-            }
+            isOutOfRange={new Decimal(amount).gt(inventory)}
           />
         </div>
       </div>
@@ -207,19 +203,9 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
           })}
         </Label>
       )}
-      {new Decimal(amount).gt(max) && (
-        <Label type="danger" className="my-2">
-          {t("blessing.maxAmountHoarding", {
-            name: offering.item,
-            amount: max,
-          })}
-        </Label>
-      )}
       <Button
         disabled={
-          new Decimal(amount).gt(inventory) ||
-          new Decimal(amount).gt(max) ||
-          new Decimal(amount).lt(1)
+          new Decimal(amount).gt(inventory) || new Decimal(amount).lt(1)
         }
         onClick={() => setShowConfirmation(true)}
       >

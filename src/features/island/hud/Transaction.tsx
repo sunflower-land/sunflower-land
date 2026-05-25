@@ -208,7 +208,6 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
   "transaction.petWithdrawn": "withdrawItems",
-  "transaction.progressSynced": "sync",
 };
 
 interface Props {
@@ -260,7 +259,6 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.budWithdrawn": "Withdraw bud",
   "transaction.petWithdrawn": "Withdraw pet",
   "transaction.itemsWithdrawn": "Withdraw items",
-  "transaction.progressSynced": "Store on chain",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.flowerWithdrawn": "Withdraw flower",
 };

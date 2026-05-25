@@ -21,7 +21,6 @@ import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
-import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
@@ -197,7 +196,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   buyingBlockBucks: true,
   refreshing: true,
-  hoarding: true,
   landscaping: false,
   swarming: true,
   coolingDown: true,
@@ -262,7 +260,6 @@ const hasMarketPriceChanged = (state: MachineState) =>
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
-const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
@@ -478,7 +475,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const error = useSelector(gameService, isError);
   const purchasing = useSelector(gameService, isPurchasing);
-  const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const depositing = useSelector(gameService, isDepositing);
@@ -704,7 +700,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {buyingSFL && <AddingSFL />}
             {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
             {purchasing && <Purchasing />}
-            {hoarding && <Hoarding />}
             {swarming && <Swarming />}
             {coolingDown && <Cooldown />}
             {dailyReward && <DailyRewardClaim showClose />}

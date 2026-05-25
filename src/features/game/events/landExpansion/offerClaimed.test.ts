@@ -303,9 +303,10 @@ describe("offer.claimed", () => {
         state: {
           ...INITIAL_FARM,
           transaction: {
-            event: "transaction.progressSynced",
+            event: "transaction.itemsWithdrawn",
             createdAt: Date.now(),
             data: {
+              items: {},
               params: {
                 signature: "123",
                 sessionId: "123",
@@ -313,18 +314,8 @@ describe("offer.claimed", () => {
                 farmId: 123,
                 sender: "123",
                 deadline: 123,
-                fee: "123",
-                progress: {
-                  wearableIds: [],
-                  wearableAmounts: [],
-                  wearableBurnIds: [],
-                  wearableBurnAmounts: [],
-                  mintIds: [],
-                  mintAmounts: [],
-                  burnIds: [],
-                  burnAmounts: [],
-                  tokens: "",
-                },
+                ids: [],
+                amounts: [],
               },
             },
           },

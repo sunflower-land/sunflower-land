@@ -46,15 +46,13 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
     if (!ready || drills.lessThan(requiredDrillAmount)) return;
     const { amount: oilDropAmount } = getOilDropAmount(state, reserve);
 
-    const newState = gameService.send({ type: "oilReserve.drilled", id });
+    gameService.send({ type: "oilReserve.drilled", id });
 
-    if (!newState.matches("hoarding")) {
-      setDrilling(true);
-      setOilHarvested((oilHarvested) => oilHarvested + oilDropAmount);
+    setDrilling(true);
+    setOilHarvested((oilHarvested) => oilHarvested + oilDropAmount);
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setDrilling(false);
-    }
+    await new Promise((res) => setTimeout(res, 2000));
+    setDrilling(false);
   };
   const hasDrill = drills.gte(getRequiredOilDrillAmount(state).amount);
 

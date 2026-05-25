@@ -66,9 +66,6 @@ export const MakeOffer: React.FC<{
   const tradeType = getTradeType({
     collection: display.type,
     id: itemId,
-    trade: {
-      sfl: offer,
-    },
   });
 
   const offers = gameService.getSnapshot().context.state.trades.offers ?? {};

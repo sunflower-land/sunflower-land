@@ -46,7 +46,6 @@ import { StreamsContent } from "features/game/components/modal/components/Stream
 import { ReferralInfo } from "features/island/hud/components/referral/Referral";
 import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
-import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { Preferences } from "./general-settings/Preferences";
@@ -449,11 +448,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
 
   // Developer Options
   admin: { title: `Airdrop Player`, parent: "amoy", content: AirdropPlayer },
-  hoardingCheck: {
-    title: "Hoarding Check (DEV)",
-    parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} />,
-  },
   playerSearch: {
     title: "Player Search (DEV)",
     parent: "amoy",
