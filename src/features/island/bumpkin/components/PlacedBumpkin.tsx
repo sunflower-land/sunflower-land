@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { NPCPlaceable } from "./NPC";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { PlayerNPC } from "./PlayerNPC";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;

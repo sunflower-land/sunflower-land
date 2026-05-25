@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { Token } from "features/auth/actions/login";
+import type { Token } from "features/auth/actions/login";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 

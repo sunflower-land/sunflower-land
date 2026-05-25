@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 

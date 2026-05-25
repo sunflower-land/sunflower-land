@@ -1,6 +1,6 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
-  TimeBasedFeatureName,
+  type TimeBasedFeatureName,
   TIME_BASED_FEATURE_FLAG_WINDOWS,
   hasTimeBasedFeatureAccess,
 } from "lib/flags";

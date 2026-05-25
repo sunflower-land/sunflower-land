@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_PLOT_ERRORS {
   PLOT_NOT_FOUND = "Plot not found",

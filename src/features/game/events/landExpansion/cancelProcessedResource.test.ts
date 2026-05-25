@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
 
 import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
-import { GameState, PlacedItem } from "features/game/types/game";
+import type { GameState, PlacedItem } from "features/game/types/game";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
-import { ProcessingBuildingName } from "features/game/types/buildings";
+import type { ProcessingBuildingName } from "features/game/types/buildings";
 import {
   cancelProcessedResource,
-  CancelProcessedResourceAction,
+  type CancelProcessedResourceAction,
 } from "./cancelProcessedResource";
-import { ProcessedResource } from "features/game/types/processedFood";
+import type { ProcessedResource } from "features/game/types/processedFood";
 
 const createdAt = Date.now();
 const DURATION = (name: ProcessedResource) =>

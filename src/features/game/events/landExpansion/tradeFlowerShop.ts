@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
-import { FlowerName } from "features/game/types/flowers";
+import type { GameState } from "features/game/types/game";
+import type { FlowerName } from "features/game/types/flowers";
 import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 

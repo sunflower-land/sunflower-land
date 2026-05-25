@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Tradeable, Listing } from "features/game/types/marketplace";
+import type { Tradeable, Listing } from "features/game/types/marketplace";
 import { getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";

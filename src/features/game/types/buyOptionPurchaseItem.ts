@@ -1,6 +1,6 @@
 import { produce } from "immer";
-import { PURCHASEABLE_BAIT, PurchaseableBait } from "./fishing";
-import { GameState, Inventory } from "./game";
+import { PURCHASEABLE_BAIT, type PurchaseableBait } from "./fishing";
+import type { GameState, Inventory } from "./game";
 import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "./farmActivity";

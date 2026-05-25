@@ -5,7 +5,7 @@ import {
   startLavaPit,
 } from "./startLavaPit";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const TEST_FARM: GameState = {
   ...INITIAL_FARM,

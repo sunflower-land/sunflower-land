@@ -1,4 +1,4 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type Layout = {
   plots: Coordinates[];

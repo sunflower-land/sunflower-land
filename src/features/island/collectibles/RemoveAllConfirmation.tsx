@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import cleanBroom from "assets/icons/clean_broom.webp";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   onClose: () => void;

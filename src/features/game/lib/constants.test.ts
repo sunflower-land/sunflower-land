@@ -6,7 +6,7 @@ import {
   isGreenhouseCropSeed,
   isGreenhouseFruitSeed,
 } from "../events/landExpansion/seedBought";
-import { PatchFruitSeedName } from "../types/fruits";
+import type { PatchFruitSeedName } from "../types/fruits";
 import {
   isAdvancedFruitSeed,
   isBasicFruitSeed,

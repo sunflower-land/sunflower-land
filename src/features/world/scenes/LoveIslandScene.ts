@@ -1,13 +1,13 @@
 import loveIslandJSON from "assets/map/love_island_map.json";
 import loveIslandTileset from "assets/map/love_island_tileset.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { getKeys } from "lib/object";
-import { TemperateSeasonName } from "features/game/types/game";
+import type { TemperateSeasonName } from "features/game/types/game";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 
 const BUMPKINS: NPCBumpkin[] = [];

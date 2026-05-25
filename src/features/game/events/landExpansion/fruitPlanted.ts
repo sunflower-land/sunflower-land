@@ -5,19 +5,19 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
-  GreenHouseFruitSeedName,
+  type GreenHouseFruitSeedName,
   isPatchFruitSeed,
   PATCH_FRUIT_SEEDS,
-  PatchFruitSeedName,
+  type PatchFruitSeedName,
 } from "features/game/types/fruits";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { isFullMoonBerry } from "./seedBought";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { FruitCompostName } from "features/game/types/composters";
+import type { FruitCompostName } from "features/game/types/composters";
 
 export type PlantFruitAction = {
   type: "fruit.planted";

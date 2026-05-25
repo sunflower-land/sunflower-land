@@ -1,6 +1,6 @@
-import { ChapterBanner } from "./chapters";
+import type { ChapterBanner } from "./chapters";
 import { CHAPTER_BANNERS } from "./chapters";
-import { FactionBanner } from "./game";
+import type { FactionBanner } from "./game";
 
 type BannerName =
   | "Human War Banner"

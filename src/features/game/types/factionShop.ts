@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { FactionName, Keys, ShopItemBase } from "./game";
+import type { FactionName, Keys, ShopItemBase } from "./game";
 import { translate } from "lib/i18n/translate";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 
 type BumpkinFactionCollectibleName =
   | "Bumpkin Throne"

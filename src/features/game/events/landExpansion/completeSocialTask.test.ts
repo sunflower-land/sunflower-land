@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
-import { completeSocialTask, InGameTaskName } from "./completeSocialTask";
+import type { GameState } from "features/game/types/game";
+import { completeSocialTask, type InGameTaskName } from "./completeSocialTask";
 
 describe("completeSocialTask", () => {
   const now = Date.now();

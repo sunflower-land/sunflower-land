@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "components/ui/TextInput";
@@ -12,25 +12,28 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   CHAPTER_CRAFTING_ITEMS,
-  Recipe,
-  RecipeCollectibleName,
-  RecipeIngredient,
+  type Recipe,
+  type RecipeCollectibleName,
+  type RecipeIngredient,
   RECIPES,
-  Recipes,
+  type Recipes,
 } from "features/game/lib/crafting";
 import {
   getCurrentChapter,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
-import { CraftingQueueItem, InventoryItemName } from "features/game/types/game";
+import type {
+  CraftingQueueItem,
+  InventoryItemName,
+} from "features/game/types/game";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "lib/object";

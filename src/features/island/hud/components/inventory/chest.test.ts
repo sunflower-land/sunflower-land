@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getChestItems } from "./utils/inventory";
 
 const GAME_STATE: GameState = TEST_FARM;

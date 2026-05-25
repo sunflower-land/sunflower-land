@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { Context } from "features/game/GameProvider";
-import { MarineMarvelName } from "features/game/types/fishing";
+import type { MarineMarvelName } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { Fragment, useContext, useState } from "react";
 import { Transition } from "@headlessui/react";

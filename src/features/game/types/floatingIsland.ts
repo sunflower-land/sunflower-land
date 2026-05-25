@@ -1,5 +1,5 @@
-import { BumpkinItem } from "./bumpkin";
-import { GameState, InventoryItemName } from "./game";
+import type { BumpkinItem } from "./bumpkin";
+import type { GameState, InventoryItemName } from "./game";
 
 export function getActiveFloatingIsland({ state }: { state: GameState }) {
   const schedule = state.floatingIsland.schedule;

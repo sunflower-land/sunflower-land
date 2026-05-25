@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { OilReserve as IOilReserve } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import {

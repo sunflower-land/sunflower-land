@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -10,24 +10,24 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   getChapterArtefact,
   getChapterTicket,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import confetti from "canvas-confetti";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   APRIL_FOOLS_EVENT_ITEMS,
-  EventStoreCollectible,
-  EventStoreItem,
-  EventStoreWearable,
-  EventTierItemName,
+  type EventStoreCollectible,
+  type EventStoreItem,
+  type EventStoreWearable,
+  type EventTierItemName,
 } from "features/game/types/aprilFoolsEventShop";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "lib/object";

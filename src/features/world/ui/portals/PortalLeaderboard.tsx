@@ -2,11 +2,11 @@ import React from "react";
 
 import { useEffect } from "react";
 import { useState } from "react";
-import {
+import type {
   CompetitionLeaderboardResponse,
   CompetitionPlayer,
 } from "features/game/types/competitions";
-import { MinigameName } from "features/game/types/minigames";
+import type { MinigameName } from "features/game/types/minigames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getPortalLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components/Loading";

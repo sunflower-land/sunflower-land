@@ -1,11 +1,11 @@
 import { produce } from "immer";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
-import { Animal, GameState } from "features/game/types/game";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
+import type { Animal, GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
-import { DollName } from "features/game/lib/crafting";
+import type { DollName } from "features/game/lib/crafting";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 

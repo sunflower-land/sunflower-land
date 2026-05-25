@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ClutterName, FARM_PEST } from "features/game/types/clutter";
+import { type ClutterName, FARM_PEST } from "features/game/types/clutter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import sparkle from "public/world/sparkle2.gif";
 import { isHelpComplete } from "features/game/types/monuments";
 import { FarmHelped } from "../hud/components/FarmHelped";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 interface Props {

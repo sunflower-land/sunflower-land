@@ -5,7 +5,7 @@ import {
   cancelQueuedCrafting,
   recalculateCraftingQueue,
 } from "./cancelQueuedCrafting";
-import { CraftingQueueItem, GameState } from "features/game/types/game";
+import type { CraftingQueueItem, GameState } from "features/game/types/game";
 
 describe("cancelQueuedCrafting", () => {
   const farmId = 1;

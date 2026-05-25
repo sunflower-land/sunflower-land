@@ -1,5 +1,5 @@
-import { BoostName, BoostUsedAt } from "../types/game";
-import { BudNFTName } from "./marketplace";
+import type { BoostName, BoostUsedAt } from "../types/game";
+import type { BudNFTName } from "./marketplace";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 

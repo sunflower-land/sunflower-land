@@ -4,10 +4,10 @@ import * as path from "path";
 
 import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import {
-  LanguageCode,
+  type LanguageCode,
   LANGUAGE_DETAILS,
 } from "../src/lib/i18n/dictionaries/language";
-import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 import { getKeys } from "../src/lib/object";
 
 import {

@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { PropsWithChildren, useContext } from "react";
+import React, { type PropsWithChildren, useContext } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 import { Context } from "features/game/GameProvider";
@@ -10,7 +10,7 @@ import {
   useDisconnect,
   useSwitchChain,
 } from "wagmi";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { isAddressEqual } from "viem";
 import {
   base,
@@ -21,7 +21,7 @@ import {
   saigon,
 } from "@wagmi/core/chains";
 import { CONFIG } from "lib/config";
-import { Reputation } from "features/game/lib/reputation";
+import type { Reputation } from "features/game/lib/reputation";
 import { ConnectWallet } from "./components/ConnectWallet";
 import { LinkWallet } from "./components/LinkWallet";
 import { ConnectLinkedWallet } from "./components/ConnectLinkedWallet";
@@ -34,7 +34,7 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NoNFT } from "./components/NoNFT";
 import classNames from "classnames";
-import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
+import type { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import baseIcon from "assets/icons/chains/base.png";
 
 export type NetworkOption = {

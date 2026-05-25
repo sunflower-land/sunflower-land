@@ -5,13 +5,13 @@ import { useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { PET_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getHelpRequired } from "features/game/types/monuments";
-import { isPetNapping, PetName } from "features/game/types/pets";
+import { isPetNapping, type PetName } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _petHouseLevel = (state: MachineState) =>

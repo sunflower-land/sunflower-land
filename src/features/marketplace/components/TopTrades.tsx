@@ -1,4 +1,4 @@
-import { MarketplaceTrends } from "features/game/types/marketplace";
+import type { MarketplaceTrends } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
@@ -9,7 +9,7 @@ import { Loading } from "features/auth/components";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { playerModalManager } from "features/social/lib/playerModalManager";

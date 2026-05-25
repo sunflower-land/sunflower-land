@@ -12,7 +12,7 @@ import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ADVANCED_RESOURCES,
-  UpgradedResourceName,
+  type UpgradedResourceName,
 } from "features/game/types/resources";
 import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,8 +21,8 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
-import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
+import type { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
+import type { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 export const Forge: React.FC = () => {

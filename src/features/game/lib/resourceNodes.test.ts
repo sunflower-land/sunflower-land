@@ -1,5 +1,5 @@
-import { GameState, Rock, Tree } from "../types/game";
-import { RockName, UpgradedResourceName } from "../types/resources";
+import type { GameState, Rock, Tree } from "../types/game";
+import type { RockName, UpgradedResourceName } from "../types/resources";
 import { INITIAL_FARM } from "./constants";
 import {
   canGatherResource,

@@ -2,18 +2,18 @@ import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getObjectEntries } from "lib/object";
-import { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
+import type { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
-  BuildingName,
+  type BuildingName,
   BUILDINGS_DIMENSIONS,
 } from "features/game/types/buildings";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import {
-  CollectibleName,
+  type CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
-import {
+import type {
   FarmHands,
   GameState,
   Inventory,
@@ -21,19 +21,19 @@ import {
   Rock,
   Tree,
 } from "features/game/types/game";
-import {
+import type {
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
-import { PetName, PetNFTs } from "features/game/types/pets";
+import type { PetName, PetNFTs } from "features/game/types/pets";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
-  ResourceName,
+  type ResourceName,
   RESOURCE_MULTIPLIER,
-  UpgradeableResource,
+  type UpgradeableResource,
   BASIC_RESOURCES,
-  BasicResourceName,
+  type BasicResourceName,
   RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
 } from "features/game/types/resources";

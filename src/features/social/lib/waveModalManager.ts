@@ -1,4 +1,4 @@
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type WaveModalData = {
   wavedAtClothing: BumpkinParts;

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { Decoration } from "features/game/types/decorations";
-import { GameState, IslandType } from "features/game/types/game";
+import type { Decoration } from "features/game/types/decorations";
+import type { GameState, IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 
 export type LandBiomeName = `${Capitalize<IslandType>} Biome`;

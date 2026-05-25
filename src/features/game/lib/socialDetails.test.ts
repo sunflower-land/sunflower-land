@@ -1,5 +1,5 @@
 import { resolveSocialDetails } from "./socialDetails";
-import { SocialDetails } from "../actions/loadSession";
+import type { SocialDetails } from "../actions/loadSession";
 
 const existing: SocialDetails = {
   provider: "google",

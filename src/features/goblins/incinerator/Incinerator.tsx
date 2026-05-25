@@ -11,10 +11,10 @@ import { Decimal } from "decimal.js-light";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { CLUTTER, ClutterName } from "features/game/types/clutter";
+import { CLUTTER, type ClutterName } from "features/game/types/clutter";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 

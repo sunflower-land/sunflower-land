@@ -15,16 +15,16 @@ import {
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { Bumpkin } from "features/game/types/game";
+import type { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
 import { useSound } from "lib/utils/hooks/useSound";
 import {
-  BumpkinRevampSkillName,
-  BumpkinSkillRevamp,
+  type BumpkinRevampSkillName,
+  type BumpkinSkillRevamp,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -11,7 +11,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import vipIcon from "assets/icons/vip.webp";
 import giftIcon from "assets/icons/gift.png";
 import xpIcon from "assets/icons/xp.png";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "../ModalProvider";
 

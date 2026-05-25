@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { canMine } from "features/game/lib/resourceNodes";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type MineSunstoneAction = {

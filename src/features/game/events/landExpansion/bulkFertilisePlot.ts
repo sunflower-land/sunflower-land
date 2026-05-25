@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
-import { GameState } from "../../types/game";
-import { CropCompostName } from "features/game/types/composters";
+import type { GameState } from "../../types/game";
+import type { CropCompostName } from "features/game/types/composters";
 import { applyFertiliserToPlot } from "./fertilisePlot";
 import { produce } from "immer";
 import { isReadyToHarvest } from "./harvest";

@@ -5,7 +5,7 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useState } from "react";

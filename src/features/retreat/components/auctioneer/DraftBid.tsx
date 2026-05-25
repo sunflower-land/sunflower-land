@@ -1,15 +1,15 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { type ChangeEvent, useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Auction } from "features/game/lib/auctionMachine";
+import type { Auction } from "features/game/lib/auctionMachine";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";

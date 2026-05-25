@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getObjectEntries } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type ClaimReferralRewardsAction = {

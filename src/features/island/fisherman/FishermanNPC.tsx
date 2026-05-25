@@ -10,7 +10,7 @@ import mapIcon from "assets/icons/map.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -22,12 +22,12 @@ import { FishCaught } from "./FishCaught";
 import { getKeys } from "lib/object";
 import {
   FISH,
-  FishName,
+  type FishName,
   FISH_DIFFICULTY,
-  MarineMarvelName,
+  type MarineMarvelName,
   MAP_PIECE_MARVELS,
 } from "features/game/types/fishing";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
@@ -37,7 +37,7 @@ import classNames from "classnames";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const HITBOX_SIZE_PX = 50;
 

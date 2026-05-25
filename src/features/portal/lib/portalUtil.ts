@@ -1,4 +1,4 @@
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 const isInIframe = window.self !== window.top;

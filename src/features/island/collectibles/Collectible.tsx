@@ -1,20 +1,20 @@
 import React, { useContext, useState } from "react";
 
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import type { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   COLLECTIBLE_COMPONENTS,
   READONLY_COLLECTIBLES,
 } from "./CollectibleCollection";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { GameState } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Label } from "components/ui/Label";

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { CollectibleProps } from "./Collectible";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleProps } from "./Collectible";
+import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
@@ -237,7 +237,7 @@ import { PrismPetal } from "./components/PrismPetal";
 import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
 import { PrimulaEnigma } from "./components/PrimulaEnigma";
 import { PlaceableFlower } from "./components/PlaceableFlower";
-import { FLOWERS, PlaceableFlowerName } from "features/game/types/flowers";
+import { FLOWERS, type PlaceableFlowerName } from "features/game/types/flowers";
 import { Blossombeard } from "./components/Blossombeard";
 import { CrimPeckster } from "./components/CrimPeckster";
 import { FlowerRug } from "./components/FlowerRug";
@@ -328,7 +328,7 @@ import { BumpkinRightWallSconce } from "./components/BumpkinRightWallSconce";
 import { TemplateCollectible } from "./TemplateCollectible";
 import {
   DECORATION_TEMPLATES,
-  TemplateDecorationName,
+  type TemplateDecorationName,
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
@@ -383,7 +383,7 @@ import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
-import { PetName, PET_TYPES } from "features/game/types/pets";
+import { type PetName, PET_TYPES } from "features/game/types/pets";
 import { PetNFT } from "./components/petNFT/PetNFT";
 import { Isopod } from "./components/Isopod";
 import { Nautilus } from "./components/Nautilus";
@@ -392,7 +392,7 @@ import { DeepSeaPig } from "./components/DeepSeaPig";
 import { DeepSeaSlug } from "./components/DeepSeaSlug";
 import { CrystalShrimp } from "./components/CrystalShrimp";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
-import { BedName } from "features/game/types/game";
+import type { BedName } from "features/game/types/game";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "Pet" | "PetNFT",

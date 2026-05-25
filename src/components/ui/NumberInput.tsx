@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { type ChangeEvent, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";

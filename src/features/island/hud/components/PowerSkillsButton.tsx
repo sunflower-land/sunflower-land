@@ -5,15 +5,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PowerSkills } from "./PowerSkills";
 import { Context } from "features/game/GameProvider";
 import {
-  BumpkinSkillRevamp,
-  BumpkinRevampSkillName,
+  type BumpkinSkillRevamp,
+  type BumpkinRevampSkillName,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Modal } from "components/ui/Modal";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 
 const FERTILISER_SKILLS: BumpkinRevampSkillName[] = [

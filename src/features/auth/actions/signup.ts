@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type UTM = {
   source?: string;

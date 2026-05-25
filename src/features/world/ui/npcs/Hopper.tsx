@@ -7,7 +7,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SpecialEventModalContent } from "../SpecialEventModalContent";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { SpecialEvent } from "features/game/types/specialEvents";
+import type { SpecialEvent } from "features/game/types/specialEvents";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 

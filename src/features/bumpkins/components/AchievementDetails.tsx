@@ -3,12 +3,12 @@ import React from "react";
 import coins from "assets/icons/coins.webp";
 
 import {
-  AchievementName,
+  type AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";

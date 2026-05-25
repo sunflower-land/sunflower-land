@@ -3,7 +3,7 @@
  */
 
 import Decimal from "decimal.js-light";
-import { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
+import type { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
 import { WATER_TRAP } from "./crustaceans";
 

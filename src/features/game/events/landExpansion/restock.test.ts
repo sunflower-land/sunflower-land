@@ -6,8 +6,8 @@ import {
 import { restock } from "./restock";
 import {
   BB_TO_GEM_RATIO,
-  GameState,
-  PlacedItem,
+  type GameState,
+  type PlacedItem,
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 

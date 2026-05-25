@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";

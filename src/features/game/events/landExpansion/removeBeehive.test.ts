@@ -1,4 +1,4 @@
-import { Beehive, FlowerBed } from "features/game/types/game";
+import type { Beehive, FlowerBed } from "features/game/types/game";
 import { REMOVE_BEEHIVE_ERRORS, removeBeehive } from "./removeBeehive";
 import { TEST_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";

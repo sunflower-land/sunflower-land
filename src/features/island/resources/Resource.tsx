@@ -1,7 +1,7 @@
 import React, { useContext, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ResourceName } from "features/game/types/resources";
+import type { ResourceName } from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/gold/Gold";
 import { Iron } from "features/game/expansion/components/resources/iron/Iron";
 import { Stone } from "features/game/expansion/components/resources/stone/Stone";
@@ -14,7 +14,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
@@ -23,7 +23,7 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 import { TREE_VARIANTS } from "../lib/alternateArt";
 import { getCurrentBiome } from "../biomes/biomes";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 
 export interface ResourceProps {
   name: ResourceName;

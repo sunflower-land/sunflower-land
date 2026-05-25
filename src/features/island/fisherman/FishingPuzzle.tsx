@@ -15,9 +15,9 @@ import mapIcon from "assets/icons/map.webp";
 import lightning from "assets/icons/lightning.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
-  FishName,
+  type FishName,
   MAP_PUZZLE_DIFFICULTY,
-  MarineMarvelName,
+  type MarineMarvelName,
 } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
@@ -28,7 +28,7 @@ import { getKeys } from "lib/object";
 import { useGame } from "features/game/GameProvider";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 
 const wrong = SUNNYSIDE.icons.cancel;
 const PUZZLE_STARTED_KEY = "fishing-puzzle-started";

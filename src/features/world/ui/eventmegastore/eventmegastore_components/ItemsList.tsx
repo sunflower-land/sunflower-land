@@ -16,18 +16,18 @@ import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   APRIL_FOOLS_EVENT_ITEMS,
-  EventStoreCollectible,
-  EventStoreItem,
-  EventStoreTier,
-  EventStoreWearable,
+  type EventStoreCollectible,
+  type EventStoreItem,
+  type EventStoreTier,
+  type EventStoreWearable,
 } from "features/game/types/aprilFoolsEventShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";

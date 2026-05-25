@@ -1275,10 +1275,15 @@ import saltCrystalBed from "assets/sfts/salt_crystal_bed.webp";
 import worldMapRug from "assets/sfts/world_map_rug.webp";
 import rippedSaltBag from "assets/sfts/ripped_salt_bag.webp";
 
-import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
+import {
+  COUPONS,
+  EASTER_EGG,
+  FERTILISERS,
+  type InventoryItemName,
+} from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
-import { AchievementName, ACHIEVEMENTS } from "./achievements";
+import { type AchievementName, ACHIEVEMENTS } from "./achievements";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";

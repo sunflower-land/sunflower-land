@@ -12,8 +12,11 @@ import nightshadeBanner from "assets/decorations/banners/factions/nightshades_ba
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { FactionName, InventoryItemName } from "features/game/types/game";
-import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
+import type { FactionName, InventoryItemName } from "features/game/types/game";
+import {
+  addDiscordRole,
+  type DiscordRole,
+} from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

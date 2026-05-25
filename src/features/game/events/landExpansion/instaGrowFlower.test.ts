@@ -1,6 +1,6 @@
 import { instaGrowFlower } from "./instaGrowFlower";
-import { GameState } from "../../types/game";
-import { FLOWER_SEEDS, FLOWERS, FlowerName } from "../../types/flowers";
+import type { GameState } from "../../types/game";
+import { FLOWER_SEEDS, FLOWERS, type FlowerName } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 

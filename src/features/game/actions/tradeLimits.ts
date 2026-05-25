@@ -1,13 +1,13 @@
-import { CropName, GreenHouseCropName } from "../types/crops";
-import { FermentationBait } from "../types/fishing";
-import { GreenHouseFruitName, PatchFruitName } from "../types/fruits";
-import {
+import type { CropName, GreenHouseCropName } from "../types/crops";
+import type { FermentationBait } from "../types/fishing";
+import type { GreenHouseFruitName, PatchFruitName } from "../types/fruits";
+import type {
   AnimalResource,
   FactionEmblem,
   InventoryItemName,
 } from "../types/game";
-import { PetResourceName } from "../types/pets";
-import { CommodityName } from "../types/resources";
+import type { PetResourceName } from "../types/pets";
+import type { CommodityName } from "../types/resources";
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
   "Goblin Emblem": 200,

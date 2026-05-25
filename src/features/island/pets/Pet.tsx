@@ -1,4 +1,4 @@
-import { PetName } from "features/game/types/pets";
+import type { PetName } from "features/game/types/pets";
 import { useVisiting } from "lib/utils/visitUtils";
 import React from "react";
 import { LandPet } from "./LandPet";

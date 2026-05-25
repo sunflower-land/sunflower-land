@@ -2,9 +2,9 @@ import { interpret } from "xstate";
 
 import { TEST_FARM } from "features/game/lib/constants";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
-import { Beehive } from "features/game/types/game";
+import type { Beehive } from "features/game/types/game";
 
-import { BeehiveContext, beehiveMachine } from "./beehiveMachine";
+import { type BeehiveContext, beehiveMachine } from "./beehiveMachine";
 
 describe("beehiveMachine", () => {
   const fullHive: Beehive = {

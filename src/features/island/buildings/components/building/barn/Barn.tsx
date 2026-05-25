@@ -2,17 +2,17 @@ import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { useNavigate } from "react-router";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
-import { TemperateSeasonName } from "features/game/types/game";
+import type { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 

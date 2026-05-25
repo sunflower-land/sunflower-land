@@ -1,10 +1,10 @@
 import {
   ALLOWED_BUMPKIN_BODIES,
-  BumpkinBody,
-  BumpkinHair,
-  BumpkinPant,
-  BumpkinShirt,
-  BumpkinShoe,
+  type BumpkinBody,
+  type BumpkinHair,
+  type BumpkinPant,
+  type BumpkinShirt,
+  type BumpkinShoe,
 } from "features/game/types/bumpkin";
 import React, { useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
@@ -12,13 +12,13 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   DEFAULT_SIGNUP_EQUIPMENT,
-  Gender,
+  type Gender,
 } from "features/auth/lib/signupBumpkinDefaults";
 import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouettes";
 import { Label } from "components/ui/Label";

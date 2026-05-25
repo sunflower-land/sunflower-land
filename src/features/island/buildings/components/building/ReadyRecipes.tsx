@@ -1,5 +1,5 @@
 import React from "react";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";

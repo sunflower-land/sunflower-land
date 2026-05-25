@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { BoostName, Wardrobe } from "features/game/types/game";
+import type { BoostName, Wardrobe } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -11,13 +11,13 @@ import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";

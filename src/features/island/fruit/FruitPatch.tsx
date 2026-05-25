@@ -4,8 +4,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import {
   PATCH_FRUIT_SEEDS,
-  PatchFruitName,
-  PatchFruitSeedName,
+  type PatchFruitName,
+  type PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
@@ -14,8 +14,8 @@ import {
   getWoodReward,
 } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
-import {
+import type { MachineState } from "features/game/lib/gameMachine";
+import type {
   FruitPatch as Patch,
   InventoryItemName,
   GameState,
@@ -31,7 +31,7 @@ import { getKeys } from "lib/object";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, type SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";

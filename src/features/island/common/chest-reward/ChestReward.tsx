@@ -2,7 +2,7 @@ import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
-import { InventoryItemName, Reward } from "features/game/types/game";
+import type { InventoryItemName, Reward } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 

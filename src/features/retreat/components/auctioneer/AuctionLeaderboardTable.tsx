@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { AuctionResults } from "features/game/lib/auctionMachine";
+import type { AuctionResults } from "features/game/lib/auctionMachine";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import sflIcon from "assets/icons/flower_token.webp";

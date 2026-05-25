@@ -1,4 +1,4 @@
-import { DiscoveryTab } from "../Discovery";
+import type { DiscoveryTab } from "../Discovery";
 
 class DiscoveryModalManager {
   private listener?: (tab: DiscoveryTab) => void;

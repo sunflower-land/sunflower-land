@@ -8,7 +8,7 @@ import settingsIcon from "assets/icons/settings_disc.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { createPortal } from "react-dom";
 import {
-  SettingMenuId,
+  type SettingMenuId,
   SETTING_MENUS,
 } from "features/island/hud/components/settings-menu/GameOptions";
 

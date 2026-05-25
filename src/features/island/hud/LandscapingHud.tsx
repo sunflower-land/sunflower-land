@@ -16,9 +16,9 @@ import cleanBroom from "assets/icons/clean_broom.webp";
 import { isMobile } from "mobile-device-detect";
 
 import {
-  LandscapingPlaceable,
-  MachineInterpreter,
-  MachineState,
+  type LandscapingPlaceable,
+  type MachineInterpreter,
+  type MachineState,
   placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
@@ -28,7 +28,7 @@ import {
   isCollectible,
 } from "../collectibles/MovableComponent";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -42,12 +42,12 @@ import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import type { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChestItems } from "./components/inventory/utils/inventory";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import classNames from "classnames";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";

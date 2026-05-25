@@ -4,7 +4,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
 import { getKeys, getObjectEntries } from "lib/object";
-import { LAND_BIOMES, LandBiomeName } from "features/island/biomes/biomes";
+import { LAND_BIOMES, type LandBiomeName } from "features/island/biomes/biomes";
 import React, { useContext, useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
@@ -12,7 +12,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { IslandType } from "features/game/types/game";
+import type { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 
 export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Decimal from "decimal.js-light";
-import { BuildingName } from "./buildings";
-import { Cake } from "./craftables";
-import { BuildingProduct, Inventory, InventoryItemName } from "./game";
-import { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
+import type { BuildingName } from "./buildings";
+import type { Cake } from "./craftables";
+import type { BuildingProduct, Inventory, InventoryItemName } from "./game";
+import type { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
 import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
 import { translate } from "lib/i18n/translate";
-import { FactionShopFoodName } from "./factionShop";
-import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import type { FactionShopFoodName } from "./factionShop";
+import type { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import { getObjectEntries } from "lib/object";
 
 export const assertCookableName = (

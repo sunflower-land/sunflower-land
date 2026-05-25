@@ -8,10 +8,10 @@ import React, { useState } from "react";
 import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import {
   MEGASTORE,
-  ChapterStoreCollectible,
-  ChapterStoreItem,
-  ChapterStoreTier,
-  ChapterStoreWearable,
+  type ChapterStoreCollectible,
+  type ChapterStoreItem,
+  type ChapterStoreTier,
+  type ChapterStoreWearable,
 } from "features/game/types/megastore";
 
 import { ItemsList } from "./chapter_store_components/ItemsList";
@@ -19,12 +19,12 @@ import { ItemDetail } from "./chapter_store_components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 
 // type guard for WearablesItem | CollectiblesItem

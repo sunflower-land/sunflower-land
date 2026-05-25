@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { buyWearable } from "./buyWearable";
 import {
   STYLIST_WEARABLES,
-  StylistWearable,
+  type StylistWearable,
 } from "features/game/types/stylist";
 
 const GAME_STATE: GameState = TEST_FARM;

@@ -1,10 +1,10 @@
 import { getPetTraits } from "features/pets/data/getPetTraits";
-import { BuffLabel } from ".";
+import type { BuffLabel } from ".";
 import { translate } from "lib/i18n/translate";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import xpIcon from "assets/icons/xp.png";
-import { AuraTrait, BibTrait, PetTraits } from "features/pets/data/types";
+import type { AuraTrait, BibTrait, PetTraits } from "features/pets/data/types";
 
 export const getPetAuraBoost = (aura: AuraTrait) => {
   const buffs: (BuffLabel & { trait: keyof PetTraits })[] = [];

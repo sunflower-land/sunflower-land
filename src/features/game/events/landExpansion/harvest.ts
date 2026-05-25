@@ -1,4 +1,4 @@
-import {
+import type {
   AOE,
   BoostName,
   CriticalHitName,
@@ -9,21 +9,21 @@ import {
   TemperateSeasonName,
 } from "../../types/game";
 import {
-  Crop,
-  CropName,
+  type Crop,
+  type CropName,
   CROPS,
-  GreenHouseCropName,
+  type GreenHouseCropName,
   isAdvancedCrop,
   isBasicCrop,
   isMediumCrop,
   isOvernightCrop,
 } from "../../types/crops";
-import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, type SeedName } from "features/game/types/seeds";
 import Decimal from "decimal.js-light";
-import { CropPlot } from "features/game/types/game";
+import type { CropPlot } from "features/game/types/game";
 import { produce } from "immer";
 import {
-  Position,
+  type Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
@@ -54,7 +54,7 @@ import {
 import { getAffectedWeather } from "./plant";
 import {
   trackFarmActivity,
-  FarmActivityName,
+  type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { prngChance } from "lib/prng";

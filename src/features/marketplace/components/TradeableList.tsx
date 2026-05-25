@@ -13,12 +13,12 @@ import tradeIcon from "assets/icons/trade.png";
 import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
 
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { Button } from "components/ui/Button";
 import { NumberInput } from "components/ui/NumberInput";
 import { GameWallet } from "features/wallet/Wallet";
 import { formatNumber } from "lib/utils/formatNumber";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
@@ -26,7 +26,7 @@ import Decimal from "decimal.js-light";
 
 import {
   isTradeResource,
-  TradeResource,
+  type TradeResource,
 } from "features/game/actions/tradeLimits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";

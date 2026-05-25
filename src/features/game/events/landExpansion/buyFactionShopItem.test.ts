@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
 import {
-  FactionShopItemName,
+  type FactionShopItemName,
   FACTION_SHOP_ITEMS,
 } from "features/game/types/factionShop";
-import { GameState, Faction } from "features/game/types/game";
+import type { GameState, Faction } from "features/game/types/game";
 import { buyFactionShopItem } from "./buyFactionShopItem";
 
 const GAME_STATE: GameState = {

@@ -1,18 +1,21 @@
 import Decimal from "decimal.js-light";
 import {
-  TreasureToolName,
+  type TreasureToolName,
   TREASURE_TOOLS,
-  Tool,
-  WorkbenchToolName,
+  type Tool,
+  type WorkbenchToolName,
   WORKBENCH_TOOLS,
   LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState, IslandType } from "../../types/game";
+import type { GameState, IslandType } from "../../types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
+import {
+  getWeatherShop,
+  type WeatherShopItem,
+} from "features/game/types/calendar";
 import { getObjectEntries } from "lib/object";
 import { getBumpkinLevel } from "features/game/lib/level";
 

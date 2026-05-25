@@ -7,18 +7,18 @@ import {
   STONE_RECOVERY_TIME,
   SUNSTONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
-import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
-import { Rock, Tree, GameState } from "../types/game";
+import type { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import type { Rock, Tree, GameState } from "../types/game";
 import {
-  UpgradedResourceName,
+  type UpgradedResourceName,
   ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
-  RockName,
+  type RockName,
   RESOURCES,
-  UpgradeableResource,
-  TreeName,
+  type UpgradeableResource,
+  type TreeName,
   BASIC_RESOURCES,
-  BasicResourceName,
+  type BasicResourceName,
 } from "../types/resources";
 
 export const canGatherResource = (

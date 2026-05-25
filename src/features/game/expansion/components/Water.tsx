@@ -21,7 +21,7 @@ import fins2 from "assets/decorations/fins_green.webp";
 import fins3 from "assets/decorations/fins2.webp";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { useVisiting } from "lib/utils/visitUtils";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 

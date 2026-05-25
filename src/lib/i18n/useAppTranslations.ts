@@ -1,7 +1,7 @@
 // useAppTranslation.ts
 import { useTranslation as useOriginalTranslation } from "react-i18next";
-import { TranslationKeys } from "./dictionaries/types";
-import Decimal from "decimal.js-light";
+import type { TranslationKeys } from "./dictionaries/types";
+import type Decimal from "decimal.js-light";
 
 // Define a custom hook that wraps the original useTranslation hook
 export const useAppTranslation = () => {

@@ -13,17 +13,17 @@ import {
   PIXEL_SCALE,
   SQUARE_WIDTH,
 } from "features/game/lib/constants";
-import { MachineInterpreter } from "./landscapingMachine";
+import type { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
-import { Coordinates } from "../components/MapPlacement";
+import type { Coordinates } from "../components/MapPlacement";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
+  type CollectibleName,
 } from "features/game/types/craftables";
 import { READONLY_COLLECTIBLES } from "features/island/collectibles/CollectibleCollection";
 
@@ -33,17 +33,20 @@ import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
-import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
+import {
+  getCurrentBiome,
+  type LandBiomeName,
+} from "features/island/biomes/biomes";
 import {
   getSortedCollectiblePositions,
   getSortedResourcePositions,
 } from "../lib/utils";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 

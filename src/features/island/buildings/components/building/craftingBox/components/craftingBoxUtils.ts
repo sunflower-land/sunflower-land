@@ -1,11 +1,11 @@
 import {
-  Recipe,
-  RecipeCollectibleName,
-  RecipeIngredient,
-  Recipes,
+  type Recipe,
+  type RecipeCollectibleName,
+  type RecipeIngredient,
+  type Recipes,
   RECIPES,
 } from "features/game/lib/crafting";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 
 const EMPTY_INGREDIENTS = Array(9).fill(null) as (RecipeIngredient | null)[];
 

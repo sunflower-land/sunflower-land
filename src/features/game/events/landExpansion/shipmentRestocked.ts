@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
+import { INITIAL_STOCK, type StockableName } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type ShipmentRestockAction = {

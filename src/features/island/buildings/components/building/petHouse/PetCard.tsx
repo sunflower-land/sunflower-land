@@ -6,10 +6,10 @@ import {
   isPetNapping,
   isPetNeglected,
   PET_RESOURCES,
-  Pet,
-  PetName,
-  PetNFT,
-  PetResourceName,
+  type Pet,
+  type PetName,
+  type PetNFT,
+  type PetResourceName,
   isPetNFT,
 } from "features/game/types/pets";
 import React, { useState } from "react";
@@ -21,9 +21,9 @@ import {
 } from "features/game/events/pets/feedPet";
 import { FetchButtonPanel } from "./FetchButtonPanel";
 import { FoodButtonPanel } from "./FoodButtonPanel";
-import { GameState, Inventory } from "features/game/types/game";
+import type { GameState, Inventory } from "features/game/types/game";
 import { Label } from "components/ui/Label";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

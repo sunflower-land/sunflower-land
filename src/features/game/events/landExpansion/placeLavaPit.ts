@@ -1,8 +1,8 @@
 import cloneDeep from "lodash.clonedeep";
 
 import Decimal from "decimal.js-light";
-import { GameState, LavaPit } from "features/game/types/game";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { GameState, LavaPit } from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getLavaPitTime } from "./startLavaPit";
 
 export type PlaceLavaPitAction = {

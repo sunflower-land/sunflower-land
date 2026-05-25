@@ -1,7 +1,7 @@
 import json from "assets/map/volcaro.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
 
 const BUMPKINS: NPCBumpkin[] = [

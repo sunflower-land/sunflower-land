@@ -4,10 +4,10 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Recipe } from "features/game/lib/crafting";
+import type { Recipe } from "features/game/lib/crafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const CraftDetails: React.FC<{

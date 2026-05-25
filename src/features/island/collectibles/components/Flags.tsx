@@ -1,9 +1,9 @@
 import React from "react";
 
-import { CollectibleName, FLAGS } from "features/game/types/craftables";
+import { type CollectibleName, FLAGS } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Flag } from "features/game/types/flags";
+import type { Flag } from "features/game/types/flags";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 import { getKeys } from "lib/object";
 

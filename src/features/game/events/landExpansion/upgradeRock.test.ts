@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { upgradeRock, UpgradeRockAction } from "./upgradeRock";
-import { GameState } from "features/game/types/game";
+import { upgradeRock, type UpgradeRockAction } from "./upgradeRock";
+import type { GameState } from "features/game/types/game";
 import { RESOURCE_MULTIPLIER } from "features/game/types/resources";
 
 describe("upgradeRock", () => {

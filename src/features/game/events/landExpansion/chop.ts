@@ -10,7 +10,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
-import {
+import type {
   BoostName,
   CriticalHitName,
   GameState,

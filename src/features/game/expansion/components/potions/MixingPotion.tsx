@@ -8,12 +8,12 @@ import potionMasterLoopMixingSheet from "assets/npcs/potion_master_sheet_loop_mi
 import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
 import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
-import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
+import type { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { SpeechBubble } from "./SpeechBubble";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 export type DesiredAnimation =
   | "idle"

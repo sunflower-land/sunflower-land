@@ -1,6 +1,6 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { MarineMarvelName } from "features/game/types/fishing";
+import type { MarineMarvelName } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 

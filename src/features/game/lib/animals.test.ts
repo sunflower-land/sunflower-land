@@ -1,5 +1,9 @@
 import { getAnimalFavoriteFood } from "../lib/animals";
-import { ANIMAL_LEVELS, AnimalLevel, AnimalType } from "../types/animals";
+import {
+  ANIMAL_LEVELS,
+  type AnimalLevel,
+  type AnimalType,
+} from "../types/animals";
 
 describe("getAnimalFavoriteFood", () => {
   it.each([

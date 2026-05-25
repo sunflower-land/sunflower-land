@@ -1,7 +1,7 @@
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
-import { BudNFTName } from "features/game/types/marketplace";
-import { PetNFTName } from "features/game/types/pets";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
+import type { BudNFTName } from "features/game/types/marketplace";
+import type { PetNFTName } from "features/game/types/pets";
 
 export type RaffleRewards =
   | {

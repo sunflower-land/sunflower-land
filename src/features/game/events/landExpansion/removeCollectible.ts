@@ -1,13 +1,17 @@
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { CollectibleName } from "features/game/types/craftables";
-import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
+import type { CollectibleName } from "features/game/types/craftables";
+import type {
+  GameState,
+  PlacedItem,
+  PlacedLamp,
+} from "features/game/types/game";
 
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { LIMITED_ITEMS } from "./burnCollectible";
 import {
   EXPIRY_COOLDOWNS,
-  TemporaryCollectibleName,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
 import { populateSaltFarm } from "features/game/types/salt";

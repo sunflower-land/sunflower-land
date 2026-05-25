@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import {
   GREENHOUSE_COMPOST,
-  GreenhouseCompostName,
+  type GreenhouseCompostName,
 } from "features/game/types/composters";
-import { GameState, GreenhousePlant } from "features/game/types/game";
+import type { GameState, GreenhousePlant } from "features/game/types/game";
 import { produce } from "immer";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { MAX_POTS } from "./plantGreenhouse";

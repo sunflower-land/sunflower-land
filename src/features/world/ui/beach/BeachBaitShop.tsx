@@ -11,9 +11,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   PURCHASEABLE_BAIT,
-  PurchaseableBait,
+  type PurchaseableBait,
 } from "features/game/types/fishing";
-import { PurchaseType } from "features/game/types/buyOptionPurchaseItem";
+import type { PurchaseType } from "features/game/types/buyOptionPurchaseItem";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";

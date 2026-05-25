@@ -1,4 +1,4 @@
-import {
+import type {
   CollectionName,
   TradeableDetails,
 } from "features/game/types/marketplace";

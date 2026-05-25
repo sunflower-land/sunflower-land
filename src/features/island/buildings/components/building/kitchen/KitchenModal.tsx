@@ -5,14 +5,14 @@ import chefHat from "assets/icons/chef_hat.png";
 
 import { Recipes } from "../Recipes";
 import {
-  Cookable,
-  CookableName,
+  type Cookable,
+  type CookableName,
   isFishCookable,
   KITCHEN_COOKABLES,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 

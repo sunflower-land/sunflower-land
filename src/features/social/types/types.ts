@@ -1,6 +1,6 @@
-import { Equipped } from "features/game/types/bumpkin";
-import { FactionName, IslandType } from "features/game/types/game";
-import { MonumentName } from "features/game/types/monuments";
+import type { Equipped } from "features/game/types/bumpkin";
+import type { FactionName, IslandType } from "features/game/types/game";
+import type { MonumentName } from "features/game/types/monuments";
 
 export type ParticipantInfo = {
   id: number;

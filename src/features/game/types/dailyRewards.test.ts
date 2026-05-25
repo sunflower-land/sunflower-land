@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../lib/constants";
-import { GameState, InventoryItemName } from "./game";
+import type { GameState, InventoryItemName } from "./game";
 import { getRewardsForStreak } from "./dailyRewards";
-import { CHAPTERS, CHAPTER_BANNERS, ChapterName } from "./chapters";
+import { CHAPTERS, CHAPTER_BANNERS, type ChapterName } from "./chapters";
 import { getKeys } from "lib/object";
 
 const midChapter = (chapter: ChapterName): number =>

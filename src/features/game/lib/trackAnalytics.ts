@@ -1,7 +1,7 @@
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import {
   CHAPTER_TRACKS,
-  ChapterTask,
+  type ChapterTask,
   getChapterTaskPoints,
   getTrackMilestonesCrossed,
 } from "features/game/types/tracks";

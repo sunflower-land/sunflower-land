@@ -4,11 +4,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
-import { WorkbenchToolName } from "features/game/types/tools";
+import type { WorkbenchToolName } from "features/game/types/tools";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, BoostName } from "features/game/types/game";
+import type { GameState, BoostName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { getOilRecoveryTimeForDisplay } from "features/game/events/landExpansion/drillOilReserve";
@@ -23,7 +23,10 @@ import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpa
 import { getSaltChargeGenerationTimeForDisplay } from "features/game/events/landExpansion/harvestSalt";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
-import { CommodityName, ResourceName } from "features/game/types/resources";
+import type {
+  CommodityName,
+  ResourceName,
+} from "features/game/types/resources";
 import saltNodeStage3 from "assets/buildings/salt/salt_node_stage_3.webp";
 
 const ICON_SIZE = 13.7;

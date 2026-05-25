@@ -1,9 +1,9 @@
-import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { type BuildingName, BUILDINGS } from "features/game/types/buildings";
 import {
   EXPANSION_REQUIREMENTS,
-  Land,
+  type Land,
 } from "features/game/expansion/lib/expansionRequirements";
-import { BumpkinLevel } from "features/game/lib/level";
+import type { BumpkinLevel } from "features/game/lib/level";
 
 export function getBuildingBumpkinLevelRequired(name: BuildingName): number {
   let requiredExpansionLevel = 1;

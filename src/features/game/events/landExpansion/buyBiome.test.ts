@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 import { buyBiome } from "./buyBiome";
 
 describe("buyBiome", () => {

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "./Label";
@@ -10,7 +10,7 @@ import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { KNOWN_IDS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

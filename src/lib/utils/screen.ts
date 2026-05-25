@@ -1,4 +1,4 @@
-import { MachineInterpreter } from "features/auth/lib/authMachine";
+import type { MachineInterpreter } from "features/auth/lib/authMachine";
 import { isMobile } from "mobile-device-detect";
 
 type Vector = {

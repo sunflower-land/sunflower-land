@@ -1,7 +1,7 @@
 import useSWRInfinite from "swr/infinite";
 import {
-  FollowNetworkDetails,
-  FollowNetworkMember,
+  type FollowNetworkDetails,
+  type FollowNetworkMember,
   getFollowNetworkDetails,
 } from "../actions/getFollowNetworkDetails";
 

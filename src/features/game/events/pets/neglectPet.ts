@@ -1,8 +1,8 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   isPetNeglected,
   isPetOfTypeFed,
-  PetName,
+  type PetName,
   isPetNFT as isPetNFTData,
 } from "features/game/types/pets";
 import { produce } from "immer";

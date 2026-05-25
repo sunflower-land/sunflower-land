@@ -2,7 +2,7 @@ import ringDot from "assets/icons/fish_dot.png";
 
 import React, { useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishName, MarineMarvelName } from "features/game/types/fishing";
+import type { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useSpring, animated } from "react-spring";

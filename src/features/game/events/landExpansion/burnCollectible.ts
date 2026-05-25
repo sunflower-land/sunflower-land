@@ -1,13 +1,13 @@
-import { GameState } from "../../types/game";
-import { CollectibleName } from "features/game/types/craftables";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
+import type { GameState } from "../../types/game";
+import type { CollectibleName } from "features/game/types/craftables";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { PET_SHRINES } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
-  TemporaryCollectibleName,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { isPetCollectible } from "./placeCollectible";
 import { getKeys } from "lib/object";

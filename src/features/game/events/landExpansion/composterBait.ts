@@ -1,10 +1,10 @@
 import { KNOWN_IDS } from "features/game/types";
 import {
-  ComposterName,
-  Worm,
+  type ComposterName,
+  type Worm,
   composterDetails,
 } from "features/game/types/composters";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { prng } from "lib/prng";

@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { CROPS } from "features/game/types/crops";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { applyBuff } from "./buffs";
 
 const dateNow = Date.now();

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "../types/game";
+import type { GameState, InventoryItemName } from "../types/game";
 
 export const VIP_TRIAL_PERIOD_MS = 1000 * 60 * 60 * 24 * 7;
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Player } from "../ModerationTools";
+import type { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
-import { Effect, postEffect } from "features/game/actions/effect";
+import { type Effect, postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 
 type Props = {

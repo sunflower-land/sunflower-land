@@ -9,14 +9,14 @@ import beehive from "assets/sfts/beehive.webp";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Stone } from "features/game/expansion/components/resources/stone/Stone";
 import { Iron } from "features/game/expansion/components/resources/iron/Iron";
 import { Gold } from "features/game/expansion/components/resources/gold/Gold";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/tree/Tree";
-import { Layout } from "../lib/layouts";
+import type { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,8 +26,8 @@ import { Sunstone } from "features/game/expansion/components/resources/sunstone/
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBed } from "features/island/flowers/FlowerBed";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
-import { GameState } from "features/game/types/game";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getCurrentBiome } from "features/island/biomes/biomes";

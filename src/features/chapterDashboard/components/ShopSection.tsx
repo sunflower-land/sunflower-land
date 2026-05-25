@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
-import {
+import type {
   BoostName,
   BuildingProduct,
   GameState,

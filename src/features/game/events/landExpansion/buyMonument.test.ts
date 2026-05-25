@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { buyMonument } from "./buyMonument";
-import { WorkbenchMonumentName } from "features/game/types/monuments";
+import type { WorkbenchMonumentName } from "features/game/types/monuments";
 
 const GAME_STATE: GameState = TEST_FARM;
 

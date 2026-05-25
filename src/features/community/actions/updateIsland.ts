@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { GameState, Wardrobe } from "features/game/types/game";
-import { InventoryItemName } from "../types/community";
+import type { GameState, Wardrobe } from "features/game/types/game";
+import type { InventoryItemName } from "../types/community";
 import { makeGame } from "features/game/lib/transforms";
 
 type Request = {

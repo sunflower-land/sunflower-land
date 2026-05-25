@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
-  AnimalMachineInterpreter,
-  TState as AnimalMachineState,
-  TState,
+  type AnimalMachineInterpreter,
+  type TState as AnimalMachineState,
+  type TState,
 } from "features/game/lib/animalMachine";
 import {
   getAnimalFavoriteFood,
@@ -22,7 +22,7 @@ import { LevelProgress } from "features/game/expansion/components/animals/LevelP
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
+import type {
   AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,

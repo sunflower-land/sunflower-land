@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ImageStyle } from "./template/ImageStyle";
+import type { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -13,25 +13,25 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getItemDescription } from "features/game/lib/getItemDescription";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
   getProjectReward,
   isHelpComplete,
-  MonumentName,
+  type MonumentName,
   RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
-  VillageProjectName,
+  type VillageProjectName,
   WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
 import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
@@ -71,10 +71,10 @@ import crystalAltarThree from "assets/monuments/crystal_altar_3.webp";
 
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
-import { Player } from "features/social/types/types";
+import type { Player } from "features/social/types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Loading } from "features/auth/components";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";

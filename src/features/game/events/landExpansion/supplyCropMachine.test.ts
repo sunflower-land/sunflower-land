@@ -13,7 +13,7 @@ import {
 } from "./supplyCropMachine";
 import { supplyCropMachineOil } from "./supplyCropMachineOil";
 import Decimal from "decimal.js-light";
-import {
+import type {
   CropMachineBuilding,
   CropMachineQueueItem,
   GameState,

@@ -1,4 +1,4 @@
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 
 import { produce } from "immer";
 import Decimal from "decimal.js-light";

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 
-import { FactionEmblem, FactionName } from "features/game/types/game";
+import type { FactionEmblem, FactionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -16,9 +16,9 @@ import powerup from "assets/icons/level_up.png";
 import { RANKS, getFactionRanking } from "features/game/lib/factionRanks";
 
 import {
-  EmblemsLeaderboard,
+  type EmblemsLeaderboard,
   getLeaderboard,
-  RankData,
+  type RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";

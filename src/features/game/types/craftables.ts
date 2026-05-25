@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName } from "./crops";
-import {
+import type { CropSeedName } from "./crops";
+import type {
   BedName,
   FactionBanner,
   InventoryItemName,
@@ -8,11 +8,11 @@ import {
   MutantAnimal,
 } from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { Flag, FLAGS } from "./flags";
+import { type Flag, FLAGS } from "./flags";
 import { LimitedItemType } from ".";
-import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
-import {
+import { type DecorationName, DECORATION_DIMENSIONS } from "./decorations";
+import type { BeanName, MutantCropName } from "./beans";
+import type {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
@@ -21,20 +21,20 @@ import {
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
-import { BoostTreasure } from "./treasure";
-import { MarineMarvelName, OldFishName } from "./fishing";
-import { ChapterBanner } from "./chapters";
-import {
+import type { BoostTreasure } from "./treasure";
+import type { MarineMarvelName, OldFishName } from "./fishing";
+import type { ChapterBanner } from "./chapters";
+import type {
   EpicFlowerName,
   MutantFlowerName,
   PlaceableFlowerName,
 } from "./flowers";
 import { translate } from "lib/i18n/translate";
-import { FactionShopCollectibleName } from "./factionShop";
+import type { FactionShopCollectibleName } from "./factionShop";
 import { BED_FARMHAND_COUNT } from "./beds";
-import { ChapterCollectibleName } from "./megastore";
-import { MonumentName } from "./monuments";
-import { PetName, PetShrineName } from "./pets";
+import type { ChapterCollectibleName } from "./megastore";
+import type { MonumentName } from "./monuments";
+import type { PetName, PetShrineName } from "./pets";
 import { getKeys } from "lib/object";
 
 export { FLAGS };

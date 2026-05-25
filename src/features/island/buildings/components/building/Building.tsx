@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
-import { CookableName } from "features/game/types/consumables";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { CookableName } from "features/game/types/consumables";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -27,7 +27,7 @@ import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
 import {
   getActiveCalendarEvent,
-  SeasonalEventName,
+  type SeasonalEventName,
 } from "features/game/types/calendar";
 import {
   isBuildingUpgradable,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EventObject, Interpreter, State } from "xstate";
+import type { EventObject, Interpreter, State } from "xstate";
 
 export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
   service: Interpreter<TContext, any, TEvent>,

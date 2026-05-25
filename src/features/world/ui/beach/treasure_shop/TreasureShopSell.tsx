@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "lib/object";
 import {
-  BeachBountyTreasure,
+  type BeachBountyTreasure,
   SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { Context } from "features/game/GameProvider";

@@ -19,10 +19,10 @@ import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionL
 import {
   COMPETITION_POINTS,
   COMPETITION_TASK_DETAILS,
-  CompetitionLeaderboardResponse,
-  CompetitionName,
-  CompetitionPlayer,
-  CompetitionTaskName,
+  type CompetitionLeaderboardResponse,
+  type CompetitionName,
+  type CompetitionPlayer,
+  type CompetitionTaskName,
   getCompetitionPointsPerTask,
 } from "features/game/types/competitions";
 import { getKeys } from "lib/object";
@@ -35,8 +35,8 @@ import { Loading } from "features/auth/components";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState } from "features/game/types/game";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
 import chefIcon from "assets/icons/chef_hat.png";
 import lockIcon from "assets/icons/lock.png";
 import calendarIcon from "assets/icons/calendar.webp";

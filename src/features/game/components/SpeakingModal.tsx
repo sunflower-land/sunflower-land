@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, type JSX } from "react";
 
 import { Panel } from "../../../components/ui/Panel";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
 import { Button } from "components/ui/Button";

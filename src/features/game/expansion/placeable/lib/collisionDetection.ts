@@ -1,4 +1,4 @@
-import {
+import type {
   AnimalBuildingKey,
   Collectibles,
   Beehive,
@@ -16,19 +16,19 @@ import {
   Rock,
 } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
-import { Coordinates } from "../../components/MapPlacement";
+import type { Coordinates } from "../../components/MapPlacement";
 import {
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
+  type CollectibleName,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
-  ResourceName,
+  type ResourceName,
 } from "features/game/types/resources";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { LandscapingPlaceable } from "../landscapingMachine";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { LandscapingPlaceable } from "../landscapingMachine";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import { getKeys, getObjectEntries } from "lib/object";
 import {

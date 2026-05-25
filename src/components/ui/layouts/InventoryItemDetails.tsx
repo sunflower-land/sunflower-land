@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import {
+import type {
   BoostName,
   GameState,
   InventoryItemName,
@@ -18,10 +18,10 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import {
   isBuildingUpgradable,
-  UpgradableBuildingType,
+  type UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { getItemDescription } from "features/game/lib/getItemDescription";

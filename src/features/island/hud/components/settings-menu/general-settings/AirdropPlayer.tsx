@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,11 +12,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { TextInput } from "components/ui/TextInput";
 import { getObjectEntries } from "lib/object";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { GameWallet } from "features/wallet/Wallet";
 import { useSelector } from "@xstate/react";
 import { Dropdown } from "components/ui/Dropdown";
-import { InventoryItemName, Wardrobe } from "features/game/types/game";
+import type { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -29,7 +29,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useConnection } from "wagmi";
-import { ErrorCode } from "lib/errors";
+import type { ErrorCode } from "lib/errors";
 
 // Types
 interface AirdropItem {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { PlantedFruit } from "features/game/types/game";
+import type { PlantedFruit } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PATCH_FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { FruitSoil } from "./FruitSoil";
@@ -10,7 +10,7 @@ import { FruitSeedling } from "./FruitSeedling";
 import { DeadTree } from "./DeadTree";
 import { ReplenishingTree } from "./ReplenishingTree";
 import { ReplenishedTree } from "./ReplenishedTree";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 

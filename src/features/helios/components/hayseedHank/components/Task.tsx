@@ -1,12 +1,12 @@
 import { ResizableBar } from "components/ui/ProgressBar";
 import {
   ACHIEVEMENTS,
-  AchievementName,
+  type AchievementName,
 } from "features/game/types/achievements";
 import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
-import { GUIDE_PATHS, GuidePath } from "../lib/guide";
-import { GameState } from "features/game/types/game";
+import { GUIDE_PATHS, type GuidePath } from "../lib/guide";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";

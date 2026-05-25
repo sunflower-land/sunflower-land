@@ -8,7 +8,7 @@ import shop from "assets/icons/shop.png";
 import factions from "assets/icons/factions.webp";
 import trophy from "assets/icons/trophy.png";
 import gift from "assets/icons/gift.png";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
 
 export type NoticeboardItemsElements = {

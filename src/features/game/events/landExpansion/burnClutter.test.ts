@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { ClutterName } from "features/game/types/clutter";
-import { GameState } from "features/game/types/game";
+import type { ClutterName } from "features/game/types/clutter";
+import type { GameState } from "features/game/types/game";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { burnClutter } from "./burnClutter";
 

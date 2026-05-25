@@ -1,6 +1,6 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { skipKingdomChore } from "./skipKingdomChore";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("skipKingdomChore", () => {
   it("throws if no kingdom chores found", () => {

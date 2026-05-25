@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
+import type {
   BoostName,
   CriticalHitName,
   AOE,
@@ -13,14 +13,17 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import {
-  Position,
+  type Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
+import {
+  RESOURCE_DIMENSIONS,
+  type RockName,
+} from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {

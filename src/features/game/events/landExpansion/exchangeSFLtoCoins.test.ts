@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { PackageId, exchangeSFLtoCoins } from "./exchangeSFLtoCoins";
+import { type PackageId, exchangeSFLtoCoins } from "./exchangeSFLtoCoins";
 import { TEST_FARM } from "features/game/lib/constants";
 
 describe("exchangeSFLtoCoins", () => {

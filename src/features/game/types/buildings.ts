@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { CollectibleName } from "./craftables";
-import { Inventory, InventoryItemName, IslandType } from "./game";
-import { ResourceName } from "./resources";
+import type { CollectibleName } from "./craftables";
+import type { Inventory, InventoryItemName, IslandType } from "./game";
+import type { ResourceName } from "./resources";
 import { getKeys } from "lib/object";
 
 export type Home = "Tent" | "House" | "Manor" | "Mansion";

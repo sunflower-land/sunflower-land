@@ -6,18 +6,18 @@ import page from "public/world/page.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CALENDAR_EVENT_ICONS,
-  CalendarEventName,
+  type CalendarEventName,
 } from "features/game/types/calendar";
-import {
+import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { Label } from "components/ui/Label";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 
 export const CALEDNAR_EVENT_INFORMATION: Partial<
   Record<

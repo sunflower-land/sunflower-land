@@ -1,6 +1,6 @@
-import { InventoryItemName } from "../types/game";
+import type { InventoryItemName } from "../types/game";
 import { CHAPTERS } from "./chapters";
-import { BumpkinItem } from "./bumpkin";
+import type { BumpkinItem } from "./bumpkin";
 import { getPetNFTRevealConfig } from "./petRevealConfig";
 
 type Releases = {

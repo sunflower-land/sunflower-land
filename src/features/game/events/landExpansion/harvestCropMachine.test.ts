@@ -1,6 +1,6 @@
 import { harvestCropMachine, getPackYieldAmount } from "./harvestCropMachine";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";

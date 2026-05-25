@@ -1,10 +1,10 @@
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Airdrop, GameState, Order } from "features/game/types/game";
+import type { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import coinsImg from "assets/icons/coins.webp";
@@ -21,7 +21,7 @@ import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { FLOWERS, FlowerName } from "features/game/types/flowers";
+import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
 import {
   getBumpkinRecipes,
@@ -32,7 +32,7 @@ import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import {
   NPC_DELIVERY_LEVELS,
-  DeliveryNpcName,
+  type DeliveryNpcName,
   isCoinNPC,
   isSFLNPC,
   isTicketNPC,
@@ -57,7 +57,7 @@ import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { calculateRelationshipPoints } from "features/game/events/landExpansion/giftFlowers";
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
 import { getActiveCalendarEvent } from "features/game/types/calendar";

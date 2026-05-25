@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SOIL_IMAGES } from "../plots/lib/plant";

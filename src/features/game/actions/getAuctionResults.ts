@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { LeaderboardBid } from "../lib/auctionMachine";
+import type { LeaderboardBid } from "../lib/auctionMachine";
 
 type Request = {
   farmId: number;

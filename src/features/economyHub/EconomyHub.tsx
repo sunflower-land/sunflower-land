@@ -10,10 +10,10 @@ import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
-import {
+import type {
   Context as GameMachineContext,
   MachineState,
-  type BlockchainEvent,
+  BlockchainEvent,
 } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";

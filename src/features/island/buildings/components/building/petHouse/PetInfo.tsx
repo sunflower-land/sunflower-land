@@ -9,12 +9,12 @@ import {
   isPetNapping,
   isPetNeglected,
   isPetNFT,
-  Pet,
+  type Pet,
   PET_CATEGORIES,
-  PetNFT,
+  type PetNFT,
   isPetOfTypeFed,
-  PetNFTType,
-  PetNFTs,
+  type PetNFTType,
+  type PetNFTs,
 } from "features/game/types/pets";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

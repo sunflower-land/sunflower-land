@@ -21,7 +21,7 @@ import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { GameState, Keys } from "features/game/types/game";
+import type { GameState, Keys } from "features/game/types/game";
 import {
   possibleRewards,
   BASIC_DAILY_REWARDS,
@@ -30,7 +30,7 @@ import {
 } from "features/game/types/collectDailyReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { RewardBoxReward } from "features/game/types/rewardBoxes";
+import type { RewardBoxReward } from "features/game/types/rewardBoxes";
 import { useNow } from "lib/utils/hooks/useNow";
 
 export type ChestRewardType =

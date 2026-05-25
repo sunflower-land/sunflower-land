@@ -4,7 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import Decimal from "decimal.js-light";
-import { DepositArgs } from "lib/blockchain/Deposit";
+import type { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { DepositGameItems } from "features/goblins/bank/components/DepositGameItems";
@@ -30,11 +30,11 @@ import { Feed } from "features/social/Feed";
 import { isMobile } from "mobile-device-detect";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  Message,
+  type Message,
   ModerationTools,
-  Player,
+  type Player,
 } from "features/world/ui/moderationTools/ModerationTools";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { RaffleWidget } from "features/retreat/components/auctioneer/RaffleWidget";

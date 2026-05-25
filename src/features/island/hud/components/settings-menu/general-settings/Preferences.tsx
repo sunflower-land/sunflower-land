@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { isSupported } from "firebase/messaging";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 
 export const Preferences: React.FC<ContentComponentProps> = ({
   onSubMenuClick,

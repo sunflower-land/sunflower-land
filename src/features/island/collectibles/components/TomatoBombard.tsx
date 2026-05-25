@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import bombardClick from "assets/sfts/tomato_bombard_click.png";

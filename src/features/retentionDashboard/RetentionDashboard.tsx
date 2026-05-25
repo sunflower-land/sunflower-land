@@ -11,9 +11,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useAuth } from "features/auth/lib/Provider";
 import {
-  RetentionDataResponse,
+  type RetentionDataResponse,
   getRetentionData,
-  RetentionEntry,
+  type RetentionEntry,
 } from "./actions/getRetentionData";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 

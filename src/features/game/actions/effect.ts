@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
 

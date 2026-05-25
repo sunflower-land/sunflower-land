@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Loading } from "features/auth/components";
-import { LeaguesLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import type { LeaguesLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
-import { CropName } from "features/game/types/crops";
+import type { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 

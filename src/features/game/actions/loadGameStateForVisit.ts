@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;

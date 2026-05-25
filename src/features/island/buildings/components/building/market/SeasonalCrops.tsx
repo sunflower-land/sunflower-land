@@ -5,18 +5,18 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
   ALL_PRODUCE,
-  Crop,
+  type Crop,
   CROPS,
-  GreenHouseCrop,
-  ProduceName,
+  type GreenHouseCrop,
+  type ProduceName,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
+import type { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
-import { ExoticCrop } from "features/game/types/beans";
+import type { ExoticCrop } from "features/game/types/beans";
 import { getKeys } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
@@ -28,7 +28,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { isExoticCrop } from "features/game/types/crops";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";

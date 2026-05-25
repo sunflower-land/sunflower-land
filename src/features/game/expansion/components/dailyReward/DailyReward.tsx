@@ -9,7 +9,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { DailyRewardClaim } from "features/game/components/DailyReward";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 const _bumpkinLevel = (state: MachineState) =>

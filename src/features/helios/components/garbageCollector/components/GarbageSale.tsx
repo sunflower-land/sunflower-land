@@ -7,14 +7,14 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Decimal } from "decimal.js-light";
+import type { Decimal } from "decimal.js-light";
 
-import { GARBAGE, GarbageName } from "features/game/types/garbage";
+import { GARBAGE, type GarbageName } from "features/game/types/garbage";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
 import {
   isCollectible,
   getItemCount,

@@ -13,7 +13,7 @@ import {
   getBoostedAgingTimeMs,
 } from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 
 export type StartAgingAction = {

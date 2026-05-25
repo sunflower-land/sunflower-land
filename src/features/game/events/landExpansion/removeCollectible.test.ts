@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   removeCollectible,
   REMOVE_COLLECTIBLE_ERRORS,

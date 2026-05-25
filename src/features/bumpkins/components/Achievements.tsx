@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import {
-  AchievementName,
+  type AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
 import { getKeys } from "lib/object";
@@ -18,7 +18,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const CONTENT_HEIGHT = 350;
 interface Props {

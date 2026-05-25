@@ -7,7 +7,7 @@ import {
   spiceRackCollectedActivity,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getAgingOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";

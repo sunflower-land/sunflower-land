@@ -5,12 +5,12 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
-  FlowerCrossBreedName,
+  type FlowerCrossBreedName,
   FLOWERS,
-  FlowerSeedName,
+  type FlowerSeedName,
   isFlowerSeed,
 } from "features/game/types/flowers";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import {
   isTemporaryCollectibleActive,

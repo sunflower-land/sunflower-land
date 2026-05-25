@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { Context } from "features/game/GameProvider";
-import { WaveModalData, waveModalManager } from "./lib/waveModalManager";
+import { type WaveModalData, waveModalManager } from "./lib/waveModalManager";
 import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 const _username = (state: MachineState) => state.context.state.username;

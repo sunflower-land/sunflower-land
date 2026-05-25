@@ -5,10 +5,10 @@ import bannerSummer from "assets/decorations/banners/winds-of-change_summer.webp
 import bannerAutumn from "assets/decorations/banners/winds-of-change_autumn.webp";
 import bannerWinter from "assets/decorations/banners/winds-of-change_winter.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useGame } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { TemperateSeasonName } from "features/game/types/game";
+import type { TemperateSeasonName } from "features/game/types/game";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const _currentSeason = (state: MachineState) =>

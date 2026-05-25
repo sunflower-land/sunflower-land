@@ -4,11 +4,11 @@ import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
 import debounce from "lodash.debounce";
-import { Player } from "../types/Room";
-import { NPCName, acknowledgedNPCs } from "lib/npcs";
-import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
+import type { Player } from "../types/Room";
+import { type NPCName, acknowledgedNPCs } from "lib/npcs";
+import type { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
-import {
+import type {
   FactionName,
   GameState,
   InventoryItemName,
@@ -16,7 +16,7 @@ import {
   Order,
 } from "features/game/types/game";
 import { hasOrderRequirements } from "features/island/delivery/components/Orders";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_IDS } from "features/game/types";

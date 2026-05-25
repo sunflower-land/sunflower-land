@@ -13,9 +13,9 @@ import betterTogetherBanner from "assets/decorations/banners/better_together_ban
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
-import { BeachBountyChapterArtefact } from "./treasure";
+import type { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
-import { ChapterFish } from "./fishing";
+import type { ChapterFish } from "./fishing";
 import { getObjectEntries } from "lib/object";
 import { CONFIG } from "lib/config";
 

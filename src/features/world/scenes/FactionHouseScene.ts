@@ -2,15 +2,19 @@ import { BaseScene } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getWeekKey } from "features/game/lib/factions";
-import { CollectivePet, Faction, FactionName } from "features/game/types/game";
+import type {
+  CollectivePet,
+  Faction,
+  FactionName,
+} from "features/game/types/game";
 import { FACTION_PET_REFRESH_INTERVAL } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
-import { PetStateSprite } from "./SunflorianHouseScene";
+import type { PetStateSprite } from "./SunflorianHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
-import { EventObject } from "xstate";
+import type { EventObject } from "xstate";
 
 type FactionPetStateCoords = Record<
   FactionName,

@@ -17,7 +17,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SFTDetailPopoverContent } from "components/ui/SFTDetailPopover";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const _festiveTrees = (state: MachineState) =>
   state.context.state.collectibles["Festive Tree"] ||

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { bulkPlant, getAvailablePlots } from "./bulkPlant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 

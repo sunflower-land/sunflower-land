@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
-  Auction,
-  MachineInterpreter,
+  type Auction,
+  type MachineInterpreter,
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
-import {
+import type {
   AuctionNFT,
   GameState,
   InventoryItemName,
@@ -16,11 +16,11 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
 import {
   getCurrentChapter,
-  ChapterName,
+  type ChapterName,
   CHAPTERS,
 } from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -35,7 +35,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { isMobile } from "mobile-device-detect";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { getAuctionItemType } from "features/retreat/components/auctioneer/lib/getAuctionItemType";
 import { getAuctionItemDisplay } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
 import { useNow } from "lib/utils/hooks/useNow";

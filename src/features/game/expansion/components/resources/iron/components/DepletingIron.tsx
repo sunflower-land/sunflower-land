@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";

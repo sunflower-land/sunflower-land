@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MilestoneName } from "features/game/types/milestones";
+import type { MilestoneName } from "features/game/types/milestones";
 import React from "react";
 
 interface Props {

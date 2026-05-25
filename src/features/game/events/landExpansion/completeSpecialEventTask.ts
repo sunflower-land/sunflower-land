@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { SpecialEventName } from "features/game/types/specialEvents";
+import type { SpecialEventName } from "features/game/types/specialEvents";
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
 export type CompleteSpecialEventTaskAction = {

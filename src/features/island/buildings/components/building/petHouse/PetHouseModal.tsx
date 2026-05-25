@@ -5,7 +5,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
-import { Pet, PetName, PetNFT } from "features/game/types/pets";
+import type { Pet, PetName, PetNFT } from "features/game/types/pets";
 import { ManagePets } from "./ManagePets";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
-import { MinigameName } from "features/game/types/minigames";
+import type { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
@@ -16,13 +16,13 @@ import { CONFIG } from "lib/config";
 
 import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { Box } from "components/ui/Box";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/flower_token.webp";
-import { IPortalDonation, PortalDonation } from "./PortalDonation";
+import { type IPortalDonation, PortalDonation } from "./PortalDonation";
 import { getCachedFont } from "lib/utils/fonts";
 
 type PortalPurchase = {

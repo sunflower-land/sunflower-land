@@ -1,14 +1,14 @@
 import mapJSON from "assets/map/beach.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 
 import { getUTCDateString } from "lib/utils/time";
-import { BumpkinContainer } from "../containers/BumpkinContainer";
+import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "lib/object";
 import {
   DESERT_GRID_HEIGHT,
@@ -20,13 +20,13 @@ import {
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 import { npcModalManager } from "../ui/NPCModals";
 import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
-import { EventObject } from "xstate/lib/types";
+import type { EventObject } from "xstate/lib/types";
 
 const convertToSnakeCase = (str: string) => {
   return str.replaceAll(" ", "_").toLowerCase();

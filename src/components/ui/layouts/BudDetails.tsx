@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
-import { Bud } from "features/game/types/buds";
+import type { Bud } from "features/game/types/buds";
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getBudImage } from "lib/buds/types";

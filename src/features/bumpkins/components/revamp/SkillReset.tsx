@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
-import { PaymentType } from "features/game/events/landExpansion/resetSkills";
+import type { PaymentType } from "features/game/events/landExpansion/resetSkills";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";

@@ -1,4 +1,4 @@
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 
 /**
  * Convert game items onto a X,Y Grid

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
-import {
+import type {
   BumpkinBody,
   BumpkinHair,
   BumpkinBackground,
@@ -10,7 +10,7 @@ import {
   BumpkinAura,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ZoomContext } from "components/ZoomProvider";
 import { SpringValue } from "react-spring";
 import { ITEM_IDS } from "features/game/types/bumpkin";

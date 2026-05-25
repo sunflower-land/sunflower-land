@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { supplyCookingOil } from "./supplyCookingOil";
 import Decimal from "decimal.js-light";

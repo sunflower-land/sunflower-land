@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { FirePit } from "./firePit/FirePit";
 import { Market } from "./market/Market";
 import { WorkBench } from "./workBench/WorkBench";
@@ -17,12 +17,12 @@ import { Toolshed } from "./toolshed/Toolshed";
 import { TownCenter } from "./townCenter/TownCenter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
 import { Mansion } from "./mansion/Mansion";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,

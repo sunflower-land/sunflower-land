@@ -13,7 +13,7 @@ import { PortalExampleHUD } from "./components/PortalExampleHUD";
 import { PortalExamplePhaser } from "./PortalExamplePhaser";
 
 import { authorisePortal } from "../lib/portalUtil";
-import { PortalMachineState } from "./lib/portalMachine";
+import type { PortalMachineState } from "./lib/portalMachine";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import { getFont, getLanguage } from "../actions/loadPortal";

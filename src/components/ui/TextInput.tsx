@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { type ChangeEvent, useState } from "react";
 import classNames from "classnames";
 
 import bg from "assets/ui/input_box_border.png";

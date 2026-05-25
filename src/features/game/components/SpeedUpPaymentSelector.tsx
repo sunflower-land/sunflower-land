@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
-import { UseSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
+import type { UseSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
 
 interface Props {
   payment: UseSpeedUpPayment;

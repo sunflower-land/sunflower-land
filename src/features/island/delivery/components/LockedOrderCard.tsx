@@ -7,8 +7,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
-import { NPCName } from "lib/npcs";
-import { DeliveryNpcName, NPC_DELIVERY_LEVELS } from "../lib/delivery";
+import type { NPCName } from "lib/npcs";
+import { type DeliveryNpcName, NPC_DELIVERY_LEVELS } from "../lib/delivery";
 
 export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
   return (

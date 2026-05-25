@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName, Wardrobe } from "./game";
+import type { GameState, InventoryItemName, Wardrobe } from "./game";
 
 export type BonusName =
   | "discord-signup"

@@ -1,9 +1,12 @@
 import { getObjectEntries } from "lib/object";
-import { Bud } from "../types/buds";
-import { GameState } from "../types/game";
+import type { Bud } from "../types/buds";
+import type { GameState } from "../types/game";
 import { getAuraBoost } from "./getBudYieldBoosts";
-import { Consumable, FISH_CONSUMABLES } from "features/game/types/consumables";
-import { BudNFTName } from "features/game/types/marketplace";
+import {
+  type Consumable,
+  FISH_CONSUMABLES,
+} from "features/game/types/consumables";
+import type { BudNFTName } from "features/game/types/marketplace";
 
 const getTypeBoost = (bud: Bud, food: Consumable): number => {
   if (food.name in FISH_CONSUMABLES && bud.type === "Port") {

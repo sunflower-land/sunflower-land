@@ -1,7 +1,7 @@
 import mapJSON from "assets/map/sunflorian_house.json";
 
-import { SceneId } from "../mmoMachine";
-import { NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import type { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
-  BuildingName,
+  type BuildingName,
   isProcessingBuilding,
 } from "features/game/types/buildings";
 import { Panel } from "components/ui/Panel";

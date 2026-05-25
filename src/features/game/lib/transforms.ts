@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { GameState, InventoryItemName } from "../types/game";
+import type { GameState, InventoryItemName } from "../types/game";
 
 /**
  * Converts API response into a game state

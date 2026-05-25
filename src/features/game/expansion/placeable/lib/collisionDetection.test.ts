@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   detectCollision,
   isOverlapping,
   isWithinAOE,
-  Position,
+  type Position,
 } from "./collisionDetection";
-import { Dimensions } from "features/game/types/buildings";
+import type { Dimensions } from "features/game/types/buildings";
 import cloneDeep from "lodash.clonedeep";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
-import { Message, Player } from "../ModerationTools";
+import type { Message, Player } from "../ModerationTools";
 import { isModerator } from "../tabs/PlayerList";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { isMobile } from "mobile-device-detect";

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useState } from "react";
 import { Context } from "../../../GameProvider";
-import { MachineState } from "../../../lib/gameMachine";
+import type { MachineState } from "../../../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import calendarIcon from "assets/icons/calendar.webp";
 import { PIXEL_SCALE } from "../../../lib/constants";
@@ -12,10 +12,10 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useTranslation } from "react-i18next";
 import {
-  CalendarEventName,
+  type CalendarEventName,
   SEASON_DETAILS,
 } from "features/game/types/calendar";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DateCard } from "./DateCard";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { SeasonDayDetails } from "./SeasonDayDetails";

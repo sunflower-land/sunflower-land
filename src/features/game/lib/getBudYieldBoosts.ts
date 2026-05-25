@@ -1,22 +1,22 @@
 import { isAdvancedCrop, isBasicCrop, isMediumCrop } from "../types/crops";
 import { getUniqueAnimalResources } from "../types/animals";
-import { Bud, StemTrait, TypeTrait } from "../types/buds";
+import type { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
   CROPS,
-  CropName,
+  type CropName,
   GREENHOUSE_CROPS,
-  GreenHouseCropName,
+  type GreenHouseCropName,
 } from "../types/crops";
 import {
   GREENHOUSE_FRUIT,
-  GreenHouseFruitName,
+  type GreenHouseFruitName,
   PATCH_FRUIT,
-  PatchFruitName,
+  type PatchFruitName,
 } from "../types/fruits";
-import { AnimalResource, GameState } from "../types/game";
-import { CommodityName, MushroomName } from "../types/resources";
+import type { AnimalResource, GameState } from "../types/game";
+import type { CommodityName, MushroomName } from "../types/resources";
 import { getObjectEntries } from "lib/object";
-import { BudNFTName } from "../types/marketplace";
+import type { BudNFTName } from "../types/marketplace";
 
 export type Resource =
   | CommodityName

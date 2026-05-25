@@ -12,13 +12,13 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import {
+import type { MachineState } from "features/game/lib/gameMachine";
+import type {
   FloatingShopItem,
   FloatingShopItemName,
 } from "features/game/types/floatingIsland";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {

@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import {
   isWithinAOE,
-  Position,
+  type Position,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   isCollectibleOnFarm,
@@ -20,7 +20,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState, BoostName, Rock, AOE } from "features/game/types/game";
+import type { GameState, BoostName, Rock, AOE } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";

@@ -1,6 +1,6 @@
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import {
+import type {
   MarketplaceTradeableName,
   CollectionName,
 } from "features/game/types/marketplace";

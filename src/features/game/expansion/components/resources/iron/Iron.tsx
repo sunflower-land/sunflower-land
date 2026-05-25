@@ -4,10 +4,10 @@ import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { InventoryItemName, Rock, Skills } from "features/game/types/game";
+import type { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
@@ -15,7 +15,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import { IronRockName, RockName } from "features/game/types/resources";
+import type { IronRockName, RockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
 

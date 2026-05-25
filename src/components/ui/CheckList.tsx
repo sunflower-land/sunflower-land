@@ -5,13 +5,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, InnerPanel, OuterPanel } from "./Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Label, LabelType } from "./Label";
+import { Label, type LabelType } from "./Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getStreaks } from "features/world/ui/beach/Digby";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
@@ -23,8 +23,8 @@ import {
   secondsToString,
 } from "lib/utils/time";
 import { getKeys, getObjectEntries } from "lib/object";
-import { Bud } from "features/game/types/buds";
-import { MinigameName } from "features/game/types/minigames";
+import type { Bud } from "features/game/types/buds";
+import type { MinigameName } from "features/game/types/minigames";
 import { ModalOverlay } from "./ModalOverlay";
 import swords from "assets/icons/factions.webp";
 import gift from "assets/icons/gift.png";

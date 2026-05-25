@@ -1,4 +1,4 @@
-import { CropName } from "features/game/types/crops";
+import type { CropName } from "features/game/types/crops";
 import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 
@@ -17,7 +17,7 @@ import wheatProc from "assets/crops/wheat/proc_sprite.png";
 import kaleProc from "assets/crops/kale/proc_sprite.png";
 import soybeanProc from "assets/crops/soybean/proc_sprite.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProc,

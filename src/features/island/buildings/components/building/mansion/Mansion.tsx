@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { useVisiting } from "lib/utils/visitUtils";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";

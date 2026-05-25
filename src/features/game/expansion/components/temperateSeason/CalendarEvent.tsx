@@ -8,7 +8,7 @@ import {
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { WeatherEvent } from "./WeatherEvent";
 import { SUNNYSIDE } from "assets/sunnyside";

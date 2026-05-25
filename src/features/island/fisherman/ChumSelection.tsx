@@ -4,7 +4,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import {
   getTranslatedItemName,
   ITEM_DETAILS,
@@ -12,8 +12,8 @@ import {
 import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
-  Chum,
-  FishingBait,
+  type Chum,
+  type FishingBait,
   normalizeBaitForWormMechanics,
 } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

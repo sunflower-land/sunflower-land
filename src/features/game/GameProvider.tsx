@@ -10,8 +10,8 @@ import {
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
-import { startGame, MachineInterpreter } from "./lib/gameMachine";
-import { InventoryItemName } from "./types/game";
+import { startGame, type MachineInterpreter } from "./lib/gameMachine";
+import type { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
   getShowAnimationsSetting,

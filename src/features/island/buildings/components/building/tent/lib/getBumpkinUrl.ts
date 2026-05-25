@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 const URL =
   CONFIG.NETWORK === "mainnet"

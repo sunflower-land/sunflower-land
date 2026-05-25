@@ -1,10 +1,10 @@
-import { BumpkinItem } from "./bumpkin";
-import { GameState, InventoryItemName, IslandType } from "./game";
+import type { BumpkinItem } from "./bumpkin";
+import type { GameState, InventoryItemName, IslandType } from "./game";
 import { KNOWN_ITEMS } from ".";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
-import { PetNFTName } from "./pets";
+import type { PetNFTName } from "./pets";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 

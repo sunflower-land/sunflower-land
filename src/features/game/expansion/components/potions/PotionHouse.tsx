@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
 import {
-  PotionHouseMachineInterpreter,
+  type PotionHouseMachineInterpreter,
   potionHouseMachine,
 } from "./lib/potionHouseMachine";
 import { useActor, useInterpret } from "@xstate/react";

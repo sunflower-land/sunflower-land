@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "lib/object";
 import {
-  Decoration,
+  type Decoration,
   POTION_HOUSE_DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
@@ -15,7 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   POTION_HOUSE_EXOTIC_CROPS,
   POTION_HOUSE_ITEMS,
-  PotionHouseItem,
+  type PotionHouseItem,
 } from "features/game/types/collectibles";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isExoticCrop } from "features/game/types/crops";

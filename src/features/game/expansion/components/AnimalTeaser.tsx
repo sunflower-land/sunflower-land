@@ -9,7 +9,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

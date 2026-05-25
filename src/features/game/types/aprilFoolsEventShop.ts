@@ -1,6 +1,6 @@
-import { FlowerBox } from "../events/landExpansion/buyChapterItem";
-import { BumpkinItem } from "./bumpkin";
-import { InventoryItemName } from "./game";
+import type { FlowerBox } from "../events/landExpansion/buyChapterItem";
+import type { BumpkinItem } from "./bumpkin";
+import type { InventoryItemName } from "./game";
 import { APRIL_FOOLS_STORE } from "./minigameShop";
 
 export type EventTierItemName =

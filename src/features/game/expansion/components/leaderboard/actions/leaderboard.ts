@@ -1,16 +1,16 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import {
-  Leaderboards,
+  type Leaderboards,
   cacheLeaderboard,
   getCachedLeaderboardData,
 } from "./cache";
-import { FactionName, MazeAttempt } from "features/game/types/game";
+import type { FactionName, MazeAttempt } from "features/game/types/game";
 import { getWeekKey } from "features/game/lib/factions";
-import { CompetitionName } from "features/game/types/competitions";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { MinigameName } from "features/game/types/minigames";
-import { LeagueId, LeagueName } from "features/leagues/leagues";
+import type { CompetitionName } from "features/game/types/competitions";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { MinigameName } from "features/game/types/minigames";
+import type { LeagueId, LeagueName } from "features/leagues/leagues";
 import { NPC_WEARABLES } from "lib/npcs";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 

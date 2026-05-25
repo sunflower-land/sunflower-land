@@ -10,7 +10,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { MinigameName } from "features/game/types/minigames";
+import type { MinigameName } from "features/game/types/minigames";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 

@@ -1,4 +1,4 @@
-import { ISLAND_EXPANSIONS, IslandType } from "../types/game";
+import { ISLAND_EXPANSIONS, type IslandType } from "../types/game";
 
 export function hasRequiredIslandExpansion(
   island: IslandType,

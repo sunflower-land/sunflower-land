@@ -3,18 +3,18 @@ import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router";
-import { SceneId } from "./mmoMachine";
+import type { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
 
 import {
-  MachineInterpreter as MMOMachineInterpreter,
+  type MachineInterpreter as MMOMachineInterpreter,
   mmoMachine,
-  MachineState as MMOMachineState,
+  type MachineState as MMOMachineState,
 } from "./mmoMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
@@ -25,7 +25,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
 
 import { Loading } from "features/auth/components";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";

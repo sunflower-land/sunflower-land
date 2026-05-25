@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { removeCrimstone, REMOVE_CRIMSTONE_ERRORS } from "./removeCrimstone";
 
 const GAME_STATE: GameState = {

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -13,8 +13,8 @@ import {
   SMOOTHIE_SHACK_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";

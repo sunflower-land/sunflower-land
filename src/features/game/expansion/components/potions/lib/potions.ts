@@ -1,6 +1,6 @@
-import { Potion } from "./types";
+import type { Potion } from "./types";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PotionName } from "features/game/types/game";
+import type { PotionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
 export const POTIONS: Record<PotionName, Potion> = {

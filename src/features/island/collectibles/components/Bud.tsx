@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import shadow from "assets/npcs/shadow.png";
-import { TypeTrait } from "features/game/types/buds";
+import type { TypeTrait } from "features/game/types/buds";
 import classNames from "classnames";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SFTDetailPopoverInnerPanel } from "components/ui/SFTDetailPopover";
@@ -15,7 +15,7 @@ import { useSelector } from "@xstate/react";
 import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { formatNumber } from "lib/utils/formatNumber";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { getBudImage } from "lib/buds/types";
 
 type Props = {

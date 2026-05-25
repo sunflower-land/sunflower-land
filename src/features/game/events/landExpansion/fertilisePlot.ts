@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
-import { CropCompostName } from "features/game/types/composters";
-import { CROPS, Crop, isBasicCrop } from "features/game/types/crops";
+import type { GameState } from "../../types/game";
+import type { CropCompostName } from "features/game/types/composters";
+import { CROPS, type Crop, isBasicCrop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import {
-  Position,
+  type Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleOnFarm, setAOEAvailableAt } from "features/game/lib/aoe";

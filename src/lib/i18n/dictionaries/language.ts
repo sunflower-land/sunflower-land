@@ -9,7 +9,7 @@ import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
 import GERMAN_TERMS from "./de.json";
 import JAPANESE_TERMS from "./ja.json";
-import { TranslationKeys } from "./types";
+import type { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.webp";
 import usaFlag from "assets/sfts/flags/usa_flag.webp";

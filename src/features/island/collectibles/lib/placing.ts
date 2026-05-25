@@ -1,13 +1,13 @@
-import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
-import { BUILDINGS, BuildingName } from "features/game/types/buildings";
+import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import { BUILDINGS, type BuildingName } from "features/game/types/buildings";
 import {
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
+  type CollectibleName,
 } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   RESOURCE_STATE_ACCESSORS,
-  ResourceName,
+  type ResourceName,
 } from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 

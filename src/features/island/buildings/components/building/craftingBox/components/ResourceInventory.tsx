@@ -3,14 +3,14 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import {
   CRAFTABLE_BEARS,
-  RecipeIngredient,
+  type RecipeIngredient,
   RECIPES,
 } from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
-import { ChapterName } from "features/game/types/chapters";
+import type { InventoryItemName } from "features/game/types/game";
+import type { ChapterName } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { validCraftingResourcesSorted } from "./craftingTabConstants";
 

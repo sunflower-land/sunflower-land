@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import {
-  MinigameName,
+  type MinigameName,
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";

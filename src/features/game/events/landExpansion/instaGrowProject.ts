@@ -1,6 +1,9 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
-import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
+import type { GameState } from "features/game/types/game";
+import {
+  type MonumentName,
+  REQUIRED_CHEERS,
+} from "features/game/types/monuments";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 

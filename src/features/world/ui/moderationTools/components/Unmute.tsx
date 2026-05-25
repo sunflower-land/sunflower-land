@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
-import { Player } from "../ModerationTools";
+import type { Player } from "../ModerationTools";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 

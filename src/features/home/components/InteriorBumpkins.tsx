@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BedName } from "features/game/types/game";
+import type { BedName } from "features/game/types/game";
 import { NPCIcon, NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
@@ -10,16 +10,16 @@ import { getKeys } from "lib/object";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>

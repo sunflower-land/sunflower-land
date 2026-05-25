@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { type SyntheticEvent, useState } from "react";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -7,7 +7,7 @@ import { TreasureShopSell } from "./TreasureShopSell";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;

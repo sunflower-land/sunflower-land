@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
-import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
-import {
+import type {
+  Recipe,
+  RecipeIngredient,
+  Recipes,
+} from "features/game/lib/crafting";
+import type {
   BoostName,
   CraftingQueueItem,
   GameState,
@@ -14,7 +18,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { KNOWN_IDS } from "features/game/types";
-import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
+import { ITEM_IDS, type BumpkinItem } from "features/game/types/bumpkin";
 import { prngChance } from "lib/prng";
 import { grantCraftedItem } from "./collectCrafting";
 

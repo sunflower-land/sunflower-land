@@ -10,7 +10,7 @@ import { getKeys } from "lib/object";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NPC_WEARABLES, NPCName } from "lib/npcs";
+import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
@@ -25,7 +25,7 @@ import {
   getChoreProgress,
   NPC_CHORE_UNLOCKS,
   NPC_CHORES,
-  NpcChore,
+  type NpcChore,
 } from "features/game/types/choreBoard";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -33,7 +33,7 @@ import { Button } from "components/ui/Button";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
 
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 import { CHORE_DIALOGUES } from "features/game/types/stories";

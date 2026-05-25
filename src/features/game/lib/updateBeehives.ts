@@ -1,4 +1,4 @@
-import {
+import type {
   Beehive,
   Beehives,
   BoostName,

@@ -1,5 +1,5 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameState, Rock } from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { GameState, Rock } from "features/game/types/game";
 import { canMine } from "features/game/lib/resourceNodes";
 import { produce } from "immer";
 

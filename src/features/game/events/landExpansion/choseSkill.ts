@@ -1,12 +1,12 @@
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
-  BumpkinRevampSkillName,
+  type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
-  BumpkinRevampSkillTree,
-  BumpkinSkillTier,
+  type BumpkinRevampSkillTree,
+  type BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
-import { Bumpkin, GameState } from "features/game/types/game";
+import type { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
 

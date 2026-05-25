@@ -3,18 +3,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { BasketButton } from "./BasketButton";
-import { SeedName, SEEDS } from "features/game/types/seeds";
-import {
+import { type SeedName, SEEDS } from "features/game/types/seeds";
+import type {
   LandscapingPlaceable,
   LandscapingPlaceableType,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { Context } from "features/game/GameProvider";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { ChestButton } from "./ChestButton";
 import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

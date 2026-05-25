@@ -1,6 +1,6 @@
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { IDS } from "features/game/types";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import InventoryJSON from "./abis/Inventory";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";

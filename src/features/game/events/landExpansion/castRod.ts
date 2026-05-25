@@ -1,9 +1,9 @@
-import { BoostName, GameState } from "../../types/game";
+import type { BoostName, GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
-  Chum,
-  FishName,
-  FishingBait,
+  type Chum,
+  type FishName,
+  type FishingBait,
   getDailyFishingLimit,
   getSeasonalGuaranteedCatch,
   isGuaranteedBait,

@@ -1,7 +1,7 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PlaceableFlowerName } from "features/game/types/flowers";
+import type { PlaceableFlowerName } from "features/game/types/flowers";
 
 interface Props {
   name: PlaceableFlowerName;

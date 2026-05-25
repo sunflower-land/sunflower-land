@@ -1,4 +1,4 @@
-import { HomeExpansionTier, IslandType } from "features/game/types/game";
+import type { HomeExpansionTier, IslandType } from "features/game/types/game";
 
 /**
  * Interior canvas dimensions (in tiles).

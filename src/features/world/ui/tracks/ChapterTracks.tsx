@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
-  ChapterName,
+  type ChapterName,
   getCurrentChapter,
   getChapterTicket,
 } from "features/game/types/chapters";
@@ -22,8 +22,8 @@ import giftIcon from "assets/icons/gift.png";
 import vipIcon from "assets/icons/vip.webp";
 import {
   CHAPTER_TRACKS,
-  MilestoneRewards,
-  TrackMilestone,
+  type MilestoneRewards,
+  type TrackMilestone,
 } from "features/game/types/tracks";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -35,7 +35,7 @@ import lockIcon from "assets/icons/lock.png";
 import { shortenCount } from "lib/utils/formatNumber";
 import { Modal } from "components/ui/Modal";
 import { Rewards } from "features/game/expansion/components/ClaimReward";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import confetti from "canvas-confetti";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";

@@ -1,12 +1,12 @@
 import React from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 const INNER_CANVAS_WIDTH = 12;
 

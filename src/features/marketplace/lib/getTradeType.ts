@@ -1,7 +1,7 @@
 import { KNOWN_ITEMS } from "features/game/types";
-import { BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
-import { CollectionName } from "features/game/types/marketplace";
+import { type BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
+import type { CollectionName } from "features/game/types/marketplace";
 
 export type TradeType = "instant" | "onchain";
 

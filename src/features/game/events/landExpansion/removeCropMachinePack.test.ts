@@ -1,9 +1,9 @@
 import { removeCropMachinePack } from "./removeCropMachinePack";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 import Decimal from "decimal.js-light";
-import {
+import type {
   CropMachineBuilding,
   CropMachineQueueItem,
 } from "features/game/types/game";

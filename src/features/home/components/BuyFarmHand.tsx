@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BB_TO_GEM_RATIO, GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, type GameState } from "features/game/types/game";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";

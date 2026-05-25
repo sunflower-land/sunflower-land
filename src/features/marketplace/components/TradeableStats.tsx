@@ -5,8 +5,8 @@ import increaseArrow from "assets/icons/increase_arrow.png";
 import decreaseArrow from "assets/icons/decrease_arrow.png";
 import {
   getPriceHistory,
-  PriceHistory,
-  SaleHistory,
+  type PriceHistory,
+  type SaleHistory,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";

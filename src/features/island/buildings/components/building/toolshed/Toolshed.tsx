@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { TOOLSHED_VARIANTS } from "features/island/lib/alternateArt";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 

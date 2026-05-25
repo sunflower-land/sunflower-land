@@ -1,19 +1,19 @@
-import { createMachine, Interpreter, State, assign } from "xstate";
+import { createMachine, type Interpreter, type State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ERRORS, ErrorCode } from "lib/errors";
+import { ERRORS, type ErrorCode } from "lib/errors";
 
 import {
   saveReferrerId,
   getReferrerId as getReferrerIdFromLS,
 } from "../actions/createAccount";
-import { login, Token, decodeToken } from "../actions/login";
+import { login, type Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { loadSession } from "features/game/actions/loadSession";
+import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
-import { signUp, UTM } from "../actions/signup";
+import { signUp, type UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;

@@ -6,7 +6,7 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
-import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
+import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 
 export interface DepositArgs {
   account: `0x${string}`;

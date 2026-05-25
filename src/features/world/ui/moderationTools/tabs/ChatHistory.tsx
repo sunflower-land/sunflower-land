@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Message, Player } from "../ModerationTools";
+import type { Message, Player } from "../ModerationTools";
 import { OuterPanel } from "components/ui/Panel";
 import { MuteModal } from "../components/Mute";
 

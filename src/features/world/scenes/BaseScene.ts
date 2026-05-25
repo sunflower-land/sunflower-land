@@ -1,27 +1,30 @@
-import Phaser, { Physics } from "phaser";
+import Phaser, { type Physics } from "phaser";
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { PetNFTType } from "features/game/types/pets";
+import type { PetNFTType } from "features/game/types/pets";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { EventObject } from "xstate";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
-import { SPAWNS, SpawnFromId } from "../lib/spawn";
-import { AudioController, WalkAudioController } from "../lib/AudioController";
-import { createErrorLogger } from "lib/errorLogger";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Footsteps } from "assets/sound-effects/soundEffects";
+import { SPAWNS, type SpawnFromId } from "../lib/spawn";
 import {
+  type AudioController,
+  WalkAudioController,
+} from "../lib/AudioController";
+import { createErrorLogger } from "lib/errorLogger";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Footsteps } from "assets/sound-effects/soundEffects";
+import type {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
-import { MicroInteraction, Player, PlazaRoomState } from "../types/Room";
-import {
+import type { MicroInteraction, Player, PlazaRoomState } from "../types/Room";
+import type {
   FactionName,
   GameState,
   IslandType,
@@ -29,13 +32,13 @@ import {
 } from "features/game/types/game";
 import { hasOrderRequirements } from "features/island/delivery/components/Orders";
 import { translate } from "lib/i18n/translate";
-import { Room } from "colyseus.js";
+import type { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
-import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
-import { PhaserNavMesh } from "phaser-navmesh";
+import type { MachineInterpreter } from "features/game/lib/gameMachine";
+import type { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
+import type { PhaserNavMesh } from "phaser-navmesh";
 import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
@@ -43,7 +46,7 @@ import {
 import { NightShaderPipeline } from "../shaders/nightShader";
 import {
   PLAZA_SHADER_EVENT,
-  PlazaShader,
+  type PlazaShader,
   PlazaShaders,
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
@@ -54,7 +57,7 @@ import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import {
   playerModalManager,
-  PlayerModalPlayer,
+  type PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
 import { waveModalManager } from "features/social/lib/waveModalManager";

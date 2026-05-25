@@ -1,11 +1,11 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { BoostName, GameState } from "../../types/game";
+import type { BoostName, GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import {
   caughtCrustacean,
-  CrustaceanName,
+  type CrustaceanName,
 } from "features/game/types/crustaceans";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";

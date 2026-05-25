@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
-import { RaffleDefinition } from "features/retreat/components/auctioneer/types";
+import type { RaffleDefinition } from "features/retreat/components/auctioneer/types";
 import { RaffleCard } from "./UpcomingRaffles";
 
 const rafflesFetcher = async ([, token]: [string, string]): Promise<

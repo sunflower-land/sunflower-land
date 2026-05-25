@@ -1,6 +1,6 @@
-import Decimal from "decimal.js-light";
-import { Ingredient } from "features/game/types/craftables";
-import { Coordinates } from "../components/MapPlacement";
+import type Decimal from "decimal.js-light";
+import type { Ingredient } from "features/game/types/craftables";
+import type { Coordinates } from "../components/MapPlacement";
 
 export const LAND_SIZE = 6;
 

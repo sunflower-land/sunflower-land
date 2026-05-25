@@ -1,4 +1,4 @@
-import { PetTraits } from "./types";
+import type { PetTraits } from "./types";
 
 export const PETS_NFT_DATA: Record<number, PetTraits> = {
   "1": {

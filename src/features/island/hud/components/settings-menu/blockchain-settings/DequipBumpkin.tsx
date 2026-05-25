@@ -5,7 +5,10 @@ import walletIcon from "assets/icons/wallet.png";
 
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import {
+  type OnChainBumpkin,
+  loadBumpkins,
+} from "lib/blockchain/BumpkinDetails";
 import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";

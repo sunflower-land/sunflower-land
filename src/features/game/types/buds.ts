@@ -1,5 +1,5 @@
-import { Coordinates } from "../expansion/components/MapPlacement";
-import { PlaceableLocation } from "./collectibles";
+import type { Coordinates } from "../expansion/components/MapPlacement";
+import type { PlaceableLocation } from "./collectibles";
 
 export type TraitGroup =
   | "types"

@@ -1,16 +1,16 @@
-import { GameState, Rock } from "features/game/types/game";
+import type { GameState, Rock } from "features/game/types/game";
 import {
   RESOURCE_MULTIPLIER,
-  GoldRockName,
+  type GoldRockName,
   ADVANCED_RESOURCES,
-  UpgradedResourceName,
+  type UpgradedResourceName,
 } from "features/game/types/resources";
 import { produce } from "immer";
 import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceGoldAction = {
   type: "gold.placed";

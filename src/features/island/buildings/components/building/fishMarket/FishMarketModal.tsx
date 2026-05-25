@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import vipIcon from "assets/icons/vip.webp";
 
 import { Context } from "features/game/GameProvider";
-import {
+import type {
   BoostName,
   BuildingProduct,
   InventoryItemName,
@@ -21,7 +21,7 @@ import {
   getFishProcessingRequirements,
   isProcessedFood,
 } from "features/game/types/fishProcessing";
-import { ProcessedResource } from "features/game/types/processedFood";
+import type { ProcessedResource } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getFishProcessingTime,
@@ -34,7 +34,7 @@ import { Queue } from "../Queue";
 import { Label } from "components/ui/Label";
 import process from "assets/icons/process.webp";
 import { NPC_WEARABLES } from "lib/npcs";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "lib/object";

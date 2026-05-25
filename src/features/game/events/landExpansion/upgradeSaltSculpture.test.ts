@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { upgradeSaltSculpture } from "./upgradeSaltSculpture";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const createdAt = 1_700_000_000_000;
 

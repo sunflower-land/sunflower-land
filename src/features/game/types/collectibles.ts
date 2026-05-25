@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { Inventory, Keys } from "./game";
+import type { Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { CHAPTERS } from "./chapters";
-import { ExoticCropName } from "./beans";
+import type { ExoticCropName } from "./beans";
 
 export const PLACEABLE_LOCATIONS = [
   "farm",

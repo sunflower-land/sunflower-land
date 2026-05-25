@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { AnimatedBar } from "components/ui/ProgressBar";
 import {
   ANIMAL_LEVELS,
-  AnimalLevel,
-  AnimalType,
+  type AnimalLevel,
+  type AnimalType,
 } from "features/game/types/animals";
 import { getAnimalLevel, isMaxLevel } from "features/game/lib/animals";
-import { TState } from "features/game/lib/animalMachine";
+import type { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Animal } from "features/game/types/game";
+import type { Animal } from "features/game/types/game";
 import { getKeys } from "lib/object";
 
 type Props = {

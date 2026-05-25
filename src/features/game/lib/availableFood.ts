@@ -2,14 +2,14 @@ import {
   COOKABLES,
   PIRATE_CAKE,
   FISH,
-  Consumable,
+  type Consumable,
   FACTION_FOOD,
   TRADE_FOOD,
   AGED_FISH,
   PRIME_AGED_FISH,
 } from "features/game/types/consumables";
-import { Inventory } from "features/game/types/game";
-import { BuildingName } from "features/game/types/buildings";
+import type { Inventory } from "features/game/types/game";
+import type { BuildingName } from "features/game/types/buildings";
 
 export const BUILDING_ORDER: BuildingName[] = [
   "Fire Pit",

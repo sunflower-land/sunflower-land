@@ -1,5 +1,5 @@
 import { getObjectEntries } from "lib/object";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";

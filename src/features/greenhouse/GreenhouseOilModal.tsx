@@ -5,7 +5,7 @@ import oilIcon from "assets/resources/oil.webp";
 import barrel from "assets/resources/oil_barrel.webp";
 
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
+import type {
   BoostName,
   CropMachineQueueItem,
   GameState,

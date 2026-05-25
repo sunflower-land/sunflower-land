@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
-  ComposterName,
+  type ComposterName,
   SEASON_COMPOST_REQUIREMENTS,
   composterDetails,
 } from "features/game/types/composters";
 import { getKeys } from "lib/object";
-import {
+import type {
   BoostName,
   CompostBuilding,
   GameState,

@@ -5,7 +5,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { Auction } from "features/game/lib/auctionMachine";
+import type { Auction } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -16,7 +16,7 @@ import {
 } from "./auctionCountdownStorage";
 import { getAuctionItemType } from "./lib/getAuctionItemType";
 import { useNow } from "lib/utils/hooks/useNow";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,

@@ -11,9 +11,9 @@ import {
 } from "../../../../../world/lib/availableRooms";
 import {
   fetchAvailableServers,
-  ServerId,
-  ServerName,
-  ServerPurpose,
+  type ServerId,
+  type ServerName,
+  type ServerPurpose,
   getDefaultServer,
   saveDefaultServer,
 } from "../../../../../world/mmoMachine";

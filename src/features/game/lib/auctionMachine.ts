@@ -1,14 +1,14 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, type Interpreter, assign } from "xstate";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
 import { cancelBid as cancelBidAction } from "features/game/actions/cancelBid";
-import {
+import type {
   GameState,
   InventoryItemName,
   AuctionNFT,
 } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
-import { BumpkinItem } from "../types/bumpkin";
+import type { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
 import { loadAuctions } from "features/retreat/components/auctioneer/actions/loadAuctions";
 

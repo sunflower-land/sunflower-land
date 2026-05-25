@@ -1,7 +1,7 @@
 import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
 import { getPetImage } from "features/island/pets/lib/petShared";
-import { PetNFTName } from "features/game/types/pets";
+import type { PetNFTName } from "features/game/types/pets";
 
 /**
  * The props for the component.

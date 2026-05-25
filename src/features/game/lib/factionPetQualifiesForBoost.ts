@@ -1,4 +1,4 @@
-import { FactionPetRequest } from "features/game/types/game";
+import type { FactionPetRequest } from "features/game/types/game";
 import { getKeys } from "lib/object";
 
 /**

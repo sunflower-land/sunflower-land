@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 import { CHOPPED_SHEET_VARIANTS } from "features/island/lib/alternateArt";
-import { TemperateSeasonName } from "features/game/types/game";
+import type { TemperateSeasonName } from "features/game/types/game";
 
 const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;

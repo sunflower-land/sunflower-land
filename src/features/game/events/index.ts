@@ -1,653 +1,776 @@
 import {
-  LandExpansionPlantAction,
+  type LandExpansionPlantAction,
   plant as landExpansionPlant,
 } from "./landExpansion/plant";
 import {
   harvest as landExpansionHarvest,
-  LandExpansionHarvestAction,
+  type LandExpansionHarvestAction,
 } from "./landExpansion/harvest";
 import {
   chop as landExpansionChop,
-  LandExpansionChopAction,
+  type LandExpansionChopAction,
 } from "./landExpansion/chop";
 import {
   mineStone as landExpansionMineStone,
-  LandExpansionStoneMineAction,
+  type LandExpansionStoneMineAction,
 } from "./landExpansion/stoneMine";
 import {
   mineGold as landExpansionMineGold,
-  LandExpansionGoldMineAction,
+  type LandExpansionGoldMineAction,
 } from "./landExpansion/mineGold";
 
 import {
   mineIron as landExpansionIronMine,
-  LandExpansionIronMineAction,
+  type LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
 
-import { bumpkinWave, BumpkinWaveAction } from "./landExpansion/bumpkinWave";
+import {
+  bumpkinWave,
+  type BumpkinWaveAction,
+} from "./landExpansion/bumpkinWave";
 
-import { GameState } from "../types/game";
-import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
+import type { GameState } from "../types/game";
+import { claimAirdrop, type ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
-  PlaceBuildingAction,
+  type PlaceBuildingAction,
 } from "./landExpansion/placeBuilding";
 import {
   constructBuilding,
-  ConstructBuildingAction,
+  type ConstructBuildingAction,
 } from "./landExpansion/constructBuilding";
 import {
   placeCollectible,
-  PlaceCollectibleAction,
+  type PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
 import {
   upgradeInterior,
-  UpgradeInteriorAction,
+  type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
-import { cook, RecipeCookedAction } from "./landExpansion/cook";
+import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
-  CollectRecipeAction,
+  type CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
 import {
   cancelProcessedResource,
-  CancelProcessedResourceAction,
+  type CancelProcessedResourceAction,
 } from "./landExpansion/cancelProcessedResource";
 import {
   processProcessedResource,
-  ProcessProcessedResourceAction,
+  type ProcessProcessedResourceAction,
 } from "./landExpansion/processResource";
 import {
   collectProcessedResource,
-  CollectProcessedResourceAction,
+  type CollectProcessedResourceAction,
 } from "./landExpansion/collectProcessedResource";
 import {
   collectFermentation,
-  CollectFermentationAction,
+  type CollectFermentationAction,
 } from "./landExpansion/collectFermentation";
 import {
   startFermentation,
-  StartFermentationAction,
+  type StartFermentationAction,
 } from "./landExpansion/startFermentation";
-import { startAging, StartAgingAction } from "./landExpansion/startAging";
+import { startAging, type StartAgingAction } from "./landExpansion/startAging";
 import {
   collectAgedFish,
-  CollectAgedFishAction,
+  type CollectAgedFishAction,
 } from "./landExpansion/collectAgedFish";
 import {
   startSpiceRack,
-  StartSpiceRackAction,
+  type StartSpiceRackAction,
 } from "./landExpansion/startSpiceRack";
 import {
   collectSpiceRack,
-  CollectSpiceRackAction,
+  type CollectSpiceRackAction,
 } from "./landExpansion/collectSpiceRack";
-import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
-import { detectBot, DetectBotAction } from "./detectBot";
-import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
-import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
-import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
+import {
+  feedBumpkin,
+  type FeedBumpkinAction,
+} from "./landExpansion/feedBumpkin";
+import { detectBot, type DetectBotAction } from "./detectBot";
+import { choseSkill, type ChoseSkillAction } from "./landExpansion/choseSkill";
+import {
+  resetSkills,
+  type ResetSkillsAction,
+} from "./landExpansion/resetSkills";
+import { seedBought, type SeedBoughtAction } from "./landExpansion/seedBought";
 import {
   claimAchievement,
-  ClaimAchievementAction,
+  type ClaimAchievementAction,
 } from "./landExpansion/claimAchievement";
-import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
+import { craftTool, type CraftToolAction } from "./landExpansion/craftTool";
 import {
   buyDecoration,
-  BuyDecorationAction,
+  type BuyDecorationAction,
 } from "./landExpansion/buyDecoration";
-import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
+import { sellCrop, type SellCropAction } from "./landExpansion/sellCrop";
 import {
   fertilisePlot as landExpansionFertilise,
-  LandExpansionFertiliseCropAction,
+  type LandExpansionFertiliseCropAction,
 } from "./landExpansion/fertilisePlot";
 import {
   removeCrop as landExpansionRemoveCrop,
-  LandExpansionRemoveCropAction,
+  type LandExpansionRemoveCropAction,
 } from "./landExpansion/removeCrop";
 import {
   removeBuilding,
-  RemoveBuildingAction,
+  type RemoveBuildingAction,
 } from "./landExpansion/removeBuilding";
 import {
   removeCollectible,
-  RemoveCollectibleAction,
+  type RemoveCollectibleAction,
 } from "./landExpansion/removeCollectible";
-import { plantFruit, PlantFruitAction } from "./landExpansion/fruitPlanted";
+import {
+  plantFruit,
+  type PlantFruitAction,
+} from "./landExpansion/fruitPlanted";
 import {
   harvestFruit,
-  HarvestFruitAction,
+  type HarvestFruitAction,
 } from "./landExpansion/fruitHarvested";
 import {
-  RemoveFruitTreeAction,
+  type RemoveFruitTreeAction,
   removeFruitTree,
 } from "./landExpansion/fruitTreeRemoved";
 import {
   craftCollectible,
-  CraftCollectibleAction,
+  type CraftCollectibleAction,
 } from "./landExpansion/craftCollectible";
-import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
-import { restock, RestockAction } from "./landExpansion/restock";
-import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
-import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
-import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
-import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
-import { placeStone, PlaceStoneAction } from "./landExpansion/placeStone";
-import { placeGold, PlaceGoldAction } from "./landExpansion/placeGold";
-import { placeIron, PlaceIronAction } from "./landExpansion/placeIron";
+import {
+  sellTreasure,
+  type SellTreasureAction,
+} from "./landExpansion/treasureSold";
+import { restock, type RestockAction } from "./landExpansion/restock";
+import {
+  sellGarbage,
+  type SellGarbageAction,
+} from "./landExpansion/garbageSold";
+import { placeTree, type PlaceTreeAction } from "./landExpansion/placeTree";
+import { expandLand, type ExpandLandAction } from "./landExpansion/expandLand";
+import { placePlot, type PlacePlotAction } from "./landExpansion/placePlot";
+import { placeStone, type PlaceStoneAction } from "./landExpansion/placeStone";
+import { placeGold, type PlaceGoldAction } from "./landExpansion/placeGold";
+import { placeIron, type PlaceIronAction } from "./landExpansion/placeIron";
 import {
   placeFruitPatch,
-  PlaceFruitPatchAction,
+  type PlaceFruitPatchAction,
 } from "./landExpansion/placeFruitPatch";
-import { MessageRead, readMessage } from "./landExpansion/readMessage";
+import { type MessageRead, readMessage } from "./landExpansion/readMessage";
 import {
   moveCollectible,
-  MoveCollectibleAction,
+  type MoveCollectibleAction,
 } from "./landExpansion/moveCollectible";
-import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
-import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
-import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
+import {
+  moveBuilding,
+  type MoveBuildingAction,
+} from "./landExpansion/moveBuilding";
+import { moveTree, type MoveTreeAction } from "./landExpansion/moveTree";
+import { moveCrop, type MoveCropAction } from "./landExpansion/moveCrop";
 import {
   moveFruitPatch,
-  MoveFruitPatchAction,
+  type MoveFruitPatchAction,
 } from "./landExpansion/moveFruitPatch";
-import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
-import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
-import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
-import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
-import { Announcements } from "../types/announcements";
-import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
-import { equip, EquipBumpkinAction } from "./landExpansion/equip";
-import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
-import { cancelBid, CancelBidAction } from "./landExpansion/cancelBid";
-import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
-import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
-import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
-import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
-import { moveBud, MoveNFTAction } from "./landExpansion/moveNFT";
-import { removeNFT, RemoveNFTAction } from "./landExpansion/removeNFT";
+import { moveIron, type MoveIronAction } from "./landExpansion/moveIron";
+import { moveStone, type MoveStoneAction } from "./landExpansion/moveStone";
+import { moveGold, type MoveGoldAction } from "./landExpansion/moveGold";
+import {
+  pickMushroom,
+  type PickMushroomAction,
+} from "./landExpansion/pickMushroom";
+import type { Announcements } from "../types/announcements";
+import { deliverOrder, type DeliverOrderAction } from "./landExpansion/deliver";
+import { equip, type EquipBumpkinAction } from "./landExpansion/equip";
+import { refundBid, type RefundBidAction } from "./landExpansion/refundBid";
+import { cancelBid, type CancelBidAction } from "./landExpansion/cancelBid";
+import { mixPotion, type MixPotionAction } from "./landExpansion/mixPotion";
+import {
+  buyWearable,
+  type BuyWearableAction,
+} from "./landExpansion/buyWearable";
+import { skipOrder, type SkipOrderAction } from "./landExpansion/skipOrder";
+import {
+  type StartPotionAction,
+  startPotion,
+} from "./landExpansion/startPotion";
+import { moveBud, type MoveNFTAction } from "./landExpansion/moveNFT";
+import { removeNFT, type RemoveNFTAction } from "./landExpansion/removeNFT";
 import {
   startComposter,
-  StartComposterAction,
+  type StartComposterAction,
 } from "./landExpansion/startComposter";
 import {
   collectCompost,
-  collectCompostAction,
+  type collectCompostAction,
 } from "./landExpansion/collectCompost";
 import {
   fertiliseFruitPatch,
-  FertiliseFruitAction,
+  type FertiliseFruitAction,
 } from "./landExpansion/fertiliseFruitPatch";
-import { castRod, CastRodAction } from "./landExpansion/castRod";
-import { reelRod, ReelRodAction } from "./landExpansion/reelRod";
-import { catchMarvel, CatchMarvelAction } from "./landExpansion/catchMarvel";
+import { castRod, type CastRodAction } from "./landExpansion/castRod";
+import { reelRod, type ReelRodAction } from "./landExpansion/reelRod";
+import {
+  catchMarvel,
+  type CatchMarvelAction,
+} from "./landExpansion/catchMarvel";
 import {
   claimMilestone,
-  ClaimMilestoneAction,
+  type ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
-import { missMap, MissMapAction } from "./landExpansion/missMap";
-import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
+import { missMap, type MissMapAction } from "./landExpansion/missMap";
+import { revealLand, type RevealLandAction } from "./landExpansion/revealLand";
 import {
   burnCollectible,
-  BurnCollectibleAction,
+  type BurnCollectibleAction,
 } from "./landExpansion/burnCollectible";
-import { claimBonus, ClaimBonusAction } from "./landExpansion/claimBonus";
+import { claimBonus, type ClaimBonusAction } from "./landExpansion/claimBonus";
 import {
   claimDailyReward,
-  ClaimDailyRewardAction,
+  type ClaimDailyRewardAction,
 } from "./landExpansion/claimDailyReward";
 import {
   accelerateComposter,
-  AccelerateComposterAction,
+  type AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
 import {
   moveCrimstone,
-  MoveCrimstoneAction,
+  type MoveCrimstoneAction,
 } from "./landExpansion/moveCrimstone";
 import {
   mineCrimstone,
-  MineCrimstoneAction,
+  type MineCrimstoneAction,
 } from "./landExpansion/mineCrimstone";
 import {
   placeCrimstone,
-  PlaceCrimstoneAction,
+  type PlaceCrimstoneAction,
 } from "./landExpansion/placeCrimstone";
-import { buyFarmhand, BuyFarmHandAction } from "./landExpansion/buyFarmHand";
+import {
+  buyFarmhand,
+  type BuyFarmHandAction,
+} from "./landExpansion/buyFarmHand";
 import {
   equipFarmhand,
-  EquipFarmHandAction,
+  type EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
-import { moveBeehive, MoveBeehiveAction } from "./landExpansion/moveBeehive";
-import { placeBeehive, PlaceBeehiveAction } from "./landExpansion/placeBeehive";
+import {
+  moveBeehive,
+  type MoveBeehiveAction,
+} from "./landExpansion/moveBeehive";
+import {
+  placeBeehive,
+  type PlaceBeehiveAction,
+} from "./landExpansion/placeBeehive";
 import {
   harvestBeehive,
-  HarvestBeehiveAction,
+  type HarvestBeehiveAction,
 } from "./landExpansion/harvestBeehive";
-import { plantFlower, PlantFlowerAction } from "./landExpansion/plantFlower";
+import {
+  plantFlower,
+  type PlantFlowerAction,
+} from "./landExpansion/plantFlower";
 import {
   harvestFlower,
-  HarvestFlowerAction,
+  type HarvestFlowerAction,
 } from "./landExpansion/harvestFlower";
 import {
   moveFlowerBed,
-  MoveFlowerBedAction,
+  type MoveFlowerBedAction,
 } from "./landExpansion/moveFlowerBed";
 import {
   placeFlowerBed,
-  PlaceFlowerBedAction,
+  type PlaceFlowerBedAction,
 } from "./landExpansion/placeFlowerBed";
 import {
   upgrade as upgrade,
-  UpgradeFarmAction,
+  type UpgradeFarmAction,
 } from "./landExpansion/upgradeFarm";
 import {
   placeSunstone,
-  PlaceSunstoneAction,
+  type PlaceSunstoneAction,
 } from "./landExpansion/placeSunstone";
-import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
-import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
 import {
-  FlowerShopTradedAction,
+  moveSunstone,
+  type MoveSunstoneAction,
+} from "./landExpansion/moveSunstone";
+import {
+  mineSunstone,
+  type MineSunstoneAction,
+} from "./landExpansion/mineSunstone";
+import {
+  type FlowerShopTradedAction,
   tradeFlowerShop,
 } from "./landExpansion/tradeFlowerShop";
 
 import {
   completeSpecialEventTask,
-  CompleteSpecialEventTaskAction,
+  type CompleteSpecialEventTaskAction,
 } from "./landExpansion/completeSpecialEventTask";
-import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
-import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
+import {
+  claimGift,
+  type ClaimGiftAction,
+} from "./landExpansion/claimBumpkinGift";
+import {
+  giftFlowers,
+  type GiftFlowersAction,
+} from "./landExpansion/giftFlowers";
 
 import {
   exchangeSFLtoCoins,
-  ExchangeSFLtoCoinsAction,
+  type ExchangeSFLtoCoinsAction,
 } from "./landExpansion/exchangeSFLtoCoins";
 import {
   moveOilReserve,
-  MoveOilReserveAction,
+  type MoveOilReserveAction,
 } from "./landExpansion/moveOilReserve";
 import {
   placeOilReserve,
-  PlaceOilReserveAction,
+  type PlaceOilReserveAction,
 } from "./landExpansion/placeOilReserve";
 import {
   drillOilReserve,
-  DrillOilReserveAction,
+  type DrillOilReserveAction,
 } from "./landExpansion/drillOilReserve";
 import {
   harvestGreenHouse,
-  HarvestGreenhouseAction,
+  type HarvestGreenhouseAction,
 } from "./landExpansion/harvestGreenHouse";
 import {
   plantGreenhouse,
-  PlantGreenhouseAction,
+  type PlantGreenhouseAction,
 } from "./landExpansion/plantGreenhouse";
 import {
   fertiliseGreenhouse,
-  FertiliseGreenhouseAction,
+  type FertiliseGreenhouseAction,
 } from "./landExpansion/fertiliseGreenhouse";
 import {
   oilGreenhouse,
-  OilGreenhouseAction,
+  type OilGreenhouseAction,
 } from "./landExpansion/oilGreenHouse";
 import {
   supplyCookingOil,
-  SupplyCookingOilAction,
+  type SupplyCookingOilAction,
 } from "./landExpansion/supplyCookingOil";
 
 import {
-  PurchaseMinigameAction,
+  type PurchaseMinigameAction,
   purchaseMinigameItem,
 } from "./minigames/purchaseMinigameItem";
 import {
   claimMinigamePrize,
-  ClaimMinigamePrizeAction,
+  type ClaimMinigamePrizeAction,
 } from "./minigames/claimMinigamePrize";
 import {
   supplyCropMachine,
-  SupplyCropMachineAction,
+  type SupplyCropMachineAction,
 } from "./landExpansion/supplyCropMachine";
 import {
   supplyCropMachineOil,
-  SupplyCropMachineOilAction,
+  type SupplyCropMachineOilAction,
 } from "./landExpansion/supplyCropMachineOil";
 import {
   harvestCropMachine,
-  HarvestCropMachineAction,
+  type HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
 import {
   removeCropMachinePack,
-  RemoveCropMachinePackAction,
+  type RemoveCropMachinePackAction,
 } from "./landExpansion/removeCropMachinePack";
-import { joinFaction, JoinFactionAction } from "./landExpansion/joinFaction";
+import {
+  joinFaction,
+  type JoinFactionAction,
+} from "./landExpansion/joinFaction";
 import {
   completeKingdomChore,
-  CompleteKingdomChoreAction,
+  type CompleteKingdomChoreAction,
 } from "./landExpansion/completeKingdomChore";
 import {
-  DeliverFactionKitchenAction,
+  type DeliverFactionKitchenAction,
   deliverFactionKitchen,
 } from "./landExpansion/deliverFactionKitchen";
 import {
-  BuyFactionShopItemAction,
+  type BuyFactionShopItemAction,
   buyFactionShopItem,
 } from "./landExpansion/buyFactionShopItem";
 import {
   claimFactionPrize,
-  ClaimFactionPrizeAction,
+  type ClaimFactionPrizeAction,
 } from "./landExpansion/claimFactionPrize";
 import {
-  FeedFactionPetAction,
+  type FeedFactionPetAction,
   feedFactionPet,
 } from "./landExpansion/feedFactionPet";
-import { FeedPetAction, feedPet } from "./pets/feedPet";
+import { type FeedPetAction, feedPet } from "./pets/feedPet";
 import {
   refreshKingdomChores,
-  RefreshKingdomChoresAction,
+  type RefreshKingdomChoresAction,
 } from "./landExpansion/refreshKingdomChores";
 import {
   skipKingdomChore,
-  SkipKingdomChoreAction,
+  type SkipKingdomChoreAction,
 } from "./landExpansion/skipKingdomChore";
-import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
-import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
+import {
+  leaveFaction,
+  type LeaveFactionAction,
+} from "./landExpansion/leaveFaction";
+import {
+  type BuyMoreDigsAction,
+  buyMoreDigs,
+} from "./landExpansion/buyMoreDigs";
 import {
   claimTrackMilestone,
-  ClaimTrackMilestoneAction,
+  type ClaimTrackMilestoneAction,
 } from "./landExpansion/claimTrackMilestone";
 
 import {
   startMinigameAttempt,
-  StartMinigameAttemptAction,
+  type StartMinigameAttemptAction,
 } from "./minigames/startMinigameAttempt";
 import {
   submitMinigameScore,
-  SubmitMinigameScoreAction,
+  type SubmitMinigameScoreAction,
 } from "./minigames/submitMinigameScore";
-import { claimOffer, ClaimOfferAction } from "./landExpansion/offerClaimed";
+import {
+  claimOffer,
+  type ClaimOfferAction,
+} from "./landExpansion/offerClaimed";
 import {
   startCompetition,
-  StartCompetitionAction,
+  type StartCompetitionAction,
 } from "./landExpansion/startCompetition";
-import { startTrial, StartTrialAction } from "./landExpansion/startTrial";
+import { startTrial, type StartTrialAction } from "./landExpansion/startTrial";
 import {
   shipmentRestock,
-  ShipmentRestockAction,
+  type ShipmentRestockAction,
 } from "./landExpansion/shipmentRestocked";
 import {
   speedUpRecipe,
-  InstantCookRecipe,
+  type InstantCookRecipe,
 } from "./landExpansion/speedUpRecipe";
 import {
   speedUpExpansion,
-  InstantExpand,
+  type InstantExpand,
 } from "./landExpansion/speedUpExpansion";
 import {
   speedUpCollectible,
-  SpeedUpCollectible,
+  type SpeedUpCollectible,
 } from "./landExpansion/speedUpCollectible";
 import {
   speedUpBuilding,
-  SpeedUpBuilding,
+  type SpeedUpBuilding,
 } from "./landExpansion/speedUpBuilding";
-import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
-import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
-import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
-import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
+import { buyAnimal, type BuyAnimalAction } from "./landExpansion/buyAnimal";
+import { feedAnimal, type FeedAnimalAction } from "./landExpansion/feedAnimal";
+import { loveAnimal, type LoveAnimalAction } from "./landExpansion/loveAnimal";
+import {
+  feedMixed,
+  type FeedMixedAction,
+} from "features/feederMachine/feedMixed";
 import {
   upgradeBuilding,
-  UpgradeBuildingAction,
+  type UpgradeBuildingAction,
 } from "./landExpansion/upgradeBuilding";
-import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
+import { sellAnimal, type SellAnimalAction } from "./landExpansion/sellAnimal";
 import {
   startCrafting,
-  StartCraftingAction,
+  type StartCraftingAction,
 } from "./landExpansion/startCrafting";
 import {
   collectCrafting,
-  CollectCraftingAction,
+  type CollectCraftingAction,
 } from "./landExpansion/collectCrafting";
 import {
   cancelQueuedCrafting,
-  CancelQueuedCraftingAction,
+  type CancelQueuedCraftingAction,
 } from "./landExpansion/cancelQueuedCrafting";
 import {
   completeNPCChore,
-  CompleteNPCChoreAction,
+  type CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
-import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
+import {
+  claimProduce,
+  type ClaimProduceAction,
+} from "./landExpansion/claimProduce";
 import {
   applyAnimalFeedBuff,
-  ApplyAnimalFeedBuffAction,
+  type ApplyAnimalFeedBuffAction,
 } from "./landExpansion/applyAnimalFeedBuff";
-import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
+import { sellBounty, type SellBountyAction } from "./landExpansion/sellBounty";
 import {
   bulkSellBounty,
-  BulkSellBountyAction,
+  type BulkSellBountyAction,
 } from "./landExpansion/bulkSellBounty";
 import {
   buyChapterItem,
-  BuyChapterItemAction,
+  type BuyChapterItemAction,
 } from "./landExpansion/buyChapterItem";
 
 import {
   sacrificeBear,
-  SacrificeBearAction,
+  type SacrificeBearAction,
 } from "./landExpansion/sacrificeBear";
-import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
-import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
+import { type ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
+import { npcRestock, type NPCRestockAction } from "./landExpansion/npcRestock";
 import {
   redeemTradeReward,
-  RedeemTradeRewardsAction,
+  type RedeemTradeRewardsAction,
 } from "./landExpansion/redeemTradeReward";
-import { skillUse, SkillUseAction } from "./landExpansion/skillUsed";
-import { dailyReset, DailyResetAction } from "./landExpansion/dailyReset";
+import { skillUse, type SkillUseAction } from "./landExpansion/skillUsed";
+import { dailyReset, type DailyResetAction } from "./landExpansion/dailyReset";
 import {
   acknowledgeCalendarEvent,
-  AcknowledgeCalendarEventAction,
+  type AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
 
 import {
   collectLavaPit,
-  CollectLavaPitAction,
+  type CollectLavaPitAction,
 } from "./landExpansion/collectLavaPit";
-import { startLavaPit, StartLavaPitAction } from "./landExpansion/startLavaPit";
-import { harvestSalt, HarvestSaltAction } from "./landExpansion/harvestSalt";
-import { placeLavaPit, PlaceLavaPitAction } from "./landExpansion/placeLavaPit";
-import { moveLavaPit, MoveLavaPitAction } from "./landExpansion/moveLavaPit";
-import { buyResource, ResourceBoughtAction } from "./landExpansion/buyResource";
+import {
+  startLavaPit,
+  type StartLavaPitAction,
+} from "./landExpansion/startLavaPit";
+import {
+  harvestSalt,
+  type HarvestSaltAction,
+} from "./landExpansion/harvestSalt";
+import {
+  placeLavaPit,
+  type PlaceLavaPitAction,
+} from "./landExpansion/placeLavaPit";
+import {
+  moveLavaPit,
+  type MoveLavaPitAction,
+} from "./landExpansion/moveLavaPit";
+import {
+  buyResource,
+  type ResourceBoughtAction,
+} from "./landExpansion/buyResource";
 import {
   exchangeObsidian,
-  ObsidianExchangedAction,
+  type ObsidianExchangedAction,
 } from "./landExpansion/exchangeObsidian";
 import {
   cancelQueuedRecipe,
-  CancelQueuedRecipeAction,
+  type CancelQueuedRecipeAction,
 } from "./landExpansion/cancelQueuedRecipe";
 import {
   speedUpUpgrade,
-  SpeedUpUpgradeAction,
+  type SpeedUpUpgradeAction,
 } from "./landExpansion/speedUpUpgrade";
 import {
   acknowledgeOnChainAirdrop,
-  AcknowledgeOnChainAirdropAction,
+  type AcknowledgeOnChainAirdropAction,
 } from "./landExpansion/acknowledgeOnChainAirdrop";
 import {
   completeSocialTask,
-  CompleteSocialTaskAction,
+  type CompleteSocialTaskAction,
 } from "./landExpansion/completeSocialTask";
 import {
   claimReferralRewards,
-  ClaimReferralRewardsAction,
+  type ClaimReferralRewardsAction,
 } from "./landExpansion/claimReferralRewards";
 import {
   exchangeFlower,
-  ExchangeFlowerAction,
+  type ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
 import {
   buyFloatingShopItem,
-  BuyFloatingShopItemAction,
+  type BuyFloatingShopItemAction,
 } from "./landExpansion/buyFloatingShopItem";
 import {
   buyEventShopItem,
-  BuyMinigameItemAction,
+  type BuyMinigameItemAction,
 } from "./landExpansion/buyPortalItem";
 import {
   updateNetwork,
-  UpdateNetworkAction,
+  type UpdateNetworkAction,
 } from "./landExpansion/updateNetwork";
 import {
   updateEconomiesEnabled,
-  EconomiesEnabledAction,
+  type EconomiesEnabledAction,
 } from "./updateEconomiesEnabled";
 import {
   acknowledgeRewardBox,
-  AcknowledgeRewardBoxAction,
+  type AcknowledgeRewardBoxAction,
 } from "./landExpansion/acknowledgeRewardBox";
 import {
   openRewardBox,
-  OpenRewardBoxAction,
+  type OpenRewardBoxAction,
 } from "./landExpansion/openRewardBox";
 import {
   claimBountyBonus,
-  ClaimBountyBonusAction,
+  type ClaimBountyBonusAction,
 } from "./landExpansion/claimBountyBonus";
 import {
   claimPetalPrize,
-  ClaimPetalPrizeAction,
+  type ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
-import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
+import { claimBlessing, type ClaimBlessingAction } from "./claimBlessing";
 import {
   buyOptionPurchaseItem,
-  BuyOptionPurchaseItemAction,
+  type BuyOptionPurchaseItemAction,
 } from "../types/buyOptionPurchaseItem";
 import {
-  InstantCraftAction,
+  type InstantCraftAction,
   speedUpCrafting,
 } from "./landExpansion/speedUpCrafting";
-import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
-import { applyBiome, ApplyBiomeAction } from "./landExpansion/applyBiome";
-import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
-import { removeTree, RemoveTreeAction } from "./landExpansion/removeTree";
-import { removeStone, RemoveStoneAction } from "./landExpansion/removeStone";
-import { removeIron, RemoveIronAction } from "./landExpansion/removeIron";
-import { removeGold, RemoveGoldAction } from "./landExpansion/removeGold";
+import { buyBiome, type BuyBiomeAction } from "./landExpansion/buyBiome";
+import { applyBiome, type ApplyBiomeAction } from "./landExpansion/applyBiome";
+import {
+  buyMonument,
+  type BuyMonumentAction,
+} from "./landExpansion/buyMonument";
+import { removeTree, type RemoveTreeAction } from "./landExpansion/removeTree";
+import {
+  removeStone,
+  type RemoveStoneAction,
+} from "./landExpansion/removeStone";
+import { removeIron, type RemoveIronAction } from "./landExpansion/removeIron";
+import { removeGold, type RemoveGoldAction } from "./landExpansion/removeGold";
 import {
   removeCrimstone,
-  RemoveCrimstoneAction,
+  type RemoveCrimstoneAction,
 } from "./landExpansion/removeCrimstone";
 import {
   removeSunstone,
-  RemoveSunstoneAction,
+  type RemoveSunstoneAction,
 } from "./landExpansion/removeSunstone";
 import {
   removeLavaPit,
-  RemoveLavaPitAction,
+  type RemoveLavaPitAction,
 } from "./landExpansion/removeLavaPit";
 import {
   removeOilReserve,
-  RemoveOilReserveAction,
+  type RemoveOilReserveAction,
 } from "./landExpansion/removeOilReserve";
-import { removePlot, RemovePlotAction } from "./landExpansion/removePlot";
+import { removePlot, type RemovePlotAction } from "./landExpansion/removePlot";
 import {
   removeFruitPatch,
-  RemoveFruitPatchAction,
+  type RemoveFruitPatchAction,
 } from "./landExpansion/removeFruitPatch";
 import {
   removeFlowerBed,
-  RemoveFlowerBedAction,
+  type RemoveFlowerBedAction,
 } from "./landExpansion/removeFlowerBed";
 import {
   removeBeehive,
-  RemoveBeehiveAction,
+  type RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
-import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
-import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
+import { removeAll, type RemoveAllAction } from "./landExpansion/removeAll";
+import {
+  wakeAnimal,
+  type WakeUpAnimalAction,
+} from "./landExpansion/wakeUpAnimal";
 
-import { retryFish, RetryFishAction } from "./landExpansion/retryFish";
+import { retryFish, type RetryFishAction } from "./landExpansion/retryFish";
 import {
   flipCollectible,
-  FlipCollectibleAction,
+  type FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
 
 // Visiting local events
 import {
   collectGarbage,
-  CollectGarbageAction,
+  type CollectGarbageAction,
 } from "./visiting/collectGarbage";
-import { helpProject, HelpProjectAction } from "./visiting/helpProject";
-import { burnClutter, BurnClutterAction } from "./landExpansion/burnClutter";
+import { helpProject, type HelpProjectAction } from "./visiting/helpProject";
+import {
+  burnClutter,
+  type BurnClutterAction,
+} from "./landExpansion/burnClutter";
 import {
   increaseHelpLimit,
-  IncreaseHelpLimitAction,
+  type IncreaseHelpLimitAction,
 } from "./landExpansion/increaseHelpLimit";
 import {
   instantGrowProject,
-  InstantGrowProjectAction,
+  type InstantGrowProjectAction,
 } from "./landExpansion/instaGrowProject";
-import { startProject, StartProjectAction } from "./landExpansion/startProject";
+import {
+  startProject,
+  type StartProjectAction,
+} from "./landExpansion/startProject";
 import {
   instaGrowFlower,
-  InstaGrowFlowerAction,
+  type InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
-import { upgradeRock, UpgradeRockAction } from "./landExpansion/upgradeRock";
-import { upgradeTree, UpgradeTreeAction } from "./landExpansion/upgradeTree";
-import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
-import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
-import { petPet, PetPetAction } from "./pets/petPet";
-import { fetchPet, FetchPetAction } from "./pets/fetchPet";
-import { helpPets, HelpPetsAction } from "./visiting/helpPets";
-import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
-import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import {
+  upgradeRock,
+  type UpgradeRockAction,
+} from "./landExpansion/upgradeRock";
+import {
+  upgradeTree,
+  type UpgradeTreeAction,
+} from "./landExpansion/upgradeTree";
+import { bulkFeedPets, type BulkFeedPetsAction } from "./pets/bulkFeedPets";
+import { type NeglectPetAction, neglectPet } from "./pets/neglectPet";
+import { petPet, type PetPetAction } from "./pets/petPet";
+import { fetchPet, type FetchPetAction } from "./pets/fetchPet";
+import { helpPets, type HelpPetsAction } from "./visiting/helpPets";
+import { type BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
+import {
+  bulkHarvest,
+  type BulkHarvestAction,
+} from "./landExpansion/bulkHarvest";
 import {
   bulkFertilisePlot,
-  BulkFertilisePlotAction,
+  type BulkFertilisePlotAction,
 } from "./landExpansion/bulkFertilisePlot";
-import { clearTrades, ClearTradesAction } from "./clearTrades";
-import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
-import { walkPet, WalkPetAction } from "./pets/walkPet";
+import { clearTrades, type ClearTradesAction } from "./clearTrades";
+import { placeNFT, type PlaceNFTAction } from "./landExpansion/placeNFT";
+import { walkPet, type WalkPetAction } from "./pets/walkPet";
 import {
   renewPetShrine,
-  RenewPetShrineAction,
+  type RenewPetShrineAction,
 } from "./landExpansion/renewPetShrine";
 import {
   placeWaterTrap,
-  PlaceWaterTrapAction,
+  type PlaceWaterTrapAction,
 } from "./landExpansion/placeWaterTrap";
 import {
   collectWaterTrap,
-  CollectWaterTrapAction,
+  type CollectWaterTrapAction,
 } from "./landExpansion/collectWaterTrap";
 import {
   placeFarmHand,
-  PlaceFarmHandAction,
+  type PlaceFarmHandAction,
 } from "./landExpansion/placeFarmHand";
-import { moveFarmHand, MoveFarmHandAction } from "./landExpansion/moveFarmHand";
+import {
+  moveFarmHand,
+  type MoveFarmHandAction,
+} from "./landExpansion/moveFarmHand";
 import {
   removeFarmHand,
-  RemoveFarmHandAction,
+  type RemoveFarmHandAction,
 } from "./landExpansion/removeFarmHand";
-import { placeBumpkin, PlaceBumpkinAction } from "./landExpansion/placeBumpkin";
-import { moveBumpkin, MoveBumpkinAction } from "./landExpansion/moveBumpkin";
+import {
+  placeBumpkin,
+  type PlaceBumpkinAction,
+} from "./landExpansion/placeBumpkin";
+import {
+  moveBumpkin,
+  type MoveBumpkinAction,
+} from "./landExpansion/moveBumpkin";
 import {
   removeBumpkinPlacement,
-  RemoveBumpkinPlacementAction,
+  type RemoveBumpkinPlacementAction,
 } from "./landExpansion/removeBumpkinPlacement";
 import {
   promoteFarmhand,
-  PromoteFarmhandAction,
+  type PromoteFarmhandAction,
 } from "./landExpansion/promoteFarmhand";
 import {
   speedUpProcessing,
-  SpeedUpProcessingAction,
+  type SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
 import {
   upgradeSaltFarm,
-  UpgradeSaltFarmAction,
+  type UpgradeSaltFarmAction,
 } from "./landExpansion/upgradeSaltFarm";
 import {
   upgradeSaltSculpture,
-  UpgradeSaltSculptureAction,
+  type UpgradeSaltSculptureAction,
 } from "./landExpansion/upgradeSaltSculpture";
 
 export type PlayingEvent =

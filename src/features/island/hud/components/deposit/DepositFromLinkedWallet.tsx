@@ -1,6 +1,6 @@
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
-import { NetworkOption } from "./DepositFlower";
+import type { NetworkOption } from "./DepositFlower";
 import { useTranslation } from "react-i18next";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";

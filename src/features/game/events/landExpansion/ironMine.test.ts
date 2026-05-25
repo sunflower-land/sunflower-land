@@ -2,9 +2,13 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM, IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { prngChance } from "lib/prng";
-import { getMinedAt, LandExpansionIronMineAction, mineIron } from "./ironMine";
+import {
+  getMinedAt,
+  type LandExpansionIronMineAction,
+  mineIron,
+} from "./ironMine";
 
 const now = Date.now();
 const farmId = 1;

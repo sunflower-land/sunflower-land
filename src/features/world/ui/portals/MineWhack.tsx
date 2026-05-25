@@ -11,7 +11,7 @@ import { InlineDialogue } from "../TypingMessage";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { PortalLeaderboard } from "./PortalLeaderboard";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
 
 interface Props {

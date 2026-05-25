@@ -1,5 +1,5 @@
 import React from "react";
-import { GameState, Order } from "features/game/types/game";
+import type { GameState, Order } from "features/game/types/game";
 import {
   generateDeliveryTickets,
   getOrderSellPrice,
@@ -17,7 +17,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
-import { Decimal } from "decimal.js-light";
+import type { Decimal } from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";

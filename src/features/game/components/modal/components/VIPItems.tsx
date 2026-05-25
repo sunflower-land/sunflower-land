@@ -5,7 +5,7 @@ import {
 } from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
@@ -28,19 +28,19 @@ import {
   hasLifetimeFarmerBanner,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
-  VipBundle,
+  type VipBundle,
 } from "features/game/lib/vipAccess";
 import { getKeys } from "lib/object";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { GameState, VIP } from "features/game/types/game";
+import type { GameState, VIP } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";

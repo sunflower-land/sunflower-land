@@ -10,22 +10,22 @@ import React, {
   useState,
 } from "react";
 import { InteractionBubble } from "./InteractionBubble";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { useScrollToBottom } from "lib/utils/hooks/useScrollToBottom";
 import { ChatInput } from "./ChatInput";
 import { isMobile } from "mobile-device-detect";
-import { Interaction } from "../types/types";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { Interaction } from "../types/types";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 import { useChatInteractions } from "../hooks/useChatInteractions";
 import { useSocial } from "../hooks/useSocial";

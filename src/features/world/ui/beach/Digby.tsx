@@ -3,12 +3,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import {
-  DiggingFormation,
+  type DiggingFormation,
   DIGGING_FORMATIONS,
   getArtefactsFound,
   CHAPTER_ARTEFACT,
   hasClaimedReward,
-  DiggingFormationName,
+  type DiggingFormationName,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -18,25 +18,25 @@ import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
 import rewardIcon from "assets/icons/stock.webp";
 
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
-import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
+import { ChestRevealing, type ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   getCurrentChapter,

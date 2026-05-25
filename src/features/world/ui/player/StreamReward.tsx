@@ -12,7 +12,7 @@ import { Button } from "components/ui/Button";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Loading } from "features/auth/components";
 import { InnerPanel } from "components/ui/Panel";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
 

@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { GameState } from "./game";
+import type { GameState } from "./game";
 import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 import { useNow } from "lib/utils/hooks/useNow";

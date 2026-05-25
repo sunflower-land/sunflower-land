@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { KingdomChoresContent } from "./KingdomChoresContent";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {

@@ -5,7 +5,7 @@ import { Label } from "components/ui/Label";
 import { Dropdown } from "components/ui/Dropdown";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { EconomyReportSummary } from "../actions/getEconomyData";
+import type { EconomyReportSummary } from "../actions/getEconomyData";
 import { getKeys } from "lib/object";
 import { KNOWN_IDS } from "features/game/types";
 import { downloadCsv } from "../utils/downloadCsv";

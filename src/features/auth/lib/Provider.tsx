@@ -1,6 +1,6 @@
 import React from "react";
 import { useActor, useInterpret } from "@xstate/react";
-import { authMachine, MachineInterpreter } from "./authMachine";
+import { authMachine, type MachineInterpreter } from "./authMachine";
 
 interface AuthContext {
   authService: MachineInterpreter;

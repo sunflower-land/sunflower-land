@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";

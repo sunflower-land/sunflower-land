@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 
-import { ModerationEvent } from "features/world/Phaser";
+import type { ModerationEvent } from "features/world/Phaser";
 
 export const Kicked: React.FC<{
   event?: ModerationEvent;

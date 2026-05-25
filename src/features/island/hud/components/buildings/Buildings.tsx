@@ -3,7 +3,7 @@ import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BUILDINGS, BuildingName } from "features/game/types/buildings";
+import { BUILDINGS, type BuildingName } from "features/game/types/buildings";
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -15,7 +15,7 @@ import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { IslandType } from "features/game/types/game";
+import type { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 import {
   makeUpgradableBuildingKey,
@@ -23,9 +23,9 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
-import { MachineState } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
+import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 
 interface Props {

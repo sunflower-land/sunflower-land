@@ -10,7 +10,7 @@ import {
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";

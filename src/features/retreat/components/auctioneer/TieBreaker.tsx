@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 
-import {
+import type {
   AuctionResults,
   MachineInterpreter,
 } from "features/game/lib/auctionMachine";

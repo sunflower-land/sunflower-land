@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
-import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import {
+  CROPS,
+  type CropName,
+  type CropSeedName,
+} from "features/game/types/crops";
+import type {
   BoostName,
   CropMachineBuilding,
   CropMachineQueueItem,

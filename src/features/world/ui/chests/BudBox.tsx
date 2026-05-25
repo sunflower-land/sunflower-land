@@ -15,7 +15,7 @@ import rewardsIcon from "assets/icons/stock.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { getKeys } from "lib/object";
-import { Bud, TypeTrait } from "features/game/types/buds";
+import type { Bud, TypeTrait } from "features/game/types/buds";
 import {
   getDayOfYear,
   secondsTillReset,
@@ -23,7 +23,7 @@ import {
 } from "lib/utils/time";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { useNow } from "lib/utils/hooks/useNow";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: () => void;

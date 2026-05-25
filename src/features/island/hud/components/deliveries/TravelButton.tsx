@@ -5,7 +5,7 @@ import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
 import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import farmIcon from "assets/icons/farm.webp";
 
 interface Props {

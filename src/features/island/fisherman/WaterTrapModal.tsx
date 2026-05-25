@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -17,12 +17,12 @@ import {
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { GameState, WaterTrap } from "features/game/types/game";
+import type { GameState, WaterTrap } from "features/game/types/game";
 import {
-  WaterTrapName,
+  type WaterTrapName,
   WATER_TRAP,
   CRUSTACEAN_CHUM_AMOUNTS,
-  CrustaceanChum,
+  type CrustaceanChum,
   caughtCrustacean,
 } from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";

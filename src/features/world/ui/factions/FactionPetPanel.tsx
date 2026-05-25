@@ -4,8 +4,8 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { MachineState } from "features/game/lib/gameMachine";
-import {
+import type { MachineState } from "features/game/lib/gameMachine";
+import type {
   CollectivePet,
   Faction,
   FactionName,
@@ -29,7 +29,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import {
-  DifficultyIndex,
+  type DifficultyIndex,
   PET_FED_REWARDS_KEY,
   getKingdomPetBoost,
   getTotalXPForRequest,

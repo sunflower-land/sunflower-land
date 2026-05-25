@@ -13,7 +13,7 @@ import { AchievementsModal } from "./Achievements";
 import { Skills } from "./revamp/Skills";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import type { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
@@ -22,7 +22,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { formatNumber } from "lib/utils/formatNumber";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { MyReputation } from "features/island/hud/components/reputation/Reputation";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LEGACY_BADGE_TREE } from "features/game/types/skills";
@@ -30,17 +30,17 @@ import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "lib/object";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 import foodIcon from "assets/food/chicken_drumstick.png";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { Feed } from "features/island/bumpkin/components/Feed";
 import { LevelUp } from "features/island/bumpkin/components/LevelUp";
 import { getAvailableFood } from "features/game/lib/availableFood";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
   getPowerSkills,
-  BumpkinSkillRevamp,
-  BumpkinRevampSkillName,
+  type BumpkinSkillRevamp,
+  type BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";

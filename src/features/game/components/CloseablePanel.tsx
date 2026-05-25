@@ -1,8 +1,8 @@
 import React, { type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Panel, PanelProps } from "../../../components/ui/Panel";
-import { Equipped } from "features/game/types/bumpkin";
+import { Panel, type PanelProps } from "../../../components/ui/Panel";
+import type { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -8,7 +8,7 @@ import type {
 } from "../lib/minigameDashboardTypes";
 import { MinigameShopListBody } from "./MinigameShopListBody";
 import { MinigameFlowerShopListBody } from "./MinigameFlowerShopListBody";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 type Props = {
   flowerPurchaseItems: MinigameFlowerPurchaseItemUi[];

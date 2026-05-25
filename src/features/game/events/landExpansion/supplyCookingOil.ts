@@ -1,6 +1,6 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { CookingBuildingName } from "features/game/types/buildings";
+import type { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { getKeys } from "lib/object";

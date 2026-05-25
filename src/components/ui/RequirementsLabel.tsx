@@ -1,6 +1,6 @@
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import React, { useContext } from "react";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -13,11 +13,11 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { KNOWN_IDS } from "features/game/types";
 import cheer from "assets/icons/cheer.webp";
-import { CLUTTER, ClutterName } from "features/game/types/clutter";
+import { CLUTTER, type ClutterName } from "features/game/types/clutter";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react/lib/useSelector";
 

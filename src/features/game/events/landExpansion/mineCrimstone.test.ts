@@ -4,9 +4,9 @@ import {
   INITIAL_BUMPKIN,
   CRIMSTONE_RECOVERY_TIME,
 } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import {
-  MineCrimstoneAction,
+  type MineCrimstoneAction,
   getMinedAt,
   mineCrimstone,
 } from "./mineCrimstone";

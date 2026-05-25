@@ -1,7 +1,7 @@
-import { GameState } from "features/game/types/game";
-import { FLOWERS, FlowerName } from "features/game/types/flowers";
+import type { GameState } from "features/game/types/game";
+import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import Decimal from "decimal.js-light";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import {
   BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,

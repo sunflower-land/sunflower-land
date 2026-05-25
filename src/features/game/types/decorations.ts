@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { Dimensions } from "./buildings";
-import { BB_TO_GEM_RATIO, Inventory } from "./game";
-import { BoostTreasure, DecorationTreasure } from "./treasure";
+import type { Dimensions } from "./buildings";
+import { BB_TO_GEM_RATIO, type Inventory } from "./game";
+import type { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
-import { Template } from "./templates";
-import { BeanName, GiantFruit } from "./beans";
-import { DollName } from "../lib/crafting";
+import type { Template } from "./templates";
+import type { BeanName, GiantFruit } from "./beans";
+import type { DollName } from "../lib/crafting";
 import { getKeys } from "lib/object";
 
 export type AchievementDecorationName =

@@ -1,4 +1,4 @@
-import { IDS } from "../src/features/game/types";
+import type { IDS } from "../src/features/game/types";
 
 export type MetadataObject = {
   name: string;

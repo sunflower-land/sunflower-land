@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { ProcessedResource } from "features/game/types/processedFood";
-import {
+import type { ProcessedResource } from "features/game/types/processedFood";
+import type {
   BoostName,
   BuildingProduct,
   GameState,
@@ -14,7 +14,7 @@ import {
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { ProcessingBuildingName } from "features/game/types/buildings";
+import type { ProcessingBuildingName } from "features/game/types/buildings";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

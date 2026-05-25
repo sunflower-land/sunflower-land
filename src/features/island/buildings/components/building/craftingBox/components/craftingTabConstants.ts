@@ -1,4 +1,4 @@
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import {
   CHAPTER_CRAFTING_ITEMS,
@@ -11,7 +11,7 @@ import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURES } from "features/game/types/treasure";
-import { ChapterName } from "features/game/types/chapters";
+import type { ChapterName } from "features/game/types/chapters";
 import Decimal from "decimal.js-light";
 
 export const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [

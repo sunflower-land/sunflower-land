@@ -1,4 +1,4 @@
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 
 type Request = {

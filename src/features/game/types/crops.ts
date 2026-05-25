@@ -1,14 +1,14 @@
 import { translate } from "lib/i18n/translate";
-import { Seed } from "./seeds";
+import type { Seed } from "./seeds";
 import { getKeys } from "lib/object";
-import { EXOTIC_CROPS, ExoticCrop, ExoticCropName } from "./beans";
+import { EXOTIC_CROPS, type ExoticCrop, type ExoticCropName } from "./beans";
 import {
   GREENHOUSE_FRUIT,
-  GreenHouseFruitName,
+  type GreenHouseFruitName,
   PATCH_FRUIT,
-  PatchFruitName,
+  type PatchFruitName,
 } from "./fruits";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export type CropName =
   | "Sunflower"

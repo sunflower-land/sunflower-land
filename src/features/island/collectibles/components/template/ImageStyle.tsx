@@ -1,5 +1,5 @@
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import React from "react";
 
 interface Props {

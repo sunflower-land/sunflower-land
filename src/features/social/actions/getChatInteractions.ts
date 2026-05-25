@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { Interaction } from "../types/types";
+import type { Interaction } from "../types/types";
 
 type Request = {
   token: string;

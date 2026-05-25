@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 
 import { BUSH_VARIANTS } from "features/island/lib/alternateArt";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 

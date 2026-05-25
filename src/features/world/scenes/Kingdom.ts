@@ -1,10 +1,10 @@
 import seasonal_kingdom from "assets/map/seasonal_kingdom.json";
 import seasonal_tileset from "assets/map/seasonal_tileset.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import {
-  KingdomLeaderboard,
+  type KingdomLeaderboard,
   fetchLeaderboardData,
   getChampionsLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -13,17 +13,20 @@ import { translate } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 import { npcModalManager } from "../ui/NPCModals";
-import { FactionName, TemperateSeasonName } from "features/game/types/game";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type {
+  FactionName,
+  TemperateSeasonName,
+} from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getKeys } from "lib/object";
-import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
+import type { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 import {
   getFactionScores,
   getPreviousWeek,
   secondsTillWeekReset,
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
-import { EventObject } from "xstate";
+import type { EventObject } from "xstate";
 import { capitalize } from "lib/utils/capitalize";
 import { Label } from "../containers/Label";
 

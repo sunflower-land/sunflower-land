@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import {
-  BumpkinSkillRevamp,
-  BumpkinRevampSkillTree,
+  type BumpkinSkillRevamp,
+  type BumpkinRevampSkillTree,
   createRevampSkillPath,
-  BumpkinRevampSkillName,
+  type BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -29,7 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";

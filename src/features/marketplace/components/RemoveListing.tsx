@@ -4,13 +4,13 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
-import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay, type TradeableDisplay } from "../lib/tradeables";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  MarketplaceTradeableName,
+  type MarketplaceTradeableName,
   TRADE_INITIATION_MS,
 } from "features/game/types/marketplace";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { Coordinates } from "../expansion/components/MapPlacement";
+import type { Coordinates } from "../expansion/components/MapPlacement";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
 import { isWearableActive } from "../lib/wearables";

@@ -5,10 +5,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
-import { FactionName } from "features/game/types/game";
+import type { FactionName } from "features/game/types/game";
 import {
   FACTION_BOOST_COOLDOWN,
   SFL_COST,
@@ -16,11 +16,11 @@ import {
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import { FACTION_BANNERS, getPreviousWeek } from "features/game/lib/factions";
 import {
   getChampionsLeaderboard,
-  KingdomLeaderboard,
+  type KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getKeys } from "lib/object";
 import { Loading } from "features/auth/components";

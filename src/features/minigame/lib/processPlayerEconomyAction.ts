@@ -4,19 +4,19 @@ import {
 } from "./minigameConfigMigration";
 import { resolveProduceDurationMs } from "./resolveProduceDuration";
 import {
-  BurnRule,
-  CollectRule,
-  DailyMintBucket,
-  GeneratorJob,
-  GeneratorRecipeRule,
-  MintRule,
+  type BurnRule,
+  type CollectRule,
+  type DailyMintBucket,
+  type GeneratorJob,
+  type GeneratorRecipeRule,
+  type MintRule,
   PLAYER_ECONOMY_GENERATOR_COLLECTED_ACTION,
-  PlayerEconomyActionDefinition,
-  PlayerEconomyConfig,
-  PlayerEconomyProcessInput,
-  PlayerEconomyProcessResult,
-  PlayerEconomyRuntimeState,
-  RequireRule,
+  type PlayerEconomyActionDefinition,
+  type PlayerEconomyConfig,
+  type PlayerEconomyProcessInput,
+  type PlayerEconomyProcessResult,
+  type PlayerEconomyRuntimeState,
+  type RequireRule,
 } from "./types";
 
 /** User-facing label for a balance token; uses `items[token].name` when present. */

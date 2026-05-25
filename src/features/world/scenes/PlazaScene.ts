@@ -1,20 +1,23 @@
 import seasonal_plaza from "assets/map/seasonal_plaza.json";
 import seasonal_tileset from "assets/map/seasonal_tileset.json";
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { NPCName } from "lib/npcs";
-import { FactionName } from "features/game/types/game";
+import type { NPCName } from "lib/npcs";
+import type { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
-import { PetContainer } from "../containers/PetContainer";
-import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
+import type { PetContainer } from "../containers/PetContainer";
+import {
+  getCurrentChapter,
+  type ChapterName,
+} from "features/game/types/chapters";
 import { CONFIG } from "lib/config";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {

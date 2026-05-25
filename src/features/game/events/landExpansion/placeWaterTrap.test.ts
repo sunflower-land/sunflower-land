@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { placeWaterTrap } from "./placeWaterTrap";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { WATER_TRAP } from "features/game/types/crustaceans";
 
 const trapId = "1";

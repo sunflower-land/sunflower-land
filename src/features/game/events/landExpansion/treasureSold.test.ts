@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
-  BeachBountyTreasure,
+  type BeachBountyTreasure,
   SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { sellTreasure } from "./treasureSold";

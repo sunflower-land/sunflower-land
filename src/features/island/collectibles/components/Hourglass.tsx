@@ -24,14 +24,14 @@ import fisherHourglassDone from "assets/factions/boosts/fish_boost_done.webp";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   SFTDetailPopoverBuffs,
   SFTDetailPopoverLabel,

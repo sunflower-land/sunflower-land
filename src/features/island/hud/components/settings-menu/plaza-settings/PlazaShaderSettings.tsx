@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import {
   cachePlazaShaderSetting,
-  PlazaShader,
+  type PlazaShader,
   PlazaShaders,
 } from "lib/utils/hooks/usePlazaShader";
 

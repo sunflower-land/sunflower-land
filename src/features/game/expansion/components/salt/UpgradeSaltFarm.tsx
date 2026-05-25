@@ -5,7 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   SALT_FARM_MAX_LEVEL,
   SALT_FARM_UPGRADES,

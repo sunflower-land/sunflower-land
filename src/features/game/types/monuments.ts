@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { Decoration } from "./decorations";
+import type { Decoration } from "./decorations";
 import { getKeys } from "lib/object";
-import { BoostName, GameState, InventoryItemName } from "./game";
-import { ClutterName } from "./clutter";
-import { PetName, PetNFTName } from "./pets";
+import type { BoostName, GameState, InventoryItemName } from "./game";
+import type { ClutterName } from "./clutter";
+import type { PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 type HelpLimitMonumentName =

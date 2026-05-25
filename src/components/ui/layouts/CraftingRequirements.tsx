@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "lib/object";
-import {
+import type {
   BoostName,
   GameState,
   InventoryItemName,
@@ -10,7 +10,12 @@ import {
   Tree,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { Dispatch, SetStateAction, useState, type JSX } from "react";
+import React, {
+  type Dispatch,
+  type SetStateAction,
+  useState,
+  type JSX,
+} from "react";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -19,7 +24,7 @@ import { formatDateRange, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   BUMPKIN_ITEM_PART,
-  BumpkinItem,
+  type BumpkinItem,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -27,17 +32,17 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import {
   EXPIRY_COOLDOWNS,
-  TemporaryCollectibleName,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
   RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
-  UpgradedResourceName,
+  type UpgradedResourceName,
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";

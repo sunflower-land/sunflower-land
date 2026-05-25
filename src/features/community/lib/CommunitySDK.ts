@@ -1,8 +1,8 @@
-import { CommunityIsland, Wardrobe } from "features/game/types/game";
+import type { CommunityIsland, Wardrobe } from "features/game/types/game";
 import { loadIsland } from "../actions/loadIsland";
 import { resetIsland, updateIsland } from "../actions/updateIsland";
-import { InventoryItemName } from "../types/community";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import type { InventoryItemName } from "../types/community";
+import type { MachineInterpreter } from "features/game/lib/gameMachine";
 import { CONFIG } from "lib/config";
 
 /**

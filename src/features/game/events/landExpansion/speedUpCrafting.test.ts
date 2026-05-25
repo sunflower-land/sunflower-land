@@ -4,7 +4,7 @@ import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
 import { speedUpCrafting } from "./speedUpCrafting";
 import Decimal from "decimal.js-light";
 import { getInstantGems } from "features/game/lib/getInstantGems";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 const createdAt = Date.now();
 describe("speedUpCrafting", () => {
   it("throws an error if crafting box is not crafting", () => {

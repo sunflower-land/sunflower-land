@@ -1,10 +1,10 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ChapterName } from "features/game/types/chapters";
+import type { ChapterName } from "features/game/types/chapters";
 import {
   CHAPTER_MUTANTS,
-  MutantsChapterName,
+  type MutantsChapterName,
 } from "features/game/types/chapterMutants";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

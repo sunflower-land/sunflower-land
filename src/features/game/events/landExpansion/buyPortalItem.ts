@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 import { produce } from "immer";
 
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
-  EventShopItemName,
+  type EventShopItemName,
   isEventShopCollectible,
   MINIGAME_SHOP_ITEMS,
 } from "features/game/types/minigameShop";
-import { MinigameName } from "features/game/types/minigames";
+import type { MinigameName } from "features/game/types/minigames";
 import { getObjectEntries } from "lib/object";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 

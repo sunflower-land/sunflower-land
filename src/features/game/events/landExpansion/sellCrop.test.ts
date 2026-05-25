@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
-import { CropName, CROPS } from "../../types/crops";
+import type { GameState } from "../../types/game";
+import { type CropName, CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { PATCH_FRUIT } from "features/game/types/fruits";

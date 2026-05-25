@@ -1,5 +1,5 @@
-import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type Decimal from "decimal.js-light";
+import type { GameState } from "features/game/types/game";
 
 /**
  * Returns the tax rate when withdrawing FLOWER
