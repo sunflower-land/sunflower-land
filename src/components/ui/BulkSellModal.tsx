@@ -44,13 +44,9 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
     maxDecimalPlaces,
   );
 
-  const safeHalf = Decimal.min(
-    Decimal.max(
-      setPrecision(itemAmount.mul(0.5), maxDecimalPlaces),
-      minValid,
-    ),
-    itemAmount,
-  );
+  const half = setPrecision(itemAmount.mul(0.5), maxDecimalPlaces);
+  const clampedUp = half.greaterThan(minValid) ? half : minValid;
+  const safeHalf = clampedUp.greaterThan(itemAmount) ? itemAmount : clampedUp;
 
   const isHalfDisabled = safeHalf.lessThanOrEqualTo(0);
 
